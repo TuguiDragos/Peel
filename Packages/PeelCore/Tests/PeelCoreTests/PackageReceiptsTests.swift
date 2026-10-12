@@ -156,7 +156,7 @@ struct PackageReceiptsTests {
         let items = Dictionary(
             uniqueKeysWithValues: scan.receipts.flatMap(\.items).map { ($0.url.lastPathComponent, $0) }
         )
-        #expect(items["Guard.app"]?.removedElsewhere == .byFinder(systemExtensions: ["Guard Filter"]))
+        #expect(items["Guard.app"]?.removedElsewhere == .byFinder(systemExtensions: CarriedSystemExtensions(names: ["Guard Filter"])))
         #expect(items["Guard.app"]?.isLeftAlone == true)
         #expect(items["Plain.app"]?.removedElsewhere == nil)
         #expect(items["Plain.app"]?.isLeftAlone == false)

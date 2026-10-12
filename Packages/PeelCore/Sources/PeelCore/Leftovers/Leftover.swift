@@ -110,6 +110,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case systemExtension
     /// A system extension macOS removes at the next restart.
     case systemExtensionGoingAtRestart
+    /// The copy macOS installed of a system extension that System Settings deletes (`systemSettingsDeletesIt`).
+    case deletableSystemExtension
     /// An authorization plug-in macOS may load at login (`SignInPlugIns`), left to its maker's uninstaller.
     case signInPlugIn
     /// A cache macOS keeps for its own services, which may be using it at any moment (`SystemCaches`).
@@ -140,7 +142,8 @@ public enum HoldBack: String, Sendable, Hashable {
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
             || self == .beyondTheHelper || self == .leftToItsUninstaller
-            || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .signInPlugIn
+            || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension
+            || self == .signInPlugIn
             || self == .holdsAnExclusion
             || self == .inTheCloud || self == .holdsAnotherAppsData
     }

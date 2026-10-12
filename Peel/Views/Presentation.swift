@@ -248,9 +248,18 @@ extension RemovedElsewhere {
         switch self {
         case .byRemovePeel: "Left alone: Peel removes itself only from Settings."
         case .byItsMaker(let uninstaller): "Left alone: \(uninstaller.maker)’s own uninstaller removes it."
-        case .byFinder(let names):
-            "Left alone: macOS removes \(names.formatted(.list(type: .and))) only when the app goes to the Trash in Finder."
+        case .byFinder(let carried): Self.leftToFinder(carried)
         }
+    }
+
+    private static func leftToFinder(_ carried: CarriedSystemExtensions) -> LocalizedStringResource {
+        let names = carried.names.formatted(.list(type: .and))
+        if #available(macOS 27, *) {
+            return carried.systemSettingsDeletesThem
+                ? "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder, and delete what stays in System Settings > General > Login Items & Extensions > Network Extensions."
+                : "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder, which asks macOS to do it."
+        }
+        return "Left alone: macOS removes \(names) only when the app goes to the Trash in Finder."
     }
 }
 
@@ -315,6 +324,8 @@ extension HoldBack {
             "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac."
         case .systemExtensionGoingAtRestart:
             "Left alone: macOS removes this system extension when your Mac restarts."
+        case .deletableSystemExtension:
+            "Left alone: macOS installed this system extension, and only macOS removes it. In System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
         case .signInPlugIn:
             "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it."
         case .keptByMacOS:

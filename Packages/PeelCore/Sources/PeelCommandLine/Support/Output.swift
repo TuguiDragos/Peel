@@ -342,8 +342,10 @@ extension HoldBack {
         case .beyondTheHelper: "needs an administrator, and Peel's helper may not move it"
         case .leftToItsUninstaller: "removed by the app's own uninstaller once the app is in the Trash"
         case .systemExtension:
-            "a system extension macOS installed, which it removes only when its app goes to the Trash in Finder"
+            "a system extension macOS installed; moving its app to the Trash in Finder asks macOS to remove it"
         case .systemExtensionGoingAtRestart: "a system extension macOS removes at the next restart"
+        case .deletableSystemExtension:
+            "a network extension macOS installed, which System Settings > General > Login Items & Extensions > Network Extensions deletes"
         case .signInPlugIn: "a plug-in macOS may load at login, left to its maker's uninstaller"
         case .keptByMacOS: "a cache macOS keeps for itself"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"

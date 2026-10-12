@@ -25,7 +25,8 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         election: Election,
         teamIdentifier: String?,
         reportedState: String?,
-        installedFor: String? = nil
+        installedFor: String? = nil,
+        category: String? = nil
     ) {
         self.id = id ?? identifier
         self.identifier = identifier
@@ -38,6 +39,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         self.teamIdentifier = teamIdentifier
         self.reportedState = reportedState
         self.installedFor = installedFor
+        self.category = category
     }
 
     public enum Kind: String, Sendable, Hashable, CaseIterable {
@@ -88,9 +90,33 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     /// For a system extension, the path of the app macOS's record says it was installed for: the app it is held
     /// for, or once that app has moved, the app it was installed from.
     public let installedFor: String?
+    /// The category `systemextensionsctl` lists a system extension under; nil for an app extension.
+    public let category: String?
     /// Tells rows apart in a list. The identifier alone can't: while an app updates a system extension, macOS
     /// lists the old and the new version under the same identifier.
     public let id: String
+}
+
+extension AppExtension {
+    /// On macOS 27, System Settings deletes a network extension, even once its app is gone.
+    public var systemSettingsDeletesIt: Bool {
+        guard #available(macOS 27, *) else { return false }
+        return kind == .systemExtension && category == "com.apple.system_extension.network_extension"
+    }
+}
+
+public struct CarriedSystemExtensions: Sendable, Hashable {
+    public let names: [String]
+    public let systemSettingsDeletesThem: Bool
+
+    public init(names: [String], systemSettingsDeletesThem: Bool = false) {
+        self.names = names
+        self.systemSettingsDeletesThem = systemSettingsDeletesThem
+    }
+
+    public static let none = CarriedSystemExtensions(names: [])
+
+    public var isEmpty: Bool { names.isEmpty }
 }
 
 public enum AppExtensions {
@@ -254,21 +280,25 @@ public enum AppExtensions {
 
     public static let askingMacOS: SystemExtensionsAnswer = { await systemExtensions(run: run) }
 
-    /// When macOS gives no answer, every system extension `app` carries counts: only Finder's move removes one.
+    /// When macOS gives no answer, every system extension `app` carries counts.
     @concurrent
-    public static func installedNames(
+    public static func installed(
         carriedBy app: InstalledApp,
         asking answer: SystemExtensionsAnswer = askingMacOS
-    ) async -> [String] {
+    ) async -> CarriedSystemExtensions {
         let carried = systemExtensions(carriedBy: app.url)
-        guard !carried.isEmpty else { return [] }
-        guard let installed = await answer() else { return carried.map(\.name) }
+        guard !carried.isEmpty else { return .none }
+        guard let installed = await answer() else { return CarriedSystemExtensions(names: carried.map(\.name)) }
         let identifiers = Set(carried.map(\.identifier))
-        return installed.filter { item in
+        let held = installed.filter { item in
             let team = item.teamIdentifier
             let sameTeam = app.teamIdentifier == nil || team == nil || team == app.teamIdentifier
             return identifiers.contains(item.identifier) && item.election != .beingRemoved && sameTeam
-        }.map(\.name)
+        }
+        return CarriedSystemExtensions(
+            names: held.map(\.name),
+            systemSettingsDeletesThem: !held.isEmpty && held.allSatisfy(\.systemSettingsDeletesIt)
+        )
     }
 
     /// A `.systemextension` keeps its `Info.plist` in `Contents`, and a `.dext` at its top.
@@ -292,10 +322,18 @@ public enum AppExtensions {
     static func systemExtensions(run: Runner) async -> [AppExtension]? {
         guard let output = await run("/usr/bin/systemextensionsctl", ["list"]) else { return nil }
         let lines = output.split(whereSeparator: \.isNewline)
-        let rows = lines.compactMap { parseSystemExtension(String($0)) }
+        // Each category is a line of its own, `--- <category> (...)`, above the rows macOS lists under it.
+        var category: String?
+        let rows = lines.compactMap { line -> (row: SystemExtensionRow, category: String?)? in
+            if line.hasPrefix("--- ") {
+                category = line.dropFirst(4).split(separator: " ").first.map(String.init)
+                return nil
+            }
+            return parseSystemExtension(String(line)).map { ($0, category) }
+        }
         guard count(in: lines, /^(\d+) extension\(s\)$/) == rows.count else { return nil }
         let records = systemExtensionRecords()
-        return rows.map { row in
+        return rows.map { row, category in
             let record = record(for: row.identifier, version: row.version, among: records)
             return AppExtension(
                 // During an update, one identifier is listed twice, once for the old version and once for the new.
@@ -309,7 +347,8 @@ public enum AppExtensions {
                 election: election(forSystemExtensionState: row.state),
                 teamIdentifier: row.teamIdentifier,
                 reportedState: row.state,
-                installedFor: record.flatMap(installedFor)
+                installedFor: record.flatMap(installedFor),
+                category: category
             )
         }
     }
@@ -322,9 +361,11 @@ public enum AppExtensions {
     /// Parses one row of `systemextensionsctl list`, laid out as
     /// `<enabled>\t<active>\t<team>\t<identifier> (<version>)\t<name>\t[<state>]`. The header row above each
     /// category has the same columns and is skipped, since its identifier column (`bundleID`) has no dot.
-    static func parseSystemExtension(
-        _ line: String
-    ) -> (identifier: String, version: String?, name: String, teamIdentifier: String?, state: String)? {
+    typealias SystemExtensionRow = (
+        identifier: String, version: String?, name: String, teamIdentifier: String?, state: String
+    )
+
+    static func parseSystemExtension(_ line: String) -> SystemExtensionRow? {
         let fields = line.split(separator: "\t", omittingEmptySubsequences: false).map {
             String($0).trimmingCharacters(in: .whitespaces)
         }

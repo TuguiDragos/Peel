@@ -68679,6 +68679,112 @@
         }
       }
     },
+    "Left alone: macOS installed this system extension, and only macOS removes it. In System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS nainstaloval toto rozšíření systému a odstranit ho může jen macOS. V Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení zvolte Podle kategorie, klikněte na tlačítko Informace vedle položky Síťová rozšíření, pak klikněte na tlačítko Další vedle tohoto rozšíření a zvolte Smazat rozšíření."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS hat diese Systemerweiterung installiert, und nur macOS entfernt sie. Öffne „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, wähle „Nach Kategorie“, klicke neben „Netzwerkerweiterungen“ auf die Taste „Info“, klicke dann neben dieser Erweiterung auf die Taste „Mehr“ und wähle „Erweiterung löschen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS ha instalado esta extensión del sistema y solo macOS la elimina. En Ajustes del Sistema > General > Ítems de inicio y extensiones, elige “Por categoría”, haz clic en el botón Información junto a Extensiones de red, luego en el botón Más junto a la extensión y elige “Eliminar extensión”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS a installé cette extension système, et seul macOS la supprime. Dans Réglages Système > Général > Ouverture et extensions, choisissez « Par catégorie », cliquez sur le bouton Informations à côté de « Extensions du réseau », puis sur le bouton Plus à côté de cette extension et choisissez « Supprimer l’extension »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS ha installato questa estensione di sistema, e solo macOS la rimuove. In Impostazioni di Sistema > Generali > Elementi login ed estensioni, scegli “Per categoria”, fai clic sul pulsante Informazioni accanto a “Estensioni di rete”, poi fai clic sul pulsante Altro accanto all’estensione e scegli “Elimina estensione”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: このシステム機能拡張はmacOSがインストールしたもので、削除するのもmacOSだけです。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で“カテゴリ別”を選択し、“ネットワーク機能拡張”の横にある“情報”ボタンをクリックしてください。次に、この機能拡張の横にある“もっと見る”ボタンをクリックして、“機能拡張を削除”を選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 이 시스템 확장 프로그램은 macOS가 설치했으며, macOS만 제거할 수 있습니다. 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 ‘카테고리별’을 선택하고 ‘네트워크 확장 프로그램’ 옆의 정보 버튼을 클릭한 다음, 이 확장 프로그램 옆의 더 보기 버튼을 클릭하고 ‘확장 프로그램 삭제’를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS heeft deze systeemextensie geïnstalleerd, en alleen macOS verwijdert die. Kies 'Op categorie' in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies, klik op de infoknop naast 'Netwerkextensies', klik vervolgens op de knop 'Meer' naast deze extensie en kies 'Verwijder extensie'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS zainstalował to rozszerzenie systemowe i tylko macOS je usuwa. W Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania wybierz opcję Wg kategorii, kliknij w przycisk informacji obok kategorii Rozszerzenia sieciowe, a następnie kliknij w przycisk Więcej obok tego rozszerzenia i wybierz polecenie Usuń rozszerzenie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS instalou esta extensão do sistema, e só o macOS a remove. Em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, escolha Por Categoria, clique no botão Informações ao lado de Extensões de Rede, depois clique no botão Mais ao lado dela e escolha Apagar Extensão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS a instalat această extensie de sistem și doar macOS o elimină. În Configurări sistem > General > Lansare la login și extensii, alegeți „După categorie”, faceți clic pe butonul Informații de lângă „Extensii de rețea”, apoi faceți clic pe butonul Mai mult de lângă extensie și alegeți „Ștergeți extensia”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS установила это системное расширение, и удаляет его только macOS. В разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» выберите «По категории», нажмите кнопку информации рядом с категорией «Сетевые расширения», затем нажмите кнопку «Еще» рядом с этим расширением и выберите «Удалить расширение»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS har installerat det här systemtillägget, och bara macOS tar bort det. I Systeminställningar > Allmänt > Startobjekt och tillägg väljer du Efter kategori, klickar på infoknappen bredvid Nätverkstillägg, klickar sedan på merknappen bredvid tillägget och väljer Radera tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS bu sistem genişletmesini yükledi ve onu yalnızca macOS kaldırır. Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde Kategoriye Göre’yi seçin, Ağ Genişletmeleri’nin yanındaki Bilgi düğmesini tıklayın, ardından bu genişletmenin yanındaki Daha Fazla düğmesini tıklayıp Genişletmeyi Sil’i seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS інсталювала це системне розширення, і вилучає його лише macOS. У розділі Системні параметри > Загальні > Автозапуск і розширення виберіть «За категорією», натисніть кнопку «Досьє» поруч із категорією «Мережеві розширення», а потім натисніть кнопку «Ще» поруч із цим розширенням і виберіть «Видалити розширення»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：此系统扩展由macOS安装，也只能由macOS移除。请在“系统设置”>“通用”>“登录项与扩展”中选取“按类别”，点按“网络扩展”旁边的“信息”按钮，然后点按此扩展旁边的“更多”按钮，再选取“删除扩展”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：此系統延伸功能是由macOS安裝的，也只能由macOS移除。請在「系統設定」>「一般」>「登入項目與延伸功能」中選擇「按照類別」，按一下「網路延伸功能」旁邊的「資訊」按鈕，然後按一下此延伸功能旁邊的「更多」按鈕，並選擇「刪除延伸功能」。"
+          }
+        }
+      }
+    },
     "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it." : {
       "localizations" : {
         "cs" : {
@@ -69099,6 +69205,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原地保留：只有管理者能移動此項目，而Peel的輔助程式不能從這裡移動它。"
+          }
+        }
+      }
+    },
+    "Left alone: only macOS can remove %@. Move the app to the Trash in Finder, and delete what stays in System Settings > General > Login Items & Extensions > Network Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: odstranit rozšíření %@ může jen macOS. Přesuňte aplikaci do koše ve Finderu a to, co zůstane, smažte v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení > Síťová rozšíření."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Nur macOS kann %@ entfernen. Lege die App im Finder in den Papierkorb und lösche unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ > „Netzwerkerweiterungen“, was davon installiert bleibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: solo macOS puede eliminar %@. Traslada la app a la papelera en el Finder y elimina lo que quede en Ajustes del Sistema > General > Ítems de inicio y extensiones > Extensiones de red."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : seul macOS peut supprimer %@. Placez l’app dans la corbeille depuis le Finder, puis supprimez ce qu’il en reste dans Réglages Système > Général > Ouverture et extensions > Extensions du réseau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: solo macOS può rimuovere %@. Sposta l’app nel Cestino dal Finder ed elimina ciò che rimane in Impostazioni di Sistema > Generali > Elementi login ed estensioni > Estensioni di rete."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: %@を削除できるのはmacOSだけです。Finderでアプリをゴミ箱に入れ、残った機能拡張は“システム設定”＞“一般”＞“ログイン項目と機能拡張”＞“ネットワーク機能拡張”で削除してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: macOS만 %@을(를) 제거할 수 있습니다. Finder에서 앱을 휴지통으로 이동한 다음, 남아 있는 확장 프로그램은 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램 > 네트워크 확장 프로그램에서 삭제하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: alleen macOS kan %@ verwijderen. Verplaats de app in Finder naar de prullenmand en verwijder wat er overblijft in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies > Netwerkextensies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: tylko macOS może usunąć %@. Przenieś aplikację do Kosza w Finderze, a to, co pozostanie, usuń w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania > Rozszerzenia sieciowe."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: só o macOS pode remover %@. Mova o app para o Lixo no Finder e apague o que restar em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões > Extensões de Rede."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: doar macOS poate elimina %@. Mutați aplicația în Coș din Finder, apoi ștergeți ce rămâne în Configurări sistem > General > Lansare la login și extensii > Extensii de rețea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: удалить %@ может только macOS. Переместите приложение в Корзину в Finder, а то, что останется, удалите в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» > «Сетевые расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: bara macOS kan ta bort %@. Flytta appen till papperskorgen i Finder och radera det som blir kvar i Systeminställningar > Allmänt > Startobjekt och tillägg > Nätverkstillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: %@, yalnızca macOS tarafından kaldırılabilir. Uygulamayı Finder’da Çöp Sepeti’ne taşıyın ve geriye kalanı Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler > Ağ Genişletmeleri bölümünden silin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: вилучити %@ може лише macOS. Перемістіть програму в Смітник у Finder, а те, що залишиться, видаліть у розділі Системні параметри > Загальні > Автозапуск і розширення > Мережеві розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：只有macOS才能移除“%@”。请在“访达”中将App移到废纸篓，然后在“系统设置”>“通用”>“登录项与扩展”>“网络扩展”中删除仍留下的扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：只有macOS才能移除%@。請在Finder中將該App丟到「垃圾桶」，然後在「系統設定」>「一般」>「登入項目與延伸功能」>「網路延伸功能」中刪除仍留下的延伸功能。"
+          }
+        }
+      }
+    },
+    "Left alone: only macOS can remove %@. Move the app to the Trash in Finder, which asks macOS to do it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: odstranit rozšíření %@ může jen macOS. Přesuňte aplikaci do koše ve Finderu, čímž systém macOS požádáte, aby to udělal."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Nur macOS kann %@ entfernen. Lege die App im Finder in den Papierkorb, um macOS dazu aufzufordern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: solo macOS puede eliminar %@. Traslada la app a la papelera en el Finder, que le pide a macOS que lo haga."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : seul macOS peut supprimer %@. Placez l’app dans la corbeille depuis le Finder, qui demande à macOS de le faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: solo macOS può rimuovere %@. Sposta l’app nel Cestino dal Finder, che chiede a macOS di farlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: %@を削除できるのはmacOSだけです。Finderでアプリをゴミ箱に入れてください。これにより、FinderがmacOSに削除を依頼します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: macOS만 %@을(를) 제거할 수 있습니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 macOS에 제거를 요청하게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: alleen macOS kan %@ verwijderen. Verplaats de app in Finder naar de prullenmand, dan vraagt Finder macOS om dat te doen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: tylko macOS może usunąć %@. Przenieś aplikację do Kosza w Finderze, który poprosi o to macOS."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: só o macOS pode remover %@. Mova o app para o Lixo no Finder, que pede ao macOS para fazer isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: doar macOS poate elimina %@. Mutați aplicația în Coș din Finder, care îi cere sistemului macOS să facă acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: удалить %@ может только macOS. Переместите приложение в Корзину в Finder: Finder попросит macOS сделать это."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: bara macOS kan ta bort %@. Flytta appen till papperskorgen i Finder, så ber Finder macOS att göra det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: %@, yalnızca macOS tarafından kaldırılabilir. Uygulamayı Finder’da Çöp Sepeti’ne taşıyın; böylece macOS’ten bunu yapması istenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: вилучити %@ може лише macOS. Перемістіть програму в Смітник у Finder, і Finder попросить macOS це зробити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：只有macOS才能移除“%@”。请在“访达”中将App移到废纸篓，这会请求macOS移除扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：只有macOS才能移除%@。請在Finder中將該App丟到「垃圾桶」，這會要求macOS進行移除。"
           }
         }
       }
@@ -202014,6 +202332,454 @@
         }
       }
     },
+    "macOS installed %@ with %@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nainstaloval rozšíření %@ spolu s aplikací %@ a odstranit ho může jen macOS. Přesuňte aplikaci do koše ve Finderu, čímž systém macOS požádáte, aby odstranil i toto rozšíření."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die Systemerweiterung „%@“ mit „%@“ installiert, und nur macOS kann sie entfernen. Lege die App im Finder in den Papierkorb, um macOS aufzufordern, auch die Erweiterung zu entfernen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha instalado la extensión %@, que vino con %@, y solo macOS puede eliminarla. Traslada la app a la papelera en el Finder, que le pide a macOS que elimine también la extensión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé %@ avec %@, et seul macOS peut la supprimer. Placez l’app dans la corbeille depuis le Finder, qui demande à macOS de supprimer aussi l’extension."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha installato %@ con %@, e solo macOS può rimuoverla. Sposta l’app nel Cestino dal Finder, che chiede a macOS di rimuovere anche l’estensione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがインストールした%@は、“%@”に付属するもので、削除できるのはmacOSだけです。Finderでアプリをゴミ箱に入れてください。これにより、FinderがmacOSに機能拡張の削除も依頼します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 설치한 ‘%@’은(는) ‘%@’과(와) 함께 제공되었으며, macOS만 제거할 수 있습니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 macOS에 확장 프로그램도 제거하도록 요청하게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ voor %@ geïnstalleerd, en alleen macOS kan die extensie verwijderen. Verplaats de app in Finder naar de prullenmand, dan vraagt Finder macOS om ook de extensie te verwijderen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował rozszerzenie systemowe %@, dostarczone z aplikacją %@, i tylko macOS może je usunąć. Przenieś aplikację do Kosza w Finderze, który poprosi macOS, aby usunął także rozszerzenie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou a extensão %@ do app %@, e só o macOS pode removê-la. Mova o app para o Lixo no Finder, que pede ao macOS para remover a extensão também."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a instalat extensia %@ din %@ și doar macOS o poate elimina. Mutați aplicația în Coș din Finder, care îi cere sistemului macOS să elimine și extensia."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила системное расширение «%@» из приложения «%@», и удалить его может только macOS. Переместите приложение в Корзину в Finder: Finder попросит macOS удалить и расширение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat %@ från %@, och bara macOS kan ta bort det. Flytta appen till papperskorgen i Finder, så ber Finder macOS att ta bort tillägget också."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %2$@ uygulamasıyla gelen %1$@ adlı genişletmeyi yükledi ve onu yalnızca macOS kaldırabilir. Uygulamayı Finder’da Çöp Sepeti’ne taşıyın; böylece macOS’ten genişletmeyi de kaldırması istenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала системне розширення «%@» разом із програмою «%@», і вилучити його може лише macOS. Перемістіть програму в Смітник у Finder, і Finder попросить macOS вилучити й це розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安装了随“%2$@”附带的“%1$@”，也只有macOS才能将其移除。请在“访达”中将该App移到废纸篓，这也会请求macOS移除该扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安裝了隨附於「%2$@」的「%1$@」，而且只有macOS才能移除它。請在Finder中將此App丟到「垃圾桶」，這也會要求macOS移除該延伸功能。"
+          }
+        }
+      }
+    },
+    "macOS installed %@ with %@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nainstaloval rozšíření %@ spolu s aplikací %@ a odstranit ho může jen macOS. Přesuňte aplikaci do koše ve Finderu, čímž systém macOS požádáte, aby odstranil i toto rozšíření. Pokud rozšíření zůstane v seznamu i potom, otevřete Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení, zvolte Podle kategorie, klikněte na tlačítko Informace vedle položky Síťová rozšíření, pak klikněte na tlačítko Další vedle tohoto rozšíření a zvolte Smazat rozšíření."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die Systemerweiterung „%@“ mit „%@“ installiert, und nur macOS kann sie entfernen. Lege die App im Finder in den Papierkorb, um macOS aufzufordern, auch die Erweiterung zu entfernen. Falls die Erweiterung danach noch aufgeführt ist, öffne „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, wähle „Nach Kategorie“, klicke neben „Netzwerkerweiterungen“ auf die Taste „Info“, klicke dann neben der Erweiterung auf die Taste „Mehr“ und wähle „Erweiterung löschen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha instalado la extensión %@, que vino con %@, y solo macOS puede eliminarla. Traslada la app a la papelera en el Finder, que le pide a macOS que elimine también la extensión. Si después sigue apareciendo, abre Ajustes del Sistema > General > Ítems de inicio y extensiones, elige “Por categoría”, haz clic en el botón Información junto a Extensiones de red, luego en el botón Más junto a la extensión y elige “Eliminar extensión”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé %@ avec %@, et seul macOS peut la supprimer. Placez l’app dans la corbeille depuis le Finder, qui demande à macOS de supprimer aussi l’extension. Si elle est toujours listée ensuite, ouvrez Réglages Système > Général > Ouverture et extensions, choisissez « Par catégorie », cliquez sur le bouton Informations à côté de « Extensions du réseau », puis sur le bouton Plus à côté de l’extension et choisissez « Supprimer l’extension »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha installato %@ con %@, e solo macOS può rimuoverla. Sposta l’app nel Cestino dal Finder, che chiede a macOS di rimuovere anche l’estensione. Se in seguito è ancora elencata, apri Impostazioni di Sistema > Generali > Elementi login ed estensioni, scegli “Per categoria”, fai clic sul pulsante Informazioni accanto a “Estensioni di rete”, poi fai clic sul pulsante Altro accanto all’estensione e scegli “Elimina estensione”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがインストールした%@は、“%@”に付属するもので、削除できるのはmacOSだけです。Finderでアプリをゴミ箱に入れてください。これにより、FinderがmacOSに機能拡張の削除も依頼します。その後も機能拡張が表示される場合は、“システム設定”＞“一般”＞“ログイン項目と機能拡張”を開いて“カテゴリ別”を選択し、“ネットワーク機能拡張”の横にある“情報”ボタンをクリックしてください。次に、その機能拡張の横にある“もっと見る”ボタンをクリックして、“機能拡張を削除”を選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 설치한 ‘%@’은(는) ‘%@’과(와) 함께 제공되었으며, macOS만 제거할 수 있습니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 macOS에 확장 프로그램도 제거하도록 요청하게 됩니다. 이후에도 확장 프로그램이 계속 표시되면 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램을 열어 ‘카테고리별’을 선택하고 ‘네트워크 확장 프로그램’ 옆의 정보 버튼을 클릭한 다음, 해당 확장 프로그램 옆의 더 보기 버튼을 클릭하고 ‘확장 프로그램 삭제’를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ voor %@ geïnstalleerd, en alleen macOS kan die extensie verwijderen. Verplaats de app in Finder naar de prullenmand, dan vraagt Finder macOS om ook de extensie te verwijderen. Staat de extensie daarna nog in de lijst, open dan Systeeminstellingen > Algemeen > Inlogonderdelen en extensies, kies 'Op categorie', klik op de infoknop naast 'Netwerkextensies', klik vervolgens op de knop 'Meer' naast de extensie en kies 'Verwijder extensie'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował rozszerzenie systemowe %@, dostarczone z aplikacją %@, i tylko macOS może je usunąć. Przenieś aplikację do Kosza w Finderze, który poprosi macOS, aby usunął także rozszerzenie. Jeśli potem rozszerzenie nadal będzie na liście, otwórz Ustawienia systemowe > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania, wybierz opcję Wg kategorii, kliknij w przycisk informacji obok kategorii Rozszerzenia sieciowe, a następnie kliknij w przycisk Więcej obok niego i wybierz polecenie Usuń rozszerzenie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou a extensão %@ do app %@, e só o macOS pode removê-la. Mova o app para o Lixo no Finder, que pede ao macOS para remover a extensão também. Se ela ainda aparecer depois, abra Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, escolha Por Categoria, clique no botão Informações ao lado de Extensões de Rede, depois clique no botão Mais ao lado dela e escolha Apagar Extensão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a instalat extensia %@ din %@ și doar macOS o poate elimina. Mutați aplicația în Coș din Finder, care îi cere sistemului macOS să elimine și extensia. Dacă extensia este încă listată după aceea, deschideți Configurări sistem > General > Lansare la login și extensii, alegeți „După categorie”, faceți clic pe butonul Informații de lângă „Extensii de rețea”, apoi faceți clic pe butonul Mai mult de lângă extensie și alegeți „Ștergeți extensia”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила системное расширение «%@» из приложения «%@», и удалить его может только macOS. Переместите приложение в Корзину в Finder: Finder попросит macOS удалить и расширение. Если после этого оно все еще будет в списке, откройте раздел «Системные настройки» > «Основные» > «Объекты входа и расширения», выберите «По категории», нажмите кнопку информации рядом с категорией «Сетевые расширения», затем нажмите кнопку «Еще» рядом с этим расширением и выберите «Удалить расширение»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat %@ från %@, och bara macOS kan ta bort det. Flytta appen till papperskorgen i Finder, så ber Finder macOS att ta bort tillägget också. Om det fortfarande visas efteråt öppnar du Systeminställningar > Allmänt > Startobjekt och tillägg, väljer Efter kategori, klickar på infoknappen bredvid Nätverkstillägg, klickar sedan på merknappen bredvid tillägget och väljer Radera tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %2$@ uygulamasıyla gelen %1$@ adlı genişletmeyi yükledi ve onu yalnızca macOS kaldırabilir. Uygulamayı Finder’da Çöp Sepeti’ne taşıyın; böylece macOS’ten genişletmeyi de kaldırması istenir. Genişletme bundan sonra hâlâ listeleniyorsa Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünü açın, Kategoriye Göre’yi seçin, Ağ Genişletmeleri’nin yanındaki Bilgi düğmesini tıklayın, ardından genişletmenin yanındaki Daha Fazla düğmesini tıklayıp Genişletmeyi Sil’i seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала системне розширення «%@» разом із програмою «%@», і вилучити його може лише macOS. Перемістіть програму в Смітник у Finder, і Finder попросить macOS вилучити й це розширення. Якщо й після цього воно залишиться в списку розширень, відкрийте Системні параметри > Загальні > Автозапуск і розширення, виберіть «За категорією», натисніть кнопку «Досьє» поруч із категорією «Мережеві розширення», а потім натисніть кнопку «Ще» поруч із цим розширенням і виберіть «Видалити розширення»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安装了随“%2$@”附带的“%1$@”，也只有macOS才能将其移除。请在“访达”中将该App移到废纸篓，这也会请求macOS移除该扩展。如果之后“系统设置”仍列出该扩展，请打开“系统设置”>“通用”>“登录项与扩展”，选取“按类别”，点按“网络扩展”旁边的“信息”按钮，然后点按该扩展旁边的“更多”按钮，再选取“删除扩展”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安裝了隨附於「%2$@」的「%1$@」，而且只有macOS才能移除它。請在Finder中將此App丟到「垃圾桶」，這也會要求macOS移除該延伸功能。如果之後仍列出該延伸功能，請打開「系統設定」>「一般」>「登入項目與延伸功能」，選擇「按照類別」，按一下「網路延伸功能」旁邊的「資訊」按鈕，然後按一下該延伸功能旁邊的「更多」按鈕，並選擇「刪除延伸功能」。"
+          }
+        }
+      }
+    },
+    "macOS installed %@ with %@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nainstaloval rozšíření %@ spolu s aplikací %@ a odstranit je může jen macOS. Přesuňte aplikaci do koše ve Finderu, čímž systém macOS požádáte, aby odstranil i tato rozšíření."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die Systemerweiterungen %@ mit „%@“ installiert, und nur macOS kann sie entfernen. Lege die App im Finder in den Papierkorb, um macOS aufzufordern, auch die Erweiterungen zu entfernen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha instalado las extensiones %@, que vinieron con %@, y solo macOS puede eliminarlas. Traslada la app a la papelera en el Finder, que le pide a macOS que elimine también las extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé %@ avec %@, et seul macOS peut les supprimer. Placez l’app dans la corbeille depuis le Finder, qui demande à macOS de supprimer aussi les extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha installato %@ con %@, e solo macOS può rimuoverle. Sposta l’app nel Cestino dal Finder, che chiede a macOS di rimuovere anche le estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがインストールした%@は、いずれも“%@”に付属するもので、削除できるのはmacOSだけです。Finderでアプリをゴミ箱に入れてください。これにより、FinderがmacOSに機能拡張の削除も依頼します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 설치한 %@은(는) ‘%@’과(와) 함께 제공되었으며, macOS만 제거할 수 있습니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 macOS에 확장 프로그램들도 제거하도록 요청하게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ voor %@ geïnstalleerd, en alleen macOS kan die extensies verwijderen. Verplaats de app in Finder naar de prullenmand, dan vraagt Finder macOS om ook de extensies te verwijderen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował rozszerzenia systemowe %@, dostarczone z aplikacją %@, i tylko macOS może je usunąć. Przenieś aplikację do Kosza w Finderze, który poprosi macOS, aby usunął także rozszerzenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou as extensões %@ do app %@, e só o macOS pode removê-las. Mova o app para o Lixo no Finder, que pede ao macOS para remover as extensões também."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a instalat extensiile %@ din %@ și doar macOS le poate elimina. Mutați aplicația în Coș din Finder, care îi cere sistemului macOS să elimine și extensiile."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила системные расширения %@ из приложения «%@», и удалить их может только macOS. Переместите приложение в Корзину в Finder: Finder попросит macOS удалить и расширения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat %@ från %@, och bara macOS kan ta bort dem. Flytta appen till papperskorgen i Finder, så ber Finder macOS att ta bort tilläggen också."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %2$@ uygulamasıyla gelen %1$@ adlı genişletmeleri yükledi ve onları yalnızca macOS kaldırabilir. Uygulamayı Finder’da Çöp Sepeti’ne taşıyın; böylece macOS’ten genişletmeleri de kaldırması istenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала системні розширення %@ разом із програмою «%@», і вилучити їх може лише macOS. Перемістіть програму в Смітник у Finder, і Finder попросить macOS вилучити й ці розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安装了随“%2$@”附带的“%1$@”，也只有macOS才能将它们移除。请在“访达”中将该App移到废纸篓，这也会请求macOS移除这些扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安裝了隨附於「%2$@」的%1$@，而且只有macOS才能移除它們。請在Finder中將此App丟到「垃圾桶」，這也會要求macOS移除這些延伸功能。"
+          }
+        }
+      }
+    },
+    "macOS installed %@ with %@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nainstaloval rozšíření %@ spolu s aplikací %@ a odstranit je může jen macOS. Přesuňte aplikaci do koše ve Finderu, čímž systém macOS požádáte, aby odstranil i tato rozšíření. Pokud rozšíření zůstanou v seznamu i potom, otevřete Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení, zvolte Podle kategorie, klikněte na tlačítko Informace vedle položky Síťová rozšíření, pak klikněte na tlačítko Další vedle každého z těchto rozšíření a zvolte Smazat rozšíření."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die Systemerweiterungen %@ mit „%@“ installiert, und nur macOS kann sie entfernen. Lege die App im Finder in den Papierkorb, um macOS aufzufordern, auch die Erweiterungen zu entfernen. Falls sie danach noch aufgeführt sind, öffne „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, wähle „Nach Kategorie“, klicke neben „Netzwerkerweiterungen“ auf die Taste „Info“, klicke dann neben jeder der genannten Erweiterungen auf die Taste „Mehr“ und wähle „Erweiterung löschen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha instalado las extensiones %@, que vinieron con %@, y solo macOS puede eliminarlas. Traslada la app a la papelera en el Finder, que le pide a macOS que elimine también las extensiones. Si después siguen apareciendo, abre Ajustes del Sistema > General > Ítems de inicio y extensiones, elige “Por categoría”, haz clic en el botón Información junto a Extensiones de red, luego en el botón Más junto a cada una y elige “Eliminar extensión”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé %@ avec %@, et seul macOS peut les supprimer. Placez l’app dans la corbeille depuis le Finder, qui demande à macOS de supprimer aussi les extensions. Si elles sont toujours listées ensuite, ouvrez Réglages Système > Général > Ouverture et extensions, choisissez « Par catégorie », cliquez sur le bouton Informations à côté de « Extensions du réseau », puis sur le bouton Plus à côté de chacune d’elles et choisissez « Supprimer l’extension »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha installato %@ con %@, e solo macOS può rimuoverle. Sposta l’app nel Cestino dal Finder, che chiede a macOS di rimuovere anche le estensioni. Se in seguito sono ancora elencate, apri Impostazioni di Sistema > Generali > Elementi login ed estensioni, scegli “Per categoria”, fai clic sul pulsante Informazioni accanto a “Estensioni di rete”, poi fai clic sul pulsante Altro accanto a ciascuna e scegli “Elimina estensione”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがインストールした%@は、いずれも“%@”に付属するもので、削除できるのはmacOSだけです。Finderでアプリをゴミ箱に入れてください。これにより、FinderがmacOSに機能拡張の削除も依頼します。その後も機能拡張が表示される場合は、“システム設定”＞“一般”＞“ログイン項目と機能拡張”を開いて“カテゴリ別”を選択し、“ネットワーク機能拡張”の横にある“情報”ボタンをクリックしてください。次に、各機能拡張の横にある“もっと見る”ボタンをクリックして、“機能拡張を削除”を選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 설치한 %@은(는) ‘%@’과(와) 함께 제공되었으며, macOS만 제거할 수 있습니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 macOS에 확장 프로그램들도 제거하도록 요청하게 됩니다. 이후에도 확장 프로그램들이 계속 표시되면 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램을 열어 ‘카테고리별’을 선택하고 ‘네트워크 확장 프로그램’ 옆의 정보 버튼을 클릭한 다음, 각 확장 프로그램 옆의 더 보기 버튼을 클릭하고 ‘확장 프로그램 삭제’를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ voor %@ geïnstalleerd, en alleen macOS kan die extensies verwijderen. Verplaats de app in Finder naar de prullenmand, dan vraagt Finder macOS om ook de extensies te verwijderen. Staan de extensies daarna nog in de lijst, open dan Systeeminstellingen > Algemeen > Inlogonderdelen en extensies, kies 'Op categorie', klik op de infoknop naast 'Netwerkextensies', klik vervolgens op de knop 'Meer' naast elk van die extensies en kies 'Verwijder extensie'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował rozszerzenia systemowe %@, dostarczone z aplikacją %@, i tylko macOS może je usunąć. Przenieś aplikację do Kosza w Finderze, który poprosi macOS, aby usunął także rozszerzenia. Jeśli potem rozszerzenia nadal będą na liście, otwórz Ustawienia systemowe > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania, wybierz opcję Wg kategorii, kliknij w przycisk informacji obok kategorii Rozszerzenia sieciowe, a następnie kliknij w przycisk Więcej obok każdego z nich i wybierz polecenie Usuń rozszerzenie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou as extensões %@ do app %@, e só o macOS pode removê-las. Mova o app para o Lixo no Finder, que pede ao macOS para remover as extensões também. Se elas ainda aparecerem depois, abra Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, escolha Por Categoria, clique no botão Informações ao lado de Extensões de Rede, depois clique no botão Mais ao lado de cada uma e escolha Apagar Extensão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a instalat extensiile %@ din %@ și doar macOS le poate elimina. Mutați aplicația în Coș din Finder, care îi cere sistemului macOS să elimine și extensiile. Dacă sunt încă listate după aceea, deschideți Configurări sistem > General > Lansare la login și extensii, alegeți „După categorie”, faceți clic pe butonul Informații de lângă „Extensii de rețea”, apoi faceți clic pe butonul Mai mult de lângă fiecare și alegeți „Ștergeți extensia”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила системные расширения %@ из приложения «%@», и удалить их может только macOS. Переместите приложение в Корзину в Finder: Finder попросит macOS удалить и расширения. Если после этого они все еще будут в списке, откройте раздел «Системные настройки» > «Основные» > «Объекты входа и расширения», выберите «По категории», нажмите кнопку информации рядом с категорией «Сетевые расширения», затем нажмите кнопку «Еще» рядом с каждым из них и выберите «Удалить расширение»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat %@ från %@, och bara macOS kan ta bort dem. Flytta appen till papperskorgen i Finder, så ber Finder macOS att ta bort tilläggen också. Om de fortfarande visas efteråt öppnar du Systeminställningar > Allmänt > Startobjekt och tillägg, väljer Efter kategori, klickar på infoknappen bredvid Nätverkstillägg, klickar sedan på merknappen bredvid varje tillägg och väljer Radera tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %2$@ uygulamasıyla gelen %1$@ adlı genişletmeleri yükledi ve onları yalnızca macOS kaldırabilir. Uygulamayı Finder’da Çöp Sepeti’ne taşıyın; böylece macOS’ten genişletmeleri de kaldırması istenir. Genişletmeler bundan sonra hâlâ listeleniyorsa Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünü açın, Kategoriye Göre’yi seçin, Ağ Genişletmeleri’nin yanındaki Bilgi düğmesini tıklayın, ardından her birinin yanındaki Daha Fazla düğmesini tıklayıp Genişletmeyi Sil’i seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала системні розширення %@ разом із програмою «%@», і вилучити їх може лише macOS. Перемістіть програму в Смітник у Finder, і Finder попросить macOS вилучити й ці розширення. Якщо й після цього вони залишаться в списку розширень, відкрийте Системні параметри > Загальні > Автозапуск і розширення, виберіть «За категорією», натисніть кнопку «Досьє» поруч із категорією «Мережеві розширення», а потім натисніть кнопку «Ще» поруч із кожним розширенням, що залишилося, і виберіть «Видалити розширення»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安装了随“%2$@”附带的“%1$@”，也只有macOS才能将它们移除。请在“访达”中将该App移到废纸篓，这也会请求macOS移除这些扩展。如果之后“系统设置”仍列出这些扩展，请打开“系统设置”>“通用”>“登录项与扩展”，选取“按类别”，点按“网络扩展”旁边的“信息”按钮，然后点按每个扩展旁边的“更多”按钮，再选取“删除扩展”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS安裝了隨附於「%2$@」的%1$@，而且只有macOS才能移除它們。請在Finder中將此App丟到「垃圾桶」，這也會要求macOS移除這些延伸功能。如果之後仍列出這些延伸功能，請打開「系統設定」>「一般」>「登入項目與延伸功能」，選擇「按照類別」，按一下「網路延伸功能」旁邊的「資訊」按鈕，然後按一下每個延伸功能旁邊的「更多」按鈕，並選擇「刪除延伸功能」。"
+          }
+        }
+      }
+    },
     "macOS installed %@, a system extension that came with %@, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left." : {
       "localizations" : {
         "cs" : {
@@ -203074,6 +203840,112 @@
         }
       }
     },
+    "macOS keeps its own copy of this, apart from the app, and moving the app to the Trash in Finder asks macOS to remove it, sometimes at the next restart. So Peel leaves that app to Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS si ho uchovává ve vlastní kopii, odděleně od aplikace, a přesunutím aplikace do koše ve Finderu požádáte systém macOS, aby ho odstranil, někdy až po příštím restartu. Proto Peel tuto aplikaci nechává na Finderu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS behält eine eigene Kopie davon, getrennt von der App. Wird die App im Finder in den Papierkorb gelegt, wird macOS aufgefordert, die Erweiterung zu entfernen, manchmal erst beim nächsten Neustart. Daher überlässt Peel diese App dem Finder."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS guarda su propia copia de esta extensión, aparte de la app, y, al trasladar la app a la papelera en el Finder, se le pide a macOS que elimine la extensión, a veces durante el siguiente reinicio. Por eso, Peel deja esa app en manos del Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS en conserve sa propre copie, séparément de l’app, et lorsque l’app est placée dans la corbeille depuis le Finder, celui-ci demande à macOS de supprimer cette copie, parfois au prochain redémarrage. Peel laisse donc cette app au Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne conserva una copia propria, separata dall’app, e spostando l’app nel Cestino dal Finder si chiede a macOS di rimuovere questa copia, a volte al prossimo riavvio. Quindi Peel lascia al Finder la rimozione di quell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、これをアプリとは別に独自のコピーとして保持しています。Finderでアプリをゴミ箱に入れると、FinderがmacOSにこれを削除するよう依頼しますが、Macを次に再起動するまで削除されない場合もあります。そのため、PeelはそのアプリをFinderに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 앱과는 별도로 이 항목의 자체 복사본을 보관합니다. Finder에서 앱을 휴지통으로 이동하면 macOS에 이 항목을 제거하도록 요청하게 되며, 다음에 Mac을 재시동할 때 제거되는 경우도 있습니다. 따라서 Peel은 해당 앱을 Finder에 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bewaart hiervan een eigen kopie, los van de app, en als je de app in Finder naar de prullenmand verplaatst, vraagt Finder macOS om die kopie te verwijderen, soms pas bij de volgende herstart. Daarom laat Peel die app over aan Finder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS przechowuje własną kopię tego rozszerzenia, oddzielnie od aplikacji, a przeniesienie aplikacji do Kosza w Finderze to prośba do macOS o usunięcie rozszerzenia, czasem dopiero po ponownym uruchomieniu Maca. Dlatego Peel zostawia tę aplikację Finderowi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS mantém uma cópia própria desta extensão, à parte do app, e mover o app para o Lixo no Finder pede ao macOS para removê-la, às vezes apenas no próximo reinício. Por isso, o Peel deixa esse app para o Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS păstrează o copie proprie a acestei extensii, separat de aplicație, iar mutarea aplicației în Coș din Finder îi cere sistemului macOS să elimine extensia, uneori abia la următoarea repornire. De aceea, Peel lasă aplicația respectivă în seama Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS хранит собственную копию этого расширения отдельно от приложения, и когда приложение перемещают в Корзину в Finder, macOS получает запрос на ее удаление, которое иногда происходит лишь при следующей перезагрузке. Поэтому Peel оставляет это приложение для Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS behåller en egen kopia av det här, separat från appen, och när appen flyttas till papperskorgen i Finder ber Finder macOS att ta bort det, ibland först vid nästa omstart. Därför lämnar Peel den appen åt Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bunun uygulamadan ayrı, kendine ait bir kopyasını tutar ve uygulama Finder’da Çöp Sepeti’ne taşındığında macOS’ten onu kaldırması istenir; bu bazen ancak Mac bir sonraki kez yeniden başladığında olur. Bu yüzden Peel o uygulamayı Finder’a bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS зберігає власну копію цього розширення, окремо від програми, і коли програму переміщують у Смітник у Finder, macOS отримує запит вилучити його, іноді після наступного перезапуску. Тому Peel залишає цю програму для Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS在App之外保留了它自己的副本，而在“访达”中将该App移到废纸篓会请求macOS移除此项，有时要等到Mac下次重新启动时才移除。因此Peel会将该App交给“访达”处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會在App之外保留此項目的副本，而在Finder中將該App丟到「垃圾桶」就會要求macOS移除此項目，有時還要等到下次重新開機。因此Peel會將該App交由Finder處理。"
+          }
+        }
+      }
+    },
     "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder." : {
       "localizations" : {
         "cs" : {
@@ -203176,6 +204048,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會在App之外保留此項目的副本，而且只有在Finder中將該App丟到「垃圾桶」時才會移除它，有時還要等到下次重新開機。因此Peel會將該App交由Finder處理。"
+          }
+        }
+      }
+    },
+    "macOS keeps its own copy of this, apart from the app. Moving the app to the Trash in Finder asks macOS to remove it, and so does choosing Delete Extension from the More button beside it in System Settings > General > Login Items & Extensions > Network Extensions. So Peel leaves that app to Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS si ho uchovává ve vlastní kopii, odděleně od aplikace. Přesunutím aplikace do koše ve Finderu požádáte systém macOS, aby ho odstranil, a stejně tak volbou položky Smazat rozšíření v nabídce tlačítka Další vedle tohoto rozšíření v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení > Síťová rozšíření. Proto Peel tuto aplikaci nechává na Finderu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS behält eine eigene Kopie davon, getrennt von der App. Wird die App im Finder in den Papierkorb gelegt, wird macOS aufgefordert, die Erweiterung zu entfernen. Dasselbe bewirkt „Erweiterung löschen“ über die Taste „Mehr“ neben der Erweiterung unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ > „Netzwerkerweiterungen“. Daher überlässt Peel diese App dem Finder."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS guarda su propia copia de esta extensión, aparte de la app. Al trasladar la app a la papelera en el Finder, se le pide a macOS que elimine la extensión, y también al elegir “Eliminar extensión” en el menú del botón Más que aparece junto a ella en Ajustes del Sistema > General > Ítems de inicio y extensiones > Extensiones de red. Por eso, Peel deja esa app en manos del Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS en conserve sa propre copie, séparément de l’app. Lorsque l’app est placée dans la corbeille depuis le Finder, celui-ci demande à macOS de supprimer cette copie, tout comme « Supprimer l’extension », dans le menu du bouton Plus situé à côté de cette extension dans Réglages Système > Général > Ouverture et extensions > Extensions du réseau. Peel laisse donc cette app au Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne conserva una copia propria, separata dall’app. Spostando l’app nel Cestino dal Finder si chiede a macOS di rimuovere questa copia, e lo stesso vale per “Elimina estensione”, nel menu del pulsante Altro accanto all’estensione in Impostazioni di Sistema > Generali > Elementi login ed estensioni > Estensioni di rete. Quindi Peel lascia al Finder la rimozione di quell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、これをアプリとは別に独自のコピーとして保持しています。Finderでアプリをゴミ箱に入れると、FinderがmacOSにこれを削除するよう依頼します。“システム設定”＞“一般”＞“ログイン項目と機能拡張”＞“ネットワーク機能拡張”で、この機能拡張の横にある“もっと見る”ボタンから“機能拡張を削除”を選択しても、macOSに削除を依頼できます。そのため、PeelはそのアプリをFinderに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 앱과는 별도로 이 항목의 자체 복사본을 보관합니다. Finder에서 앱을 휴지통으로 이동하면 macOS에 이 항목을 제거하도록 요청하게 되며, 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램 > 네트워크 확장 프로그램에서 이 항목 옆의 더 보기 버튼을 클릭하고 ‘확장 프로그램 삭제’를 선택해도 마찬가지입니다. 따라서 Peel은 해당 앱을 Finder에 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bewaart hiervan een eigen kopie, los van de app. Als je de app in Finder naar de prullenmand verplaatst, vraagt Finder macOS om die kopie te verwijderen, net als 'Verwijder extensie' in het menu van de knop 'Meer' naast deze extensie in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies > Netwerkextensies. Daarom laat Peel die app over aan Finder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS przechowuje własną kopię tego rozszerzenia, oddzielnie od aplikacji. Przeniesienie aplikacji do Kosza w Finderze to prośba do macOS o usunięcie rozszerzenia, podobnie jak polecenie Usuń rozszerzenie w menu przycisku Więcej obok niego w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania > Rozszerzenia sieciowe. Dlatego Peel zostawia tę aplikację Finderowi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS mantém uma cópia própria desta extensão, à parte do app. Mover o app para o Lixo no Finder pede ao macOS para removê-la, e o comando Apagar Extensão também, no menu do botão Mais ao lado dela em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões > Extensões de Rede. Por isso, o Peel deixa esse app para o Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS păstrează o copie proprie a acestei extensii, separat de aplicație. Mutarea aplicației în Coș din Finder îi cere sistemului macOS să elimine extensia, la fel ca „Ștergeți extensia”, din butonul Mai mult de lângă ea în Configurări sistem > General > Lansare la login și extensii > Extensii de rețea. De aceea, Peel lasă aplicația respectivă în seama Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS хранит собственную копию этого расширения отдельно от приложения. Когда приложение перемещают в Корзину в Finder, macOS получает запрос на ее удаление, как и при выборе пункта «Удалить расширение» в меню кнопки «Еще» рядом с этим расширением в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» > «Сетевые расширения». Поэтому Peel оставляет это приложение для Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS behåller en egen kopia av det här, separat från appen. När appen flyttas till papperskorgen i Finder ber Finder macOS att ta bort det, och det gör även Radera tillägg, som du väljer via merknappen bredvid tillägget i Systeminställningar > Allmänt > Startobjekt och tillägg > Nätverkstillägg. Därför lämnar Peel den appen åt Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bunun uygulamadan ayrı, kendine ait bir kopyasını tutar. Uygulama Finder’da Çöp Sepeti’ne taşındığında macOS’ten onu kaldırması istenir; Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler > Ağ Genişletmeleri bölümünde, bu genişletmenin yanındaki Daha Fazla düğmesinden Genişletmeyi Sil seçildiğinde de aynısı olur. Bu yüzden Peel o uygulamayı Finder’a bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS зберігає власну копію цього розширення, окремо від програми. Коли програму переміщують у Смітник у Finder, macOS отримує запит вилучити його, і такий самий запит надсилає команда «Видалити розширення» в меню кнопки «Ще» поруч із цим розширенням у розділі Системні параметри > Загальні > Автозапуск і розширення > Мережеві розширення. Тому Peel залишає цю програму для Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS在App之外保留了它自己的副本。在“访达”中将该App移到废纸篓会请求macOS移除此项；在“系统设置”>“通用”>“登录项与扩展”>“网络扩展”中，从此项旁边的“更多”按钮中选取“删除扩展”也会如此。因此Peel会将该App交给“访达”处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會在App之外保留此項目的副本。在Finder中將該App丟到「垃圾桶」，或在「系統設定」>「一般」>「登入項目與延伸功能」>「網路延伸功能」中，從此項目旁邊的「更多」按鈕選擇「刪除延伸功能」，都會要求macOS移除此項目。因此Peel會將該App交由Finder處理。"
           }
         }
       }

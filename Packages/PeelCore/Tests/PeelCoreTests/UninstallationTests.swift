@@ -73,13 +73,51 @@ struct UninstallationTests {
     private func installed(
         _ election: AppExtension.Election,
         team: String? = "ABCDE12345",
-        identifier: String = "org.example.filter"
+        identifier: String = "org.example.filter",
+        category: String? = nil
     ) -> AppExtensions.SystemExtensionsAnswer {
         let item = AppExtension(
             identifier: identifier, name: "Example Filter", kind: .systemExtension, point: nil, owner: nil, url: nil,
-            election: election, teamIdentifier: team, reportedState: nil
+            election: election, teamIdentifier: team, reportedState: nil, category: category
         )
         return { [item] }
+    }
+
+    @Test func saysWhetherSystemSettingsDeletesEverySystemExtensionAnAppCarries() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try appCarryingAFilter(in: directory)
+        try directory.file(
+            "root/Applications/Example.app/Contents/Library/SystemExtensions/org.example.guard.systemextension/Contents/Info.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.guard", "CFBundleName": "Example Guard"],
+                format: .xml,
+                options: 0
+            )
+        )
+        func item(_ identifier: String, _ name: String, _ category: String) -> AppExtension {
+            AppExtension(
+                identifier: identifier, name: name, kind: .systemExtension, point: nil, owner: nil, url: nil,
+                election: .on, teamIdentifier: "ABCDE12345", reportedState: nil, category: category
+            )
+        }
+        let network = "com.apple.system_extension.network_extension"
+        let filter = item("org.example.filter", "Example Filter", network)
+        let networkGuard = item("org.example.guard", "Example Guard", network)
+        let securityGuard = item("org.example.guard", "Example Guard", "com.apple.system_extension.endpoint_security")
+
+        let networkOnly = await AppExtensions.installed(carriedBy: app) { [filter, networkGuard] }
+        let mixed = await AppExtensions.installed(carriedBy: app) { [filter, securityGuard] }
+        let unanswered = await AppExtensions.installed(carriedBy: app) { nil }
+
+        #expect(networkOnly.names == ["Example Filter", "Example Guard"])
+        if #available(macOS 27, *) {
+            #expect(networkOnly.systemSettingsDeletesThem)
+        } else {
+            #expect(!networkOnly.systemSettingsDeletesThem)
+        }
+        #expect(!mixed.systemSettingsDeletesThem, "System Settings is proved to delete only a network extension")
+        #expect(unanswered.names == ["Example Filter", "Example Guard"])
+        #expect(!unanswered.systemSettingsDeletesThem, "with no answer the category is not known")
     }
 
     @Test func listsAnAppsSignInPlugInAndNeverOffersIt() async throws {
@@ -115,7 +153,7 @@ struct UninstallationTests {
         func prepared(_ answer: AppExtensions.SystemExtensionsAnswer) async -> Uninstallation {
             await Uninstallation.prepare(app, installedApps: [app], systemExtensions: answer, environment: environment)
         }
-        let byFinder = RemovedElsewhere.byFinder(systemExtensions: ["Example Filter"])
+        let byFinder = RemovedElsewhere.byFinder(systemExtensions: CarriedSystemExtensions(names: ["Example Filter"]))
 
         let plan = await prepared(installed(.on))
         #expect(plan.removedElsewhere == byFinder)
@@ -140,7 +178,7 @@ struct UninstallationTests {
         )
 
         #expect(await RemovedElsewhere.first(among: [plain, filtering], asking: installed(.on))
-            == .byFinder(systemExtensions: ["Example Filter"]))
+            == .byFinder(systemExtensions: CarriedSystemExtensions(names: ["Example Filter"])))
         #expect(await RemovedElsewhere.first(among: [plain, peel], asking: installed(.on)) == .byRemovePeel)
         #expect(await RemovedElsewhere.first(among: [plain], asking: installed(.on)) == nil)
         #expect(await RemovedElsewhere.first(among: [filtering], asking: installed(.beingRemoved)) == nil)
@@ -202,7 +240,8 @@ struct UninstallationTests {
         )
 
         #expect(asked.withLock { $0 } == 1)
-        #expect(both.items.first { $0.url == example.url }?.removedElsewhere == .byFinder(systemExtensions: ["Example Filter"]))
+        #expect(both.items.first { $0.url == example.url }?.removedElsewhere
+            == .byFinder(systemExtensions: CarriedSystemExtensions(names: ["Example Filter"])))
         #expect(!both.selectable(canUseHelper: true).contains(example.url))
         #expect(both.selectable(canUseHelper: true).contains(plain.url))
     }

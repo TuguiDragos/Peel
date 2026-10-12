@@ -5,11 +5,14 @@ public enum RemovedElsewhere: Sendable, Hashable {
     case byRemovePeel
     /// A security or management agent, which its maker's own uninstaller removes whole.
     case byItsMaker(MakersUninstaller)
-    /// An app carrying system extensions macOS installed: only its move to the Trash in Finder makes macOS remove them.
-    case byFinder(systemExtensions: [String])
+    /// An app with system extensions macOS installed, which Finder's move asks macOS to remove and Peel's would not.
+    case byFinder(systemExtensions: CarriedSystemExtensions)
 
-    public static func of(_ app: InstalledApp, installedSystemExtensions names: [String]) -> RemovedElsewhere? {
-        app.removedElsewhere ?? (names.isEmpty ? nil : .byFinder(systemExtensions: names))
+    public static func of(
+        _ app: InstalledApp,
+        installedSystemExtensions carried: CarriedSystemExtensions
+    ) -> RemovedElsewhere? {
+        app.removedElsewhere ?? (carried.isEmpty ? nil : .byFinder(systemExtensions: carried))
     }
 
     /// How the first of `apps` that Peel never removes is removed instead, such as one of the apps a cask installed.
@@ -18,8 +21,8 @@ public enum RemovedElsewhere: Sendable, Hashable {
         asking answer: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
     ) async -> RemovedElsewhere? {
         for app in apps {
-            let names = await AppExtensions.installedNames(carriedBy: app, asking: answer)
-            if let found = of(app, installedSystemExtensions: names) { return found }
+            let carried = await AppExtensions.installed(carriedBy: app, asking: answer)
+            if let found = of(app, installedSystemExtensions: carried) { return found }
         }
         return nil
     }

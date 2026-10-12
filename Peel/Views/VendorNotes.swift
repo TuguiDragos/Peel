@@ -5,22 +5,39 @@ import SwiftUI
 /// The note on the page of an app carrying system extensions macOS installed, which Peel leaves to Finder.
 struct SystemExtensionNotice: View {
     let app: InstalledApp
-    let extensions: [String]
+    let extensions: CarriedSystemExtensions
 
     var body: some View {
-        let names = extensions.formatted(.list(type: .and))
         Notice(
             title: Text("Move It to the Trash in Finder"),
-            // Two literals, so the string catalog finds both.
-            detail: extensions.count == 1
-                ? Text("macOS installed \(names), a system extension that came with \(app.name), and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
-                : Text("macOS installed \(names), system extensions that came with \(app.name), and removes them only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left."),
+            detail: detail,
             kind: .note
         ) {
             Button("Show in Finder", systemImage: "folder") {
                 NSWorkspace.shared.activateFileViewerSelecting([app.url])
             }
         }
+    }
+
+    // Each sentence is a literal of its own, so the string catalog finds every one.
+    private var detail: Text {
+        let names = extensions.names.formatted(.list(type: .and))
+        let isOne = extensions.names.count == 1
+        if #available(macOS 27, *) {
+            return switch (isOne, extensions.systemSettingsDeletesThem) {
+            case (true, true):
+                Text("macOS installed \(names) with \(app.name), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension.")
+            case (false, true):
+                Text("macOS installed \(names) with \(app.name), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension.")
+            case (true, false):
+                Text("macOS installed \(names) with \(app.name), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too.")
+            case (false, false):
+                Text("macOS installed \(names) with \(app.name), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too.")
+            }
+        }
+        return isOne
+            ? Text("macOS installed \(names), a system extension that came with \(app.name), and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
+            : Text("macOS installed \(names), system extensions that came with \(app.name), and removes them only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
     }
 }
 

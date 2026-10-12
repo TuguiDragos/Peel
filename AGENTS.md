@@ -211,11 +211,13 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **A program's end is learned from the kernel.** `NSRunningApplication.isTerminated` isn't always updated once an
   app has quit, so `ProcessEnds` watches the kernel's report of the process ending, set up before Peel asks the app
   to quit.
-- **Only Finder removes an app's system extension.** macOS drops its hold on the extension when Finder moves the
-  app that carries it, and removes the extension at the next restart; a move by any other app tells macOS nothing.
-  So an uninstall never claims a `.systemextension`, an app carrying one macOS installed is left to Finder
-  (`RemovedElsewhere.byFinder`), and Orphaned Files says why the copy in `/Library/SystemExtensions` stays
-  (`HoldBack.systemExtension`).
+- **Only macOS removes a system extension.** Finder's move of the app that carries it asks macOS to, and so does
+  Delete Extension in System Settings, which on macOS 27 deletes a network extension even once its app is gone; a
+  move by any other app tells macOS nothing, and macOS may still keep one Finder asked about (a running network
+  extension stayed after a restart). So an uninstall never claims a `.systemextension`, an app carrying one macOS
+  installed is left to Finder (`RemovedElsewhere.byFinder`), Peel names System Settings' step only where it is
+  proved (`AppExtension.systemSettingsDeletesIt`), and Orphaned Files says why the copy in
+  `/Library/SystemExtensions` stays (`HoldBack.systemExtension`, `HoldBack.deletableSystemExtension`).
 - **Homebrew warns on stderr and still exits 0**, and JSON with a warning after it is no longer JSON. An answer
   Peel reads comes from standard output alone (`Homebrew.Attempt`), while what the person is shown keeps both
   streams, in the order Homebrew wrote them.

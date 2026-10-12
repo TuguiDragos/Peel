@@ -303,6 +303,43 @@ struct AppExtensionsTests {
         #expect(Set(found.map(\.id)).count == found.count, "the same extension was listed twice")
     }
 
+    @Test func readsTheCategoryEachSystemExtensionIsListedUnder() async throws {
+        let listing = """
+        2 extension(s)
+        --- com.apple.system_extension.network_extension (Go to 'System Settings > General > Login Items & Extensions > Network Extensions' to modify these system extension(s))
+        enabled\tactive\tteamID\tbundleID (version)\tname\t[state]
+        *\t*\tABCDE12345\torg.example.filter (1.0/1)\tExample Filter\t[activated enabled]
+        --- com.apple.system_extension.cmio (Go to 'System Settings > General > Login Items & Extensions > Camera Extensions' to modify these system extension(s))
+        enabled\tactive\tteamID\tbundleID (version)\tname\t[state]
+        \t*\tABCDE12345\torg.example.camera (1.0/1)\tExample Camera\t[activated waiting for user]
+        """
+
+        let found = try #require(await AppExtensions.systemExtensions { _, _ in listing })
+
+        let categories = Dictionary(uniqueKeysWithValues: found.map { ($0.identifier, $0.category) })
+        #expect(categories["org.example.filter"] == "com.apple.system_extension.network_extension")
+        #expect(categories["org.example.camera"] == "com.apple.system_extension.cmio")
+    }
+
+    @Test func systemSettingsDeletesOnlyANetworkExtensionAndOnlyOnMacOS27() {
+        func item(_ category: String?, kind: AppExtension.Kind = .systemExtension) -> AppExtension {
+            AppExtension(
+                identifier: "org.example.x", name: "X", kind: kind, point: nil, owner: nil, url: nil, election: .on,
+                teamIdentifier: nil, reportedState: nil, category: category
+            )
+        }
+        let network = "com.apple.system_extension.network_extension"
+
+        if #available(macOS 27, *) {
+            #expect(item(network).systemSettingsDeletesIt)
+        } else {
+            #expect(!item(network).systemSettingsDeletesIt)
+        }
+        #expect(!item("com.apple.system_extension.cmio").systemSettingsDeletesIt)
+        #expect(!item(nil).systemSettingsDeletesIt)
+        #expect(!item(network, kind: .appExtension).systemSettingsDeletesIt)
+    }
+
     @Test func readsTheSystemExtensionsAnAppCarries() throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("Example.app")

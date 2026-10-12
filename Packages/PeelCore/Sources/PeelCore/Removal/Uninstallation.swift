@@ -20,7 +20,7 @@ public struct Uninstallation: Sendable {
     /// it is never selected or counted, and what it left behind still is.
     public var isAppInTheTrash = false
     public var uninstallsItself: UninstallsItself?
-    public var installedSystemExtensions: [String] = []
+    public var installedSystemExtensions = CarriedSystemExtensions.none
     /// How the app is removed when Peel never removes it from here: Peel itself from Settings, where its helper and
     /// login item go first (`unreviewedSelection` is that way), an agent by its maker's uninstaller, and an app with
     /// system extensions macOS installed by Finder. Its files are listed, and nothing of it is selected or moved.
@@ -101,7 +101,7 @@ public struct Uninstallation: Sendable {
             isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url),
             isAppInTheTrash: TrashService(environment: environment).isInsideATrash(app.url),
             uninstallsItself: uninstallsItself,
-            installedSystemExtensions: await AppExtensions.installedNames(carriedBy: app, asking: systemExtensions)
+            installedSystemExtensions: await AppExtensions.installed(carriedBy: app, asking: systemExtensions)
         )
     }
 

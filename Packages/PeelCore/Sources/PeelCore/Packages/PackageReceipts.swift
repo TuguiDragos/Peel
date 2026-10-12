@@ -289,8 +289,8 @@ public enum PackageReceipts {
     private static func removedElsewhere(_ url: URL, installed: InstalledSystemExtensions) async -> RemovedElsewhere? {
         guard url.pathExtension.caseInsensitiveCompare("app") == .orderedSame, let app = AppInspector.inspect(url)
         else { return nil }
-        let names = await AppExtensions.installedNames(carriedBy: app) { await installed.answer() }
-        return RemovedElsewhere.of(app, installedSystemExtensions: names)
+        let carried = await AppExtensions.installed(carriedBy: app) { await installed.answer() }
+        return RemovedElsewhere.of(app, installedSystemExtensions: carried)
     }
 
     /// What `pkgutil --pkg-info-plist` says of a package, with the volume and the folder its file list is relative to.

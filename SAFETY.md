@@ -290,9 +290,10 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   shared data folder in its `product.json`, such as `~/.vscode-insiders`, taken only while it holds what VS Code
   writes there (`argv.json`, `sharedStorage`). Each is shared only with another app, or another copy, naming the same
   folder, and an IDE's settings folder with your scratch files or query consoles inside is shown and never selected.
-- **A system extension is left to macOS**, which removes it only when the app that uses it goes to the Trash in
-  Finder, so the copy macOS installed is never listed with the app, and the app itself is moved from no page of
-  Peel: its own page, Package Receipts and the Homebrew page all leave it to Finder.
+- **A system extension is left to macOS**, which alone removes it: the app's move to the Trash in Finder asks macOS
+  to, and on macOS 27 so does Delete Extension in System Settings, for a network extension. So the copy macOS
+  installed is never listed with the app, and the app itself is moved from no page of Peel: its own page, Package
+  Receipts and the Homebrew page all leave it to Finder.
 - **An authorization plug-in is never moved.** macOS loads one from `/Library/Security/SecurityAgentPlugins` when a
   rule of its authorization database names it, at login among others, and taking away one a rule still names can
   keep anyone from logging in. No public tool lists every rule, so Peel shows it, on the app's page, in Orphaned
@@ -319,11 +320,12 @@ Desktop Host Uninstaller, is treated the same way: moved on its own, it would le
 page offers to open it instead.
 
 An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
-the same way, and nothing of it can be selected: macOS removes the extension only when the app goes to the Trash in
-Finder, which tells macOS to, and moved by Peel the app would leave the extension installed. Its page says so, with
-Show in Finder, and `peel uninstall` refuses it with the same reason. Peel asks macOS which of the app's extensions it
-installed (`systemextensionsctl`), leaves out one macOS is already removing, and when macOS doesn't answer, counts
-every extension the app carries.
+the same way, and nothing of it can be selected: moved by Peel, the app would leave the extension installed, while
+its move to the Trash in Finder asks macOS to remove it. Its page says so, with Show in Finder, and on macOS 27, for a
+network extension, how to delete it in System Settings if it stays; `peel uninstall` refuses it with the same reason.
+Peel asks macOS which of the app's extensions it installed, and under which category (`systemextensionsctl`), leaves
+out one macOS is already removing, and when macOS doesn't answer, counts every extension the app carries and names
+only Finder's step.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,
@@ -399,9 +401,10 @@ Orphaned Files selects nothing for you, and `peel orphans --remove` leaves these
 `/Users/Shared`, one with a repository, a wallet, a signing key, or a password database inside, one that may hold what
 exists only on this Mac, or one Peel could not read or measure in time, moves only when you select it yourself.
 The copy macOS installed of a system extension, in `/Library/SystemExtensions`, is listed and can't be selected:
-only macOS removes it, when the app that uses it goes to the Trash in Finder, and its note says so, or that macOS
-removes it at the next restart. A file named for a background job whose program is still there, such as the
-settings a remote access host keeps beside its job, is that job's and is never listed.
+only macOS removes it, and its note says how (on macOS 27, Delete Extension in System Settings for a network
+extension; otherwise the app's move to the Trash in Finder), or that macOS removes it at the next restart. A file
+named for a background job whose program is still there, such as the settings a remote access host keeps beside its
+job, is that job's and is never listed.
 
 On every list, Select All selects every row you can select, what Peel holds back included, and asks first,
 counting what Peel doesn't recommend; Return answers Select Recommended. Each held back row still shows its reason

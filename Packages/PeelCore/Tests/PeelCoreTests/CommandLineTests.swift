@@ -805,9 +805,32 @@ struct CommandLineTests {
         )
 
         let failure = #expect(throws: CommandFailure.self) {
-            try UninstallCommand.refuseIfRemovedElsewhere(app, installedSystemExtensions: ["Example Filter"])
+            try UninstallCommand.refuseIfRemovedElsewhere(
+                app, installedSystemExtensions: CarriedSystemExtensions(names: ["Example Filter"])
+            )
+        }
+        let deletable = #expect(throws: CommandFailure.self) {
+            try UninstallCommand.refuseIfRemovedElsewhere(
+                app,
+                installedSystemExtensions: CarriedSystemExtensions(names: ["Example Filter"], systemSettingsDeletesThem: true)
+            )
+        }
+        let several = #expect(throws: CommandFailure.self) {
+            try UninstallCommand.refuseIfRemovedElsewhere(
+                app,
+                installedSystemExtensions: CarriedSystemExtensions(
+                    names: ["Example Filter", "Example Proxy"], systemSettingsDeletesThem: true
+                )
+            )
         }
         #expect(failure?.description.contains("Trash in Finder") == true)
+        #expect(failure?.description.contains("System Settings") == false, "a step System Settings isn't proved to take")
+        #expect(deletable?.description.contains("Trash in Finder") == true)
+        #expect(deletable?.description.contains(
+            "System Settings > General > Login Items & Extensions > Network Extensions"
+        ) == true)
+        #expect(deletable?.description.contains("Delete Extension, from the More button beside it.") == true)
+        #expect(several?.description.contains("Delete Extension, from the More button beside each.") == true)
         try UninstallCommand.refuseIfRemovedElsewhere(app)
     }
 

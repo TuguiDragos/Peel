@@ -132,6 +132,9 @@ public struct OrphanScanner: Sendable {
         let goingAtRestart = Set(
             extensions.filter { $0.election == .beingRemoved }.compactMap(\.url).map(PathPattern.comparablePath(of:))
         )
+        let deletable = Set(
+            extensions.filter(\.systemSettingsDeletesIt).compactMap(\.url).map(PathPattern.comparablePath(of:))
+        )
         let installedFor = Dictionary(
             extensions.compactMap { copy in
                 copy.url.flatMap { url in copy.installedFor.map { (PathPattern.comparablePath(of: url), $0) } }
@@ -149,7 +152,8 @@ public struct OrphanScanner: Sendable {
             var item = entry.item
             if isStaged(item) {
                 let path = PathPattern.comparablePath(of: item.url)
-                item.heldBack = goingAtRestart.contains(path) ? .systemExtensionGoingAtRestart : .systemExtension
+                item.heldBack = goingAtRestart.contains(path) ? .systemExtensionGoingAtRestart
+                    : deletable.contains(path) ? .deletableSystemExtension : .systemExtension
                 item.installedFor = installedFor[path].flatMap { URL(filePath: $0).isMissing ? $0 : nil }
                 return (entry.identifier, item)
             }

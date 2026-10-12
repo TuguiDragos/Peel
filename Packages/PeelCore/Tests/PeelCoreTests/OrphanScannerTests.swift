@@ -95,6 +95,31 @@ struct OrphanScannerTests {
         #expect(item(going)?.leftAlone == .systemExtensionGoingAtRestart)
     }
 
+    @Test func aNetworkExtensionsCopySaysSystemSettingsDeletesIt() async throws {
+        let directory = try TemporaryDirectory()
+        let copy = try directory.directory("root/Library/SystemExtensions/DC0C6705/org.example.tunnel.net.systemextension")
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.tunnel", name: "Tunnel", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Tunnel.app"
+        )
+        let network = AppExtension(
+            identifier: "org.example.tunnel.net", name: "Tunnel Network Extension", kind: .systemExtension, point: nil,
+            owner: nil, url: copy, election: .on, teamIdentifier: nil, reportedState: nil,
+            category: "com.apple.system_extension.network_extension"
+        )
+
+        let scan = await scanner(in: directory) { [network] }.scan(installedApps: installed, remembered: [gone])
+
+        let item = scan.groups.flatMap(\.items).first {
+            PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: copy)
+        }
+        if #available(macOS 27, *) {
+            #expect(item?.leftAlone == .deletableSystemExtension)
+        } else {
+            #expect(item?.leftAlone == .systemExtension)
+        }
+    }
+
     @Test func namesTheGoneAppMacOSInstalledASystemExtensionFor() async throws {
         let directory = try TemporaryDirectory()
         let copy = try directory.directory("root/Library/SystemExtensions/77689A22/org.example.guard.ext.systemextension")
