@@ -93,8 +93,8 @@ public struct AppReset: Sendable {
         public var clearedSettings = false
         public var privacy: PrivacyReset.Result?
 
-        /// The copy Put Settings Back takes the settings from.
-        public var settingsToPutBack: URL? { backup }
+        /// The copy Put Settings Back takes the settings from, only once the reset cleared them.
+        public var settingsToPutBack: URL? { clearedSettings ? backup : nil }
     }
 
     /// Copies the settings in `selection`, asks again whether the app is open, since the copy takes a moment, then

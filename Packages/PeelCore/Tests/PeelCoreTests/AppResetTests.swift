@@ -442,4 +442,34 @@ struct AppResetTests {
         }
         #expect(settings.isThere)
     }
+
+    @Test func aResetOffersItsCopyBackOnlyOnceItClearedTheSettings() async throws {
+        let directory = try TemporaryDirectory()
+        let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        try directory.file("Library/Caches/com.example.app/cache", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let copy = try directory.directory("Copy")
+        let trash = try directory.directory("Trash")
+        let refusingTheSettings = TrashService(environment: home(directory)) { url in
+            guard url.pathExtension != "plist" else { throw CocoaError(.fileWriteNoPermission) }
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let outcome = await reset.run(
+            reset.suggestedSelection,
+            resettingPrivacy: false,
+            through: refusingTheSettings,
+            isOpen: { false },
+            save: { _ in .saved(copy) },
+            resetPrivacy: { _ in .reset }
+        )
+
+        #expect(outcome.result.trashed.count == 1)
+        #expect(outcome.backup == copy)
+        #expect(!outcome.clearedSettings)
+        #expect(outcome.settingsToPutBack == nil)
+        #expect(settings.isThere)
+    }
 }
