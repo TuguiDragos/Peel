@@ -1,3 +1,4 @@
+import CoreServices
 public import Foundation
 internal import PeelPrivileged
 
@@ -220,6 +221,7 @@ public struct TrashService: Sendable {
     typealias RunningInside = @Sendable (_ app: URL) async -> [LaunchdCleanup.Running]
     typealias StopRunning = @Sendable ([LaunchdCleanup.Running], _ canUseHelper: Bool) async -> [LaunchdCleanup.Running]
     typealias RegistrationAtLogin = @Sendable (_ app: URL) async -> StartsAtLogin.Registration?
+    typealias RegisterApp = @Sendable (_ app: URL) async -> Void
 
     let environment: SearchEnvironment
     private let removalGuard: RemovalGuard
@@ -231,6 +233,7 @@ public struct TrashService: Sendable {
     private let runningInside: RunningInside
     private let stopRunning: StopRunning
     private let registrationAtLogin: RegistrationAtLogin
+    private let registerApp: RegisterApp
     private let moveToTrash: @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
     /// Where each item is written down as soon as it moves, so a removal cut short still reaches History.
@@ -253,6 +256,7 @@ public struct TrashService: Sendable {
                 guard #available(macOS 27, *) else { return nil }
                 return await StartsAtLogin.registration(of: app)
             },
+            registerApp: { app in _ = LSRegisterURL(app as CFURL, true) },
             moveToTrash: { try Self.moveToSystemTrash($0, refusal: removalGuard.refusal(of:)) },
             ownMoves: .shared,
             journal: RemovalJournal(beside: RemovalHistory.defaultURL)
@@ -260,7 +264,8 @@ public struct TrashService: Sendable {
     }
 
     /// For tests. Unless a test passes its own, it stops and starts no launchd job, asks launchd nothing, forgets no
-    /// preference domain, acts as if there were no helper, changes no Dock, and writes no journal.
+    /// preference domain, registers no app with Launch Services, acts as if there were no helper, changes no Dock,
+    /// and writes no journal.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
@@ -272,6 +277,7 @@ public struct TrashService: Sendable {
         runningInside: @escaping RunningInside = { _ in [] },
         stopRunning: @escaping StopRunning = { _, _ in [] },
         registrationAtLogin: @escaping RegistrationAtLogin = { _ in nil },
+        registerApp: @escaping RegisterApp = { _ in },
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
         journal: RemovalJournal? = nil,
         moveToTrash: @escaping @Sendable (URL) throws -> URL
@@ -287,6 +293,7 @@ public struct TrashService: Sendable {
             runningInside: runningInside,
             stopRunning: stopRunning,
             registrationAtLogin: registrationAtLogin,
+            registerApp: registerApp,
             moveToTrash: moveToTrash,
             ownMoves: ownMoves,
             journal: journal
@@ -304,6 +311,7 @@ public struct TrashService: Sendable {
         runningInside: @escaping RunningInside,
         stopRunning: @escaping StopRunning,
         registrationAtLogin: @escaping RegistrationAtLogin,
+        registerApp: @escaping RegisterApp,
         moveToTrash: @escaping @Sendable (URL) throws -> URL,
         ownMoves: OwnTrashMoves,
         journal: RemovalJournal?
@@ -318,6 +326,7 @@ public struct TrashService: Sendable {
         self.runningInside = runningInside
         self.stopRunning = stopRunning
         self.registrationAtLogin = registrationAtLogin
+        self.registerApp = registerApp
         self.moveToTrash = moveToTrash
         self.ownMoves = ownMoves
         self.journal = journal
@@ -647,10 +656,27 @@ public struct TrashService: Sendable {
         TrashResult(failures: urls.map { TrashFailure(url: $0, reason: .needsHelper) })
     }
 
+    /// Puts `items` back in the order given, each as `restore(_:canUseHelper:)` does, and answers for each why it
+    /// stayed, or nil. Launch Services leaves out an app in the Trash and isn't told it moved back, so the apps among
+    /// them are registered again, but only once every item is back: a registered app starts its extensions, which
+    /// would make their containers again before the ones in the Trash went back.
+    @concurrent
+    public func restore(_ items: [TrashedItem], canUseHelper: Bool = false) async -> [RestoreFailure?] {
+        var answers: [RestoreFailure?] = []
+        for item in items {
+            answers.append(await restore(item, canUseHelper: canUseHelper))
+        }
+        for (item, answer) in zip(items, answers)
+        where answer == nil && item.originalURL.pathExtension.caseInsensitiveCompare("app") == .orderedSame {
+            await registerApp(item.originalURL)
+        }
+        return answers
+    }
+
     /// Moves an item from the Trash back where it came from, through the helper when the folder needs
     /// administrator rights, and puts back the Dock tiles an uninstall took out for it.
     @concurrent
-    public func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
+    func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
         let failure = await moveBack(item, canUseHelper: canUseHelper)
         if failure == nil {
             await putBackDockTiles(item.originalURL)

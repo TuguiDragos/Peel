@@ -326,8 +326,10 @@ final class RemovalHistoryStore {
         await QuitGuard.shared.run {
             var restored: Set<UUID> = []
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
-            for record in records.inPutBackOrder {
-                if let failure = await service.restore(record.trashedItem, canUseHelper: canUseHelper) {
+            let ordered = records.inPutBackOrder
+            let answers = await service.restore(ordered.map(\.trashedItem), canUseHelper: canUseHelper)
+            for (record, answer) in zip(ordered, answers) {
+                if let failure = answer {
                     problems[record.id] = failure
                 } else {
                     restored.insert(record.id)

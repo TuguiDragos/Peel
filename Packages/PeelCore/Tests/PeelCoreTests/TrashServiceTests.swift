@@ -452,6 +452,59 @@ struct TrashServiceTests {
         #expect(await forgotten.calls.last == ["home/Library/Preferences/com.example.app.plist", "com.example.app"])
     }
 
+    @Test func anAppPutBackIsRegisteredWithLaunchServicesOnceItIsBack() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/org.example.Studio.app")
+        let cache = try directory.directory("home/Library/Caches/org.example.Studio")
+        let trash = try directory.directory("home/.Trash")
+        let registered = Mutex<[String]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            registerApp: { url in registered.withLock { $0.append(url.path(percentEncoded: false)) } }
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let moved = await service.trash([app, cache]).trashed
+        #expect(registered.withLock { $0 }.isEmpty)
+        #expect(await service.restore(moved) == [nil, nil])
+        let appMoved = try #require(moved.first { $0.originalURL == app })
+        #expect(await service.restore([appMoved]) == [.missingFromTrash])
+        #expect(registered.withLock { $0 } == [app.path(percentEncoded: false)])
+    }
+
+    @Test func registersTheAppsPutBackOnlyOnceEveryItemIsBack() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/org.example.Studio.app")
+        let container = try directory.directory("home/Library/Containers/org.example.Studio.Extension")
+        let trash = try directory.directory("home/.Trash")
+        let containerWasBack = Mutex<[Bool]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            registerApp: { _ in
+                let isBack = FileManager.default.fileExists(atPath: container.path(percentEncoded: false))
+                containerWasBack.withLock { $0.append(isBack) }
+            }
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let moved = await service.trash([app, container]).trashed
+        let appFirst = moved.sorted { ($0.originalURL == app ? 0 : 1) < ($1.originalURL == app ? 0 : 1) }
+        #expect(await service.restore(appFirst) == [nil, nil])
+        #expect(containerWasBack.withLock { $0 } == [true])
+    }
+
     /// Putting an app back puts back the Dock tiles an uninstall took out for it, and only once it is back.
     @Test func puttingAnItemBackPutsBackItsDockTiles() async throws {
         let directory = try TemporaryDirectory()
