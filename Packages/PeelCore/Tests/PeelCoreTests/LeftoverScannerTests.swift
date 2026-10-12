@@ -172,6 +172,52 @@ struct LeftoverScannerTests {
         #expect(!folder.match.isRecommended)
     }
 
+    @Test func takesTheFoldersTheAppsOwnProductFileNames() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/.example-editor/argv.json")
+        try directory.directory("home/.example-editor-shared/sharedStorage")
+        try directory.file("home/Library/Application Support/ExampleVendor/ExampleIDE2025.2/options/ui.xml")
+        try directory.file("home/Library/Application Support/ExampleVendor/ExampleIDE2025.2/scratches/scratch.txt")
+        try directory.file("home/Library/Caches/ExampleVendor/ExampleIDE2025.2/index/a", bytes: 64)
+        try directory.file("home/.other-editor/settings.json")
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Example Editor.app"), bundleIdentifier: "org.example.editor",
+            name: "Example Editor", productFolders: ProductFolders.vsCodeFolders(in: [
+                "dataFolderName": ".example-editor", "sharedDataFolderName": ".example-editor-shared",
+            ])
+        )
+        let ide = InstalledApp(
+            url: URL(filePath: "/Applications/Example IDE.app"), bundleIdentifier: "org.example.ide",
+            name: "Example IDE", productFolders: ProductFolders.jetBrainsFolders(in: [
+                "productVendor": "ExampleVendor", "dataDirectoryName": "ExampleIDE2025.2",
+            ])
+        )
+        let other = InstalledApp(
+            url: URL(filePath: "/Applications/Other Editor.app"), bundleIdentifier: "org.example.other",
+            name: "Other Editor", productFolders: ProductFolders.vsCodeFolders(in: ["dataFolderName": ".other-editor"])
+        )
+        let apps = [editor, ide, other]
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let named = { (app: InstalledApp) in
+            await scanner.scan(app, installedApps: apps).leftovers.filter { $0.match.reason == .namedByTheApp }
+        }
+        let editors = await named(editor)
+        let ides = await named(ide)
+        let others = await named(other)
+
+        let editorFolders = Set(editors.map { $0.url.lastPathComponent })
+        let place = { (leftover: Leftover) in leftover.url.deletingLastPathComponent().deletingLastPathComponent() }
+        let ideFolders = Set(ides.map { place($0).lastPathComponent })
+        #expect(editorFolders == [".example-editor", ".example-editor-shared"])
+        #expect(ideFolders == ["Application Support", "Caches"])
+        #expect((editors + ides).allSatisfy { $0.match.confidence == .certain })
+        let unselected = (editors + ides).filter { !$0.match.isRecommended }
+        #expect(unselected.map { $0.match.heldBack } == [.holdsWorkMadeWithTheApp])
+        #expect(unselected.first.map { place($0).lastPathComponent } == "Application Support")
+        #expect(others.isEmpty)
+    }
+
     /// A preference file whose bytes are not a property list holds settings nobody can read, so its row says so. A
     /// file that reads as one does not.
     @Test func marksAPreferenceFileThatIsNoPropertyList() async throws {

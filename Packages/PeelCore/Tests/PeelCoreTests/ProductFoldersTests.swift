@@ -1,0 +1,46 @@
+import Foundation
+@testable import PeelCore
+import Testing
+
+struct ProductFoldersTests {
+    @Test func readsTheFoldersAnIDEAndACodeEditorName() throws {
+        let directory = try TemporaryDirectory()
+        let ide = try directory.directory("Applications/Example IDE.app")
+        try directory.file(
+            "Applications/Example IDE.app/Contents/Resources/product-info.json",
+            contents: Data(#"{"productVendor": "ExampleVendor", "dataDirectoryName": "ExampleIDE2025.2"}"#.utf8)
+        )
+        let editor = try directory.directory("Applications/Example Editor.app")
+        try directory.file(
+            "Applications/Example Editor.app/Contents/Resources/app/product.json",
+            contents: Data(#"{"dataFolderName": ".example-editor", "sharedDataFolderName": ".example-editor-shared"}"#.utf8)
+        )
+
+        #expect(ProductFolders.of(appAt: ide) == [
+            ProductFolder(
+                path: "Library/Application Support/ExampleVendor/ExampleIDE2025.2", proof: nil,
+                work: ["scratches", "consoles"]
+            ),
+            ProductFolder(path: "Library/Caches/ExampleVendor/ExampleIDE2025.2", proof: nil),
+            ProductFolder(path: "Library/Logs/ExampleVendor/ExampleIDE2025.2", proof: nil),
+        ])
+        #expect(ProductFolders.of(appAt: editor) == [
+            ProductFolder(path: ".example-editor", proof: "argv.json"),
+            ProductFolder(path: ".example-editor-shared", proof: "sharedStorage"),
+        ])
+        #expect(ProductFolders.of(appAt: try directory.directory("Applications/Plain.app")).isEmpty)
+    }
+
+    @Test func believesOnlyTheNamesTheToolsWrite() {
+        let ide = { (vendor: String, name: String) in
+            ProductFolders.jetBrainsFolders(in: ["productVendor": vendor, "dataDirectoryName": name])
+        }
+        #expect(ide("ExampleVendor", "Chrome").isEmpty)
+        #expect(ide("../ExampleVendor", "ExampleIDE2025.2").isEmpty)
+        #expect(ide("ExampleVendor", "../ExampleIDE2025.2").isEmpty)
+        #expect(ide(".ExampleVendor", "ExampleIDE2025.2").isEmpty)
+        for name in ["example", ".", "..", ".config/example", ""] {
+            #expect(ProductFolders.vsCodeFolders(in: ["dataFolderName": name]).isEmpty, "\(name)")
+        }
+    }
+}

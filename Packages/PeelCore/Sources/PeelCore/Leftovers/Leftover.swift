@@ -29,6 +29,8 @@ public enum MatchReason: String, Sendable, Hashable {
     case managedByTheApp
     /// The folder the app's own settings name for what its updater downloads (`InstalledApp.updaterFolder`).
     case updaterDownloads
+    /// A folder the app's own product file names for its data (`InstalledApp.productFolders`).
+    case namedByTheApp
 }
 
 public enum MatchConfidence: Int, Sendable, Hashable, Comparable {

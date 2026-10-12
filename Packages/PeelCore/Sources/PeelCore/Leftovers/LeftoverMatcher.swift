@@ -76,6 +76,19 @@ struct LeftoverMatcher: Sendable {
         )
     }
 
+    /// This app's claim on a folder its own product file names for its data.
+    func productFolder(at url: URL, home: String) -> LeftoverMatch? {
+        guard let folder = target.productFolders.first(where: { $0.isFolder(at: url, home: home) }) else { return nil }
+        let naming = others.filter { $0.productFolders.contains { $0.path.lowercased() == folder.path.lowercased() } }
+        return LeftoverMatch(
+            reason: .namedByTheApp,
+            confidence: .certain,
+            sharedWith: Set(naming.filter { !$0.isACopy(of: target) }.map(\.reference)).sorted(),
+            otherCopies: naming.filter { $0.isACopy(of: target) }.map(\.url),
+            heldBack: folder.holdsWork(at: url) ? .holdsWorkMadeWithTheApp : nil
+        )
+    }
+
     /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it.
     func match(fileName: String, kind: SearchLocation.Kind, at url: URL? = nil) -> LeftoverMatch? {
         let key = Self.key(from: fileName, kind: kind)
@@ -288,7 +301,7 @@ extension LeftoverMatcher {
             family = switch reason {
             case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix,
                 .launchdJob, .linksToTheApp, .nativeMessagingHost, .installerReceipt, .homebrewReceipt,
-                .leadsIntoItsHomebrewReceipt, .managedByTheApp, .updaterDownloads:
+                .leadsIntoItsHomebrewReceipt, .managedByTheApp, .updaterDownloads, .namedByTheApp:
                 .identifier
             case .name, .namePrefix, .homebrewCask: .name
             case .teamIdentifier, .vendorPrefix: .maker
@@ -311,7 +324,8 @@ extension LeftoverMatcher {
             // A job's or a manifest's program, or a link's target, lies inside the app's bundle, which no other app
             // can share.
             case .launchdJob, .linksToTheApp, .nativeMessagingHost, .leadsIntoItsHomebrewReceipt: 8
-            case .bundleIdentifier, .installerReceipt, .homebrewReceipt, .managedByTheApp, .updaterDownloads: 7
+            case .bundleIdentifier, .installerReceipt, .homebrewReceipt, .managedByTheApp, .updaterDownloads,
+                .namedByTheApp: 7
             case .embeddedBundleIdentifier, .applicationGroup: 6
             case .bundleIdentifierPrefix: 5
             case .name: 4
@@ -348,6 +362,7 @@ extension LeftoverMatcher {
         let isApplesOwn: Bool
         let isASafariWebApp: Bool
         let updaterFolder: String?
+        let productFolders: [ProductFolder]
 
         init(_ app: InstalledApp) {
             url = app.url
@@ -374,6 +389,7 @@ extension LeftoverMatcher {
             isASafariWebApp = app.isASafariWebApp
             // Only electron-builder's `<name>-updater`: any other name could be a folder other programs share.
             updaterFolder = app.updaterFolder.map { $0.lowercased() }.flatMap { $0.hasSuffix("-updater") ? $0 : nil }
+            productFolders = app.productFolders
         }
 
         /// Whether this is another copy of `other`: the same app, known by its identifier, somewhere else.

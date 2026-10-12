@@ -1346,12 +1346,10 @@ public enum DeveloperCaches {
 
     /// `nameShort` in the app's `product.json`, the name VS Code keeps its data under.
     private static func vsCodeProductName(of app: InstalledApp) -> String? {
-        let file = app.url.appending(path: "Contents/Resources/app/product.json")
-        guard let data = BoundedRead.data(at: file, maximum: 1_024 * 1_024),
-              let product = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              product["dataFolderName"] is String, let name = product["nameShort"] as? String
-        else { return nil }
-        return name
+        guard let product = ProductFolders.vsCodeProduct(of: app.url), product["dataFolderName"] is String else {
+            return nil
+        }
+        return product["nameShort"] as? String
     }
 
     /// Also the state of workspaces that are gone.

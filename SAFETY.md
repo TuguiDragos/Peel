@@ -274,6 +274,12 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   downloads in the folder the app's own settings name, the app's name and `-updater`, in `~/Library/Caches` or, before
   electron-updater 6, in `~/Library/Application Support/Caches`. That folder is the app's whatever the app is called,
   and shared only with another app, or another copy of it, that names the same folder.
+- **The folders the app's own product file names go with it.** A JetBrains IDE names its settings, caches, and logs
+  folders in its `product-info.json`, such as `JetBrains/IdeaIC2025.2` in Application Support, Caches, and Logs, and
+  only a name that carries the release is believed. A code editor built on VS Code names its extensions folder and its
+  shared data folder in its `product.json`, such as `~/.vscode-insiders`, taken only while it holds what VS Code
+  writes there (`argv.json`, `sharedStorage`). Each is shared only with another app, or another copy, naming the same
+  folder, and an IDE's settings folder with your scratch files or query consoles inside is shown and never selected.
 - **A system extension is left to macOS**, which removes it only when the app that uses it goes to the Trash in
   Finder, so the copy macOS installed is never listed with the app, and the app itself is moved from no page of
   Peel: its own page, Package Receipts and the Homebrew page all leave it to Finder.

@@ -30,6 +30,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let updateFeed: UpdateFeed?
     /// The folder electron-updater keeps this app's downloads in, as its `app-update.yml` names it.
     public let updaterFolder: String?
+    /// The folders the app's own product file names for its data (`ProductFolders`).
+    public let productFolders: [ProductFolder]
     /// Whether this is Peel, which is removed only from its own Settings, where the helper and the login item
     /// are unregistered first. Also true for the bundle the running code sits inside, such as the Peel that
     /// embeds the `peel` tool, whatever its name or identifier.
@@ -68,6 +70,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         dateAdded: Date? = nil,
         updateFeed: UpdateFeed? = nil,
         updaterFolder: String? = nil,
+        productFolders: [ProductFolder] = [],
         webApp: WebApp? = nil,
         carriesSystemExtensions: Bool = false
     ) {
@@ -91,6 +94,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.webApp = webApp
         self.updateFeed = updateFeed
         self.updaterFolder = updaterFolder
+        self.productFolders = productFolders
         self.carriesSystemExtensions = carriesSystemExtensions
         let path = PathPattern.comparablePath(of: url)
         isPeelItself = Self.isPeel(self.bundleIdentifier, at: path)
@@ -148,6 +152,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             dateAdded: dateAdded,
             updateFeed: updateFeed,
             updaterFolder: updaterFolder,
+            productFolders: productFolders,
             webApp: webApp,
             carriesSystemExtensions: carriesSystemExtensions
         )

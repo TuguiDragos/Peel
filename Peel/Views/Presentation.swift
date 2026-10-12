@@ -21,6 +21,7 @@ extension MatchReason {
         case .homebrewCask: "Listed by the Homebrew cask"
         case .managedByTheApp: "Managed by the app"
         case .updaterDownloads: "Where the app’s updater keeps its downloads"
+        case .namedByTheApp: "Named by the app’s own files"
         }
     }
 }
