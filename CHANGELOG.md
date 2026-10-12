@@ -17,6 +17,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Every page that moves files shows how far it has got, and which app it is waiting for to quit.
 - Finds more to clean, such as downloads Safari never finished and updates Google's updater keeps.
 - Lists and uninstalls the few apps that carry no identifier, which it couldn't see before.
+- Lists the models that AI apps and tools download, such as Ollama, LM Studio, GPT4All, and ComfyUI, without
+  selecting them, and says on macOS 27 how much they and Apple Intelligence take.
+- On macOS 27, opens the place where you turn off each Apple Intelligence feature, from Tweaks.
+- Knows about 45 more build tools in Build Artifacts, and more caches on the Developer page, among them those of
+  coding agents, Electron apps' own sessions, and Xcode's documentation.
+- Lists the logs Homebrew's services write in Space, never the folders they write in.
+- Lists the updates apps downloaded through electron-updater in Installers and Backups.
+- Shows iCloud Drive's downloads in the folders Finder shows them in, and on macOS 27 how far Remove Downloads got,
+  with a way to stop it.
+- Lists in Orphaned Files what a gone app's own product file named, and browser helpers that start nothing.
+- On macOS 27, says in History when an audio driver you put back needs a restart, and when an app shared its storage
+  with a copy.
 
 ### Changed
 
@@ -25,11 +37,22 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Says what its helper is doing, and within seconds when the helper doesn't answer, with a way to repair it.
 - Leaves alone more of what macOS and other apps rely on, such as the folder crash reports are saved in and a Godot
   project's export passwords.
+- Never moves anything that syncs to your other devices, through iCloud or an app such as Syncthing or MEGA, nor what
+  iCloud keeps to stay in sync.
+- Holds back a cache something wrote to in the last 15 minutes, and a build folder Git tracks.
+- Never offers another app's folder when you uninstall an app, and leaves sign-in plug-ins and TeamViewer's parts to
+  their makers' uninstallers.
+- Stops an app's own background programs when they keep it from moving, and says who holds anything that stays.
 
 ### Fixed
 
 - Many smaller fixes: Peel never moves the folder it runs from, and never asks to quit what you can't quit.
 - No longer points to an app's leftovers when another copy of the app is still installed.
+- Counts and moves once an item selected on two pages, and lists a leftover file once.
+- Counts a project once, with what Python leaves in each of its packages, instead of each package as a project of its
+  own.
+- Tells you about an app you threw away even while Peel still lists it.
+- Hears its helper's answer even while Peel is busy.
 
 ## 1.0.1 (2026-10-08)
 
