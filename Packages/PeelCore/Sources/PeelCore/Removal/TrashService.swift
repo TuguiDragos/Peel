@@ -335,6 +335,12 @@ public struct TrashService: Sendable {
     /// False while the saved exclusions are not read yet or cannot be read, when nothing moves.
     public var knowsTheExclusions: Bool { removalGuard.knowsTheExclusions }
 
+    /// Why every move would be refused now, whatever it is asked to move, or nil when a move may go ahead.
+    public var refusalOfEveryMove: TrashFailure.Reason? {
+        guard knowsTheExclusions else { return .guarded(.exclusionsNotKnown) }
+        return historyCanBeRead ? nil : .historyUnreadable
+    }
+
     /// Why `url` would not move, or nil when it would. A plan can show this before anything moves, since the move
     /// asks the same guard.
     public func refusal(of url: URL) -> TrashFailure.Reason? {

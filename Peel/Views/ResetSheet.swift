@@ -92,6 +92,8 @@ struct ResetSheet: View {
             header
                 .listRowSeparator(.hidden)
 
+            RemovalsHeldBanner()
+
             if plan.needsFullDiskAccess {
                 FullDiskAccessBanner()
             }
@@ -221,7 +223,10 @@ struct ResetSheet: View {
             // something.
             Button("Reset") { isConfirming = true }
                 .buttonStyle(.borderedProminent)
-                .disabled(!plan.hasAnythingToReset || plan.isResetting || plan.isAppRunning)
+                .disabled(
+                    !plan.hasAnythingToReset || plan.isResetting || plan.isAppRunning
+                        || !exclusions.exclusions.isKnown || history.isUnreadable
+                )
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)

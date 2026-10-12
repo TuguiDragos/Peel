@@ -399,4 +399,47 @@ struct AppResetTests {
         #expect(!outcome.clearedSettings)
         #expect(outcome.settingsToPutBack == nil)
     }
+
+    @Test func aResetStartsNothingWhileEveryMoveWouldBeRefused() async throws {
+        let directory = try TemporaryDirectory()
+        let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let history = try directory.directory("Library/Application Support/Peel/removals.json")
+        let environment = home(directory)
+        let trash = try directory.directory("Trash")
+        let services: [(TrashService, TrashFailure.Reason)] = [
+            (.unreadable, nil, .guarded(.exclusionsNotKnown)),
+            (.notYetRead, nil, .guarded(.exclusionsNotKnown)),
+            (.none, RemovalJournal(beside: history), .historyUnreadable),
+        ].map { exclusions, journal, reason in
+            let service = TrashService(environment: environment, exclusions: exclusions, journal: journal) { url in
+                let destination = trash.appending(path: url.lastPathComponent)
+                try FileManager.default.moveItem(at: url, to: destination)
+                return destination
+            }
+            return (service, reason)
+        }
+
+        for (service, reason) in services {
+            let steps = Mutex<[String]>([])
+            let outcome = await reset.run(
+                reset.suggestedSelection,
+                resettingPrivacy: true,
+                through: service,
+                isOpen: { false },
+                save: { _ in
+                    steps.withLock { $0.append("copy") }
+                    return .nothingToSave
+                },
+                resetPrivacy: { _ in
+                    steps.withLock { $0.append("privacy") }
+                    return .reset
+                }
+            )
+
+            #expect(outcome.stop == .removalsHeld(reason))
+            #expect(steps.withLock { $0 }.isEmpty)
+        }
+        #expect(settings.isThere)
+    }
 }

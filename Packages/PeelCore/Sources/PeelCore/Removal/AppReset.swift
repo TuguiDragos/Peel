@@ -81,6 +81,7 @@ public struct AppReset: Sendable {
     /// What a reset did, or why it did nothing.
     public struct Outcome: Sendable {
         public enum Stop: Sendable, Equatable {
+            case removalsHeld(TrashFailure.Reason)
             case settingsNotSaved
             case appOpened
         }
@@ -97,8 +98,8 @@ public struct AppReset: Sendable {
     }
 
     /// Copies the settings in `selection`, asks again whether the app is open, since the copy takes a moment, then
-    /// moves the selection to the Trash and resets the privacy permissions when asked. Nothing moves when the copy
-    /// fails or the app opened meanwhile, and the copy then stays.
+    /// moves the selection to the Trash and resets the privacy permissions when asked. Nothing starts while every move
+    /// would be refused, and nothing moves when the copy fails or the app opened meanwhile, the copy then staying.
     @concurrent
     public func run(
         _ selection: Set<URL>,
@@ -126,6 +127,10 @@ public struct AppReset: Sendable {
         resetPrivacy: @Sendable (String) async -> PrivacyReset.Result
     ) async -> Outcome {
         var outcome = Outcome()
+        if let refusal = service.refusalOfEveryMove {
+            outcome.stop = .removalsHeld(refusal)
+            return outcome
+        }
         let urls = selected(selection)
         switch await save(urls) {
         case .failed:
