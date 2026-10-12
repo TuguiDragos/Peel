@@ -302,7 +302,7 @@ extension GuardRefusal {
         case .staysItself: "a folder that stays in place, though what is inside may go"
         case .protectedLocation: "part of macOS, or inside something Peel protects"
         case .holdsProtectedData: "holds something Peel protects, such as a keychain or a wallet"
-        case .inTheCloud: "syncs with iCloud or another cloud service, so moving it would remove it from every device"
+        case .inTheCloud: "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
         case .holdsDocuments: "holds an app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
@@ -348,7 +348,7 @@ extension HoldBack {
         case .keptByMacOS: "a cache macOS keeps for itself"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"
-        case .inTheCloud: "syncs with iCloud or another cloud service, so moving it would remove it from every device"
+        case .inTheCloud: "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
         case .openInAProgram: "open in a program right now, which may still be downloading it"
         case .changedRecently: "changed in the last day, so it may still be downloading"
         case .writtenRecently: "written to in the last 15 minutes, so a program may still be using it"
@@ -364,7 +364,7 @@ extension ProjectArtifacts.Refusal {
     var summary: String {
         switch self {
         case .tooBroad: "a whole home folder or disk is too much to search"
-        case .inTheCloud: "it is in a cloud folder, which Peel leaves to the app that syncs it"
+        case .inTheCloud: "it is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app"
         case .notAFolder: "it isn't a folder Peel can reach"
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
         case .neverSearched: "it is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one, where apps and tools keep what they install"

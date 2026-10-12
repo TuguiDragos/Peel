@@ -296,7 +296,7 @@ struct InstallersTests {
         let scan = await Installers.scan(
             installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
             measure: LeftoverScanner.walk,
-            isInTheCloud: { PathPattern.comparablePath(of: $0.deletingLastPathComponent()) == documents }
+            syncsToOtherDevices: { PathPattern.comparablePath(of: $0.deletingLastPathComponent()) == documents }
         )
 
         let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
@@ -305,6 +305,23 @@ struct InstallersTests {
         #expect(heldBack["Other-3.dmg"] == .some(nil))
         let selectable = scan.items.selectableRows(canUseHelper: true).selectable
         #expect(Set(scan.items.filter { selectable.contains($0.url) }.map(\.name)) == ["Other-3.dmg"])
+    }
+
+
+    @Test func anInstallerInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Documents/.stfolder")
+        try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
+        try directory.file("Downloads/Other-3.dmg", bytes: 400_000)
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk
+        )
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(heldBack["Tool-2.dmg"] == .inTheCloud)
+        #expect(heldBack["Other-3.dmg"] == .some(nil))
     }
 
     /// An item only an administrator can move goes through the helper, which takes a macOS installer from

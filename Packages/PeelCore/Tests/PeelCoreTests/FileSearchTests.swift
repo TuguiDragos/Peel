@@ -129,7 +129,7 @@ struct FileSearchTests {
         let synced = try directory.file("home/Documents/Report.pdf", bytes: 9_000)
         let local = try directory.file("home/Downloads/Setup.dmg", bytes: 1_000)
         let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
-        let guardian = RemovalGuard(environment: environment, isInTheCloud: { $0.lastPathComponent == "Report.pdf" })
+        let guardian = RemovalGuard(environment: environment, syncsToOtherDevices: { $0.lastPathComponent == "Report.pdf" })
 
         let results = FileSearch.results(
             from: [synced, local].map { $0.path(percentEncoded: false) },

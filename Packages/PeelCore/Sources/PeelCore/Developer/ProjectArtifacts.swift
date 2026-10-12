@@ -906,6 +906,7 @@ public enum ProjectArtifacts {
             FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: root), isDirectory: &isDirectory)
             && isDirectory.boolValue
         guard isThere else { return .notAFolder }
+        if SyncedFolders().syncsToOtherDevices(root) { return .inTheCloud }
         if root.isOrIsInsideAPackage { return .inAPackage }
         return PathComponents.of(kernelName).contains(where: isSkipped) ? .neverSearched : nil
     }
@@ -1071,6 +1072,8 @@ public enum ProjectArtifacts {
     /// Lists `folder` and finds the artifacts in it, or nil when it cannot be listed.
     private static func look(in folder: URL, exclusions: Exclusions, listing: (URL) -> [URL]?) -> Look? {
         guard let entries = listing(folder) else { return nil }
+        // What a folder another app keeps in step holds would go from the other devices too.
+        guard !SyncedFolders.marksAFolder(entries) else { return Look(entries: [], found: []) }
         let names = Set(entries.map(\.lastPathComponent))
         var artifactNames: Set<String> = []
         var found: [Found] = []

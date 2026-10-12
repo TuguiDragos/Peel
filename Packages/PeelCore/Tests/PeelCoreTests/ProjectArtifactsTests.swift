@@ -1177,6 +1177,24 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/does-not-exist")) == .notAFolder)
     }
 
+
+    @Test func leavesWhatASyncAppKeepsInStep() async throws {
+        let directory = try TemporaryDirectory()
+        for project in ["Code/kept", "Code/synced", "Shared/app"] {
+            try directory.file("\(project)/package.json")
+            try directory.file("\(project)/node_modules/left/index.js")
+        }
+        try directory.directory("Code/synced/.stfolder")
+        try directory.file("Shared/.megaignore")
+        let code = directory.url.appending(path: "Code", directoryHint: .isDirectory)
+        let shared = directory.url.appending(path: "Shared/app", directoryHint: .isDirectory)
+
+        let scan = await ProjectArtifacts.scan(roots: [code, shared])
+
+        #expect(scan.artifacts.map(\.project.lastPathComponent) == ["kept"])
+        #expect(scan.refusedRoots.map { $0.reason } == [.inTheCloud])
+    }
+
     @Test func findsEveryKindItKnowsInAProjectOfItsOwn() async throws {
         let directory = try TemporaryDirectory()
         var expected: [String: String] = [:]

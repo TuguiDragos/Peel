@@ -48,13 +48,13 @@ public struct DuplicateFinder: Sendable {
 
     /// Whether `folder` may be scanned: a folder in the home folder, in `/Users/Shared`, or on another writable
     /// volume. App data, system locations, and places whose files cannot be brought back are refused, such as
-    /// iCloud Drive, where a removal reaches every device.
+    /// iCloud Drive or a folder another app keeps in step, where a removal reaches every device.
     public func canScan(_ folder: URL) -> Bool {
         let path = Self.path(of: folder.resolvingSymlinksInPath())
         let home = Self.path(of: homeDirectory)
-        guard !ProtectedData.refuses(path, home: home), !folder.isInTheCloud, !folder.isOrIsInsideAPackage else {
-            return false
-        }
+        guard !ProtectedData.refuses(path, home: home), !SyncedFolders().syncsToOtherDevices(folder),
+              !folder.isOrIsInsideAPackage
+        else { return false }
         if path.isInside(home) {
             return !Self.managedFolders.contains { path.isInside(home + "/" + $0) }
         }

@@ -23947,108 +23947,108 @@
         }
       }
     },
-    "Choose a folder in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive, app data, the Music and TV apps’ media folders, and system folders aren’t scanned.\n\n%@" : {
+    "Choose a folder in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive and other folders that sync to your other devices, app data, the Music and TV apps’ media folders, and system folders aren’t scanned.\n\n%@" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zvolte složku ve své domovské složce, ve složce /Users/Shared nebo na disku, na který může Peel zapisovat. iCloud Drive, data aplikací, složky médií aplikací Hudba a TV a systémové složky se neprohledávají.\n\n%@"
+            "value" : "Zvolte složku ve své domovské složce, ve složce /Users/Shared nebo na disku, na který může Peel zapisovat. iCloud Drive a další složky, které se synchronizují s vašimi ostatními zařízeními, data aplikací, složky médií aplikací Hudba a TV a systémové složky se neprohledávají.\n\n%@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wähle einen Ordner in deinem Benutzerordner, in /Users/Shared oder auf einem Volume, auf das Peel schreiben kann. iCloud Drive, App-Daten, die Medienordner der Apps „Musik“ und „TV“ sowie Systemordner werden nicht gescannt.\n\n%@"
+            "value" : "Wähle einen Ordner in deinem Benutzerordner, in /Users/Shared oder auf einem Volume, auf das Peel schreiben kann. iCloud Drive und andere Ordner, die mit deinen anderen Geräten synchronisiert werden, App-Daten, die Medienordner der Apps „Musik“ und „TV“ sowie Systemordner werden nicht gescannt.\n\n%@"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elige una carpeta que esté en tu carpeta de inicio, en /Users/Shared o en un disco en el que Peel pueda escribir. No se analizan iCloud Drive, los datos de las apps, las carpetas multimedia de las apps Música y TV ni las carpetas del sistema.\n\n%@"
+            "value" : "Elige una carpeta que esté en tu carpeta de inicio, en /Users/Shared o en un disco en el que Peel pueda escribir. No se analizan iCloud Drive, las demás carpetas que se sincronizan con tus otros dispositivos, los datos de las apps, las carpetas multimedia de las apps Música y TV ni las carpetas del sistema.\n\n%@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choisissez un dossier situé dans votre dossier de départ, dans /Users/Shared ou sur un disque où Peel peut écrire. iCloud Drive, les données des apps, les dossiers multimédias des apps Musique et TV, et les dossiers système ne sont pas analysés.\n\n%@"
+            "value" : "Choisissez un dossier situé dans votre dossier de départ, dans /Users/Shared ou sur un disque où Peel peut écrire. iCloud Drive et les autres dossiers synchronisés avec vos autres appareils, les données des apps, les dossiers multimédias des apps Musique et TV, et les dossiers système ne sont pas analysés.\n\n%@"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli una cartella nella tua cartella Inizio, in /Users/Shared o in un disco su cui Peel può scrivere. iCloud Drive, i dati delle app, le cartelle multimediali delle app Musica e TV e le cartelle di sistema non vengono analizzati.\n\n%@"
+            "value" : "Scegli una cartella nella tua cartella Inizio, in /Users/Shared o in un disco su cui Peel può scrivere. iCloud Drive e le altre cartelle che si sincronizzano con gli altri tuoi dispositivi, i dati delle app, le cartelle multimediali delle app Musica e TV e le cartelle di sistema non vengono analizzati.\n\n%@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ホームフォルダ、/Users/Shared、またはPeelが書き込めるディスクにあるフォルダを選択してください。iCloud Drive、アプリのデータ、ミュージックアプリとTVアプリのメディアフォルダ、システムフォルダはスキャンしません。\n\n%@"
+            "value" : "ホームフォルダ、/Users/Shared、またはPeelが書き込めるディスクにあるフォルダを選択してください。iCloud Drive、ほかのデバイスに同期されているその他のフォルダ、アプリのデータ、ミュージックアプリとTVアプリのメディアフォルダ、システムフォルダはスキャンしません。\n\n%@"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "홈 폴더, /Users/Shared 또는 Peel이 쓸 수 있는 디스크에 있는 폴더를 선택하십시오. iCloud Drive, 앱 데이터, 음악 앱과 TV 앱의 미디어 폴더, 시스템 폴더는 스캔하지 않습니다.\n\n%@"
+            "value" : "홈 폴더, /Users/Shared 또는 Peel이 쓸 수 있는 디스크에 있는 폴더를 선택하십시오. 다른 기기와 동기화되는 iCloud Drive 및 기타 폴더, 앱 데이터, 음악 앱과 TV 앱의 미디어 폴더, 시스템 폴더는 스캔하지 않습니다.\n\n%@"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies een map in je thuismap, in /Users/Shared of op een schijf waarop Peel kan schrijven. iCloud Drive, appgegevens, de mediamappen van de apps Muziek en TV en systeemmappen worden niet gescand.\n\n%@"
+            "value" : "Kies een map in je thuismap, in /Users/Shared of op een schijf waarop Peel kan schrijven. iCloud Drive en andere mappen die met je andere apparaten worden gesynchroniseerd, appgegevens, de mediamappen van de apps Muziek en TV en systeemmappen worden niet gescand.\n\n%@"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wybierz folder w swoim folderze domowym, w /Users/Shared lub na dysku, na którym Peel może zapisywać. iCloud Drive, dane aplikacji, foldery multimediów aplikacji Muzyka i TV oraz foldery systemowe nie są skanowane.\n\n%@"
+            "value" : "Wybierz folder w swoim folderze domowym, w /Users/Shared lub na dysku, na którym Peel może zapisywać. iCloud Drive i inne foldery synchronizowane z Twoimi pozostałymi urządzeniami, dane aplikacji, foldery multimediów aplikacji Muzyka i TV oraz foldery systemowe nie są skanowane.\n\n%@"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escolha uma pasta dentro da sua pasta pessoal, em /Users/Shared ou em um disco no qual o Peel possa gravar. O iCloud Drive, os dados de apps, as pastas de mídia dos apps Música e TV e as pastas do sistema não são analisados.\n\n%@"
+            "value" : "Escolha uma pasta dentro da sua pasta pessoal, em /Users/Shared ou em um disco no qual o Peel possa gravar. O iCloud Drive e outras pastas sincronizadas com os seus outros dispositivos, os dados de apps, as pastas de mídia dos apps Música e TV e as pastas do sistema não são analisados.\n\n%@"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alegeți un dosar din dosarul dvs. de reședință, din /Users/Shared sau de pe un disc pe care Peel poate scrie. iCloud Drive, datele aplicațiilor, dosarele media ale aplicațiilor Muzică și TV și dosarele de sistem nu sunt scanate.\n\n%@"
+            "value" : "Alegeți un dosar din dosarul dvs. de reședință, din /Users/Shared sau de pe un disc pe care Peel poate scrie. iCloud Drive și alte dosare care se sincronizează pe celelalte dispozitive ale dvs., datele aplicațiilor, dosarele media ale aplicațiilor Muzică și TV și dosarele de sistem nu sunt scanate.\n\n%@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите папку внутри Вашей папки пользователя, в /Users/Shared или на диске, куда Peel может записывать. iCloud Drive, данные приложений, папки медиафайлов приложений «Музыка» и «TV», а также системные папки не сканируются.\n\n%@"
+            "value" : "Выберите папку внутри Вашей папки пользователя, в /Users/Shared или на диске, куда Peel может записывать. iCloud Drive и другие папки, которые синхронизируются с другими Вашими устройствами, данные приложений, папки медиафайлов приложений «Музыка» и «TV», а также системные папки не сканируются.\n\n%@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Välj en mapp i din hemmapp, i /Users/Shared eller på en skiva som Peel kan skriva till. iCloud Drive, appdata, mediemapparna för apparna Musik och TV samt systemmappar skannas inte.\n\n%@"
+            "value" : "Välj en mapp i din hemmapp, i /Users/Shared eller på en skiva som Peel kan skriva till. iCloud Drive och andra mappar som synkroniseras till dina andra enheter, appdata, mediemapparna för apparna Musik och TV samt systemmappar skannas inte.\n\n%@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ana klasörünüzde, /Users/Shared içinde veya Peel’in yazabildiği bir diskte bir klasör seçin. iCloud Drive, uygulama verileri, Müzik ve TV uygulamalarının ortam klasörleri ve sistem klasörleri taranmaz.\n\n%@"
+            "value" : "Ana klasörünüzde, /Users/Shared içinde veya Peel’in yazabildiği bir diskte bir klasör seçin. iCloud Drive, diğer aygıtlarınızla eşzamanlanan başka klasörler, uygulama verileri, Müzik ve TV uygulamalarının ortam klasörleri ve sistem klasörleri taranmaz.\n\n%@"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Виберіть папку у своїй Домівці, у /Users/Shared або на диску, на який Peel може записувати. iCloud Drive, дані програм, папки з медіафайлами програм «Музика» і «TV» та системні папки не скануються.\n\n%@"
+            "value" : "Виберіть папку у своїй Домівці, у /Users/Shared або на диску, на який Peel може записувати. iCloud Drive та інші папки, які синхронізуються з іншими вашими пристроями, дані програм, папки з медіафайлами програм «Музика» і «TV» та системні папки не скануються.\n\n%@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请选取位于你的个人文件夹、/Users/Shared或Peel可写入的磁盘中的文件夹。iCloud云盘、App数据、“音乐”和“TV”App的媒体文件夹以及系统文件夹都不会被扫描。\n\n%@"
+            "value" : "请选取位于你的个人文件夹、/Users/Shared或Peel可写入的磁盘中的文件夹。iCloud云盘和其他同步到你的其他设备的文件夹、App数据、“音乐”和“TV”App的媒体文件夹以及系统文件夹都不会被扫描。\n\n%@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "請選擇個人專屬檔案夾、/Users/Shared或Peel可寫入之磁碟中的檔案夾。「iCloud雲碟」、App資料、「音樂」和「TV」App的媒體檔案夾，以及系統檔案夾都不會掃描。\n\n%@"
+            "value" : "請選擇個人專屬檔案夾、/Users/Shared或Peel可寫入之磁碟中的檔案夾。「iCloud雲碟」和其他會與你的其他裝置同步的檔案夾、App資料、「音樂」和「TV」App的媒體檔案夾，以及系統檔案夾都不會掃描。\n\n%@"
           }
         }
       }
@@ -60785,108 +60785,108 @@
         }
       }
     },
-    "It is in iCloud Drive or another cloud folder, which Peel leaves to the app that syncs it." : {
+    "It is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je na iCloud Drivu nebo v jiné cloudové složce, kterou Peel přenechává aplikaci, jež ji synchronizuje."
+            "value" : "Je ve složce, která se synchronizuje přes iCloud nebo jinou aplikaci s vašimi ostatními zařízeními a kterou Peel přenechává této aplikaci."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieser Ordner liegt in iCloud Drive oder einem anderen Cloud-Ordner, den Peel der App überlässt, die ihn synchronisiert."
+            "value" : "Dieser Ordner liegt in einem Ordner, der über iCloud oder eine andere App mit deinen anderen Geräten synchronisiert wird und den Peel dieser App überlässt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Está en iCloud Drive o en otra carpeta en la nube, que Peel deja en manos de la app que la sincroniza."
+            "value" : "Está en una carpeta que se sincroniza con tus otros dispositivos a través de iCloud o de otra app, y que Peel deja en manos de esa app."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il se trouve dans iCloud Drive ou dans un autre dossier dans le cloud, que Peel laisse à l’app qui le synchronise."
+            "value" : "Il se trouve dans un dossier synchronisé avec vos autres appareils via iCloud ou une autre app, que Peel laisse à cette app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si trova in iCloud Drive o in un’altra cartella cloud, che Peel lascia all’app che la sincronizza."
+            "value" : "Si trova in una cartella che si sincronizza con gli altri tuoi dispositivi tramite iCloud o un’altra app, e che Peel lascia a quell’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Driveまたはほかのクラウドフォルダにあり、Peelはそれを同期しているアプリに任せています。"
+            "value" : "iCloudまたはほかのアプリを通じてほかのデバイスに同期されているフォルダにあり、Peelはそれをそのアプリに任せています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive나 다른 클라우드 폴더에 있습니다. Peel은 이러한 폴더를 동기화하는 앱에 맡깁니다."
+            "value" : "iCloud나 다른 앱을 통해 다른 기기와 동기화되는 폴더에 있습니다. Peel은 이러한 폴더를 해당 앱에 맡깁니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het staat op iCloud Drive of in een andere cloudmap, die Peel overlaat aan de app die de map synchroniseert."
+            "value" : "Het staat in een map die wordt gesynchroniseerd met je andere apparaten via iCloud of een andere app, en die Peel overlaat aan die app."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jest na iCloud Drive lub w innym folderze w chmurze, który Peel zostawia aplikacji, która go synchronizuje."
+            "value" : "Jest w folderze synchronizowanym z Twoimi pozostałymi urządzeniami przez iCloud lub inną aplikację, który Peel zostawia tej aplikacji."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Está no iCloud Drive ou em outra pasta na nuvem, que o Peel deixa para o app que a sincroniza."
+            "value" : "Está em uma pasta que é sincronizada com os seus outros dispositivos por meio do iCloud ou de outro app, e o Peel a deixa para esse app."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se află pe iCloud Drive sau într‑un alt dosar din cloud, pe care Peel îl lasă în seama aplicației care îl sincronizează."
+            "value" : "Se află într‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. prin iCloud sau printr‑o altă aplicație, pe care Peel îl lasă în seama aplicației respective."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Эта папка находится в iCloud Drive или другой облачной папке, и Peel оставляет ее приложению, которое ее синхронизирует."
+            "value" : "Эта папка находится в папке, которая синхронизируется с другими Вашими устройствами через iCloud или другое приложение, и Peel оставляет ее этому приложению."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den ligger i iCloud Drive eller i en annan molnmapp, som Peel lämnar åt appen som synkroniserar den."
+            "value" : "Den ligger i en mapp som synkroniseras till dina andra enheter via iCloud eller en annan app, och som Peel lämnar åt den appen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive’da veya başka bir bulut klasöründe; Peel bunu, onu eşzamanlayan uygulamaya bırakır."
+            "value" : "iCloud veya başka bir uygulama aracılığıyla diğer aygıtlarınızla eşzamanlanan bir klasörde; Peel bunu o uygulamaya bırakır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Папка лежить в iCloud Drive або в іншій хмарній папці, а такі папки Peel залишає програмі, яка їх синхронізує."
+            "value" : "Папка лежить у папці, яка синхронізується з іншими вашими пристроями через iCloud або іншу програму, а таку папку Peel залишає тій програмі."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它位于iCloud云盘或其他云文件夹中，Peel会将其交给负责同步的App处理。"
+            "value" : "它位于一个通过iCloud或其他App同步到你的其他设备的文件夹中，Peel会将其交给该App处理。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它位於「iCloud雲碟」或其他雲端檔案夾中，Peel會交由負責同步的App處理。"
+            "value" : "它位於會透過iCloud或其他App與你的其他裝置同步的檔案夾中，Peel會交由該App處理。"
           }
         }
       }
@@ -69421,108 +69421,108 @@
         }
       }
     },
-    "Left alone: this syncs with iCloud or another cloud service, and moving it to the Trash would also remove it from the cloud and from your other devices." : {
+    "Left alone: this syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nedotčeno: tato položka se synchronizuje s iCloudem nebo jinou cloudovou službou a přesunutím do koše byste ji odstranili také z cloudu i z vašich ostatních zařízení."
+            "value" : "Nedotčeno: tato položka se synchronizuje přes iCloud nebo jinou aplikaci s vašimi ostatními zařízeními a přesunutím do koše byste ji odstranili také z nich."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unangetastet: Dieses Objekt wird mit iCloud oder einem anderen Cloud-Dienst synchronisiert, und es in den Papierkorb zu legen, würde es auch aus der Cloud und von deinen anderen Geräten entfernen."
+            "value" : "Unangetastet: Dieses Objekt wird über iCloud oder eine andere App mit deinen anderen Geräten synchronisiert, und es in den Papierkorb zu legen, würde es auch von ihnen entfernen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No se toca: se sincroniza con iCloud o con otro servicio en la nube, y trasladarlo a la papelera también lo eliminaría de la nube y de tus otros dispositivos."
+            "value" : "No se toca: se sincroniza con tus otros dispositivos a través de iCloud o de otra app, y trasladarlo a la papelera también lo eliminaría de ellos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laissé en place : cet élément est synchronisé avec iCloud ou avec un autre service de cloud, et le placer dans la corbeille le supprimerait aussi du cloud et de vos autres appareils."
+            "value" : "Laissé en place : cet élément est synchronisé avec vos autres appareils via iCloud ou une autre app, et le placer dans la corbeille le supprimerait aussi de ces appareils."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resta dov’è: si sincronizza con iCloud o con un altro servizio cloud, e spostarlo nel Cestino lo rimuoverebbe anche dal cloud e dagli altri tuoi dispositivi."
+            "value" : "Resta dov’è: si sincronizza con gli altri tuoi dispositivi tramite iCloud o un’altra app, e spostarlo nel Cestino lo rimuoverebbe anche da quei dispositivi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "対象外: これはiCloudまたはほかのクラウドサービスと同期されているため、ゴミ箱に入れると、クラウドからも、ほかのデバイスからも削除されます。"
+            "value" : "対象外: これはiCloudまたはほかのアプリを通じてほかのデバイスに同期されているため、ゴミ箱に入れると、それらのデバイスからも削除されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "그대로 둠: 이 항목은 iCloud나 다른 클라우드 서비스와 동기화되며, 휴지통으로 이동하면 클라우드는 물론 다른 기기에서도 삭제됩니다."
+            "value" : "그대로 둠: 이 항목은 iCloud나 다른 앱을 통해 다른 기기와 동기화되며, 휴지통으로 이동하면 해당 기기에서도 삭제됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blijft staan: dit wordt gesynchroniseerd met iCloud of een andere cloudvoorziening, en als je het naar de prullenmand verplaatst, verdwijnt het ook uit de cloud en van je andere apparaten."
+            "value" : "Blijft staan: dit wordt gesynchroniseerd met je andere apparaten via iCloud of een andere app, en als je het naar de prullenmand verplaatst, verdwijnt het ook van die apparaten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nietknięte: jest synchronizowane z iCloud lub z inną usługą w chmurze, a po przeniesieniu do Kosza zostałoby usunięte także z chmury i z Twoich pozostałych urządzeń."
+            "value" : "Nietknięte: jest synchronizowane z Twoimi pozostałymi urządzeniami przez iCloud lub inną aplikację, a po przeniesieniu do Kosza zostałoby usunięte także z nich."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preservado: este item é sincronizado com o iCloud ou com outro serviço de nuvem, e movê-lo para o Lixo também o removeria da nuvem e dos seus outros dispositivos."
+            "value" : "Preservado: este item é sincronizado com os seus outros dispositivos por meio do iCloud ou de outro app, e movê-lo para o Lixo também o removeria deles."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lăsat neatins: acest articol se sincronizează cu iCloud sau cu un alt serviciu cloud, iar mutarea lui în Coș l‑ar elimina și din cloud, și de pe celelalte dispozitive ale dvs."
+            "value" : "Lăsat neatins: acest articol se sincronizează pe celelalte dispozitive ale dvs. prin iCloud sau printr‑o altă aplicație, iar mutarea lui în Coș l‑ar elimina și de pe acestea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Остается на месте: этот объект синхронизируется с iCloud или другой облачной службой, и, если переместить его в Корзину, он будет удален также из облака и с других Ваших устройств."
+            "value" : "Остается на месте: этот объект синхронизируется с другими Вашими устройствами через iCloud или другое приложение, и, если переместить его в Корзину, он будет удален также с этих устройств."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rörs inte: det här synkroniseras med iCloud eller en annan molntjänst, och om det flyttades till papperskorgen skulle det också tas bort från molnet och från dina andra enheter."
+            "value" : "Rörs inte: det här synkroniseras till dina andra enheter via iCloud eller en annan app, och om det flyttades till papperskorgen skulle det också tas bort från dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yerinde kalır: bu, iCloud veya başka bir bulut servisiyle eşzamanlanıyor ve Çöp Sepeti’ne taşınırsa buluttan ve diğer aygıtlarınızdan da silinir."
+            "value" : "Yerinde kalır: bu, iCloud veya başka bir uygulama aracılığıyla diğer aygıtlarınızla eşzamanlanıyor ve Çöp Sepeti’ne taşınırsa onlardan da silinir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лишається на місці: цей елемент синхронізується з iCloud або іншою хмарною службою, і переміщення в Смітник також прибрало б його з хмари й з інших ваших пристроїв."
+            "value" : "Лишається на місці: цей елемент синхронізується з іншими вашими пристроями через iCloud або іншу програму, і переміщення в Смітник також прибрало б його з них."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "留在原处：此项与iCloud或其他云服务同步，如果将它移到废纸篓，它也会从云端和你的其他设备中删除。"
+            "value" : "留在原处：此项通过iCloud或其他App同步到你的其他设备，如果将它移到废纸篓，它也会从这些设备中删除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "原地保留：此項目會與iCloud或其他雲端服務同步，丟到「垃圾桶」也會將它從雲端和你的其他裝置上移除。"
+            "value" : "原地保留：此項目會透過iCloud或其他App與你的其他裝置同步，丟到「垃圾桶」也會將它從這些裝置上移除。"
           }
         }
       }
@@ -115987,108 +115987,108 @@
         }
       }
     },
-    "Peel won’t move this: it syncs with iCloud or another cloud service, and moving it to the Trash would also remove it from the cloud and from your other devices." : {
+    "Peel won’t move this: it syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tuto položku nepřesune: synchronizuje se s iCloudem nebo jinou cloudovou službou a přesunutím do koše byste ji odstranili také z cloudu i z vašich ostatních zařízení."
+            "value" : "Peel tuto položku nepřesune: synchronizuje se přes iCloud nebo jinou aplikaci s vašimi ostatními zařízeními a přesunutím do koše byste ji odstranili také z nich."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verschiebt dies nicht: Es wird mit iCloud oder einem anderen Cloud-Dienst synchronisiert, und es in den Papierkorb zu legen, würde es auch aus der Cloud und von deinen anderen Geräten entfernen."
+            "value" : "Peel verschiebt dies nicht: Es wird über iCloud oder eine andere App mit deinen anderen Geräten synchronisiert, und es in den Papierkorb zu legen, würde es auch von ihnen entfernen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no trasladará esto: se sincroniza con iCloud o con otro servicio en la nube, y trasladarlo a la papelera también lo eliminaría de la nube y de tus otros dispositivos."
+            "value" : "Peel no trasladará esto: se sincroniza con tus otros dispositivos a través de iCloud o de otra app, y trasladarlo a la papelera también lo eliminaría de ellos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel refuse de déplacer cet élément : il est synchronisé avec iCloud ou avec un autre service de cloud, et le placer dans la corbeille le supprimerait aussi du cloud et de vos autres appareils."
+            "value" : "Peel refuse de déplacer cet élément : il est synchronisé avec vos autres appareils via iCloud ou une autre app, et le placer dans la corbeille le supprimerait aussi de ces appareils."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non lo sposta: si sincronizza con iCloud o con un altro servizio cloud, e spostarlo nel Cestino lo rimuoverebbe anche dal cloud e dagli altri tuoi dispositivi."
+            "value" : "Peel non lo sposta: si sincronizza con gli altri tuoi dispositivi tramite iCloud o un’altra app, e spostarlo nel Cestino lo rimuoverebbe anche da quei dispositivi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはこれを移動しません。iCloudまたはほかのクラウドサービスと同期されているため、ゴミ箱に入れると、クラウドからも、ほかのデバイスからも削除されます。"
+            "value" : "Peelはこれを移動しません。iCloudまたはほかのアプリを通じてほかのデバイスに同期されているため、ゴミ箱に入れると、それらのデバイスからも削除されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 이 항목을 이동하지 않습니다. iCloud나 다른 클라우드 서비스와 동기화되며, 휴지통으로 이동하면 클라우드는 물론 다른 기기에서도 삭제되기 때문입니다."
+            "value" : "Peel이 이 항목을 이동하지 않습니다. iCloud나 다른 앱을 통해 다른 기기와 동기화되며, 휴지통으로 이동하면 해당 기기에서도 삭제되기 때문입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verplaatst dit niet: het wordt gesynchroniseerd met iCloud of een andere cloudvoorziening, en als je het naar de prullenmand verplaatst, verdwijnt het ook uit de cloud en van je andere apparaten."
+            "value" : "Peel verplaatst dit niet: het wordt gesynchroniseerd met je andere apparaten via iCloud of een andere app, en als je het naar de prullenmand verplaatst, verdwijnt het ook van die apparaten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tego nie przeniesie: jest synchronizowane z iCloud lub z inną usługą w chmurze, a po przeniesieniu do Kosza zostałoby usunięte także z chmury i z Twoich pozostałych urządzeń."
+            "value" : "Peel tego nie przeniesie: jest synchronizowane z Twoimi pozostałymi urządzeniami przez iCloud lub inną aplikację, a po przeniesieniu do Kosza zostałoby usunięte także z nich."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não vai mover isto: é sincronizado com o iCloud ou com outro serviço de nuvem, e movê-lo para o Lixo também o removeria da nuvem e dos seus outros dispositivos."
+            "value" : "O Peel não vai mover isto: é sincronizado com os seus outros dispositivos por meio do iCloud ou de outro app, e movê-lo para o Lixo também o removeria deles."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu mută acest articol: se sincronizează cu iCloud sau cu un alt serviciu cloud, iar mutarea lui în Coș l‑ar elimina și din cloud, și de pe celelalte dispozitive ale dvs."
+            "value" : "Peel nu mută acest articol: se sincronizează pe celelalte dispozitive ale dvs. prin iCloud sau printr‑o altă aplicație, iar mutarea lui în Coș l‑ar elimina și de pe acestea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не будет это перемещать: объект синхронизируется с iCloud или другой облачной службой, и, если переместить его в Корзину, он будет удален также из облака и с других Ваших устройств."
+            "value" : "Peel не будет это перемещать: объект синхронизируется с другими Вашими устройствами через iCloud или другое приложение, и, если переместить его в Корзину, он будет удален также с этих устройств."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel flyttar inte det här: det synkroniseras med iCloud eller en annan molntjänst, och om det flyttades till papperskorgen skulle det också tas bort från molnet och från dina andra enheter."
+            "value" : "Peel flyttar inte det här: det synkroniseras till dina andra enheter via iCloud eller en annan app, och om det flyttades till papperskorgen skulle det också tas bort från dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bunu taşımaz: iCloud veya başka bir bulut servisiyle eşzamanlanıyor ve Çöp Sepeti’ne taşınırsa buluttan ve diğer aygıtlarınızdan da silinir."
+            "value" : "Peel bunu taşımaz: iCloud veya başka bir uygulama aracılığıyla diğer aygıtlarınızla eşzamanlanıyor ve Çöp Sepeti’ne taşınırsa onlardan da silinir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не перемістить це: елемент синхронізується з iCloud або іншою хмарною службою, і переміщення в Смітник також прибрало б його з хмари й з інших ваших пристроїв."
+            "value" : "Peel не перемістить це: елемент синхронізується з іншими вашими пристроями через iCloud або іншу програму, і переміщення в Смітник також прибрало б його з них."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不会移动此项：它与iCloud或其他云服务同步，如果将它移到废纸篓，它也会从云端和你的其他设备中删除。"
+            "value" : "Peel不会移动此项：它通过iCloud或其他App同步到你的其他设备，如果将它移到废纸篓，它也会从这些设备中删除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不會移動此項目：它會與iCloud或其他雲端服務同步，丟到「垃圾桶」也會將它從雲端和你的其他裝置上移除。"
+            "value" : "Peel不會移動此項目：它會透過iCloud或其他App與你的其他裝置同步，丟到「垃圾桶」也會將它從這些裝置上移除。"
           }
         }
       }

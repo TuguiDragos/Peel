@@ -616,7 +616,7 @@ struct AttackRemovalGuardTests {
         let synced: Set = ["Report.pdf", "Trip", "Notes.txt"]
         let guardian = RemovalGuard(
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")),
-            isInTheCloud: { synced.contains($0.lastPathComponent) }
+            syncsToOtherDevices: { synced.contains($0.lastPathComponent) }
         )
         let (device, number) = try #require(inode(file.path(percentEncoded: false)))
 
@@ -625,6 +625,25 @@ struct AttackRemovalGuardTests {
         #expect(guardian.refusal(of: URL(filePath: "/.vol/\(device)/\(number)")) == .inTheCloud, "asked by its numbers")
         #expect(guardian.refusal(of: local) == nil)
         #expect(guardian.allowsPuttingBack(trashed, at: home.appending(path: "Desktop/Notes.txt")))
+    }
+
+
+    @Test func whatAFolderASyncAppKeepsInStepHoldsStaysToo() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("home/Sync/.stfolder")
+        let file = try directory.file("home/Sync/Photos/Beach.jpg")
+        let twin = try directory.file("home/Local/Photos/Beach.jpg")
+        let trashed = try directory.file("home/.Trash/Shells.jpg")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        #expect(guardian.refusal(of: file) == .inTheCloud)
+        #expect(guardian.refusal(of: file.deletingLastPathComponent()) == .inTheCloud)
+        #expect(guardian.refusal(of: home.appending(path: "Sync", directoryHint: .isDirectory)) == .inTheCloud)
+        #expect(guardian.refusal(of: twin) == nil)
+        #expect(guardian.allowsPuttingBack(trashed, at: file.deletingLastPathComponent().appending(path: "Shells.jpg")))
     }
 
     /// The guard refuses what is inside a container's `Data/Documents`, where a sandboxed app keeps what its

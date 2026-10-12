@@ -1148,12 +1148,32 @@ struct LeftoverScannerTests {
                 match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
                 parent: ParentAccess(url.deletingLastPathComponent()),
                 home: directory.url.appending(path: "home").path(percentEncoded: false),
-                isInTheCloud: { $0.lastPathComponent == "Example" }
+                syncsToOtherDevices: { $0.lastPathComponent == "Example" }
             )
         }
 
         #expect(await leftover(synced).match.heldBack == .inTheCloud)
         #expect(await leftover(synced).match.heldBack?.cannotBeMoved == true)
+        #expect(await leftover(local).match.heldBack == nil)
+    }
+
+
+    @Test func aLeftoverInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Projects/.megaignore")
+        let synced = try directory.directory("home/Projects/Example")
+        let local = try directory.directory("home/Other/Example")
+        func leftover(_ url: URL) async -> Leftover {
+            await LeftoverScanner.leftover(
+                at: url,
+                kind: .elsewhere,
+                match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
+                parent: ParentAccess(url.deletingLastPathComponent()),
+                home: directory.url.appending(path: "home").path(percentEncoded: false)
+            )
+        }
+
+        #expect(await leftover(synced).match.heldBack == .inTheCloud)
         #expect(await leftover(local).match.heldBack == nil)
     }
 

@@ -74,7 +74,8 @@ Tests enforce these rules. If a change makes one of them fail, the rule is right
   `HOMEBREW_NO_INSTALL_CLEANUP`, so an upgrade never cleans up on its own, and when a `brew.env` file turns that back
   on (`Homebrew.overrides()`), Peel leaves upgrades to Terminal.
 - **`RemovalGuard` refuses what nothing can bring back**, in every account on the Mac: iCloud Drive and other cloud
-  storage, the Trash itself, keychains and the keys and credentials `ProtectedData.homeKeys` names, the wallet keys
+  storage, the folders another app keeps in step with other devices (`SyncedFolders`), the Trash itself, keychains
+  and the keys and credentials `ProtectedData.homeKeys` names, the wallet keys
   `ProtectedData.walletKeys` names, a browser profile holding a wallet extension's vault, Mail, Messages, Safari,
   Contacts, Calendars and Apple's other stores of personal data, every group container of Apple's own, work not
   saved yet, photo, music, and video libraries, a sandboxed app's `Documents`, the folders every account starts

@@ -75,9 +75,11 @@ library along, and the row says so instead of failing when you press the button.
 wallet in it stays the same way, and so does a folder that holds one a level or two down: see
 [Crypto wallets](#crypto-wallets).
 
-Anything that syncs to iCloud or another cloud service stays too, wherever it is, such as what is on your Desktop and
-in Documents when they are in iCloud Drive: the Trash would take it from the cloud and from your other devices. Its
-row says so, and File Search doesn't list it.
+Anything that syncs to your other devices stays too, wherever it is: what iCloud or another cloud service keeps, such
+as what is on your Desktop and in Documents when they are in iCloud Drive, and what is in a folder Syncthing, Resilio
+Sync, Synology Drive Client, or MEGA keeps in step, known by the entry each writes at that folder's root (`.stfolder`,
+`.sync/ID`, `.SynologyWorkingDirectory`, `.megaignore`). The Trash would take it from your other devices too. Its row
+says so, and File Search doesn't list it.
 
 Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android
 Studio record your unsaved edits in `LocalHistory`, beside their caches, and Deno keeps `localStorage` and its

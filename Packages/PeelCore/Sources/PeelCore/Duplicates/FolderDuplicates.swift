@@ -166,6 +166,11 @@ struct FolderDuplicates: Sendable {
             folder.isProject = true
             return folder
         }
+        // What a folder another app keeps in step holds would go from the other devices too.
+        guard !SyncedFolders.marksAFolder(contents.entries) else {
+            folder.isWhole = false
+            return folder
+        }
 
         for entry in contents.entries {
             switch autoreleasepool(invoking: { look(at: entry, isNeverOffered: isNeverOffered) }) {

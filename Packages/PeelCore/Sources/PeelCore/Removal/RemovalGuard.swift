@@ -14,7 +14,8 @@ public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
     case protectedLocation
     /// Something Peel protects is inside, such as a keychain, a wallet's keys, or a browser profile with a wallet.
     case holdsProtectedData
-    /// It syncs to the cloud (`isUbiquitousItem`), as Desktop and Documents do in iCloud Drive.
+    /// It syncs to the person's other devices, through iCloud or File Provider or in a folder another app keeps in
+    /// step (`SyncedFolders`), as Desktop and Documents do in iCloud Drive.
     case inTheCloud
     /// A sandboxed app's documents are inside.
     case holdsDocuments
@@ -59,7 +60,7 @@ struct RemovalGuard: Sendable {
     private let protectedTrees: [[String]]
     private let protectedObjects: ProtectedObjects
     private let exclusions: Exclusions
-    private let isInTheCloud: @Sendable (URL) -> Bool
+    private let syncsToOtherDevices: @Sendable (URL) -> Bool
 
     var knowsTheExclusions: Bool { exclusions.isKnown }
     private let home: String
@@ -67,10 +68,10 @@ struct RemovalGuard: Sendable {
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
-        isInTheCloud: @escaping @Sendable (URL) -> Bool = { $0.isInTheCloud }
+        syncsToOtherDevices: @escaping @Sendable (URL) -> Bool = SyncedFolders().syncsToOtherDevices
     ) {
         self.exclusions = exclusions
-        self.isInTheCloud = isInTheCloud
+        self.syncsToOtherDevices = syncsToOtherDevices
         let home = environment.homeDirectory
         self.home = home.path(percentEncoded: false)
         var paths: [String] = [
@@ -187,8 +188,8 @@ struct RemovalGuard: Sendable {
         var info = stat()
         let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_NOUNLINK)
         guard lstat(path, &info) != 0 || info.st_flags & protectedFlags == 0 else { return .protectedLocation }
-        // Not for Put Back, which removes nothing from the cloud.
-        if item == nil, names.contains(where: { isInTheCloud(URL(filePath: $0)) }) { return .inTheCloud }
+        // Not for Put Back, which removes nothing from the other devices.
+        if item == nil, names.contains(where: { syncsToOtherDevices(URL(filePath: $0)) }) { return .inTheCloud }
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
         for name in names {

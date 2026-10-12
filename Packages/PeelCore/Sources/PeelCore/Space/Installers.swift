@@ -118,7 +118,7 @@ public enum Installers {
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
         canList: (URL) -> AccessState = FullDiskAccess.canList,
-        isInTheCloud: (URL) -> Bool = { $0.isInTheCloud },
+        syncsToOtherDevices: (URL) -> Bool = SyncedFolders().syncsToOtherDevices,
         openFiles: OpenFiles = OpenFiles()
     ) async -> InstallerScan {
         var items: [InstallerItem] = []
@@ -150,7 +150,9 @@ public enum Installers {
                 else { continue }
                 let (size, seen, newestInside) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
-                let heldBack = heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud, openFiles: openFiles)
+                let heldBack = heldBack(
+                    url, seen: seen, in: folder, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                )
                 if isIncomplete {
                     items.append(
                         incompleteDownload(at: url, size: size, heldBack: heldBack, newestInside: newestInside)
@@ -176,7 +178,7 @@ public enum Installers {
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
-            isInTheCloud: isInTheCloud,
+            syncsToOtherDevices: syncsToOtherDevices,
             openFiles: openFiles
         )
         items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
@@ -186,7 +188,7 @@ public enum Installers {
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
-            isInTheCloud: isInTheCloud,
+            syncsToOtherDevices: syncsToOtherDevices,
             openFiles: openFiles
         )
         items += await packagesKeptByApps(
@@ -195,7 +197,7 @@ public enum Installers {
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
-            isInTheCloud: isInTheCloud,
+            syncsToOtherDevices: syncsToOtherDevices,
             openFiles: openFiles
         )
 
@@ -243,12 +245,12 @@ public enum Installers {
         }
     }
 
-    /// Why an item is left for the person to choose: it is in iCloud Drive, measuring it saw a reason, a program
+    /// Why an item is left for the person to choose: it syncs to other devices, measuring it saw a reason, a program
     /// has it open, or it belongs to every account on this Mac.
     private static func heldBack(
-        _ url: URL, seen: HoldBack?, in folder: Folder, isInTheCloud: (URL) -> Bool, openFiles: OpenFiles
+        _ url: URL, seen: HoldBack?, in folder: Folder, syncsToOtherDevices: (URL) -> Bool, openFiles: OpenFiles
     ) -> HoldBack? {
-        if isInTheCloud(url) { return .inTheCloud }
+        if syncsToOtherDevices(url) { return .inTheCloud }
         if let seen { return seen }
         if !openFiles.holders(of: url).isEmpty { return .openInAProgram }
         return folder.isSharedWithEveryone ? .sharedWithEveryone : nil
@@ -407,7 +409,7 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        isInTheCloud: (URL) -> Bool,
+        syncsToOtherDevices: (URL) -> Bool,
         openFiles: OpenFiles
     ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
@@ -431,7 +433,9 @@ public enum Installers {
                     isReadOnly: false,
                     notes: version.map { [.version($0)] } ?? [],
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-                    heldBack: heldBack(url, seen: seen, in: folder, isInTheCloud: isInTheCloud, openFiles: openFiles)
+                    heldBack: heldBack(
+                        url, seen: seen, in: folder, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                    )
                 ))
             }
         }
@@ -469,7 +473,7 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        isInTheCloud: (URL) -> Bool,
+        syncsToOtherDevices: (URL) -> Bool,
         openFiles: OpenFiles
     ) async -> [InstallerItem] {
         let caches = home.appending(path: "Library/Caches", directoryHint: .isDirectory)
@@ -529,7 +533,9 @@ public enum Installers {
                 isReadOnly: false,
                 notes: [],
                 requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-                heldBack: heldBack(url, seen: seen, in: place, isInTheCloud: isInTheCloud, openFiles: openFiles)
+                heldBack: heldBack(
+                    url, seen: seen, in: place, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                )
                     ?? (isRunning ? .appIsRunning : nil)
             ))
         }
@@ -544,7 +550,7 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        isInTheCloud: (URL) -> Bool,
+        syncsToOtherDevices: (URL) -> Bool,
         openFiles: OpenFiles
     ) async -> [InstallerItem] {
         let support = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
@@ -565,7 +571,9 @@ public enum Installers {
                 let (size, seen, _) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let place = Folder(url: folder, isSharedWithEveryone: false)
-                let heldBack = heldBack(url, seen: seen, in: place, isInTheCloud: isInTheCloud, openFiles: openFiles)
+                let heldBack = heldBack(
+                    url, seen: seen, in: place, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                )
                 let named = installedApp(for: url, in: installedApps) == nil ? owner : nil
                 items.append(appInstaller(
                     at: url, size: size, heldBack: heldBack ?? .keptByAnApp, installedApps: installedApps, named: named

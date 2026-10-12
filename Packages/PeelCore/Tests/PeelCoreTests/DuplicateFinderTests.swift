@@ -460,6 +460,20 @@ struct DuplicateFinderTests {
         #expect(!finder.canScan(URL(filePath: "/Volumes/")))
     }
 
+
+    @Test func refusesAFolderASyncAppKeepsInStep() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.directory("home/Sync/.stfolder")
+        try directory.directory("home/Sync/Photos")
+        try directory.directory("home/Documents")
+        let finder = DuplicateFinder(homeDirectory: home)
+
+        #expect(!finder.canScan(home.appending(path: "Sync", directoryHint: .isDirectory)))
+        #expect(!finder.canScan(home.appending(path: "Sync/Photos", directoryHint: .isDirectory)))
+        #expect(finder.canScan(home.appending(path: "Documents", directoryHint: .isDirectory)))
+    }
+
     @Test func aFolderSpelledInAnotherCaseIsJudgedAsTheDiskSpellsIt() throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")

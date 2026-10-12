@@ -106,6 +106,18 @@ struct FolderDuplicateTests {
         #expect(result.suggestedFolderSelection.map(\.lastPathComponent) == ["Trip"])
     }
 
+
+    @Test func offersNoFolderASyncAppKeepsInStep() async throws {
+        let directory = try TemporaryDirectory()
+        try trip(in: directory)
+        try directory.file("home/Pictures/.megaignore")
+
+        let result = try await scan(directory)
+
+        #expect(names(result).isEmpty)
+        #expect(!result.groups.flatMap(\.files).contains { $0.url.path(percentEncoded: false).contains("/Pictures/") })
+    }
+
     /// A folder kept only in the cloud, which no test can make, is named to the scan.
     @Test func aFolderThatLivesOnlyInTheCloudIsNeverLookedInto() async throws {
         let directory = try TemporaryDirectory()
