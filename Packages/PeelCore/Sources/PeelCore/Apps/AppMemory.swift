@@ -10,6 +10,8 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
     public let lastSeen: Date
     /// Where it was the last time Peel saw it, which is worth showing when its files turn up later.
     public let lastPath: String
+    /// The folders its own product file named for its data (`InstalledApp.productFolders`).
+    public var productFolders: [ProductFolder]? = nil
 
     public var id: String { bundleIdentifier }
 }
@@ -71,7 +73,8 @@ public struct AppMemory: Sendable {
                 name: app.name,
                 teamIdentifier: app.teamIdentifier,
                 lastSeen: now,
-                lastPath: PathPattern.comparablePath(of: app.url)
+                lastPath: PathPattern.comparablePath(of: app.url),
+                productFolders: app.productFolders.isEmpty ? nil : app.productFolders
             )
         }
 

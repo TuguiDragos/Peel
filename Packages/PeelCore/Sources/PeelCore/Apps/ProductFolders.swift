@@ -1,7 +1,8 @@
 import Foundation
+internal import PeelPrivileged
 
 /// A folder an app's own product file names for its data, given from the home.
-public struct ProductFolder: Sendable, Hashable {
+public struct ProductFolder: Sendable, Hashable, Codable {
     /// Such as `.vscode-insiders` or `Library/Caches/JetBrains/IdeaIC2025.2`.
     public let path: String
     /// What the app writes inside once it has run, without which the folder is not taken as the app's. Nil for a
@@ -21,6 +22,11 @@ public struct ProductFolder: Sendable, Hashable {
         let folder = URL(filePath: home, directoryHint: .isDirectory).appending(path: path)
         guard PathPattern.comparablePath(of: url).lowercased() == PathPattern.comparablePath(of: folder).lowercased()
         else { return false }
+        return holdsProof(at: url)
+    }
+
+    /// Whether the folder at `url` holds its proof.
+    func holdsProof(at url: URL) -> Bool {
         guard let proof else { return true }
         var info = stat()
         return lstat(url.appending(path: proof).path(percentEncoded: false), &info) == 0
@@ -44,6 +50,17 @@ enum ProductFolders {
 
     static func of(appAt url: URL) -> [ProductFolder] {
         jetBrainsFolders(in: json(at: url.appending(path: jetBrainsFile))) + vsCodeFolders(in: vsCodeProduct(of: url))
+    }
+
+    /// Whether `folder`, read back from a file, is one these rules would name.
+    static func believes(_ folder: ProductFolder) -> Bool {
+        let names = PathComponents.of(folder.path)
+        let named = switch names.count {
+        case 4: jetBrainsFolders(in: ["productVendor": names[2], "dataDirectoryName": names[3]])
+        case 1: vsCodeFolders(in: ["dataFolderName": names[0], "sharedDataFolderName": names[0]])
+        default: [ProductFolder]()
+        }
+        return named.contains(folder)
     }
 
     static func vsCodeProduct(of app: URL) -> [String: Any]? {

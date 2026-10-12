@@ -130,6 +130,56 @@ struct OrphanScannerTests {
         #expect(confidence(other)?.reasons.contains(.installedForAnAppThatIsGone(name: "Kept")) == false)
     }
 
+    @Test func listsTheFoldersAGoneAppsProductFileNamed() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/.example-editor/argv.json")
+        try directory.file("home/Library/Application Support/ExampleVendor/ExampleIDE2025.2/scratches/scratch.txt")
+        try directory.file("home/Library/Caches/ExampleVendor/ExampleIDE2025.2/index/a", bytes: 64)
+        try directory.file("home/.unproved-editor/settings.json")
+        try directory.file("home/.kept-editor/argv.json")
+        try directory.file("home/.config/settings.json")
+        let gone = { (identifier: String, folders: [ProductFolder]) in
+            RememberedApp(
+                bundleIdentifier: identifier, name: identifier, teamIdentifier: nil, lastSeen: .now,
+                lastPath: "/Applications/\(identifier).app", productFolders: folders
+            )
+        }
+        let editors = { (name: String) in ProductFolders.vsCodeFolders(in: ["dataFolderName": name]) }
+        let editor = gone("org.example.editor", editors(".example-editor") + editors(".unproved-editor")
+            + [ProductFolder(path: ".config", proof: nil)])
+        let ide = gone("org.example.ide", ProductFolders.jetBrainsFolders(in: [
+            "productVendor": "ExampleVendor", "dataDirectoryName": "ExampleIDE2025.2",
+        ]))
+        let old = gone("org.example.oldeditor", editors(".kept-editor"))
+        let kept = InstalledApp(
+            url: URL(filePath: "/Applications/Kept Editor.app"), bundleIdentifier: "org.example.kepteditor",
+            name: "Kept Editor", productFolders: editors(".kept-editor")
+        )
+        let scanner = scanner(in: directory)
+
+        let scan = await scanner.scan(installedApps: installed + [kept], remembered: [editor, ide, old])
+        let listed = Dictionary(
+            scan.groups.flatMap { group in group.items.map { ($0.url.lastPathComponent, (group.identifier, $0)) } },
+            uniquingKeysWith: { first, _ in first }
+        )
+        let settings = scan.groups.flatMap(\.items).first { $0.url.path(percentEncoded: false).contains("Support/ExampleVendor") }
+
+        #expect(listed[".example-editor"]?.0 == "org.example.editor")
+        #expect(Set(scan.groups.filter { $0.identifier == "org.example.ide" }.flatMap(\.items).map(\.kind))
+            == [.applicationSupport, .caches])
+        #expect(settings?.heldBack == .holdsWorkMadeWithTheApp)
+        for name in [".unproved-editor", ".kept-editor", ".config"] {
+            #expect(listed[name] == nil, "\(name)")
+        }
+        let item = try #require(listed[".example-editor"]?.1)
+        let back = InstalledApp(
+            url: URL(filePath: "/Applications/Back.app"), bundleIdentifier: "org.example.back", name: "Back",
+            productFolders: editors(".example-editor")
+        )
+        #expect(await scanner.stillOrphaned([item], installedApps: installed, remembered: [editor]).count == 1)
+        #expect(await scanner.stillOrphaned([item], installedApps: installed + [back], remembered: [editor]).isEmpty)
+    }
+
     @Test func listsAFileTwoPlacesReachOnce() async throws {
         let directory = try TemporaryDirectory()
         let recents = "home/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments"

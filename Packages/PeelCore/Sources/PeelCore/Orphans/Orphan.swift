@@ -18,6 +18,8 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     /// For a copy macOS keeps of a system extension, the path of the app its record says it was installed for, when
     /// that app is gone.
     public var installedFor: String?
+    /// For a folder the gone app's own product file named for its data, that folder.
+    public var productFolder: ProductFolder?
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {

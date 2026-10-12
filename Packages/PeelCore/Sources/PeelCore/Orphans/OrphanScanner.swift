@@ -83,6 +83,7 @@ public struct OrphanScanner: Sendable {
             gone.map { ($0.name.lowercased(), $0.bundleIdentifier) },
             uniquingKeysWith: { first, _ in first }
         )
+        let goneFolders = GoneFolders(gone, installedApps: installedApps, home: environment.homeDirectory)
 
         let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
@@ -93,8 +94,8 @@ public struct OrphanScanner: Sendable {
                 _ = group.addTaskUnlessCancelled { [exclusions, nestedFolderLimit, walk] in
                     (location, await Self.scan(
                         location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,
-                        goneNames: goneNames, home: home, exclusions: exclusions, nestedFolderLimit: nestedFolderLimit,
-                        walk: walk
+                        goneNames: goneNames, goneFolders: goneFolders, home: home, exclusions: exclusions,
+                        nestedFolderLimit: nestedFolderLimit, walk: walk
                     ))
                 }
             }
@@ -213,9 +214,12 @@ public struct OrphanScanner: Sendable {
         )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
         let folders = manifestFolders
+        let goneFolders = GoneFolders(gone, installedApps: installedApps, home: environment.homeDirectory)
         var kept: [OrphanItem] = []
         for item in items where !Self.servesAProgram(item.url, in: folders) {
-            let isStillOrphaned = if let app = item.namedAfter {
+            let isStillOrphaned = if item.productFolder != nil {
+                Self.goneApp(owningFolder: item.url, kind: item.kind, among: goneFolders, ownership: ownership) != nil
+            } else if let app = item.namedAfter {
                 await Self.goneApp(
                     named: item.url,
                     kind: item.kind,
@@ -386,6 +390,19 @@ public struct OrphanScanner: Sendable {
         return identifier
     }
 
+    /// The gone app whose own product file named `url` for its data, while no installed app has a claim on it.
+    static func goneApp(
+        owningFolder url: URL,
+        kind: SearchLocation.Kind,
+        among folders: GoneFolders,
+        ownership: AppOwnership
+    ) -> (identifier: String, folder: ProductFolder)? {
+        guard let named = folders.at(url),
+              !ownership.isClaimed(fileName: url.lastPathComponent, kind: kind, identifier: named.identifier)
+        else { return nil }
+        return named
+    }
+
     /// The places where an app keeps a folder under its own name, such as `Caches/Figma`, and nothing it keeps
     /// there is the person's own work.
     static let namedPlaces: Set<SearchLocation.Kind> = [
@@ -430,8 +447,9 @@ public struct OrphanScanner: Sendable {
     private struct Candidate {
         let url: URL
         let identifier: String
-        let namedAfter: String?
+        var namedAfter: String? = nil
         let parent: ParentAccess
+        var folder: ProductFolder? = nil
     }
 
     private static func scan(
@@ -441,6 +459,7 @@ public struct OrphanScanner: Sendable {
         goneBundles: [String: String],
         goneApps: [String],
         goneNames: [String: String],
+        goneFolders: GoneFolders,
         home: String,
         exclusions: Exclusions,
         nestedFolderLimit: Int,
@@ -467,6 +486,11 @@ public struct OrphanScanner: Sendable {
             guard isAFileAFolderOrALink(url), !FileAccess.cannotBeRemoved(url) else { continue }
             // What the guard refuses outright is never listed, whether an installed app claims it or not.
             guard !ProtectedData.refuses(url.path(percentEncoded: false), home: home) else { continue }
+            if let named = goneApp(owningFolder: url, kind: location.kind, among: goneFolders, ownership: ownership) {
+                let identifier = named.identifier
+                candidates.append(Candidate(url: url, identifier: identifier, parent: parent, folder: named.folder))
+                continue
+            }
             var namedAfter: String?
             var identifier = await orphanIdentifier(
                 of: url,
@@ -496,10 +520,13 @@ public struct OrphanScanner: Sendable {
             guard isAFileAFolderOrALink(url), !ProtectedData.refuses(url.path(percentEncoded: false), home: home),
                   !exclusions.excludes(url)
             else { return .pass }
+            if let named = goneApp(owningFolder: url, kind: location.kind, among: goneFolders, ownership: ownership) {
+                return .take(Candidate(url: url, identifier: named.identifier, parent: parent, folder: named.folder))
+            }
             if let identifier = await orphanIdentifier(
                 of: url, kind: location.kind, ownership: ownership, jobs: jobs, cameWithOneOf: goneApps
             ) {
-                return .take(Candidate(url: url, identifier: identifier, namedAfter: nil, parent: parent))
+                return .take(Candidate(url: url, identifier: identifier, parent: parent))
             }
             return canLookInside && url.isRealFolder ? .lookInside : .pass
         }
@@ -526,6 +553,8 @@ public struct OrphanScanner: Sendable {
                 .holdsWorkKeptInACache
             } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home) {
                 keptOnlyHere
+            } else if candidate.folder?.holdsWork(at: url) == true {
+                .holdsWorkMadeWithTheApp
             } else if location.kind == .logs, CrashReport.isOne(url) {
                 .crashReport
             } else {
@@ -541,7 +570,8 @@ public struct OrphanScanner: Sendable {
                 requiresPrivileges: candidate.parent.requiresPrivileges(toRemove: url),
                 heldBack: heldBack,
                 namedAfter: candidate.namedAfter,
-                holdsDamagedSettings: location.kind == .preferences && PreferenceFile.isDamaged(url)
+                holdsDamagedSettings: location.kind == .preferences && PreferenceFile.isDamaged(url),
+                productFolder: candidate.folder
             )
             found.append((candidate.identifier, item))
         }
@@ -550,5 +580,34 @@ public struct OrphanScanner: Sendable {
             cutShort: inside.wasCutShort ? location : nil,
             unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }
         )
+    }
+}
+
+/// The folders the product files of apps Peel saw go named for their data, by where they are. A folder an installed
+/// app's product file names too is left out.
+struct GoneFolders: Sendable {
+    private let byPath: [String: (identifier: String, folder: ProductFolder)]
+    private let names: Set<String>
+
+    init(_ gone: [RememberedApp], installedApps: [InstalledApp], home: URL) {
+        let named = Set(installedApps.flatMap(\.productFolders).map { $0.path.lowercased() })
+        var byPath: [String: (identifier: String, folder: ProductFolder)] = [:]
+        for app in gone {
+            for folder in app.productFolders ?? []
+            where ProductFolders.believes(folder) && !named.contains(folder.path.lowercased()) {
+                let path = PathPattern.comparablePath(of: home.appending(path: folder.path)).lowercased()
+                byPath[path] = byPath[path] ?? (app.bundleIdentifier, folder)
+            }
+        }
+        self.byPath = byPath
+        names = Set(byPath.keys.compactMap { PathComponents.of($0).last })
+    }
+
+    /// The gone app whose folder `url` is, while it holds what that app writes there.
+    func at(_ url: URL) -> (identifier: String, folder: ProductFolder)? {
+        guard !names.isEmpty, names.contains(url.lastPathComponent.lowercased()),
+              let named = byPath[PathPattern.comparablePath(of: url).lowercased()], named.folder.holdsProof(at: url)
+        else { return nil }
+        return named
     }
 }

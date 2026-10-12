@@ -89,6 +89,22 @@ struct AppMemoryTests {
         #expect(gone.stillInstalled() == nil)
     }
 
+    @Test func keepsTheFoldersAnAppsProductFileNames() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
+        let folders = ProductFolders.vsCodeFolders(in: ["dataFolderName": ".example-editor"])
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Example Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.editor", name: "Example Editor", productFolders: folders
+        )
+
+        _ = await memory.remember([editor, app("Bear", "net.shinyfrog.bear")])
+        let read = await memory.load()
+
+        #expect(read.first { $0.bundleIdentifier == "org.example.editor" }?.productFolders == folders)
+        #expect(read.first { $0.bundleIdentifier == "net.shinyfrog.bear" }?.productFolders == nil)
+    }
+
     @Test func survivesBeingWrittenAndReadBack() async throws {
         let directory = try TemporaryDirectory()
         let memory = AppMemory(url: directory.url.appending(path: "nested/apps.json"))

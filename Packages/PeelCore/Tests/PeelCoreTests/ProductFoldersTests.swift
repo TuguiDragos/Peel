@@ -31,6 +31,17 @@ struct ProductFoldersTests {
         #expect(ProductFolders.of(appAt: try directory.directory("Applications/Plain.app")).isEmpty)
     }
 
+    @Test func believesAFolderReadBackOnlyAsTheRulesNameIt() {
+        let ide = ProductFolders.jetBrainsFolders(in: ["productVendor": "ExampleVendor", "dataDirectoryName": "ExampleIDE2025.2"])
+        let editor = ProductFolders.vsCodeFolders(in: ["dataFolderName": ".example-editor"])
+
+        #expect((ide + editor).allSatisfy(ProductFolders.believes))
+        #expect(!ProductFolders.believes(ProductFolder(path: ide[0].path, proof: nil)))
+        #expect(!ProductFolders.believes(ProductFolder(path: ".example-editor", proof: nil)))
+        #expect(!ProductFolders.believes(ProductFolder(path: "Documents", proof: nil)))
+        #expect(!ProductFolders.believes(ProductFolder(path: "Library/Caches/ExampleVendor/Chrome", proof: nil)))
+    }
+
     @Test func believesOnlyTheNamesTheToolsWrite() {
         let ide = { (vendor: String, name: String) in
             ProductFolders.jetBrainsFolders(in: ["productVendor": vendor, "dataDirectoryName": name])
