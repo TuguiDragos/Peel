@@ -260,6 +260,16 @@ private enum RecordPlace {
     }
 }
 
+private enum RecordNote {
+    case loadsAfterARestart
+
+    var text: LocalizedStringResource {
+        switch self {
+        case .loadsAfterARestart: "Once put back, macOS loads this audio driver only after you restart your Mac."
+        }
+    }
+}
+
 /// One record's row. It is a view of its own and takes the store rather than a `Binding`, so a change redraws
 /// only the row it affects, not the whole batch (see `RowSelection`).
 private struct HistoryRecordRow: View {
@@ -277,7 +287,7 @@ private struct HistoryRecordRow: View {
                 isOn: Binding(get: { isSelected }, set: { history.setSelected($0, record) }),
                 label: [record.originalURL.abbreviatedPath, String(localized: place.title), record.size.byteCount]
                     .joined(separator: ", "),
-                hint: failure?.explanation
+                hint: hint
             )
             item
                 .contentShape(.rect)
@@ -297,6 +307,20 @@ private struct HistoryRecordRow: View {
         }
     }
 
+    /// VoiceOver hears the checkbox and not the lines under it, so on macOS 27 its hint says them too.
+    private var hint: String? {
+        if #available(macOS 27, *) {
+            let lines = notes.map { String(localized: $0.text) } + [failure?.explanation].compactMap { $0 }
+            return lines.isEmpty ? nil : lines.joined(separator: " ")
+        }
+        return failure?.explanation
+    }
+
+    @available(macOS 27, *)
+    private var notes: [RecordNote] {
+        place == .inTrash && AudioDrivers.isOne(record.originalURL) ? [.loadsAfterARestart] : []
+    }
+
     private var item: some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
             Image(systemName: place.symbolName)
@@ -310,10 +334,12 @@ private struct HistoryRecordRow: View {
                 Text(place.title)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                if #available(macOS 27, *), place == .inTrash, AudioDrivers.isOne(record.originalURL) {
-                    Text("Once put back, macOS loads this audio driver only after you restart your Mac.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                if #available(macOS 27, *) {
+                    ForEach(notes, id: \.self) { note in
+                        Text(note.text)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 if let failure {
                     StatusLabel(title: Text(verbatim: failure.explanation))
