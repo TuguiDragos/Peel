@@ -65,8 +65,14 @@ final class SelfUninstall {
             return
         }
 
-        work.pause()
         let isRegistered = { [helper] in helper.status == .enabled || helper.status == .requiresApproval }
+        // The helper serves every administrator of this Mac, so an account that can't use it leaves it, and Peel stays.
+        if isRegistered(), await !PrivilegedHelper.currentAvailability() {
+            failure = String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
+            return
+        }
+
+        work.pause()
         var ledger = PrivilegedHelper.LedgerMove.none
         var links = TrashResult()
         if isRegistered() {

@@ -25,17 +25,13 @@ final class HelperModel {
         standing == .ready
     }
 
-    var isEnabled: Bool {
-        status == .enabled
-    }
-
     var standing: PrivilegedHelper.Standing {
         PrivilegedHelper.Standing(
             status: status, isAvailableToThisAccount: isAvailableToThisAccount, isResponding: isResponding
         )
     }
 
-    let isAvailableToThisAccount = PrivilegedHelper.isAvailableToThisAccount
+    private(set) var isAvailableToThisAccount = PrivilegedHelper.isAvailableToThisAccount
 
     /// True when a Peel helper is registered, but not by this copy of Peel. Registration belongs to a bundle,
     /// so a second copy (in a build folder, or a download beside the one in Applications) reads "not installed"
@@ -48,12 +44,15 @@ final class HelperModel {
     func checkConnection() async {
         let check = checks.start()
         let status = await PrivilegedHelper.currentStatus()
-        let isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
+        let isAvailableToThisAccount = await PrivilegedHelper.currentAvailability()
+        // The helper answers administrators only, so another account doesn't ask it.
+        let isResponding = status == .enabled && isAvailableToThisAccount ? await PrivilegedHelper.isResponding() : nil
         let isRegisteredByAnotherCopy = status == .notRegistered
             ? await PrivilegedHelper.isRegisteredByAnyCopy()
             : false
         guard checks.mayShow(check) else { return }
         self.status = status
+        self.isAvailableToThisAccount = isAvailableToThisAccount
         self.isResponding = isResponding
         self.isRegisteredByAnotherCopy = isRegisteredByAnotherCopy
         hasChecked = true
@@ -64,8 +63,8 @@ final class HelperModel {
     /// throws an error. Neither is reported as a failure, since the status says what happened.
     func install() async -> Failure? {
         guard !isChanging else { return nil }
-        let error = await change(.install) { try await PrivilegedHelper.register() }
-        if status == .requiresApproval {
+        let (wasAllowed, error) = await change(.install) { try await PrivilegedHelper.register() }
+        if wasAllowed, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
         guard let error, status != .requiresApproval, status != .enabled else { return nil }
@@ -74,8 +73,8 @@ final class HelperModel {
 
     func repair() async -> Failure? {
         guard !isChanging else { return nil }
-        let error = await change(.repair) { try await PrivilegedHelper.repair() }
-        if status == .requiresApproval {
+        let (wasAllowed, error) = await change(.repair) { try await PrivilegedHelper.repair() }
+        if wasAllowed, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
         return error.map { Failure(action: .repair, reason: $0.localizedDescription) }
@@ -83,24 +82,28 @@ final class HelperModel {
 
     func uninstall() async -> Failure? {
         guard !isChanging else { return nil }
-        let error = await change(.uninstall) { try await PrivilegedHelper.unregister() }
+        let (_, error) = await change(.uninstall) { try await PrivilegedHelper.unregister() }
         return error.map { Failure(action: .uninstall, reason: $0.localizedDescription) }
     }
 
-    /// Runs a change of the helper's registration and answers the error it threw, if any. Nothing about the helper
-    /// shows while it runs, and what it leaves shows only through the check that follows it.
-    private func change(_ action: Action, _ body: () async throws -> Void) async -> (any Error)? {
+    /// Runs a change of the helper's registration, for an administrator only, and answers whether it was allowed and
+    /// its error. Nothing about the helper shows meanwhile; what it leaves shows through the check that follows.
+    private func change(
+        _ action: Action,
+        _ body: () async throws -> Void
+    ) async -> (wasAllowed: Bool, error: (any Error)?) {
         changing = action
         defer { changing = nil }
         checks.changeStarts()
+        var wasAllowed = true
         var error: (any Error)?
         do {
-            try await body()
+            wasAllowed = try await PrivilegedHelper.changeAsAnAdministrator(body)
         } catch let thrown {
             error = thrown
         }
         checks.changeEnds()
         await checkConnection()
-        return error
+        return (wasAllowed, error)
     }
 }

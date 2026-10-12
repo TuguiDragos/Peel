@@ -118,6 +118,24 @@ public enum PrivilegedHelper {
         UserAuthorization.isAdministrator(getuid())
     }
 
+    /// `isAvailableToThisAccount`, asked away from the caller's actor: the answer comes from opendirectoryd.
+    @concurrent
+    public static func currentAvailability() async -> Bool {
+        isAvailableToThisAccount
+    }
+
+    /// Runs `change` only while this account is an administrator, asked again now: macOS lets any account unregister
+    /// the helper, which serves every administrator. Answers whether it ran.
+    @discardableResult
+    public static func changeAsAnAdministrator(
+        _ change: () async throws -> Void,
+        isAdministrator: () async -> Bool = { await currentAvailability() }
+    ) async throws -> Bool {
+        guard await isAdministrator() else { return false }
+        try await change()
+        return true
+    }
+
     public static func openLoginItemsSettings() {
         SMAppService.openSystemSettingsLoginItems()
     }

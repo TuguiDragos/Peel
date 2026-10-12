@@ -665,9 +665,6 @@ private struct HelperSettingsView: View {
                 case .notThisAccount:
                     Text("Only an administrator can use the helper. Log in as an administrator to remove items that need one.")
                         .font(.callout)
-                    if helper.isEnabled {
-                        uninstallButton
-                    }
                 case .notAnswering:
                     // Several causes share this message: an older or newer helper, a signature that doesn't
                     // match, or a helper that didn't start.

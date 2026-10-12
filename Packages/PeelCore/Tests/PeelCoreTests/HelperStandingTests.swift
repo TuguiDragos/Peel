@@ -16,6 +16,36 @@ struct HelperStandingTests {
         #expect(turn.taken)
     }
 
+    @MainActor @Test func asksWhetherThisAccountIsAnAdministratorAwayFromTheMainActor() async {
+        final class Turn {
+            var taken = false
+        }
+        let turn = Turn()
+        Task { @MainActor in turn.taken = true }
+
+        _ = await PrivilegedHelper.currentAvailability()
+
+        #expect(turn.taken)
+    }
+
+    @Test func anAccountThatCantUseTheHelperNeverChangesIt() async throws {
+        var changed = false
+
+        let ran = try await PrivilegedHelper.changeAsAnAdministrator({ changed = true }, isAdministrator: { false })
+
+        #expect(!ran)
+        #expect(!changed)
+    }
+
+    @Test func anAdministratorChangesTheHelper() async throws {
+        var changed = false
+
+        let ran = try await PrivilegedHelper.changeAsAnAdministrator({ changed = true }, isAdministrator: { true })
+
+        #expect(ran)
+        #expect(changed)
+    }
+
     /// The helper serves administrators only, so a standard account is never offered to install, approve or repair
     /// it, whatever its registration says.
     @Test func aStandardAccountNeedsAnAdministratorWhateverTheRegistration() {
