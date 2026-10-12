@@ -10,19 +10,9 @@ final class ResetPlan {
     /// The scan the sheet runs. A new scan, such as the one after the exclusions change, replaces the one before.
     let scanRun = ScanRun()
     private(set) var isResetting = false
-    private(set) var backup: URL?
-    private(set) var failures: [TrashFailure] = []
-    private(set) var didReset = false
-    /// True when the settings could not be backed up, so nothing was moved. The backup is what restores them
-    /// once the app has written new ones, which History cannot do.
-    private(set) var couldNotSaveSettings = false
-    private(set) var movedCount = 0
-    /// How many files the reset asked to move: a reset of privacy permissions alone asks for none.
-    private(set) var askedToMove = 0
-    private(set) var didClearSettings = false
+    private(set) var outcome: AppReset.Outcome?
     /// Off until chosen: History can't bring the permissions back.
     var resetsPrivacy = false
-    private(set) var privacy: PrivacyReset.Result?
     /// Stored rather than computed, so the sheet can observe it: reading the workspace in a computed property
     /// gives Observation nothing to track. `refreshRunningState()` keeps it current.
     private(set) var isAppRunning = false
@@ -64,6 +54,41 @@ final class ResetPlan {
         PrivacyReset.isAllowed(for: app)
     }
 
+    var didReset: Bool {
+        outcome.map { $0.stop == nil } ?? false
+    }
+
+    /// True when the settings could not be backed up, so nothing was moved. The backup is what restores them
+    /// once the app has written new ones, which History cannot do.
+    var couldNotSaveSettings: Bool {
+        outcome?.stop == .settingsNotSaved
+    }
+
+    var backup: URL? {
+        outcome?.settingsToPutBack
+    }
+
+    var failures: [TrashFailure] {
+        outcome?.result.failures ?? []
+    }
+
+    var movedCount: Int {
+        outcome?.result.trashed.count ?? 0
+    }
+
+    /// How many files the reset asked to move: a reset of privacy permissions alone asks for none.
+    var askedToMove: Int {
+        outcome?.askedToMove ?? 0
+    }
+
+    var didClearSettings: Bool {
+        outcome?.clearedSettings ?? false
+    }
+
+    var privacy: PrivacyReset.Result? {
+        outcome?.privacy
+    }
+
     /// Nothing is, until the scan has said what the reset would take: `performReset()` has nothing to go on before.
     var hasAnythingToReset: Bool {
         reset != nil && (!selectedURLs.isEmpty || (resetsPrivacy && canResetPrivacy))
@@ -90,43 +115,24 @@ final class ResetPlan {
     }
 
     /// Backs up the app's settings, then moves the selection to the Trash, which also makes cfprefsd forget the
-    /// app's preference domains. Checks that the app is not running before the copy and again before the move,
-    /// since the copy takes a moment: an app opened meanwhile would have its files moved from under it, and would
-    /// write its settings back when it quits. Then nothing moves, and the copy stays.
+    /// app's preference domains. The app must be closed before the copy and still be after it: an app opened
+    /// meanwhile would have its files moved from under it, and would write its settings back when it quits.
     func performReset() async -> TrashResult {
         refreshRunningState()
         guard let reset, !isAppRunning else { return TrashResult() }
         isResetting = true
         defer { isResetting = false }
 
-        let urls = reset.selected(selectedURLs)
-        switch await PreferenceBackup.save(urls, for: app, exclusions: ExclusionsStore.shared.exclusions) {
-        case .failed:
-            couldNotSaveSettings = true
-            return TrashResult()
-        case .saved(let folder):
-            backup = folder
-        case .nothingToSave:
-            backup = nil
+        let outcome = await reset.run(
+            selectedURLs,
+            resettingPrivacy: resetsPrivacy && canResetPrivacy,
+            exclusions: ExclusionsStore.shared.exclusions
+        ) { @MainActor in
+            self.refreshRunningState()
+            return self.isAppRunning
         }
-        couldNotSaveSettings = false
-        refreshRunningState()
-        guard !isAppRunning else { return TrashResult() }
-        let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
-            urls,
-            ownedBy: app.bundleIdentifier
-        )
-        failures = result.failures
-        movedCount = result.trashed.count
-        askedToMove = urls.count
-        didClearSettings = reset.clearsSettings(moving: result.trashed.map(\.originalURL))
-        // The app stays installed, so `tccutil` still finds it after the move.
-        privacy = nil
-        if resetsPrivacy, canResetPrivacy, let identifier = app.bundleIdentifier {
-            privacy = await PrivacyReset.reset(bundleIdentifier: identifier)
-        }
-        didReset = true
-        return result
+        self.outcome = outcome
+        return outcome.result
     }
 
     /// Puts the settings saved in `backup` back, unless the app is open, which would write its own over them.

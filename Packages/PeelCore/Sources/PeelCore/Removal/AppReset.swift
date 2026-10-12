@@ -74,8 +74,83 @@ public struct AppReset: Sendable {
     }
 
     /// True when moving `urls` is followed by a `defaults delete` of at least one preference domain.
-    public func clearsSettings(moving urls: [URL]) -> Bool {
-        !PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier).isEmpty
+    public func clearsSettings(moving urls: [URL], home: URL = .homeDirectory) -> Bool {
+        !PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier, home: home).isEmpty
+    }
+
+    /// What a reset did, or why it did nothing.
+    public struct Outcome: Sendable {
+        public enum Stop: Sendable, Equatable {
+            case settingsNotSaved
+            case appOpened
+        }
+
+        public var stop: Stop?
+        public var backup: URL?
+        public var result = TrashResult()
+        public var askedToMove = 0
+        public var clearedSettings = false
+        public var privacy: PrivacyReset.Result?
+
+        /// The copy Put Settings Back takes the settings from.
+        public var settingsToPutBack: URL? { backup }
+    }
+
+    /// Copies the settings in `selection`, asks again whether the app is open, since the copy takes a moment, then
+    /// moves the selection to the Trash and resets the privacy permissions when asked. Nothing moves when the copy
+    /// fails or the app opened meanwhile, and the copy then stays.
+    @concurrent
+    public func run(
+        _ selection: Set<URL>,
+        resettingPrivacy: Bool,
+        exclusions: Exclusions,
+        isOpen: @Sendable () async -> Bool
+    ) async -> Outcome {
+        let app = app
+        return await run(
+            selection,
+            resettingPrivacy: resettingPrivacy,
+            through: TrashService(exclusions: exclusions),
+            isOpen: isOpen,
+            save: { await PreferenceBackup.save($0, for: app, exclusions: exclusions) },
+            resetPrivacy: { await PrivacyReset.reset(bundleIdentifier: $0) }
+        )
+    }
+
+    func run(
+        _ selection: Set<URL>,
+        resettingPrivacy: Bool,
+        through service: TrashService,
+        isOpen: @Sendable () async -> Bool,
+        save: @Sendable ([URL]) async -> PreferenceBackup.Saved,
+        resetPrivacy: @Sendable (String) async -> PrivacyReset.Result
+    ) async -> Outcome {
+        var outcome = Outcome()
+        let urls = selected(selection)
+        switch await save(urls) {
+        case .failed:
+            outcome.stop = .settingsNotSaved
+            return outcome
+        case .saved(let folder):
+            outcome.backup = folder
+        case .nothingToSave:
+            break
+        }
+        guard await !isOpen() else {
+            outcome.stop = .appOpened
+            return outcome
+        }
+        outcome.result = await service.trash(urls, ownedBy: app.bundleIdentifier)
+        outcome.askedToMove = urls.count
+        outcome.clearedSettings = clearsSettings(
+            moving: outcome.result.trashed.map(\.originalURL),
+            home: service.environment.homeDirectory
+        )
+        // The app stays installed, so `tccutil` still finds it after the move.
+        if resettingPrivacy, let identifier = app.bundleIdentifier {
+            outcome.privacy = await resetPrivacy(identifier)
+        }
+        return outcome
     }
 
     /// Returns the selected items in the order the sheet lists them. Preference domains are forgotten only after

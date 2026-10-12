@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct AppResetTests {
@@ -283,5 +284,119 @@ struct AppResetTests {
 
         #expect(reset.items.map(\.url.lastPathComponent) == ["com.example.app.plist"])
         #expect(AppReset.group(for: .plugIns) == nil)
+    }
+
+    private func service(in directory: borrowing TemporaryDirectory) throws -> TrashService {
+        let trash = try directory.directory("Trash")
+        return TrashService(environment: home(directory)) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+    }
+
+    @Test func aResetCopiesTheSettingsThenMovesTheSelectionAndResetsThePermissionsAsked() async throws {
+        let directory = try TemporaryDirectory()
+        let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        try directory.file("Library/Caches/com.example.app/cache", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let copy = try directory.directory("Copy")
+        let asked = Mutex<[String]>([])
+
+        let outcome = await reset.run(
+            reset.suggestedSelection,
+            resettingPrivacy: true,
+            through: try service(in: directory),
+            isOpen: { false },
+            save: { _ in .saved(copy) },
+            resetPrivacy: { identifier in
+                asked.withLock { $0.append(identifier) }
+                return .reset
+            }
+        )
+
+        #expect(outcome.stop == nil)
+        #expect(outcome.result.trashed.count == 2)
+        #expect(outcome.askedToMove == 2)
+        #expect(outcome.clearedSettings)
+        #expect(outcome.settingsToPutBack == copy)
+        #expect(outcome.privacy == .reset)
+        #expect(asked.withLock { $0 } == ["com.example.app"])
+        #expect(settings.isMissing)
+    }
+
+    @Test func aResetMovesNothingWhenTheSettingsCouldNotBeCopied() async throws {
+        let directory = try TemporaryDirectory()
+        let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let asked = Mutex(false)
+
+        let outcome = await reset.run(
+            reset.suggestedSelection,
+            resettingPrivacy: true,
+            through: try service(in: directory),
+            isOpen: { false },
+            save: { _ in .failed },
+            resetPrivacy: { _ in
+                asked.withLock { $0 = true }
+                return .reset
+            }
+        )
+
+        #expect(outcome.stop == .settingsNotSaved)
+        #expect(outcome.result.trashed.isEmpty)
+        #expect(!asked.withLock { $0 })
+        #expect(settings.isThere)
+    }
+
+    @Test func aResetMovesNothingWhenTheAppOpenedWhileItsSettingsWereCopied() async throws {
+        let directory = try TemporaryDirectory()
+        let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let copy = try directory.directory("Copy")
+        let asked = Mutex(false)
+
+        let outcome = await reset.run(
+            reset.suggestedSelection,
+            resettingPrivacy: true,
+            through: try service(in: directory),
+            isOpen: { true },
+            save: { _ in .saved(copy) },
+            resetPrivacy: { _ in
+                asked.withLock { $0 = true }
+                return .reset
+            }
+        )
+
+        #expect(outcome.stop == .appOpened)
+        #expect(outcome.backup == copy)
+        #expect(outcome.result.trashed.isEmpty)
+        #expect(!asked.withLock { $0 })
+        #expect(settings.isThere)
+    }
+
+    @Test func aResetLeavesThePermissionsAloneUnlessAsked() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Caches/com.example.app/cache", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let asked = Mutex(false)
+
+        let outcome = await reset.run(
+            reset.suggestedSelection,
+            resettingPrivacy: false,
+            through: try service(in: directory),
+            isOpen: { false },
+            save: { _ in .nothingToSave },
+            resetPrivacy: { _ in
+                asked.withLock { $0 = true }
+                return .reset
+            }
+        )
+
+        #expect(outcome.result.trashed.count == 1)
+        #expect(outcome.privacy == nil)
+        #expect(!asked.withLock { $0 })
+        #expect(!outcome.clearedSettings)
+        #expect(outcome.settingsToPutBack == nil)
     }
 }
