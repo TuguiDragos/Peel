@@ -310,6 +310,11 @@ private struct HistoryRecordRow: View {
                 Text(place.title)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                if #available(macOS 27, *), place == .inTrash, AudioDrivers.isOne(record.originalURL) {
+                    Text("Once put back, macOS loads this audio driver only after you restart your Mac.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
                 if let failure {
                     StatusLabel(title: Text(verbatim: failure.explanation))
                         .font(.caption)

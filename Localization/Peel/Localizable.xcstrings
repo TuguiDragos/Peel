@@ -95671,6 +95671,112 @@
         }
       }
     },
+    "Once put back, macOS loads this audio driver only after you restart your Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když tento zvukový ovladač vrátíte zpět, macOS ho načte až poté, co restartujete Mac."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach dem Zurücklegen lädt macOS diesen Audiotreiber erst, wenn du deinen Mac neu startest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando restaures este driver de audio, macOS no lo cargará hasta que reinicies el Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois ce gestionnaire audio remis en place, macOS ne le charge qu’après le redémarrage de votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una volta ripristinato questo driver audio dal Cestino, macOS non lo carica finché non riavvii il Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戻しても、Macを再起動するまで、macOSはこのオーディオドライバを読み込みません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "되돌려 놓은 후에는 Mac을 재시동해야만 macOS가 이 오디오 드라이버를 로드합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je dit audiobesturingsbestand terugzet, laadt macOS het pas nadat je je Mac opnieuw hebt opgestart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy przywrócisz ten sterownik audio, macOS wczyta go dopiero po ponownym uruchomieniu Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando este driver de áudio for colocado de volta, o macOS só vai carregá-lo depois que você reiniciar o Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odată ce îl puneți înapoi, macOS încarcă acest driver audio doar după ce reporniți Mac‑ul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если восстановить этот аудиодрайвер, macOS загрузит его только после перезагрузки Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När den här ljuddrivrutinen har lagts tillbaka läser macOS inte in den förrän du startar om datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerine konduğunda, macOS bu ses sürücüsünü ancak Mac’iniz yeniden başlatıldıktan sonra yükler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли цей аудіодрайвер буде повернуто, macOS завантажить його лише після того, як ви перезапустите Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放回原处后，macOS只有在你重新启动Mac之后才会载入此音频驱动程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還原後，macOS要等到你將Mac重新開機後才會載入此音訊驅動程式。"
+          }
+        }
+      }
+    },
     "Once the file is in the Trash, the item is stopped." : {
       "localizations" : {
         "cs" : {

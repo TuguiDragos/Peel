@@ -9,13 +9,14 @@ public enum AudioDrivers {
         after result: TrashResult,
         root: URL = URL(filePath: "/", directoryHint: .isDirectory)
     ) -> [String] {
+        result.trashed.map(\.originalURL).filter { isOne($0, root: root) }
+            .map { $0.deletingPathExtension().lastPathComponent }
+    }
+
+    public static func isOne(_ url: URL, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) -> Bool {
+        guard url.pathExtension.caseInsensitiveCompare("driver") == .orderedSame else { return false }
         let library = root.appending(path: "Library", directoryHint: .isDirectory)
-        let folder = PathPattern.comparablePath(
-            of: library.appending(path: LibraryFolder.audioDrivers.rawValue, directoryHint: .isDirectory)
-        )
-        return result.trashed.map(\.originalURL).filter { url in
-            url.pathExtension.caseInsensitiveCompare("driver") == .orderedSame
-                && PathPattern.comparablePath(of: url.deletingLastPathComponent()) == folder
-        }.map { $0.deletingPathExtension().lastPathComponent }
+        let folder = library.appending(path: LibraryFolder.audioDrivers.rawValue, directoryHint: .isDirectory)
+        return PathPattern.comparablePath(of: url.deletingLastPathComponent()) == PathPattern.comparablePath(of: folder)
     }
 }

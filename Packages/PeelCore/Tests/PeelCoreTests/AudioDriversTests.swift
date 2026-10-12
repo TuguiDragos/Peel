@@ -16,4 +16,14 @@ struct AudioDriversTests {
 
         #expect(AudioDrivers.awaitingARestart(after: TrashResult(trashed: moved), root: root) == ["BlackHole2ch"])
     }
+
+    @Test func knowsADriverByTheFolderMacOSLoadsItFrom() {
+        let root = URL(filePath: "/private/tmp/org.example.root", directoryHint: .isDirectory)
+        let isOne = { (path: String) in AudioDrivers.isOne(root.appending(path: path), root: root) }
+
+        #expect(isOne("Library/Audio/Plug-Ins/HAL/BlackHole2ch.driver"))
+        #expect(!isOne("Library/Audio/Plug-Ins/HAL/notes.txt"))
+        #expect(!isOne("Library/Audio/Plug-Ins/Components/Example.component"))
+        #expect(!isOne("Users/me/Library/Audio/Plug-Ins/HAL/Personal.driver"))
+    }
 }
