@@ -55,7 +55,12 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 
 Space shows what fills your disk, area by area, and what each area is.
 
-- **Orphaned Files:** files left behind by apps you already removed.
+- **Orphaned Files:** files left behind by apps you already removed, each tied to its app by the app's identifier, a
+  folder the app's own product file names, the name of an app Peel saw installed, or what macOS recorded for it, and
+  browser manifests whose program is gone. What only a guess could tie to an app stays for you to look at: a folder
+  named only for a maker, such as `Google` in Application Support, a data folder only the app's documentation names,
+  such as Tor Browser's `TorBrowser-Data`, and a hidden folder in your home named like an app, since one such as
+  `~/.local` is shared by many command-line tools.
 - **Developer:** caches of developer tools, editors, browsers, and AI models. Nothing is selected for you, and Select
   Recommended passes by what you may want again; toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only
