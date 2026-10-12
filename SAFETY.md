@@ -291,7 +291,9 @@ listed the same way, and nothing of it can be selected: its page names the maker
 maker's instructions, since moved from its place, what it keeps in the system and the settings that manage it would
 stay behind. Peel knows it by the team its checked signature names and by its identifier, both as the maker
 documents them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the
-same uninstaller.
+same uninstaller. An uninstaller its maker documents opening to remove a product, such as Google's Chrome Remote
+Desktop Host Uninstaller, is treated the same way: moved on its own, it would leave the product installed, so its
+page offers to open it instead.
 
 An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
 the same way, and nothing of it can be selected: macOS removes the extension only when the app goes to the Trash in

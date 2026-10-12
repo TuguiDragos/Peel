@@ -458,6 +458,9 @@ struct UninstallCommand: AsyncParsableCommand {
             return
         case .byRemovePeel:
             throw CommandFailure("Peel removes itself from its own settings, which unregisters the helper first. Open Peel and click Remove Peel in Settings.")
+        case .byItsMaker(let uninstaller) where uninstaller.removes != nil:
+            let product = Output.plain(uninstaller.removes ?? "")
+            throw CommandFailure("\(Output.plain(target.name)) is \(uninstaller.maker)'s uninstaller for \(product): open it, and it removes \(product) and then itself. See \(uninstaller.instructions.absoluteString)")
         case .byItsMaker(let uninstaller):
             let step = switch uninstaller.step {
             case .command(let command): "run `\(command)`"

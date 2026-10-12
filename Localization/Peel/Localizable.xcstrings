@@ -976,6 +976,112 @@
         }
       }
     },
+    "%@ documents removing %@ by opening this app, which then removes itself too. Moving only this app would leave %@ behind, so Peel leaves it for you to open." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výrobce %@ uvádí ve své dokumentaci, že se aplikace %@ odstraňuje otevřením této aplikace, která pak odstraní i sama sebe. Kdyby byla do koše přesunuta jen tato aplikace, zůstala by aplikace %@ nainstalovaná, a proto Peel tuto aplikaci ponechává na místě, abyste ji mohli otevřít."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ beschreibt, wie „%@“ durch Öffnen dieser App entfernt wird, die sich dann auch selbst entfernt. Würde nur diese App verschoben, bliebe „%@“ zurück, daher lässt Peel die App dort, wo sie ist, damit du sie öffnen kannst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ indica en su documentación que %@ se elimina abriendo esta app, que después también se elimina a sí misma. Si se trasladara solo esta app, %@ se quedaría atrás, así que Peel la deja para que la abras tú."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selon la documentation de %@, %@ se désinstalle en ouvrant cette app, qui se supprime ensuite elle aussi. Placée seule dans la corbeille, cette app laisserait %@ derrière elle : Peel la laisse donc en place pour que vous l’ouvriez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ indica di rimuovere %@ aprendo questa app, che poi rimuove anche sé stessa. Spostando solo questa app, %@ resterebbe sul Mac, quindi Peel lascia l’app dov’è perché tu possa aprirla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@は、このアプリを開いて“%@”を取り除くよう案内しています。このアプリは、最後に自身も取り除きます。このアプリだけをゴミ箱に入れた場合は“%@”が残ってしまうため、Peelはこのアプリを、開けるようにそのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@은(는) 공식 문서에서 이 앱을 열어 ‘%@’을(를) 제거하도록 안내합니다. 이 앱은 그런 다음 자신도 제거합니다. 이 앱만 휴지통으로 이동하면 ‘%@’이(가) 남게 되므로, Peel은 사용자가 열 수 있도록 이 앱을 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ beschrijft hoe je %@ verwijdert door deze app te openen. Die verwijdert daarna ook zichzelf. Als alleen deze app naar de prullenmand werd verplaatst, zou %@ achterblijven, dus laat Peel de app staan, zodat je die zelf kunt openen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Według dokumentacji producenta %@ aplikację %@ odinstalowuje się, otwierając ten dezinstalator, który potem usuwa też sam siebie. Przeniesienie do Kosza tylko tego dezinstalatora pozostawiłoby aplikację %@ zainstalowaną, dlatego Peel zostawia go Tobie do otwarcia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segundo a documentação de %@, %@ deve ser removido abrindo este app, que depois também se remove. Se apenas este app fosse movido, %@ ficaria para trás, então o Peel deixa o app para você abrir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ documentează eliminarea produsului %@ prin deschiderea acestei aplicații, care apoi se elimină și ea. Dacă ar fi mutată în Coș doar această aplicație, %@ ar rămâne în urmă, așa că Peel lasă aplicația ca să o deschideți dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В документации %@ сказано, что для удаления приложения «%@» нужно открыть эту программу удаления, которая затем удалит и себя. Если бы переместили только эту программу, приложение «%@» осталось бы после нее, поэтому Peel оставляет ее на месте, чтобы Вы могли ее открыть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ beskriver hur %@ tas bort genom att du öppnar den här appen, som sedan även tar bort sig själv. Om bara den här appen flyttades skulle %@ lämnas kvar, så Peel lämnar appen åt dig att öppna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ belgelerine göre, %@ bu uygulama açılarak kaldırılır; uygulama ardından kendini de kaldırır. Yalnızca bu uygulama Çöp Sepeti’ne taşınsaydı %@ geride kalırdı, bu yüzden Peel uygulamaya dokunmaz ve onu açmayı size bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ у своїй документації описує вилучення програми «%@» відкриттям цього деінсталятора, який потім вилучає також себе. Якби перемістили лише цей деінсталятор, він залишив би по собі програму «%@», тому Peel лишає його на місці, щоб ви його відкрили."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@在文档中说明，“%@”应通过打开此App来移除，该App随后也会移除自己。如果只移走此App，“%@”会被留下，因此Peel会将此App留在原处，供你打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@在說明文件中指出，移除「%@」應打開此App，它隨後也會移除自己。若只移動此App，「%@」就會留下，因此Peel會將此App原地保留，讓你自行打開。"
+          }
+        }
+      }
+    },
     "%@ documents removing %@ with its own uninstaller, which also takes what it keeps in the system and the settings that manage it. Moved from here, those would stay behind, so Peel leaves it and its files where they are." : {
       "localizations" : {
         "cs" : {
@@ -7405,6 +7511,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「%@」的隱私權限未重置。%@"
+          }
+        }
+      }
+    },
+    "%@’s uninstaller for %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalátor výrobce %@ pro aplikaci %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deinstallationsprogramm von %@ für „%@“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desinstalador de %@ para %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programme de désinstallation de %@ pour %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma di disinstallazione di %@ per %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@の%@用アンインストーラ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 ‘%@’ 제거 프로그램"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De-installatieprogramma van %@ voor %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezinstalator producenta %@ dla aplikacji %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desinstalador de %@ para %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programul de dezinstalare de la %@ pentru %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Программа удаления от %@ для приложения «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avinstalleraren från %@ för %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından %@ için hazırlanan yükleme kaldırıcı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деінсталятор %@ для програми «%@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的%@卸载器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的「%@」解除安裝程式"
           }
         }
       }

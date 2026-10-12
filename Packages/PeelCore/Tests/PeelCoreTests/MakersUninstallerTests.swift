@@ -32,6 +32,19 @@ struct MakersUninstallerTests {
         )
     }
 
+    @Test func knowsAnUninstallerItsMakerDocumentsOpeningToRemoveAProduct() {
+        let path = "/Applications/Chrome Remote Desktop Host Uninstaller.app"
+        let uninstaller = agent("com.google.chromeremotedesktop.me2me-host-uninstaller", team: "EQHXZ8M8AV", at: path)
+
+        let found = MakersUninstaller.of(uninstaller)
+        #expect(found?.maker == "Google")
+        #expect(found?.removes == "Chrome Remote Desktop Host")
+        #expect(found?.step == .uninstaller(URL(filePath: path, directoryHint: .isDirectory)))
+        #expect(MakersUninstaller.of(agent("com.google.chromeremotedesktop.me2me-host-uninstaller", team: "ABCDE12345")) == nil)
+        #expect(MakersUninstaller.of(agent("com.google.chromeremotedesktop.me2me-host", team: "EQHXZ8M8AV")) == nil)
+        #expect(MakersUninstaller.of(agent("com.google.Chrome", team: "EQHXZ8M8AV")) == nil)
+    }
+
     /// An identifier is what a bundle says of itself: alone, it would let any app keep Peel away. The team comes
     /// from the checked signature, and a maker's other apps share it.
     @Test func neitherTheIdentifierNorTheTeamIsEnoughAlone() {

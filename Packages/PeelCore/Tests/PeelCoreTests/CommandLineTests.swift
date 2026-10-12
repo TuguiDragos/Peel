@@ -785,6 +785,19 @@ struct CommandLineTests {
         #expect(failure?.description.contains("uninstall_gp.sh") == true)
     }
 
+    @Test func refusesToMoveAMakersUninstallerAloneAndSaysToOpenIt() throws {
+        let uninstaller = InstalledApp(
+            url: URL(filePath: "/Applications/Chrome Remote Desktop Host Uninstaller.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.google.chromeremotedesktop.me2me-host-uninstaller",
+            name: "Chrome Remote Desktop Host Uninstaller", teamIdentifier: "EQHXZ8M8AV"
+        )
+
+        let failure = #expect(throws: CommandFailure.self) {
+            try UninstallCommand.refuseIfRemovedElsewhere(uninstaller)
+        }
+        #expect(failure?.description == "Chrome Remote Desktop Host Uninstaller is Google's uninstaller for Chrome Remote Desktop Host: open it, and it removes Chrome Remote Desktop Host and then itself. See https://support.google.com/chrome/answer/1649523")
+    }
+
     @Test func refusesToUninstallAnAppWhoseSystemExtensionOnlyFinderRemoves() throws {
         let app = InstalledApp(
             url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),

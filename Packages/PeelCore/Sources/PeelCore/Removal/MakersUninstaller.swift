@@ -1,7 +1,8 @@
 public import Foundation
 
-/// A security or management agent whose maker documents removing it with an uninstaller of its own. Moved from its
-/// place, what it keeps in the system and the settings that manage it would stay behind.
+/// A security or management agent whose maker documents removing it with an uninstaller of its own, or such an
+/// uninstaller itself. Moved from its place, what the product keeps in the system and the settings that manage it
+/// would stay behind.
 public struct MakersUninstaller: Sendable, Hashable {
     /// What the maker's page says to do.
     public enum Step: Sendable, Hashable {
@@ -15,12 +16,16 @@ public struct MakersUninstaller: Sendable, Hashable {
         case command(String)
         case uninstaller(String)
         case uninstallerInsideTheApp(String)
+        /// The app is the uninstaller, which removes the product named here and then itself.
+        case itself(removing: String)
     }
 
     public let maker: String
     public let step: Step
     /// The maker's page that says how to remove it.
     public let instructions: URL
+    /// The product this app removes, when the app is the uninstaller itself rather than the product.
+    public let removes: String?
 
     /// Each product with the signing team and the identifiers its maker's own deployment pages give, and the step and
     /// page of its maker's uninstall instructions. An identifier names itself and any longer one after a dot.
@@ -58,6 +63,12 @@ public struct MakersUninstaller: Sendable, Hashable {
             .uninstaller("/Applications/FortiClientUninstaller.app"),
             "https://community.fortinet.com/t5/FortiGate/Technical-Tip-How-to-uninstall-FortiClient-on-macOS/ta-p/229617"
         ),
+        // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
+        (
+            "EQHXZ8M8AV", ["com.google.chromeremotedesktop.me2me-host-uninstaller"], "Google",
+            .itself(removing: "Chrome Remote Desktop Host"),
+            "https://support.google.com/chrome/answer/1649523"
+        ),
     ]
 
     /// The maker's uninstaller for `app`, known by the team of its checked signature and by its identifier, both as
@@ -73,7 +84,9 @@ public struct MakersUninstaller: Sendable, Hashable {
         case .uninstaller(let path): .uninstaller(URL(filePath: path, directoryHint: .isDirectory))
         case .uninstallerInsideTheApp(let path):
             .uninstaller(app.url.appending(path: path, directoryHint: .isDirectory))
+        case .itself: .uninstaller(app.url)
         }
-        return MakersUninstaller(maker: product.maker, step: step, instructions: instructions)
+        let removes: String? = if case .itself(let removing) = product.step { removing } else { nil }
+        return MakersUninstaller(maker: product.maker, step: step, instructions: instructions, removes: removes)
     }
 }
