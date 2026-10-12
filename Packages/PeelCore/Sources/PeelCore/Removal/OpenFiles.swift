@@ -8,7 +8,7 @@ internal import PeelPrivileged
 struct OpenFiles {
     private enum Hold { case reads, writes, runs }
 
-    private typealias File = (names: [String], process: String, hold: Hold, isAnotherAccounts: Bool)
+    private typealias File = (names: [String], process: String, pid: pid_t, hold: Hold, isAnotherAccounts: Bool)
 
     private let files: [File]
     /// The program the excluded process runs. Its open files are no hold, but where it runs from is.
@@ -28,7 +28,7 @@ struct OpenFiles {
             guard !paths.isEmpty else { continue }
             let process = Self.name(of: pid, program: path)
             let isAnotherAccounts = kill(pid, 0) != 0 && errno == EPERM
-            files += paths.map { (PathComponents.of($0.path), process, $0.hold, isAnotherAccounts) }
+            files += paths.map { (PathComponents.of($0.path), process, pid, $0.hold, isAnotherAccounts) }
         }
         self.files = files
     }
@@ -37,6 +37,10 @@ struct OpenFiles {
     /// inside it, as Safari reads an app's Safari extension, holds nothing: what runs from it or writes in it does.
     func holders(of url: URL, lettingItsProgramsRun: Bool = false) -> [String] {
         Set(holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map(\.process)).sorted()
+    }
+
+    func processes(holding url: URL, lettingItsProgramsRun: Bool = false) -> Set<pid_t> {
+        Set(holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map(\.pid))
     }
 
     /// Why `url` can't move while it is held, or nil when nothing holds it.

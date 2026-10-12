@@ -91,6 +91,132 @@ struct TrashServiceTests {
         )
     }
 
+    /// What launchd would have been asked, since a test never asks launchd: the jobs stopped, which end their process
+    /// unless `endsTheProcess` is false, and the jobs started again.
+    private actor Launchd {
+        private(set) var stopped: [String] = []
+        private(set) var started: [String] = []
+        let endsTheProcess: Bool
+
+        init(endsTheProcess: Bool = true) {
+            self.endsTheProcess = endsTheProcess
+        }
+
+        func stop(_ jobs: [LaunchdCleanup.Running], ending process: Process) async -> [LaunchdCleanup.Running] {
+            stopped += jobs.map(\.label)
+            guard endsTheProcess else { return jobs }
+            let ends = ProcessEnds.of([process.processIdentifier])
+            process.terminate()
+            for await _ in ends {}
+            return jobs
+        }
+
+        func start(_ job: LaunchdCleanup.Job) {
+            started.append(job.label)
+        }
+    }
+
+    private func appRunningItsAgent(
+        in directory: borrowing TemporaryDirectory
+    ) throws -> (app: URL, agent: Process, plist: URL, job: LaunchdCleanup.Running) {
+        let agent = try directory.runningProgram("root/Applications/Agentful.app/Contents/MacOS/agent")
+        let plist = try launchdPlist("home/Library/LaunchAgents/org.example.agentful.agent.plist", in: directory)
+        let job = LaunchdCleanup.Running(
+            label: "org.example.agentful.agent", isDaemon: false, pid: agent.processIdentifier, plist: plist
+        )
+        return (directory.url.appending(path: "root/Applications/Agentful.app", directoryHint: .isDirectory), agent, plist, job)
+    }
+
+    private func service(
+        in directory: borrowing TemporaryDirectory,
+        launchd: Launchd,
+        agent: Process,
+        running: [LaunchdCleanup.Running]
+    ) throws -> TrashService {
+        let trash = try directory.directory("home/.Trash")
+        return TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            startJob: { job, _ in await launchd.start(job) },
+            runningInside: { _ in running },
+            stopRunning: { jobs, _ in await launchd.stop(jobs, ending: agent) }
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+    }
+
+    @Test func stopsTheAppsOwnBackgroundProgramThenMovesTheAppAndItsFiles() async throws {
+        let directory = try TemporaryDirectory()
+        let (app, agent, plist, job) = try appRunningItsAgent(in: directory)
+        defer { agent.terminate() }
+        let launchd = Launchd()
+        let service = try service(in: directory, launchd: launchd, agent: agent, running: [job])
+
+        let result = await service.trash(
+            apps: [app], thenFiles: { stayed in stayed.isEmpty ? [plist] : [] }, usingHelperFor: [],
+            lettingTheirProgramsRun: []
+        )
+
+        #expect(Set(result.trashed.map(\.originalURL)) == [app, plist])
+        #expect(result.failures.isEmpty)
+        #expect(result.trashed.first { $0.originalURL == plist }?.stoppedJob == job.label)
+        #expect(await launchd.stopped == [job.label])
+        #expect(await launchd.started.isEmpty)
+    }
+
+    @Test func stopsNothingWhileAProgramThatIsNotTheAppsJobHoldsIt() async throws {
+        let directory = try TemporaryDirectory()
+        let (app, agent, plist, _) = try appRunningItsAgent(in: directory)
+        defer { agent.terminate() }
+        let launchd = Launchd()
+        let service = try service(in: directory, launchd: launchd, agent: agent, running: [])
+
+        let result = await service.trash(
+            apps: [app], thenFiles: { stayed in stayed.isEmpty ? [plist] : [] }, usingHelperFor: [],
+            lettingTheirProgramsRun: []
+        )
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.url) == [app])
+        #expect(await launchd.stopped.isEmpty)
+    }
+
+    @Test func startsAgainWhatItStoppedWhenTheAppStillStays() async throws {
+        let directory = try TemporaryDirectory()
+        let (app, agent, plist, job) = try appRunningItsAgent(in: directory)
+        defer { agent.terminate() }
+        let launchd = Launchd(endsTheProcess: false)
+        let service = try service(in: directory, launchd: launchd, agent: agent, running: [job])
+
+        let result = await service.trash(
+            apps: [app], thenFiles: { stayed in stayed.isEmpty ? [plist] : [] }, usingHelperFor: [],
+            lettingTheirProgramsRun: []
+        )
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.url) == [app])
+        #expect(await launchd.started == [job.label])
+    }
+
+    @Test func startsAgainAJobWhoseFileStaysOnceTheAppMoved() async throws {
+        let directory = try TemporaryDirectory()
+        let (app, agent, _, job) = try appRunningItsAgent(in: directory)
+        defer { agent.terminate() }
+        let launchd = Launchd()
+        let service = try service(in: directory, launchd: launchd, agent: agent, running: [job])
+
+        let result = await service.trash(
+            apps: [app], thenFiles: { _ in [] }, usingHelperFor: [], lettingTheirProgramsRun: []
+        )
+
+        #expect(result.trashed.map(\.originalURL) == [app])
+        #expect(await launchd.started == [job.label])
+    }
+
     /// A command-line tool's link, and its shell completion's, lead into its app until the app has moved, and the
     /// helper takes such a link only once it leads nowhere, so the links go to the helper after everything else, in
     /// whatever order they came.

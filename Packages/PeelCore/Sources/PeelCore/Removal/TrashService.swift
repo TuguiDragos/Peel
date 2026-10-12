@@ -110,6 +110,13 @@ extension TrashFailure.Reason {
         }
     }
 
+    var isHeldByPrograms: Bool {
+        switch self {
+        case .heldOpen, .heldByAnotherAccount: true
+        default: false
+        }
+    }
+
     /// A fixed word for the reason, which the refusal log stores. It does not change with the text on screen, so
     /// an old record still reads.
     public var name: String {
@@ -203,6 +210,8 @@ public struct TrashService: Sendable {
     typealias ForgetDomains = @Sendable ([URL], _ owner: String?) async -> Void
     typealias MoveThroughHelper = @Sendable ([URL]) async -> TrashResult
     typealias PutBackDockTiles = @Sendable (URL) async -> Void
+    typealias RunningInside = @Sendable (_ app: URL) async -> [LaunchdCleanup.Running]
+    typealias StopRunning = @Sendable ([LaunchdCleanup.Running], _ canUseHelper: Bool) async -> [LaunchdCleanup.Running]
 
     let environment: SearchEnvironment
     private let removalGuard: RemovalGuard
@@ -211,6 +220,8 @@ public struct TrashService: Sendable {
     private let forgetDomains: ForgetDomains
     private let moveThroughHelper: MoveThroughHelper
     private let putBackDockTiles: PutBackDockTiles
+    private let runningInside: RunningInside
+    private let stopRunning: StopRunning
     private let moveToTrash: @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
     /// Where each item is written down as soon as it moves, so a removal cut short still reaches History.
@@ -226,6 +237,8 @@ public struct TrashService: Sendable {
             forgetDomains: { await PreferenceCleanup.forgetDomains(for: $0, ownedBy: $1) },
             moveThroughHelper: Self.moveThroughTheHelper,
             putBackDockTiles: { await DockTiles().putBack($0) },
+            runningInside: { await LaunchdCleanup.running(inside: $0, environment: environment) },
+            stopRunning: { await LaunchdCleanup.stop($0, canUseHelper: $1) },
             moveToTrash: { try Self.moveToSystemTrash($0, refusal: removalGuard.refusal(of:)) },
             ownMoves: .shared,
             journal: RemovalJournal(beside: RemovalHistory.defaultURL)
@@ -242,6 +255,8 @@ public struct TrashService: Sendable {
         forgetDomains: @escaping ForgetDomains = { _, _ in },
         moveThroughHelper: @escaping MoveThroughHelper = Self.asIfThereWereNoHelper,
         putBackDockTiles: @escaping PutBackDockTiles = { _ in },
+        runningInside: @escaping RunningInside = { _ in [] },
+        stopRunning: @escaping StopRunning = { _, _ in [] },
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
         journal: RemovalJournal? = nil,
         moveToTrash: @escaping @Sendable (URL) throws -> URL
@@ -254,6 +269,8 @@ public struct TrashService: Sendable {
             forgetDomains: forgetDomains,
             moveThroughHelper: moveThroughHelper,
             putBackDockTiles: putBackDockTiles,
+            runningInside: runningInside,
+            stopRunning: stopRunning,
             moveToTrash: moveToTrash,
             ownMoves: ownMoves,
             journal: journal
@@ -268,6 +285,8 @@ public struct TrashService: Sendable {
         forgetDomains: @escaping ForgetDomains,
         moveThroughHelper: @escaping MoveThroughHelper,
         putBackDockTiles: @escaping PutBackDockTiles,
+        runningInside: @escaping RunningInside,
+        stopRunning: @escaping StopRunning,
         moveToTrash: @escaping @Sendable (URL) throws -> URL,
         ownMoves: OwnTrashMoves,
         journal: RemovalJournal?
@@ -279,6 +298,8 @@ public struct TrashService: Sendable {
         self.forgetDomains = forgetDomains
         self.moveThroughHelper = moveThroughHelper
         self.putBackDockTiles = putBackDockTiles
+        self.runningInside = runningInside
+        self.stopRunning = stopRunning
         self.moveToTrash = moveToTrash
         self.ownMoves = ownMoves
         self.journal = journal
@@ -415,12 +436,22 @@ public struct TrashService: Sendable {
         var result = apps.isEmpty
             ? TrashResult()
             : await trash(apps, usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: running)
+        let stopped = await moveAgain(
+            &result, onceTheirJobsStop: apps, usingHelperFor: privilegedURLs, removal: removal,
+            lettingTheirProgramsRun: running
+        )
         let moved = Set(result.trashed.map(\.originalURL))
         let rest = files(Set(apps.filter { !moved.contains($0) }))
-        guard !rest.isEmpty else { return result }
+        guard !rest.isEmpty else {
+            await startAgain(stopped, unlessMoved: [])
+            return result
+        }
         let more = await trash(rest, usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: [])
         result.trashed += more.trashed
         result.failures += more.failures
+        let filesMoved = Set(more.trashed.map(\.originalURL))
+        result.note(stopped.compactMap(\.job).filter { filesMoved.contains($0.plist) })
+        await startAgain(stopped, unlessMoved: filesMoved)
         // Nobody asked for these folders, so one that stays is no failure, and they are not counted with the rest.
         for folder in MakersFolders(environment: environment, names: names).above(more.trashed.map(\.originalURL))
         where MakersFolders.isEmpty(folder) {
@@ -431,6 +462,47 @@ public struct TrashService: Sendable {
             result.emptied.formUnion(moved.map(\.originalURL))
         }
         return result
+    }
+
+    /// Moves again each of `apps` that only its own background programs kept from moving, once their jobs are stopped,
+    /// and answers the jobs stopped for an app that then moved. Nothing is stopped while anything else holds the app.
+    private func moveAgain(
+        _ result: inout TrashResult,
+        onceTheirJobsStop apps: [URL],
+        usingHelperFor privilegedURLs: Set<URL>,
+        removal: UUID,
+        lettingTheirProgramsRun running: Set<URL>
+    ) async -> [LaunchdCleanup.Running] {
+        var stoppedForMovedApps: [LaunchdCleanup.Running] = []
+        for app in apps {
+            guard let index = result.failures.firstIndex(where: { $0.url == app }),
+                  result.failures[index].reason.isHeldByPrograms
+            else { continue }
+            let holders = OpenFiles().processes(holding: app, lettingItsProgramsRun: running.contains(app))
+            let jobs = await runningInside(app).filter { holders.contains($0.pid) }
+            guard !holders.isEmpty, holders.isSubset(of: Set(jobs.map(\.pid))) else { continue }
+            let stopped = await stopRunning(jobs, true)
+            let again = await trash(
+                [app], usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: running
+            )
+            if again.trashed.contains(where: { $0.originalURL == app }) {
+                result.failures.remove(at: index)
+                result.trashed += again.trashed
+                stoppedForMovedApps += stopped
+            } else {
+                result.failures[index] = again.failures.first { $0.url == app } ?? result.failures[index]
+                await startAgain(stopped, unlessMoved: [])
+            }
+        }
+        return stoppedForMovedApps
+    }
+
+    /// Starts again each of `jobs` launchd reads from a file that did not move: stopped so their app could move, they
+    /// must not stay stopped while their file stays in place.
+    private func startAgain(_ jobs: [LaunchdCleanup.Running], unlessMoved moved: Set<URL>) async {
+        for job in jobs.compactMap(\.job) where !moved.contains(job.plist) {
+            await startJob(job, true)
+        }
     }
 
     private func trash(

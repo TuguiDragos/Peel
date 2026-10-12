@@ -9,20 +9,76 @@ enum LaunchdCleanup {
         let plist: URL
     }
 
+    /// A job launchd runs now whose program sits inside an app: one of the app's own background programs. `plist` is
+    /// the file it is started from when that is one launchd reads from a folder, so it can be started again.
+    struct Running: Sendable, Hashable {
+        let label: String
+        let isDaemon: Bool
+        let pid: pid_t
+        let plist: URL?
+
+        var job: Job? { plist.map { Job(label: label, isDaemon: isDaemon, plist: $0) } }
+    }
+
     /// Stops jobs whose configuration has gone, so launchd doesn't keep them running or restart them, and answers
     /// those it stopped: a job launchd did not have is not one.
     @concurrent
     static func stop(_ jobs: [Job], canUseHelper: Bool) async -> [Job] {
         var stopped: [Job] = []
-        for job in jobs {
-            if job.isDaemon {
-                guard canUseHelper, PrivilegedHelper.status == .enabled else { continue }
-                if await PrivilegedHelper.runDaemonCommand(.bootout, label: job.label) == nil { stopped.append(job) }
-            } else if await Launchctl.run(["bootout", "gui/\(getuid())/\(job.label)"]).status == 0 {
-                stopped.append(job)
-            }
+        for job in jobs where await bootout(job.label, isDaemon: job.isDaemon, canUseHelper: canUseHelper) {
+            stopped.append(job)
         }
         return stopped
+    }
+
+    /// The jobs running now, in this user's domain and the system's, whose program sits inside `app`. An app Launch
+    /// Services opened is a job too (`application.`), which is quit as an app and never stopped as a job.
+    @concurrent
+    static func running(inside app: URL, environment: SearchEnvironment = .current) async -> [Running] {
+        let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app))
+        var found: [Running] = []
+        for (domain, isDaemon) in [("gui/\(getuid())", false), ("system", true)] {
+            let services = Launchctl.parseSystemServices(await Launchctl.run(["print", domain]).output) ?? [:]
+            for case let (label, pid?) in services where isAppsOwn(label) {
+                guard let program = RunningProgram.path(of: pid),
+                      PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: program)), inside: bundle)
+                else { continue }
+                let path = Launchctl.parseDetails(await Launchctl.run(["print", "\(domain)/\(label)"]).output)?.path
+                let plist = path.flatMap { jobs(for: [URL(filePath: $0)], environment: environment).first?.plist }
+                found.append(Running(label: label, isDaemon: isDaemon, pid: pid, plist: plist))
+            }
+        }
+        return found
+    }
+
+    /// Stops `jobs` and answers those it stopped, once their processes have ended or `patience` has passed.
+    @concurrent
+    static func stop(_ jobs: [Running], canUseHelper: Bool, patience: Duration = .seconds(10)) async -> [Running] {
+        let ends = ProcessEnds.of(jobs.map(\.pid))
+        var stopped: [Running] = []
+        for job in jobs where await bootout(job.label, isDaemon: job.isDaemon, canUseHelper: canUseHelper) {
+            stopped.append(job)
+        }
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask { for await _ in ends {} }
+            group.addTask { try? await Task.sleep(for: patience) }
+            await group.next()
+            group.cancelAll()
+        }
+        return stopped
+    }
+
+    private static func isAppsOwn(_ label: String) -> Bool {
+        !label.hasPrefix("application.") && PrivilegedPathPolicy.isValidLabel(label) && label != HelperIdentity.helperIdentifier
+            && !SystemDaemons.shipped.contains(label) && !SystemAgents.shipped.contains(label)
+    }
+
+    private static func bootout(_ label: String, isDaemon: Bool, canUseHelper: Bool) async -> Bool {
+        if isDaemon {
+            guard canUseHelper, PrivilegedHelper.status == .enabled else { return false }
+            return await PrivilegedHelper.runDaemonCommand(.bootout, label: label) == nil
+        }
+        return await Launchctl.run(["bootout", "gui/\(getuid())/\(label)"]).status == 0
     }
 
     @concurrent
