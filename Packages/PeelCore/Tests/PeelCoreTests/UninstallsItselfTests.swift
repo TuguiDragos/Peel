@@ -192,10 +192,10 @@ struct UninstallsItselfTests {
         #expect(plan.needsReview == 0)
     }
 
-    @Test func itsPrivacyIsResetThoughItsOwnProgramRunsFromIt() throws {
+    @Test func itsPrivacyIsResetThoughItsOwnProgramRunsFromIt() async throws {
         let installed = try Installed()
 
-        #expect(PrivacyReset.goingNow([installed.app], with: try installed.service()) == [installed.app])
+        #expect(await PrivacyReset.goingNow([installed.app], with: try installed.service()) == [installed.app])
     }
 
     private struct Citrix: ~Copyable {

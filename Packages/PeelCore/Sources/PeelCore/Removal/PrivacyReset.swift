@@ -42,7 +42,7 @@ public enum PrivacyReset {
         beforeMovingWith service: TrashService
     ) async -> [(app: InstalledApp, result: Result)] {
         var results: [(app: InstalledApp, result: Result)] = []
-        for app in goingNow(apps, with: service) {
+        for app in await goingNow(apps, with: service) {
             guard let identifier = app.bundleIdentifier else {
                 results.append((app, .refused))
                 continue
@@ -52,10 +52,10 @@ public enum PrivacyReset {
         return results
     }
 
-    static func goingNow(_ apps: [InstalledApp], with service: TrashService) -> [InstalledApp] {
+    static func goingNow(_ apps: [InstalledApp], with service: TrashService) async -> [InstalledApp] {
         let uninstallingThemselves = apps.filter { UninstallsItself.of($0, environment: service.environment) != nil }
-        let refused = service.refusalsNow(
-            of: apps.map(\.url),
+        let refused = await service.refusalsNow(
+            ofApps: apps.map(\.url),
             lettingTheirProgramsRun: Set(uninstallingThemselves.map(\.url))
         )
         return apps.filter { refused[$0.url] == nil }

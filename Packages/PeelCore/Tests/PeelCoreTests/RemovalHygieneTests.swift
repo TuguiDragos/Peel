@@ -657,14 +657,14 @@ struct RemovalHygieneTests {
 struct PrivacyResetTests {
     /// The reset can't be undone, so it is only for an app the move will take: one a program is running from stays,
     /// and keeps its permissions.
-    @Test func resetsOnlyAnAppThatIsGoing() throws {
+    @Test func resetsOnlyAnAppThatIsGoing() async throws {
         let directory = try TemporaryDirectory()
         let held = InstalledApp(url: try directory.directory("Applications/Held.app"), bundleIdentifier: "org.example.held", name: "Held")
         let free = InstalledApp(url: try directory.directory("Applications/Free.app"), bundleIdentifier: "org.example.free", name: "Free")
         let process = try directory.runningProgram("Applications/Held.app/Contents/MacOS/held")
         defer { process.terminate() }
 
-        #expect(PrivacyReset.goingNow([held, free], with: service(in: directory)).map(\.bundleIdentifier) == ["org.example.free"])
+        #expect(await PrivacyReset.goingNow([held, free], with: service(in: directory)).map(\.bundleIdentifier) == ["org.example.free"])
     }
 
     private func service(in directory: borrowing TemporaryDirectory) -> TrashService {

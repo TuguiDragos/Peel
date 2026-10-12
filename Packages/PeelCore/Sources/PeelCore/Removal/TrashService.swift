@@ -320,17 +320,26 @@ public struct TrashService: Sendable {
         return historyCanBeRead ? nil : .historyUnreadable
     }
 
-    /// Why each of `urls` would not move now, by the checks a move makes before it starts: the guard, History, and the
-    /// programs holding it. An item missing from the answer would move.
-    func refusalsNow(of urls: [URL], lettingTheirProgramsRun apps: Set<URL>) -> [URL: TrashFailure.Reason] {
+    /// Why each of `apps` would not move now in an uninstall, by the checks its move makes: the guard, History, and
+    /// the programs holding it, unless only the app's own background programs do, which the move stops first. An app
+    /// missing from the answer would move.
+    func refusalsNow(
+        ofApps apps: [URL],
+        lettingTheirProgramsRun running: Set<URL>
+    ) async -> [URL: TrashFailure.Reason] {
         let openFiles = OpenFiles()
         var refusals: [URL: TrashFailure.Reason] = [:]
-        for url in urls {
-            if let refusal = refusal(of: url) {
-                refusals[url] = refusal
-            } else if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
-                refusals[url] = held
+        for app in apps {
+            if let refusal = refusal(of: app) {
+                refusals[app] = refusal
+                continue
             }
+            let mayRun = running.contains(app)
+            guard let held = openFiles.refusal(of: app, lettingItsProgramsRun: mayRun) else { continue }
+            if held.isHeldByPrograms, await jobsHoldingOnly(app, in: openFiles, lettingItsProgramsRun: mayRun) != nil {
+                continue
+            }
+            refusals[app] = held
         }
         return refusals
     }
@@ -481,11 +490,9 @@ public struct TrashService: Sendable {
         var stoppedForMovedApps: [LaunchdCleanup.Running] = []
         for app in apps {
             guard let index = result.failures.firstIndex(where: { $0.url == app }),
-                  result.failures[index].reason.isHeldByPrograms
+                  result.failures[index].reason.isHeldByPrograms,
+                  let jobs = await jobsHoldingOnly(app, in: OpenFiles(), lettingItsProgramsRun: running.contains(app))
             else { continue }
-            let holders = OpenFiles().processes(holding: app, lettingItsProgramsRun: running.contains(app))
-            let jobs = await runningInside(app).filter { holders.contains($0.pid) }
-            guard !holders.isEmpty, holders.isSubset(of: Set(jobs.map(\.pid))) else { continue }
             let stopped = await stopRunning(jobs, true)
             let again = await trash(
                 [app], usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: running
@@ -500,6 +507,19 @@ public struct TrashService: Sendable {
             }
         }
         return stoppedForMovedApps
+    }
+
+    /// The background programs running from inside `app` when nothing else holds it, or nil when anything else holds it
+    /// too, or nothing does.
+    private func jobsHoldingOnly(
+        _ app: URL,
+        in openFiles: OpenFiles,
+        lettingItsProgramsRun: Bool
+    ) async -> [LaunchdCleanup.Running]? {
+        let holders = openFiles.processes(holding: app, lettingItsProgramsRun: lettingItsProgramsRun)
+        guard !holders.isEmpty else { return nil }
+        let jobs = await runningInside(app).filter { holders.contains($0.pid) }
+        return holders.isSubset(of: Set(jobs.map(\.pid))) ? jobs : nil
     }
 
     /// Starts again each of `jobs` launchd reads from a file that did not move: stopped so their app could move, they

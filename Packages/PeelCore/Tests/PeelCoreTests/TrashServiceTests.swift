@@ -217,6 +217,18 @@ struct TrashServiceTests {
         #expect(await launchd.started == [job.label])
     }
 
+    @Test func resetsThePrivacyOfAnAppOnlyItsOwnBackgroundProgramKeepsInPlace() async throws {
+        let directory = try TemporaryDirectory()
+        let (app, agent, _, job) = try appRunningItsAgent(in: directory)
+        defer { agent.terminate() }
+        let installed = InstalledApp(url: app, bundleIdentifier: "org.example.agentful", name: "Agentful")
+        let stopsItsJob = try service(in: directory, launchd: Launchd(), agent: agent, running: [job])
+        let findsNoJob = try service(in: directory, launchd: Launchd(), agent: agent, running: [])
+
+        #expect(await PrivacyReset.goingNow([installed], with: stopsItsJob) == [installed])
+        #expect(await PrivacyReset.goingNow([installed], with: findsNoJob).isEmpty)
+    }
+
     /// A command-line tool's link, and its shell completion's, lead into its app until the app has moved, and the
     /// helper takes such a link only once it leads nowhere, so the links go to the helper after everything else, in
     /// whatever order they came.
@@ -923,7 +935,7 @@ struct TrashServiceTests {
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.reason) == [.peelRunsFromIt])
         #expect(throughTheHelper.failures.map(\.reason) == [.peelRunsFromIt])
-        #expect(service.refusalsNow(of: [folder], lettingTheirProgramsRun: []) == [folder: .peelRunsFromIt])
+        #expect(await service.refusalsNow(ofApps: [folder], lettingTheirProgramsRun: []) == [folder: .peelRunsFromIt])
     }
 
     @MainActor @Test func leavesWhatAnotherAccountRunsFromWithAReasonOfItsOwn() {
