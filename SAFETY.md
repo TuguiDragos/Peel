@@ -146,17 +146,21 @@ moment it moves, so one cut short by a crash or Force Quit still reaches History
 next time Peel or `peel` opens it.
 
 Right before anything moves, Peel looks at the files other programs of yours hold open and at the program each
-process runs, and leaves where it is any file or folder with one of them inside, naming the program: moving a
-database or a cache from under an agent, a daemon, or a server that is using it would break it. An app is code,
-which loses nothing when it moves, so a program that only reads inside it, as Safari reads an app's Safari
-extension, does not keep it in place; one that runs from it or writes in it does, unless the app uninstalls itself
-once it is moved, as Mullvad VPN and Citrix Workspace do: their own uninstaller stops it. Peel itself counts
-too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel. Of programs that
-run as another account or as root, macOS's own among them, only the program can be seen, never the files it holds
-open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of the disk, where
-those programs keep theirs, does not list them at all. Neither you nor Peel can quit such a program, so Peel never
-asks you to: what it runs from stays, and says so, until it is stopped in Background Items or by the app's own
-uninstaller.
+process runs, and leaves where it is any file or folder with one of them inside, naming the program and how to free
+the item: quit it, or stop it in Background Items when it has no window, since launchd starts such a program again.
+Moving a database or a cache from under an agent, a daemon, or a server that is using it would break it. A program
+of macOS's own, such as a service keeping its cache open, is named as macOS: nobody quits it, so the item stays
+where it is. An app is code, which loses nothing when it moves, so a program that only reads inside it, as Safari
+reads an app's Safari extension, does not keep it in place; one that runs from it or writes in it does, unless the
+app uninstalls itself once it is moved, as Mullvad VPN and Citrix Workspace do: their own uninstaller stops it. When
+nothing but an app's own background programs, the launch agents and daemons that run from inside it, keeps the app
+in place, an uninstall stops them first and then moves the app, and starts them again if it still stays. Peel itself
+counts too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel. Of
+programs that run as another account or as root, macOS's own among them, only the program can be seen, never the
+files it holds open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of
+the disk, where those programs keep theirs, does not list them at all. Neither you nor Peel can quit such a program,
+so Peel never asks you to: what it runs from stays, and says so, until it is stopped in Background Items or by the
+app's own uninstaller.
 
 The folder your account's crash reports are saved in, `~/Library/Logs/DiagnosticReports`, never moves: macOS's
 analytics helper can't make it again once it is gone, and crash reports would stop being saved. Space offers only
