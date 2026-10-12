@@ -8,6 +8,8 @@ public struct UninstallsItself: Sendable, Hashable {
         case logsOut(script: String)
         /// Asks for an administrator, then deletes the app, even from the Trash, and its system files.
         case deletesTheApp
+        /// Asks to remove the components it keeps in the system, then deletes them.
+        case removesItsComponents
     }
 
     public let app: InstalledApp
@@ -71,8 +73,38 @@ public struct UninstallsItself: Sendable, Hashable {
         ]
     )
 
+    /// TeamViewer's daemon `com.teamviewer.UninstallerWatcher` watches the app and, once it is in the Trash, opens the
+    /// uninstaller that asks to remove what TeamViewer's package put in the system (TeamViewer 15's
+    /// `TeamViewerUninstaller.app` and its helper).
+    private static let teamViewer = (
+        identifier: "com.teamviewer.TeamViewer",
+        watcher: "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist"
+    )
+
+    private static let teamViewerRemoves = (
+        root: [
+            "Library/LaunchDaemons/com.teamviewer.Helper.plist",
+            "Library/LaunchDaemons/com.teamviewer.ScriptExecutionHelper.plist",
+            "Library/LaunchDaemons/com.teamviewer.UninstallerHelper.plist",
+            "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist",
+            "Library/LaunchDaemons/com.teamviewer.teamviewer_service.plist",
+            "Library/LaunchAgents/com.teamviewer.teamviewer.plist",
+            "Library/LaunchAgents/com.teamviewer.teamviewer_desktop.plist",
+            "Library/PrivilegedHelperTools/com.teamviewer.Helper",
+            "Library/PrivilegedHelperTools/com.teamviewer.UninstallerHelper",
+            "Library/Application Support/TeamViewer",
+            "Library/Security/SecurityAgentPlugins/TeamViewerAuthPlugin.bundle",
+            "Library/Audio/Plug-Ins/HAL/TVRemoteAudio.driver",
+            "Library/Caches/com.teamviewer.TeamViewer.RemotePrinting",
+            "Library/Printers/Icons/TeamViewer.icns",
+            "usr/libexec/cups/filter/pdftoteamviewer",
+        ],
+        home: [String]()
+    )
+
     public static func of(_ app: InstalledApp, environment: SearchEnvironment = .current) -> UninstallsItself? {
         mullvad(app, environment: environment) ?? citrix(app, environment: environment)
+            ?? teamViewer(app, environment: environment)
     }
 
     private static func mullvad(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
@@ -100,6 +132,25 @@ public struct UninstallsItself: Sendable, Hashable {
             FileManager.default.isExecutableFile(atPath: program)
         else { return nil }
         return UninstallsItself(app: app, uninstaller: .deletesTheApp, removed: paths(citrixRemoves, in: environment))
+    }
+
+    private static func teamViewer(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+        let place = PathPattern.comparablePath(of: app.url)
+        guard
+            app.bundleIdentifier == teamViewer.identifier,
+            let watcher = JobDefinition(contentsOf: environment.rootDirectory.appending(path: teamViewer.watcher)),
+            !watcher.isDisabled,
+            watcher.watchPaths.contains(where: {
+                PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: $0)), atOrInside: place)
+            }),
+            let program = watcher.program,
+            FileManager.default.isExecutableFile(atPath: program)
+        else { return nil }
+        return UninstallsItself(
+            app: app,
+            uninstaller: .removesItsComponents,
+            removed: paths(teamViewerRemoves, in: environment)
+        )
     }
 
     private static func paths(

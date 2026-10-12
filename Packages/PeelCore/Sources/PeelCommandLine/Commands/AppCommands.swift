@@ -431,6 +431,8 @@ struct UninstallCommand: AsyncParsableCommand {
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(script)")
             case .deletesTheApp:
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks for an administrator's password. If you continue there, it deletes the app, even from the Trash, and its system files, which the Trash can't bring back.")
+            case .removesItsComponents:
+                warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks to remove the components it keeps in the system. If you continue there, it deletes them, which the Trash can't bring back.")
             }
         }
         return warnings

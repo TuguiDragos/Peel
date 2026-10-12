@@ -312,6 +312,107 @@ struct UninstallsItselfTests {
         }
     }
 
+    private struct TeamViewer: ~Copyable {
+        let directory: TemporaryDirectory
+        let app: InstalledApp
+        let environment: SearchEnvironment
+
+        init(watching watched: String? = nil, disabled: Bool = false, starterInPlace: Bool = true) throws {
+            let directory = try TemporaryDirectory()
+            let bundle = try directory.directory("root/Applications/TeamViewer.app")
+            let starter = "root/Library/Application Support/TeamViewer/TeamViewerUninstaller.app/Contents/Helpers/com.teamviewer.UninstallerStarter"
+            if starterInPlace {
+                try directory.file(starter)
+                try directory.setPermissions(0o755, of: starter)
+            }
+            try directory.file(
+                "root/Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist",
+                contents: PropertyListSerialization.data(
+                    fromPropertyList: [
+                        "Label": "com.teamviewer.UninstallerWatcher",
+                        "Disabled": disabled,
+                        "Program": directory.url.appending(path: starter).path(percentEncoded: false),
+                        "WatchPaths": [watched ?? bundle.path(percentEncoded: false)],
+                    ],
+                    format: .xml,
+                    options: 0
+                )
+            )
+            self.app = InstalledApp(url: bundle, bundleIdentifier: "com.teamviewer.TeamViewer", name: "TeamViewer")
+            self.environment = SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+            self.directory = directory
+        }
+
+        func job(_ path: String, running program: String) throws -> URL {
+            let job = [
+                "Label": URL(filePath: path).deletingPathExtension().lastPathComponent,
+                "Program": app.url.appending(path: program).path(percentEncoded: false),
+            ]
+            return try directory.file(
+                path,
+                contents: PropertyListSerialization.data(fromPropertyList: job, format: .xml, options: 0)
+            )
+        }
+    }
+
+    @Test func teamViewerUninstallsItselfThroughTheDaemonThatWatchesIt() throws {
+        let teamViewer = try TeamViewer()
+
+        let uninstaller = UninstallsItself.of(teamViewer.app, environment: teamViewer.environment)?.uninstaller
+        #expect(uninstaller == .removesItsComponents)
+    }
+
+    @Test func teamViewerIsAnOrdinaryAppWhenNoDaemonWouldOpenItsUninstaller() throws {
+        let elsewhere = try TeamViewer(watching: "/Applications/Another.app")
+        let disabled = try TeamViewer(disabled: true)
+        let noStarter = try TeamViewer(starterInPlace: false)
+        let noDaemon = try TeamViewer()
+        try FileManager.default.removeItem(
+            at: noDaemon.environment.rootDirectory.appending(path: "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist")
+        )
+
+        #expect(UninstallsItself.of(elsewhere.app, environment: elsewhere.environment) == nil)
+        #expect(UninstallsItself.of(disabled.app, environment: disabled.environment) == nil)
+        #expect(UninstallsItself.of(noStarter.app, environment: noStarter.environment) == nil)
+        #expect(UninstallsItself.of(noDaemon.app, environment: noDaemon.environment) == nil)
+    }
+
+    @Test func leavesToTeamViewersUninstallerWhatItRemovesAndOffersTheRest() async throws {
+        let teamViewer = try TeamViewer()
+        let root = teamViewer.environment.rootDirectory
+        let removedByIt = [
+            try teamViewer.job(
+                "root/Library/LaunchDaemons/com.teamviewer.teamviewer_service.plist",
+                running: "Contents/MacOS/TeamViewer_Service"
+            ),
+            try teamViewer.job(
+                "root/Library/LaunchAgents/com.teamviewer.teamviewer_desktop.plist",
+                running: "Contents/Helpers/TeamViewer_Desktop"
+            ),
+            root.appending(path: "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist"),
+            root.appending(path: "Library/Application Support/TeamViewer"),
+        ]
+        let leftByIt = [try teamViewer.directory.directory("home/Library/Caches/com.teamviewer.TeamViewer")]
+
+        let plan = await Uninstallation.prepare(
+            teamViewer.app, installedApps: [teamViewer.app], environment: teamViewer.environment
+        )
+
+        let heldBack = Dictionary(
+            plan.scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0.match.heldBack) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        for url in removedByIt {
+            #expect(heldBack[PathPattern.comparablePath(of: url)] == .some(.leftToItsUninstaller), "\(url.path())")
+        }
+        for url in leftByIt {
+            #expect(heldBack[PathPattern.comparablePath(of: url)] == .some(nil), "\(url.path())")
+        }
+    }
+
     @Test func citrixsBundleMovesWhileItsHelperRunsFromIt() async throws {
         let citrix = try Citrix()
         let helper = try citrix.directory.runningProgram(
