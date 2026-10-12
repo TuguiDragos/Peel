@@ -84,30 +84,33 @@ public struct OrphanScanner: Sendable {
             uniquingKeysWith: { first, _ in first }
         )
 
-        let results = await withTaskGroup(of: LocationResult.self) { group in
+        let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
             // A browser's manifest is an app's only through the program it names (`servesAProgram`). Safari's web app
             // container is another app's container, which macOS asks about, and is read only for one of its web apps.
             let skipped: Set<SearchLocation.Kind> = [.nativeMessagingHosts, .safariWebApps]
             for location in environment.locations where !skipped.contains(location.kind) {
                 _ = group.addTaskUnlessCancelled { [exclusions, nestedFolderLimit, walk] in
-                    await Self.scan(
+                    (location, await Self.scan(
                         location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,
                         goneNames: goneNames, home: home, exclusions: exclusions, nestedFolderLimit: nestedFolderLimit,
                         walk: walk
-                    )
+                    ))
                 }
             }
-            return await group.reduce(into: [LocationResult]()) { $0.append($1) }
+            return await group.reduce(into: [(location: SearchLocation, result: LocationResult)]()) { $0.append($1) }
         }
 
+        // One location can sit inside another one the walk reaches (the recent documents folder, two levels into
+        // Application Support), so a file is listed once, under the location nearer it.
         var found: [(identifier: String, item: OrphanItem)] = []
+        var seen: Set<String> = []
         var unreadableLocations: [SearchLocation] = []
         var cutShortLocations: [SearchLocation] = []
-        for result in results {
+        for (_, result) in results.sorted(by: { Self.isNearer($0.location, than: $1.location) }) {
             switch result {
             case .found(let items, let cutShort, let unreadable):
-                found += items
+                found += items.filter { seen.insert(PathPattern.comparablePath(of: $0.item.url)).inserted }
                 unreadableLocations += unreadable
                 if let cutShort { cutShortLocations.append(cutShort) }
             case .unreadable(let location):
@@ -157,6 +160,14 @@ public struct OrphanScanner: Sendable {
     private var manifestFolders: Set<String> {
         let manifests = environment.locations.filter { $0.kind == .nativeMessagingHosts }
         return Set(manifests.map { PathPattern.comparablePath(of: $0.url) })
+    }
+
+    /// The deeper of two locations first: two as deep never reach the same file, so any fixed order between them does.
+    static func isNearer(_ one: SearchLocation, than other: SearchLocation) -> Bool {
+        let (path, otherPath) = (one.url.path(percentEncoded: false), other.url.path(percentEncoded: false))
+        let (depth, otherDepth) = (PathComponents.of(path).count, PathComponents.of(otherPath).count)
+        guard depth == otherDepth else { return depth > otherDepth }
+        return (path, one.kind.rawValue) < (otherPath, other.kind.rawValue)
     }
 
     /// Whether `url` is a manifest in a folder browsers read native messaging manifests from that still serves its

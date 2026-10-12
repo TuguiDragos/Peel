@@ -95,6 +95,21 @@ struct OrphanScannerTests {
         #expect(item(going)?.leftAlone == .systemExtensionGoingAtRestart)
     }
 
+    @Test func listsAFileTwoPlacesReachOnce() async throws {
+        let directory = try TemporaryDirectory()
+        let recents = "home/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments"
+        try directory.file("\(recents)/org.example.viewer.sfl4", bytes: 64)
+        let viewer = RememberedApp(
+            bundleIdentifier: "org.example.viewer", name: "Viewer", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Viewer.app"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [viewer])
+        let items = scan.groups.flatMap(\.items)
+
+        #expect(items.map(\.url.lastPathComponent) == ["org.example.viewer.sfl4"])
+    }
+
     @Test func aBrowsersManifestIsAnOrphanOnlyOnceItsProgramIsGone() async throws {
         let directory = try TemporaryDirectory()
         let folder = "home/Library/Application Support/Mozilla/NativeMessagingHosts"
