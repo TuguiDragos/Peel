@@ -83,8 +83,12 @@ struct SubprocessTests {
         #expect(result == .failure(.timedOut))
     }
 
-    @Test func theTimersThatStopAToolNeverWaitBehindWorkOfLowerQuality() {
-        #expect(Subprocess.timers.label == DispatchQueue.global(qos: .userInitiated).label)
+    @Test func theTimersThatStopAToolRunAtUserInitiatedQuality() async {
+        let quality = await withCheckedContinuation { continuation in
+            Subprocess.timers.asyncAfter(deadline: .now()) { continuation.resume(returning: qos_class_self()) }
+        }
+
+        #expect(quality == QOS_CLASS_USER_INITIATED)
     }
 
     /// What a tool writes reaches whoever asked while the tool still runs, from either stream, so a long run can
