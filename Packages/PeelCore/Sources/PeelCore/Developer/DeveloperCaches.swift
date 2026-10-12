@@ -1196,6 +1196,75 @@ public enum DeveloperCaches {
             Folder(".omlx/cache", .cache, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L443-L455"),
             Folder(".omlx/logs", .logs, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L835-L847"),
         ]),
+        Definition(id: "clip", name: "CLIP", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/clip", .models, source: "https://github.com/openai/CLIP/blob/d05afc436d78f1c48dc0dbf8e5980a9d471f35f6/clip/clip.py#L108-L109"),
+        ]),
+        Definition(id: "easyocr", name: "EasyOCR", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".EasyOCR/model", .models, source: "https://github.com/JaidedAI/EasyOCR/blob/363afb184047ce452e436f4224f3098422df872e/easyocr/easyocr.py#L44-L57"),
+        ]),
+        Definition(id: "rembg", name: "rembg", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".rembg/models", .models, source: "https://github.com/danielgatis/rembg/blob/cd8f3665dda6c246b5baecb85fda6a2acd644c2a/rembg/sessions/base.py#L157-L185"),
+            Folder(".u2net", .models, source: "https://github.com/danielgatis/rembg/blob/cd8f3665dda6c246b5baecb85fda6a2acd644c2a/rembg/sessions/base.py#L143-L154"),
+        ]),
+        Definition(id: "insightface", name: "InsightFace", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".insightface/models", .models, source: "https://github.com/deepinsight/insightface/blob/81929474ec02e54e3655f6841bced800009c592d/python-package/insightface/model_zoo/model_zoo.py#L619-L621"),
+        ]),
+        Definition(id: "deepface", name: "DeepFace", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".deepface/weights", .models, source: "https://github.com/serengil/deepface/blob/b6f17a2d30ad89c3c4a490d28ab3f25b8adc97c3/deepface/commons/folder_utils.py#L14-L16"),
+        ]),
+        Definition(id: "docling", name: "Docling", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/docling/models", .models, source: "https://github.com/docling-project/docling/blob/a76ae4b6acfbb7e9a63b9f8592f05d555e8c3a27/docling/utils/model_downloader.py#L93-L94"),
+        ]),
+        Definition(id: "gensim", name: "gensim", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("gensim-data", .models, source: "https://github.com/piskvorky/gensim/blob/37f90ec121eb7cd401448a947e80953e0c53ccdc/gensim/downloader.py#L76-L77"),
+        ]),
+        // Stanza keeps its models in `stanza_resources` up to 1.11.0, and from 1.11.1 in the cache folder platformdirs
+        // names for each version of them.
+        Definition(id: "stanza", name: "Stanza", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("stanza_resources", .models, source: "https://github.com/stanfordnlp/stanza/blob/156f86bff61fe673c3930af5fcf7a44d66b28dac/stanza/resources/common.py#L37-L39"),
+            Folder("Library/Caches/stanza/*/resources", .models, source: "https://github.com/stanfordnlp/stanza/blob/c9a2158a87502dd63f757ab1aa933230b0acbce7/stanza/resources/common.py#L33-L45"),
+        ]),
+        Definition(id: "fastai", name: "fastai", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".fastai/data", .models, source: "https://github.com/fastai/fastai/blob/46231bdc3e88a457c940dd7bde8a03c92fb42901/fastai/data/external.py#L18-L21"),
+            Folder(".fastai/models", .models, source: "https://github.com/fastai/fastai/blob/46231bdc3e88a457c940dd7bde8a03c92fb42901/fastai/data/external.py#L18-L21"),
+            Folder(".fastai/archive", .downloads, source: "https://github.com/fastai/fastai/blob/46231bdc3e88a457c940dd7bde8a03c92fb42901/fastai/data/external.py#L18-L21"),
+        ]),
+        Definition(id: "coquitts", name: "Coqui TTS", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("Library/Application Support/tts", .models, source: "https://github.com/idiap/coqui-ai-TTS/blob/aeb064d41b5d3377354e0bf7a1a247add738f069/TTS/utils/manage.py#L74-L75"),
+            Folder("Library/Application Support/tts_cache", .models, source: "https://github.com/idiap/coqui-ai-Trainer/blob/6779b98a188c79ae7d7a2ac0773bf5b4198cb14b/trainer/io.py#L77-L87"),
+        ]),
+        Definition(id: "bark", name: "Bark", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/suno/bark_v0", .models, source: "https://github.com/suno-ai/bark/blob/f4f32d4cd480dfec1c245d258174bc9bde3c2148/bark/generation.py#L84-L85"),
+        ]),
+        Definition(id: "llamamodels", name: "Llama Models", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".llama/checkpoints", .models, source: "https://github.com/meta-llama/llama-models/blob/0e0b8c519242d5833d8c11bffc1232b77ad7f301/models/utils/config.py#L11-L13"),
+        ]),
+        Definition(id: "mlcllm", name: "MLC LLM", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/mlc_llm/model_weights", .models, source: "https://github.com/mlc-ai/mlc-llm/blob/8978ea9aec626d64096aaa92fbc89bda2e3ea802/python/mlc_llm/support/constants.py#L26-L46"),
+            Folder(".cache/mlc_llm/model_lib", .buildData, source: "https://github.com/mlc-ai/mlc-llm/blob/8978ea9aec626d64096aaa92fbc89bda2e3ea802/python/mlc_llm/support/constants.py#L26-L46"),
+        ]),
+        Definition(id: "tabby", name: "Tabby", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".tabby/models", .models, source: "https://github.com/TabbyML/tabby/blob/21b29048d7bcf6b94f9f482f2d0fd05efadfd19f/crates/tabby-common/src/path.rs#L44-L50"),
+        ]),
+        Definition(id: "instructlab", name: "InstructLab", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/instructlab/models", .models, source: "https://github.com/instructlab/instructlab/blob/253a7a46e3f14fd7e85fa8a4b2e26a6b86e0b220/src/instructlab/defaults.py#L177-L178"),
+        ]),
+        Definition(id: "ramalama", name: "RamaLama", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".local/share/ramalama", .models, source: "https://github.com/containers/ramalama/blob/6fb09d5567247fa4988f18340e23038629270aac/ramalama/config.py#L109-L114"),
+        ]),
+        Definition(id: "vosk", name: "Vosk", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".cache/vosk", .models, source: "https://github.com/alphacep/vosk-api/blob/05adbfcc0df27a1535913c6accd4b7fc60ffd59d/python/vosk/__init__.py#L19-L20"),
+        ]),
+        Definition(id: "argostranslate", name: "Argos Translate", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".local/share/argos-translate/packages", .models, source: "https://github.com/argosopentech/argos-translate/blob/17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88/argostranslate/settings.py#L137-L140"),
+            Folder(".local/cache/argos-translate/downloads", .downloads, source: "https://github.com/argosopentech/argos-translate/blob/17ed1a9b055c5ba1b51d76b683bbb0c64e2a4a88/argostranslate/settings.py#L61-L69"),
+        ]),
+        Definition(id: "iopath", name: "iopath", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".torch/iopath_cache", .models, source: "https://github.com/facebookresearch/iopath/blob/44f9a451ac092a2b14395e6264b80f0aedfcec1b/iopath/common/file_io.py#L39-L53"),
+        ]),
+        Definition(id: "paddlex", name: "PaddleX", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder(".paddlex/official_models", .models, source: "https://github.com/PaddlePaddle/PaddleX/blob/ffb64904d23708863ff5b8da312a5cbd52a7f462/paddlex/inference/utils/official_models.py#L880"),
+        ]),
         // Chromium's docs/user_data_dir.md names each Chrome channel's and Chromium's folder, brave-core's
         // `build/config.gni` and `app/theme/*/BRANDING` each Brave build's folder and identifier, and Opera's desktop
         // blog Opera's (blogs.opera.com/desktop/2023/08). Their disk caches are in `Library/Caches`, which Space

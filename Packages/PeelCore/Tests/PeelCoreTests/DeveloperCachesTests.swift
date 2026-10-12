@@ -485,7 +485,8 @@ struct DeveloperCachesTests {
         let ownedOutright: Set<String> = [
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
             ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
-            "metro-file-map-*", "node-compile-cache/", "tfhub_modules/", ".electron",
+            "metro-file-map-*", "node-compile-cache/", "tfhub_modules/", ".electron", "gensim-data", "stanza_resources",
+            ".u2net",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -542,6 +543,8 @@ struct DeveloperCachesTests {
             ".claude", ".codex", ".continue", ".cline", ".cline/data",
             // AI apps keep the person's images, documents, databases, and keys beside the models they download.
             "invokeai", "ComfyUI-Shared", "MochiDiffusion", ".omlx", "Library/Application Support/anythingllm-desktop/storage",
+            // Beside their models, AI libraries keep custom networks, settings, other tools, and accounts.
+            ".EasyOCR", ".fastai", ".llama", ".tabby", ".paddlex",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the copies of
         // the public index are listed, the CDN's `trunk` and the Git clone CocoaPods names `master` or `cocoapods`,
@@ -637,6 +640,53 @@ struct DeveloperCachesTests {
             ".omlx/models", ".omlx/cache", ".omlx/logs",
         ])
         #expect(Set(listed.filter(\.isRecommended).map(\.url.lastPathComponent)) == ["logs", "cache"])
+    }
+
+    @Test func listsTheModelsAILibrariesDownloadAndNothingElseOfTheirFolders() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            ".cache/clip/ViT-B-32.pt", ".EasyOCR/model/craft_mlt_25k.pth", ".EasyOCR/user_network/custom.py",
+            ".rembg/models/u2net/u2net.onnx", ".u2net/u2net.onnx", ".insightface/models/buffalo_l/det_10g.onnx",
+            ".deepface/weights/vgg_face_weights.h5", ".cache/docling/models/layout/model.safetensors",
+            "gensim-data/glove-wiki-gigaword-50/glove.gz", "stanza_resources/en/default.zip",
+            "Library/Caches/stanza/1.11.1/resources/en/default.zip", ".fastai/data/mnist/1.png",
+            ".fastai/archive/mnist.tgz", ".fastai/models/resnet.pth", ".fastai/config.ini",
+            "Library/Application Support/tts/tts_models--en--ljspeech--vits/model.pth",
+            "Library/Application Support/tts_cache/checkpoint", ".cache/suno/bark_v0/text_2.pt",
+            ".llama/checkpoints/Llama3.2-1B/consolidated.00.pth", ".llama/distributions/local/run.yaml",
+            ".cache/mlc_llm/model_weights/hf/model/params.bin", ".cache/mlc_llm/model_lib/model.dylib",
+            ".tabby/models/TabbyML/StarCoder-1B/model.gguf", ".tabby/ee/db.sqlite",
+            ".cache/instructlab/models/granite.gguf", ".local/share/ramalama/store/model/blob",
+            ".cache/vosk/vosk-model-small-en-us-0.15/am/final.mdl",
+            ".local/share/argos-translate/packages/translate-en_es/model.bin",
+            ".local/cache/argos-translate/downloads/translate-en_es.argosmodel",
+            ".torch/iopath_cache/detectron2/model.pkl", ".paddlex/official_models/PP-OCRv5/inference.pdiparams",
+            ".paddlex/func_ret/result.pkl",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let home = directory.url.path(percentEncoded: false)
+        let tools: Set = [
+            "clip", "easyocr", "rembg", "insightface", "deepface", "docling", "gensim", "stanza", "fastai", "coquitts",
+            "bark", "llamamodels", "mlcllm", "tabby", "instructlab", "ramalama", "vosk", "argostranslate", "iopath",
+            "paddlex",
+        ]
+        let listed = environments.filter { tools.contains($0.id) }.flatMap(\.locations)
+        #expect(Set(listed.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }) == [
+            ".cache/clip", ".EasyOCR/model", ".rembg/models", ".u2net", ".insightface/models", ".deepface/weights",
+            ".cache/docling/models", "gensim-data", "stanza_resources", "Library/Caches/stanza/1.11.1/resources",
+            ".fastai/data", ".fastai/archive", ".fastai/models", "Library/Application Support/tts",
+            "Library/Application Support/tts_cache", ".cache/suno/bark_v0", ".llama/checkpoints",
+            ".cache/mlc_llm/model_weights", ".cache/mlc_llm/model_lib", ".tabby/models", ".cache/instructlab/models",
+            ".local/share/ramalama", ".cache/vosk", ".local/share/argos-translate/packages",
+            ".local/cache/argos-translate/downloads", ".torch/iopath_cache", ".paddlex/official_models",
+        ])
+        #expect(Set(listed.filter(\.isRecommended).map(\.url.lastPathComponent)) == ["archive", "model_lib", "downloads"])
+        let caches = directory.url.appending(path: "Library/Caches")
+        #expect(DeveloperCaches.FoldersLeftToDeveloper(home: directory.url).inside(caches).contains(["stanza"]))
     }
 
     /// Every folder the table offers names where its tool documents it: a page, or the file inside Xcode that names
