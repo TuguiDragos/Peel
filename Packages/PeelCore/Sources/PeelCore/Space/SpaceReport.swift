@@ -35,6 +35,9 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public var holdsBackRecentWrites = false
     /// The folders of `urls` where macOS files reports into folders of its own, so only their files are offered.
     public var onlyFilesIn: [URL] = []
+    /// True when the area offers no folder, only files: those in its folders and in the folders directly inside them,
+    /// since a program expects to find the folder it writes in.
+    public var keepsItsFolders = false
     /// The commands that free an area Peel leaves alone, as its tool's documentation gives them. Peel shows them to
     /// copy and never runs them: they delete for good.
     public var commands: [String] = []
@@ -126,6 +129,7 @@ public enum SpaceInventory {
         var leavesMacOSsOwn = false
         var holdsBackRecentWrites = false
         var onlyFilesIn: [String] = []
+        var keepsItsFolders = false
         var commands: [Command] = []
         var managedBy: ManagingApps?
 
@@ -145,7 +149,7 @@ public enum SpaceInventory {
 
         /// True when the area's size is what it offers, child by child, rather than its places measured whole: one
         /// place may sit inside another of its own, which would count twice.
-        var measuresWhatItOffers: Bool { leavesMacOSsOwn || !onlyFilesIn.isEmpty }
+        var measuresWhatItOffers: Bool { leavesMacOSsOwn || !onlyFilesIn.isEmpty || keepsItsFolders }
 
         func onlyFilesIn(home: URL, root: URL) -> [URL] {
             onlyFilesIn.map { path in
@@ -386,6 +390,17 @@ public enum SpaceInventory {
             leavesMacOSsOwn: true,
             onlyFilesIn: ["/Library/Logs/DiagnosticReports"]
         ),
+        // Homebrew's services write their logs in its `var/log`, some in a folder of their own, such as nginx's.
+        // `brew services start` makes such a folder, and launchd makes a missing log file again but never a folder
+        // (`man launchd.plist`), so only the files go. A log a running service holds open frees nothing when moved.
+        Definition(
+            id: "homebrew-logs",
+            category: .development,
+            paths: ["/opt/homebrew/var/log"],
+            handling: .trash,
+            holdsBackRecentWrites: true,
+            keepsItsFolders: true
+        ),
     ]
 
     /// The total size of `urls` less what is excluded inside them, or nil when any of it could not be measured. A
@@ -430,7 +445,8 @@ public enum SpaceInventory {
     }
 
     /// What an area can offer in its `folders`: every child that is not one of the folders themselves, only the files
-    /// where macOS files its reports into folders, and nothing named for macOS in an area that leaves macOS's own out.
+    /// where macOS files its reports into folders, nothing named for macOS in an area that leaves macOS's own out, and
+    /// the files of each child folder in place of the folder in an area that keeps its folders.
     private static func offered(in folders: [URL], of definition: Definition, home: URL, root: URL) -> [URL] {
         let paths = Set(folders.map(PathPattern.comparablePath))
         let filesOnly = Set(definition.onlyFilesIn(home: home, root: root).map(PathPattern.comparablePath))
@@ -439,9 +455,17 @@ public enum SpaceInventory {
             guard let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
             else { return [folder] }
             let kept = definition.leavesMacOSsOwn ? names.filter { !isMacOSsOwn($0) } : names
-            return kept.map { folder.appending(path: $0) }.filter { child in
+            let children = kept.map { folder.appending(path: $0) }.filter { child in
                 !paths.contains(PathPattern.comparablePath(of: child))
                     && !(filesOnly.contains(PathPattern.comparablePath(of: folder)) && child.isRealFolder)
+            }
+            guard definition.keepsItsFolders else { return children }
+            return children.flatMap { child -> [URL] in
+                let path = child.path(percentEncoded: false)
+                guard child.isRealFolder, let inside = try? FileManager.default.contentsOfDirectory(atPath: path) else {
+                    return [child]
+                }
+                return inside.map { child.appending(path: $0) }.filter { !$0.isRealFolder }
             }
         }
     }
@@ -560,6 +584,7 @@ public enum SpaceInventory {
             leavesMacOSsOwn: definition.leavesMacOSsOwn,
             holdsBackRecentWrites: definition.holdsBackRecentWrites,
             onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
+            keepsItsFolders: definition.keepsItsFolders,
             commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line),
             managingAppIsMissing: definition.managedBy.map { !$0.oneIsOnThisMac } ?? false
         )

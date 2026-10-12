@@ -49202,6 +49202,112 @@
         }
       }
     },
+    "Homebrew Service Logs" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokoly služeb Homebrew"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokolle der Homebrew-Dienste"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros de servicios de Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historiques des services Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log dei servizi di Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewサービスのログ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew 서비스 로그"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logs van Homebrew-diensten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dzienniki usług Homebrew"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros de Serviços do Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jurnale ale serviciilor Homebrew"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Журналы служб Homebrew"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loggar för Homebrew-tjänster"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew Hizmet Günlükleri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Журнали служб Homebrew"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew服务日志"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew服務記錄檔"
+          }
+        }
+      }
+    },
     "Homebrew adds the links missing from its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing." : {
       "localizations" : {
         "cs" : {
@@ -71660,6 +71766,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App寫入你的「資源庫」中的記錄檔。"
+          }
+        }
+      }
+    },
+    "Logs that the services Homebrew runs, such as a database or a web server, write in Homebrew’s folder. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokoly, které do složky Homebrew zapisují služby, jež Homebrew spouští, například databáze nebo webový server. Nabízejí se jen protokoly, nikdy složky, ve kterých leží, protože služba počítá s tím, že najde složku, do které zapisuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokolle, die von Homebrew ausgeführte Dienste, etwa eine Datenbank oder ein Webserver, in den Ordner von Homebrew schreiben. Angeboten werden nur die Protokolle, nie die Ordner, in denen sie liegen, da ein Dienst erwartet, den Ordner vorzufinden, in den er schreibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros que los servicios que ejecuta Homebrew, como una base de datos o un servidor web, escriben en la carpeta de Homebrew. Solo se ofrecen los registros, nunca las carpetas en las que están, porque un servicio espera encontrar la carpeta en la que escribe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les historiques que les services exécutés par Homebrew, comme une base de données ou un serveur web, écrivent dans le dossier de Homebrew. Seuls les historiques sont proposés, jamais les dossiers qui les contiennent, car un service s’attend à trouver le dossier dans lequel il écrit."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Log che i servizi eseguiti da Homebrew, come un database o un server web, scrivono nella cartella di Homebrew. Vengono proposti solo i log, mai le cartelle che li contengono, perché un servizio si aspetta di trovare la cartella in cui scrive."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データベースやWebサーバなど、Homebrewが実行するサービスが、Homebrewのフォルダに書き込むログです。ゴミ箱に入れる候補になるのはログだけで、ログが入っているフォルダは、サービスが書き込み先としてそこにあるものと想定しているため、決して候補になりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터베이스나 웹 서버 등 Homebrew가 실행하는 서비스가 Homebrew의 폴더에 기록하는 로그입니다. 로그만 제안되며, 로그가 들어 있는 폴더는 절대 제안되지 않습니다. 서비스가 로그를 기록하는 폴더를 찾을 수 있어야 하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logs die in de map van Homebrew worden geschreven door de diensten die Homebrew uitvoert, zoals een database of een webserver. Alleen de logs worden aangeboden, nooit de mappen waarin ze staan, want een dienst verwacht de map te vinden waarin hij schrijft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dzienniki zapisywane w folderze Homebrew przez usługi, które Homebrew uruchamia, na przykład bazę danych lub serwer www. Proponowane są tylko dzienniki, nigdy foldery nadrzędne, ponieważ usługa spodziewa się znaleźć folder, w którym zapisuje dziennik."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registros que os serviços executados pelo Homebrew, como um banco de dados ou um servidor web, gravam na pasta do Homebrew. Só os registros são oferecidos, nunca as pastas onde eles ficam, porque um serviço espera encontrar a pasta em que grava."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jurnale pe care serviciile rulate de Homebrew, cum ar fi o bază de date sau un server web, le scriu în dosarul Homebrew. Sunt propuse doar jurnalele, niciodată dosarele în care se află, deoarece un serviciu se așteaptă să găsească dosarul în care scrie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Журналы, которые запускаемые Homebrew службы, например база данных или веб-сервер, записывают в папку Homebrew. Предлагаются только журналы, но никогда не папки, в которых они лежат, потому что служба ожидает найти папку, в которую записывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loggar som de tjänster Homebrew kör, till exempel en databas eller en webbserver, skriver i Homebrews mapp. Bara loggarna erbjuds, aldrig mapparna som de ligger i, eftersom en tjänst förväntar sig att hitta mappen som den skriver i."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un çalıştırdığı, veritabanı veya web sunucusu gibi hizmetlerin Homebrew’un klasörüne yazdığı günlükler. Yalnızca günlükler sunulur; içinde bulundukları klasörler ise hiçbir zaman sunulmaz, çünkü bir hizmet, yazdığı klasörü orada bulmayı bekler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Журнали, що їх записують у папку Homebrew служби, які він запускає, як-от база даних чи вебсервер. Пропонуються лише журнали, але ніколи не папки, у яких вони лежать, бо служба очікує знайти папку, у яку записує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew运行的服务（例如数据库或网页服务器）在Homebrew的文件夹中写入的日志。只会列出日志以供移除，绝不会列出它们所在的文件夹，因为服务需要它写入日志的文件夹存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew執行的服務（例如資料庫或網頁伺服器）寫入Homebrew的檔案夾中的記錄檔。只會列出記錄檔供你移除，絕不會列出它們所在的檔案夾，因為服務預期它寫入的檔案夾存在。"
           }
         }
       }

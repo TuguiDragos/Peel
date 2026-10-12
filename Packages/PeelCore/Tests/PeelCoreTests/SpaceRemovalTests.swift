@@ -297,6 +297,36 @@ struct SpaceRemovalTests {
         #expect(removalGuard.refusal(of: reports) == .staysItself)
     }
 
+    @Test func offersTheLogsHomebrewsServicesWriteButNeverTheirFolders() async throws {
+        let directory = try TemporaryDirectory()
+        let anHourAgo = Date.now.addingTimeInterval(-3600)
+        for path in ["redis.log", "nginx/error.log", "nginx/old/archived.log", "postgresql@17.log"] {
+            let file = try directory.file("root/opt/homebrew/var/log/\(path)", bytes: 4_000)
+            guard path != "postgresql@17.log" else { continue }
+            try FileManager.default.setAttributes(
+                [.modificationDate: anHourAgo], ofItemAtPath: file.path(percentEncoded: false)
+            )
+        }
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: FileSize.measure
+        )
+        let logs = try #require(report.items.first { $0.id == "homebrew-logs" })
+        let folder = try #require(logs.urls.first)
+
+        let plan = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
+
+        let offered = plan.removable.map {
+            $0.path(percentEncoded: false).components(separatedBy: "/opt/homebrew/var/log/").last ?? ""
+        }
+        #expect(offered.sorted() == ["nginx/error.log", "postgresql@17.log", "redis.log"])
+        #expect(plan.heldBack.filter { $0.value == .writtenRecently }.map(\.key.lastPathComponent) == ["postgresql@17.log"])
+        #expect(logs.size.map { $0 >= 12_000 && $0 < 16_000 } == true)
+        let removalGuard = RemovalGuard(environment: environment(directory), exclusions: .none)
+        #expect(removalGuard.refusal(of: folder) == .staysItself)
+    }
+
     @Test func putsBackTheAccountsCrashReportsFolderOnlyAsAFolder() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Logs")

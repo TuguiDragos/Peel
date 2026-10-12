@@ -175,6 +175,10 @@ nonisolated extension SpaceItem {
             title: "Logs for All Users",
             detail: "Logs that apps wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper."
         ),
+        "homebrew-logs": Words(
+            title: "Homebrew Service Logs",
+            detail: "Logs that the services Homebrew runs, such as a database or a web server, write in Homebrew’s folder. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in."
+        ),
         "battlenet-cache": Words(
             title: "Battle.net Cache",
             detail: "What the Battle.net app caches for every account on this Mac. Blizzard says removing it doesn’t affect your games, and the app makes it again. Since it belongs to every account, it is listed and never selected."

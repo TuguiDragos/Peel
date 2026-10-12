@@ -166,7 +166,10 @@ app's own uninstaller.
 
 The folder your account's crash reports are saved in, `~/Library/Logs/DiagnosticReports`, never moves: macOS's
 analytics helper can't make it again once it is gone, and crash reports would stop being saved. Space offers only
-the reports in it, as it does in `/Library/Logs/DiagnosticReports`.
+the reports in it, as it does in `/Library/Logs/DiagnosticReports`. In `/opt/homebrew/var/log`, where Homebrew's
+services write their logs, Space offers files alone, those in the folders there included, and never a folder:
+`brew services start` makes the folder a service logs into, and launchd makes a missing log file again but never a
+missing folder, so a service whose folder had gone would not start at the next login.
 
 A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a
@@ -335,6 +338,8 @@ Never selected for you, even when found:
 - A cache in `~/Library/Caches`, or in the folder macOS gives your account for caches, that something wrote to in
   the last 15 minutes: Peel knows an open app's caches only by the app's names, and a program may still be using
   one under a name of its own.
+- A log in `/opt/homebrew/var/log` that something wrote to in the last 15 minutes: a running service may hold it
+  open, and moving it would free nothing.
 - `/Users/Shared`: it belongs to every account, not just yours.
 - A project you worked on this week, and a download that changed in the last day, which may still be going.
 - A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`)
