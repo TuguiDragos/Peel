@@ -22,10 +22,11 @@ struct OpenFiles {
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
         var files: [File] = []
         for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded && !Self.isACopyOfThisProcess(pid) {
-            let program = Self.program(of: pid).map { [(path: $0, hold: Hold.runs)] } ?? []
+            let path = RunningProgram.path(of: pid)
+            let program = path.flatMap(Self.program(at:)).map { [(path: $0, hold: Hold.runs)] } ?? []
             let paths = Self.paths(openBy: pid) + program
             guard !paths.isEmpty else { continue }
-            let process = Self.name(of: pid)
+            let process = Self.name(of: pid, program: path)
             let isAnotherAccounts = kill(pid, 0) != 0 && errno == EPERM
             files += paths.map { (PathComponents.of($0.path), process, $0.hold, isAnotherAccounts) }
         }
@@ -94,19 +95,22 @@ struct OpenFiles {
         return RunningProgram.path(of: pid) == RunningProgram.path(of: getpid())
     }
 
-    /// The program a process runs, unless it is an app extension: macOS starts and ends those on their app's behalf,
-    /// so the person could not quit one to let its app go.
-    private static func program(of pid: pid_t) -> String? {
-        guard let path = RunningProgram.path(of: pid) else { return nil }
-        return PathComponents.of(path).contains { $0.hasSuffix(".appex") } ? nil : path
+    /// The program at `path`, which a process runs, unless it is an app extension: macOS starts and ends those on
+    /// their app's behalf, so the person could not quit one to let its app go.
+    private static func program(at path: String) -> String? {
+        PathComponents.of(path).contains { $0.hasSuffix(".appex") } ? nil : path
     }
 
-    /// The process's name, or, for another account's process, which macOS does not name, its program's.
+    /// The name of the program the process runs. The process's own name is the fallback: the kernel keeps only its
+    /// first 32 bytes (`2 * MAXCOMLEN`).
     static func name(of pid: pid_t) -> String {
+        name(of: pid, program: RunningProgram.path(of: pid))
+    }
+
+    private static func name(of pid: pid_t, program path: String?) -> String {
+        if let path { return URL(filePath: path).lastPathComponent }
         var buffer = [CChar](repeating: 0, count: 2 * Int(MAXCOMLEN) + 1)
-        guard proc_name(pid, &buffer, UInt32(buffer.count)) > 0 else {
-            return RunningProgram.path(of: pid).map { URL(filePath: $0).lastPathComponent } ?? "process \(pid)"
-        }
+        guard proc_name(pid, &buffer, UInt32(buffer.count)) > 0 else { return "process \(pid)" }
         return String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
     }
 }

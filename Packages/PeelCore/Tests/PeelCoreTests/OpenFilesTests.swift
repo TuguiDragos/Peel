@@ -103,6 +103,15 @@ struct OpenFilesTests {
         #expect(OpenFiles.name(of: 1) == "launchd")
     }
 
+    @Test func namesAProcessByItsWholeProgramName() throws {
+        let directory = try TemporaryDirectory()
+        let name = "org.example.agent.with.a.long.program.name"
+        let process = try directory.runningProgram("Example.app/Contents/MacOS/\(name)")
+        defer { process.terminate() }
+
+        #expect(OpenFiles.name(of: process.processIdentifier) == name)
+    }
+
     /// An app extension runs on its app's behalf and macOS ends it once the app goes, so it holds nothing.
     @Test func anAppExtensionRunningFromInsideAnAppHoldsNothing() throws {
         let directory = try TemporaryDirectory()
