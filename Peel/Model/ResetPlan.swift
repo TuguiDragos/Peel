@@ -89,6 +89,12 @@ final class ResetPlan {
         outcome?.privacy
     }
 
+    /// Whether resetting the selection copies settings first, as it does for each preference domain it clears. It
+    /// reads the disk, so it is asked when Reset is pressed, not while the sheet draws.
+    func selectionCopiesSettings() -> Bool {
+        reset.map { $0.clearsSettings(moving: $0.selected(selectedURLs)) } ?? false
+    }
+
     /// Nothing is, until the scan has said what the reset would take: `performReset()` has nothing to go on before.
     var hasAnythingToReset: Bool {
         reset != nil && (!selectedURLs.isEmpty || (resetsPrivacy && canResetPrivacy))

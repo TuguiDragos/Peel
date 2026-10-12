@@ -14,6 +14,7 @@ struct ResetSheet: View {
     /// it lists has changed.
     @Binding var changedFiles: Bool
     @State private var isConfirming = false
+    @State private var copiesSettings = false
     @State private var isPuttingBack = false
     /// The result of Put Settings Back, or nil before it is pressed. A result is shown either way, so a success
     /// doesn't look like a click that did nothing.
@@ -72,7 +73,9 @@ struct ResetSheet: View {
             return Text("\(plan.app.name) asks you again for what it was allowed to access. History can’t undo this.")
         }
         var sentences = [
-            Text("Peel moves ^[\(plan.selectedURLs.count) item](inflect: true), \(plan.selected.text), to the Trash and copies the settings first. \(plan.app.name) opens without them."),
+            copiesSettings
+                ? Text("Peel moves ^[\(plan.selectedURLs.count) item](inflect: true), \(plan.selected.text), to the Trash and copies the settings first. \(plan.app.name) opens without them.")
+                : Text("Peel moves ^[\(plan.selectedURLs.count) item](inflect: true), \(plan.selected.text), to the Trash. \(plan.app.name) opens without them."),
         ]
         let groups = plan.reset?.groups(in: plan.selectedURLs) ?? []
         if groups.contains(.webData) {
@@ -221,12 +224,15 @@ struct ResetSheet: View {
                 .disabled(plan.isResetting)
             // Reset is not the default action, so pressing Return can't start the one step here that changes
             // something.
-            Button("Reset") { isConfirming = true }
-                .buttonStyle(.borderedProminent)
-                .disabled(
-                    !plan.hasAnythingToReset || plan.isResetting || plan.isAppRunning
-                        || !exclusions.exclusions.isKnown || history.isUnreadable
-                )
+            Button("Reset") {
+                copiesSettings = plan.selectionCopiesSettings()
+                isConfirming = true
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(
+                !plan.hasAnythingToReset || plan.isResetting || plan.isAppRunning
+                    || !exclusions.exclusions.isKnown || history.isUnreadable
+            )
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)

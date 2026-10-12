@@ -113016,6 +113016,352 @@
         }
       }
     },
+    "Peel moves ^[%lld item](inflect: true), %@, to the Trash. %@ opens without them." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položky (%@) do koše. Aplikace %@ se pak otevře bez nich."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položky (%@) do koše. Aplikace %@ se pak otevře bez nich."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položku (%@) do koše. Aplikace %@ se pak otevře bez ní."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel přesune %lld položek (%@) do koše. Aplikace %@ se pak otevře bez nich."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel legt %lld Objekt, %@, in den Papierkorb. „%@“ öffnet sich dann ohne das Ausgewählte."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel legt %lld Objekte, %@, in den Papierkorb. „%@“ öffnet sich dann ohne das Ausgewählte."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel moves ^[%1$lld item](inflect: true), %2$@, to the Trash. %3$@ opens without them."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel traslada %lld de ítems, %@, a la papelera. %@ se abrirá sin ellos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel traslada %lld ítem, %@, a la papelera. %@ se abrirá sin él."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel traslada %lld ítems, %@, a la papelera. %@ se abrirá sin ellos."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel place %lld d’éléments (%@) dans la corbeille. %@ s’ouvrira sans ces éléments."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel place %lld élément (%@) dans la corbeille. %@ s’ouvrira sans cet élément."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel place %lld éléments (%@) dans la corbeille. %@ s’ouvrira sans ces éléments."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sposta %lld di elementi, %@, nel Cestino. %@ si aprirà senza di essi."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sposta %lld elemento, %@, nel Cestino. %@ si aprirà senza di esso."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sposta %lld elementi, %@, nel Cestino. %@ si aprirà senza di essi."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%lld項目（%@）をゴミ箱に入れます。“%@”は、それらの項目がない状態で開きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 항목 %lld개(%@)를 휴지통으로 이동합니다. ‘%@’은(는) 선택한 항목 없이 열립니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel verplaatst %lld onderdeel, %@, naar de prullenmand. %@ start daarna zonder dit onderdeel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel verplaatst %lld onderdelen, %@, naar de prullenmand. %@ start daarna zonder deze onderdelen."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzeczy (%@) do Kosza. Aplikacja %@ otworzy się bez nich."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzeczy (%@) do Kosza. Aplikacja %@ otworzy się bez nich."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzecz (%@) do Kosza. Aplikacja %@ otworzy się bez niej."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel przeniesie %lld rzeczy (%@) do Kosza. Aplikacja %@ otworzy się bez nich."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel move %lld de itens, %@, para o Lixo. %@ vai abrir sem eles."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel move %lld item, %@, para o Lixo. %@ vai abrir sem ele."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel move %lld itens, %@, para o Lixo. %@ vai abrir sem eles."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel mută %lld articole, %@, în Coș. Aplicația %@ se va deschide fără ele."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel mută %lld articol, %@, în Coș. Aplicația %@ se va deschide fără el."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel mută %lld de articole, %@, în Coș. Aplicația %@ se va deschide fără ele."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объекта, %@, в Корзину. Приложение «%@» откроется без них."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объектов, %@, в Корзину. Приложение «%@» откроется без них."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объект, %@, в Корзину. Приложение «%@» откроется без них."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемещает %lld объекта, %@, в Корзину. Приложение «%@» откроется без них."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel flyttar %lld objekt, %@, till papperskorgen. %@ öppnas utan det."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel flyttar %lld objekt, %@, till papperskorgen. %@ öppnas utan dem."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, %lld öğeyi (%@) Çöp Sepeti’ne taşır. %@, bunlar olmadan açılır."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, %lld öğeyi (%@) Çöp Sepeti’ne taşır. %@, bunlar olmadan açılır."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елементи (%@) у Смітник. Програма «%@» відкриється без них."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елементів (%@) у Смітник. Програма «%@» відкриється без них."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елемент (%@) у Смітник. Програма «%@» відкриється без нього."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel перемістить %lld елемента (%@) у Смітник. Програма «%@» відкриється без них."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会将%lld个项目（%@）移到废纸篓。“%@”再次打开时将不再带有这些项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會將%lld個項目（%@）丟到「垃圾桶」。「%@」打開時將不再有這些項目。"
+          }
+        }
+      }
+    },
     "Peel moves what it removes to the Trash, and History can put it back. As the GPL states, it comes with no warranty, to the extent the law allows." : {
       "comment" : "Under the license's name. History is Peel's page of everything it moved to the Trash.",
       "localizations" : {
