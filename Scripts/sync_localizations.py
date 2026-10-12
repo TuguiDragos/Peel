@@ -4,13 +4,14 @@ Run after building the Debug configuration into `build/DerivedData`:
     python3 Scripts/sync_localizations.py            writes the catalogs
     python3 Scripts/sync_localizations.py --check    writes nothing, says what would change, exits 1 if anything would
 
-There are four catalogs in `Localization/`: Localizable for the app and for the Finder extension, AppShortcuts
-(the phrases Siri and Spotlight match), and InfoPlist (the text macOS shows from the app's Info.plist, such as
-its permission prompts). Apple's `xcstringstool sync` updates the first three from the build's `.stringsdata`
-files. It adds new strings. A string that is not in the build output is removed when it has no translations,
-and otherwise marked stale with its translations kept. The tool picks the strings table by the catalog's file
-name, so each catalog is synced on a copy with the same name. InfoPlist has no `.stringsdata`: its English is
-read from `Support/Peel-Info.plist`, and the app's name is marked as never translated.
+There are five catalogs in `Localization/`: Localizable and InfoPlist for the app and for the Finder extension,
+and AppShortcuts (the phrases Siri and Spotlight match). InfoPlist holds the text macOS shows from an Info.plist,
+such as the app's permission prompts and the copyright in Finder's Info window. Apple's `xcstringstool sync`
+updates Localizable and AppShortcuts from the build's `.stringsdata` files. It adds new strings. A string that is
+not in the build output is removed when it has no translations, and otherwise marked stale with its translations
+kept. The tool picks the strings table by the catalog's file name, so each catalog is synced on a copy with the
+same name. InfoPlist has no `.stringsdata`: its English is read from the target's Info.plist in `Support/`, and the
+bundle's name is marked as never translated.
 
 The script stops instead of guessing. It exits when there is no build output, because a sync against nothing would
 treat every string as gone, and when the build is older than the code, because a sync against it would miss what
@@ -29,10 +30,12 @@ SYNCED = [
     ("Peel", LOCALIZATION / "Peel/AppShortcuts.xcstrings"),
     ("PeelFinder", LOCALIZATION / "PeelFinder/Localizable.xcstrings"),
 ]
-INFO_PLIST = PROJECT / "Support/Peel-Info.plist"
-INFO_CATALOG = LOCALIZATION / "Peel/InfoPlist.xcstrings"
+INFO = [
+    (PROJECT / "Support/Peel-Info.plist", LOCALIZATION / "Peel/InfoPlist.xcstrings"),
+    (PROJECT / "Support/PeelFinder-Info.plist", LOCALIZATION / "PeelFinder/InfoPlist.xcstrings"),
+]
 NAMES = ["CFBundleDisplayName", "CFBundleName"]
-# Anything else is refused before a catalog is touched: a mistyped --check would otherwise write all four.
+# Anything else is refused before a catalog is touched: a mistyped --check would otherwise write them all.
 parser = argparse.ArgumentParser(
     description="Keeps the string catalogs in step with the strings in the code.", allow_abbrev=False
 )
@@ -131,11 +134,11 @@ def synced(target, catalog_path):
         return json.loads(copy.read_text(encoding="utf-8"))
 
 
-def info_plist(current):
-    """Returns the InfoPlist catalog: the English from `INFO_PLIST`, with every existing translation kept. When the
-    English changed, each translation still says the old text, so it is marked for review, which the catalog tests
-    refuse until it is translated again."""
-    plist = plistlib.loads(INFO_PLIST.read_bytes())
+def info_plist(path, current):
+    """Returns an InfoPlist catalog: the English from the Info.plist at `path`, with every existing translation kept.
+    When the English changed, each translation still says the old text, so it is marked for review, which the
+    catalog tests refuse until it is translated again."""
+    plist = plistlib.loads(path.read_bytes())
     strings = {}
     old = keys(current)
     # The keys whose text macOS shows: the permission prompts, and the copyright in Finder's Info window.
@@ -170,9 +173,10 @@ for target, path in SYNCED:
     before = json.loads(path.read_text(encoding="utf-8")) if path.exists() else empty_catalog()
     after = synced(target, path)
     results.append((path, after, report(f"{target} {path.stem}", before, after)))
-before = json.loads(INFO_CATALOG.read_text(encoding="utf-8")) if INFO_CATALOG.exists() else empty_catalog()
-after = info_plist(before)
-results.append((INFO_CATALOG, after, report("Peel InfoPlist", before, after)))
+for plist, path in INFO:
+    before = json.loads(path.read_text(encoding="utf-8")) if path.exists() else empty_catalog()
+    after = info_plist(plist, before)
+    results.append((path, after, report(f"{path.parent.name} InfoPlist", before, after)))
 
 differs = any(changed for _, _, changed in results)
 if not CHECK:

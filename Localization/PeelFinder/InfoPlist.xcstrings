@@ -1,0 +1,125 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "shouldTranslate" : false
+    },
+    "CFBundleName" : {
+      "shouldTranslate" : false
+    },
+    "NSHumanReadableCopyright" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Svobodný software pod licencí GNU GPL verze 3 nebo novější."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Freie Software unter der GNU GPL, Version 3 oder neuer."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Free software under the GNU GPL, version 3 or later."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software libre bajo la GNU GPL, versión 3 o posterior."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Logiciel libre sous licence GNU GPL, version 3 ou ultérieure."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software libero con licenza GNU GPL, versione 3 o successiva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. GNU GPLバージョン3以降のもとで提供されるフリーソフトウェアです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. GNU GPL 버전 3 또는 그 이후 버전에 따른 자유 소프트웨어입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Vrije software onder de GNU GPL, versie 3 of later."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Wolne oprogramowanie na licencji GNU GPL w wersji 3 lub nowszej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software livre sob a GNU GPL, versão 3 ou posterior."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Software liber sub licența GNU GPL, versiunea 3 sau ulterioară."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Свободное ПО на условиях лицензии GNU GPL версии 3 или более поздней."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. Fri programvara under GNU GPL, version 3 eller senare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin. GNU GPL sürüm 3 veya sonrası kapsamında özgür yazılım."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "© 2026 Țugui Dragoș-Constantin. Вільне програмне забезпечення за ліцензією GNU GPL версії 3 або новішої."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin。本软件为自由软件，依据GNU GPL第3版或更高版本授权。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2026 Țugui Dragoș-Constantin。依據GNU GPL第3版或更新版本授權的自由軟體。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

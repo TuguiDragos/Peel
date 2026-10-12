@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import Testing
 
-/// Every language the project declares is complete and sound in all four catalogs. The build checks almost
+/// Every language the project declares is complete and sound in every catalog. The build checks almost
 /// none of this: a reordered placeholder without numbers, a plural with no `other`, an empty value and a
 /// broken `inflect` all compile, and show a wrong number, `(null)`, a crash or raw markup at run time.
 @Suite struct StringCatalogTests {
@@ -10,6 +10,7 @@ import Testing
         Catalog(path: "Localization/Peel/Localizable.xcstrings", table: .localizable),
         Catalog(path: "Localization/PeelFinder/Localizable.xcstrings", table: .localizable),
         Catalog(path: "Localization/Peel/InfoPlist.xcstrings", table: .infoPlist),
+        Catalog(path: "Localization/PeelFinder/InfoPlist.xcstrings", table: .infoPlist),
         Catalog(path: "Localization/Peel/AppShortcuts.xcstrings", table: .appShortcuts),
     ]
 
@@ -20,17 +21,35 @@ import Testing
         #expect(checker.problems.isEmpty, "\(checker.problems.prefix(40).map(\.description).joined(separator: "\n"))")
     }
 
-    /// Every text of Info.plist that macOS shows, its permission prompts and its copyright, is in the InfoPlist
+    /// Every text of an Info.plist that macOS shows, the permission prompts and the copyright, is in its InfoPlist
     /// catalog, or macOS shows it in English in every language.
-    @Test func infoPlistTextIsInItsCatalog() throws {
-        let data = try Data(contentsOf: Self.repository.appending(path: "Support/Peel-Info.plist"))
+    @Test(arguments: [
+        ("Support/Peel-Info.plist", "Localization/Peel/InfoPlist.xcstrings"),
+        ("Support/PeelFinder-Info.plist", "Localization/PeelFinder/InfoPlist.xcstrings"),
+    ])
+    func infoPlistTextIsInItsCatalog(plist path: String, catalog catalogPath: String) throws {
+        let data = try Data(contentsOf: Self.repository.appending(path: path))
         let plist = try #require(try PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any])
         let shown = Set(plist.keys.filter { $0.hasSuffix("UsageDescription") || $0 == "NSHumanReadableCopyright" })
         let checker = CatalogChecker(root: Self.repository, required: [])
-        let file = checker.load("Localization/Peel/InfoPlist.xcstrings")
+        let file = checker.load(catalogPath)
         let catalog = try #require(file?["strings"] as? [String: [String: Any]])
         let translated = Set(catalog.filter { $0.value["shouldTranslate"] as? Bool != false }.keys)
         #expect(shown == translated)
+    }
+
+    @Test func theFinderExtensionsCopyrightReadsAsTheAppsInEveryLanguage() throws {
+        let checker = CatalogChecker(root: Self.repository, required: [])
+        func copyright(in path: String) throws -> [String: Any] {
+            let strings = try #require(checker.load(path)?["strings"] as? [String: [String: Any]])
+            return try #require(strings["NSHumanReadableCopyright"]?["localizations"] as? [String: Any])
+        }
+        let app = try copyright(in: "Localization/Peel/InfoPlist.xcstrings")
+        let finder = try copyright(in: "Localization/PeelFinder/InfoPlist.xcstrings")
+        let differing = Set(app.keys).union(finder.keys).sorted().filter {
+            app[$0] as? NSDictionary != finder[$0] as? NSDictionary
+        }
+        #expect(differing.isEmpty, "the extension's copyright differs from the app's in \(differing)")
     }
 
     /// Items Peel puts in menus SwiftUI builds use SwiftUI's own words in each language, or the menu reads as if
