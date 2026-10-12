@@ -153,6 +153,10 @@ public struct OrphanScanner: Sendable {
                 item.installedFor = installedFor[path].flatMap { URL(filePath: $0).isMissing ? $0 : nil }
                 return (entry.identifier, item)
             }
+            if SignInPlugIns.isOne(item.url, root: environment.rootDirectory) {
+                item.heldBack = .signInPlugIn
+                return (entry.identifier, item)
+            }
             guard item.requiresPrivileges, item.leftAlone == nil, reach.isBeyond(item.url) else { return entry }
             item.heldBack = .beyondTheHelper
             return (entry.identifier, item)

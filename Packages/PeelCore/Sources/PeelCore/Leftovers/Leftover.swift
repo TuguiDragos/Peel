@@ -110,6 +110,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case systemExtension
     /// A system extension macOS removes at the next restart.
     case systemExtensionGoingAtRestart
+    /// An authorization plug-in macOS may load at login (`SignInPlugIns`), left to its maker's uninstaller.
+    case signInPlugIn
     /// A cache macOS keeps for its own services, which may be using it at any moment (`SystemCaches`).
     case keptByMacOS
     /// A copy Mail keeps of an attachment that was opened. One that was edited may exist nowhere else.
@@ -138,7 +140,8 @@ public enum HoldBack: String, Sendable, Hashable {
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
             || self == .beyondTheHelper || self == .leftToItsUninstaller
-            || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .holdsAnExclusion
+            || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .signInPlugIn
+            || self == .holdsAnExclusion
             || self == .inTheCloud || self == .holdsAnotherAppsData
     }
 
@@ -322,6 +325,15 @@ public struct LeftoverScan: Sendable {
                 guard !keepers.isEmpty else { return leftover }
                 return leftover.sharing(with: keepers.sorted()).heldBack(.holdsAnotherAppsData)
             },
+            unreadableLocations: unreadableLocations,
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
+        )
+    }
+
+    func holdingBack(signInPlugInsUnder root: URL) -> LeftoverScan {
+        LeftoverScan(
+            leftovers: leftovers.map { SignInPlugIns.isOne($0.url, root: root) ? $0.heldBack(.signInPlugIn) : $0 },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
             needsFullDiskAccess: needsFullDiskAccess

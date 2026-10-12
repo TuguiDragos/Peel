@@ -817,6 +817,24 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
+    @Test func listsAGoneAppsSignInPlugInAndNeverOffersIt() async throws {
+        let directory = try TemporaryDirectory()
+        let info = #"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.gonevendor.AuthorizationPlugin</string></dict></plist>"#
+        try directory.file(
+            "root/Library/Security/SecurityAgentPlugins/GoneAuthPlugin.bundle/Contents/Info.plist",
+            contents: Data(info.utf8)
+        )
+        let gone = RememberedApp(
+            bundleIdentifier: "com.gonevendor.gone", name: "Gone", teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/Gone.app"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [gone])
+
+        let item = try #require(scan.groups.flatMap(\.items).first { $0.url.lastPathComponent == "GoneAuthPlugin.bundle" })
+        #expect(item.heldBack == .signInPlugIn)
+        #expect(item.leftAlone == .signInPlugIn)
+    }
+
     @Test func showsWhatAnAppThatLeftKeptWhileAnotherOfItsMakerStays() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/org.example.solo.nightly/cache.db")

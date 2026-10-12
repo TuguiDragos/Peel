@@ -67937,6 +67937,112 @@
         }
       }
     },
+    "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS může tento plug-in načíst, když se někdo přihlašuje, a jeho odebrání by mohlo zabránit komukoli v přihlášení, proto ho odstraní jen odinstalátor jeho výrobce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS lädt dieses Plug-in möglicherweise, wenn sich jemand anmeldet, und es zu entfernen, könnte jede Anmeldung verhindern, daher wird es nur vom Deinstallationsprogramm seines Herstellers entfernt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS puede cargar este módulo cuando alguien inicia sesión, y quitarlo podría impedir que nadie inicie sesión, así que solo se elimina con el desinstalador de su fabricante."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS peut charger ce module lorsque quelqu’un ouvre une session, et le retirer pourrait empêcher quiconque d’ouvrir une session, si bien que seul le programme de désinstallation de son éditeur le supprime."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS potrebbe caricare questo plugin quando qualcuno esegue il login, e toglierlo potrebbe impedire a chiunque di eseguire il login, quindi lo rimuove solo il programma di disinstallazione del suo produttore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: このプラグインはログイン時にmacOSが読み込む場合があり、取り除くと誰もログインできなくなる可能性があるため、削除できるのは開発元のアンインストーラだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 누군가 로그인할 때 macOS가 이 플러그인을 로드할 수 있으며, 이 플러그인을 제거하면 아무도 로그인할 수 없게 될 수도 있으므로, 제작자의 제거 프로그램만 이 플러그인을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS kan deze plug-in laden wanneer iemand inlogt, en als de plug-in wordt weggehaald, kan er mogelijk niemand meer inloggen, dus alleen het de-installatieprogramma van de maker verwijdert die."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS może wczytać tę wtyczkę, gdy ktoś się loguje, a jej usunięcie mogłoby uniemożliwić komukolwiek logowanie się, więc usuwa ją tylko dezinstalator jej producenta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS pode carregar este plug-in quando alguém iniciar a sessão, e retirá-lo poderia impedir que qualquer pessoa iniciasse a sessão, então só o desinstalador do fabricante o remove."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS poate încărca acest plug-in când cineva face login, iar scoaterea lui ar putea împiedica pe oricine să facă login, așa că îl elimină doar programul de dezinstalare al producătorului său."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS может загружать этот плагин, когда кто-то входит в систему, и, если его убрать, войти в систему может не удаться никому, поэтому его удаляет только программа удаления от производителя."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS kan läsa in den här insticksfilen när någon loggar in, och om den tas bort kan det hindra alla från att logga in, så bara tillverkarens avinstallerare tar bort den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS bu yazılım ekini birisi oturum açtığında yükleyebilir ve onu kaldırmak kimsenin oturum açamamasına neden olabilir, bu yüzden onu yalnızca üreticisinin yükleme kaldırıcısı kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS може завантажувати цей плагін, коли хтось входить у систему, а якщо його прибрати, увійти в систему може не вдатися нікому, тож його вилучає лише деінсталятор від виробника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：有人登录时，macOS可能会载入此插件，而移走它可能导致任何人都无法登录，因此只有其厂商的卸载器才会将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：macOS可能會在有人登入時載入此外掛模組，而移除它可能會讓任何人都無法登入，因此只有其廠商的解除安裝程式會移除它。"
+          }
+        }
+      }
+    },
     "Left alone: macOS removes %@ only when the app goes to the Trash in Finder." : {
       "localizations" : {
         "cs" : {

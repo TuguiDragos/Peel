@@ -82,6 +82,29 @@ struct UninstallationTests {
         return { [item] }
     }
 
+    @Test func listsAnAppsSignInPlugInAndNeverOffersIt() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Hexachord.app"), bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        let plugIn = try directory.file(
+            "root/Library/Security/SecurityAgentPlugins/HexachordAuth.bundle/Contents/Info.plist",
+            contents: Data(#"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.hexachord.AuthorizationPlugin</string></dict></plist>"#.utf8)
+        ).deletingLastPathComponent().deletingLastPathComponent()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let place = PathPattern.comparablePath(of: plugIn)
+        let leftover = try #require(plan.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == place })
+        #expect(leftover.match.heldBack == .signInPlugIn)
+        #expect(!plan.selectable(canUseHelper: true).contains(leftover.url))
+    }
+
     @Test func leavesToFinderAnAppWhoseSystemExtensionMacOSInstalled() async throws {
         let directory = try TemporaryDirectory()
         let app = try appCarryingAFilter(in: directory)

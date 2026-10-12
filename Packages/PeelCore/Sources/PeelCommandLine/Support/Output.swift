@@ -344,6 +344,7 @@ extension HoldBack {
         case .systemExtension:
             "a system extension macOS installed, which it removes only when its app goes to the Trash in Finder"
         case .systemExtensionGoingAtRestart: "a system extension macOS removes at the next restart"
+        case .signInPlugIn: "a plug-in macOS may load at login, left to its maker's uninstaller"
         case .keptByMacOS: "a cache macOS keeps for itself"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"

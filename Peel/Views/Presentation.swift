@@ -315,6 +315,8 @@ extension HoldBack {
             "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac."
         case .systemExtensionGoingAtRestart:
             "Left alone: macOS removes this system extension when your Mac restarts."
+        case .signInPlugIn:
+            "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it."
         case .keptByMacOS:
             "Not selected: macOS keeps this cache for its own services, which may be using it right now."
         case .openedFromMail:

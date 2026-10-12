@@ -259,10 +259,12 @@ public enum PackageReceipts {
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 requiresPrivileges: requiresPrivileges,
                 refusal: removalGuard.refusal(of: url),
-                heldBack: requiresPrivileges && reach.isBeyond(url)
-                    ? .beyondTheHelper
-                    : HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
-                        ?? (isFilledByOthers ? .holdsWhatOthersPut : nil),
+                heldBack: SignInPlugIns.isOne(url, root: volume)
+                    ? .signInPlugIn
+                    : requiresPrivileges && reach.isBeyond(url)
+                        ? .beyondTheHelper
+                        : HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
+                            ?? (isFilledByOthers ? .holdsWhatOthersPut : nil),
                 removedElsewhere: await removedElsewhere(url, installed: installed)
             ))
         }

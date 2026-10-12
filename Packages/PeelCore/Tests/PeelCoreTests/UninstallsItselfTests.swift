@@ -394,6 +394,10 @@ struct UninstallsItselfTests {
             ),
             root.appending(path: "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist"),
             root.appending(path: "Library/Application Support/TeamViewer"),
+            try teamViewer.directory.file(
+                "root/Library/Security/SecurityAgentPlugins/TeamViewerAuthPlugin.bundle/Contents/Info.plist",
+                contents: Data(#"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.teamviewer.AuthorizationPlugin</string></dict></plist>"#.utf8)
+            ).deletingLastPathComponent().deletingLastPathComponent(),
         ]
         let leftByIt = [try teamViewer.directory.directory("home/Library/Caches/com.teamviewer.TeamViewer")]
 

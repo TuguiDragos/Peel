@@ -415,6 +415,39 @@ struct PackageReceiptsTests {
     /// An item that needs an administrator is left alone when the helper would refuse it. The helper refuses
     /// items outside the folders it serves, anything in `/Applications` that is not an app, and, in a folder
     /// command-line tools are linked into, anything but a link that leads nowhere.
+    @Test func leavesAloneASignInPlugIn() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let plugIn = PathPattern.canonical(try directory.directory("Library/Security/SecurityAgentPlugins/Example.bundle"))
+        let settings = PathPattern.canonical(try directory.directory("Library/Application Support/Example"))
+        let info = try #require(String(
+            data: PropertyListSerialization.data(
+                fromPropertyList: ["volume": volume.path(percentEncoded: false), "install-location": ""],
+                format: .xml, options: 0
+            ),
+            encoding: .utf8
+        ))
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist": PkgutilAnswer.packages("com.example.pkg")
+            case "--pkg-info-plist": info
+            case "--files": "Library/Security/SecurityAgentPlugins/Example.bundle\nLibrary/Application Support/Example\n"
+            default: ""
+            }
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
+
+        let receipt = try #require(
+            await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment).receipts.first
+        )
+
+        #expect(receipt.items.first { $0.url == plugIn }?.heldBack == .signInPlugIn)
+        #expect(receipt.items.first { $0.url == settings }?.heldBack == nil)
+    }
+
     @Test(.permissionsHold) func leavesAloneWhatTheHelperWouldRefuse() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url).path(percentEncoded: false)

@@ -196,10 +196,10 @@ public struct SearchEnvironment: Sendable {
         Set(paths.map { String($0.prefix { $0 != "/" }) })
     }
 
-    /// Where a driver's kernel extensions and a file system's bundles stay in `/Library`. They are searched like
-    /// plug-ins, named for what they do, but the helper does not serve these folders, so what is found there is
-    /// listed and never moved.
-    static let systemCodeFolders = ["Extensions", "Filesystems"]
+    /// Where a driver's kernel extensions, a file system's bundles and authorization plug-ins stay in `/Library`.
+    /// They are searched like plug-ins, named for what they do, but the helper does not serve these folders, so what
+    /// is found there is listed and never moved.
+    static let systemCodeFolders = ["Extensions", "Filesystems", SignInPlugIns.folder]
 
     public var locations: [SearchLocation] {
         let userLibrary = homeDirectory.appending(path: "Library", directoryHint: .isDirectory)
