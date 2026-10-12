@@ -289,9 +289,10 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   from `peel`: it would be cut out of the app it belongs to. When you remove several apps at once and deselect one of
   them, it stays too: its files leave the selection, those it shares with the other apps included, and selecting it
   again brings them back.
-- **An empty folder of the app's maker goes too.** A folder in your Library named for the app or its maker, such as
-  `Application Support/<Maker>`, that an uninstall leaves empty goes to the Trash with it; one with anything left
-  inside, a hidden file included, one with another name, and the Library folder itself stay.
+- **An empty folder of the app's maker goes too.** A folder in your Library or the Mac's named for the app or its
+  maker, such as `Application Support/<Maker>`, that an uninstall leaves empty goes to the Trash with it, through the
+  helper when its files went that way; one with anything left inside, a hidden file included, one with another name,
+  and the Library folder itself stay.
 
 A security or management agent whose maker documents removing it with an uninstaller of its own (GlobalProtect and
 Cortex XDR, Cisco Secure Client, ESET Endpoint Security, Microsoft Defender, Netskope Client and FortiClient) is
