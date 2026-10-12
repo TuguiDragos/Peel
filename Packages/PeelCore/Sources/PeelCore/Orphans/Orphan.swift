@@ -15,6 +15,9 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     public var namedAfter: String?
     /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
     public var holdsDamagedSettings = false
+    /// For a copy macOS keeps of a system extension, the path of the app its record says it was installed for, when
+    /// that app is gone.
+    public var installedFor: String?
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {
@@ -55,6 +58,12 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
 
     public var lastModified: Date? {
         items.compactMap(\.modificationDate).max()
+    }
+
+    /// The gone app macOS's record says these system extension copies were installed for, when every item names it.
+    public var installedFor: String? {
+        guard let app = items.first?.installedFor, items.allSatisfy({ $0.installedFor == app }) else { return nil }
+        return app
     }
 
     /// Peel recommends no row it held back, and nothing in a group something may still use: such rows wait to be

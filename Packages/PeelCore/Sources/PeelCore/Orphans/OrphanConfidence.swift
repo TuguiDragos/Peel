@@ -12,7 +12,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         /// Nothing installed claims it.
         case likely
         /// Nothing claims it, and Peel knows why: it saw the app go and nothing wrote here after, nothing has
-        /// written here in months, or the files are links into an app that is gone.
+        /// written here in months, the files are links into an app that is gone, or they are system extension
+        /// copies of an app that is gone, which macOS removes at the next restart.
         case certain
 
         public static func < (one: Level, other: Level) -> Bool { one.rawValue < other.rawValue }
@@ -38,6 +39,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         case onlyTheName(of: String)
         /// Nothing installed claims the identifier, which is all Peel can say.
         case nothingClaimsIt
+        /// macOS's record of these system extension copies names the app they were installed for, which is gone.
+        case installedForAnAppThatIsGone(name: String)
     }
 
     /// A write this recent means something may still be running. A week covers a Mac left unused over a weekend.
@@ -67,6 +70,16 @@ public struct OrphanConfidence: Sendable, Hashable {
         // Links into an app that is gone lead nowhere, whatever their dates or the maker's other apps suggest.
         if group.items.allSatisfy(\.kind.isForLinks) {
             return OrphanConfidence(level: .certain, reasons: [.leadsIntoAnAppThatIsGone])
+        }
+        // macOS's own record of a system extension says which app it was installed for. macOS may still run a copy
+        // it keeps turned on, so only copies it removes at the next restart are surely unused.
+        if let app = group.installedFor {
+            let name = URL(filePath: app).deletingPathExtension().lastPathComponent
+            let removing = group.items.allSatisfy { $0.heldBack == .systemExtensionGoingAtRestart }
+            return OrphanConfidence(
+                level: removing ? .certain : .likely,
+                reasons: [.installedForAnAppThatIsGone(name: name)]
+            )
         }
         if let app = group.rememberedApp, group.items.allSatisfy({ $0.namedAfter != nil }) {
             return OrphanConfidence(level: .unsure, reasons: [.onlyTheName(of: app.name)])

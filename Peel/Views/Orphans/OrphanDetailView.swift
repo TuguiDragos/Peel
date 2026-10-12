@@ -96,6 +96,12 @@ struct OrphanDetailView: View {
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+            } else if let app = group.installedFor {
+                let name = URL(filePath: app).deletingPathExtension().lastPathComponent
+                Text("macOS installed these for \(name), at \((app as NSString).abbreviatingWithTildeInPath), which is no longer there.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             } else {
                 Text("No app installed on this Mac claims these files.")
                     .font(.callout)

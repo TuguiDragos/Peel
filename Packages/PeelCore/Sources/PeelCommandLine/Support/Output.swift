@@ -383,6 +383,7 @@ extension OrphanConfidence {
         case .appLeft(let name, let lastSeen): "Peel last saw \(Output.plain(name)) installed on \(Output.day(lastSeen))"
         case .untouched(let months): "\(months) months since anything wrote here"
         case .nothingClaimsIt, nil: "nothing installed claims these"
+        case .installedForAnAppThatIsGone(let name): "macOS installed these for \(Output.plain(name)), which is gone"
         }
     }
 

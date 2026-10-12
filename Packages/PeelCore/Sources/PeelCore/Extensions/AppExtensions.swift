@@ -24,7 +24,8 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         url: URL?,
         election: Election,
         teamIdentifier: String?,
-        reportedState: String?
+        reportedState: String?,
+        installedFor: String? = nil
     ) {
         self.id = id ?? identifier
         self.identifier = identifier
@@ -36,6 +37,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         self.election = election
         self.teamIdentifier = teamIdentifier
         self.reportedState = reportedState
+        self.installedFor = installedFor
     }
 
     public enum Kind: String, Sendable, Hashable, CaseIterable {
@@ -83,6 +85,9 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     /// The state `systemextensionsctl` printed, like `activated waiting for user`. Nil for an app extension,
     /// since `pluginkit` prints no such state.
     public let reportedState: String?
+    /// For a system extension, the path of the app macOS's record says it was installed for: the app it is held
+    /// for, or once that app has moved, the app it was installed from.
+    public let installedFor: String?
     /// Tells rows apart in a list. The identifier alone can't: while an app updates a system extension, macOS
     /// lists the old and the new version under the same identifier.
     public let id: String
@@ -303,7 +308,8 @@ public enum AppExtensions {
                 url: record?.staged,
                 election: election(forSystemExtensionState: row.state),
                 teamIdentifier: row.teamIdentifier,
-                reportedState: row.state
+                reportedState: row.state,
+                installedFor: record.flatMap(installedFor)
             )
         }
     }
@@ -362,6 +368,17 @@ public enum AppExtensions {
         let version: String?
         let staged: URL?
         let container: String?
+        /// Where the extension was installed from, inside its app (`originPath`).
+        var origin: String? = nil
+    }
+
+    /// The path of the app a record says its extension was installed for: the app macOS holds it for, or, once
+    /// Finder has moved that app and the record holds none, the app its original copy sat in.
+    static func installedFor(_ record: SystemExtensionRecord) -> String? {
+        if let container = record.container { return container }
+        let names = PathComponents.of(record.origin ?? "")
+        guard let app = names.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
+        return "/" + names[...app].joined(separator: "/")
     }
 
     /// The record of the extension `systemextensionsctl` listed: the one of its version, or the only one of its
@@ -390,7 +407,8 @@ public enum AppExtensions {
                 identifier: identifier,
                 version: [short, build].compactMap(\.self).joined(separator: "/"),
                 staged: staged.flatMap(URL.init(string:)),
-                container: (entry["container"] as? [String: Any])?["bundlePath"] as? String
+                container: (entry["container"] as? [String: Any])?["bundlePath"] as? String,
+                origin: entry["originPath"] as? String
             )
         }
     }

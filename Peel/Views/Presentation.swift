@@ -378,6 +378,8 @@ extension OrphanConfidence {
             Text("^[\(months) month](inflect: true) since anything wrote here")
         case .nothingClaimsIt:
             Text("No installed app claims these")
+        case .installedForAnAppThatIsGone(let name):
+            Text("macOS installed these for \(name), which is gone")
         }
     }
 

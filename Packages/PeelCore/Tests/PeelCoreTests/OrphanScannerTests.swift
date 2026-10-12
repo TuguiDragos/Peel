@@ -95,6 +95,41 @@ struct OrphanScannerTests {
         #expect(item(going)?.leftAlone == .systemExtensionGoingAtRestart)
     }
 
+    @Test func namesTheGoneAppMacOSInstalledASystemExtensionFor() async throws {
+        let directory = try TemporaryDirectory()
+        let copy = try directory.directory("root/Library/SystemExtensions/77689A22/org.example.guard.ext.systemextension")
+        let going = try directory.directory("root/Library/SystemExtensions/837351C0/org.example.shield.ext.systemextension")
+        let other = try directory.directory("root/Library/SystemExtensions/5DF88A99/org.example.kept.ext.systemextension")
+        let kept = try directory.directory("root/Applications/Kept.app")
+        let gone = { (name: String) in directory.url.appending(path: "root/Applications/\(name).app") }
+        let copies: [(URL, URL, AppExtension.Election)] = [
+            (copy, gone("Guard"), .on), (going, gone("Shield"), .beingRemoved), (other, kept, .waitingForApproval),
+        ]
+        let extensions = copies.map { url, app, election in
+            AppExtension(
+                identifier: url.deletingPathExtension().lastPathComponent, name: "Extension", kind: .systemExtension,
+                point: nil, owner: nil, url: url, election: election, teamIdentifier: nil,
+                reportedState: nil, installedFor: app.path(percentEncoded: false)
+            )
+        }
+
+        let maker = RememberedApp(
+            bundleIdentifier: "org.example.other", name: "Other", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Other.app"
+        )
+
+        let scan = await scanner(in: directory) { extensions }.scan(installedApps: installed, remembered: [maker])
+        let confidence = { (url: URL) in
+            scan.groups.first { group in group.items.contains { $0.url.lastPathComponent == url.lastPathComponent } }?
+                .confidence
+        }
+
+        #expect(confidence(copy) == OrphanConfidence(level: .likely, reasons: [.installedForAnAppThatIsGone(name: "Guard")]))
+        #expect(confidence(going) == OrphanConfidence(level: .certain, reasons: [.installedForAnAppThatIsGone(name: "Shield")]))
+        #expect(confidence(other)?.reasons.isEmpty == false)
+        #expect(confidence(other)?.reasons.contains(.installedForAnAppThatIsGone(name: "Kept")) == false)
+    }
+
     @Test func listsAFileTwoPlacesReachOnce() async throws {
         let directory = try TemporaryDirectory()
         let recents = "home/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments"

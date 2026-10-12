@@ -123,10 +123,16 @@ public struct OrphanScanner: Sendable {
         let isStaged = { (item: OrphanItem) in
             PathComponents.isPath(PathPattern.comparablePath(of: item.url), inside: staged)
         }
-        let goingAtRestart = found.contains { isStaged($0.item) }
-            ? Set((await systemExtensions() ?? []).filter { $0.election == .beingRemoved }.compactMap(\.url)
-                .map(PathPattern.comparablePath(of:)))
-            : []
+        let extensions = found.contains { isStaged($0.item) } ? await systemExtensions() ?? [] : []
+        let goingAtRestart = Set(
+            extensions.filter { $0.election == .beingRemoved }.compactMap(\.url).map(PathPattern.comparablePath(of:))
+        )
+        let installedFor = Dictionary(
+            extensions.compactMap { copy in
+                copy.url.flatMap { url in copy.installedFor.map { (PathPattern.comparablePath(of: url), $0) } }
+            },
+            uniquingKeysWith: { first, _ in first }
+        )
         let folders = manifestFolders
         let kept = found.filter {
             !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url)
@@ -137,8 +143,9 @@ public struct OrphanScanner: Sendable {
         .map { entry in
             var item = entry.item
             if isStaged(item) {
-                let removing = goingAtRestart.contains(PathPattern.comparablePath(of: item.url))
-                item.heldBack = removing ? .systemExtensionGoingAtRestart : .systemExtension
+                let path = PathPattern.comparablePath(of: item.url)
+                item.heldBack = goingAtRestart.contains(path) ? .systemExtensionGoingAtRestart : .systemExtension
+                item.installedFor = installedFor[path].flatMap { URL(filePath: $0).isMissing ? $0 : nil }
                 return (entry.identifier, item)
             }
             guard item.requiresPrivileges, item.leftAlone == nil, reach.isBeyond(item.url) else { return entry }

@@ -198516,6 +198516,218 @@
         }
       }
     },
+    "macOS installed these for %@, at %@, which is no longer there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS je nainstaloval pro aplikaci %@ v umístění %@, která už neexistuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat diese Dateien für die App „%@“ installiert, die unter %@ nicht mehr vorhanden ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS los instaló para %@, que estaba en %@ y ya no está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé ces fichiers pour %@, qui se trouvait à l’emplacement %@ et qui n’est plus là."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha installato questi file per %@, che si trovava in %@ e non c’è più."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらは、macOSが“%@”のためにインストールしたものですが、このアプリは%@にはもう存在しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 ‘%@’을(를) 위해 이 파일들을 설치했으며, 이 앱은 더 이상 %@에 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft deze geïnstalleerd voor %@, in %@, die er niet meer is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował je dla aplikacji %@, której już nie ma w %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou estes itens para %@, em %@, que não existe mais."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a instalat aceste fișiere pentru aplicația %@ de la %@, care nu mai există."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила эти файлы для приложения «%@», которого больше нет в %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat dessa för %@, på %@, som inte längre finns."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bunları %@ uygulaması için yükledi; %@ konumundaki uygulama artık yerinde değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала їх для програми «%@», якої вже немає за шляхом %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS为“%@”安装了这些文件，该App原位于%@，现已不存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS為「%@」安裝了這些項目，該App原本位於%@，現已不存在。"
+          }
+        }
+      }
+    },
+    "macOS installed these for %@, which is gone" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS je nainstaloval pro aplikaci %@, která už tu není"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat diese für die App „%@“ installiert, die nicht mehr vorhanden ist"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS los instaló para %@, que ya no está"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a installé ces fichiers pour %@, qui a disparu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS li ha installati per %@, che non c’è più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが、すでになくなった“%@”のためにインストールしたものです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 사라진 앱인 ‘%@’을(를) 위해 이 항목을 설치함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft deze geïnstalleerd voor %@, die er niet meer is"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zainstalował je dla aplikacji %@, której już nie ma"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS instalou estes itens para %@, que não existe mais"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS le‑a instalat pentru aplicația %@, care nu mai există"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS установила их для приложения «%@», которого больше нет"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har installerat dessa för %@, som är borta"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bunları, artık olmayan %@ uygulaması için yükledi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS інсталювала їх для програми «%@», якої вже немає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS为“%@”安装了这些文件，该App已不存在"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS為「%@」安裝了這些項目，該App已不存在"
+          }
+        }
+      }
+    },
     "macOS installed this apart from the app that brought it, and keeps its own copy." : {
       "localizations" : {
         "cs" : {

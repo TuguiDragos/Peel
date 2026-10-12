@@ -171,6 +171,22 @@ struct AppExtensionsTests {
         #expect(records.last?.staged == nil)
     }
 
+    @Test func knowsTheAppAnExtensionWasInstalledForOnceFinderMovedIt() {
+        let record = { (container: String?, origin: String?) in
+            AppExtensions.SystemExtensionRecord(
+                identifier: "org.example.ext", version: nil, staged: nil, container: container, origin: origin
+            )
+        }
+        let inside = "/Contents/Library/SystemExtensions/org.example.ext.systemextension"
+
+        #expect(AppExtensions.installedFor(record("/Applications/Example.app", "/Applications/Example.app\(inside)"))
+            == "/Applications/Example.app")
+        #expect(AppExtensions.installedFor(record(nil, "/Applications/Suite/Guard.app\(inside)"))
+            == "/Applications/Suite/Guard.app")
+        #expect(AppExtensions.installedFor(record(nil, "/Library/org.example.ext.systemextension")) == nil)
+        #expect(AppExtensions.installedFor(record(nil, nil)) == nil)
+    }
+
     /// During an update one identifier has two records, one per version. A row is paired with its own version's
     /// record, and with another version's never: no path is better than the path of the other copy. With only
     /// one record, the identifier is enough.
