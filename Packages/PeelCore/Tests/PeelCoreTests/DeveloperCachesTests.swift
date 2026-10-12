@@ -540,6 +540,8 @@ struct DeveloperCachesTests {
             "Library/Unity", ".sonar",
             // Each keeps conversations, settings, or keys beside its caches.
             ".claude", ".codex", ".continue", ".cline", ".cline/data",
+            // AI apps keep the person's images, documents, databases, and keys beside the models they download.
+            "invokeai", "ComfyUI-Shared", "MochiDiffusion", ".omlx", "Library/Application Support/anythingllm-desktop/storage",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the copies of
         // the public index are listed, the CDN's `trunk` and the Git clone CocoaPods names `master` or `cocoapods`,
@@ -605,6 +607,36 @@ struct DeveloperCachesTests {
         let listed = environments.filter { ["kilo", "continue", "cline"].contains($0.id) }
             .flatMap(\.locations).map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }
         #expect(Set(listed) == [".cache/kilo", ".continue/logs", ".cline/data/logs"])
+    }
+
+    @Test func listsTheModelsAIAppsDownloadAndNothingThePersonKeepsBeside() async throws {
+        let directory = try TemporaryDirectory()
+        let gpt4All = "Library/Application Support/nomic.ai/GPT4All"
+        let anythingLLM = "Library/Application Support/anythingllm-desktop/storage"
+        for path in [
+            "\(gpt4All)/Llama-3.2-3B-Instruct-Q4_0.gguf", "\(gpt4All)/gpt4all-1a2b.chat", "\(gpt4All)/localdocs_v3.db",
+            "\(gpt4All)/openai-capi.rmodel", "\(anythingLLM)/models/model.gguf", "\(anythingLLM)/logs/backend.log",
+            "\(anythingLLM)/documents/notes.json", "\(anythingLLM)/anythingllm.db", "\(anythingLLM)/vector-cache/a.json",
+            "invokeai/models/sdxl/model.safetensors", "invokeai/outputs/images/1.png", "invokeai/databases/invokeai.db",
+            "ComfyUI-Shared/models/checkpoints/model.safetensors", "ComfyUI-Shared/output/1.png",
+            "ComfyUI-Shared/input/1.png", "MochiDiffusion/models/sd/unet.bin", "MochiDiffusion/controlnet/canny.bin",
+            "MochiDiffusion/images/1.png", ".omlx/models/qwen/model.safetensors", ".omlx/cache/0/block.safetensors",
+            ".omlx/logs/server.log", ".omlx/settings.json", ".omlx/bin/omlx",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let home = directory.url.path(percentEncoded: false)
+        let tools: Set = ["gpt4all", "anythingllm", "invokeai", "comfyui", "mochidiffusion", "omlx"]
+        let listed = environments.filter { tools.contains($0.id) }.flatMap(\.locations)
+        #expect(Set(listed.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }) == [
+            "\(gpt4All)/Llama-3.2-3B-Instruct-Q4_0.gguf", "\(anythingLLM)/models", "\(anythingLLM)/logs",
+            "invokeai/models", "ComfyUI-Shared/models", "MochiDiffusion/models", "MochiDiffusion/controlnet",
+            ".omlx/models", ".omlx/cache", ".omlx/logs",
+        ])
+        #expect(Set(listed.filter(\.isRecommended).map(\.url.lastPathComponent)) == ["logs", "cache"])
     }
 
     /// Every folder the table offers names where its tool documents it: a page, or the file inside Xcode that names

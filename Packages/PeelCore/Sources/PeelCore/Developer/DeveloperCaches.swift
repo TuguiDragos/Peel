@@ -1138,8 +1138,10 @@ public enum DeveloperCaches {
         Definition(id: "whisper", name: "Whisper", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".cache/whisper", .models, source: "https://github.com/openai/whisper/blob/86098128c0b4f24f0e2aa2994de830614b474227/whisper/__init__.py#L119-L134"),
         ]),
-        Definition(id: "gpt4all", name: "GPT4All", systemImage: "brain", appBundleIdentifiers: [], folders: [
+        // The app keeps its chats beside its models, so only the model files are listed.
+        Definition(id: "gpt4all", name: "GPT4All", systemImage: "brain", appBundleIdentifiers: ["gpt4all"], folders: [
             Folder(".cache/gpt4all", .models, source: "https://github.com/nomic-ai/gpt4all/blob/b666d16db5aeab8b91aaf7963adcee9c643734d7/gpt4all-bindings/python/gpt4all/gpt4all.py#L36"),
+            Folder("Library/Application Support/nomic.ai/GPT4All/*.gguf", .models, source: "https://github.com/nomic-ai/gpt4all/blob/b666d16db5aeab8b91aaf7963adcee9c643734d7/gpt4all-chat/src/mysettings.cpp#L78-L81"),
         ]),
         Definition(id: "tensorflow", name: "TensorFlow Datasets", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder("tensorflow_datasets", .models, source: "https://github.com/tensorflow/datasets/blob/ff9ea5fdcba7cc4d25bac833ecb6659397694c12/tensorflow_datasets/core/constants.py#L36-L37"),
@@ -1174,6 +1176,25 @@ public enum DeveloperCaches {
             Folder("Library/Application Support/Jan/data/llamacpp/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
             Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
             Folder("Library/Application Support/Jan/data/logs", .logs, source: "https://jan.ai/docs/desktop/data-folder"),
+        ]),
+        Definition(id: "anythingllm", name: "AnythingLLM", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("Library/Application Support/anythingllm-desktop/storage/models", .models, source: "https://docs.anythingllm.com/installation-desktop/storage"),
+            Folder("Library/Application Support/anythingllm-desktop/storage/logs", .logs, source: "https://docs.anythingllm.com/installation-desktop/storage"),
+        ]),
+        Definition(id: "invokeai", name: "InvokeAI", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("invokeai/models", .models, source: "https://github.com/invoke-ai/InvokeAI/blob/aa46003581e2c482e03e62116f68ef3c3a6f0233/invokeai/app/services/config/config_default.py#L535-L543"),
+        ]),
+        Definition(id: "comfyui", name: "ComfyUI", systemImage: "brain", appBundleIdentifiers: ["com.todesktop.241012ess7yxs0e"], folders: [
+            Folder("ComfyUI-Shared/models", .models, source: "https://github.com/Comfy-Org/Comfy-Desktop/blob/af18c5fb4aa0bd1f299fd9e7200d3747adb22ac1/src/main/settings.ts#L353"),
+        ]),
+        Definition(id: "mochidiffusion", name: "Mochi Diffusion", systemImage: "brain", appBundleIdentifiers: ["com.joshua-park.Mochi-Diffusion"], folders: [
+            Folder("MochiDiffusion/models", .models, source: "https://github.com/MochiDiffusion/MochiDiffusion/blob/5e978c69f4dec37bb0d4ef6558fcfb73b0bb4e98/Mochi%20Diffusion/Support/ModelRepository.swift#L24-L29"),
+            Folder("MochiDiffusion/controlnet", .models, source: "https://github.com/MochiDiffusion/MochiDiffusion/blob/5e978c69f4dec37bb0d4ef6558fcfb73b0bb4e98/Mochi%20Diffusion/Support/ModelRepository.swift#L31-L36"),
+        ]),
+        Definition(id: "omlx", name: "oMLX", systemImage: "brain", appBundleIdentifiers: ["app.omlx"], folders: [
+            Folder(".omlx/models", .models, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L282-L296"),
+            Folder(".omlx/cache", .cache, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L443-L455"),
+            Folder(".omlx/logs", .logs, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L835-L847"),
         ]),
         // Chromium's docs/user_data_dir.md names each Chrome channel's and Chromium's folder, brave-core's
         // `build/config.gni` and `app/theme/*/BRANDING` each Brave build's folder and identifier, and Opera's desktop
