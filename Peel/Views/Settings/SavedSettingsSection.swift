@@ -156,7 +156,8 @@ struct SavedSettingsSection: View {
             await history.record(
                 result,
                 tool: .applications,
-                source: name,
+                source: "Settings Saved for \(name)",
+                sourceKey: "savedSettings.\(name)",
                 sizes: [URL: Int64](measured: [(copy.folder, size)])
             )
         }

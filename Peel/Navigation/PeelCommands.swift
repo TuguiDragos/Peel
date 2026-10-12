@@ -72,14 +72,14 @@ struct PeelCommands: Commands {
                 Button {
                     Task { await history?.undoLastRemoval() }
                 } label: {
-                    if let name = history?.undoName {
-                        Text("Undo Remove \(name)")
+                    if let title = history?.undoTitle {
+                        Text(verbatim: title)
                     } else {
                         Text("Undo")
                     }
                 }
                 .keyboardShortcut("z", modifiers: .command)
-                .disabled(history?.undoName == nil || history?.isRestoring == true || sheetInFront.isShowing)
+                .disabled(history?.undoTitle == nil || history?.isRestoring == true || sheetInFront.isShowing)
                 Button("Redo") {}
                     .keyboardShortcut("z", modifiers: [.command, .shift])
                     .disabled(true)

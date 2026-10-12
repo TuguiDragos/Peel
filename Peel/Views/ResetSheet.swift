@@ -43,7 +43,13 @@ struct ResetSheet: View {
                         if !result.trashed.isEmpty {
                             changedFiles = true
                         }
-                        await history.record(result, tool: .applications, source: plan.app.name, sizes: sizes)
+                        await history.record(
+                            result,
+                            tool: .applications,
+                            source: "Reset of \(plan.app.name)",
+                            sourceKey: "reset.\(plan.app.name)",
+                            sizes: sizes
+                        )
                     }
                 }
             }

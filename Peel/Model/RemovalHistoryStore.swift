@@ -55,7 +55,22 @@ nonisolated struct RemovalBatch: Identifiable, Hashable {
         if key.hasPrefix("casks."), let count = Int(key.dropFirst("casks.".count)) {
             return String(inflecting: "^[\(count) cask](inflect: true)")
         }
+        if key.hasPrefix("reset.") {
+            return String(localized: "Reset of \(String(key.dropFirst("reset.".count)))")
+        }
+        if key.hasPrefix("savedSettings.") {
+            return String(localized: "Settings Saved for \(String(key.dropFirst("savedSettings.".count)))")
+        }
         return source
+    }
+
+    /// What Edit > Undo says for a removal of `parts` titled `title`: a reset is undone by name, anything else as a
+    /// removal.
+    static func undoTitle(of parts: [RemovalPart], title: String) -> String {
+        if parts.count == 1, let key = parts[0].sourceKey, key.hasPrefix("reset.") {
+            return String(localized: "Undo Reset \(String(key.dropFirst("reset.".count)))")
+        }
+        return String(localized: "Undo Remove \(title)")
     }
 
     var size: SizeTotal { records.totalSize }
@@ -102,7 +117,7 @@ final class RemovalHistoryStore {
     var stats: LifetimeStats?
     /// The last batch moved, for Undo. `@Environment(\.undoManager)` is nil in an app with no documents,
     /// so the Edit menu's own item is replaced by one that asks this (`PeelCommands`).
-    private(set) var undoable: (records: [RemovalRecord], source: String)?
+    private(set) var undoable: (records: [RemovalRecord], title: String)?
     /// The last batch moved in this session, which the removal bar briefly reports.
     private(set) var justMoved: RemovalBatch?
     /// Whether the helper can act. The window keeps this current, so Undo in the Edit menu can use the helper.
@@ -243,27 +258,22 @@ final class RemovalHistoryStore {
     /// totals, and Undo.
     func finish(_ removal: RemovalInProgress) {
         guard !removal.records.isEmpty else { return }
-        let moved = RemovalBatch(
-            id: removal.batch,
-            parts: RemovalPart.of(removal.records.map { ($0.date, $0.part) }),
-            date: .now,
-            records: removal.records
-        )
+        let parts = RemovalPart.of(removal.records.map { ($0.date, $0.part) })
+        let moved = RemovalBatch(id: removal.batch, parts: parts, date: .now, records: removal.records)
         justMoved = moved
         AccessibilityNotification.Announcement(moved.movedAnnouncement).post()
         stats?.reload()
-        registerUndo(of: removal.records, source: moved.title)
+        registerUndo(of: removal.records, title: RemovalBatch.undoTitle(of: parts, title: moved.title))
     }
 
     /// Makes the last batch undoable, as Finder does after a move to the Trash: Command-Z puts it back, and the
-    /// Edit menu names its source. Put Back in History does the same, and both refuse an item that has since
-    /// left the Trash.
-    private func registerUndo(of records: [RemovalRecord], source: String) {
-        undoable = records.isEmpty ? nil : (records, source)
+    /// Edit menu names it. Put Back in History does the same, and both refuse an item that has since left the Trash.
+    private func registerUndo(of records: [RemovalRecord], title: String) {
+        undoable = records.isEmpty ? nil : (records, title)
     }
 
-    /// The name the Edit menu shows, and nil when there is nothing to undo.
-    var undoName: String? { undoable?.source }
+    /// What the Edit menu shows, and nil when there is nothing to undo.
+    var undoTitle: String? { undoable?.title }
 
     /// Puts the last batch back. Nothing happens while another Put Back runs, and the batch stays undoable: `restore`
     /// takes one at a time and would drop this one without a word.
