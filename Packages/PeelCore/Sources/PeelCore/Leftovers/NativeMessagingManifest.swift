@@ -1,25 +1,20 @@
 import Foundation
+internal import PeelPrivileged
 
-/// A browser's native messaging manifest, which names the program the browser starts for an extension.
-enum NativeMessagingManifest {
-    /// The program the manifest at `url` names, or nil when it can't be told: a manifest is a small JSON file, and a
-    /// NUL in the path would end it where the kernel reads it.
+extension NativeMessagingManifest {
     static func program(at url: URL) -> String? {
-        guard url.pathExtension == "json", let data = BoundedRead.data(at: url, maximum: 64 * 1_024),
-              let manifest = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let program = manifest["path"] as? String, program.hasPrefix("/"), !program.utf8.contains(0)
+        guard isManifest(named: url.lastPathComponent), let data = BoundedRead.data(at: url, maximum: maximumSize)
         else { return nil }
-        return program
+        return program(in: data)
     }
 
     /// Whether the manifest at `url` starts nothing: a link that leads nowhere, or a manifest naming a program that is
-    /// not there, on a disk that is connected.
+    /// gone.
     static func startsNothing(at url: URL) -> Bool {
         let path = url.path(percentEncoded: false)
         if (try? FileManager.default.destinationOfSymbolicLink(atPath: path)) != nil {
             return !FileManager.default.fileExists(atPath: path)
         }
-        guard let program = program(at: url) else { return false }
-        return !FileManager.default.fileExists(atPath: program) && !URL(filePath: program).isOnADiskNotConnected
+        return program(at: url).map(isGone) ?? false
     }
 }

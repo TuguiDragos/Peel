@@ -9,6 +9,7 @@ public enum FixedSentence: CaseIterable, Sendable {
     case notAFullPath, dotInPath, controlCharacter, folderNotFound, tooManyOpenFolders, outsideHelpersFolders
     case onlyAppsThere
     case notThereAnymore, alreadyThere, protectedByMacOS, irreplaceable, codeFolder, onlyLinksThere, leadsSomewhere
+    case onlyGoneProgramsThere
     case helperOutOfDate, accountNotAllowed, tooManyItems, noTrash, pathTooLong, cannotKeepRecord, cannotReadRecord
     case notInTrash, notMovedByHelper, invalidRequest, configurationMissing
     case toolTimedOut, toolStopped
@@ -36,6 +37,7 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .codeFolder: PrivilegedPathPolicy.Rejection.loadsCode.explanation
         case .onlyLinksThere: PrivilegedPathPolicy.Rejection.notALink.explanation
         case .leadsSomewhere: PrivilegedPathPolicy.Rejection.leadsSomewhere.explanation
+        case .onlyGoneProgramsThere: PrivilegedPathPolicy.Rejection.startsAProgram.explanation
         case .helperOutOfDate: HelperRefusal.outOfDate.rawValue
         case .accountNotAllowed: HelperRefusal.notAllowed.rawValue
         case .tooManyItems: HelperRefusal.tooManyItems.rawValue

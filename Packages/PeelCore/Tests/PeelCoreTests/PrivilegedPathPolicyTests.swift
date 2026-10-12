@@ -23,6 +23,7 @@ struct PrivilegedPathPolicyTests {
         try directory.directory("root/Library/Caches")
         try directory.directory("home/Library")
         try directory.directory("root/usr/local/bin")
+        try directory.directory("root/Library/Google/Chrome/NativeMessagingHosts")
         let root = directory.url.path(percentEncoded: false)
         return PrivilegedPathPolicy(
             homeDirectory: root + "home",
@@ -30,6 +31,7 @@ struct PrivilegedPathPolicyTests {
             applicationLocations: [root + "root/Applications"],
             restoreLocations: [root + "root/Applications", root + "root/Library/Caches"],
             linkLocations: [root + "root/usr/local/bin"],
+            manifestLocations: [root + "root/Library/Google/Chrome/NativeMessagingHosts"],
             ownTool: ownTool,
             trustedOwner: trustedOwner
         )
@@ -98,6 +100,66 @@ struct PrivilegedPathPolicyTests {
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
         let trashedLink = try #require(policy.openInTrash(path("home/.Trash/link", in: directory), trash: trash))
         #expect(policy.openDestination(path("root/usr/local/bin/gone2", in: directory), for: trashedLink).map(\.name) == .success("gone2"))
+    }
+
+    @Test func takesFromAManifestFolderOnlyWhatStartsNothing() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let folder = "root/Library/Google/Chrome/NativeMessagingHosts"
+        try directory.file("root/Applications/Tool.app/Contents/MacOS/host")
+        func manifest(_ name: String, naming program: String) throws {
+            let json = #"{"name": "org.example.host", "path": "\#(program)", "type": "stdio"}"#
+            try directory.file("\(folder)/\(name)", contents: Data(json.utf8))
+        }
+        try manifest("gone.json", naming: path("root/Applications/Gone.app/Contents/MacOS/host", in: directory))
+        try manifest("there.json", naming: path("root/Applications/Tool.app/Contents/MacOS/host", in: directory))
+        try manifest("away.json", naming: "/Volumes/org.example.away/Host.app/Contents/MacOS/host")
+        try directory.file("\(folder)/broken.json", contents: Data("{".utf8))
+        try directory.directory("\(folder)/folder.json")
+        try manifest("folder.json/deeper.json", naming: "/nowhere")
+        let links = [("nowhere.json", "missing.json"), ("somewhere.json", "there.json")]
+        for (name, destination) in links {
+            try FileManager.default.createSymbolicLink(
+                atPath: path("\(folder)/\(name)", in: directory), withDestinationPath: destination
+            )
+        }
+
+        for name in ["gone.json", "nowhere.json"] {
+            #expect((try? policy.open(path("\(folder)/\(name)", in: directory)).get()) != nil, "\(name) was refused")
+        }
+        for name in ["there.json", "away.json", "broken.json", "folder.json", "somewhere.json"] {
+            let opened = policy.open(path("\(folder)/\(name)", in: directory))
+            #expect(opened.map(\.name) == .failure(.startsAProgram), "\(name)")
+        }
+        #expect(policy.refusal(of: path("\(folder)/folder.json/deeper.json", in: directory)) == .outsideAllowedLocations)
+        #expect(policy.refusal(of: path(folder, in: directory)) == .outsideAllowedLocations)
+        let item = try trashed("gone.json", in: directory, by: policy)
+        #expect(policy.openDestination(path("\(folder)/gone.json", in: directory), for: item).rejection == .loadsCode)
+    }
+
+    @Test func aManifestFolderInsideAServedFolderTakesOnlyWhatStartsNothing() throws {
+        let directory = try TemporaryDirectory()
+        let folder = "root/Library/Application Support/Mozilla/NativeMessagingHosts"
+        try directory.file("root/Applications/Tool.app/Contents/MacOS/host")
+        let json = #"{"name": "org.example.host", "path": "\#(path("root/Applications/Tool.app/Contents/MacOS/host", in: directory))"}"#
+        try directory.file("\(folder)/there.json", contents: Data(json.utf8))
+        try directory.file("root/Library/Application Support/Example/settings.plist")
+        let root = directory.url.path(percentEncoded: false)
+        let policy = PrivilegedPathPolicy(
+            homeDirectory: root + "home",
+            systemLocations: [root + "root/Library/Application Support"],
+            restoreLocations: [root + "root/Library/Application Support"],
+            linkLocations: [],
+            manifestLocations: [root + folder],
+            trustedOwner: getuid()
+        )
+
+        #expect(policy.open(path("\(folder)/there.json", in: directory)).map(\.name) == .failure(.startsAProgram))
+        #expect(policy.refusal(of: path(folder, in: directory)) == .outsideAllowedLocations)
+        let settings = path("root/Library/Application Support/Example/settings.plist", in: directory)
+        #expect((try? policy.open(settings).get()) != nil)
+        let item = try trashed("there.json", permissions: 0o664, in: directory, by: policy)
+        #expect(policy.openDestination(path("\(folder)/there.json", in: directory), for: item).rejection == .loadsCode)
     }
 
     /// Remove Peel hands the helper the link to Peel's own tool while the app is still in place, so that link goes

@@ -18,6 +18,7 @@ public struct PrivilegedPathPolicy: Sendable {
         case loadsCode
         case notALink
         case leadsSomewhere
+        case startsAProgram
 
         /// What the helper sends back when it refuses. The app recognizes it and says it in the reader's language.
         public var explanation: String {
@@ -36,6 +37,7 @@ public struct PrivilegedPathPolicy: Sendable {
             case .loadsCode: "Code is loaded from that folder, so only what Peel’s helper took from it can go back."
             case .notALink: "Peel removes only links from that folder."
             case .leadsSomewhere: "It still leads to something on this Mac."
+            case .startsAProgram: "From that folder, Peel removes only what starts a program that is no longer there."
             }
         }
 
@@ -73,12 +75,17 @@ public struct PrivilegedPathPolicy: Sendable {
         "share/zsh/site-functions", "share/fish/vendor_completions.d", "etc/bash_completion.d", "share/pwsh/completions",
     ]
 
+    /// The folders of `/Library` browsers read native messaging manifests from. The helper takes from them only a
+    /// manifest that starts nothing, as it judges the item it opened.
+    public static let manifestLocations = NativeMessagingFolder.inTheMacsLibrary.map { "/Library/" + $0.path }
+
     private static let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_IMMUTABLE) | UInt32(SF_NOUNLINK)
 
     private let locations: [String]
     private let restorable: [String]
     private let applicationLocations: [String]
     private let links: [String]
+    private let manifests: [String]
     /// The device and inode of the `peel` tool inside the app the helper runs from.
     private let ownTool: (device: dev_t, inode: ino_t)?
     /// The folders of the home's Library that Peel searches, lowercased, as names from the root.
@@ -92,18 +99,20 @@ public struct PrivilegedPathPolicy: Sendable {
         applicationLocations: [String] = ["/Applications"],
         restoreLocations: [String] = Self.restoreLocations,
         linkLocations: [String] = Self.linkLocations,
+        manifestLocations: [String] = Self.manifestLocations,
         ownTool: String? = nil,
         trustedOwner: uid_t = 0
     ) {
         self.homeDirectory = homeDirectory
         self.trustedOwner = trustedOwner
         links = linkLocations.compactMap(Self.realPath)
+        manifests = manifestLocations.compactMap(Self.realPath)
         self.ownTool = ownTool.flatMap { path in
             var info = stat()
             guard stat(path, &info) == 0 else { return nil }
             return (info.st_dev, info.st_ino)
         }
-        locations = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath) + links
+        locations = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath) + links + manifests
         restorable = (restoreLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
         self.applicationLocations = applicationLocations.compactMap(Self.realPath)
         let library = Self.realPath(homeDirectory + "/Library") ?? homeDirectory + "/Library"
@@ -171,8 +180,12 @@ public struct PrivilegedPathPolicy: Sendable {
         guard let location = locations.first(where: { PathComponents.isPath(resolved, inside: $0) }) else {
             return .failure(.outsideAllowedLocations)
         }
-        // A tool's link sits directly in its folder, never deeper.
+        // A tool's link sits directly in its folder, never deeper, and so does a browser's manifest.
         if links.contains(location), resolvedParent != location {
+            return .failure(.outsideAllowedLocations)
+        }
+        if manifests.contains(resolved)
+            || manifests.contains(where: { PathComponents.isPath(resolved, inside: $0) && resolvedParent != $0 }) {
             return .failure(.outsideAllowedLocations)
         }
         if applicationLocations.contains(location), !name.hasSuffix(".app") {
@@ -212,9 +225,29 @@ public struct PrivilegedPathPolicy: Sendable {
                         return .failure(.leadsSomewhere)
                     }
                 }
-                return .success(OpenItem(path: item.path, name: item.name, parent: parent, status: info))
+                let opened = OpenItem(path: item.path, name: item.name, parent: parent, status: info)
+                if manifests.contains(item.parent), !Self.startsNothing(opened, status: info) {
+                    return .failure(.startsAProgram)
+                }
+                return .success(opened)
             }
         }
+    }
+
+    /// Whether `item`, in a folder browsers read native messaging manifests from, starts nothing: a link that leads
+    /// nowhere, or a manifest whose bytes, read from the file that was judged, name a program that is gone.
+    private static func startsNothing(_ item: OpenItem, status: stat) -> Bool {
+        if status.st_mode & S_IFMT == S_IFLNK {
+            var target = stat()
+            let leads = item.name.withCString { fstatat(item.parent.descriptor, $0, &target, 0) } == 0
+            let error = errno
+            return !leads && (error == ENOENT || error == ENOTDIR || error == ELOOP)
+        }
+        guard NativeMessagingManifest.isManifest(named: item.name),
+              let contents = item.contents(ofAtMost: NativeMessagingManifest.maximumSize),
+              let program = NativeMessagingManifest.program(in: contents.data)
+        else { return false }
+        return NativeMessagingManifest.isGone(program)
     }
 
     /// Like `open`, for a path where nothing exists yet. A folder that code is loaded from takes back only an
@@ -226,7 +259,9 @@ public struct PrivilegedPathPolicy: Sendable {
                 if links.contains(item.parent) {
                     guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
                 }
-                if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) }) {
+                // A browser starts the program a manifest names, so its folder is one that code is loaded from.
+                if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) })
+                    || manifests.contains(item.parent) {
                     guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else {
                         return .failure(.loadsCode)
                     }

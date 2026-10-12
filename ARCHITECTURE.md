@@ -101,7 +101,8 @@ Take the most common case, uninstalling an app. Every other page follows the sam
    - `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
      about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
      moved. Items only an administrator can move go through the helper, and the links an app's tools and their
-     shell completions left in `/usr/local` go last, once the app they lead into has moved.
+     shell completions left in `/usr/local` go last, once the app they lead into has moved. A browser's manifest in
+     `/Library` goes through the helper too, which takes it only once the program it names is gone.
    - An item stays where it is while a program holds it (`OpenFiles`): a file one of the user's programs holds
      open, or the program any process runs from it. Inside an app, which is code and loses nothing when it moves,
      a file open only for reading holds nothing, and neither does the program running from an app that

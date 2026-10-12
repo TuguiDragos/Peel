@@ -44635,6 +44635,112 @@
         }
       }
     },
+    "From that folder, Peel removes only what starts a program that is no longer there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z této složky Peel odstraňuje jen soubory, které spouštějí program, který už neexistuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus diesem Ordner entfernt Peel nur Dateien, die ein Programm starten, das nicht mehr vorhanden ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De esa carpeta, Peel solo elimina archivos que inician un programa que ya no está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans ce dossier, Peel ne supprime que ce qui lance un programme qui n’est plus là."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da quella cartella Peel rimuove solo ciò che avvia un programma che non c’è più."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そのフォルダからPeelがゴミ箱に入れるのは、もう存在しないプログラムを起動するものだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그 폴더에서 Peel은 시작하는 프로그램이 더 이상 없는 항목만 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijdert uit die map alleen onderdelen die een programma starten dat er niet meer is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z tego folderu Peel przenosi do Kosza tylko to, co uruchamia program, którego już nie ma."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessa pasta, o Peel só remove o que inicia um programa que não existe mais."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din acel dosar, Peel elimină doar ce pornește un program care nu mai există."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из этой папки Peel удаляет только то, что запускает программу, которой больше нет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Från den mappen tar Peel bara bort det som startar ett program som inte längre finns."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel o klasörden yalnızca artık yerinde olmayan bir programı başlatanları kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "З цієї папки Peel вилучає лише те, що запускає виконуваний файл, якого вже немає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只会从该文件夹中移除用于启动一个已不存在的程序的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只會從該檔案夾移除所啟動的程式已不存在的項目。"
+          }
+        }
+      }
+    },
     "From ~/.ssh/config" : {
       "localizations" : {
         "cs" : {

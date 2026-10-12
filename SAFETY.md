@@ -527,7 +527,8 @@ and it fails closed.
   of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents, LaunchDaemons,
   PrivilegedHelperTools, and StartupItems) and the 22 that hold plug-ins; the installer receipts in
   `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, and the four folders of
-  `/usr/local` that shell completions are linked into; and the Library of the administrator who asks.
+  `/usr/local` that shell completions are linked into; the folders of `/Library` browsers read native messaging
+  manifests from; and the Library of the administrator who asks.
 - It takes at most 100 items in one request, and quits 30 seconds after its last request ends, or as soon as
   it is idle once an update has replaced it, so it isn't left running.
 - A path with a control character in it is refused. The rules read the whole name and the system stops at
@@ -542,6 +543,12 @@ and it fails closed.
   never a file, and only one that leads nowhere. Peel sends an app's links there after the app itself, so they go
   once the app is gone, and a link that still leads to something stays. The one exception is a link to the `peel`
   command inside the Peel the helper runs from, which Remove Peel hands it before the helper goes.
+- From the folders of `/Library` browsers read native messaging manifests from (`Google/Chrome`,
+  `Google/ChromeForTesting`, and `Microsoft/Edge`, and Chromium's and Mozilla's in Application Support, each in its
+  `NativeMessagingHosts`), it takes only a manifest that starts nothing: a link that leads nowhere, or a file that
+  names a program that is no longer there, as the helper reads the file itself. Peel sends an app's manifest after
+  the app, so it goes once the app is gone, and one that still starts a program stays. A browser starts what a
+  manifest there names, so these folders take back only what is owned by root and writable by nobody else.
 - It never reuses a path after checking it. It opens the parent directory, checks the item there as the system
   names that directory, works only through that descriptor, and moves the item only while it is still the one it
   checked, so a folder or an item swapped after the check leads nowhere.

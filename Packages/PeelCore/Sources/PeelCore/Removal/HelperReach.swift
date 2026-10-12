@@ -14,7 +14,8 @@ struct HelperReach: Sendable {
             systemLocations: PrivilegedPathPolicy.systemLocations.map { base + $0 },
             applicationLocations: [base + "/Applications"],
             restoreLocations: PrivilegedPathPolicy.restoreLocations.map { base + $0 },
-            linkLocations: PrivilegedPathPolicy.linkLocations.map { base + $0 }
+            linkLocations: PrivilegedPathPolicy.linkLocations.map { base + $0 },
+            manifestLocations: PrivilegedPathPolicy.manifestLocations.map { base + $0 }
         )
     }
 

@@ -133,20 +133,28 @@ public final class OpenItem: Sendable {
 }
 
 extension OpenItem {
-    /// Deletes this item for good when it is a regular file of `owner`, at most `maximum` bytes, whose bytes
-    /// `isDisposable` accepts. The file is read without following a link, and its name is removed only while it
-    /// still leads to the file that was read.
-    public func deleteFile(ownedBy owner: uid_t, ofAtMost maximum: Int, if isDisposable: (Data) -> Bool) {
-        guard let identity, let mode, mode & S_IFMT == S_IFREG else { return }
+    /// The bytes of this item while it is still the regular file that was judged, at most `maximum` of them, read
+    /// without following a link, with the status of the file they were read from.
+    func contents(ofAtMost maximum: Int) -> (data: Data, status: stat)? {
+        guard let identity, let mode, mode & S_IFMT == S_IFREG else { return nil }
         let file = name.withCString { openat(parent.descriptor, $0, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC) }
-        guard file >= 0 else { return }
+        guard file >= 0 else { return nil }
         var info = stat()
         var bytes = [UInt8](repeating: 0, count: maximum + 1)
         let count = fstat(file, &info) == 0 ? read(file, &bytes, bytes.count) : -1
         close(file)
-        guard
-            ItemIdentity(info) == identity, info.st_uid == owner, count >= 0, count <= maximum,
-            Int64(count) == info.st_size, isDisposable(Data(bytes[..<count]))
+        guard ItemIdentity(info) == identity, count >= 0, count <= maximum, Int64(count) == info.st_size else {
+            return nil
+        }
+        return (Data(bytes[..<count]), info)
+    }
+
+    /// Deletes this item for good when it is a regular file of `owner`, at most `maximum` bytes, whose bytes
+    /// `isDisposable` accepts. The file is read without following a link, and its name is removed only while it
+    /// still leads to the file that was read.
+    public func deleteFile(ownedBy owner: uid_t, ofAtMost maximum: Int, if isDisposable: (Data) -> Bool) {
+        guard let identity, let contents = contents(ofAtMost: maximum), contents.status.st_uid == owner,
+              isDisposable(contents.data)
         else { return }
         var now = stat()
         guard
