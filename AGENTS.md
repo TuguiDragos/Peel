@@ -18,7 +18,7 @@ prove, and only then fix.
    relies on: Apple's documentation, the SDK's headers (`xcrun --show-sdk-path`), the man page on this Mac, or the
    tool's own source at a named commit. Never work from memory: an API you remember may have changed.
 2. **Prove the problem before changing anything.** Show on a real Mac that it happens, and why: a measurement, a
-   probe that is thrown away afterwards, the app showing it, or a test that fails for the reason given. A
+   probe that is thrown away afterward, the app showing it, or a test that fails for the reason given. A
    suspicion that can't be proved is reported as one, and nothing changes for it.
 3. **Write the test first.** It fails without the change, for the reason the change gives, and passes with it.
    Check that it really catches the problem: put the old code back, watch it fail, and restore the fix. If it
@@ -341,7 +341,7 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   so `Bindable(plan).option` written in a page's body makes the whole page depend on the option: every click runs
   the page's body again, and a `List` measures every visible row again. Make such a binding inside a small view of
   its own, as `AppRemovalOptions` and `BulkRemovalOptions` do. Prove a cost like this by counting how often a body
-  runs, with a probe thrown away afterwards: the time of one click changes with what the list shows.
+  runs, with a probe thrown away afterward: the time of one click changes with what the list shows.
 - **A `Group` hands its modifiers to its children**, so a `.task` on a `Group` that stays empty until the task loads
   something never runs: a list whose being empty decides whether its view exists is loaded by a model, or by a view
   that always exists (`SavedSettings`).
