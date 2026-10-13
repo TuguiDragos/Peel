@@ -194,6 +194,7 @@ struct RemovalGuard: Sendable {
         if item == nil, names.contains(where: { syncsToOtherDevices(URL(filePath: $0)) }) { return .inTheCloud }
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
+        guard !exclusions.isAnExcludedApp(item ?? URL(filePath: path)) else { return .excluded }
         for name in names {
             guard exclusions.appFolders(inside: URL(filePath: name, directoryHint: .isDirectory)).isEmpty else {
                 return .excluded

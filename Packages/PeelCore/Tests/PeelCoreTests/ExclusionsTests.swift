@@ -190,6 +190,64 @@ struct ExclusionsTests {
         #expect(own.isThere && maker.isThere)
     }
 
+    private func app(_ path: String, identifier: String, in directory: borrowing TemporaryDirectory) throws -> URL {
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": identifier], format: .xml, options: 0
+        )
+        return try directory.file("\(path)/Contents/Info.plist", contents: info)
+            .deletingLastPathComponent().deletingLastPathComponent()
+    }
+
+    @Test func refusesToRemoveAnExcludedAppOrAFolderHoldingIt() async throws {
+        let directory = try TemporaryDirectory()
+        let excluded = try app("home/Applications/Notes.app", identifier: "org.example.Notes", in: directory)
+        let holder = try app("home/Downloads/Old/Notes.app", identifier: "org.example.Notes", in: directory)
+            .deletingLastPathComponent()
+        let other = try app("home/Applications/Other.app", identifier: "org.example.Other", in: directory)
+        let trash = try directory.directory("Trash")
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            exclusions: Exclusions(bundleIdentifiers: ["org.example.Notes"])
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await service.trash([excluded, holder, other])
+
+        #expect(result.trashed.map(\.originalURL) == [other])
+        #expect(result.failures.map(\.reason) == [.guarded(.excluded), .guarded(.excluded)])
+        #expect(excluded.isThere && holder.isThere)
+    }
+
+    @Test func putsNoExcludedAppBack() throws {
+        let directory = try TemporaryDirectory()
+        let trashed = try app("home/.Trash/Notes.app", identifier: "org.example.Notes", in: directory)
+        let other = try app("home/.Trash/Other.app", identifier: "org.example.Other", in: directory)
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            exclusions: Exclusions(bundleIdentifiers: ["org.example.Notes"])
+        ) { $0 }
+        let applications = directory.url.appending(path: "home/Applications", directoryHint: .isDirectory)
+
+        let refusal = service.refusal(ofPuttingBack: TrashedItem(
+            originalURL: applications.appending(path: "Notes.app"), trashedURL: trashed, date: .now
+        ))
+        let control = service.refusal(ofPuttingBack: TrashedItem(
+            originalURL: applications.appending(path: "Other.app"), trashedURL: other, date: .now
+        ))
+
+        #expect(refusal == .notAllowed)
+        #expect(control == nil)
+    }
+
     @Test func refusesToRemoveAFolderThatHoldsSomethingExcluded() async throws {
         let directory = try TemporaryDirectory()
         let kept = try directory.file("home/Library/Application Support/Example/keep.db")

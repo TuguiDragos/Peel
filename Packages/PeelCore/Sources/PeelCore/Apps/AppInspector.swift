@@ -154,8 +154,11 @@ public enum AppInspector {
     /// The name Finder shows for a bundle, in the user's language when the app translates its name. Asking Launch
     /// Services for it registers the bundle, so one it does not know yet is named by its file.
     public static func displayName(of url: URL) -> String {
-        let identifier = infoDictionary(in: AppBundleLayout(of: url).infoFolder)?["CFBundleIdentifier"] as? String
-        return displayName(of: url, identifier: identifier)
+        displayName(of: url, identifier: bundleIdentifier(ofAppAt: url))
+    }
+
+    static func bundleIdentifier(ofAppAt url: URL) -> String? {
+        infoDictionary(in: AppBundleLayout(of: url).infoFolder)?["CFBundleIdentifier"] as? String
     }
 
     private static func displayName(of url: URL, identifier: String?) -> String {

@@ -128,7 +128,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     /// True when something excluded sits inside `url`, so moving `url` would take it along.
     public func holds(_ url: URL) -> Bool {
-        guard !spellings.isEmpty || !appFolderNames.isEmpty else { return false }
+        guard !spellings.isEmpty || !bundleIdentifiers.isEmpty else { return false }
         return holds(spellings: Self.spellings(of: url)) || !appFolders(inside: url).isEmpty
     }
 
@@ -140,17 +140,29 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
-    /// The excluded apps' folders a level or two inside `folder`. It reads the disk.
+    /// The excluded apps' folders, and the excluded apps themselves, a level or two inside `folder`. It reads the disk.
     func appFolders(inside folder: URL) -> [URL] {
-        guard !appFolderNames.isEmpty else { return [] }
+        guard !bundleIdentifiers.isEmpty else { return [] }
         let list = { (folder: URL) in
             (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
         }
-        return list(folder).flatMap { child in
-            if appFolderNames.contains(child.lastPathComponent.lowercased()) { return [child] }
-            guard child.isRealFolder else { return [] }
-            return list(child).filter { appFolderNames.contains($0.lastPathComponent.lowercased()) }
+        let isExcluded = { (url: URL) in
+            appFolderNames.contains(url.lastPathComponent.lowercased()) || isAnExcludedApp(url)
         }
+        return list(folder).flatMap { child in
+            if isExcluded(child) { return [child] }
+            guard child.isRealFolder else { return [] }
+            return list(child).filter(isExcluded)
+        }
+    }
+
+    /// Whether `url` is an app whose own Info.plist declares an excluded identifier: its bundle is named for the app,
+    /// so no name says so. It reads the disk.
+    func isAnExcludedApp(_ url: URL) -> Bool {
+        guard !bundleIdentifiers.isEmpty, url.pathExtension.caseInsensitiveCompare("app") == .orderedSame else {
+            return false
+        }
+        return AppInspector.bundleIdentifier(ofAppAt: url).map(excludes(bundleIdentifier:)) == true
     }
 
     /// The excluded places inside `url`, leaving out one inside another, so what they hold is counted once.
