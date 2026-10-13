@@ -20,75 +20,80 @@ enum HomeSnapshot {
         await home.refresh()
         await ExclusionsStore.shared.load()
         let window = Color(nsColor: .windowBackgroundColor)
-        for scheme in [ColorScheme.light, .dark] {
-            for contrast in [ColorSchemeContrast.standard, .increased] {
-                let name = (scheme == .light ? "light" : "dark") + (contrast == .increased ? "-contrast" : "")
-                render(
-                    HomeContent().environment(home).environment(helper).environment(stats),
-                    width: 360,
-                    height: 760,
-                    on: window,
-                    scheme: scheme,
-                    contrast: contrast,
-                    to: "\(directory)/home-content-\(name).png"
-                )
-                // Home again with Show Borders on, for this image only. The stickers then outline their edges.
-                if contrast == .standard {
-                    render(
-                        HomeContent().environment(home).environment(helper).environment(stats)
-                            .environment(\._accessibilityShowButtonShapes, true),
+        do {
+            try FileManager.default.createDirectory(atPath: directory, withIntermediateDirectories: true)
+            for scheme in [ColorScheme.light, .dark] {
+                for contrast in [ColorSchemeContrast.standard, .increased] {
+                    let name = (scheme == .light ? "light" : "dark") + (contrast == .increased ? "-contrast" : "")
+                    try render(
+                        HomeContent().environment(home).environment(helper).environment(stats),
                         width: 360,
                         height: 760,
                         on: window,
                         scheme: scheme,
-                        to: "\(directory)/home-content-borders-\(name).png"
+                        contrast: contrast,
+                        to: "\(directory)/home-content-\(name).png"
+                    )
+                    // Home again with Show Borders on, for this image only. The stickers then outline their edges.
+                    if contrast == .standard {
+                        try render(
+                            HomeContent().environment(home).environment(helper).environment(stats)
+                                .environment(\._accessibilityShowButtonShapes, true),
+                            width: 360,
+                            height: 760,
+                            on: window,
+                            scheme: scheme,
+                            to: "\(directory)/home-content-borders-\(name).png"
+                        )
+                    }
+                    // The permissions at their widest, and at their narrowest, where Home puts its two halves side by side.
+                    try render(
+                        HomePermissionsContent().environment(home).environment(helper)
+                            .environment(ExclusionsStore.shared),
+                        width: 720,
+                        on: window,
+                        scheme: scheme,
+                        contrast: contrast,
+                        to: "\(directory)/home-detail-\(name).png"
+                    )
+                    try render(
+                        HomePermissionsContent().environment(home).environment(helper)
+                            .environment(ExclusionsStore.shared),
+                        width: 480,
+                        on: window,
+                        scheme: scheme,
+                        contrast: contrast,
+                        to: "\(directory)/detail-narrow-\(name).png"
+                    )
+                    try render(
+                        AboutContent().environment(PeelUpdater()).fixedSize(horizontal: false, vertical: true),
+                        width: AboutContent.width,
+                        on: Album.sheet,
+                        scheme: scheme,
+                        contrast: contrast,
+                        to: "\(directory)/about-\(name).png"
+                    )
+                    try render(
+                        AboutContent().environment(PeelUpdater(found: "1.0.2"))
+                            .fixedSize(horizontal: false, vertical: true),
+                        width: AboutContent.width,
+                        on: Album.sheet,
+                        scheme: scheme,
+                        contrast: contrast,
+                        to: "\(directory)/about-update-\(name).png"
+                    )
+                    try render(
+                        MenuBarPanel().environment(AppLibrary()).environment(stats).environment(found)
+                            .environment(homebrew),
+                        width: 320,
+                        scheme: scheme,
+                        contrast: contrast,
+                        to: "\(directory)/menu-bar-\(name).png"
                     )
                 }
-                // The permissions at their widest, and at their narrowest, where Home puts its two halves side by side.
-                render(
-                    HomePermissionsContent().environment(home).environment(helper)
-                        .environment(ExclusionsStore.shared),
-                    width: 720,
-                    on: window,
-                    scheme: scheme,
-                    contrast: contrast,
-                    to: "\(directory)/home-detail-\(name).png"
-                )
-                render(
-                    HomePermissionsContent().environment(home).environment(helper)
-                        .environment(ExclusionsStore.shared),
-                    width: 480,
-                    on: window,
-                    scheme: scheme,
-                    contrast: contrast,
-                    to: "\(directory)/detail-narrow-\(name).png"
-                )
-                render(
-                    AboutContent().environment(PeelUpdater()).fixedSize(horizontal: false, vertical: true),
-                    width: AboutContent.width,
-                    on: Album.sheet,
-                    scheme: scheme,
-                    contrast: contrast,
-                    to: "\(directory)/about-\(name).png"
-                )
-                render(
-                    AboutContent().environment(PeelUpdater(found: "1.0.2"))
-                        .fixedSize(horizontal: false, vertical: true),
-                    width: AboutContent.width,
-                    on: Album.sheet,
-                    scheme: scheme,
-                    contrast: contrast,
-                    to: "\(directory)/about-update-\(name).png"
-                )
-                render(
-                    MenuBarPanel().environment(AppLibrary()).environment(stats).environment(found)
-                        .environment(homebrew),
-                    width: 320,
-                    scheme: scheme,
-                    contrast: contrast,
-                    to: "\(directory)/menu-bar-\(name).png"
-                )
             }
+        } catch {
+            print("Home snapshot failed: \(error)")
         }
         NSApp.terminate(nil)
     }
@@ -103,7 +108,7 @@ enum HomeSnapshot {
         scheme: ColorScheme,
         contrast: ColorSchemeContrast = .standard,
         to path: String
-    ) {
+    ) throws {
         let content = view.frame(width: width, height: height).background(backdrop)
             .environment(\.colorScheme, scheme)
             .environment(\._colorSchemeContrast, contrast)
@@ -112,7 +117,7 @@ enum HomeSnapshot {
         guard let image = renderer.nsImage, let data = image.tiffRepresentation,
               let bitmap = NSBitmapImageRep(data: data)
         else { return }
-        try? bitmap.representation(using: .png, properties: [:])?.write(to: URL(filePath: path))
+        try bitmap.representation(using: .png, properties: [:])?.write(to: URL(filePath: path))
     }
 }
 #endif
