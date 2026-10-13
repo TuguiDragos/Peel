@@ -86,12 +86,11 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   storage, the folders another app keeps in step with other devices (`SyncedFolders`), the home's Trash and every
   disk's, keychains, `~/.ssh`, `~/.gnupg`, and the other keys and credentials `ProtectedData.homeFolders` and
   `ProtectedData.homeKeys` name, the wallet keys `ProtectedData.walletKeys` names, a browser profile holding a wallet
-  extension's vault, Mail, Messages, Safari, Contacts, Calendars, and Apple's other stores of personal data, every
-  group container of Apple's own, work not
-  saved yet, photo, music, and video libraries, a sandboxed app's `Documents`, the folders every account starts
-  with, and work a tool keeps only in a cache folder. [SAFETY.md](SAFETY.md) lists every place. The guard judges the
-  item, not how its path is spelled: each rule is asked of the path as written, as found on disk, and as the kernel
-  names the item, and the places it protects are known by device and inode too.
+  extension's vault, Mail, Messages, Safari, Contacts, Calendars, and Apple's other stores of personal data, every group
+  container of Apple's own, work not saved yet, photo, music, and video libraries, a sandboxed app's `Documents`, the
+  folders every account starts with, and work a tool keeps only in a cache folder. [SAFETY.md](SAFETY.md) lists every
+  place. The guard judges the item, not how its path is spelled: each rule is asked of the path as written, as found on
+  disk, and as the kernel names the item, and the places it protects are known by device and inode too.
 - **Paths are compared name by name, never as text.** A Swift `String` reads a slash and a combining mark after it
   as one `Character`, so `hasPrefix(folder + "/")` and `split(separator: "/")` miss a folder such a name sits in.
   Every "is this inside that folder" question goes through `PathComponents`.

@@ -16,11 +16,11 @@ before the fix is written, and the result is checked where it shows, as [AGENTS.
   tested on by hand, so it has no code for an older macOS.
 - Xcode 27 or later, with Swift 6.4.
 - A team to sign with, even a free one. The project names its maintainer's team, so build with yours: add
-  `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team under Signing & Capabilities for
-  each of the four targets the Peel scheme builds (and PeelUITests, to run the audit), and leave that change out of
-  your commits. launchd starts the helper only as the team named in
-  `Support/com.tuguidragos.Peel.Helper.plist` (`SpawnConstraint`), so to install the helper you build, put your team
-  there as well, again outside your commits. The package's tests need no signing.
+  `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team under Signing & Capabilities for each
+  of the four targets the Peel scheme builds (and PeelUITests, to run the audit), and leave that change out of your
+  commits. launchd starts the helper only as the team named in `Support/com.tuguidragos.Peel.Helper.plist`
+  (`SpawnConstraint`), so to install the helper you build, put your team there as well, again outside your commits. The
+  package's tests need no signing.
 - Two dependencies: Apple's swift-argument-parser, which Xcode fetches, and Sparkle, which updates Peel. Sparkle is
   built from its source, at the commit `Scripts/build_sparkle.sh` names, with arm64e and without its XPC services: run
   the script once before the first build. When that commit changes, move `build/Sparkle` to the Trash first, since
