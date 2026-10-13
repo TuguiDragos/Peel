@@ -9752,7 +9752,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "某个程序正在使用此文件，就像桌面墙纸被使用那样，因此macOS无法移除它的下载。请在没有任何程序使用它后再试一次。"
+            "value" : "某个程序正在使用此文件（例如将它用作桌面墙纸），因此macOS未能移除它的下载。请在没有程序使用它时再试一次。"
           }
         },
         "zh-Hant" : {
@@ -18933,7 +18933,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择“自动”时，对于由Homebrew安装的App，会先询问Homebrew，然后询问App自己的更新源或App Store。如果你首选的来源无法回答某个App的情况，则由该App自己的更新源回答。"
+            "value" : "选择“自动”时，对于由Homebrew安装的App，会先询问Homebrew，然后询问App自己的更新源或App Store。如果你首选的来源无法提供某个App的更新信息，则改为询问该App自己的更新源。"
           }
         },
         "zh-Hant" : {
@@ -19145,7 +19145,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自动操作"
+            "value" : "“自动操作”操作"
           }
         },
         "zh-Hant" : {
@@ -34780,7 +34780,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "位于“下载”、“桌面”、“文稿”、“公共”和“共享”及其下一层文件夹中、含有App或安装器的磁盘映像、软件包和归档，安装器通常就留在这些地方，以及App保存在Application Support中的文件夹内的软件包。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
+            "value" : "“下载”、“桌面”、“文稿”、“公共”和“共享”文件夹及其下一层文件夹中（安装器通常就留在这些地方）含有App或安装器的磁盘映像、软件包和归档，以及App保存在Application Support中的文件夹内的软件包。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
           }
         },
         "zh-Hant" : {
@@ -38286,7 +38286,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已排除的App仍会显示在“应用程序”中，但Peel不会提供移除或重置它们的选项。以已排除App的标识符命名的文件夹（例如它的缓存或容器）不会出现在任何页面中，也绝不会被移走。该App的其他文件（例如插件或以它的名称命名的文件夹）只按文件和文件夹判断，因此若要保护它们，请同时在上方排除它们。"
+            "value" : "已排除的App仍会显示在“应用程序”中，但Peel不会提供移除或重置它们的选项。以已排除App的标识符命名的文件夹（例如它的缓存或容器）不会出现在任何页面中，也绝不会被移走。该App的其他文件（例如插件或以它的名称命名的文件夹）只按“文件和文件夹”列表处理，因此若要保护它们，请同时在上方排除它们。"
           }
         },
         "zh-Hant" : {
@@ -73689,7 +73689,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mail Downloads"
+            "value" : "“邮件”下载"
           }
         },
         "zh-Hant" : {
@@ -110473,7 +110473,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel在这里没有找到既已安全存储在iCloud中、又大到值得释放的文件。"
+            "value" : "Peel在这里没有找到既已安全储存在iCloud中、又大到值得释放的文件。"
           }
         },
         "zh-Hant" : {
@@ -122400,7 +122400,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "输出文件内容，带有语法高亮、行号和Git更改。设置BAT_THEME=ansi后，它会使用“终端”主题的颜色；设置MANPAGER后，man页面会通过它显示。"
+            "value" : "输出文件内容，带有语法高亮、行号和Git更改。设置BAT_THEME=ansi后，它会使用“终端”主题的颜色；设置MANPAGER后，手册页会通过它显示。"
           }
         },
         "zh-Hant" : {
@@ -124012,7 +124012,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢复原来的截屏文件夹"
+            "value" : "将截屏文件夹放回原处"
           }
         },
         "zh-Hant" : {
@@ -124118,7 +124118,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "恢复原来的截屏名称"
+            "value" : "将截屏名称放回原处"
           }
         },
         "zh-Hant" : {
@@ -132188,7 +132188,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在“应用程序”中检查"
+            "value" : "在应用程序中检查"
           }
         },
         "zh-Hant" : {
@@ -144856,7 +144856,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以语法高亮显示文件，并为man页面着色。"
+            "value" : "以语法高亮显示文件，并为手册页着色。"
           }
         },
         "zh-Hant" : {
@@ -157794,7 +157794,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App删除后，程序坞仍会以问号的形式保留它的图标。如果选择此项，Peel会在App移到废纸篓后移除它的图标，程序坞会重新启动。从“历史记录”中将App放回原处时，它的图标也会回到原来的位置。"
+            "value" : "App移除后，程序坞仍会以问号的形式保留它的图标。如果选择此项，Peel会在App移到废纸篓后移除它的图标，程序坞会重新启动。从“历史记录”中将App放回原处时，它的图标也会回到原来的位置。"
           }
         },
         "zh-Hant" : {
@@ -174380,7 +174380,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "撤销移除“%@”"
+            "value" : "撤销移除%@"
           }
         },
         "zh-Hant" : {
@@ -174486,7 +174486,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "撤销重置“%@”"
+            "value" : "撤销重置%@"
           }
         },
         "zh-Hant" : {
