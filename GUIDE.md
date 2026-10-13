@@ -249,8 +249,8 @@ the place where Apple says to turn that feature off, in System Settings or in th
 
 Peel comes with 29 dark themes for Terminal, built on Apple's own Clear Dark. Choose one, and Terminal opens with it
 in every new window; Put Back gives Terminal the profile it used before. The same page can leave out the "Last
-login" line, keep Terminal from reopening its windows, make Option the Meta key, silence the bell, and show the line
-that stops the shell from saving its sessions.
+login" line, keep Terminal from reopening its windows, make Option the Meta key and silence the bell in a Peel theme,
+and show the line that stops the shell from saving its sessions.
 
 It sets up the command line as well:
 

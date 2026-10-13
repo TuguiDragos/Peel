@@ -20,31 +20,20 @@ each checked for contrast against its background.
 ### With Peel
 
 The Terminal page starts turned off in Peel's sidebar: turn it on in Settings > General > Sidebar, or open it from
-the View menu. Choose a theme there, and Terminal opens with it and uses it in every new window, and Put Back gives
-Terminal the profile it had before and takes away Peel's own profiles that are still as Peel wrote them. Peel
+the View menu. Choose a theme there, and Terminal opens with it and uses it in every new window. Put Back gives
+Terminal the profiles it used before and takes away Peel's own profiles that are still as Peel wrote them. Peel
 changes Terminal's profiles, and the one it opens with, only while Terminal is closed, and offers to quit it first.
-
-The Terminal tab of the same page can also leave out the "Last login" line in new windows, keep Terminal from
-reopening its windows when it would, make Option the Meta key and silence the bell in the theme you use when it
-is one of Peel's, and show the line that stops the shell from saving its sessions, with a Copy button. Peel never
-edits your shell's files.
-
-What each writes:
-
-- Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and turning it off
-  moves that file to the Trash.
-- Option as Meta and the bell set `useOptionAsMetaKey` to true and `Bell` to false in the Peel profile in use.
-- Not reopening windows sets Terminal's `NSQuitAlwaysKeepsWindows` to false, at once even while Terminal is open,
-  since Terminal reads it only when it quits.
-- The line that stops zsh from saving its sessions, `SHELL_SESSIONS_DISABLE=1`, goes in `~/.zshenv`, for you to add.
-  For bash, the command is `touch ~/.bash_sessions_disable`.
 
 ### Without Peel
 
-Download a theme below. In Terminal, choose Terminal > Settings, click Profiles, and drag the file into the list of
-profiles, or click the Action pop-up menu and choose Import. Select the theme and click Default to open every new
-window with it. Apple describes the steps in
-[Import and export Terminal profiles on Mac](https://support.apple.com/guide/terminal/import-and-export-terminal-profiles-trml4299c696/mac).
+Download a theme below: its link opens the file on GitHub, where Download raw file saves it. In Terminal, choose
+Terminal > Settings, click Profiles, and drag the file into the list of profiles, or click the Action pop-up menu and
+choose Import. Select the theme and click Default to open every new window with it. To have Terminal open with it
+too, as Peel does, click General and, next to "On startup, open", choose "New window with profile" and then the
+theme. Apple describes the steps in
+[Import and export Terminal profiles on Mac](https://support.apple.com/guide/terminal/import-and-export-terminal-profiles-trml4299c696/mac)
+and
+[Specify default and startup Terminal window profiles on Mac](https://support.apple.com/guide/terminal/default-startup-terminal-window-profiles-trml5856b1f2/mac).
 
 ### The themes
 
@@ -111,21 +100,42 @@ window with it. Apple describes the steps in
   </tr>
 </table>
 
+## The Terminal tab
+
+The Terminal tab, under When Terminal Opens and Theme in Use, can leave out the "Last login" line in new windows,
+keep Terminal from reopening its windows when it quits (its switch shows only while Terminal would reopen them),
+make Option the Meta key and silence the bell in the theme you use when it is one of Peel's, and show the line that
+stops the shell from saving its sessions, with a Copy button. Peel never edits your shell's files.
+
+What each writes:
+
+- Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` and `sshd` look for, so logins
+  to this Mac over SSH leave the line out too; turning it off moves that file to the Trash, and History can put it
+  back.
+- Option as Meta and the bell set `useOptionAsMetaKey` to true and `Bell` to false in the Peel profile in use. With
+  Option as Meta, Option no longer types the characters it types on your keyboard, such as @ on a German keyboard.
+- Not reopening windows sets Terminal's `NSQuitAlwaysKeepsWindows` to false, at once even while Terminal is open,
+  since Terminal reads it only when it quits.
+- The line that stops zsh from saving its sessions, `SHELL_SESSIONS_DISABLE=1`, goes in `~/.zshenv`, for you to add.
+  For bash, the command is `touch ~/.bash_sessions_disable`.
+
 ## Shell, Git, and SSH
 
-Every setting on these tabs is one that zsh, Git, or ssh already has, and each has a switch. Peel never edits your
-shell's or ssh's own files, and changes Git's only through Git itself. Removing Peel leaves all of them in force,
-its two files included:
+Every setting on these tabs is one that zsh, Git, or ssh already has, or `ls` for its colors, and each has a switch;
+the prompt is built from parts you choose. Peel never edits your shell's or ssh's own files, and changes Git's only
+through Git itself. Removing Peel leaves all of them in force, its two files included. Peel's record of what each Git
+setting held before, and of the profiles Terminal used, goes with Peel's own settings, so turn off first what you
+want put back.
 
 - **zsh** reads Peel's settings from a file of Peel's own, `~/Library/Application Support/Peel/Terminal/zshrc`, once
   you add the line below to `~/.zshrc`. The Shell tab gives a command that adds it at the end. If you load tools
   such as fzf-tab there, move Peel's line above theirs, since their settings have to come after Peel's;
   zsh-syntax-highlighting's line stays the very last.
 - **ssh** reads them from `~/Library/Application Support/Peel/Terminal/ssh_config`, once you add two lines at the end
-  of `~/.ssh/config`. What you set for a server earlier in that file stays in force, since ssh uses the first value
-  it finds.
-- **Git**'s are changed with `git config --global`, Git's own command, and turning one off puts back what you had
-  before Peel set it; a setting you made yourself goes back to Git's default. A setting that a file your Git
+  of `~/.ssh/config`. The SSH tab gives a command that adds them, and makes `~/.ssh` first when it isn't there. What
+  you set for a server earlier in that file stays in force, since ssh uses the first value it finds.
+- **Git**'s settings are changed with `git config --global`, Git's own command, and turning one off puts back what
+  you had before Peel set it; a setting you made yourself goes back to Git's default. A setting that a file your Git
   settings include already sets, through `include` or `includeIf`, is left to that file: Git reads it where it is
   included and the last value wins, so a value Peel added would take its place in every folder it serves.
 
@@ -135,27 +145,31 @@ The line that makes zsh read Peel's file:
 [[ -r "$HOME/Library/Application Support/Peel/Terminal/zshrc" ]] && source "$HOME/Library/Application Support/Peel/Terminal/zshrc"
 ```
 
-Peel offers a setting only when the zsh, Git, or ssh on your Mac knows it, and Turn All Off on each tab undoes what
-Peel set there; on the Git tab it also turns off what you set yourself, as its question says. Without Peel, add the
-lines below to `~/.zshrc` or `~/.ssh/config` yourself, or run the `git config` commands.
+Peel offers a setting only when the zsh, Git, or ssh on your Mac knows it, and the Shell tab's settings only when
+Terminal opens zsh. Turn All Off on each tab undoes what Peel set there; on the Git tab it also turns off what you set
+yourself, as its question says. Without Peel, add the lines below to `~/.zshrc` or `~/.ssh/config` yourself, or run
+the `git config` commands.
 
 ### Prompt
 
 The prompt is what zsh shows before each command you type. Peel builds it from parts you choose on the Shell tab:
 what comes before the symbol, the Git branch, the symbol, whether the symbol turns red after a command that fails,
-and whether the command starts a line of its own. The colors are the Terminal theme's, and the branch comes from
-zsh's own [vcs_info](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information).
+and whether the symbol and the command start a line of their own. The colors are the Terminal theme's, and the branch
+comes from zsh's own
+[vcs_info](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information).
 Peel writes no prompt until you turn on **Use Peel's prompt**. A prompt your `~/.zshrc` sets after Peel's line is the
-one zsh shows, and the Shell tab says so when that line sets `PROMPT` or `PS1`.
+one zsh shows, and the Shell tab says so when a line after Peel's sets `PROMPT` or `PS1`.
 
 <table>
   <tr>
     <td width="45%"><img src="Terminal/Prompts/folder.png" alt="A prompt with the folder, the branch, and a chevron"></td>
-    <td><b>Folder</b><br>The folder you're in, <code>~</code> at home, then the branch and the symbol. This is the prompt Peel starts with.</td>
+    <td><b>Folder</b><br>The folder you're in, <code>~</code> at home, then the branch and the symbol. This is the
+    prompt Peel starts with.</td>
   </tr>
   <tr>
     <td width="45%"><img src="Terminal/Prompts/path.png" alt="A prompt with the path from the home folder"></td>
-    <td><b>Path from your home folder</b><br>The whole path, from <code>~</code>.</td>
+    <td><b>Path from your home folder</b><br>The whole path, from <code>~</code> in your home folder and from
+    <code>/</code> outside it.</td>
   </tr>
   <tr>
     <td width="45%"><img src="Terminal/Prompts/nameAndFolder.png" alt="A prompt with the name, the computer, and the folder"></td>
@@ -163,7 +177,8 @@ one zsh shows, and the Shell tab says so when that line sets `PROMPT` or `PS1`.
   </tr>
   <tr>
     <td width="45%"><img src="Terminal/Prompts/ownLine.png" alt="A prompt whose symbol starts a line of its own"></td>
-    <td><b>Command on its own line</b><br>The symbol starts a line of its own, so the command always has the whole width of the window.</td>
+    <td><b>Command on its own line</b><br>The symbol starts a line of its own, so the command always has the whole
+    width of the window.</td>
   </tr>
 </table>
 
@@ -204,7 +219,7 @@ PROMPT='%F{cyan}%1~%f${vcs_info_msg_0_} %F{green}%%%f '
 | [Leave out commands that start with a space](https://zsh.sourceforge.io/Doc/Release/Options.html#index-HIST_005fIGNORE_005fSPACE) | A command typed after a space isn't saved, which keeps a password or token you type out of the history. |
 | [Remove extra spaces](https://zsh.sourceforge.io/Doc/Release/Options.html#index-HIST_005fREDUCE_005fBLANKS) | Spaces a command doesn't need are taken out before it is saved. |
 | [Check recalled commands first](https://zsh.sourceforge.io/Doc/Release/Options.html#index-HIST_005fVERIFY) | `!!` and the other history shortcuts put the command on the line for you to check, instead of running it at once. |
-| [Lock the history file safely](https://zsh.sourceforge.io/Doc/Release/Options.html#index-HIST_005fFCNTL_005fLOCK) | Saving the history locks the file the system's way, so windows that save at the same time don't damage it. |
+| [Lock the history file safely](https://zsh.sourceforge.io/Doc/Release/Options.html#index-HIST_005fFCNTL_005fLOCK) | Saving the history locks the file with the system's `fcntl` call instead of zsh's own locking, which zsh's manual says may be faster and avoids damage to a history kept on a network disk. |
 
 ```zsh
 # Remember 50,000 commands
@@ -237,8 +252,8 @@ setopt HIST_FCNTL_LOCK
 
 | Setting | What it does |
 | --- | --- |
-| [Allow comments in commands](https://zsh.sourceforge.io/Doc/Release/Options.html#index-INTERACTIVE_005fCOMMENTS) | Anything after `#` on the command line is a comment, as in a script, so a pasted command with comments runs. |
-| [Search history with the arrow keys](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#index-up_002dline_002dor_002dbeginning_002dsearch) | Type the start of a command, and the Up Arrow and Down Arrow go only through the commands that start that way, whichever of its two sequences an arrow key sends. |
+| [Allow comments in commands](https://zsh.sourceforge.io/Doc/Release/Options.html#index-INTERACTIVE_005fCOMMENTS) | A word that starts with `#` begins a comment that runs to the end of the line, as in a script, so a pasted command with comments runs. |
+| [Search history with the arrow keys](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#index-up_002dline_002dor_002dbeginning_002dsearch) | Type the start of a command, and the Up Arrow and Down Arrow go only through the commands that start that way, whichever of its two sequences each arrow key sends (`^[[A` or `^[OA` for the Up Arrow). |
 | [Delete paths one folder at a time](https://zsh.sourceforge.io/Doc/Release/Parameters.html#index-WORDCHARS) | Deleting a word back stops at each slash, so a path goes one folder at a time. |
 
 ```zsh
@@ -379,7 +394,7 @@ git config --global column.ui auto
 
 | Setting | What it does |
 | --- | --- |
-| [Sign commits with your SSH key](https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitgpgSign) | Every commit is signed with your SSH key, and GitHub shows it as Verified once you add the key there as a signing key. Peel offers it when one of `id_ed25519.pub`, `id_ecdsa.pub` and `id_rsa.pub` is in `~/.ssh`, or when signing is already on, and uses the first of them. Turning it off stops the signing, and takes the format and the key back out only if Peel set them. |
+| [Sign commits with your SSH key](https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitgpgSign) | Every commit is signed with your SSH key, and GitHub shows it as Verified once you add the key there as a signing key. Peel offers it when one of `id_ed25519.pub`, `id_ecdsa.pub`, and `id_rsa.pub` is in `~/.ssh`, or when signing is already on, and uses the first of them. Turning it off stops the signing, and puts the format and the key back as they were before Peel set them, leaving them alone if Peel didn't. |
 
 ```sh
 # Sign commits with your SSH key
@@ -397,6 +412,8 @@ reach every server, even after a `Host` block:
 Match all
   Include "~/Library/Application Support/Peel/Terminal/ssh_config"
 ```
+
+**Connections**
 
 | Setting | What it does |
 | --- | --- |
@@ -423,23 +440,28 @@ Match all
 
 ## Tools
 
-Peel installs nothing: each tool comes with its Homebrew command and what its own documentation says to do after.
-If Homebrew isn't on your Mac, the Tools tab says so and gives the command from [brew.sh](https://brew.sh). The lines
-below use `$HOMEBREW_PREFIX`, as Homebrew's own notes do; Peel writes your Mac's Homebrew folder in its place.
+Peel installs nothing: each tool comes with its Homebrew command and the lines its own documentation gives, and a few
+of Peel's own, so the colors are the Terminal theme's (`--color=16` for fzf, `BAT_THEME=ansi` for bat). If Homebrew
+isn't on your Mac, the Tools tab says so and gives the command from [brew.sh](https://brew.sh). The lines below use
+`$HOMEBREW_PREFIX`, as most of Homebrew's own notes do: `brew shellenv`, which Homebrew's installer asks you to add to
+`~/.zprofile`, sets it, and without it you write your Homebrew folder, `/opt/homebrew` or `/usr/local`, in its place.
+Peel writes your Mac's Homebrew folder there for you.
 
 ### For the Shell
 
 | Tool | What it does | Install |
 | --- | --- | --- |
 | [zsh-completions](https://github.com/zsh-users/zsh-completions) | Completions for many more commands. If zsh then warns about insecure folders, `brew info zsh-completions` says how to fix it. | `brew install zsh-completions` |
-| [fzf-tab](https://github.com/Aloxaf/fzf-tab) | Tab completion in fzf, where typing narrows the list. It needs fzf. | `brew install fzf fzf-tab` |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | `z` goes to a folder you use from part of its name, and `zi` lets you choose. | `brew install zoxide` |
-| [fzf](https://github.com/junegunn/fzf) | Control-R searches your history and Control-T pastes files, and `--color=16` uses the Terminal theme's colors. | `brew install fzf` |
+| [fzf-tab](https://github.com/Aloxaf/fzf-tab) | Tab completion in fzf, where typing narrows the list. It needs fzf, and its lines go after the completion system starts, which zsh-completions' lines or Peel's Completion settings do. Its `menu no` takes the place of Peel's menu. | `brew install fzf fzf-tab` |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | `z` goes to a folder you use from part of its name, and `zi` lets you choose one in fzf. | `brew install zoxide` |
+| [fzf](https://github.com/junegunn/fzf) | Control-R searches your history, Control-T pastes files and folders, and Option-C, with Option as Meta, goes to a folder. `--color=16` uses the Terminal theme's colors. | `brew install fzf` |
 | [direnv](https://github.com/direnv/direnv) | Sets a project's environment variables in its folder, from its `.envrc` once you allow it with `direnv allow`. | `brew install direnv` |
 | [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) | Suggests the rest of a command from your history. | `brew install zsh-autosuggestions` |
 | [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) | Colors commands as you type them. | `brew install zsh-syntax-highlighting` |
 
-Their lines go in `~/.zshrc` in this order, and zsh-syntax-highlighting's must be the last line.
+Their lines go in `~/.zshrc` in this order, and zsh-syntax-highlighting's must be the last line. zoxide's and direnv's
+own pages ask for the end of `~/.zshrc` too, zoxide's so that it comes after the completion system starts; here only
+zsh-autosuggestions' and zsh-syntax-highlighting's lines follow them.
 
 ```zsh
 # zsh-completions
@@ -495,8 +517,8 @@ git lfs install
 | [hyperfine](https://github.com/sharkdp/hyperfine) | Measures how long commands take, such as `hyperfine "zsh -i -c exit"` for a new shell. | `brew install hyperfine` |
 | [tlrc](https://github.com/tldr-pages/tlrc) | Short, practical examples for a command: `tldr` followed by its name. | `brew install tlrc` |
 
-bat's lines go in `~/.zshrc`. `col -bx` comes first because macOS's `man` marks bold text with backspaces, which bat
-would show as they are.
+bat's lines go in `~/.zshrc`. bat's README now gives another `MANPAGER` line; Peel's, which it gave before, runs
+`col -bx` first because macOS's `man` marks bold text with backspaces, which bat would show as they are.
 
 ```zsh
 # bat
