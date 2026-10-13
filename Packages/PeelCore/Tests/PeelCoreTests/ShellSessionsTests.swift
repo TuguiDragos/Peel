@@ -29,6 +29,19 @@ struct ShellSessionsTests {
             == .zsh(startupFile: home.appending(path: ".zshenv", directoryHint: .notDirectory)))
     }
 
+    @Test func zshReadsItsZshrcFromTheFolderItsZshenvNames() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv", directoryHint: .notDirectory))
+        #expect(await zsh.zshrc(home: home)?.path(percentEncoded: false)
+            == home.appending(path: ".zshrc").path(percentEncoded: false))
+
+        try directory.file(".zshenv", contents: Data("export ZDOTDIR=\"$HOME/.config/zsh\"\n".utf8))
+        #expect(await zsh.zshrc(home: home)?.path(percentEncoded: false)
+            == home.appending(path: ".config/zsh/.zshrc").path(percentEncoded: false))
+        #expect(await ShellSessions.bash.zshrc(home: home) == nil)
+    }
+
     @Test func turnsSessionsOffTheWayTheScriptsOfThisMacRead() throws {
         let zshrc = try String(contentsOfFile: "/etc/zshrc", encoding: .utf8)
         #expect(zshrc.contains(#". "/etc/zshrc_$TERM_PROGRAM""#))

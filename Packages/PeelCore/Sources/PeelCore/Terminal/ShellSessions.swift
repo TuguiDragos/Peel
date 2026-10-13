@@ -1,4 +1,5 @@
 public import Foundation
+import PeelPrivileged
 
 public enum ShellSessions: Sendable, Equatable {
     case zsh(startupFile: URL)
@@ -26,10 +27,26 @@ public enum ShellSessions: Sendable, Equatable {
         }
     }
 
-    /// The `.zshrc` beside the `.zshenv` zsh reads, where the line that sources Peel's file goes.
-    public var zshrc: URL? {
+    /// The `.zshrc` zsh reads, where the line that sources Peel's file goes: in the folder `ZDOTDIR` names once
+    /// `.zshenv` has run, since `.zshenv` may set it (`man zsh`, STARTUP/SHUTDOWN FILES). zsh is asked with `-c`, which
+    /// reads `.zshenv` and no other startup file, and the folder of `.zshenv` stands when it doesn't answer.
+    public func zshrc(home: URL = .homeDirectory) async -> URL? {
         guard case .zsh(let zshenv) = self else { return nil }
-        return zshenv.deletingLastPathComponent().appending(path: ".zshrc", directoryHint: .notDirectory)
+        let folder = zshenv.deletingLastPathComponent()
+        // As Terminal sets them, with no slash at the end, which `"$HOME/.config/zsh"` would double.
+        let environment = [
+            "HOME": (home.path(percentEncoded: false) as NSString).standardizingPath,
+            "ZDOTDIR": (folder.path(percentEncoded: false) as NSString).standardizingPath,
+            "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+        ]
+        let answer = await Subprocess.run(
+            "/bin/zsh", ["-c", #"print -r -- "${ZDOTDIR:-$HOME}""#], environment: environment, timeout: 10
+        )
+        // What `.zshenv` itself prints comes first, so the answer is the last line.
+        let named: String? = if case .success(let output) = answer, output.status == 0,
+            let line = output.text.split(separator: "\n").last, line.hasPrefix("/") { String(line) } else { nil }
+        return (named.map { URL(filePath: $0, directoryHint: .isDirectory) } ?? folder)
+            .appending(path: ".zshrc", directoryHint: .notDirectory)
     }
 
     public var name: String {

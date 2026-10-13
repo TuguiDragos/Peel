@@ -6,14 +6,11 @@ import PeelCore
 final class ShellLibrary {
     struct State: Equatable {
         var shell: ShellSessions?
+        var startupFile: URL?
         var choices: ShellFile.Choices?
         var isSourced: Bool
         var setsItsOwnPrompt: Bool
         var known: Set<String>?
-
-        var startupFile: URL? {
-            shell?.zshrc
-        }
     }
 
     let file = ShellFile.url(in: PeelFolder.url)
@@ -35,12 +32,14 @@ final class ShellLibrary {
             known = await ShellFile.knownToZsh()
         }
         let shell = ShellSessions.inTerminal(TerminalSettings())
+        let startupFile = await shell?.zshrc()
         let choices = ShellFile.read(file)
         state = State(
             shell: shell,
+            startupFile: startupFile,
             choices: choices,
-            isSourced: shell?.zshrc.map { ShellFile.isSourced(file, from: $0, home: .homeDirectory) } ?? false,
-            setsItsOwnPrompt: shell?.zshrc.map {
+            isSourced: startupFile.map { ShellFile.isSourced(file, from: $0, home: .homeDirectory) } ?? false,
+            setsItsOwnPrompt: startupFile.map {
                 ShellFile.setsItsOwnPrompt(after: file, in: $0, home: .homeDirectory)
             } ?? false,
             known: known

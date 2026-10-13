@@ -209,7 +209,5 @@ struct PeelLinesCommandTests {
         #expect(home.appending(path: ".zshrc").pathForTheShell(home: home) == "~/.zshrc")
         #expect(home.appending(path: "My Files/.zshrc").pathForTheShell(home: home) == "'/Users/example/My Files/.zshrc'")
         #expect(URL(filePath: "/etc/it's").pathForTheShell(home: home) == "'/etc/it'\\''s'")
-        #expect(ShellSessions.zsh(startupFile: home.appending(path: ".zshenv")).zshrc == home.appending(path: ".zshrc"))
-        #expect(ShellSessions.bash.zshrc == nil)
     }
 }

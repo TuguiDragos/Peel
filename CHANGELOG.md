@@ -142,6 +142,7 @@ along a removal is, and says within seconds when its helper isn't answering.
 - **Terminal:** The Git tab leaves a setting to a file your settings include, so Peel's value never wins over yours.
   Keep key passphrases in your keychain no longer stops an ssh installed from elsewhere, such as Homebrew's, which
   doesn't know `UseKeychain`, and delta's lines on the Tools tab turn on the line numbers its description promises.
+  The Shell tab finds the `.zshrc` zsh reads when your `~/.zshenv` moves zsh's files with `ZDOTDIR`.
 - **History:** Put Back brings a file a Homebrew cask or an installer receipt named back under the name the disk
   gives it, registers an app it brings back with macOS, and judges with your exclusions as `peel restore` does. Undo
   now stays off, as Put Back already did, while History or the exclusions can't be read.
