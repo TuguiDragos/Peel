@@ -81,7 +81,7 @@ struct TemporaryDirectory: ~Copyable {
     }()
 
     /// macOS kills a copy of one of its own programs started from anywhere else (a launch constraint), so the copy of
-    /// `cat` is signed ad hoc first. It runs until the test ends it or lets go of it.
+    /// `cat` is signed ad hoc first. It runs until the test ends it, or until the suite ends and its input closes.
     func runningProgram(_ path: String) throws -> Process {
         try runningPrograms([path])[0]
     }
