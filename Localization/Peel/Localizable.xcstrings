@@ -9869,36 +9869,36 @@
         }
       }
     },
-    "A reset keeps a copy of the settings it clears, and Put Back works from it even after the app has written new ones. A copy can hold a license key or an account, so clear the ones you no longer need." : {
+    "A reset keeps a copy of the settings it clears, and Put Back works from it even after the app has written new ones. A copy can hold a license key or an account, so move the ones you no longer need to the Trash." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Při resetování Peel uloží kopii nastavení, která vymaže, a tlačítko Vrátit zpět z ní nastavení obnoví, i když už aplikace zapsala nová. Kopie může obsahovat licenční klíč nebo účet, proto ty, které už nepotřebujete, odstraňte."
+            "value" : "Při resetování Peel uloží kopii nastavení, která vymaže, a tlačítko Vrátit zpět z ní nastavení obnoví, i když už aplikace zapsala nová. Kopie může obsahovat licenční klíč nebo účet, proto ty, které už nepotřebujete, přesuňte do koše."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beim Zurücksetzen wird eine Kopie der entfernten Einstellungen aufbewahrt, und „Zurücklegen“ funktioniert damit auch dann, wenn die App bereits neue geschrieben hat. Eine Kopie kann einen Lizenzschlüssel oder einen Account enthalten, entferne also die, die du nicht mehr brauchst."
+            "value" : "Beim Zurücksetzen wird eine Kopie der entfernten Einstellungen aufbewahrt, und „Zurücklegen“ funktioniert damit auch dann, wenn die App bereits neue geschrieben hat. Eine Kopie kann einen Lizenzschlüssel oder einen Account enthalten, lege also die, die du nicht mehr brauchst, in den Papierkorb."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al restablecer una app, se guarda una copia de los ajustes que se borran, y “Restaurar” funciona a partir de ella incluso después de que la app haya escrito ajustes nuevos. Una copia puede contener una clave de licencia o una cuenta, así que elimina las que ya no necesites."
+            "value" : "Al restablecer una app, se guarda una copia de los ajustes que se borran, y “Restaurar” funciona a partir de ella incluso después de que la app haya escrito ajustes nuevos. Una copia puede contener una clave de licencia o una cuenta, así que traslada a la papelera las que ya no necesites."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une réinitialisation conserve une copie des réglages qu’elle efface, et « Remettre » s’en sert même après que l’app a écrit de nouveaux réglages. Une copie peut contenir une clé de licence ou un compte : supprimez donc celles dont vous n’avez plus besoin."
+            "value" : "Une réinitialisation conserve une copie des réglages qu’elle efface, et « Remettre » s’en sert même après que l’app a écrit de nouveaux réglages. Une copie peut contenir une clé de licence ou un compte : placez donc dans la corbeille celles dont vous n’avez plus besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una reimpostazione conserva una copia delle impostazioni che cancella, e “Ripristina” funziona a partire da quella anche dopo che l’app ne ha scritte di nuove. Una copia può contenere una chiave di licenza o un account, quindi rimuovi quelle che non ti servono più."
+            "value" : "Una reimpostazione conserva una copia delle impostazioni che cancella, e “Ripristina” funziona a partire da quella anche dopo che l’app ne ha scritte di nuove. Una copia può contenere una chiave di licenza o un account, quindi sposta nel Cestino quelle che non ti servono più."
           }
         },
         "ja" : {
@@ -9910,13 +9910,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "재설정하면 지워지는 설정의 복사본이 보관되며, ‘되돌려 놓기’는 앱이 새로운 설정을 쓴 후에도 이 복사본으로 작동합니다. 복사본에는 라이센스 키나 계정이 들어 있을 수 있으므로 더 이상 필요 없는 복사본은 지우십시오."
+            "value" : "재설정하면 지워지는 설정의 복사본이 보관되며, ‘되돌려 놓기’는 앱이 새로운 설정을 쓴 후에도 이 복사본으로 작동합니다. 복사본에는 라이센스 키나 계정이 들어 있을 수 있으므로 더 이상 필요 없는 복사본은 휴지통으로 이동하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bij het opnieuw instellen wordt een kopie bewaard van de instellingen die worden gewist, en 'Zet terug' werkt daarmee, zelfs nadat de app nieuwe instellingen heeft geschreven. Een kopie kan een licentiesleutel of een account bevatten, dus ruim de kopieën op die je niet meer nodig hebt."
+            "value" : "Bij het opnieuw instellen wordt een kopie bewaard van de instellingen die worden gewist, en 'Zet terug' werkt daarmee, zelfs nadat de app nieuwe instellingen heeft geschreven. Een kopie kan een licentiesleutel of een account bevatten, dus verplaats de kopieën die je niet meer nodig hebt naar de prullenmand."
           }
         },
         "pl" : {
@@ -9928,49 +9928,49 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uma redefinição guarda uma cópia dos ajustes que limpa, e Colocar de Volta usa essa cópia mesmo depois que o app gravou ajustes novos. Uma cópia pode conter uma chave de licença ou uma conta, então remova as de que você não precisa mais."
+            "value" : "Uma redefinição guarda uma cópia dos ajustes que limpa, e Colocar de Volta usa essa cópia mesmo depois que o app gravou ajustes novos. Uma cópia pode conter uma chave de licença ou uma conta, então mova para o Lixo as de que você não precisa mais."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O resetare păstrează o copie a configurărilor pe care le elimină, iar butonul Puneți înapoi funcționează pe baza ei chiar și după ce aplicația a scris altele noi. O copie poate conține o cheie de licență sau un cont, așa că eliminați copiile de care nu mai aveți nevoie."
+            "value" : "O resetare păstrează o copie a configurărilor pe care le elimină, iar butonul Puneți înapoi funcționează pe baza ei chiar și după ce aplicația a scris altele noi. O copie poate conține o cheie de licență sau un cont, așa că mutați în Coș copiile de care nu mai aveți nevoie."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "При сбросе сохраняется копия очищаемых настроек, и кнопка «Восстановить» работает с ней, даже если приложение уже записало новые. В копии может быть лицензионный ключ или учетная запись, поэтому удаляйте те копии, которые Вам больше не нужны."
+            "value" : "При сбросе сохраняется копия очищаемых настроек, и кнопка «Восстановить» работает с ней, даже если приложение уже записало новые. В копии может быть лицензионный ключ или учетная запись, поэтому перемещайте в Корзину те копии, которые Вам больше не нужны."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En nollställning sparar en kopia av inställningarna som den rensar, och Lägg tillbaka fungerar utifrån den även efter att appen har skrivit nya. En kopia kan innehålla en licensnyckel eller ett konto, så rensa bort de kopior som du inte längre behöver."
+            "value" : "En nollställning sparar en kopia av inställningarna som den rensar, och Lägg tillbaka fungerar utifrån den även efter att appen har skrivit nya. En kopia kan innehålla en licensnyckel eller ett konto, så flytta de kopior som du inte längre behöver till papperskorgen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir sıfırlama, temizlediği ayarların bir kopyasını tutar; Yerine Koy, uygulama yeni ayarlar yazdıktan sonra bile bu kopyayı kullanır. Bir kopya lisans anahtarı veya hesap bilgisi içerebilir, bu yüzden artık gerekmeyenleri temizleyin."
+            "value" : "Bir sıfırlama, temizlediği ayarların bir kopyasını tutar; Yerine Koy, uygulama yeni ayarlar yazdıktan sonra bile bu kopyayı kullanır. Bir kopya lisans anahtarı veya hesap bilgisi içerebilir, bu yüzden artık gerekmeyenleri Çöp Sepeti’ne taşıyın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скидання зберігає копію налаштувань, які очищає, і «Повернути назад» працює з цієї копії навіть після того, як програма записала нові. Копія може містити ліцензійний ключ чи дані облікового запису, тож вилучайте ті копії, які вам більше не потрібні."
+            "value" : "Скидання зберігає копію налаштувань, які очищає, і «Повернути назад» працює з цієї копії навіть після того, як програма записала нові. Копія може містити ліцензійний ключ чи дані облікового запису, тож переміщуйте в Смітник ті копії, які вам більше не потрібні."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重置时会保留一份所清除设置的副本，即使App之后写入了新设置，“放回原处”也能根据副本恢复。副本中可能包含许可证密钥或账户，因此请清除不再需要的副本。"
+            "value" : "重置时会保留一份所清除设置的副本，即使App之后写入了新设置，“放回原处”也能根据副本恢复。副本中可能包含许可证密钥或账户，因此请将不再需要的副本移到废纸篓。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重置時會保留一份它所清除之設定的副本，即使App已寫入新的設定，「還原」仍可依據此副本運作。副本中可能含有授權碼或帳號，因此請清除你不再需要的副本。"
+            "value" : "重置時會保留一份它所清除之設定的副本，即使App已寫入新的設定，「還原」仍可依據此副本運作。副本中可能含有授權碼或帳號，因此請將你不再需要的副本丟到「垃圾桶」。"
           }
         }
       }
@@ -10501,6 +10501,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "整個個人專屬檔案夾或磁碟的搜尋範圍太大。請選擇你的計畫案所在的檔案夾。"
+          }
+        }
+      }
+    },
+    "A word that starts with # begins a comment that runs to the end of the line, as in a script, so a pasted command with comments runs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slovo, které začíná znakem #, zahajuje komentář, který pokračuje až do konce řádku, stejně jako ve skriptu, takže se vložený příkaz s komentáři spustí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Wort, das mit # beginnt, leitet einen Kommentar ein, der bis zum Ende der Zeile reicht, wie in einem Skript, sodass ein eingesetzter Befehl mit Kommentaren ausgeführt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una palabra que empieza por # inicia un comentario que se extiende hasta el final de la línea, como en un script, así que un comando pegado con comentarios se ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un mot qui commence par # ouvre un commentaire qui s’étend jusqu’à la fin de la ligne, comme dans un script : une commande collée qui contient des commentaires s’exécute donc."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una parola che inizia con # introduce un commento che arriva fino alla fine della riga, come in uno script, quindi anche un comando incollato che contiene commenti viene eseguito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリプトと同じように、#で始まる単語から行末までがコメントになるため、コメント付きのコマンドをペーストしても実行できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크립트에서처럼 #으로 시작하는 단어부터 줄 끝까지 주석이 되므로, 주석이 포함된 명령을 붙여 넣어도 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vanaf een woord dat met # begint, is alles tot het einde van de regel commentaar, zoals in een script, zodat een geplakt commando met commentaar wordt uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Słowo zaczynające się od znaku # rozpoczyna komentarz sięgający do końca wiersza, tak jak w skrypcie, więc wklejone polecenie z komentarzami zadziała."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma palavra que começa com # inicia um comentário que vai até o final da linha, como em um script, então um comando colado com comentários é executado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un cuvânt care începe cu # deschide un comentariu care continuă până la sfârșitul liniei, ca într‑un script, așa că o comandă lipită care conține comentarii rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все от слова, начинающегося с #, до конца строки считается комментарием, как в скрипте, поэтому вставленная команда с комментариями выполняется."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett ord som börjar med # inleder en kommentar som sträcker sig till slutet av raden, som i ett skript, så att ett inklistrat kommando med kommentarer går att köra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "# işaretiyle başlayan bir sözcük, bir betikte olduğu gibi, satırın sonuna kadar süren bir yorum başlatır; böylece yorum içeren yapıştırılmış bir komut çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Слово, що починається з #, відкриває коментар, який триває до кінця рядка, як у скрипті, тож вставлена команда з коментарями виконується."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以#开头的单词及其后直到行尾的所有内容都是注释，与脚本中一样，因此粘贴的带注释的命令也能运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以#開頭的字詞會開始一段延續到行尾的註解，就像在指令碼中一樣，因此貼上含有註解的指令也能執行。"
           }
         }
       }
@@ -15432,112 +15538,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這部Mac上的任何人都能變更它，因此Peel不會執行它。"
-          }
-        }
-      }
-    },
-    "Anything after # on the command line is a comment, as in a script, so a pasted command with comments runs." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vše, co na příkazovém řádku následuje za znakem #, je komentář, stejně jako ve skriptu, takže se vložený příkaz s komentáři spustí."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles nach # in der Befehlszeile ist ein Kommentar, wie in einem Skript, sodass ein eingesetzter Befehl mit Kommentaren ausgeführt wird."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo lo que va después de # en la línea de comandos es un comentario, como en un script, así que un comando pegado con comentarios se ejecuta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout ce qui suit # sur la ligne de commande est un commentaire, comme dans un script : une commande collée qui contient des commentaires s’exécute donc."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tutto ciò che segue # sulla riga di comando è un commento, come in uno script, quindi anche un comando incollato che contiene commenti viene eseguito."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スクリプトと同じように、コマンドラインの#以降はコメントになるため、コメント付きのコマンドをペーストしても実行できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스크립트에서처럼 명령어 라인에서 # 뒤에 오는 내용은 모두 주석이 되므로, 주석이 포함된 명령을 붙여 넣어도 실행됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles na # op de commandoregel is commentaar, zoals in een script, zodat een geplakt commando met commentaar wordt uitgevoerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wszystko po znaku # w wierszu polecenia jest komentarzem, tak jak w skrypcie, więc wklejone polecenie z komentarzami zadziała."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tudo o que vem depois de # na linha de comando é um comentário, como em um script, então um comando colado com comentários é executado."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tot ce urmează după # pe linia de comandă este un comentariu, ca într‑un script, așa că o comandă lipită care conține comentarii rulează."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все, что идет после # в командной строке, считается комментарием, как в скрипте, поэтому вставленная команда с комментариями выполняется."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allt efter # på kommandoraden är en kommentar, som i ett skript, så att ett inklistrat kommando med kommentarer går att köra."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Komut satırında # işaretinden sonra gelen her şey, bir betikte olduğu gibi yorum sayılır; böylece yorum içeren yapıştırılmış bir komut çalışır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Усе, що стоїть після # у командному рядку, вважається коментарем, як у скрипті, тож вставлена команда з коментарями виконується."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "命令行中#之后的所有内容都是注释，与脚本中一样，因此粘贴的带注释的命令也能运行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "命令列上#之後的內容都是註解，就像在指令碼中一樣，因此貼上含有註解的指令也能執行。"
           }
         }
       }
@@ -52064,108 +52064,108 @@
         }
       }
     },
-    "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, and Saved Settings." : {
+    "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, Saved Settings, and the shell and ssh settings from the Terminal page, which zsh and ssh then stop reading." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tuto kopii Peelu nainstaloval Homebrew, proto ji odstraňte pomocí Homebrew, jinak ji Homebrew bude dál uvádět jako nainstalovanou. Spusťte příkaz v Terminálu: Homebrew aplikaci smaže, místo aby ji přesunul do koše, a soubory Peelu přesune do koše, včetně jeho složky v Application Support. Tato složka obsahuje Historii, vaše výjimky a Uložená nastavení."
+            "value" : "Tuto kopii Peelu nainstaloval Homebrew, proto ji odstraňte pomocí Homebrew, jinak ji Homebrew bude dál uvádět jako nainstalovanou. Spusťte příkaz v Terminálu: Homebrew aplikaci smaže, místo aby ji přesunul do koše, a soubory Peelu přesune do koše, včetně jeho složky v Application Support. Tato složka obsahuje Historii, vaše výjimky, Uložená nastavení a nastavení shellu a ssh ze stránky Terminál, která pak zsh a ssh přestanou číst."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Da Homebrew diese Peel-Kopie installiert hat, entferne sie mit Homebrew, sonst führt Homebrew sie weiterhin als installiert. Führe den Befehl im Terminal aus: Homebrew löscht die App, statt sie in den Papierkorb zu legen, und legt die Dateien von Peel in den Papierkorb, darunter den Peel-Ordner in Application Support. Dieser Ordner enthält den Verlauf, deine Ausschlüsse und die gesicherten Einstellungen."
+            "value" : "Da Homebrew diese Peel-Kopie installiert hat, entferne sie mit Homebrew, sonst führt Homebrew sie weiterhin als installiert. Führe den Befehl im Terminal aus: Homebrew löscht die App, statt sie in den Papierkorb zu legen, und legt die Dateien von Peel in den Papierkorb, darunter den Peel-Ordner in Application Support. Dieser Ordner enthält den Verlauf, deine Ausschlüsse, die gesicherten Einstellungen sowie die Shell- und ssh-Einstellungen der Seite „Terminal“, die zsh und ssh dann nicht mehr lesen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instaló esta copia de Peel, así que elimínala con Homebrew, o Homebrew la seguirá mostrando como instalada. Ejecuta el comando en Terminal: Homebrew borra la app en vez de trasladarla a la papelera, y traslada a la papelera los archivos de Peel, incluida su carpeta de Application Support. Esa carpeta contiene Historial, tus exclusiones y Ajustes guardados."
+            "value" : "Homebrew instaló esta copia de Peel, así que elimínala con Homebrew, o Homebrew la seguirá mostrando como instalada. Ejecuta el comando en Terminal: Homebrew borra la app en vez de trasladarla a la papelera, y traslada a la papelera los archivos de Peel, incluida su carpeta de Application Support. Esa carpeta contiene Historial, tus exclusiones, Ajustes guardados y los ajustes de shell y ssh de la página Terminal, que entonces zsh y ssh dejan de leer."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a installé cette copie de Peel : supprimez-la donc avec Homebrew, sinon Homebrew continuera de la considérer comme installée. Exécutez la commande dans Terminal : Homebrew supprime définitivement l’app au lieu de la placer dans la corbeille, et place dans la corbeille les fichiers de Peel, dont son dossier dans Application Support. Ce dossier contient l’Historique, vos exclusions et les Réglages enregistrés."
+            "value" : "Homebrew a installé cette copie de Peel : supprimez-la donc avec Homebrew, sinon Homebrew continuera de la considérer comme installée. Exécutez la commande dans Terminal : Homebrew supprime définitivement l’app au lieu de la placer dans la corbeille, et place dans la corbeille les fichiers de Peel, dont son dossier dans Application Support. Ce dossier contient l’Historique, vos exclusions, les Réglages enregistrés et les réglages du shell et de ssh définis sur la page Terminal, que zsh et ssh cessent alors de lire."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questa copia di Peel è stata installata da Homebrew, quindi rimuovila con Homebrew, altrimenti Homebrew continuerà a elencarla come installata. Esegui il comando in Terminale: Homebrew elimina l’app anziché spostarla nel Cestino, e sposta nel Cestino i file di Peel, compresa la sua cartella in Application Support. Quella cartella contiene la Cronologia, le tue esclusioni e le Impostazioni salvate."
+            "value" : "Questa copia di Peel è stata installata da Homebrew, quindi rimuovila con Homebrew, altrimenti Homebrew continuerà a elencarla come installata. Esegui il comando in Terminale: Homebrew elimina l’app anziché spostarla nel Cestino, e sposta nel Cestino i file di Peel, compresa la sua cartella in Application Support. Quella cartella contiene la Cronologia, le tue esclusioni, le Impostazioni salvate e le impostazioni della shell e di ssh della pagina Terminale, che a quel punto zsh e ssh smettono di leggere."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このPeelはHomebrewでインストールされたため、Homebrewでアンインストールしてください。そうしないと、Homebrewでは引き続きインストール済みとして表示されます。ターミナルでコマンドを実行してください。Homebrewはアプリをゴミ箱に入れずに削除し、Peelのファイルは、Application SupportにあるPeelのフォルダも含めてゴミ箱に入れます。このフォルダには、履歴、除外リスト、“保存された設定”が含まれます。"
+            "value" : "このPeelはHomebrewでインストールされたため、Homebrewでアンインストールしてください。そうしないと、Homebrewでは引き続きインストール済みとして表示されます。ターミナルでコマンドを実行してください。Homebrewはアプリをゴミ箱に入れずに削除し、Peelのファイルは、Application SupportにあるPeelのフォルダも含めてゴミ箱に入れます。このフォルダには、履歴、除外リスト、“保存された設定”、“ターミナル”ページのシェルとsshの設定が含まれます。その後、zshとsshはこれらの設定を読み込まなくなります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 이 Peel 복사본을 설치했으므로 Homebrew로 제거하십시오. 그렇지 않으면 Homebrew는 이 복사본을 계속 설치된 것으로 표시합니다. 터미널에서 이 명령을 실행하십시오. 그러면 Homebrew가 앱을 휴지통으로 이동하지 않고 삭제하며, Application Support에 있는 Peel의 폴더를 포함한 Peel의 파일은 휴지통으로 이동합니다. 이 폴더에는 기록, 제외 항목, 저장된 설정이 들어 있습니다."
+            "value" : "Homebrew가 이 Peel 복사본을 설치했으므로 Homebrew로 제거하십시오. 그렇지 않으면 Homebrew는 이 복사본을 계속 설치된 것으로 표시합니다. 터미널에서 이 명령을 실행하십시오. 그러면 Homebrew가 앱을 휴지통으로 이동하지 않고 삭제하며, Application Support에 있는 Peel의 폴더를 포함한 Peel의 파일은 휴지통으로 이동합니다. 이 폴더에는 기록, 제외 항목, 저장된 설정, 터미널 페이지의 셸 및 ssh 설정이 들어 있으며, 이후 zsh와 ssh는 해당 설정을 더 이상 읽지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew heeft deze kopie van Peel geïnstalleerd, dus verwijder die met Homebrew, anders blijft Homebrew die als geïnstalleerd vermelden. Voer het commando uit in Terminal: Homebrew verwijdert de app definitief in plaats van die naar de prullenmand te verplaatsen, en verplaatst de bestanden van Peel, waaronder de map in Application Support, naar de prullenmand. Die map bevat Geschiedenis, je uitsluitingen en 'Bewaarde instellingen'."
+            "value" : "Homebrew heeft deze kopie van Peel geïnstalleerd, dus verwijder die met Homebrew, anders blijft Homebrew die als geïnstalleerd vermelden. Voer het commando uit in Terminal: Homebrew verwijdert de app definitief in plaats van die naar de prullenmand te verplaatsen, en verplaatst de bestanden van Peel, waaronder de map in Application Support, naar de prullenmand. Die map bevat Geschiedenis, je uitsluitingen, 'Bewaarde instellingen' en de shell- en ssh-instellingen van de pagina 'Terminal', die zsh en ssh dan niet meer lezen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tę kopię Peel zainstalował Homebrew, więc odinstaluj ją za pomocą Homebrew, w przeciwnym razie Homebrew nadal będzie ją wymieniał jako zainstalowaną. Uruchom polecenie w Terminalu: Homebrew usuwa aplikację trwale, zamiast przenosić ją do Kosza, a pliki Peel, w tym jego folder w Application Support, przenosi do Kosza. Ten folder zawiera Historię, Twoje wykluczenia i Zachowane ustawienia."
+            "value" : "Tę kopię Peel zainstalował Homebrew, więc odinstaluj ją za pomocą Homebrew, w przeciwnym razie Homebrew nadal będzie ją wymieniał jako zainstalowaną. Uruchom polecenie w Terminalu: Homebrew usuwa aplikację trwale, zamiast przenosić ją do Kosza, a pliki Peel, w tym jego folder w Application Support, przenosi do Kosza. Ten folder zawiera Historię, Twoje wykluczenia, Zachowane ustawienia oraz ustawienia powłoki i ssh ze strony Terminal, które zsh i ssh przestaną wtedy odczytywać."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew instalou esta cópia do Peel, então remova-a com o Homebrew, senão o Homebrew vai continuar listando-a como instalada. Execute o comando no Terminal: o Homebrew apaga o app em vez de movê-lo para o Lixo, e move para o Lixo os arquivos do Peel, inclusive a pasta dele em Application Support. Essa pasta guarda o Histórico, as suas exclusões e os Ajustes Salvos."
+            "value" : "O Homebrew instalou esta cópia do Peel, então remova-a com o Homebrew, senão o Homebrew vai continuar listando-a como instalada. Execute o comando no Terminal: o Homebrew apaga o app em vez de movê-lo para o Lixo, e move para o Lixo os arquivos do Peel, inclusive a pasta dele em Application Support. Essa pasta guarda o Histórico, as suas exclusões, os Ajustes Salvos e os ajustes do shell e do ssh da página Terminal, que então deixam de ser lidos pelo zsh e pelo ssh."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a instalat această copie Peel, așa că eliminați‑o cu Homebrew, altfel Homebrew o va lista în continuare ca instalată. Rulați comanda în Terminal: Homebrew șterge aplicația, în loc să o mute în Coș, și mută în Coș fișierele Peel, inclusiv dosarul său din Application Support. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate."
+            "value" : "Homebrew a instalat această copie Peel, așa că eliminați‑o cu Homebrew, altfel Homebrew o va lista în continuare ca instalată. Rulați comanda în Terminal: Homebrew șterge aplicația, în loc să o mute în Coș, și mută în Coș fișierele Peel, inclusiv dosarul său din Application Support. Acel dosar conține Istoricul, excluderile dvs., Configurările salvate și configurările pentru shell și ssh din pagina Terminal, pe care zsh și ssh nu le mai citesc apoi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Эту копию Peel установил Homebrew, поэтому удалите ее с помощью Homebrew, иначе Homebrew будет по-прежнему считать ее установленной. Выполните команду в Терминале: Homebrew удаляет приложение безвозвратно, не перемещая его в Корзину, а файлы Peel, в том числе его папку в Application Support, перемещает в Корзину. В этой папке хранятся История, Ваши исключения и «Сохраненные настройки»."
+            "value" : "Эту копию Peel установил Homebrew, поэтому удалите ее с помощью Homebrew, иначе Homebrew будет по-прежнему считать ее установленной. Выполните команду в Терминале: Homebrew удаляет приложение безвозвратно, не перемещая его в Корзину, а файлы Peel, в том числе его папку в Application Support, перемещает в Корзину. В этой папке хранятся История, Ваши исключения, «Сохраненные настройки», а также параметры оболочки и ssh из раздела «Терминал», которые zsh и ssh после этого перестают читать."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installerade den här kopian av Peel, så ta bort den med Homebrew, annars fortsätter Homebrew att lista den som installerad. Kör kommandot i Terminal: Homebrew raderar appen i stället för att flytta den till papperskorgen, men flyttar Peels filer, däribland dess mapp i Application Support, till papperskorgen. Den mappen innehåller Historik, dina undantag och Sparade inställningar."
+            "value" : "Homebrew installerade den här kopian av Peel, så ta bort den med Homebrew, annars fortsätter Homebrew att lista den som installerad. Kör kommandot i Terminal: Homebrew raderar appen i stället för att flytta den till papperskorgen, men flyttar Peels filer, däribland dess mapp i Application Support, till papperskorgen. Den mappen innehåller Historik, dina undantag, Sparade inställningar samt inställningarna för kommandotolken och ssh från sidan Terminal, som zsh och ssh då slutar läsa."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in bu kopyasını Homebrew yükledi, bu yüzden onu Homebrew ile kaldırın, yoksa Homebrew onu yüklü olarak listelemeye devam eder. Komutu Terminal’de çalıştırın: Homebrew uygulamayı Çöp Sepeti’ne taşımak yerine siler, Peel’in dosyalarını ise, Application Support içindeki klasörü de dahil, Çöp Sepeti’ne taşır. O klasörde Geçmiş, hariç tutulanlar listeniz ve Kaydedilmiş Ayarlar bulunur."
+            "value" : "Peel’in bu kopyasını Homebrew yükledi, bu yüzden onu Homebrew ile kaldırın, yoksa Homebrew onu yüklü olarak listelemeye devam eder. Komutu Terminal’de çalıştırın: Homebrew uygulamayı Çöp Sepeti’ne taşımak yerine siler, Peel’in dosyalarını ise, Application Support içindeki klasörü de dahil, Çöp Sepeti’ne taşır. O klasörde Geçmiş, hariç tutulanlar listeniz, Kaydedilmiş Ayarlar ve Terminal sayfasındaki kabuk ve ssh ayarları bulunur; ardından zsh ve ssh bu ayarları okumayı bırakır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Цю копію Peel інсталював Homebrew, тож вилучіть її через Homebrew, інакше він надалі показуватиме її у своєму списку інстальованого. Виконайте команду в Терміналі: Homebrew видалить саму програму, не переміщуючи її в Смітник, а файли Peel, зокрема її папку в Application Support, перемістить у Смітник. У цій папці зберігаються Історія, ваші винятки та «Збережені налаштування»."
+            "value" : "Цю копію Peel інсталював Homebrew, тож вилучіть її через Homebrew, інакше він надалі показуватиме її у своєму списку інстальованого. Виконайте команду в Терміналі: Homebrew видалить саму програму, не переміщуючи її в Смітник, а файли Peel, зокрема її папку в Application Support, перемістить у Смітник. У цій папці зберігаються Історія, ваші винятки, «Збережені налаштування», а також налаштування оболонки та ssh зі сторінки «Термінал», які zsh і ssh після цього перестануть читати."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此Peel副本由Homebrew安装，因此请使用Homebrew移除它，否则Homebrew会继续将它列为已安装。请在“终端”中运行该命令：Homebrew会删除该App，而不是将它移到废纸篓，并会将Peel的文件移到废纸篓，其中包括它在Application Support中的文件夹。该文件夹中存有“历史记录”、你的排除项和“已保存的设置”。"
+            "value" : "此Peel副本由Homebrew安装，因此请使用Homebrew移除它，否则Homebrew会继续将它列为已安装。请在“终端”中运行该命令：Homebrew会删除该App，而不是将它移到废纸篓，并会将Peel的文件移到废纸篓，其中包括它在Application Support中的文件夹。该文件夹中存有“历史记录”、你的排除项、“已保存的设置”，以及“终端”页面中的shell和ssh设置，届时zsh和ssh将不再读取这些设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這份Peel副本是由Homebrew安裝的，因此請使用Homebrew移除它，否則Homebrew會繼續將它列為已安裝。請在「終端機」中執行此指令：Homebrew會刪除此App，而不是將它丟到「垃圾桶」，並會將Peel的檔案丟到「垃圾桶」，其中包括它在Application Support中的檔案夾。該檔案夾存有「歷史記錄」、你的排除項目和「已儲存的設定」。"
+            "value" : "這份Peel副本是由Homebrew安裝的，因此請使用Homebrew移除它，否則Homebrew會繼續將它列為已安裝。請在「終端機」中執行此指令：Homebrew會刪除此App，而不是將它丟到「垃圾桶」，並會將Peel的檔案丟到「垃圾桶」，其中包括它在Application Support中的檔案夾。該檔案夾存有「歷史記錄」、你的排除項目、「已儲存的設定」，以及「終端機」頁面上的Shell和ssh設定，zsh和ssh隨後便不再讀取這些設定。"
           }
         }
       }
@@ -118029,108 +118029,108 @@
         }
       }
     },
-    "Peel writes these settings only in a file of its own, which zsh reads through one line in %@, so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s. Turn All Off empties Peel’s file, and the line then does nothing." : {
+    "Peel writes these settings only in a file of its own, which zsh reads through one line in %@, so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s, but keep zsh-completions’ lines above it, or every new window builds the completion cache again. Turn All Off empties Peel’s file, and the line then does nothing." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje jen do vlastního souboru, který zsh čte prostřednictvím jednoho řádku v souboru %@, takže Peel váš vlastní soubor nikdy nemění. Příkaz přidá tento řádek na konec souboru. Pokud v něm načítáte nástroje, jako je fzf-tab, přesuňte řádek nad ně, protože jejich nastavení musí následovat až po nastavení Peelu. Tlačítko Vypnout vše soubor Peelu vyprázdní a řádek pak nic nedělá."
+            "value" : "Peel tato nastavení zapisuje jen do vlastního souboru, který zsh čte prostřednictvím jednoho řádku v souboru %@, takže Peel váš vlastní soubor nikdy nemění. Příkaz přidá tento řádek na konec souboru. Pokud v něm načítáte nástroje, jako je fzf-tab, přesuňte řádek nad ně, protože jejich nastavení musí následovat až po nastavení Peelu, ale řádky zsh-completions ponechte nad tímto řádkem, jinak každé nové okno vytvoří mezipaměť doplňování znovu. Tlačítko Vypnout vše soubor Peelu vyprázdní a řádek pak nic nedělá."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel schreibt diese Einstellungen nur in eine eigene Datei, die zsh über eine Zeile in %@ liest, daher ändert Peel deine eigene Datei nie. Der Befehl fügt die Zeile am Ende hinzu. Wenn du dort Tools wie fzf-tab lädst, verschiebe die Zeile über die Zeilen dieser Tools, da ihre Einstellungen nach denen von Peel kommen müssen. „Alle deaktivieren“ leert die Datei von Peel, und die Zeile bewirkt dann nichts."
+            "value" : "Peel schreibt diese Einstellungen nur in eine eigene Datei, die zsh über eine Zeile in %@ liest, daher ändert Peel deine eigene Datei nie. Der Befehl fügt die Zeile am Ende hinzu. Wenn du dort Tools wie fzf-tab lädst, verschiebe die Zeile über die Zeilen dieser Tools, da ihre Einstellungen nach denen von Peel kommen müssen, aber lass die Zeilen von zsh-completions über der Zeile von Peel stehen, sonst wird der Vervollständigungs-Cache in jedem neuen Fenster neu erstellt. „Alle deaktivieren“ leert die Datei von Peel, und die Zeile bewirkt dann nichts."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel escribe estos ajustes solo en un archivo propio, que zsh lee mediante una línea en %@, así que Peel nunca cambia tu propio archivo. El comando añade la línea al final. Si ahí cargas herramientas como fzf-tab, mueve la línea por encima de ellas, ya que sus ajustes tienen que ir después de los de Peel. “Desactivar todo” vacía el archivo de Peel, y entonces la línea no hace nada."
+            "value" : "Peel escribe estos ajustes solo en un archivo propio, que zsh lee mediante una línea en %@, así que Peel nunca cambia tu propio archivo. El comando añade la línea al final. Si ahí cargas herramientas como fzf-tab, mueve la línea por encima de ellas, ya que sus ajustes tienen que ir después de los de Peel, pero mantén las líneas de zsh-completions por encima de ella, o cada ventana nueva volverá a crear la caché de autocompletado. “Desactivar todo” vacía el archivo de Peel, y entonces la línea no hace nada."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’écrit ces réglages que dans un fichier qui lui est propre, que zsh lit grâce à une ligne placée dans %@ : Peel ne modifie donc jamais votre propre fichier. La commande ajoute cette ligne à la fin du fichier. Si vous y chargez des outils comme fzf-tab, déplacez-la au-dessus des lignes qui les chargent, car leurs réglages doivent venir après ceux de Peel. « Tout désactiver » vide le fichier de Peel, et la ligne n’a alors plus aucun effet."
+            "value" : "Peel n’écrit ces réglages que dans un fichier qui lui est propre, que zsh lit grâce à une ligne placée dans %@ : Peel ne modifie donc jamais votre propre fichier. La commande ajoute cette ligne à la fin du fichier. Si vous y chargez des outils comme fzf-tab, déplacez-la au-dessus des lignes qui les chargent, car leurs réglages doivent venir après ceux de Peel, mais gardez les lignes de zsh-completions au-dessus de celle de Peel, sinon chaque nouvelle fenêtre reconstruira le cache de complétion. « Tout désactiver » vide le fichier de Peel, et la ligne n’a alors plus aucun effet."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel scrive queste impostazioni solo in un proprio file, che zsh legge tramite una riga nel file %@, quindi Peel non modifica mai il tuo file. Il comando aggiunge la riga alla fine del file. Se in quel file carichi strumenti come fzf-tab, sposta la riga sopra quelle che li caricano, perché le loro impostazioni devono venire dopo quelle di Peel. “Disattiva tutto” svuota il file di Peel, e a quel punto la riga non ha più alcun effetto."
+            "value" : "Peel scrive queste impostazioni solo in un proprio file, che zsh legge tramite una riga nel file %@, quindi Peel non modifica mai il tuo file. Il comando aggiunge la riga alla fine del file. Se in quel file carichi strumenti come fzf-tab, sposta la riga sopra quelle che li caricano, perché le loro impostazioni devono venire dopo quelle di Peel, ma mantieni le righe di zsh-completions sopra la riga di Peel, altrimenti ogni nuova finestra ricostruisce la cache dei completamenti. “Disattiva tutto” svuota il file di Peel, e a quel punto la riga non ha più alcun effetto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはこれらの設定を独自のファイルにだけ書き込み、zshは%@にある1行を通じてそのファイルを読み込みます。そのため、Peelがお使いのファイルを変更することは決してありません。コマンドは、この行をファイルの末尾に追加します。そのファイルでfzf-tabなどのツールを読み込んでいる場合は、それらのツールの設定がPeelの設定より後に来る必要があるため、この行をそれらを読み込む行より上に移動してください。“すべてオフにする”を使うとPeelのファイルが空になり、この行は何の効果もなくなります。"
+            "value" : "Peelはこれらの設定を独自のファイルにだけ書き込み、zshは%@にある1行を通じてそのファイルを読み込みます。そのため、Peelがお使いのファイルを変更することは決してありません。コマンドは、この行をファイルの末尾に追加します。そのファイルでfzf-tabなどのツールを読み込んでいる場合は、それらのツールの設定がPeelの設定より後に来る必要があるため、この行をそれらを読み込む行より上に移動してください。ただし、zsh-completionsの行は、この行より上に置いたままにしてください。そうしないと、新規ウインドウを開くたびに補完キャッシュが再作成されます。“すべてオフにする”を使うとPeelのファイルが空になり、この行は何の効果もなくなります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 설정을 Peel 전용 파일에만 쓰고, zsh는 %@에 있는 한 줄을 통해 이 파일을 읽으므로 Peel은 사용자의 파일을 절대 변경하지 않습니다. 명령을 실행하면 이 줄이 사용자의 파일 끝에 추가됩니다. 사용자의 파일에서 fzf-tab 같은 도구를 불러오는 경우, 해당 도구의 설정이 Peel의 설정보다 뒤에 와야 하므로 이 줄을 그 도구를 불러오는 줄보다 위로 옮기십시오. ‘모두 끄기’는 Peel의 파일을 비우며, 그러면 이 줄은 아무 효과가 없습니다."
+            "value" : "Peel은 이 설정을 Peel 전용 파일에만 쓰고, zsh는 %@에 있는 한 줄을 통해 이 파일을 읽으므로 Peel은 사용자의 파일을 절대 변경하지 않습니다. 명령을 실행하면 이 줄이 사용자의 파일 끝에 추가됩니다. 사용자의 파일에서 fzf-tab 같은 도구를 불러오는 경우, 해당 도구의 설정이 Peel의 설정보다 뒤에 와야 하므로 이 줄을 그 도구를 불러오는 줄보다 위로 옮기십시오. 단, zsh-completions의 줄은 이 줄보다 위에 두십시오. 그렇지 않으면 새로운 윈도우마다 자동 완성 캐시가 다시 만들어집니다. ‘모두 끄기’는 Peel의 파일을 비우며, 그러면 이 줄은 아무 효과가 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel schrijft deze instellingen alleen in een eigen bestand, dat zsh leest via één regel in %@, zodat Peel je eigen bestand nooit wijzigt. Het commando voegt de regel aan het einde toe. Als je in je eigen bestand tools zoals fzf-tab laadt, zet de regel dan boven die tools, omdat hun instellingen na die van Peel moeten komen. 'Schakel alles uit' maakt het bestand van Peel leeg, en de regel doet dan niets."
+            "value" : "Peel schrijft deze instellingen alleen in een eigen bestand, dat zsh leest via één regel in %@, zodat Peel je eigen bestand nooit wijzigt. Het commando voegt de regel aan het einde toe. Als je in je eigen bestand tools zoals fzf-tab laadt, zet de regel dan boven die tools, omdat hun instellingen na die van Peel moeten komen, maar laat de regels van zsh-completions boven de regel van Peel staan, anders wordt de aanvulcache in elk nieuw venster opnieuw opgebouwd. 'Schakel alles uit' maakt het bestand van Peel leeg, en de regel doet dan niets."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapisuje te ustawienia wyłącznie we własnym pliku, który zsh odczytuje dzięki jednemu wierszowi w pliku %@, więc Peel nigdy nie zmienia Twojego własnego pliku. Polecenie dodaje ten wiersz na końcu pliku. Jeśli wczytujesz tam narzędzia takie jak fzf-tab, przenieś ten wiersz nad wiersze, które je wczytują, ponieważ ustawienia tych narzędzi muszą następować po ustawieniach Peel. Przycisk „Wyłącz wszystkie” opróżnia plik Peel, a wtedy ten wiersz nic nie robi."
+            "value" : "Peel zapisuje te ustawienia wyłącznie we własnym pliku, który zsh odczytuje dzięki jednemu wierszowi w pliku %@, więc Peel nigdy nie zmienia Twojego własnego pliku. Polecenie dodaje ten wiersz na końcu pliku. Jeśli wczytujesz tam narzędzia takie jak fzf-tab, przenieś ten wiersz nad wiersze, które je wczytują, ponieważ ustawienia tych narzędzi muszą następować po ustawieniach Peel, ale wiersze zsh-completions pozostaw nad tym wierszem, w przeciwnym razie każde nowe okno będzie od nowa tworzyć pamięć podręczną uzupełniania. Przycisk „Wyłącz wszystkie” opróżnia plik Peel, a wtedy ten wiersz nic nie robi."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel grava estes ajustes apenas em um arquivo próprio, que o zsh lê por meio de uma linha no %@, então o Peel nunca altera o seu próprio arquivo. O comando adiciona a linha no final. Se você carrega ferramentas como o fzf-tab nesse arquivo, mova a linha para que fique acima delas, já que os ajustes delas precisam vir depois dos ajustes do Peel. Desativar Todas esvazia o arquivo do Peel, e então a linha não tem mais efeito."
+            "value" : "O Peel grava estes ajustes apenas em um arquivo próprio, que o zsh lê por meio de uma linha no %@, então o Peel nunca altera o seu próprio arquivo. O comando adiciona a linha no final. Se você carrega ferramentas como o fzf-tab nesse arquivo, mova a linha para que fique acima delas, já que os ajustes delas precisam vir depois dos ajustes do Peel, mas mantenha as linhas do zsh-completions acima dela, senão toda nova janela gera de novo o cache de autocompletar. Desativar Todas esvazia o arquivo do Peel, e então a linha não tem mais efeito."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel scrie aceste configurări doar într‑un fișier propriu, pe care zsh îl citește printr‑o linie din %@, așa că Peel nu vă modifică niciodată propriul fișier. Comanda adaugă linia la sfârșitul fișierului. Dacă încărcați acolo instrumente precum fzf-tab, mutați linia deasupra lor, deoarece configurările lor trebuie să vină după cele ale Peel. Butonul Dezactivați toate golește fișierul Peel, iar linia rămâne apoi fără efect."
+            "value" : "Peel scrie aceste configurări doar într‑un fișier propriu, pe care zsh îl citește printr‑o linie din %@, așa că Peel nu vă modifică niciodată propriul fișier. Comanda adaugă linia la sfârșitul fișierului. Dacă încărcați acolo instrumente precum fzf-tab, mutați linia deasupra lor, deoarece configurările lor trebuie să vină după cele ale Peel, dar păstrați liniile zsh-completions deasupra ei, altfel fiecare fereastră nouă reface memoria tampon a completărilor. Butonul Dezactivați toate golește fișierul Peel, iar linia rămâne apoi fără efect."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel записывает эти параметры только в собственный файл, который zsh читает через одну строку в %@, поэтому Peel никогда не меняет Ваш собственный файл. Команда добавляет эту строку в конец файла. Если Вы загружаете в нем такие инструменты, как fzf-tab, переместите эту строку выше строк, которые их загружают, поскольку их настройки должны идти после настроек Peel. Кнопка «Выключить все» очищает файл Peel, и тогда эта строка ни на что не влияет."
+            "value" : "Peel записывает эти параметры только в собственный файл, который zsh читает через одну строку в %@, поэтому Peel никогда не меняет Ваш собственный файл. Команда добавляет эту строку в конец файла. Если Вы загружаете в нем такие инструменты, как fzf-tab, переместите эту строку выше строк, которые их загружают, поскольку их настройки должны идти после настроек Peel, но строки zsh-completions оставьте выше нее, иначе каждое новое окно будет заново создавать кэш автодополнения. Кнопка «Выключить все» очищает файл Peel, и тогда эта строка ни на что не влияет."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel skriver de här inställningarna bara i en egen fil, som zsh läser via en rad i %@, så Peel ändrar aldrig din egen fil. Kommandot lägger till raden sist i filen. Om du läser in verktyg som fzf-tab där flyttar du raden ovanför dem, eftersom deras inställningar måste komma efter Peels. ”Stäng av alla” tömmer Peels fil, och då gör raden ingenting."
+            "value" : "Peel skriver de här inställningarna bara i en egen fil, som zsh läser via en rad i %@, så Peel ändrar aldrig din egen fil. Kommandot lägger till raden sist i filen. Om du läser in verktyg som fzf-tab där flyttar du raden ovanför dem, eftersom deras inställningar måste komma efter Peels, men raderna för zsh-completions ska stå kvar ovanför den, annars byggs kompletteringscachen om i varje nytt fönster. ”Stäng av alla” tömmer Peels fil, och då gör raden ingenting."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bu ayarları yalnızca kendine ait bir dosyaya yazar; zsh bu dosyayı %@ dosyasındaki tek bir satır aracılığıyla okur, bu yüzden Peel sizin dosyanızı hiçbir zaman değiştirmez. Komut bu satırı dosyanızın sonuna ekler. Dosyanızda fzf-tab gibi araçları yüklüyorsanız, satırı bunları yükleyen satırların üstüne taşıyın, çünkü bu araçların ayarlarının Peel’in ayarlarından sonra gelmesi gerekir. Tümünü Kapat düğmesi Peel’in dosyasını boşaltır ve satır artık hiçbir şey yapmaz."
+            "value" : "Peel bu ayarları yalnızca kendine ait bir dosyaya yazar; zsh bu dosyayı %@ dosyasındaki tek bir satır aracılığıyla okur, bu yüzden Peel sizin dosyanızı hiçbir zaman değiştirmez. Komut bu satırı dosyanızın sonuna ekler. Dosyanızda fzf-tab gibi araçları yüklüyorsanız, satırı bunları yükleyen satırların üstüne taşıyın, çünkü bu araçların ayarlarının Peel’in ayarlarından sonra gelmesi gerekir; ancak zsh-completions satırlarını Peel’in satırının üstünde tutun, yoksa her yeni pencere tamamlama önbelleğini yeniden oluşturur. Tümünü Kapat düğmesi Peel’in dosyasını boşaltır ve satır artık hiçbir şey yapmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel записує ці налаштування лише у власний файл, який zsh читає завдяки одному рядку в %@, тож Peel ніколи не змінює ваш власний файл. Команда додає цей рядок у кінець файлу. Якщо ви завантажуєте там інструменти, як-от fzf-tab, перемістіть цей рядок над ними, бо їхні налаштування мають стояти після налаштувань Peel. Кнопка «Вимкнути всі» очищає файл Peel, і тоді цей рядок нічого не робить."
+            "value" : "Peel записує ці налаштування лише у власний файл, який zsh читає завдяки одному рядку в %@, тож Peel ніколи не змінює ваш власний файл. Команда додає цей рядок у кінець файлу. Якщо ви завантажуєте там інструменти, як-от fzf-tab, перемістіть цей рядок над ними, бо їхні налаштування мають стояти після налаштувань Peel, але рядки zsh-completions залиште над ним, інакше кожне нове вікно знову створюватиме кеш доповнень. Кнопка «Вимкнути всі» очищає файл Peel, і тоді цей рядок нічого не робить."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只将这些设置写入它自己的文件，zsh通过%@中的一行读取该文件，因此Peel绝不会更改你自己的文件。这条命令会将这一行添加到文件末尾。如果你在该文件中载入fzf-tab等工具，请将这一行移到载入它们的那些行上方，因为它们的设置必须位于Peel的设置之后。“全部关闭”会清空Peel的文件，届时这一行将不起任何作用。"
+            "value" : "Peel只将这些设置写入它自己的文件，zsh通过%@中的一行读取该文件，因此Peel绝不会更改你自己的文件。这条命令会将这一行添加到文件末尾。如果你在该文件中载入fzf-tab等工具，请将这一行移到载入它们的那些行上方，因为它们的设置必须位于Peel的设置之后，但请将zsh-completions的那几行保留在这一行上方，否则每个新窗口都会重新构建补全缓存。“全部关闭”会清空Peel的文件，届时这一行将不起任何作用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只會將這些設定寫入它自己的檔案，zsh則透過%@中的一行讀取該檔案，因此Peel絕不會更改你自己的檔案。此指令會將這一行加在檔案結尾。如果你在自己的檔案中載入fzf-tab等工具，請將這一行移到載入它們的設定行上方，因為它們的設定必須排在Peel的設定之後。「全部關閉」會清空Peel的檔案，這一行便不再有任何作用。"
+            "value" : "Peel只會將這些設定寫入它自己的檔案，zsh則透過%@中的一行讀取該檔案，因此Peel絕不會更改你自己的檔案。此指令會將這一行加在檔案結尾。如果你在自己的檔案中載入fzf-tab等工具，請將這一行移到載入它們的設定行上方，因為它們的設定必須排在Peel的設定之後，但請將zsh-completions的設定行留在這一行上方，否則每個新視窗都會重新建立補齊快取。「全部關閉」會清空Peel的檔案，這一行便不再有任何作用。"
           }
         }
       }
@@ -135171,108 +135171,108 @@
         }
       }
     },
-    "Saving the history locks the file the system’s way, so windows that save at the same time don’t damage it." : {
+    "Saving the history locks the file the system’s way rather than zsh’s own, which zsh’s manual says can be faster and avoids damage to a history on a network disk." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Při ukládání historie se soubor zamyká systémovým způsobem, takže ho okna, která ukládají ve stejnou chvíli, nepoškodí."
+            "value" : "Při ukládání historie se soubor zamyká systémovým způsobem místo vlastního způsobu zsh, což podle manuálu zsh může být rychlejší a zabraňuje poškození historie na síťovém disku."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beim Sichern des Verlaufs wird die Datei so gesperrt, wie das System es vorsieht, sodass Fenster, die gleichzeitig sichern, sie nicht beschädigen."
+            "value" : "Beim Sichern des Verlaufs wird die Datei so gesperrt, wie das System es vorsieht, statt auf die zsh-eigene Weise, was laut dem Handbuch von zsh schneller sein kann und Schäden an einem Verlauf auf einem Netzwerkvolume vermeidet."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Al guardar el historial, el archivo se bloquea con el método del sistema, así que las ventanas que lo guardan a la vez no lo dañan."
+            "value" : "Al guardar el historial, el archivo se bloquea con el método del sistema en vez de con el propio de zsh, lo que, según el manual de zsh, puede ser más rápido y evita que se dañe un historial guardado en un disco de red."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’enregistrement de l’historique verrouille le fichier à la manière du système, pour que des fenêtres qui enregistrent en même temps ne l’endommagent pas."
+            "value" : "L’enregistrement de l’historique verrouille le fichier à la manière du système plutôt qu’à celle de zsh, ce qui, selon le manuel de zsh, peut être plus rapide et évite d’endommager un historique stocké sur un disque en réseau."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il salvataggio della cronologia blocca il file nel modo previsto dal sistema, così le finestre che salvano contemporaneamente non lo danneggiano."
+            "value" : "Il salvataggio della cronologia blocca il file nel modo previsto dal sistema anziché in quello di zsh, il che, secondo il manuale di zsh, può essere più veloce ed evita danni alla cronologia quando si trova su un disco di rete."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "履歴の保存時に、システム標準の方法でファイルをロックするため、複数のウインドウが同時に保存してもファイルが壊れません。"
+            "value" : "履歴の保存時に、zsh独自の方法ではなくシステム標準の方法でファイルをロックします。zshのマニュアルによると、この方法はより高速な場合があり、ネットワークディスク上の履歴が壊れるのを防ぎます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "명령 기록을 저장할 때 시스템 방식으로 파일을 잠그므로, 여러 윈도우가 동시에 저장해도 파일이 손상되지 않습니다."
+            "value" : "명령 기록을 저장할 때 zsh 자체 방식 대신 시스템 방식으로 파일을 잠그며, zsh 설명서에 따르면 이 방식은 더 빠를 수 있고 네트워크 디스크에 있는 명령 기록의 손상을 방지합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bij het bewaren van de geschiedenis wordt het bestand vergrendeld op de manier van het systeem, zodat vensters die tegelijk bewaren het niet beschadigen."
+            "value" : "Bij het bewaren van de geschiedenis wordt het bestand vergrendeld op de manier van het systeem in plaats van op de eigen manier van zsh, wat volgens de handleiding van zsh sneller kan zijn en voorkomt dat een geschiedenisbestand op een netwerkschijf beschadigd raakt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przy zachowywaniu historii plik jest blokowany mechanizmem systemowym, więc okna zachowujące ją w tym samym czasie go nie uszkodzą."
+            "value" : "Przy zachowywaniu historii plik jest blokowany mechanizmem systemowym, a nie własnym mechanizmem zsh, co według podręcznika zsh może być szybsze i zapobiega uszkodzeniu historii przechowywanej na dysku sieciowym."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ao salvar o histórico, o zsh bloqueia o arquivo pelo método do próprio sistema, para que janelas que salvam ao mesmo tempo não o danifiquem."
+            "value" : "Ao salvar o histórico, o zsh bloqueia o arquivo pelo método do próprio sistema, e não pelo do próprio zsh, o que, segundo o manual do zsh, pode ser mais rápido e evita danos a um histórico guardado em um disco de rede."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La salvarea istoricului, fișierul este blocat prin mecanismul sistemului, așa că ferestrele care salvează în același timp nu îl deteriorează."
+            "value" : "La salvarea istoricului, fișierul este blocat prin mecanismul sistemului în locul celui propriu al zsh, ceea ce, conform manualului zsh, poate fi mai rapid și evită deteriorarea unui istoric aflat pe un disc de rețea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "При сохранении истории файл блокируется средствами системы, поэтому окна, сохраняющие историю одновременно, не повредят его."
+            "value" : "При сохранении истории файл блокируется средствами системы, а не средствами самого zsh, что, как сказано в руководстве zsh, может быть быстрее и предотвращает повреждение истории на сетевом диске."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När historiken sparas låses filen på systemets eget sätt, så att fönster som sparar samtidigt inte skadar den."
+            "value" : "När historiken sparas låses filen på systemets eget sätt i stället för på det sätt som zsh själv använder, vilket enligt zsh-manualen kan gå snabbare och undviker skador på historiken när den ligger på en nätverksskiva."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçmiş kaydedilirken dosya, sistemin kendi yöntemiyle kilitlenir; böylece aynı anda kaydeden pencereler dosyaya zarar vermez."
+            "value" : "Geçmiş kaydedilirken dosya, zsh kabuğunun kendi yöntemi yerine sistemin kendi yöntemiyle kilitlenir; zsh kılavuzuna göre bu daha hızlı olabilir ve ağ diskindeki bir geçmiş dosyasının zarar görmesini önler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Під час збереження історії файл блокується засобами системи, тож вікна, які зберігають історію одночасно, не пошкодять його."
+            "value" : "Під час збереження історії файл блокується засобами системи, а не власними засобами zsh, що, як зазначено в посібнику zsh, може бути швидше й запобігає пошкодженню історії на мережевому диску."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保存历史记录时会以系统的方式锁定文件，因此同时保存的多个窗口不会损坏该文件。"
+            "value" : "保存历史记录时会以系统的方式锁定文件，而不是以zsh自己的方式；zsh的手册指出，这样可能更快，并能避免网络磁盘上的历史记录损坏。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "儲存指令記錄時會以系統的方式鎖定檔案，因此同時儲存的多個視窗不會損壞它。"
+            "value" : "儲存指令記錄時會以系統的方式鎖定檔案，而非zsh自己的方式，zsh的手冊指出這種方式可能更快，也能避免網路磁碟上的指令記錄損壞。"
           }
         }
       }
@@ -181244,7 +181244,7 @@
         }
       }
     },
-    "What History forgets, it can’t put back afterwards." : {
+    "What History forgets, it can’t put back afterward." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -205250,14 +205250,8 @@
         }
       }
     },
-    "macOS installed %@ with %@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension." : {
+    "macOS installed %@ with %@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension." : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -205268,6 +205262,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS hat die Systemerweiterung „%@“ mit „%@“ installiert, und nur macOS kann sie entfernen. Lege die App im Finder in den Papierkorb, um macOS aufzufordern, auch die Erweiterung zu entfernen. Falls die Erweiterung danach noch aufgeführt ist, öffne „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, wähle „Nach Kategorie“, klicke neben „Netzwerkerweiterungen“ auf die Taste „Info“, klicke dann neben der Erweiterung auf die Taste „Mehr“ und wähle „Erweiterung löschen“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
           }
         },
         "es" : {
@@ -205474,14 +205474,8 @@
         }
       }
     },
-    "macOS installed %@ with %@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension." : {
+    "macOS installed %@ with %@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension." : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -205492,6 +205486,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS hat die Systemerweiterungen %@ mit „%@“ installiert, und nur macOS kann sie entfernen. Lege die App im Finder in den Papierkorb, um macOS aufzufordern, auch die Erweiterungen zu entfernen. Falls sie danach noch aufgeführt sind, öffne „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, wähle „Nach Kategorie“, klicke neben „Netzwerkerweiterungen“ auf die Taste „Info“, klicke dann neben jeder der genannten Erweiterungen auf die Taste „Mehr“ und wähle „Erweiterung löschen“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS installed %1$@ with %2$@, and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension."
           }
         },
         "es" : {

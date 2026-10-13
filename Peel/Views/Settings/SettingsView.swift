@@ -412,7 +412,7 @@ private struct GeneralSettingsView: View {
                         CopyButton(text: command)
                     } label: {
                         titled("Remove Peel",
-                               "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, and Saved Settings.")
+                               "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, Saved Settings, and the shell and ssh settings from the Terminal page, which zsh and ssh then stop reading.")
                     }
                     Text(verbatim: command)
                         .font(.caption.monospaced())

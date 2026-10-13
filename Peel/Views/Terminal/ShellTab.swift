@@ -85,7 +85,7 @@ private struct ShellLineRow: View {
                     }
                     InfoNote(
                         name: String(localized: "Peel’s settings file"),
-                        detail: Text("Peel writes these settings only in a file of its own, which zsh reads through one line in \(startupFile.abbreviatedPath), so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s. Turn All Off empties Peel’s file, and the line then does nothing."),
+                        detail: Text("Peel writes these settings only in a file of its own, which zsh reads through one line in \(startupFile.abbreviatedPath), so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s, but keep zsh-completions’ lines above it, or every new window builds the completion cache again. Turn All Off empties Peel’s file, and the line then does nothing."),
                         footnote: Text(verbatim: shell.file.abbreviatedPath)
                     )
                 }

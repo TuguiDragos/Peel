@@ -101,7 +101,7 @@ struct HistoryDetailView: View {
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("What History forgets, it can’t put back afterwards.")
+                Text("What History forgets, it can’t put back afterward.")
             }
         }
 

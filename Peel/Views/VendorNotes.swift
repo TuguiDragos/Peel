@@ -26,9 +26,9 @@ struct SystemExtensionNotice: View {
         if #available(macOS 27, *) {
             return switch (isOne, extensions.systemSettingsDeletesThem) {
             case (true, true):
-                Text("macOS installed \(names) with \(app.name), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension.")
+                Text("macOS installed \(names) with \(app.name), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension.")
             case (false, true):
-                Text("macOS installed \(names) with \(app.name), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterwards, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension.")
+                Text("macOS installed \(names) with \(app.name), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension.")
             case (true, false):
                 Text("macOS installed \(names) with \(app.name), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too.")
             case (false, false):
