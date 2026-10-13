@@ -482,11 +482,14 @@ struct AppDetailView: View {
                 let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
                 let result = await plan.move(request)
                 let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
+                let left = plan.uninstallation?.leftForAnAdministrator(after: result) ?? []
+                await LeftForAnAdministrator().record(left)
                 outcome.report(
                     result,
                     privacy: privacy,
                     keptTheirFiles: keptItsFiles ? [plan.app.name] : [],
-                    startingFromTheTrash: result.startsFromTheTrash.contains(plan.app.url) ? [plan.app.name] : []
+                    startingFromTheTrash: result.startsFromTheTrash.contains(plan.app.url) ? [plan.app.name] : [],
+                    leftForAnAdministrator: left.count
                 )
                 if plan.removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
                     _ = await DockTiles().takeOut([plan.app.url])

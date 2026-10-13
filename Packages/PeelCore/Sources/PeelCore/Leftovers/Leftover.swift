@@ -265,13 +265,17 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     public let requiresPrivileges: Bool
     /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
     public var holdsDamagedSettings = false
+    /// True when only an administrator can move it, from a place the helper may not move it from, and nothing else
+    /// holds it back.
+    public var isLeftForAnAdministrator = false
 
     public var id: URL { url }
 
     func sharing(with apps: [String]) -> Leftover {
         Leftover(
             url: url, kind: kind, match: match.sharing(with: apps), size: size, isMeasured: isMeasured,
-            requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings
+            requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
+            isLeftForAnAdministrator: isLeftForAnAdministrator
         )
     }
 
@@ -281,7 +285,8 @@ public struct Leftover: Sendable, Hashable, Identifiable {
         guard match.heldBack?.cannotBeMoved != true else { return self }
         return Leftover(
             url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
-            requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings
+            requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
+            isLeftForAnAdministrator: isLeftForAnAdministrator
         )
     }
 }
@@ -306,12 +311,15 @@ public struct LeftoverScan: Sendable {
     public var needsFullDiskAccess = false
 
     /// Holds back, as `beyondTheHelper`, each item that needs an administrator and that the helper would refuse
-    /// once `app` has moved. An item already held back by a reason that blocks the move keeps its reason.
+    /// once `app` has moved. An item already held back by a reason that blocks the move keeps its reason, and one
+    /// held back for nothing else is left for an administrator.
     func holdingBack(beyond reach: HelperReach, leaving app: URL) -> LeftoverScan {
         LeftoverScan(
             leftovers: leftovers.map { leftover in
                 guard leftover.requiresPrivileges, reach.isBeyond(leftover.url, leaving: app) else { return leftover }
-                return leftover.heldBack(.beyondTheHelper)
+                var held = leftover.heldBack(.beyondTheHelper)
+                held.isLeftForAnAdministrator = leftover.match.heldBack == nil
+                return held
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,

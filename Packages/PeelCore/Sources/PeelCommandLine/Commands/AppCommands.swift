@@ -304,6 +304,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let appMoved: Bool?
         let needsAdministrator: Int
         let needsReview: Int
+        let leftForAnAdministrator: Int
         let unreadableLocations: [String]
 
         private enum CodingKeys: String, CodingKey {
@@ -316,6 +317,7 @@ struct UninstallCommand: AsyncParsableCommand {
             case appMoved
             case needsAdministrator
             case needsReview
+            case leftForAnAdministrator
             case unreadableLocations
         }
 
@@ -331,6 +333,7 @@ struct UninstallCommand: AsyncParsableCommand {
             try container.encode(appMoved, forKey: .appMoved)
             try container.encode(needsAdministrator, forKey: .needsAdministrator)
             try container.encode(needsReview, forKey: .needsReview)
+            try container.encode(leftForAnAdministrator, forKey: .leftForAnAdministrator)
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
         }
     }
@@ -357,6 +360,7 @@ struct UninstallCommand: AsyncParsableCommand {
             appMoved: result.map { result in result.trashed.contains { $0.originalURL == plan.app } },
             needsAdministrator: plan.needsAdministrator,
             needsReview: plan.needsReview,
+            leftForAnAdministrator: plan.leftForAnAdministrator,
             unreadableLocations: unreadable.map { Output.path($0.url) }
         )
     }
@@ -607,7 +611,9 @@ struct UninstallCommand: AsyncParsableCommand {
             // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
             let reset = resetPrivacy ? await PrivacyReset.reset([target], beforeMovingWith: service).first?.result : nil
             let result = await plan.move(using: service)
-            return (reset, result, await plan.record(result, from: target.name))
+            let recorded = await plan.record(result, from: target.name)
+            await LeftForAnAdministrator().record(uninstallation.leftForAnAdministrator(after: result))
+            return (reset, result, recorded)
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }
         if isInTheDock, Self.takesOutDockIcon(of: target, after: result, keeping: keepInDock) {
@@ -660,6 +666,10 @@ struct UninstallCommand: AsyncParsableCommand {
         if plan.needsAdministrator > 0 {
             let them = plan.needsAdministrator == 1 ? "it" : "them"
             notes.append("\(Output.count(plan.needsAdministrator, "item needs", "items need")) administrator access and will stay. Remove \(them) with the Peel app.")
+        }
+        if plan.leftForAnAdministrator > 0 {
+            let them = plan.leftForAnAdministrator == 1 ? "it" : "them"
+            notes.append("\(Output.count(plan.leftForAnAdministrator, "item needs", "items need")) an administrator, and Peel's helper isn't allowed to move \(them). Once \(Output.plain(app.name)) is in the Trash, Orphaned Files in the Peel app lists \(them) under Needs an Administrator, with how to remove \(them).")
         }
         if plan.needsReview > 0 {
             let them = plan.needsReview == 1 ? "it" : "them"

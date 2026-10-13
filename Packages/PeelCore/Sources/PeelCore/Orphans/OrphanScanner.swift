@@ -16,6 +16,7 @@ public struct OrphanScanner: Sendable {
     /// The most folders listed per location while looking inside folders no orphan is named after.
     private let nestedFolderLimit: Int
     private let systemExtensions: AppExtensions.SystemExtensionsAnswer
+    private let installedByApple: LeftoverScanner.InstalledByApple
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
         self.init(
@@ -32,7 +33,8 @@ public struct OrphanScanner: Sendable {
         systemApps: [InstalledApp]? = nil,
         walk: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
         nestedFolderLimit: Int = NestedSearch.folderLimit,
-        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
+        installedByApple: @escaping LeftoverScanner.InstalledByApple = { await PackageReceipts.isInstalledByApple($0) }
     ) {
         self.environment = environment
         self.exclusions = exclusions
@@ -41,6 +43,7 @@ public struct OrphanScanner: Sendable {
         self.walk = walk
         self.nestedFolderLimit = nestedFolderLimit
         self.systemExtensions = systemExtensions
+        self.installedByApple = installedByApple
     }
 
     private var launchdFolders: [URL] {
@@ -59,7 +62,8 @@ public struct OrphanScanner: Sendable {
         installedApps: [InstalledApp],
         remembered: [RememberedApp] = [],
         running: Set<String> = [],
-        owners: [String: String] = [:]
+        owners: [String: String] = [:],
+        leftForAnAdministrator records: [LeftForAnAdministrator.Record] = []
     ) async -> OrphanScan {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
         let (installedApps, gone) = Self.split(remembered, installedApps: installedApps)
@@ -161,10 +165,7 @@ public struct OrphanScanner: Sendable {
                 item.heldBack = .signInPlugIn
                 return (entry.identifier, item)
             }
-            guard item.requiresPrivileges, item.leftAlone == nil, reach.isBeyond(item.url) else { return entry }
-            item.isLeftForAnAdministrator = item.heldBack == nil
-            item.heldBack = .beyondTheHelper
-            return (entry.identifier, item)
+            return (entry.identifier, Self.holdingBack(item, beyond: reach))
         }
         let teams = Set(installedApps.compactMap(\.teamIdentifier))
         let byPath: (SearchLocation, SearchLocation) -> Bool = {
@@ -173,13 +174,115 @@ public struct OrphanScanner: Sendable {
         let (groups, apart) = Self.settingApart(
             Self.group(kept, remembered: gone, installedTeams: teams, running: running)
         )
+        let recorded = await recorded(
+            records,
+            listed: Set(kept.map { ItemKey($0.1.url) }),
+            installedApps: installedApps,
+            ownership: ownership,
+            reach: reach
+        )
         return OrphanScan(
             groups: groups,
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
             cutShortLocations: cutShortLocations.sorted(by: byPath),
-            forAnAdministrator: apart
+            forAnAdministrator: (Self.claiming(apart, by: records) + recorded)
+                .sorted { Self.comesBefore($0.item, $1.item) }
         )
+    }
+
+    /// What the scan set apart, each item an uninstall recorded with that uninstall's apps and claim, unless the claim
+    /// was only a hint, which says less than what the scan found itself.
+    static func claiming(
+        _ apart: [AdministratorItem],
+        by records: [LeftForAnAdministrator.Record]
+    ) -> [AdministratorItem] {
+        let byItem = LeftForAnAdministrator.Record.merged(records)
+        return apart.map { entry in
+            guard let record = byItem[ItemKey(entry.item.url)], record.confidence >= .likely else { return entry }
+            return AdministratorItem(
+                item: entry.item,
+                apps: record.apps.map(\.name),
+                claim: AdministratorItem.Claim(reason: record.reason, confidence: record.confidence)
+            )
+        }
+    }
+
+    /// What uninstalls left for an administrator that the scan didn't list, judged as the scan judges what it finds.
+    /// A record is a file any process can write, so only a place an uninstall searches counts, the guard every move
+    /// asks judges it too, and what one of Apple's packages installed is never listed.
+    private func recorded(
+        _ records: [LeftForAnAdministrator.Record],
+        listed: Set<ItemKey>,
+        installedApps: [InstalledApp],
+        ownership: AppOwnership,
+        reach: HelperReach
+    ) async -> [AdministratorItem] {
+        let home = environment.homeDirectory.path(percentEncoded: false)
+        let installed = Set(installedApps.map { $0.reference.lowercased() })
+        let merged = LeftForAnAdministrator.Record.merged(records)
+        var seen: Set<ItemKey> = []
+        let unlisted = records.compactMap { record -> LeftForAnAdministrator.Record? in
+            let item = ItemKey(URL(filePath: record.path))
+            guard !listed.contains(item), seen.insert(item).inserted else { return nil }
+            return merged[item]
+        }
+        let places = environment.locations.map { PathPattern.comparablePath(of: $0.url) }
+        let searched = unlisted.filter { record in
+            let path = PathPattern.comparablePath(of: URL(filePath: record.path))
+            return places.contains { PathComponents.isPath(path, inside: $0) }
+        }
+        let removalGuard = searched.isEmpty ? nil : RemovalGuard(environment: environment, exclusions: exclusions)
+        let homePath = PathPattern.comparablePath(of: environment.homeDirectory)
+        var candidates: [LeftForAnAdministrator.Record] = []
+        for record in searched where !Task.isCancelled {
+            let url = URL(filePath: record.path)
+            let name = url.lastPathComponent
+            let judged = !record.apps.contains { installed.contains($0.reference.lowercased()) }
+                && !record.apps.contains { exclusions.excludes(bundleIdentifier: $0.reference) }
+                && Self.isAFileAFolderOrALink(url) && !FileAccess.cannotBeRemoved(url)
+                && !ProtectedData.refuses(url.path(percentEncoded: false), home: home)
+                && !exclusions.excludes(url) && !exclusions.holds(url)
+                && !record.apps.contains { app in
+                    let identifier = Identifier.isValid(app.reference)
+                        ? app.reference : LeftoverMatcher.key(from: name, kind: record.kind)
+                    return ownership.isClaimed(fileName: name, kind: record.kind, identifier: identifier)
+                }
+                && removalGuard?.refusal(of: url) == nil
+            guard judged else { continue }
+            let isInTheHome = PathComponents.isPath(PathPattern.comparablePath(of: url), atOrInside: homePath)
+            if !isInTheHome, await installedByApple(url) { continue }
+            candidates.append(record)
+        }
+        let walked = await candidates.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { [walk] record in
+            await walk(URL(filePath: record.path))
+        }
+        return zip(candidates, walked).compactMap { record, contents in
+            let url = URL(filePath: record.path)
+            let item = Self.holdingBack(
+                Self.item(
+                    at: url, kind: record.kind, contents: contents,
+                    parent: ParentAccess(url.deletingLastPathComponent()), home: home
+                ),
+                beyond: reach
+            )
+            guard item.isLeftForAnAdministrator else { return nil }
+            return AdministratorItem(
+                item: item,
+                apps: record.apps.map(\.name),
+                claim: AdministratorItem.Claim(reason: record.reason, confidence: record.confidence)
+            )
+        }
+    }
+
+    /// The item held back as `beyondTheHelper` when it needs an administrator where the helper may not move it, and
+    /// left for an administrator when nothing else held it back.
+    static func holdingBack(_ item: OrphanItem, beyond reach: HelperReach) -> OrphanItem {
+        guard item.requiresPrivileges, item.leftAlone == nil, reach.isBeyond(item.url) else { return item }
+        var item = item
+        item.isLeftForAnAdministrator = item.heldBack == nil
+        item.heldBack = .beyondTheHelper
+        return item
     }
 
     /// Takes out of `groups` what only an administrator can move, each with the app it was found for. A group Peel is
@@ -201,7 +304,7 @@ public struct OrphanScanner: Sendable {
                 confidence: group.confidence
             )
         }
-        return (kept, apart.sorted { comesBefore($0.item, $1.item) })
+        return (kept, apart)
     }
 
     /// The order a list of orphaned items keeps: the largest first, what could not be measured before all, then by
@@ -618,49 +721,66 @@ public struct OrphanScanner: Sendable {
         let walked = await candidates.map(\.url).concurrentMap(width: LeftoverScanner.concurrentMeasurements) {
             await walk($0)
         }
-        var found: [(identifier: String, item: OrphanItem)] = []
-        for (candidate, contents) in zip(candidates, walked) {
-            let url = candidate.url
-            // The item's own date changes when something is taken out of it, but not when a file inside is
-            // rewritten in place, so the newest date inside comes from the walk.
-            let own = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
-            let path = url.path(percentEncoded: false)
-            let heldBack: HoldBack? = if location.kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
-                .holdsDocuments
-            } else if ProtectedData.holds(path, home: home) || ProtectedData.holdsABrowserWallet(path) {
-                .holdsKeys
-            } else if ProtectedData.holdsALibrary(path) {
-                .holdsALibrary
-            } else if ProtectedData.holdsWorkKeptInACache(path) {
-                .holdsWorkKeptInACache
-            } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home) {
-                keptOnlyHere
-            } else if candidate.folder?.holdsWork(at: url) == true {
-                .holdsWorkMadeWithTheApp
-            } else if location.kind == .logs, CrashReport.isOne(url) {
-                .crashReport
-            } else {
-                // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
-                HoldBack.seen(in: contents) ?? (location.kind == .sharedFolder ? .sharedWithEveryone : nil)
-                    ?? (candidate.namedAfter != nil ? .namedLikeTheApp : nil)
-            }
-            let item = OrphanItem(
-                url: url,
-                kind: location.kind,
-                size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
-                modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
-                requiresPrivileges: candidate.parent.requiresPrivileges(toRemove: url),
-                heldBack: heldBack,
-                namedAfter: candidate.namedAfter,
-                holdsDamagedSettings: location.kind == .preferences && PreferenceFile.isDamaged(url),
-                productFolder: candidate.folder
+        let found = zip(candidates, walked).map { candidate, contents in
+            (
+                identifier: candidate.identifier,
+                item: item(
+                    at: candidate.url, kind: location.kind, contents: contents, parent: candidate.parent, home: home,
+                    namedAfter: candidate.namedAfter, folder: candidate.folder
+                )
             )
-            found.append((candidate.identifier, item))
         }
         return .found(
             found,
             cutShort: inside.wasCutShort ? location : nil,
             unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }
+        )
+    }
+
+    /// The orphaned item at `url`, with its size and newest write from its walk, held back for what it holds, where
+    /// it is, and what its walk saw.
+    private static func item(
+        at url: URL,
+        kind: SearchLocation.Kind,
+        contents: FolderContents?,
+        parent: ParentAccess,
+        home: String,
+        namedAfter: String? = nil,
+        folder: ProductFolder? = nil
+    ) -> OrphanItem {
+        // The item's own date changes when something is taken out of it, but not when a file inside is
+        // rewritten in place, so the newest date inside comes from the walk.
+        let own = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+        let path = url.path(percentEncoded: false)
+        let heldBack: HoldBack? = if kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
+            .holdsDocuments
+        } else if ProtectedData.holds(path, home: home) || ProtectedData.holdsABrowserWallet(path) {
+            .holdsKeys
+        } else if ProtectedData.holdsALibrary(path) {
+            .holdsALibrary
+        } else if ProtectedData.holdsWorkKeptInACache(path) {
+            .holdsWorkKeptInACache
+        } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home) {
+            keptOnlyHere
+        } else if folder?.holdsWork(at: url) == true {
+            .holdsWorkMadeWithTheApp
+        } else if kind == .logs, CrashReport.isOne(url) {
+            .crashReport
+        } else {
+            // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
+            HoldBack.seen(in: contents) ?? (kind == .sharedFolder ? .sharedWithEveryone : nil)
+                ?? (namedAfter != nil ? .namedLikeTheApp : nil)
+        }
+        return OrphanItem(
+            url: url,
+            kind: kind,
+            size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
+            modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
+            requiresPrivileges: parent.requiresPrivileges(toRemove: url),
+            heldBack: heldBack,
+            namedAfter: namedAfter,
+            holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url),
+            productFolder: folder
         )
     }
 }

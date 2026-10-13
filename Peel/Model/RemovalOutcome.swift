@@ -23,22 +23,25 @@ final class RemovalOutcome {
     private(set) var driversAwaitingARestart: [String] = []
     /// The apps that moved whose background items macOS still starts at login from the Trash (`TrashResult`).
     private(set) var appsStartingFromTheTrash: [String] = []
+    /// How many of the items the removal left stay for an administrator, which Orphaned Files lists.
+    private(set) var leftForAnAdministrator = 0
     private(set) var movedCount = 0
 
     var isEmpty: Bool {
         failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
-            && appsStartingFromTheTrash.isEmpty
+            && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0
     }
 
-    /// Keeps what the removal could not do, and what a restart or an emptied Trash finishes, for the alert.
-    /// `privacy` is every reset the removal ran, and `PrivacyReset.worthTelling` picks which of them to tell. A
-    /// removal with nothing to tell changes nothing.
+    /// Keeps what the removal could not do, what a restart or an emptied Trash finishes, and what stays for an
+    /// administrator, for the alert. `privacy` is every reset the removal ran, and `PrivacyReset.worthTelling` picks
+    /// which of them to tell. A removal with nothing to tell changes nothing.
     func report(
         _ result: TrashResult,
         privacy resets: [(app: InstalledApp, result: PrivacyReset.Result)] = [],
         appsToQuit: [String] = [],
         keptTheirFiles: [String] = [],
-        startingFromTheTrash: [String] = []
+        startingFromTheTrash: [String] = [],
+        leftForAnAdministrator: Int = 0
     ) {
         let privacy = PrivacyReset.worthTelling(resets, after: result).map {
             Privacy(app: $0.app.name, result: $0.result)
@@ -46,7 +49,7 @@ final class RemovalOutcome {
         let drivers = AudioDrivers.awaitingARestart(after: result)
         guard
             !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty || !drivers.isEmpty
-                || !startingFromTheTrash.isEmpty
+                || !startingFromTheTrash.isEmpty || leftForAnAdministrator > 0
         else { return }
         failures = result.failures
         movedCount = result.trashed.count
@@ -54,6 +57,7 @@ final class RemovalOutcome {
         self.appsToQuit = appsToQuit
         self.keptTheirFiles = keptTheirFiles
         driversAwaitingARestart = drivers
+        self.leftForAnAdministrator = leftForAnAdministrator
         // Two copies of an app share its name and its background items.
         var named: Set<String> = []
         appsStartingFromTheTrash = startingFromTheTrash.filter { named.insert($0).inserted }
@@ -67,5 +71,6 @@ final class RemovalOutcome {
         keptTheirFiles = []
         driversAwaitingARestart = []
         appsStartingFromTheTrash = []
+        leftForAnAdministrator = 0
     }
 }

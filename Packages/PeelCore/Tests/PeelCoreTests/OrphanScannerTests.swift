@@ -32,6 +32,37 @@ struct OrphanScannerTests {
         #expect(stop.askedAfter == 0)
     }
 
+    @Test func aScanStoppedWhileMeasuringWhatAnUninstallLeftStops() async throws {
+        let directory = try TemporaryDirectory()
+        let left = try directory.directory("root/Library/Example Audio/Gone")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            userCacheDirectory: directory.url.appending(path: "var/C", directoryHint: .isDirectory),
+            userTemporaryDirectory: directory.url.appending(path: "var/T", directoryHint: .isDirectory)
+        )
+        let unanswered = Unanswered()
+        let scanner = OrphanScanner(
+            environment: environment,
+            isRegisteredApp: { _ in false },
+            systemApps: [],
+            walk: unanswered.walk,
+            installedByApple: { _ in false }
+        )
+        let record = LeftForAnAdministrator.Record(
+            path: PathPattern.comparablePath(of: left), kind: .library,
+            apps: [.init(reference: "org.example.gone", name: "Gone")], reason: .bundleIdentifier, confidence: .certain
+        )
+
+        let stop = try await unanswered.stop {
+            _ = await scanner.scan(installedApps: [], leftForAnAdministrator: [record])
+        }
+
+        #expect(stop.took < .seconds(1))
+        #expect(stop.askedBefore == 1)
+        #expect(stop.askedAfter == 0)
+    }
+
 
     /// Launch Services is asked about apps outside the scanned folders. It knows an app by its bundle identifier,
     /// never by a group container's name, which has a team or `group.` in front.
@@ -361,6 +392,93 @@ struct OrphanScannerTests {
         #expect(try item(served).leftAlone == nil)
         #expect(try item(beyond).requiresPrivileges)
         #expect(try item(beyond).leftAlone == .beyondTheHelper)
+    }
+
+    @Test(.permissionsHold) func listsWhatAnUninstallLeftForAnAdministrator() async throws {
+        let directory = try TemporaryDirectory()
+        let left = try directory.directory("root/Library/Example Audio/Hexachord")
+        let hinted = try directory.directory("root/Library/Example Audio/Updater")
+        let found = try directory.directory("root/Library/org.example.hexachord")
+        let tritone = try directory.directory("root/Library/org.example.tritone")
+        let back = try directory.directory("root/Library/Example Audio/Reinstalled")
+        let claimed = try directory.directory("root/Library/Example Audio/Installed")
+        let excluded = try directory.directory("root/Library/Example Audio/Excluded")
+        let apples = try directory.directory("root/Library/Example Audio/Apples")
+        let outside = try directory.directory("root/opt/org.example.hexachord")
+        let missing = directory.url.appending(path: "root/Library/Example Audio/Missing")
+        let locked = [left, hinted, found, tritone, back, claimed, excluded, apples, outside]
+        for folder in locked {
+            try directory.setPermissions(0o555, of: folder)
+        }
+        defer {
+            for folder in locked {
+                try? FileManager.default.setAttributes(
+                    [.posixPermissions: 0o755],
+                    ofItemAtPath: folder.path(percentEncoded: false)
+                )
+            }
+        }
+        let path = { (url: URL) in PathPattern.comparablePath(of: url) }
+        func record(
+            _ url: URL, app: String = "org.example.hexachord", name: String = "Hexachord",
+            confidence: MatchConfidence = .likely
+        ) -> LeftForAnAdministrator.Record {
+            LeftForAnAdministrator.Record(
+                path: path(url), kind: .library, apps: [.init(reference: app, name: name)], reason: .homebrewCask,
+                confidence: confidence
+            )
+        }
+        let hexachord = RememberedApp(
+            bundleIdentifier: "org.example.hexachord", name: "Hexachord", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Hexachord.app"
+        )
+        let tritoneApp = RememberedApp(
+            bundleIdentifier: "org.example.tritone", name: "Tritone", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Tritone.app"
+        )
+        let scanner = OrphanScanner(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            exclusions: Exclusions(paths: [excluded]),
+            isRegisteredApp: { _ in false },
+            systemApps: [],
+            installedByApple: { [applesPath = path(apples)] in PathPattern.comparablePath(of: $0) == applesPath }
+        )
+
+        var spelledElsewhere = record(found)
+        spelledElsewhere = LeftForAnAdministrator.Record(
+            path: "/private" + path(found), kind: spelledElsewhere.kind, apps: spelledElsewhere.apps,
+            reason: spelledElsewhere.reason, confidence: spelledElsewhere.confidence
+        )
+        #expect(path(found).hasPrefix("/var/"), "the temporary folder is not under /var, so /private names it no other way")
+
+        let scan = await scanner.scan(
+            installedApps: installed,
+            remembered: [hexachord, tritoneApp],
+            leftForAnAdministrator: [
+                record(left), record(hinted, confidence: .possible), spelledElsewhere,
+                record(back, app: "com.installed.app", name: "Installed"), record(claimed), record(excluded),
+                record(missing), record(left), record(apples), record(outside), record(URL(filePath: "/private/etc/hosts")),
+                record(left, app: "org.example.other", name: "Other", confidence: .possible),
+                record(tritone, app: "org.example.other", name: "Other", confidence: .possible),
+            ]
+        )
+        let listed = Dictionary(
+            scan.forAnAdministrator.map { (path($0.item.url), $0) }, uniquingKeysWith: { first, _ in first }
+        )
+
+        #expect(scan.forAnAdministrator.count == 4)
+        #expect(Set(listed.keys) == [path(left), path(hinted), path(found), path(tritone)])
+        #expect(listed[path(left)]?.apps == ["Hexachord"])
+        #expect(listed[path(left)]?.claim == AdministratorItem.Claim(reason: .homebrewCask, confidence: .likely))
+        #expect(listed[path(hinted)]?.claim?.confidence == .possible)
+        #expect(listed[path(found)]?.claim != nil)
+        #expect(listed[path(tritone)]?.apps == ["Tritone"])
+        #expect(listed[path(tritone)]?.claim == nil)
+        #expect(listed.values.allSatisfy { $0.item.leftAlone == .beyondTheHelper })
+        #expect(!scan.groups.contains { $0.items.contains { path($0.url) == path(found) } })
     }
 
     @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveIsListedApart() async throws {

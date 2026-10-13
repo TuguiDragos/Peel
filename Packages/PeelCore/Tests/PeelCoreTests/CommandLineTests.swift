@@ -622,6 +622,35 @@ struct CommandLineTests {
         #expect(notes[4] == "1 file needs review and will stay. See it with `peel leftovers Editor --all`.")
     }
 
+    @Test func saysWhereWhatOnlyAnAdministratorCanMoveIsListed() throws {
+        let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
+        func beyond(_ path: String, sharedWith: [String] = []) -> Leftover {
+            var item = leftover(
+                URL(filePath: path), sharedWith: sharedWith, heldBack: .beyondTheHelper, requiresPrivileges: true
+            )
+            item.isLeftForAnAdministrator = true
+            return item
+        }
+        let editor = uninstallation(app: app, leftovers: [beyond("/Library/Editor"), beyond("/Library/Acme", sharedWith: ["com.acme.other"])])
+        let plan = UninstallPlan.make(editor, keepLeftovers: false, refusal: { _ in nil })
+
+        #expect(plan.leftForAnAdministrator == 1)
+        #expect(plan.needsReview == 1)
+        let notes = UninstallCommand.whatStays(
+            plan, app: app, homebrew: CaskLookup.Answer(), scan: LeftoverScan(leftovers: [], unreadableLocations: [])
+        )
+        #expect(notes == [
+            "1 item needs an administrator, and Peel's helper isn't allowed to move it. Once Editor is in the Trash, Orphaned Files in the Peel app lists it under Needs an Administrator, with how to remove it.",
+            "1 file needs review and will stay. See it with `peel leftovers Editor --all`.",
+        ])
+        #expect(UninstallPlan.make(editor, keepLeftovers: true, refusal: { _ in nil }).leftForAnAdministrator == 1)
+        let json = try Output.jsonText(
+            UninstallCommand.report(app: app, plan: plan, result: nil, privacy: nil, unreadable: [])
+        )
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        #expect(report["leftForAnAdministrator"] as? Int == 1)
+    }
+
     @Test func saysNothingWhenNothingWillStay() {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let plan = UninstallPlan.make(

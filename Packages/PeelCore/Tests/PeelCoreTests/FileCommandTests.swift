@@ -535,12 +535,24 @@ struct FileCommandTests {
     @Test func listsApartWhatOnlyAnAdministratorCanMove() throws {
         let directory = try TemporaryDirectory()
         let item = try orphan("com.example.gone", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
+        let left = try orphan("com.example.left", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
+        let hinted = try orphan("com.example.hint", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
         let scan = OrphanScan(
-            groups: [], unreadableLocations: [], forAnAdministrator: [AdministratorItem(item: item, apps: ["Gone"])]
+            groups: [],
+            unreadableLocations: [],
+            forAnAdministrator: [
+                AdministratorItem(item: item, apps: ["Gone"]),
+                AdministratorItem(item: left, apps: ["Left"], claim: .init(reason: .bundleIdentifier, confidence: .certain)),
+                AdministratorItem(item: hinted, apps: ["Synth"], claim: .init(reason: .vendorPrefix, confidence: .possible)),
+            ]
         )
 
-        #expect(OrphansCommand.administratorHeading(for: scan) == "Needs an administrator  10 bytes")
-        #expect(OrphansCommand.administratorRows(for: scan) == [["10 bytes", Output.path(item.url), "found for Gone"]])
+        #expect(OrphansCommand.administratorHeading(for: scan) == "Needs an administrator  30 bytes")
+        #expect(OrphansCommand.administratorRows(for: scan) == [
+            ["10 bytes", Output.path(item.url), "found for Gone"],
+            ["10 bytes", Output.path(left.url), "found for Left, bundle identifier"],
+            ["10 bytes", Output.path(hinted.url), "found for Synth, developer, review: possible match"],
+        ])
         #expect(OrphansCommand.notes(for: scan) == [OrphansCommand.byHand])
         let json = try Output.jsonText(OrphansCommand.report(for: scan))
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
@@ -548,6 +560,10 @@ struct FileCommandTests {
         #expect(listed.first?["path"] as? String == Output.path(item.url))
         #expect(listed.first?["size"] as? Int == 10)
         #expect(listed.first?["apps"] as? [String] == ["Gone"])
+        #expect(listed.first?["reason"] is NSNull)
+        #expect(listed.first?["confidence"] is NSNull)
+        #expect(listed.last?["reason"] as? String == "vendorPrefix")
+        #expect(listed.last?["confidence"] as? String == "possible")
     }
 
     @Test func theOrphansListSaysWhereItStoppedLookingInsideFolders() {

@@ -733,6 +733,73 @@ struct UninstallationTests {
         }
     }
 
+    @Test func leavesForAnAdministratorOnlyWhatSitsWhereAnUninstallSearches() {
+        var searched = leftover("com.example.app", requiresPrivileges: true).heldBack(.beyondTheHelper)
+        searched.isLeftForAnAdministrator = true
+        var elsewhere = Leftover(
+            url: URL(filePath: "/opt/example"),
+            kind: .elsewhere,
+            match: LeftoverMatch(reason: .homebrewCask, confidence: .likely, sharedWith: []),
+            size: 1,
+            isMeasured: true,
+            requiresPrivileges: true
+        ).heldBack(.beyondTheHelper)
+        elsewhere.isLeftForAnAdministrator = true
+
+        let plan = uninstallation(leftovers: [searched, elsewhere])
+
+        #expect(plan.leftForAnAdministrator.map(\.url) == [searched.url])
+    }
+
+    @Test(.permissionsHold) func whatOnlyAnAdministratorKeepsHereIsLeftForOneOnceTheAppIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(url: directory.url.appending(path: "root/Applications/Scribbler.app"), bundleIdentifier: "com.example.scribbler", name: "Scribbler")
+        let served = try directory.directory("root/Library/Application Support/com.example.scribbler")
+        let named = try directory.directory("root/Library/Scribbler")
+        let identified = try directory.directory("root/Library/com.example.scribbler")
+        let coin = try directory.directory("root/Library/com.example.scribbler.coin")
+        try directory.file("root/Library/com.example.scribbler.coin/wallet.dat")
+        let locked = [served, named, identified, coin]
+        for folder in locked {
+            try directory.setPermissions(0o555, of: folder)
+        }
+        defer {
+            for folder in locked {
+                try? FileManager.default.setAttributes(
+                    [.posixPermissions: 0o755],
+                    ofItemAtPath: folder.path(percentEncoded: false)
+                )
+            }
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+        func leftover(_ url: URL) throws -> Leftover {
+            try #require(
+                plan.scan.leftovers.first {
+                    PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: url)
+                }
+            )
+        }
+        let moved = TrashResult(trashed: [
+            TrashedItem(originalURL: app.url, trashedURL: directory.url.appending(path: "Trash/Scribbler.app"), date: .now),
+        ])
+
+        #expect(try leftover(identified).isLeftForAnAdministrator)
+        for url in [served, named, coin] {
+            #expect(try !leftover(url).isLeftForAnAdministrator, "\(url.lastPathComponent)")
+        }
+        #expect(plan.leftForAnAdministrator(after: TrashResult()).isEmpty)
+        let records = plan.leftForAnAdministrator(after: moved)
+        #expect(records.map(\.path) == [PathPattern.comparablePath(of: identified)])
+        #expect(records.first?.apps == [.init(reference: "com.example.scribbler", name: "Scribbler")])
+        #expect(records.first?.kind == .library)
+        #expect(records.first?.confidence == .certain)
+    }
+
     /// Many casks name `/Applications/<Name>.app` among what they delete. The app's URL ends in a slash and the
     /// cask's path does not, so they are compared as paths, and the app is never listed as its own leftover.
     @Test func doesNotListTheAppAsItsOwnLeftover() async throws {

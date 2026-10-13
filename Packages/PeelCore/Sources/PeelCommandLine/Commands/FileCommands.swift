@@ -29,6 +29,28 @@ struct OrphansCommand: AsyncParsableCommand {
             let path: String
             let size: MeasuredSize
             let apps: [String]
+            /// How the uninstall that left it found it, in `peel leftovers --json`'s words, or `null` for what the
+            /// scan found itself.
+            let reason: String?
+            let confidence: String?
+
+            private enum CodingKeys: String, CodingKey {
+                case path
+                case size
+                case apps
+                case reason
+                case confidence
+            }
+
+            /// Encodes a missing claim as `null`, for the reason `AppRecord` gives.
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(path, forKey: .path)
+                try container.encode(size, forKey: .size)
+                try container.encode(apps, forKey: .apps)
+                try container.encode(reason, forKey: .reason)
+                try container.encode(confidence, forKey: .confidence)
+            }
         }
 
         struct Group: Encodable {
@@ -74,8 +96,8 @@ struct OrphansCommand: AsyncParsableCommand {
         let catalog = await AppCatalog.scan()
         if let refusal = Self.refusal(for: catalog) { throw refusal }
         let apps = catalog.apps
-        // The same signals the app uses (the apps Peel remembers and the apps running), so both judge these
-        // files alike. The memory of apps is only read here, never written.
+        // The same signals the app uses (the apps Peel remembers, the apps running, and what uninstalls left for an
+        // administrator), so both judge these files alike. What Peel remembers is only read here, never written.
         let remembered = await AppMemory().load()
         let running = Set(await RunningCopies.current.compactMap(\.bundleIdentifier))
         let exclusions = await UnreadableExclusions.load()
@@ -85,7 +107,8 @@ struct OrphansCommand: AsyncParsableCommand {
                 installedApps: apps,
                 remembered: remembered,
                 running: running,
-                owners: OrphanOwners().load()
+                owners: OrphanOwners().load(),
+                leftForAnAdministrator: await LeftForAnAdministrator().load()
             )
         }
         if let group {
@@ -156,7 +179,11 @@ struct OrphansCommand: AsyncParsableCommand {
             },
             forAnAdministrator: scan.forAnAdministrator.map { entry in
                 Report.ForAnAdministrator(
-                    path: Output.path(entry.item.url), size: MeasuredSize(entry.item.size), apps: entry.apps
+                    path: Output.path(entry.item.url),
+                    size: MeasuredSize(entry.item.size),
+                    apps: entry.apps,
+                    reason: entry.claim?.reason.rawValue,
+                    confidence: entry.claim?.confidence.summary
                 )
             },
             unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) }
@@ -172,8 +199,14 @@ struct OrphansCommand: AsyncParsableCommand {
 
     static func administratorRows(for scan: OrphanScan) -> [[String]] {
         scan.forAnAdministrator.map { entry in
-            let apps = Output.list(entry.apps.map(Output.plain))
-            return [Output.size(entry.item.size), Output.path(entry.item.url), "found for \(apps)"]
+            var found = "found for \(Output.list(entry.apps.map(Output.plain)))"
+            if let claim = entry.claim {
+                found += ", \(claim.reason.summary)"
+                if claim.confidence == .possible {
+                    found += ", review: \(claim.confidence.summary) match"
+                }
+            }
+            return [Output.size(entry.item.size), Output.path(entry.item.url), found]
         }
     }
 

@@ -25,6 +25,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   folder holding another installed app's own data, such as Xcode's in `~/Library/Developer`, can't be selected at
   all. What Peel only guesses at, from the start of a name or an identifier the app's maker or signing team also
   uses, waits under Review Before Removing.
+- **What only an administrator can move** stays where it is when Peel's helper isn't allowed to move it from there.
+  Once the app is gone, Peel says how many items stayed, and Orphaned Files lists them under Needs an Administrator,
+  with how to remove them in Finder.
 - **The Select menu** has Select Recommended, Select All, and Deselect All. Select All selects everything you can
   select, what Peel holds back included, and asks first when that takes anything Peel doesn't recommend.
 - **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
@@ -61,7 +64,8 @@ Space shows what fills your disk, area by area, and what each area is.
   named only for a maker, such as `Google` in Application Support, a data folder only the app's documentation names,
   such as Tor Browser's `TorBrowser-Data`, and a hidden folder in your home named like an app, since one such as
   `~/.local` is shared by many command-line tools. What only an administrator can move, from a place Peel's helper
-  isn't allowed to move it from, is listed apart under Needs an Administrator, with how to remove it in Finder.
+  isn't allowed to move it from, is listed apart under Needs an Administrator, with how to remove it in Finder, and
+  so is what an uninstall left there, which nothing else would tie to the app once it is gone.
 - **Developer:** caches of developer tools, editors, browsers, and AI models. Nothing is selected for you, and Select
   Recommended passes by what you may want again; toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only

@@ -576,4 +576,6 @@ and it fails closed.
   takes back only what is still owned by root and writable by nobody else.
 
 If you never install the helper, Peel still works; it just cannot touch what needs administrator rights.
-Home lists the helper as required for that reason, and keeps a reminder there until it is installed.
+Home lists the helper as required for that reason, and keeps a reminder there until it is installed. What needs an
+administrator outside the folders the helper serves, Peel leaves where it is: Orphaned Files lists it under Needs an
+Administrator, what an uninstall left there included, with how to remove it yourself in Finder.

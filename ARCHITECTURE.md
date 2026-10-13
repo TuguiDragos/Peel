@@ -286,6 +286,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/digests.bin` | What Duplicates already read, so an unchanged file isn't read again. |
 | `~/Library/Application Support/Peel/apps.json`, `teams.json` | What Peel remembers about apps and their signing teams between launches. |
 | `~/Library/Application Support/Peel/orphan-owners.json` | The orphaned files the user said belong to an installed app. |
+| `~/Library/Application Support/Peel/left-for-an-administrator.json` | What an uninstall left that only an administrator can move, so Orphaned Files lists it once the app is gone. |
 | `~/Library/Application Support/Peel/dock-tiles.json` | The Dock icons an uninstall took out, and where each was, so History puts them back with their app. |
 | `~/Library/Application Support/Peel/app-folders.json` | The folders the user chose for Peel to look for apps in, beside the Applications folders. |
 | `~/Library/Application Support/Peel/homebrew.json` | The `brew` the user chose for a Homebrew in a folder of its own, which the app and `peel` run. |

@@ -431,6 +431,26 @@ public struct Uninstallation: Sendable {
         MakersFolders.names(of: [app])
     }
 
+    /// The leftovers that stay for an administrator once the app is gone: nothing else holds them back or uses them,
+    /// and each sits where an uninstall searches, the only places Orphaned Files believes a record of.
+    public var leftForAnAdministrator: [Leftover] {
+        scan.leftovers.filter { $0.isLeftForAnAdministrator && !$0.match.isShared && $0.kind != .elsewhere }
+    }
+
+    /// What to remember of `leftForAnAdministrator` once the app is gone, moved by `result` or already in the Trash.
+    public func leftForAnAdministrator(after result: TrashResult) -> [LeftForAnAdministrator.Record] {
+        guard isAppInTheTrash || result.trashed.contains(where: { $0.originalURL == app.url }) else { return [] }
+        return leftForAnAdministrator.map { leftover in
+            LeftForAnAdministrator.Record(
+                path: PathPattern.comparablePath(of: leftover.url),
+                kind: leftover.kind,
+                apps: [.init(reference: app.reference, name: app.name)],
+                reason: leftover.match.reason,
+                confidence: leftover.match.confidence
+            )
+        }
+    }
+
     /// Whether the app stayed while files of its own were selected, which then stayed with it.
     public func keptItsFiles(after result: TrashResult, selection: Set<URL>) -> Bool {
         selection.contains(app.url) && result.failures.contains { $0.url == app.url }

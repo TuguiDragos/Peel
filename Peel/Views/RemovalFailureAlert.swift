@@ -5,13 +5,14 @@ import SwiftUI
 
 /// The alert every tool shows when a removal fails for some items: which ones, and why, with a button that
 /// fixes the cause when there is one. It also reports the privacy resets worth telling about, the audio drivers that
-/// wait for a restart, and on macOS 27 the background items macOS still starts from the Trash, since two alerts cannot
-/// be up at once.
+/// wait for a restart, what stays for an administrator, and on macOS 27 the background items macOS still starts from
+/// the Trash, since two alerts cannot be up at once.
 struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
     static let mostListed = 4
 
     @Environment(RemovalOutcome.self) private var outcome
+    @Environment(OrphanLibrary.self) private var orphans
     @Environment(\.openSettings) private var openSettings
 
     func body(content: Content) -> some View {
@@ -24,6 +25,12 @@ struct RemovalFailureAlert: ViewModifier {
             }
             if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty {
                 Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
+            }
+            if outcome.leftForAnAdministrator > 0 {
+                Button("Open Orphaned Files") {
+                    orphans.selection = .forAnAdministrator
+                    Navigator.shared.requestedTool = .orphans
+                }
             }
             if !outcome.failures.isEmpty {
                 Button("Copy Details") { copyDetails() }
@@ -51,6 +58,10 @@ struct RemovalFailureAlert: ViewModifier {
                 ? Text("Empty the Trash to finish.")
                 : Text("Restart your Mac and empty the Trash to finish.")
         }
+        if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty,
+           outcome.driversAwaitingARestart.isEmpty, outcome.leftForAnAdministrator > 0 {
+            return Text("Some items stayed for an administrator.")
+        }
         if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
             return Text("Restart your Mac to finish.")
         }
@@ -67,11 +78,19 @@ struct RemovalFailureAlert: ViewModifier {
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
-        lines += keptLines + driverLines + extraLines
+        lines += keptLines + driverLines + administratorLines + extraLines
         if #available(macOS 27, *) {
             lines += trashLines
         }
         return lines.joined(separator: "\n\n")
+    }
+
+    private var administratorLines: [String] {
+        let count = outcome.leftForAnAdministrator
+        guard count > 0 else { return [] }
+        return count == 1
+            ? [String(localized: "One item stayed because only an administrator can move it, and Peel’s helper isn’t allowed to. Orphaned Files lists it under Needs an Administrator, with how to remove it.")]
+            : [String(inflecting: "^[\(count) item](inflect: true) stayed because only an administrator can move them, and Peel’s helper isn’t allowed to. Orphaned Files lists them under Needs an Administrator, with how to remove them.")]
     }
 
     private var driverLines: [String] {
@@ -109,7 +128,7 @@ struct RemovalFailureAlert: ViewModifier {
     /// selected.
     private func copyDetails() {
         var lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
-            + keptLines + driverLines + extraLines
+            + keptLines + driverLines + administratorLines + extraLines
         if #available(macOS 27, *) {
             lines += trashLines
         }

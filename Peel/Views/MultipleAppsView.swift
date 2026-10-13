@@ -358,11 +358,14 @@ struct MultipleAppsView: View {
                 let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
                 let result = await plan.move(request)
                 let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
+                let left = plan.bulk?.leftForAnAdministrator(after: result) ?? []
+                await LeftForAnAdministrator().record(left)
                 outcome.report(
                     result,
                     privacy: privacy,
                     keptTheirFiles: kept.map(\.name),
-                    startingFromTheTrash: plan.apps.filter { result.startsFromTheTrash.contains($0.url) }.map(\.name)
+                    startingFromTheTrash: plan.apps.filter { result.startsFromTheTrash.contains($0.url) }.map(\.name),
+                    leftForAnAdministrator: left.count
                 )
                 if plan.removesDockTiles {
                     let moved = Set(result.trashed.map(\.originalURL))

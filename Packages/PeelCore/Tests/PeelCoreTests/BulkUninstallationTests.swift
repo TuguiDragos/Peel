@@ -32,6 +32,37 @@ struct BulkUninstallationTests {
         )
     }
 
+    @Test func leavesForAnAdministratorWhatOnlyAppsThatWentUsed() {
+        let synth = app("org.example.synth", "Synth")
+        let effects = app("org.example.synth-fx", "Synth Effects")
+        let other = app("org.example.other", "Other")
+        func beyond(_ path: String, sharedWith: [String] = []) -> Leftover {
+            var leftover = leftover(path, size: 10, sharedWith: sharedWith).heldBack(.beyondTheHelper)
+            leftover.isLeftForAnAdministrator = true
+            return leftover
+        }
+        let shared = "/Library/Example Audio/Shared"
+        let own = "/Library/Example Audio/Synth"
+        let used = "/Library/Example Audio/Used"
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation(synth, [
+                beyond(shared, sharedWith: [effects.reference]),
+                beyond(own),
+                beyond(used, sharedWith: [other.reference]),
+            ]),
+            uninstallation(effects, [beyond(shared, sharedWith: [synth.reference])]),
+        ])
+        let moved = { (apps: [InstalledApp]) in
+            TrashResult(trashed: apps.map { TrashedItem(originalURL: $0.url, trashedURL: $0.url, date: .now) })
+        }
+
+        let both = bulk.leftForAnAdministrator(after: moved([synth, effects]))
+        #expect(Set(both.map(\.path)) == [shared, own])
+        #expect(both.first { $0.path == shared }?.apps.map(\.name) == ["Synth", "Synth Effects"])
+        #expect(bulk.leftForAnAdministrator(after: moved([synth])).map(\.path) == [own])
+        #expect(bulk.leftForAnAdministrator(after: TrashResult()).isEmpty)
+    }
+
     @Test func anAppsBundleSaysItSharesItsStorage() {
         let clone = app("org.example.clone", "Clone")
         let own = app("org.example.own", "Own")

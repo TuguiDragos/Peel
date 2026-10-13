@@ -23,6 +23,8 @@ public struct BulkUninstallation: Sendable {
         public var isMeasured = true
         /// Needs administrator rights, and the helper may not move it. Shown, never selected, never moved.
         public var isBeyondTheHelper = false
+        /// Only an administrator can move it, and nothing else holds it back, for every chosen app it belongs to.
+        public var isLeftForAnAdministrator = false
         /// How an app removed elsewhere is removed instead, for it and its files: Peel by Remove Peel, an agent by its
         /// maker's uninstaller. Shown, never selected, never moved.
         public var removedElsewhere: RemovedElsewhere?
@@ -186,6 +188,31 @@ public struct BulkUninstallation: Sendable {
         )
     }
 
+    /// What stays for an administrator once the apps are gone, by one app's rule (`Uninstallation`), used by no app
+    /// outside the selection, and only once every chosen copy of each app it belongs to is gone.
+    public func leftForAnAdministrator(after result: TrashResult) -> [LeftForAnAdministrator.Record] {
+        let moved = Set(result.trashed.map(\.originalURL))
+        let staying = Set(
+            uninstallations.filter { !$0.isAppInTheTrash && !moved.contains($0.app.url) }.map(\.app.reference)
+        )
+        let names = Dictionary(
+            uninstallations.map { ($0.app.reference, $0.app.name) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        return items.compactMap { item in
+            guard item.isLeftForAnAdministrator, let kind = item.kind, kind != .elsewhere, let match = item.match,
+                  item.sharedWithOthers.isEmpty, item.otherCopies.isEmpty, !item.apps.contains(where: staying.contains)
+            else { return nil }
+            return LeftForAnAdministrator.Record(
+                path: PathPattern.comparablePath(of: item.url),
+                kind: kind,
+                apps: item.apps.map { .init(reference: $0, name: names[$0] ?? $0) },
+                reason: match.reason,
+                confidence: match.confidence
+            )
+        }
+    }
+
     /// The chosen apps that stayed while files of their own were selected, which then stayed with them.
     public func appsThatKeptTheirFiles(after result: TrashResult, selection: Set<URL>) -> [InstalledApp] {
         let failed = Set(result.failures.map(\.url))
@@ -229,6 +256,7 @@ public struct BulkUninstallation: Sendable {
                     isKeptByMacOS: existing.isKeptByMacOS || item.isKeptByMacOS,
                     isMeasured: existing.isMeasured || item.isMeasured,
                     isBeyondTheHelper: existing.isBeyondTheHelper || item.isBeyondTheHelper,
+                    isLeftForAnAdministrator: existing.isLeftForAnAdministrator && item.isLeftForAnAdministrator,
                     removedElsewhere: existing.removedElsewhere ?? item.removedElsewhere,
                     isInTheTrash: existing.isInTheTrash || item.isInTheTrash,
                     enclosingPackage: existing.enclosingPackage ?? item.enclosingPackage,
@@ -260,6 +288,7 @@ public struct BulkUninstallation: Sendable {
                     isKeptByMacOS: uninstallation.app.isSystemProtected,
                     isMeasured: leftover.isMeasured,
                     isBeyondTheHelper: leftover.match.heldBack == .beyondTheHelper,
+                    isLeftForAnAdministrator: leftover.isLeftForAnAdministrator,
                     removedElsewhere: uninstallation.removedElsewhere,
                     holdsDamagedSettings: leftover.holdsDamagedSettings
                 ))

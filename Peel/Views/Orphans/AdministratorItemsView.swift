@@ -24,9 +24,9 @@ struct AdministratorItemsView: View {
                     RemovalRow(
                         url: entry.item.url,
                         icon: .symbol(entry.item.kind.symbolName),
-                        detail: nil,
+                        detail: entry.claim?.reason.title,
                         kind: entry.item.kind.title,
-                        warning: String(localized: HoldBack.beyondTheHelper.explanation),
+                        warning: warning(for: entry),
                         lastWritten: entry.item.modificationDate,
                         foundFor: entry.apps.formatted(.list(type: .and)),
                         size: entry.item.size ?? 0,
@@ -50,6 +50,13 @@ struct AdministratorItemsView: View {
         .fadesInColumn(whenRowsChange: items.map(\.id))
         .navigationTitle(Text("Needs an Administrator"))
         .toolbar(removing: .title)
+    }
+
+    private func warning(for entry: AdministratorItem) -> String {
+        let why = String(localized: HoldBack.beyondTheHelper.explanation)
+        guard entry.claim?.confidence == .possible else { return why }
+        let apps = entry.apps.formatted(.list(type: .and))
+        return why + "\n\n" + String(localized: "Peel isn’t sure only \(apps) used this. Check it before you remove it.")
     }
 
     private var header: some View {

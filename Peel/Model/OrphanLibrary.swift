@@ -61,8 +61,13 @@ final class OrphanLibrary {
             // What is currently running is better evidence than anything worked out from what is installed: a
             // helper or an agent can keep a folder that no app bundle claims.
             let running = Set(NSWorkspace.shared.runningApplications.compactMap(\.bundleIdentifier))
-            return await OrphanScanner(exclusions: ExclusionsStore.shared.exclusions)
-                .scan(installedApps: installedApps, remembered: remembered, running: running, owners: owners)
+            return await OrphanScanner(exclusions: ExclusionsStore.shared.exclusions).scan(
+                installedApps: installedApps,
+                remembered: remembered,
+                running: running,
+                owners: owners,
+                leftForAnAdministrator: await LeftForAnAdministrator().load()
+            )
         }), library.unreadable.isEmpty else { return }
         let remainingURLs = Set(result.groups.flatMap(\.items).filter { $0.leftAlone == nil }.map(\.url))
         scan = result
