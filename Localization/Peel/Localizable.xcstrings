@@ -182427,13 +182427,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que las apps aisladas, como las de App Store, han guardado en caché o dejado como archivos temporales en sus propios contenedores, y lo que han guardado en caché en los que comparten con apps del mismo fabricante. Lo que usa una app abierta se queda donde está, y las cachés de las propias apps de Apple se muestran pero nunca se seleccionan."
+            "value" : "Lo que las apps aisladas, como las de App Store, han guardado en caché o dejado como archivos temporales en sus propios contenedores, y lo que han guardado en caché en los que comparten con apps del mismo fabricante. Lo que usa una app abierta se queda donde está, y las cachés de las propias apps de Apple se muestran pero nunca se seleccionan."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que les apps en sandbox, comme celles de l’App Store, ont mis en cache ou laissé sous forme de fichiers temporaires dans leurs propres conteneurs, et mis en cache dans ceux qu’elles partagent avec les apps du même éditeur. Ce qu’utilise une app ouverte reste en place, et les caches des apps d’Apple sont listés mais jamais sélectionnés."
+            "value" : "Ce que les apps en sandbox, comme celles de l’App Store, ont mis en cache ou laissé sous forme de fichiers temporaires dans leurs propres conteneurs, et mis en cache dans ceux qu’elles partagent avec les apps du même éditeur. Ce qu’utilise une app ouverte reste en place, et les caches des apps d’Apple sont listés mais jamais sélectionnés."
           }
         },
         "it" : {
@@ -182481,7 +182481,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали или оставили в виде временных файлов в своих контейнерах, а также кэшировали в контейнерах, общих с приложениями того же производителя. То, что использует открытое приложение, остается на месте, а кэши собственных приложений Apple показываются в списке, но никогда не выбираются."
+            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали или оставили в виде временных файлов в своих контейнерах, а также кэшировали в контейнерах, общих с приложениями того же производителя. То, что использует открытое приложение, остается на месте, а кэши собственных приложений Apple показываются в списке, но никогда не выбираются."
           }
         },
         "sv" : {

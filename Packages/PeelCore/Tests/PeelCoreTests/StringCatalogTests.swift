@@ -248,6 +248,8 @@ import Testing
             "Forget it?": ["localizations": ["ro": unit("Îl uitați?"), "fr": unit("L’oublier\u{00A0}?")]],
             "Excluded with “%@”": ["localizations": ["ro": unit("Exclus odată cu „%@”"), "fr": unit("Exclu avec « %@ »")]],
             "Type `a :b`": ["localizations": ["ro": unit("Tastați `a :b`"), "fr": unit("Tapez `a :b`")]],
+            "From the App Store": ["localizations": ["ro": unit("Din App Store"), "fr": unit("De l’App Store")]],
+            "In the App Store": ["localizations": ["ro": unit("În App Store"), "fr": unit("Dans l’App\u{00A0}Store")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -291,6 +293,8 @@ import Testing
         #expect(caught["space"]?.contains("Forget it?") != true, "a no-break space before the question mark")
         #expect(caught["space"]?.contains("Excluded with “%@”") == true, "and inside its quotation marks")
         #expect(caught["space"]?.contains("Type `a :b`") != true, "code is written as it is typed")
+        #expect(caught["space"]?.contains("From the App Store") == true, "French holds App Store together, Romanian doesn't")
+        #expect(caught["space"]?.contains("In the App Store") != true, "a no-break space inside the name")
         #expect(caught["space"]?.contains("^[%lld folder](inflect: true) here") == true, "Polish keeps a count with its noun")
         #expect(caught["space"]?.contains("About Peel") != true, "SwiftUI's own words stay SwiftUI's")
         #expect(caught["hyphen"]?.contains("It would replace it") == true, "a hyphen that splits a Romanian word")
@@ -377,6 +381,8 @@ struct CatalogChecker {
     /// The languages whose macOS writes the straight apostrophe, inside words and as its quotes: Apple's Dutch writes
     /// `Foto's` and `de map 'Apps'`. Every other language, English included, writes its own typographic marks.
     static let straightApostrophe: Set<String> = ["nl"]
+    /// The languages whose macOS writes App Store with a no-break space, so a line never breaks inside the name.
+    static let appStoreHeldTogether: Set<String> = ["cs", "de", "es", "fr", "ko", "nl", "pl", "ru", "uk"]
     /// Keys whose numbers are positions, with no word that changes with them, so they need no plural variation.
     static let countsWithoutAgreement: Set<String> = ["Step %lld of %lld"]
     /// Languages where `one` covers more than 1, so a `one` form without the number would also show for other
@@ -711,6 +717,9 @@ struct CatalogChecker {
         }
         if language == "fr", let mark = Self.plainSpaceBesideAFrenchMark(in: text) {
             fail(path, key, language, "space", "a no-break space beside “\(mark)”, as macOS writes French")
+        }
+        if Self.appStoreHeldTogether.contains(language), text.contains("App Store") {
+            fail(path, key, language, "space", "App Store takes a no-break space, as this language's macOS writes it")
         }
         if language == "ro", let word = Self.hyphenInsideAWord(text, source: source) {
             fail(path, key, language, "hyphen", "U+2011 inside “\(word)”, as macOS writes a Romanian word")
