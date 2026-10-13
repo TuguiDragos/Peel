@@ -27026,7 +27026,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Smazat hledání"
+            "value" : "Vymazat hledání"
           }
         },
         "de" : {
@@ -38196,7 +38196,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyloučené aplikace se dál zobrazují na stránce Všechny aplikace, ale Peel nenabídne jejich odstranění ani resetování. Složka pojmenovaná podle identifikátoru vyloučené aplikace, například její mezipaměti nebo kontejner, se nezobrazí na žádné stránce a Peel ji nikdy nepřesune. U ostatních souborů aplikace, například plug-inů nebo složky pojmenované podle jejího názvu, se Peel řídí jen soubory a složkami, takže chcete-li je chránit, vylučte je výše také."
+            "value" : "Vyloučené aplikace se dál zobrazují na stránce Všechny aplikace, ale Peel nenabídne jejich odstranění ani resetování. Složka pojmenovaná podle identifikátoru vyloučené aplikace, například její mezipaměti nebo kontejner, se nezobrazí na žádné stránce a Peel ji nikdy nepřesune. Ostatní soubory aplikace, například plug-iny nebo složka pojmenovaná podle jejího názvu, se vylučují jen v části Soubory a složky, takže chcete-li je chránit, vylučte je výše také."
           }
         },
         "de" : {
@@ -38522,7 +38522,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyloučeno spolu se složkou „%@“"
+            "value" : "Vyloučeno v rámci výjimky „%@“"
           }
         },
         "de" : {
@@ -60790,7 +60790,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je to starší verze, kterou Homebrew ponechával vedle aktuální verze."
+            "value" : "Je to starší verze, kterou si Homebrew ponechal vedle aktuální verze."
           }
         },
         "de" : {
@@ -79462,7 +79462,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Přesunutím do koše odstraníte jen tohoto zástupce a aplikace zůstane v %1$@, který zástupce dokáže znovu vytvořit. Chcete-li odstranit samotnou aplikaci, odinstalujte ji v %2$@, čímž zmizí i zástupce."
+            "value" : "Přesunutím do koše odstraníte jen tohoto zástupce a aplikace zůstane v prohlížeči %1$@, který zástupce dokáže znovu vytvořit. Chcete-li odstranit samotnou aplikaci, odinstalujte ji v prohlížeči %2$@, čímž zmizí i zástupce."
           }
         },
         "de" : {
@@ -92596,7 +92596,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nevybráno: do této mezipaměti za posledních 15 minut něco zapsalo, takže ji nějaký program možná ještě používá."
+            "value" : "Nevybráno: do této položky za posledních 15 minut něco zapsalo, takže ji nějaký program možná ještě používá."
           }
         },
         "de" : {
@@ -99492,7 +99492,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otevřít aplikaci %@"
+            "value" : "Otevřít %@"
           }
         },
         "de" : {
@@ -120500,7 +120500,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Telefon > Nastavení > Hovory > Návrhy v aplikaci Záznamník"
+            "value" : "Telefon > Nastavení > Hovory > Návrhy v záznamníku"
           }
         },
         "de" : {
@@ -147204,7 +147204,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Některé položky zůstaly pro správce."
+            "value" : "Některé položky zůstaly, protože je může přesunout jen správce."
           }
         },
         "de" : {
@@ -180401,7 +180401,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Návrhy v Záznamníku v aplikaci Telefon"
+            "value" : "Návrhy v záznamníku v aplikaci Telefon"
           }
         },
         "de" : {
