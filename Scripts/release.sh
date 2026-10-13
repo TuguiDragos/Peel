@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Tests, builds, signs, notarizes, and checks a release of Peel from a committed tree, then prints the paths and
-# SHA-256 checksums of its disk image, for people, and its zip, for Homebrew.
+# SHA-256 checksums of its disk image, for people, and its zip, for Homebrew, and the path of its update feed.
 #
 # Signing uses Xcode's `archive` and `exportArchive`, which do what notarization requires: they add a secure
 # timestamp and remove the `com.apple.security.get-task-allow` entitlement. Nothing is sent to Apple's notary
@@ -8,8 +8,9 @@
 #
 # Requires a Developer ID Application certificate in the keychain and a notary profile, stored once with
 #   xcrun notarytool store-credentials Peel --apple-id <you> --team-id 6R6J264YA2
-# which prompts for the app-specific password, so the password stays out of the shell history, and uv
-# (`brew install uv`), which runs dmgbuild for the disk image's window.
+# which prompts for the app-specific password, so the password stays out of the shell history, uv
+# (`brew install uv`), which runs dmgbuild for the disk image's window, and the update key in the Keychain under the
+# account peel, made once with Sparkle's `generate_keys --account peel`.
 #
 # Usage: zsh Scripts/release.sh [notary-profile]   (default profile: Peel)
 set -euo pipefail
@@ -216,9 +217,33 @@ xcrun stapler staple "$image"
 xcrun stapler validate "$image"
 spctl -a -vvv -t open --context context:primary-signature "$image"
 
+echo "== The update feed"
+# Every copy of Peel reads appcast.xml from the latest release. It offers the disk image, signed with the key in the
+# Keychain, whose prompt is the person's to answer; every update is critical, so Sparkle offers no Skip This Version;
+# and its release notes are the changelog's entry, which Sparkle shows as Markdown, GitHub's alerts made bold lines.
+feed="$build/feed"
+download="https://github.com/TuguiDragos/Peel/releases/download/v$version/"
+mkdir -p "$feed"
+cp "$image" "$feed/"
+awk -v heading="## $version (" '
+    index($0, heading) == 1 { found = 1; next }
+    found && /^## / { exit }
+    found && /^> \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$/ {
+        kind = substr($0, 5, length($0) - 5)
+        $0 = "> **" substr(kind, 1, 1) tolower(substr(kind, 2)) "**"
+    }
+    found && (started || NF) { started = 1; lines[++count] = $0; if (NF) last = count }
+    END { for (line = 1; line <= last; line++) print lines[line] }
+' CHANGELOG.md > "$feed/Peel-$version.md"
+[ -s "$feed/Peel-$version.md" ] || { echo "REFUSED: CHANGELOG.md has no entry for $version"; exit 1; }
+build/SparkleBuild/Build/Products/Release/generate_appcast --account peel --critical-update-version "" \
+    --embed-release-notes --download-url-prefix "$download" "$feed"
+swift Scripts/check_appcast.swift "$feed/appcast.xml" "$app" "$image" "$download"
+
 echo "== Made"
 echo "Peel $version ($build_number)"
 for made in "$image" "$final"; do
     echo "$made"
     shasum -a 256 "$made"
 done
+echo "$feed/appcast.xml"

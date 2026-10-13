@@ -341,11 +341,21 @@ not signed with Peel's Developer ID, the hardened runtime, and a secure timestam
 x86_64 slices, or has its class data unsigned, in which Sparkle carries its XPC services, in which a language is
 missing, or which `syspolicy_check distribution` says macOS would not open.
 
+Last, it makes `appcast.xml`, the update feed every copy of Peel reads from the latest release: Sparkle's
+`generate_appcast` offers the disk image at the release's download address, signs it and the feed with the update key
+in the Keychain, marks the update critical, so Sparkle's window offers no Skip This Version, and embeds the changelog's
+entry for the version as Markdown release notes. `Scripts/check_appcast.swift` then refuses a feed that offers more
+than this one update, another version, build, or minimum macOS than the app's, a hardware requirement (which keeps an
+update from every Mac without that processor), another address or length, a disk image or a feed whose signature the
+app's own `SUPublicEDKey` doesn't verify, or no release notes. `generate_appcast` leaves the disk image unsigned, with
+only a warning, when the app inside names another key, and such a feed would fail every update.
+
 Before it runs, the version is set by hand in each of the project's targets: `MARKETING_VERSION`, and
 `CURRENT_PROJECT_VERSION`, the build every program carries, written as the year, month, and day it was set (261013),
 with the release's entry in CHANGELOG.md. The script needs a Developer ID Application certificate in the keychain, a
 notary profile stored once with `xcrun notarytool store-credentials` (it uses the one named Peel unless given another),
-and uv (`brew install uv`), and it refuses to start without uv.
+the update key in the Keychain under the account peel, made once with Sparkle's `generate_keys --account peel`, and
+uv (`brew install uv`), and it refuses to start without uv.
 
 A Release build of every program has pointer authentication (`ENABLE_POINTER_AUTHENTICATION`, an arm64e slice
 beside arm64 and x86_64), and the helper the rest of Enhanced Security too. Xcode gives the Swift packages only the
