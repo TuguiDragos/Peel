@@ -129,8 +129,10 @@ want put back.
 
 - **zsh** reads Peel's settings from a file of Peel's own, `~/Library/Application Support/Peel/Terminal/zshrc`, once
   you add the line below to `~/.zshrc`. The Shell tab gives a command that adds it at the end. If you load tools
-  such as fzf-tab there, move Peel's line above theirs, since their settings have to come after Peel's;
-  zsh-syntax-highlighting's line stays the very last.
+  there, keep zsh-completions' lines above Peel's line, since its folder has to be in `FPATH` before the completion
+  system starts, and Peel's file then doesn't start it again; below Peel's line, every new shell builds the
+  completion system's cache, `~/.zcompdump`, again. Move Peel's line above the other tools' lines, such as
+  fzf-tab's, since their settings have to come after Peel's; zsh-syntax-highlighting's line stays the very last.
 - **ssh** reads them from `~/Library/Application Support/Peel/Terminal/ssh_config`, once you add two lines at the end
   of `~/.ssh/config`. The SSH tab gives a command that adds them, and makes `~/.ssh` first when it isn't there. What
   you set for a server earlier in that file stays in force, since ssh uses the first value it finds.
@@ -460,9 +462,10 @@ Peel writes your Mac's Homebrew folder there for you.
 | [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) | Suggests the rest of a command from your history. | `brew install zsh-autosuggestions` |
 | [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) | Colors commands as you type them. | `brew install zsh-syntax-highlighting` |
 
-Their lines go in `~/.zshrc` in this order, and zsh-syntax-highlighting's must be the last line. zoxide's and direnv's
-own pages ask for the end of `~/.zshrc` too, zoxide's so that it comes after the completion system starts; here only
-zsh-autosuggestions' and zsh-syntax-highlighting's lines follow them.
+Their lines go in `~/.zshrc` in this order, zsh-completions' above Peel's line and the others below it, and
+zsh-syntax-highlighting's must be the last line. zoxide's and direnv's own pages ask for the end of `~/.zshrc` too,
+zoxide's so that it comes after the completion system starts; here only zsh-autosuggestions' and
+zsh-syntax-highlighting's lines follow them.
 
 ```zsh
 # zsh-completions
