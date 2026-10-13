@@ -563,7 +563,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ wurde mit macOS geliefert. „Softwareupdate“ hält die App auf dem neuesten Stand, daher hat Peel nichts zu fragen."
+            "value" : "„%@“ wurde mit macOS geliefert. „Softwareupdate“ hält die App auf dem neuesten Stand, daher muss Peel nicht nachfragen."
           }
         },
         "es" : {
@@ -1199,7 +1199,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ gibt nicht in einer für Peel lesbaren Form an, woher Updates kommen. Peel liest den Update-Feed einer App aus deren eigenen Dateien, und stattdessen Apple nach jeder App zu fragen, würde Apple eine Liste dessen senden, was auf diesem Mac installiert ist. Suche in der App selbst nach einem Update."
+            "value" : "„%@“ gibt nicht in einer für Peel lesbaren Form an, woher Updates kommen. Peel liest den Update-Feed einer App aus deren eigenen Dateien. Würde Peel stattdessen Apple nach jeder App fragen, erhielte Apple eine Liste dessen, was auf diesem Mac installiert ist. Suche in der App selbst nach einem Update."
           }
         },
         "es" : {
@@ -1305,7 +1305,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ gibt nicht an, um welche Version es sich handelt, daher hat Peel nichts, womit es ein Update vergleichen kann. Suche in der App selbst nach einem Update."
+            "value" : "„%@“ gibt nicht an, um welche Version es sich handelt, daher hat Peel nichts, womit sich ein Update vergleichen ließe. Suche in der App selbst nach einem Update."
           }
         },
         "es" : {
@@ -4405,7 +4405,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ ist geblieben, und ebenso die zugehörigen Dateien."
+            "value" : "„%@“ ist geblieben, ebenso wie die zugehörigen Dateien."
           }
         },
         "es" : {
@@ -12113,7 +12113,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ergänzt die fehlenden Links zu den Handbuchseiten und Shell-Vervollständigungen deiner Taps und folgt einem Tap, dessen Hauptzweig umbenannt wurde. Es wird nichts gelöscht."
+            "value" : "Ergänzt die fehlenden Links zu den Manpages und Shell-Vervollständigungen deiner Taps und richtet einen Tap, dessen Hauptbranch umbenannt wurde, auf den neuen Namen aus. Es wird nichts gelöscht."
           }
         },
         "es" : {
@@ -17046,7 +17046,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps, zu denen Peel schweigt, weil du „Diese App nie prüfen“ gewählt oder eine Version übersprungen hast. Wenn du eine erneut prüfst, kommen ihre Updates zurück."
+            "value" : "Apps, zu denen Peel schweigt, weil du „Diese App nie prüfen“ gewählt oder eine Version übersprungen hast. Wenn du eine davon erneut prüfst, werden ihre Updates wieder angezeigt."
           }
         },
         "es" : {
@@ -32022,7 +32022,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lösche die Maschine in VMware Fusion und entscheide dich dafür, ihre Dateien in den Papierkorb zu legen"
+            "value" : "Lösche die Maschine in VMware Fusion und lege ihre Dateien dabei in den Papierkorb"
           }
         },
         "es" : {
@@ -38202,7 +38202,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ausgeschlossene Apps erscheinen weiterhin in „Programme“, aber Peel bietet nicht an, sie zu entfernen oder zurückzusetzen. Ein Ordner, der nach der ID einer ausgeschlossenen App benannt ist, etwa ihre Caches oder ihr Container, erscheint auf keiner Seite und wird nie verschoben. Bei den übrigen Dateien der App, etwa Plug-ins oder einem nach ihr benannten Ordner, richtet sich Peel nur nach Dateien und Ordnern. Um sie zu schützen, schließe also auch sie oben aus."
+            "value" : "Ausgeschlossene Apps erscheinen weiterhin in „Programme“, aber Peel bietet nicht an, sie zu entfernen oder zurückzusetzen. Ein Ordner, der nach der ID einer ausgeschlossenen App benannt ist, etwa ihre Caches oder ihr Container, erscheint auf keiner Seite und wird nie verschoben. Für die übrigen Dateien der App, etwa Plug-ins oder einen nach ihr benannten Ordner, gilt nur die Liste „Dateien und Ordner“. Um sie zu schützen, schließe sie also oben ebenfalls aus."
           }
         },
         "es" : {
@@ -49425,7 +49425,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew ergänzt die fehlenden Links zu den Handbuchseiten und Shell-Vervollständigungen seiner Taps und richtet einen Tap, dessen Hauptzweig umbenannt wurde, auf den neuen Namen aus. Es wird nichts gelöscht."
+            "value" : "Homebrew ergänzt die fehlenden Links zu den Manpages und Shell-Vervollständigungen seiner Taps und richtet einen Tap, dessen Hauptbranch umbenannt wurde, auf den neuen Namen aus. Es wird nichts gelöscht."
           }
         },
         "es" : {
@@ -50061,7 +50061,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew löscht endgültig jeden aufbewahrten Download, auch für die neuesten Versionen, außer den Downloads dessen, was jetzt installiert ist, sowie das, was „Bereinigen“ entfernt. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
+            "value" : "Homebrew löscht endgültig jeden aufbewahrten Download, auch für die neuesten Versionen, sowie das, was „Bereinigen“ entfernt. Die Downloads dessen, was jetzt installiert ist, bleiben erhalten. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
           }
         },
         "es" : {
@@ -79468,7 +79468,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wird sie in den Papierkorb gelegt, verschwindet nur diese Verknüpfung, und die App bleibt in %1$@, das die Verknüpfung erneut erstellen kann. Um die App selbst zu entfernen, deinstallieren Sie sie in %2$@. Dabei verschwindet auch die Verknüpfung."
+            "value" : "Wird sie in den Papierkorb gelegt, verschwindet nur diese Verknüpfung, und die App bleibt in %1$@, wo sich die Verknüpfung erneut erstellen lässt. Um die App selbst zu entfernen, deinstalliere sie in %2$@. Dabei verschwindet auch die Verknüpfung."
           }
         },
         "en" : {
@@ -91436,7 +91436,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nicht ausgewählt: Er bewahrt auch die Optionen auf, mit denen dieser Build eingerichtet wurde und die es nirgendwo sonst im Projekt gibt."
+            "value" : "Nicht ausgewählt: Dieser Ordner bewahrt auch die Optionen auf, mit denen dieser Build eingerichtet wurde und die es nirgendwo sonst im Projekt gibt."
           }
         },
         "es" : {
@@ -91648,7 +91648,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nicht ausgewählt: Er enthält deinen aktuellen Workspace und die letzte Backend-Konfiguration, die `terraform init` nicht zurückholt."
+            "value" : "Nicht ausgewählt: Dieser Ordner enthält deinen aktuellen Workspace und die letzte Backend-Konfiguration, die `terraform init` nicht zurückholt."
           }
         },
         "es" : {
@@ -101724,7 +101724,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffnet in Peel die Seite einer App und listet die Dateien auf, die sie hinterlassen würde. Nichts wird entfernt, bevor du es sagst."
+            "value" : "Öffnet in Peel die Seite einer App und listet die Dateien auf, die sie hinterlassen würde. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "es" : {
@@ -108777,7 +108777,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel konnte seine Aufzeichnung darüber, wer deine Apps signiert, nicht speichern"
+            "value" : "Peel konnte seine Aufzeichnung darüber, wer deine Apps signiert, nicht sichern"
           }
         },
         "es" : {
@@ -117510,7 +117510,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verschiebt dies nicht: Es ist geschützt, oder deine Ausschlüsse in den Einstellungen halten es an seinem Ort."
+            "value" : "Peel verschiebt dies nicht: Es ist geschützt, oder es fällt unter deine Ausschlüsse in den Einstellungen."
           }
         },
         "es" : {
@@ -117828,7 +117828,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verschiebt dies nicht: Deine Ausschlüsse in den Einstellungen halten es an seinem Ort."
+            "value" : "Peel verschiebt dies nicht: Es fällt unter deine Ausschlüsse in den Einstellungen."
           }
         },
         "es" : {
@@ -122316,7 +122316,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gibt Dateien mit Syntaxhervorhebung, Zeilennummern und Git-Änderungen aus. BAT_THEME=ansi verwendet die Farben des Terminal-Themas, und MANPAGER zeigt man-Seiten mit bat an."
+            "value" : "Gibt Dateien mit Syntaxhervorhebung, Zeilennummern und Git-Änderungen aus. BAT_THEME=ansi verwendet die Farben des Terminal-Themas, und MANPAGER zeigt Manpages mit bat an."
           }
         },
         "es" : {
@@ -125213,7 +125213,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beende „%@“ zuerst, sonst kann die App ihre eigenen Einstellungen darüberschreiben."
+            "value" : "Beende „%@“ zuerst, sonst kann die App diese Einstellungen mit ihren eigenen überschreiben."
           }
         },
         "es" : {
@@ -128500,7 +128500,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entferne die Maschine in Parallels Desktop und entscheide dich dafür, ihre Dateien in den Papierkorb zu legen"
+            "value" : "Entferne die Maschine in Parallels Desktop und lege ihre Dateien dabei in den Papierkorb"
           }
         },
         "es" : {
@@ -128606,7 +128606,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entferne die Maschine in VirtualBox und entscheide dich dafür, alle ihre Dateien zu löschen"
+            "value" : "Entferne die Maschine in VirtualBox und lösche dabei alle ihre Dateien"
           }
         },
         "es" : {
@@ -144772,7 +144772,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeigt Dateien mit Syntaxhervorhebung an und färbt man-Seiten ein."
+            "value" : "Zeigt Dateien mit Syntaxhervorhebung an und färbt Manpages ein."
           }
         },
         "es" : {
@@ -174296,7 +174296,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ entfernen widerrufen"
+            "value" : "Entfernen von „%@“ widerrufen"
           }
         },
         "es" : {
@@ -174402,7 +174402,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ zurücksetzen widerrufen"
+            "value" : "Zurücksetzen von „%@“ widerrufen"
           }
         },
         "es" : {
@@ -176031,7 +176031,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bis Peel die Aufzeichnung speichern kann, warnt es dich möglicherweise nicht, wenn eine App von jemand anderem signiert wird."
+            "value" : "Bis Peel die Aufzeichnung sichern kann, warnt es dich möglicherweise nicht, wenn eine App von jemand anderem signiert wird."
           }
         },
         "es" : {
@@ -187085,7 +187085,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schreibanregungen in Journal"
+            "value" : "Schreibanregungen in „Journal“"
           }
         },
         "es" : {
@@ -187519,7 +187519,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Womöglich entgeht dir, wenn eine App etwas von dir möchte."
+            "value" : "Möglicherweise entgeht dir, wenn eine App etwas von dir möchte."
           }
         },
         "es" : {

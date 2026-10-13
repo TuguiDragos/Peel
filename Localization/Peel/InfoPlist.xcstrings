@@ -19,7 +19,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sieht in den eigenen Container einer App, um aufzulisten, was sie hinterlassen würde. Nichts wird entfernt, bevor du es sagst."
+            "value" : "Peel sieht in den eigenen Container einer App, um aufzulisten, was sie hinterlassen würde. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
@@ -132,7 +132,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sucht hier nach Installern und doppelten Dateien. Nichts wird entfernt, bevor du es sagst."
+            "value" : "Peel sucht hier nach Installern und doppelten Dateien. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
@@ -245,7 +245,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sucht hier nach Installern, doppelten Dateien und dem, was Builds hinterlassen haben. Nichts wird entfernt, bevor du es sagst."
+            "value" : "Peel sucht hier nach Installern, doppelten Dateien und dem, was Builds hinterlassen haben. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
@@ -358,7 +358,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sucht hier nach Installern und doppelten Dateien. Nichts wird entfernt, bevor du es sagst."
+            "value" : "Peel sucht hier nach Installern und doppelten Dateien. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
@@ -471,7 +471,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel misst, wie viel Speicherplatz deine Cloud-Ordner auf diesem Mac belegen. Nichts wird entfernt, bevor du es sagst."
+            "value" : "Peel misst, wie viel Speicherplatz deine Cloud-Ordner auf diesem Mac belegen. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
