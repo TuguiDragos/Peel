@@ -75,7 +75,7 @@ enum FormatArgument: String, CaseIterable, ExpressibleByArgument {
         case .text: "A line per app, with its version and where it came from"
         case .json: "Every detail, for scripts"
         case .csv: "A table for a spreadsheet"
-        case .brewfile: "What Homebrew can install again, for brew bundle"
+        case .brewfile: "What Homebrew can install again, for `brew bundle`"
         }
     }
 

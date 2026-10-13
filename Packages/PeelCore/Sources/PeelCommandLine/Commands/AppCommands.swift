@@ -225,7 +225,8 @@ struct UninstallCommand: AsyncParsableCommand {
         abstract: "Move an app and its leftovers to the Trash.",
         discussion: """
             Only leftovers Peel suggests are included. Items that need administrator access stay where they \
-            are; remove them with the Peel app.
+            are: the Peel app moves those its helper may move, and once the app is in the Trash, Orphaned Files \
+            in the Peel app lists the rest under Needs an Administrator, with how to remove them in Finder.
             The app itself moves first, so nothing of it goes to the Trash while it stays installed. Answering \
             no exits with code 2; a removal that couldn't finish exits 1, and so does a privacy reset that \
             didn't happen.

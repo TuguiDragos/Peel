@@ -416,7 +416,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "projects",
         abstract: "List what builds left behind in your projects, and move it to the Trash.",
-        discussion: "A folder only counts when the file that makes it sits beside it, or its tool tagged it as a cache. Projects changed in the last 7 days, and folders under a name that could mean anything, are listed but never suggested, and --remove moves only what is suggested."
+        discussion: "A folder only counts when the file that makes it sits beside it, its tool tagged it as a cache, or what it holds could only be its tool's, as with Python's __pycache__. Projects changed in the last 7 days or whose last change Peel couldn't tell, folders under a name that could mean anything, environments and installed packages, and folders Peel holds back, such as one Git tracks or one with a repository or a key inside, are listed but never suggested, and --remove moves only what is suggested."
     )
 
     @Argument(help: "Folders your projects live in.", completion: .directory)

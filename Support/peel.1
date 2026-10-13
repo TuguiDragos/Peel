@@ -11,7 +11,7 @@
 .Op Fl -version
 .Op Fl -help
 .Sh DESCRIPTION
-Peel only moves files to the Trash, so you can put them back. Items that need administrator access are left for the Peel app. The tool writes English whatever the Mac's language, since scripts read what it prints. Exit status: 0 when it did what was asked, 1 when something failed or stayed where it was, or History couldn't record what moved, 2 when you answered no, and 64 when the command or its options are wrong, or when Peel would have to ask and can't (add --yes).
+Peel only moves files to the Trash, so you can put them back. Items that need administrator access are left for the Peel app, which says how to remove in Finder those its helper may not move, and the tool refuses to run with sudo. History, the record of refusals, and the exclusions are in ~/Library/Application Support/Peel, shared with the Peel app, and in JSON a size Peel couldn't measure is null. The tool writes English whatever the Mac's language, since scripts read what it prints. Exit status: 0 when it did what was asked, 1 when something failed or stayed where it was, or History couldn't record what moved, 2 when you answered no, and 64 when the command or its options are wrong, or when Peel would have to ask and can't (add --yes).
 .Bl -tag -width 6n
 .It Fl -version
 Show the version.
@@ -43,7 +43,7 @@ Every detail, for scripts
 .It Ar csv
 A table for a spreadsheet
 .It Ar brewfile
-What Homebrew can install again, for brew bundle
+What Homebrew can install again, for `brew bundle`
 .El
 .It Fl -version
 Show the version.
@@ -69,7 +69,7 @@ Show help information.
 .It Em uninstall
 Move an app and its leftovers to the Trash.
 .Pp
-Only leftovers Peel suggests are included. Items that need administrator access stay where they are; remove them with the Peel app.
+Only leftovers Peel suggests are included. Items that need administrator access stay where they are: the Peel app moves those its helper may move, and once the app is in the Trash, Orphaned Files in the Peel app lists the rest under Needs an Administrator, with how to remove them in Finder.
 The app itself moves first, so nothing of it goes to the Trash while it stays installed. Answering no exits with code 2; a removal that couldn't finish exits 1, and so does a privacy reset that didn't happen.
 .Bl -tag -width 6n
 .It Ar app
@@ -217,7 +217,7 @@ Show help information.
 .It Em projects
 List what builds left behind in your projects, and move it to the Trash.
 .Pp
-A folder only counts when the file that makes it sits beside it, or its tool tagged it as a cache. Projects changed in the last 7 days, and folders under a name that could mean anything, are listed but never suggested, and --remove moves only what is suggested.
+A folder only counts when the file that makes it sits beside it, its tool tagged it as a cache, or what it holds could only be its tool's, as with Python's __pycache__. Projects changed in the last 7 days or whose last change Peel couldn't tell, folders under a name that could mean anything, environments and installed packages, and folders Peel holds back, such as one Git tracks or one with a repository or a key inside, are listed but never suggested, and --remove moves only what is suggested.
 .Bl -tag -width 6n
 .It Ar folders...
 Folders your projects live in.
