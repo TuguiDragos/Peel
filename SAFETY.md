@@ -143,7 +143,7 @@ That includes what `pkgutil` and Homebrew would delete:
   or into its gone apps, to the Trash.
 
 A removal reaches History even when something cuts it short. Quitting Peel waits until History has it, `peel`
-carries on through Ctrl-C or a closed terminal until it has written History, and each item is written down the
+carries on through Control-C or a closed terminal until it has written History, and each item is written down the
 moment it moves, so one cut short by a crash or Force Quit still reaches History, as an interrupted removal, the
 next time Peel or `peel` opens it.
 
