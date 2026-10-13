@@ -12,8 +12,31 @@ public enum SSHFile {
         folder.appending(path: "Terminal/ssh_config", directoryHint: .notDirectory)
     }
 
+    /// The file for `settings`. The `IgnoreUnknown` line goes first and is no setting's own line, so a file written
+    /// without it still reads as the settings in it.
     public static func contents(of settings: Set<SSHSetting>) -> String {
-        ([header] + SSHSetting.allCases.filter(settings.contains).flatMap(\.lines)).joined(separator: "\n") + "\n"
+        let chosen = SSHSetting.allCases.filter(settings.contains)
+        let onlyApples = chosen.flatMap(\.onlyApplesSSHKnows)
+        let ignored = onlyApples.isEmpty ? [] : ["IgnoreUnknown " + onlyApples.joined(separator: ",")]
+        return ([header] + ignored + chosen.flatMap(\.lines)).joined(separator: "\n") + "\n"
+    }
+
+    /// The file as this version writes it, when `contents` is exactly what an earlier version wrote, which had no
+    /// `IgnoreUnknown` line. A file changed by hand is nil, and so is one already as this version writes it.
+    public static func update(of contents: String) -> String? {
+        let settings = settings(in: contents)
+        let earlier = ([header] + SSHSetting.allCases.filter(settings.contains).flatMap(\.lines))
+            .joined(separator: "\n") + "\n"
+        let now = self.contents(of: settings)
+        return contents == earlier && contents != now ? now : nil
+    }
+
+    /// Writes the file at `url` again as this version writes it, when an earlier version wrote it.
+    public static func bringUpToDate(_ url: URL) {
+        guard let data = BoundedRead.data(at: url, maximum: maximumBytes),
+              let updated = update(of: String(decoding: data, as: UTF8.self))
+        else { return }
+        try? Data(updated.utf8).write(to: url, options: .atomic)
     }
 
     public static func settings(in contents: String) -> Set<SSHSetting> {

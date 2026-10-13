@@ -66,6 +66,41 @@ struct SSHFileTests {
         #expect(await SSHFile.accepted() == Set(SSHSetting.allCases))
     }
 
+    /// Another ssh, such as Homebrew's, doesn't know `UseKeychain`: renamed to an option the ssh on this Mac doesn't
+    /// know either, Peel's file has to be read all the same.
+    @Test func anSSHThatDoesNotKnowAnOptionStillReadsTheFile() async throws {
+        let ssh = try SSHHome()
+        let unknown = SSHFile.contents(of: Set(SSHSetting.allCases)).replacing("UseKeychain", with: "PeelUnknownOption")
+        try FileManager.default.createDirectory(
+            at: ssh.peelFile.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        try unknown.write(to: ssh.peelFile, atomically: true, encoding: .utf8)
+        #expect(try await ssh.options(for: "example.org")["serveraliveinterval"] == "60")
+    }
+
+    @Test func aFileWrittenBeforeTheIgnoreUnknownLineReadsAsBefore() {
+        let written = [SSHFile.header, "UseKeychain yes", "AddKeysToAgent yes", "ServerAliveInterval 60"]
+        #expect(SSHFile.settings(in: written.joined(separator: "\n") + "\n") == [.keychain, .keepAlive])
+    }
+
+    @Test func aFileAnEarlierVersionWroteIsBroughtUpToDateAndOneChangedByHandIsNot() throws {
+        let earlier = [SSHFile.header, "UseKeychain yes", "AddKeysToAgent yes"].joined(separator: "\n") + "\n"
+        #expect(SSHFile.update(of: earlier) == SSHFile.contents(of: [.keychain]))
+        #expect(SSHFile.update(of: SSHFile.contents(of: [.keychain])) == nil)
+        #expect(SSHFile.update(of: earlier + "Compression yes\n") == nil)
+        #expect(SSHFile.update(of: SSHFile.contents(of: [.keepAlive])) == nil)
+
+        let ssh = try SSHHome()
+        try FileManager.default.createDirectory(
+            at: ssh.peelFile.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        try earlier.write(to: ssh.peelFile, atomically: true, encoding: .utf8)
+        SSHFile.bringUpToDate(ssh.peelFile)
+        #expect(try String(contentsOf: ssh.peelFile, encoding: .utf8) == SSHFile.contents(of: [.keychain]))
+    }
+
     @Test func theLinesNameTheFileFromTheHomeOrByItsWholePath() {
         let home = URL(filePath: "/Users/example", directoryHint: .isDirectory)
         let file = SSHFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))

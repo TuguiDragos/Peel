@@ -286,6 +286,8 @@ struct PeelApp: App {
     private func launch() async {
         history.stats = stats
         history.checkReadability()
+        // On the main actor, so it never runs between the SSH tab's own read and write.
+        SSHFile.bringUpToDate(ssh.file)
         Task { await stats.takeInEarlierTotals() }
         // Read beside the rest and behind nothing: until the exclusions are read, nothing moves.
         async let exclusionsRead: Void = Marks.interval("Exclusions") { await exclusions.load() }

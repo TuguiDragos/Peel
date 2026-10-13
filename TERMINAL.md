@@ -417,7 +417,7 @@ Match all
 
 | Setting | What it does |
 | --- | --- |
-| [Keep key passphrases in your keychain](https://developer.apple.com/library/archive/technotes/tn2449/_index.html) | ssh asks for a key's passphrase once, saves it in your keychain, and adds the key to the agent. `UseKeychain` is macOS's own. |
+| [Keep key passphrases in your keychain](https://developer.apple.com/library/archive/technotes/tn2449/_index.html) | ssh asks for a key's passphrase once, saves it in your keychain, and adds the key to the agent. `UseKeychain` is macOS's own, so Peel's file names it in an `IgnoreUnknown` line first, as Apple's note shows, and an ssh installed from elsewhere, such as Homebrew's, passes over it. An `IgnoreUnknown` your own `~/.ssh/config` sets earlier wins, since ssh keeps the first value it finds. |
 | [Keep connections alive](https://man.openbsd.org/ssh_config#ServerAliveInterval) | On a quiet connection, ssh checks on the server every minute, so a router doesn't drop it. |
 | [Reuse connections to a server](https://man.openbsd.org/ssh_config#ControlMaster) | A new connection to a server you're already connected to opens at once through the first, which stays open 10 minutes after the last one ends. Leave it off if you use two accounts on one server, such as two GitHub accounts: ssh would send the second through the first one's connection. |
 
@@ -426,6 +426,7 @@ Without Peel, these lines can go at the end of `~/.ssh/config`, in a `Match all`
 ```
 Match all
   # Keep key passphrases in your keychain
+  IgnoreUnknown UseKeychain
   UseKeychain yes
   AddKeysToAgent yes
 
