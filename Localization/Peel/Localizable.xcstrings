@@ -505,7 +505,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ disponíveis de %2$@. Clique para ver o que está ocupando o disco, em Espaço."
+            "value" : "%1$@ disponíveis de %2$@. Clique para ver o que está ocupando o disco, na página Espaço."
           }
         },
         "ro" : {
@@ -929,7 +929,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O encerramento de %@ não foi concluído."
+            "value" : "Não foi possível encerrar %@."
           }
         },
         "ro" : {
@@ -44248,7 +44248,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Encontrado"
+            "value" : "Encontrados"
           }
         },
         "ro" : {
@@ -50215,7 +50215,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew apaga definitivamente todos os arquivos do seu cache com mais de 30 dias, além do que o comando Limpar remove. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
+            "value" : "O Homebrew apaga definitivamente todos os arquivos do próprio cache com mais de 30 dias, além do que o comando Limpar remove. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
           }
         },
         "ro" : {
@@ -89024,7 +89024,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nem Tudo Pôde Ser Buscado"
+            "value" : "Não Foi Possível Buscar em Tudo"
           }
         },
         "ro" : {
@@ -208931,7 +208931,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS espera um momento antes de deslizar o Dock para fora. Isto remove a espera."
+            "value" : "O macOS espera um momento antes de o Dock oculto aparecer. Isto remove a espera."
           }
         },
         "ro" : {
