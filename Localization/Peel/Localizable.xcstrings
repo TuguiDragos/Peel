@@ -523,7 +523,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ tillgängligt av %2$@. Klicka för att se vad som använder skivan, under Utrymme."
+            "value" : "%1$@ tillgängligt av %2$@. Klicka för att se vad som använder skivan, på sidan Utrymme."
           }
         },
         "tr" : {
@@ -12179,7 +12179,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lägger till de länkar som saknas till man-sidorna och skalkompletteringarna i dina taps, och följer ett tap vars huvudgren har bytt namn. Inget raderas."
+            "value" : "Lägger till de länkar som saknas till man-sidorna och kompletteringarna för kommandotolken i dina taps, och följer ett tap vars huvudgren har bytt namn. Inget raderas."
           }
         },
         "tr" : {
@@ -49491,7 +49491,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew lägger till de länkar som saknas till man-sidorna och skalkompletteringarna i sina taps, och låter ett tap vars huvudgren har bytt namn peka på det nya namnet. Homebrew raderar ingenting."
+            "value" : "Homebrew lägger till de länkar som saknas till man-sidorna och kompletteringarna för kommandotolken i sina taps, och låter ett tap vars huvudgren har bytt namn peka på det nya namnet. Homebrew raderar ingenting."
           }
         },
         "tr" : {
@@ -60650,7 +60650,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den är en gömd mapp, en biblioteksmapp eller en mapp som ett verktyg fyller, till exempel node_modules, eller ligger i en sådan. Appar och verktyg sparar det som de installerar där, så Peel letar inte efter projekt i den."
+            "value" : "Det är en gömd mapp, en biblioteksmapp eller en mapp som ett verktyg fyller, till exempel node_modules, eller så ligger den i en sådan. Appar och verktyg sparar det som de installerar där, så Peel letar inte efter projekt i den."
           }
         },
         "tr" : {
@@ -60756,7 +60756,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den är en app eller ett annat paket, eller ligger i ett, och det som finns inuti hör till det."
+            "value" : "Det är en app eller ett annat paket, eller så ligger den i ett, och det som finns inuti hör till det."
           }
         },
         "tr" : {
@@ -62134,7 +62134,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den är inte ett program som Peel kan köra."
+            "value" : "Det är inget program som Peel kan köra."
           }
         },
         "tr" : {
@@ -73671,7 +73671,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hämtningsmappen för Mail"
+            "value" : "Hämtningar i Mail"
           }
         },
         "tr" : {
@@ -74519,7 +74519,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Media och säkerhetskopior"
+            "value" : "Medier och säkerhetskopior"
           }
         },
         "tr" : {
@@ -88830,7 +88830,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alla appar kunde inte läsas"
+            "value" : "Inte alla appar kunde läsas"
           }
         },
         "tr" : {
@@ -88936,7 +88936,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allt kunde inte läsas"
+            "value" : "Inte allt kunde läsas"
           }
         },
         "tr" : {
@@ -89042,7 +89042,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allt kunde inte genomsökas"
+            "value" : "Inte allt kunde genomsökas"
           }
         },
         "tr" : {
@@ -115349,7 +115349,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Om du vill ta bort det går du till Insticksfiler."
+            "value" : "Här rapporterar Peel bara. Om du vill ta bort det går du till sidan Insticksfiler."
           }
         },
         "tr" : {
@@ -137262,7 +137262,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sök i historiken"
+            "value" : "Sök i Historik"
           }
         },
         "tr" : {
@@ -142188,7 +142188,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skalkomplettering"
+            "value" : "Kommandotolkskomplettering"
           }
         },
         "tr" : {
