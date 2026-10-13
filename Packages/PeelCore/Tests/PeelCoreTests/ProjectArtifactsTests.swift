@@ -81,12 +81,41 @@ struct ProjectArtifactsTests {
         let pods = artifact("Pods", isGeneric: false)
         let terraform = artifact(".terraform", isGeneric: false, isEnvironment: true)
 
-        #expect(ProjectArtifacts.markableForBackups([target], excludedFromAbove: []).isEmpty)
-        #expect(ProjectArtifacts.markableForBackups([terraform], excludedFromAbove: []).isEmpty, "no build makes it")
-        #expect(
-            ProjectArtifacts.markableForBackups([target, modules, pods], excludedFromAbove: [pods.url]) == [modules.url]
-        )
-        #expect(ProjectArtifacts.markableForBackups([modules], excludedFromAbove: [modules.url]).isEmpty)
+        func markable(_ artifacts: [ProjectArtifact], excludedFromAbove: Set<URL> = []) -> [URL] {
+            ProjectArtifacts.BackupMarks(artifacts, excluded: excludedFromAbove, excludedFromAbove: excludedFromAbove)
+                .markable
+        }
+
+        #expect(markable([target]).isEmpty)
+        #expect(markable([terraform]).isEmpty, "no build makes it")
+        #expect(markable([target, modules, pods], excludedFromAbove: [pods.url]) == [modules.url])
+        #expect(markable([modules], excludedFromAbove: [modules.url]).isEmpty)
+    }
+
+    @Test func theBackupSwitchShowsAndTakesOffWhatPeelMarked() {
+        func artifact(_ name: String, isGeneric: Bool = false, isEnvironment: Bool = false) -> ProjectArtifact {
+            ProjectArtifact(
+                url: URL(filePath: "/Users/x/Code/App/\(name)"), project: URL(filePath: "/Users/x/Code/App"), name: name,
+                tool: "tool", size: 10, lastActivity: nil, hasGenericName: isGeneric, isEnvironment: isEnvironment
+            )
+        }
+        let modules = artifact("node_modules")
+        let venv = artifact(".venv", isEnvironment: true)
+        let target = artifact("target", isGeneric: true)
+        let artifacts = [modules, venv, target]
+        func marks(excluded: Set<URL>, excludedFromAbove: Set<URL> = [], of list: [ProjectArtifact] = artifacts)
+            -> ProjectArtifacts.BackupMarks {
+            ProjectArtifacts.BackupMarks(list, excluded: excluded, excludedFromAbove: excludedFromAbove)
+        }
+
+        #expect(!marks(excluded: []).isOn)
+        #expect(marks(excluded: []).folders(turning: true) == [modules.url])
+        #expect(marks(excluded: [modules.url]).isOn, "a project with an environment read off once marked")
+        #expect(marks(excluded: [modules.url]).folders(turning: false) == [modules.url])
+        #expect(Set(marks(excluded: [modules.url, venv.url]).folders(turning: false)) == [modules.url, venv.url])
+        #expect(marks(excluded: [venv.url], of: [venv]).isOn && marks(excluded: [venv.url], of: [venv]).canChange)
+        #expect(marks(excluded: [modules.url], excludedFromAbove: [modules.url], of: [modules]).isOn)
+        #expect(!marks(excluded: [modules.url], excludedFromAbove: [modules.url], of: [modules]).canChange)
     }
 
     @Test func saysWhenAProjectLastChangedOnlyWhenItKnows() {

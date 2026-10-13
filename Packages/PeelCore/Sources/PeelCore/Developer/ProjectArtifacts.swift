@@ -60,11 +60,30 @@ public enum ProjectArtifacts {
         return artifacts.compactMap(\.lastActivity).max().map { .at($0) } ?? .none
     }
 
-    /// The artifacts to leave out of Time Machine: never one with a generic name, since the mark travels with the
-    /// folder, even into a copy of it (`man tmutil`), and never an environment, which holds what no build makes
-    /// again (`.terraform` keeps the chosen workspace and the backend's settings).
-    public static func markableForBackups(_ artifacts: [ProjectArtifact], excludedFromAbove: Set<URL>) -> [URL] {
-        artifacts.filter { !$0.hasGenericName && !$0.isEnvironment && !excludedFromAbove.contains($0.url) }.map(\.url)
+    public struct BackupMarks: Sendable, Equatable {
+        /// What turning the Time Machine switch on leaves out of backups: never a folder with a generic name, since the
+        /// mark travels with the folder, even into a copy of it (`man tmutil`), and never an environment, which holds
+        /// what no build makes again (`.terraform` keeps the chosen workspace and the backend's settings).
+        public let markable: [URL]
+        /// The folders carrying Peel's own mark, which turning the switch off takes away.
+        public let marked: [URL]
+        private let shown: [URL]
+        private let excluded: Set<URL>
+
+        /// `excludedFromAbove`: what Time Machine leaves out through a folder above or a rule of its own, not Peel's.
+        public init(_ artifacts: [ProjectArtifact], excluded: Set<URL>, excludedFromAbove: Set<URL>) {
+            let considered = artifacts.filter { !$0.hasGenericName && !$0.isEnvironment }.map(\.url)
+            markable = considered.filter { !excludedFromAbove.contains($0) }
+            marked = artifacts.map(\.url).filter { excluded.contains($0) && !excludedFromAbove.contains($0) }
+            shown = considered + marked.filter { !considered.contains($0) }
+            self.excluded = excluded
+        }
+
+        /// On while everything the switch is about is left out of backups, what Peel marked before included.
+        public var isOn: Bool { !shown.isEmpty && shown.allSatisfy(excluded.contains) }
+        public var canChange: Bool { !markable.isEmpty || !marked.isEmpty }
+
+        public func folders(turning isOn: Bool) -> [URL] { isOn ? markable : marked }
     }
 
     struct Definition: Sendable {

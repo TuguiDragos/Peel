@@ -121,11 +121,14 @@ final class ProjectLibrary {
         await refresh()
     }
 
-    /// True when every artifact the checkbox acts on is excluded from backups. Artifacts with a generic name
-    /// are never excluded by it, so they are not counted.
+    private func backupMarks(_ group: ProjectGroup) -> ProjectArtifacts.BackupMarks {
+        ProjectArtifacts.BackupMarks(
+            group.artifacts, excluded: excludedFromBackups, excludedFromAbove: excludedFromAbove
+        )
+    }
+
     func isExcludedFromBackups(_ group: ProjectGroup) -> Bool {
-        let marked = group.artifacts.filter { !$0.hasGenericName }
-        return !marked.isEmpty && marked.allSatisfy { excludedFromBackups.contains($0.url) }
+        backupMarks(group).isOn
     }
 
     /// The group's folders that would not take the mark the last time Peel set it.
@@ -133,15 +136,14 @@ final class ProjectLibrary {
         group.artifacts.map(\.url).filter(backupMarkFailures.contains)
     }
 
-    /// False when no artifact of the group can take the mark, so the checkbox has nothing to change.
     func canMarkForBackups(_ group: ProjectGroup) -> Bool {
-        !ProjectArtifacts.markableForBackups(group.artifacts, excludedFromAbove: excludedFromAbove).isEmpty
+        backupMarks(group).canChange
     }
 
     /// Excludes the group's artifacts from Time Machine backups, or includes them again, so a backup holds the
     /// project and not what a build can make again.
     func setExcludedFromBackups(_ isExcluded: Bool, in group: ProjectGroup) {
-        let urls = ProjectArtifacts.markableForBackups(group.artifacts, excludedFromAbove: excludedFromAbove)
+        let urls = backupMarks(group).folders(turning: isExcluded)
         let failed = TimeMachineExclusion.setExcluded(isExcluded, urls)
         backupMarkFailures = backupMarkFailures.subtracting(urls).union(failed)
         let changed = Set(urls).subtracting(failed)
