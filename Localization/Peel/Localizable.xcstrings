@@ -158123,6 +158123,112 @@
         }
       }
     },
+    "The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n%@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koš obsahuje položky určené k vyhození, a proto v něm Peel aplikace nehledá.\n\n%@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Papierkorb liegt, was weggeworfen wird, daher sucht Peel dort nicht nach Apps.\n\n%@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La papelera contiene lo que se va a eliminar, así que Peel no busca apps ahí.\n\n%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La corbeille contient ce que vous jetez : Peel n’y recherche donc pas d’apps.\n\n%@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Cestino contiene ciò che è destinato a essere eliminato, quindi Peel non cerca app al suo interno.\n\n%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴミ箱には、捨てようとしているものが入っているため、Peelはそこではアプリを探しません。\n\n%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통에는 버릴 항목이 들어 있으므로 Peel은 그곳에서 앱을 찾지 않습니다.\n\n%@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De prullenmand bevat wat wordt weggegooid, dus zoekt Peel daar niet naar apps.\n\n%@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kosz zawiera rzeczy przeznaczone do usunięcia, więc Peel nie szuka tam aplikacji.\n\n%@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Lixo contém o que está sendo descartado, então o Peel não procura apps lá.\n\n%@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coșul conține ce urmează să fie aruncat, așa că Peel nu caută aplicații acolo.\n\n%@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Корзине лежит то, что предстоит удалить, поэтому Peel не ищет там приложения.\n\n%@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Papperskorgen innehåller det som är på väg att slängas, så Peel letar inte efter appar där.\n\n%@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp Sepeti, atılmak üzere olanları tutar, bu yüzden Peel orada uygulama aramaz.\n\n%@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У Смітнику лежить те, що ви викидаєте, тож Peel не шукає там програм.\n\n%@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "废纸篓中存放的是即将丢弃的内容，因此Peel不会在其中查找App。\n\n%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「垃圾桶」存放的是準備丟棄的項目，因此Peel不會在那裡尋找App。\n\n%@"
+          }
+        }
+      }
+    },
     "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version." : {
       "localizations" : {
         "cs" : {

@@ -20,7 +20,8 @@ public enum AppCatalog {
 
     /// Where Peel looks for apps in `environment`: its Applications folders and the folders chosen in its home.
     static func directories(in environment: SearchEnvironment) -> [URL] {
-        let chosen = AppFolders(url: AppFolders.url(inHome: environment.homeDirectory)).load() ?? []
+        let home = environment.homeDirectory
+        let chosen = AppFolders(url: AppFolders.url(inHome: home), home: home).load() ?? []
         return standardDirectories(home: environment.homeDirectory, root: environment.rootDirectory) + chosen
     }
 

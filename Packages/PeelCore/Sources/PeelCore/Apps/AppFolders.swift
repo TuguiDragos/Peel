@@ -9,12 +9,20 @@ public struct AppFolders: Sendable {
         case tooBroad
         /// An Applications folder, or one inside it, which Peel already looks in.
         case alreadyLookedIn
+        /// The Trash, or a folder in it, which holds what is on its way out.
+        case inATrash
     }
 
     public let url: URL
+    let home: URL
 
     public init(url: URL = AppFolders.defaultURL) {
+        self.init(url: url, home: .homeDirectory)
+    }
+
+    init(url: URL, home: URL) {
         self.url = url
+        self.home = home
     }
 
     public static var defaultURL: URL {
@@ -63,6 +71,7 @@ public struct AppFolders: Sendable {
         let path = folded(folder)
         let broad = ["/", "/users", "/volumes", "/system", "/library", folded(home), folded(home) + "/library"]
         if broad.contains(path) { return .tooBroad }
+        if TrashService.isAtOrInsideATrash(folder, home: home) { return .inATrash }
         let lookedIn = AppCatalog.standardDirectories(home: home).contains {
             PathComponents.isPath(path, atOrInside: folded($0))
         }
@@ -85,9 +94,11 @@ public struct AppFolders: Sendable {
         }
     }
 
+    /// The folders saved, less any in a Trash, which a list saved before such a folder was refused can hold.
     private func read() -> [URL]? {
         guard let data = BoundedRead.data(at: url), let paths = try? JSONDecoder().decode([String].self, from: data)
         else { return nil }
         return paths.map { URL(filePath: $0, directoryHint: .isDirectory) }
+            .filter { !TrashService.isAtOrInsideATrash($0, home: home) }
     }
 }

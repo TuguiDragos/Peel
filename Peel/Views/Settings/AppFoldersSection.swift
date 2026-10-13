@@ -7,9 +7,17 @@ struct AppFoldersSection: View {
     @State private var isChoosing = false
     @State private var selected: Set<URL> = []
     @State private var refused: [String] = []
+    @State private var refusedInATrash: [String] = []
 
     private var isShowingRefusal: Binding<Bool> {
-        Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
+        Binding(
+            get: { !refused.isEmpty || !refusedInATrash.isEmpty },
+            set: {
+                guard !$0 else { return }
+                refused = []
+                refusedInATrash = []
+            }
+        )
     }
 
     var body: some View {
@@ -59,16 +67,30 @@ struct AppFoldersSection: View {
             isPresented: $isChoosing, allowedContentTypes: [.folder], allowsMultipleSelection: true
         ) { result in
             guard let urls = try? result.get() else { return }
-            let refusedURLs = urls.filter { AppFolders.refusal(of: $0) != nil }
-            refused = refusedURLs.map(\.abbreviatedPath)
-            let adding = urls.filter { !refusedURLs.contains($0) }
+            let refusals = urls.compactMap { url in AppFolders.refusal(of: url).map { (url: url, refusal: $0) } }
+            refused = refusals.filter { $0.refusal != .inATrash }.map(\.url.abbreviatedPath)
+            refusedInATrash = refusals.filter { $0.refusal == .inATrash }.map(\.url.abbreviatedPath)
+            let adding = urls.filter { url in !refusals.contains { $0.url == url } }
             guard !adding.isEmpty else { return }
             library.addFolders(adding)
         }
-        .alert(refused.count == 1 ? "That folder can’t be added." : "These folders can’t be added.", isPresented: isShowingRefusal) {
+        .alert(
+            refused.count + refusedInATrash.count == 1 ? "That folder can’t be added." : "These folders can’t be added.",
+            isPresented: isShowingRefusal
+        ) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text("Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, or a Library would slow down every look for apps. Choose the folder that holds the apps.\n\n\(refused.joined(separator: "\n"))")
+            refusalMessage
+        }
+    }
+
+    private var refusalMessage: Text {
+        let others = Text("Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, or a Library would slow down every look for apps. Choose the folder that holds the apps.\n\n\(refused.joined(separator: "\n"))")
+        let inATrash = Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(refusedInATrash.joined(separator: "\n"))")
+        switch (refused.isEmpty, refusedInATrash.isEmpty) {
+        case (false, true): return others
+        case (true, false): return inATrash
+        default: return Text("\(others)\n\n\(inATrash)")
         }
     }
 

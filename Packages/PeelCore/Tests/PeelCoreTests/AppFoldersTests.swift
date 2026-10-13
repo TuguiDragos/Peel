@@ -18,6 +18,43 @@ struct AppFoldersTests {
         }
     }
 
+    @Test func refusesTheTrashAndAFolderInIt() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory(".Trash")
+        let inTheTrash = try directory.directory(".Trash/Apps")
+        let tools = try directory.directory("Tools")
+
+        #expect(AppFolders.refusal(of: trash, home: directory.url) == .inATrash)
+        #expect(AppFolders.refusal(of: inTheTrash, home: directory.url) == .inATrash)
+        #expect(AppFolders.refusal(of: tools, home: directory.url) == nil)
+    }
+
+    @Test func leavesOutAFolderInTheTrashChosenBefore() throws {
+        let directory = try TemporaryDirectory()
+        let inTheTrash = try directory.directory(".Trash/Apps")
+        let tools = try directory.directory("Tools")
+        let saved = [inTheTrash, tools].map { $0.path(percentEncoded: false) }
+        let list = try directory.file("app-folders.json", contents: JSONEncoder().encode(saved))
+
+        #expect(AppFolders(url: list, home: directory.url).load()?.map(\.lastPathComponent) == ["Tools"])
+    }
+
+    @Test func aReadingOfAnotherHomeLeavesOutAFolderInThatHomesTrash() throws {
+        let directory = try TemporaryDirectory()
+        let saved = [try directory.directory(".Trash/Apps"), try directory.directory("Tools")]
+            .map { $0.path(percentEncoded: false) }
+        try directory.file("Library/Application Support/Peel/app-folders.json", contents: JSONEncoder().encode(saved))
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url,
+            rootDirectory: directory.url.appending(path: "root")
+        )
+
+        let read = AppCatalog.directories(in: environment).map(\.lastPathComponent)
+
+        #expect(read.contains("Tools"))
+        #expect(!read.contains("Apps"))
+    }
+
     @Test func remembersTheFoldersChosenForApps() throws {
         let directory = try TemporaryDirectory()
         let folders = AppFolders(url: directory.url.appending(path: "app-folders.json"))

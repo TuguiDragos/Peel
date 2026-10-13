@@ -777,13 +777,25 @@ public struct TrashService: Sendable {
 
     /// The Trashes an item in `folder` could be in, with links resolved: the home's, and its volume's.
     private func trashes(forItemsIn folder: String) -> [String] {
-        var trashes = [URL.homeDirectory, environment.homeDirectory].map {
-            $0.appending(path: ".Trash", directoryHint: .isDirectory)
-        }
+        Self.trashes(forItemsIn: folder, homes: [.homeDirectory, environment.homeDirectory])
+    }
+
+    private static func trashes(forItemsIn folder: String, homes: [URL]) -> [String] {
+        var trashes = homes.map { $0.appending(path: ".Trash", directoryHint: .isDirectory) }
         if let volume = try? URL(filePath: folder).resourceValues(forKeys: [.volumeURLKey]).volume {
             trashes.append(volume.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory))
         }
         return trashes.compactMap { PrivilegedPathPolicy.resolvedPath($0.path(percentEncoded: false)) }
+    }
+
+    /// Whether `url` is a Trash or inside one, links resolved: `home`'s, or its volume's. What isn't there is in none.
+    public static func isAtOrInsideATrash(_ url: URL, home: URL = .homeDirectory) -> Bool {
+        guard !url.pathComponents.contains(where: { $0 == "." || $0 == ".." }),
+              let resolved = PrivilegedPathPolicy.resolvedPath(url.path(percentEncoded: false))
+        else { return false }
+        return trashes(forItemsIn: resolved, homes: [.homeDirectory, home]).contains {
+            PathComponents.isPath(resolved, atOrInside: $0)
+        }
     }
 
     /// The failure reason for an error a move threw. macOS does not say which permission is missing, so any
