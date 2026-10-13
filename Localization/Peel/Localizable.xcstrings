@@ -469,7 +469,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ disponibles sur %2$@. Cliquez pour voir ce qui l’occupe, dans Espace."
+            "value" : "%1$@ disponibles sur %2$@. Cliquez pour voir ce qui l’occupe, sur la page Espace."
           }
         },
         "it" : {
@@ -999,7 +999,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selon la documentation de %@, %@ se désinstalle en ouvrant cette app, qui se supprime ensuite elle aussi. Placée seule dans la corbeille, cette app laisserait %@ derrière elle : Peel la laisse donc en place pour que vous l’ouvriez."
+            "value" : "Selon la documentation de %@, pour supprimer %@, il faut ouvrir cette app, qui se supprime ensuite elle aussi. Placée seule dans la corbeille, cette app laisserait %@ derrière elle : Peel la laisse donc en place pour que vous l’ouvriez."
           }
         },
         "it" : {
@@ -1105,7 +1105,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selon la documentation de %@, %@ se désinstalle avec son propre programme, qui supprime aussi ce que l’app conserve dans le système et les réglages qui la gèrent. Placée dans la corbeille depuis cette page, l’app les laisserait derrière elle : Peel la laisse donc là où elle est, avec ses fichiers."
+            "value" : "Selon la documentation de %@, pour supprimer %@, il faut utiliser son propre programme de désinstallation, qui supprime aussi ce que l’app conserve dans le système et les réglages qui la gèrent. Placée dans la corbeille depuis cette page, l’app les laisserait derrière elle : Peel la laisse donc là où elle est, avec ses fichiers."
           }
         },
         "it" : {
@@ -12231,7 +12231,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fonds d’écran aériens"
+            "value" : "Vues aériennes"
           }
         },
         "it" : {
@@ -14033,7 +14033,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une app qui a besoin de vous cesse de sautiller dans le Dock."
+            "value" : "Une app qui a besoin de vous cesse de rebondir dans le Dock."
           }
         },
         "it" : {
@@ -31610,7 +31610,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Date d’ajout"
+            "value" : "Date de l’ajout"
           }
         },
         "it" : {
@@ -38858,7 +38858,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Développé"
+            "value" : "Étendu"
           }
         },
         "it" : {
@@ -44212,7 +44212,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trouvé"
+            "value" : "Résultats"
           }
         },
         "it" : {
@@ -47843,7 +47843,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Élément caché"
+            "value" : "Élément masqué"
           }
         },
         "it" : {
@@ -88776,7 +88776,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toutes les apps n’ont pas pu être lues"
+            "value" : "Certaines apps n’ont pas pu être lues"
           }
         },
         "it" : {
@@ -105035,7 +105035,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. Un flux hors service, déplacé ou protégé par une connexion aboutit ici, et Peel repose la question à la prochaine vérification."
+            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, et Peel repose la question à la prochaine vérification."
           }
         },
         "it" : {
@@ -105141,7 +105141,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. La dernière réponse est arrivée %@. Un flux hors service, déplacé ou protégé par une connexion aboutit ici, et Peel repose la question à la prochaine vérification."
+            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. La dernière réponse est arrivée %@. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, et Peel repose la question à la prochaine vérification."
           }
         },
         "it" : {
@@ -106519,7 +106519,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel compare les fichiers sur l’intégralité de leur contenu. Un dossier n’est une copie que si chacun de ses fichiers correspond, fichiers cachés compris. Les dépôts (Git, Mercurial, Subversion), les projets contenant un fichier de compilation comme package.json ou Cargo.toml, les dossiers node_modules et les bibliothèques comme celles de Photos et de Musique sont laissés de côté, et une app n’est jamais proposée seule. Un fichier de compilation placé à la racine d’un dossier que vous avez choisi n’en fait pas un projet."
+            "value" : "Peel compare les fichiers sur l’intégralité de leur contenu. Un dossier n’est une copie que si chacun de ses fichiers correspond, fichiers masqués compris. Les dépôts (Git, Mercurial, Subversion), les projets contenant un fichier de compilation comme package.json ou Cargo.toml, les dossiers node_modules et les bibliothèques comme celles de Photos et de Musique sont laissés de côté, et une app n’est jamais proposée seule. Un fichier de compilation placé à la racine d’un dossier que vous avez choisi n’en fait pas un projet."
           }
         },
         "it" : {
@@ -141392,7 +141392,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Réglages enregistrés de %@"
+            "value" : "Réglages enregistrés pour %@"
           }
         },
         "it" : {
@@ -143618,7 +143618,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher les fichiers cachés"
+            "value" : "Afficher les fichiers masqués"
           }
         },
         "it" : {
@@ -145844,7 +145844,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Siri dans « Temps d’écran »"
+            "value" : "Siri dans Temps d’écran"
           }
         },
         "it" : {
@@ -180525,7 +180525,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En attente de voir %@ quitter"
+            "value" : "En attente de la fermeture de %@"
           }
         },
         "it" : {
@@ -208047,7 +208047,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS exécute une tâche portant ce nom, mais ce n’est pas macOS qui a installé ce fichier : Peel ne la démarre donc pas, ne l’arrête pas et ne la supprime pas ici. Examinez le fichier pour savoir ce qui l’a placé là."
+            "value" : "macOS exécute une tâche portant ce nom, mais ce n’est pas macOS qui a installé ce fichier : Peel ne le démarre donc pas, ne l’arrête pas et ne le supprime pas ici. Examinez le fichier pour savoir ce qui l’a placé là."
           }
         },
         "it" : {
