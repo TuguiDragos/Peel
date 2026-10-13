@@ -23,7 +23,7 @@ before the fix is written, and the result is checked where it shows, as [AGENTS.
   package's tests need no signing.
 - Two dependencies: Apple's swift-argument-parser, which Xcode fetches, and Sparkle, which updates Peel. Sparkle is
   built from its source, at the commit `Scripts/build_sparkle.sh` names, with arm64e and without its XPC services: run
-  the script once before the first build. When that commit changes, move `build/Sparkle` to the Trash first, since
+  the script once before the first build. When that commit changes, move `build/SparkleSource` to the Trash first, since
   the script refuses a checkout at any other commit, then run it again.
 
 ```bash

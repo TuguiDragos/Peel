@@ -4,13 +4,16 @@
 # and Sparkle's XPC services are left out, since Sparkle uses them only in a sandboxed app.
 #
 # Usage: zsh Scripts/build_sparkle.sh   (run once before building Peel, and again when the version below changes,
-# after moving build/Sparkle to the Trash)
+# after moving build/SparkleSource to the Trash)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 version=2.10.0
 commit=eef1a539a373c1f1a320624b1130fc5de7b2e100
-source=build/Sparkle
+# No build folder's path may begin with the checkout's, even inside a name (build/Sparkle and build/SparkleBuild):
+# the compiler then writes the modules it built relative to the source, cutting the path there, and dsymutil can't
+# find them.
+source=build/SparkleSource
 
 if [ ! -d "$source" ]; then
     git -c advice.detachedHead=false clone --quiet --depth 1 --branch "$version" \
