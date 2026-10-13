@@ -66,7 +66,7 @@ final class CloudLibrary {
         selectedSize = selectedURLs.map { sizes[$0] ?? 0 }.cappedSum
     }
 
-    /// Scans again. What the last Free Up Space refused is cleared, since it described the old list.
+    /// Scans again. What the last Remove Downloads refused is cleared, since it described the old list.
     func refresh() async {
         refusals = []
         let pictures = Set(NSScreen.screens.compactMap { NSWorkspace.shared.desktopImageURL(for: $0) })
