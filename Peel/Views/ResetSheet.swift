@@ -245,7 +245,7 @@ struct ResetSheet: View {
             .buttonStyle(.borderedProminent)
             .disabled(
                 !plan.hasAnythingToReset || plan.isResetting || plan.isAppRunning
-                    || !exclusions.exclusions.isKnown || history.isUnreadable
+                    || !history.mayMove
             )
         }
         .padding(.horizontal, 20)

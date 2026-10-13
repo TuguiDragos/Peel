@@ -2,7 +2,6 @@ import PeelCore
 import SwiftUI
 
 struct RemovalBar: View {
-    @Environment(ExclusionsStore.self) private var exclusions
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(SelectionCarrier.self) private var carrier
     /// What the last removal moved while this bar was on screen, shown briefly in place of the selection.
@@ -133,7 +132,7 @@ struct RemovalBar: View {
 
     var body: some View {
         let reading = reading
-        let isEnabled = reading.isEnabled && exclusions.exclusions.isKnown && !history.isUnreadable
+        let isEnabled = reading.isEnabled && history.mayMove
         BusyShown(isBusy: moving?.isMoving == true) { isShowingMove in
             BusyShown(isBusy: waitingToQuit != nil) { isShowingWait in
                 BusyShown(isBusy: isScanning) { isShowingScan in

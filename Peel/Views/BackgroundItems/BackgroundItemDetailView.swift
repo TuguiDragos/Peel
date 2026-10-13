@@ -8,7 +8,6 @@ struct BackgroundItemDetailView: View {
     @Environment(BackgroundItemLibrary.self) private var backgroundItems
     @Environment(HelperModel.self) private var helper
     @Environment(RemovalHistoryStore.self) private var history
-    @Environment(ExclusionsStore.self) private var exclusions
     @Environment(\.openSettings) private var openSettings
     @State private var isConfirmingTrash = false
     /// Reading this asks macOS, so it is read once per item and scan rather than on every evaluation of `body`.
@@ -368,8 +367,7 @@ struct BackgroundItemDetailView: View {
             }
             .buttonStyle(.borderedProminent)
             .disabled(
-                isBusy || item.removalRequiresPrivileges && !helper.canAct || !exclusions.exclusions.isKnown
-                    || history.isUnreadable
+                isBusy || item.removalRequiresPrivileges && !helper.canAct || !history.mayMove
             )
         }
     }

@@ -80,7 +80,7 @@ struct PeelCommands: Commands {
                 }
                 .keyboardShortcut("z", modifiers: .command)
                 .disabled(
-                    history?.undoTitle == nil || history?.isRestoring == true || history?.mayPutBack != true
+                    history?.undoTitle == nil || history?.isRestoring == true || history?.mayMove != true
                         || sheetInFront.isShowing
                 )
                 Button("Redo") {}

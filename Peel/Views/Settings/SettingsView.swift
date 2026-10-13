@@ -435,7 +435,7 @@ private struct GeneralSettingsView: View {
                         .disabled(
                             selfUninstall.isRunning || !library.hasLoaded
                                 || (homebrew.isInstalled && homebrew.packages == nil)
-                                || !exclusions.exclusions.isKnown || history.isUnreadable
+                                || !history.mayMove
                         )
                     }
                     if exclusions.exclusions.isUnreadable {

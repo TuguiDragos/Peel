@@ -6,7 +6,6 @@ struct PluginDetailView: View {
     @Environment(PluginLibrary.self) private var plugins
     @Environment(HelperModel.self) private var helper
     @Environment(RemovalHistoryStore.self) private var history
-    @Environment(ExclusionsStore.self) private var exclusions
     @State private var isConfirmingRemoval = false
     @Environment(RemovalOutcome.self) private var outcome
     let plugin: Plugin
@@ -93,7 +92,7 @@ struct PluginDetailView: View {
                     .buttonStyle(.borderedProminent)
                     .disabled(
                         isLocked || plugin.refusal != nil || plugins.isRemoving || plugins.isScanning
-                            || !exclusions.exclusions.isKnown || history.isUnreadable
+                            || !history.mayMove
                     )
                 }
             }

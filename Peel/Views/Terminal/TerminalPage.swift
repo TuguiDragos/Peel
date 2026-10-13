@@ -277,7 +277,6 @@ private struct QuietLoginRow: View {
     @Environment(TerminalLibrary.self) private var terminal
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(RemovalOutcome.self) private var outcome
-    @Environment(ExclusionsStore.self) private var exclusions
     @State private var asked: Bool?
 
     var body: some View {
@@ -292,7 +291,7 @@ private struct QuietLoginRow: View {
     }
 
     private var canMoveToTrash: Bool {
-        exclusions.exclusions.isKnown && !history.isUnreadable
+        history.mayMove
     }
 
     private var isOn: Binding<Bool> {
