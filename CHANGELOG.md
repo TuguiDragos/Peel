@@ -3,7 +3,7 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
-## 1.1.0 (not released yet)
+## 1.1.0 (2026-10-13)
 
 > [!IMPORTANT]
 > Peel 1.0.1 can't install an update itself. To update from it, quit Peel, move it from Applications to the Trash,
