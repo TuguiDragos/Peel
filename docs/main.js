@@ -145,13 +145,13 @@ themeButtons.forEach((button) => {
   });
 });
 
-// Without an answer, Download keeps pointing at the latest release page.
-fetch("https://api.github.com/repos/TuguiDragos/Peel/releases?per_page=10", {
+// The release GitHub calls the latest, the one the Download link's own address leads to. Without an answer,
+// Download keeps pointing at that release's page.
+fetch("https://api.github.com/repos/TuguiDragos/Peel/releases/latest", {
   headers: { Accept: "application/vnd.github+json" },
   priority: "low",
 })
   .then((response) => (response.ok ? response.json() : Promise.reject(response.status)))
-  .then((releases) => releases.find((release) => !release.draft && !release.prerelease) || Promise.reject("none"))
   .then((release) => {
     const prefix = "https://github.com/TuguiDragos/Peel/releases/download/";
     const image = (release.assets || []).find((asset) => {
