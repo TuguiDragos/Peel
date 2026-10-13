@@ -1,19 +1,19 @@
 # Safety
 
-Peel removes files. So the question that matters most isn't whether someone can break in. It is **whether Peel can
-take something you can't get back**, and this page answers it: what Peel never removes, what it never deletes, what
-it changes besides moving files, what it selects for you and what it leaves to you, how it keeps crypto wallets,
-how a reset stays within an app's settings, what it changes in Terminal's, the shell's, Git's, and ssh's settings,
-and what its helper, which runs as root, may do.
+Peel removes files. So the question that matters most isn't whether someone can break in. It is **whether Peel can take
+something you can't get back**, and this page answers it: what Peel never removes, what it never deletes, what it
+changes besides moving files, what it selects for you and what it leaves to you, how it keeps crypto wallets, what you
+can exclude, how a reset stays within an app's settings, what it changes in Terminal's, the shell's, Git's, and ssh's
+settings, and what its helper, which runs as root, may do.
 
 In short:
 
 - Everything Peel removes goes to the Trash, and History puts it back. Peel never empties the Trash.
 - What nothing could bring back, such as iCloud Drive, keychains, crypto wallets, Mail, Messages, and photo
   libraries, is refused, whoever asks.
-- Peel selects for you only what is certainly the app's and no other app's. What may exist nowhere else is shown
-  with its reason and left to you.
-- Nothing moves from under a program that is using it.
+- Peel selects for you only what it is sure, or nearly sure, is the app's and no other app's. What may exist nowhere
+  else is shown with its reason and left to you.
+- Nothing moves from under a program of yours that is using it.
 - The few things History can't undo say so before you confirm them.
 - The helper that runs as root does a few things only, for administrators only, and checks everything again itself.
 
@@ -21,7 +21,7 @@ To report a way around any of this, see [SECURITY.md](SECURITY.md).
 
 ## What Peel will never remove
 
-These folders are refused outright, wherever the request comes from: the app, the command line tool, or the
+These folders are refused outright, wherever the request comes from: the app, the command-line tool, or the
 helper running as root. The list lives in `ProtectedData.swift`, beside the helper rather than in the app,
 because a program running as root must not depend on its caller to tell it what is irreplaceable.
 
@@ -44,8 +44,8 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | `Safari` | Bookmarks, history, reading list. |
 | `Calendars`, `Reminders` | Your calendars and reminders, where older systems kept them. |
 | `Group Containers/` any of Apple's own | Where macOS 26 keeps notes, reminders, calendars, voice memos, the journal, and more. Apple moves these between releases, so they are recognized by their name (`com.apple.` after an optional team and an optional `group.`, `groups.`, or `systemgroup.`), not from a list. |
-| `Shortcuts` and its two group containers, `HomeKit`, `Accounts`, `Finance`, `IdentityServices` | Your shortcuts, your home, your accounts and what they hold. |
-| `Application Support/FaceTime`, `CallHistoryTransactions` | Calls. |
+| `Shortcuts` and its two group containers, `HomeKit`, `Accounts`, `Finance`, `IdentityServices` | Your shortcuts, your home, and your accounts and what they hold. |
+| `Application Support/FaceTime`, `Application Support/CallHistoryTransactions` | Calls. |
 | `Containers/com.apple.freeform`, `com.apple.journal`, Stickies' notes, Safari's own store | Boards, journal entries, stickies, and tabs. |
 | `.Trash` | Already-deleted things are not Peel's to delete again. |
 | `.ssh`, `.gnupg`, `.aws`, `.password-store` | Keys, credentials, secrets. |
@@ -53,27 +53,26 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | The keys of desktop wallets and key tools: Bitcoin Core's `wallets` and `wallet.dat`, and those of Litecoin, Dogecoin, Dash, PIVX, Firo, Namecoin, Groestlcoin, Elements, Liquid, and Zcash; Monero's `wallets` and MyMonero's; the Electrum family's, Sparrow's, Wasabi's, Ginger's, Specter's, Ashigaru's, Bitcoin Safe's, and JoinMarket's; Exodus's `exodus.wallet` and `Backups`; Atomic, OneKey, Frame, Rabby, Stack Wallet, BlueWallet, My Wallet, Umami, Bisq, Haveno, Bison Wallet, Liana, Nunchuk, and Green; geth, Clef, Foundry, Hardhat, Ape, and Brownie keystores; the validator keys of Lighthouse, Prysm, and ethdo; the Lightning nodes; Cashu's ecash; and the Solana, Sui, Aptos, NEAR, Stellar, Starknet, Fuel, Avalanche, Tezos, Cosmos, Osmosis, Cardano, Decred, Chia, Grin, Kaspa, and Nano key files, 121 places in all | Lose one and what it holds is gone unless its seed phrase was kept somewhere else. Each is named on its own, read from the project's own documentation or source, so the key stays, and so does any folder that holds it, while what comes back on its own beside it, such as a downloaded blockchain, can still go. |
 | `.config`, `.cache`, `.local`, `.kube` and its `config`, `.CFUserTextEncoding`, your shell's settings and history (`.zshrc`, `.zsh_history`, `.zsh_sessions`, `.bash_history`, and the like), and the settings of git and other tools (`.gitconfig`, `.gitignore_global`, `.netrc`, `.npmrc`) | Shared by many tools and owned by no app. They are never removed themselves; what one tool keeps inside `.config`, `.cache`, or `.local` still can be. |
 
-Outside your home: everything inside `/System`, `/usr`, `/bin`, `/sbin`, and `/Library/Updates`, where macOS
-stages its own updates, but for two things: a link that leads nowhere, directly in `/usr/local/bin`,
-`/usr/local/sbin`, or one of the four folders of `/usr/local` that shell completions are linked into, which an
-app's tool or its completion leaves there once the app is gone and the helper may take, or Peel's own link to its
-`peel` command, which Remove Peel hands the helper (see [The helper that runs as
-root](#the-helper-that-runs-as-root)); and a folder directly in `/usr/local/Caskroom`, the record
-Homebrew keeps of an app it installed on an Intel Mac, which goes with the app. And these folders themselves,
-though not what is inside them:
-`/`, `/Applications`, `/Library`, `/Users`, `/Users/Shared`, `/Volumes`, `/opt`, `/private` and its `var`,
-`tmp`, and `etc`, `/cores`, your home folder, and every folder Peel searches, such as `~/Library/Caches`, which
-is looked inside and never moved whole. Anything System Integrity Protection guards, which macOS marks as
-restricted, is refused as well, and so is anything macOS marks so that nothing can remove or rename it, such as
-the private folders it makes in your temporary folder for the processes it runs in a sandbox; Peel doesn't list
-those.
+Outside your home: everything inside `/System`, `/usr`, `/bin`, `/sbin`, and `/Library/Updates`, where macOS stages its
+own updates, but for two things: a link that leads nowhere, directly in `/usr/local/bin`, `/usr/local/sbin`, or one of
+the four folders of `/usr/local` that shell completions are linked into, which an app's tool or its completion leaves
+there once the app is gone and the helper may take, or Peel's own link to its `peel` command, which Remove Peel hands
+the helper (see [The helper that runs as root](#the-helper-that-runs-as-root)); and a folder directly in
+`/usr/local/Caskroom`, the record Homebrew keeps of an app it installed on an Intel Mac, which goes with the app. And
+these folders themselves, though not what is inside them: `/`, `/Applications`, `/Library`, `/Users`, `/Users/Shared`,
+`/Volumes`, `/opt`, `/private` and its `var`, `tmp`, and `etc`, `/cores`, your home folder, every folder Peel searches,
+such as `~/Library/Caches`, and every folder Space empties, such as `/opt/homebrew/var/log`: each is looked inside and
+never moved whole. Anything System Integrity Protection guards, which macOS marks as restricted, is refused as well, and
+so is anything macOS marks so that nothing can remove or rename it, such as the private folders it makes in your
+temporary folder for the processes it runs in a sandbox; Peel doesn't list those.
 
-Everywhere on the Mac: `/Library/Keychains`, and any `.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`,
-`.musiclibrary`, `.tvlibrary`, `.imovielibrary`, `.fcpbundle`, or `.aplibrary`: somebody's whole photo, music, or
-video collection. A folder with one of them a level or two inside stays too, since moving the folder would take the
-library along, and the row says so instead of failing when you press the button. A browser profile with a
-wallet in it stays the same way, and so does a folder that holds one a level or two down: see
-[Crypto wallets](#crypto-wallets).
+Everywhere on the Mac: `/Library/Keychains`, the Trash macOS keeps at the top of every disk (`/.Trashes` and
+`/Volumes/<disk>/.Trashes`), whose contents are already on their way out, as your own `.Trash`'s are, and any
+`.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`, `.musiclibrary`, `.tvlibrary`, `.imovielibrary`,
+`.fcpbundle`, or `.aplibrary`: somebody's whole photo, music, or video collection. A folder with one of them a level or
+two inside stays too, since moving the folder would take the library along, and the row says so instead of failing when
+you press the button. A browser profile with a wallet in it stays the same way, and so does a folder that holds one a
+level or two down: see [Crypto wallets](#crypto-wallets).
 
 Anything that syncs to your other devices stays too, wherever it is: what iCloud or another cloud service keeps, such
 as what is on your Desktop and in Documents when they are in iCloud Drive, and what is in a folder Syncthing, Resilio
@@ -81,10 +80,10 @@ Sync, Synology Drive Client, or MEGA keeps in step, known by the entry each writ
 `.sync/ID`, `.SynologyWorkingDirectory`, `.megaignore`). The Trash would take it from your other devices too. Its row
 says so, and File Search doesn't list it.
 
-Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android
-Studio record your unsaved edits in `LocalHistory`, beside their caches, and Deno keeps `localStorage` and its
-key-value databases in `location_data`. Those folders, and any cache folder that holds one, stay: emptying
-"App Caches" in Space leaves them where they are.
+Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android Studio keep a
+history of your changes in `LocalHistory`, beside their caches, which no repository may hold, and Deno keeps
+`localStorage` and its key-value databases in `location_data`. Those folders, and any cache folder that holds one, stay:
+emptying "App Caches" in Space leaves them where they are.
 
 Also refused: a sandboxed app's own `Data/Documents`, which is where that app keeps *your* work, not its
 settings. The rule holds for the folder around it too: while `Data/Documents` holds anything, or cannot be
@@ -133,15 +132,15 @@ Peel never deletes anything of yours. Everything it removes goes to the Trash, a
 History can put it back; History keeps the most recent 20,000 items, and what it forgets is still in the Trash.
 The space is freed when *you* empty the Trash: Peel never does that for you.
 
-That includes what other tools would delete:
+That includes what `pkgutil` and Homebrew would delete:
 
 - An installer receipt you ask Peel to forget: the two files that make it up go to the Trash through the helper,
   where `pkgutil --forget` would have discarded them for good.
 - The folder Homebrew keeps for an app it installed (`brew --caskroom`), with the links Homebrew made into it, which
   `brew uninstall` would delete: they go after the app, Homebrew stops listing the app, and History puts them back.
-  The Homebrew page forgets the same way a cask Homebrew still lists after its apps are gone, or after its packages
-  are, for a cask with no app, and can't upgrade: its folder and the links into it, or into its gone apps, go to the
-  Trash.
+  The Homebrew page forgets a cask the same way when Homebrew still lists it but can't upgrade it, because its apps
+  are gone or, for a cask that installs no app, its packages are: Forget Cask moves its folder, and the links into it
+  or into its gone apps, to the Trash.
 
 A removal reaches History even when something cuts it short. Quitting Peel waits until History has it, `peel`
 carries on through Ctrl-C or a closed terminal until it has written History, and each item is written down the
@@ -154,10 +153,10 @@ the item: quit it, or stop it in Background Items when it has no window, since l
 Moving a database or a cache from under an agent, a daemon, or a server that is using it would break it. A program
 of macOS's own, such as a service keeping its cache open, is named as macOS: nobody quits it, so the item stays
 where it is. An app is code, which loses nothing when it moves, so a program that only reads inside it, as Safari
-reads an app's Safari extension, does not keep it in place; one that runs from it or writes in it does, unless the
-app uninstalls itself once it is moved, as Mullvad VPN, Citrix Workspace, and TeamViewer do: their own
-uninstaller stops it. When
-nothing but an app's own background programs, the launch agents and daemons that run from inside it, keeps the app
+reads an app's Safari extension, does not keep it in place; one that runs from it or writes in it does. A program
+running from an app that uninstalls itself once it is moved, as Mullvad VPN, Citrix Workspace, and TeamViewer do,
+doesn't keep that app in place, since their own uninstaller stops it; one writing in it still does. When nothing but
+an app's own background programs, the launch agents and daemons that run from inside it, keeps the app
 in place, an uninstall stops them first and then moves the app, and starts them again if it still stays. Peel itself
 counts too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel. Of
 programs that run as another account or as root, macOS's own among them, only the program can be seen, never the
@@ -184,8 +183,9 @@ to the Trash when `peel history --refused --clear` is asked to forget it, after 
 
 Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them:
 
-- Homebrew's own uninstall and its clean ups (Clean Up, and clearing older or every download), which delete what
-  they remove. An upgrade from the Homebrew page never cleans up on its own, although Homebrew would by default; if
+- Homebrew's own uninstall, which deletes what it removes.
+- Homebrew's cleanups (Clean Up, and clearing older or every download), which delete what they remove. An upgrade
+  from the Homebrew page never cleans up on its own, although Homebrew would by default; if
   one of Homebrew's own settings files (`brew.env`) turns that cleanup back on, the Homebrew page says so and Peel
   leaves upgrades to Terminal.
 - Resetting an app's privacy permissions, which is off until you choose it.
@@ -196,22 +196,22 @@ Forgetting a preference domain after a removal is not one of them: it happens on
 and putting the file back undoes it, until the app writes its settings again.
 
 Three apps delete something of their own once they are moved, which Peel says before it moves them. Mullvad VPN's
-service logs the Mac out of its account and deletes its settings when the app leaves the Applications folder; what
-that service removes (its launch daemon's file, its command links and shell completions, its receipt, its logs, and
-its settings) is listed and never moved by Peel: moving the daemon's file first would stop the service before it
+service logs the Mac out of its account and deletes its settings when the app leaves the Applications folder; what that
+service removes (its launch daemon's file, its command links and shell completions, its receipt, its logs, its caches,
+and its settings) is listed and never moved by Peel: moving the daemon's file first would stop the service before it
 could clean up. Citrix Workspace's own agent opens Citrix's uninstaller once the app is gone from the Applications
-folder, which asks for an administrator's password and, if you continue, deletes the app, even from the Trash, and
-its system files; what it deletes (its launch agents and daemons, its folders in the Library, its logs, its receipt,
-and its settings) is listed and never moved by Peel, since moving the agent's file would stop the uninstaller.
-TeamViewer's own daemon opens TeamViewer's uninstaller once the app is in the Trash, which asks to remove the
-components it keeps in the system and, if you continue, deletes them; what it removes (its launch daemons and agents,
-its helpers, its folder in Application Support, its authorization plug-in, its audio driver, and its printing files)
-is listed and never moved by Peel, since moving its helper's file would stop the uninstaller halfway.
+folder, which asks for an administrator's password and, if you continue, deletes the app, even from the Trash, and its
+system files; what it deletes (its launch agents and daemons, its folders in the Library, its logs, its receipt, and its
+settings) is listed and never moved by Peel, since moving the agent's file would stop the uninstaller. TeamViewer's own
+daemon opens TeamViewer's uninstaller once the app is in the Trash, which asks to remove the components it keeps in the
+system and, if you continue, deletes them; what it removes (its launch daemons and agents, its helpers, its folder in
+Application Support, its authorization plug-in, its audio driver, and its printing files) is listed and never moved by
+Peel, since moving its helper's file would stop the uninstaller halfway.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
-the only way back from a removal. If it can't be read at all, Peel moves nothing until it can, or until you
-start it over in History, which keeps the old file beside the new one: what moved meanwhile couldn't be put
-back. The `peel` command says so and moves nothing either.
+the only way back from a removal. If it can't be read at all, Peel moves nothing, since what it moved then couldn't
+be put back, until it can be read or until you start it over in History, which keeps the old file beside the new
+one. The `peel` command says so and moves nothing either.
 
 The record is also a file any process running as you can rewrite, so Put Back reads it as a request, not as
 a fact. It only takes something that really sits in a Trash of yours (`~/.Trash`, or `.Trashes/<uid>` at the
@@ -232,7 +232,8 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | A launch job is stopped (`launchctl bootout`) once its file is in the Trash | Putting the file back from History, which starts the job again (`launchctl bootstrap`, a daemon through the helper) |
 | An uninstalled app's icon is taken out of the Dock, which restarts the Dock | Putting the app back from History puts its icon back where it was |
 | An app's privacy permissions are reset, only when you choose it | Can't be undone: the app asks again for each permission |
-| Homebrew uninstalls a package or cleans up its downloads | Can't be undone: Homebrew deletes what it removes |
+| Homebrew uninstalls a package, or cleans up its downloads, the old versions it kept, and the formulae nothing needs anymore | Can't be undone: Homebrew deletes what it removes |
+| Homebrew upgrades a package, updates itself and its taps, or repairs its taps' links (Upgrade, Upgrade All, Update, Repair Taps) | Not through History: an upgrade replaces the version that was installed, and the earlier versions of a formula stay until you clean up |
 | An app that would not quit is force quit, only when you choose it | Can't be undone: what the app had not saved is lost |
 | Remove Downloads frees this Mac's copy of a file in iCloud Drive | The file stays in iCloud and downloads again when you open it |
 | Build Artifacts leaves a project's build folders out of Time Machine, when you ask it to | The same checkbox takes the mark off |
@@ -256,8 +257,8 @@ The first three happen after a move, and only for what really moved:
 - **A launch job is stopped** (`launchctl bootout`), or launchd would keep it running and start it again. Putting
   the file back from History starts again the job Peel stopped, as the file back in place declares it (a daemon
   through the helper), and a job that was not running stays as it was.
-- **An uninstalled app's icon leaves the Dock**, unless you deselect it, which restarts the Dock. Putting the app back
-  puts its icon back where it was.
+- **An uninstalled app's icon leaves the Dock**, unless you deselect Also remove from the Dock, and the Dock restarts.
+  Putting the app back puts its icon back where it was.
 
 ## What is selected for you
 
@@ -293,24 +294,27 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **A system extension is left to macOS**, which alone removes it: the app's move to the Trash in Finder asks macOS
   to, and on macOS 27 so does Delete Extension in System Settings, for a network extension. So the copy macOS
   installed is never listed with the app, and the app itself is moved from no page of Peel: its own page, Package
-  Receipts and the Homebrew page all leave it to Finder.
+  Receipts, and the Homebrew page all leave it to Finder.
 - **An authorization plug-in is never moved.** macOS loads one from `/Library/Security/SecurityAgentPlugins` when a
   rule of its authorization database names it, at login among others, and taking away one a rule still names can
   keep anyone from logging in. No public tool lists every rule, so Peel shows it, on the app's page, in Orphaned
-  Files and in Package Receipts, and leaves it to its maker's uninstaller.
+  Files, and in Package Receipts, and leaves it to its maker's uninstaller.
 - **An app that stays keeps its files.** Nothing at all is selected for an app that would stay: one macOS keeps, one
   that is part of another app, one the helper may not move, or one that needs the helper while it cannot act. An app
   that is part of another, such as a helper app inside the app it serves, is never moved on its own, from the app or
   from `peel`: it would be cut out of the app it belongs to. When you remove several apps at once and deselect one of
   them, it stays too: its files leave the selection, those it shares with the other apps included, and selecting it
   again brings them back.
+- **What macOS installed stays macOS's.** Something one of Apple's own installer packages put on the Mac, as its
+  receipt shows, is never listed with an app, whatever it is named, nor among what an uninstall leaves for an
+  administrator, such as a folder Xcode installed that is named for Chrome.
 - **An empty folder of the app's maker goes too.** A folder in your Library or the Mac's named for the app or its
   maker, such as `Application Support/<Maker>`, that an uninstall leaves empty goes to the Trash with it, through the
   helper when its files went that way; one with anything left inside, a hidden file included, one with another name,
   and the Library folder itself stay.
 
-A security or management agent whose maker documents removing it with an uninstaller of its own (GlobalProtect and
-Cortex XDR, Cisco Secure Client, ESET Endpoint Security, Microsoft Defender, Netskope Client and FortiClient) is
+A security or management agent whose maker documents removing it with an uninstaller of its own (GlobalProtect,
+Cortex XDR, Cisco Secure Client, ESET Endpoint Security, Microsoft Defender, Netskope Client, and FortiClient) is
 listed the same way, and nothing of it can be selected: its page names the maker's uninstaller and links to the
 maker's instructions, since moved from its place, what it keeps in the system and the settings that manage it would
 stay behind. Peel knows it by the team its checked signature names and by its identifier, both as the maker
@@ -336,7 +340,10 @@ Never selected for you, even when found:
 - Xcode's archives of the apps you built and the symbols it copied from your devices, both needed to read crash reports,
   and the reports macOS wrote when an app crashed, which its developer may still ask for.
 - Model weights, the packages a tool keeps installed outside your projects, virtual environments, the installers and
-  boxes a tool keeps for you to install again, and an editor's saved state for a project that no longer exists.
+  boxes a tool keeps for you to install again, and an editor's saved state for a project that no longer exists. The
+  Developer page lists only what one tool owns outright: never a toolchain or an installation, never a file that
+  holds an account or a token, and never a folder that keeps your own work beside a cache, such as an editor's
+  unsaved files or a chat history, only the cache inside it.
 - A cache macOS keeps for its own services in `~/Library/Caches` (Spotlight's, the fonts') or in the container of one of
   Apple's apps.
 - A cache in `~/Library/Caches`, or in the folder macOS gives your account for caches, that something wrote to in
@@ -345,13 +352,14 @@ Never selected for you, even when found:
 - A log in `/opt/homebrew/var/log` that something wrote to in the last 15 minutes: a running service may hold it
   open, and moving it would free nothing.
 - `/Users/Shared`: it belongs to every account, not just yours.
-- A project you worked on this week, and a download that changed in the last day, which may still be going.
+- A project changed in the last 7 days, and a download that changed in the last day, which may still be going.
 - A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`)
   inside.
 - What an app keeps that may exist only on this Mac: local mail, message history, a password manager's backups and an
-  authenticator's codes, VPN connections, a game's saves and a database, each where the app's own documentation or
-  source says it keeps them, and anything named as an app's backups. When you uninstall Xcode, the simulators it made in
-  your home folder are listed too, with the apps installed in them and their data, and never selected.
+  authenticator's codes, VPN connections, a game's saves, a database, and a streaming app's scenes and profiles, each
+  where the app's own documentation or source says it keeps them, and anything named as an app's backups. When you
+  uninstall Xcode, the simulators it made in your home folder are listed too, with the apps installed in them and their
+  data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
 - A file a program has open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
@@ -379,27 +387,30 @@ Build Artifacts recommends what a build or a package manager makes again from th
 includes `node_modules` and `Pods`, which `npm install` and `pod install` put back from the project's `package.json` and
 `Podfile`, unless Git tracks files in them: CocoaPods suggests keeping `Pods` in the repository, and a folder Git tracks
 is part of the project, so it is listed and never selected, and so is one in a repository whose list of tracked files
-Peel can't read. Peel reads that list from Git's own index, as Git documents it, and never runs Git in a project. A
-Python environment (`.venv`, `venv`, PDM's `__pypackages__`) is listed and never selected, since packages are often
-installed into one by hand, and so is Terraform's `.terraform`, which keeps the workspace you chose, and xwin's
-`.xwin-cache`, the Windows SDK a Rust project builds against, which only `xwin splat` with your own options puts back.
-Pixi's `.pixi/envs` can be suggested: Pixi makes it again from `pixi.lock` and never lets it be edited by hand. A Meson
-build folder, whatever its name and wherever Peel finds it, is never selected: it also keeps the options its build was
-set up with, which Meson's own `--wipe` carries over and nothing else in the project holds. A folder whose name says
-nothing on its own, such as `target` or `build`, is listed and never selected either. Of a Godot project's `.godot`,
-only the caches Godot makes again are offered, `imported` and `shader_cache`: the folder also holds the export passwords
-and keys (`export_credentials.cfg`), which exist nowhere else. Nx's `.nx` is offered only when it holds nothing but the
-cache and the database beside it, which `nx reset` removes together, since a team can keep its release plans there.
-Build Artifacts never searches a hidden folder, a Library, or a folder a tool fills, such as `node_modules`: apps and
-tools keep there what they install, as an editor keeps each extension's `package.json` beside the `node_modules` it runs
-with. A folder chosen to search that is one of those, or sits inside one, is refused with the reason.
+Peel can't read. Peel reads that list from Git's own index, as Git documents it, and never runs Git in a project.
+Installed packages are listed and never selected, since packages are often installed into them by hand: a Python
+environment (`.venv`, `venv`, `env`, PDM's `__pypackages__`, tox's `.tox`, Nox's `.nox`), Composer's `vendor`, Mix's
+`deps`, Shards' `lib`, and Elm's `elm-stuff`. So is Terraform's `.terraform`, which keeps the workspace you chose, and
+xwin's `.xwin-cache`, the Windows SDK a Rust project builds against, which only `xwin splat` with your own options puts
+back. Pixi's `.pixi/envs` can be suggested: Pixi makes it again from `pixi.lock` and never lets it be edited by hand. A
+Meson build folder, whatever its name and wherever Peel finds it, is never selected: it also keeps the options its build
+was set up with, which Meson's own `--wipe` carries over and nothing else in the project holds. Neither is Bloop's
+`.bloop`, which keeps the workspace settings written there. A folder whose name says nothing on its own, such as
+`target` or `build`, is listed and never selected either. Of a Godot project's `.godot`, only the caches Godot makes
+again are offered, `imported` and `shader_cache`: the folder also holds the export passwords and keys
+(`export_credentials.cfg`), which exist nowhere else. Nx's `.nx` is offered only when it holds nothing but the cache and
+the database beside it, which `nx reset` removes together, since a team can keep its release plans there. Build
+Artifacts never searches a hidden folder, a Library, or a folder a tool fills, such as `node_modules`: apps and tools
+keep there what they install, as an editor keeps each extension's `package.json` beside the `node_modules` it runs with.
+A folder chosen to search that is one of those, or sits inside one, is refused with the reason.
 
 Developer, Build Artifacts, Space, and Installers and Backups select nothing for you: opening a page selects nothing,
 and Select Recommended selects what Peel recommends there.
 
-Orphaned Files selects nothing for you, and `peel orphans --remove` leaves these folders out as well: one in
-`/Users/Shared`, one with a repository, a wallet, a signing key, or a password database inside, one that may hold what
-exists only on this Mac, or one Peel could not read or measure in time, moves only when you select it yourself.
+Orphaned Files selects nothing for you, and `peel orphans --remove` leaves out everything Peel holds back. What it
+holds back moves only when you select it yourself in the app: a folder in `/Users/Shared`, one with a repository, a
+wallet, a signing key, or a password database inside, one that may hold what exists only on this Mac, one Peel could
+not read or measure in time, a crash report, and what only a gone app's name ties to it.
 The copy macOS installed of a system extension, in `/Library/SystemExtensions`, is listed and can't be selected:
 only macOS removes it, and its note says how (on macOS 27, Delete Extension in System Settings for a network
 extension; otherwise the app's move to the Trash in Finder), or that macOS removes it at the next restart. A file
@@ -410,22 +421,26 @@ On every list, Select All selects every row you can select, what Peel holds back
 counting what Peel doesn't recommend; Return answers Select Recommended. Each held back row still shows its reason
 beside it.
 
-In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. Nothing inside
-an app or another package is ever offered, nor a hidden folder, such as a tool's settings in `~/.config`: they only
-count toward the folder around them. Copies that differ in their Finder tags, their Finder comment, or their resource
-fork are not duplicates, since moving one would take that away, and a folder kept only in the cloud is never looked
-into.
+In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. When a scan you
+started ends, Duplicates selects every copy but the first of each group, the one it suggests keeping: check which copy
+stays before you move the others. Nothing inside a repository, a project, `node_modules`, a photo or music library, an
+app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`: they
+only count toward the folder around them. Copies that differ in their Finder tags, their Finder comment, or their
+resource fork are not duplicates, since moving one would take that away, and a folder kept only in the cloud is never
+looked into.
 
-What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and
-Backups, Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of
-them moves all of it. Only a page you have opened counts, so nothing moves from a page you never saw. Before anything
-moves, the question lists every page with how much it holds, and each page's part is moved by its own tool, with
-that tool's checks at that moment: Developer waits for its app to quit, Space leaves out what an app opened since
-is writing to, and Duplicates refuses a copy that changed. What a tool refuses for the item itself, such as a folder
-a program still has open, leaves the selection, so the next Move to Trash on any page does not carry it again.
+What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and Backups,
+Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of them moves all of
+it. Only a page you have opened, or chosen through the toolbar's Select menu, counts, so nothing moves from a page you
+never saw. Before anything moves, the question lists every page with how much it holds, and each page's part is moved by
+its own tool, with that tool's checks at that moment: Developer waits for its app to quit, Space leaves out what an app
+opened since is writing to, and Duplicates refuses a copy that changed. What a tool refuses for the item itself, such as
+a folder a program still has open, leaves the selection, so the next Move to Trash on any page does not carry it again.
 
 Some things are shown and never removed at all, because the removal cannot be undone: local Time Machine
-snapshots are explained, never deleted.
+snapshots are explained, never deleted, and what an app or a tool manages itself, such as simulators, Docker's disk,
+or a Rust toolchain, is measured and left to it, with the command that frees it for you to copy: Peel never runs
+it, since it deletes for good.
 
 ## Crypto wallets
 
@@ -466,15 +481,20 @@ Mac can take.
 
 Anything you add to Exclusions is passed to every scanner, so a file or folder you exclude never appears
 in the first place: it is not "shown but skipped". The same case and symlink folding applies, so an
-exclusion cannot be side-stepped by spelling the path differently.
+exclusion cannot be sidestepped by spelling the path differently.
 
 It holds in both directions. A folder with something excluded inside it is never moved either, because the
-excluded file would go with it: an app's leftover like that is shown, unselected, with the reason, and the
-other tools leave it out. An excluded app still appears in Applications, so you can see it, but gets no
-removal plan and no reset, in the app and in `peel`. A folder named with its identifier, such as its caches or
-its container, is left out of every page and never moved, nor is a folder holding one a level or two down. Its
-other files, such as plug-ins, receipts, or a folder named after the app, go by files and folders only, so to
-keep them, exclude them too.
+excluded file would go with it: an app's leftover like that is shown with the reason and can't be selected, and
+the other tools leave it out. An excluded app still appears in Applications, so you can see it, but gets no
+removal plan and no reset, in the app and in `peel`, and nothing moves it to the Trash or puts it back, from any
+page and whatever its bundle is called, nor a folder that holds it a level or two down. A folder named with its
+identifier, such as its caches or its container, is left out of every page and never moved, nor is a folder holding
+one a level or two down. Its other files, such as plug-ins, receipts, or a folder named after the app, are excluded
+only by their own paths, so to keep them, exclude them too.
+
+Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` for a
+package whose app, or whose own folder, you excluded, nor for any package while your list isn't read or can't be,
+and Homebrew's cleanup keeps every formula whose folder you excluded.
 
 If the saved list is there and cannot be read, Peel does not treat it as empty. It moves nothing until you
 start over in Settings, `peel` refuses, and the file it could not read is kept beside the new one.
@@ -485,16 +505,17 @@ A reset clears an app's settings and never the app itself.
 
 - It lists only files that are certainly that app's, and the app has to be quit, both when the reset starts and when
   saved settings are put back.
-- Before anything moves, Peel saves the app's settings, and if that copy fails, nothing moves. Settings lists the
-  saved copies, where each can be put back or cleared, since one can hold a license key, and they stay until you
-  clear them. Putting one back asks first, and saves the settings the app has now as a copy of their own before it
+- Before anything moves, Peel saves the app's settings, and if that copy fails, nothing moves. Settings lists the saved
+  copies, where each can be put back or moved to the Trash, since one can hold a license key, and they stay until you
+  move them there. Putting one back asks first, and saves the settings the app has now as a copy of their own before it
   replaces them.
 - What the app keeps for you (its Application Support folder, group containers, and application scripts) goes only
   when you select it, and is never offered for Mail, Messages, Notes, or Photos.
 - Inside a sandboxed app's container, a reset touches only the app's preferences, saved state, caches, logs, and web
   data, never `Documents`, `Application Support`, or `Autosave Information`. Web data, which signs you out of
-  websites, is offered but never selected for you, and a folder that holds a wallet's keys is never offered, even
-  among those: BlueWallet keeps its wallet in its container's caches.
+  websites, is offered but never selected for you, and a folder that holds a wallet's keys or a repository, or one
+  Peel couldn't measure or read, is never offered, even among those: BlueWallet keeps its wallet in its container's
+  caches. Nothing that needs an administrator is offered either.
 
 ## Terminal's settings
 
