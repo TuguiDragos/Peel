@@ -475,7 +475,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ disponibili su %2$@. Fai clic per vedere cosa occupa il disco, in Spazio."
+            "value" : "%1$@ disponibili su %2$@. Fai clic per vedere nella pagina Spazio cosa occupa il disco."
           }
         },
         "ja" : {
@@ -9580,7 +9580,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una pagina salta dove l’hai mandata invece di scivolare."
+            "value" : "Una pagina salta subito al punto richiesto invece di scorrere in modo fluido."
           }
         },
         "ja" : {
@@ -12131,7 +12131,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiunge i link mancanti alle pagine man e ai completamenti della shell dei tuoi tap, e segue un tap il cui ramo principale è stato rinominato. Non elimina nulla."
+            "value" : "Aggiunge i link mancanti alle pagine man e ai completamenti della shell dei tuoi tap, e segue un tap il cui branch principale è stato rinominato. Non elimina nulla."
           }
         },
         "ja" : {
@@ -37690,7 +37690,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutto ciò che è selezionato qui va nel Cestino insieme quando fai clic su “Sposta nel Cestino”. Nulla viene eliminato direttamente: la Cronologia può ripristinarlo finché è nel Cestino."
+            "value" : "Quando fai clic su “Sposta nel Cestino”, tutto ciò che è selezionato qui va insieme nel Cestino. Nulla viene eliminato direttamente: la Cronologia può ripristinarlo finché è nel Cestino."
           }
         },
         "ja" : {
@@ -49443,7 +49443,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew aggiunge i link mancanti alle pagine man e ai completamenti della shell dei suoi tap, e indirizza al nuovo nome un tap il cui ramo principale è stato rinominato. Non elimina nulla."
+            "value" : "Homebrew aggiunge i link mancanti alle pagine man e ai completamenti della shell dei suoi tap, e indirizza al nuovo nome un tap il cui branch principale è stato rinominato. Non elimina nulla."
           }
         },
         "ja" : {
@@ -109113,7 +109113,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non è riuscito a salvare il `brew` da eseguire."
+            "value" : "Peel non è riuscito a salvare la scelta del `brew` da eseguire."
           }
         },
         "ja" : {
@@ -150732,7 +150732,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avvia i nuovi repository sul branch main"
+            "value" : "Crea i nuovi repository sul branch main"
           }
         },
         "ja" : {
@@ -153700,7 +153700,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impostazioni di Sistema > Tempo di utilizzo > Restrizioni contenuti e privacy > Siri, per disattivare Siri AI o bloccare funzionalità come “Assistente di scrittura”."
+            "value" : "Impostazioni di Sistema > Tempo di utilizzo > Contenuti e privacy > Siri, per disattivare Siri AI o bloccare funzionalità come “Assistenza per la scrittura”."
           }
         },
         "ja" : {
@@ -178615,7 +178615,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utilizza il tasto Opzione come tasto Meta"
+            "value" : "Usa il tasto Opzione come tasto Meta"
           }
         },
         "ja" : {
