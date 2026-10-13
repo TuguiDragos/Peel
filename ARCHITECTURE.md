@@ -13,7 +13,7 @@ Peel is four programs built from one Xcode project, and a Swift package that hol
 |---|---|---|---|
 | Peel.app | `Peel/` | You | The SwiftUI app: every page, and a model for each. |
 | The helper | `PeelHelper/` | root | A launch daemon for the few things only an administrator can do: move items to the Trash and back, and start or stop another vendor's launch daemon. |
-| The Finder extension | `PeelFinder/` | You, sandboxed | Adds Uninstall with Peel… to the menu Finder shows when you Control-click an app, and opens Peel with `peel://open?path=`. |
+| The Finder extension | `PeelFinder/` | You, sandboxed | Adds Uninstall with Peel to the menu Finder shows when you Control-click an app, and opens Peel with `peel://open?path=`. |
 | The `peel` tool | `PeelCLI/` | You | The command-line tool, shipped inside `Peel.app/Contents/Helpers`. |
 
 ```mermaid

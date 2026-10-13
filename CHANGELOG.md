@@ -17,7 +17,7 @@ along a removal is, and says within seconds when its helper isn't answering.
 
 ### Added
 
-- **Updates:** Peel updates itself, through Sparkle. Choose Check for Updates… in the Peel menu, or Install Update…
+- **Updates:** Peel updates itself, through Sparkle. Choose Check for Updates in the Peel menu, or Install Update
   in About Peel when it says a new version is out; while Check for app updates is on, Peel also looks once a day. It
   shows what is new and installs the update only when you choose, once it has checked that it is signed as Peel's. A
   copy Homebrew installed updates itself the same way, and `brew upgrade --cask peel` still works.
@@ -201,7 +201,7 @@ along a removal is, and says within seconds when its helper isn't answering.
 - **File Search:** No longer lists what syncs to your other devices.
 - **Background Items:** No longer calls an app's login item or agent orphaned because `launchctl` names no program
   for it.
-- **Remove Peel:** Ends Peel's Finder extension, which no longer offers Uninstall with Peel… once Peel is gone, takes
+- **Remove Peel:** Ends Peel's Finder extension, which no longer offers Uninstall with Peel once Peel is gone, takes
   no step while Peel itself can't move, no longer waits minutes for a helper that can't start, and says what stayed
   in your language.
 - **Finder extension:** Its copyright in Get Info is in your language.
