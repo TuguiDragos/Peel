@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct CaskEvidenceTests {
@@ -240,6 +241,39 @@ struct CaskEvidenceTests {
         #expect(leftovers.count == 2)
         #expect(leftovers.allSatisfy { $0.match.reason == .homebrewCask })
         #expect(leftovers.filter(\.match.isRecommended).count == 1)
+    }
+
+    @Test func leavesOutACaskPathApplesPackagesInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let kit = try directory.directory("root/Library/Example Kit/Example")
+        let audio = try directory.directory("root/Library/Example Audio/Example")
+        try directory.directory("home/Library/Caches/com.example.app")
+        let cask = HomebrewPackage(name: "example", kind: .cask, appNames: ["Example.app"], leftoverPatterns: [
+            kit.path(percentEncoded: false), audio.path(percentEncoded: false), "~/Library/Caches/com.example.app",
+        ])
+        let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
+        let evidence = try #require(CaskEvidence.evidence(for: app, casks: [cask], home: home))
+        let asked = Mutex(0)
+
+        let leftovers = await Uninstallation.caskLeftovers(
+            evidence,
+            app: app,
+            exclusions: .none,
+            matcher: LeftoverMatcher(app: app, installedApps: [app]),
+            environment: SearchEnvironment(
+                homeDirectory: home,
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            installedByApple: { url in
+                asked.withLock { $0 += 1 }
+                return url.deletingLastPathComponent().lastPathComponent == "Example Kit"
+            }
+        )
+
+        let found = Set(leftovers.map { "\($0.url.deletingLastPathComponent().lastPathComponent)/\($0.url.lastPathComponent)" })
+        #expect(found == ["Example Audio/Example", "Caches/com.example.app"])
+        #expect(asked.withLock { $0 } == 2)
     }
 
     private func environment(_ home: URL) -> SearchEnvironment {

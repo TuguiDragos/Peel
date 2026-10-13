@@ -239,14 +239,18 @@ public struct Uninstallation: Sendable {
         app: InstalledApp,
         exclusions: Exclusions,
         matcher: LeftoverMatcher,
-        environment: SearchEnvironment
+        environment: SearchEnvironment,
+        installedByApple: @escaping @Sendable (URL) async -> Bool = { await PackageReceipts.isInstalledByApple($0) }
     ) async -> [Leftover] {
         var leftovers: [Leftover] = []
         // Compared by path: the app's URL ends in a slash and a cask's path does not, and many casks list the app
         // among what they delete. What sits inside the bundle is skipped too: it goes with the app, and moved on
         // its own it would be cut out of an app that stays.
         let bundle = PathPattern.comparablePath(of: app.url)
+        let home = PathPattern.comparablePath(of: environment.homeDirectory)
         for item in evidence.items where !exclusions.excludes(item.url) && !isAtOrInside(bundle, item.url) {
+            // What one of Apple's packages installed is Apple's, whatever a cask says.
+            if !isAtOrInside(home, item.url), await installedByApple(item.url) { continue }
             let place = place(of: item.url, in: environment)
             let own = matcher.match(fileName: item.url.lastPathComponent, kind: place.kind, at: item.url)
             // Every folder on the way counts: a path inside a folder another app claims is not this app's alone.

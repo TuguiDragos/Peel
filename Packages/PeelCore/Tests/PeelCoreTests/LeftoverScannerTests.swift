@@ -1597,6 +1597,39 @@ struct LeftoverScannerTests {
         #expect(found["home/Library/Example Audio/org.example.hexachord"]?.match.isRecommended == true)
     }
 
+    @Test func neverTakesWhatApplesPackagesInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Hexachord.app"),
+            bundleIdentifier: "org.example.hexachord",
+            name: "Hexachord"
+        )
+        for path in [
+            "root/Library/Hexachord/state.db", "root/Library/Example Kit/Hexachord/frame.png",
+            "root/Library/Example Audio/Hexachord/samples.db", "home/Library/Example Kit/Hexachord/presets.db",
+        ] {
+            try directory.file(path, bytes: 64)
+        }
+        let root = directory.url.path(percentEncoded: false)
+        let apples: Set<String> = ["root/Library/Hexachord", "root/Library/Example Kit/Hexachord"]
+        let asked = Mutex<Set<String>>([])
+        let scanner = LeftoverScanner(
+            environment: environment(in: directory),
+            measure: LeftoverScanner.walk,
+            installedByApple: { url in
+                let path = String(url.path(percentEncoded: false).dropFirst(root.count))
+                asked.withLock { _ = $0.insert(path) }
+                return apples.contains(path)
+            }
+        )
+
+        let scan = await scanner.scan(app, installedApps: [app])
+
+        let found = Set(scan.leftovers.map { String($0.url.path(percentEncoded: false).dropFirst(root.count)) })
+        #expect(found == ["root/Library/Example Audio/Hexachord", "home/Library/Example Kit/Hexachord"])
+        #expect(asked.withLock { $0 } == apples.union(["root/Library/Example Audio/Hexachord"]))
+    }
+
     @Test func findsTheFoldersOfEachReleaseInsideItsMakersFolder() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

@@ -5,11 +5,13 @@ public struct LeftoverScanner: Sendable {
     typealias Measure = @Sendable (URL) async -> FolderContents?
     /// Whether the guard refuses a path outright, whatever the rest of the scan makes of it.
     typealias Refuses = @Sendable (_ path: String, _ home: String) -> Bool
+    typealias InstalledByApple = @Sendable (URL) async -> Bool
 
     public let environment: SearchEnvironment
     public let exclusions: Exclusions
     private let measure: Measure
     private let refuses: Refuses
+    private let installedByApple: InstalledByApple
     /// The most folders listed per location while searching inside folders the app does not claim.
     private let nestedFolderLimit: Int
 
@@ -25,12 +27,14 @@ public struct LeftoverScanner: Sendable {
         exclusions: Exclusions = .none,
         measure: @escaping Measure,
         refuses: @escaping Refuses = { ProtectedData.refuses($0, home: $1) },
+        installedByApple: @escaping InstalledByApple = { await PackageReceipts.isInstalledByApple($0) },
         nestedFolderLimit: Int = NestedSearch.folderLimit
     ) {
         self.environment = environment
         self.exclusions = exclusions
         self.measure = measure
         self.refuses = refuses
+        self.installedByApple = installedByApple
         self.nestedFolderLimit = nestedFolderLimit
     }
 
@@ -99,7 +103,8 @@ public struct LeftoverScanner: Sendable {
             for location in environment.locations where location.kind != .safariWebApps || app.isASafariWebApp {
                 let home = environment.homeDirectory.path(percentEncoded: false)
                 let bundle = PathPattern.comparablePath(of: app.url)
-                _ = group.addTaskUnlessCancelled { [exclusions, measure, refuses, nestedFolderLimit] in
+                _ = group.addTaskUnlessCancelled {
+                    [exclusions, measure, refuses, installedByApple, nestedFolderLimit] in
                     (location, await Self.scan(
                         location,
                         matcher: matcher,
@@ -107,7 +112,9 @@ public struct LeftoverScanner: Sendable {
                         bundle: bundle,
                         exclusions: exclusions,
                         measure: measure,
-                        refuses: refuses, nestedFolderLimit: nestedFolderLimit
+                        refuses: refuses,
+                        installedByApple: installedByApple,
+                        nestedFolderLimit: nestedFolderLimit
                     ))
                 }
             }
@@ -196,6 +203,7 @@ public struct LeftoverScanner: Sendable {
         exclusions: Exclusions,
         measure: @escaping Measure,
         refuses: Refuses,
+        installedByApple: @escaping InstalledByApple,
         nestedFolderLimit: Int
     ) async -> LocationResult {
         let entries: [String]
@@ -234,10 +242,11 @@ public struct LeftoverScanner: Sendable {
             }
         }
 
-        let leftovers = await measured(toMeasure, kind: location.kind, home: home, measure: measure)
+        let taken = await withoutWhatAppleInstalled(toMeasure, home: home, installedByApple: installedByApple)
+        let leftovers = await measured(taken, kind: location.kind, home: home, measure: measure)
         let inside = await nested(
             in: nobodysFolders, of: location, matcher: matcher, home: home, bundle: bundle, exclusions: exclusions,
-            measure: measure, refuses: refuses, limit: nestedFolderLimit
+            measure: measure, refuses: refuses, installedByApple: installedByApple, limit: nestedFolderLimit
         )
         return .found(
             leftovers + inside.found, cutShort: inside.wasCutShort ? location : nil,
@@ -256,6 +265,7 @@ public struct LeftoverScanner: Sendable {
         exclusions: Exclusions,
         measure: @escaping Measure,
         refuses: Refuses,
+        installedByApple: @escaping InstalledByApple,
         limit: Int
     ) async -> (found: [Leftover], wasCutShort: Bool, unreadable: [URL]) {
         let kind = location.kind
@@ -280,8 +290,25 @@ public struct LeftoverScanner: Sendable {
             guard canLookInside, url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) else { return .pass }
             return .lookInside
         }
-        let found = await measured(search.found, kind: kind, home: home, measure: measure)
+        let taken = await withoutWhatAppleInstalled(search.found, home: home, installedByApple: installedByApple)
+        let found = await measured(taken, kind: kind, home: home, measure: measure)
         return (found, search.wasCutShort, search.unreadable)
+    }
+
+    /// What a search took, less what one of Apple's packages installed, which is Apple's whatever its name says. Only
+    /// what sits outside the home is asked, since Apple's receipts list nothing inside one.
+    private static func withoutWhatAppleInstalled(
+        _ found: [Found], home: String, installedByApple: @escaping InstalledByApple
+    ) async -> [Found] {
+        let homePath = PathPattern.comparablePath(of: URL(filePath: home, directoryHint: .isDirectory))
+        let outside = found.filter {
+            !PathComponents.isPath(PathPattern.comparablePath(of: $0.url), atOrInside: homePath)
+        }
+        guard !outside.isEmpty else { return found }
+        let apples = Set(await outside.concurrentMap(width: concurrentMeasurements) { item in
+            await installedByApple(item.url) ? item.url : nil
+        }.compactMap(\.self))
+        return found.filter { !apples.contains($0.url) }
     }
 
     /// Something a search took as the app's, waiting to be measured.

@@ -515,4 +515,33 @@ struct PackageReceiptsTests {
         #expect(try tool("linked").isLeftAlone == true, "a link that leads somewhere was offered")
         #expect(try tool("gone").isLeftAlone == false)
     }
+
+    @Test func knowsWhatApplesPackagesInstalledOnThisMac() async throws {
+        let directory = try TemporaryDirectory()
+        let applicationSupport = URL(filePath: "/Library/Application Support", directoryHint: .isDirectory)
+
+        #expect(await PackageReceipts.isInstalledByApple(applicationSupport))
+        #expect(await PackageReceipts.isInstalledByApple(directory.url) == false)
+    }
+
+    @Test func countsOnlyApplesPackagesThatInstallAtTheRoot() async {
+        func answering(location: String, package: String = "com.apple.pkg.Example") -> PackageReceipts.Pkgutil {
+            { arguments in
+                switch arguments.first {
+                case "--file-info-plist": PkgutilAnswer.fileInfo(arguments[1], packages: package)
+                case "--pkg-info-plist": PkgutilAnswer.packageInfo(package, location: location)
+                default: nil
+                }
+            }
+        }
+        let url = URL(filePath: "/Library/Example Kit/Example", directoryHint: .isDirectory)
+
+        #expect(await PackageReceipts.isInstalledByApple(url, pkgutil: answering(location: "/")))
+        #expect(await PackageReceipts.isInstalledByApple(url, pkgutil: answering(location: "")))
+        #expect(await PackageReceipts.isInstalledByApple(url, pkgutil: answering(location: "Library/Apple/")) == false)
+        #expect(
+            await PackageReceipts.isInstalledByApple(url, pkgutil: answering(location: "/", package: "org.example.pkg"))
+                == false
+        )
+    }
 }

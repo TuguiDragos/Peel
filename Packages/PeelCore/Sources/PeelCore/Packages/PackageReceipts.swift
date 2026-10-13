@@ -200,10 +200,33 @@ public enum PackageReceipts {
     /// Reads what `pkgutil --file-info-plist` prints: a `path-info` array with the `pkgid` of each package that
     /// lists the path. Apple's own packages are left out.
     static func packageIdentifiers(in answer: String?) -> [String] {
+        installers(in: answer).filter { !$0.hasPrefix("com.apple.") }
+    }
+
+    private static func installers(in answer: String?) -> [String] {
         guard let answer,
               let plist = try? PropertyListSerialization.propertyList(from: Data(answer.utf8), format: nil),
               let packages = (plist as? [String: Any])?["path-info"] as? [[String: Any]] else { return [] }
-        return packages.compactMap { $0["pkgid"] as? String }.filter { !$0.hasPrefix("com.apple.") }
+        return packages.compactMap { $0["pkgid"] as? String }
+    }
+
+    /// Whether one of Apple's packages installed `url`: a receipt of macOS or of one of Apple's tools lists it, and
+    /// that package installs at the root, the only place where the path a receipt lists is the path asked about.
+    @concurrent
+    public static func isInstalledByApple(_ url: URL) async -> Bool {
+        await isInstalledByApple(url, pkgutil: pkgutil)
+    }
+
+    static func isInstalledByApple(_ url: URL, pkgutil: Pkgutil) async -> Bool {
+        let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
+        let apples = installers(in: await pkgutil(["--file-info-plist", path])).filter { $0.hasPrefix("com.apple.") }
+        for identifier in apples.sorted() where !Task.isCancelled {
+            guard let installLocation = await description(of: identifier, pkgutil: pkgutil)?.installLocation else {
+                continue
+            }
+            if PathPattern.comparablePath(of: installLocation) == "/" { return true }
+        }
+        return false
     }
 
     /// A receipt and the full paths of everything it lists, so `installs(_:)` can tell whether it installed a path.
