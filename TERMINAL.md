@@ -505,6 +505,7 @@ Then run these once in Terminal.
 git config --global core.pager delta
 git config --global interactive.diffFilter 'delta --color-only'
 git config --global delta.navigate true
+git config --global delta.line-numbers true
 
 # Git LFS
 git lfs install

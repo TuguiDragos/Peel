@@ -117,6 +117,7 @@ public enum TerminalTool: CaseIterable, Sendable {
                 "git config --global core.pager delta",
                 "git config --global interactive.diffFilter 'delta --color-only'",
                 "git config --global delta.navigate true",
+                "git config --global delta.line-numbers true",
             ])]
         case .gitLFS: [Setup(place: .terminal, lines: ["git lfs install"])]
         // macOS's man marks bold text with backspaces, which bat would show as they are, so col -bx removes them first.

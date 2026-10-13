@@ -56,6 +56,11 @@ struct TerminalToolTests {
         }
     }
 
+    @Test func deltaTurnsOnTheLineNumbersItsDescriptionPromises() {
+        let lines = TerminalTool.delta.setup(prefix: Self.prefix).flatMap(\.lines)
+        #expect(lines.contains("git config --global delta.line-numbers true"))
+    }
+
     @Test func eachInstallCommandNamesEveryFormulaTheToolNeeds() {
         #expect(TerminalTool.fzfTab.installCommand == "brew install fzf fzf-tab")
         #expect(TerminalTool.delta.installCommand == "brew install git-delta")
