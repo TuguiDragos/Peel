@@ -26726,7 +26726,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Effacer les téléchargements de Homebrew datant de plus de 30 jours ?"
+            "value" : "Effacer les téléchargements de Homebrew datant de plus de 30 jours ?"
           }
         },
         "it" : {
@@ -26938,7 +26938,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Effacer tous les téléchargements de Homebrew ?"
+            "value" : "Effacer tous les téléchargements de Homebrew ?"
           }
         },
         "it" : {
@@ -33216,7 +33216,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les dossiers des outils de développement représentent %@ de ce dossier : %@. La page Développeur libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
+            "value" : "Les dossiers des outils de développement représentent %@ de ce dossier : %@. La page Développeur libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
           }
         },
         "it" : {
@@ -38540,7 +38540,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exclu avec « %@ »"
+            "value" : "Exclu avec « %@ »"
           }
         },
         "it" : {
@@ -42888,7 +42888,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oublier %@ ?"
+            "value" : "Oublier %@ ?"
           }
         },
         "it" : {
@@ -43369,19 +43369,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Oublier %lld de casks ?"
+                  "value" : "Oublier %lld de casks ?"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Oublier %lld cask ?"
+                  "value" : "Oublier %lld cask ?"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Oublier %lld casks ?"
+                  "value" : "Oublier %lld casks ?"
                 }
               }
             }
@@ -53699,7 +53699,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew liste encore ce cask, mais son app ne se trouve plus là où Homebrew l’a placée, si bien que Homebrew ne peut pas le mettre à niveau. « Oublier le cask » place le reçu Homebrew de ce cask dans la corbeille : Homebrew cesse alors de le lister, et l’Historique peut le remettre en place."
+            "value" : "Homebrew liste encore ce cask, mais son app ne se trouve plus là où Homebrew l’a placée, si bien que Homebrew ne peut pas le mettre à niveau. « Oublier le cask » place le reçu Homebrew de ce cask dans la corbeille : Homebrew cesse alors de le lister, et l’Historique peut le remettre en place."
           }
         },
         "it" : {
@@ -64122,7 +64122,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son reçu Homebrew est placé dans la corbeille avec les liens que Homebrew a créés vers ce reçu : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
+            "value" : "Son reçu Homebrew est placé dans la corbeille avec les liens que Homebrew a créés vers ce reçu : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
           }
         },
         "it" : {
@@ -69868,7 +69868,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laissé en place : le programme de désinstallation propre à l’app le supprime une fois l’app dans la corbeille, et l’Historique ne peut pas le rétablir."
+            "value" : "Laissé en place : le programme de désinstallation propre à l’app le supprime une fois l’app dans la corbeille, et l’Historique ne peut pas le rétablir."
           }
         },
         "it" : {
@@ -90918,7 +90918,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : il contient une base de données de mots de passe ou son fichier-clé. Une fois la corbeille vidée, les mots de passe sont perdus définitivement, sauf si vous en avez une sauvegarde."
+            "value" : "Non sélectionné : il contient une base de données de mots de passe ou son fichier-clé. Une fois la corbeille vidée, les mots de passe sont perdus définitivement, sauf si vous en avez une sauvegarde."
           }
         },
         "it" : {
@@ -91130,7 +91130,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : un rapport de blocage que macOS a écrit lorsque l’app s’est fermée de manière inattendue, et que son développeur peut encore vous demander."
+            "value" : "Non sélectionné : un rapport de blocage que macOS a écrit lorsque l’app s’est fermée de manière inattendue, et que son développeur peut encore vous demander."
           }
         },
         "it" : {
@@ -91342,7 +91342,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : une image disque chiffrée contient ce que vous y avez mis."
+            "value" : "Non sélectionné : une image disque chiffrée contient ce que vous y avez mis."
           }
         },
         "it" : {
@@ -93462,7 +93462,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : il contient des connexions VPN, avec leurs clés et leurs certificats, qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, elles sont perdues définitivement, sauf si vous en avez une sauvegarde."
+            "value" : "Non sélectionné : il contient des connexions VPN, avec leurs clés et leurs certificats, qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, elles sont perdues définitivement, sauf si vous en avez une sauvegarde."
           }
         },
         "it" : {
@@ -93568,7 +93568,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : il contient un historique de messages qui n’existe peut-être que sur ce Mac. Une fois la corbeille vidée, cet historique est perdu définitivement, sauf si vous en avez une sauvegarde."
+            "value" : "Non sélectionné : il contient un historique de messages qui n’existe peut-être que sur ce Mac. Une fois la corbeille vidée, cet historique est perdu définitivement, sauf si vous en avez une sauvegarde."
           }
         },
         "it" : {
@@ -93674,7 +93674,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : il contient des mots de passe ou des codes de validation qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, ils sont perdus définitivement, sauf si vous en avez une sauvegarde."
+            "value" : "Non sélectionné : il contient des mots de passe ou des codes de validation qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, ils sont perdus définitivement, sauf si vous en avez une sauvegarde."
           }
         },
         "it" : {
@@ -94098,7 +94098,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : ce fichier ne se trouve pas dans le dossier Téléchargements et n’est pas le programme d’installation d’une app installée ; il s’agit donc peut-être de l’un de vos fichiers, et non de quelque chose que vous pouvez télécharger à nouveau."
+            "value" : "Non sélectionné : ce fichier ne se trouve pas dans le dossier Téléchargements et n’est pas le programme d’installation d’une app installée ; il s’agit donc peut-être de l’un de vos fichiers, et non de quelque chose que vous pouvez télécharger à nouveau."
           }
         },
         "it" : {
@@ -94204,7 +94204,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : il contient peut-être des e-mails conservés uniquement sur ce Mac, comme ceux d’un compte local ou POP. Une fois la corbeille vidée, ils sont perdus définitivement, sauf si vous en avez une sauvegarde."
+            "value" : "Non sélectionné : il contient peut-être des e-mails conservés uniquement sur ce Mac, comme ceux d’un compte local ou POP. Une fois la corbeille vidée, ils sont perdus définitivement, sauf si vous en avez une sauvegarde."
           }
         },
         "it" : {
@@ -129254,7 +129254,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimer Peel laisse la commande peel en place. Pour la supprimer aussi, exécutez cette commande dans Terminal :"
+            "value" : "Supprimer Peel laisse la commande peel en place. Pour la supprimer aussi, exécutez cette commande dans Terminal :"
           }
         },
         "it" : {
@@ -129784,7 +129784,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Réparer les taps de Homebrew ?"
+            "value" : "Réparer les taps de Homebrew ?"
           }
         },
         "it" : {
@@ -165356,7 +165356,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leurs reçus Homebrew sont placés dans la corbeille avec les liens que Homebrew a créés vers ces reçus : Homebrew ne liste donc plus ces casks. L’Historique peut les remettre en place."
+            "value" : "Leurs reçus Homebrew sont placés dans la corbeille avec les liens que Homebrew a créés vers ces reçus : Homebrew ne liste donc plus ces casks. L’Historique peut les remettre en place."
           }
         },
         "it" : {
@@ -167052,7 +167052,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les dossiers de ces outils de développement sont laissés à la page Développeur : %@. Celle-ci libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
+            "value" : "Les dossiers de ces outils de développement sont laissés à la page Développeur : %@. Celle-ci libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
           }
         },
         "it" : {

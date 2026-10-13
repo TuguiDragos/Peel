@@ -244,6 +244,10 @@ import Testing
             "Needs your attention": ["localizations": ["ro": unit("Necesită atenția dumneavoastră"), "fr": unit("Requiert votre attention")]],
             "Choose a Folder…": ["localizations": ["ro": unit("Alegeți un dosar…"), "fr": unit("Choisir un dossier…"), "de": unit("Ordner auswählen …")]],
             "Add Folder…": ["localizations": ["ro": unit("Adăugați un dosar…"), "fr": unit("Ajouter un dossier…"), "de": unit("Ordner hinzufügen\u{00A0}…")]],
+            "Forget %@?": ["localizations": ["ro": unit("Uitați %@?"), "fr": unit("Oublier %@ ?")]],
+            "Forget it?": ["localizations": ["ro": unit("Îl uitați?"), "fr": unit("L’oublier\u{00A0}?")]],
+            "Excluded with “%@”": ["localizations": ["ro": unit("Exclus odată cu „%@”"), "fr": unit("Exclu avec « %@ »")]],
+            "Type `a :b`": ["localizations": ["ro": unit("Tastați `a :b`"), "fr": unit("Tapez `a :b`")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
@@ -283,6 +287,10 @@ import Testing
         #expect(caught["space"]?.contains("Run `a b`") != true, "code is written as it is typed")
         #expect(caught["space"]?.contains("Choose a Folder…") == true, "German keeps the ellipsis with its word")
         #expect(caught["space"]?.contains("Add Folder…") != true, "a no-break space before the ellipsis")
+        #expect(caught["space"]?.contains("Forget %@?") == true, "French keeps its question mark with the word")
+        #expect(caught["space"]?.contains("Forget it?") != true, "a no-break space before the question mark")
+        #expect(caught["space"]?.contains("Excluded with “%@”") == true, "and inside its quotation marks")
+        #expect(caught["space"]?.contains("Type `a :b`") != true, "code is written as it is typed")
         #expect(caught["space"]?.contains("^[%lld folder](inflect: true) here") == true, "Polish keeps a count with its noun")
         #expect(caught["space"]?.contains("About Peel") != true, "SwiftUI's own words stay SwiftUI's")
         #expect(caught["hyphen"]?.contains("It would replace it") == true, "a hyphen that splits a Romanian word")
@@ -401,6 +409,15 @@ struct CatalogChecker {
             return nil
         }
         return String(prose[Range(match.range(at: 1), in: prose)!])
+    }
+
+    static func plainSpaceBesideAFrenchMark(in text: String) -> Character? {
+        let prose = text.replacing(/`[^`]*`/, with: "x")
+        for (first, second) in zip(prose, prose.dropFirst()) {
+            if first == " ", "?:!;»".contains(second) { return second }
+            if first == "«", second == " " { return first }
+        }
+        return nil
     }
 
     static func hyphenInsideAWord(_ text: String, source: String) -> String? {
@@ -691,6 +708,9 @@ struct CatalogChecker {
         }
         if language == "de", zip(" " + text, text).contains(where: { $1 == "…" && $0 != "\u{00A0}" }) {
             fail(path, key, language, "space", "a no-break space before the ellipsis, as macOS writes German")
+        }
+        if language == "fr", let mark = Self.plainSpaceBesideAFrenchMark(in: text) {
+            fail(path, key, language, "space", "a no-break space beside “\(mark)”, as macOS writes French")
         }
         if language == "ro", let word = Self.hyphenInsideAWord(text, source: source) {
             fail(path, key, language, "hyphen", "U+2011 inside “\(word)”, as macOS writes a Romanian word")
