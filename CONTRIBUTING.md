@@ -72,7 +72,7 @@ python3 Scripts/generate_manual.py --check
 - `Localization/`: every translation, and nothing else.
 - `Support/`: the Info.plists, the helper's launchd property list, and the manual page of `peel`.
 - `Logo/`: the only source of the logo: the app icon (`Peel.icon`), the glyph for the menu bar and the Finder menu
-  (`Logo.xcassets`), and `export.sh`, which renders the pictures of it the README shows.
+  (`Logo.xcassets`), and `export.sh`, which renders it as a light picture and the dark one the README shows.
 - `Scripts/`: the scripts that build Sparkle, keep the catalogs and the manual page in step with the code, and make
   and check a release.
 - `Terminal/`: the Terminal themes and the pictures TERMINAL.md shows.
