@@ -30,12 +30,20 @@ prove, and only then fix.
    carefully. Find every function the change touches and every function that touches what it changed: callers,
    readers, overrides, observers, the app, `peel`, the helper, and the tests. Check that none of them works worse
    because of the change, and follow each one you find the same way, along its own path, until nothing that depends
-   on the change is left unchecked.
+   on the change is left unchecked. That includes every other way Peel reaches the same thing: an app moves from its
+   own page, from several apps' page, from Package Receipts, and through the Homebrew page, so a rule about what may
+   move an app is asked on each of them.
 6. **Build and test after every change**, not only at the end: the whole package suite with warnings as errors,
-   and the app's Debug build ([CONTRIBUTING.md](CONTRIBUTING.md#what-you-need) has the commands).
+   and the app's Debug build ([CONTRIBUTING.md](CONTRIBUTING.md#what-you-need) has the commands). Before proposing
+   the change, run what the Checks workflow runs too: the Release build with `ENABLE_POINTER_AUTHENTICATION=YES` and
+   `MACOSX_DEPLOYMENT_TARGET=26.0`, since some of Swift's checks run only on optimized code, the accessibility audit's
+   build, and `python3 Scripts/sync_localizations.py --check` and `python3 Scripts/generate_manual.py --check`.
 7. **Check it where it shows**, live: open the page the change touches, or run the `peel` command it changes, and
    see the result. Never on anyone's real files: tests use a temporary home, and a check that moves files runs on
-   a disk image made for it.
+   a disk image made for it. A Debug build is Peel to macOS: it shares the installed Peel's settings, History,
+   exclusions, and helper record, and what it moves is yours. Check a removal on files made for it, such as a folder
+   on a disk image given to `peel duplicates` or `peel projects` with `--dry-run` first, and never run Remove Peel
+   in it.
 8. **Leave nothing behind**: no probe, no debugging output, and nothing the change left unused.
 9. **Say exactly what happened.** Report a failing test with its output, a step you skipped as skipped, and what
    you couldn't prove as unproved. If something can't be checked on your Mac, say what and why in the pull
@@ -56,17 +64,18 @@ on a Mac. Never a guess at where macOS keeps a control: a step that leads nowher
 
 ## What must never break
 
-Tests enforce these rules. If a change makes one of them fail, the rule is right and the change is wrong.
+Tests enforce most of these rules, and the rest (`QuitGuard`, `PeelUpdater`) live in the app, where a change is
+checked by hand. If a change makes one of them fail, the rule is right and the change is wrong.
 
 - **Nothing of the user's is ever deleted for good.** Every removal goes to the Trash through `TrashService` and is
   recorded, so History can put it back. In the app it runs inside `QuitGuard.shared.run` from its first move until
-  History has it, and so does a Put Back, so quitting waits for them. Peel deletes outright only what holds nothing of
-  the user's: the empty placeholder `TrashMover` makes to hold a name on a disk that can't rename without replacing
-  (exFAT), when the move it was made for fails, the folder `PreferenceBackup` makes for a reset's saved settings, when
-  saving fails while it is still empty, and the empty file cfprefsd writes back where a moved settings file was when
-  `PreferenceCleanup` forgets a domain it still holds. Its list of refusals goes to the Trash when
-  `peel history --refused --clear` asks.
-- **What History can't undo says so where the person confirms it**: Homebrew's own uninstall and clean up,
+  History has it, and so does a Put Back, so quitting waits for them. Peel deletes outright only three things, none of
+  them the user's: the empty placeholder `TrashMover` makes to hold a name on a disk that can't rename without
+  replacing (exFAT), once the move it was made for has failed; the folder `PreferenceBackup` makes for a reset's saved
+  settings, when saving fails while it is still empty; and the empty file cfprefsd writes back where a moved settings
+  file was, when `PreferenceCleanup` forgets a domain cfprefsd still holds. Peel's list of refusals goes to the Trash
+  when `peel history --refused --clear` asks.
+- **What History can't undo says so where the person confirms it**: Homebrew's own uninstall and its cleanups,
   resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked
   it to quit. `defaults delete` for an app's preferences runs only once their file is in the Trash, and a reset
   exports the domain first, so putting the file back undoes it; putting saved settings back clears a domain only
@@ -74,10 +83,11 @@ Tests enforce these rules. If a change makes one of them fail, the rule is right
   `HOMEBREW_NO_INSTALL_CLEANUP`, so an upgrade never cleans up on its own, and when a `brew.env` file turns that back
   on (`Homebrew.overrides()`), Peel leaves upgrades to Terminal.
 - **`RemovalGuard` refuses what nothing can bring back**, in every account on the Mac: iCloud Drive and other cloud
-  storage, the folders another app keeps in step with other devices (`SyncedFolders`), the Trash itself, keychains
-  and the keys and credentials `ProtectedData.homeKeys` names, the wallet keys
-  `ProtectedData.walletKeys` names, a browser profile holding a wallet extension's vault, Mail, Messages, Safari,
-  Contacts, Calendars and Apple's other stores of personal data, every group container of Apple's own, work not
+  storage, the folders another app keeps in step with other devices (`SyncedFolders`), the home's Trash and every
+  disk's, keychains, `~/.ssh`, `~/.gnupg`, and the other keys and credentials `ProtectedData.homeFolders` and
+  `ProtectedData.homeKeys` name, the wallet keys `ProtectedData.walletKeys` names, a browser profile holding a wallet
+  extension's vault, Mail, Messages, Safari, Contacts, Calendars, and Apple's other stores of personal data, every
+  group container of Apple's own, work not
   saved yet, photo, music, and video libraries, a sandboxed app's `Documents`, the folders every account starts
   with, and work a tool keeps only in a cache folder. [SAFETY.md](SAFETY.md) lists every place. The guard judges the
   item, not how its path is spelled: each rule is asked of the path as written, as found on disk, and as the kernel
@@ -95,6 +105,9 @@ Tests enforce these rules. If a change makes one of them fail, the rule is right
   selected in two places, since its tool clones it again: inside a folder its tool tags as a cache
   (`CACHEDIR.TAG`), such as Swift Package Manager's `.build`, and inside a cache on the Developer page.
 - **The user's exclusions reach every scanner**, so an excluded item never appears in the first place.
+- **What a file says about itself is anyone's word.** Any program can write a launch job, an app's Info.plist, or one
+  of Peel's own records, so a program path that holds a NUL names no program, an app's name goes into a pattern only
+  quoted, and a record Peel kept is believed only as a scan believes what it finds (`LeftForAnAdministrator`).
 - **A folder a scan never walks into can't be chosen as the place to start one.** Build Artifacts never enters a
   hidden folder, a `Library`, or a folder a tool fills, such as `node_modules`: what is there is a tool's own
   installation, and an editor's extension keeps its `package.json` beside the `node_modules` it runs with. So a
@@ -133,6 +146,12 @@ disk that somebody may have replaced.
   on it for that.
 - It accepts only a copy of Peel signed by the same team and no older a build than itself, checked when a connection
   opens and for every message after it, and a released helper refuses a build that can be debugged.
+- **Only an administrator changes it.** macOS lets any account unregister a system daemon without asking, so every
+  install, repair, and uninstall asks again, at that moment, whether this account is an administrator
+  (`PrivilegedHelper.changeAsAnAdministrator`).
+- Every question and request goes to it from a task of its own at user-initiated quality, which makes its own
+  connection (`PrivilegedHelper.ask`): XPC delivers a reply at the quality its message went out with, so a reply to a
+  lower one waits while Peel is busy, and the wait for it ends first.
 - It never uses a path again after checking it: it opens the folder, checks the item there as the kernel names the
   folder (`F_GETPATH`), works only through that descriptor, and moves the item only while its identity is the one
   it checked, so a folder or an item swapped after the check leads nowhere.
@@ -151,7 +170,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
 
 - **Tests run as Peel runs, on the Mac running them**: the real Launch Services, the real system apps, the real
   disk. Nothing (a flag, a default, an environment variable) makes a test skip what Peel does. A stand-in is only
-  for what a Mac can't do on demand, such as a folder that never answers.
+  for what a Mac can't do on demand, such as a folder that never answers, and for what would change the Mac itself:
+  unless a test passes its own, `TrashService`'s initializer for tests starts and stops no launchd job, forgets no
+  preference domain, registers no app with Launch Services, changes no Dock, and acts as if there were no helper.
 - **A test never assumes how the Mac running it is set.** With Show all filename extensions on, Finder names
   Calculator "Calculator.app", while Peel never puts the extension in an app's name, so a test that compares Peel's
   names with Finder's reads Finder's as Peel does.
@@ -159,12 +180,17 @@ If you are unsure whether something belongs in the helper, it doesn't.
   differed, and fix that. Never run it again until it passes, and never widen a timeout to hide it.
 - **Never bound a test by the clock.** In a full run a short sleep or a timer can resume seconds late, so a test
   waits for the thing it measures (a program's end, a file's change), and work it waits on runs at user-initiated
-  priority rather than the default.
+  priority rather than the default. A test that reads this Mac through a tool (`pluginkit`, `mdfind`) waits for the
+  tool's whole answer, never the time limit the page gives it: a runner with three processors takes longer.
 - The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services
   from a test. An app a test expects Peel to act on is a made-up one, named under a domain kept for examples
   (`org.example`, `com.example`, `net.example`). A program a test starts from a folder of its own is a copy of
-  `/bin/sleep` signed ad hoc (`TemporaryDirectory.runningProgram`): macOS kills a plain copy of one of its own
-  programs started from anywhere else, usually within a second, for breaking its launch constraints. A folder a
+  `/bin/cat` signed ad hoc (`TemporaryDirectory.runningProgram`, or `runningPrograms` for several): macOS kills a
+  plain copy of one of its own programs started from anywhere else, usually within a second, for breaking its launch
+  constraints. Every copy is made before any starts, since once a program inside an app runs, macOS takes away other
+  processes' right to write into that app. A copy is handed to the test only once it has echoed a line written to
+  it, since until then Gatekeeper checks it where it started and ends it if the test has moved it, and it runs until
+  the test ends it or the suite ends and its input closes: letting go of the `Process` ends nothing. A folder a
   test makes never ends in a package's extension: `org.example.App` is an app to macOS and to Peel, so nothing
   inside it is looked at as a folder's contents.
 - Some changes need a particular test:
@@ -178,18 +204,27 @@ If you are unsure whether something belongs in the helper, it doesn't.
     repository naming a commit and not a branch, and a `DeveloperCachesTests` run. Never a toolchain, an
     installation, or a file holding an account or a token;
   - anything a document names or counts: the document changes in the same change. `DocumentationTests` looks in the
-    code for every name a document writes in code font, `TerminalThemeTests` in TERMINAL.md for every line the
-    Terminal page writes, `CommandLineTests` in `Support/peel.1` for every command of `peel`, and
-    `DesktopWalletTests` checks SAFETY.md's count of wallet places.
-- Slower checks run only when asked for, and both are worth running before a release:
-  `PEEL_TEST_THIS_MAC=1 swift test --package-path Packages/PeelCore --filter SuggestedSelectionOnThisMacTests`
-  scans every app installed on the Mac and checks that nothing Peel would select is refused or shared, and the
-  `PeelUITests` scheme runs Xcode's accessibility audit on every page, in light and dark, moving the pointer and
-  typing, so it runs on a Mac nobody is using:
-  `xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath build/DerivedData`.
+    code for the type each code-font name in a document starts with (`RemovalLog` of `RemovalLog.canBeRead`), so a
+    member, a name in lowercase or in capitals, and a call's labels are checked by hand, and it holds a few numbers
+    the documents give to the code's. `TerminalThemeTests` looks in TERMINAL.md for every line the Terminal page
+    writes, `CommandLineTests` in `Support/peel.1` for every command of `peel`, and `DesktopWalletTests` checks
+    SAFETY.md's count of wallet places. Anything `peel --help` says that changes has its manual page written again
+    with `python3 Scripts/generate_manual.py` after a Debug build: the Checks workflow compares the whole page.
+- Slower checks run only when asked for, and both are worth running before a release. `PEEL_TEST_THIS_MAC=1` runs
+  the tests that read this Mac rather than a fixture: with
+  `--filter SuggestedSelectionOnThisMacTests` it scans every app installed on the Mac and checks that nothing Peel
+  would select is refused or shared, and without the filter three more read this Mac's system extensions, Trash, and
+  storage, the first of them failing on a Mac with no system extension. The `PeelUITests` scheme runs Xcode's
+  accessibility audit on every page, in light and dark, moving the pointer, typing, and quitting a Peel that is open,
+  so it runs on a Mac nobody is using; macOS asks once for Accessibility for the test runner, and for an
+  administrator's password each time Automation Mode turns on:
+  `xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath build/DerivedData
+  DEVELOPMENT_TEAM=YOUR_TEAM_ID`.
 - For work on Peel itself: `PEEL_SNAPSHOT=<folder>`, in a Debug build, renders Home, About, and the menu bar panel
-  to PNG files in light and dark, each also with Increase Contrast, then quits; `PEEL_TERMINAL_EXPORT=<folder>`, in
-  a Debug build, writes what `Terminal/` holds, then quits; `PEEL_MEASURE=<name>`, in every build, appends launch and
+  to PNG files in that folder, which must exist first, in light and dark, each also with Increase Contrast, then
+  quits; `PEEL_TERMINAL_EXPORT=<repository>/Terminal`, in a Debug build, writes the themes and pictures `Terminal/`
+  holds, then quits, and a change to a theme or to the prompt preview needs it, since `TerminalThemeTests` compares
+  `Terminal/` with what Peel writes; `PEEL_MEASURE=<name>`, in every build, appends launch and
   frame timings to `~/Library/Logs/Peel/<name>`; and `PEEL_TEST_VOLUME=<folder>` lets the tests use the Trash of
   another volume, on a disk image made for it.
 
@@ -218,6 +253,23 @@ If you are unsure whether something belongs in the helper, it doesn't.
   installed is left to Finder (`RemovedElsewhere.byFinder`), Peel names System Settings' step only where it is
   proved (`AppExtension.systemSettingsDeletesIt`), and Orphaned Files says why the copy in
   `/Library/SystemExtensions` stays (`HoldBack.systemExtension`, `HoldBack.deletableSystemExtension`).
+- **`skipDescendants()` skips the folder last handed back.** Called after a file, it skips the next folder in the
+  same place instead, so a walk calls it only for a folder.
+- **Listing a folder that a file provider keeps only in the cloud makes the provider download it**
+  (`NSFileProviderReplicatedExtension.h`), so every walk passes by such a folder (`FileSize.isDataless`).
+- **Some folders are made only once.** macOS doesn't make the account's crash reports folder again, and
+  `brew services start` makes a service's log folder while launchd makes again only a missing log file, so Space
+  empties such folders and never moves them (`SpaceInventory.emptiedFolders`, `SpaceItem.keepsItsFolders`).
+- **An app in the Trash keeps its login items and agents.** macOS starts what an app registered through
+  ServiceManagement from the Trash at every login until the Trash is emptied, and `launchctl` names no program for
+  such a job, so it isn't taken for one with nothing left to run.
+- **Registering an app with Launch Services starts its extensions**, which make their folders again, so a Put Back
+  registers the apps it brings back only once every item is back.
+- **Code that can run after Peel has moved stops trusting its bundle.** Peel's Finder extension can keep running
+  from the Trash, where `NSImage(resource:)` traps on an asset it no longer finds, so it offers nothing once its
+  bundle has left. Once Remove Peel has moved Peel, the main bundle still names the place it left, so the last words
+  are read from the moved copy, and Peel ends with `_exit`, since the cookie policy Peel sets makes CFNetwork write
+  its store again when the process exits normally.
 - **Homebrew warns on stderr and still exits 0**, and JSON with a warning after it is no longer JSON. An answer
   Peel reads comes from standard output alone (`Homebrew.Attempt`), while what the person is shown keeps both
   streams, in the order Homebrew wrote them.
@@ -231,16 +283,26 @@ If you are unsure whether something belongs in the helper, it doesn't.
   as errors, and the package is held to the same bar by `-warnings-as-errors` on the command line.
 - **Never block on async work, and never wait in a loop.** A semaphore parks one of the few threads Swift's tasks
   run on, and a canceled task refuses to sleep, so a sleeping loop spins: a wait is a continuation woken once, by
-  the answer or by a timer, as `FileSize` and `SlowRead` wait.
+  the answer or by a timer, as `FileSize` and `SlowRead` wait. A timer that ends a wait runs at user-initiated
+  quality (`Subprocess.timers`, `PrivilegedHelper.timers`): at utility quality it waits behind other utility work
+  and fires seconds late on a busy Mac.
+- **An object kept only by a weak reference is kept alive on purpose.** Swift may release an object after its last
+  use, and an open panel holds its delegate weakly, so the panel's delegate is kept with `extendLifetime` until the
+  panel closes (`ScreenshotFolderPanel`). Only an optimized build reports the mistake.
 - Small, focused files, and code that reads like the code around it. A dependency only when nothing else will do.
-  Its version is pinned twice, in `Packages/PeelCore/Package.resolved` and in the app's project, so a new version
-  goes into both (`PackageResolvedTests`).
+  A Swift package's version is pinned twice, in `Packages/PeelCore/Package.resolved` and in the app's project, so a
+  new version goes into both (`PackageResolvedTests`); Sparkle is built at the version and commit
+  `Scripts/build_sparkle.sh` names. Dependabot proposes new versions of the GitHub Actions only, so both are updated
+  by hand.
+- Scripts run in zsh: an unquoted variable isn't split into words, a pattern that matches nothing stops the line,
+  and a word that begins with `=` names a command.
 - **Few comments, written for people.** Say what the code can't: what a declaration is for, why a rule exists, and
   which documented behavior of macOS forced a workaround, with its public source. No history and no notes from a
   session: a fixed bug belongs in the commit message. Code, comments, tests, and documents speak about Peel, never
   about who or what wrote them.
 - **Lines within 120 columns**, code and comments alike. A string is never split to fit: `LineLengthTests` measures
-  each line of Swift without its strings.
+  each line of Swift without its strings, and each line of a shell, Python, or workflow file in `Scripts/`, `Logo/`,
+  and `.github/workflows/` as it is written.
 - **No dead code.** Whatever a change leaves unused goes in the same change.
 
 ## macOS 26 and macOS 27
@@ -281,6 +343,9 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   the page's body again, and a `List` measures every visible row again. Make such a binding inside a small view of
   its own, as `AppRemovalOptions` and `BulkRemovalOptions` do. Prove a cost like this by counting how often a body
   runs, with a probe thrown away afterwards: the time of one click changes with what the list shows.
+- **A `Group` hands its modifiers to its children**, so a `.task` on a `Group` that stays empty until the task loads
+  something never runs: a list whose being empty decides whether its view exists is loaded by a model, or by a view
+  that always exists (`SavedSettings`).
 - **`task(id:)` runs again only when its id changes.** A fact a page shows beside a scan is read in the model's
   refresh, or the task's id carries a count of scans (`BackgroundItemLibrary`'s `scans`, `RemovalHistoryStore`'s
   `reloads`); otherwise Rescan and Reload leave it as it was.
@@ -295,7 +360,7 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 - **On macOS a window's `scenePhase` stays active behind another app**: it says only whether a window can be
   seen. What Peel does when it comes forward follows `NSApplication.didBecomeActiveNotification`.
 - **On macOS 26 a fixed header above a scroll view at the top of a column** makes AppKit draw an opaque scroll
-  edge with a line, an empty band under the title bar. Such a header goes in the toolbar or inside the scroll.
+  edge with a line, an empty band under the title bar. Such a header goes in the toolbar or inside the scroll view.
 - **A failure is a state of its own, never read from "not running".** A setting flipped in one place and the work
   it starts in an `onChange` elsewhere leave a moment where the model still says off, so a warning that something
   failed waits for a real failure (`TrashMonitor`'s `unavailable`).
@@ -316,22 +381,32 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   Romanian, German, French, Spanish, Portuguese (Brazilian), Italian, Japanese, Simplified and Traditional
   Chinese, Dutch, Korean, Russian, Polish, Turkish, Swedish, Czech, and Ukrainian.
 - Write new or changed interface text in English, then run `python3 Scripts/sync_localizations.py` after a Debug
-  build so the catalogs list it. The English is the key, so changed text loses its translations and new text has
-  none: `StringCatalogTests` fails for that text, and only for it, until all 17 are written, which happens before
-  the change is merged.
+  build so the catalogs list it. In the Localizable and AppShortcuts catalogs the English is the key, so new text has
+  no translations, and changed text is new text: the sync keeps the entry of the text it replaced, marked stale with
+  its translations. `StringCatalogTests` fails for both until all 17 are written for the new text and the stale entry
+  is gone, which happens before the change is merged. Text an Info.plist shows (a permission prompt, the copyright)
+  keeps its key, and its translations are marked for review until they are written again.
+- Text a person reads goes through the catalogs: `Text(verbatim:)` is only for what is not words, or for a name.
 - A translation uses the words macOS itself uses in that language for every place, menu, and command, and writes the
   marks macOS writes there: Dutch keeps the straight apostrophe, German puts a no-break space before an ellipsis,
   and Romanian joins a Romanian word with a non-breaking hyphen (U+2011) but never a name or an option someone may
-  copy. `StringCatalogTests` checks these.
+  copy. `StringCatalogTests` checks these, and also wants the ellipsis character, never three periods, each sidebar
+  name and tab title within the room it is given, and SwiftUI's own words for the menu items SwiftUI builds.
 - The `peel` command stays in English, since scripts read it. PeelCore returns English and never looks up a
   translation, since the package has no catalog of its own: the app words what PeelCore sends.
-- An alert's title shows inflection markup as written, so a count in a title is inflected first with
-  `String(inflecting:)`.
+- A change to `peel` keeps what its tests and scripts read: an option's default is said in its own help ("Without
+  it, 20."), never left to ArgumentParser's "(default: ...)", which the manual page drops; the exit codes stay those
+  its help names; what it prints goes through `Output`; and a command that removes goes through `Cleanup`, so it
+  asks, records, and exits as the others do.
+- `String(localized:)` leaves inflection markup as written, wherever its text goes (an alert's title or message, a
+  notification, anything handed to AppKit), so text that counts and needs a plain `String` is built with
+  `String(inflecting:)`. `InflectionMarkupTests` refuses a `String(localized:)` that carries the markup.
 
 ## Documents
 
 - A change that alters what Peel does updates every document that describes it in the same change: README.md,
-  GUIDE.md, SAFETY.md, PRIVACY.md, ARCHITECTURE.md, CHANGELOG.md, and TERMINAL.md.
+  GUIDE.md, SAFETY.md, PRIVACY.md, SECURITY.md, ARCHITECTURE.md, CHANGELOG.md, and TERMINAL.md, and this file and
+  CONTRIBUTING.md when a rule they state changes.
 - The documents say what Peel does and why, with Apple's or the tool's own documentation as the source. They don't
   name other cleaners or uninstallers, or compare Peel with them.
 - `docs/` is Peel's website. Only its text changes, and only to stay true to the app; its questions are written
