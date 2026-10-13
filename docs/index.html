@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Peel: Free, Open Source Uninstaller and Cleaner for Mac</title>
-  <meta name="description" content="Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 and later.">
+  <meta name="description" content="Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 or later.">
   <link rel="canonical" href="https://peel.tuguidragos.com/">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="Țugui Dragoș">
@@ -62,7 +62,7 @@
         "@id": "https://peel.tuguidragos.com/#webpage",
         "url": "https://peel.tuguidragos.com/",
         "name": "Peel: Free, Open Source Uninstaller and Cleaner for Mac",
-        "description": "Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 and later.",
+        "description": "Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 or later.",
         "inLanguage": "en",
         "isPartOf": {
           "@id": "https://peel.tuguidragos.com/#website"
@@ -74,7 +74,7 @@
           "@id": "https://peel.tuguidragos.com/#app"
         },
         "primaryImageOfPage": "https://peel.tuguidragos.com/images/social.png",
-        "dateModified": "2026-10-11"
+        "dateModified": "2026-10-13"
       },
       {
         "@type": "Person",
@@ -164,6 +164,8 @@
           "Lists background items, extensions, plug-ins, package receipts, and Intel software, starts or stops background items, and runs Homebrew’s updates, cleanups, and vulnerability scan",
           "40 macOS settings, many of them out of sight, each explained, in six groups",
           "Sets up Terminal: 29 dark themes built on Apple’s Clear Dark, a prompt, and switches for settings zsh, Git, and ssh already have",
+          "Updates itself when you choose, once it has checked that the update is signed as Peel’s",
+          "Exports what is installed and where each app came from, as JSON, CSV, plain text, or a Brewfile",
           "The peel command for Terminal",
           "No analytics, no ads, and no account"
         ]
@@ -211,7 +213,7 @@
             "name": "Can Peel delete something I need?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Peel moves files to the Trash instead of deleting them, and History can put them back while they’re still there. What can’t be undone, such as Homebrew’s own uninstall, Peel names before you confirm it. It never selects a file another app uses, and refuses to move iCloud Drive, your keychains, Mail, Messages, and photo libraries."
+              "text": "Peel moves files to the Trash instead of deleting them, and History can put them back while they’re still there (it keeps the latest 20,000 items). What can’t be undone, such as Homebrew’s own uninstall, Peel names before you confirm it. It never selects a file another app uses, and refuses to move iCloud Drive, your keychains, Mail, Messages, and photo libraries."
             }
           },
           {
@@ -259,7 +261,15 @@
             "name": "Can I install Peel with Homebrew?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Run brew install --cask tuguidragos/tap/peel in Terminal. It installs the same release as the download on this page."
+              "text": "Yes. Run brew install --cask tuguidragos/tap/peel in Terminal. It installs the same app as the download on this page, from the same release on GitHub, and puts the peel command on your path."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I update Peel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Choose Check for Updates in the Peel menu, or Install Update in About Peel when it says a new version is out. While Check for app updates is on, Peel also looks once a day. It shows what is new and installs the update only when you choose, once it has checked that the update is signed as Peel’s. A copy Homebrew installed updates the same way, and brew upgrade --cask peel updates it too."
             }
           },
           {
@@ -267,7 +277,7 @@
             "name": "How do I know my copy of Peel is the real one?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Run spctl -a -vv /Applications/Peel.app in Terminal. A copy I built answers accepted, with source=Notarized Developer ID and origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2). If it answers invalid API object reference, there is no app at that path: put the path of your copy instead. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from github.com/TuguiDragos/Peel. Before you open the file you downloaded, GitHub’s gh tool can check it against its release: once you’re signed in with gh auth login, gh release verify-asset v1.0.1 Peel-1.0.1.dmg -R TuguiDragos/Peel (your version and your file’s name) answers Verification succeeded! Peel-1.0.1.dmg is present in release v1.0.1."
+              "text": "Run spctl -a -vv /Applications/Peel.app in Terminal. A copy I released answers accepted, with source=Notarized Developer ID and origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2). If it answers invalid API object reference, there is no app at that path: put the path of your copy instead. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from github.com/TuguiDragos/Peel. Before you open the file you downloaded, GitHub’s gh tool can check it against its release: once you’re signed in with gh auth login, gh release verify-asset v1.0.1 ~/Downloads/Peel-1.0.1.dmg -R TuguiDragos/Peel (with your version and where your file is) answers Verification succeeded! Peel-1.0.1.dmg is present in release v1.0.1."
             }
           },
           {
@@ -283,7 +293,7 @@
             "name": "How do I uninstall Peel itself?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "In Settings > General, choose Remove Peel. Peel removes its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings zsh and ssh read, and clears its settings. What you set in Tweaks and on the Terminal page stays as it is. If you installed it with Homebrew, Settings shows the Homebrew command to run instead."
+              "text": "In Settings > General, choose Remove Peel. Peel removes its helper and its login item, then moves itself, the files that are certainly its own, and its folder in Application Support, all but the Terminal settings zsh and ssh read, to the Trash, and clears its settings. While the helper is installed, this needs an administrator’s account. What you set in Tweaks and on the Terminal page stays as it is. If you installed it with Homebrew, Settings shows the Homebrew command to run instead."
             }
           }
         ]
@@ -483,11 +493,11 @@
         <ul class="points">
           <li class="reveal">
             <h3>Orphaned Files</h3>
-            <p>Files left behind by apps you already removed, which no app on this Mac claims.</p>
+            <p>Files left behind by apps you already removed, which no app on this Mac claims. What only an administrator can remove is listed apart, with how to remove it in Finder.</p>
           </li>
           <li class="reveal">
             <h3>Build Artifacts</h3>
-            <p>What builds left in your projects, like <code>node_modules</code>, <code>DerivedData</code>, or <code>target</code>, each only when its tool’s own file proves it.</p>
+            <p>What builds left in your projects, like <code>node_modules</code>, <code>DerivedData</code>, or <code>target</code>, each only when its tool’s own file proves it. Turn it on in Settings &gt; General &gt; Sidebar.</p>
           </li>
           <li class="reveal">
             <h3>Duplicates</h3>
@@ -495,7 +505,7 @@
           </li>
           <li class="reveal">
             <h3>Installers and Backups</h3>
-            <p>App installers in Downloads, Desktop, Documents, Public, and Shared, macOS installers, device firmware, unfinished downloads, updates waiting to install, and what your iPhone and iPad backups hold. A disk image may be one you made, so nothing is selected for you.</p>
+            <p>Disk images and packages in Downloads, Desktop, Documents, Public, and Shared; macOS installers; device firmware; unfinished downloads; and updates waiting to install. Your iPhone and iPad backups are listed with their size, and never moved. A disk image may be one you made, so nothing is selected for you.</p>
           </li>
           <li class="reveal">
             <h3>iCloud Drive</h3>
@@ -514,7 +524,7 @@
         <div class="split-text reveal">
           <p class="eyebrow">Developer</p>
           <h2 class="headline" id="developer-title">Caches, folder by folder.</h2>
-          <p class="lede">What each of your developer tools keeps. <strong>What you may want again is listed but never selected for you</strong>, and toolchains or anything holding an account are never listed.</p>
+          <p class="lede">What each of your developer tools keeps. <strong>Nothing is selected for you</strong>, Select Recommended passes by what you may want again, and toolchains or anything holding an account are never listed.</p>
           <ul class="chips">
             <li>Xcode</li>
             <li>Package managers</li>
@@ -543,7 +553,7 @@
         <div class="split-text reveal">
           <p class="eyebrow">System</p>
           <h2 class="headline" id="system-title">Look after your Mac.</h2>
-          <p class="lede">See what runs in the background and, where Peel can tell, which app added it. Find what still needs Rosetta, and <strong>keep Homebrew up to date, clean, and checked for known vulnerabilities.</strong></p>
+          <p class="lede">See what runs in the background and, where Peel can tell, which app added it. Find what still needs Rosetta, and <strong>keep Homebrew up to date, clean, and checked for known vulnerabilities.</strong> Background Items, Extensions, Plug-ins, and Intel Software start turned off in the sidebar: turn them on in Settings &gt; General &gt; Sidebar.</p>
           <ul class="chips">
             <li>Background Items</li>
             <li>Extensions</li>
@@ -597,7 +607,7 @@
         <div class="feature-head center reveal">
           <p class="eyebrow">Terminal</p>
           <h2 class="headline" id="terminal-title">Set up Terminal.</h2>
-          <p class="lede">Choose a theme and a prompt, and turn on settings zsh, Git, and ssh already have, <strong>each with its own switch.</strong> There are 29 dark themes, all built on Apple’s own Clear Dark.</p>
+          <p class="lede">Choose a theme and a prompt, and turn on settings zsh, Git, and ssh already have, <strong>each with its own switch.</strong> There are 29 dark themes, all built on Apple’s own Clear Dark. The Terminal page starts turned off in the sidebar: turn it on in Settings &gt; General &gt; Sidebar.</p>
         </div>
         <div class="themes reveal">
           <div class="theme-view">
@@ -651,7 +661,7 @@
           </li>
           <li class="reveal">
             <h3>Git</h3>
-            <p>Turn on what Git already has, like rebase when pulling. Turn All Off puts back what Peel changed, and returns the rest to Git’s defaults.</p>
+            <p>Turn on what Git already has, like rebase when pulling. Turn All Off puts back what Peel changed, and returns the settings on this tab that you set yourself to Git’s defaults.</p>
           </li>
           <li class="reveal">
             <h3>SSH</h3>
@@ -685,17 +695,17 @@
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.8h5V7M6.5 7l.9 12.2a1.5 1.5 0 0 0 1.5 1.3h6.2a1.5 1.5 0 0 0 1.5-1.3L17.5 7M10.2 11v5.5M13.8 11v5.5"/></svg>
             <h3>The Trash, never deletion.</h3>
-            <p>Only four things Peel starts can’t be put back that way: Homebrew’s own uninstall and cleanups, resetting an app’s privacy permissions, and Force Quit for an app that won’t quit. Peel says so before you confirm them, and warns before it moves an app that deletes its own settings when it goes, like Mullvad VPN.</p>
+            <p>Only four things Peel starts can’t be put back that way: Homebrew’s own uninstall and cleanups, resetting an app’s privacy permissions, and Force Quit for an app that won’t quit. Peel says so before you confirm them, and warns before it moves an app whose own uninstaller then deletes more, as Mullvad VPN, Citrix Workspace, and TeamViewer do.</p>
           </li>
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7"/></svg>
             <h3>Protected places stay protected.</h3>
-            <p>iCloud Drive, keychains, your SSH and signing keys, the keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it.</p>
+            <p>Peel refuses to move iCloud Drive and anything else that syncs to your other devices, keychains, your SSH and signing keys, the keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it.</p>
           </li>
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="17" height="13" rx="2.8"/><path d="M3.5 10h17"/><circle cx="16.3" cy="14.5" r="1.1" fill="currentColor" stroke="none"/></svg>
-            <h3>Crypto wallets are never selected for you.</h3>
-            <p>A browser profile holding a wallet extension Peel knows, or Brave’s own wallet, stays where it is, so uninstalling a browser never takes the wallet with it.</p>
+            <h3>Crypto wallets stay where they are.</h3>
+            <p>A browser profile holding a wallet extension Peel knows, or Brave’s own wallet, stays where it is, so uninstalling a browser never takes the wallet with it. A folder with a wallet’s file inside is shown with its reason and never selected for you.</p>
           </li>
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
@@ -722,17 +732,17 @@
         <div class="feature-head center reveal">
           <p class="eyebrow">Check it yourself</p>
           <h2 class="headline" id="trust-title">Don’t take it on trust.<br>Check it.</h2>
-          <p class="lede">Every copy is signed with my Developer ID and notarized by Apple, <strong>every line is on GitHub</strong>, and a security problem has a private way in.</p>
+          <p class="lede">Every release is signed with my Developer ID and notarized by Apple, <strong>every line is on GitHub</strong>, and a security problem has a private way in.</p>
         </div>
         <ul class="points rows">
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9.5" r="6"/><path d="m9.4 9.6 1.8 1.8 3.4-3.4M8.6 14.4 7.6 20.5l4.4-2.3 4.4 2.3-1-6.1"/></svg>
             <h3>Signed and notarized.</h3>
-            <p>Every copy I build is signed Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple. In Terminal, <code>spctl -a -vv</code> followed by the app’s path shows both. <a href="#real-copy">How to check your copy</a></p>
+            <p>Every copy I release is signed Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple. In Terminal, <code>spctl -a -vv</code> followed by the app’s path shows both. <a href="#real-copy">How to check your copy</a></p>
           </li>
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.2V4.6a1.1 1.1 0 0 1 1.1-1.1h7.6l8.3 8.3a1.2 1.2 0 0 1 0 1.7l-6.7 6.7a1.2 1.2 0 0 1-1.7 0z"/><circle cx="8" cy="8" r="1.4"/></svg>
-            <h3>A release can’t change once it ships.</h3>
+            <h3>A release’s files can’t change once it ships.</h3>
             <p>Each release on GitHub is immutable: its files can’t be replaced after it is published, and GitHub’s <code>gh release verify-asset</code> checks the disk image you downloaded against it.</p>
           </li>
           <li class="reveal">
@@ -748,7 +758,7 @@
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.6 7.2 7.4 5.8 7.4-5.8"/></svg>
             <h3>Security problems, reported privately.</h3>
-            <p>Use <a href="https://github.com/TuguiDragos/Peel/security/advisories/new">Report a vulnerability</a> on the repository’s Security tab, or email <a href="mailto:contact@tuguidragos.com?subject=Peel%20security">contact@tuguidragos.com</a> with “Peel security” in the subject. The aim is an answer within two working days, and the security policy says what happens next.</p>
+            <p>Use <a href="https://github.com/TuguiDragos/Peel/security/advisories/new">Report a vulnerability</a> on the repository’s Security tab, or email <a href="mailto:contact@tuguidragos.com?subject=Peel%20security">contact@tuguidragos.com</a> with “Peel security” in the subject. The aim is to acknowledge your report within two working days, and the security policy says what happens next.</p>
           </li>
         </ul>
         <p class="link-line center reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md">Read the security policy</a></p>
@@ -762,8 +772,10 @@
         <div class="split-text reveal">
           <p class="eyebrow">Privacy</p>
           <h2 class="headline" id="privacy-title">No analytics.<br>No account.</h2>
-          <p class="lede">On its own, Peel goes online only to check your apps, and itself, for updates, and you can turn that off. <strong>Each check asks about one app alone</strong>, through its own update feed or the App Store, and doesn’t send its version, your macOS, or your languages; the App Store is told only your Mac’s region. Release notes are asked for in your language when the feed offers them in several.</p>
+          <p class="lede">On its own, Peel goes online only to check your apps, and itself, for updates, and you can turn that off. <strong>Each check asks about one app alone</strong>, through its own update feed or the App Store, and doesn’t send its version, your macOS, or your languages; the App Store is told only your Mac’s region. Taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through it. When a feed offers its release notes in several languages, Peel asks for the one in your language, so the server that keeps them can tell which language you read.</p>
+          <p class="lede">Homebrew goes online only when you ask it to. Its vulnerability scan, which you start yourself, is the one thing that sends a list of what is installed: the source and version of each formula, to api.osv.dev.</p>
           <p class="lede">Settings &gt; Privacy shows what Peel sends, and every address it or Homebrew may contact.</p>
+          <p class="link-line"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/PRIVACY.md">Read what Peel sends</a></p>
         </div>
         <picture class="shot reveal">
           <source type="image/avif" srcset="images/peel-privacy-800.avif 800w, images/peel-privacy-1200.avif 1200w, images/peel-privacy-2400.avif 2400w"
@@ -783,7 +795,7 @@
         <div class="feature-head center reveal">
           <p class="eyebrow">The peel command</p>
           <h2 class="headline" id="command-title">Much of Peel,<br>from Terminal.</h2>
-          <p class="lede">Every command that moves your files asks first, and takes <code>--dry-run</code> to only show the plan. <strong>What it moves goes through the same checks as in the app, into the same History.</strong></p>
+          <p class="lede">The command ships inside the app: Settings &gt; General shows the Terminal command that puts it on your path, and a Homebrew install puts it there for you. Every command that moves your files asks first, and takes <code>--dry-run</code> to only show the plan. <strong>What it moves goes through the same checks as in the app, into the same History.</strong></p>
         </div>
         <div class="terminal reveal">
           <div class="terminal-bar" aria-hidden="true"><i></i><i></i><i></i><span>peel</span></div>
@@ -852,7 +864,7 @@
           </details>
           <details>
             <summary>Can Peel delete something I need?</summary>
-            <p>Peel moves files to the Trash instead of deleting them, and History can put them back while they’re still there. What can’t be undone, such as Homebrew’s own uninstall, Peel names before you confirm it. It never selects a file another app uses, and refuses to move iCloud Drive, your keychains, Mail, Messages, and photo libraries.</p>
+            <p>Peel moves files to the Trash instead of deleting them, and History can put them back while they’re still there (it keeps the latest 20,000 items). What can’t be undone, such as Homebrew’s own uninstall, Peel names before you confirm it. It never selects a file another app uses, and refuses to move iCloud Drive, your keychains, Mail, Messages, and photo libraries.</p>
           </details>
           <details>
             <summary>Why does Peel show a smaller size than Finder?</summary>
@@ -876,19 +888,23 @@
           </details>
           <details>
             <summary>Can I install Peel with Homebrew?</summary>
-            <p>Yes. Run <code>brew install --cask tuguidragos/tap/peel</code> in Terminal. It installs the same release as the download on this page.</p>
+            <p>Yes. Run <code>brew install --cask tuguidragos/tap/peel</code> in Terminal. It installs the same app as the download on this page, from the same release on GitHub, and puts the <code>peel</code> command on your path.</p>
+          </details>
+          <details>
+            <summary>How do I update Peel?</summary>
+            <p>Choose Check for Updates in the Peel menu, or Install Update in About Peel when it says a new version is out. While Check for app updates is on, Peel also looks once a day. It shows what is new and installs the update only when you choose, once it has checked that the update is signed as Peel’s. A copy Homebrew installed updates the same way, and <code>brew upgrade --cask peel</code> updates it too.</p>
           </details>
           <details id="real-copy">
             <summary>How do I know my copy of Peel is the real one?</summary>
-            <p>Run <code>spctl -a -vv /Applications/Peel.app</code> in Terminal. A copy I built answers <code>accepted</code>, with <code>source=Notarized Developer ID</code> and <code>origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2)</code>. If it answers <code>invalid API object reference</code>, there is no app at that path: put the path of your copy instead. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>. Before you open the file you downloaded, GitHub’s <code>gh</code> tool can check it against its release: once you’re signed in with <code>gh auth login</code>, <code>gh release verify-asset v1.0.1 Peel-1.0.1.dmg -R TuguiDragos/Peel</code> (your version and your file’s name) answers <code>Verification succeeded! Peel-1.0.1.dmg is present in release v1.0.1</code>.</p>
+            <p>Run <code>spctl -a -vv /Applications/Peel.app</code> in Terminal. A copy I released answers <code>accepted</code>, with <code>source=Notarized Developer ID</code> and <code>origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2)</code>. If it answers <code>invalid API object reference</code>, there is no app at that path: put the path of your copy instead. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>. Before you open the file you downloaded, GitHub’s <code>gh</code> tool can check it against its release: once you’re signed in with <code>gh auth login</code>, <code>gh release verify-asset v1.0.1 ~/Downloads/Peel-1.0.1.dmg -R TuguiDragos/Peel</code> (with your version and where your file is) answers <code>Verification succeeded! Peel-1.0.1.dmg is present in release v1.0.1</code>.</p>
           </details>
           <details>
             <summary>Does Peel work on Intel Macs and older versions of macOS?</summary>
-            <p>Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs from 2019 and 2020 that Apple lists for macOS 26. It doesn’t run on earlier versions of macOS: each version moves where apps keep their files, so every release is tested by hand before it ships, on macOS 26 and every version since.</p>
+            <p>Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs from 2019 and 2020 that <a href="https://support.apple.com/en-us/122867">Apple lists for macOS 26</a>. It doesn’t run on earlier versions of macOS: each version moves where apps keep their files, so every release is tested by hand before it ships, on macOS 26 and every version since.</p>
           </details>
           <details>
             <summary>How do I uninstall Peel itself?</summary>
-            <p>In Settings &gt; General, choose Remove Peel. Peel removes its helper and its login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings zsh and ssh read, and clears its settings. What you set in Tweaks and on the Terminal page stays as it is. If you installed it with Homebrew, Settings shows the Homebrew command to run instead.</p>
+            <p>In Settings &gt; General, choose Remove Peel. Peel removes its helper and its login item, then moves itself, the files that are certainly its own, and its folder in Application Support, all but the Terminal settings zsh and ssh read, to the Trash, and clears its settings. While the helper is installed, this needs an administrator’s account. What you set in Tweaks and on the Terminal page stays as it is. If you installed it with Homebrew, Settings shows the Homebrew command to run instead.</p>
           </details>
         </div>
       </div>
@@ -898,7 +914,7 @@
       <div class="wrap center reveal">
         <img class="hero-icon" src="images/peel-icon-256.webp" width="128" height="128" loading="lazy" decoding="async" alt="">
         <h2 class="headline" id="download-title">Get Peel.</h2>
-        <p class="lede">Free and open source, under the GNU General Public License.</p>
+        <p class="lede">Free and open source, under the GNU General Public License. Open the disk image and drag Peel into your Applications folder.</p>
         <div class="actions">
           <a class="pill pill-large" href="https://github.com/TuguiDragos/Peel/releases/latest" data-download>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>
@@ -914,7 +930,7 @@
         <a class="pill pill-ghost sponsor" href="https://github.com/sponsors/TuguiDragos"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"/></svg>Sponsor on GitHub</a>
         <div class="notice">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 19 6.3v5.2c0 4.3-2.9 7.7-7 9-4.1-1.3-7-4.7-7-9V6.3z"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r="0.9" fill="currentColor" stroke="none"/></svg>
-          <p><strong>Peel is published in one place only: <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>.</strong> Every download on this page leads there. Any other site, download page, or store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone asking you to pay for it is not me.</p>
+          <p><strong>Peel is published in one place only: <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>.</strong> Every download on this page leads there. The Homebrew command on this page is the only command that installs Peel, so a site that asks you to paste anything else into Terminal to get Peel is not mine. Any other site, download page, or store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone asking you to pay for it is not me.</p>
         </div>
       </div>
     </section>

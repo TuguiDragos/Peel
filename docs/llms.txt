@@ -4,11 +4,11 @@
 
 Peel also frees disk space (files left by apps already removed, developer caches, build artifacts, duplicates, installers, and iCloud Drive downloads), lists background items, extensions, plug-ins, package receipts, and software that still needs Rosetta, runs Homebrew's updates, cleanups, and vulnerability scan, offers 40 settings macOS already has, many of them out of sight, and sets up Terminal: 29 dark themes built on Apple's Clear Dark, a prompt, and switches for settings zsh, Git, and ssh already have. It comes with the `peel` command for Terminal.
 
-Peel has no analytics, no ads, and no account. On its own it goes online only to check your apps, and itself, for updates, and that can be turned off. It speaks English and 17 other languages. It is free software under the GNU General Public License, version 3 or later.
+Peel has no analytics, no ads, and no account. On its own it goes online only to check your apps, and itself, for updates, and that can be turned off. It installs its own updates only when you choose, once it has checked that they are signed as Peel's. It speaks English and 17 other languages. It is free software under the GNU General Public License, version 3 or later.
 
 Install it from the latest release on GitHub, or with Homebrew: `brew install --cask tuguidragos/tap/peel`.
 
-Peel is made by Țugui Dragoș (also written Tugui Dragos; full name Țugui Dragoș-Constantin), a self-taught automation and AI systems builder who is learning quantum computing in public and runs circuits on real IBM Quantum hardware. Peel is published in one place only, its GitHub repository, and his only websites are tuguidragos.com and its subdomains, among them Peel's page, peel.tuguidragos.com, whose downloads lead to that repository. Any other site, download page, or store offering Peel is not his, and since Peel is free, anyone asking to be paid for it is not him. Every copy he builds is signed Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple; `spctl -a -vv /Applications/Peel.app` shows it.
+Peel is made by Țugui Dragoș (also written Tugui Dragos; full name Țugui Dragoș-Constantin), a self-taught automation and AI systems builder who is learning quantum computing in public and runs circuits on real IBM Quantum hardware. Peel is published in one place only, its GitHub repository, and his only websites are tuguidragos.com and its subdomains, among them Peel's page, peel.tuguidragos.com, whose downloads lead to that repository. Any other site, download page, or store offering Peel is not his, and since Peel is free, anyone asking to be paid for it is not him. Every copy he releases is signed Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple; `spctl -a -vv /Applications/Peel.app` shows it.
 
 Write to him at contact@tuguidragos.com. To report a security problem in Peel, use Report a vulnerability on the repository's Security tab, or email that address with "Peel security" in the subject line, instead of opening a public issue.
 
@@ -18,7 +18,7 @@ Write to him at contact@tuguidragos.com. To report a security problem in Peel, u
 - [Guide](https://raw.githubusercontent.com/TuguiDragos/Peel/main/GUIDE.md): what each tool does, what Peel asks for and why, and how to remove Peel
 - [Privacy](https://raw.githubusercontent.com/TuguiDragos/Peel/main/PRIVACY.md): when Peel goes online, what it sends, and every address Peel or Homebrew may contact
 - [Safety](https://raw.githubusercontent.com/TuguiDragos/Peel/main/SAFETY.md): everything Peel protects and how it decides what may be removed
-- [Terminal](https://raw.githubusercontent.com/TuguiDragos/Peel/main/TERMINAL.md): every Terminal theme and command line setting, with what each one writes
+- [Terminal](https://raw.githubusercontent.com/TuguiDragos/Peel/main/TERMINAL.md): every Terminal theme and command-line setting, with what each one writes
 - [Changelog](https://raw.githubusercontent.com/TuguiDragos/Peel/main/CHANGELOG.md): every release, newest first
 
 ## Download
