@@ -135595,6 +135595,112 @@
         }
       }
     },
+    "Screenshots can’t be saved in this folder, because you don’t have permission to write to it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snímky obrazovky nelze do této složky ukládat, protože k zápisu do ní nemáte oprávnění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfotos können in diesem Ordner nicht gesichert werden, da du nicht die erforderlichen Zugriffsrechte hast, um darin zu schreiben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las capturas de pantalla no se pueden guardar en esta carpeta porque no tienes permiso para escribir en ella."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’enregistrer les captures d’écran dans ce dossier, car vous n’avez pas l’autorisation d’y écrire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile salvare gli screenshot in questa cartella, perché non hai i permessi di scrittura."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダに書き込むためのアクセス権がないため、スクリーンショットをここに保存できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "쓰기 권한이 없기 때문에 이 폴더에 스크린샷을 저장할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermafbeeldingen kunnen niet in deze map worden bewaard, omdat je geen bevoegdheden hebt om ernaar te schrijven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można zachowywać zrzutów ekranu w tym folderze, ponieważ nie masz uprawnień do zapisywania w nim."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As capturas de tela não podem ser salvas nesta pasta, porque você não tem permissão para gravar nela."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturile de ecran nu pot fi salvate în acest dosar, deoarece nu aveți permisiunea de a scrie în el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Снимки экрана нельзя сохранить в этой папке, потому что у Вас нет разрешения на запись в нее."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skärmavbilder kan inte sparas i den här mappen, eftersom du inte har behörighet att skriva till den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resimleri bu klasöre kaydedilemez, çünkü klasöre yazma izniniz yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знімки екрана не можна зберігати в цій папці, бо у вас немає дозволу записувати в неї."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏无法保存在此文件夹中，因为你没有权限写入该文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法將截圖儲存在此檔案夾中，因為你沒有寫入此檔案夾的權限。"
+          }
+        }
+      }
+    },
     "Scroll bars are always there" : {
       "localizations" : {
         "cs" : {
@@ -158225,6 +158331,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「垃圾桶」存放的是準備丟棄的項目，因此Peel不會在那裡尋找App。\n\n%@"
+          }
+        }
+      }
+    },
+    "The Trash holds what is on its way out, so screenshots saved there would be deleted when it’s emptied." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koš obsahuje položky určené k vyhození, a proto by snímky obrazovky uložené v něm byly při vysypání koše smazány."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Papierkorb liegt, was weggeworfen wird, daher würden dort gesicherte Bildschirmfotos gelöscht, sobald er entleert wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La papelera contiene lo que se va a eliminar, así que las capturas de pantalla guardadas ahí se borrarían al vaciarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La corbeille contient ce que vous jetez : les captures d’écran enregistrées à cet emplacement seraient donc supprimées une fois la corbeille vidée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Cestino contiene ciò che è destinato a essere eliminato, quindi gli screenshot salvati al suo interno verrebbero eliminati quando viene svuotato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴミ箱には、捨てようとしているものが入っているため、そこに保存されたスクリーンショットは、ゴミ箱を空にすると削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통에는 버릴 항목이 들어 있으므로 그곳에 저장된 스크린샷은 휴지통을 비울 때 삭제됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De prullenmand bevat wat wordt weggegooid, dus zouden daar bewaarde schermafbeeldingen definitief worden verwijderd wanneer de prullenmand wordt geleegd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kosz zawiera rzeczy przeznaczone do usunięcia, więc zachowane tam zrzuty ekranu zostałyby usunięte po opróżnieniu Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Lixo contém o que está sendo descartado, então as capturas de tela salvas lá seriam apagadas quando ele fosse esvaziado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coșul conține ce urmează să fie aruncat, așa că capturile de ecran salvate acolo ar fi șterse la golirea Coșului."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Корзине лежит то, что предстоит удалить, поэтому сохраненные там снимки экрана будут удалены при очистке Корзины."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Papperskorgen innehåller det som är på väg att slängas, så skärmavbilder som sparas där skulle raderas när den töms."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp Sepeti, atılmak üzere olanları tutar, bu yüzden oraya kaydedilen ekran resimleri, Çöp Sepeti boşaltıldığında silinir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У Смітнику лежить те, що ви викидаєте, тож знімки екрана, збережені там, було б видалено під час очищення Смітника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "废纸篓中存放的是即将丢弃的内容，因此保存在其中的截屏会在清倒废纸篓时被删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「垃圾桶」存放的是準備丟棄的項目，因此儲存在那裡的截圖會在清空「垃圾桶」時被刪除。"
           }
         }
       }

@@ -1,4 +1,3 @@
-import AppKit
 import Foundation
 import Observation
 import PeelCore
@@ -117,19 +116,10 @@ final class TweakLibrary {
     }
 
     func chooseScreenshotFolder(for tweak: Tweak) async {
-        let panel = NSOpenPanel()
-        panel.canChooseDirectories = true
-        panel.canChooseFiles = false
-        panel.prompt = String(localized: "Choose")
-        panel.message = String(localized: "Where should screenshots be saved?")
-        guard await panel.begin() == .OK, let url = panel.url else { return }
-        // screencapture writes nothing at all if the folder isn't there, so it is checked before it is set.
-        var isDirectory: ObjCBool = false
-        let path = url.path(percentEncoded: false)
-        guard FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue,
-              FileManager.default.isWritableFile(atPath: path)
+        // Asked again once the panel has closed, since the folder can change after the panel's own check.
+        guard let url = await ScreenshotFolderPanel().choose(), ScreenshotFolder.problem(with: url) == nil
         else { return }
-        await turnOn(tweak, text: path)
+        await turnOn(tweak, text: url.path(percentEncoded: false))
     }
 
     /// The settings Peel could not write, so each row can say so instead of letting the switch spring back
