@@ -929,6 +929,15 @@ struct LeftoverScannerTests {
         #expect(paths == ["home/.local/share/local", "home/.config/local"])
     }
 
+    @Test func aSharedHomeItemCanSitInsideAHiddenFolder() {
+        let home = "/Users/example"
+        #expect(ProtectedData.isSharedHomeItem("/Users/example/.kube/config", home: home))
+        #expect(ProtectedData.isSharedHomeItem("/Users/example/.kube", home: home))
+        #expect(!ProtectedData.isSharedHomeItem("/Users/example/.kube/cache", home: home))
+        #expect(!ProtectedData.isSharedHomeItem("/Users/example/.kube/config/backup", home: home))
+        #expect(!ProtectedData.isSharedHomeItem("/Users/example/.config/op", home: home))
+    }
+
 
     /// A folder with a repository inside holds more than the app's own state. It is still listed as the app's,
     /// but not selected, because work that is not committed or not pushed exists nowhere else.

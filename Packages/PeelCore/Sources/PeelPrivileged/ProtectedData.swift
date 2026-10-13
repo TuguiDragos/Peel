@@ -325,7 +325,7 @@ public enum ProtectedData: Sendable {
         return folder.hasSuffix("/library/preferences") || folder.hasSuffix("/library/preferences/byhost")
     }
 
-    private static let sharedHomeItemNames = Set(sharedHomeItems.map { $0.lowercased() })
+    private static let sharedHomeItemNames = Set(sharedHomeItems.map { PathComponents.of($0.lowercased()) })
 
     /// True for one of `sharedHomeItems` exactly, never for anything inside one.
     public static func isSharedHomeItem(_ path: String, home: String) -> Bool {
@@ -333,10 +333,8 @@ public enum ProtectedData: Sendable {
         let homeNames = PathComponents.of(home)
         return spellings(of: path).contains { spelling in
             let names = PathComponents.of(spelling)
-            guard names.count == homeNames.count + 1, names.starts(with: homeNames), let name = names.last else {
-                return false
-            }
-            return sharedHomeItemNames.contains(name)
+            guard names.count > homeNames.count, names.starts(with: homeNames) else { return false }
+            return sharedHomeItemNames.contains(Array(names.dropFirst(homeNames.count)))
         }
     }
 
