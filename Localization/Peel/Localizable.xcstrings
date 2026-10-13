@@ -293,7 +293,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația %@ vă va cere din nou permisiunea pentru ceea ce i s‑a permis să acceseze. Nu puteți anula acest lucru din Istoric."
+            "value" : "Aplicația %@ vă va cere din nou permisiunile pe care le avea. Nu puteți anula acest lucru din Istoric."
           }
         },
         "ru" : {
@@ -511,7 +511,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ disponibili din %2$@. Faceți clic pentru a vedea ce ocupă discul, în pagina Spațiu."
+            "value" : "%1$@ disponibili din %2$@. Faceți clic pentru a vedea în pagina Spațiu ce ocupă discul."
           }
         },
         "ru" : {
@@ -617,7 +617,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația %@ a venit cu macOS. Actualizare software o ține la zi, așa că Peel nu are ce întreba."
+            "value" : "Aplicația %@ vine cu macOS, iar Actualizare software o ține la zi, așa că Peel nu are ce verifica."
           }
         },
         "ru" : {
@@ -1041,7 +1041,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ documentează eliminarea produsului %@ prin deschiderea acestei aplicații, care apoi se elimină și ea. Dacă ar fi mutată în Coș doar această aplicație, %@ ar rămâne în urmă, așa că Peel lasă aplicația ca să o deschideți dvs."
+            "value" : "Potrivit instrucțiunilor de la %@, %@ se elimină deschizând această aplicație, care apoi se elimină și ea. Dacă ar fi mutată în Coș doar această aplicație, %@ ar rămâne în urmă, așa că Peel lasă aplicația ca să o deschideți dvs."
           }
         },
         "ru" : {
@@ -1147,7 +1147,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ documentează eliminarea aplicației %@ cu propriul program de dezinstalare, care elimină atât ce păstrează aplicația în sistem, cât și configurările care o gestionează. Dacă ar fi mutată în Coș de aici, acestea ar rămâne în urmă, așa că Peel lasă aplicația și fișierele ei acolo unde sunt."
+            "value" : "Potrivit instrucțiunilor de la %@, %@ se elimină cu propriul program de dezinstalare, care elimină atât ce păstrează aplicația în sistem, cât și configurările care o gestionează. Dacă ar fi mutată în Coș de aici, acestea ar rămâne în urmă, așa că Peel lasă aplicația și fișierele ei acolo unde sunt."
           }
         },
         "ru" : {
@@ -1253,7 +1253,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația %@ nu indică de unde se actualizează într‑un mod pe care Peel să îl poată citi. Peel citește fluxul de actualizări al unei aplicații din fișierele proprii ale acesteia, iar a întreba în schimb Apple despre fiecare aplicație ar trimite către Apple o listă cu ce este instalat pe acest Mac. Căutați o actualizare din interiorul aplicației."
+            "value" : "Aplicația %@ nu indică de unde se actualizează într‑un mod pe care Peel să îl poată citi. Peel citește fluxul de actualizări al unei aplicații din fișierele ei, iar dacă ar întreba Apple despre fiecare aplicație, i‑ar trimite lista a tot ce este instalat pe acest Mac. Căutați actualizări chiar în aplicație."
           }
         },
         "ru" : {
@@ -1359,7 +1359,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația %@ nu indică ce versiune are, așa că Peel nu are cu ce compara o actualizare. Căutați o actualizare din interiorul aplicației."
+            "value" : "Aplicația %@ nu indică ce versiune are, așa că Peel nu are cu ce compara o actualizare. Căutați actualizări chiar în aplicație."
           }
         },
         "ru" : {
@@ -4565,7 +4565,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația %@ rămâne instalată și uită ce este selectat mai jos. Ce este selectat se mută în Coș, iar eventualele configurări din selecție sunt copiate mai întâi."
+            "value" : "Aplicația %@ rămâne instalată, dar pierde ce este selectat mai jos. Ce este selectat se mută în Coș, iar eventualele configurări din selecție sunt copiate mai întâi."
           }
         },
         "ru" : {
@@ -9510,7 +9510,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un pachet pe care Homebrew încă îl instalează poate rămâne instalat pe jumătate și poate fi necesar să fie instalat din nou."
+            "value" : "Un pachet pe care Homebrew încă îl instalează poate rămâne instalat pe jumătate și s‑ar putea să trebuiască reinstalat."
           }
         },
         "ru" : {
@@ -9722,7 +9722,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fișierul este folosit de un program, așa cum este folosită imaginea desktopului, așa că macOS nu i‑a putut elimina descărcarea. Încercați din nou când nimic nu îl mai folosește."
+            "value" : "Un program îl folosește, de exemplu ca imagine desktop, așa că macOS nu i‑a putut elimina descărcarea. Încercați din nou când nimic nu îl mai folosește."
           }
         },
         "ru" : {
@@ -10464,7 +10464,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un dosar de reședință întreg sau un disc întreg înseamnă prea mult pentru căutare. Alegeți dosarul în care se află proiectele dvs."
+            "value" : "Un întreg dosar de reședință sau un disc întreg este prea mult pentru căutare. Alegeți dosarul în care se află proiectele dvs."
           }
         },
         "ru" : {
@@ -13333,7 +13333,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deja în Coș. Ce a lăsat în urmă poate fi mutat în continuare."
+            "value" : "Deja în Coș. Ce a lăsat în urmă poate fi mutat și acum."
           }
         },
         "ru" : {
@@ -16562,7 +16562,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apple Intelligence poate păstra până la %@ pe acest Mac, conform cifrei date de Apple."
+            "value" : "Apple Intelligence poate ocupa până la %@ pe acest Mac, potrivit Apple."
           }
         },
         "ru" : {
@@ -17100,7 +17100,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicațiile despre care Peel nu spune nimic, pentru că ați ales „Nu verificați niciodată această aplicație” sau ați omis o versiune. Dacă verificați din nou una dintre ele, actualizările ei revin."
+            "value" : "Aplicațiile despre care Peel nu spune nimic, pentru că ați ales „Nu verificați niciodată această aplicație” sau ați omis o versiune. Dacă reactivați verificarea pentru una dintre ele, actualizările ei apar din nou."
           }
         },
         "ru" : {
@@ -17313,7 +17313,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicații care pleacă: %@"
+            "value" : "Aplicații care vor fi eliminate: %@"
           }
         },
         "ru" : {
@@ -18161,7 +18161,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cere ca Homebrew să se verifice singur și să raporteze orice nu este în regulă, cum ar fi un link rupt. Doar examinează și nu modifică nimic. Nu poate vedea variabila PATH pe care o folosește Terminal, așa că problemele de acolo nu apar aici."
+            "value" : "Îi cere lui Homebrew să se verifice singur și să raporteze orice nu este în regulă, cum ar fi un link rupt. Doar examinează și nu modifică nimic. Nu poate vedea variabila PATH pe care o folosește Terminal, așa că problemele de acolo nu apar aici."
           }
         },
         "ru" : {
@@ -27192,7 +27192,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Faceți clic pentru a vedea ce a lăsat în urmă, în pagina Toate aplicațiile."
+            "value" : "Faceți clic pentru a vedea în pagina Toate aplicațiile ce a lăsat în urmă."
           }
         },
         "ru" : {
@@ -37832,7 +37832,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tot ce au păstrat aplicațiile în memoria tampon din Biblioteca dvs., fiecare dosar fiind mutat întreg. Dosarele instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator, care știe ce parte din fiecare este doar memorie tampon."
+            "value" : "Tot ce au păstrat aplicațiile în memoria tampon din dosarul dvs. Bibliotecă, fiecare dosar fiind mutat întreg. Dosarele instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator, care știe ce parte din fiecare este doar memorie tampon."
           }
         },
         "ru" : {
@@ -38044,7 +38044,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Totul a fost mutat în Coș. Puteți pune totul înapoi din Istoric până când aplicația scrie fișiere noi în locul lor. Peel a cerut și ca macOS să renunțe la orice copie a acestor configurări pe care încă o păstra."
+            "value" : "Totul a fost mutat în Coș. Puteți pune totul înapoi din Istoric până când aplicația scrie fișiere noi în locul lor. Peel i‑a cerut și lui macOS să renunțe la orice copie a acestor configurări pe care o mai păstra."
           }
         },
         "ru" : {
@@ -38582,7 +38582,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exclus împreună cu „%@”"
+            "value" : "Exclus odată cu „%@”"
           }
         },
         "ru" : {
@@ -54801,7 +54801,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lista de pachete a Homebrew, descărcată când cereți ca Homebrew să se actualizeze sau să facă upgrade."
+            "value" : "Lista de pachete a Homebrew, descărcată când îi cereți lui Homebrew să se actualizeze sau să facă upgrade."
           }
         },
         "ru" : {
@@ -59896,7 +59896,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aparține altui cont, care ar putea schimba ce rulează acest fișier."
+            "value" : "Fișierul aparține altui cont, care ar putea schimba programul pe care îl pornește."
           }
         },
         "ru" : {
@@ -60002,7 +60002,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A venit în interiorul unei aplicații și dispare odată cu aceasta."
+            "value" : "Face parte dintr‑o aplicație și dispare odată cu ea."
           }
         },
         "ru" : {
@@ -60956,7 +60956,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se află într‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. prin iCloud sau printr‑o altă aplicație, pe care Peel îl lasă în seama aplicației respective."
+            "value" : "Se află într‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. prin iCloud sau printr‑o altă aplicație, iar Peel îl lasă în seama acesteia."
           }
         },
         "ru" : {
@@ -72259,7 +72259,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jurnale scrise de aplicații în Biblioteca dvs."
+            "value" : "Jurnale scrise de aplicații în dosarul dvs. Bibliotecă."
           }
         },
         "ru" : {
@@ -86570,7 +86570,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niciun fișier orfan nu este indicat ca aparținând unei aplicații."
+            "value" : "Nu ați atribuit încă niciun fișier orfan unei aplicații."
           }
         },
         "ru" : {
@@ -91278,7 +91278,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: înăuntru se află un portofel sau o cheie de semnare. După golirea Coșului, ce deblochează portofelul sau cheia se pierde definitiv, dacă nu aveți un backup."
+            "value" : "Neselectat: înăuntru se află un portofel sau o cheie de semnare. După golirea Coșului, pierdeți definitiv tot ce deschid acestea, dacă nu aveți un backup."
           }
         },
         "ru" : {
@@ -91808,7 +91808,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: este imaginea desktopului, pe care macOS o ține deschisă cât timp este afișată, așa că descărcarea sa nu poate fi eliminată acum."
+            "value" : "Neselectat: este imaginea desktop, pe care macOS o ține deschisă cât timp este afișată, așa că descărcarea sa nu poate fi eliminată acum."
           }
         },
         "ru" : {
@@ -101778,7 +101778,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deschide Peel la o aplicație și listează fișierele pe care le‑ar lăsa în urmă. Nu se elimină nimic până nu cereți dvs."
+            "value" : "Deschide în Peel pagina unei aplicații și listează fișierele pe care le‑ar lăsa în urmă. Nu se elimină nimic până nu cereți dvs."
           }
         },
         "ru" : {
@@ -109573,7 +109573,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu instalează actualizări de la sine. Faceți clic pentru a vedea ce așteaptă, în pagina Toate aplicațiile."
+            "value" : "Peel nu instalează actualizări de la sine. Faceți clic pentru a vedea în pagina Toate aplicațiile ce așteaptă."
           }
         },
         "ru" : {
@@ -115019,7 +115019,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici Peel doar raportează. Pagina Articole de fundal mută fișierul de configurare al unei sarcini, nu programul pe care îl rulează: acesta pleacă odată cu software‑ul care l‑a instalat."
+            "value" : "Aici Peel doar raportează. Pagina Articole de fundal mută fișierul de configurare al unei sarcini, nu programul pe care îl rulează: acesta se elimină odată cu software‑ul care l‑a instalat."
           }
         },
         "ru" : {
@@ -115231,7 +115231,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici Peel doar raportează. Pentru a‑l elimina, accesați pagina Toate aplicațiile, unde vedeți tot ce pleacă odată cu aplicația."
+            "value" : "Aici Peel doar raportează. Pentru a‑l elimina, accesați pagina Toate aplicațiile, unde vedeți tot ce se elimină odată cu aplicația."
           }
         },
         "ru" : {
@@ -115443,7 +115443,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel își elimină instrumentul de ajutor și articolul de lansat la login, se mută în Coș împreună cu fișierele care sunt sigur ale sale și cu dosarul său din Application Support, cu excepția configurărilor Terminal pe care zsh și ssh le citesc, își elimină configurările, apoi se închide. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate. Ce ați stabilit în paginile Ajustări și Terminal rămâne așa cum este. Extensia Finder pleacă odată cu aplicația."
+            "value" : "Peel își elimină instrumentul de ajutor și articolul de lansat la login, se mută în Coș împreună cu fișierele care sunt sigur ale sale și cu dosarul său din Application Support, cu excepția configurărilor Terminal pe care zsh și ssh le citesc, își elimină configurările, apoi se închide. Acel dosar conține Istoricul, excluderile dvs. și Configurările salvate. Ce ați stabilit în paginile Ajustări și Terminal rămâne așa cum este. Extensia Finder dispare odată cu aplicația."
           }
         },
         "ru" : {
@@ -129402,7 +129402,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eliminarea acestora vă deconectează de pe site‑urile web pe care aplicația vă menținea autentificat."
+            "value" : "Eliminarea acestora vă deconectează de pe site‑urile web la care aplicația vă păstra conectat."
           }
         },
         "ru" : {
@@ -149602,7 +149602,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pagina Spațiu nu atinge acest articol: aplicația care l‑a creat știe ce mai este necesar."
+            "value" : "Pagina Spațiu nu se atinge de el: aplicația care l‑a creat știe de ce mai are nevoie."
           }
         },
         "ru" : {
@@ -162535,7 +162535,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Producătorul o oferă. Actualizați din interiorul aplicației."
+            "value" : "Producătorul o oferă. Actualizați chiar din aplicație."
           }
         },
         "ru" : {
@@ -182263,7 +182263,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce a putut fi mutat a ajuns în Coș. Puteți pune înapoi din Istoric ce s‑a mutat, până când aplicația scrie fișiere noi în locul lor. Peel a cerut și ca macOS să renunțe la orice copie a acestor configurări pe care încă o păstra."
+            "value" : "Ce a putut fi mutat a ajuns în Coș. Puteți pune înapoi din Istoric ce s‑a mutat, până când aplicația scrie fișiere noi în locul lor. Peel i‑a cerut și lui macOS să renunțe la orice copie a acestor configurări pe care o mai păstra."
           }
         },
         "ru" : {
@@ -205863,7 +205863,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS a instalat aceste fișiere pentru aplicația %@ de la %@, care nu mai există."
+            "value" : "macOS a instalat aceste fișiere pentru aplicația %@, aflată la %@, care nu mai există."
           }
         },
         "ru" : {
