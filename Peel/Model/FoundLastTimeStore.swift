@@ -42,8 +42,9 @@ extension AppLibrary {
 }
 
 extension OrphanLibrary {
+    /// Each row of the list counts, what only an administrator can move as one, and only what Peel can move is sized.
     var looked: Looked? {
-        scan.map { Looked(count: $0.groups.count, size: SizeTotal(combining: $0.groups.map(\.movable))) }
+        scan.map { Looked(count: pages.count, size: SizeTotal(combining: $0.groups.map(\.movable))) }
     }
 }
 

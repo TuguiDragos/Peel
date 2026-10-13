@@ -60,7 +60,8 @@ Space shows what fills your disk, area by area, and what each area is.
   browser manifests whose program is gone. What only a guess could tie to an app stays for you to look at: a folder
   named only for a maker, such as `Google` in Application Support, a data folder only the app's documentation names,
   such as Tor Browser's `TorBrowser-Data`, and a hidden folder in your home named like an app, since one such as
-  `~/.local` is shared by many command-line tools.
+  `~/.local` is shared by many command-line tools. What only an administrator can move, from a place Peel's helper
+  isn't allowed to move it from, is listed apart under Needs an Administrator, with how to remove it in Finder.
 - **Developer:** caches of developer tools, editors, browsers, and AI models. Nothing is selected for you, and Select
   Recommended passes by what you may want again; toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only

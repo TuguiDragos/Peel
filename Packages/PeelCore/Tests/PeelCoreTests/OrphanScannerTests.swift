@@ -363,6 +363,49 @@ struct OrphanScannerTests {
         #expect(try item(beyond).leftAlone == .beyondTheHelper)
     }
 
+    @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveIsListedApart() async throws {
+        let directory = try TemporaryDirectory()
+        let beyond = try directory.directory("root/Library/com.gone.app")
+        let served = try directory.directory("root/Library/Application Support/com.gone.app")
+        let own = try directory.directory("home/Library/Caches/com.gone.app")
+        let alone = try directory.directory("root/Library/com.gone.solo")
+        let coin = try directory.directory("root/Library/com.gone.coin")
+        try directory.file("root/Library/com.gone.coin/wallet.dat")
+        let busy = try directory.directory("root/Library/com.gone.busy")
+        let locked = [beyond, served, alone, coin, busy]
+        for folder in locked {
+            try directory.setPermissions(0o555, of: folder)
+        }
+        defer {
+            for folder in locked {
+                try? FileManager.default.setAttributes(
+                    [.posixPermissions: 0o755],
+                    ofItemAtPath: folder.path(percentEncoded: false)
+                )
+            }
+        }
+        let gone = ["com.gone.app", "com.gone.solo", "com.gone.coin", "com.gone.busy"].map { identifier in
+            RememberedApp(
+                bundleIdentifier: identifier, name: identifier.uppercased(), teamIdentifier: nil, lastSeen: .now,
+                lastPath: "/Applications/\(identifier).app"
+            )
+        }
+
+        let scan = await scanner(in: directory).scan(
+            installedApps: installed, remembered: gone, running: ["com.gone.busy"]
+        )
+        let paths = { (urls: [URL]) in Set(urls.map(PathPattern.comparablePath(of:))) }
+        func group(_ identifier: String) -> OrphanGroup? { scan.groups.first { $0.identifier == identifier } }
+
+        #expect(paths(scan.forAnAdministrator.map(\.item.url)) == paths([beyond, alone]))
+        #expect(scan.forAnAdministrator.first { $0.item.url.lastPathComponent == "com.gone.app" }?.apps == ["COM.GONE.APP"])
+        #expect(scan.forAnAdministrator.allSatisfy { $0.item.leftAlone == .beyondTheHelper })
+        #expect(paths(group("com.gone.app")?.items.map(\.url) ?? []) == paths([served, own]))
+        #expect(group("com.gone.solo") == nil)
+        #expect(paths(group("com.gone.coin")?.items.map(\.url) ?? []) == paths([coin]))
+        #expect(paths(group("com.gone.busy")?.items.map(\.url) ?? []) == paths([busy]))
+    }
+
     /// What the walk saw inside may exist nowhere else. A folder with a wallet, a signing key, or a repository
     /// in it says so and is moved only when chosen by hand: Select All and `peel orphans --remove` pass it by.
     @Test func aFolderWithAWalletOrARepositoryInsideIsChosenOnlyByHand() async throws {

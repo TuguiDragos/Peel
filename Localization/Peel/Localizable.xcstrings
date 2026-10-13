@@ -80737,6 +80737,112 @@
         }
       }
     },
+    "Needs an Administrator" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyžaduje správce"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benötigt einen Administrator"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necesita un administrador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nécessite un administrateur"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Richiede un amministratore"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者が必要"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자 필요"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beheerder vereist"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymaga administratora"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requer um Administrador"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necesită un administrator"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нужен администратор"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kräver en administratör"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yönetici Gerektirenler"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потрібен адміністратор"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要管理员"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要管理者"
+          }
+        }
+      }
+    },
     "Needs an SSH key in ~/.ssh" : {
       "localizations" : {
         "cs" : {
@@ -98423,6 +98529,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有「預覽程式」和「色彩同步工具程式」會讀取此設定。"
+          }
+        }
+      }
+    },
+    "Only an administrator can move these, and Peel’s helper isn’t allowed to move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto položky může přesunout jen správce a pomocník Peelu je nesmí přesunout z místa, kde jsou. Chcete-li některou z nich odstranit, zobrazte ji ve Finderu, přetáhněte ji do koše a potom zadejte jméno a heslo správce, až o ně macOS požádá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ein Administrator kann diese verschieben, und das Hilfsprogramm von Peel darf sie von dort, wo sie sind, nicht verschieben. Um eines davon zu entfernen, zeige es im Finder an, ziehe es in den Papierkorb und gib dann den Adminnamen und das Adminpasswort ein, wenn macOS danach fragt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un administrador puede trasladar estos ítems, y el asistente de Peel no tiene permiso para trasladarlos desde donde están. Para eliminar uno, muéstralo en el Finder, arrástralo a la papelera y, después, introduce un nombre de administrador y la contraseña cuando macOS te lo pida."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul un administrateur peut déplacer ces éléments, et l’utilitaire de Peel n’est pas autorisé à les déplacer depuis leur emplacement. Pour en supprimer un, affichez-le dans le Finder, faites-le glisser dans la corbeille, puis saisissez un nom et un mot de passe d’administrateur lorsque macOS vous le demande."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un amministratore può spostare questi elementi, e all’assistente di Peel non è consentito spostarli da dove si trovano. Per rimuoverne uno, mostralo nel Finder, trascinalo nel Cestino, poi inserisci un nome e una password di amministratore quando macOS te lo chiede."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらを移動できるのは管理者だけで、Peelのヘルパーはこれらがある場所からの移動を許可されていません。項目を取り除くには、Finderに表示してゴミ箱にドラッグし、macOSから求められたら管理者名とパスワードを入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자만 이 항목들을 이동할 수 있으며, Peel 보조 프로그램이 현재 위치에서 이 항목들을 이동하는 것은 허용되지 않습니다. 항목을 제거하려면 Finder에서 해당 항목을 보고 휴지통으로 드래그한 다음, macOS가 요청하면 관리자 이름 및 암호를 입력하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen een beheerder kan deze verplaatsen, en het hulpprogramma van Peel mag ze daar niet vandaan verplaatsen. Om een onderdeel te verwijderen, toon je het in Finder, sleep je het naar de prullenmand en voer je daarna de naam en het wachtwoord van een beheerder in als macOS erom vraagt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieść te rzeczy może tylko administrator, a pomocnikowi Peel nie wolno ich przenosić z miejsc, w których się znajdują. Aby pozbyć się jednej z nich, pokaż ją w Finderze, przeciągnij do Kosza, a następnie wprowadź nazwę i hasło administratora, gdy macOS o to poprosi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só um administrador pode mover estes itens, e o auxiliar do Peel não tem permissão para movê-los de onde estão. Para remover um deles, mostre-o no Finder, arraste-o para o Lixo, depois insira o nome e a senha de um administrador quando o macOS pedir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar un administrator poate muta aceste articole, iar instrumentul de ajutor Peel nu are voie să le mute de unde se află. Pentru a elimina unul, afișați‑l în Finder, trageți‑l în Coș, apoi introduceți un nume de administrator și o parolă când macOS vi le cere."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить эти объекты может только администратор, а помощнику Peel не разрешено перемещать их оттуда, где они находятся. Чтобы удалить объект, покажите его в Finder, перетяните в Корзину, затем введите имя и пароль администратора, когда macOS их запросит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara en administratör kan flytta de här, och Peels hjälpprogram får inte flytta dem från deras nuvarande plats. Om du vill ta bort ett av dem visar du det i Finder, drar det till papperskorgen och anger sedan ett administratörsnamn och lösenord när macOS ber om det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunları yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısının onları bulundukları yerden taşımasına izin verilmiyor. Bunlardan birini kaldırmak için onu Finder’da gösterin, Çöp Sepeti’ne sürükleyin, ardından macOS istediğinde bir yönetici adı ve parolası girin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістити їх може лише адміністратор, а помічнику Peel не дозволено переміщувати їх звідти, де вони лежать. Щоб вилучити один із них, покажіть його у Finder, перетягніть його в Смітник, а потім введіть імʼя й пароль адміністратора, коли macOS запитає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理员才能移动这些项目，而Peel的帮助程序不能从其所在的位置移动它们。若要移除其中一项，请在“访达”中显示它，将它拖到废纸篓，然后在macOS要求时输入管理员名称和密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理者能移動這些項目，而Peel的輔助程式不能從所在位置移動它們。若要移除其中一個項目，請將它顯示於Finder並拖到「垃圾桶」，然後在macOS要求時輸入管理者名稱和密碼。"
+          }
+        }
+      }
+    },
+    "Only an administrator can remove these" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto položky může odstranit jen správce"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ein Administrator kann diese entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un administrador puede eliminar estos ítems"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul un administrateur peut supprimer ces éléments"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un amministratore può rimuoverli"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらを取り除けるのは管理者だけです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자만 이 항목들을 제거할 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen een beheerder kan deze verwijderen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieść je do Kosza może tylko administrator"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só um administrador pode remover estes itens"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar un administrator le poate elimina"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить эти объекты может только администратор"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara en administratör kan ta bort de här"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunları yalnızca bir yönetici kaldırabilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити їх може лише адміністратор"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理员才能移除这些项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理者能移除這些項目"
           }
         }
       }

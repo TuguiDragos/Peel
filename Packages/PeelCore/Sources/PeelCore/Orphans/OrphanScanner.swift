@@ -162,6 +162,7 @@ public struct OrphanScanner: Sendable {
                 return (entry.identifier, item)
             }
             guard item.requiresPrivileges, item.leftAlone == nil, reach.isBeyond(item.url) else { return entry }
+            item.isLeftForAnAdministrator = item.heldBack == nil
             item.heldBack = .beyondTheHelper
             return (entry.identifier, item)
         }
@@ -169,12 +170,46 @@ public struct OrphanScanner: Sendable {
         let byPath: (SearchLocation, SearchLocation) -> Bool = {
             $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
         }
+        let (groups, apart) = Self.settingApart(
+            Self.group(kept, remembered: gone, installedTeams: teams, running: running)
+        )
         return OrphanScan(
-            groups: Self.group(kept, remembered: gone, installedTeams: teams, running: running),
+            groups: groups,
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
-            cutShortLocations: cutShortLocations.sorted(by: byPath)
+            cutShortLocations: cutShortLocations.sorted(by: byPath),
+            forAnAdministrator: apart
         )
+    }
+
+    /// Takes out of `groups` what only an administrator can move, each with the app it was found for. A group Peel is
+    /// unsure of keeps its own, since something may still use them, and a group left empty goes.
+    static func settingApart(_ groups: [OrphanGroup]) -> (groups: [OrphanGroup], apart: [AdministratorItem]) {
+        var apart: [AdministratorItem] = []
+        let kept = groups.compactMap { group -> OrphanGroup? in
+            guard group.confidence.level != .unsure else { return group }
+            let (leaving, staying) = (
+                group.items.filter(\.isLeftForAnAdministrator), group.items.filter { !$0.isLeftForAnAdministrator }
+            )
+            guard !leaving.isEmpty else { return group }
+            apart += leaving.map { AdministratorItem(item: $0, apps: [group.title]) }
+            guard !staying.isEmpty else { return nil }
+            return OrphanGroup(
+                identifier: group.identifier,
+                items: staying,
+                rememberedApp: group.rememberedApp,
+                confidence: group.confidence
+            )
+        }
+        return (kept, apart.sorted { comesBefore($0.item, $1.item) })
+    }
+
+    /// The order a list of orphaned items keeps: the largest first, what could not be measured before all, then by
+    /// path.
+    static func comesBefore(_ one: OrphanItem, _ other: OrphanItem) -> Bool {
+        one.size != other.size
+            ? SizeTotal([one.size]) > SizeTotal([other.size])
+            : one.url.path(percentEncoded: false) < other.url.path(percentEncoded: false)
     }
 
     private var manifestFolders: Set<String> {
@@ -325,11 +360,7 @@ public struct OrphanScanner: Sendable {
 
         return grouped.map { root, entries in
             let identifier = entries.map { groupingKey(for: $0.identifier) }.first { $0.lowercased() == root } ?? root
-            let items = entries.map(\.item).sorted {
-                $0.size != $1.size
-                    ? SizeTotal([$0.size]) > SizeTotal([$1.size])
-                    : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
-            }
+            let items = entries.map(\.item).sorted(by: comesBefore)
             var group = OrphanGroup(
                 identifier: identifier,
                 items: items,

@@ -6,7 +6,7 @@ struct OrphansCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "orphans",
         abstract: "List files left by apps that are no longer installed, and move a group to the Trash.",
-        discussion: "Nothing here is ever suggested, so --remove takes the identifier of one group. What Peel refuses to move, what it leaves for you to choose in the app, and what needs administrator access, stays."
+        discussion: "Nothing here is ever suggested, so --remove takes the identifier of one group. What Peel refuses to move, what it leaves for you to choose in the app, and what needs administrator access, stays. What only an administrator can move is listed apart, with how to remove it in Finder."
     )
 
     @Argument(help: "The group to move, as `peel orphans` names it in its first column.")
@@ -22,7 +22,14 @@ struct OrphansCommand: AsyncParsableCommand {
     /// What `--json` writes.
     struct Report: Encodable {
         let groups: [Group]
+        let forAnAdministrator: [ForAnAdministrator]
         let unreadableLocations: [String]
+
+        struct ForAnAdministrator: Encodable {
+            let path: String
+            let size: MeasuredSize
+            let apps: [String]
+        }
 
         struct Group: Encodable {
             let identifier: String
@@ -94,12 +101,16 @@ struct OrphansCommand: AsyncParsableCommand {
 
         if output.json {
             try Output.json(Self.report(for: scan))
-        } else if scan.groups.isEmpty {
+        } else if scan.groups.isEmpty, scan.forAnAdministrator.isEmpty {
             Output.line("No orphaned files found.")
         } else {
             for group in scan.groups {
                 Output.line(Self.heading(for: group))
                 Output.table(Self.rows(for: group), indent: "  ")
+            }
+            if !scan.forAnAdministrator.isEmpty {
+                Output.line(Self.administratorHeading(for: scan))
+                Output.table(Self.administratorRows(for: scan), indent: "  ")
             }
         }
         for note in Self.notes(for: scan) {
@@ -107,17 +118,18 @@ struct OrphansCommand: AsyncParsableCommand {
         }
     }
 
-    /// What the list could not cover: the folders Peel could not read, and the places with more folders inside
-    /// than Peel looks into.
+    /// What the list could not cover, the folders Peel could not read and the places with more folders inside than
+    /// Peel looks into, and how to remove what only an administrator can move.
     static func notes(for scan: OrphanScan) -> [String] {
         var notes: [String] = []
         if !scan.unreadableLocations.isEmpty {
             let folders = scan.unreadableLocations.map(\.url)
             notes.append(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
-        return notes + scan.cutShortLocations.map {
+        notes += scan.cutShortLocations.map {
             "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach."
         }
+        return notes + (scan.forAnAdministrator.isEmpty ? [] : [byHand])
     }
 
     /// Why nothing is listed when some apps could not be read: their files would look orphaned.
@@ -142,8 +154,27 @@ struct OrphansCommand: AsyncParsableCommand {
                     }
                 )
             },
+            forAnAdministrator: scan.forAnAdministrator.map { entry in
+                Report.ForAnAdministrator(
+                    path: Output.path(entry.item.url), size: MeasuredSize(entry.item.size), apps: entry.apps
+                )
+            },
             unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) }
         )
+    }
+
+    /// How to remove what only an administrator can move, from a place Peel's helper may not move it from.
+    static let byHand = "Only an administrator can move what Needs an administrator lists, and Peel's helper isn't allowed to move it from there. To remove one, reveal it in Finder with `open -R <path>`, drag it to the Trash, then enter an administrator name and password when macOS asks."
+
+    static func administratorHeading(for scan: OrphanScan) -> String {
+        "Needs an administrator  \(Output.size(SizeTotal(scan.forAnAdministrator.map(\.item.size))))"
+    }
+
+    static func administratorRows(for scan: OrphanScan) -> [[String]] {
+        scan.forAnAdministrator.map { entry in
+            let apps = Output.list(entry.apps.map(Output.plain))
+            return [Output.size(entry.item.size), Output.path(entry.item.url), "found for \(apps)"]
+        }
     }
 
     static func heading(for group: OrphanGroup) -> String {

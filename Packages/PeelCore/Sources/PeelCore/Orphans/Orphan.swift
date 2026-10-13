@@ -20,6 +20,9 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     public var installedFor: String?
     /// For a folder the gone app's own product file named for its data, that folder.
     public var productFolder: ProductFolder?
+    /// True when only an administrator can move it, from a place the helper may not move it from, and nothing else
+    /// holds it back.
+    public var isLeftForAnAdministrator = false
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {
@@ -100,12 +103,15 @@ public struct OrphanScan: Sendable {
     /// The places with more folders inside than Peel looks into (`NestedSearch.folderLimit`), so an orphaned file
     /// may be in one it did not reach.
     public var cutShortLocations: [SearchLocation] = []
+    /// What only an administrator can move, listed apart from the groups.
+    public var forAnAdministrator: [AdministratorItem] = []
 
     /// The same scan without the group `id`, as when the person said it belongs to an app.
     public func without(_ id: OrphanGroup.ID) -> OrphanScan {
         OrphanScan(
             groups: groups.filter { $0.id != id }, unreadableLocations: unreadableLocations,
-            needsFullDiskAccess: needsFullDiskAccess, cutShortLocations: cutShortLocations
+            needsFullDiskAccess: needsFullDiskAccess, cutShortLocations: cutShortLocations,
+            forAnAdministrator: forAnAdministrator
         )
     }
 }

@@ -532,6 +532,24 @@ struct FileCommandTests {
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
     }
 
+    @Test func listsApartWhatOnlyAnAdministratorCanMove() throws {
+        let directory = try TemporaryDirectory()
+        let item = try orphan("com.example.gone", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
+        let scan = OrphanScan(
+            groups: [], unreadableLocations: [], forAnAdministrator: [AdministratorItem(item: item, apps: ["Gone"])]
+        )
+
+        #expect(OrphansCommand.administratorHeading(for: scan) == "Needs an administrator  10 bytes")
+        #expect(OrphansCommand.administratorRows(for: scan) == [["10 bytes", Output.path(item.url), "found for Gone"]])
+        #expect(OrphansCommand.notes(for: scan) == [OrphansCommand.byHand])
+        let json = try Output.jsonText(OrphansCommand.report(for: scan))
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let listed = try #require(report["forAnAdministrator"] as? [[String: Any]])
+        #expect(listed.first?["path"] as? String == Output.path(item.url))
+        #expect(listed.first?["size"] as? Int == 10)
+        #expect(listed.first?["apps"] as? [String] == ["Gone"])
+    }
+
     @Test func theOrphansListSaysWhereItStoppedLookingInsideFolders() {
         let caches = SearchLocation(kind: .caches, url: URL(filePath: "/Users/me/Library/Caches", directoryHint: .isDirectory))
         var scan = OrphanScan(groups: [], unreadableLocations: [caches], needsFullDiskAccess: true)

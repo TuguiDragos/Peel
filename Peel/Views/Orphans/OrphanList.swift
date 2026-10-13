@@ -12,13 +12,22 @@ struct OrphanList: View {
     var body: some View {
         @Bindable var orphans = orphans
         let filtered = filteredGroups
+        let forAnAdministrator = filteredForAnAdministrator
 
-        List(filtered, selection: $orphans.selection) { group in
-            OrphanGroupRow(group: group)
+        List(selection: $orphans.selection) {
+            if !forAnAdministrator.isEmpty {
+                AdministratorRow(items: forAnAdministrator)
+                    .tag(OrphanPage.forAnAdministrator)
+            }
+            ForEach(filtered) { group in
+                OrphanGroupRow(group: group)
+                    .tag(OrphanPage.group(group.id))
+            }
         }
         .accessibilityLabel(Text(Tool.orphans.title))
-        .contextMenu(forSelectionType: OrphanGroup.ID.self) { ids in
-            if ids.count == 1, let group = filtered.first(where: { ids.contains($0.id) }) {
+        .contextMenu(forSelectionType: OrphanPage.self) { pages in
+            if pages.count == 1, case .group(let id)? = pages.first,
+               let group = filtered.first(where: { $0.id == id }) {
                 Menu("This Belongs To") {
                     // What a group belongs to is kept by the app's identifier.
                     let apps = library.apps.filter { $0.bundleIdentifier != nil }
@@ -29,7 +38,7 @@ struct OrphanList: View {
                 }
             }
         }
-        .scanState(phase(filtered), isRescanning: isRescanning, scan: orphans.scanRun) {
+        .scanState(phase(filtered, forAnAdministrator), isRescanning: isRescanning, scan: orphans.scanRun) {
             if !library.unreadable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Every App Could Be Read", systemImage: "exclamationmark.triangle")
@@ -46,8 +55,7 @@ struct OrphanList: View {
                         Button("Open System Settings") { home.openFullDiskAccessSettings() }
                     }
                 }
-            } else if orphans.scan?.groups.isEmpty == true, let unreadable = orphans.scan?.unreadableLocations,
-               !unreadable.isEmpty {
+            } else if listsNothing, let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
@@ -61,7 +69,7 @@ struct OrphanList: View {
                         Button("Open System Settings") { home.openFullDiskAccessSettings() }
                     }
                 }
-            } else if orphans.scan?.groups.isEmpty == true {
+            } else if listsNothing {
                 ContentUnavailableView(
                     "No Orphaned Files",
                     systemImage: "checkmark.seal",
@@ -84,8 +92,8 @@ struct OrphanList: View {
             }
             .motion(.settle, .movement, value: orphans.scan?.cutShortLocations.isEmpty == false)
         }
-        .columnSearch(text: $searchText, prompt: "Search Orphaned Files", when: orphans.scan?.groups.isEmpty == false)
-        .fadesInColumn(whenRowsChange: orphans.scan?.groups.map(\.id))
+        .columnSearch(text: $searchText, prompt: "Search Orphaned Files", when: orphans.scan != nil && !listsNothing)
+        .fadesInColumn(whenRowsChange: orphans.pages)
         .navigationTitle(Text(Tool.orphans.title))
         .announcesScan(
             orphans.isScanning,
@@ -126,12 +134,17 @@ struct OrphanList: View {
         .rescanOnExclusionChange("OrphanList") { await orphans.refresh(from: library) }
     }
 
-    private func phase(_ filtered: [OrphanGroup]) -> ScanPhase {
+    private func phase(_ filtered: [OrphanGroup], _ forAnAdministrator: [AdministratorItem]) -> ScanPhase {
         if !library.unreadable.isEmpty { return .message }
         if orphans.scan == nil { return orphans.scanRun.wasStopped ? .stopped : .scanning(.walk) }
-        if orphans.scan?.groups.isEmpty == true { return .message }
-        if filtered.isEmpty, !searchText.isEmpty { return .message }
+        if listsNothing { return .message }
+        if filtered.isEmpty, forAnAdministrator.isEmpty, !searchText.isEmpty { return .message }
         return .content
+    }
+
+    /// True once a scan found nothing at all to list, before any search.
+    private var listsNothing: Bool {
+        orphans.scan.map { $0.groups.isEmpty && $0.forAnAdministrator.isEmpty } ?? false
     }
 
     private var filteredGroups: [OrphanGroup] {
@@ -140,6 +153,41 @@ struct OrphanList: View {
         return groups.filter {
             SearchText.matches($0.identifier, searchText) || SearchText.matches($0.title, searchText)
         }
+    }
+
+    /// What only an administrator can move, all of it while the search names its row, and otherwise the items whose
+    /// path or app the search names.
+    private var filteredForAnAdministrator: [AdministratorItem] {
+        let items = orphans.scan?.forAnAdministrator ?? []
+        guard !searchText.isEmpty, !SearchText.matches(String(localized: AdministratorRow.title), searchText) else {
+            return items
+        }
+        return items.filter { item in
+            SearchText.matches(item.item.url.path(percentEncoded: false), searchText)
+                || item.apps.contains { SearchText.matches($0, searchText) }
+        }
+    }
+}
+
+/// The row of what only an administrator can move, first in the list.
+private struct AdministratorRow: View {
+    static let title: LocalizedStringResource = "Needs an Administrator"
+    let items: [AdministratorItem]
+
+    var body: some View {
+        HStack(spacing: 6) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(Self.title)
+                    .lineLimit(1)
+                Text("Only an administrator can remove these")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 6)
+            Text(SizeTotal(items.map(\.item.size)).text)
+                .rowFigure()
+        }
+        .padding(.vertical, 2)
     }
 }
 

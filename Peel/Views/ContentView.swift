@@ -523,7 +523,9 @@ struct ContentView: View {
 
     @ViewBuilder
     private var orphanDetail: some View {
-        if let group = orphans.selectedGroup {
+        if orphans.selection == .forAnAdministrator, let items = orphans.scan?.forAnAdministrator, !items.isEmpty {
+            AdministratorItemsView(items: items)
+        } else if let group = orphans.selectedGroup {
             OrphanDetailView(group: group)
                 .id(group.id)
         } else {

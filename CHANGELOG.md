@@ -27,6 +27,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Shows iCloud Drive's downloads in the folders Finder shows them in, and on macOS 27 how far Remove Downloads got,
   with a way to stop it.
 - Lists in Orphaned Files what a gone app's own product file named, and browser helpers that start nothing.
+- Lists apart in Orphaned Files what only an administrator can remove, with how to remove it in Finder.
 - On macOS 27, says in History when an audio driver you put back needs a restart, and when an app shared its storage
   with a copy.
 - On macOS 27, says how to delete a network extension in System Settings, even once its app is gone.

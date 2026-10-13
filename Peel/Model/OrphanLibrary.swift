@@ -3,6 +3,12 @@ import Foundation
 import Observation
 import PeelCore
 
+/// A page of Orphaned Files: what only an administrator can move, or a group.
+enum OrphanPage: Hashable {
+    case forAnAdministrator
+    case group(OrphanGroup.ID)
+}
+
 @Observable
 final class OrphanLibrary {
     private(set) var scan: OrphanScan?
@@ -10,7 +16,7 @@ final class OrphanLibrary {
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
     private(set) var isRemoving = false
-    var selection: OrphanGroup.ID?
+    var selection: OrphanPage?
     var selectedURLs: Set<URL> = []
 
     /// The apps list the scan was checked against. The page scans again when the list changes.
@@ -19,7 +25,14 @@ final class OrphanLibrary {
     private(set) var owners = OrphanOwners().load()
 
     var selectedGroup: OrphanGroup? {
-        scan?.groups.first { $0.id == selection }
+        guard case .group(let id) = selection else { return nil }
+        return scan?.groups.first { $0.id == id }
+    }
+
+    /// The pages the list shows, in its order.
+    var pages: [OrphanPage] {
+        guard let scan else { return [] }
+        return (scan.forAnAdministrator.isEmpty ? [] : [.forAnAdministrator]) + scan.groups.map { .group($0.id) }
     }
 
     func selected(in group: OrphanGroup) -> [OrphanItem] {
@@ -55,7 +68,7 @@ final class OrphanLibrary {
         scan = result
         scannedAgainst = listing
         selectedURLs.formIntersection(remainingURLs)
-        if let selection, !result.groups.contains(where: { $0.id == selection }) {
+        if let selection, !pages.contains(selection) {
             self.selection = nil
         }
     }
@@ -68,7 +81,7 @@ final class OrphanLibrary {
         owners[group.identifier.lowercased()] = identifier
         self.scan = scan.without(group.id)
         selectedURLs.subtract(group.items.map(\.url))
-        if selection == group.id { selection = nil }
+        if selection == .group(group.id) { selection = nil }
     }
 
     /// Lists `groups` again, forgetting the app each was given to.
@@ -117,6 +130,6 @@ extension OrphanLibrary: CarriesSelection {
     }
 
     func choose(_ page: CarriedSelection.Page) {
-        selection = page.scope
+        selection = .group(page.scope)
     }
 }
