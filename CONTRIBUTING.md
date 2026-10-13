@@ -28,8 +28,8 @@ before the fix is written, and the result is checked where it shows, as [AGENTS.
 
 ```bash
 zsh Scripts/build_sparkle.sh
-xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData \
-  DEVELOPMENT_TEAM=YOUR_TEAM_ID build
+xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -destination "platform=macOS,arch=$(uname -m)" \
+  -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID build
 ```
 
 ```bash
@@ -50,10 +50,12 @@ the command line reaches the Swift packages (`Scripts/release.sh` passes both), 
 on optimized code:
 
 ```bash
-xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release -derivedDataPath build/ReleaseCheck \
-  CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES MACOSX_DEPLOYMENT_TARGET=26.0 build
-xcodebuild -project Peel.xcodeproj -scheme PeelUITests -configuration Debug -derivedDataPath build/DerivedData \
-  DEVELOPMENT_TEAM=YOUR_TEAM_ID build-for-testing
+xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release -destination 'generic/platform=macOS' \
+  -derivedDataPath build/ReleaseCheck CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES \
+  MACOSX_DEPLOYMENT_TARGET=26.0 build
+xcodebuild -project Peel.xcodeproj -scheme PeelUITests -configuration Debug \
+  -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID \
+  build-for-testing
 python3 Scripts/sync_localizations.py --check
 python3 Scripts/generate_manual.py --check
 ```

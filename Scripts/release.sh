@@ -58,6 +58,7 @@ if ! xcodebuild archive \
     -project Peel.xcodeproj \
     -scheme Peel \
     -configuration Release \
+    -destination 'generic/platform=macOS' \
     -archivePath "$archive" \
     -derivedDataPath "$build/DerivedData" \
     ENABLE_POINTER_AUTHENTICATION=YES \

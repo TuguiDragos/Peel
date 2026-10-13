@@ -59,7 +59,8 @@ jobs:
       - name: Build the app
         run: |
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
-            -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
+            -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO build
 
       # Release builds every binary for Apple silicon, with pointer authentication (arm64e) and without, and for Intel,
       # with the optimizer a Debug build leaves off. The settings are given here too, since only the command line
@@ -68,8 +69,8 @@ jobs:
       - name: Build the app for release
         run: |
           xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release \
-            -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES \
-            MACOSX_DEPLOYMENT_TARGET=26.0 build
+            -destination 'generic/platform=macOS' -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO \
+            ENABLE_POINTER_AUTHENTICATION=YES MACOSX_DEPLOYMENT_TARGET=26.0 build
           app=build/Release/Build/Products/Release/Peel.app
           # Every program and library in the app, found rather than listed, so one added later is checked too.
           checked=0
@@ -98,7 +99,8 @@ jobs:
       - name: Build the accessibility audit
         run: |
           xcodebuild -project Peel.xcodeproj -scheme PeelUITests -configuration Debug \
-            -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build-for-testing
+            -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO build-for-testing
 
       # The string catalogs are synced by running `Scripts/sync_localizations.py` by hand. This step fails when a
       # catalog is out of date. It reads the strings from the Debug build above, in `build/DerivedData`.

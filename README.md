@@ -222,8 +222,8 @@ with your own team ID:
 
 ```bash
 zsh Scripts/build_sparkle.sh
-xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData \
-  DEVELOPMENT_TEAM=YOUR_TEAM_ID build
+xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -destination "platform=macOS,arch=$(uname -m)" \
+  -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID build
 swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 ```
 

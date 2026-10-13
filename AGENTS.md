@@ -217,8 +217,8 @@ If you are unsure whether something belongs in the helper, it doesn't.
   accessibility audit on every page, in light and dark, moving the pointer, typing, and quitting a Peel that is open,
   so it runs on a Mac nobody is using; macOS asks once for Accessibility for the test runner, and for an
   administrator's password each time Automation Mode turns on:
-  `xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -derivedDataPath build/DerivedData
-  DEVELOPMENT_TEAM=YOUR_TEAM_ID`.
+  `xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -destination "platform=macOS,arch=$(uname -m)"
+  -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID`.
 - For work on Peel itself: `PEEL_SNAPSHOT=<folder>`, in a Debug build, renders Home, About, and the menu bar panel
   to PNG files in that folder, made if it isn't there, in light and dark, each also with Increase Contrast, then
   quits; `PEEL_TERMINAL_EXPORT=<repository>/Terminal`, in a Debug build, writes the themes and pictures `Terminal/`

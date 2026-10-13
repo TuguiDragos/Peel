@@ -24,7 +24,7 @@ fi
 
 for scheme in Sparkle generate_keys sign_update generate_appcast; do
     if ! xcodebuild -project "$source/Sparkle.xcodeproj" -scheme "$scheme" -configuration Release \
-        -derivedDataPath build/SparkleBuild ENABLE_POINTER_AUTHENTICATION=YES \
+        -destination 'generic/platform=macOS' -derivedDataPath build/SparkleBuild ENABLE_POINTER_AUTHENTICATION=YES \
         SPARKLE_EMBED_INSTALLER_LAUNCHER_XPC_SERVICE=0 SPARKLE_EMBED_DOWNLOADER_XPC_SERVICE=0 \
         build > build/SparkleBuild.log 2>&1; then
         tail -20 build/SparkleBuild.log
