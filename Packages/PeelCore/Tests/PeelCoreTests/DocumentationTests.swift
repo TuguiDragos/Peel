@@ -35,6 +35,7 @@ struct DocumentationTests {
         let tweaks = TweakCatalog.all.filter { $0.group != .terminal }.count
         let records = RemovalLog.maximumRecords.formatted(.number.locale(Locale(identifier: "en_US")))
         let idle = Int(HelperLifetime.standardIdleTimeout)
+        let results = FileSearch.maximumResults.formatted(.number.locale(Locale(identifier: "en_US")))
         let said = [
             ("GUIDE.md", "comes with \(themes) dark themes"),
             ("TERMINAL.md", "\(themes) dark themes"),
@@ -51,6 +52,10 @@ struct DocumentationTests {
             ("AGENTS.md", "still open \(patience) seconds after Peel asked it"),
             ("ARCHITECTURE.md", "still open \(patience) seconds after Peel asked it"),
             ("SAFETY.md", "still open after \(patience) seconds"),
+            ("GUIDE.md", "still open after \(patience) seconds"),
+            ("GUIDE.md", "keeps the latest \(records) items"),
+            ("GUIDE.md", "up to \(results) at a time"),
+            ("GUIDE.md", "in the last \(Int(SpaceRemoval.stillInUse / 60)) minutes"),
         ]
 
         let wrong = try said.filter { try !text($0.0).contains($0.1) }
