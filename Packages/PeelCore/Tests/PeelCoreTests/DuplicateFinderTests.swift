@@ -460,6 +460,17 @@ struct DuplicateFinderTests {
         #expect(!finder.canScan(URL(filePath: "/Volumes/")))
     }
 
+    @Test func refusesTheTrashOfEveryDisk() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let finder = DuplicateFinder(homeDirectory: home)
+
+        #expect(!finder.canScan(URL(filePath: "/Volumes/Backup/.Trashes/501", directoryHint: .isDirectory)))
+        #expect(!finder.canScan(URL(filePath: "/Volumes/Backup/.Trashes", directoryHint: .isDirectory)))
+        #expect(!finder.canScan(home.appending(path: ".Trash", directoryHint: .isDirectory)))
+        #expect(finder.canScan(URL(filePath: "/Volumes/Backup/Work", directoryHint: .isDirectory)))
+    }
+
 
     @Test func refusesAFolderASyncAppKeepsInStep() throws {
         let directory = try TemporaryDirectory()

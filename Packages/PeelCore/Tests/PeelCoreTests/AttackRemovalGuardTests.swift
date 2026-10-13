@@ -40,6 +40,23 @@ struct AttackRemovalGuardTests {
     /// Under `/usr` a link may go only directly in a folder command-line tools or their shell completions are linked
     /// into, and only a link may go back there. A file, a name with nothing under it yet, and anything deeper stay
     /// refused.
+    @Test func theTrashOfEveryDiskIsRefused() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: home,
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+
+        for path in ["/Volumes/Backup/.Trashes/501/report.pdf", "/Volumes/Backup/.Trashes", "/.Trashes/501/report.pdf",
+                     "/System/Volumes/Data/.Trashes/501/report.pdf"] {
+            #expect(guardian.refusal(of: URL(filePath: path)) == .protectedLocation, "\(path) would move")
+        }
+        for path in ["/Volumes/Backup/Work/.Trashes/report.pdf", home.path(percentEncoded: false) + "Projects/.Trashes"] {
+            #expect(!ProtectedData.refuses(path, home: home.path(percentEncoded: false)), "\(path) refused")
+        }
+    }
+
     @Test func underUsrALinkMayGoOrComeBackOnlyInTheToolFolders() throws {
         let directory = try TemporaryDirectory()
         let guardian = RemovalGuard(environment: SearchEnvironment(

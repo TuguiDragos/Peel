@@ -521,7 +521,7 @@ public enum ProtectedData: Sendable {
     public static func refuses(spellings: Set<String>, home: String) -> Bool {
         spellings.contains { spelling in
             let names = PathComponents.of(spelling)
-            if names.contains(where: isALibrary) { return true }
+            if names.contains(where: isALibrary) || isInADisksTrash(names) { return true }
             if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(names) { return true }
             if isInsideAWalletExtension(names) { return true }
 
@@ -530,6 +530,12 @@ public enum ProtectedData: Sendable {
             }
             return systemFolderNames.contains { names.starts(with: $0) }
         }
+    }
+
+    /// True at or inside the Trash macOS keeps at the top of a disk, `.Trashes`, as `~/.Trash` is the home's: what is
+    /// there is on its way out. The names arrive lower-cased.
+    private static func isInADisksTrash(_ names: [String]) -> Bool {
+        names.first == ".trashes" || (names.count > 2 && names[0] == "volumes" && names[2] == ".trashes")
     }
 
     /// The home the caller named, plus whichever account the path, given by its names, sits in.
