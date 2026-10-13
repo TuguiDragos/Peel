@@ -5,7 +5,6 @@ import SwiftUI
 struct HistoryDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(HelperModel.self) private var helper
-    @Environment(ExclusionsStore.self) private var exclusions
     @Environment(\.controlActiveState) private var controlActiveState
     @Environment(\.openSettings) private var openSettings
     /// Nil until the disk has answered. An empty value would show every record as gone from the Trash for a
@@ -48,8 +47,7 @@ struct HistoryDetailView: View {
             RestoreBar(
                 count: selectedCount,
                 isRestoring: history.isRestoring,
-                isEnabled: selectedCount > 0 && !history.isRestoring && exclusions.exclusions.isKnown
-                    && !history.isUnreadable
+                isEnabled: selectedCount > 0 && !history.isRestoring && history.mayPutBack
             ) {
                 guard let standing else { return }
                 let selected = standing.selected(among: batch.records, in: history.selectedIDs)

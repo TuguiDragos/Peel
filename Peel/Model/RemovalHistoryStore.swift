@@ -275,10 +275,15 @@ final class RemovalHistoryStore {
     /// What the Edit menu shows, and nil when there is nothing to undo.
     var undoTitle: String? { undoable?.title }
 
-    /// Puts the last batch back. Nothing happens while another Put Back runs, and the batch stays undoable: `restore`
-    /// takes one at a time and would drop this one without a word.
+    /// Whether a Put Back may run now: never while the exclusions are not known or History can't be read.
+    var mayPutBack: Bool {
+        ExclusionsStore.shared.exclusions.isKnown && !isUnreadable
+    }
+
+    /// Puts the last batch back. Nothing happens while another Put Back runs or none may, and the batch stays
+    /// undoable: `restore` takes one at a time and would drop this one without a word.
     func undoLastRemoval() async {
-        guard let undoable, !isRestoring else { return }
+        guard let undoable, !isRestoring, mayPutBack else { return }
         self.undoable = nil
         await restore(undoable.records, canUseHelper: canUseHelper)
     }
@@ -329,10 +334,10 @@ final class RemovalHistoryStore {
     func restore(_ records: [RemovalRecord], canUseHelper: Bool) async {
         // One restore at a time, however often it is asked for: two rounds over the same records would each
         // report the items the other put back as already there.
-        guard !isRestoring else { return }
+        guard !isRestoring, mayPutBack else { return }
         isRestoring = true
         defer { isRestoring = false }
-        let service = TrashService()
+        let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
         await QuitGuard.shared.run {
             var restored: Set<UUID> = []
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
