@@ -237,7 +237,7 @@ awk -v heading="## $version (" '
     END { for (line = 1; line <= last; line++) print lines[line] }
 ' CHANGELOG.md > "$feed/Peel-$version.md"
 [ -s "$feed/Peel-$version.md" ] || { echo "REFUSED: CHANGELOG.md has no entry for $version"; exit 1; }
-build/SparkleBuild/Build/Products/Release/generate_appcast --account peel --critical-update-version "" \
+build/SparkleTools/Build/Products/Release/generate_appcast --account peel --critical-update-version "" \
     --embed-release-notes --download-url-prefix "$download" "$feed"
 swift Scripts/check_appcast.swift "$feed/appcast.xml" "$app" "$image" "$download"
 
