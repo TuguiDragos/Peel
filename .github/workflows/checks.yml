@@ -21,8 +21,8 @@ jobs:
     # silicon, so the Release build below is what compiles Peel for Intel Macs.
     runs-on: xcode-27
     steps:
-      # Pinned to the commit of v7.0.1, so a tag moved by someone else changes nothing here.
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      # Pinned to a commit, so a tag moved by someone else changes nothing here.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Show the toolchain
         run: |

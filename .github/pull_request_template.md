@@ -18,9 +18,12 @@
 
 ## Checklist
 
-- [ ] The app builds with no warnings, and `swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors` passes, apart from `StringCatalogTests` for new or changed interface text, whose translations are added before merging.
-- [ ] The change follows [AGENTS.md](../AGENTS.md): the problem was proved on a Mac before the change, a test failed first, and everything that depends on the change was followed along its path and checked.
+- [ ] The app builds with no warnings, and `swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors` passes, apart from `StringCatalogTests` for new or changed interface text, whose translations, and the removal of the stale entry it replaced, come before merging.
+- [ ] The change follows [AGENTS.md](https://github.com/TuguiDragos/Peel/blob/main/AGENTS.md): the problem was proved on a Mac before the change, a test failed first, and everything that depends on the change was followed along its path and checked.
 - [ ] Nothing of the user's is deleted for good: every removal goes through `TrashService`.
 - [ ] New or changed interface text is in English, and `python3 Scripts/sync_localizations.py` ran after a Debug build.
-- [ ] A changed command of `peel` has its manual page written again with `python3 Scripts/generate_manual.py`.
+- [ ] Anything `peel --help` says that changed has its manual page written again with `python3 Scripts/generate_manual.py`.
+- [ ] The Release build, the accessibility audit's build, and `--check` of both scripts pass, as the Checks workflow runs them.
+- [ ] Every document that describes what changed says it in the same change.
+- [ ] A change to how Peel looks is in the macOS 27 branch only, unless its cause holds on both versions.
 - [ ] Nothing the change left unused stays behind.

@@ -7,8 +7,8 @@ Thank you for wanting to help.
 > without, so read it yourself too.
 
 Peel removes files from people's Macs. That one fact shapes everything here: a bug doesn't put a wrong number on a
-screen, it takes away something somebody wanted. So every change is proved before it is made, tested before it is
-fixed, and checked where it shows, as [AGENTS.md](AGENTS.md) describes step by step.
+screen; it takes away something somebody wanted. So every problem is proved before anything changes, a test fails
+before the fix is written, and the result is checked where it shows, as [AGENTS.md](AGENTS.md) describes step by step.
 
 ## What you need
 
@@ -16,17 +16,20 @@ fixed, and checked where it shows, as [AGENTS.md](AGENTS.md) describes step by s
   tested on by hand, so it has no code for an older macOS.
 - Xcode 27 or later, with Swift 6.4.
 - A team to sign with, even a free one. The project names its maintainer's team, so build with yours: add
-  `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team under Signing & Capabilities in
-  Xcode, and leave that change out of your commits. launchd starts the helper only as the team named in
+  `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team under Signing & Capabilities for
+  each of the four targets the Peel scheme builds (and PeelUITests, to run the audit), and leave that change out of
+  your commits. launchd starts the helper only as the team named in
   `Support/com.tuguidragos.Peel.Helper.plist` (`SpawnConstraint`), so to install the helper you build, put your team
   there as well, again outside your commits. The package's tests need no signing.
 - Two dependencies: Apple's swift-argument-parser, which Xcode fetches, and Sparkle, which updates Peel. Sparkle is
   built from its source, at the commit `Scripts/build_sparkle.sh` names, with arm64e and without its XPC services: run
-  the script once before the first build, and again when that commit changes.
+  the script once before the first build. When that commit changes, move `build/Sparkle` to the Trash first, since
+  the script refuses a checkout at any other commit, then run it again.
 
 ```bash
 zsh Scripts/build_sparkle.sh
-xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID build
+xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData \
+  DEVELOPMENT_TEAM=YOUR_TEAM_ID build
 ```
 
 ```bash
@@ -35,11 +38,25 @@ swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 
 Build and test after every change, not only at the end. After a Debug build, run
 `python3 Scripts/sync_localizations.py` so the string catalogs match the strings in the code; it refuses to run
-without build output rather than empty the catalogs. After changing a command of `peel`, run
-`python3 Scripts/generate_manual.py`, which writes its manual page, `Support/peel.1`, from the tool just built.
+without build output, or with a build older than the code, rather than empty the catalogs, and `--check` says what
+would change without writing anything. After changing anything `peel` says about itself (a command, an option, or a
+line of its help), run `python3 Scripts/generate_manual.py`, which writes its manual page, `Support/peel.1`, from the
+tool just built. Both scripts read the Debug build in `build/DerivedData`, which the command above makes; a build
+from Xcode's Product menu goes elsewhere.
 
-A Release build needs `ENABLE_POINTER_AUTHENTICATION=YES` and `MACOSX_DEPLOYMENT_TARGET=26.0` on the `xcodebuild`
-command line, since only the command line reaches the Swift packages; `Scripts/release.sh` passes both.
+Before you propose a change, run what the Checks workflow runs as well. A Release build needs
+`ENABLE_POINTER_AUTHENTICATION=YES` and `MACOSX_DEPLOYMENT_TARGET=26.0` on the `xcodebuild` command line, since only
+the command line reaches the Swift packages (`Scripts/release.sh` passes both), and some of Swift's checks run only
+on optimized code:
+
+```bash
+xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release -derivedDataPath build/ReleaseCheck \
+  CODE_SIGNING_ALLOWED=NO ENABLE_POINTER_AUTHENTICATION=YES MACOSX_DEPLOYMENT_TARGET=26.0 build
+xcodebuild -project Peel.xcodeproj -scheme PeelUITests -configuration Debug -derivedDataPath build/DerivedData \
+  DEVELOPMENT_TEAM=YOUR_TEAM_ID build-for-testing
+python3 Scripts/sync_localizations.py --check
+python3 Scripts/generate_manual.py --check
+```
 
 ## Where things live
 
@@ -47,18 +64,21 @@ command line, since only the command line reaches the Swift packages; `Scripts/r
 - `PeelHelper/`: the privileged helper, which runs as root. Read its rules in [AGENTS.md](AGENTS.md) before
   touching it.
 - `PeelFinder/`: the sandboxed Finder Sync extension.
-- `PeelCLI/`: the `peel` command line tool, a thin entry point.
+- `PeelCLI/`: the `peel` command-line tool, a thin entry point.
 - `PeelUITests/`: the accessibility audit, run by hand before a release.
 - `Packages/PeelCore/`: everything that decides and acts, with the tests. `PeelCore` scans, matches, and removes;
   `PeelPrivileged` is the part the helper shares; `PeelCommandLine` holds the `peel` commands; `PeelLink` is the
   `peel://open` link the Finder extension sends and the app reads.
 - `Localization/`: every translation, and nothing else.
 - `Support/`: the Info.plists, the helper's launchd property list, and the manual page of `peel`.
-- `Logo/`: the only source of the logo, the app icon and the menu bar glyph.
-- `Scripts/`: the scripts that keep the catalogs and the manual page in step with the code, and build a release.
+- `Logo/`: the only source of the logo: the app icon (`Peel.icon`), the glyph for the menu bar and the Finder menu
+  (`Logo.xcassets`), and `export.sh`, which renders the pictures of it the README shows.
+- `Scripts/`: the scripts that build Sparkle, keep the catalogs and the manual page in step with the code, and make
+  and check a release.
 - `Terminal/`: the Terminal themes and the pictures TERMINAL.md shows.
-- `readme-assets/`: the screenshots the documents show.
-- `.github/`: the Checks workflow, Dependabot's settings, the issue and discussion forms, and the pull request template.
+- `readme-assets/`: the screenshots and pictures the documents show.
+- `.github/`: the Checks workflow, Dependabot's settings, the issue and discussion forms, the pull request template,
+  and the sponsor link in FUNDING.yml.
 - `docs/`: Peel's website, peel.tuguidragos.com.
 - The documents, at the root: [README.md](README.md) says what Peel is and how to get it, [GUIDE.md](GUIDE.md) what
   each tool does, [PRIVACY.md](PRIVACY.md) what Peel sends, [SAFETY.md](SAFETY.md) what it protects,
@@ -75,19 +95,22 @@ right and the change is wrong.
   recorded, so History can put it back.
 - **What nothing could bring back is refused**, whoever asks: keychains, crypto wallets, Mail, Messages, photo
   libraries, and the rest [SAFETY.md](SAFETY.md) lists.
-- **Only what is certainly an app's, and no other app's, is selected for the user.** Anything shared, guessed, or
-  possibly kept nowhere else is shown with its reason and left to the user.
+- **Only what is the app's alone, by its identifier or its name, is selected for the user.** A match Peel is unsure
+  of, anything another installed app shares, and anything that may exist nowhere else is shown with its reason and
+  left to the user.
 - **Prove the problem on a real Mac before changing anything**, write a test that fails first, fix the cause, and
   check the result where it shows.
 - **Tests run as Peel runs**, on the real Mac, with made-up apps and a temporary home, never your own files.
-- **A fix is for every macOS; a visual change is for macOS 27 alone.** A bug is fixed for macOS 26 and 27 alike,
-  while a change to how Peel looks goes in the macOS 27 branch and leaves macOS 26's code as it is.
+- **A fix is for every macOS; a visual change is for macOS 27 alone.** A bug is fixed for macOS 26 and 27 alike, and
+  so is a visual bug whose cause holds on both, while any other change to how Peel looks goes in the macOS 27 branch
+  and leaves macOS 26's code as it is.
 - **Every translation lives in `Localization/`**, in the words macOS itself uses in each language.
 - **Few comments, lines within 120 columns, American English, no em or en dashes, and no dead code.**
 
 ## Proposing a change
 
-1. Open an issue first for anything beyond a small fix, so nobody writes something that won't be taken.
+1. For anything beyond a small fix, ask first, so nobody writes something that won't be taken: report a problem
+   with the bug report form, or describe an idea in Discussions, under Ideas.
 2. One change per pull request, with a description of what goes wrong without it.
 3. Say how you tested it. "Tests pass" isn't that; "this test failed before the change and passes after, and I
    checked it on a real install of X" is.
@@ -99,7 +122,8 @@ right and the change is wrong.
 
 ## Reporting a security problem
 
-Please don't open an issue. [SECURITY.md](SECURITY.md) says how to report it privately.
+Please don't open an issue, a discussion, or a pull request for it. [SECURITY.md](SECURITY.md) says how to report
+it privately.
 
 ## Code of conduct
 

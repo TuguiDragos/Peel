@@ -34,8 +34,8 @@ body:
       description: >
         Drag or paste them here: Peel where the problem shows, such as an error message, a page that doesn't behave as
         it should, or something that looks wrong. Shift-Command-4 and then the Space bar takes a picture of a window,
-        and Shift-Command-5 records the screen. A file is uploaded as soon as you add it, so first crop or cover
-        anything private, such as the names of your files and folders.
+        and Shift-Command-5 opens Screenshot, whose toolbar records the screen. A file is uploaded as soon as you add
+        it, so first crop or cover anything private, such as the names of your files and folders.
   - type: input
     id: where
     attributes:
