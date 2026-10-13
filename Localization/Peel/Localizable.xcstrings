@@ -493,7 +493,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ beschikbaar van %2$@. Klik om te zien wat er ruimte inneemt, onder 'Schijfruimte'."
+            "value" : "%1$@ van %2$@ beschikbaar. Klik om te zien wat er ruimte inneemt, onder 'Schijfruimte'."
           }
         },
         "pl" : {
@@ -1235,7 +1235,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ geeft niet op een manier die Peel kan lezen aan waar de app updates vandaan haalt. Peel leest de updatefeed van een app uit de eigen bestanden van de app, en als Peel in plaats daarvan Apple naar elke app zou vragen, zou Apple een lijst krijgen van wat er op deze Mac is geïnstalleerd. Zoek in de app zelf naar een update."
+            "value" : "%@ geeft niet aan waar de app updates vandaan haalt, althans niet op een manier die Peel kan lezen. Peel leest de updatefeed van een app uit de eigen bestanden van de app, en als Peel in plaats daarvan Apple naar elke app zou vragen, zou Apple een lijst krijgen van wat er op deze Mac is geïnstalleerd. Zoek in de app zelf naar een update."
           }
         },
         "pl" : {
@@ -12149,7 +12149,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voegt de ontbrekende koppelingen toe voor de man-pagina's en shell-aanvullingen van je taps, en volgt een tap waarvan de hoofdbranch een andere naam heeft gekregen. Er wordt niets verwijderd."
+            "value" : "Voegt de ontbrekende links toe voor de man-pagina's en shell-aanvullingen van je taps, en volgt een tap waarvan de hoofdbranch een andere naam heeft gekregen. Er wordt niets verwijderd."
           }
         },
         "pl" : {
@@ -37390,7 +37390,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elke commit wordt ondertekend met je SSH-sleutel, en GitHub toont die als 'Verified' zodra je de sleutel daar als ondertekeningssleutel toevoegt."
+            "value" : "Elke commit wordt ondertekend met je SSH-sleutel, en GitHub toont je commits als 'Verified' zodra je de sleutel daar als ondertekeningssleutel toevoegt."
           }
         },
         "pl" : {
@@ -38238,7 +38238,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitgesloten apps verschijnen nog steeds in 'Alle apps', maar Peel biedt niet aan om ze te verwijderen of opnieuw in te stellen. Een map met de ID van een uitgesloten app in de naam, zoals de caches of de container van die app, wordt op geen enkele pagina getoond en nooit verplaatst. Bij de andere bestanden van de app, zoals plug-ins of een map met de naam van de app, kijkt Peel alleen naar bestanden en mappen, dus om die te beschermen, sluit je ze hierboven ook uit."
+            "value" : "Uitgesloten apps verschijnen nog steeds in 'Alle apps', maar Peel biedt niet aan om ze te verwijderen of opnieuw in te stellen. Een map met de ID van een uitgesloten app in de naam, zoals de caches of de container van die app, wordt op geen enkele pagina getoond en nooit verplaatst. Voor de andere bestanden van de app, zoals plug-ins of een map met de naam van de app, geldt alleen wat je bij 'Bestanden en mappen' uitsluit, dus sluit die hierboven ook uit om ze te beschermen."
           }
         },
         "pl" : {
@@ -49461,7 +49461,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew voegt de ontbrekende koppelingen toe voor de man-pagina's en shell-aanvullingen van zijn taps, en laat een tap waarvan de hoofdbranch een andere naam heeft gekregen naar de nieuwe naam verwijzen. Er wordt niets verwijderd."
+            "value" : "Homebrew voegt de ontbrekende links toe voor de man-pagina's en shell-aanvullingen van zijn taps, en laat een tap waarvan de hoofdbranch een andere naam heeft gekregen naar de nieuwe naam verwijzen. Er wordt niets verwijderd."
           }
         },
         "pl" : {
@@ -60726,7 +60726,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het is een app of een ander pakket, of het staat in zo’n pakket, en wat erin staat, hoort bij dat pakket."
+            "value" : "Het is een app of een ander pakket, of het staat in zo'n pakket, en wat erin staat, hoort bij dat pakket."
           }
         },
         "pl" : {
@@ -67772,7 +67772,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leidt naar het Homebrew-installatiebewijs van de app"
+            "value" : "Leidt naar het Homebrew-bewijs van de app"
           }
         },
         "pl" : {
@@ -72135,7 +72135,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logs die apps voor elke account op deze Mac hebben geschreven, en de crashrapporten die macOS bewaart, in de map 'Bibliotheek' bovenaan de schijf. Wat macOS daar voor zijn eigen diensten schrijft, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
+            "value" : "Logs die apps voor elke account op deze Mac hebben geschreven, en de crashrapporten die macOS bewaart, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten schrijft, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
           }
         },
         "pl" : {
@@ -86552,7 +86552,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Van geen verweesde bestanden is aangegeven dat ze bij een app horen."
+            "value" : "Er zijn geen verweesde bestanden die volgens jou bij een app horen."
           }
         },
         "pl" : {
@@ -92320,7 +92320,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niet geselecteerd: alleen de naam komt overeen, en een map hier kan van een ander programma zijn en werk bevatten waarop je vertrouwt."
+            "value" : "Niet geselecteerd: alleen de naam komt overeen, en een map hier kan van een ander programma zijn en werk bevatten dat je nodig hebt."
           }
         },
         "pl" : {
@@ -97732,7 +97732,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zodra %@ de map 'Apps' verlaat, deïnstalleert de eigen dienst van de app die: deze Mac wordt uitgelogd bij je account en de instellingen van de app worden definitief verwijderd, en Geschiedenis kan ze niet terugzetten. Noteer eerst je accountnummer, of voer in plaats daarvan het eigen de-installatieprogramma van de app uit: `%@`."
+            "value" : "Zodra %@ de map 'Apps' verlaat, wordt de app door zijn eigen dienst gedeïnstalleerd: deze Mac wordt uitgelogd bij je account en de instellingen van de app worden definitief verwijderd, en Geschiedenis kan ze niet terugzetten. Noteer eerst je accountnummer, of voer in plaats daarvan het eigen de-installatieprogramma van de app uit: `%@`."
           }
         },
         "pl" : {
@@ -115001,7 +115001,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rapporteert hier alleen. De pagina 'Achtergrondonderdelen' verplaatst het configuratiebestand van een taak, niet het programma dat die uitvoert: dat gaat mee met de software die het heeft geïnstalleerd."
+            "value" : "Peel geeft hier alleen informatie. De pagina 'Achtergrondonderdelen' verplaatst het configuratiebestand van een taak, niet het programma dat die uitvoert: dat gaat mee met de software die het heeft geïnstalleerd."
           }
         },
         "pl" : {
@@ -115107,7 +115107,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rapporteert hier alleen. De software die het heeft geïnstalleerd, heeft misschien een eigen de-installatieprogramma."
+            "value" : "Peel geeft hier alleen informatie. De software die het heeft geïnstalleerd, heeft misschien een eigen de-installatieprogramma."
           }
         },
         "pl" : {
@@ -115213,7 +115213,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rapporteert hier alleen. Ga naar 'Alle apps' om het te verwijderen: daar zie je alles wat bij de app hoort."
+            "value" : "Peel geeft hier alleen informatie. Ga naar 'Alle apps' om het te verwijderen: daar zie je alles wat bij de app hoort."
           }
         },
         "pl" : {
@@ -115319,7 +115319,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rapporteert hier alleen. Ga naar 'Plug-ins' om het te verwijderen."
+            "value" : "Peel geeft hier alleen informatie. Ga naar 'Plug-ins' om het te verwijderen."
           }
         },
         "pl" : {
@@ -118946,7 +118946,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het hulpprogramma van Peel kan zijn overzicht van wat het heeft verplaatst niet lezen, dus er is niets teruggezet."
+            "value" : "Het hulpprogramma van Peel kan zijn registratie van wat het heeft verplaatst niet lezen, dus er is niets teruggezet."
           }
         },
         "pl" : {
@@ -120118,7 +120118,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De eigen iCloud Drive-pagina van Peel maakt deze vrij, bestand voor bestand"
+            "value" : "De pagina 'iCloud Drive' van Peel zelf maakt deze vrij, bestand voor bestand"
           }
         },
         "pl" : {
@@ -148094,7 +148094,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Iets heeft de sluimerstand volledig uitgeschakeld, zelfs als de computer gesloten is. Dit blijft ook na een herstart zo en Systeeminstellingen toont het niet."
+            "value" : "Iets heeft de sluimerstand volledig uitgeschakeld, zelfs met het deksel dicht. Dit blijft ook na een herstart zo en Systeeminstellingen toont het niet."
           }
         },
         "pl" : {
@@ -152976,7 +152976,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opslag: %@ beschikbaar van %@"
+            "value" : "Opslag: %@ van %@ beschikbaar"
           }
         },
         "pl" : {
@@ -159548,7 +159548,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het Homebrew-installatiebewijs van de app"
+            "value" : "Het Homebrew-bewijs van de app"
           }
         },
         "pl" : {
@@ -171254,7 +171254,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze update kwam zonder notities."
+            "value" : "Deze update heeft geen versienotities."
           }
         },
         "pl" : {
@@ -181927,7 +181927,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat apps voor elke account op deze Mac in de cache hebben gezet, in de map 'Bibliotheek' bovenaan de schijf. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
+            "value" : "Wat apps voor elke account op deze Mac in de cache hebben gezet, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
           }
         },
         "pl" : {
@@ -182457,7 +182457,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat apps in een sandbox, zoals die uit de App Store, in hun eigen containers in de cache hebben gezet of als tijdelijke bestanden hebben achtergelaten, en in de cache hebben gezet in de containers die ze delen met apps van dezelfde maker. Wat een geopende app gebruikt, blijft staan, en de caches van de eigen apps van Apple worden getoond maar nooit geselecteerd."
+            "value" : "Wat apps in een sandbox, zoals die uit de App Store, in hun eigen containers in de cache hebben gezet of als tijdelijke bestanden hebben achtergelaten, en in de cache hebben gezet in de containers die ze delen met apps van dezelfde maker. Wat een geopende app gebruikt, blijft staan, en de caches van de eigen apps van Apple worden getoond maar nooit geselecteerd."
           }
         },
         "pl" : {
