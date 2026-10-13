@@ -8544,7 +8544,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Polecenie wpisane po spacji nie jest zachowywane, dzięki czemu podane w nim hasło lub token nie trafia do historii."
+            "value" : "Polecenie poprzedzone spacją nie jest zachowywane, dzięki czemu wpisane w nim hasło lub token nie trafia do historii."
           }
         },
         "pt" : {
@@ -12791,7 +12791,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "W Ustawieniach systemowych pozwól na działanie Peel w sekcji Rzeczy i rozszerzenia otwierane podczas logowania."
+            "value" : "W Ustawieniach systemowych pozwól na działanie Peel w panelu Rzeczy i rozszerzenia otwierane podczas logowania."
           }
         },
         "pt" : {
@@ -35806,7 +35806,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przeciąganie okna z dowolnego miejsca"
+            "value" : "Przeciągaj okno, chwytając je w dowolnym miejscu"
           }
         },
         "pt" : {
@@ -38464,7 +38464,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wykluczone w Ustawieniach"
+            "value" : "Wykluczona w Ustawieniach"
           }
         },
         "pt" : {
@@ -53177,7 +53177,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew wysyła swoim producentom dane analiz za każdym razem, gdy Peel go uruchamia."
+            "value" : "Homebrew wysyła swoim producentom dane analityczne za każdym razem, gdy Peel go uruchamia."
           }
         },
         "pt" : {
@@ -64470,7 +64470,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Polecenie tej rzeczy przy każdym uruchomieniu pobiera dane z internetu. Oprogramowanie zainstalowane celowo też może tak działać."
+            "value" : "Polecenie tej rzeczy przy każdym uruchomieniu pobiera dane z Internetu. Oprogramowanie zainstalowane celowo też może tak działać."
           }
         },
         "pt" : {
@@ -79516,7 +79516,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przeniesienie do Kosza usuwa tylko ten skrót, a aplikacja pozostaje w %1$@, która może ponownie utworzyć skrót. Aby usunąć samą aplikację, odinstaluj ją w %2$@, co usuwa też skrót."
+            "value" : "Przeniesienie do Kosza usuwa tylko ten skrót, a aplikacja pozostaje w przeglądarce %1$@, która może ponownie utworzyć skrót. Aby usunąć samą aplikację, odinstaluj ją w przeglądarce %2$@, co usuwa też skrót."
           }
         },
         "pt" : {
@@ -87852,7 +87852,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bez wysuwania przy ukrywaniu i pokazywaniu Docku"
+            "value" : "Bez wysuwania przy ukrywaniu i pokazywaniu Docka"
           }
         },
         "pt" : {
@@ -88064,7 +88064,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bez czekania na wysunięcie ukrytego Docku"
+            "value" : "Bez czekania na wysunięcie ukrytego Docka"
           }
         },
         "pt" : {
@@ -96566,7 +96566,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Streszczanie powiadomień"
+            "value" : "Streszczenia powiadomień"
           }
         },
         "pt" : {
@@ -108925,7 +108925,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie mógł zachować folderów z aplikacjami."
+            "value" : "Peel nie mógł zachować listy folderów z aplikacjami."
           }
         },
         "pt" : {
@@ -109137,7 +109137,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie mógł zachować, który `brew` ma uruchamiać."
+            "value" : "Peel nie mógł zachować informacji o tym, który `brew` ma uruchamiać."
           }
         },
         "pt" : {
@@ -119376,7 +119376,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocnik Peel czeka na zezwolenie w Ustawieniach systemowych, w sekcji Rzeczy i rozszerzenia otwierane podczas logowania."
+            "value" : "Pomocnik Peel czeka na zezwolenie w Ustawieniach systemowych, w panelu Rzeczy i rozszerzenia otwierane podczas logowania."
           }
         },
         "pt" : {
@@ -125149,7 +125149,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zakończ %@, zanim przeniesiesz jego pliki do Kosza."
+            "value" : "Zakończ aplikację %@, zanim przeniesiesz jej pliki do Kosza."
           }
         },
         "pt" : {
@@ -138722,7 +138722,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sekundy na zegarze w pasku menu"
+            "value" : "Sekundy na zegarze na pasku menu"
           }
         },
         "pt" : {
@@ -147782,7 +147782,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "W %@ jest coś innego, a Peel nie oferuje polecenia, które by to zastąpiło."
+            "value" : "Pod ścieżką %@ jest coś innego, a Peel nie oferuje polecenia, które by to zastąpiło."
           }
         },
         "pt" : {
@@ -202749,7 +202749,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie można odczytać iCloud Drive"
+            "value" : "Nie udało się odczytać iCloud Drive"
           }
         },
         "pt" : {
