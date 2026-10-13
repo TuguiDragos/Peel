@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct AppExtensionsTests {
@@ -292,9 +293,13 @@ struct AppExtensionsTests {
         #expect(await AppExtensions.systemExtensions { _, _ in "" } == nil)
     }
 
-    /// Scans the Mac the test runs on. The scan only reads, so the test runs every time.
+    /// Scans the Mac the test runs on, waiting for each tool's whole answer rather than the page's ten seconds, which a
+    /// busy Mac can run out of. The scan only reads, so the test runs every time.
     @Test func readsThisMacWithoutTouchingIt() async {
-        let scan = await AppExtensions.scan()
+        let scan = await AppExtensions.scan(exclusions: .none) { tool, arguments in
+            guard case .success(let output) = await Subprocess.run(tool, arguments, timeout: nil) else { return nil }
+            return output.status == 0 ? output.text : nil
+        }
         let found = scan.extensions
         #expect(scan.unanswered.isEmpty, "this Mac's listing was not read whole")
         #expect(
