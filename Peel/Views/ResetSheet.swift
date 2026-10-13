@@ -214,7 +214,7 @@ struct ResetSheet: View {
                 Text("Reset \(plan.app.name)")
                     .font(.title.bold())
                     .headsThePage()
-                Text("\(plan.app.name) stays installed and forgets what is selected below. What is selected goes to the Trash, and the settings are copied first.")
+                Text("\(plan.app.name) stays installed and forgets what is selected below. What is selected goes to the Trash, and any settings in it are copied first.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }

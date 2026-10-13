@@ -4500,108 +4500,108 @@
         }
       }
     },
-    "%@ stays installed and forgets what is selected below. What is selected goes to the Trash, and the settings are copied first." : {
+    "%@ stays installed and forgets what is selected below. What is selected goes to the Trash, and any settings in it are copied first." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikace %@ zůstane nainstalovaná a zapomene, co je níže vybráno. Co je vybráno, se přesune do koše a nastavení se předtím zkopírují."
+            "value" : "Aplikace %@ zůstane nainstalovaná a zapomene, co je níže vybráno. Co je vybráno, se přesune do koše a případná nastavení ve výběru se předtím zkopírují."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ bleibt installiert und vergisst, was unten ausgewählt ist. Was ausgewählt ist, wird in den Papierkorb gelegt, und die Einstellungen werden vorher kopiert."
+            "value" : "„%@“ bleibt installiert und vergisst, was unten ausgewählt ist. Was ausgewählt ist, wird in den Papierkorb gelegt, und ausgewählte Einstellungen werden vorher kopiert."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ sigue instalada y olvida lo que está seleccionado abajo. Lo seleccionado va a la papelera, y antes se copian los ajustes."
+            "value" : "%@ sigue instalada y olvida lo que está seleccionado abajo. Lo seleccionado va a la papelera, y antes se copian los ajustes que incluya."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ reste installé et oublie ce qui est sélectionné ci-dessous. Ce qui est sélectionné est placé dans la corbeille, et les réglages sont d’abord copiés."
+            "value" : "%@ reste installé et oublie ce qui est sélectionné ci-dessous. Ce qui est sélectionné est placé dans la corbeille, et les éventuels réglages qui en font partie sont d’abord copiés."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ resta installata e dimentica ciò che è selezionato qui sotto. Ciò che è selezionato va nel Cestino, e prima viene fatta una copia delle impostazioni."
+            "value" : "%@ resta installata e dimentica ciò che è selezionato qui sotto. Ciò che è selezionato va nel Cestino, e prima viene fatta una copia delle eventuali impostazioni che contiene."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”はインストールされたままで、以下で選択したものだけが取り除かれます。選択したものはゴミ箱に入り、設定は先にコピーされます。"
+            "value" : "“%@”はインストールされたままで、以下で選択したものだけが取り除かれます。選択したものはゴミ箱に入り、その中に含まれる設定は先にコピーされます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘%@’은(는) 설치된 상태로 남으며 아래에서 선택한 항목을 잊습니다. 선택한 항목은 휴지통으로 이동하며, 설정은 먼저 복사됩니다."
+            "value" : "‘%@’은(는) 설치된 상태로 남으며 아래에서 선택한 항목을 잊습니다. 선택한 항목은 휴지통으로 이동하며, 그중 설정은 먼저 복사됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ blijft geïnstalleerd en vergeet wat hieronder is geselecteerd. Wat geselecteerd is, gaat naar de prullenmand, en de instellingen worden eerst gekopieerd."
+            "value" : "%@ blijft geïnstalleerd en vergeet wat hieronder is geselecteerd. Wat geselecteerd is, gaat naar de prullenmand, en eventuele instellingen daarin worden eerst gekopieerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikacja %@ pozostanie zainstalowana i zapomni to, co zaznaczono poniżej. To, co zaznaczono, trafi do Kosza, a ustawienia zostaną najpierw skopiowane."
+            "value" : "Aplikacja %@ pozostanie zainstalowana i zapomni to, co zaznaczono poniżej. To, co zaznaczono, trafi do Kosza, a zaznaczone ustawienia zostaną najpierw skopiowane."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ continua instalado e esquece o que está selecionado abaixo. O que está selecionado vai para o Lixo, e os ajustes são copiados antes."
+            "value" : "%@ continua instalado e esquece o que está selecionado abaixo. O que está selecionado vai para o Lixo, e os ajustes que estiverem na seleção são copiados antes."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația %@ rămâne instalată și uită ce este selectat mai jos. Ce este selectat se mută în Coș, iar configurările sunt copiate mai întâi."
+            "value" : "Aplicația %@ rămâne instalată și uită ce este selectat mai jos. Ce este selectat se mută în Coș, iar eventualele configurări din selecție sunt copiate mai întâi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Приложение «%@» останется установленным и забудет то, что выбрано ниже. Выбранное перемещается в Корзину, а настройки предварительно копируются."
+            "value" : "Приложение «%@» останется установленным и забудет то, что выбрано ниже. Выбранное перемещается в Корзину, а настройки, входящие в него, предварительно копируются."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ förblir installerad och glömmer det som är markerat nedan. Det som är markerat flyttas till papperskorgen, och inställningarna kopieras först."
+            "value" : "%@ förblir installerad och glömmer det som är markerat nedan. Det som är markerat flyttas till papperskorgen, och eventuella inställningar i det kopieras först."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ yüklü kalır ve aşağıda seçili olanları unutur. Seçili olanlar Çöp Sepeti’ne gider ve ayarlar önce kopyalanır."
+            "value" : "%@ yüklü kalır ve aşağıda seçili olanları unutur. Seçili olanlar Çöp Sepeti’ne gider ve aralarında varsa ayarlar önce kopyalanır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Програма «%@» лишається інстальованою і забуває те, що вибрано нижче. Вибране буде переміщено в Смітник, а налаштування перед тим скопійовано."
+            "value" : "Програма «%@» лишається інстальованою і забуває те, що вибрано нижче. Вибране буде переміщено в Смітник, а налаштування, якщо їх вибрано, перед тим скопійовано."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”会保持安装状态，并忘记下方所选的内容。所选内容会移到废纸篓，并且会先拷贝一份设置。"
+            "value" : "“%@”会保持安装状态，并忘记下方所选的内容。所选内容会移到废纸篓，并且其中的任何设置都会先拷贝一份。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」會保持安裝，並忘記下方選取的內容。選取的項目會丟到「垃圾桶」，設定會先拷貝一份。"
+            "value" : "「%@」會保持安裝，並忘記下方選取的內容。選取的項目會丟到「垃圾桶」，其中的任何設定都會先拷貝一份。"
           }
         }
       }
