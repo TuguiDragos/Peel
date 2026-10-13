@@ -465,7 +465,8 @@ Peel writes your Mac's Homebrew folder there for you.
 Their lines go in `~/.zshrc` in this order, zsh-completions' above Peel's line and the others below it, and
 zsh-syntax-highlighting's must be the last line. zoxide's and direnv's own pages ask for the end of `~/.zshrc` too,
 zoxide's so that it comes after the completion system starts; here only zsh-autosuggestions' and
-zsh-syntax-highlighting's lines follow them.
+zsh-syntax-highlighting's lines follow them. fzf's lines come after fzf-tab's: fzf takes Tab for its `**` completion and
+hands every other Tab to fzf-tab.
 
 ```zsh
 # zsh-completions
