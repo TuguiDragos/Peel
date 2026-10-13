@@ -5,6 +5,7 @@ struct HomebrewDetailView: View {
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(AppLibrary.self) private var library
     @Environment(ExclusionsStore.self) private var exclusions
+    @Environment(RemovalHistoryStore.self) private var history
     @State private var isConfirmingUninstall = false
     @State private var isConfirmingUpgrade = false
     @State private var casksToForget: [HomebrewPackage]?
@@ -111,6 +112,8 @@ struct HomebrewDetailView: View {
                     if package.isMissingWhatItInstalled {
                         Button("Forget Cask") { casksToForget = [package] }
                             .buttonStyle(.borderedProminent)
+                            .disabled(!history.mayMove)
+                            .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
                     } else if package.waitsForAnUpgrade {
                         if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
                             let kind = package.kind == .cask ? "--cask" : "--formula"

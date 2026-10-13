@@ -275,11 +275,13 @@ final class RemovalHistoryStore {
     /// What the Edit menu shows, and nil when there is nothing to undo.
     var undoTitle: String? { undoable?.title }
 
-    /// Whether anything may move to the Trash or back now: never while the exclusions are not known or History can't
-    /// be read.
-    var mayMove: Bool {
-        ExclusionsStore.shared.exclusions.isKnown && !isUnreadable
+    /// Why nothing may move to the Trash or back now: the exclusions are not known, or History can't be read.
+    var holdingReason: TrashFailure.Reason? {
+        guard ExclusionsStore.shared.exclusions.isKnown else { return .guarded(.exclusionsNotKnown) }
+        return isUnreadable ? .historyUnreadable : nil
     }
+
+    var mayMove: Bool { holdingReason == nil }
 
     /// Puts the last batch back. Nothing happens while another Put Back runs or none may, and the batch stays
     /// undoable: `restore` takes one at a time and would drop this one without a word.

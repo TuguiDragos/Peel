@@ -64,7 +64,7 @@ struct PackageDetailView: View {
                             .minimumTarget()
                     }
                     .buttonStyle(.borderless)
-                    .disabled(!helper.canAct)
+                    .disabled(!helper.canAct || !history.mayMove)
                     .help(helper.canAct ? Text("The receipt goes to the Trash. Files stay where they are.") : Text("Needs Peel’s helper. Settings says why it can’t act yet."))
                 }
             }

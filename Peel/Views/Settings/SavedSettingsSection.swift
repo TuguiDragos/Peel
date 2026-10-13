@@ -80,7 +80,8 @@ struct SavedSettingsSection: View {
                     copyToTrash = copy
                 }
                 .labelStyle(.iconOnly)
-                .help(Text("Move to Trash"))
+                .help(history.holdingReason.map { Text(verbatim: $0.explanation) } ?? Text("Move to Trash"))
+                .disabled(!history.mayMove)
             }
             .buttonStyle(.bordered)
             .disabled(workingOn != nil)

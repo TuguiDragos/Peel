@@ -3,6 +3,7 @@ import SwiftUI
 
 struct HomebrewList: View {
     @Environment(HomebrewLibrary.self) private var homebrew
+    @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.openSettings) private var openSettings
     @State private var searchText = ""
     @State private var isRescanning = false
@@ -464,7 +465,8 @@ struct HomebrewList: View {
                             .minimumTarget()
                     }
                         .buttonStyle(.borderless)
-                        .disabled(isBusy)
+                        .disabled(isBusy || !history.mayMove)
+                        .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
                 }
             }
         }

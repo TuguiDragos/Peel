@@ -44,6 +44,7 @@ struct SystemExtensionNotice: View {
 /// What an installer put outside the app, according to the receipt macOS kept.
 struct PackageReceiptSection: View {
     @Environment(HelperModel.self) private var helper
+    @Environment(RemovalHistoryStore.self) private var history
     /// How many files are listed per receipt. The rest are counted, and the Package Receipts page lists them all.
     private static let mostListed = 12
 
@@ -89,7 +90,7 @@ struct PackageReceiptSection: View {
                 }
                 .buttonStyle(.borderless)
                 // The page promises that an excluded app's files are left alone, its receipt included.
-                .disabled(isForgetting || !helper.canAct || plan.isExcluded)
+                .disabled(isForgetting || !helper.canAct || plan.isExcluded || !history.mayMove)
                 .help(plan.isExcluded ? Text(.excludedApp) : helper.canAct ? Text("The receipt goes to the Trash. Files stay where they are.") : Text("Needs Peel’s helper. Settings says why it can’t act yet."))
             }
             if files.isEmpty {
