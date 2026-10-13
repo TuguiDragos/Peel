@@ -12185,7 +12185,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap depolarınızın kılavuz sayfaları ve kabuk tamamlamaları için eksik bağlantıları ekler ve ana dalı yeniden adlandırılan bir tap deposunu yeni ada geçirir. Hiçbir şey silmez."
+            "value" : "Tap depolarınızın man sayfaları ve kabuk tamamlamaları için eksik bağlantıları ekler ve ana dalı yeniden adlandırılan bir tap deposunu yeni ada geçirir. Hiçbir şey silmez."
           }
         },
         "uk" : {
@@ -26150,7 +26150,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Projelerinizin nerede durduğunu seçin. Peel, derlemelerinin geride bıraktıklarını arar."
+            "value" : "Projelerinizin bulunduğu yeri seçin. Peel, derlemelerinin geride bıraktıklarını arar."
           }
         },
         "uk" : {
@@ -26786,7 +26786,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un 30 günden eski indirmeleri silinsin mi?"
+            "value" : "Homebrew’un 30 günden eski indirmeleri silinsin mi?"
           }
         },
         "uk" : {
@@ -26998,7 +26998,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un tüm indirmeleri silinsin mi?"
+            "value" : "Homebrew’un tüm indirmeleri silinsin mi?"
           }
         },
         "uk" : {
@@ -49497,7 +49497,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew, tap depolarının kılavuz sayfaları ve kabuk tamamlamaları için eksik bağlantıları ekler ve ana dalı yeniden adlandırılan bir tap deposunu yeni ada yönlendirir. Hiçbir şey silmez."
+            "value" : "Homebrew, tap depolarının man sayfaları ve kabuk tamamlamaları için eksik bağlantıları ekler ve ana dalı yeniden adlandırılan bir tap deposunu yeni ada yönlendirir. Hiçbir şey silmez."
           }
         },
         "uk" : {
@@ -61398,7 +61398,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ tarafından kullanılıyor. Şu programdan çıkıp veya penceresi yoksa onu Arka Plan Öğeleri’nde durdurup yeniden deneyin: %@."
+            "value" : "%@ tarafından kullanılıyor. %@ programından çıkın veya penceresi yoksa onu Arka Plan Öğeleri’nde durdurun, ardından yeniden deneyin."
           }
         },
         "uk" : {
@@ -61504,7 +61504,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ tarafından kullanılıyor. Şu programlardan çıkıp veya pencereleri yoksa onları Arka Plan Öğeleri’nde durdurup yeniden deneyin: %@."
+            "value" : "%@ tarafından kullanılıyor. %@ programlarından çıkın veya pencereleri yoksa onları Arka Plan Öğeleri’nde durdurun, ardından yeniden deneyin."
           }
         },
         "uk" : {
@@ -75055,7 +75055,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mesajlar > Ayarlar > Mesajları özetle"
+            "value" : "Mesajlar > Ayarlar > Mesajları Özetle"
           }
         },
         "uk" : {
@@ -97768,7 +97768,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ uygulaması Uygulamalar klasöründen çıktığında, kendi servisi onun yüklemesini kaldırır: hesabınızda bu Mac’in oturumunu kapatır ve ayarlarını siler; Geçmiş bunları geri getiremez. Önce hesap numaranızı bir yere not edin veya bunun yerine uygulamanın kendi yükleme kaldırıcısını çalıştırın: `%@`."
+            "value" : "%@ uygulaması Uygulamalar klasöründen çıktığında, kendi hizmeti onun yüklemesini kaldırır: hesabınızda bu Mac’in oturumunu kapatır ve ayarlarını siler; Geçmiş bunları geri getiremez. Önce hesap numaranızı bir yere not edin veya bunun yerine uygulamanın kendi yükleme kaldırıcısını çalıştırın: `%@`."
           }
         },
         "uk" : {
@@ -125815,7 +125815,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Önce Terminal’den çıkılsın mı?"
+            "value" : "Önce Terminal’den çıkılsın mı?"
           }
         },
         "uk" : {
@@ -129844,7 +129844,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un tap depoları onarılsın mı?"
+            "value" : "Homebrew’un tap depoları onarılsın mı?"
           }
         },
         "uk" : {
@@ -177799,7 +177799,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ paketi yükseltilsin mi?"
+            "value" : "%@ paketi yükseltilsin mi?"
           }
         },
         "uk" : {
