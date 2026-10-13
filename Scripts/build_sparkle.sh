@@ -40,7 +40,18 @@ build_scheme() {
 
 build_scheme Sparkle build/SparkleBuild ENABLE_POINTER_AUTHENTICATION=YES \
     SPARKLE_EMBED_INSTALLER_LAUNCHER_XPC_SERVICE=0 SPARKLE_EMBED_DOWNLOADER_XPC_SERVICE=0
+
+# The tools leave out the legacy DSA signing Peel never used, whose code calls APIs macOS deprecated, the way
+# Sparkle's ConfigCommon.xcconfig says: its setting at 0, and its flag out of OTHER_SWIFT_FLAGS_COMMON.
+xcconfig="$source/Configurations/ConfigCommon.xcconfig"
+dsa_flag=-DGENERATE_APPCAST_BUILD_LEGACY_DSA_SUPPORT
+swift_flags=$(sed -n 's/^OTHER_SWIFT_FLAGS_COMMON = //p' "$xcconfig")
+if [[ " $swift_flags " != *" $dsa_flag "* ]]; then
+    echo "REFUSED: $xcconfig has no $dsa_flag in OTHER_SWIFT_FLAGS_COMMON to leave out."
+    exit 1
+fi
 for tool in generate_keys sign_update generate_appcast; do
-    build_scheme "$tool" build/SparkleTools
+    build_scheme "$tool" build/SparkleTools GENERATE_APPCAST_BUILD_LEGACY_DSA_SUPPORT=0 \
+        OTHER_SWIFT_FLAGS_COMMON="${swift_flags/$dsa_flag/}"
 done
 echo "Sparkle $version: the framework in build/SparkleBuild, its tools in build/SparkleTools"
