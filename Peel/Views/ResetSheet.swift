@@ -57,6 +57,9 @@ struct ResetSheet: View {
         } message: {
             confirmation
         }
+        // The question stands for what it showed, so a change under it, such as an exclusion, closes it.
+        .onChange(of: plan.selectedURLs) { isConfirming = false }
+        .onChange(of: plan.canResetPrivacy) { isConfirming = false }
         // Runs again when the exclusions change, because an item the user excludes must drop out of the reset.
         .task(id: exclusions.revision) {
             await plan.refresh(installedApps: library.apps)
