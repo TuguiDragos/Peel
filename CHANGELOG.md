@@ -11,51 +11,201 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 > `brew upgrade --cask peel` instead. If Home then says the helper isn't answering, choose Repair. From 1.1.0 on,
 > Peel updates itself when you choose Install Update.
 
+Peel now updates itself, sets apart what only an administrator can remove, and protects more of what nothing could
+bring back, from files that sync to your other devices to chats and game saves. It finds more to clean, shows how far
+a removal has got, and says within seconds when its helper isn't answering.
+
 ### Added
 
-- Peel tells you when a new version is out and updates itself when you choose to.
-- Every page that moves files shows how far it has got, and which app it is waiting for to quit.
-- Finds more to clean, such as downloads Safari never finished and updates Google's updater keeps.
-- Lists and uninstalls the few apps that carry no identifier, which it couldn't see before.
-- Lists the models that AI apps and tools download, such as Ollama, LM Studio, GPT4All, and ComfyUI, without
-  selecting them, and says on macOS 27 how much they and Apple Intelligence take.
-- On macOS 27, opens the place where you turn off each Apple Intelligence feature, from Tweaks.
-- Knows about 45 more build tools in Build Artifacts, and more caches on the Developer page, among them those of
-  coding agents, Electron apps' own sessions, and Xcode's documentation.
-- Lists the logs Homebrew's services write in Space, never the folders they write in.
-- Lists the updates apps downloaded through electron-updater in Installers and Backups.
-- Shows iCloud Drive's downloads in the folders Finder shows them in, and on macOS 27 how far Remove Downloads got,
-  with a way to stop it.
-- Lists in Orphaned Files what a gone app's own product file named, and browser helpers that start nothing.
-- Lists apart in Orphaned Files what only an administrator can remove, with how to remove it in Finder, and says
-  after an uninstall when something stayed for an administrator.
-- On macOS 27, says in History when an audio driver you put back needs a restart, and when an app shared its storage
-  with a copy.
-- On macOS 27, says how to delete a network extension in System Settings, even once its app is gone.
+- **Updates:** Peel updates itself, through Sparkle. Choose Check for Updates… in the Peel menu, or Install Update…
+  in About Peel when it says a new version is out; while Check for app updates is on, Peel also looks once a day. It
+  shows what is new and installs the update only when you choose, once it has checked that it is signed as Peel's.
+- **Tweaks:** On macOS 27, Privacy has an Apple Intelligence section whose rows open the place where macOS keeps each
+  feature's switch, as Apple's guide names it. Peel changes none of them.
+- **Removals:** Says when an audio driver Peel moved stays loaded until you restart your Mac.
+- **History:** On macOS 27, says under an audio driver in the Trash that it loads only after a restart once put
+  back, and under an app that it shared its storage with another copy.
+- **Applications:** Lists and uninstalls apps whose Info.plist names no identifier, such as OpenShot Video Editor.
+- **Applications:** Move to Trash shows which app it is waiting for to quit and how many items have moved, on an
+  app's page and on several apps' page.
+- **Applications:** On several apps' page, the two options sit side by side above the lists, and a button jumps to
+  each list.
+- **Applications:** On macOS 27, says after an uninstall when macOS will still start the app's login items from the
+  Trash, with a button that opens Login Items & Extensions, and `peel uninstall` says it too.
+- **Orphaned Files:** Needs an Administrator, a new section at the head of the list, gathers what only an
+  administrator can remove, says why Peel leaves it and how to remove it in Finder, and offers Show in Finder.
+- **Orphaned Files:** Remembers what an uninstall left for an administrator, so it shows there once the app is gone,
+  and the removal's alert says how many items stayed, with Open Orphaned Files.
+- **Orphaned Files:** Lists the folders a gone code editor or JetBrains IDE named in its product file, and the
+  manifests browsers keep for a helper program that is gone, which Peel's helper can now move from `/Library` too.
+- **Orphaned Files:** Says that only macOS removes its copy of a system extension, and the steps that make it do so,
+  names the app it was installed for once that app is gone, and on macOS 27 says at the head of a group why nothing
+  in it can move.
+- **Space:** A new area, Homebrew Service Logs, offers the logs Homebrew's services write in `/opt/homebrew/var/log`,
+  never their folders, and doesn't recommend a log written in the last 15 minutes.
+- **Space:** Says at the top of a page how much of the folder moves there, which developer tools' folders hold the
+  rest, and opens Developer for them.
+- **Space:** On macOS 27, says how much Apple Intelligence may keep on this Mac, by Apple's own figures, and how much
+  the AI models and datasets on the Developer page take.
+- **Developer:** Lists the models more AI apps and libraries download, never selected for you: AnythingLLM,
+  InvokeAI, ComfyUI, Mochi Diffusion, oMLX, GPT4All's app, TensorFlow Hub, Chroma, and twenty libraries and tools
+  such as CLIP, EasyOCR, rembg, Docling, MLC LLM, and Vosk.
+- **Developer:** Lists more caches: Google's updater's downloads, the Clojure CLI's classpaths, Metro's and Node's
+  caches in the temporary folder, Gradle's native libraries, sbt's preloaded artifacts, Cabal's older folder, old
+  Electron downloads, rustup's temporary files, Java Web Start's cache, Xcode's documentation index, and Chromium's
+  former WebGPU cache.
+- **Developer:** Lists VS Code's own caches and logs for VS Code Insiders, Windsurf, Devin, and every other editor
+  built on VS Code, the caches of every build of Brave and of Brave Origin, and those of the sessions an Electron app
+  opens, never unsaved files or profile data.
+- **Developer:** Lists the caches and logs of coding agents such as Codex CLI, Kilo Code, Continue, and Cline, never
+  their sessions, settings, or keys, and what MobileBuildMCP builds for each workspace.
+- **Developer:** Offers the Git clone of CocoaPods' public specs, but only when it comes from CocoaPods' own
+  repository.
+- **Build Artifacts:** Knows 45 more tools: aider, atspkg, Autoconf, AWS SAM, Bloop, Bower, the Clojure CLI,
+  Docusaurus, Eleventy, Eleventy Fetch, Elm, Hakyll, Jekyll, Lexical, LiquidHaskell, Meson, Mill, Next LS, Nx, nyc,
+  Pants, PDM, Pixi, psc-package, Pulp, PureScript, Pyre, pytype, Quarto, React Router, reco, Remix, two TypeScript
+  plugins for Rollup, Ruby Sass, sbt, the Serverless Framework, the Shopify CLI, SolidStart, Spago, SWC, Trigger.dev,
+  Vercel, Vite SSG, and xwin. It also knows the platform folders Flutter generates.
+- **Build Artifacts:** Names every chosen folder it couldn't search, and why, in the app and in `peel projects`,
+  instead of saying that nothing was built there.
+- **Installers and Backups:** Finds the downloads Safari never finished, and the updates apps downloaded through
+  electron-updater, held back while their app runs.
+- **iCloud Drive:** Shows downloads in the folders Finder shows them in, named as Finder names them, the biggest
+  first, with a checkbox for each folder.
+- **iCloud Drive:** Says how many downloads it leaves out because another copy on this Mac shares their space, and on
+  macOS 27 counts the files Remove Downloads frees and lets you stop it.
+- **Background Items:** On macOS 27, offers Remove for a job a deleted app left loaded, and says when an item runs
+  from the Trash.
+- **Command line:** `peel orphans` lists apart what needs an administrator, as `forAnAdministrator` in its JSON, and
+  says when a match is only a hint; `peel uninstall` says how many items stayed for an administrator; and
+  `peel apps --json` writes `null` for an app with no identifier.
 
 ### Changed
 
-- Never selects for you what may exist only on your Mac, such as WhatsApp's chats, game saves, and app backups.
-- Leaves an app with a system extension to Finder, and security and management tools to their makers' uninstallers.
-- Says what its helper is doing, and within seconds when the helper doesn't answer, with a way to repair it.
-- Leaves alone more of what macOS and other apps rely on, such as the folder crash reports are saved in and a Godot
-  project's export passwords.
-- Never moves anything that syncs to your other devices, through iCloud or an app such as Syncthing or MEGA, nor what
-  iCloud keeps to stay in sync.
-- Holds back a cache something wrote to in the last 15 minutes, and a build folder Git tracks.
-- Never offers another app's folder when you uninstall an app, and leaves sign-in plug-ins and TeamViewer's parts to
-  their makers' uninstallers.
-- Stops an app's own background programs when they keep it from moving, and says who holds anything that stays.
+- **Safety:** Never moves anything that syncs to your other devices, through iCloud or an app such as Syncthing,
+  Resilio Sync, Synology Drive, or MEGA, nor the records iCloud keeps to stay in sync, from any page or from `peel`.
+- **Safety:** Never selects for you what may exist only on this Mac, such as WhatsApp's chats, Steam's game saves,
+  Postgres.app's data folders, OBS's scene collections, and the backups an app keeps. They're listed with the reason,
+  and you can still select them.
+- **Safety:** Never offers to move a Godot project's export credentials, another installed app's folders, what one of
+  Apple's packages installed, or the folder crash reports are saved in: Space now offers only the reports.
+- **Safety:** Never selects for you a launch job that runs another installed app's program, Chrome's native messaging
+  folders while Brave reads them, or a folder holding a Solana program's key.
+- **Safety:** Never looks into a folder that lives only in the cloud, since listing it would download it.
+- **Safety:** The helper's record of what it moves reaches the disk before it moves anything, and History right
+  after a removal, so a power cut can't lose the way back.
+- **Helper:** Says within seconds, even while Peel is busy, when the helper isn't answering, instead of after two
+  minutes, and Home offers Repair. Home and Settings say Installing…, Repairing…, or Uninstalling… while it changes,
+  and Home's other rows no longer wait for it.
+- **Applications:** Leaves an app with a system extension, such as a VPN or a virtual camera, to Finder, since only
+  Finder's move tells macOS to remove the extension: its page, Package Receipts, the Homebrew page, and
+  `peel uninstall` say so. On macOS 27, Peel also says how System Settings deletes a network extension.
+- **Applications:** Leaves security and management agents to their makers' uninstallers, with the documented step
+  and a link: GlobalProtect, Cortex XDR, Cisco Secure Client, ESET Endpoint Security, Microsoft Defender, Netskope
+  Client, and FortiClient. TeamViewer's system parts and the authorization plug-ins macOS loads at login are left to
+  their own uninstallers too, and an uninstaller app a maker documents, such as Chrome Remote Desktop Host
+  Uninstaller, is offered to open rather than moved.
+- **Applications:** Uninstalls Citrix Workspace the way Citrix documents, by moving the app, and says first that
+  Citrix's uninstaller will then delete the app and its system files, which History can't bring back.
+- **Applications:** When an app's own background programs are all that keep it from moving, as with Teams and
+  OneDrive, Peel stops them, moves the app, and starts them again if it stays.
+- **Applications:** Says who holds an item that stays and what to do: quit the app, stop a program that has no window
+  in Background Items, or, when macOS itself is using the item, let it stay.
+- **Applications:** Takes along more of what is the app's: the folder its updater downloads into, the folders a
+  JetBrains IDE or a VS Code editor names in its product file, an emptied folder named for the developer its
+  signature names, Homebrew's record of a cask installed from a package, and the receipt of a package that wrote only
+  the app.
+- **Applications:** Lists Xcode's simulators when you uninstall Xcode, for you to review.
+- **Space:** Holds back a cache something wrote to in the last 15 minutes, and keeps an update an open app downloaded
+  until the app quits.
+- **Developer:** Lists Dart's package store as installed packages, never selected, since every Dart and Flutter
+  project builds from it.
+- **Build Artifacts:** Holds back a build folder Git tracks, reading the repository's own index: Peel never runs Git
+  in your project.
+- **Build Artifacts:** Groups what a build leaves deep in a project, such as Python's `__pycache__` folders, under
+  that project, so a repository reads as one project rather than one per package.
+- **Build Artifacts:** Lists Meson's build folders under Meson whatever their name, and never selects them, since they
+  keep the options they were set up with.
+- **Build Artifacts:** Refuses to search a folder where apps and tools keep what they install, such as an editor's
+  extensions.
+- **Package Receipts:** Leaves for you to choose a folder a package made that something else has filled.
+- **Duplicates:** Copies with different Finder comments are no longer duplicates.
+- **iCloud Drive:** Lists only what Finder shows, the Documents of each app's folder, never the data an app keeps
+  beside them.
 
 ### Fixed
 
-- Many smaller fixes: Peel never moves the folder it runs from, and never asks to quit what you can't quit.
-- No longer points to an app's leftovers when another copy of the app is still installed.
-- Counts and moves once an item selected on two pages, and lists a leftover file once.
-- Counts a project once, with what Python leaves in each of its packages, instead of each package as a project of its
-  own.
-- Tells you about an app you threw away even while Peel still lists it.
-- Hears its helper's answer even while Peel is busy.
+- **Tweaks:** The screenshot folder can no longer be the Trash, and a folder screenshots can't be saved in says why.
+- **Terminal:** The Git tab leaves a setting to a file your settings include, so Peel's value never wins over yours,
+  and the switch that reuses ssh connections says to leave it off with two accounts on one server.
+- **History:** Put Back brings an item back under the name the disk gives it, registers an app it brings back with
+  macOS, judges with your exclusions as `peel restore` does, and stays off, with Undo, while History or the
+  exclusions can't be read.
+- **History:** If Peel 1.0.1 moved your crash reports folder, History can now put it back.
+- **Settings:** The copies of settings a reset saves are now listed, and putting one back leaves an excluded app
+  alone.
+- **Settings:** App Folders refuses the Trash, so apps there no longer count as installed.
+- **Watch the Trash:** No longer offers an app's leftovers when another copy of the app is still installed.
+- **Applications:** An uninstall no longer selects a folder of macOS or of another tool that only bears the app's
+  name, nor the receipts of a related app that stays installed.
+- **Applications:** An app Peel saw go keeps its files: they're never selected with another app whose identifier
+  begins the same, and Orphaned Files lists them even while another app of the same maker is installed.
+- **Applications:** Uninstalling Chrome no longer takes Chrome Remote Desktop's browser manifests, nor does Orphaned
+  Files while its host is installed, and the manifests in the folders of Chrome's other channels are found.
+- **Applications:** Totals no longer count twice an item that sits inside another one being moved.
+- **Applications:** Storage that Sparkle's updater services share among apps is never taken as one app's at its
+  uninstall.
+- **Applications:** Peel never moves a folder it runs from, and no longer asks to quit a program of another account,
+  which it could never quit.
+- **Applications:** On several apps' page, an app's bundle stays among the apps when another chosen app lists it, and
+  a click on an option no longer holds the window.
+- **Applications:** The options to reset privacy permissions and remove from the Dock show only for an app that can
+  move.
+- **Applications:** An emptied maker's folder in the Mac's Library goes with the app when its files went through the
+  helper.
+- **Applications:** An item already gone when its turn came is no longer reported as a failure, and a program that
+  holds an item is named in full.
+- **Applications:** An app you exclude is never moved, even when you exclude it while its question is open, and never
+  put back.
+- **Applications:** Reading an app no longer registers it with macOS, so a copy on another disk or in a folder of old
+  versions isn't made known to macOS.
+- **Reset:** Starts nothing while History or the exclusions can't be read, and offers nothing for an app in the Trash
+  or one you exclude, from the moment its page opens.
+- **Reset:** Promises a copy of the settings only when it makes one, offers the copy back only once the settings were
+  cleared, stays open while they go back, and closes its question when what it asks about changes.
+- **Reset:** History names a reset and a saved copy of settings as what they are, and the Edit menu says Undo Reset.
+- **Orphaned Files:** A file is listed once however many places reach it, and the settings a running background job
+  keeps beside its file are no longer listed.
+- **Package Receipts and Homebrew:** Forget Receipt, Forget Cask, and Forget All turn off while History or the
+  exclusions can't be read, as every other removal does.
+- **Homebrew:** A cask whose packages are all gone joins the casks already gone and can be forgotten, and an excluded
+  app also stops `brew uninstall` of a cask installed from a package.
+- **Space:** The command that deletes outdated simulator runtimes shows only where the simulator tool knows it.
+- **Developer:** An app whose name holds a bracket or a star no longer has another folder's caches listed as its own.
+- **Build Artifacts:** A folder holding only build output no longer reads as too large to date.
+- **Build Artifacts:** A project's Time Machine switch turns off again, and keeps in backups the folders Peel holds
+  back, such as one with a wallet, a key, or a repository inside.
+- **Selections across pages:** An item selected on two pages counts and moves once, instead of counting twice and
+  failing on the second page.
+- **Duplicates:** A disk's own Trash is never scanned, and the files of a chosen folder offered whole aren't offered
+  again.
+- **iCloud Drive:** Names each app's folder as macOS shows it.
+- **Scans:** iCloud Drive, Build Artifacts, and Intel Software no longer skip the folder that comes right after
+  certain files, which hid downloads, recent edits, and Intel programs.
+- **File Search:** No longer lists what syncs to your other devices.
+- **Background Items:** No longer calls an app's login item or agent orphaned because launchctl names no program for
+  it.
+- **Remove Peel:** Ends Peel's Finder extension, which no longer offers Uninstall with Peel… once Peel is gone, takes
+  no step while Peel itself can't move, no longer waits minutes for a helper that can't start, and says what stayed
+  in your language.
+- **Command line:** `peel restore` lists only what can go back and says why each other item stays, and
+  `peel inventory` and `peel updates` know the apps a cask installed from a package.
+
+### Security
+
+- Only an administrator can install, repair, or uninstall Peel's helper. Before, a standard account could uninstall
+  it for every administrator of the Mac.
+- A launch job's file can no longer mislead Peel through a program path that hides a NUL character.
 
 ## 1.0.1 (2026-10-08)
 
