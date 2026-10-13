@@ -7,7 +7,6 @@ import SwiftUI
 struct SavedSettingsSection: View {
     @Environment(AppLibrary.self) private var library
     @Environment(RemovalHistoryStore.self) private var history
-    @State private var copies: [PreferenceBackup.Copy] = []
     @State private var workingOn: PreferenceBackup.Copy.ID?
     @State private var failure: Failure?
     @State private var copyToTrash: PreferenceBackup.Copy?
@@ -15,6 +14,8 @@ struct SavedSettingsSection: View {
     /// The copies whose app, or a copy of it writing the same settings, is running. Stored and read again on every
     /// launch and quit, because a read of the workspace while drawing gives Observation nothing to follow.
     @State private var openApps: Set<String> = []
+
+    private var copies: [PreferenceBackup.Copy] { SavedSettings.shared.copies }
 
     var body: some View {
         Group {
@@ -31,7 +32,9 @@ struct SavedSettingsSection: View {
                 }
             }
         }
-        .task { reload() }
+        .onChange(of: copies, initial: true) {
+            refreshOpenApps()
+        }
         // Put Back waits for the app to quit. The workspace reports every change to the apps that run through
         // key-value observing, while it posts no notice for a menu bar or background app.
         .onReceive(NSWorkspace.shared.publisher(for: \.runningApplications)) { _ in
@@ -87,11 +90,6 @@ struct SavedSettingsSection: View {
         }
     }
 
-    private func reload() {
-        copies = PreferenceBackup.copies()
-        refreshOpenApps()
-    }
-
     /// Whether the app a copy belongs to is running, by the rule a reset uses: the app, its helpers, and another
     /// copy of it that writes the same settings.
     private func isRunning(_ bundleIdentifier: String) -> Bool {
@@ -125,7 +123,7 @@ struct SavedSettingsSection: View {
             }
         }
         // The settings the app had until now may have become a copy of their own.
-        reload()
+        SavedSettings.shared.reload()
         switch restored {
         case .complete:
             break
@@ -161,7 +159,7 @@ struct SavedSettingsSection: View {
                 sizes: [URL: Int64](measured: [(copy.folder, size)])
             )
         }
-        reload()
+        SavedSettings.shared.reload()
     }
 
     private var trashQuestion: Text {

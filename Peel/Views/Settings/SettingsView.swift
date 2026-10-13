@@ -246,6 +246,7 @@ private struct GeneralSettingsView: View {
         let status = SMAppService.mainApp.status
         opensAtLogin = status == .enabled || status == .requiresApproval
         needsApprovalToOpenAtLogin = status == .requiresApproval
+        SavedSettings.shared.reload()
     }
 
     var body: some View {
@@ -469,7 +470,7 @@ private struct GeneralSettingsView: View {
         }
         .task { readStandings() }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            // The user may have changed the login item in System Settings, so read it again.
+            // The user may have changed the login item in System Settings, or a saved copy in Finder.
             readStandings()
         }
         .confirmationDialog("Remove Peel from this Mac?", isPresented: $isConfirmingSelfRemoval) {

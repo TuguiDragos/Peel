@@ -143,6 +143,7 @@ final class ResetPlan {
             return self.isAppRunning
         }
         self.outcome = outcome
+        SavedSettings.shared.reload()
         return outcome.result
     }
 
@@ -150,7 +151,7 @@ final class ResetPlan {
     func putSettingsBack(from backup: URL) async -> PreferenceBackup.Restored {
         // A copy is saved under the app's identifier, so an app with none has no copy to put back.
         guard let identifier = app.bundleIdentifier else { return .notSaved }
-        return await QuitGuard.shared.run {
+        let restored = await QuitGuard.shared.run {
             await PreferenceBackup.restore(
                 from: backup,
                 of: identifier,
@@ -160,6 +161,9 @@ final class ResetPlan {
                 return self.isAppRunning
             }
         }
+        // The settings the app had until now may have become a copy of their own.
+        SavedSettings.shared.reload()
+        return restored
     }
 
     /// Quits the app and the helpers it ships, so nothing writes its settings again while they are cleared.
