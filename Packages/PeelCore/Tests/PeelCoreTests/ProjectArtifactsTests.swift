@@ -92,6 +92,21 @@ struct ProjectArtifactsTests {
         #expect(markable([modules], excludedFromAbove: [modules.url]).isEmpty)
     }
 
+    @Test func theBackupSwitchLeavesInBackupsWhatPeelHoldsBack() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Projects/site/package.json", bytes: 16)
+        try directory.file("Projects/site/node_modules/coin/wallet.dat", bytes: 16)
+        try directory.file("Projects/old/Package.swift", bytes: 16)
+        try directory.file("Projects/old/.build/checkouts/dep/.git/HEAD", bytes: 16)
+        try directory.file("Projects/app/package.json", bytes: 16)
+        try directory.file("Projects/app/node_modules/left-pad/index.js", bytes: 16)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")]).artifacts
+        let markable = ProjectArtifacts.BackupMarks(found, excluded: [], excludedFromAbove: []).markable
+
+        #expect(markable.map { $0.deletingLastPathComponent().lastPathComponent } == ["app"])
+    }
+
     @Test func theBackupSwitchShowsAndTakesOffWhatPeelMarked() {
         func artifact(_ name: String, isGeneric: Bool = false, isEnvironment: Bool = false) -> ProjectArtifact {
             ProjectArtifact(

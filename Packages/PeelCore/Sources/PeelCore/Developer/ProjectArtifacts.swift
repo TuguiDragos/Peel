@@ -62,8 +62,9 @@ public enum ProjectArtifacts {
 
     public struct BackupMarks: Sendable, Equatable {
         /// What turning the Time Machine switch on leaves out of backups: never a folder with a generic name, since the
-        /// mark travels with the folder, even into a copy of it (`man tmutil`), and never an environment, which holds
-        /// what no build makes again (`.terraform` keeps the chosen workspace and the backend's settings).
+        /// mark travels with the folder, even into a copy of it (`man tmutil`), never an environment, which holds what
+        /// no build makes again (`.terraform` keeps the chosen workspace and the backend's settings), and never one
+        /// held back, whose hold back says a build does not make all of it again.
         public let markable: [URL]
         /// The folders carrying Peel's own mark, which turning the switch off takes away.
         public let marked: [URL]
@@ -72,7 +73,8 @@ public enum ProjectArtifacts {
 
         /// `excludedFromAbove`: what Time Machine leaves out through a folder above or a rule of its own, not Peel's.
         public init(_ artifacts: [ProjectArtifact], excluded: Set<URL>, excludedFromAbove: Set<URL>) {
-            let considered = artifacts.filter { !$0.hasGenericName && !$0.isEnvironment }.map(\.url)
+            let considered = artifacts.filter { !$0.hasGenericName && !$0.isEnvironment && $0.heldBack == nil }
+                .map(\.url)
             markable = considered.filter { !excludedFromAbove.contains($0) }
             marked = artifacts.map(\.url).filter { excluded.contains($0) && !excludedFromAbove.contains($0) }
             shown = considered + marked.filter { !considered.contains($0) }

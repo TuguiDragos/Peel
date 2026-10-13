@@ -79,7 +79,7 @@ struct ProjectDetailView: View {
             get: { projects.isExcludedFromBackups(group) },
             set: { projects.setExcludedFromBackups($0, in: group) }
         )
-        let explanation = String(localized: "Backups keep the project and skip the folders listed here, installed packages and .terraform included. A folder whose name could mean anything is still backed up. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
+        let explanation = String(localized: "Backups keep the project and skip the folders listed here, installed packages included. Environments such as .venv and .terraform stay in backups, as do folders whose name could mean anything and folders Peel doesn’t select because of what is inside. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
         return HStack(alignment: .checkboxTitleLine, spacing: 5) {
             NativeCheckbox(isOn: isOn, label: String(localized: "Leave these out of Time Machine"), hint: explanation)
             VStack(alignment: .leading, spacing: 2) {

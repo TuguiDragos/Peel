@@ -19368,108 +19368,108 @@
         }
       }
     },
-    "Backups keep the project and skip the folders listed here, installed packages and .terraform included. A folder whose name could mean anything is still backed up. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it." : {
+    "Backups keep the project and skip the folders listed here, installed packages included. Environments such as .venv and .terraform stay in backups, as do folders whose name could mean anything and folders Peel doesn’t select because of what is inside. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zálohy zachovají projekt a přeskočí zde uvedené složky, včetně nainstalovaných balíčků a .terraform. Složka, jejíž název může znamenat cokoli, se zálohuje dál. Značka je přímo na složce: přesouvá se s ní a složka, kterou sestavení smaže a vytvoří znovu, už ji mít nebude."
+            "value" : "Zálohy zachovají projekt a přeskočí zde uvedené složky, včetně nainstalovaných balíčků. Prostředí jako .venv a .terraform v zálohách zůstanou, stejně jako složky, jejichž název může znamenat cokoli, a složky, které Peel nevybírá kvůli tomu, co obsahují. Značka je přímo na složce: přesouvá se s ní a složka, kterou sestavení smaže a vytvoří znovu, už ji mít nebude."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Backups enthalten das Projekt und überspringen die hier aufgeführten Ordner, einschließlich installierter Pakete und .terraform. Ein Ordner, dessen Name alles Mögliche bedeuten könnte, wird weiterhin gesichert. Die Markierung sitzt am Ordner selbst: Sie wandert mit dem Ordner, und ein Ordner, den ein Build löscht und neu erstellt, kommt ohne sie zurück."
+            "value" : "Backups enthalten das Projekt und überspringen die hier aufgeführten Ordner, einschließlich installierter Pakete. Umgebungen wie .venv und .terraform bleiben in Backups enthalten, ebenso Ordner, deren Name alles Mögliche bedeuten könnte, und Ordner, die Peel wegen ihres Inhalts nicht auswählt. Die Markierung sitzt am Ordner selbst: Sie wandert mit dem Ordner, und ein Ordner, den ein Build löscht und neu erstellt, kommt ohne sie zurück."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias de seguridad conservan el proyecto y se saltan las carpetas de esta lista, incluidos los paquetes instalados y .terraform. Una carpeta cuyo nombre podría significar cualquier cosa se sigue copiando. La marca está en la propia carpeta: se mueve con ella, y una carpeta que una compilación borra y vuelve a crear reaparece sin ella."
+            "value" : "Las copias de seguridad conservan el proyecto y se saltan las carpetas de esta lista, incluidos los paquetes instalados. Los entornos como .venv y .terraform siguen en las copias de seguridad, igual que las carpetas cuyo nombre podría significar cualquier cosa y las que Peel no selecciona por lo que hay dentro. La marca está en la propia carpeta: se mueve con ella, y una carpeta que una compilación borra y vuelve a crear reaparece sin ella."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les sauvegardes conservent le projet et ignorent les dossiers listés ici, paquets installés et .terraform compris. Un dossier dont le nom pourrait désigner n’importe quoi est tout de même sauvegardé. La marque est posée sur le dossier lui-même : elle le suit s’il est déplacé, et un dossier qu’une compilation supprime puis recrée revient sans elle."
+            "value" : "Les sauvegardes conservent le projet et ignorent les dossiers listés ici, paquets installés compris. Les environnements comme .venv et .terraform restent sauvegardés, de même que les dossiers dont le nom pourrait désigner n’importe quoi et ceux que Peel ne sélectionne pas en raison de ce qu’ils contiennent. La marque est posée sur le dossier lui-même : elle le suit s’il est déplacé, et un dossier qu’une compilation supprime puis recrée revient sans elle."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I backup conservano il progetto e saltano le cartelle elencate qui, compresi i pacchetti installati e .terraform. Una cartella il cui nome potrebbe significare qualsiasi cosa finisce comunque nel backup. Il contrassegno sta sulla cartella stessa: si sposta con la cartella, e una cartella che una build elimina e ricrea torna senza contrassegno."
+            "value" : "I backup conservano il progetto e saltano le cartelle elencate qui, compresi i pacchetti installati. Gli ambienti come .venv e .terraform restano nei backup, così come le cartelle il cui nome potrebbe significare qualsiasi cosa e quelle che Peel non seleziona per via di ciò che contengono. Il contrassegno sta sulla cartella stessa: si sposta con la cartella, e una cartella che una build elimina e ricrea torna senza contrassegno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バックアップにはプロジェクトが含まれ、ここに表示されているフォルダ（インストール済みのパッケージや.terraformを含む）はスキップされます。名前が何を意味するかわからないフォルダは引き続きバックアップされます。この印はフォルダ自体に付くため、フォルダと一緒に移動します。ビルドによって削除され再作成されたフォルダは、印のない状態に戻ります。"
+            "value" : "バックアップにはプロジェクトが含まれ、ここに表示されているフォルダ（インストール済みのパッケージを含む）はスキップされます。.venvや.terraformなどの環境は引き続きバックアップされます。名前が何を意味するかわからないフォルダや、中身を理由にPeelが選択しないフォルダも同様です。この印はフォルダ自体に付くため、フォルダと一緒に移動します。ビルドによって削除され再作成されたフォルダは、印のない状態に戻ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "백업에는 프로젝트가 포함되지만, 설치된 패키지와 .terraform을 포함하여 여기에 나열된 폴더는 건너뜁니다. 이름만으로는 무엇인지 알 수 없는 폴더는 계속 백업됩니다. 표시는 폴더 자체에 붙으므로 폴더와 함께 이동하며, 빌드가 삭제했다가 다시 만든 폴더에는 표시가 없습니다."
+            "value" : "백업에는 프로젝트가 포함되지만, 설치된 패키지를 포함하여 여기에 나열된 폴더는 건너뜁니다. 다만 .venv와 .terraform 같은 환경, 이름만으로는 무엇인지 알 수 없는 폴더 및 안에 들어 있는 항목 때문에 Peel이 선택하지 않는 폴더는 계속 백업됩니다. 표시는 폴더 자체에 붙으므로 폴더와 함께 이동하며, 빌드가 삭제했다가 다시 만든 폴더에는 표시가 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Back-ups bevatten het project, maar slaan de mappen in deze lijst over, inclusief geïnstalleerde pakketten en .terraform. Van een map met een naam die van alles kan betekenen, wordt nog steeds een back-up gemaakt. De markering zit op de map zelf: die verhuist mee met de map, en een map die een build verwijdert en opnieuw maakt, komt terug zonder markering."
+            "value" : "Back-ups bevatten het project, maar slaan de mappen in deze lijst over, inclusief geïnstalleerde pakketten. Van omgevingen zoals .venv en .terraform wordt wel een back-up gemaakt, net als van mappen met een naam die van alles kan betekenen en van mappen die Peel niet selecteert vanwege wat erin zit. De markering zit op de map zelf: die verhuist mee met de map, en een map die een build verwijdert en opnieuw maakt, komt terug zonder markering."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Backupy zachowują projekt i pomijają foldery z tej listy, łącznie z zainstalowanymi pakietami i .terraform. Folder o nazwie, która może oznaczać cokolwiek, nadal trafia do backupu. Znacznik jest umieszczony na samym folderze: przenosi się razem z nim, a folder, który kompilacja usuwa i tworzy ponownie, pojawia się z powrotem bez niego."
+            "value" : "Backupy zachowują projekt i pomijają foldery z tej listy, łącznie z zainstalowanymi pakietami. Środowiska takie jak .venv i .terraform pozostają w backupach, podobnie jak foldery o nazwie, która może oznaczać cokolwiek, oraz foldery, których Peel nie zaznacza ze względu na ich zawartość. Znacznik jest umieszczony na samym folderze: przenosi się razem z nim, a folder, który kompilacja usuwa i tworzy ponownie, pojawia się z powrotem bez niego."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os backups mantêm o projeto e pulam as pastas listadas aqui, inclusive pacotes instalados e .terraform. Uma pasta cujo nome poderia significar qualquer coisa continua no backup. A marca fica na própria pasta: ela acompanha a pasta, e uma pasta que uma compilação apaga e gera de novo volta sem ela."
+            "value" : "Os backups mantêm o projeto e pulam as pastas listadas aqui, inclusive pacotes instalados. Ambientes como .venv e .terraform continuam nos backups, assim como pastas cujo nome poderia significar qualquer coisa e pastas que o Peel não seleciona por causa do que há dentro delas. A marca fica na própria pasta: ela acompanha a pasta, e uma pasta que uma compilação apaga e gera de novo volta sem ela."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Backupurile păstrează proiectul și omit dosarele listate aici, inclusiv pachetele instalate și .terraform. Un dosar este inclus în continuare în backup dacă numele său ar putea însemna orice. Marcajul se află chiar pe dosar: se mută odată cu dosarul, iar un dosar pe care o compilare îl șterge și îl reface revine fără el."
+            "value" : "Backupurile păstrează proiectul și omit dosarele listate aici, inclusiv pachetele instalate. Mediile, cum ar fi .venv și .terraform, rămân incluse în backupuri, la fel ca dosarele al căror nume ar putea însemna orice și cele pe care Peel nu le selectează din cauza a ceea ce conțin. Marcajul se află chiar pe dosar: se mută odată cu dosarul, iar un dosar pe care o compilare îl șterge și îl reface revine fără el."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Резервные копии сохраняют проект, но пропускают перечисленные здесь папки, включая установленные пакеты и .terraform. Папка, имя которой может означать что угодно, по-прежнему копируется. Отметка ставится на саму папку: она перемещается вместе с папкой, а папка, которую сборка удаляет и создает заново, возвращается без нее."
+            "value" : "Резервные копии сохраняют проект, но пропускают перечисленные здесь папки, включая установленные пакеты. Окружения, например .venv и .terraform, остаются в резервных копиях, как и папки, имя которых может означать что угодно, и папки, которые Peel не выбирает из-за их содержимого. Отметка ставится на саму папку: она перемещается вместе с папкой, а папка, которую сборка удаляет и создает заново, возвращается без нее."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Säkerhetskopiorna tar med projektet men hoppar över mapparna som listas här, installerade paket och .terraform inräknade. En mapp vars namn kan betyda vad som helst säkerhetskopieras fortfarande. Märkningen sitter på själva mappen: den följer med mappen, och en mapp som ett bygge raderar och skapar igen kommer tillbaka utan den."
+            "value" : "Säkerhetskopiorna tar med projektet men hoppar över mapparna som listas här, installerade paket inräknade. Miljöer som .venv och .terraform finns kvar i säkerhetskopiorna, liksom mappar vars namn kan betyda vad som helst och mappar som Peel inte markerar på grund av vad de innehåller. Märkningen sitter på själva mappen: den följer med mappen, och en mapp som ett bygge raderar och skapar igen kommer tillbaka utan den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yedeklemeler projeyi tutar ama yüklü paketler ve .terraform dahil burada listelenen klasörleri atlar. Adı her anlama gelebilecek bir klasör yine de yedeklenir. İşaret klasörün kendisinde durur: klasörle birlikte taşınır ve bir derlemenin silip yeniden oluşturduğu bir klasör bu işaret olmadan geri gelir."
+            "value" : "Yedeklemeler projeyi tutar ama yüklü paketler dahil burada listelenen klasörleri atlar. Yedeklemelerde ise .venv ve .terraform gibi ortamlar, adı her anlama gelebilecek klasörler ve içindekiler nedeniyle Peel’in seçmediği klasörler kalır. İşaret klasörün kendisinde durur: klasörle birlikte taşınır ve bir derlemenin silip yeniden oluşturduğu bir klasör bu işaret olmadan geri gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Резервні копії зберігають проєкт, але пропускають перелічені тут папки, зокрема інстальовані пакети і .terraform. Папка, назва якої може означати будь-що, і далі потрапляє в резервні копії. Позначка стоїть на самій папці: вона переміщується разом із папкою, а папка, яку збірка видаляє і створює знову, зʼявляється вже без неї."
+            "value" : "Резервні копії зберігають проєкт, але пропускають перелічені тут папки, зокрема інстальовані пакети. Середовища, як-от .venv і .terraform, лишаються в резервних копіях, як і папки, назва яких може означати будь-що, та папки, які Peel не вибирає через їхній уміст. Позначка стоїть на самій папці: вона переміщується разом із папкою, а папка, яку збірка видаляє і створює знову, зʼявляється вже без неї."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "备份会保留项目，并跳过此处列出的文件夹，包括已安装的软件包和.terraform。名称可能代表任何东西的文件夹仍会被备份。这个标记位于文件夹本身：它会随文件夹一起移动；如果构建删除了某个文件夹后又重新生成，新文件夹将不带此标记。"
+            "value" : "备份会保留项目，并跳过此处列出的文件夹，包括已安装的软件包。环境（例如.venv和.terraform）、名称可能代表任何东西的文件夹，以及Peel因其中的内容而未选择的文件夹，都仍会被备份。这个标记位于文件夹本身：它会随文件夹一起移动；如果构建删除了某个文件夹后又重新生成，新文件夹将不带此标记。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "備份會保留計畫案，並略過此處列出的檔案夾，包括已安裝的套件和「.terraform」。名稱可能代表任何東西的檔案夾仍會備份。此標記設在檔案夾本身：它會跟著檔案夾移動，而建置時刪除後重新產生的檔案夾，將不再帶有此標記。"
+            "value" : "備份會保留計畫案，並略過此處列出的檔案夾，包括已安裝的套件。「.venv」和「.terraform」等環境、名稱可能代表任何東西的檔案夾，以及Peel因其中的內容而不選取的檔案夾，仍會留在備份中。此標記設在檔案夾本身：它會跟著檔案夾移動，而建置時刪除後重新產生的檔案夾，將不再帶有此標記。"
           }
         }
       }
