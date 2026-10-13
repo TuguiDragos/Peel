@@ -46,7 +46,8 @@ enum HomeSnapshot {
                             to: "\(directory)/home-content-borders-\(name).png"
                         )
                     }
-                    // The permissions at their widest, and at their narrowest, where Home puts its two halves side by side.
+                    // The permissions at their widest, and at their narrowest, where Home puts its two halves side
+                    // by side.
                     try render(
                         HomePermissionsContent().environment(home).environment(helper)
                             .environment(ExclusionsStore.shared),
