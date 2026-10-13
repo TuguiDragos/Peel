@@ -3,7 +3,8 @@
 # release signs its update with. Every program Peel ships has an arm64e slice, which Sparkle's prebuilt framework lacks,
 # and Sparkle's XPC services are left out, since Sparkle uses them only in a sandboxed app.
 #
-# Usage: zsh Scripts/build_sparkle.sh   (run once before building Peel, and again when the version below changes)
+# Usage: zsh Scripts/build_sparkle.sh   (run once before building Peel, and again when the version below changes,
+# after moving build/Sparkle to the Trash)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -16,7 +17,8 @@ if [ ! -d "$source" ]; then
         https://github.com/sparkle-project/Sparkle.git "$source"
 fi
 if [ "$(git -C "$source" rev-parse HEAD)" != "$commit" ] || [ -n "$(git -C "$source" status --porcelain)" ]; then
-    echo "REFUSED: $source is not Sparkle $version as published ($commit)."
+    echo "REFUSED: $source is not Sparkle $version as published ($commit). Move $source to the Trash, then run"
+    echo "this again, which fetches it as published."
     exit 1
 fi
 
