@@ -159,6 +159,43 @@ struct SelfRemovalTests {
         #expect(app.isThere)
     }
 
+    @Test(arguments: ["History unreadable", "exclusions unreadable", "exclusions not yet read"])
+    func takesNoStepWhilePeelsOwnMoveWouldBeRefused(_ state: String) async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: true)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let history = folder.appending(path: "removals.json")
+        if state == "History unreadable" {
+            try FileManager.default.createDirectory(at: history, withIntermediateDirectories: false)
+        }
+        let trash = try directory.directory("Trash")
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            exclusions: state == "exclusions unreadable" ? .unreadable
+                : state == "exclusions not yet read" ? .notYetRead : .none,
+            journal: RemovalJournal(beside: history)
+        ) { url in
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps(log, in: directory), using: service
+        ) { await log.record($0) }
+
+        let reason: TrashFailure.Reason = state == "History unreadable" ? .historyUnreadable
+            : .guarded(.exclusionsNotKnown)
+        #expect(outcome == .stayed(.appStayed(failures: [TrashFailure(url: app, reason: reason)], ledger: .none)))
+        #expect(await log.steps.isEmpty)
+        #expect(await log.recorded.isEmpty)
+        #expect(app.isThere)
+    }
+
     @Test func anAppTheMoveRefusesKeepsPeelWhereItWas() async throws {
         let directory = try TemporaryDirectory()
         let log = StepLog(helperIsRegistered: false)
@@ -329,6 +366,28 @@ struct SelfRemovalTests {
         let result = await SelfRemoval.move([app], app: app, folder: folder, using: service) { _ in }
 
         #expect(!result.failures.contains { $0.reason == .peelRunsFromIt })
+    }
+
+    @Test func takesItsStepsForTheAppPeelRunsFrom() async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: true)
+        let program = try #require(RunningProgram.path(of: getpid()))
+        let app = URL(filePath: program).deletingLastPathComponent()
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let service = TrashService(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )) { $0 }
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps(log, in: directory), using: service
+        ) { _ in }
+
+        #expect(await log.steps == ["pause", "move ledger", "uninstall helper", "login item"])
+        guard case .moved = outcome else {
+            Issue.record("Peel stayed: \(outcome)")
+            return
+        }
     }
 
     /// The link the helper moved before it went is written into History with the rest, as one removal.

@@ -208,6 +208,7 @@ private struct GeneralSettingsView: View {
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(HelperModel.self) private var helper
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(ExclusionsStore.self) private var exclusions
     @Environment(StandingWork.self) private var background
     @Environment(HomeModel.self) private var home
     @State private var selfUninstall = SelfUninstall()
@@ -434,7 +435,17 @@ private struct GeneralSettingsView: View {
                         .disabled(
                             selfUninstall.isRunning || !library.hasLoaded
                                 || (homebrew.isInstalled && homebrew.packages == nil)
+                                || !exclusions.exclusions.isKnown || history.isUnreadable
                         )
+                    }
+                    if exclusions.exclusions.isUnreadable {
+                        Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    } else if history.isUnreadable {
+                        Text("Peel removes nothing until you start History over, so that everything it moves can be put back.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
                     }
                 }
                 // Homebrew removes the links its cask made, and no other.

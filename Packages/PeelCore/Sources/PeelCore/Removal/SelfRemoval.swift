@@ -99,6 +99,10 @@ public enum SelfRemoval {
         if await steps.helperIsRegistered(), await !steps.helperMayBeChanged() {
             return .stayed(.helperIsNotThisAccounts)
         }
+        // Nothing that can't be undone starts while Peel's own move would be refused.
+        if let refusal = await service.refusalsNow(ofApps: [app], lettingTheirProgramsRun: [app])[app] {
+            return .stayed(.appStayed(failures: [TrashFailure(url: app, reason: refusal)], ledger: .none))
+        }
         await steps.pauseWork()
         var ledger = PrivilegedHelper.LedgerMove.none
         var movedLinks = TrashResult()
