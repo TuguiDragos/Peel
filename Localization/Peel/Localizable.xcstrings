@@ -15029,7 +15029,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La que ejecuta macOS es otra copia de esta extensión."
+            "value" : "macOS ejecuta otra copia de esta extensión."
           }
         },
         "fr" : {
@@ -17901,7 +17901,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas, los datos de compilación de un proyecto abierto en la última semana, el estado de un editor para un proyecto que ya no está, las carpetas que nada indica que haya creado la herramienta, todo lo que Peel no ha podido medir y cualquier caché que tenga dentro un monedero digital, una clave de firma o una base de datos de contraseñas se muestran, pero nunca se seleccionan por ti."
+            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas, los datos de compilación de un proyecto abierto en la última semana, el estado de un editor para un proyecto que ya no está, las carpetas que nada indica que haya creado la herramienta, todo lo que Peel no ha podido medir y cualquier caché que tenga dentro un monedero digital, una clave de firma o una base de datos de contraseñas se muestran, pero Peel nunca los selecciona por ti."
           }
         },
         "fr" : {
@@ -23752,7 +23752,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elige una herramienta de desarrollo para ver sus cachés."
+            "value" : "Elige una herramienta para desarrolladores y verás sus cachés."
           }
         },
         "fr" : {
@@ -38208,7 +38208,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las apps excluidas siguen apareciendo en Aplicaciones, pero Peel no ofrecerá eliminarlas ni restablecerlas. Una carpeta que lleva en su nombre el identificador de una app excluida, como sus cachés o su contenedor, queda fuera de todas las páginas y nunca va a la papelera. Los demás archivos de la app, como los módulos o una carpeta con su nombre, solo se rigen por archivos y carpetas, así que, para protegerlos, exclúyelos también más arriba."
+            "value" : "Las apps excluidas siguen apareciendo en Aplicaciones, pero Peel no ofrecerá eliminarlas ni restablecerlas. Una carpeta que lleva en su nombre el identificador de una app excluida, como sus cachés o su contenedor, queda fuera de todas las páginas y nunca va a la papelera. Los demás archivos de la app, como los módulos o una carpeta con su nombre, solo se rigen por la lista “Archivos y carpetas”, así que, para protegerlos, exclúyelos también más arriba."
           }
         },
         "fr" : {
@@ -51763,7 +51763,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tiene la actualización. Peel puede actualizarla por ti."
+            "value" : "Homebrew tiene la actualización. Peel puede ejecutarla por ti."
           }
         },
         "fr" : {
@@ -88452,7 +88452,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nadie ha decidido nada sobre ella, así que elige macOS."
+            "value" : "Nadie ha decidido nada sobre ella, así que es macOS quien elige."
           }
         },
         "fr" : {
@@ -91548,7 +91548,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin seleccionar: pertenece a una app que conserva macOS, así que está en uso."
+            "value" : "Sin seleccionar: pertenece a una app que macOS conserva, así que está en uso."
           }
         },
         "fr" : {
@@ -116243,7 +116243,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel busca archivos en el índice de Spotlight. No incluye carpetas, apps ni archivos del sistema. Lo que una app guarda en una carpeta Biblioteca aparece al final y nunca se selecciona por ti."
+            "value" : "Peel busca archivos en el índice de Spotlight. No incluye carpetas, apps ni archivos del sistema. Lo que una app guarda en una carpeta Biblioteca aparece al final y Peel nunca lo selecciona por ti."
           }
         },
         "fr" : {
@@ -146474,7 +146474,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí aparecerá el software instalado con un paquete de instalación, salvo el de Apple."
+            "value" : "Aquí aparecerá el software instalado con un paquete del instalador, salvo el de Apple."
           }
         },
         "fr" : {
@@ -148170,7 +148170,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algo de este proyecto ha cambiado en los últimos 7 días, así que no se selecciona nada de él por ti."
+            "value" : "Algo de este proyecto ha cambiado en los últimos 7 días, así que Peel no selecciona nada de él por ti."
           }
         },
         "fr" : {
@@ -166834,7 +166834,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Están aquí porque Peel no está tan seguro de ellos, porque otra app de este Mac también los usa o porque Peel los ha retenido por el motivo que indica cada fila. Aquí no se selecciona nada por ti: lee cada uno y selecciona solo lo que reconozcas."
+            "value" : "Están aquí porque Peel no está tan seguro de ellos, porque otra app de este Mac también los usa o porque Peel los ha retenido por el motivo que indica cada fila. Aquí Peel no selecciona nada por ti: lee cada uno y selecciona solo lo que reconozcas."
           }
         },
         "fr" : {
