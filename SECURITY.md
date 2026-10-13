@@ -5,8 +5,9 @@ protects, and how, has a page of its own: [SAFETY.md](SAFETY.md).
 
 ## Reporting a security problem
 
-Report it privately on GitHub, with [Report a vulnerability](https://github.com/TuguiDragos/Peel/security/advisories/new)
-on the repository's Security tab, or email **contact@tuguidragos.com** with "Peel security" in the subject line.
+Report it privately on GitHub, with
+[Report a vulnerability](https://github.com/TuguiDragos/Peel/security/advisories/new) on the repository's Security
+tab, or email **contact@tuguidragos.com** with "Peel security" in the subject line.
 
 Do not open a public issue, a discussion, or a pull request for a security bug. Do not post it
 anywhere public until the fix ships or 90 days have passed since your report, whichever comes first,
@@ -16,9 +17,9 @@ Please include, as much as you have:
 
 - The version of Peel and the build number, from About.
 - Your macOS version and whether the Mac is Apple silicon or Intel.
-- Which component: the app, the privileged helper, the Finder extension, or the `peel` CLI.
+- Which component: the app, the privileged helper, the Finder extension, the `peel` command, or Sparkle.
 - What an attacker gains, and what they need to start with. State plainly whether the attack
-  needs a local unprivileged process, an admin account, or a user action.
+  needs a local unprivileged process, an administrator account, or a user action.
 - Steps to reproduce, and a proof of concept if you have one. A short script or a small sample
   app is worth more than a description.
 - Anything you want credited, or that you would rather stay anonymous.
@@ -33,7 +34,7 @@ point of failure.
 
 | Stage | Target |
 | --- | --- |
-| Acknowledgment that the mail arrived | 2 working days |
+| Acknowledgment that your report arrived | 2 working days |
 | First assessment: confirmed, not confirmed, or need more detail | 7 days |
 | Fix released for a confirmed high-severity issue | 30 days |
 | Fix released for anything else confirmed | 90 days |
@@ -79,13 +80,15 @@ are out of scope.
 ## Scope
 
 Peel is not sandboxed and is distributed outside the Mac App Store. Releases are signed with a Developer ID and
-notarized by Apple. It has four pieces:
+notarized by Apple. It has four pieces of its own, and carries Sparkle, which updates it:
 
 - **Peel.app**: the interface, running as you.
 - **com.tuguidragos.Peel.Helper**: a system daemon registered with `SMAppService`, running as
   **root**, reachable only over an XPC Mach service.
 - **PeelFinder**: a sandboxed Finder Sync extension that opens `peel://open?path=`.
-- **peel**: a command line tool inside `Peel.app/Contents/Helpers`. It never talks to the helper.
+- **peel**: a command-line tool inside `Peel.app/Contents/Helpers`. It never talks to the helper.
+- **Sparkle**: the framework in `Peel.app/Contents/Frameworks`, with its programs Autoupdate and Updater.app,
+  which install an update of Peel once the person chooses it.
 
 ### In scope
 
@@ -112,8 +115,10 @@ have, and anything that destroys data that cannot be recovered.
 - Argument injection or unexpected behavior in the operation that runs `launchctl` for a launch
   daemon (bootstrap, bootout, kickstart, enable, and disable), or in the one that moves the helper's
   own ledger to the Trash for Remove Peel.
-- Anything that leaves a root daemon installed, running, or reachable after Peel is removed, or
-  that lets a non-admin install or replace it.
+- Anything that leaves a root daemon installed, running, or reachable after Remove Peel, or that
+  lets an account that is not an administrator install, replace, or remove it. A Peel dragged to
+  the Trash leaves its helper registered, as [GUIDE.md](GUIDE.md#uninstall-peel) says, until it is
+  put back and removed with Remove Peel.
 
 **Destruction of data.**
 
@@ -134,7 +139,7 @@ have, and anything that destroys data that cannot be recovered.
   from the Finder extension, from any other process on the Mac, or from a web page, and through
   Peel's other ways in: an app dropped on it or opened with it, and the actions it gives Shortcuts.
 - A sandbox escape in the Finder Sync extension.
-- Hijacking the `peel` CLI, or getting it to perform an operation that should require the helper.
+- Hijacking the `peel` command, or getting it to perform an operation that should require the helper.
 - Update-feed handling: Peel fetches update feeds whose addresses come out of each scanned app, a
   Sparkle feed in its `Info.plist` or an Electron app's `app-update.yml`, and for an update that
   waits, the page of release notes the feed names, which it reads as HTML, Markdown, or plain text.
@@ -142,31 +147,40 @@ have, and anything that destroys data that cannot be recovered.
   code execution, or that leaks data off the Mac, is in scope.
 - Leaking the list of a user's installed apps, file paths, or scan results off the Mac, beyond what
   [PRIVACY.md](PRIVACY.md) describes.
-- Peel's own updates: getting Peel to install, or to offer, an update that is not signed with Peel's
-  update key, one older than the copy installed, or one from anywhere but its signed feed. Peel
-  updates itself with Sparkle, so a flaw in Sparkle that reaches Peel is in scope too, and it is
-  passed on to the Sparkle project.
+- Peel's own updates: getting Peel to install, or to offer, an update that is not signed as Peel's
+  (with Peel's update key, or, as Sparkle allows when that key changes, in a disk image signed with
+  Peel's Developer ID), one older than the copy installed, or one from anywhere but its signed feed.
+  Peel updates itself with Sparkle, so a flaw in Sparkle that reaches Peel is in scope too, and it
+  is passed on to the Sparkle project.
 
 **What Peel reads, runs, and writes.**
 
-- Files from apps and disks Peel doesn't trust, which it reads to decide what is what: other apps'
-  property lists, the headers of their programs (Mach-O), and the directory of a ZIP archive, read
-  without extracting it. One that causes memory corruption, an exploitable crash, or a wrong answer
-  about what may be removed is in scope.
+- Files from apps, projects, and disks Peel doesn't trust, which it reads to decide what is what:
+  other apps' property lists and product files (`product-info.json`, `product.json`), the headers of
+  their programs (Mach-O), the directory of a ZIP archive, read without extracting it, the first line
+  of a crash report, a Git repository's index, a launch job's file, a browser's native messaging
+  manifest, and the package definitions Homebrew and its taps give, whose paths an uninstall lists.
+  One that causes memory corruption, an exploitable crash, or a wrong answer about what may be
+  removed is in scope.
 - The programs Peel runs with what a scan found: `defaults`, `launchctl`, `tccutil`, `pkgutil`, and
   `pluginkit`, given an app's, a package's, or an extension's identifier, a launch job's label, or a
   path, and `brew`, including one chosen in Settings. Getting one to run with arguments an attacker
   chose, or getting Peel to run another program, is in scope.
-- What Peel writes besides moving files: the Tweaks, which also restart the Dock, Finder, Control
-  Center, or Window Manager with `killall`, and the settings the Terminal page writes for Terminal,
-  the shell, ssh, and Git. Getting either to write anything but the setting the user chose, or to
-  write it anywhere else, such as through a link, is in scope.
+- What Peel writes besides moving files, each listed in
+  [SAFETY.md](SAFETY.md#what-peel-changes-besides-moving-files): the Tweaks, which also restart the
+  Dock, Finder, Control Center, or Window Manager with `killall`; the settings the Terminal page
+  writes for Terminal, the shell, ssh, and Git; the Dock's lists, when an uninstall takes an app's
+  icon out; the preference domains it forgets with `defaults delete`; the copies of an app's settings
+  a reset saves and puts back; and the Time Machine mark Build Artifacts sets. Getting any of them to
+  write anything but what the user chose, or to write it anywhere else, such as through a link, is
+  in scope.
 
-**Peel's website.**
+**Peel's website and Homebrew tap.**
 
-- peel.tuguidragos.com, which GitHub Pages serves from this repository's `docs/` folder. A way to
-  change what it shows, or to send its downloads anywhere but this repository's releases, is in
-  scope.
+- peel.tuguidragos.com, which GitHub Pages serves from this repository's `docs/` folder, and the
+  Homebrew tap, `TuguiDragos/homebrew-tap`, which `brew install --cask tuguidragos/tap/peel` reads. A
+  way to change what either shows or installs, or to send its downloads anywhere but this
+  repository's releases, is in scope.
 
 ### Out of scope
 
@@ -175,11 +189,12 @@ Not because they do not matter, but because they are not bugs in Peel.
 - **Anything that needs root to begin with.** If the attacker is already root, they can do all of
   this without Peel.
 - **Anything an administrator can already do on macOS.** `/Applications` is writable by any
-  admin by design. An admin who can already delete an app has gained nothing by using Peel to
-  delete it. Escalation from *admin* to *root without an authentication prompt* is in scope, beyond
-  what the helper does for an administrator by design once it is approved: moving items in the
-  folders `PrivilegedPathPolicy` allows to the Trash and back, and running `launchctl` for another
-  developer's launch daemon. Admin doing admin things is not.
+  administrator by design. An administrator who can already delete an app has gained nothing by
+  using Peel to delete it. Escalation from *administrator* to *root without an authentication
+  prompt* is in scope, beyond what the helper does for an administrator by design once it is
+  approved: moving items in the folders `PrivilegedPathPolicy` allows to the Trash and back, and
+  running `launchctl` for another developer's launch daemon. An administrator doing what
+  administrators do is not.
 - **Peel deleting what the user told it to delete.** The confirmation, the preselection rules, and
   the Trash are the safety net. A user who selects a checkbox and confirms is not a vulnerability. A
   bug that makes Peel select the checkbox *for* them, or that removes something not shown, is.
@@ -234,13 +249,12 @@ This safe harbor is adapted from the disclose.io model terms, which are publishe
 
 ## Advisories and CVEs
 
-Fixed issues are written up as an advisory in the release notes.
+Each fixed issue gets a GitHub security advisory, and the release notes link to it.
 
-If an issue warrants one, a CVE will be requested. Once the source repository is public on
-GitHub, that goes through GitHub Security Advisories: GitHub is a CVE Numbering Authority for
-open source projects hosted on GitHub. You are welcome to request the CVE yourself instead, and
-to be named in the record; say so in your report. If you would rather not wait, MITRE also takes
-requests directly.
+If an issue warrants one, a CVE will be requested through GitHub Security Advisories: GitHub is a
+CVE Numbering Authority for open source projects hosted on GitHub. You are welcome to request the
+CVE yourself instead, and to be named in the record; say so in your report. If you would rather not
+wait, MITRE also takes requests directly.
 
 ## Contact
 

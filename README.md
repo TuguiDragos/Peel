@@ -54,9 +54,11 @@ why it starts at macOS 26 and won't open on an older one.
 brew install --cask tuguidragos/tap/peel
 ```
 
-Homebrew also puts the `peel` command on your path.
+Homebrew also puts the `peel` command on your path, with its manual page and shell completions.
 
-To update Peel, choose Check for Updates… in the Peel menu. While Check for app updates is on, Peel also looks once a
+### Updates
+
+To update Peel, choose Check for Updates in the Peel menu. While Check for app updates is on, Peel also looks once a
 day, and About Peel says when a new version is out. Peel shows what is new and installs the update only when you
 choose, once it has checked that the update is signed as Peel's. A copy Homebrew installed updates the same way, and
 `brew upgrade --cask peel` updates it too.
@@ -92,14 +94,16 @@ does, what Peel asks for and why, and how to remove Peel.
 A cleaner should never cost you something you wanted. Peel is built around that.
 
 - **The Trash, never deletion.** Everything Peel removes goes to the Trash, and History puts it back where it was.
-  Four things can't be undone that way, and Peel says so before you confirm them: Homebrew's own uninstall and clean
-  ups, resetting an app's privacy permissions, and Force Quit for an app that won't quit.
+  Remove Downloads in iCloud Drive only frees this Mac's copy of a file, which stays in iCloud. Four things can't be
+  undone that way, and Peel says so before you confirm them: Homebrew's own uninstall, its cleanups, resetting an
+  app's privacy permissions, and Force Quit for an app that won't quit.
   [SAFETY.md](SAFETY.md#what-peel-changes-besides-moving-files) lists everything else Peel changes besides moving
   files.
-- **Protected places stay protected.** Peel refuses to move iCloud Drive, keychains, your SSH and signing keys, the
-  keys of crypto wallets, Mail, Messages, Safari, Contacts, Calendars, Notes, photo and music libraries, iPhone and
-  iPad backups, and the Desktop, Documents, and Downloads folders themselves. No selection can override it. A
-  browser profile with a wallet extension Peel knows, such as MetaMask, stays too.
+- **Protected places stay protected.** Peel refuses to move iCloud Drive and anything else that syncs to your other
+  devices, keychains, your SSH and signing keys, the keys of crypto wallets, Mail, Messages, Safari, Contacts,
+  Calendars, Notes, photo and music libraries, iPhone and iPad backups, and the Desktop, Documents, and Downloads
+  folders themselves. No selection can override it. A browser profile with a wallet extension Peel knows, such as
+  MetaMask, stays too.
 - **Nothing shared, nothing unknown.** A file another app also uses is never selected for you. A folder Peel
   couldn't measure or read is shown as unknown, never as empty, and never selected for you either.
 - **Every decision explained.** When Peel holds a file back, the row says why, and each item is checked once more
@@ -117,7 +121,7 @@ every address Peel or Homebrew may contact.
 
 The command ships inside the app. Settings > General shows the Terminal command that puts it on your path, and a
 Homebrew install puts it there for you. [GUIDE.md](GUIDE.md#the-peel-command) says how it asks before it moves
-anything, and `man peel` lists every option.
+anything, and `peel help <command>` lists every option. With a Homebrew install, `man peel` does too.
 
 <details>
 <summary>All commands</summary>
@@ -162,9 +166,8 @@ and choose Uninstall with Peel, once the Finder extension is on in System Settin
 
 Peel moves files to the Trash instead of deleting them, and History can put them back while they are still there
 (it keeps the latest 20,000 items). What can't be undone, such as Homebrew's own uninstall, Peel names before you
-confirm it. Peel selects for you only what it matched by the app's identifier, its name, or its installer's
-receipt, never a file another app uses, and refuses to touch places like iCloud Drive, your keychains, Mail,
-Messages, and photo libraries.
+confirm it. Peel selects for you only what it is sure, or nearly sure, belongs to the app, never a file another app
+uses, and refuses to touch places like iCloud Drive, your keychains, Mail, Messages, and photo libraries.
 
 </details>
 
@@ -173,9 +176,9 @@ Messages, and photo libraries.
 
 <br>
 
-No. Peel has no analytics and no account. It goes online only to check your apps for updates, which you can turn
-off, and when you ask Homebrew to do something. [PRIVACY.md](PRIVACY.md) says what each of those sends, and
-where.
+No. Peel has no analytics and no account. It goes online only to check your apps, and itself, for updates, which
+you can turn off, to download a new Peel when you choose to install it, and when you ask Homebrew to do something.
+[PRIVACY.md](PRIVACY.md) says what each of those sends, and where.
 
 </details>
 
@@ -197,10 +200,9 @@ macOS 26 and every version since.
 <br>
 
 macOS keeps a background item's approval by its developer and its identifier, so a record left by an earlier copy
-of Peel can keep the helper waiting even while Login Items & Extensions in System Settings shows Peel turned on.
-First choose Uninstall Helper in Peel's Settings > Helper, then Install Helper. If it still waits, run this in
-Terminal, then restart your Mac, as [Apple's deployment guide](https://support.apple.com/guide/deployment/depdca572563/web)
-recommends:
+of Peel can keep the helper waiting even while Login Items & Extensions in System Settings shows Peel turned on. If
+Peel's Settings > Helper still asks you to allow Peel, run this in Terminal, then restart your Mac, as
+[Apple's deployment guide](https://support.apple.com/guide/deployment/depdca572563/web) recommends:
 
 ```bash
 sudo sfltool resetbtm
@@ -215,12 +217,14 @@ again.
 
 You need macOS Tahoe 26 or later, Xcode 27 (Swift 6.4), and a team to sign with, even a free one. First build Sparkle,
 which updates Peel, from its source with `zsh Scripts/build_sparkle.sh`. Then open `Peel.xcodeproj`, choose your team
-for the four targets under Signing & Capabilities, and run the Peel scheme. Or, from Terminal, with your own team ID:
+for Peel, PeelHelper, PeelFinder, and PeelCLI under Signing & Capabilities, and run the Peel scheme. Or, from Terminal,
+with your own team ID:
 
 ```bash
 zsh Scripts/build_sparkle.sh
-xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID build
-swift test --package-path Packages/PeelCore
+xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -derivedDataPath build/DerivedData \
+  DEVELOPMENT_TEAM=YOUR_TEAM_ID build
+swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 ```
 
 The helper starts only as the team named in `Support/com.tuguidragos.Peel.Helper.plist`, so to install the helper
@@ -231,7 +235,8 @@ you build, put your team there as well. [ARCHITECTURE.md](ARCHITECTURE.md) expla
 
 Bug reports, ideas, and pull requests are welcome.
 
-- Found a bug or have an idea? [Open an issue](https://github.com/TuguiDragos/Peel/issues/new/choose).
+- Found a bug? [Report it](https://github.com/TuguiDragos/Peel/issues/new/choose). Have an idea? Suggest it in
+  [Discussions](https://github.com/TuguiDragos/Peel/discussions/new?category=ideas).
 - Want to change Peel? [CONTRIBUTING.md](CONTRIBUTING.md) says how to start, and [AGENTS.md](AGENTS.md) holds the
   rules every change follows. Working with a coding assistant? Give it AGENTS.md first.
 - Found a security problem? Please report it privately, as [SECURITY.md](SECURITY.md) describes, and not in a
