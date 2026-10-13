@@ -182,30 +182,20 @@ public enum PrivilegedHelper {
     /// At utility quality these timers would wait behind any utility work queued before them.
     static let timers = DispatchQueue.global(qos: .userInitiated)
 
+    /// Moves `urls` to the Trash in one request, so at most `HelperRequest.maximumItems` of them: the helper refuses
+    /// more.
     @concurrent
     public static func moveToTrash(_ urls: [URL]) async -> TrashResult {
-        var result = TrashResult()
         let trash = URL.homeDirectory.appending(path: ".Trash", directoryHint: .isDirectory)
-        // The helper's own limit also bounds how many items an answer that never comes can affect.
-        let limit = HelperRequest.maximumItems
-        for start in stride(from: 0, to: urls.count, by: limit) {
-            let batch = Array(urls[start..<min(start + limit, urls.count)])
-            // Read before the move, so that if the answer is lost, moved items can be found in the Trash by identity.
-            let links = Dictionary(
-                batch.map { ($0, FileIdentity.Link.of($0)) },
-                uniquingKeysWith: { first, _ in first }
-            )
-            let paths = batch.map { $0.path(percentEncoded: false) }
-            let reply: HelperTrashReply? = await withHelper(fallback: nil) { helper, finish in
-                helper.moveItemsToTrash(version: HelperIdentity.protocolVersion, atPaths: paths) { moved, failed in
-                    finish(HelperTrashReply(moved: moved, failed: failed))
-                }
+        // Read before the move, so that if the answer is lost, moved items can be found in the Trash by identity.
+        let links = Dictionary(urls.map { ($0, FileIdentity.Link.of($0)) }, uniquingKeysWith: { first, _ in first })
+        let paths = urls.map { $0.path(percentEncoded: false) }
+        let reply: HelperTrashReply? = await withHelper(fallback: nil) { helper, finish in
+            helper.moveItemsToTrash(version: HelperIdentity.protocolVersion, atPaths: paths) { moved, failed in
+                finish(HelperTrashReply(moved: moved, failed: failed))
             }
-            let answered = Self.result(for: batch, reply: reply, links: links, trash: trash)
-            result.trashed += answered.trashed
-            result.failures += answered.failures
         }
-        return result
+        return Self.result(for: urls, reply: reply, links: links, trash: trash)
     }
 
     /// Builds the result of one request from the helper's reply. The helper moves items one by one and answers

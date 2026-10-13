@@ -624,12 +624,18 @@ public struct TrashService: Sendable {
         let links = Set(allowed.filter(reach.takesOnlyALink))
         ownMoves.began()
         var helperResult = TrashResult()
-        for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] where !batch.isEmpty {
-            let moved = await moveThroughHelper(batch)
-            journal?.note(moved.trashed, batch: removal)
-            MoveCount.current?.add(moved.trashed.count)
-            helperResult.trashed += moved.trashed
-            helperResult.failures += moved.failures
+        // One request at a time, each answer written down before the next request goes, so a stop while the helper
+        // works loses no more than the request under way. The helper's own limit also bounds how many items an
+        // answer that never comes can affect.
+        let limit = HelperRequest.maximumItems
+        for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] {
+            for start in stride(from: 0, to: batch.count, by: limit) {
+                let moved = await moveThroughHelper(Array(batch[start..<min(start + limit, batch.count)]))
+                journal?.note(moved.trashed, batch: removal)
+                MoveCount.current?.add(moved.trashed.count)
+                helperResult.trashed += moved.trashed
+                helperResult.failures += moved.failures
+            }
         }
         ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
         result.trashed += helperResult.trashed

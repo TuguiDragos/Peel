@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Synchronization
 import Testing
 
@@ -148,6 +149,39 @@ struct RemovalJournalTests {
         #expect(result.trashed.count == 2)
         #expect(written.withLock { $0 } == [0, 1], "the first item was not written down before the second moved")
         #expect(Set(journal.entries().map(\.item.trashedURL)) == Set(result.trashed.map(\.trashedURL)))
+    }
+
+    @Test func whatTheHelperMovesIsWrittenDownAfterEachRequest() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let items = try (0...HelperRequest.maximumItems).map {
+            try directory.file("home/Library/Caches/com.example.app\($0)/cache.db").deletingLastPathComponent()
+        }
+        let written = Mutex<[Int]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            moveThroughHelper: { urls in
+                written.withLock { $0.append(journal.entries().count) }
+                return TrashResult(trashed: urls.map {
+                    TrashedItem(
+                        originalURL: $0,
+                        trashedURL: directory.url.appending(path: "home/.Trash/\($0.lastPathComponent)"),
+                        date: .now
+                    )
+                })
+            },
+            journal: journal,
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+
+        let result = await service.trash(items, usingHelperFor: Set(items))
+
+        #expect(result.trashed.count == items.count)
+        #expect(written.withLock { $0 } == [0, HelperRequest.maximumItems], "a request went before the last answer was written down")
+        #expect(journal.entries().count == items.count)
     }
 
     /// While History cannot be read nothing moves, since what moved could not be listed for Put Back. An item the

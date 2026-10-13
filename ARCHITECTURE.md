@@ -152,10 +152,10 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      even when it moved what was selected on several pages.
    - As it records, History adds what moved to the totals Home and the menu bar panel show (`totals.json`, through
      `RemovalTotals`), so the app and `peel` count alike.
-   - Each item is also written down the moment it moves (`removals.journal`, through `RemovalJournal`), so what a
-     removal moved before it was cut short reaches History the next time History is read, as an interrupted
-     removal. Quitting the app waits for a removal until History has it (`QuitGuard`), as `peel` carries on
-     through Control-C (`Uninterrupted`).
+   - Each item is also written down the moment it moves, and what the helper moves as soon as it answers each
+     request (`removals.journal`, through `RemovalJournal`), so what a removal moved before it was cut short reaches
+     History the next time History is read, as an interrupted removal. Quitting the app waits for a removal until
+     History has it (`QuitGuard`), as `peel` carries on through Control-C (`Uninterrupted`).
    - While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by `TrashService` before a removal)
      until Start Over, on the History page, sets the unreadable file aside.
    - What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not Moved, one
