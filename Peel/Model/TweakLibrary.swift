@@ -117,7 +117,7 @@ final class TweakLibrary {
 
     func chooseScreenshotFolder(for tweak: Tweak) async {
         // Asked again once the panel has closed, since the folder can change after the panel's own check.
-        guard let url = await ScreenshotFolderPanel().choose(), ScreenshotFolder.problem(with: url) == nil
+        guard let url = await ScreenshotFolderPanel.choose(), ScreenshotFolder.problem(with: url) == nil
         else { return }
         await turnOn(tweak, text: url.path(percentEncoded: false))
     }

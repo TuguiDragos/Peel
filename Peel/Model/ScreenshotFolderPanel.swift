@@ -2,17 +2,22 @@ import AppKit
 import PeelCore
 
 /// The open panel for the screenshot folder. It is the panel's delegate, so a folder screenshots can't be saved in is
-/// refused while the panel stays open, with the reason. The panel holds its delegate weakly, and `choose()` running
-/// on this object keeps it alive.
+/// refused while the panel stays open, with the reason.
 final class ScreenshotFolderPanel: NSObject, NSOpenSavePanelDelegate {
-    func choose() async -> URL? {
+    private override init() {}
+
+    static func choose() async -> URL? {
+        let delegate = ScreenshotFolderPanel()
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
         panel.canChooseFiles = false
         panel.prompt = String(localized: "Choose")
         panel.message = String(localized: "Where should screenshots be saved?")
-        panel.delegate = self
-        return await panel.begin() == .OK ? panel.url : nil
+        panel.delegate = delegate
+        let chosen = await panel.begin() == .OK ? panel.url : nil
+        // The panel holds its delegate weakly: this keeps it until the panel has closed.
+        extendLifetime(delegate)
+        return chosen
     }
 
     func panel(_ sender: Any, validate url: URL) throws {
