@@ -2,7 +2,6 @@ import AppKit
 import Foundation
 import Observation
 import PeelCore
-import ServiceManagement
 
 /// Peel removing itself: its own files and the app, once the helper and the login item are gone.
 @Observable
@@ -29,10 +28,8 @@ final class SelfUninstall {
             && FileAccess.requiresPrivilegesToRemove(URL(filePath: CommandLineTool.path))
     }
 
-    /// Removes Peel. The plan is made first, and the steps nothing can undo (unregistering the helper and the
-    /// login item) come after, so a plan that cannot be made leaves Peel as it was. A quit is refused meanwhile,
-    /// since Peel ends itself once it has gone. `work` is paused from the first of those steps, since what it does
-    /// on its own would write Peel's files again, and resumed if Peel stays where it was.
+    /// Removes Peel. The plan is made first, so a plan that cannot be made leaves Peel as it was, and then
+    /// `SelfRemoval.remove` takes the steps. A quit is refused meanwhile, since Peel ends itself once it has gone.
     func run(
         installedApps: [InstalledApp],
         helper: HelperModel,
@@ -65,51 +62,25 @@ final class SelfUninstall {
             return
         }
 
-        let isRegistered = { [helper] in helper.status == .enabled || helper.status == .requiresApproval }
-        // The helper serves every administrator of this Mac, so an account that can't use it leaves it, and Peel stays.
-        if isRegistered(), await !PrivilegedHelper.currentAvailability() {
-            failure = String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
-            return
-        }
-
-        work.pause()
-        var ledger = PrivilegedHelper.LedgerMove.none
-        var links = TrashResult()
-        if isRegistered() {
-            (links, ledger) = await SelfRemoval.beforeTheHelperGoes(
-                links: plan.unreviewedLinks,
-                helperIsEnabled: helper.status == .enabled,
-                using: TrashService(exclusions: exclusions)
-            )
-            let helperFailure = await helper.uninstall()
-            // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
-            guard !isRegistered() else {
-                work.resume()
-                if !links.trashed.isEmpty {
-                    await record(TrashResult(trashed: links.trashed))
-                }
-                let reason = helperFailure?.reason ?? String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
-                failure = ledger == .moved ? "\(reason)\n\n\(Self.ledgerInTheTrash)" : reason
-                return
-            }
-        }
-        // Unregistering a login item that was never registered fails too, so what counts is whether it is still there.
-        try? await SMAppService.mainApp.unregister()
-        let opensAtLogin = [.enabled, .requiresApproval].contains(SMAppService.mainApp.status)
         let language = Bundle.main.preferredLocalizations.first
-
-        let result = await SelfRemoval.move(
+        let outcome = await SelfRemoval.remove(
             urls,
+            links: plan.unreviewedLinks,
             app: bundleURL,
             folder: PeelFolder.url,
-            movedFirst: links.trashed,
+            steps: SelfRemoval.Steps(
+                helperIsRegistered: { helper.status == .enabled || helper.status == .requiresApproval },
+                helperIsEnabled: { helper.status == .enabled },
+                uninstallHelper: { await helper.uninstall()?.reason },
+                work: work
+            ),
             using: TrashService(exclusions: exclusions),
             recording: record
         )
-        guard let moved = result.trashed.first(where: { $0.originalURL == bundleURL }) else {
-            work.resume()
-            let lines = result.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
-            failure = (lines + (ledger == .moved ? [Self.ledgerInTheTrash] : [])).joined(separator: "\n\n")
+        guard case .moved(let moved, let stayed, let opensAtLogin) = outcome else {
+            if case .stayed(let stay) = outcome {
+                failure = Self.failure(for: stay)
+            }
             return
         }
         SelfRemoval.endExtensions(runningFrom: moved.trashedURL)
@@ -117,10 +88,6 @@ final class SelfUninstall {
             Bundle(url: moved.trashedURL.appending(path: "Contents/Resources/\($0).lproj", directoryHint: .isDirectory))
         }
         _ = await DockTiles().takeOut([bundleURL], remembering: false)
-        var stayed = result.failures + links.failures
-        if case .stayed(let failure) = ledger {
-            stayed.append(failure)
-        }
         var lines = stayed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation(in: words))" }
         if opensAtLogin {
             lines.append(String(localized: "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions.", bundle: words))
@@ -130,6 +97,20 @@ final class SelfUninstall {
             return
         }
         quit()
+    }
+
+    private static func failure(for stay: SelfRemoval.Stay) -> String {
+        let helperStayed = String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
+        switch stay {
+        case .helperIsNotThisAccounts:
+            return helperStayed
+        case .helperStayed(let reason, let ledger):
+            let reason = reason ?? helperStayed
+            return ledger == .moved ? "\(reason)\n\n\(ledgerInTheTrash)" : reason
+        case .appStayed(let failures, let ledger):
+            let lines = failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+            return (lines + (ledger == .moved ? [ledgerInTheTrash] : [])).joined(separator: "\n\n")
+        }
     }
 
     /// Said when Peel stays after the helper's ledger went to the Trash: without it, the helper puts back nothing it

@@ -1,9 +1,141 @@
 import Darwin
 public import Foundation
 internal import PeelPrivileged
+import ServiceManagement
 
 /// Moves Peel's own files to the Trash, and then the Peel folder, which holds History.
 public enum SelfRemoval {
+    /// What Remove Peel asks of the helper, the work Peel keeps running and the login item. Tests stand in for each.
+    public struct Steps {
+        let helperIsRegistered: () async -> Bool
+        let helperIsEnabled: () async -> Bool
+        let helperMayBeChanged: () async -> Bool
+        let helperAnswers: () async -> Bool
+        let moveLedger: () async -> PrivilegedHelper.LedgerMove
+        let ledger: URL
+        /// Unregisters the helper, answering why it couldn't be, or nil.
+        let uninstallHelper: () async -> String?
+        let pauseWork: () async -> Void
+        let resumeWork: () async -> Void
+        /// Unregisters Peel as a login item, answering whether Peel still opens at login.
+        let unregisterLoginItem: () async -> Bool
+
+        public init(
+            helperIsRegistered: @escaping () async -> Bool,
+            helperIsEnabled: @escaping () async -> Bool,
+            uninstallHelper: @escaping () async -> String?,
+            work: StandingWork
+        ) {
+            self.init(
+                helperIsRegistered: helperIsRegistered,
+                helperIsEnabled: helperIsEnabled,
+                helperMayBeChanged: { await PrivilegedHelper.currentAvailability() },
+                helperAnswers: { await PrivilegedHelper.isResponding() },
+                moveLedger: { await PrivilegedHelper.moveLedgerToTrash() },
+                ledger: PrivilegedHelper.ledgerFolder,
+                uninstallHelper: uninstallHelper,
+                pauseWork: { await work.pause() },
+                resumeWork: { await work.resume() },
+                unregisterLoginItem: {
+                    // Unregistering a login item that was never registered fails too, so what counts is whether it is
+                    // still there.
+                    try? await SMAppService.mainApp.unregister()
+                    return [.enabled, .requiresApproval].contains(SMAppService.mainApp.status)
+                }
+            )
+        }
+
+        init(
+            helperIsRegistered: @escaping () async -> Bool,
+            helperIsEnabled: @escaping () async -> Bool,
+            helperMayBeChanged: @escaping () async -> Bool,
+            helperAnswers: @escaping () async -> Bool,
+            moveLedger: @escaping () async -> PrivilegedHelper.LedgerMove,
+            ledger: URL,
+            uninstallHelper: @escaping () async -> String?,
+            pauseWork: @escaping () async -> Void,
+            resumeWork: @escaping () async -> Void,
+            unregisterLoginItem: @escaping () async -> Bool
+        ) {
+            self.helperIsRegistered = helperIsRegistered
+            self.helperIsEnabled = helperIsEnabled
+            self.helperMayBeChanged = helperMayBeChanged
+            self.helperAnswers = helperAnswers
+            self.moveLedger = moveLedger
+            self.ledger = ledger
+            self.uninstallHelper = uninstallHelper
+            self.pauseWork = pauseWork
+            self.resumeWork = resumeWork
+            self.unregisterLoginItem = unregisterLoginItem
+        }
+    }
+
+    public enum Outcome: Equatable {
+        case stayed(Stay)
+        /// Peel's app is in the Trash. `stayed` is what didn't go with it, the helper's ledger included.
+        case moved(app: TrashedItem, stayed: [TrashFailure], opensAtLogin: Bool)
+    }
+
+    public enum Stay: Equatable {
+        /// This account can't change the helper, which serves every administrator of this Mac.
+        case helperIsNotThisAccounts
+        /// The helper is still registered. `reason` says why its uninstall failed, when it did say.
+        case helperStayed(reason: String?, ledger: PrivilegedHelper.LedgerMove)
+        case appStayed(failures: [TrashFailure], ledger: PrivilegedHelper.LedgerMove)
+    }
+
+    /// Removes Peel: the helper, after it has moved Peel's links and its ledger, then the login item, then `urls`
+    /// through `move`. The work Peel keeps running is paused from the first step, since it would write Peel's files
+    /// again, and resumed when Peel stays.
+    public static func remove(
+        _ urls: [URL],
+        links: [URL],
+        app: URL,
+        folder: URL,
+        steps: Steps,
+        using service: TrashService,
+        recording record: (TrashResult) async -> Void
+    ) async -> Outcome {
+        if await steps.helperIsRegistered(), await !steps.helperMayBeChanged() {
+            return .stayed(.helperIsNotThisAccounts)
+        }
+        await steps.pauseWork()
+        var ledger = PrivilegedHelper.LedgerMove.none
+        var movedLinks = TrashResult()
+        if await steps.helperIsRegistered() {
+            (movedLinks, ledger) = await beforeTheHelperGoes(
+                links: links,
+                helperIsEnabled: await steps.helperIsEnabled(),
+                using: service,
+                answers: steps.helperAnswers,
+                moveLedger: steps.moveLedger,
+                ledger: steps.ledger
+            )
+            let failure = await steps.uninstallHelper()
+            // A helper still registered would point into the Trash, so Peel moves only once the helper is gone.
+            guard await !steps.helperIsRegistered() else {
+                await steps.resumeWork()
+                if !movedLinks.trashed.isEmpty {
+                    await record(TrashResult(trashed: movedLinks.trashed))
+                }
+                return .stayed(.helperStayed(reason: failure, ledger: ledger))
+            }
+        }
+        let opensAtLogin = await steps.unregisterLoginItem()
+        let result = await move(
+            urls, app: app, folder: folder, movedFirst: movedLinks.trashed, using: service, recording: record
+        )
+        guard let moved = result.trashed.first(where: { $0.originalURL == app }) else {
+            await steps.resumeWork()
+            return .stayed(.appStayed(failures: result.failures, ledger: ledger))
+        }
+        var stayed = result.failures + movedLinks.failures
+        if case .stayed(let failure) = ledger {
+            stayed.append(failure)
+        }
+        return .moved(app: moved, stayed: stayed, opensAtLogin: opensAtLogin)
+    }
+
     /// Moves `app` to the Trash, then the rest of `urls` once it has moved, and then `folder`, all but the Terminal
     /// settings the person's `.zshrc` and `~/.ssh/config` read, which go on working without Peel. `record` writes
     /// History into `folder` first, with `movedFirst`, what the helper moved before it went, so the record goes with

@@ -13,6 +13,27 @@ private actor HelperRequests {
     func ask() { questions += 1 }
 }
 
+private actor StepLog {
+    private(set) var steps: [String] = []
+    private(set) var recorded: [TrashResult] = []
+    private(set) var helperIsRegistered: Bool
+    private let helperStays: Bool
+
+    init(helperIsRegistered: Bool, helperStays: Bool = false) {
+        self.helperIsRegistered = helperIsRegistered
+        self.helperStays = helperStays
+    }
+
+    func note(_ step: String) { steps.append(step) }
+    func record(_ result: TrashResult) { recorded.append(result) }
+
+    func uninstallHelper() -> String? {
+        steps.append("uninstall helper")
+        helperIsRegistered = helperStays
+        return helperStays ? "Not allowed." : nil
+    }
+}
+
 struct SelfRemovalTests {
     private func service(
         in directory: borrowing TemporaryDirectory,
@@ -32,6 +53,136 @@ struct SelfRemovalTests {
 
     private func paths(_ urls: [URL]) -> Set<String> {
         Set(urls.map(PathPattern.comparablePath))
+    }
+
+    private func steps(
+        _ log: StepLog,
+        in directory: borrowing TemporaryDirectory,
+        helperMayBeChanged: Bool = true
+    ) -> SelfRemoval.Steps {
+        SelfRemoval.Steps(
+            helperIsRegistered: { await log.helperIsRegistered },
+            helperIsEnabled: { await log.helperIsRegistered },
+            helperMayBeChanged: { helperMayBeChanged },
+            helperAnswers: { true },
+            moveLedger: { await log.note("move ledger"); return .moved },
+            ledger: directory.url.appending(path: "root/var/db/org.example.helper", directoryHint: .isDirectory),
+            uninstallHelper: { await log.uninstallHelper() },
+            pauseWork: { await log.note("pause") },
+            resumeWork: { await log.note("resume") },
+            unregisterLoginItem: { await log.note("login item"); return false }
+        )
+    }
+
+    @Test func removesPeelOnceItsHelperAndLoginItemAreGone() async throws {
+        let directory = try TemporaryDirectory()
+        let requests = HelperRequests()
+        let log = StepLog(helperIsRegistered: true)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let cache = try directory.directory("home/Library/Caches/com.example.peel")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let link = try directory.file("home/bin/peel")
+
+        let outcome = await SelfRemoval.remove(
+            [cache, app],
+            links: [link],
+            app: app,
+            folder: folder,
+            steps: steps(log, in: directory),
+            using: try service(in: directory, sendingTo: requests)
+        ) { await log.record($0) }
+
+        #expect(await log.steps == ["pause", "move ledger", "uninstall helper", "login item"])
+        #expect(paths(await requests.sent) == paths([link]))
+        guard case .moved(let moved, let stayed, let opensAtLogin) = outcome else {
+            Issue.record("Peel stayed: \(outcome)")
+            return
+        }
+        #expect(paths([moved.originalURL]) == paths([app]))
+        #expect(stayed.isEmpty)
+        #expect(!opensAtLogin)
+        let recorded = await log.recorded.flatMap(\.trashed).map(\.originalURL)
+        #expect(paths(recorded) == paths([link, app, cache]))
+        #expect(!folder.isThere)
+    }
+
+    @Test func removesPeelWithNoHelperRegistered() async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: false)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps(log, in: directory),
+            using: try service(in: directory)
+        ) { _ in }
+
+        #expect(await log.steps == ["pause", "login item"])
+        guard case .moved = outcome else {
+            Issue.record("Peel stayed: \(outcome)")
+            return
+        }
+    }
+
+    @Test func anAccountThatCannotChangeTheHelperLeavesPeelAsItWas() async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: true)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps(log, in: directory, helperMayBeChanged: false),
+            using: try service(in: directory)
+        ) { _ in }
+
+        #expect(outcome == .stayed(.helperIsNotThisAccounts))
+        #expect(await log.steps.isEmpty)
+        #expect(app.isThere)
+    }
+
+    @Test func aHelperStillRegisteredKeepsPeelWhereItWas() async throws {
+        let directory = try TemporaryDirectory()
+        let requests = HelperRequests()
+        let log = StepLog(helperIsRegistered: true, helperStays: true)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let link = try directory.file("home/bin/peel")
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [link], app: app, folder: folder, steps: steps(log, in: directory),
+            using: try service(in: directory, sendingTo: requests)
+        ) { await log.record($0) }
+
+        #expect(outcome == .stayed(.helperStayed(reason: "Not allowed.", ledger: .moved)))
+        #expect(await log.steps == ["pause", "move ledger", "uninstall helper", "resume"])
+        #expect(paths(await log.recorded.flatMap(\.trashed).map(\.originalURL)) == paths([link]))
+        #expect(app.isThere)
+    }
+
+    @Test func anAppTheMoveRefusesKeepsPeelWhereItWas() async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: false)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let trash = try directory.directory("Trash")
+        let service = TrashService(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )) { url in
+            guard url.lastPathComponent != "Peel.app" else { throw POSIXError(.EPERM) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps(log, in: directory), using: service
+        ) { _ in }
+
+        let refused = TrashFailure(url: app, reason: .notPermitted)
+        #expect(outcome == .stayed(.appStayed(failures: [refused], ledger: .none)))
+        #expect(await log.steps == ["pause", "login item", "resume"])
+        #expect(folder.isThere)
     }
 
     private func service(
