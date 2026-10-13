@@ -102,10 +102,21 @@ public enum PreferenceBackup {
         case notSaved
         /// The app was open, and would write its own settings over the copy, so nothing was cleared or put back.
         case appIsOpen
+        /// The exclusions aren't read yet or couldn't be read, so nothing was cleared or put back.
+        case exclusionsNotKnown
+        /// The app is excluded, so its settings were left alone.
+        case excluded
 
         public var isComplete: Bool {
             if case .complete = self { true } else { false }
         }
+    }
+
+    /// Why a copy of `bundleIdentifier`'s settings can't be put back now, or nil when it can: nothing goes back while
+    /// the exclusions aren't known, and an excluded app's settings are left alone.
+    public static func refusal(ofPuttingBack bundleIdentifier: String, exclusions: Exclusions) -> Restored? {
+        guard exclusions.isKnown else { return .exclusionsNotKnown }
+        return exclusions.excludes(bundleIdentifier: bundleIdentifier) ? .excluded : nil
     }
 
     /// Puts the domains saved in `folder` back with `defaults import`, once the settings the app has now are saved
@@ -126,6 +137,7 @@ public enum PreferenceBackup {
             from: folder,
             of: bundleIdentifier,
             in: directory,
+            exclusions: exclusions,
             through: service,
             run: run,
             isOpen: isOpen
@@ -136,10 +148,12 @@ public enum PreferenceBackup {
         from folder: URL,
         of bundleIdentifier: String,
         in directory: URL,
+        exclusions: Exclusions = .none,
         through service: TrashService,
         run: Run,
         isOpen: @Sendable () async -> Bool
     ) async -> Restored {
+        if let refusal = refusal(ofPuttingBack: bundleIdentifier, exclusions: exclusions) { return refusal }
         guard await !isOpen() else { return .appIsOpen }
         let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
         let saved = files.filter { $0.pathExtension == "plist" }.compactMap { file in

@@ -7,6 +7,7 @@ import SwiftUI
 struct SavedSettingsSection: View {
     @Environment(AppLibrary.self) private var library
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(ExclusionsStore.self) private var exclusions
     @State private var workingOn: PreferenceBackup.Copy.ID?
     @State private var failure: Failure?
     @State private var copyToTrash: PreferenceBackup.Copy?
@@ -64,13 +65,14 @@ struct SavedSettingsSection: View {
     private func row(for copy: PreferenceBackup.Copy) -> some View {
         let name = library.name(forReference: copy.bundleIdentifier)
         let isOpen = openApps.contains(copy.bundleIdentifier)
+        let refusal = PreferenceBackup.refusal(ofPuttingBack: copy.bundleIdentifier, exclusions: exclusions.exclusions)
         return LabeledContent {
             HStack(spacing: 8) {
                 Button("Put Back") {
                     copyToPutBack = copy
                 }
-                .disabled(isOpen)
-                .help(isOpen ? Text("Quit \(name) first, or it can write its own settings over these.") : Text("Puts these settings back, after saving the ones the app has now."))
+                .disabled(isOpen || refusal != nil)
+                .help(putBackHelp(refusal: refusal, isOpen: isOpen, name: name))
                 Button("Show in Finder", systemImage: "folder") {
                     NSWorkspace.shared.activateFileViewerSelecting([copy.folder])
                 }
@@ -88,6 +90,21 @@ struct SavedSettingsSection: View {
         } label: {
             Text(verbatim: name)
             Text(copy.date, format: .dateTime.day().month().year().hour().minute())
+        }
+    }
+
+    private func putBackHelp(refusal: PreferenceBackup.Restored?, isOpen: Bool, name: String) -> Text {
+        switch refusal {
+        case .exclusionsNotKnown?:
+            exclusions.exclusions.isUnreadable
+                ? Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
+                : Text("Checking…")
+        case .excluded?:
+            Text("Peel leaves it and its files alone. Change that in Settings.")
+        default:
+            isOpen
+                ? Text("Quit \(name) first, or it can write its own settings over these.")
+                : Text("Puts these settings back, after saving the ones the app has now.")
         }
     }
 
@@ -139,6 +156,16 @@ struct SavedSettingsSection: View {
             failure = Failure(title: String(localized: "Peel couldn’t save the settings \(name) has now, so it put nothing back."), message: "")
         case .appIsOpen:
             failure = Failure(title: String(localized: "Quit \(name) first, or it can write its own settings over these."), message: "")
+        case .exclusionsNotKnown:
+            failure = Failure(
+                title: String(localized: "Peel couldn’t read your exclusions"),
+                message: String(localized: "Peel removes nothing and puts nothing back until you start the list over in Settings.")
+            )
+        case .excluded:
+            failure = Failure(
+                title: String(localized: "This app is excluded"),
+                message: String(localized: "Peel leaves it and its files alone. Change that in Settings.")
+            )
         }
     }
 

@@ -486,6 +486,75 @@ struct RemovalHygieneTests {
         #expect(!asked.withLock { $0 }.contains { $0.first == "delete" || $0.first == "import" })
     }
 
+    @Test func putsNothingBackWhileTheExclusionsAreNotKnown() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        let good = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        try good.write(to: folder.appending(path: "com.example.app.plist"))
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        for exclusions in [Exclusions.notYetRead, .unreadable] {
+            let restored = await PreferenceBackup.restore(
+                from: folder,
+                of: "com.example.app",
+                in: backups,
+                exclusions: exclusions,
+                through: Self.service,
+                run: run,
+                isOpen: { false }
+            )
+            #expect(restored == .exclusionsNotKnown)
+        }
+        #expect(asked.withLock { $0 }.isEmpty, "settings were saved, cleared or put back while the exclusions were not known")
+        #expect(PreferenceBackup.copies(in: backups).count == 1)
+    }
+
+    @Test func leavesAnExcludedAppsSettingsAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let good = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        let excludedCopy = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        try good.write(to: excludedCopy.appending(path: "com.example.app.plist"))
+        let otherCopy = try directory.directory("Backups/com.example.other 2026-09-24 101500")
+        try good.write(to: otherCopy.appending(path: "com.example.other.plist"))
+        var exclusions = Exclusions.none
+        exclusions.bundleIdentifiers.insert("com.example.app")
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        let excluded = await PreferenceBackup.restore(
+            from: excludedCopy,
+            of: "com.example.app",
+            in: backups,
+            exclusions: exclusions,
+            through: Self.service,
+            run: run,
+            isOpen: { false }
+        )
+        #expect(excluded == .excluded)
+        #expect(asked.withLock { $0 }.isEmpty, "an excluded app's settings were saved, cleared or put back")
+
+        let other = await PreferenceBackup.restore(
+            from: otherCopy,
+            of: "com.example.other",
+            in: backups,
+            exclusions: exclusions,
+            through: Self.service,
+            run: run,
+            isOpen: { false }
+        )
+        #expect(other == .complete)
+        #expect(asked.withLock { $0 }.map(\.[0]) == ["read", "export", "delete", "import"])
+    }
+
     /// A stand-in for `defaults` that answers yes, and writes the file an `export` names, as the real one does.
     private static func exporting(_ arguments: [String]) -> PreferenceBackup.Answer {
         if arguments.first == "export", let file = arguments.last {

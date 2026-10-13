@@ -147,6 +147,13 @@ final class ResetPlan {
         return outcome.result
     }
 
+    /// Why the saved settings can't be put back now, or nil when they can, read from the exclusions as they stand.
+    var putBackRefusal: PreferenceBackup.Restored? {
+        app.bundleIdentifier.flatMap {
+            PreferenceBackup.refusal(ofPuttingBack: $0, exclusions: ExclusionsStore.shared.exclusions)
+        }
+    }
+
     /// Puts the settings saved in `backup` back, unless the app is open, which would write its own over them.
     func putSettingsBack(from backup: URL) async -> PreferenceBackup.Restored {
         // A copy is saved under the app's identifier, so an app with none has no copy to put back.

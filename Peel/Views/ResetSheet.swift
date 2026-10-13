@@ -309,20 +309,23 @@ struct ResetSheet: View {
                                 Task {
                                     let restored = await plan.putSettingsBack(from: backup)
                                     putBack = restored
-                                    if restored != .appIsOpen, restored != .notSaved {
-                                        changedFiles = true
+                                    switch restored {
+                                    case .complete, .incomplete: changedFiles = true
+                                    case .notSaved, .appIsOpen, .exclusionsNotKnown, .excluded: break
                                     }
                                     isPuttingBack = false
                                 }
                             }
                             .buttonStyle(.borderedProminent)
-                            .disabled(isPuttingBack || plan.isAppRunning)
+                            .disabled(isPuttingBack || plan.isAppRunning || plan.putBackRefusal != nil)
                             Button("Show in Finder", systemImage: "folder") {
                                 NSWorkspace.shared.activateFileViewerSelecting([backup])
                             }
                             .buttonStyle(.bordered)
                         }
-                        if let putBack {
+                        if let refusal = plan.putBackRefusal {
+                            putBackResult(refusal)
+                        } else if let putBack {
                             putBackResult(putBack)
                         }
                     }
@@ -376,6 +379,20 @@ struct ResetSheet: View {
             StatusLabel(title: Text("Quit \(plan.app.name) first, or it can write its own settings over these."), tint: .red)
                 .font(.callout)
                 .foregroundStyle(.secondary)
+        case .exclusionsNotKnown:
+            VStack(alignment: .leading, spacing: 2) {
+                StatusLabel(title: Text("Peel couldn’t read your exclusions"), tint: .red)
+                Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
+            }
+            .font(.callout)
+            .foregroundStyle(.secondary)
+        case .excluded:
+            VStack(alignment: .leading, spacing: 2) {
+                StatusLabel(title: Text("This app is excluded"), tint: .red)
+                Text("Peel leaves it and its files alone. Change that in Settings.")
+            }
+            .font(.callout)
+            .foregroundStyle(.secondary)
         }
     }
 
