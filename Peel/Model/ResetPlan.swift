@@ -50,8 +50,13 @@ final class ResetPlan {
         reset?.needsFullDiskAccess ?? false
     }
 
+    /// Read from the exclusions, not the scan, so an app excluded while the sheet is open shows at once.
+    var isExcluded: Bool {
+        ExclusionsStore.shared.exclusions.excludes(app)
+    }
+
     var canResetPrivacy: Bool {
-        PrivacyReset.isAllowed(for: app)
+        PrivacyReset.isAllowed(for: app) && !isExcluded
     }
 
     var didReset: Bool {
@@ -97,7 +102,7 @@ final class ResetPlan {
 
     /// Nothing is, until the scan has said what the reset would take: `performReset()` has nothing to go on before.
     var hasAnythingToReset: Bool {
-        reset != nil && (!selectedURLs.isEmpty || (resetsPrivacy && canResetPrivacy))
+        reset != nil && !isExcluded && (!selectedURLs.isEmpty || (resetsPrivacy && canResetPrivacy))
     }
 
     /// Updates `isAppRunning`. Called when the sheet opens and whenever an app launches or quits.

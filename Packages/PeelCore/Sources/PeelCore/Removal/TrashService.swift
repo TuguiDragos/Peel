@@ -335,6 +335,8 @@ public struct TrashService: Sendable {
     /// False while the saved exclusions are not read yet or cannot be read, when nothing moves.
     public var knowsTheExclusions: Bool { removalGuard.knowsTheExclusions }
 
+    func excludes(_ app: InstalledApp) -> Bool { removalGuard.excludes(app) }
+
     /// Why every move would be refused now, whatever it is asked to move, or nil when a move may go ahead.
     public var refusalOfEveryMove: TrashFailure.Reason? {
         guard knowsTheExclusions else { return .guarded(.exclusionsNotKnown) }

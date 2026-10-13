@@ -116,7 +116,7 @@ struct AppPageHeader: View {
             if PrivacyReset.isAllowed(for: plan.app), !library.isInATrash(plan.app) {
                 Divider()
                 Button("Reset Privacy Permissions\u{2026}") { isConfirmingPrivacyReset = true }
-                    .disabled(plan.isExcluded)
+                    .disabled(!plan.mayResetPrivacy)
             }
         } label: {
             Label("More", systemImage: "ellipsis")

@@ -443,6 +443,41 @@ struct AppResetTests {
         #expect(settings.isThere)
     }
 
+    @Test func aResetOfAnAppExcludedSinceItsScanTakesNoStep() async throws {
+        let directory = try TemporaryDirectory()
+        let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let trash = try directory.directory("Trash")
+        let service = TrashService(
+            environment: home(directory),
+            exclusions: Exclusions(bundleIdentifiers: ["com.example.app"])
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        let steps = Mutex<[String]>([])
+
+        let outcome = await reset.run(
+            reset.suggestedSelection,
+            resettingPrivacy: true,
+            through: service,
+            isOpen: { false },
+            save: { _ in
+                steps.withLock { $0.append("copy") }
+                return .nothingToSave
+            },
+            resetPrivacy: { _ in
+                steps.withLock { $0.append("privacy") }
+                return .reset
+            }
+        )
+
+        #expect(outcome.stop == .removalsHeld(.guarded(.excluded)))
+        #expect(steps.withLock { $0 }.isEmpty)
+        #expect(settings.isThere)
+    }
+
     @Test func aResetOffersItsCopyBackOnlyOnceItClearedTheSettings() async throws {
         let directory = try TemporaryDirectory()
         let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)

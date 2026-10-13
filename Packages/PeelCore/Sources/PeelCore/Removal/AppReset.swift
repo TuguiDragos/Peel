@@ -131,6 +131,11 @@ public struct AppReset: Sendable {
             outcome.stop = .removalsHeld(refusal)
             return outcome
         }
+        // The reset was prepared before the app may have been excluded.
+        if service.excludes(app) {
+            outcome.stop = .removalsHeld(.guarded(.excluded))
+            return outcome
+        }
         let urls = selected(selection)
         switch await save(urls) {
         case .failed:

@@ -182,11 +182,19 @@ struct ResetSheet: View {
         }
         .scrollBarBelowSectionHeaders()
         .scanState(phase, scan: plan.scanRun) {
-            ContentUnavailableView(
-                "Nothing to Reset",
-                systemImage: "sparkles",
-                description: Text("Peel found no settings on this Mac that are certainly \(plan.app.name)’s own.")
-            )
+            if plan.isExcluded {
+                ContentUnavailableView(
+                    "This app is excluded",
+                    systemImage: "hand.raised",
+                    description: Text("Peel leaves it and its files alone. Change that in Settings.")
+                )
+            } else {
+                ContentUnavailableView(
+                    "Nothing to Reset",
+                    systemImage: "sparkles",
+                    description: Text("Peel found no settings on this Mac that are certainly \(plan.app.name)’s own.")
+                )
+            }
         }
         .edgeBar(.bottom) { bar }
     }

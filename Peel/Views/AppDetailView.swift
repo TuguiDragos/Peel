@@ -42,13 +42,15 @@ struct AppDetailView: View {
         }
         .confirmationDialog(Text("Reset privacy permissions for \(plan.app.name)?"), isPresented: $isConfirmingPrivacyReset) {
             Button("Reset", role: .destructive) {
-                if let identifier = plan.app.bundleIdentifier {
-                    Task { privacyReset = await PrivacyReset.reset(bundleIdentifier: identifier) }
-                }
+                guard plan.mayResetPrivacy, let identifier = plan.app.bundleIdentifier else { return }
+                Task { privacyReset = await PrivacyReset.reset(bundleIdentifier: identifier) }
             }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("macOS forgets what \(plan.app.name) was allowed to access, such as the camera, the microphone, or your files, and the app asks you again the next time it needs them. History can’t undo this.")
+        }
+        .onChange(of: plan.mayResetPrivacy) { _, may in
+            if !may { isConfirmingPrivacyReset = false }
         }
         .alert(quitTitle, isPresented: Bindable(quitting).isAsking) {
             Button("Quit \(plan.app.name)") { quitting.quit() }

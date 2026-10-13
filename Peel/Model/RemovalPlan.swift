@@ -66,8 +66,14 @@ final class RemovalPlan {
         uninstallation?.appRequiresPrivileges ?? false
     }
 
+    /// Read from the exclusions, not the scan, so it holds from the first frame and as soon as they change.
     var isExcluded: Bool {
-        uninstallation?.isExcluded ?? false
+        ExclusionsStore.shared.exclusions.excludes(app)
+    }
+
+    var mayResetPrivacy: Bool {
+        let exclusions = ExclusionsStore.shared.exclusions
+        return exclusions.isKnown && !exclusions.excludes(app)
     }
 
     var isAppBeyondTheHelper: Bool {

@@ -63,6 +63,8 @@ struct RemovalGuard: Sendable {
     private let syncsToOtherDevices: @Sendable (URL) -> Bool
 
     var knowsTheExclusions: Bool { exclusions.isKnown }
+
+    func excludes(_ app: InstalledApp) -> Bool { exclusions.excludes(app) }
     private let home: String
 
     init(
