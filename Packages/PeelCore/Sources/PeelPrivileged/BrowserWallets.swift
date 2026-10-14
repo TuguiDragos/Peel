@@ -191,6 +191,8 @@ extension ProtectedData {
         "d536965e0833bc553d1bc1058a5b94583d8747d334c16888a5453938f2ae3693",
         // Enkrypt: {21a9e8ea-7aa4-4aae-923c-ec8211f2779c}
         "0332d3649de49795f7074fa19aeda4f8d8f677adf66c736163b757894a3eb544",
+        // Glow: {76596e30-ecdb-477a-91fd-c08f2018df1a}
+        "8c82b0ce45e06d2fb575549f1259b8006a46ca819ea13f71c29454b2ef8a54e5",
         // Keplr: keplr-extension@keplr.app
         "6b0f6babbb81790dd97b8ddff12ab787d8748b269a8a635b09167b65b196f565",
         // Lace: lace-wallet-ext@lace.io

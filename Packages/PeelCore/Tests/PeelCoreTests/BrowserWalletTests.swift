@@ -143,7 +143,7 @@ struct BrowserWalletTests {
         refused([profile, "\(profile)/Local Extension Settings"], allowed: [], in: directory)
     }
 
-    @Test(arguments: ["Station", "Pontem"]) func aFirefoxProfileWithTheWalletsAddOnStays(wallet: String) throws {
+    @Test(arguments: ["Glow", "Pontem", "Station"]) func aFirefoxProfileWithTheWalletsAddOnStays(wallet: String) throws {
         let directory = try TemporaryDirectory()
         let profile = "home/Library/Application Support/Firefox/Profiles/a1b2.default-release"
         try directory.file("\(profile)/extensions/\(WalletIDs.addOn(named: wallet)).xpi")
