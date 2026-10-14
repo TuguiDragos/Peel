@@ -691,7 +691,7 @@ public enum ProjectArtifacts {
         ),
         Definition(
             name: ".cxx", markers: gradleFiles, tool: "Android Gradle plugin", isGeneric: false,
-            source: "https://developer.android.com/studio/projects/gradle-external-native-builds"
+            source: "https://developer.android.com/ndk/guides/cmake"
         ),
         Definition(
             name: ".stack-work", markers: ["stack.yaml"], tool: "Stack", isGeneric: false,
@@ -703,7 +703,7 @@ public enum ProjectArtifacts {
         ),
         Definition(
             name: "_build", markers: ["mix.exs"], tool: "Mix", isGeneric: true,
-            source: "https://mix.hexdocs.pm/Mix.Tasks.Clean.html"
+            source: "https://hexdocs.pm/elixir/introduction-to-mix.html"
         ),
         Definition(
             name: "deps", markers: ["mix.exs"], tool: "Mix", isGeneric: true, isEnvironment: true,
