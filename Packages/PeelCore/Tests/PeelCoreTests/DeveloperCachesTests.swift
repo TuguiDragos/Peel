@@ -752,7 +752,7 @@ struct DeveloperCachesTests {
         let parts = url.path(percentEncoded: false).split(separator: "/").map(String.init)
         let ref: String? = switch host {
         case "github.com": parts.count > 3 && ["blob", "tree"].contains(parts[2]) ? parts[3] : nil
-        case "projects.blender.org": parts.count > 4 && parts[2] == "src" ? (parts[3] == "commit" ? parts[4] : parts[3]) : nil
+        case "projects.blender.org", "codeberg.org": parts.count > 4 && parts[2] == "src" ? (parts[3] == "commit" ? parts[4] : parts[3]) : nil
         case _ where host.hasSuffix(".googlesource.com"): parts.firstIndex(of: "+").flatMap { parts.dropFirst($0 + 1).first }
         default: nil
         }

@@ -1067,7 +1067,7 @@ public enum DeveloperCaches {
             Folder("Library/Caches/bazelisk", .downloads, source: "https://github.com/bazelbuild/bazelisk/blob/e59b730a8380af9c313afeca366e0191f8141eae/README.md#L312"),
         ]),
         Definition(id: "zig", name: "Zig", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
-            Folder(".cache/zig", .buildData, source: "https://codeberg.org/ziglang/zig/src/branch/master/lib/std/zig.zig#L1586-L1610"),
+            Folder(".cache/zig", .buildData, source: "https://codeberg.org/ziglang/zig/src/commit/32534ecae6e87ba3ea22698d06843e6d4f353208/lib/std/zig.zig#L1707-L1732"),
         ]),
         Definition(id: "vcpkg", name: "vcpkg", systemImage: "gearshape.2", appBundleIdentifiers: [], folders: [
             Folder(".cache/vcpkg/archives", .buildData, source: "https://github.com/microsoft/vcpkg-tool/blob/4bbb0f73b293c2701541c640a6a4f8cbbf31018e/src/vcpkg/binarycaching.cpp#L1742-L1746"),
