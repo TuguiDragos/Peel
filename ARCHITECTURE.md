@@ -106,9 +106,10 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      When the app had to quit, its page scans again before asking, since what it wrote until then was not there
      when the page scanned.
    - The app moves first, and its files follow only once it has moved, so an app that stays keeps everything of
-     its own (`TrashService`'s `trash(apps:thenFiles:usingHelperFor:lettingTheirProgramsRun:)`, which an app's
-     page, several apps' page, Remove Peel, and `peel uninstall` share). A folder named for the app or its maker
-     that the move leaves empty goes with them (`MakersFolders`).
+     its own (`TrashService`'s
+     `trash(apps:thenFiles:usingHelperFor:lettingTheirProgramsRun:emptiedFoldersNamed:)`, which an app's page,
+     several apps' page, Remove Peel, and `peel uninstall` share). A folder named for the app or its maker that the
+     move leaves empty goes with them (`MakersFolders`).
    - `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
      about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
      moved. Items only an administrator can move go through the helper, and the links an app's tools and their
@@ -126,7 +127,7 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    - An app carrying a system extension macOS installed is left to Finder (`RemovedElsewhere.byFinder`): Finder's
      move asks macOS to remove the extension and Peel's would not, so Peel moves nothing of the app, on its page,
      among several apps, on the Package Receipts and Homebrew pages, and in `peel uninstall` alike
-     (`AppExtensions.installed(carriedBy:)`, which also says whether System Settings deletes every one:
+     (`AppExtensions.installed(carriedBy:asking:)`, which also says whether System Settings deletes every one:
      `AppExtension.systemSettingsDeletesIt`, a network extension on macOS 27, by the category `systemextensionsctl`
      lists it under).
    - A security or management agent whose maker removes it with an uninstaller of its own is left to that
