@@ -59,10 +59,16 @@ extension ProtectedData {
         "701beb8085df6d56114489a5763bb9a526f7ce0e05affaf444d42c8356182e16",
         // Exodus Web3 Wallet: aholpfdialjgjfhomihkjbmgjidlcdno
         "7f7a23670eb287564aabe14dbbda8f2a88f4c26310390ef7905198cb2512f787",
+        // Gate Wallet: cpmkedoipcpimgecpmgpldfpohjplkpp
+        "22ba160a34950461e0f824cc2f15ad3c58a90160b6f1cc72acb7c42113461701",
+        // Glow: ojbcfhjmpigfobfclfflafhblgemeidi
+        "d371a27fb26fa3639a582bb4cbda89f80527d571c1551311516b0b15456c77c1",
         // Guarda: hpglfhgfnhbgpjdenjgmdgoeiappafln
         "481c38331739261484b3812dfa7ce899b7d8d31b6e3ca3b29310d36b79bf3cdf",
         // HashPack: gjagmgiddbbciopjhllkdnddhcglnemk
         "b8f3784dd3405e46d254da4ef3443932264fb92b2c3f8af25f3fb0cb7e0e5a76",
+        // Jupiter Wallet: iledlaeogohbilgbfhmbgkgmpplbfboh
+        "c7f28cefd5f397d0117713e6d02aebda5b7b790f9f3535efbffd5f3709144bc6",
         // Keplr: dmkamcknogkgcdfhhbddcghachkejeap
         "16060af3d5f73a20397cf2fbff94071adac10903d0973530265eb6ebc739af7d",
         // Keplr, from Edge Add-ons: ocodgmmffbkkeecmadcijjhkmeohinei
@@ -91,6 +97,8 @@ extension ProtectedData {
         "6f1d8db7106ded0b70b87c077e37186037c5d6aebfe3d5ff464fb173f869514f",
         // Nami: lpfcbjknijpeeillifnkikgncikgfhdo
         "98de2c74f85de4a080048b455947cbb19abb654af2d89a45024adbf5ac8d15a6",
+        // NC Wallet: imlcamfeniaidioeflifonfjeeppblda
+        "e25899289e1f2d78b7b7a81db0139677ccd40d929e681117e297850bacb8057a",
         // Nightly: fiikommddbeccaoicoejoniammnalkfa
         "a1ecf6753a231f0b9f2e671dd3ff2cb3ca76f23338c9813b27250e58156f3f20",
         // OKX Wallet: mcohilncbfahbmgdjkbpemcciiolgcge
@@ -161,6 +169,10 @@ extension ProtectedData {
         "655aca5197f03a5672bd0f98b32b516e8e500a184890fbfea6cb59dfa9d92d82",
         // Uniswap: nnpmfplkfogfpmcngplhnbdnnilmcdcg
         "bd6fa2745786fd6b6a22c2bf931b8ccf6f9d0b0bad1b55d2b963620d4fa8387e",
+        // Wigwam: lccbohhgfkdikahanoclbdmaolidjdfl
+        "d947e021f145f87a5305fbef6a54b3110544e29d6826a57a9975f8471b8b3066",
+        // Wombat: amkmjjmmflddogmhpjloimipbofnfjih
+        "a4c622b75a8d882f386c0b465526cb3ddccc2fe8674b2d0bb3cb58c7c70210cf",
         // Xverse: idnnbdplmphpflfnlkomgpfbpcgelopg
         "fc2500db4fed3fdcd31968aecbde501f8909abca65f9fcd2374f86e082778b53",
         // Zerion: klghhnkeealcohjjanjjdaeeggmfmlpl

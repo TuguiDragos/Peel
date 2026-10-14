@@ -134,6 +134,15 @@ struct BrowserWalletTests {
         ], allowed: [], in: directory)
     }
 
+    @Test(arguments: ["Gate Wallet", "Glow", "Jupiter Wallet", "NC Wallet", "Wigwam", "Wombat"])
+    func aChromiumProfileWithTheWalletsExtensionStays(wallet: String) throws {
+        let directory = try TemporaryDirectory()
+        let profile = "home/Library/Application Support/Google/Chrome/Default"
+        try directory.file("\(profile)/Local Extension Settings/\(WalletIDs.chromiumExtension(named: wallet))/000003.log")
+
+        refused([profile, "\(profile)/Local Extension Settings"], allowed: [], in: directory)
+    }
+
     @Test(arguments: ["Station", "Pontem"]) func aFirefoxProfileWithTheWalletsAddOnStays(wallet: String) throws {
         let directory = try TemporaryDirectory()
         let profile = "home/Library/Application Support/Firefox/Profiles/a1b2.default-release"
