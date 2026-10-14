@@ -94,6 +94,8 @@ along a removal is, and says within seconds when its helper isn't answering.
   Peel 1.0.1 moved it.
 - **Safety:** Never selects for you a launch job that runs another installed app's program, Chrome's native messaging
   folders while Brave reads them, or a folder holding a Solana program's key.
+- **Safety:** Knows more browser wallets: Jupiter, Gate, NC Wallet, Wombat, Glow, and Wigwam in Chrome and the
+  browsers built on it, and Station, Pontem, and Glow in Firefox. A browser profile that holds one stays whole.
 - **Safety:** The helper's record of what it moves reaches the disk before it moves anything, and History right
   after a removal, so a power cut can't lose the way back.
 - **Helper:** Says within seconds, even while Peel is busy, when the helper isn't answering, instead of after two
@@ -210,6 +212,8 @@ along a removal is, and says within seconds when its helper isn't answering.
 - **Finder extension:** Its copyright in Get Info is in your language.
 - **Command line:** `peel restore` lists only what can go back and says why each other item stays, and
   `peel inventory` and `peel updates` know the apps a cask installed from a package.
+- **Every language:** Each of the 17 translations was read again, sentence by sentence, so it reads the way the
+  language does, in macOS's own words.
 
 ### Security
 
