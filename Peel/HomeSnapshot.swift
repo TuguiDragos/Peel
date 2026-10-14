@@ -116,9 +116,9 @@ enum HomeSnapshot {
         let renderer = ImageRenderer(content: content)
         renderer.scale = 2
         guard let image = renderer.nsImage, let data = image.tiffRepresentation,
-              let bitmap = NSBitmapImageRep(data: data)
-        else { return }
-        try bitmap.representation(using: .png, properties: [:])?.write(to: URL(filePath: path))
+              let png = NSBitmapImageRep(data: data)?.representation(using: .png, properties: [:])
+        else { throw CocoaError(.fileWriteUnknown, userInfo: [NSFilePathErrorKey: path]) }
+        try png.write(to: URL(filePath: path))
     }
 }
 #endif
