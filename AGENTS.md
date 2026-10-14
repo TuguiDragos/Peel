@@ -388,7 +388,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 - Text a person reads goes through the catalogs: `Text(verbatim:)` is only for what is not words, or for a name.
 - A translation uses the words macOS itself uses in that language for every place, menu, and command, and writes the
   marks macOS writes there: Dutch keeps the straight apostrophe, German puts a no-break space before an ellipsis,
-  and Romanian joins a Romanian word with a non-breaking hyphen (U+2011) but never a name or an option someone may
+  French one before ? : ! and ; and inside « », App Store keeps one in the languages whose macOS writes it so, and
+  Romanian joins a Romanian word with a non-breaking hyphen (U+2011) but never a name or an option someone may
   copy. `StringCatalogTests` checks these, and also wants the ellipsis character, never three periods, each sidebar
   name and tab title within the room it is given, and SwiftUI's own words for the menu items SwiftUI builds.
 - The `peel` command stays in English, since scripts read it. PeelCore returns English and never looks up a
