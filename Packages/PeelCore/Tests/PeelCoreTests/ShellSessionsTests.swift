@@ -33,13 +33,25 @@ struct ShellSessionsTests {
         let directory = try TemporaryDirectory()
         let home = directory.url
         let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv", directoryHint: .notDirectory))
-        #expect(await zsh.zshrc(home: home)?.path(percentEncoded: false)
+        #expect(await zsh.zshrc(home: home, zdotdir: nil)?.path(percentEncoded: false)
             == home.appending(path: ".zshrc").path(percentEncoded: false))
 
         try directory.file(".zshenv", contents: Data("export ZDOTDIR=\"$HOME/.config/zsh\"\n".utf8))
-        #expect(await zsh.zshrc(home: home)?.path(percentEncoded: false)
+        #expect(await zsh.zshrc(home: home, zdotdir: nil)?.path(percentEncoded: false)
             == home.appending(path: ".config/zsh/.zshrc").path(percentEncoded: false))
-        #expect(await ShellSessions.bash.zshrc(home: home) == nil)
+        #expect(await ShellSessions.bash.zshrc(home: home, zdotdir: nil) == nil)
+    }
+
+    @Test func zshStartsWithZdotdirOnlyWhenTheSessionSetsIt() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv", directoryHint: .notDirectory))
+        try directory.file(".zshenv", contents: Data("export ZDOTDIR=${ZDOTDIR:-$HOME/.config/zsh}\n".utf8))
+
+        #expect(await zsh.zshrc(home: home, zdotdir: nil)?.path(percentEncoded: false)
+            == home.appending(path: ".config/zsh/.zshrc").path(percentEncoded: false))
+        #expect(await zsh.zshrc(home: home, zdotdir: home.path(percentEncoded: false))?.path(percentEncoded: false)
+            == home.appending(path: ".zshrc").path(percentEncoded: false))
     }
 
     @Test func turnsSessionsOffTheWayTheScriptsOfThisMacRead() throws {

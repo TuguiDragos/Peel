@@ -6,12 +6,12 @@ public enum ShellSessions: Sendable, Equatable {
     case bash
 
     public static func inTerminal(_ terminal: TerminalSettings, home: URL = .homeDirectory) -> ShellSessions? {
-        of(
-            terminalSetting: terminal.shell(),
-            loginShell: loginShell(),
-            zdotdir: ProcessInfo.processInfo.environment["ZDOTDIR"],
-            home: home
-        )
+        of(terminalSetting: terminal.shell(), loginShell: loginShell(), zdotdir: sessionZDOTDIR, home: home)
+    }
+
+    /// The ZDOTDIR of the session Peel runs in, which Terminal's zsh starts with too, since launchd starts both.
+    static var sessionZDOTDIR: String? {
+        ProcessInfo.processInfo.environment["ZDOTDIR"]
     }
 
     static func of(terminalSetting: String?, loginShell: String?, zdotdir: String?, home: URL) -> ShellSessions? {
@@ -31,14 +31,22 @@ public enum ShellSessions: Sendable, Equatable {
     /// `.zshenv` has run, since `.zshenv` may set it (`man zsh`, STARTUP/SHUTDOWN FILES). zsh is asked with `-c`, which
     /// reads `.zshenv` and no other startup file, and the folder of `.zshenv` stands when it doesn't answer.
     public func zshrc(home: URL = .homeDirectory) async -> URL? {
+        await zshrc(home: home, zdotdir: Self.sessionZDOTDIR)
+    }
+
+    /// `zdotdir` is set for zsh only when the session sets it, since `.zshenv` may keep a ZDOTDIR it finds
+    /// (`${ZDOTDIR:-$HOME/.config/zsh}`).
+    func zshrc(home: URL, zdotdir: String?) async -> URL? {
         guard case .zsh(let zshenv) = self else { return nil }
         let folder = zshenv.deletingLastPathComponent()
-        // As Terminal sets them, with no slash at the end, which `"$HOME/.config/zsh"` would double.
-        let environment = [
+        // With no slash at the end, which `"$HOME/.config/zsh"` would double.
+        var environment = [
             "HOME": (home.path(percentEncoded: false) as NSString).standardizingPath,
-            "ZDOTDIR": (folder.path(percentEncoded: false) as NSString).standardizingPath,
             "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
         ]
+        if let zdotdir, !zdotdir.isEmpty {
+            environment["ZDOTDIR"] = (zdotdir as NSString).standardizingPath
+        }
         let answer = await Subprocess.run(
             "/bin/zsh", ["-c", #"print -r -- "${ZDOTDIR:-$HOME}""#], environment: environment, timeout: 10
         )
