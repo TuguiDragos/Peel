@@ -134,6 +134,14 @@ struct BrowserWalletTests {
         ], allowed: [], in: directory)
     }
 
+    @Test(arguments: ["Station", "Pontem"]) func aFirefoxProfileWithTheWalletsAddOnStays(wallet: String) throws {
+        let directory = try TemporaryDirectory()
+        let profile = "home/Library/Application Support/Firefox/Profiles/a1b2.default-release"
+        try directory.file("\(profile)/extensions/\(WalletIDs.addOn(named: wallet)).xpi")
+
+        refused([profile, "\(profile)/extensions"], allowed: [], in: directory)
+    }
+
     /// Every fingerprint is the SHA-256 of the ID in the comment above it, and no entry is missing one. A Chromium
     /// ID is 32 letters from a to p, which reading an IndexedDB store's name relies on, and an add-on's ID is kept in
     /// lowercase, as the lookup compares it.

@@ -19,6 +19,8 @@ enum WalletIDs {
     static var metaMask: String { id(of: "MetaMask", in: "walletExtensions") }
     static var metaMaskForFirefox: String { id(of: "MetaMask", in: "walletAddOns") }
 
+    static func addOn(named name: String) -> String { id(of: name, in: "walletAddOns") }
+
     /// The entries of the list declared as `list`: each fingerprint, with the name and the ID in the comment above.
     static func entries(of list: String) throws -> [Entry] {
         let text = try String(contentsOf: source, encoding: .utf8)

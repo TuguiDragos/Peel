@@ -168,11 +168,12 @@ extension ProtectedData {
     ]
 
     /// The fingerprints of wallet add-ons on addons.mozilla.org, of their IDs in lowercase. Firefox installs an
-    /// add-on as `extensions/<ID>.xpi` in the profile, and removes its storage when the add-on is removed.
+    /// add-on as `extensions/<ID>.xpi` in the profile, and removes its storage when the add-on is removed. A listing
+    /// marked withdrawn is no longer public, and an old install can still hold a vault.
     public static let walletAddOns: Set<String> = [
         // Alby: extension@getalby.com
         "f758c0ade84f7a93d09cbe7c6d9c15532bc336d3cf15d52c56563f081c97228d",
-        // Ambire: wallet@ambire.com
+        // Ambire, withdrawn: wallet@ambire.com
         "306d0fc0eeeb74b3d040c32d22fee199905e5df19d60b473d262e41e58ce451e",
         // Braavos: {a0c6ccfd-26a3-4df4-9729-aa036070ad29}
         "d536965e0833bc553d1bc1058a5b94583d8747d334c16888a5453938f2ae3693",
@@ -186,7 +187,7 @@ extension ProtectedData {
         "ce84733ead38daa7c822e11172031b90a8c1afa029e97b120202ff9d294a1c1f",
         // MetaMask Flask: webextension-flask@metamask.io
         "c1376eab47cb9e03a886e6c12b09f027eb8a78fb84c073a97c7ea85e92d5f0c6",
-        // My Wallet, formerly MyTonWallet: {98fcdaee-2b58-4f71-8a3c-f0c66f24dede}
+        // My Wallet, formerly MyTonWallet, withdrawn: {98fcdaee-2b58-4f71-8a3c-f0c66f24dede}
         "d75f165247ed9fee1470778d5cbd5c3a4d0f4c68c5bc17a52a71bf2b6267e32f",
         // Nightly: {76026700-1d2e-4c46-8454-198e27682104}
         "16b79069b9be67309856bc41364bf6fdca535ef9783fa01217fe835fd730169c",
@@ -194,6 +195,8 @@ extension ProtectedData {
         "268a02ec6c026f9119c539be095d9cf28afb4cd8e2cbaf11da769ab281b21071",
         // polkadot{.js}: {7e3ce1f0-15fb-4fb1-99c6-25774749ec6d}
         "4499712a3dc85e4906da18bfb25acec2a50df42bdf4d109f5d927d49938de256",
+        // Pontem: {4fadbc61-52f7-4ac0-b792-971bfa5b3121}
+        "cc96802028dcc6b0c2560d9107aec12487244ac1ef4b9101595c9bfc5ca7d565",
         // Rainbow: browserextension@rainbow.me
         "1802cfc84fa2aedd44ac7efbdfae6a0a5d128d149153fc01b2c031f3ceefe7be",
         // Ready, formerly Argent: {51e0c76c-7dbc-41ba-a45d-c579be84301b}
@@ -202,6 +205,8 @@ extension ProtectedData {
         "2907115e80c4db9c3e6258873e812aa9b2c1f5141a22d8ed10751f3cb0dd3656",
         // Solflare: {6d72262a-b243-4dc6-8f4f-be96c74e0a86}
         "6859225ddefd61629e37a034f1f27efd97a5971b1a69cd53879493f3ef63d745",
+        // Station: {d8ddfc2a-97d9-4c60-8b53-5edd299b6674}
+        "c5bbc7664b620983553f6d29a3eabcbc8b81340b3bc7d89692ba775de90f7184",
         // SubWallet: {8a3a53f5-7490-46d7-b91d-f8549bb8df05}
         "ce5b6d31d558ea31a6899edc5205708367302288afc0993e54b61d56da9e8c75",
         // Talisman: {f5727e03-b26c-41e0-95dd-7e315ff16410}
