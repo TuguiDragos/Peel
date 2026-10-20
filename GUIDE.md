@@ -18,6 +18,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   installer's receipt are selected for you, and so is the folder Homebrew keeps for an app it installed, so that
   Homebrew stops listing the app once it is gone. A match on the name alone is only a guess in your home folder, at
   the top of a Library, or inside another app's folder or one of Apple's, so it waits under Review Before Removing.
+  So does a folder named like the app while another installed app's name holds that name, as Epic Games Launcher
+  holds Epic: the folder may be that app's.
 - **What may exist nowhere else is left to you.** A folder holding a crypto wallet, a signing key, a password
   database, or a repository is shown with its reason and not selected, and so is a place where an app keeps what
   may exist only on this Mac, such as local mail, message history, sign-in codes, VPN connections, a game's saves, a
@@ -27,7 +29,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   all, and neither can anything that syncs to your other devices, an app's container holding your documents, or a
   folder around a photo or music library. What Peel only guesses at, from the start of a name or an identifier the
   app's maker or signing team also uses, waits under Review Before Removing, with what is shared and what Peel held
-  back.
+  back. What is named for another app of the same maker that macOS knows, such as a build Xcode keeps, is that app's
+  and isn't listed, and an identifier a tool gives apps whose makers set none, such as Electron's `com.electron.`
+  ones, ties no two apps to one maker.
 - **What only an administrator can move** stays where it is when Peel's helper isn't allowed to move it from there.
   Once the app is gone, Peel says how many items stayed, and Orphaned Files lists them under Needs an Administrator,
   with how to remove them in Finder.
@@ -82,8 +86,9 @@ Space shows what fills your disk, area by area, and what each area is.
   names. It also lists the files browsers keep to start a helper program that is gone. Nothing is selected for you.
   A system extension's copy can't be selected, since only macOS removes it, and its row says how. Peel doesn't list
   what only a guess could tie to an app, so look for it yourself: a folder named only for a maker, such as `Google`
-  in Application Support, a data folder only the app's documentation names, such as Tor Browser's
-  `TorBrowser-Data`, and a hidden folder in your home named like an app, since one such as `~/.local` is shared by
+  in Application Support, a data folder only the app's documentation names, such as Tor Browser's `TorBrowser-Data`,
+  a folder named like a gone app while another installed app's name holds that name, such as one called Epic beside
+  Epic Games Launcher, and a hidden folder in your home named like an app, since one such as `~/.local` is shared by
   many command-line tools. What only an administrator can move, from a place Peel's helper isn't allowed to move it
   from, is listed apart under Needs an Administrator, with how to remove it in Finder, and so is what an uninstall
   left there, which nothing else would tie to the app once it is gone.

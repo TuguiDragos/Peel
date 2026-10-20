@@ -281,6 +281,10 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   while another installed app, whoever makes it, holds that name as whole words in its own, as Epic Games Launcher
   holds Epic: a folder called Epic may be that app's. A word in the name of an app that comes with macOS counts for
   nothing, and neither does another app's name for what sits in the app's or its maker's own folder.
+- **A tool's default names no maker.** Electron's packagers name an app `com.electron.<name>` when its maker sets no
+  identifier, Qt names it `com.yourcompany.<name>`, and ToDesktop and install4j write their own, so apps of many
+  makers carry them: none of these counts as a maker, and one such app never lists or shares another's files as its
+  maker's.
 - **Another app's data stays with it.** A folder that holds what another installed app keeps as its own, as the
   Developer page names it, such as Xcode's folders in `~/Library/Developer`, is listed with that app named and can't
   be selected: it goes with that app, never with this one.

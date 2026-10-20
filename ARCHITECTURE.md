@@ -79,18 +79,17 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    page can show progress.
 2. **Match.** For each file, `LeftoverMatcher` weighs the evidence that it belongs to the app: its bundle
    identifier, the identifiers of what the app embeds, its application groups, its signing team, and its name. A
-   plug-in and a container named by a UUID are also weighed by the identifier they declare: a plug-in's name
-   says what it does and a UUID says nothing, so the identifier decides whose they are. A launch job is weighed
-   by the program it runs, since anyone can name its file: a job that runs a program inside the app is the
-   app's, and one that runs a program inside another installed app is that app's. The answer is a
-   `LeftoverMatch`: a confidence (`certain`, `likely`, or `possible`), the reason, the other installed apps that
-   claim the file too (with the apps of the same maker that macOS knows outside the Applications folders, the
-   apps Peel saw installed before, whose identifiers stay theirs once they are gone, and, for a file only the app's
-   name claims, another maker's app whose name holds that name as whole words; a file tied to the app only by its
-   maker's identifier or team, and named for another app of that maker that macOS knows anywhere, such as a build, is
-   not listed), the
-   other copies of the app that use it (any macOS knows, wherever they are, named by their place), and, when Peel
-   holds it back, why (`HoldBack`).
+   plug-in and a container named by a UUID are also weighed by the identifier they declare: a plug-in's name says
+   what it does and a UUID says nothing, so the identifier decides whose they are. A launch job is weighed by the
+   program it runs, since anyone can name its file: a job that runs a program inside the app is the app's, and one
+   that runs a program inside another installed app is that app's. The answer is a `LeftoverMatch`: a confidence
+   (`certain`, `likely`, or `possible`), the reason, the other installed apps that claim the file too (with the apps
+   of the same maker that macOS knows outside the Applications folders, the apps Peel saw installed before, whose
+   identifiers stay theirs once they are gone, and, for a file only the app's name claims, another maker's app whose
+   name holds that name as whole words; a file tied to the app only by its maker's identifier or team, and named for
+   another app of that maker that macOS knows anywhere, such as a build, is not listed), the other copies of the app
+   that use it (any macOS knows, wherever they are, named by their place), and, when Peel holds it back, why
+   (`HoldBack`).
 3. **Measure.** `FileSize` walks each folder on a thread of its own, with a time budget. A size is what moving
    the item would free: a file that shares its blocks with an APFS clone counts only what it holds alone, and one
    with another name outside the folder counts nothing. A folder that doesn't answer in time, or that macOS won't
