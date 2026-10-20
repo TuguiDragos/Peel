@@ -3,6 +3,20 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
+## 1.1.1 (not released yet)
+
+### Fixed
+
+- **Applications:** A folder named like the app is no longer selected while another app's name holds that name, as
+  Epic Games Launcher holds Epic: it is listed as also used by that app.
+- **Applications:** An app whose identifier a tool wrote for it, such as Electron's `com.electron.<name>`, no longer
+  lists every other such app's files for review.
+- **Applications:** The files of another app of the same maker that macOS knows, such as a build Xcode keeps, no
+  longer show on an app's page.
+- **Applications:** Reset offers the settings of an app's own helpers also when the app's identifier names no maker,
+  such as `md.obsidian`.
+- **Orphaned Files:** Lists what an app with a tool's identifier left while another such app is installed.
+
 ## 1.1.0 (2026-10-14)
 
 > [!IMPORTANT]
