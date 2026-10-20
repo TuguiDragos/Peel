@@ -94,6 +94,24 @@ struct LeftoverMatcherTests {
         #expect(try #require(match("com.google.Chrome.helper", in: .caches, for: chrome)).isRecommended)
     }
 
+    @Test func whatAnotherAppOfTheMakerThatMacOSKnowsElsewhereNamesIsNotListed() throws {
+        let atlas = app("org.example.atlas", name: "Atlas", team: "AAAAAAAAAA")
+        let build = URL(filePath: "/Users/x/Library/Developer/Xcode/DerivedData/Harbor/Build/Products/Debug/Harbor.app")
+        let known = ["org.example.harbor": build]
+
+        #expect(match("org.example.harbor", in: .containers, for: atlas)?.confidence == .possible)
+        #expect(match("org.example.harbor", in: .containers, for: atlas, registered: known) == nil)
+        #expect(match("org.example.harbor.plist", in: .preferences, for: atlas, registered: known) == nil)
+        #expect(match("org.example.harbor.helper", in: .caches, for: atlas, registered: known) == nil)
+        #expect(match("AAAAAAAAAA.org.example.harbor", in: .groupContainers, for: atlas, registered: known) == nil)
+        let catalystBuild = "maccatalyst.org.example.harbor"
+        #expect(match(catalystBuild, in: .containers, for: atlas, registered: [catalystBuild: build]) == nil)
+        #expect(match(catalystBuild, in: .containers, for: atlas, registered: known)?.confidence == .possible)
+
+        let inside = ["org.example.harbor": atlas.url.appending(path: "Contents/Library/LoginItems/Harbor.app")]
+        #expect(match("org.example.harbor", in: .containers, for: atlas, registered: inside)?.confidence == .possible)
+    }
+
     /// Another copy of the app uses the same files wherever it is, so a file both claim is shared with that copy,
     /// known by its place, since the identifier cannot tell the two apart. What only this copy embeds stays its own.
     @Test func anotherCopyOfTheAppSharesWhatItUsesAndNothingMore() throws {

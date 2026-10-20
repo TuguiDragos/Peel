@@ -86,7 +86,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    `LeftoverMatch`: a confidence (`certain`, `likely`, or `possible`), the reason, the other installed apps that
    claim the file too (with the apps of the same maker that macOS knows outside the Applications folders, the
    apps Peel saw installed before, whose identifiers stay theirs once they are gone, and, for a file only the app's
-   name claims, another maker's app whose name holds that name as whole words), the
+   name claims, another maker's app whose name holds that name as whole words; a file tied to the app only by its
+   maker's identifier or team, and named for another app of that maker that macOS knows anywhere, such as a build, is
+   not listed), the
    other copies of the app that use it (any macOS knows, wherever they are, named by their place), and, when Peel
    holds it back, why (`HoldBack`).
 3. **Measure.** `FileSize` walks each folder on a thread of its own, with a time budget. A size is what moving

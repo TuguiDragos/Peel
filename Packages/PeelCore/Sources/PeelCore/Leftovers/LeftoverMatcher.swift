@@ -142,8 +142,13 @@ struct LeftoverMatcher: Sendable {
                 share(with: other)
             }
         }
-        if evidence.reason == .bundleIdentifierPrefix {
-            sharedWith.formUnion(appsElsewhere(answeringTo: key))
+        if evidence.reason == .bundleIdentifierPrefix, let identifier = target.identifier {
+            sharedWith.formUnion(appsElsewhere(answeringTo: key, longerThan: Identifier.componentCount(of: identifier)))
+        }
+        if evidence.family == .maker {
+            let named = evidence.reason == .teamIdentifier ? String(key.dropFirst(target.teamPrefix?.count ?? 0)) : key
+            // What is named for another app of the maker that macOS knows, such as a build Xcode keeps, is that app's.
+            guard appsElsewhere(answeringTo: named, longerThan: 2).isEmpty else { return nil }
         }
         return LeftoverMatch(
             reason: evidence.reason,
@@ -156,14 +161,12 @@ struct LeftoverMatcher: Sendable {
 
     /// Identifiers of apps macOS knows, wherever they are installed, that `key` may belong to. The list of
     /// installed apps covers only the two Applications folders, and Chrome Canary on another disk must still
-    /// count as a rival for `com.google.Chrome.canary`. macOS is asked about each prefix of `key` with more
-    /// components than the app's identifier. An app found inside this bundle is the app's own helper, not a rival.
-    private func appsElsewhere(answeringTo key: String) -> [String] {
-        guard let identifier = target.identifier else { return [] }
+    /// count as a rival for `com.google.Chrome.canary`. macOS is asked about each prefix of `key` with more than
+    /// `components` components. An app found inside this bundle is the app's own helper, not a rival.
+    private func appsElsewhere(answeringTo key: String, longerThan components: Int) -> [String] {
         let parts = key.split(separator: ".", omittingEmptySubsequences: false)
-        let own = identifier.split(separator: ".").count
-        guard parts.count > own else { return [] }
-        return ((own + 1)...parts.count).compactMap { length in
+        guard parts.count > components else { return [] }
+        return ((components + 1)...parts.count).compactMap { length in
             let identifier = parts.prefix(length).joined(separator: ".")
             guard let url = registeredApp(identifier) else { return nil }
             let path = PathPattern.comparablePath(of: url)
