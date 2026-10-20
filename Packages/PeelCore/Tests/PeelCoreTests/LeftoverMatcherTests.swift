@@ -300,7 +300,7 @@ struct LeftoverMatcherTests {
         #expect(match("maccatalyst.org.other.reader", in: .containers, for: notes) == nil)
 
         let writer = app("maccatalyst.org.alpha.writer", name: "Writer")
-        let writerPro = app("maccatalyst.org.beta.writerpro", name: "Writer Pro")
+        let writerPro = app("maccatalyst.org.beta.writerpro", name: "WriterPro")
         let folder = try #require(match("Writer", in: .applicationSupport, for: writer, with: [writerPro]))
         #expect(folder.sharedWith.isEmpty, "another maker's app took a share")
     }
@@ -346,6 +346,38 @@ struct LeftoverMatcherTests {
 
         let mail = match("Thunderbird", in: .applicationSupport, for: thunderbird, with: [firefox, nightly])
         #expect(mail?.isShared == false)
+    }
+
+    @Test func aNameIsSharedWithAnotherMakersAppThatHoldsItAsWholeWords() throws {
+        let atlas = app("org.example.atlas", name: "Atlas", team: "AAAAAAAAAA")
+        let launcher = app("net.other.launcher", name: "Atlas Games Launcher", team: "BBBBBBBBBB")
+        let viewer = app("net.third.viewer", name: "Harbor Atlas", team: "CCCCCCCCCC")
+        let book = app("net.fourth.book", name: "Atlasbook", team: "DDDDDDDDDD")
+        let agent = InstalledApp(
+            url: URL(filePath: "/System/Library/CoreServices/Harbor Atlas Agent.app"),
+            bundleIdentifier: "net.fifth.agent",
+            name: "Harbor Atlas Agent",
+            isSystemProtected: true
+        )
+
+        let first = try #require(match("Atlas", in: .applicationSupport, for: atlas, with: [launcher]))
+        #expect(first.sharedWith == ["net.other.launcher"])
+        #expect(!first.isRecommended)
+        let last = try #require(match("Atlas", in: .caches, for: atlas, with: [viewer]))
+        #expect(last.sharedWith == ["net.third.viewer"])
+        let guess = try #require(match("Atlas Games", in: .applicationSupport, for: atlas, with: [launcher]))
+        #expect(guess.sharedWith == ["net.other.launcher"])
+
+        #expect(try #require(match("Atlas", in: .applicationSupport, for: atlas, with: [book])).isRecommended)
+        #expect(try #require(match("Atlas", in: .applicationSupport, for: atlas, with: [agent])).isRecommended)
+        let byIdentifier = try #require(match("org.example.atlas", in: .caches, for: atlas, with: [launcher, viewer]))
+        #expect(byIdentifier.isRecommended)
+        let inTheMakersFolder = LeftoverMatcher(app: atlas, installedApps: [atlas, launcher]) { _ in nil }.match(
+            fileName: "Atlas",
+            kind: .applicationSupport,
+            at: URL(filePath: "/Users/x/Library/Application Support/Example/Atlas")
+        )
+        #expect(try #require(inTheMakersFolder).isRecommended)
     }
 
     @Test func sharesOfficeGroupContainersBetweenApps() {

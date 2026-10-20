@@ -276,6 +276,10 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   nor its maker, such as another app's, one of Apple's, or a command-line tool's, is shown and never selected, since a
   folder of that name may be that program's own; so is something matched by name alone at the top of your home folder
   or of a Library, or in a maker's folder there.
+- **A name another app carries is shared with it.** Something matched by the app's name alone is left unselected
+  while another installed app, whoever makes it, holds that name as whole words in its own, as Epic Games Launcher
+  holds Epic: a folder called Epic may be that app's. A word in the name of an app that comes with macOS counts for
+  nothing, and neither does another app's name for what sits in the app's or its maker's own folder.
 - **Another app's data stays with it.** A folder that holds what another installed app keeps as its own, as the
   Developer page names it, such as Xcode's folders in `~/Library/Developer`, is listed with that app named and can't
   be selected: it goes with that app, never with this one.
@@ -416,7 +420,8 @@ The copy macOS installed of a system extension, in `/Library/SystemExtensions`, 
 only macOS removes it, and its note says how (on macOS 27, Delete Extension in System Settings for a network
 extension; otherwise the app's move to the Trash in Finder), or that macOS removes it at the next restart. A file
 named for a background job whose program is still there, such as the settings a remote access host keeps beside its
-job, is that job's and is never listed.
+job, is that job's and is never listed, and so is a folder named like a gone app while an installed app's name holds
+that name as whole words, as Epic Games Launcher holds Epic: it may be that app's.
 
 On every list, Select All selects every row you can select, what Peel holds back included, and asks first,
 counting what Peel doesn't recommend; Return answers Select Recommended. Each held back row still shows its reason

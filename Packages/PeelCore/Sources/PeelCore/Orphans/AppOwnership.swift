@@ -54,6 +54,13 @@ struct AppOwnership: Sendable {
         return false
     }
 
+    /// Whether an installed app's name holds the item's name as whole words, as Epic Games Launcher holds Epic: what
+    /// only its name ties to a gone app may be that app's.
+    func anInstalledAppsNameHolds(fileName: String, kind: SearchLocation.Kind) -> Bool {
+        let candidate = LeftoverMatcher.Candidate(LeftoverMatcher.key(from: fileName, kind: kind))
+        return profiles.contains { $0.holdsAsWholeWords(candidate) }
+    }
+
     /// The longest identifier of a gone app that `identifier` is, or begins with before a dot.
     private func goneApp(owning identifier: String) -> String? {
         let key = OrphanScanner.groupingKey(for: identifier).lowercased()

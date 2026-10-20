@@ -605,7 +605,8 @@ public struct OrphanScanner: Sendable {
         guard
             namedPlaces.contains(kind), !isSensitive(fileName: name),
             let app = goneNames[name.lowercased()],
-            !ownership.isClaimed(fileName: name, kind: kind, identifier: app)
+            !ownership.isClaimed(fileName: name, kind: kind, identifier: app),
+            !ownership.anInstalledAppsNameHolds(fileName: name, kind: kind)
         else { return nil }
         return await holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership) ? nil : app
     }

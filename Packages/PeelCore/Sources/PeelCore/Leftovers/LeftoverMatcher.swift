@@ -115,6 +115,9 @@ struct LeftoverMatcher: Sendable {
         // A job belongs to the app whose program it runs, so another app's program outranks any name.
         let program = url.flatMap { Self.program(ofJobAt: $0, kind: kind) }
             .flatMap { PathComponents.isPath($0, atOrInside: bundlePath) ? nil : $0 }
+        let isInItsOwnFolder = url.map {
+            namesTheAppOrItsMaker(folder: $0.deletingLastPathComponent().lastPathComponent)
+        } ?? false
         for other in others where !goesWithTheItem(other) {
             let runsItsProgram = program.map { PathComponents.isPath($0, atOrInside: other.path) } ?? false
             let rival = runsItsProgram
@@ -122,6 +125,9 @@ struct LeftoverMatcher: Sendable {
             guard let rival else {
                 // Siblings from the same maker, like Firefox Nightly beside Firefox, use the same files.
                 if target.isSibling(of: other), other.sharesName(with: candidate) {
+                    share(with: other)
+                } else if evidence.family == .name, !isInItsOwnFolder, other.holdsAsWholeWords(candidate) {
+                    // Another maker's app can keep a folder named by a word of its name, as Epic Games Launcher does.
                     share(with: other)
                 }
                 continue
@@ -269,6 +275,8 @@ extension LeftoverMatcher {
         let withoutVersion: String?
         let isApple: Bool
 
+        var isLongEnoughToShare: Bool { normalized.count >= 4 }
+
         init(_ key: String) {
             self.key = key.lowercased()
             normalized = Naming.normalized(key)
@@ -358,6 +366,9 @@ extension LeftoverMatcher {
         let vendorPrefix: String?
         let names: [String]
         let normalizedNames: Set<String>
+        /// Each run of whole words in the app's names, normalized: Epic Games Launcher holds `epic` and `epicgames`.
+        /// None for an app macOS ships, whose words say nothing: `Base` is not AirPort Base Station Agent's.
+        let wordRuns: Set<String>
         let ownFolderNames: Set<String>
         let isApplesOwn: Bool
         let isASafariWebApp: Bool
@@ -384,6 +395,10 @@ extension LeftoverMatcher {
             vendorPrefix = vendor.map { $0 + "." }
             names = app.matchingNames.filter(Naming.isSignificant).map { $0.lowercased() }
             normalizedNames = Set(names.map(Naming.normalized))
+            wordRuns = app.isSystemProtected ? [] : Set(names.flatMap { name in
+                let words = name.split { !$0.isLetter && !$0.isNumber }.map(String.init)
+                return words.indices.flatMap { start in words.indices[start...].map { words[start...$0].joined() } }
+            })
             ownFolderNames = app.ownFolderNames
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
             isASafariWebApp = app.isASafariWebApp
@@ -406,8 +421,12 @@ extension LeftoverMatcher {
         /// True when one of this app's names begins with the candidate, or the candidate begins with it, like
         /// "Firefox Nightly" and "Firefox".
         func sharesName(with candidate: Candidate) -> Bool {
-            guard candidate.normalized.count >= 4 else { return false }
+            guard candidate.isLongEnoughToShare else { return false }
             return normalizedNames.contains { $0.hasPrefix(candidate.normalized) || candidate.normalized.hasPrefix($0) }
+        }
+
+        func holdsAsWholeWords(_ candidate: Candidate) -> Bool {
+            candidate.isLongEnoughToShare && wordRuns.contains(candidate.normalized)
         }
 
         /// An identifier without an identifier's shape counts as a name, under the names' rule: one too short or too

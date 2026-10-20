@@ -688,6 +688,55 @@ struct OrphanScannerTests {
         #expect(afterwards.isEmpty)
     }
 
+    @Test func aFolderAnInstalledAppsNameHoldsAsWholeWordsIsNoOrphan() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/Atlas/cache.db")
+        try directory.file("home/Library/Application Support/Atlas/settings.json")
+        let atlas = RememberedApp(
+            bundleIdentifier: "org.example.atlas", name: "Atlas", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/org.example.Atlas.app"
+        )
+        let launcher = InstalledApp(
+            url: URL(filePath: "/Applications/Atlas Games Launcher.app"), bundleIdentifier: "net.other.launcher",
+            name: "Atlas Games Launcher"
+        )
+        let scanner = scanner(in: directory)
+
+        let alone = await scanner.scan(installedApps: installed, remembered: [atlas]).groups
+        #expect(alone.map(\.identifier) == ["org.example.atlas"])
+        #expect(await scanner.scan(installedApps: installed + [launcher], remembered: [atlas]).groups.isEmpty)
+        let listed = try #require(alone.first).items
+        #expect(await scanner.stillOrphaned(listed, installedApps: installed + [launcher], remembered: [atlas]).isEmpty)
+    }
+
+    @Test func anotherAppsWordsLeaveWhatAGoneAppNamedByItsIdentifierListed() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/.atlas/argv.json")
+        let info = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.atlas</string></dict></plist>
+        """
+        try directory.file(
+            "root/Library/Audio/Plug-Ins/Components/Atlas.component/Contents/Info.plist", contents: Data(info.utf8)
+        )
+        let atlas = RememberedApp(
+            bundleIdentifier: "org.example.atlas", name: "Atlas", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Atlas.app",
+            productFolders: ProductFolders.vsCodeFolders(in: ["dataFolderName": ".atlas"])
+        )
+        let launcher = InstalledApp(
+            url: URL(filePath: "/Applications/Atlas Games Launcher.app"), bundleIdentifier: "net.other.launcher",
+            name: "Atlas Games Launcher"
+        )
+
+        let scanner = scanner(in: directory)
+
+        for apps in [installed, installed + [launcher]] {
+            let scan = await scanner.scan(installedApps: apps, remembered: [atlas])
+            #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == [".atlas", "Atlas.component"])
+        }
+    }
+
     /// The settings a Safari web app leaves are named by its own identifier, which begins with `com.apple.`. Once
     /// the web app is gone they are orphans, while an installed web app keeps its own and Safari keeps Safari's.
     /// Launch Services is this Mac's own, which knows Safari's web app template, `com.apple.Safari.WebApp`.
