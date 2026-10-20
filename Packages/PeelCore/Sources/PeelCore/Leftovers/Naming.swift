@@ -63,13 +63,15 @@ enum Identifier {
     /// of its own (`DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER`). The maker's name begins after it.
     static let catalystPrefix = "maccatalyst."
 
-    /// Leading pairs of components that name no single developer, so for these the vendor takes three components.
-    /// On a code host the third is the account, and under a country's registry (`uk.co`, which is `co.uk`
-    /// reversed) it is the company. All of these are in the Public Suffix List.
+    /// Leading pairs of components that name no single developer, so for these the vendor takes three components:
+    /// an account on a code host, a company under a country's registry (each in the Public Suffix List), or the app
+    /// under what a tool writes when its maker sets none: `com.electron.<name>` from Electron's packagers, Qt's
+    /// `com.yourcompany.<name>`, and ToDesktop's and install4j's own (install4j's names a project).
     private static let sharedDomains: Set<String> = [
         "com.github", "io.github", "com.gitlab", "io.gitlab", "org.sourceforge", "net.sourceforge", "com.googlecode",
         "uk.co", "uk.org", "uk.ac", "au.com", "au.net", "au.org", "jp.co", "jp.ne", "jp.or", "nz.co", "kr.co",
         "za.co", "il.co", "in.co", "br.com", "cn.com", "tw.com", "hk.com", "sg.com", "mx.com", "ar.com", "tr.com",
+        "com.electron", "com.yourcompany", "com.todesktop", "com.install4j",
     ]
 
     static func componentCount(of identifier: String) -> Int {

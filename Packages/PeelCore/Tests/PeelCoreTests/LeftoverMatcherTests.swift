@@ -299,6 +299,22 @@ struct LeftoverMatcherTests {
         #expect(match("jp.co.other.Thing", in: .caches, for: canon) == nil)
     }
 
+    @Test func aToolsDefaultIdentifierNamesNoMaker() throws {
+        for prefix in ["com.electron", "com.yourcompany", "com.todesktop"] {
+            #expect(Identifier.vendor(of: "\(prefix).alpha") == nil, "\(prefix)")
+            #expect(Identifier.vendor(of: "\(prefix).alpha.helper") == "\(prefix).alpha", "\(prefix)")
+        }
+        #expect(Identifier.vendor(of: "com.install4j.1234-5678-9012-3456.10") == "com.install4j.1234-5678-9012-3456")
+
+        let alpha = app(
+            "com.electron.alpha", name: "Alpha", team: "AAAAAAAAAA", embedded: ["com.electron.alpha.helper"]
+        )
+        let beta = app("com.electron.beta", name: "Beta", team: "BBBBBBBBBB")
+        #expect(match("com.electron.beta", in: .caches, for: alpha) == nil)
+        #expect(match("com.electron.beta.plist", in: .preferences, for: alpha, with: [beta]) == nil)
+        #expect(try #require(match("com.electron.alpha.helper", in: .caches, for: alpha)).confidence == .certain)
+    }
+
     @Test func aMacCatalystBuildIsItsMakersApp() throws {
         #expect(Identifier.vendor(of: "maccatalyst.org.example.notes") == "org.example")
 

@@ -709,6 +709,18 @@ struct OrphanScannerTests {
         #expect(await scanner.stillOrphaned(listed, installedApps: installed + [launcher], remembered: [atlas]).isEmpty)
     }
 
+    @Test func anAppUnderAToolsDefaultIdentifierKeepsNoOtherAppsOrphanBack() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.electron.gone/cache.db")
+        let alpha = InstalledApp(
+            url: URL(filePath: "/Applications/Alpha.app"), bundleIdentifier: "com.electron.alpha", name: "Alpha"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed + [alpha])
+
+        #expect(scan.groups.map(\.identifier) == ["com.electron.gone"])
+    }
+
     @Test func anotherAppsWordsLeaveWhatAGoneAppNamedByItsIdentifierListed() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/.atlas/argv.json")
