@@ -347,7 +347,7 @@ extension LeftoverMatcher {
 
     struct EmbeddedIdentifier {
         let value: String
-        let sharesVendor: Bool
+        let isTheAppsOrItsMakers: Bool
     }
 
     struct Profile {
@@ -381,10 +381,13 @@ extension LeftoverMatcher {
             reference = app.reference
             identifier = app.bundleIdentifier?.lowercased()
             let vendor = identifier.flatMap(Identifier.vendor(of:))
+            let ownPrefix = identifier.map { $0 + "." }
             embeddedIdentifiers = app.embeddedBundleIdentifiers.map {
-                EmbeddedIdentifier(
-                    value: $0.lowercased(),
-                    sharesVendor: vendor != nil && Identifier.vendor(of: $0) == vendor
+                let embedded = $0.lowercased()
+                return EmbeddedIdentifier(
+                    value: embedded,
+                    isTheAppsOrItsMakers: ownPrefix.map(embedded.hasPrefix) == true
+                        || vendor != nil && Identifier.vendor(of: embedded) == vendor
                 )
             }
             prefixes = ([identifier].compactMap(\.self) + embeddedIdentifiers.map(\.value))
@@ -451,7 +454,7 @@ extension LeftoverMatcher {
                 guard Identifier.isValid(key) else { return unproven(.embeddedBundleIdentifier, candidate) }
                 return Evidence(
                     .embeddedBundleIdentifier,
-                    embedded.sharesVendor ? .certain : .likely,
+                    embedded.isTheAppsOrItsMakers ? .certain : .likely,
                     specificity: key.count
                 )
             }

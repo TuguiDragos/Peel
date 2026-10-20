@@ -178,6 +178,15 @@ struct LeftoverMatcherTests {
         #expect(electron.confidence == .likely)
     }
 
+    @Test func whatAnAppEmbedsUnderItsOwnIdentifierIsCertainlyItsOwn() throws {
+        let short = app("example.atlas", name: "Atlas", embedded: ["example.atlas.helper"])
+        let hosted = app("io.github.atlas", name: "Atlas", embedded: ["io.github.atlas.helper", "org.example.updater"])
+
+        #expect(try #require(match("example.atlas.helper", in: .caches, for: short)).confidence == .certain)
+        #expect(try #require(match("io.github.atlas.helper", in: .caches, for: hosted)).confidence == .certain)
+        #expect(try #require(match("org.example.updater", in: .caches, for: hosted)).confidence == .likely)
+    }
+
     @Test func applicationGroupSharedWithAnotherAppIsNotRecommended() throws {
         let word = app("com.microsoft.Word", name: "Microsoft Word", groups: ["UBF8T346G9.Office"])
         let excel = app("com.microsoft.Excel", name: "Microsoft Excel", groups: ["UBF8T346G9.Office"])
