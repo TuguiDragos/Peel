@@ -106,6 +106,19 @@ struct KnownCasksTests {
         #expect(CaskEvidence.proves(silent, isThe: domzilla))
     }
 
+    @Test func aCaskThatQuitsTheAppsOwnHelperProvesAnAppWhoseIdentifierNamesNoMaker() {
+        let atlas = app("Atlas", "com.electron.atlas")
+        let ownHelper = HomebrewPackage(
+            name: "atlas", kind: .cask, appNames: ["Atlas.app"], quitIdentifiers: ["com.electron.atlas.helper"]
+        )
+        let anotherApp = HomebrewPackage(
+            name: "other-atlas", kind: .cask, appNames: ["Atlas.app"], quitIdentifiers: ["com.electron.other"]
+        )
+
+        #expect(CaskEvidence.proves(ownHelper, isThe: atlas))
+        #expect(!CaskEvidence.proves(anotherApp, isThe: atlas))
+    }
+
     /// Two makers can give their apps one name, and Homebrew keeps the plain token for the one that came first:
     /// here the `scribe` cask is one maker's editor, which ships `Scribe 2.app`, while another maker's app is
     /// `Scribe.app`. The token guessed from the name points to the wrong cask, and only the proof keeps Peel from

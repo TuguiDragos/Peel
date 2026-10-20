@@ -112,7 +112,11 @@ public struct CaskEvidence: Sendable, Hashable {
         let bundleName = app.url.lastPathComponent
         if cask.appNames.contains(where: { $0.caseInsensitiveCompare(bundleName) == .orderedSame }) {
             let maker = identifier.flatMap(Identifier.vendor(of:))
-            if quits.isEmpty || quits.contains(where: { maker != nil && Identifier.vendor(of: $0) == maker }) {
+            let isTheAppsOrItsMakers = { (quit: String) in
+                identifier.map { quit.hasPrefix($0 + ".") } == true
+                    || maker != nil && Identifier.vendor(of: quit) == maker
+            }
+            if quits.isEmpty || quits.contains(where: isTheAppsOrItsMakers) {
                 return true
             }
         }
