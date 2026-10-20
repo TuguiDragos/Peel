@@ -446,3 +446,9 @@ be built for an older macOS with its class data unsigned, and the linker would t
 whole `peel` tool unsigned. `release.sh` and the Checks workflow pass both, and Xcode's own Archive, which cannot,
 fails. A Debug build leaves pointer authentication off, since it builds only the Mac's own architecture, which the
 programs would read as arm64e and the packages as arm64.
+
+A Debug build keeps the app's code in its own executable (`ENABLE_DEBUG_DYLIB` off for the app's target). With
+Xcode's default the code goes into a `Peel.debug.dylib` that a stub executable loads, and the App Intents step, which
+reads the executable, finds no App Intents there: the Debug app then has no Shortcuts actions, and the App Shortcuts
+phrases `Scripts/sync_localizations.py` checks the catalogs against are missing. The dylib serves Xcode's SwiftUI
+previews, and Peel has none.
