@@ -216,36 +216,10 @@ private struct GeneralSettingsView: View {
     // The widest tool symbol at the body size, so the titles of the tools line up.
     @ScaledMetric(relativeTo: .body) private var toolSymbolWidth = 20.0
     @State private var isConfirmingSelfRemoval = false
-    // The login item's state is read when the page appears (`readStandings()`), not as an initial value:
-    // initial values run on every `init` of the view, and each read is a synchronous call to a daemon.
-    @State private var opensAtLogin = false
-    @State private var needsApprovalToOpenAtLogin = false
-    @State private var loginItemFailure: String?
-
-    /// Registers or unregisters Peel as a login item, then shows the status macOS reports. After `register()`,
-    /// a login item the user turned off in Login Items still needs approval, so the toggle stays on and a note
-    /// says why. An error is shown, not ignored.
-    private func setOpensAtLogin(_ shouldOpen: Bool) {
-        loginItemFailure = nil
-        do {
-            if shouldOpen {
-                try SMAppService.mainApp.register()
-            } else {
-                try SMAppService.mainApp.unregister()
-            }
-        } catch {
-            loginItemFailure = error.localizedDescription
-        }
-        let status = SMAppService.mainApp.status
-        opensAtLogin = status == .enabled || status == .requiresApproval
-        needsApprovalToOpenAtLogin = status == .requiresApproval
-    }
+    @State private var loginItem = LoginItem.ofTheMainApp()
 
     private func readStandings() {
         commandLine = HomeModel.commandLineStanding
-        let status = SMAppService.mainApp.status
-        opensAtLogin = status == .enabled || status == .requiresApproval
-        needsApprovalToOpenAtLogin = status == .requiresApproval
         SavedSettings.shared.reload()
     }
 
@@ -312,11 +286,10 @@ private struct GeneralSettingsView: View {
                 }
                 toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
                        "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running.")
-                // A binding, not `onChange`: setting `opensAtLogin` to macOS's answer must not register or
-                // unregister again.
-                toggle("Open Peel at login", isOn: Binding(get: { opensAtLogin }, set: setOpensAtLogin),
+                // A binding, not `onChange`: macOS's own answer landing in the model must not register again.
+                toggle("Open Peel at login", isOn: Binding(get: { loginItem.isOn }, set: { loginItem.set(on: $0) }),
                        "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.")
-                if needsApprovalToOpenAtLogin {
+                if loginItem.needsApproval {
                     HStack {
                         StatusLabel(title: Text("Peel is turned off in Login Items & Extensions, so macOS won’t start it."))
                         Spacer()
@@ -325,8 +298,8 @@ private struct GeneralSettingsView: View {
                         }
                     }
                 }
-                if let loginItemFailure {
-                    StatusLabel(title: Text(loginItemFailure))
+                if let failure = loginItem.failure {
+                    StatusLabel(title: Text(failure))
                         .textSelection(.enabled)
                 }
             }
@@ -468,10 +441,14 @@ private struct GeneralSettingsView: View {
             guard isChecking else { return }
             Task { await library.checkForUpdates(library.apps) }
         }
-        .task { readStandings() }
+        .task {
+            readStandings()
+            await loginItem.refresh()
+        }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             // The user may have changed the login item in System Settings, or a saved copy in Finder.
             readStandings()
+            Task { await loginItem.refresh() }
         }
         .confirmationDialog("Remove Peel from this Mac?", isPresented: $isConfirmingSelfRemoval) {
             Button("Remove Peel", role: .destructive) {

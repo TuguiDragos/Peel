@@ -168,7 +168,7 @@ final class HomeModel {
 
         let fullDisk = await access
         needsRelaunchForFullDiskAccess = fullDisk == .missing && hasOpenedFullDiskAccessSettings
-        let opensAtLogin = await Self.opensAtLogin()
+        let opensAtLogin = await LoginItem.status() == .enabled
         found = [
             .fullDiskAccess: state(for: fullDisk),
             .appManagement: state(for: appManagementSeenThisLaunch ?? appManagement),
@@ -264,12 +264,6 @@ final class HomeModel {
     @concurrent
     private static func isFinderExtensionEnabled() async -> Bool {
         FIFinderSyncController.isExtensionEnabled
-    }
-
-    /// Off the main thread: `SMAppService` asks `smd` over XPC.
-    @concurrent
-    private static func opensAtLogin() async -> Bool {
-        SMAppService.mainApp.status == .enabled
     }
 
     private static func finderExtensionRunsFromAnotherCopy() async -> Bool {
