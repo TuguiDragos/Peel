@@ -40,14 +40,14 @@ struct VisibleApps {
 }
 
 private enum UpdateMemoryStore {
-    static func load() -> [String: UpdateMemory] {
-        guard let data = UserDefaults.standard.data(forKey: SettingsKey.updateMemory) else { return [:] }
+    static func load(from defaults: UserDefaults) -> [String: UpdateMemory] {
+        guard let data = defaults.data(forKey: SettingsKey.updateMemory) else { return [:] }
         return (try? JSONDecoder().decode([String: UpdateMemory].self, from: data)) ?? [:]
     }
 
-    static func save(_ memory: [String: UpdateMemory]) {
+    static func save(_ memory: [String: UpdateMemory], to defaults: UserDefaults) {
         guard let data = try? JSONEncoder().encode(memory) else { return }
-        UserDefaults.standard.set(data, forKey: SettingsKey.updateMemory)
+        defaults.set(data, forKey: SettingsKey.updateMemory)
     }
 }
 
@@ -129,14 +129,11 @@ final class AppLibrary {
     /// The apps selected with their checkboxes, to be removed together. Kept apart from `selection`, so
     /// choosing a row to look at never clears the batch.
     var picked: Set<InstalledApp.ID> = []
-    private(set) var ignoredApps = Set(
-        UserDefaults.standard.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? []
-    ) {
+    private(set) var ignoredApps: Set<String> {
         didSet { updatesRevision += 1 }
     }
 
-    private(set) var skippedVersions = UserDefaults.standard.dictionary(forKey: SettingsKey.skippedUpdateVersions)
-        as? [String: String] ?? [:] {
+    private(set) var skippedVersions: [String: String] {
         didSet { updatesRevision += 1 }
     }
     var sort = AppSort.name
@@ -147,10 +144,12 @@ final class AppLibrary {
     /// True when any of the list's filters is on, the same three `visible(matching:)` applies.
     var isFiltering: Bool { !sources.isEmpty || selectedDeveloper != nil || showsOnlyUnused }
 
-    private var memory = UpdateMemoryStore.load()
+    private var memory: [String: UpdateMemory]
     /// What is new in each waiting update, read at launch, so a page shows it with no connection too.
     private(set) var releaseNotes = ReleaseNotesMemory()
-    private let releaseNotesStore = ReleaseNotesStore()
+    private let releaseNotesStore: ReleaseNotesStore
+    /// Where the update round's memory and the person's update preferences are kept.
+    private let defaults: UserDefaults
     /// Apps shown from outside the scanned folders, such as one in Downloads or in the Trash. Kept apart,
     /// because the next reading of the folders doesn't find them and would drop their row and their page.
     private var revealed: [InstalledApp] = []
@@ -161,8 +160,23 @@ final class AppLibrary {
     /// finish last with a list that lacks an app installed in between.
     let scanRun = ScanRun()
     private var lastRead: ContinuousClock.Instant?
-    private let updateChecker = UpdateChecker()
+    private let updateChecker: UpdateChecker
     private let teamRegistry = TeamRegistry()
+
+    /// The stores are Peel's own unless a test passes its own, so a test of the update round writes nothing of the
+    /// person's.
+    init(
+        defaults: UserDefaults = .standard,
+        updateChecker: UpdateChecker = UpdateChecker(),
+        releaseNotesStore: ReleaseNotesStore = ReleaseNotesStore()
+    ) {
+        self.defaults = defaults
+        self.updateChecker = updateChecker
+        self.releaseNotesStore = releaseNotesStore
+        ignoredApps = Set(defaults.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? [])
+        skippedVersions = defaults.dictionary(forKey: SettingsKey.skippedUpdateVersions) as? [String: String] ?? [:]
+        memory = UpdateMemoryStore.load(from: defaults)
+    }
 
     /// The apps the page beside the list shows: the chosen rows, or the selected batch when no row is chosen.
     private var shown: Set<InstalledApp.ID> {
@@ -310,7 +324,7 @@ final class AppLibrary {
         let recalled = UpdateMemory.recalled(from: memory, for: listed)
         if recalled != memory {
             memory = recalled
-            UpdateMemoryStore.save(memory)
+            UpdateMemoryStore.save(memory, to: defaults)
         }
         return changed
     }
@@ -501,7 +515,7 @@ final class AppLibrary {
     func checkForUpdates(_ targets: [InstalledApp], force: Bool = false) async {
         // Read here, where every caller passes. Settings promises that with this off, Peel contacts nothing on
         // its own, so even Rescan on an app's page only rescans files.
-        guard UserDefaults.standard.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true) else { return }
+        guard defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true) else { return }
         let now = Date.now
         // An app is checked on a schedule kept by its identifier, so an app with none is left to Homebrew's answer.
         // Peel's own copies are left to Sparkle, which checks the one running and is the only way it updates.
@@ -583,7 +597,7 @@ final class AppLibrary {
             }
         }
         guard !Task.isCancelled, updateRounds.isCurrent(round) else { return }
-        UpdateMemoryStore.save(memory)
+        UpdateMemoryStore.save(memory, to: defaults)
         await ask(notesToAsk, checker: checker)
         var waiting: [String: String] = [:]
         for app in apps {
@@ -664,7 +678,7 @@ final class AppLibrary {
     var menuBarUpdateCount: Int { menuBarUpdates.count }
 
     var updateSource: UpdateSource {
-        UpdateSource(rawValue: UserDefaults.standard.string(forKey: SettingsKey.updateSource) ?? "") ?? .automatic
+        UpdateSource(rawValue: defaults.string(forKey: SettingsKey.updateSource) ?? "") ?? .automatic
     }
 
     /// Forgets every update answer and schedule, then checks every app again. The answers shown were found
@@ -674,7 +688,7 @@ final class AppLibrary {
         updateStatuses = [:]
         lastUpdateChecks = [:]
         memory = [:]
-        UpdateMemoryStore.save(memory)
+        UpdateMemoryStore.save(memory, to: defaults)
         await checkForUpdates(apps, force: true)
     }
 
@@ -694,7 +708,7 @@ final class AppLibrary {
             references.remove(app.reference)
         }
         ignoredApps = references
-        UserDefaults.standard.set(Array(references).sorted(), forKey: SettingsKey.ignoredUpdateApps)
+        defaults.set(Array(references).sorted(), forKey: SettingsKey.ignoredUpdateApps)
     }
 
     func skippedVersion(for app: InstalledApp) -> String? {
@@ -703,7 +717,7 @@ final class AppLibrary {
 
     func skip(version: String, for app: InstalledApp) {
         skippedVersions[app.reference] = version
-        UserDefaults.standard.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
+        defaults.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
     }
 
     /// Undoes both a skipped version and "never check this app", by `InstalledApp.reference`: what was muted may not
@@ -711,8 +725,8 @@ final class AppLibrary {
     func unmute(_ reference: String) {
         ignoredApps.remove(reference)
         skippedVersions.removeValue(forKey: reference)
-        UserDefaults.standard.set(ignoredApps.sorted(), forKey: SettingsKey.ignoredUpdateApps)
-        UserDefaults.standard.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
+        defaults.set(ignoredApps.sorted(), forKey: SettingsKey.ignoredUpdateApps)
+        defaults.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
     }
 
     /// Called often, including every time the Applications list appears. Apps are matched to casks again only
@@ -757,7 +771,7 @@ final class AppLibrary {
         for app in apps where outlived.contains(app.id) {
             if let identifier = app.bundleIdentifier { memory[identifier] = nil }
         }
-        UpdateMemoryStore.save(memory)
+        UpdateMemoryStore.save(memory, to: defaults)
     }
 
     /// Records an update for each app whose cask Homebrew marks outdated. Reading Homebrew costs no network
