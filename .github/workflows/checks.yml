@@ -74,6 +74,24 @@ jobs:
             exit 1
           fi
 
+      # The app's own tests run inside Peel, which the scheme launches with `PEEL_HOSTS_TESTS` set, so it starts nothing
+      # and shows nothing. Their build is held to warnings as the Debug build is.
+      - name: Test the app's models in Peel
+        run: |
+          log="$RUNNER_TEMP/app-tests.log"
+          if ! xcodebuild -project Peel.xcodeproj -scheme PeelTests -configuration Debug \
+            -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO test > "$log" 2>&1; then
+            cat "$log"
+            exit 1
+          fi
+          if grep -q "warning:" "$log"; then
+            grep "warning:" "$log"
+            echo "::error::The app's tests build with warnings."
+            exit 1
+          fi
+          grep -E "Test run with" "$log"
+
       # Release builds every binary for Apple silicon, with pointer authentication (arm64e) and without, and for Intel,
       # with the optimizer a Debug build leaves off. The settings are given here too, since only the command line
       # reaches the Swift packages: a package that names no platform would be built for an older macOS, with its class

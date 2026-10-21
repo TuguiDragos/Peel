@@ -99,7 +99,7 @@ final class TrashMonitor {
 /// first goes to the Trash, and the home's is made again only then after it is deleted. Until it is there, the folder
 /// it appears in is watched: the top of the disk, where `.Trashes` appears, or the home folder.
 @MainActor
-private final class TrashWatch {
+final class TrashWatch {
     enum Start {
         case watching
         /// macOS refused to let Peel look, which for the home's Trash means Full Disk Access is missing.

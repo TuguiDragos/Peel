@@ -34,8 +34,9 @@ prove, and only then fix.
    own page, from several apps' page, from Package Receipts, and through the Homebrew page, so a rule about what may
    move an app is asked on each of them.
 6. **Build and test after every change**, not only at the end: the whole package suite with warnings as errors,
-   and the app's Debug build ([CONTRIBUTING.md](CONTRIBUTING.md#what-you-need) has the commands). Before proposing
-   the change, run what the Checks workflow runs too: the Release build with `ENABLE_POINTER_AUTHENTICATION=YES` and
+   the app's Debug build, and the app's own tests, which run inside Peel
+   ([CONTRIBUTING.md](CONTRIBUTING.md#what-you-need) has the commands). Before proposing the change, run what the
+   Checks workflow runs too: the Release build with `ENABLE_POINTER_AUTHENTICATION=YES` and
    `MACOSX_DEPLOYMENT_TARGET=26.0`, since some of Swift's checks run only on optimized code, the accessibility audit's
    build, and `python3 Scripts/sync_localizations.py --check` and `python3 Scripts/generate_manual.py --check`.
 7. **Check it where it shows**, live: open the page the change touches, or run the `peel` command it changes, and

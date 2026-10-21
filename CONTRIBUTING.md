@@ -17,10 +17,10 @@ before the fix is written, and the result is checked where it shows, as [AGENTS.
 - Xcode 27 or later, with Swift 6.4.
 - A team to sign with, even a free one. The project names its maintainer's team, so build with yours: add
   `DEVELOPMENT_TEAM=YOUR_TEAM_ID` to the `xcodebuild` command, or choose your team under Signing & Capabilities for each
-  of the four targets the Peel scheme builds (and PeelUITests, to run the audit), and leave that change out of your
-  commits. launchd starts the helper only as the team named in `Support/com.tuguidragos.Peel.Helper.plist`
-  (`SpawnConstraint`), so to install the helper you build, put your team there as well, again outside your commits. The
-  package's tests need no signing.
+  of the four targets the Peel scheme builds (and PeelTests and PeelUITests, to run the app's own tests and the audit),
+  and leave that change out of your commits. launchd starts the helper only as the team named in
+  `Support/com.tuguidragos.Peel.Helper.plist` (`SpawnConstraint`), so to install the helper you build, put your team
+  there as well, again outside your commits. The package's tests need no signing.
 - Two dependencies: Apple's swift-argument-parser, which Xcode fetches, and Sparkle, which updates Peel. Sparkle is
   built from its source, at the commit `Scripts/build_sparkle.sh` names, with arm64e and without its XPC services: run
   the script once before the first build. When that commit changes, move `build/SparkleSource` to the Trash first, since
@@ -34,6 +34,14 @@ xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -destinatio
 
 ```bash
 swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
+```
+
+The app's own models are tested inside Peel, which the PeelTests scheme launches with `PEEL_HOSTS_TESTS` set, so that
+it starts nothing and shows nothing:
+
+```bash
+xcodebuild -project Peel.xcodeproj -scheme PeelTests -configuration Debug \
+  -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData DEVELOPMENT_TEAM=YOUR_TEAM_ID test
 ```
 
 Build and test after every change, not only at the end. After a Debug build, run
@@ -67,6 +75,7 @@ python3 Scripts/generate_manual.py --check
   touching it.
 - `PeelFinder/`: the sandboxed Finder Sync extension.
 - `PeelCLI/`: the `peel` command-line tool, a thin entry point.
+- `PeelTests/`: the tests of the app's own models, run inside Peel.
 - `PeelUITests/`: the accessibility audit, run by hand before a release.
 - `Packages/PeelCore/`: everything that decides and acts, with the tests. `PeelCore` scans, matches, and removes;
   `PeelPrivileged` is the part the helper shares; `PeelCommandLine` holds the `peel` commands; `PeelLink` is the

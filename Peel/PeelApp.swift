@@ -6,6 +6,12 @@ import SwiftUI
 /// Peel keeps running without a window only while it shows in the menu bar, so it is never running unseen.
 @MainActor
 final class PeelAppDelegate: NSObject, NSApplicationDelegate {
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        if PeelApp.isHostingTests {
+            NSApp.setActivationPolicy(.prohibited)
+        }
+    }
+
     func applicationShouldTerminateAfterLastWindowClosed(_ application: NSApplication) -> Bool {
         !UserDefaults.standard.bool(forKey: SettingsKey.showsInMenuBar)
     }
@@ -17,6 +23,10 @@ final class PeelAppDelegate: NSObject, NSApplicationDelegate {
 
 @main
 struct PeelApp: App {
+    /// Set by the PeelTests scheme for the Peel that hosts the tests, which drive its models alone: nothing of Peel's
+    /// runs or shows then.
+    static let isHostingTests = ProcessInfo.processInfo.environment["PEEL_HOSTS_TESTS"] != nil
+
     @NSApplicationDelegateAdaptor(PeelAppDelegate.self) private var delegate
     static let mainWindowID = "main"
     /// How often the update round runs. The shortest wait an app can have is six hours, after a failed check
@@ -264,6 +274,7 @@ struct PeelApp: App {
     /// Starts what Peel does from launch to quit, from whichever shows first: the main window, or the menu bar item.
     /// Each piece starts once, and none is a child of the view that called it, so closing the window stops nothing.
     private func start() {
+        guard !Self.isHostingTests else { return }
         #if DEBUG
         // A render or an export only draws and quits, so it contacts nothing and writes nothing of Peel's.
         guard HomeSnapshot.directory == nil, TerminalExport.directory == nil else { return }
@@ -330,7 +341,8 @@ struct PeelApp: App {
     /// Whether the menu bar item shows. `MenuBarExtra` writes it back at every scene update, and each write to an
     /// `AppStorage` makes every `AppStorage` in the app read again, so a write of the value it holds is left out.
     private var menuBarItemIsInserted: Binding<Bool> {
-        Binding {
+        guard !Self.isHostingTests else { return .constant(false) }
+        return Binding {
             showsInMenuBar
         } set: { isInserted in
             if isInserted != showsInMenuBar { showsInMenuBar = isInserted }
@@ -396,6 +408,8 @@ struct PeelApp: App {
                 }
         }
         .defaultSize(width: 1120, height: 764)
+        .defaultLaunchBehavior(Self.isHostingTests ? .suppressed : .automatic)
+        .restorationBehavior(Self.isHostingTests ? .disabled : .automatic)
         .commands {
             PeelCommands(
                 library: library, updater: updater, homebrew: homebrew, textEditing: textEditing,
