@@ -150,9 +150,10 @@ written down the moment it moves, and what its helper moves as soon as the helpe
 short by a crash or Force Quit still reaches History, as an interrupted removal, the next time Peel or `peel` opens
 it.
 
-Right before anything moves, Peel looks at the files other programs of yours hold open and at the program each
-process runs, and leaves where it is any file or folder with one of them inside, naming the program and how to free
-the item: quit it, or stop it in Background Items when it has no window, since launchd starts such a program again.
+Right before anything moves, and again once a second while a removal of many items goes on, Peel looks at the files
+other programs of yours hold open and at the program each process runs, and leaves where it is any file or folder
+with one of them inside, naming the program and how to free the item: quit it, or stop it in Background Items when it
+has no window, since launchd starts such a program again.
 Moving a database or a cache from under an agent, a daemon, or a server that is using it would break it. A program
 of macOS's own, such as a service keeping its cache open, is named as macOS: nobody quits it, so the item stays
 where it is. An app is code, which loses nothing when it moves, so a program that only reads inside it, as Safari

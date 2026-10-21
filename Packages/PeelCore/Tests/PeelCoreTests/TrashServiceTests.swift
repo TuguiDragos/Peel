@@ -833,6 +833,31 @@ struct TrashServiceTests {
         #expect(caches.appending(path: "Vendor.real/x.pdf").isThere)
     }
 
+    @Test func readsTheOpenFilesAgainWhileAMoveGoesOn() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let first = try directory.file("home/Documents/first.txt")
+        let second = try directory.file("home/Documents/second.txt", bytes: 1_000_000)
+        let third = try directory.file("home/Documents/third.txt")
+        let reader = Mutex<Process?>(nil)
+        defer { reader.withLock { $0?.terminate() } }
+
+        let result = await service.trash([first, second, third]) { url in
+            guard url == first else { return nil }
+            let cat = Process()
+            cat.executableURL = URL(filePath: "/bin/cat")
+            cat.arguments = [second.path(percentEncoded: false)]
+            cat.standardOutput = Pipe()
+            try? cat.run()
+            reader.withLock { $0 = cat }
+            Thread.sleep(forTimeInterval: 1.05)
+            return nil
+        }
+
+        #expect(result.trashed.map(\.originalURL) == [first, third])
+        #expect(result.failures.map(\.reason) == [.heldOpen(by: ["cat"])])
+    }
+
     @Test func makesNoFolderForAPutBackTheGuardRefusesOnceTheFoldersAreHeld() throws {
         let directory = try TemporaryDirectory()
         let caches = try directory.directory("home/Library/Caches")

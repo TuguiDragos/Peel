@@ -38,6 +38,23 @@ struct OpenFiles {
         self.programs = programs
     }
 
+    /// How long a reading is trusted: a removal of many items takes seconds, and a program can start meanwhile.
+    static let lifetime: Duration = .seconds(1)
+
+    /// A reading of the open files that is made again once it is older than `lifetime`.
+    struct Fresh {
+        private var reading = OpenFiles()
+        private var read = ContinuousClock.now
+
+        mutating func refusal(of url: URL, lettingItsProgramsRun: Bool) -> TrashFailure.Reason? {
+            if ContinuousClock.now - read > OpenFiles.lifetime {
+                reading = OpenFiles()
+                read = .now
+            }
+            return reading.refusal(of: url, lettingItsProgramsRun: lettingItsProgramsRun)
+        }
+    }
+
     /// The programs that hold `url`. An app is code, which loses nothing when it moves, so a program that only reads
     /// inside it, as Safari reads an app's Safari extension, holds nothing: what runs from it or writes in it does.
     func holders(of url: URL, lettingItsProgramsRun: Bool = false) -> [String] {

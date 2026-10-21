@@ -420,7 +420,7 @@ public struct TrashService: Sendable {
         // The guard reads the disk, so it is asked once for each item.
         let refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
         let allowed = urls.filter { refusals[$0] == nil }
-        let openFiles = OpenFiles()
+        var openFiles = OpenFiles.Fresh()
         // Read before the move, while the files are still there to say which jobs they declare.
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
 
@@ -617,7 +617,7 @@ public struct TrashService: Sendable {
         // find it gone and report a failure.
         var paths = Folders()
         permitted.forEach { paths.add(PathPattern.comparablePath(of: $0)) }
-        let openFiles = OpenFiles()
+        var openFiles = OpenFiles.Fresh()
         var allowed: [URL] = []
         for url in permitted {
             guard !paths.hold(PathPattern.comparablePath(of: url)) else { continue }
