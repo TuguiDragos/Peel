@@ -7,6 +7,13 @@ private final class FakeStore: TweakStoring {
     var values: [String: Any] = [:]
     var refusesWrites = false
 
+    func beginReading() {}
+
+    func state(of tweak: Tweak) -> TweakState {
+        let text = values[tweak.id] as? String
+        return TweakState(isOn: values[tweak.id] != nil, isManaged: false, text: text)
+    }
+
     func storedValue(of tweak: Tweak) -> Any? { values[tweak.id] }
 
     func turnOn(_ tweak: Tweak, text: String?) -> Bool {

@@ -72,5 +72,11 @@ public struct TweakState: Sendable, Hashable {
     /// For a folder tweak, the path it holds; for a name tweak, the name.
     public let text: String?
 
+    public init(isOn: Bool, isManaged: Bool, text: String?) {
+        self.isOn = isOn
+        self.isManaged = isManaged
+        self.text = text
+    }
+
     public static let unset = TweakState(isOn: false, isManaged: false, text: nil)
 }

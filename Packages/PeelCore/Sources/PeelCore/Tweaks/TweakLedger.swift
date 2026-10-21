@@ -1,7 +1,10 @@
 import Foundation
 
-/// The reads and writes `TweakLedger` needs. `TweakStore` provides them through CFPreferences.
+/// The reads and writes the ledger and the Tweaks page need. `TweakStore` provides them through CFPreferences.
 public protocol TweakStoring {
+    /// Starts a new reading of every tweak, so each domain is synchronized once rather than once per key.
+    func beginReading()
+    func state(of tweak: Tweak) -> TweakState
     func storedValue(of tweak: Tweak) -> Any?
     func turnOn(_ tweak: Tweak, text: String?) -> Bool
     /// Writes `value` back, or removes the key when there is none, which hands the setting back to macOS.

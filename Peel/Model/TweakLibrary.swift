@@ -18,7 +18,11 @@ final class TweakLibrary {
         return getaudit_addr(&info, Int32(MemoryLayout<auditinfo_addr_t>.size)) == 0 ? Int(info.ai_asid) : 0
     }()
 
-    private let store = TweakStore()
+    private let store: any TweakStoring
+    private let defaults: UserDefaults
+    private let home: URL
+    /// Restarts the process that owns a setting; `TweakRestart.run` unless a test gives its own.
+    private let restart: @Sendable (Tweak.Restart) async -> Void
     /// What Peel changed, and the values from before. `TweakLedger` decides what turning a switch on or off
     /// does, and is tested there.
     private var ledger: TweakLedger
@@ -28,14 +32,26 @@ final class TweakLibrary {
     /// saved with the session ID, so they survive quitting Peel and are dropped after the next login.
     private(set) var waitingForLogOut: Set<Tweak.ID>
 
-    init() {
+    /// The preferences the tweaks are read from and written to, the store the ledger is kept in, the home whose
+    /// Trash a screenshot folder is checked against, and what restarts a process: the person's own unless a test
+    /// gives its own.
+    init(
+        store: any TweakStoring = TweakStore(),
+        defaults: UserDefaults = .standard,
+        home: URL = .homeDirectory,
+        restart: @escaping @Sendable (Tweak.Restart) async -> Void = TweakRestart.run
+    ) {
+        self.store = store
+        self.defaults = defaults
+        self.home = home
+        self.restart = restart
         ledger = TweakLedger(
-            changedByPeel: Set(UserDefaults.standard.stringArray(forKey: Self.changedKey) ?? []),
-            previousValues: UserDefaults.standard.dictionary(forKey: Self.previousKey) ?? [:],
-            writtenValues: UserDefaults.standard.dictionary(forKey: Self.writtenKey) ?? [:]
+            changedByPeel: Set(defaults.stringArray(forKey: Self.changedKey) ?? []),
+            previousValues: defaults.dictionary(forKey: Self.previousKey) ?? [:],
+            writtenValues: defaults.dictionary(forKey: Self.writtenKey) ?? [:]
         )
-        let isThisSession = UserDefaults.standard.integer(forKey: Self.sessionKey) == Self.loginSession
-        waitingForLogOut = isThisSession ? Set(UserDefaults.standard.stringArray(forKey: Self.waitingKey) ?? []) : []
+        let isThisSession = defaults.integer(forKey: Self.sessionKey) == Self.loginSession
+        waitingForLogOut = isThisSession ? Set(defaults.stringArray(forKey: Self.waitingKey) ?? []) : []
         ledger.adoptStoredValuesAsWritten(in: store)
         refresh()
     }
@@ -81,11 +97,13 @@ final class TweakLibrary {
     /// The tweaks changed by a switch whose restart was left to a change waiting after it.
     private var restartOwed: Set<Tweak.ID> = []
 
-    func set(_ tweak: Tweak, on isOn: Bool) {
+    /// Returns the task that makes the change, which a test can await; the page lets it run.
+    @discardableResult
+    func set(_ tweak: Tweak, on isOn: Bool) -> Task<Void, Never> {
         asked[tweak.id] = isOn
         let line = lines[tweak.id] ?? OneAtATime()
         lines[tweak.id] = line
-        Task {
+        return Task {
             await line.ask(isOn) { [self] isOn, anotherWaits in
                 let outcome = isOn ? ledger.turnOn(tweak, in: store) : ledger.turnOff(tweak, in: store)
                 await finish(tweak, after: outcome, isLast: !anotherWaits())
@@ -108,22 +126,22 @@ final class TweakLibrary {
     }
 
     private func save() {
-        UserDefaults.standard.set(Array(ledger.changedByPeel), forKey: Self.changedKey)
-        UserDefaults.standard.set(ledger.previousValues, forKey: Self.previousKey)
-        UserDefaults.standard.set(ledger.writtenValues, forKey: Self.writtenKey)
-        UserDefaults.standard.set(Array(waitingForLogOut), forKey: Self.waitingKey)
-        UserDefaults.standard.set(Self.loginSession, forKey: Self.sessionKey)
+        defaults.set(Array(ledger.changedByPeel), forKey: Self.changedKey)
+        defaults.set(ledger.previousValues, forKey: Self.previousKey)
+        defaults.set(ledger.writtenValues, forKey: Self.writtenKey)
+        defaults.set(Array(waitingForLogOut), forKey: Self.waitingKey)
+        defaults.set(Self.loginSession, forKey: Self.sessionKey)
     }
 
     func chooseScreenshotFolder(for tweak: Tweak) async {
         // Asked again once the panel has closed, since the folder can change after the panel's own check.
-        guard let url = await ScreenshotFolderPanel.choose(), ScreenshotFolder.problem(with: url) == nil
+        guard let url = await ScreenshotFolderPanel.choose(), ScreenshotFolder.problem(with: url, home: home) == nil
         else { return }
         await turnOn(tweak, text: ScreenshotFolder.setting(for: url))
     }
 
     /// The settings Peel could not write, so each row can say so instead of letting the switch spring back
-    /// with no reason. Cleared by the next attempt, and by leaving the page.
+    /// with no reason. A tweak leaves the set with its next write that lands, and all of them when the page goes.
     private(set) var refused: Set<Tweak.ID> = []
 
     func forgetRefusals() {
@@ -144,14 +162,16 @@ final class TweakLibrary {
         defer { isTurningAllOff = false }
         // Read again: System Settings may have changed any of these after the page was drawn.
         refresh()
-        let batch = ledger.turnOff(Self.onTweaksPage.filter { ledger.isOn($0, state: state(of: $0)) }, in: store)
-        refused = Set(batch.refused.map(\.id))
+        let tried = Self.onTweaksPage.filter { ledger.isOn($0, state: state(of: $0)) }
+        let batch = ledger.turnOff(tried, in: store)
+        refused.subtract(tried.map(\.id))
+        refused.formUnion(batch.refused.map(\.id))
         for tweak in batch.changed where tweak.restart == .logOut {
             waitingForLogOut.formSymmetricDifference([tweak.id])
         }
         save()
-        for restart in batch.restarts {
-            await TweakRestart.run(restart)
+        for needed in batch.restarts {
+            await restart(needed)
         }
         refresh()
     }
@@ -160,9 +180,9 @@ final class TweakLibrary {
     /// already as asked.
     private func finish(_ tweak: Tweak, after outcome: TweakLedger.Outcome, isLast: Bool = true) async {
         defer { if isLast { asked[tweak.id] = nil } }
-        refused = outcome == .refused ? [tweak.id] : []
+        if outcome == .refused { refused.insert(tweak.id) } else { refused.remove(tweak.id) }
         guard outcome != .refused else {
-            if isLast, restartOwed.remove(tweak.id) != nil { await TweakRestart.run(tweak.restart) }
+            if isLast, restartOwed.remove(tweak.id) != nil { await restart(tweak.restart) }
             refresh()
             return
         }
@@ -176,7 +196,7 @@ final class TweakLibrary {
             if outcome == .changed { restartOwed.insert(tweak.id) }
         } else {
             let wasOwed = restartOwed.remove(tweak.id) != nil
-            if outcome == .changed || wasOwed { await TweakRestart.run(tweak.restart) }
+            if outcome == .changed || wasOwed { await restart(tweak.restart) }
         }
         refresh()
     }
