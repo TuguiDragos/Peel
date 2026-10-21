@@ -7,6 +7,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Added
 
+#### Terminal
+
+- With Peel's prompt on, the Shell tab asks zsh which prompt a new window shows, and names the function that sets its
+  own before each command, as Starship and Powerlevel10k do, or says that something sets it after Peel's file is read.
+- The Shell, SSH, and Git tabs say when Peel's own file couldn't be read or when zsh, ssh, or Git didn't answer, and the
+  Tools tab says so while it asks Homebrew.
+
 #### Settings
 
 - Privacy lists `api.github.com`, which Homebrew asks before an update or upgrade whether it and the taps kept on GitHub
@@ -32,6 +39,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Changed
 
+#### Terminal
+
+- Sign commits with your SSH key signs with the key Git already signs with, and its row names the key in use.
+- The Tools tab asks Homebrew which tools it still offers only while Homebrew's own settings wouldn't make it update its
+  lists over the network first.
+
 #### Applications
 
 - A folder named like the app without the word of its release channel, as Zed Nightly keeps its settings in `zed`, is
@@ -53,6 +66,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Choosing a theme, changing one of its switches, or putting Terminal back writes nothing over Terminal's profiles when
   they can't be read, and the Themes tab says so.
+- The command the Shell tab gives for `~/.zshrc` starts Peel's line on a line of its own, so a file whose last line has
+  no newline after it keeps that line, and the tab says that zsh reads Peel's settings only for a line that reads them.
+- Turning off Sign commits with your SSH key puts back every key as it was, so signing you had with another format, such
+  as GPG, goes on as before.
+- The Git tab saves its record of what each key held after every key it writes, and quitting Peel waits for the change.
+- Turn All Off on the Shell and SSH tabs never writes over a file of Peel's own that couldn't be read.
+- The Terminal tab says from the start when Terminal's profiles can't be read, instead of asking you to choose a theme.
 
 #### History
 
