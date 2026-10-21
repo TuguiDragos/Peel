@@ -193,7 +193,6 @@ private struct TweakNameField: View {
     @Binding var problem: ScreenshotName.Problem?
     @State private var draft: String?
     @State private var isSaving = false
-    @FocusState private var isFocused: Bool
 
     var body: some View {
         let putsBack = !isEdited && tweaks.isChangedByPeel(tweak)
@@ -204,12 +203,7 @@ private struct TweakNameField: View {
             .labelsHidden()
             .textFieldStyle(.roundedBorder)
             .frame(width: 160)
-            .focused($isFocused)
             .onSubmit(commit)
-            .onChange(of: isFocused) { _, focused in
-                if !focused { commit() }
-            }
-            .onDisappear(perform: commit)
             // Both titles take room, so the button keeps the width of the longer one and the field stays put.
             Button {
                 if putsBack {
