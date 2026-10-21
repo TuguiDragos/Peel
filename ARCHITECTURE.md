@@ -276,6 +276,19 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   languages. The key is the English, so changing a sentence means translating it again; the tests fail until
   every language has it. PeelCore never translates: it returns plain English, and the app turns known
   sentences into the reader's language (`FixedSentence`).
+- **Tweaks.** The Tweaks page changes 40 settings of macOS and of its apps, each one preference key of one domain
+  (`TweakCatalog`), through CFPreferences and never by editing a file: cfprefsd keeps its own copy of a domain and
+  writes it back over a file changed behind it (`TweakStore`). It writes the layer System Settings writes, the
+  person's own for any host, and reads a setting's state from every layer macOS searches; a value set for this Mac
+  alone, for every account by an administrator, or for every app at once in the global domain, which Peel's own
+  layer could not change, shows with a lock and is left alone, as a value a configuration profile sets is.
+  `TweakLedger` keeps in Peel's preferences which tweaks Peel turned on, what each key held before, and what Peel
+  wrote: turning a tweak off puts back what was there, removes a key that held nothing, leaves a value the person
+  changed since as it is, and removes the key of a setting the person made themselves, so macOS falls back to its
+  default; Turn All Off puts back only what Peel changed. The Dock, Finder, Control Center, and the window manager
+  are restarted with `killall` so they read a setting, once per change, which for Finder ends anything it is
+  copying; the keys AppKit reads take effect when an app is reopened, and `DSDontWriteNetworkStores` after a log
+  out, as Apple's article says, which the page remembers for the login session.
 - **Terminal.** The Terminal page writes Terminal's own preferences, makes `~/.hushlogin`, and changes Git's
   settings through `git config --global`; everything else it writes is a file of Peel's own:
   - Peel's themes are profiles of their own, each built by `TerminalProfile` from Apple's Clear Dark, beside the
