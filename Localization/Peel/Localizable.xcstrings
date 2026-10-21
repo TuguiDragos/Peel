@@ -41487,108 +41487,108 @@
         }
       }
     },
-    "Finder restarts." : {
+    "Finder restarts, which stops anything it is copying." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder se restartuje."
+            "value" : "Finder se restartuje, což zastaví vše, co právě kopíruje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Finder wird neu gestartet."
+            "value" : "Der Finder wird neu gestartet, wodurch alles abgebrochen wird, was er gerade kopiert."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El Finder se reinicia."
+            "value" : "El Finder se reinicia, lo que interrumpe lo que esté copiando."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le Finder redémarre."
+            "value" : "Le Finder redémarre, ce qui interrompt toute copie en cours."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il Finder si riavvia."
+            "value" : "Il Finder si riavvia, il che interrompe tutto ciò che sta copiando."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finderが再起動します。"
+            "value" : "Finderが再起動するため、進行中のコピーは中断されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder가 다시 시작됩니다."
+            "value" : "Finder가 다시 시작되며, 그러면 Finder에서 진행 중인 복사 작업이 중단됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder start opnieuw."
+            "value" : "Finder start opnieuw, waardoor alles stopt wat Finder op dat moment aan het kopiëren is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder uruchamia się ponownie."
+            "value" : "Finder uruchamia się ponownie, co przerywa wszystko, co właśnie kopiuje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Finder reinicia."
+            "value" : "O Finder reinicia, o que interrompe qualquer cópia que ele esteja fazendo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder repornește."
+            "value" : "Finder repornește, ceea ce oprește orice copiere pe care o face în acel moment."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder перезапустится."
+            "value" : "Finder перезапустится, и тогда все, что он сейчас копирует, остановится."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder startas om."
+            "value" : "Finder startas om, vilket avbryter allt som den håller på att kopiera."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder yeniden başlar."
+            "value" : "Finder yeniden başlar, bu da o sırada kopyaladığı her şeyi durdurur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder перезапускається."
+            "value" : "Finder перезапускається, а це зупиняє все, що він у цей момент копіює."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“访达”会重新启动。"
+            "value" : "“访达”会重新启动，这会中断它正在进行的拷贝操作。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder會重新啟動。"
+            "value" : "Finder會重新啟動，這會中斷它正在進行的拷貝作業。"
           }
         }
       }

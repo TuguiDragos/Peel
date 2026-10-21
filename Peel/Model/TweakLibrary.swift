@@ -288,7 +288,7 @@ extension Tweak.Restart {
         switch self {
         case .none: nil
         case .dock: "The Dock restarts."
-        case .finder: "Finder restarts."
+        case .finder: "Finder restarts, which stops anything it is copying."
         case .controlCenter: "The menu bar restarts."
         case .windowManager: "Window tiling restarts."
         case .relaunchApps: "Open apps keep the old setting until you reopen them."
