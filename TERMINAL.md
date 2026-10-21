@@ -396,7 +396,7 @@ git config --global column.ui auto
 
 | Setting | What it does |
 | --- | --- |
-| [Sign commits with your SSH key](https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitgpgSign) | Every commit is signed with your SSH key, and GitHub shows it as Verified once you add the key there as a signing key. Peel offers it when one of `id_ed25519.pub`, `id_ecdsa.pub`, and `id_rsa.pub` is in `~/.ssh`, or when signing is already on, and uses the first of them. Turning it off stops the signing, and puts the format and the key back as they were before Peel set them, leaving them alone if Peel didn't. |
+| [Sign commits with your SSH key](https://git-scm.com/docs/git-config#Documentation/git-config.txt-commitgpgSign) | Every commit is signed with your SSH key, and GitHub shows it as Verified once you add the key there as a signing key. Peel offers it when one of `id_ed25519.pub`, `id_ecdsa.pub`, and `id_rsa.pub` is in `~/.ssh`, or when signing is already on, and uses the first of them. Turning it off puts the three keys back as they were before Peel set them: a key Peel found already set stays, so signing you had with another format, such as GPG, goes on as before, and signing you set up yourself with an SSH key stops, as a setting you made yourself goes back to Git's default. |
 
 ```sh
 # Sign commits with your SSH key

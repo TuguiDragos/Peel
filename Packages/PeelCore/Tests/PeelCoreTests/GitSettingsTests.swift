@@ -116,6 +116,24 @@ struct GitSettingsTests {
         #expect(settings["user.signingkey"] == .some(key))
     }
 
+    @Test func signingThePersonHadWithGPGComesBackWhole() async throws {
+        let git = try await GitHome()
+        let key = try git.publicKey("id_ed25519.pub")
+        for (name, value) in [("gpg.format", "openpgp"), ("user.signingKey", "ABCDEF0123"), ("commit.gpgSign", "true")] {
+            #expect(await git.config.set(name, to: value))
+        }
+        var ledger = GitLedger()
+        #expect(await ledger.turnOn(.signCommits, signingKey: key, in: git.config) == .changed)
+        #expect(GitSetting.signCommits.isOn(in: try await git.settings()))
+        #expect(await ledger.turnOff(.signCommits, in: git.config) == .changed)
+        let settings = try await git.settings()
+        #expect(settings["gpg.format"] == "openpgp")
+        #expect(settings["user.signingkey"] == "ABCDEF0123")
+        #expect(settings["commit.gpgsign"] == "true")
+        #expect(!GitSetting.signCommits.isOn(in: settings))
+        #expect(ledger.written.isEmpty && ledger.previous.isEmpty)
+    }
+
     @Test func everyWayGitWritesTrueCountsAsOn() {
         for written in ["true", "TRUE", "yes", "on", "1"] {
             #expect(GitSetting.pruneOnFetch.isOn(in: ["fetch.prune": written]), "\(written)")
