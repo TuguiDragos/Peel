@@ -1,7 +1,9 @@
+import AppKit
 import Foundation
 @testable import PeelCore
 import PeelPrivileged
 import Testing
+import UniformTypeIdentifiers
 
 struct AppInspectorTests {
     private static let thinX86_64: [UInt8] = [0xCF, 0xFA, 0xED, 0xFE, 0x07, 0x00, 0x00, 0x01]
@@ -253,6 +255,28 @@ struct AppInspectorTests {
         let app = try #require(AppInspector.inspect(directory.url.appending(path: "Quiet.app", directoryHint: .isDirectory)))
 
         #expect(app.name == "Quiet")
+    }
+
+    @Test func anAppMacOSDoesNotKnowGetsItsIconFromItsOwnFiles() throws {
+        let directory = try TemporaryDirectory()
+        let icns = URL(filePath: "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericApplicationIcon.icns")
+        try plist(["CFBundleIdentifier": "org.example.drawn", "CFBundleIconFile": "Drawn"], at: "Drawn.app/Contents/Info.plist", in: directory)
+        try directory.directory("Drawn.app/Contents/Resources")
+        try FileManager.default.copyItem(at: icns, to: directory.url.appending(path: "Drawn.app/Contents/Resources/Drawn.icns"))
+        try plist(["CFBundleIdentifier": "org.example.plain"], at: "Plain.app/Contents/Info.plist", in: directory)
+
+        let drawn = AppInspector.icon(ofAppAt: directory.url.appending(path: "Drawn.app", directoryHint: .isDirectory))
+        let plain = AppInspector.icon(ofAppAt: directory.url.appending(path: "Plain.app", directoryHint: .isDirectory))
+
+        #expect(drawn.tiffRepresentation == NSImage(contentsOf: icns)?.tiffRepresentation)
+        #expect(plain.tiffRepresentation == NSWorkspace.shared.icon(for: .applicationBundle).tiffRepresentation)
+    }
+
+    @Test func anAppMacOSKnowsGetsItsIconAsFinderDrawsIt() {
+        let calculator = URL(filePath: "/System/Applications/Calculator.app", directoryHint: .isDirectory)
+        let finder = NSWorkspace.shared.icon(forFile: calculator.path(percentEncoded: false))
+
+        #expect(AppInspector.icon(ofAppAt: calculator).tiffRepresentation == finder.tiffRepresentation)
     }
 
     @Test func anAppMacOSKnowsIsNamedAsFinderNamesIt() {

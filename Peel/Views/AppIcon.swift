@@ -1,4 +1,5 @@
 import AppKit
+import PeelCore
 import SwiftUI
 
 /// An app's or a file's own icon. Smart Invert leaves it as it is, as it leaves photos, because it shows the
@@ -30,15 +31,24 @@ enum IconCache {
         return cache
     }
 
+    nonisolated private static func isApp(_ url: URL) -> Bool {
+        url.pathExtension.lowercased() == "app"
+    }
+
     nonisolated private static func images(for url: URL) -> NSCache<NSString, NSImage> {
-        url.pathExtension.lowercased() == "app" ? apps : files
+        isApp(url) ? apps : files
+    }
+
+    /// An app's icon is asked of `AppInspector`, which asks IconServices only about an app Launch Services knows.
+    nonisolated private static func image(for url: URL) -> NSImage {
+        isApp(url) ? AppInspector.icon(ofAppAt: url) : NSWorkspace.shared.icon(forFile: url.path(percentEncoded: false))
     }
 
     @MainActor
     static func icon(for url: URL) -> NSImage {
         let path = url.path(percentEncoded: false)
         if let image = images(for: url).object(forKey: path as NSString) { return image }
-        let image = NSWorkspace.shared.icon(forFile: path)
+        let image = image(for: url)
         images(for: url).setObject(image, forKey: path as NSString)
         return image
     }
@@ -50,7 +60,7 @@ enum IconCache {
         for url in urls {
             let path = url.path(percentEncoded: false)
             guard images(for: url).object(forKey: path as NSString) == nil else { continue }
-            images(for: url).setObject(NSWorkspace.shared.icon(forFile: path), forKey: path as NSString)
+            images(for: url).setObject(image(for: url), forKey: path as NSString)
         }
     }
 
