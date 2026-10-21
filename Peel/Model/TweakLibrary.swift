@@ -274,8 +274,8 @@ extension Tweak.Restart {
         case .none: nil
         case .dock: "The Dock restarts"
         case .finder: "Finder restarts"
-        case .controlCenter: "The menu bar restarts"
-        case .windowManager: "Window tiling restarts"
+        case .controlCenter: "macOS’s menu bar items restart"
+        case .windowManager: "The window manager restarts"
         case .relaunchApps: "Open apps keep the old setting until you reopen them"
         case .logOut: "Takes effect after you log out"
         case .terminalQuits: "Takes effect the next time Terminal quits"
@@ -289,8 +289,8 @@ extension Tweak.Restart {
         case .none: nil
         case .dock: "The Dock restarts."
         case .finder: "Finder restarts, which stops anything it is copying."
-        case .controlCenter: "The menu bar restarts."
-        case .windowManager: "Window tiling restarts."
+        case .controlCenter: "macOS’s menu bar items restart, since Control Center draws them."
+        case .windowManager: "The window manager restarts."
         case .relaunchApps: "Open apps keep the old setting until you reopen them."
         case .logOut: "Takes effect after you log out."
         case .terminalQuits: "Takes effect the next time Terminal quits."
