@@ -247,8 +247,9 @@ many of them out of sight, in six groups: Dock, Screenshots, Finder, Typing, Win
 hidden Dock appear at once, save screenshots where you want them and without the floating thumbnail, show
 hidden files and every file extension in Finder, keep straight quotes as you type, drag a window from anywhere
 in it, or put seconds on the menu bar clock. Each tweak says what it changes, and turning it off puts back what
-was there before, or leaves it to macOS. On macOS 27, Privacy also has an Apple Intelligence section: each row opens
-the place where Apple says to turn that feature off, in System Settings or in the app, and Peel changes none of them.
+was there before, or leaves it to macOS. Turn All Off puts back everything Peel changed and leaves what you set
+yourself as it is. On macOS 27, Privacy also has an Apple Intelligence section: each row opens the place where Apple
+says to turn that feature off, in System Settings or in the app, and Peel changes none of them.
 
 ## Set up Terminal
 

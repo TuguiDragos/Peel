@@ -60,9 +60,12 @@ final class TweakLibrary {
         tweaks(in: group).contains { waitingForLogOut.contains($0.id) }
     }
 
-    /// True for a setting Peel itself made and the person has not changed since, which is what it can put back.
+    /// The tweaks of the page Peel changed whose keys still hold its value, with nothing a profile sets or another
+    /// layer of the preferences holds over them: what their rows put back, and all Turn All Off puts back.
+    private(set) var peelsChanges: Set<Tweak.ID> = []
+
     func isChangedByPeel(_ tweak: Tweak) -> Bool {
-        ledger.holdsPeelsChange(tweak, stored: store.storedValue(of: tweak))
+        peelsChanges.contains(tweak.id)
     }
 
     func tweaks(in group: Tweak.Group) -> [Tweak] {
@@ -80,6 +83,11 @@ final class TweakLibrary {
         states = Dictionary(
             TweakCatalog.all.map { ($0.id, store.state(of: $0)) },
             uniquingKeysWith: { first, _ in first }
+        )
+        peelsChanges = Set(
+            Self.onTweaksPage
+                .filter { ledger.isPeels($0, state: state(of: $0), stored: store.storedValue(of: $0)) }
+                .map(\.id)
         )
         isSleepDisabled = SleepSetting.isSleepDisabled()
     }
@@ -169,20 +177,16 @@ final class TweakLibrary {
     }
     private(set) var isTurningAllOff = false
 
-    /// Whether Turn All Off has anything to change.
-    var hasSomethingOn: Bool {
-        Self.onTweaksPage.contains { ledger.isOn($0, state: state(of: $0)) }
-    }
-
     private static let onTweaksPage = TweakCatalog.all.filter { Tweak.Group.onTweaksPage.contains($0.group) }
 
-    /// Turns off every tweak that is on, as its own switch would, and restarts each affected process once.
+    /// Puts back every change of Peel's, as its own row would, and restarts each affected process once. What the
+    /// person set themselves stays as it is.
     func turnAllOff() async {
         isTurningAllOff = true
         defer { isTurningAllOff = false }
         // Read again: System Settings may have changed any of these after the page was drawn.
         refresh()
-        let tried = Self.onTweaksPage.filter { ledger.isOn($0, state: state(of: $0)) }
+        let tried = Self.onTweaksPage.filter { peelsChanges.contains($0.id) }
         for tweak in tried {
             foldersLeftToMacOS.remove(tweak.id)
             leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)

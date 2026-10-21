@@ -33,19 +33,18 @@ struct TweakPage: View {
         // Shown once for every tab, at the foot of the page, rather than under each group's section.
         .edgeBar(.bottom) {
             TurnAllOffBar(
-                explanation: "Each of these is a setting macOS already has. Turning one off puts back what was there before Peel, or leaves it to macOS.",
-                isEnabled: tweaks.hasSomethingOn && !tweaks.isTurningAllOff
+                explanation: explanation, isEnabled: !tweaks.peelsChanges.isEmpty && !tweaks.isTurningAllOff
             ) {
                 isConfirmingTurnAllOff = true
             }
         }
-        .alert("Turn off all tweaks?", isPresented: $isConfirmingTurnAllOff) {
+        .alert(Text(verbatim: question), isPresented: $isConfirmingTurnAllOff) {
             Button("Turn All Off") {
                 Task { await tweaks.turnAllOff() }
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Settings Peel changed go back to how they were, and the rest go back to macOS’s defaults. Parts of macOS, like the Dock, may restart.")
+            Text("They go back to how they were before Peel, and what you set yourself stays as it is. Parts of macOS, like the Dock or Finder, may restart, which stops anything Finder is copying.")
         }
         .navigationTitle(Text(Tool.tweaks.title))
         .task {
@@ -57,6 +56,18 @@ struct TweakPage: View {
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             tweaks.refresh()
         }
+    }
+
+    private var explanation: LocalizedStringResource {
+        let count = tweaks.peelsChanges.count
+        return count == 0
+            ? "Each of these is a setting macOS already has, and Peel hasn’t changed any of them."
+            : "Turn All Off puts back the ^[\(count) setting](inflect: true) Peel changed, and leaves what you set yourself as it is."
+    }
+
+    /// An alert's title shows inflection markup as written, so the count is inflected first.
+    private var question: String {
+        String(inflecting: "Put back the ^[\(tweaks.peelsChanges.count) setting](inflect: true) Peel changed?")
     }
 }
 

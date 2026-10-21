@@ -14,7 +14,7 @@ struct TurnAllOffBar: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-                // Tweaks' English sentence is 642 points wide at this size, so a narrower frame would wrap it.
+                // Wide enough for the longest sentence a page shows here, which a narrower frame would wrap.
                 .frame(maxWidth: 680)
         }
         .padding(.horizontal, 20)

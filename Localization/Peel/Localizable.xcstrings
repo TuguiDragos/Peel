@@ -36707,108 +36707,108 @@
         }
       }
     },
-    "Each of these is a setting macOS already has. Turning one off puts back what was there before Peel, or leaves it to macOS." : {
+    "Each of these is a setting macOS already has, and Peel hasn’t changed any of them." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Každé z nich je nastavení, které macOS už má. Vypnutím se vrátí to, co tu bylo před Peelem, nebo se nastavení přenechá systému macOS."
+            "value" : "Každé z nich je nastavení, které macOS už má, a Peel žádné z nich nezměnil."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jede davon ist eine Einstellung, die macOS bereits hat. Wenn du eine deaktivierst, wird wiederhergestellt, was vor Peel galt, oder die Einstellung wird macOS überlassen."
+            "value" : "Jede davon ist eine Einstellung, die macOS bereits hat, und Peel hat keine davon geändert."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cada uno de estos es un ajuste que macOS ya tiene. Al desactivar uno, se restaura lo que había antes de Peel o se deja en manos de macOS."
+            "value" : "Cada uno de estos es un ajuste que macOS ya tiene, y Peel no ha cambiado ninguno."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chacun de ces éléments est un réglage que macOS possède déjà. En désactiver un rétablit ce qui était en place avant Peel, ou le laisse à macOS."
+            "value" : "Chacun de ces éléments est un réglage que macOS possède déjà, et Peel n’en a modifié aucun."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ognuno di questi ritocchi è un’impostazione che macOS ha già. Disattivarne uno ripristina ciò che c’era prima di Peel, oppure lo lascia a macOS."
+            "value" : "Ognuno di questi ritocchi è un’impostazione che macOS ha già, e Peel non ne ha modificata nessuna."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらはいずれも、macOSにもともとある設定です。オフにすると、Peelが変更する前の状態に戻すか、macOSに任せます。"
+            "value" : "これらはいずれも、macOSにもともとある設定で、Peelはどれも変更していません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "각 항목은 macOS에 이미 있는 설정입니다. 항목을 끄면 Peel이 변경하기 전의 설정을 되돌려 놓거나 macOS에 맡깁니다."
+            "value" : "각 항목은 macOS에 이미 있는 설정이며, Peel은 그중 어느 것도 변경하지 않았습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elk hiervan is een instelling die macOS al heeft. Als je er een uitschakelt, wordt teruggezet wat er vóór Peel was, of wordt het aan macOS overgelaten."
+            "value" : "Elk hiervan is een instelling die macOS al heeft, en Peel heeft er geen enkele gewijzigd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Każde z nich to ustawienie, które macOS już ma. Wyłączenie któregoś z nich przywraca to, co było przed Peel, albo zostawia decyzję systemowi macOS."
+            "value" : "Każde z nich to ustawienie, które macOS już ma, a Peel nie zmienił żadnego z nich."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cada uma destas é um ajuste que o macOS já tem. Desativar uma delas coloca de volta o que havia antes do Peel ou deixa a decisão com o macOS."
+            "value" : "Cada uma destas é um ajuste que o macOS já tem, e o Peel não alterou nenhuma delas."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fiecare dintre acestea este o configurare pe care macOS o are deja. Dezactivarea uneia pune înapoi ce era înainte de Peel sau o lasă în seama macOS."
+            "value" : "Fiecare dintre acestea este o configurare pe care macOS o are deja, iar Peel nu a modificat niciuna dintre ele."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Каждый из этих параметров уже есть в macOS. Если выключить параметр, вернется то, что было до Peel, или решать будет macOS."
+            "value" : "Каждый из этих параметров уже есть в macOS, и Peel не менял ни один из них."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Var och en av dessa är en inställning som macOS redan har. Om du stänger av en av dem återställs det som gällde före Peel, eller så lämnas inställningen åt macOS."
+            "value" : "Var och en av dessa är en inställning som macOS redan har, och Peel har inte ändrat någon av dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunların her biri macOS’te zaten bulunan bir ayardır. Birini kapatmak, Peel’den önce orada olanı geri getirir veya ayarı macOS’e bırakır."
+            "value" : "Bunların her biri macOS’te zaten bulunan bir ayardır ve Peel hiçbirini değiştirmedi."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Кожне з них відповідає налаштуванню, яке вже є в macOS. Якщо вимкнути одне з них, повернеться те, що було до Peel, або рішення залишиться за macOS."
+            "value" : "Кожне з них відповідає налаштуванню, яке вже є в macOS, і Peel не змінила жодного з них."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每一项都是macOS本身已有的设置。关闭某一项会恢复Peel更改之前的设置，或交还给macOS决定。"
+            "value" : "每一项都是macOS本身已有的设置，Peel尚未更改其中任何一项。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這些都是macOS本身已有的設定。關閉其中一項，會將它還原為Peel更改之前的狀態，或交由macOS決定。"
+            "value" : "這些都是macOS本身已有的設定，而Peel並未更改其中任何一項。"
           }
         }
       }
@@ -124553,6 +124553,346 @@
         }
       }
     },
+    "Put back the ^[%lld setting](inflect: true) Peel changed?" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vrátit zpět %lld nastavení, která Peel změnil?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vrátit zpět %lld nastavení, které Peel změnil?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vrátit zpět %lld nastavení, které Peel změnil?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vrátit zpět %lld nastavení, která Peel změnil?"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Die %lld Einstellung zurücklegen, die Peel geändert hat?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Die %lld Einstellungen zurücklegen, die Peel geändert hat?"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Restaurar los %lld de ajustes que ha cambiado Peel?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Restaurar %lld ajuste que ha cambiado Peel?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Restaurar los %lld ajustes que ha cambiado Peel?"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Rétablir les %lld de réglages modifiés par Peel ?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Rétablir %lld réglage modifié par Peel ?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Rétablir les %lld réglages modifiés par Peel ?"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi ripristinare %lld di impostazioni che Peel ha modificato?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi ripristinare %lld impostazione che Peel ha modificato?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi ripristinare le %lld impostazioni che Peel ha modificato?"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが変更した%lld件の設定を元に戻しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 변경한 설정 %lld개를 되돌려 놓겠습니까?"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld instelling terugzetten die Peel heeft gewijzigd?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld instellingen terugzetten die Peel heeft gewijzigd?"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przywrócić %lld ustawienia zmienione przez Peel?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przywrócić %lld ustawień zmienionych przez Peel?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przywrócić %lld ustawienie zmienione przez Peel?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przywrócić %lld ustawienia zmienionego przez Peel?"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Colocar de volta os %lld de ajustes que o Peel alterou?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Colocar de volta o %lld ajuste que o Peel alterou?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Colocar de volta os %lld ajustes que o Peel alterou?"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Puneți înapoi cele %lld configurări modificate de Peel?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Puneți înapoi %lld configurare modificată de Peel?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Puneți înapoi cele %lld de configurări modificate de Peel?"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Восстановить %lld параметра, которые изменил Peel?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Восстановить %lld параметров, которые изменил Peel?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Восстановить %lld параметр, который изменил Peel?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Восстановить %lld параметра, которые изменил Peel?"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vill du återställa %lld inställning som Peel har ändrat?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vill du återställa de %lld inställningar som Peel har ändrat?"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel’in değiştirdiği %lld ayar geri getirilsin mi?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel’in değiştirdiği %lld ayar geri getirilsin mi?"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Повернути назад %lld налаштування, які змінила Peel?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Повернути назад %lld налаштувань, які змінила Peel?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Повернути назад %lld налаштування, яке змінила Peel?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Повернути назад %lld налаштування, які змінила Peel?"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要将Peel更改过的%lld项设置放回原处吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要還原Peel更改過的%lld項設定嗎？"
+          }
+        }
+      }
+    },
     "Put back the screenshot folder" : {
       "localizations" : {
         "cs" : {
@@ -142107,112 +142447,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
-          }
-        }
-      }
-    },
-    "Settings Peel changed go back to how they were, and the rest go back to macOS’s defaults. Parts of macOS, like the Dock, may restart." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nastavení, která Peel změnil, se vrátí do původního stavu a ostatní na výchozí hodnoty macOS. Některé části macOS, například Dock, se mohou restartovat."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einstellungen, die Peel geändert hat, kehren zu ihrem vorherigen Wert zurück, die übrigen zu den Standardwerten von macOS. Teile von macOS wie das Dock werden möglicherweise neu gestartet."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los ajustes que ha cambiado Peel vuelven a estar como estaban, y el resto vuelve a los valores por omisión de macOS. Algunas partes de macOS, como el Dock, pueden reiniciarse."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les réglages modifiés par Peel reviennent à leur état antérieur, et les autres aux valeurs par défaut de macOS. Certaines parties de macOS, comme le Dock, peuvent redémarrer."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le impostazioni che Peel ha modificato tornano com’erano, e le altre tornano ai valori predefiniti di macOS. Alcune parti di macOS, come il Dock, potrebbero riavviarsi."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelが変更した設定は元の状態に戻り、それ以外はmacOSのデフォルトに戻ります。DockなどmacOSの一部が再起動する場合があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 변경한 설정은 원래대로 돌아가고, 나머지는 macOS 기본값으로 돌아갑니다. Dock 등 macOS의 일부가 다시 시작될 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instellingen die Peel heeft gewijzigd, gaan terug naar hoe ze waren, en de rest gaat terug naar de standaardinstellingen van macOS. Onderdelen van macOS, zoals het Dock, starten misschien opnieuw."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ustawienia zmienione przez Peel wrócą do poprzedniego stanu, a pozostałe do wartości domyślnych macOS. Niektóre części macOS, na przykład Dock, mogą uruchomić się ponownie."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Os ajustes que o Peel alterou voltam a ser como eram, e o resto volta aos padrões do macOS. Partes do macOS, como o Dock, podem reiniciar."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configurările modificate de Peel revin la cum erau, iar restul revin la valorile implicite ale macOS. Unele părți ale macOS, precum Dock‑ul, pot reporni."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настройки, которые изменил Peel, вернутся к прежним значениям, а остальные вернутся к значениям macOS по умолчанию. Некоторые части macOS, например Dock, могут перезапуститься."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inställningar som Peel har ändrat återgår till hur de var, och resten återgår till förvalen i macOS. Delar av macOS, som Dock, kan startas om."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in değiştirdiği ayarlar eski hâline döner, geri kalanlar macOS’in saptanmış değerlerine döner. Dock gibi macOS bileşenleri yeniden başlayabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Налаштування, які змінила Peel, повернуться до попереднього стану, а решта повернеться до типових значень macOS. Частини macOS, як-от Dock, можуть перезапуститися."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel更改过的设置会恢复原样，其余设置则恢复为macOS的默认值。macOS的某些部分（例如程序坞）可能会重新启动。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel更改過的設定會恢復原狀，其餘則恢復為macOS的預設值。macOS的某些部分（例如Dock）可能會重新啟動。"
           }
         }
       }
@@ -169043,6 +169277,112 @@
         }
       }
     },
+    "They go back to how they were before Peel, and what you set yourself stays as it is. Parts of macOS, like the Dock or Finder, may restart, which stops anything Finder is copying." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vrátí se do stavu, jaký byl před Peelem, a co jste nastavili sami, zůstane tak, jak je. Některé části macOS, například Dock nebo Finder, se mohou restartovat, což zastaví vše, co Finder právě kopíruje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie kehren zu dem Wert zurück, den sie vor Peel hatten, und was du selbst eingestellt hast, bleibt, wie es ist. Teile von macOS wie das Dock oder der Finder werden möglicherweise neu gestartet, wodurch alles abgebrochen wird, was der Finder gerade kopiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelven a estar como estaban antes de Peel, y lo que hayas establecido tú se queda como está. Algunas partes de macOS, como el Dock o el Finder, pueden reiniciarse, lo que interrumpe lo que el Finder esté copiando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ils reviennent à leur état d’avant Peel, et ce que vous avez défini vous-même reste tel quel. Certaines parties de macOS, comme le Dock ou le Finder, peuvent redémarrer, ce qui interrompt toute copie en cours dans le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tornano com’erano prima di Peel, e ciò che hai impostato tu resta com’è. Alcune parti di macOS, come il Dock o il Finder, potrebbero riavviarsi, il che interrompe tutto ciò che il Finder sta copiando."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらの設定はPeelが変更する前の状態に戻り、自分で設定したものはそのまま残ります。DockやFinderなどmacOSの一部が再起動する場合があり、その際、Finderで進行中のコピーは中断されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정들은 Peel이 변경하기 전의 상태로 돌아가고, 사용자가 직접 설정한 내용은 그대로 유지됩니다. Dock이나 Finder 등 macOS의 일부가 다시 시작될 수 있으며, 그러면 Finder에서 진행 중인 복사 작업이 중단됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ze gaan terug naar hoe ze waren vóór Peel, en wat je zelf hebt ingesteld blijft zoals het is. Onderdelen van macOS, zoals het Dock of Finder, starten misschien opnieuw, waardoor alles stopt wat Finder op dat moment aan het kopiëren is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wrócą do tego, co było przed Peel, a to, co ustawiasz samodzielnie, pozostanie bez zmian. Niektóre części macOS, na przykład Dock lub Finder, mogą uruchomić się ponownie, co przerywa wszystko, co Finder właśnie kopiuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eles voltam a ser como eram antes do Peel, e o que você mesmo definiu fica como está. Partes do macOS, como o Dock ou o Finder, podem reiniciar, o que interrompe qualquer cópia que o Finder esteja fazendo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acestea revin la cum erau înainte de Peel, iar ce ați stabilit dvs. rămâne așa cum este. Unele părți ale macOS, precum Dock‑ul sau Finder, pot reporni, ceea ce oprește orice copiere pe care o face Finder în acel moment."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Они вернутся к значениям, которые были до Peel, а то, что Вы задали сами, останется без изменений. Некоторые части macOS, например Dock или Finder, могут перезапуститься, и тогда все, что сейчас копирует Finder, остановится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De återgår till hur de var före Peel, och det som du själv har ställt in förblir som det är. Delar av macOS, som Dock eller Finder, kan startas om, vilket avbryter allt som Finder håller på att kopiera."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar Peel’den önceki hâline döner ve kendi ayarladıklarınız olduğu gibi kalır. Dock veya Finder gibi macOS bileşenleri yeniden başlayabilir, bu da Finder’ın o sırada kopyaladığı her şeyi durdurur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вони повернуться до того стану, в якому були до Peel, а те, що ви задали самі, лишиться без змін. Частини macOS, як-от Dock чи Finder, можуть перезапуститися, а це зупинить усе, що Finder у цей момент копіює."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些设置会恢复到Peel更改之前的状态，而你自己设定的内容会保持原样。macOS的某些部分（例如程序坞或“访达”）可能会重新启动，这会中断“访达”正在进行的拷贝操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些設定會還原為Peel更改之前的狀態，你自己設定的內容則會維持原樣。macOS的某些部分（例如Dock或Finder）可能會重新啟動，這會中斷Finder正在進行的拷貝作業。"
+          }
+        }
+      }
+    },
     "They stay visible instead of appearing only while you scroll." : {
       "localizations" : {
         "cs" : {
@@ -173433,6 +173773,346 @@
         }
       }
     },
+    "Turn All Off puts back the ^[%lld setting](inflect: true) Peel changed, and leaves what you set yourself as it is." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tlačítko Vypnout vše vrátí do původního stavu %lld nastavení, která Peel změnil, a co jste nastavili sami, ponechá tak, jak je."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tlačítko Vypnout vše vrátí do původního stavu %lld nastavení, které Peel změnil, a co jste nastavili sami, ponechá tak, jak je."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tlačítko Vypnout vše vrátí do původního stavu %lld nastavení, které Peel změnil, a co jste nastavili sami, ponechá tak, jak je."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tlačítko Vypnout vše vrátí do původního stavu %lld nastavení, která Peel změnil, a co jste nastavili sami, ponechá tak, jak je."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "„Alle deaktivieren“ legt die %lld Einstellung zurück, die Peel geändert hat, und lässt unangetastet, was du selbst eingestellt hast."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "„Alle deaktivieren“ legt die %lld Einstellungen zurück, die Peel geändert hat, und lässt unangetastet, was du selbst eingestellt hast."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "“Desactivar todo” restaura los %lld de ajustes que ha cambiado Peel y deja como está lo que hayas establecido tú."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "“Desactivar todo” restaura %lld ajuste que ha cambiado Peel y deja como está lo que hayas establecido tú."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "“Desactivar todo” restaura los %lld ajustes que ha cambiado Peel y deja como está lo que hayas establecido tú."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "« Tout désactiver » rétablit les %lld de réglages modifiés par Peel, et laisse tel quel ce que vous avez défini vous-même."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "« Tout désactiver » rétablit %lld réglage modifié par Peel, et laisse tel quel ce que vous avez défini vous-même."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "« Tout désactiver » rétablit les %lld réglages modifiés par Peel, et laisse tel quel ce que vous avez défini vous-même."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "“Disattiva tutto” ripristina %lld di impostazioni che Peel ha modificato, e lascia com’è ciò che hai impostato tu."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "“Disattiva tutto” ripristina %lld impostazione che Peel ha modificato, e lascia com’è ciò che hai impostato tu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "“Disattiva tutto” ripristina le %lld impostazioni che Peel ha modificato, e lascia com’è ciò che hai impostato tu."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“すべてオフにする”を使うと、Peelが変更した%lld件の設定が元の状態に戻り、自分で設定したものはそのまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘모두 끄기’는 Peel이 변경한 설정 %lld개를 되돌려 놓고, 사용자가 직접 설정한 내용은 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "'Schakel alles uit' zet de %lld instelling terug die Peel heeft gewijzigd, en laat wat je zelf hebt ingesteld zoals het is."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "'Schakel alles uit' zet de %lld instellingen terug die Peel heeft gewijzigd, en laat wat je zelf hebt ingesteld zoals het is."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przycisk „Wyłącz wszystkie” przywraca %lld ustawienia zmienione przez Peel, a to, co ustawiasz samodzielnie, zostawia bez zmian."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przycisk „Wyłącz wszystkie” przywraca %lld ustawień zmienionych przez Peel, a to, co ustawiasz samodzielnie, zostawia bez zmian."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przycisk „Wyłącz wszystkie” przywraca %lld ustawienie zmienione przez Peel, a to, co ustawiasz samodzielnie, zostawia bez zmian."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przycisk „Wyłącz wszystkie” przywraca %lld ustawienia zmienionego przez Peel, a to, co ustawiasz samodzielnie, zostawia bez zmian."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Desativar Todas coloca de volta os %lld de ajustes que o Peel alterou e deixa o que você mesmo definiu como está."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Desativar Todas coloca de volta o %lld ajuste que o Peel alterou e deixa o que você mesmo definiu como está."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Desativar Todas coloca de volta os %lld ajustes que o Peel alterou e deixa o que você mesmo definiu como está."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Butonul Dezactivați toate pune înapoi cele %lld configurări modificate de Peel, iar ce ați stabilit dvs. rămâne așa cum este."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Butonul Dezactivați toate pune înapoi %lld configurare modificată de Peel, iar ce ați stabilit dvs. rămâne așa cum este."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Butonul Dezactivați toate pune înapoi cele %lld de configurări modificate de Peel, iar ce ați stabilit dvs. rămâne așa cum este."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Выключить все» восстанавливает %lld параметра, которые изменил Peel, а то, что Вы задали сами, оставляет без изменений."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Выключить все» восстанавливает %lld параметров, которые изменил Peel, а то, что Вы задали сами, оставляет без изменений."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Выключить все» восстанавливает %lld параметр, который изменил Peel, а то, что Вы задали сами, оставляет без изменений."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Выключить все» восстанавливает %lld параметра, которые изменил Peel, а то, что Вы задали сами, оставляет без изменений."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Stäng av alla återställer %lld inställning som Peel har ändrat och lämnar det som du själv har ställt in som det är."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Stäng av alla återställer de %lld inställningar som Peel har ändrat och lämnar det som du själv har ställt in som det är."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tümünü Kapat düğmesi, Peel’in değiştirdiği %lld ayarı geri getirir ve kendi ayarladıklarınızı olduğu gibi bırakır."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tümünü Kapat düğmesi, Peel’in değiştirdiği %lld ayarı geri getirir ve kendi ayarladıklarınızı olduğu gibi bırakır."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Вимкнути всі» повертає до попереднього стану %lld налаштування, які змінила Peel, а те, що ви задали самі, лишає без змін."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Вимкнути всі» повертає до попереднього стану %lld налаштувань, які змінила Peel, а те, що ви задали самі, лишає без змін."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Вимкнути всі» повертає до попереднього стану %lld налаштування, яке змінила Peel, а те, що ви задали самі, лишає без змін."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Кнопка «Вимкнути всі» повертає до попереднього стану %lld налаштування, які змінила Peel, а те, що ви задали самі, лишає без змін."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“全部关闭”会将Peel更改过的%lld项设置放回原处，而你自己设定的内容会保持原样。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「全部關閉」會還原Peel更改過的%lld項設定，你自己設定的內容則會維持原樣。"
+          }
+        }
+      }
+    },
     "Turn Off Apple Intelligence Features" : {
       "localizations" : {
         "cs" : {
@@ -174065,112 +174745,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要關閉所有Shell設定嗎？"
-          }
-        }
-      }
-    },
-    "Turn off all tweaks?" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vypnout všechna přizpůsobení?"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle Anpassungen deaktivieren?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Desactivar todos los retoques?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Désactiver tous les ajustements ?"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vuoi disattivare tutti i ritocchi?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すべてのカスタマイズをオフにしますか?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모든 미세 조정을 끄겠습니까?"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle aanpassingen uitschakelen?"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wyłączyć wszystkie dostosowania?"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desativar todas as personalizações?"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dezactivați toate ajustările?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выключить все параметры?"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vill du stänga av alla justeringar?"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tüm ince ayarlar kapatılsın mı?"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вимкнути всі тонкі налаштування?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要关闭所有微调吗？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要關閉所有微調嗎？"
           }
         }
       }

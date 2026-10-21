@@ -54,11 +54,41 @@ struct TweakLibraryTests {
     /// Tweaks that restart nothing, so a test never ends a process of the Mac it runs on.
     private static let quiet = TweakCatalog.all.filter { $0.restart == .none && $0.group == .screenshots }
 
-    private func makeLibrary(store: FakeTweakStore) throws -> (TweakLibrary, UserDefaults, String) {
+    /// The restarts a library asked for, in order, instead of a `killall` of this Mac's own processes.
+    private final class Restarts {
+        var asked: [Tweak.Restart] = []
+    }
+
+    private func makeLibrary(
+        store: FakeTweakStore, restarts: Restarts = Restarts()
+    ) throws -> (TweakLibrary, UserDefaults, String) {
         let suite = "org.example.peel-tests.\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
-        let library = TweakLibrary(store: store, defaults: defaults, restart: { _ in })
+        let library = TweakLibrary(store: store, defaults: defaults) { needed in
+            await MainActor.run { restarts.asked.append(needed) }
+        }
         return (library, defaults, suite)
+    }
+
+    @Test func turnAllOffPutsBackOnlyWhatPeelChangedAndRestartsEachProcessOnce() async throws {
+        let store = FakeTweakStore()
+        let restarts = Restarts()
+        let (library, defaults, suite) = try makeLibrary(store: store, restarts: restarts)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let docks = TweakCatalog.all.filter { $0.restart == .dock }
+        let (byPeel, alsoByPeel, byHand) = (docks[0], docks[1], docks[2])
+        #expect(store.turnOn(byHand, text: nil))
+        await library.set(byPeel, on: true).value
+        await library.set(alsoByPeel, on: true).value
+        #expect(library.peelsChanges == [byPeel.id, alsoByPeel.id])
+        #expect(restarts.asked == [.dock, .dock])
+
+        await library.turnAllOff()
+
+        #expect(store.values[byPeel.id] == nil && store.values[alsoByPeel.id] == nil)
+        #expect(store.state(of: byHand).isOn, "a setting the person made is theirs")
+        #expect(library.peelsChanges.isEmpty)
+        #expect(restarts.asked == [.dock, .dock, .dock])
     }
 
     @Test func putBackHandsTheScreenshotFolderToMacOSWhenTheFolderFromBeforeIsGone() async throws {

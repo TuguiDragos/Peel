@@ -104,15 +104,11 @@ public struct TweakLedger {
         public var restarts: [Tweak.Restart] = []
     }
 
-    /// Returns whether Turn All Off should turn `tweak` off. It matches what the tweak's own row offers: a
-    /// switch that is on, or a folder that Peel chose, since only then does the row show Put Back. A managed
-    /// value, and one held in a layer Peel doesn't write, are left alone, as the row leaves them.
-    public func isOn(_ tweak: Tweak, state: TweakState) -> Bool {
-        guard !state.isManaged, state.heldElsewhere == nil else { return false }
-        switch tweak.kind {
-        case .aSwitch, .aSwitchForThisAppAlone: return state.isOn
-        case .folder, .name: return holdsPeelsChange(tweak, stored: state.text)
-        }
+    /// Returns whether `tweak` is a change of Peel's that Turn All Off puts back: its key still holds what Peel
+    /// wrote, and nothing a configuration profile sets or another layer of the preferences holds stands over it.
+    /// A setting the person made is theirs, left to its own row.
+    public func isPeels(_ tweak: Tweak, state: TweakState, stored: Any?) -> Bool {
+        !state.isManaged && state.heldElsewhere == nil && holdsPeelsChange(tweak, stored: stored)
     }
 
     /// Turns each of `tweaks` off exactly as its own row would.

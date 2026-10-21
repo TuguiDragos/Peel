@@ -247,7 +247,7 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | Build Artifacts leaves a project's build folders out of Time Machine, when you ask it to | The same checkbox takes the mark off |
 | A background item is stopped, started, disabled, or enabled | The same buttons in Background Items; a disabled item stays disabled after a restart until you enable it |
 | A background job a deleted app left loaded is removed (`launchctl bootout`), on macOS 27 | Nothing to bring back: its app, and what the job ran, are gone |
-| A tweak changes a setting of macOS, and the Dock, Finder, Control Center, or the window manager restarts to read it | Turning the tweak off, or Turn All Off, puts back what was there before, or leaves it to macOS |
+| A tweak changes a setting of macOS, and the Dock, Finder, Control Center, or the window manager restarts to read it | Turning the tweak off puts back what was there before, or leaves it to macOS. Turn All Off puts back only what Peel changed, and leaves what you set yourself as it is |
 | The Terminal page adds Peel's profiles and options to Terminal, makes `~/.hushlogin`, writes Peel's shell and ssh files, and changes Git's settings | Put Back, turning the setting off, or Turn All Off, as [Terminal's settings](#terminals-settings) says |
 
 The first three happen after a move, and only for what really moved:
