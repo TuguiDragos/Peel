@@ -136,6 +136,16 @@ struct TerminalLibrariesTests {
         #expect(!library.wasRefused)
     }
 
+    @Test func aToolsAvailabilityIsNotKnownWhileHomebrewIsAsked() {
+        let fzf = HomebrewPackage(name: "fzf", kind: .formula)
+        let catalog = TerminalToolLibrary.Catalog(known: ["fzf"], packages: [fzf])
+        #expect(TerminalToolLibrary.availability(of: .fzf, in: .asking) == nil)
+        #expect(TerminalToolLibrary.availability(of: .fzf, in: .notAsked) == .available)
+        #expect(TerminalToolLibrary.availability(of: .fzf, in: .answered(catalog)) == .available)
+        #expect(TerminalToolLibrary.availability(of: .fzfTab, in: .answered(catalog)) == .unknownToHomebrew)
+        #expect(TerminalToolLibrary.availability(of: .fzfTab, in: .notAsked) == .available)
+    }
+
     @Test func aGitChangeSavesTheLedgerInTheStoreItWasGiven() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }

@@ -298,7 +298,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
     zsh is also asked which `.zshrc` it reads and, while Peel's prompt is on, which prompt a new window shows
     (`ShellSessions`), by running it with the person's startup files as Terminal does; Peel changes none of them.
     The Tools tab installs nothing: `TerminalTool` gives each tool's Homebrew formulae and the lines its
-    documentation gives, and Homebrew is asked whether it still offers them.
+    documentation gives, and Homebrew is asked, from its local copy of the definitions, whether it still offers
+    them, unless its own settings would make it update its lists over the network first (`Homebrew.overrides`), so
+    the Terminal page goes nowhere.
 - **Peel's own updates.** Sparkle, built from its source by `Scripts/build_sparkle.sh`, reads Peel's signed feed
   on GitHub (`PeelUpdater`) and installs a new version only when the person chooses it, once the feed and the disk
   image it offers are signed with Peel's update key. For a change of key, Sparkle keeps a second way: a disk image

@@ -77,11 +77,15 @@ private struct TerminalToolRow: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
             switch tools.availability(of: tool) {
-            case .unknownToHomebrew:
+            case nil:
+                Text("Asking Homebrew…")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            case .unknownToHomebrew?:
                 StatusLabel(title: Text("Homebrew no longer offers it."), tint: .accentColor)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-            case .retired(let retirement):
+            case .retired(let retirement)?:
                 StatusLabel(title: retirement.title, tint: .accentColor)
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
@@ -89,7 +93,7 @@ private struct TerminalToolRow: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-            case .available:
+            case .available?:
                 let setups = tool.setup(prefix: state.prefix ?? Self.defaultPrefix)
                 if !isInstalled || !setups.isEmpty {
                     let title: LocalizedStringKey =
