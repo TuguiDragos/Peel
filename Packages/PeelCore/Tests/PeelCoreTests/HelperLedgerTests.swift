@@ -148,23 +148,26 @@ struct HelperLedgerTests {
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
         let folder = path("private", in: directory)
 
-        #expect(try HelperLedger.moveFolder(folder, into: trash).get() == nil, "there was no folder to move")
+        #expect(try HelperLedger.moveFolder(folder, into: trash, givingTo: getuid()).get() == nil, "there was no folder to move")
 
         let ledger = try ledger(in: directory)
         _ = try move("root/Library/Caches/com.example.plist", with: ledger, policy: policy, in: directory)
-        let moved = try #require(try HelperLedger.moveFolder(folder, into: trash).get())
+        let moved = try #require(try HelperLedger.moveFolder(folder, into: trash, givingTo: getuid()).get())
         #expect(moved.hasSuffix("/home/.Trash/private"))
         #expect(FileManager.default.fileExists(atPath: moved + "/moved.plist"))
         #expect(!FileManager.default.fileExists(atPath: folder))
+        for path in [moved, moved + "/moved.plist"] {
+            #expect(try FileManager.default.attributesOfItem(atPath: path)[.ownerAccountID] as? UInt32 == getuid())
+        }
 
         try directory.directory("shared")
         try directory.setPermissions(0o755, of: "shared")
         #expect(throws: POSIXError.self, "a folder others can read into was moved") {
-            try HelperLedger.moveFolder(path("shared", in: directory), into: trash).get()
+            try HelperLedger.moveFolder(path("shared", in: directory), into: trash, givingTo: getuid()).get()
         }
         try FileManager.default.createSymbolicLink(atPath: folder, withDestinationPath: path("root/Library/Caches", in: directory))
         #expect(throws: POSIXError.self, "a link in the ledger's place was followed") {
-            try HelperLedger.moveFolder(folder, into: trash).get()
+            try HelperLedger.moveFolder(folder, into: trash, givingTo: getuid()).get()
         }
         #expect(FileManager.default.fileExists(atPath: path("root/Library/Caches", in: directory)))
     }

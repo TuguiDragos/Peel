@@ -97,6 +97,11 @@ public final class DirectoryHandle: Sendable {
         return info
     }
 
+    /// Makes what sits at `name` inside this folder, a link itself included, belong to `user`; its group stays.
+    public func give(_ name: String, to user: uid_t) -> Bool {
+        name.withCString { fchownat(descriptor, $0, user, gid_t(bitPattern: -1), AT_SYMLINK_NOFOLLOW) == 0 }
+    }
+
     /// The owner of the directory itself, read through the descriptor.
     public func ownerIdentifier() -> uid_t? {
         var info = stat()

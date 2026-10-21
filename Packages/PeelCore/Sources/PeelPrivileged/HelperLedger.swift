@@ -80,7 +80,8 @@ public final class HelperLedger: Sendable {
     /// is the helper's own and closed to everyone else, as the ledger keeps its folder.
     public static func moveFolder(
         _ folder: String = defaultFolder,
-        into trash: DirectoryHandle
+        into trash: DirectoryHandle,
+        givingTo user: uid_t
     ) -> Result<String?, POSIXError> {
         lock.withLock {
             switch OpenItem.at(folder) {
@@ -90,9 +91,26 @@ public final class HelperLedger: Sendable {
                 guard let mode = item.mode, mode & S_IFMT == S_IFDIR, mode & 0o077 == 0, item.owner == geteuid() else {
                     return .failure(POSIXError(.EPERM))
                 }
-                return TrashMover.move(item, into: trash).map { $0 }
+                // Given to `user` before it moves, so emptying the Trash asks for no password: in the Trash its
+                // entries could no longer be listed without Full Disk Access. Taken back if the move fails, so the
+                // ledger is never the user's where the helper reads it.
+                give(item, to: user)
+                let moved = TrashMover.move(item, into: trash)
+                if case .failure = moved {
+                    give(item, to: geteuid())
+                }
+                return moved.map { $0 }
             }
         }
+    }
+
+    private static func give(_ item: OpenItem, to user: uid_t) {
+        if let inside = item.parent.child(item.name) {
+            for entry in (try? FileManager.default.contentsOfDirectory(atPath: item.path)) ?? [] {
+                _ = inside.give(entry, to: user)
+            }
+        }
+        _ = item.parent.give(item.name, to: user)
     }
 
     public struct Unreadable: Error {}

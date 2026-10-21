@@ -142,7 +142,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
         else {
             return reply(HelperRefusal.noTrash.rawValue)
         }
-        switch HelperLedger.moveFolder(into: trash) {
+        switch HelperLedger.moveFolder(into: trash, givingTo: caller.user) {
         case .success: reply(nil)
         case .failure(let error): reply(error.localizedDescription)
         }
