@@ -51,6 +51,22 @@ enum Naming {
         return isSignificant(base) ? base : nil
     }
 
+    /// The words a maker puts after an app's name for a release channel, which its folders carry no more than they
+    /// carry a version: Zed Nightly keeps its settings in `zed`.
+    static let channelWords: Set<String> = [
+        "alpha", "beta", "canary", "dev", "nightly", "preview", "insiders", "ptb", "rc",
+    ]
+
+    /// "Zed Nightly" → "Zed", "Xcode-beta" → "Xcode". Only the last word counts, and what is left has to name the
+    /// app.
+    static func withoutChannel(_ name: String) -> String? {
+        guard let separator = name.lastIndex(where: separators.contains) else { return nil }
+        guard channelWords.contains(normalized(String(name[name.index(after: separator)...]))) else { return nil }
+        var base = String(name[..<separator])
+        while let last = base.last, separators.contains(last) { base.removeLast() }
+        return isSignificant(base) ? base : nil
+    }
+
     /// True when `key` starts with `name` followed by a separator. Expects both arguments lowercased.
     static func hasNamePrefix(_ key: String, name: String) -> Bool {
         guard key.count > name.count, key.hasPrefix(name) else { return false }

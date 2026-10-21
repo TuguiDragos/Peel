@@ -64,6 +64,17 @@ struct OrphanScannerTests {
     }
 
 
+    @Test func anInstalledReleaseChannelClaimsTheFoldersNamedForItsApp() {
+        let nightly = InstalledApp(
+            url: URL(filePath: "/Applications/Harbor Nightly.app"), bundleIdentifier: "org.example.harbor-nightly",
+            name: "Harbor Nightly"
+        )
+        let ownership = AppOwnership(installedApps: [nightly]) { _ in false }
+
+        #expect(ownership.isClaimed(fileName: "harbor", kind: .hiddenHomeFiles, identifier: "harbor"))
+        #expect(!ownership.isClaimed(fileName: "anchor", kind: .hiddenHomeFiles, identifier: "anchor"))
+    }
+
     /// Launch Services is asked about apps outside the scanned folders. It knows an app by its bundle identifier,
     /// never by a group container's name, which has a team or `group.` in front.
     @Test func asksMacOSAboutTheAppBehindAGroupContainer() {

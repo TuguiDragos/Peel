@@ -95,7 +95,7 @@ struct LeftoverMatcher: Sendable {
         // A name still hidden here is the system's own: `.GlobalPreferences.plist` is the global domain.
         guard !key.hasPrefix(".") else { return nil }
         let candidate = Candidate(key)
-        guard let evidence = target.evidence(for: candidate) else { return nil }
+        guard let evidence = target.claim(for: candidate) else { return nil }
 
         var sharedWith: Set<String> = []
         var otherCopies: [URL] = []
@@ -369,6 +369,8 @@ extension LeftoverMatcher {
         let vendorPrefix: String?
         let names: [String]
         let normalizedNames: Set<String>
+        /// The app's names without a release channel's word, normalized: `zed` for Zed Nightly.
+        let channelNames: Set<String>
         /// Each run of whole words in the app's names, normalized: Epic Games Launcher holds `epic` and `epicgames`.
         /// None for an app macOS ships, whose words say nothing: `Base` is not AirPort Base Station Agent's.
         let wordRuns: Set<String>
@@ -401,6 +403,8 @@ extension LeftoverMatcher {
             vendorPrefix = vendor.map { $0 + "." }
             names = app.matchingNames.filter(Naming.isSignificant).map { $0.lowercased() }
             normalizedNames = Set(names.map(Naming.normalized))
+            channelNames = Set(names.compactMap(Naming.withoutChannel).map(Naming.normalized))
+                .subtracting(normalizedNames)
             wordRuns = app.isSystemProtected ? [] : Set(names.flatMap { name in
                 let words = name.split { !$0.isLetter && !$0.isNumber }.map(String.init)
                 return words.indices.flatMap { start in words.indices[start...].map { words[start...$0].joined() } }
@@ -439,6 +443,17 @@ extension LeftoverMatcher {
         /// common for a name, such as a job labelled `updater`, claims nothing.
         private func unproven(_ reason: MatchReason, _ candidate: Candidate) -> Evidence? {
             Naming.isSignificant(candidate.key) ? Evidence(unproven: reason, for: candidate) : nil
+        }
+
+        /// The app's own claim on the item: its evidence, or, with none, a name of its without the channel word,
+        /// which claims only for review, since the release the folder belongs to may be installed elsewhere.
+        func claim(for candidate: Candidate) -> Evidence? {
+            if let evidence = evidence(for: candidate) { return evidence }
+            guard !candidate.isApple,
+                  channelNames.contains(candidate.normalized)
+                      || candidate.withoutVersion.map(channelNames.contains) == true
+            else { return nil }
+            return Evidence(.name, .possible, specificity: candidate.normalized.count)
         }
 
         func evidence(for candidate: Candidate) -> Evidence? {

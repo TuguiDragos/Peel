@@ -35,7 +35,7 @@ struct AppOwnership: Sendable {
             }
         }
         if profiles.contains(where: { profile in
-            candidates.contains { profile.evidence(for: $0).map(claims) ?? false }
+            candidates.contains { profile.claim(for: $0).map(claims) ?? false }
         }) {
             return true
         }

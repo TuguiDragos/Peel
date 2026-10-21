@@ -496,6 +496,33 @@ struct LeftoverMatcherTests {
         #expect(Naming.withoutTrailingVersion("Numi") == nil)
     }
 
+    /// "Harbor Nightly" keeps its channel in the app's name but not in its folders, which the stable release uses
+    /// too, so the folder is shown for review and never selected, and shared with the stable release while that one
+    /// is installed.
+    @Test func showsForReviewAFolderNamedLikeTheAppWithoutItsChannelWord() throws {
+        let nightly = app("org.example.harbor-nightly", name: "Harbor Nightly")
+        let harbor = app("org.example.harbor", name: "Harbor")
+
+        let alone = try #require(match("harbor", in: .hiddenHomeFiles, for: nightly))
+        #expect(alone.reason == .name && alone.confidence == .possible && !alone.isRecommended)
+        #expect(match("Harbor", in: .applicationSupport, for: nightly)?.confidence == .possible)
+        #expect(match("Harbor Nightly", in: .applicationSupport, for: nightly)?.confidence == .likely)
+        let beside = try #require(match("harbor", in: .hiddenHomeFiles, for: nightly, with: [harbor]))
+        #expect(beside.sharedWith == [harbor.reference] && !beside.isRecommended)
+        let stables = try #require(match("harbor", in: .hiddenHomeFiles, for: harbor, with: [nightly]))
+        #expect(stables.sharedWith == [nightly.reference] && !stables.isRecommended)
+    }
+
+    @Test func dropsOnlyAChannelWordThatEndsTheName() {
+        #expect(Naming.withoutChannel("Zed Nightly") == "Zed")
+        #expect(Naming.withoutChannel("Xcode-beta") == "Xcode")
+        #expect(Naming.withoutChannel("Discord PTB") == "Discord")
+        #expect(Naming.withoutChannel("Edge Dev") == "Edge")
+        #expect(Naming.withoutChannel("Microsoft Edge") == nil, "a product's name is no channel")
+        #expect(Naming.withoutChannel("Beta") == nil)
+        #expect(Naming.withoutChannel("Zed") == nil)
+    }
+
     /// The matcher only reports evidence. `LeftoverScanner.heldBack` decides that `~/.jotter` is shown but never
     /// selected, after `nested(in:)` has used the same evidence to decide whether to list the item at all. See
     /// `aHiddenHomeEntryOnANameIsShownAndNeverSelected`.
