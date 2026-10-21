@@ -36,6 +36,9 @@ struct DocumentationTests {
         let records = RemovalLog.maximumRecords.formatted(.number.locale(Locale(identifier: "en_US")))
         let idle = Int(HelperLifetime.standardIdleTimeout)
         let results = FileSearch.maximumResults.formatted(.number.locale(Locale(identifier: "en_US")))
+        let minutes = Int(SpaceRemoval.stillInUse / 60)
+        let days = Int(ProjectArtifacts.recentlyActive / (24 * 60 * 60))
+        #expect(Installers.stillDownloading == 24 * 60 * 60, "the documents say a download that changed in the last day")
         let said = [
             ("GUIDE.md", "comes with \(themes) dark themes"),
             ("TERMINAL.md", "\(themes) dark themes"),
@@ -55,7 +58,14 @@ struct DocumentationTests {
             ("GUIDE.md", "still open after \(patience) seconds"),
             ("GUIDE.md", "keeps the latest \(records) items"),
             ("GUIDE.md", "up to \(results) at a time"),
-            ("GUIDE.md", "in the last \(Int(SpaceRemoval.stillInUse / 60)) minutes"),
+            ("GUIDE.md", "in the last \(minutes) minutes"),
+            ("SAFETY.md", "in the last \(minutes) minutes"),
+            ("SAFETY.md", "changed in the last \(days) days, and a download that changed in the last day"),
+            ("GUIDE.md", "changed in the last \(days) days"),
+            ("docs/index.html", "\(themes) dark themes"),
+            ("docs/llms.txt", "\(themes) dark themes"),
+            ("docs/index.html", "\(tweaks) settings macOS already has"),
+            ("docs/llms.txt", "\(tweaks) settings"),
         ]
 
         let wrong = try said.filter { try !text($0.0).contains($0.1) }

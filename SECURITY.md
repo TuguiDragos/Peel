@@ -158,10 +158,13 @@ have, and anything that destroys data that cannot be recovered.
 - Files from apps, projects, and disks Peel doesn't trust, which it reads to decide what is what:
   other apps' property lists and product files (`product-info.json`, `product.json`), the headers of
   their programs (Mach-O), the directory of a ZIP archive, read without extracting it, the first line
-  of a crash report, a Git repository's index, a launch job's file, a browser's native messaging
-  manifest, and the package definitions Homebrew and its taps give, whose paths an uninstall lists.
-  One that causes memory corruption, an exploitable crash, or a wrong answer about what may be
-  removed is in scope.
+  of a crash report, a Git repository's index and its `config`, a launch job's file, a browser's native
+  messaging manifest, the package definitions Homebrew and its taps give, whose paths an uninstall
+  lists, Homebrew's own `brew.env` files, Terminal's preferences, the settings files of the tools whose
+  caches Developer lists (`.npmrc`, `.yarnrc`, `.yarnrc.yml`, pnpm's `config.yaml`, Go's `env`), which
+  say where a cache was moved, and the database macOS keeps of where downloads came from, read for
+  `peel inventory` and Export. One that causes memory corruption, an exploitable crash, or a wrong
+  answer about what may be removed is in scope.
 - The programs Peel runs with what a scan found: `defaults`, `launchctl`, `tccutil`, `pkgutil`, and
   `pluginkit`, given an app's, a package's, or an extension's identifier, a launch job's label, or a
   path, and `brew`, including one chosen in Settings. Getting one to run with arguments an attacker
