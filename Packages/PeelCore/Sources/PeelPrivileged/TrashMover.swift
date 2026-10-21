@@ -14,16 +14,8 @@ public enum TrashMover {
         into trash: DirectoryHandle,
         exclusively: ExclusiveRename
     ) -> Result<String, POSIXError> {
-        let base = (item.name as NSString).deletingPathExtension
-        let pathExtension = (item.name as NSString).pathExtension
-
-        for attempt in 1...1_000 {
-            let candidate: String
-            if attempt == 1 {
-                candidate = item.name
-            } else {
-                candidate = pathExtension.isEmpty ? "\(base) \(attempt)" : "\(base) \(attempt).\(pathExtension)"
-            }
+        for attempt in attempts {
+            let candidate = name(item.name, attempt: attempt)
             switch rename(item, to: candidate, in: trash, exclusively: exclusively) {
             case .success:
                 return .success((trash.path as NSString).appendingPathComponent(candidate))
@@ -32,6 +24,16 @@ public enum TrashMover {
             }
         }
         return .failure(POSIXError(.EEXIST))
+    }
+
+    public static let attempts = 1...1_000
+
+    /// The name `move` tries at `attempt`: the item's own, then "name 2", "name 3", and so on, as Finder names a copy.
+    public static func name(_ name: String, attempt: Int) -> String {
+        guard attempt > 1 else { return name }
+        let base = (name as NSString).deletingPathExtension
+        let pathExtension = (name as NSString).pathExtension
+        return pathExtension.isEmpty ? "\(base) \(attempt)" : "\(base) \(attempt).\(pathExtension)"
     }
 
     /// Renames `item` to `name` in `directory` through both descriptors, refusing to replace anything there.

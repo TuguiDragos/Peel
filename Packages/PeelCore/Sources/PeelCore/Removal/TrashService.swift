@@ -957,6 +957,20 @@ public struct TrashService: Sendable {
         let contents = (try? FileManager.default.contentsOfDirectory(at: trash, includingPropertiesForKeys: nil)) ?? []
         return contents.first { FileIdentity.Link.of($0) == link }
     }
+
+    /// The item in `trash` with the device and inode in `link`, under `name` or a name the helper gives when that one
+    /// is taken. Nothing is listed: without Full Disk Access macOS lets Peel search a Trash but not read it.
+    static func item(_ link: FileIdentity.Link, named name: String, in trash: URL) -> URL? {
+        guard let folder = try? DirectoryHandle.at(trash.path(percentEncoded: false)).get() else { return nil }
+        for attempt in TrashMover.attempts {
+            let candidate = TrashMover.name(name, attempt: attempt)
+            guard let info = folder.status(of: candidate) else { continue }
+            if FileIdentity.Link(device: info.st_dev, inode: info.st_ino) == link {
+                return trash.appending(path: candidate)
+            }
+        }
+        return nil
+    }
 }
 
 /// Folders a request takes, looked up by a path's own names, one level at a time, rather than compared one by one

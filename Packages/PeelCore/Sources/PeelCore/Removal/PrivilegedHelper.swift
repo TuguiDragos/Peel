@@ -222,7 +222,8 @@ public enum PrivilegedHelper {
                     )
                 )
             } else if reply == nil, !url.isThere, let link = links[url] ?? nil,
-                      let found = TrashService.item(link, in: trash) {
+                      let found = TrashService.item(link, in: trash)
+                          ?? TrashService.item(link, named: url.lastPathComponent, in: trash) {
                 result.trashed.append(
                     TrashedItem(originalURL: url, trashedURL: found, date: .now, identity: .init(ofItemAt: found))
                 )

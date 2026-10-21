@@ -1281,6 +1281,25 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.url) == [stayed])
     }
 
+    /// Without Full Disk Access macOS lets Peel search the Trash but not list it, so what the helper moved is
+    /// looked for under the names the helper gives.
+    @Test(.permissionsHold) func whatTheHelperMovedIsFoundAgainInATrashPeelMayNotRead() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        try directory.file("home/.Trash/moved.db")
+        let moved = try directory.file("root/Library/Application Support/Vendor/moved.db")
+        let links = [moved: FileIdentity.Link.of(moved)]
+        try FileManager.default.moveItem(at: moved, to: trash.appending(path: "moved 2.db"))
+        try directory.setPermissions(0o300, of: "home/.Trash")
+        defer { try? directory.setPermissions(0o755, of: "home/.Trash") }
+
+        let result = PrivilegedHelper.result(for: [moved], reply: nil, links: links, trash: trash)
+
+        #expect(result.trashed.map(\.originalURL) == [moved])
+        #expect(result.trashed.first?.trashedURL.lastPathComponent == "moved 2.db")
+        #expect(result.failures.isEmpty)
+    }
+
     @Test func anItemAlreadyGoneIsNeitherMovedNorAFailure() async throws {
         let directory = try TemporaryDirectory()
         let environment = SearchEnvironment(

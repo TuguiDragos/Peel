@@ -90,6 +90,13 @@ public final class DirectoryHandle: Sendable {
         _ = name.withCString { unlinkat(descriptor, $0, AT_REMOVEDIR) }
     }
 
+    /// What sits at `name` inside this folder, a link itself and never what it leads to, or nil when nothing does.
+    public func status(of name: String) -> stat? {
+        var info = stat()
+        guard name.withCString({ fstatat(descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else { return nil }
+        return info
+    }
+
     /// The owner of the directory itself, read through the descriptor.
     public func ownerIdentifier() -> uid_t? {
         var info = stat()
