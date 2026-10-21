@@ -40,8 +40,9 @@ jobs:
             exit 1
           fi
 
-      # The app's targets treat warnings as errors in the project; the package is held to the same here. The tests
-      # write to a file, since a test that writes a line waits for whoever reads it, and the log is read late here.
+      # The app's targets treat warnings as errors in the project, and the package in its manifest, for every build;
+      # the flag here names it on the command line too. The tests write to a file, since a test that writes a line
+      # waits for whoever reads it, and the log is read late here.
       - name: Test PeelCore
         run: |
           log="$RUNNER_TEMP/test.log"
@@ -56,11 +57,22 @@ jobs:
       - name: Build Sparkle
         run: zsh Scripts/build_sparkle.sh
 
+      # A build with a warning fails here: the compiler refuses one in Peel's own code, and the log is read for the
+      # rest, such as the linker's.
       - name: Build the app
         run: |
-          xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
+          log="$RUNNER_TEMP/debug.log"
+          if ! xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug \
             -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData \
-            CODE_SIGNING_ALLOWED=NO build
+            CODE_SIGNING_ALLOWED=NO build > "$log" 2>&1; then
+            cat "$log"
+            exit 1
+          fi
+          if grep -q "warning:" "$log"; then
+            grep "warning:" "$log"
+            echo "::error::The Debug build has warnings."
+            exit 1
+          fi
 
       # Release builds every binary for Apple silicon, with pointer authentication (arm64e) and without, and for Intel,
       # with the optimizer a Debug build leaves off. The settings are given here too, since only the command line
@@ -68,9 +80,18 @@ jobs:
       # data unsigned, and the linker then leaves the class data of the whole binary unsigned.
       - name: Build the app for release
         run: |
-          xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release \
+          log="$RUNNER_TEMP/release.log"
+          if ! xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Release \
             -destination 'generic/platform=macOS' -derivedDataPath build/Release CODE_SIGNING_ALLOWED=NO \
-            ENABLE_POINTER_AUTHENTICATION=YES MACOSX_DEPLOYMENT_TARGET=26.0 build
+            ENABLE_POINTER_AUTHENTICATION=YES MACOSX_DEPLOYMENT_TARGET=26.0 build > "$log" 2>&1; then
+            cat "$log"
+            exit 1
+          fi
+          if grep -q "warning:" "$log"; then
+            grep "warning:" "$log"
+            echo "::error::The Release build has warnings."
+            exit 1
+          fi
           app=build/Release/Build/Products/Release/Peel.app
           # Every program and library in the app, found rather than listed, so one added later is checked too.
           checked=0

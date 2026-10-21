@@ -69,7 +69,12 @@ then
     echo "REFUSED: the archive failed. The whole log is $build/archive.log"
     exit 1
 fi
-grep -E "warning:|ARCHIVE" "$build/archive.log" || true
+if grep -q "warning:" "$build/archive.log"; then
+    grep "warning:" "$build/archive.log"
+    echo "REFUSED: the archive has warnings. The whole log is $build/archive.log"
+    exit 1
+fi
+grep -E "ARCHIVE" "$build/archive.log" || true
 
 echo "== Exporting with Developer ID"
 cat > "$build/ExportOptions.plist" <<'PLIST'
@@ -96,6 +101,11 @@ if ! xcodebuild -exportArchive \
 then
     grep -E "error:" "$build/export.log" || tail -20 "$build/export.log"
     echo "REFUSED: the export failed. The whole log is $build/export.log"
+    exit 1
+fi
+if grep -q "warning:" "$build/export.log"; then
+    grep "warning:" "$build/export.log"
+    echo "REFUSED: the export has warnings. The whole log is $build/export.log"
     exit 1
 fi
 grep -E "EXPORT" "$build/export.log" || true

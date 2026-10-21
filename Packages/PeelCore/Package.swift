@@ -8,6 +8,7 @@ let swiftSettings: [SwiftSetting] = [
     .enableUpcomingFeature("InferIsolatedConformances"),
     .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
     .enableUpcomingFeature("ImmutableWeakCaptures"),
+    .treatAllWarnings(as: .error),
 ]
 
 let package = Package(
