@@ -279,6 +279,7 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".nuxt", marker: "nuxt.config.ts", tool: "Nuxt", isGeneric: false),
             Kind(artifact: ".output", marker: "nuxt.config.mjs", tool: "Nuxt", isGeneric: false),
             Kind(artifact: ".svelte-kit", marker: "svelte.config.js", tool: "SvelteKit", isGeneric: false),
+            Kind(artifact: ".expo", marker: "app.json", tool: "Expo", isGeneric: false),
             Kind(artifact: ".angular", marker: "angular.json", tool: "Angular", isGeneric: false),
             Kind(artifact: ".turbo", marker: "turbo.json", tool: "Turborepo", isGeneric: false),
             Kind(artifact: ".parcel-cache", marker: "package.json", tool: "Parcel", isGeneric: false),
@@ -343,6 +344,19 @@ struct ProjectArtifactsTests {
 
         #expect(found.map(\.name) == ["build-foo"])
         #expect(found.allSatisfy { $0.tool == "Meson" && $0.heldBack == .keepsItsSetup && !$0.isRecommended })
+    }
+
+    @Test func listsAstrosFolderAndKeepsItsPreferences() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("site/astro.config.mjs", bytes: 16)
+        try directory.file("site/.astro/settings.json", bytes: 16)
+        try directory.file("site/.astro/data-store.json", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".astro"])
+        #expect(found.allSatisfy { $0.tool == "Astro" && $0.heldBack == .keepsItsSetup && !$0.isRecommended })
     }
 
     @Test func listsBloopsFolderAndKeepsItsWorkspaceSettings() async throws {

@@ -173,6 +173,8 @@ public enum ProjectArtifacts {
     private static let nextConfigFiles = ["next.config.js", "next.config.mjs", "next.config.ts"]
     private static let samProjectFiles = ["template.yaml", "template.yml", "samconfig.toml"]
     private static let nuxtConfigFiles = ["nuxt.config.ts", "nuxt.config.js", "nuxt.config.mjs"]
+    private static let astroConfigFiles = ["mjs", "js", "cjs", "ts", "mts", "cts"].map { "astro.config." + $0 }
+    private static let expoConfigFiles = ["app.json", "app.config.js", "app.config.ts"]
     private static let viteConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vite.config." + $0 }
     private static let vitestConfigFiles = ["ts", "mts", "cts", "js", "mjs", "cjs"].map { "vitest.config." + $0 }
     private static let gatsbyConfigFiles = ["gatsby-config.js", "gatsby-config.ts", "gatsby-config.mjs"]
@@ -232,6 +234,16 @@ public enum ProjectArtifacts {
         Definition(
             name: ".svelte-kit", markers: ["svelte.config.js"], tool: "SvelteKit", isGeneric: false,
             source: "https://svelte.dev/docs/kit/project-structure"
+        ),
+        // `.astro` also holds `settings.json`, the preferences set with `astro preferences`, kept nowhere else.
+        Definition(
+            name: ".astro", markers: astroConfigFiles, tool: "Astro", isGeneric: false,
+            source: "https://github.com/withastro/astro/blob/0a1036eef62f13c9609362874c5b88434d1e9300/packages/astro/src/preferences/README.md",
+            keepsItsSetup: true
+        ),
+        Definition(
+            name: ".expo", markers: expoConfigFiles, tool: "Expo", isGeneric: false,
+            source: "https://github.com/expo/expo/blob/119b336f677fc6ce44658ea34f79ba823028923d/packages/@expo/cli/src/start/project/dotExpo.ts#L56-L69"
         ),
         Definition(
             name: ".angular", markers: ["angular.json"], tool: "Angular", isGeneric: false,
