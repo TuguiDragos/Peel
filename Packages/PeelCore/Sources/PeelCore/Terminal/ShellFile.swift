@@ -70,28 +70,45 @@ public enum ShellFile {
 
     /// The command that adds `line` at the end of `startupFile`, which it makes when there is none.
     public static func command(adding line: String, to startupFile: URL, home: URL) -> String {
-        "printf '%s\\n' \(line.quotedForTheShell) >> \(startupFile.pathForTheShell(home: home))"
+        ShellCommand.appending([line], to: startupFile, home: home)
     }
 
-    /// Whether a line of `startupFile` that is not a comment names the file, however its spaces are written.
+    /// Whether a line of `startupFile` reads the file.
     public static func isSourced(_ url: URL, from startupFile: URL, home: URL) -> Bool {
         guard let data = BoundedRead.data(at: startupFile) else { return false }
-        let name = url.path(below: home) ?? url.path(percentEncoded: false)
-        return String(decoding: data, as: UTF8.self).split(separator: "\n").contains { line in
-            let code = line.trimmingCharacters(in: .whitespaces)
-            return !code.hasPrefix("#") && code.replacing("\\ ", with: " ").contains(name)
+        return String(decoding: data, as: UTF8.self).split(separator: "\n")
+            .contains { sources(String($0), url, home: home) }
+    }
+
+    /// Whether `line` reads the file: `source` or `.` with the file's path as its argument, written from `$HOME`,
+    /// `${HOME}` or `~`, or whole, in quotes or not, its spaces escaped or not, and not in a comment. Peel's own line
+    /// tests the file first, `[[ -r … ]] && source …`, and counts only when that test starts a command: run into the
+    /// line before it, as happened in a file whose last line had no newline, zsh fails on the line and never reaches
+    /// the `source`.
+    static func sources(_ line: String, _ url: URL, home: URL) -> Bool {
+        let code = line.trimmingCharacters(in: .whitespaces).replacing("\\ ", with: " ")
+        guard !code.hasPrefix("#") else { return false }
+        let escaped = NSRegularExpression.escapedPattern(for:)
+        let whole = "[\"']?" + escaped(url.path(percentEncoded: false)) + "[\"']?"
+        let fromHome = url.path(below: home).map { below in
+            "\"?(?:\\$HOME|\\$\\{HOME\\}|~)/" + escaped(below) + "\"?"
         }
+        let path = "(?:" + ([fromHome, whole].compactMap { $0 }).joined(separator: "|") + ")"
+        let start = #"(?:^|[\s;&|(){])"#
+        let test = #"\[\[\s+-r\s+"# + path + #"\s+\]\]\s*&&\s*"#
+        let reads = #"(?:source|\.)\s+"# + path + #"(?:$|[\s;&|)}#])"#
+        let contains = { (pattern: String) in (try? Regex(pattern)).map { code.contains($0) } ?? false }
+        return contains(test) ? contains(start + test + reads) : contains(start + reads)
     }
 
     /// Whether `startupFile` sets the prompt after the line that reads Peel's file, so zsh shows that one instead.
     public static func setsItsOwnPrompt(after url: URL, in startupFile: URL, home: URL) -> Bool {
         guard let data = BoundedRead.data(at: startupFile) else { return false }
-        let name = url.path(below: home) ?? url.path(percentEncoded: false)
-        let code = String(decoding: data, as: UTF8.self).split(separator: "\n")
-            .map { $0.trimmingCharacters(in: .whitespaces) }
-            .filter { !$0.hasPrefix("#") }
-        guard let peels = code.firstIndex(where: { $0.replacing("\\ ", with: " ").contains(name) }) else { return false }
-        return code[(peels + 1)...].contains { $0.contains(/^(?:(?:export|typeset(?:\s+-g)?)\s+)?(?:PROMPT|PS1)=/) }
+        let lines = String(decoding: data, as: UTF8.self).split(separator: "\n").map(String.init)
+        guard let peels = lines.firstIndex(where: { sources($0, url, home: home) }) else { return false }
+        return lines[(peels + 1)...].contains {
+            $0.trimmingCharacters(in: .whitespaces).contains(/^(?:(?:export|typeset(?:\s+-g)?)\s+)?(?:PROMPT|PS1)=/)
+        }
     }
 
     private static func escaped(_ text: String) -> String {

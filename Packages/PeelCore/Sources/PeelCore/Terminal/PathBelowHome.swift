@@ -27,3 +27,13 @@ extension String {
         "'" + replacing("'", with: "'\\''") + "'"
     }
 }
+
+enum ShellCommand {
+    /// The command that adds `lines` at the end of `file`, each on a line of its own, and makes the file when it is
+    /// not there. An empty line goes first: a file whose last line has no newline after it would otherwise run into
+    /// the first of `lines`, and the shell would read the two as one.
+    static func appending(_ lines: [String], to file: URL, home: URL) -> String {
+        let arguments = ([""] + lines).map(\.quotedForTheShell).joined(separator: " ")
+        return "printf '%s\\n' \(arguments) >> \(file.pathForTheShell(home: home))"
+    }
+}

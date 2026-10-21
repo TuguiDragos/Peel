@@ -74,12 +74,11 @@ public enum SSHFile {
         return ["Match all", "  Include \"\(path.replacing("\\", with: "\\\\").replacing("\"", with: "\\\""))\""]
     }
 
-    /// The command that adds `lines` at the end of `config`, after an empty line, making the folder it is in, closed
-    /// to everyone else as ssh wants it, and the file itself when they are not there.
+    /// The command that adds `lines` at the end of `config`, making the folder it is in, closed to everyone else as
+    /// ssh wants it, and the file itself when they are not there.
     public static func command(adding lines: [String], to config: URL, home: URL) -> String {
         let folder = config.deletingLastPathComponent().pathForTheShell(home: home)
-        let arguments = ([""] + lines).map(\.quotedForTheShell).joined(separator: " ")
-        return "mkdir -p -m 700 \(folder) && printf '%s\\n' \(arguments) >> \(config.pathForTheShell(home: home))"
+        return "mkdir -p -m 700 \(folder) && " + ShellCommand.appending(lines, to: config, home: home)
     }
 
     /// Whether an `Include` line of `config` names the file, however its spaces are written.

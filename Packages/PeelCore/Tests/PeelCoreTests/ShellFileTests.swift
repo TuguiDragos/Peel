@@ -114,11 +114,17 @@ struct ShellFileTests {
         #expect(ShellFile.line(sourcing: shell.peelFile, home: shell.home)
             == "[[ -r \"$HOME/Library/Application Support/Peel/Terminal/zshrc\" ]] && source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"")
         #expect(ShellFile.isSourced(shell.peelFile, from: startup, home: shell.home))
+        let line = ShellFile.line(sourcing: shell.peelFile, home: shell.home)
         for (text, found) in [
             ("source ~/Library/Application\\ Support/Peel/Terminal/zshrc\n", true),
             ("export PATH=/opt/homebrew/bin:$PATH\n  . \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", true),
-            ("# " + ShellFile.line(sourcing: shell.peelFile, home: shell.home) + "\n", false),
+            ("source \"${HOME}/Library/Application Support/Peel/Terminal/zshrc\"  # Peel\n", true),
+            ("source '\(shell.peelFile.path(percentEncoded: false))'\n", true),
+            ("# " + line + "\n", false),
             ("setopt AUTO_CD\n", false),
+            ("export PATH=/opt/homebrew/bin:$PATH" + line + "\n", false),
+            ("alias peelrc='open ~/Library/Application Support/Peel/Terminal/zshrc'\n", false),
+            ("echo ~/Library/Application\\ Support/Peel/Terminal/zshrc\n", false),
         ] {
             try text.write(to: startup, atomically: true, encoding: .utf8)
             #expect(ShellFile.isSourced(shell.peelFile, from: startup, home: shell.home) == found, "\(text)")
@@ -183,11 +189,31 @@ struct PeelLinesCommandTests {
         let command = ShellFile.command(adding: line, to: zshrc, home: home)
         #expect(command.hasSuffix(" >> ~/.zshrc"))
         #expect(try await run(command, home: home) == 0)
-        #expect(try String(contentsOf: zshrc, encoding: .utf8) == line + "\n")
+        #expect(try String(contentsOf: zshrc, encoding: .utf8) == "\n" + line + "\n")
         #expect(ShellFile.isSourced(file, from: zshrc, home: home))
         try "setopt AUTO_CD\n".write(to: zshrc, atomically: true, encoding: .utf8)
         #expect(try await run(command, home: home) == 0)
-        #expect(try String(contentsOf: zshrc, encoding: .utf8) == "setopt AUTO_CD\n" + line + "\n")
+        #expect(try String(contentsOf: zshrc, encoding: .utf8) == "setopt AUTO_CD\n\n" + line + "\n")
+    }
+
+    @Test func theShellsCommandKeepsTheLastLineOfAZshrcThatEndsWithoutANewline() async throws {
+        let home = try madeUpHome()
+        let file = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
+        let zshrc = home.appending(path: ".zshrc")
+        #expect(ShellFile.write(.init(settings: [.autoCD]), to: file))
+        try Data("export PEEL_PROBE=1".utf8).write(to: zshrc)
+        let line = ShellFile.line(sourcing: file, home: home)
+        #expect(try await run(ShellFile.command(adding: line, to: zshrc, home: home), home: home) == 0)
+        let answer = await Subprocess.run(
+            "/bin/zsh",
+            ["-i", "-c", "print -r -- $PEEL_PROBE; [[ -o autocd ]] && print on"],
+            environment: ["HOME": home.path(percentEncoded: false), "ZDOTDIR": home.path(percentEncoded: false), "TERM": "xterm", "PATH": "/usr/bin:/bin"],
+            timeout: 10
+        )
+        guard case .success(let output) = answer else { throw POSIXError(.EIO) }
+        #expect(output.errorText.isEmpty, "\(output.errorText)")
+        #expect(output.text == "1\non\n")
+        #expect(ShellFile.isSourced(file, from: zshrc, home: home))
     }
 
     @Test func theSSHCommandMakesAClosedFolderAndAddsTheLinesPeelFinds() async throws {
