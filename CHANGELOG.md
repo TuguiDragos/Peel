@@ -39,6 +39,16 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Changed
 
+#### Tweaks
+
+- Turn All Off puts back only what Peel changed and leaves what you set yourself as it is; the sentence under it counts
+  Peel's changes, and its question names them.
+- A setting set for this Mac alone, for every account by an administrator, or for every app at once shows with a lock,
+  as one a profile locks does, since Peel can't change it from where it writes.
+- The screenshot name is saved on Return or Save only.
+- The notes say that a restart of Finder stops anything it is copying, that the window manager restarts for the gaps
+  between tiled windows, and that macOS's menu bar items restart for the seconds on the clock.
+
 #### Terminal
 
 - Sign commits with your SSH key signs with the key Git already signs with, and its row names the key in use.
@@ -61,6 +71,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   like other work an app keeps only in a cache.
 
 ### Fixed
+
+#### Tweaks
+
+- A number written as text, as `defaults write` stores it with no type flag, reads as the number it spells, so a wait
+  before the hidden Dock slides out set that way no longer shows as off.
+- Put Back on the screenshot folder leaves the setting to macOS, and says so, when the folder from before isn't there
+  anymore, is in the Trash, or can't be written to, instead of writing back a folder screenshots can't be saved in.
+- The folder for screenshots is written without a slash at its end.
+- A write macOS refused keeps its word under the row until that tweak's next write lands, whatever other rows change.
 
 #### Terminal
 
