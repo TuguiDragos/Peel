@@ -10,6 +10,8 @@ final class ShellLibrary {
         var choices: ShellFile.Choices?
         var isSourced: Bool
         var setsItsOwnPrompt: Bool
+        /// What zsh answered when asked which prompt it shows, asked only while Peel's prompt is on and its line read.
+        var shownPrompt: ShellSessions.ShownPrompt?
         var known: Set<String>?
     }
 
@@ -42,12 +44,19 @@ final class ShellLibrary {
         let shell = ShellSessions.inTerminal(TerminalSettings(), home: home)
         let startupFile = await shell?.zshrc(home: home)
         let choices = ShellFile.read(file)
+        let isSourced = startupFile.map { ShellFile.isSourced(file, from: $0, home: home) } ?? false
+        let shownPrompt: ShellSessions.ShownPrompt? = if choices?.prompt != nil, isSourced {
+            await shell?.promptShown(home: home)
+        } else {
+            nil
+        }
         state = State(
             shell: shell,
             startupFile: startupFile,
             choices: choices,
-            isSourced: startupFile.map { ShellFile.isSourced(file, from: $0, home: home) } ?? false,
+            isSourced: isSourced,
             setsItsOwnPrompt: startupFile.map { ShellFile.setsItsOwnPrompt(after: file, in: $0, home: home) } ?? false,
+            shownPrompt: shownPrompt,
             known: known
         )
         if let prompt = choices?.prompt {

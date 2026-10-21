@@ -2,16 +2,17 @@ import Foundation
 @testable import PeelCore
 import Testing
 
-/// A made-up home whose `.zshrc` sources Peel's file, the way a person's does once they add Peel's line.
+/// A made-up home whose `.zshrc` sources Peel's file, the way a person's does once they add Peel's line, with
+/// `before` above that line and `thenRun` below it.
 struct ZshHome {
     let home: URL
     let peelFile: URL
 
-    init(thenRun lines: [String] = []) throws {
+    init(before: [String] = [], thenRun lines: [String] = []) throws {
         home = FileManager.default.temporaryDirectory.appending(path: "ZshHome-\(UUID().uuidString)", directoryHint: .isDirectory)
         peelFile = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
         try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
-        try ([ShellFile.line(sourcing: peelFile, home: home)] + lines).joined(separator: "\n").appending("\n")
+        try (before + [ShellFile.line(sourcing: peelFile, home: home)] + lines).joined(separator: "\n").appending("\n")
             .write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
     }
 

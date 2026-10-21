@@ -295,6 +295,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
     since as it is, and returns a setting the person made themselves to Git's default.
   - A setting is offered only when the tool on the Mac knows it: zsh lists its options and functions
     (`ZshRequirements`), Git its keys (`git help --config`), and ssh accepts the options on its own command line.
+    zsh is also asked which `.zshrc` it reads and, while Peel's prompt is on, which prompt a new window shows
+    (`ShellSessions`), by running it with the person's startup files as Terminal does; Peel changes none of them.
     The Tools tab installs nothing: `TerminalTool` gives each tool's Homebrew formulae and the lines its
     documentation gives, and Homebrew is asked whether it still offers them.
 - **Peel's own updates.** Sparkle, built from its source by `Scripts/build_sparkle.sh`, reads Peel's signed feed

@@ -553,7 +553,8 @@ bell in the Peel theme in use, and can keep Terminal from reopening its windows.
 
 Leaving out the "Last login" line makes an empty `~/.hushlogin`, the file `login` looks for, and turning it off again
 moves that file to the Trash, recorded in History. Peel never edits your shell's files: to stop the shell from saving
-its sessions, it shows the line to add yourself.
+its sessions, it shows the line to add yourself. To know which `.zshrc` zsh reads and, with Peel's prompt on, which
+prompt a new window shows, Peel runs zsh with your startup files, as a new window does, and changes nothing in them.
 
 The Shell and SSH tabs write only two files of Peel's own, in its folder. zsh and ssh read them only through the line
 you add to `~/.zshrc` and the two lines you add at the end of `~/.ssh/config`, and Peel never edits those files. Turn

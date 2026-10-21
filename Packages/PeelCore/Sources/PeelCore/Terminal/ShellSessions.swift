@@ -59,6 +59,56 @@ public enum ShellSessions: Sendable, Equatable {
             .appending(path: ".zshrc", directoryHint: .notDirectory)
     }
 
+    /// The prompt a new zsh shows, as zsh itself answers.
+    public struct ShownPrompt: Equatable, Sendable {
+        /// What `PROMPT` holds once every startup file has run and the hooks zsh runs before a prompt have run.
+        public let prompt: String
+        /// The functions zsh runs before each prompt that changed it, in the order they ran: a prompt they set wins
+        /// over any `PROMPT=` line, wherever it stands.
+        public let setBeforeEachCommandBy: [String]
+    }
+
+    public func promptShown(home: URL = .homeDirectory) async -> ShownPrompt? {
+        await promptShown(home: home, zdotdir: Self.sessionZDOTDIR)
+    }
+
+    /// Asks zsh for the prompt it shows: a login shell started as Terminal starts one, with the same environment,
+    /// that reads every startup file, runs the `precmd` hooks as it would before its first prompt and prints
+    /// `PROMPT` between marks, so what the startup files print before and `.zlogout` after is passed over. Nil when
+    /// the shell is not zsh or zsh did not answer in time.
+    func promptShown(home: URL, zdotdir: String?) async -> ShownPrompt? {
+        guard case .zsh = self else { return nil }
+        var environment = [
+            "HOME": (home.path(percentEncoded: false) as NSString).standardizingPath,
+            "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
+            "TERM": "xterm-256color",
+        ]
+        if let zdotdir, !zdotdir.isEmpty {
+            environment["ZDOTDIR"] = (zdotdir as NSString).standardizingPath
+        }
+        let script = """
+            typeset -g peel_was="$PROMPT"; typeset -ga peel_by=()
+            for peel_f in $precmd_functions; do
+                "$peel_f" 2>/dev/null
+                if [[ "$PROMPT" != "$peel_was" ]]; then peel_by+=("$peel_f"); peel_was="$PROMPT"; fi
+            done
+            if (( $+functions[precmd] )); then
+                precmd 2>/dev/null
+                if [[ "$PROMPT" != "$peel_was" ]]; then peel_by+=(precmd); fi
+            fi
+            print -rn -- $'\\0Peel\\0'"$PROMPT"; for peel_f in $peel_by; do print -rn -- $'\\0'"$peel_f"; done
+            print -rn -- $'\\0End\\0'
+            """
+        let answer = await Subprocess.run("/bin/zsh", ["-l", "-i", "-c", script], environment: environment, timeout: 10)
+        guard case .success(let output) = answer, output.status == 0 else { return nil }
+        let fields = output.standardOutput.split(separator: 0, omittingEmptySubsequences: false)
+        guard let end = fields.lastIndex(of: Data("End".utf8)), let start = fields[..<end].lastIndex(of: Data("Peel".utf8)),
+              start + 1 < end
+        else { return nil }
+        let texts = fields[(start + 1)..<end].map { String(decoding: $0, as: UTF8.self) }
+        return ShownPrompt(prompt: texts[0], setBeforeEachCommandBy: Array(texts.dropFirst()))
+    }
+
     public var name: String {
         switch self {
         case .zsh: "zsh"

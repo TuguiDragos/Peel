@@ -175,26 +175,35 @@ private struct PromptSection: View {
         } header: {
             Text("Prompt")
         } footer: {
-            if prompt != nil, !state.isSourced, let startupFile = state.startupFile {
-                StatusLabel(
-                    title: Text("zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath)."),
-                    tint: .accentColor
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            } else if prompt != nil, state.setsItsOwnPrompt, let startupFile = state.startupFile {
-                StatusLabel(
-                    title: Text("Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one."),
-                    tint: .accentColor
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            if let notice = prompt.flatMap({ Self.notice(for: $0, in: state) }) {
+                StatusLabel(title: notice, tint: .accentColor)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             } else {
                 Text("The colors are the Terminal theme’s.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
         }
+    }
+
+    /// Why zsh shows another prompt than Peel's, as zsh itself answered: Peel's line not read yet, a function that
+    /// sets the prompt before each command, or a line after Peel's. When zsh did not answer, what the startup file
+    /// says.
+    private static func notice(for prompt: Prompt, in state: ShellLibrary.State) -> Text? {
+        guard let startupFile = state.startupFile else { return nil }
+        guard state.isSourced else {
+            return Text("zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath).")
+        }
+        let afterPeels = Text("Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one.")
+        guard let shown = state.shownPrompt else { return state.setsItsOwnPrompt ? afterPeels : nil }
+        guard shown.prompt != prompt.value else { return nil }
+        if let function = shown.setBeforeEachCommandBy.last {
+            return Text("A function your zsh runs before each command, \(function), sets its own prompt, so zsh shows that one.")
+        }
+        return state.setsItsOwnPrompt
+            ? afterPeels
+            : Text("Your zsh sets its own prompt after Peel’s file is read, so zsh shows that one.")
     }
 
     private func partTitle(_ title: LocalizedStringResource, isOn: Bool) -> some View {

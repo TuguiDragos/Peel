@@ -79,7 +79,9 @@ public struct Prompt: Hashable, Sendable {
         "setopt PROMPT_SUBST",
     ]
 
-    public var lines: [String] {
+    /// What `PROMPT` holds once zsh has read Peel's line: the prompt's codes, with the symbol on a line of its own
+    /// after a newline when it is.
+    public var value: String {
         let before = switch start {
         case .folder: "%F{cyan}%1~%f"
         case .path: "%F{cyan}%~%f"
@@ -88,9 +90,12 @@ public struct Prompt: Hashable, Sendable {
         let branch = showsBranch ? "${vcs_info_msg_0_}" : ""
         let mark = symbol == .percent ? "%%" : symbol.rawValue
         let symbol = turnsRedAfterAFailure ? "%(?.%F{green}.%F{red})\(mark)%f" : "%F{green}\(mark)%f"
-        let prompt = isOnItsOwnLine
-            ? "PROMPT=$'\(before)\(branch)\\n\(symbol) '"
-            : "PROMPT='\(before)\(branch) \(symbol) '"
+        return "\(before)\(branch)\(isOnItsOwnLine ? "\n" : " ")\(symbol) "
+    }
+
+    /// The lines that set `PROMPT` to `value`: a newline is written as `\n` in `$'…'`, which zsh reads as one.
+    public var lines: [String] {
+        let prompt = isOnItsOwnLine ? "PROMPT=$'\(value.replacing("\n", with: "\\n"))'" : "PROMPT='\(value)'"
         return (showsBranch ? Self.branchLines : []) + [prompt]
     }
 

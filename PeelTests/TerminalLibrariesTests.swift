@@ -77,6 +77,25 @@ struct TerminalLibrariesTests {
         #expect(try size(of: library.file) == bytes)
     }
 
+    @Test func theShellTabAsksZshWhichPromptItShowsOnlyWhilePeelsPromptIsOn() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let library = ShellLibrary(folder: folder, home: home)
+        try ("precmd() { PROMPT='mine> ' }\n" + library.line + "\n")
+            .write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
+        try "export ZDOTDIR=\"$HOME\"\n".write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
+
+        await library.refresh()
+        #expect(library.state?.isSourced == true)
+        #expect(library.state?.shownPrompt == nil)
+
+        library.setPrompt(Prompt())
+        await library.refresh()
+        #expect(library.state?.shownPrompt?.setBeforeEachCommandBy == ["precmd"])
+        #expect(library.state?.shownPrompt?.prompt == "mine> ")
+    }
+
     @Test func theTerminalTabKnowsFromTheStartWhenTerminalsProfilesCannotBeRead() throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }

@@ -20,10 +20,11 @@ struct PromptTests {
         #expect(ShellFile.write(.init(prompt: prompt), to: shell.peelFile))
         let shown = try shell.output(
             of: "cd ~/Projects/peel; (( $+functions[vcs_info] )) && vcs_info; true; print -rnP -- \"${(e)PROMPT}\"; "
-                + "print -n '|'; false; print -rnP -- \"${(e)PROMPT}\""
+                + "print -n '|'; false; print -rnP -- \"${(e)PROMPT}\"; print -n '|'; print -rn -- \"$PROMPT\""
         )
         let parts = shown.split(separator: "|", omittingEmptySubsequences: false).map(String.init)
-        #expect(parts.count == 2)
+        #expect(parts.count == 3)
+        #expect(parts.last == prompt.value)
         for (part, failed) in zip(parts, [false, true]) {
             let sample = prompt.sample(
                 user: NSUserName(),
@@ -70,6 +71,34 @@ struct PromptTests {
         #expect(!ShellFile.setsItsOwnPrompt(after: before.peelFile, in: startup, home: before.home))
         try "PROMPT='mine> '\n".write(to: startup, atomically: true, encoding: .utf8)
         #expect(!ShellFile.setsItsOwnPrompt(after: before.peelFile, in: startup, home: before.home))
+    }
+
+    @Test func zshSaysWhichPromptItShowsAndWhatSetItBeforeEachCommand() async throws {
+        let peels = Prompt(start: .path, showsBranch: false, symbol: .dollar, turnsRedAfterAFailure: false)
+        for (lines, prompt, setters) in [
+            ([], peels.value, []),
+            (["precmd() { PROMPT='mine> ' }"], "mine> ", ["precmd"]),
+            (["mine() { PROMPT='hooked> ' }", "autoload -Uz add-zsh-hook", "add-zsh-hook precmd mine"], "hooked> ", ["mine"]),
+            (["first() { PROMPT='one> ' }", "second() { PROMPT='two> ' }", "precmd_functions=(first second)"], "two> ", ["first", "second"]),
+            (["print noise before"], peels.value, []),
+        ] {
+            let shell = try ZshHome(before: lines)
+            try "print noise after\n".write(to: shell.home.appending(path: ".zlogout"), atomically: true, encoding: .utf8)
+            #expect(ShellFile.write(.init(prompt: peels), to: shell.peelFile))
+            let zsh = ShellSessions.zsh(startupFile: shell.home.appending(path: ".zshenv"))
+            let zdotdir = shell.home.path(percentEncoded: false)
+            let shown = try #require(await zsh.promptShown(home: shell.home, zdotdir: zdotdir))
+            #expect(shown.prompt == prompt, "\(lines)")
+            #expect(shown.setBeforeEachCommandBy == setters, "\(lines)")
+        }
+        let after = try ZshHome(thenRun: ["PROMPT='static> '"])
+        #expect(ShellFile.write(.init(prompt: peels), to: after.peelFile))
+        let zsh = ShellSessions.zsh(startupFile: after.home.appending(path: ".zshenv"))
+        let zdotdir = after.home.path(percentEncoded: false)
+        let shown = try #require(await zsh.promptShown(home: after.home, zdotdir: zdotdir))
+        #expect(shown.prompt == "static> ")
+        #expect(shown.setBeforeEachCommandBy.isEmpty)
+        #expect(await ShellSessions.bash.promptShown(home: after.home, zdotdir: nil) == nil)
     }
 
     @Test func aBranchNeedsVcsInfoAndNothingElseNeedsAnything() async throws {

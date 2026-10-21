@@ -9021,6 +9021,112 @@
         }
       }
     },
+    "A function your zsh runs before each command, %@, sets its own prompt, so zsh shows that one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funkce %@, kterou váš zsh spouští před každým příkazem, nastavuje vlastní výzvu, takže zsh zobrazuje tu její."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Funktion %@, die deine zsh vor jedem Befehl ausführt, legt eine eigene Eingabeaufforderung fest, daher zeigt zsh diese an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una función que tu zsh ejecuta antes de cada comando, %@, establece su propio indicador, así que zsh muestra ese."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fonction que votre zsh exécute avant chaque commande, %@, définit sa propre invite de commande : c’est donc celle-ci que zsh affiche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una funzione che il tuo zsh esegue prima di ogni comando, %@, imposta un proprio prompt, quindi zsh mostra quel prompt."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お使いのzshが各コマンドの前に実行する%@という関数は、独自のプロンプトを設定しているため、zshはそちらのプロンプトを表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자의 zsh가 명령을 입력하기 전에 매번 실행하는 %@ 함수가 자체 프롬프트를 설정하므로 zsh는 그 프롬프트를 표시합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een functie die je zsh vóór elk commando uitvoert, %@, stelt een eigen prompt in, dus zsh toont die prompt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funkcja %@, którą Twoja powłoka zsh uruchamia przed każdym poleceniem, ustawia własny znak zachęty, więc zsh wyświetla właśnie ten."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma função que o seu zsh executa antes de cada comando, %@, define um prompt próprio, então é esse que o zsh mostra."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O funcție pe care zsh‑ul dvs. o rulează înaintea fiecărei comenzi, %@, își stabilește propriul prompt, așa că zsh îl afișează pe acesta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Функция %@, которую Ваш zsh выполняет перед каждой командой, задает собственное приглашение ввода, поэтому zsh показывает именно его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En funktion som din zsh kör före varje kommando, %@, ställer in sin egen prompt, så det är den som zsh visar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh kabuğunuzun her komuttan önce çalıştırdığı %@ işlevi kendi bilgi istemini ayarlıyor, bu yüzden zsh o bilgi istemini gösteriyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Функція %@, яку ваш zsh виконує перед кожною командою, задає власне запрошення, тож zsh показує саме його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的zsh在每条命令前运行的函数%@设置了自己的提示符，因此zsh会显示那个提示符。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的zsh在每個指令之前執行的函式%@設定了它自己的提示行，因此zsh會顯示該提示行。"
+          }
+        }
+      }
+    },
     "A group the app belongs to" : {
       "localizations" : {
         "cs" : {
@@ -188882,6 +188988,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的Shell啟動檔案仍指向已移動的項目，位於%@。Peel會讀取這些檔案，但絕不會更改它們。"
+          }
+        }
+      }
+    },
+    "Your zsh sets its own prompt after Peel’s file is read, so zsh shows that one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš zsh nastavuje vlastní výzvu až po přečtení souboru Peelu, takže zsh zobrazuje tu svou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine zsh legt nach dem Einlesen der Datei von Peel eine eigene Eingabeaufforderung fest, daher zeigt zsh diese an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu zsh establece su propio indicador después de leer el archivo de Peel, así que zsh muestra ese."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre zsh définit sa propre invite de commande après la lecture du fichier de Peel : c’est donc celle-ci que zsh affiche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo zsh imposta un proprio prompt dopo aver letto il file di Peel, quindi zsh mostra quel prompt."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お使いのzshは、Peelのファイルを読み込んだ後で独自のプロンプトを設定しているため、zshはそちらのプロンプトを表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자의 zsh가 Peel의 파일을 읽은 뒤에 자체 프롬프트를 설정하므로 zsh는 그 프롬프트를 표시합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je zsh stelt een eigen prompt in nadat het bestand van Peel is gelezen, dus zsh toont die prompt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twoja powłoka zsh ustawia własny znak zachęty po odczytaniu pliku Peel, więc zsh wyświetla właśnie ten."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O seu zsh define um prompt próprio depois que o arquivo do Peel é lido, então é esse que o zsh mostra."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh‑ul dvs. își stabilește propriul prompt după citirea fișierului Peel, așa că zsh îl afișează pe acesta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш zsh задает собственное приглашение ввода после чтения файла Peel, поэтому zsh показывает именно его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din zsh ställer in sin egen prompt efter att Peels fil har lästs, så det är den som zsh visar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh kabuğunuz, Peel’in dosyası okunduktan sonra kendi bilgi istemini ayarlıyor, bu yüzden zsh o bilgi istemini gösteriyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш zsh задає власне запрошення після того, як прочитає файл Peel, тож zsh показує саме його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的zsh在读取Peel的文件之后设置了自己的提示符，因此zsh会显示那个提示符。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的zsh在讀取Peel的檔案之後設定了它自己的提示行，因此zsh會顯示該提示行。"
           }
         }
       }
