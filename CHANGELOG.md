@@ -16,8 +16,26 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Bitdefender Endpoint Security for Mac and Sophos Endpoint are left to their makers' own uninstallers, and the app's
   page gives the maker's step.
+- After a removal, Peel reads the files your shell runs when it starts and names the lines that still point to what
+  moved, such as a `PATH` entry or an alias into the app, in the alert and in `peel uninstall`. It changes none of these
+  files.
+
+#### Developer
+
+- Lists the templates create-expo-app keeps in the temporary folder, and the Chrome that agent-browser downloads, which
+  `agent-browser install` fetches again.
+
+#### Build Artifacts
+
+- Lists a project's `.expo` folder, and its `.astro` folder, which keeps the preferences set with `astro preferences`
+  and is never selected.
 
 ### Changed
+
+#### Applications
+
+- A folder named like the app without the word of its release channel, as Zed Nightly keeps its settings in `zed`, is
+  shown for review and never selected, and Orphaned Files counts it as the installed channel's.
 
 #### Applications and Orphaned Files
 
