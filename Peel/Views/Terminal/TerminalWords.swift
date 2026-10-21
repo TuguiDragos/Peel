@@ -165,7 +165,7 @@ extension TerminalTool {
         switch self {
         case .zshCompletions: "Adds completions for many commands zsh doesn’t complete on its own. If zsh then warns about insecure folders, `brew info zsh-completions` says how to fix it."
         case .fzfTab: "Tab shows its completions in fzf, where typing narrows them. Its lines go after the completion system starts and before zsh-autosuggestions."
-        case .zoxide: "Remembers the folders you use: `z` with part of a name goes to the best match, and `zi` lets you choose."
+        case .zoxide: "Remembers the folders you use: `z` with part of a name goes to the best match, and `zi` lets you choose. Its line goes after the completion system starts."
         case .fzf: "Control-R searches your history, Control-T pastes files and folders, and Option-C, with Option as Meta, goes to a folder. With --color=16, it uses the Terminal theme’s colors."
         case .direnv: "Loads and unloads environment variables as you enter and leave a project’s folder, from its .envrc file once you allow it with `direnv allow`."
         case .zshAutosuggestions: "Shows the rest of a command in gray as you type, from your history, and the Right Arrow accepts it."

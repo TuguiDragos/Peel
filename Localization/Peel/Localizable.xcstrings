@@ -127958,108 +127958,108 @@
         }
       }
     },
-    "Remembers the folders you use: `z` with part of a name goes to the best match, and `zi` lets you choose." : {
+    "Remembers the folders you use: `z` with part of a name goes to the best match, and `zi` lets you choose. Its line goes after the completion system starts." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pamatuje si složky, které používáte: `z` s částí názvu přejde do nejlépe odpovídající složky a `zi` vám dá na výběr."
+            "value" : "Pamatuje si složky, které používáte: `z` s částí názvu přejde do nejlépe odpovídající složky a `zi` vám dá na výběr. Řádek tohoto nástroje patří za spuštění systému doplňování."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Merkt sich die Ordner, die du verwendest: `z` mit einem Teil eines Namens wechselt zum besten Treffer, und mit `zi` kannst du wählen."
+            "value" : "Merkt sich die Ordner, die du verwendest: `z` mit einem Teil eines Namens wechselt zum besten Treffer, und mit `zi` kannst du wählen. Die Zeile von zoxide kommt nach dem Start des Vervollständigungssystems."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recuerda las carpetas que usas: `z` con parte de un nombre va a la que mejor coincide, y `zi` te deja elegir."
+            "value" : "Recuerda las carpetas que usas: `z` con parte de un nombre va a la que mejor coincide, y `zi` te deja elegir. Su línea va después de que se inicie el sistema de autocompletado."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mémorise les dossiers que vous utilisez : `z` suivi d’une partie d’un nom va dans le dossier qui correspond le mieux, et `zi` vous laisse choisir."
+            "value" : "Mémorise les dossiers que vous utilisez : `z` suivi d’une partie d’un nom va dans le dossier qui correspond le mieux, et `zi` vous laisse choisir. Sa ligne se place après le démarrage du système de complétion."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ricorda le cartelle che usi: `z` seguito da una parte di un nome va alla corrispondenza migliore, e `zi` ti lascia scegliere."
+            "value" : "Ricorda le cartelle che usi: `z` seguito da una parte di un nome va alla corrispondenza migliore, e `zi` ti lascia scegliere. La riga di zoxide va dopo l’avvio del sistema di completamento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使っているフォルダを記憶します。`z`に名前の一部を付けて実行すると最もよく一致するフォルダに移動し、`zi`では候補から選べます。"
+            "value" : "使っているフォルダを記憶します。`z`に名前の一部を付けて実行すると最もよく一致するフォルダに移動し、`zi`では候補から選べます。このツールの行は、補完システムを開始した後に置いてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "사용하는 폴더를 기억합니다. `z` 다음에 이름의 일부를 입력하면 가장 잘 일치하는 폴더로 이동하고, `zi`를 사용하면 직접 선택할 수 있습니다."
+            "value" : "사용하는 폴더를 기억합니다. `z` 다음에 이름의 일부를 입력하면 가장 잘 일치하는 폴더로 이동하고, `zi`를 사용하면 직접 선택할 수 있습니다. 이 도구의 줄은 자동 완성 시스템이 시작된 다음에 넣어야 합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Onthoudt de mappen die je gebruikt: `z` met een deel van een naam gaat naar de beste overeenkomst, en met `zi` kies je zelf."
+            "value" : "Onthoudt de mappen die je gebruikt: `z` met een deel van een naam gaat naar de beste overeenkomst, en met `zi` kies je zelf. De bijbehorende regel komt na het starten van het aanvulsysteem."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zapamiętuje foldery, których używasz: `z` z częścią nazwy przechodzi do najlepiej pasującego folderu, a `zi` pozwala wybrać."
+            "value" : "Zapamiętuje foldery, których używasz: `z` z częścią nazwy przechodzi do najlepiej pasującego folderu, a `zi` pozwala wybrać. Wiersz tego narzędzia należy umieścić po uruchomieniu systemu uzupełniania."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lembra as pastas que você usa: `z` com parte de um nome vai para a pasta que melhor corresponde, e `zi` deixa você escolher."
+            "value" : "Lembra as pastas que você usa: `z` com parte de um nome vai para a pasta que melhor corresponde, e `zi` deixa você escolher. A linha do zoxide entra depois da inicialização do sistema de autocompletar."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reține dosarele pe care le folosiți: `z` urmat de o parte dintr‑un nume accesează dosarul care se potrivește cel mai bine, iar `zi` vă permite să alegeți."
+            "value" : "Reține dosarele pe care le folosiți: `z` urmat de o parte dintr‑un nume accesează dosarul care se potrivește cel mai bine, iar `zi` vă permite să alegeți. Linia sa se pune după pornirea sistemului de completare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запоминает папки, которыми Вы пользуетесь: `z` с частью имени переходит в самую подходящую папку, а `zi` позволяет выбрать."
+            "value" : "Запоминает папки, которыми Вы пользуетесь: `z` с частью имени переходит в самую подходящую папку, а `zi` позволяет выбрать. Его строка идет после запуска системы автодополнения."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kommer ihåg mapparna som du använder: `z` med en del av ett namn går till den bästa träffen, och `zi` låter dig välja."
+            "value" : "Kommer ihåg mapparna som du använder: `z` med en del av ett namn går till den bästa träffen, och `zi` låter dig välja. Dess rad ska stå efter att kompletteringssystemet har startats."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kullandığınız klasörleri hatırlar: bir adın bir kısmıyla kullanılan `z` en iyi eşleşmeye gider, `zi` ise seçmenize olanak tanır."
+            "value" : "Kullandığınız klasörleri hatırlar: bir adın bir kısmıyla kullanılan `z` en iyi eşleşmeye gider, `zi` ise seçmenize olanak tanır. Satırı, tamamlama sistemi başlatıldıktan sonra gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запамʼятовує папки, якими ви користуєтеся: `z` з частиною назви переходить до найкращого збігу, а `zi` дає змогу вибрати."
+            "value" : "Запамʼятовує папки, якими ви користуєтеся: `z` з частиною назви переходить до найкращого збігу, а `zi` дає змогу вибрати. Рядок zoxide додається після запуску системи доповнення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记住你常用的文件夹：`z`加上名称的一部分即可前往最匹配的文件夹，`zi`则让你自行选取。"
+            "value" : "记住你常用的文件夹：`z`加上名称的一部分即可前往最匹配的文件夹，`zi`则让你自行选取。它的这一行应放在补全系统启动之后。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記住你使用的檔案夾：`z`加上部分名稱即可前往最符合的檔案夾，`zi`則讓你自行選擇。"
+            "value" : "記住你使用的檔案夾：`z`加上部分名稱即可前往最符合的檔案夾，`zi`則讓你自行選擇。它的設定行要放在補齊系統啟動之後。"
           }
         }
       }
