@@ -254,6 +254,16 @@ extension Tweak.Group {
     }
 }
 
+extension TweakState.Elsewhere {
+    var words: LocalizedStringResource {
+        switch self {
+        case .thisMac: "Set for this Mac"
+        case .everyAccount: "Set for every account"
+        case .everyApp: "Set for every app"
+        }
+    }
+}
+
 extension Tweak.Restart {
     var note: LocalizedStringResource? {
         switch self {

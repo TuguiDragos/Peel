@@ -136,6 +136,8 @@ struct TweakLedgerTests {
 
         #expect(!ledger.isOn(folder, state: chosenByHand))
         #expect(!ledger.isOn(aSwitch, state: TweakState(isOn: true, isManaged: true, text: nil)))
+        let heldForThisMac = TweakState(isOn: true, isManaged: false, text: nil, heldElsewhere: .thisMac)
+        #expect(!ledger.isOn(aSwitch, state: heldForThisMac))
         let store = FakeStore()
         _ = ledger.turnOn(folder, text: "/Users/me/Peel", in: store)
         #expect(ledger.isOn(folder, state: TweakState(isOn: true, isManaged: false, text: "/Users/me/Peel")))

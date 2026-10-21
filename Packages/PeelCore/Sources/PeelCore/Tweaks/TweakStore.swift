@@ -43,21 +43,71 @@ public struct TweakStore: Sendable, TweakStoring {
         synchronizeOnce(tweak.domain)
 
         let isManaged = Self.isForced(key, in: tweak.domain)
-        let read = switch tweak.kind {
-        case .aSwitchForThisAppAlone: Self.copyStored(key, from: tweak.domain)
-        case .aSwitch, .folder, .name: Self.copy(key, from: tweak.domain)
-        }
-        guard let current = read else {
+        let layers = layers(of: tweak)
+        // A managed value comes before every layer, and only the "App" functions read it.
+        guard let current = isManaged ? Self.copy(key, from: tweak.domain) : layers.inEffect else {
             return TweakState(isOn: false, isManaged: isManaged, text: nil)
         }
 
+        let isOn: Bool
+        var text: String?
         switch tweak.kind {
         case .aSwitch(let wanted), .aSwitchForThisAppAlone(let wanted):
-            return TweakState(isOn: Self.matches(current, wanted), isManaged: isManaged, text: nil)
+            isOn = Self.matches(current, wanted)
         case .folder, .name:
-            let text = current as? String
-            return TweakState(isOn: text?.isEmpty == false, isManaged: isManaged, text: text)
+            text = current as? String
+            isOn = text?.isEmpty == false
         }
+        let elsewhere = isManaged ? nil : Self.heldElsewhere(of: tweak.kind, isOn: isOn, in: layers)
+        return TweakState(isOn: isOn, isManaged: isManaged, text: text, heldElsewhere: elsewhere)
+    }
+
+    /// What each layer macOS searches holds for a key, in the order it searches them. The layer Peel writes is
+    /// the person's own for any host; a value set for this Mac alone comes before it, and the layers of every
+    /// account and, for a key of an app's domain, of the global domain come after it.
+    struct Layers {
+        var thisMac: CFPropertyList?
+        var own: CFPropertyList?
+        var everyAccount: CFPropertyList?
+        var everyApp: CFPropertyList?
+
+        var inEffect: CFPropertyList? { thisMac ?? own ?? everyAccount ?? everyApp }
+    }
+
+    private func layers(of tweak: Tweak) -> Layers {
+        let key = tweak.key as CFString
+        let domain = Self.domain(tweak.domain)
+        func value(_ user: CFString, _ host: CFString, in domain: CFString) -> CFPropertyList? {
+            CFPreferencesCopyValue(key, domain, user, host)
+        }
+        var layers = Layers(
+            thisMac: value(kCFPreferencesCurrentUser, kCFPreferencesCurrentHost, in: domain),
+            own: value(kCFPreferencesCurrentUser, kCFPreferencesAnyHost, in: domain)
+        )
+        // A switch for one app alone never reads past the person's own layers of that app.
+        if case .aSwitchForThisAppAlone = tweak.kind { return layers }
+        layers.everyAccount = value(kCFPreferencesAnyUser, kCFPreferencesCurrentHost, in: domain)
+            ?? value(kCFPreferencesAnyUser, kCFPreferencesAnyHost, in: domain)
+        if tweak.domain != Self.globalDomain {
+            synchronizeOnce(Self.globalDomain)
+            let global = kCFPreferencesAnyApplication
+            layers.everyApp = value(kCFPreferencesCurrentUser, kCFPreferencesCurrentHost, in: global)
+                ?? value(kCFPreferencesCurrentUser, kCFPreferencesAnyHost, in: global)
+                ?? value(kCFPreferencesAnyUser, kCFPreferencesCurrentHost, in: global)
+                ?? value(kCFPreferencesAnyUser, kCFPreferencesAnyHost, in: global)
+        }
+        return layers
+    }
+
+    /// Where the value in effect comes from when Peel can't change it from its own layer: a value set for this
+    /// Mac alone wins over Peel's whatever it holds, and a switch read as on from a layer macOS falls back to,
+    /// with nothing of Peel's over it, could not be turned off, since removing Peel's key would change nothing.
+    /// A value Peel's own would win over, and a folder or a name, which Peel writes over it, are nobody else's.
+    static func heldElsewhere(of kind: Tweak.Kind, isOn: Bool, in layers: Layers) -> TweakState.Elsewhere? {
+        if layers.thisMac != nil { return .thisMac }
+        guard layers.own == nil, case .aSwitch = kind, isOn else { return nil }
+        if layers.everyAccount != nil { return .everyAccount }
+        return layers.everyApp != nil ? .everyApp : nil
     }
 
     /// Returns what the key holds in the layer Peel writes (this user, any host), so it can be put back exactly

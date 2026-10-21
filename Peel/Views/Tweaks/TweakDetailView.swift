@@ -112,12 +112,17 @@ struct TweakRow: View {
         return paragraphs.joined(separator: "\n\n")
     }
 
-    /// A label for a setting Peel can't change: one locked by a configuration profile, or one whose last write
-    /// macOS refused.
+    /// A label for a setting Peel can't change: one locked by a configuration profile, one held in a layer of
+    /// the preferences Peel doesn't write, or one whose last write macOS refused.
     @ViewBuilder
     private func standing(_ state: TweakState) -> some View {
         if state.isManaged {
             StatusLabel(title: Text("Locked by a profile"), systemImage: "lock", tint: .accentColor)
+                .labelStyle(.titleAndIcon)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        } else if let elsewhere = state.heldElsewhere {
+            StatusLabel(title: Text(elsewhere.words), systemImage: "lock", tint: .accentColor)
                 .labelStyle(.titleAndIcon)
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -132,6 +137,8 @@ struct TweakRow: View {
 
     @ViewBuilder
     private func control(_ state: TweakState, works: Bool) -> some View {
+        // Nothing here changes a value a profile locks or another layer of the preferences holds.
+        let isHeld = state.isManaged || state.heldElsewhere != nil
         switch tweak.kind {
         case .aSwitch, .aSwitchForThisAppAlone:
             let isOn = Binding(
@@ -140,14 +147,14 @@ struct TweakRow: View {
             )
             if #available(macOS 27, *) {
                 RowSwitch(title: Text(tweak.words.title), isOn: isOn)
-                    .disabled(state.isManaged || !works)
+                    .disabled(isHeld || !works)
             } else {
                 Toggle(isOn: isOn) { EmptyView() }
                     .labelsHidden()
                     .accessibilityRepresentation {
                         Toggle(isOn: isOn) { Text(tweak.words.title) }
                     }
-                    .disabled(state.isManaged || !works)
+                    .disabled(isHeld || !works)
             }
         case .folder:
             // The folder row has no switch to turn off, so Put Back is how the user undoes Peel's change.
@@ -159,7 +166,7 @@ struct TweakRow: View {
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.small)
-                    .disabled(state.isManaged)
+                    .disabled(isHeld)
                     .accessibilityLabel(Text("Put back the screenshot folder"))
                     .transition(.opacity)
                 }
@@ -168,12 +175,13 @@ struct TweakRow: View {
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
-                .disabled(state.isManaged)
+                .disabled(isHeld)
                 .accessibilityLabel(Text("Choose the folder for screenshots"))
             }
             .motion(value: tweaks.isChangedByPeel(tweak))
         case .name:
             TweakNameField(tweak: tweak, state: state, problem: $nameProblem)
+                .disabled(isHeld)
         }
     }
 }
@@ -221,7 +229,6 @@ private struct TweakNameField: View {
             .accessibilityLabel(putsBack ? Text("Put back the screenshot name") : Text("Save the screenshot name"))
             .motion(value: putsBack)
         }
-        .disabled(state.isManaged)
     }
 
     private var isEdited: Bool {

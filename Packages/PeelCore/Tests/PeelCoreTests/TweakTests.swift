@@ -123,6 +123,34 @@ struct TweakTests {
         #expect(!TweakStore.matches("zero" as CFString, .number(0)))
     }
 
+    /// A value Peel can't change from the layer it writes is named by where it comes from: a value set for this
+    /// Mac alone wins over Peel's, and a switch on from an administrator's file or from the global domain, with
+    /// nothing of Peel's over it, could not be turned off. A value Peel's own would win over is nobody else's.
+    @Test func tellsWhereAValueComesFromThatPeelCannotChange() {
+        let aSwitch = Tweak.Kind.aSwitch(.boolean(true))
+        let forThisApp = Tweak.Kind.aSwitchForThisAppAlone(.boolean(true))
+        func layers(
+            thisMac: Bool = false, own: Bool = false, account: Bool = false, app: Bool = false
+        ) -> TweakStore.Layers {
+            TweakStore.Layers(
+                thisMac: thisMac ? true as CFBoolean : nil, own: own ? true as CFBoolean : nil,
+                everyAccount: account ? true as CFBoolean : nil, everyApp: app ? true as CFBoolean : nil
+            )
+        }
+
+        #expect(TweakStore.heldElsewhere(of: aSwitch, isOn: true, in: layers(thisMac: true)) == .thisMac)
+        #expect(TweakStore.heldElsewhere(of: aSwitch, isOn: false, in: layers(thisMac: true, own: true)) == .thisMac)
+        #expect(TweakStore.heldElsewhere(of: aSwitch, isOn: true, in: layers(own: true, account: true)) == nil)
+        #expect(TweakStore.heldElsewhere(of: aSwitch, isOn: true, in: layers(account: true)) == .everyAccount)
+        #expect(TweakStore.heldElsewhere(of: aSwitch, isOn: true, in: layers(app: true)) == .everyApp)
+        #expect(TweakStore.heldElsewhere(of: aSwitch, isOn: false, in: layers(account: true)) == nil)
+        #expect(TweakStore.heldElsewhere(of: aSwitch, isOn: false, in: layers()) == nil)
+        #expect(TweakStore.heldElsewhere(of: .folder, isOn: true, in: layers(account: true)) == nil)
+        #expect(TweakStore.heldElsewhere(of: .folder, isOn: true, in: layers(thisMac: true)) == .thisMac)
+        #expect(TweakStore.heldElsewhere(of: forThisApp, isOn: true, in: layers(account: true)) == nil)
+        #expect(TweakStore.heldElsewhere(of: forThisApp, isOn: true, in: layers(thisMac: true)) == .thisMac)
+    }
+
     @Test func callsTheGlobalDomainWhatTheApiCallsIt() {
         #expect(TweakStore.domain("NSGlobalDomain") == kCFPreferencesAnyApplication)
         #expect(TweakStore.domain("com.apple.dock") == "com.apple.dock" as CFString)
@@ -151,6 +179,11 @@ struct TweakTests {
         for tweak in TweakCatalog.all {
             let live = store.state(of: tweak)
             #expect(!live.isOn || live.isManaged || store.storedValue(of: tweak) != nil || live.text != nil, "\(tweak.id) reads as on with nothing stored")
+            // A value from an administrator's file or the global domain counts as held elsewhere only while Peel's
+            // own layer holds nothing, since Peel's would win over it.
+            if let elsewhere = live.heldElsewhere, elsewhere != .thisMac {
+                #expect(store.storedValue(of: tweak) == nil, "\(tweak.id) is held \(elsewhere) over Peel's own value")
+            }
         }
     }
 

@@ -64,6 +64,17 @@ public struct Tweak: Sendable, Hashable, Identifiable {
 
 /// A tweak's current state, as read from the preferences.
 public struct TweakState: Sendable, Hashable {
+    /// Where a value comes from that Peel can't change from the layer it writes, the person's own for any host:
+    /// a layer macOS reads before Peel's, or one it falls back to while Peel's holds nothing.
+    public enum Elsewhere: Sendable, Hashable {
+        /// Set for this Mac alone, which wins over what Peel writes.
+        case thisMac
+        /// Set for every account of this Mac, by an administrator, while nothing of the person's own stands over it.
+        case everyAccount
+        /// Set for every app at once, in the global domain, while the tweak belongs to one app's domain.
+        case everyApp
+    }
+
     /// True when the key holds the value this tweak writes. For a folder or a name tweak, true when the key holds
     /// a path or a name.
     public let isOn: Bool
@@ -71,11 +82,14 @@ public struct TweakState: Sendable, Hashable {
     public let isManaged: Bool
     /// For a folder tweak, the path it holds; for a name tweak, the name.
     public let text: String?
+    /// Where the value in effect comes from when turning the tweak off here would change nothing.
+    public let heldElsewhere: Elsewhere?
 
-    public init(isOn: Bool, isManaged: Bool, text: String?) {
+    public init(isOn: Bool, isManaged: Bool, text: String?, heldElsewhere: Elsewhere? = nil) {
         self.isOn = isOn
         self.isManaged = isManaged
         self.text = text
+        self.heldElsewhere = heldElsewhere
     }
 
     public static let unset = TweakState(isOn: false, isManaged: false, text: nil)

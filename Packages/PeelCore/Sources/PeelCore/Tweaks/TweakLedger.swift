@@ -106,9 +106,9 @@ public struct TweakLedger {
 
     /// Returns whether Turn All Off should turn `tweak` off. It matches what the tweak's own row offers: a
     /// switch that is on, or a folder that Peel chose, since only then does the row show Put Back. A managed
-    /// value is left alone, as the row leaves it.
+    /// value, and one held in a layer Peel doesn't write, are left alone, as the row leaves them.
     public func isOn(_ tweak: Tweak, state: TweakState) -> Bool {
-        guard !state.isManaged else { return false }
+        guard !state.isManaged, state.heldElsewhere == nil else { return false }
         switch tweak.kind {
         case .aSwitch, .aSwitchForThisAppAlone: return state.isOn
         case .folder, .name: return holdsPeelsChange(tweak, stored: state.text)
