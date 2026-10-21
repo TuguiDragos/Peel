@@ -15,6 +15,14 @@ struct SSHTab: View {
                         StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    } else if state.settings == nil {
+                        StatusLabel(title: Text("Peel’s settings file couldn’t be read"), tint: .accentColor)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else if state.accepted == nil {
+                        StatusLabel(title: Text("ssh didn’t answer"), tint: .accentColor)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     } else {
                         Text("What ~/.ssh/config sets earlier for a server stays in force, since ssh uses the first value it finds.")
                             .font(.caption)

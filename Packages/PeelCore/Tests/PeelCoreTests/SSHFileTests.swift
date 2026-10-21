@@ -66,6 +66,12 @@ struct SSHFileTests {
         #expect(await SSHFile.accepted() == Set(SSHSetting.allCases))
     }
 
+    @Test func anSSHThatDoesNotAnswerLeavesWhatItAcceptsUnknown() async {
+        #expect(await SSHFile.accepted(ssh: "/usr/bin/true") == Set(SSHSetting.allCases))
+        #expect(await SSHFile.accepted(ssh: "/usr/bin/false") == [])
+        #expect(await SSHFile.accepted(ssh: "/usr/bin/peel-no-such-ssh") == nil)
+    }
+
     /// Another ssh, such as Homebrew's, doesn't know `UseKeychain`: renamed to an option the ssh on this Mac doesn't
     /// know either, Peel's file has to be read all the same.
     @Test func anSSHThatDoesNotKnowAnOptionStillReadsTheFile() async throws {

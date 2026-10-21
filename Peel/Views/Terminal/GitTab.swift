@@ -24,6 +24,10 @@ struct GitTab: View {
                     Section {
                         StatusLabel(title: Text("Git couldn’t read its settings"), tint: .accentColor)
                     }
+                } else if state.known == nil {
+                    Section {
+                        StatusLabel(title: Text("Git didn’t answer"), tint: .accentColor)
+                    }
                 } else if git.wasRefused {
                     Section {
                         StatusLabel(title: Text("Git refused it"), tint: .accentColor)

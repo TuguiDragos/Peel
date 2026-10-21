@@ -15,6 +15,14 @@ struct ShellTab: View {
                         StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    } else if state.startupFile != nil, state.choices == nil {
+                        StatusLabel(title: Text("Peel’s settings file couldn’t be read"), tint: .accentColor)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else if state.startupFile != nil, state.known == nil {
+                        StatusLabel(title: Text("zsh didn’t answer"), tint: .accentColor)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                     } else if state.startupFile != nil {
                         Text("Takes effect in new windows")
                             .font(.caption)

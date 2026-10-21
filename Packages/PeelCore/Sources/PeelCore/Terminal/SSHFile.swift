@@ -91,16 +91,20 @@ public enum SSHFile {
         }
     }
 
-    /// The settings the ssh on this Mac accepts, asked on its command line so nothing is written to try them.
-    public static func accepted() async -> Set<SSHSetting> {
+    /// The settings the ssh on this Mac accepts, asked on its command line so nothing is written to try them, or nil
+    /// when ssh answered none of the questions.
+    public static func accepted(ssh: String = "/usr/bin/ssh") async -> Set<SSHSetting>? {
         var accepted: Set<SSHSetting> = []
+        var answered = false
         for setting in SSHSetting.allCases {
             let options = setting.lines.flatMap { ["-o", $0] }
-            let answer = await Subprocess.run("/usr/bin/ssh", ["-G", "-F", "/dev/null"] + options + ["peel.invalid"], environment: [:], timeout: 10)
-            if case .success(let output) = answer, output.status == 0 {
+            let answer = await Subprocess.run(ssh, ["-G", "-F", "/dev/null"] + options + ["peel.invalid"], environment: [:], timeout: 10)
+            guard case .success(let output) = answer else { continue }
+            answered = true
+            if output.status == 0 {
                 accepted.insert(setting)
             }
         }
-        return accepted
+        return answered ? accepted : nil
     }
 }

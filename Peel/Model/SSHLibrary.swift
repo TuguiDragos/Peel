@@ -7,7 +7,8 @@ final class SSHLibrary {
     struct State: Equatable {
         var settings: Set<SSHSetting>?
         var isIncluded: Bool
-        var accepted: Set<SSHSetting>
+        /// What the ssh on this Mac accepts, nil while it has not answered.
+        var accepted: Set<SSHSetting>?
     }
 
     let file: URL
@@ -33,7 +34,7 @@ final class SSHLibrary {
     }
 
     func refresh() async {
-        let accepted = if let state, !state.accepted.isEmpty { state.accepted } else { await SSHFile.accepted() }
+        let accepted = if let accepted = state?.accepted { accepted } else { await SSHFile.accepted() }
         state = State(
             settings: SSHFile.read(file),
             isIncluded: SSHFile.isIncluded(file, from: config, home: home),
@@ -43,7 +44,7 @@ final class SSHLibrary {
 
     func isOffered(_ setting: SSHSetting) -> Bool {
         guard let state, state.settings != nil else { return false }
-        return state.accepted.contains(setting)
+        return state.accepted?.contains(setting) == true
     }
 
     func set(_ setting: SSHSetting, to isOn: Bool) {
