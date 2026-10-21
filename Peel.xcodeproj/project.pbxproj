@@ -644,7 +644,7 @@
 				DEVELOPMENT_TEAM = 6R6J264YA2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.CLI;
 				PRODUCT_MODULE_NAME = PeelCLI;
@@ -667,7 +667,7 @@
 				DEVELOPMENT_TEAM = 6R6J264YA2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.CLI;
 				PRODUCT_MODULE_NAME = PeelCLI;
@@ -700,7 +700,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				LM_SKIP_METADATA_EXTRACTION = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.FinderExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -733,7 +733,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				LM_SKIP_METADATA_EXTRACTION = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.FinderExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -758,7 +758,7 @@
 				ENABLE_POINTER_AUTHENTICATION = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -781,7 +781,7 @@
 				ENABLE_ENHANCED_SECURITY = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -940,7 +940,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -980,7 +980,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1003,7 +1003,7 @@
 				DEVELOPMENT_TEAM = 6R6J264YA2;
 				GENERATE_INFOPLIST_FILE = YES;
 				LM_SKIP_METADATA_EXTRACTION = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1024,7 +1024,7 @@
 				DEVELOPMENT_TEAM = 6R6J264YA2;
 				GENERATE_INFOPLIST_FILE = YES;
 				LM_SKIP_METADATA_EXTRACTION = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.UITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1050,7 +1050,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				LM_SKIP_METADATA_EXTRACTION = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1077,7 +1077,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				LM_SKIP_METADATA_EXTRACTION = YES;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -enable-upcoming-feature ImmutableWeakCaptures";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tuguidragos.Peel.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
