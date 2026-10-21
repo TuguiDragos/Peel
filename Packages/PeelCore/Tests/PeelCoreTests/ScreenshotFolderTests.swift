@@ -27,6 +27,16 @@ struct ScreenshotFolderTests {
         #expect(ScreenshotFolder.problem(with: shots, home: directory.url) == .notWritable)
     }
 
+    /// The setting is the folder's path as the person would write it, with no slash at the end.
+    @Test func writesTheFolderWithoutATrailingSlash() throws {
+        let directory = try TemporaryDirectory()
+        let shots = try directory.directory("Shots")
+
+        #expect(ScreenshotFolder.setting(for: shots) == PathPattern.comparablePath(of: shots))
+        #expect(!ScreenshotFolder.setting(for: shots).hasSuffix("/"))
+        #expect(ScreenshotFolder.setting(for: URL(filePath: "/Users/Shared/", directoryHint: .isDirectory)) == "/Users/Shared")
+    }
+
     @Test func refusesTheTrashAndAFolderInIt() throws {
         let directory = try TemporaryDirectory()
         let trash = try directory.directory(".Trash")

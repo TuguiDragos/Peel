@@ -9,6 +9,11 @@ public enum ScreenshotFolder {
         case notWritable
     }
 
+    /// The path Peel writes for `folder`: one spelling, with no slash at the end, as a path written by hand.
+    public static func setting(for folder: URL) -> String {
+        PathPattern.comparablePath(of: folder)
+    }
+
     public static func problem(with folder: URL, home: URL = .homeDirectory) -> Problem? {
         var isDirectory: ObjCBool = false
         let path = folder.path(percentEncoded: false)

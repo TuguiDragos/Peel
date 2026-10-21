@@ -119,7 +119,7 @@ final class TweakLibrary {
         // Asked again once the panel has closed, since the folder can change after the panel's own check.
         guard let url = await ScreenshotFolderPanel.choose(), ScreenshotFolder.problem(with: url) == nil
         else { return }
-        await turnOn(tweak, text: url.path(percentEncoded: false))
+        await turnOn(tweak, text: ScreenshotFolder.setting(for: url))
     }
 
     /// The settings Peel could not write, so each row can say so instead of letting the switch spring back
