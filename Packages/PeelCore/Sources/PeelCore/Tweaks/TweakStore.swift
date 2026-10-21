@@ -174,8 +174,15 @@ public struct TweakStore: Sendable, TweakStoring {
             guard let number = current as? NSNumber else { return false }
             return number.boolValue == flag
         case .number(let expected):
-            guard let number = current as? NSNumber else { return false }
-            return abs(number.doubleValue - expected) < 0.0001
+            // A number written as a string, as `defaults write` with no type flag stores it, counts as the number
+            // it spells, which is how `UserDefaults.double(forKey:)` reads it.
+            let number: Double? = switch current {
+            case let text as NSString: Double(text.trimmingCharacters(in: .whitespaces))
+            case let number as NSNumber: number.doubleValue
+            default: nil
+            }
+            guard let number else { return false }
+            return abs(number - expected) < 0.0001
         case .text(let expected):
             return (current as? String) == expected
         }

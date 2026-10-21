@@ -116,6 +116,11 @@ struct TweakTests {
         #expect(TweakStore.matches("YES" as CFString, .boolean(true)))
         #expect(TweakStore.matches("1" as CFString, .boolean(true)))
         #expect(TweakStore.matches("NO" as CFString, .boolean(false)))
+        // A number written without `-float` or `-int` is a string too, which macOS reads as the number it spells.
+        #expect(TweakStore.matches("0" as CFString, .number(0)))
+        #expect(TweakStore.matches("0.001" as CFString, .number(0.001)))
+        #expect(!TweakStore.matches("0.5" as CFString, .number(0)))
+        #expect(!TweakStore.matches("zero" as CFString, .number(0)))
     }
 
     @Test func callsTheGlobalDomainWhatTheApiCallsIt() {
