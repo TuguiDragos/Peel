@@ -540,7 +540,9 @@ struct CommandLineTests {
         #expect(Output.quoted("Notes Pro") == "'Notes Pro'")
         #expect(Output.quoted("Editor") == "Editor")
         #expect(Output.quoted("Sam's Apps") == "'Sam'\\''s Apps'")
-        let breaking = ["Q&A", "Tools;Kit", "A|B", "(Beta)", "Cost$", "Back`tick", "Star*", "What?", "Wow!", "No#1"]
+        let breaking = [
+            "Q&A", "Tools;Kit", "A|B", "(Beta)", "Cost$", "Back`tick", "Star*", "What?", "Wow!", "No#1", "-Dash", "=Equal",
+        ]
         for name in breaking + ["Sam's"] {
             #expect(Output.quoted(name).hasPrefix("'"), "\(name) would break the command it is pasted into")
         }

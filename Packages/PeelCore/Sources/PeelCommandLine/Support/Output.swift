@@ -52,10 +52,12 @@ enum Output {
     }
 
     /// Returns `name` so the reader can paste it into a command: in single quotes unless every character is a
-    /// letter, a digit, or one of `._/+-@%:=,`, which no shell reads as anything but itself.
+    /// letter, a digit, or one of `._/+-@%:=,`, which no shell reads as anything but itself, and the first is
+    /// neither `-`, an option to `peel`, nor `=`, a command name to zsh.
     static func quoted(_ name: String) -> String {
         let name = plain(name)
         let isPlain = !name.isEmpty && name.allSatisfy { $0.isLetter || $0.isNumber || "._/+-@%:=,".contains($0) }
+            && !"-=".contains(name.first ?? " ")
         return isPlain ? name : "'\(name.replacingOccurrences(of: "'", with: "'\\''"))'"
     }
 
