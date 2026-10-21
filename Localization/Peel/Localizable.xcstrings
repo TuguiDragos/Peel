@@ -184636,6 +184636,112 @@
         }
       }
     },
+    "When you ask Homebrew to update or upgrade, it first asks here whether Homebrew itself, and each tap kept on GitHub, has changed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když Homebrew požádáte o aktualizaci nebo upgrade, nejprve se zde zeptá, zda se změnil samotný Homebrew a jednotlivé taps uložené na GitHubu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du Homebrew aktualisieren oder ein Upgrade ausführen lässt, fragt Homebrew zuerst hier nach, ob sich Homebrew selbst und jeder seiner Taps, der auf GitHub liegt, geändert haben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando le pides a Homebrew que se actualice o que actualice paquetes, primero pregunta aquí si han cambiado el propio Homebrew y cada uno de los taps alojados en GitHub."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque vous demandez à Homebrew une mise à jour ou une mise à niveau, il interroge d’abord cet hôte pour savoir si Homebrew lui-même et chaque tap hébergé sur GitHub ont changé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando chiedi a Homebrew di aggiornarsi o di aggiornare i pacchetti, prima chiede qui se sono cambiati Homebrew stesso e ciascun tap ospitato su GitHub."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートやアップグレードを指示したときに、Homebrewはまずここに、自身とGitHubで管理されている各tapに変更があるかどうかを問い合わせます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew에 업데이트나 업그레이드를 요청하면 Homebrew는 먼저 여기에 Homebrew 자체와 GitHub에 보관된 각 tap이 변경되었는지 묻습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je Homebrew vraagt om bij te werken of te upgraden, vraagt het hier eerst of er iets is gewijzigd aan Homebrew zelf en aan elke tap die op GitHub staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy użyjesz w Homebrew polecenia Odśwież lub Uaktualnij, Homebrew najpierw pyta tutaj, czy zmienił się on sam oraz każdy z tapów przechowywanych na GitHubie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando você pede para o Homebrew atualizar ou fazer upgrade, ele primeiro pergunta aqui se houve alguma mudança no próprio Homebrew e em cada tap mantido no GitHub."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când îi cereți lui Homebrew să se actualizeze sau să facă upgrade, întreabă mai întâi aici dacă Homebrew însuși și fiecare tap păstrat pe GitHub s‑au modificat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда Вы запускаете обновление Homebrew или пакетов, Homebrew сначала узнает здесь, не изменились ли он сам и каждый tap, хранящийся на GitHub."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När du ber Homebrew att uppdatera eller uppgradera frågar det först här om Homebrew självt och varje tap som finns på GitHub har ändrats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’dan güncellemesini veya yükseltmesini istediğinizde, önce Homebrew’un kendisinin ve GitHub’da tutulan her tap deposunun değişip değişmediğini buraya sorar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли ви просите Homebrew оновитися або оновити пакети, він спершу запитує тут, чи змінилися сам Homebrew і кожен tap, який зберігається на GitHub."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你让Homebrew更新或升级时，它会先在这里查询Homebrew自身以及保存在GitHub上的每个tap是否有更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當你要求Homebrew更新或升級時，它會先在這裡查詢Homebrew自己以及每個存放在GitHub上的tap是否有變更。"
+          }
+        }
+      }
+    },
     "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar." : {
       "localizations" : {
         "cs" : {

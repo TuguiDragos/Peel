@@ -62,6 +62,20 @@ struct DocumentationTests {
         #expect(wrong.isEmpty, "\(wrong)")
     }
 
+    /// PRIVACY.md promises that Settings > Privacy shows every address Peel or Homebrew may contact.
+    @Test func everyAddressPrivacyMDNamesIsInSettingsPrivacy() throws {
+        let privacy = try String(contentsOf: LineLengthTests.repository.appending(path: "PRIVACY.md"), encoding: .utf8)
+        let addresses = privacy.split(separator: "\n").compactMap { line in
+            line.firstMatch(of: /^\| `([a-z0-9.-]+)` \|/).map { String($0.output.1) }
+        }
+        let pane = LineLengthTests.repository.appending(path: "Peel/Views/Settings/PrivacySettingsView.swift")
+        let hosts = try String(contentsOf: pane, encoding: .utf8)
+
+        #expect(addresses.count >= 5)
+        let missing = addresses.filter { !hosts.contains("address: \"\($0)\"") }
+        #expect(missing.isEmpty, "\(missing)")
+    }
+
     @Test func aFileNameInTheCodeCountsAsItsWords() {
         #expect(Self.words(in: #"let tag = "CACHEDIR.TAG" // BrowserWallets.swift"#).isSuperset(of: ["CACHEDIR", "BrowserWallets"]))
     }
