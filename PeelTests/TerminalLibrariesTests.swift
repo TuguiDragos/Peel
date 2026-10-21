@@ -99,9 +99,9 @@ struct TerminalLibrariesTests {
     @Test func theTerminalTabKnowsFromTheStartWhenTerminalsProfilesCannotBeRead() throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
-        let suite = "org.example.peel-tests.\(UUID().uuidString)"
-        let defaults = try #require(UserDefaults(suiteName: suite))
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let defaults = made.defaults
         let terminal = FakeTerminalSettings()
         let theme = TerminalThemeCatalog.all[0]
         terminal.names = [.newWindows: theme.profileName, .startup: theme.profileName]
@@ -123,9 +123,9 @@ struct TerminalLibrariesTests {
     @Test func aRefusalIsForgottenWhenThePageGoes() throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
-        let suite = "org.example.peel-tests.\(UUID().uuidString)"
-        let defaults = try #require(UserDefaults(suiteName: suite))
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let defaults = made.defaults
         let terminal = FakeTerminalSettings()
         let library = TerminalLibrary(settings: terminal, defaults: defaults, home: home)
         terminal.storedProfiles = nil
@@ -149,9 +149,9 @@ struct TerminalLibrariesTests {
     @Test func aGitChangeSavesTheLedgerInTheStoreItWasGiven() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
-        let suite = "org.example.peel-tests.\(UUID().uuidString)"
-        let defaults = try #require(UserDefaults(suiteName: suite))
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let defaults = made.defaults
         let library = GitLibrary(home: home, defaults: defaults)
         await library.refresh()
         let state = try #require(library.state)

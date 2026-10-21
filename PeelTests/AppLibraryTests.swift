@@ -37,9 +37,9 @@ struct AppLibraryTests {
         try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
             .write(to: bundle.appending(path: "Contents/Info.plist"))
         defer { try? FileManager.default.removeItem(at: folder) }
-        let suite = "org.example.peel-tests.\(UUID().uuidString)"
-        let defaults = try #require(UserDefaults(suiteName: suite))
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let defaults = made.defaults
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [AppcastProtocol.self]
         AppcastProtocol.body.withLock {

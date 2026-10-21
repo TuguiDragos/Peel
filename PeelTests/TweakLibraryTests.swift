@@ -61,20 +61,19 @@ struct TweakLibraryTests {
 
     private func makeLibrary(
         store: FakeTweakStore, restarts: Restarts = Restarts()
-    ) throws -> (TweakLibrary, UserDefaults, String) {
-        let suite = "org.example.peel-tests.\(UUID().uuidString)"
-        let defaults = try #require(UserDefaults(suiteName: suite))
-        let library = TweakLibrary(store: store, defaults: defaults) { needed in
+    ) throws -> (TweakLibrary, MadeUpDefaults) {
+        let made = try MadeUpDefaults()
+        let library = TweakLibrary(store: store, defaults: made.defaults) { needed in
             await MainActor.run { restarts.asked.append(needed) }
         }
-        return (library, defaults, suite)
+        return (library, made)
     }
 
     @Test func turnAllOffPutsBackOnlyWhatPeelChangedAndRestartsEachProcessOnce() async throws {
         let store = FakeTweakStore()
         let restarts = Restarts()
-        let (library, defaults, suite) = try makeLibrary(store: store, restarts: restarts)
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let (library, made) = try makeLibrary(store: store, restarts: restarts)
+        defer { made.forget() }
         let docks = TweakCatalog.all.filter { $0.restart == .dock }
         let (byPeel, alsoByPeel, byHand) = (docks[0], docks[1], docks[2])
         #expect(store.turnOn(byHand, text: nil))
@@ -93,8 +92,8 @@ struct TweakLibraryTests {
 
     @Test func putBackHandsTheScreenshotFolderToMacOSWhenTheFolderFromBeforeIsGone() async throws {
         let store = FakeTweakStore()
-        let (library, defaults, suite) = try makeLibrary(store: store)
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
         let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
         let gone = FileManager.default.temporaryDirectory.appending(path: "TweakLibraryTests-\(UUID().uuidString)")
         store.values[folder.id] = gone.path(percentEncoded: false)
@@ -111,8 +110,8 @@ struct TweakLibraryTests {
 
     @Test func putBackReturnsAScreenshotFolderThatIsStillThere() async throws {
         let store = FakeTweakStore()
-        let (library, defaults, suite) = try makeLibrary(store: store)
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
         let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
         let before = FileManager.default.temporaryDirectory.appending(
             path: "TweakLibraryTests-\(UUID().uuidString)", directoryHint: .isDirectory
@@ -130,8 +129,8 @@ struct TweakLibraryTests {
 
     @Test func twoRefusedSwitchesBothSaySo() async throws {
         let store = FakeTweakStore()
-        let (library, defaults, suite) = try makeLibrary(store: store)
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
         let first = try #require(Self.quiet.first { $0.kind != .folder && $0.kind != .name })
         let second = try #require(Self.quiet.last { $0.kind != .folder && $0.kind != .name })
         store.refuses = [first.id, second.id]
@@ -144,8 +143,8 @@ struct TweakLibraryTests {
 
     @Test func aRefusalStaysWhileAnotherSwitchSucceeds() async throws {
         let store = FakeTweakStore()
-        let (library, defaults, suite) = try makeLibrary(store: store)
-        defer { defaults.removePersistentDomain(forName: suite) }
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
         let first = try #require(Self.quiet.first { $0.kind != .folder && $0.kind != .name })
         let second = try #require(Self.quiet.last { $0.kind != .folder && $0.kind != .name })
         store.refuses = [first.id]
