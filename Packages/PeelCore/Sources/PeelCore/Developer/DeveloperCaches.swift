@@ -499,6 +499,11 @@ public enum DeveloperCaches {
             Folder(".expo/android-apk-cache", .downloads, source: "https://github.com/expo/expo/blob/57441f28c9eea248b6672ffbdcd529b072ea271e/packages/@expo/cli/src/utils/downloadExpoGoAsync.ts#L27"),
             Folder(".expo/schema-cache", .cache, source: "https://github.com/expo/expo/blob/57441f28c9eea248b6672ffbdcd529b072ea271e/packages/@expo/cli/src/api/getExpoSchema.ts#L83"),
             Folder(".expo/native-modules-cache", .cache, source: "https://github.com/expo/expo/blob/57441f28c9eea248b6672ffbdcd529b072ea271e/packages/@expo/cli/src/api/getNativeModuleVersions.ts#L35"),
+            Folder(
+                ".create-expo-app", .cache,
+                source: "https://github.com/expo/expo/blob/4a4867fc2948d881deaa704b800d702f0ae377e6/packages/create-expo/src/utils/npm.ts#L22-L25",
+                base: .userTemporary
+            ),
         ]),
         Definition(id: "nx", name: "Nx", systemImage: "cube", appBundleIdentifiers: [], folders: [
             // One workspace's `cache` and `databases`, named by 16 hex digits of a hash. They go together: Nx
@@ -539,6 +544,9 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "cypress", name: "Cypress", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/Cypress", .environments, source: "https://github.com/cypress-io/cypress-documentation/blob/a60694ce7ee13b052668db29e0b068161d06ca13/docs/app/get-started/advanced-installation.mdx#L615"),
+        ]),
+        Definition(id: "agentbrowser", name: "agent-browser", systemImage: "globe", appBundleIdentifiers: [], folders: [
+            Folder(".agent-browser/browsers", .environments, source: "https://github.com/vercel-labs/agent-browser/blob/0207911f1bd4d0393eddaa90f2e50f96e0fb8974/cli/src/install.rs#L10-L15"),
         ]),
         Definition(id: "puppeteer", name: "Puppeteer", systemImage: "globe", appBundleIdentifiers: [], folders: [
             Folder(".cache/puppeteer", .environments, source: "https://github.com/puppeteer/puppeteer/blob/2e45a3af43231cd658285e4da5e7f53e40f24edf/packages/puppeteer/src/getConfiguration.ts#L162-L165"),

@@ -486,7 +486,7 @@ struct DeveloperCachesTests {
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
             ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
             "metro-file-map-*", "node-compile-cache/", "tfhub_modules/", ".electron", "gensim-data", "stanza_resources",
-            ".u2net",
+            ".u2net", ".create-expo-app",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
