@@ -285,6 +285,24 @@ struct PrivilegedPathPolicyTests {
         #expect(PrivilegedPathPolicy.isValidLabel(label) == isValid)
     }
 
+    /// A folder on the way to a place Peel searches stays where a move is asked, but one a helper moved whole before
+    /// that rule held may come back from the Trash, as a folder only, so History stays the way back.
+    @Test func putsBackAFolderOnTheWayToAPlacePeelSearchesAsAFolderOnly() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        try directory.directory("home/Library/Application Support")
+        try directory.directory("home/.Trash/Avid")
+        try directory.file("home/.Trash/Avid.txt")
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let folder = try #require(policy.openInTrash(path("home/.Trash/Avid", in: directory), trash: trash))
+        let file = try #require(policy.openInTrash(path("home/.Trash/Avid.txt", in: directory), trash: trash))
+        let destination = path("home/Library/Application Support/Avid", in: directory)
+
+        #expect(policy.refusal(of: destination) == .irreplaceable)
+        #expect(policy.openDestination(destination, for: file).rejection == .irreplaceable)
+        #expect(try policy.openDestination(destination, for: folder).get().path.hasSuffix("/Application Support/Avid"))
+    }
+
     @Test func acceptsARestoreDestinationThatDoesNotExistYet() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

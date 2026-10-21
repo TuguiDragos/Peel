@@ -148,7 +148,11 @@ public struct PrivilegedPathPolicy: Sendable {
 
     /// Checks `path` by name alone, before anything is opened. The parent is resolved once, the result must
     /// sit inside one of `locations`, and it must neither be nor hold anything protected.
-    private func resolve(_ path: String, in locations: [String]) -> Result<Resolved, Rejection> {
+    private func resolve(
+        _ path: String,
+        in locations: [String],
+        puttingBackAFolder: Bool = false
+    ) -> Result<Resolved, Rejection> {
         guard path.hasPrefix("/") else { return .failure(.notAbsolute) }
         guard Self.isPlainlyReadable(path) else { return .failure(.controlCharacter) }
         guard !ProtectedData.refuses(path, home: homeDirectory) else { return .failure(.irreplaceable) }
@@ -159,11 +163,16 @@ public struct PrivilegedPathPolicy: Sendable {
 
         let parent = "/" + components.dropLast().joined(separator: "/")
         guard let resolvedParent = Self.realPath(parent) else { return .failure(.unresolvableParent) }
-        return judge(name, in: resolvedParent, locations: locations)
+        return judge(name, in: resolvedParent, locations: locations, puttingBackAFolder: puttingBackAFolder)
     }
 
     /// The checks on `name` in a folder named with no link left in its path, as `realpath` or the kernel names it.
-    private func judge(_ name: String, in resolvedParent: String, locations: [String]) -> Result<Resolved, Rejection> {
+    private func judge(
+        _ name: String,
+        in resolvedParent: String,
+        locations: [String],
+        puttingBackAFolder: Bool = false
+    ) -> Result<Resolved, Rejection> {
         let resolved = (resolvedParent == "/" ? "" : resolvedParent) + "/" + name
         guard
             !ProtectedData.refuses(resolved, home: homeDirectory),
@@ -183,11 +192,13 @@ public struct PrivilegedPathPolicy: Sendable {
         guard let location = locations.first(where: { PathComponents.isPath(resolved, inside: $0) }) else {
             return .failure(.outsideAllowedLocations)
         }
-        // A folder on the way to one Peel looks inside stays too, since moving it would take that one along.
+        // A folder on the way to one Peel looks inside stays too, since moving it would take that one along. One
+        // that is gone may come back from the Trash, as a folder only.
         let lowered = resolved.lowercased()
         let names = PathComponents.of(lowered)
-        guard !searchedFolders.contains(where: { $0.count > names.count && $0.starts(with: names) }),
-              !served.contains(where: { PathComponents.isPath($0.lowercased(), inside: lowered) })
+        guard puttingBackAFolder
+            || (!searchedFolders.contains(where: { $0.count > names.count && $0.starts(with: names) })
+                && !served.contains(where: { PathComponents.isPath($0.lowercased(), inside: lowered) }))
         else { return .failure(.irreplaceable) }
         // A tool's link sits directly in its folder, never deeper, and so does a browser's manifest.
         if links.contains(location), resolvedParent != location {
@@ -263,8 +274,9 @@ public struct PrivilegedPathPolicy: Sendable {
     /// item owned by root that nobody else can write to, which is how anything the helper took from there
     /// looks. Anything else could have been rewritten while it sat in the user's Trash.
     public func openDestination(_ path: String, for trashed: OpenItem) -> Result<OpenItem, Rejection> {
-        openFolder(of: path, beforeOpening: {}).flatMap { name, parent in
-            judged(name, in: parent).flatMap { item in
+        let aFolder = trashed.mode.map { $0 & S_IFMT == S_IFDIR } ?? false
+        return openFolder(of: path, beforeOpening: {}, puttingBackAFolder: aFolder).flatMap { name, parent in
+            judged(name, in: parent, puttingBackAFolder: aFolder).flatMap { item in
                 if links.contains(item.parent) {
                     guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
                 }
@@ -287,9 +299,10 @@ public struct PrivilegedPathPolicy: Sendable {
     /// Checks `path` by name, so nothing is opened for a path refused anyway, then opens its folder.
     private func openFolder(
         of path: String,
-        beforeOpening: () -> Void
+        beforeOpening: () -> Void,
+        puttingBackAFolder: Bool = false
     ) -> Result<(name: String, parent: DirectoryHandle), Rejection> {
-        resolve(path, in: locations).flatMap { named in
+        resolve(path, in: locations, puttingBackAFolder: puttingBackAFolder).flatMap { named in
             beforeOpening()
             switch DirectoryHandle.at(canonical: named.parent) {
             case .success(let parent): return .success((named.name, parent))
@@ -299,9 +312,13 @@ public struct PrivilegedPathPolicy: Sendable {
     }
 
     /// Checks `name` again in the folder `parent` holds, as the kernel names it now.
-    private func judged(_ name: String, in parent: DirectoryHandle) -> Result<Resolved, Rejection> {
+    private func judged(
+        _ name: String,
+        in parent: DirectoryHandle,
+        puttingBackAFolder: Bool = false
+    ) -> Result<Resolved, Rejection> {
         guard let folder = parent.currentPath else { return .failure(.unresolvableParent) }
-        return judge(name, in: folder, locations: locations)
+        return judge(name, in: folder, locations: locations, puttingBackAFolder: puttingBackAFolder)
     }
 
     /// Opens the user's own Trash. A link in place of `.Trash` is refused, and the folder must belong to
