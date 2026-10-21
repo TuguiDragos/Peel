@@ -5,7 +5,48 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ## 1.1.1 (not released yet)
 
+### Added
+
+#### Settings
+
+- Privacy lists `api.github.com`, which Homebrew asks before an update or upgrade whether it and the taps kept on GitHub
+  have changed.
+
+#### Applications
+
+- Bitdefender Endpoint Security for Mac and Sophos Endpoint are left to their makers' own uninstallers, and the app's
+  page gives the maker's step.
+
+### Changed
+
+#### Applications and Orphaned Files
+
+- A sign-in a tool saved when you logged in, such as Docker's `config.json` or the folder of the Google Cloud CLI, is
+  listed and never selected, since logging in again brings it back.
+
+#### Space
+
+- A cache folder holding a `Clipboard` folder, as Raycast's holds the images of your clipboard history, is held back
+  like other work an app keeps only in a cache.
+
 ### Fixed
+
+#### Terminal
+
+- Choosing a theme, changing one of its switches, or putting Terminal back writes nothing over Terminal's profiles when
+  they can't be read, and the Themes tab says so.
+
+#### History
+
+- Put Back makes each folder missing on the way back only after the guard allows it, through the folder it just made,
+  and takes those folders back when the move is then refused.
+- What the helper moved while its answer was lost is found in the Trash and recorded also without Full Disk Access.
+
+#### Settings
+
+- Open at Login reads and changes the login item away from the main thread, so the window no longer waits for macOS.
+- Remove Peel hands you the helper's ledger before the helper moves it to the Trash, so emptying the Trash needs no
+  administrator's password for it.
 
 #### Applications
 
@@ -19,10 +60,28 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   `md.obsidian`.
 - A Homebrew cask that names the app and quits the app's own helper is believed also when the app's identifier names no
   maker, such as `md.obsidian`, so the paths the cask names show on the app's page and in `peel leftovers`.
+- Showing the page of an app macOS doesn't know yet, such as one in Downloads, no longer registers it with Launch
+  Services: Peel draws its icon from the app's own files.
+- While a removal of many items goes on, Peel reads again, once a second, which programs hold a file open, so a file an
+  app opened meanwhile stays where it is.
 
 #### Orphaned Files
 
 - Lists what an app with a tool's identifier left while another such app is installed.
+
+#### Duplicates and File Search
+
+- What they move goes as one removal, so a run that was interrupted shows in History as one interrupted removal.
+
+#### `peel`
+
+- A name beginning with `-` or `=` is quoted in a command `peel` offers to copy, so pasting it works.
+
+### Security
+
+- Every folder on the way to a place Peel searches, such as `~/Library/Audio`, is refused whole, by the app and by
+  the helper, so what is inside it can't go as part of its folder. A browser's own data folder still goes with the
+  browser.
 
 ## 1.1.0 (2026-10-14)
 
