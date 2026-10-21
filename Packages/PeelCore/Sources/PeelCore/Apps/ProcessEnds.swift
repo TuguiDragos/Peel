@@ -4,6 +4,14 @@ import os
 /// When running programs end, as the kernel tells it. AppKit's `NSRunningApplication.isTerminated` changes only once
 /// AppKit hears of the end, which can be long after it.
 public enum ProcessEnds {
+    /// Whether the process still runs, as the kernel says: false from the moment it ends, before its parent has
+    /// collected it and before AppKit hears of its end.
+    public static func isRunning(_ identifier: pid_t) -> Bool {
+        var info = proc_bsdinfo()
+        let size = Int32(MemoryLayout<proc_bsdinfo>.size)
+        return proc_pidinfo(identifier, PROC_PIDTBSDINFO, 0, &info, size) == size
+    }
+
     /// Each of `identifiers` as its process ends, at once for one that has ended already, watched from this call on.
     /// The stream finishes once every one has ended.
     public static func of(_ identifiers: [pid_t]) -> AsyncStream<pid_t> {

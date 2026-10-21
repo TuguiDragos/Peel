@@ -73,6 +73,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The Git tab saves its record of what each key held after every key it writes, and quitting Peel waits for the change.
 - Turn All Off on the Shell and SSH tabs never writes over a file of Peel's own that couldn't be read.
 - The Terminal tab says from the start when Terminal's profiles can't be read, instead of asking you to choose a theme.
+- Quitting Terminal from Peel's question applies the theme at once: Terminal counts as closed as soon as its process has
+  ended, so the question no longer comes back a second time.
 
 #### History
 

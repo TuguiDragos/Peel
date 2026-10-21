@@ -7,8 +7,12 @@ public struct TerminalSettings: TerminalSettingsStoring, Sendable {
 
     public init() {}
 
+    /// Whether Terminal runs. AppKit lists an app for a few milliseconds after its process has ended, and a quit Peel
+    /// waited for has already ended it, so the kernel decides.
     public var isTerminalOpen: Bool {
-        NSRunningApplication.runningApplications(withBundleIdentifier: Self.identifier).contains { !$0.isTerminated }
+        NSRunningApplication.runningApplications(withBundleIdentifier: Self.identifier).contains {
+            !$0.isTerminated && ProcessEnds.isRunning($0.processIdentifier)
+        }
     }
 
     public var isManaged: Bool {

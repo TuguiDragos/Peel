@@ -22,6 +22,37 @@ struct ProcessEndsTests {
         }
     }
 
+    @Test func aProgramThatEndedNoLongerRunsEvenBeforeItsParentCollectsIt() async throws {
+        var identifier: pid_t = 0
+        let arguments: [UnsafeMutablePointer<CChar>?] = [strdup("/bin/sleep"), strdup("30"), nil]
+        defer { arguments.forEach { free($0) } }
+        // Started as Foundation starts a program: no signal blocked, every one at its default, so SIGTERM ends it.
+        var attributes: posix_spawnattr_t?
+        posix_spawnattr_init(&attributes)
+        defer { posix_spawnattr_destroy(&attributes) }
+        var none = sigset_t()
+        sigemptyset(&none)
+        var all = sigset_t()
+        sigfillset(&all)
+        posix_spawnattr_setsigmask(&attributes, &none)
+        posix_spawnattr_setsigdefault(&attributes, &all)
+        posix_spawnattr_setflags(&attributes, Int16(POSIX_SPAWN_SETSIGMASK | POSIX_SPAWN_SETSIGDEF))
+        #expect(posix_spawn(&identifier, "/bin/sleep", nil, &attributes, arguments, environ) == 0)
+        defer {
+            kill(identifier, SIGKILL)
+            var status: Int32 = 0
+            waitpid(identifier, &status, 0)
+        }
+        #expect(ProcessEnds.isRunning(identifier))
+
+        let ends = ProcessEnds.of([identifier])
+        kill(identifier, SIGTERM)
+        #expect(await collect(ends) == [identifier])
+
+        #expect(kill(identifier, 0) == 0, "the process is still a zombie, since this test has not collected it")
+        #expect(!ProcessEnds.isRunning(identifier))
+    }
+
     @Test func tellsWhenARunningProgramEnds() async throws {
         let directory = try TemporaryDirectory()
         let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
