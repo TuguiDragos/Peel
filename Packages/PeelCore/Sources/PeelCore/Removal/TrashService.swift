@@ -390,11 +390,16 @@ public struct TrashService: Sendable {
 
     /// Moves `urls` to the Trash as the current user, then stops the launchd jobs and forgets the preference
     /// domains of what moved. `owner` is the bundle identifier of the app being reset: its own preference domain
-    /// is forgotten even when Apple wrote the app.
+    /// is forgotten even when Apple wrote the app. `refusing` is asked about each item right before it moves, for a
+    /// check that reads the item as it is then, such as whether it changed since it was listed.
     @concurrent
-    public func trash(_ urls: [URL], ownedBy owner: String? = nil) async -> TrashResult {
+    public func trash(
+        _ urls: [URL],
+        ownedBy owner: String? = nil,
+        refusing: (@Sendable (URL) -> TrashFailure.Reason?)? = nil
+    ) async -> TrashResult {
         if let refused = refusingAllWhileHistoryCannotBeRead(urls) { return refused }
-        return await trash(urls, ownedBy: owner, removal: UUID(), lettingTheirProgramsRun: [])
+        return await trash(urls, ownedBy: owner, removal: UUID(), lettingTheirProgramsRun: [], refusing: refusing)
     }
 
     /// Moves files Peel made for itself, which History never lists, such as a copy of settings it could not
@@ -409,7 +414,8 @@ public struct TrashService: Sendable {
         _ urls: [URL],
         ownedBy owner: String?,
         removal: UUID?,
-        lettingTheirProgramsRun apps: Set<URL>
+        lettingTheirProgramsRun apps: Set<URL>,
+        refusing: (@Sendable (URL) -> TrashFailure.Reason?)? = nil
     ) async -> TrashResult {
         // The guard reads the disk, so it is asked once for each item.
         let refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
@@ -429,6 +435,10 @@ public struct TrashService: Sendable {
             // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
             let path = PathPattern.comparablePath(of: url)
             guard !moved.hold(path) else { continue }
+            if let refusal = refusing?(url) {
+                result.failures.append(TrashFailure(url: url, reason: refusal))
+                continue
+            }
             if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
                 result.failures.append(TrashFailure(url: url, reason: held))
                 continue

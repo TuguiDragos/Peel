@@ -733,4 +733,32 @@ struct DuplicateRemovalTests {
         #expect(result.failures.isEmpty, "the tagged copy was read as changed")
         #expect(result.trashed.map(\.originalURL) == [copy])
     }
+
+    @Test func movesEveryCopyAsOneRemoval() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        for name in ["one", "two"] {
+            let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
+            try directory.file("home/Documents/\(name).bin", contents: contents)
+            try directory.file("home/Documents/\(name) copy.bin", contents: contents)
+        }
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        #expect(scan.groups.count == 2)
+        let journal = RemovalJournal(beside: home.appending(path: "removals.json"))
+        let trash = try directory.directory("Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let service = TrashService(environment: environment, journal: journal) { url in
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await DuplicateRemoval.trash(scan.suggestedSelection, from: scan, using: service)
+
+        #expect(result.trashed.count == 2)
+        #expect(result.failures.isEmpty)
+        #expect(Set(journal.entries().map(\.batch)).count == 1)
+    }
 }

@@ -59,22 +59,17 @@ public enum FileSearch {
     /// Runs a Spotlight query and returns the paths it found, or nil when it could not run or was stopped.
     typealias Gather = @concurrent @Sendable (sending MDQuery) async -> [String]?
 
-    /// Moves `files` to the Trash. A file written again under the same name after it was listed is a different
-    /// file, so it fails with `changedSinceScan` instead.
+    /// Moves `files` to the Trash as one removal. A file written again under the same name after it was
+    /// listed is a different file, so it fails with `changedSinceScan` instead, checked right before its own move.
     @concurrent
     public static func trash(_ files: [FoundFile], using trashService: TrashService) async -> TrashResult {
-        var result = TrashResult()
-        for file in files {
-            guard let identity = file.identity, FileIdentity.of(file.url)?.holdsTheSameContents(as: identity) == true
-            else {
-                result.failures.append(TrashFailure(url: file.url, reason: .changedSinceScan))
-                continue
-            }
-            let moved = await trashService.trash([file.url])
-            result.trashed += moved.trashed
-            result.failures += moved.failures
-        }
-        return result
+        let listed = Dictionary(files.map { ($0.url, $0) }) { first, _ in first }
+        return await trashService.trash(files.map(\.url), refusing: { url in
+            guard let identity = listed[url]?.identity,
+                  FileIdentity.of(url)?.holdsTheSameContents(as: identity) == true
+            else { return .changedSinceScan }
+            return nil
+        })
     }
 
     /// Returns up to `maximumResults` regular files from the Spotlight index that match `criteria` and that the

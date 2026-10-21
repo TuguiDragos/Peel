@@ -37,6 +37,26 @@ struct TrashServiceTests {
         }
     }
 
+    @Test func asksTheCallersQuestionBesideEachMove() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let first = try directory.file("home/Documents/first.txt")
+        let second = try directory.file("home/Documents/second.txt")
+        let third = try directory.file("home/Documents/third.txt")
+        let asked = Mutex<[URL]>([])
+
+        let result = await service.trash([first, second, third]) { url in
+            asked.withLock { $0.append(url) }
+            return url == second ? .changedSinceScan : nil
+        }
+
+        #expect(asked.withLock { $0 } == [first, second, third])
+        #expect(result.trashed.map(\.originalURL) == [first, third])
+        #expect(result.failures.map(\.url) == [second])
+        #expect(result.failures.map(\.reason) == [.changedSinceScan])
+        #expect(FileManager.default.fileExists(atPath: second.path(percentEncoded: false)))
+    }
+
     /// Records the jobs launchd would have been asked to stop, since a test never asks launchd.
     private actor Stopped {
         private(set) var labels: [String] = []

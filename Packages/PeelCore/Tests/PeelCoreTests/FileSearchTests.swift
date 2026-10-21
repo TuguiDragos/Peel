@@ -214,4 +214,32 @@ struct FileSearchTests {
 
         #expect(results.files.map(\.url) == [other])
     }
+
+    @Test func movesTheFilesItListedAsOneRemoval() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let first = try directory.file("home/Documents/first.txt")
+        let second = try directory.file("home/Documents/second.txt")
+        let files = [first, second].map {
+            FoundFile(
+                url: $0, size: 16, modificationDate: .now, requiresPrivileges: false, identity: FileIdentity.of($0)
+            )
+        }
+        let journal = RemovalJournal(beside: home.appending(path: "removals.json"))
+        let trash = try directory.directory("Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let service = TrashService(environment: environment, journal: journal) { url in
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await FileSearch.trash(files, using: service)
+
+        #expect(result.trashed.count == 2)
+        #expect(result.failures.isEmpty)
+        #expect(Set(journal.entries().map(\.batch)).count == 1)
+    }
 }
