@@ -17,10 +17,12 @@ public struct TerminalSettings: TerminalSettingsStoring, Sendable {
         }
     }
 
-    public func profiles() -> [String: [String: Any]] {
+    public func profiles() -> [String: [String: Any]]? {
         CFPreferencesAppSynchronize(Self.identifier as CFString)
-        return CFPreferencesCopyAppValue(Self.profilesKey as CFString, Self.identifier as CFString)
-            as? [String: [String: Any]] ?? [:]
+        guard let value = CFPreferencesCopyAppValue(Self.profilesKey as CFString, Self.identifier as CFString) else {
+            return [:]
+        }
+        return value as? [String: [String: Any]]
     }
 
     public func setProfiles(_ profiles: [String: [String: Any]]) -> Bool {

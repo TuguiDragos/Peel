@@ -5,6 +5,8 @@ public struct TerminalThemeLedger {
         case terminalIsOpen
         case managed
         case refused
+        /// Terminal's profiles cannot be read, so nothing is written over them.
+        case unreadable
     }
 
     public private(set) var before: [TerminalProfileRole: String]?
@@ -44,7 +46,7 @@ public struct TerminalThemeLedger {
     }
 
     public func options(in terminal: some TerminalSettingsStoring) -> Set<TerminalOption>? {
-        guard let theme = theme(in: terminal), let profile = terminal.profiles()[theme.profileName] else { return nil }
+        guard let theme = theme(in: terminal), let profile = terminal.profiles()?[theme.profileName] else { return nil }
         return Set(TerminalOption.allCases.filter { $0.isOn(in: profile) })
     }
 
@@ -56,7 +58,7 @@ public struct TerminalThemeLedger {
         guard !terminal.isTerminalOpen else { return .terminalIsOpen }
         guard !terminal.isManaged else { return .managed }
         guard let name = theme(in: terminal)?.profileName else { return .unchanged }
-        var profiles = terminal.profiles()
+        guard var profiles = terminal.profiles() else { return .unreadable }
         guard var profile = profiles[name], option.isOn(in: profile) != isOn else { return .unchanged }
         let isStillPeels = written[name] != nil && TerminalProfile.fingerprint(of: profile) == written[name]
         option.set(isOn, in: &profile)
@@ -74,7 +76,7 @@ public struct TerminalThemeLedger {
         let name = theme.profileName
         let settings = try TerminalProfile.settings(for: theme, options: options(in: terminal) ?? [])
         guard let fingerprint = TerminalProfile.fingerprint(of: settings) else { return .refused }
-        var profiles = terminal.profiles()
+        guard var profiles = terminal.profiles() else { return .unreadable }
         let isStillPeels =
             written[name] != nil && profiles[name].flatMap(TerminalProfile.fingerprint(of:)) == written[name]
         let rewritesProfile = profiles[name] == nil || (isStillPeels && written[name] != fingerprint)
@@ -101,11 +103,11 @@ public struct TerminalThemeLedger {
         guard let before else { return .unchanged }
         guard !terminal.isTerminalOpen else { return .terminalIsOpen }
         guard !terminal.isManaged else { return .managed }
+        guard var profiles = terminal.profiles() else { return .unreadable }
         for role in TerminalProfileRole.allCases where terminal.profileName(for: role) == chosen {
             guard terminal.setProfileName(before[role], for: role) else { return .refused }
         }
         let inUse = Set(TerminalProfileRole.allCases.compactMap { terminal.profileName(for: $0) })
-        var profiles = terminal.profiles()
         let untouched = written.filter { name, fingerprint in
             !inUse.contains(name) && profiles[name].flatMap(TerminalProfile.fingerprint(of:)) == fingerprint
         }

@@ -7,11 +7,12 @@ private final class InMemoryTerminalSettings: TerminalSettingsStoring {
     var isManaged = false
     var refusesWrites = false
     var refusesNames = false
+    var profilesAreUnreadable = false
     var storedProfiles: [String: [String: Any]] = ["Basic": ["name": "Basic"], "Pro": ["name": "Pro"]]
     var names: [TerminalProfileRole: String] = [.newWindows: "Basic", .startup: "Basic"]
 
-    func profiles() -> [String: [String: Any]] {
-        storedProfiles
+    func profiles() -> [String: [String: Any]]? {
+        profilesAreUnreadable ? nil : storedProfiles
     }
 
     func setProfiles(_ profiles: [String: [String: Any]]) -> Bool {
@@ -34,6 +35,22 @@ private final class InMemoryTerminalSettings: TerminalSettingsStoring {
 struct TerminalThemeLedgerTests {
     private let theme = TerminalThemeCatalog.all[0]
     private let otherTheme = TerminalThemeCatalog.all[1]
+
+    @Test func writesNothingOverProfilesItCannotRead() throws {
+        let terminal = InMemoryTerminalSettings()
+        var ledger = TerminalThemeLedger()
+        #expect(try ledger.use(theme, in: terminal) == .changed)
+        terminal.profilesAreUnreadable = true
+
+        #expect(try ledger.use(otherTheme, in: terminal) == .unreadable)
+        #expect(ledger.set(TerminalOption.allCases[0], to: true, in: terminal) == .unreadable)
+        #expect(ledger.putBack(in: terminal) == .unreadable)
+        #expect(ledger.options(in: terminal) == nil)
+
+        #expect(Set(terminal.storedProfiles.keys) == ["Basic", "Pro", theme.profileName])
+        #expect(terminal.names[.newWindows] == theme.profileName, "a Put Back that could not finish put the names back")
+        #expect(ledger.canPutBack)
+    }
 
     @Test func aThemeInUseOpensEveryTerminalWindowWithIt() throws {
         let terminal = InMemoryTerminalSettings()

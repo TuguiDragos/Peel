@@ -168,6 +168,10 @@ private struct TerminalThemeInUse: View {
                 StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            } else if terminal.areProfilesUnreadable {
+                StatusLabel(title: Text("Terminal’s profiles couldn’t be read"), tint: .accentColor)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
         .motion(value: terminal.canPutBack)
@@ -230,6 +234,10 @@ private struct TerminalSettingsForm: View {
                         .foregroundStyle(.secondary)
                 } else if terminal.wasRefused {
                     StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                } else if terminal.areProfilesUnreadable {
+                    StatusLabel(title: Text("Terminal’s profiles couldn’t be read"), tint: .accentColor)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

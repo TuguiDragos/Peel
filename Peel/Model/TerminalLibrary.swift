@@ -28,6 +28,7 @@ final class TerminalLibrary {
     private(set) var isManaged = false
     private(set) var showsWindowSwitch = false
     private(set) var wasRefused = false
+    private(set) var areProfilesUnreadable = false
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
 
@@ -60,6 +61,7 @@ final class TerminalLibrary {
         }
         UserDefaults.standard.set(ledger.stored, forKey: Self.ledgerKey)
         wasRefused = outcome == .refused
+        areProfilesUnreadable = outcome == .unreadable
         refresh()
     }
 
