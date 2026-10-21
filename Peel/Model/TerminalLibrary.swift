@@ -55,9 +55,15 @@ final class TerminalLibrary {
         isTerminalOpen = settings.isTerminalOpen
         quietsLogin = HushLogin.isOn(in: home)
         shellSessions = ShellSessions.inTerminal(settings, home: home)
+        areProfilesUnreadable = settings.profiles() == nil
         options = ledger.options(in: settings)
         isManaged = settings.isManaged
         showsWindowSwitch = TerminalWindows.switchMatters()
+    }
+
+    /// Lets go of the last refusal, as the page goes: its reason was shown where the switch went back.
+    func forgetRefusal() {
+        wasRefused = false
     }
 
     func perform(_ action: Action) {
@@ -71,9 +77,8 @@ final class TerminalLibrary {
         case .set(let option, let isOn): ledger.set(option, to: isOn, in: settings)
         }
         defaults.set(ledger.stored, forKey: Self.ledgerKey)
-        wasRefused = outcome == .refused
-        areProfilesUnreadable = outcome == .unreadable
         refresh()
+        wasRefused = outcome == .refused
     }
 
     func quitTerminal(andThen action: Action) async {

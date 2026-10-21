@@ -49,6 +49,7 @@ struct TerminalPage: View {
         }
         .onDisappear {
             tweaks.forgetRefusals()
+            terminal.forgetRefusal()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             Task { await refresh() }
@@ -228,16 +229,16 @@ private struct TerminalSettingsForm: View {
                     StatusLabel(title: Text("Locked by a profile"), systemImage: "lock", tint: .accentColor)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                } else if terminal.areProfilesUnreadable {
+                    StatusLabel(title: Text("Terminal’s profiles couldn’t be read"), tint: .accentColor)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 } else if terminal.options == nil {
                     Text("Choose one of Peel’s themes to change these settings.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if terminal.wasRefused {
                     StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                } else if terminal.areProfilesUnreadable {
-                    StatusLabel(title: Text("Terminal’s profiles couldn’t be read"), tint: .accentColor)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

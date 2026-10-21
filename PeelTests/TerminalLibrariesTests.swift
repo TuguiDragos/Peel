@@ -77,6 +77,46 @@ struct TerminalLibrariesTests {
         #expect(try size(of: library.file) == bytes)
     }
 
+    @Test func theTerminalTabKnowsFromTheStartWhenTerminalsProfilesCannotBeRead() throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let suite = "org.example.peel-tests.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let terminal = FakeTerminalSettings()
+        let theme = TerminalThemeCatalog.all[0]
+        terminal.names = [.newWindows: theme.profileName, .startup: theme.profileName]
+        terminal.storedProfiles = nil
+
+        let library = TerminalLibrary(settings: terminal, defaults: defaults, home: home)
+
+        #expect(library.areProfilesUnreadable)
+        #expect(library.themeInUse == theme)
+        #expect(library.options == nil)
+        #expect(!library.wasRefused)
+
+        terminal.storedProfiles = [theme.profileName: ["name": theme.profileName]]
+        library.refresh()
+        #expect(!library.areProfilesUnreadable)
+        #expect(library.options == [])
+    }
+
+    @Test func aRefusalIsForgottenWhenThePageGoes() throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let suite = "org.example.peel-tests.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let terminal = FakeTerminalSettings()
+        let library = TerminalLibrary(settings: terminal, defaults: defaults, home: home)
+        terminal.storedProfiles = nil
+
+        library.perform(.use(TerminalThemeCatalog.all[0]))
+        #expect(library.areProfilesUnreadable)
+        library.forgetRefusal()
+        #expect(!library.wasRefused)
+    }
+
     @Test func aGitChangeSavesTheLedgerInTheStoreItWasGiven() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
