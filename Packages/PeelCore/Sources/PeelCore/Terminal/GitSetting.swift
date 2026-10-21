@@ -32,9 +32,13 @@ public enum GitSetting: CaseIterable, Sendable {
         }
     }
 
-    /// The public key to sign commits with: the first default key `ssh-keygen` makes that is in `~/.ssh`.
-    public static func signingKey(in home: URL) -> String? {
-        ["id_ed25519.pub", "id_ecdsa.pub", "id_rsa.pub"]
+    /// The public key to sign commits with: the one Git already signs with, when `gpg.format` is `ssh` and
+    /// `user.signingKey` names one, and otherwise the first default key `ssh-keygen` makes that is in `~/.ssh`.
+    public static func signingKey(in settings: [String: String?], home: URL) -> String? {
+        if value(settings["gpg.format"]) == "ssh", let key = value(settings["user.signingkey"]), !key.isEmpty {
+            return key
+        }
+        return ["id_ed25519.pub", "id_ecdsa.pub", "id_rsa.pub"]
             .map { home.appending(path: ".ssh/\($0)").path(percentEncoded: false) }
             .first { FileManager.default.fileExists(atPath: $0) }
     }

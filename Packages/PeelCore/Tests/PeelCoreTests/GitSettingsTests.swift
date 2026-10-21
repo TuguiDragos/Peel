@@ -167,15 +167,38 @@ struct GitSettingsTests {
         #expect(git.file == "[pull\n\trebase = false\n")
     }
 
-    @Test func signingUsesTheFirstDefaultKeyAndNeedsOne() async throws {
+    @Test func signingUsesTheKeyGitSignsWithOrElseTheFirstDefaultKeyAndNeedsOne() async throws {
         let git = try await GitHome()
-        #expect(GitSetting.signingKey(in: git.home) == nil)
+        #expect(GitSetting.signingKey(in: [:], home: git.home) == nil)
         var ledger = GitLedger()
         #expect(await ledger.turnOn(.signCommits, signingKey: nil, in: git.config) == .refused)
         let rsa = try git.publicKey("id_rsa.pub")
-        #expect(GitSetting.signingKey(in: git.home) == rsa)
+        #expect(GitSetting.signingKey(in: [:], home: git.home) == rsa)
         let ed25519 = try git.publicKey("id_ed25519.pub")
-        #expect(GitSetting.signingKey(in: git.home) == ed25519)
+        #expect(GitSetting.signingKey(in: [:], home: git.home) == ed25519)
+        let work = try git.publicKey("work.pub")
+        #expect(GitSetting.signingKey(in: ["gpg.format": "ssh", "user.signingkey": work], home: git.home) == work)
+        #expect(GitSetting.signingKey(in: ["gpg.format": "openpgp", "user.signingkey": "ABCDEF0123"], home: git.home) == ed25519)
+        #expect(GitSetting.signingKey(in: ["user.signingkey": work], home: git.home) == ed25519)
+        #expect(GitSetting.signingKey(in: ["gpg.format": "ssh", "user.signingkey": ""], home: git.home) == ed25519)
+    }
+
+    @Test func turningOnSigningKeepsTheKeyThePersonSignsWith() async throws {
+        let git = try await GitHome()
+        _ = try git.publicKey("id_ed25519.pub")
+        let work = try git.publicKey("work.pub")
+        #expect(await git.config.set("gpg.format", to: "ssh"))
+        #expect(await git.config.set("user.signingKey", to: work))
+        let settings = try await git.settings()
+        let key = try #require(GitSetting.signingKey(in: settings, home: git.home))
+        var ledger = GitLedger()
+        #expect(await ledger.turnOn(.signCommits, signingKey: key, in: git.config) == .changed)
+        #expect(try await git.settings()["user.signingkey"] == .some(work))
+        #expect(await ledger.turnOff(.signCommits, in: git.config) == .changed)
+        let after = try await git.settings()
+        #expect(after["user.signingkey"] == .some(work))
+        #expect(after["gpg.format"] == "ssh")
+        #expect(after["commit.gpgsign"] == nil)
     }
 
     @Test func theGitOnThisMacKnowsEverySettingAndASettingItDoesNotKnowIsNotOffered() async throws {

@@ -44,7 +44,7 @@ final class GitLibrary {
             isInstalled: git != nil,
             settings: settings,
             known: known,
-            signingKey: GitSetting.signingKey(in: .homeDirectory),
+            signingKey: GitSetting.signingKey(in: settings ?? [:], home: .homeDirectory),
             setInIncludedFiles: await git?.keysSetByIncludedFiles() ?? []
         )
     }
