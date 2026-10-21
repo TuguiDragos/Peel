@@ -83,9 +83,10 @@ Sync, Synology Drive Client, or MEGA keeps in step, known by the entry each writ
 says so, and File Search doesn't list it.
 
 Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android Studio keep a
-history of your changes in `LocalHistory`, beside their caches, which no repository may hold, and Deno keeps
-`localStorage` and its key-value databases in `location_data`. Those folders, and any cache folder that holds one, stay:
-emptying "App Caches" in Space leaves them where they are.
+history of your changes in `LocalHistory`, beside their caches, which no repository may hold, Deno keeps `localStorage`
+and its key-value databases in `location_data`, and Raycast keeps the images of your clipboard history in `Clipboard`
+inside its cache folder. Those folders, and any cache folder that holds one, stay: emptying "App Caches" in Space
+leaves them where they are.
 
 Also refused: a sandboxed app's own `Data/Documents`, which is where that app keeps *your* work, not its
 settings. The rule holds for the folder around it too: while `Data/Documents` holds anything, or cannot be

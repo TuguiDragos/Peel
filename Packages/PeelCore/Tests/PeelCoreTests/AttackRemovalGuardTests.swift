@@ -775,6 +775,8 @@ struct AttackRemovalGuardTests {
         try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.2/caches/names.dat")
         try directory.file("home/Library/Caches/deno/location_data/abc/kv.sqlite3")
         try directory.file("home/Library/Caches/deno/deps/https/x.ts")
+        try directory.file("home/Library/Caches/com.raycast.macos/Clipboard/8A2F.png")
+        try directory.file("home/Library/Caches/com.raycast.macos/Images/icon.png")
         let guardian = RemovalGuard(
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
         )
@@ -783,11 +785,16 @@ struct AttackRemovalGuardTests {
             "Library/Caches/JetBrains", "Library/Caches/JetBrains/IntelliJIdea2026.2",
             "Library/Caches/JetBrains/IntelliJIdea2026.2/LocalHistory", "Library/Caches/JetBrains/IntelliJIdea2026.2/LocalHistory/changes.storageData",
             "Library/Caches/deno", "Library/Caches/deno/location_data", "Library/Caches/deno/location_data/abc/kv.sqlite3",
+            "Library/Caches/com.raycast.macos", "Library/Caches/com.raycast.macos/Clipboard",
         ]
         for path in kept {
             #expect(!guardian.allowsRemoval(of: home.appending(path: path)), "\(path) may be removed")
         }
-        for path in ["Library/Caches/JetBrains/IntelliJIdea2026.2/caches", "Library/Caches/deno/deps"] {
+        let caches = [
+            "Library/Caches/JetBrains/IntelliJIdea2026.2/caches", "Library/Caches/deno/deps",
+            "Library/Caches/com.raycast.macos/Images",
+        ]
+        for path in caches {
             #expect(guardian.allowsRemoval(of: home.appending(path: path)), "\(path) is refused")
         }
     }

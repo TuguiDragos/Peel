@@ -291,8 +291,9 @@ public enum ProtectedData: Sendable {
 
     /// Work that lives in a cache folder and nowhere else. A JetBrains IDE and Android Studio keep
     /// `LocalHistory` beside their caches: the edits they recorded, which are in no repository. Deno keeps
-    /// `location_data` in its cache folder: `localStorage`, and the database behind `Deno.openKv()`.
-    static let workKeptInCaches: Set<String> = ["localhistory", "location_data"]
+    /// `location_data` in its cache folder: `localStorage`, and the database behind `Deno.openKv()`. Raycast keeps
+    /// the images of its clipboard history, which it keeps on the Mac alone, in `Clipboard` inside its cache folder.
+    static let workKeptInCaches: Set<String> = ["localhistory", "location_data", "clipboard"]
 
     /// True for a path under a `Caches` folder that is at or inside one of those folders, or holds one a level
     /// or two down, and for a Library's `Caches` folder holding one three levels down, which is how deep they sit
