@@ -48,7 +48,7 @@ struct TerminalPage: View {
             await refresh()
         }
         .onDisappear {
-            tweaks.forgetRefusals()
+            tweaks.forgetNotices()
             terminal.forgetRefusal()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in

@@ -62,6 +62,14 @@ struct TweakRow: View {
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                         .truncationMode(.middle)
+                } else if tweaks.foldersLeftToMacOS.contains(tweak.id) {
+                    StatusLabel(
+                        title: Text("The folder from before can’t take screenshots anymore, so macOS saves them on the Desktop."),
+                        tint: .accentColor
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
                 } else if !works, let whileOff = parent?.words.whileOff {
                     Text(whileOff)
                         .font(.caption)

@@ -52,7 +52,7 @@ struct TweakPage: View {
             tweaks.refresh()
         }
         .onDisappear {
-            tweaks.forgetRefusals()
+            tweaks.forgetNotices()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             tweaks.refresh()

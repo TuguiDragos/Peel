@@ -101,6 +101,7 @@ final class TweakLibrary {
     @discardableResult
     func set(_ tweak: Tweak, on isOn: Bool) -> Task<Void, Never> {
         asked[tweak.id] = isOn
+        foldersLeftToMacOS.remove(tweak.id)
         let line = lines[tweak.id] ?? OneAtATime()
         lines[tweak.id] = line
         return Task {
@@ -112,6 +113,7 @@ final class TweakLibrary {
     }
 
     func turnOn(_ tweak: Tweak, text: String? = nil) async {
+        foldersLeftToMacOS.remove(tweak.id)
         await finish(tweak, after: ledger.turnOn(tweak, text: text, in: store))
     }
 
@@ -122,7 +124,23 @@ final class TweakLibrary {
     /// Turns `tweak` off. A setting Peel changed gets back the value it had before. A setting changed by hand
     /// is removed, so macOS falls back to its default.
     func reset(_ tweak: Tweak) async {
+        foldersLeftToMacOS.remove(tweak.id)
+        leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
         await finish(tweak, after: ledger.turnOff(tweak, in: store))
+    }
+
+    /// The folder tweaks whose Put Back handed the setting to macOS, since the folder from before Peel's change
+    /// could no longer take screenshots. Each row says so until the tweak changes again, and all go with the page.
+    private(set) var foldersLeftToMacOS: Set<Tweak.ID> = []
+
+    /// `screencapture` saves nothing in a folder that isn't there, is in the Trash, or can't be written to, so a
+    /// folder from before that has become one is not put back: the key goes instead, and macOS saves on the Desktop.
+    private func leaveToMacOSAFolderThatCannotTakeScreenshots(_ tweak: Tweak) {
+        guard tweak.kind == .folder, let before = ledger.previousValues[tweak.id] as? String,
+              ScreenshotFolder.problem(with: URL(filePath: before, directoryHint: .isDirectory), home: home) != nil
+        else { return }
+        ledger.forgetPreviousValue(of: tweak)
+        foldersLeftToMacOS.insert(tweak.id)
     }
 
     private func save() {
@@ -144,8 +162,10 @@ final class TweakLibrary {
     /// with no reason. A tweak leaves the set with its next write that lands, and all of them when the page goes.
     private(set) var refused: Set<Tweak.ID> = []
 
-    func forgetRefusals() {
+    /// Forgets what the rows say about the last changes, when the page goes.
+    func forgetNotices() {
         refused = []
+        foldersLeftToMacOS = []
     }
     private(set) var isTurningAllOff = false
 
@@ -163,6 +183,10 @@ final class TweakLibrary {
         // Read again: System Settings may have changed any of these after the page was drawn.
         refresh()
         let tried = Self.onTweaksPage.filter { ledger.isOn($0, state: state(of: $0)) }
+        for tweak in tried {
+            foldersLeftToMacOS.remove(tweak.id)
+            leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
+        }
         let batch = ledger.turnOff(tried, in: store)
         refused.subtract(tried.map(\.id))
         refused.formUnion(batch.refused.map(\.id))

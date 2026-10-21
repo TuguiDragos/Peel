@@ -61,6 +61,43 @@ struct TweakLibraryTests {
         return (library, defaults, suite)
     }
 
+    @Test func putBackHandsTheScreenshotFolderToMacOSWhenTheFolderFromBeforeIsGone() async throws {
+        let store = FakeTweakStore()
+        let (library, defaults, suite) = try makeLibrary(store: store)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let gone = FileManager.default.temporaryDirectory.appending(path: "TweakLibraryTests-\(UUID().uuidString)")
+        store.values[folder.id] = gone.path(percentEncoded: false)
+        await library.turnOn(folder, text: "/Users/Shared")
+
+        await library.reset(folder)
+
+        #expect(store.values[folder.id] == nil)
+        #expect(library.foldersLeftToMacOS == [folder.id])
+        #expect(!library.isChangedByPeel(folder))
+        await library.turnOn(folder, text: "/Users/Shared")
+        #expect(library.foldersLeftToMacOS.isEmpty)
+    }
+
+    @Test func putBackReturnsAScreenshotFolderThatIsStillThere() async throws {
+        let store = FakeTweakStore()
+        let (library, defaults, suite) = try makeLibrary(store: store)
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let before = FileManager.default.temporaryDirectory.appending(
+            path: "TweakLibraryTests-\(UUID().uuidString)", directoryHint: .isDirectory
+        )
+        try FileManager.default.createDirectory(at: before, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: before) }
+        store.values[folder.id] = ScreenshotFolder.setting(for: before)
+        await library.turnOn(folder, text: "/Users/Shared")
+
+        await library.reset(folder)
+
+        #expect(store.values[folder.id] as? String == ScreenshotFolder.setting(for: before))
+        #expect(library.foldersLeftToMacOS.isEmpty)
+    }
+
     @Test func twoRefusedSwitchesBothSaySo() async throws {
         let store = FakeTweakStore()
         let (library, defaults, suite) = try makeLibrary(store: store)

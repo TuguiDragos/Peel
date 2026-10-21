@@ -84,6 +84,12 @@ public struct TweakLedger {
         return Self.isSame(before, store.storedValue(of: tweak)) ? .unchanged : .changed
     }
 
+    /// Drops what `tweak`'s key held before Peel changed it, so turning the tweak off hands the setting to macOS
+    /// instead of putting that back: for a folder that can no longer take screenshots.
+    public mutating func forgetPreviousValue(of tweak: Tweak) {
+        previousValues.removeValue(forKey: tweak.id)
+    }
+
     private mutating func forget(_ tweak: Tweak) {
         changedByPeel.remove(tweak.id)
         previousValues.removeValue(forKey: tweak.id)

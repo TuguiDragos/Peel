@@ -161622,6 +161622,112 @@
         }
       }
     },
+    "The folder from before can’t take screenshots anymore, so macOS saves them on the Desktop." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do dřívější složky už snímky obrazovky nelze ukládat, takže je systém macOS ukládá na plochu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im bisherigen Ordner können keine Bildschirmfotos mehr gesichert werden, daher sichert macOS sie auf dem Schreibtisch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La carpeta anterior ya no admite capturas de pantalla, así que macOS las guarda en el Escritorio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’ancien dossier ne peut plus recevoir les captures d’écran : macOS les enregistre donc sur le Bureau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cartella di prima non può più ricevere gli screenshot, quindi macOS li salva sulla Scrivania."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以前の保存先フォルダにはスクリーンショットを保存できなくなったため、macOSはデスクトップに保存します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전에 사용하던 폴더에는 더 이상 스크린샷을 저장할 수 없으므로 macOS가 스크린샷을 데스크탑에 저장합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In de map van eerder kunnen geen schermafbeeldingen meer worden bewaard, dus macOS bewaart ze op het bureaublad."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W poprzednim folderze nie można już zachowywać zrzutów ekranu, więc macOS zachowuje je na biurku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A pasta anterior não pode mais receber capturas de tela, então o macOS as salva na Mesa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul de dinainte nu mai poate primi capturi de ecran, așa că macOS le salvează pe Desktop."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В прежнюю папку больше нельзя сохранять снимки экрана, поэтому macOS сохраняет их на Рабочем столе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mappen från tidigare kan inte längre ta emot skärmavbilder, så macOS sparar dem på skrivbordet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önceki klasöre artık ekran resimleri kaydedilemiyor, bu yüzden macOS onları Masaüstü’ne kaydeder."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У попередню папку більше не можна зберігати знімки екрана, тож macOS кладе їх на Робочий стіл."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原先的文件夹已无法再存放截屏，因此macOS会将它们保存在桌面上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原本的檔案夾已無法再儲存截圖，因此macOS會將截圖儲存在「桌面」上。"
+          }
+        }
+      }
+    },
     "The folder it’s in couldn’t be found." : {
       "localizations" : {
         "cs" : {

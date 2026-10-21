@@ -155,6 +155,23 @@ struct TweakLedgerTests {
         #expect(store.values[name.id] as? String == "ss")
     }
 
+    /// Once what the key held before is forgotten, turning the tweak off hands the setting to macOS, as for a
+    /// setting made outside Peel: for a folder that can no longer take screenshots.
+    @Test func aForgottenPreviousValueHandsTheSettingToMacOS() throws {
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let store = FakeStore()
+        store.values[folder.id] = "/Users/me/Gone"
+        var ledger = TweakLedger()
+        _ = ledger.turnOn(folder, text: "/Users/me/Peel", in: store)
+
+        ledger.forgetPreviousValue(of: folder)
+
+        #expect(ledger.changedByPeel == [folder.id])
+        #expect(ledger.turnOff(folder, in: store) == .changed)
+        #expect(store.values[folder.id] == nil)
+        #expect(ledger.changedByPeel.isEmpty)
+    }
+
     /// A key the person changed in macOS after Peel did holds their choice now, never written over with what was
     /// there before Peel: the folder chosen later stays, and Peel forgets its change.
     @Test func aChoiceMadeOutsidePeelSinceIsNeverWrittenOver() throws {
