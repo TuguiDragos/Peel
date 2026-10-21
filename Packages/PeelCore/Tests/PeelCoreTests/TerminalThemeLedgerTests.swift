@@ -30,6 +30,8 @@ private final class InMemoryTerminalSettings: TerminalSettingsStoring {
         names[role] = name
         return true
     }
+
+    func shell() -> String? { nil }
 }
 
 struct TerminalThemeLedgerTests {

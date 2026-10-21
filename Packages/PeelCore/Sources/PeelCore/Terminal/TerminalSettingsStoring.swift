@@ -11,4 +11,6 @@ public protocol TerminalSettingsStoring {
     func setProfiles(_ profiles: [String: [String: Any]]) -> Bool
     func profileName(for role: TerminalProfileRole) -> String?
     func setProfileName(_ name: String?, for role: TerminalProfileRole) -> Bool
+    /// The command Terminal opens new windows with, when Shells open with names one.
+    func shell() -> String?
 }

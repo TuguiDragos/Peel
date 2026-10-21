@@ -12,15 +12,25 @@ final class GitLibrary {
         var setInIncludedFiles: Set<String> = []
     }
 
-    private static let ledgerKey = "terminalGit"
+    static let ledgerKey = "terminalGit"
 
-    private var ledger = GitLedger(stored: UserDefaults.standard.dictionary(forKey: ledgerKey) ?? [:])
+    private let home: URL
+    private let defaults: UserDefaults
+    private var ledger: GitLedger
     private var git: GitConfig?
     private(set) var state: State?
     private var asked: [GitSetting: Bool] = [:]
     private(set) var wasRefused = false
     private var waiting: [GitSetting: Int] = [:]
     private var changes: Task<Void, Never>?
+
+    /// The home whose Git settings are read and changed, and the store the ledger is kept in; the person's own
+    /// unless a test gives its own.
+    init(home: URL = .homeDirectory, defaults: UserDefaults = .standard) {
+        self.home = home
+        self.defaults = defaults
+        ledger = GitLedger(stored: defaults.dictionary(forKey: Self.ledgerKey) ?? [:])
+    }
 
     var hasSomethingOn: Bool {
         GitSetting.allCases.contains(where: isOn)
@@ -33,7 +43,7 @@ final class GitLibrary {
     }
 
     private func read() async {
-        let git = if let git { git } else { await GitConfig.find() }
+        let git = if let git { git } else { await GitConfig.find(home: home) }
         let settings = await git?.settings()
         var known = state?.known
         if known == nil {
@@ -44,7 +54,7 @@ final class GitLibrary {
             isInstalled: git != nil,
             settings: settings,
             known: known,
-            signingKey: GitSetting.signingKey(in: settings ?? [:], home: .homeDirectory),
+            signingKey: GitSetting.signingKey(in: settings ?? [:], home: home),
             setInIncludedFiles: await git?.keysSetByIncludedFiles() ?? []
         )
     }
@@ -81,8 +91,8 @@ final class GitLibrary {
         }
     }
 
-    private static func save(_ ledger: GitLedger) {
-        UserDefaults.standard.set(ledger.stored, forKey: ledgerKey)
+    private func save(_ ledger: GitLedger) {
+        defaults.set(ledger.stored, forKey: Self.ledgerKey)
     }
 
     private func ask(_ settings: [GitSetting], isOn: Bool) {
@@ -112,8 +122,8 @@ final class GitLibrary {
                 var refused = false
                 for setting in settings {
                     let outcome = isOn
-                        ? await ledger.turnOn(setting, signingKey: state?.signingKey, in: git) { Self.save($0) }
-                        : await ledger.turnOff(setting, in: git) { Self.save($0) }
+                        ? await ledger.turnOn(setting, signingKey: state?.signingKey, in: git) { save($0) }
+                        : await ledger.turnOff(setting, in: git) { save($0) }
                     refused = outcome == .refused || refused
                 }
                 self.ledger = ledger

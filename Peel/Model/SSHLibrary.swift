@@ -10,13 +10,22 @@ final class SSHLibrary {
         var accepted: Set<SSHSetting>
     }
 
-    let file = SSHFile.url(in: PeelFolder.url)
-    let config = URL.homeDirectory.appending(path: ".ssh/config", directoryHint: .notDirectory)
+    let file: URL
+    let config: URL
+    private let home: URL
     private(set) var state: State?
     private(set) var wasRefused = false
 
+    /// Peel's own file in `folder`, and the home whose `.ssh/config` is read: the person's own unless a test gives
+    /// its own.
+    init(folder: URL = PeelFolder.url, home: URL = .homeDirectory) {
+        file = SSHFile.url(in: folder)
+        config = home.appending(path: ".ssh/config", directoryHint: .notDirectory)
+        self.home = home
+    }
+
     var lines: [String] {
-        SSHFile.lines(including: file, home: .homeDirectory)
+        SSHFile.lines(including: file, home: home)
     }
 
     var hasSomethingOn: Bool {
@@ -27,7 +36,7 @@ final class SSHLibrary {
         let accepted = if let state, !state.accepted.isEmpty { state.accepted } else { await SSHFile.accepted() }
         state = State(
             settings: SSHFile.read(file),
-            isIncluded: SSHFile.isIncluded(file, from: config, home: .homeDirectory),
+            isIncluded: SSHFile.isIncluded(file, from: config, home: home),
             accepted: accepted
         )
     }
@@ -47,7 +56,9 @@ final class SSHLibrary {
         write(settings)
     }
 
+    /// Empties Peel's file, never one it could not read: what is in that one is not known.
     func turnAllOff() {
+        guard state?.settings != nil else { return }
         write([])
     }
 

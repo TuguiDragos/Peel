@@ -11,10 +11,12 @@ final class TerminalLibrary {
         case set(TerminalOption, Bool)
     }
 
-    private static let ledgerKey = "terminalThemes"
+    static let ledgerKey = "terminalThemes"
     private static let patience: Duration = .seconds(10)
 
-    private let settings = TerminalSettings()
+    private let settings: any TerminalSettingsStoring
+    private let defaults: UserDefaults
+    private let home: URL
     private var ledger: TerminalThemeLedger
     private(set) var themeInUse: TerminalTheme?
     private(set) var profileInUse: String?
@@ -32,8 +34,17 @@ final class TerminalLibrary {
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
 
-    init() {
-        ledger = TerminalThemeLedger(stored: UserDefaults.standard.dictionary(forKey: Self.ledgerKey) ?? [:])
+    /// Terminal's settings, the store the ledger is kept in, and the home whose `.hushlogin` is read: the person's
+    /// own unless a test gives its own.
+    init(
+        settings: any TerminalSettingsStoring = TerminalSettings(),
+        defaults: UserDefaults = .standard,
+        home: URL = .homeDirectory
+    ) {
+        self.settings = settings
+        self.defaults = defaults
+        self.home = home
+        ledger = TerminalThemeLedger(stored: defaults.dictionary(forKey: Self.ledgerKey) ?? [:])
         refresh()
     }
 
@@ -42,8 +53,8 @@ final class TerminalLibrary {
         themeInUse = ledger.theme(in: settings)
         canPutBack = ledger.canPutBack
         isTerminalOpen = settings.isTerminalOpen
-        quietsLogin = HushLogin.isOn(in: .homeDirectory)
-        shellSessions = ShellSessions.inTerminal(settings)
+        quietsLogin = HushLogin.isOn(in: home)
+        shellSessions = ShellSessions.inTerminal(settings, home: home)
         options = ledger.options(in: settings)
         isManaged = settings.isManaged
         showsWindowSwitch = TerminalWindows.switchMatters()
@@ -59,7 +70,7 @@ final class TerminalLibrary {
         case .putBack: ledger.putBack(in: settings)
         case .set(let option, let isOn): ledger.set(option, to: isOn, in: settings)
         }
-        UserDefaults.standard.set(ledger.stored, forKey: Self.ledgerKey)
+        defaults.set(ledger.stored, forKey: Self.ledgerKey)
         wasRefused = outcome == .refused
         areProfilesUnreadable = outcome == .unreadable
         refresh()
@@ -90,20 +101,20 @@ final class TerminalLibrary {
     }
 
     func turnOnQuietLogin() {
-        quietsLogin = HushLogin.turnOn(in: .homeDirectory)
+        quietsLogin = HushLogin.turnOn(in: home)
     }
 
     func moveQuietLoginToTrash(recording record: (TrashResult, [URL: Int64]) async -> Void) async -> TrashResult {
         isMovingQuietLogin = true
         defer { isMovingQuietLogin = false }
-        let file = HushLogin.url(in: .homeDirectory)
+        let file = HushLogin.url(in: home)
         let sizes = [URL: Int64](measured: [(file, await FileSize.reclaimableSize(of: file))])
         let result = await QuitGuard.shared.run {
             let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([file])
             await record(result, sizes)
             return result
         }
-        quietsLogin = HushLogin.isOn(in: .homeDirectory)
+        quietsLogin = HushLogin.isOn(in: home)
         return result
     }
 

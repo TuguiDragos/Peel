@@ -13,13 +13,21 @@ final class ShellLibrary {
         var known: Set<String>?
     }
 
-    let file = ShellFile.url(in: PeelFolder.url)
+    let file: URL
+    private let home: URL
     private(set) var state: State?
     private(set) var wasRefused = false
     private(set) var draft = Prompt()
 
+    /// Peel's own file in `folder`, and the home whose startup files are read: the person's own unless a test gives
+    /// its own.
+    init(folder: URL = PeelFolder.url, home: URL = .homeDirectory) {
+        file = ShellFile.url(in: folder)
+        self.home = home
+    }
+
     var line: String {
-        ShellFile.line(sourcing: file, home: .homeDirectory)
+        ShellFile.line(sourcing: file, home: home)
     }
 
     var hasSomethingOn: Bool {
@@ -31,17 +39,15 @@ final class ShellLibrary {
         if known == nil {
             known = await ShellFile.knownToZsh()
         }
-        let shell = ShellSessions.inTerminal(TerminalSettings())
-        let startupFile = await shell?.zshrc()
+        let shell = ShellSessions.inTerminal(TerminalSettings(), home: home)
+        let startupFile = await shell?.zshrc(home: home)
         let choices = ShellFile.read(file)
         state = State(
             shell: shell,
             startupFile: startupFile,
             choices: choices,
-            isSourced: startupFile.map { ShellFile.isSourced(file, from: $0, home: .homeDirectory) } ?? false,
-            setsItsOwnPrompt: startupFile.map {
-                ShellFile.setsItsOwnPrompt(after: file, in: $0, home: .homeDirectory)
-            } ?? false,
+            isSourced: startupFile.map { ShellFile.isSourced(file, from: $0, home: home) } ?? false,
+            setsItsOwnPrompt: startupFile.map { ShellFile.setsItsOwnPrompt(after: file, in: $0, home: home) } ?? false,
             known: known
         )
         if let prompt = choices?.prompt {
@@ -78,7 +84,9 @@ final class ShellLibrary {
         write(choices)
     }
 
+    /// Empties Peel's file, never one it could not read: what is in that one is not known.
     func turnAllOff() {
+        guard state?.choices != nil else { return }
         write(ShellFile.Choices())
     }
 

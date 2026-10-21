@@ -5,7 +5,9 @@ public enum ShellSessions: Sendable, Equatable {
     case zsh(startupFile: URL)
     case bash
 
-    public static func inTerminal(_ terminal: TerminalSettings, home: URL = .homeDirectory) -> ShellSessions? {
+    public static func inTerminal(
+        _ terminal: some TerminalSettingsStoring, home: URL = .homeDirectory
+    ) -> ShellSessions? {
         of(terminalSetting: terminal.shell(), loginShell: loginShell(), zdotdir: sessionZDOTDIR, home: home)
     }
 
