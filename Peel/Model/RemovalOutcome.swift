@@ -25,11 +25,13 @@ final class RemovalOutcome {
     private(set) var appsStartingFromTheTrash: [String] = []
     /// How many of the items the removal left stay for an administrator, which Orphaned Files lists.
     private(set) var leftForAnAdministrator = 0
+    /// The lines of the shell startup files that still name what moved, which the person edits.
+    private(set) var shellReferences: [ShellReferences.Reference] = []
     private(set) var movedCount = 0
 
     var isEmpty: Bool {
         failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
-            && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0
+            && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0 && shellReferences.isEmpty
     }
 
     /// Keeps what the removal could not do, what a restart or an emptied Trash finishes, and what stays for an
@@ -41,7 +43,8 @@ final class RemovalOutcome {
         appsToQuit: [String] = [],
         keptTheirFiles: [String] = [],
         startingFromTheTrash: [String] = [],
-        leftForAnAdministrator: Int = 0
+        leftForAnAdministrator: Int = 0,
+        shellReferences: [ShellReferences.Reference] = []
     ) {
         let privacy = PrivacyReset.worthTelling(resets, after: result).map {
             Privacy(app: $0.app.name, result: $0.result)
@@ -49,7 +52,7 @@ final class RemovalOutcome {
         let drivers = AudioDrivers.awaitingARestart(after: result)
         guard
             !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty || !drivers.isEmpty
-                || !startingFromTheTrash.isEmpty || leftForAnAdministrator > 0
+                || !startingFromTheTrash.isEmpty || leftForAnAdministrator > 0 || !shellReferences.isEmpty
         else { return }
         failures = result.failures
         movedCount = result.trashed.count
@@ -58,6 +61,7 @@ final class RemovalOutcome {
         self.keptTheirFiles = keptTheirFiles
         driversAwaitingARestart = drivers
         self.leftForAnAdministrator = leftForAnAdministrator
+        self.shellReferences = shellReferences
         // Two copies of an app share its name and its background items.
         var named: Set<String> = []
         appsStartingFromTheTrash = startingFromTheTrash.filter { named.insert($0).inserted }
@@ -72,5 +76,6 @@ final class RemovalOutcome {
         driversAwaitingARestart = []
         appsStartingFromTheTrash = []
         leftForAnAdministrator = 0
+        shellReferences = []
     }
 }

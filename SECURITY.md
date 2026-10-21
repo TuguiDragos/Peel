@@ -162,7 +162,8 @@ have, and anything that destroys data that cannot be recovered.
   messaging manifest, the package definitions Homebrew and its taps give, whose paths an uninstall
   lists, Homebrew's own `brew.env` files, Terminal's preferences, the settings files of the tools whose
   caches Developer lists (`.npmrc`, `.yarnrc`, `.yarnrc.yml`, pnpm's `config.yaml`, Go's `env`), which
-  say where a cache was moved, and the database macOS keeps of where downloads came from, read for
+  say where a cache was moved, the shell startup files, read after a removal for the lines that still
+  name what moved, and the database macOS keeps of where downloads came from, read for
   `peel inventory` and Export. One that causes memory corruption, an exploitable crash, or a wrong
   answer about what may be removed is in scope.
 - The programs Peel runs with what a scan found: `defaults`, `launchctl`, `tccutil`, `pkgutil`, and

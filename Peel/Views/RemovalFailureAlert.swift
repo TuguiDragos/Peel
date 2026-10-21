@@ -62,6 +62,11 @@ struct RemovalFailureAlert: ViewModifier {
            outcome.driversAwaitingARestart.isEmpty, outcome.leftForAnAdministrator > 0 {
             return Text("Some items stayed for an administrator.")
         }
+        if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty,
+           outcome.driversAwaitingARestart.isEmpty, outcome.appsStartingFromTheTrash.isEmpty,
+           !outcome.shellReferences.isEmpty {
+            return Text("Your shell files still name what moved.")
+        }
         if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
             return Text("Restart your Mac to finish.")
         }
@@ -78,7 +83,7 @@ struct RemovalFailureAlert: ViewModifier {
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
-        lines += keptLines + driverLines + administratorLines + extraLines
+        lines += keptLines + driverLines + administratorLines + shellLines + extraLines
         if #available(macOS 27, *) {
             lines += trashLines
         }
@@ -91,6 +96,14 @@ struct RemovalFailureAlert: ViewModifier {
         return count == 1
             ? [String(localized: "One item stayed because only an administrator can move it, and Peel’s helper isn’t allowed to. Orphaned Files lists it under Needs an Administrator, with how to remove it.")]
             : [String(inflecting: "^[\(count) item](inflect: true) stayed because only an administrator can move them, and Peel’s helper isn’t allowed to. Orphaned Files lists them under Needs an Administrator, with how to remove them.")]
+    }
+
+    /// One line for the shell startup files that still name what moved: the person edits them, Peel never does.
+    private var shellLines: [String] {
+        let references = outcome.shellReferences
+        guard !references.isEmpty else { return [] }
+        let places = references.map { String(localized: "\($0.file.abbreviatedPath), line \($0.line)") }
+        return [String(localized: "Your shell startup files still name what moved, at \(places.formatted(.list(type: .and))). Peel reads these files and never changes them.")]
     }
 
     private var driverLines: [String] {

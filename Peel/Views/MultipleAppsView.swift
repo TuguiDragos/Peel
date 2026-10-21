@@ -365,7 +365,8 @@ struct MultipleAppsView: View {
                     privacy: privacy,
                     keptTheirFiles: kept.map(\.name),
                     startingFromTheTrash: plan.apps.filter { result.startsFromTheTrash.contains($0.url) }.map(\.name),
-                    leftForAnAdministrator: left.count
+                    leftForAnAdministrator: left.count,
+                    shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL))
                 )
                 if plan.removesDockTiles {
                     let moved = Set(result.trashed.map(\.originalURL))

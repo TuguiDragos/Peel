@@ -5482,6 +5482,112 @@
         }
       }
     },
+    "%@, line %lld" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, řádek %lld"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, Zeile %lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, línea %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, ligne %lld"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, riga %lld"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@の%lld行目"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 %lld번째 줄"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, regel %lld"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, wiersz %lld"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, linha %lld"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, linia %lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, строка %lld"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, rad %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, %lld. satır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, рядок %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，第%lld行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的第%lld行"
+          }
+        }
+      }
+    },
     "%@, update available: %@" : {
       "localizations" : {
         "cs" : {
@@ -188564,6 +188670,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用者名稱、電腦和檔案夾"
+          }
+        }
+      }
+    },
+    "Your shell files still name what moved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory vašeho shellu stále odkazují na to, co se přesunulo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Dateien deiner Shell verweisen noch auf das, was verschoben wurde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los archivos de tu shell siguen mencionando lo que se ha trasladado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fichiers de votre shell font encore référence à ce qui a été déplacé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I file della tua shell fanno ancora riferimento a ciò che è stato spostato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "シェルのファイルには、ゴミ箱に入れた項目のパスがまだ残っています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "셸 파일에 휴지통으로 이동한 항목의 경로가 아직 남아 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bestanden van je shell verwijzen nog naar wat is verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki Twojej powłoki nadal odwołują się do tego, co przeniesiono do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os arquivos do seu shell ainda apontam para o que foi movido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierele shellului dvs. încă fac referire la ce s‑a mutat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В файлах Вашей оболочки еще остались пути к тому, что перемещено в Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandotolkens startfiler hänvisar fortfarande till det som flyttades."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kabuk dosyalarınız hâlâ Çöp Sepeti’ne taşınanlara işaret ediyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли вашої оболонки досі посилаються на те, що переміщено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的shell文件仍引用已移走的项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的Shell檔案仍指向已移動的項目。"
+          }
+        }
+      }
+    },
+    "Your shell startup files still name what moved, at %@. Peel reads these files and never changes them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory, které váš shell načítá při spuštění, stále odkazují na to, co se přesunulo: %@. Peel tyto soubory jen čte a nikdy je nemění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Startdateien deiner Shell verweisen noch auf das, was verschoben wurde, und zwar in %@. Peel liest diese Dateien nur und ändert sie nie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los archivos de inicio de tu shell siguen mencionando lo que se ha trasladado, en %@. Peel lee estos archivos y nunca los cambia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fichiers que votre shell lit à son démarrage font encore référence à ce qui a été déplacé, dans %@. Peel lit ces fichiers et ne les modifie jamais."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I file di avvio della tua shell fanno ancora riferimento a ciò che è stato spostato, in %@. Peel legge questi file e non li modifica mai."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "シェルの起動時に読み込まれるファイルには、ゴミ箱に入れた項目のパスがまだ残っています（%@）。Peelはこれらのファイルを読み取るだけで、変更することは決してありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "셸 시작 파일 %@에 휴지통으로 이동한 항목의 경로가 아직 남아 있습니다. Peel은 이 파일을 읽기만 하며 절대 변경하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De opstartbestanden van je shell verwijzen nog naar wat is verplaatst: %@. Peel leest deze bestanden en wijzigt ze nooit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki startowe Twojej powłoki nadal odwołują się do tego, co przeniesiono do Kosza, w następujących miejscach: %@. Peel tylko odczytuje te pliki i nigdy ich nie zmienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os arquivos de inicialização do seu shell ainda apontam para o que foi movido, em %@. O Peel lê esses arquivos e nunca os altera."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierele pe care shellul dvs. le citește la pornire încă fac referire la ce s‑a mutat, în %@. Peel citește aceste fișiere și nu le modifică niciodată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пути к тому, что перемещено в Корзину, еще остались в файлах, которые Ваша оболочка читает при запуске: %@. Peel только читает эти файлы и никогда их не меняет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandotolkens startfiler hänvisar fortfarande till det som flyttades, i %@. Peel läser de här filerna men ändrar dem aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kabuğunuzun başlangıç dosyaları hâlâ Çöp Sepeti’ne taşınanlara işaret ediyor: %@. Peel bu dosyaları yalnızca okur, hiçbir zaman değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли, які ваша оболонка читає під час запуску, досі посилаються на те, що переміщено: %@. Peel лише читає ці файли й ніколи їх не змінює."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的shell启动文件仍引用已移走的项目，位于%@。Peel只会读取这些文件，绝不会更改它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的Shell啟動檔案仍指向已移動的項目，位於%@。Peel會讀取這些檔案，但絕不會更改它們。"
           }
         }
       }

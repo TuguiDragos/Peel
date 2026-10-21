@@ -487,6 +487,16 @@ struct CommandLineTests {
         #expect(report["needsAdministrator"] as? Int == 1)
         #expect(report["needsReview"] as? Int == 2)
         #expect(report["unreadableLocations"] as? [String] == [])
+        #expect((report["shellReferences"] as? [Any])?.isEmpty == true)
+
+        let named = try Output.jsonText(UninstallCommand.report(
+            app: editor, plan: plan, result: result, privacy: nil, unreadable: [],
+            shellReferences: [ShellReferences.Reference(file: URL(filePath: "/Users/me/.zshrc"), line: 12)]
+        ))
+        let shell = try #require(JSONSerialization.jsonObject(with: Data(named.utf8)) as? [String: Any])
+        let references = try #require(shell["shellReferences"] as? [[String: Any]])
+        #expect(references.map { $0["file"] as? String } == ["/Users/me/.zshrc"])
+        #expect(references.map { $0["line"] as? Int } == [12])
 
         let dryRun = try Output.jsonText(
             UninstallCommand.report(app: editor, plan: plan, result: nil, privacy: nil, unreadable: [])

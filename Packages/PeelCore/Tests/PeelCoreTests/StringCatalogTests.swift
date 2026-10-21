@@ -384,7 +384,7 @@ struct CatalogChecker {
     /// The languages whose macOS writes App Store with a no-break space, so a line never breaks inside the name.
     static let appStoreHeldTogether: Set<String> = ["cs", "de", "es", "fr", "ko", "nl", "pl", "ru", "uk"]
     /// Keys whose numbers are positions, with no word that changes with them, so they need no plural variation.
-    static let countsWithoutAgreement: Set<String> = ["Step %lld of %lld"]
+    static let countsWithoutAgreement: Set<String> = ["Step %lld of %lld", "%@, line %lld"]
     /// Languages where `one` covers more than 1, so a `one` form without the number would also show for other
     /// counts. In French and Portuguese 0 takes `one`, and in Russian and Ukrainian 21 and 101 do.
     static let oneIsMoreThanOne: Set<String> = ["fr", "pt", "ru", "uk"]

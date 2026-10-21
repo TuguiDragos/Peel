@@ -489,7 +489,8 @@ struct AppDetailView: View {
                     privacy: privacy,
                     keptTheirFiles: keptItsFiles ? [plan.app.name] : [],
                     startingFromTheTrash: result.startsFromTheTrash.contains(plan.app.url) ? [plan.app.name] : [],
-                    leftForAnAdministrator: left.count
+                    leftForAnAdministrator: left.count,
+                    shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL))
                 )
                 if plan.removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
                     _ = await DockTiles().takeOut([plan.app.url])

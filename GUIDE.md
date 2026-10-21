@@ -64,6 +64,10 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   unless you deselect it, and History puts it back where it was when you put the app back.
 - **When macOS needs more.** After a removal, Peel says when macOS keeps using what moved: an audio driver until
   you restart your Mac, and, on macOS 27, an app's login items, which macOS starts from the Trash until you empty it.
+- **Lines that still point to what moved.** After a removal, Peel reads the files your shell runs when it starts
+  (`.zshrc` and the others zsh, bash, and fish read) and names each line that still points to what moved, such as a
+  `PATH` entry or an alias into the app, so a new shell stops printing an error once you edit it. Peel changes none
+  of these files.
 - **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
   them once it's gone. Peel never changes that itself.
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names, the

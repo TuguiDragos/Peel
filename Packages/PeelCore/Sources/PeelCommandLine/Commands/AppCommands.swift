@@ -307,6 +307,13 @@ struct UninstallCommand: AsyncParsableCommand {
         let needsReview: Int
         let leftForAnAdministrator: Int
         let unreadableLocations: [String]
+        /// The lines of the shell startup files that still name what moved.
+        let shellReferences: [ShellReference]
+
+        struct ShellReference: Encodable {
+            let file: String
+            let line: Int
+        }
 
         private enum CodingKeys: String, CodingKey {
             case app
@@ -320,6 +327,7 @@ struct UninstallCommand: AsyncParsableCommand {
             case needsReview
             case leftForAnAdministrator
             case unreadableLocations
+            case shellReferences
         }
 
         /// Encodes an unknown `privacyReset` and `appMoved` as `null`, for the reason `AppRecord` gives.
@@ -336,6 +344,7 @@ struct UninstallCommand: AsyncParsableCommand {
             try container.encode(needsReview, forKey: .needsReview)
             try container.encode(leftForAnAdministrator, forKey: .leftForAnAdministrator)
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
+            try container.encode(shellReferences, forKey: .shellReferences)
         }
     }
 
@@ -345,7 +354,8 @@ struct UninstallCommand: AsyncParsableCommand {
         plan: UninstallPlan,
         result: TrashResult?,
         privacy: PrivacyReset.Result?,
-        unreadable: [SearchLocation]
+        unreadable: [SearchLocation],
+        shellReferences: [ShellReferences.Reference] = []
     ) -> Report {
         Report(
             app: AppRecord(app),
@@ -362,7 +372,8 @@ struct UninstallCommand: AsyncParsableCommand {
             needsAdministrator: plan.needsAdministrator,
             needsReview: plan.needsReview,
             leftForAnAdministrator: plan.leftForAnAdministrator,
-            unreadableLocations: unreadable.map { Output.path($0.url) }
+            unreadableLocations: unreadable.map { Output.path($0.url) },
+            shellReferences: shellReferences.map { Report.ShellReference(file: Output.path($0.file), line: $0.line) }
         )
     }
 
@@ -620,9 +631,13 @@ struct UninstallCommand: AsyncParsableCommand {
         if isInTheDock, Self.takesOutDockIcon(of: target, after: result, keeping: keepInDock) {
             _ = await DockTiles().takeOut([target.url])
         }
+        let references = await ShellReferences.find(naming: result.trashed.map(\.originalURL))
 
         if output.json {
-            let report = Self.report(app: target, plan: plan, result: result, privacy: reset, unreadable: unreadable)
+            let report = Self.report(
+                app: target, plan: plan, result: result, privacy: reset, unreadable: unreadable,
+                shellReferences: references
+            )
             try Output.json(report)
             if let privacy, privacy.failed {
                 Output.note(privacy.line)
@@ -635,6 +650,10 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         if let note = Self.startsFromTheTrashNote(for: target, after: result) {
             Output.note(note)
+        }
+        if !references.isEmpty {
+            let places = references.map { "\(Output.plain(Output.path($0.file))):\($0.line)" }.joined(separator: ", ")
+            Output.note("Your shell startup files still name what moved, at \(places). Peel reads them and never changes them.")
         }
         if !recorded {
             Output.note("Peel couldn't write this to its History, so drag these back out of the Trash in Finder if you need to.")

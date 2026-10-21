@@ -148,7 +148,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    forget the preference domains whose files went, and an uninstalled app's Dock icon comes out (`DockTiles`),
    unless Also remove from the Dock was turned off, or `peel uninstall` was given `--keep-in-dock`. On macOS 27,
    an app's page and several apps' page also say when macOS still starts the app's login items at login, now from
-   the Trash, until the Trash is emptied (`TrashResult.startsFromTheTrash`).
+   the Trash, until the Trash is emptied (`TrashResult.startsFromTheTrash`). Both pages, and `peel uninstall`, also
+   name the lines of the shell startup files that still point to what moved, such as a `PATH` entry into the app
+   (`ShellReferences`, which reads the files zsh, bash, and fish start with and never changes them).
 7. **Record.**
    - Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came from and
      where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one entry,
