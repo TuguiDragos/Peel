@@ -81,6 +81,10 @@ final class GitLibrary {
         }
     }
 
+    private static func save(_ ledger: GitLedger) {
+        UserDefaults.standard.set(ledger.stored, forKey: ledgerKey)
+    }
+
     private func ask(_ settings: [GitSetting], isOn: Bool) {
         for setting in settings {
             asked[setting] = isOn
@@ -99,19 +103,22 @@ final class GitLibrary {
         return task
     }
 
+    /// Changes the settings through Git, saving the ledger after each key, and a quit asked meanwhile waits: ended
+    /// between a key Git wrote and the ledger's note of what it held, the note would be lost.
     private func change(_ settings: [GitSetting], to isOn: Bool) async {
         if let git {
-            var ledger = ledger
-            var refused = false
-            for setting in settings {
-                let outcome = isOn
-                    ? await ledger.turnOn(setting, signingKey: state?.signingKey, in: git)
-                    : await ledger.turnOff(setting, in: git)
-                refused = outcome == .refused || refused
+            await QuitGuard.shared.run {
+                var ledger = ledger
+                var refused = false
+                for setting in settings {
+                    let outcome = isOn
+                        ? await ledger.turnOn(setting, signingKey: state?.signingKey, in: git) { Self.save($0) }
+                        : await ledger.turnOff(setting, in: git) { Self.save($0) }
+                    refused = outcome == .refused || refused
+                }
+                self.ledger = ledger
+                wasRefused = refused
             }
-            self.ledger = ledger
-            UserDefaults.standard.set(ledger.stored, forKey: Self.ledgerKey)
-            wasRefused = refused
             await read()
         }
         for setting in settings {

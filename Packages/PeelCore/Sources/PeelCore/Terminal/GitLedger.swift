@@ -20,7 +20,11 @@ public struct GitLedger {
         ["previous": previous, "written": written]
     }
 
-    public mutating func turnOn(_ setting: GitSetting, signingKey: String?, in config: GitConfig) async -> Outcome {
+    /// Turns `setting` on through Git, and hands the ledger to `saving` after each key it takes in, so what a key
+    /// held before is kept even if Peel ends before the setting's other keys are written.
+    public mutating func turnOn(
+        _ setting: GitSetting, signingKey: String?, in config: GitConfig, saving: (GitLedger) -> Void = { _ in }
+    ) async -> Outcome {
         let values = setting.values(signingKey: signingKey)
         guard !values.isEmpty, let settings = await config.settings() else { return .refused }
         guard !setting.isSetInIncludedFiles(await config.keysSetByIncludedFiles()) else { return .unchanged }
@@ -41,11 +45,16 @@ public struct GitLedger {
                 }
             }
             written[name] = wanted.value
+            saving(self)
         }
         return outcome
     }
 
-    public mutating func turnOff(_ setting: GitSetting, in config: GitConfig) async -> Outcome {
+    /// Turns `setting` off, putting back what the ledger holds, and hands the ledger to `saving` after each key it
+    /// lets go of.
+    public mutating func turnOff(
+        _ setting: GitSetting, in config: GitConfig, saving: (GitLedger) -> Void = { _ in }
+    ) async -> Outcome {
         guard let settings = await config.settings() else { return .refused }
         var outcome = Outcome.unchanged
         for key in setting.keys {
@@ -63,6 +72,7 @@ public struct GitLedger {
                 }
                 written.removeValue(forKey: name)
                 previous.removeValue(forKey: name)
+                saving(self)
             } else if setting.switchKeys.contains(key), now != nil {
                 guard await config.remove(key) else { return .refused }
                 outcome = .changed

@@ -134,6 +134,18 @@ struct GitSettingsTests {
         #expect(ledger.written.isEmpty && ledger.previous.isEmpty)
     }
 
+    @Test func theLedgerIsHandedOverAfterEveryKeyItChanges() async throws {
+        let git = try await GitHome()
+        let key = try git.publicKey("id_ed25519.pub")
+        var ledger = GitLedger()
+        var handed: [Int] = []
+        _ = await ledger.turnOn(.signCommits, signingKey: key, in: git.config) { handed.append($0.written.count) }
+        #expect(handed == [1, 2, 3])
+        handed = []
+        _ = await ledger.turnOff(.signCommits, in: git.config) { handed.append($0.written.count) }
+        #expect(handed == [2, 1, 0])
+    }
+
     @Test func everyWayGitWritesTrueCountsAsOn() {
         for written in ["true", "TRUE", "yes", "on", "1"] {
             #expect(GitSetting.pruneOnFetch.isOn(in: ["fetch.prune": written]), "\(written)")
