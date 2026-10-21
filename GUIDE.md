@@ -321,8 +321,13 @@ that opens it in Peel. It never adds them up into one figure and never selects a
 - **What the app would do.** It moves only what the app would suggest, or a group of orphaned files you name with
   `peel orphans --remove`, through the same checks and into the same History. Anything that needs an administrator
   is left to the app, and the command won't run under `sudo`.
-- **For scripts.** Most commands take `--json`, which lists without moving, and `peel uninstall --json` reports what
-  moved, what stayed, and why.
+- **For scripts and agents.** `apps`, `leftovers`, `orphans`, `caches`, `projects`, `duplicates`, `search`, `history`,
+  and `updates` take `--json`, which lists and never moves, so `--json` with `--remove` is refused rather than guessed
+  at, and `uninstall --json` reports once the move is done: each item and why it stays, what moved, what failed and
+  why, whether the privacy reset happened, the folders Peel couldn't read, and the lines of your shell files that
+  still name what moved. A size nobody knows is `null`, never zero, and what a scan couldn't read is said on
+  standard error too. The exit status says how it ended: 0 when it did what was asked, 1 when something failed or
+  stayed where it was, 2 when you answered no, and 64 when the command is wrong or it would have to ask and can't.
 - **Completions and manual.** A Homebrew install sets up its completions for zsh, bash, and fish, and its manual
   page, `man peel`. Otherwise `peel --generate-completion-script zsh` (or `bash`, or `fish`) writes the
   completions for your shell, and `man /Applications/Peel.app/Contents/Resources/man/peel.1` shows the manual page.

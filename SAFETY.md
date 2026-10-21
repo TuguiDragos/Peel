@@ -9,6 +9,9 @@ settings, and what its helper, which runs as root, may do.
 In short:
 
 - Everything Peel removes goes to the Trash, and History puts it back. Peel never empties the Trash.
+- Peel never changes an app: no architecture, language, or file is taken out of a signed bundle, which macOS checks
+  whole. It never purges memory, never runs the maintenance macOS schedules itself, and never deletes the logs macOS
+  keeps of itself: the unified log, and what the system's own services write under `/Library/Logs`.
 - What nothing could bring back, such as iCloud Drive, keychains, crypto wallets, Mail, Messages, and photo
   libraries, is refused, whoever asks.
 - Peel selects for you only what it is sure, or nearly sure, is the app's and no other app's. What may exist nowhere
