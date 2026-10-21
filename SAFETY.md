@@ -61,8 +61,10 @@ the helper (see [The helper that runs as root](#the-helper-that-runs-as-root)); 
 `/usr/local/Caskroom`, the record Homebrew keeps of an app it installed on an Intel Mac, which goes with the app. And
 these folders themselves, though not what is inside them: `/`, `/Applications`, `/Library`, `/Users`, `/Users/Shared`,
 `/Volumes`, `/opt`, `/private` and its `var`, `tmp`, and `etc`, `/cores`, your home folder, every folder Peel searches,
-such as `~/Library/Caches`, and every folder Space empties, such as `/opt/homebrew/var/log`: each is looked inside and
-never moved whole. Anything System Integrity Protection guards, which macOS marks as restricted, is refused as well, and
+such as `~/Library/Caches`, every folder on the way to one, such as `~/Library/Audio`, and every folder Space empties,
+such as `/opt/homebrew/var/log`: each is looked inside and never moved whole. A browser's own data folder is not kept
+for the folder inside it where the browser reads its extensions' manifests: it goes with the browser. Anything System
+Integrity Protection guards, which macOS marks as restricted, is refused as well, and
 so is anything macOS marks so that nothing can remove or rename it, such as the private folders it makes in your
 temporary folder for the processes it runs in a sandbox; Peel doesn't list those.
 

@@ -57,7 +57,7 @@ struct ProtectedObjects: Sendable {
 
     /// Returns every folder above `path`, splitting on the slash alone as `NSString` does. A `String` treats a
     /// slash followed by a combining mark as one character, so a prefix test would miss where a folder ends.
-    private static func ancestors(of path: String) -> [String] {
+    static func ancestors(of path: String) -> [String] {
         var ancestors: [String] = []
         var folder = (path as NSString).deletingLastPathComponent
         while folder != "/", !folder.isEmpty {

@@ -60,6 +60,12 @@ public struct SearchLocation: Sendable, Hashable {
         public var isForLinks: Bool {
             self == .commandLineTools || self == .shellCompletions
         }
+
+        /// True for a folder inside a browser's own data, which goes with the browser, so the folders above it are
+        /// not kept in place for it.
+        var sitsInABrowsersOwnData: Bool {
+            self == .nativeMessagingHosts
+        }
     }
 
     public let kind: Kind

@@ -84,9 +84,13 @@ struct RemovalGuard: Sendable {
         // so they are never removed themselves.
         let homeDirectories: [URL] = [home] + ProtectedData.accountFolders.map { home.appending(path: $0) }
         paths += homeDirectories.map { $0.path(percentEncoded: false) }
-        paths += environment.locations.map { $0.url.path(percentEncoded: false) }
+        let locations = environment.locations
+        paths += locations.filter { !$0.kind.sitsInABrowsersOwnData }.map { $0.url.path(percentEncoded: false) }
         paths += SpaceInventory.emptiedFolders(in: environment).map { $0.path(percentEncoded: false) }
         paths += ProtectedData.sharedHomeItems.map { home.appending(path: $0).path(percentEncoded: false) }
+        // Every folder on the way to one of these stays as well, since moving it would take the place along.
+        paths += Set(paths).flatMap(ProtectedObjects.ancestors)
+        paths += locations.filter { $0.kind.sitsInABrowsersOwnData }.map { $0.url.path(percentEncoded: false) }
         let trees = ProtectedData.homeTrees.map { home.appending(path: $0).path(percentEncoded: false) }
         protectedPaths = Set(paths.flatMap(Self.names))
         protectedTrees = Set((trees + ProtectedData.systemFolders).flatMap(Self.names)).map(PathComponents.of)
@@ -97,9 +101,11 @@ struct RemovalGuard: Sendable {
     /// reached through a link, and Spotlight names files by the disk they are on, so both forms must match.
     private static func names(of path: String) -> Set<String> {
         let path = normalized(path)
-        return ProtectedData.spellings(of: path).union(
-            PathPattern.locatedWithoutOpening(path).map(ProtectedData.spellings) ?? []
-        )
+        var names = ProtectedData.spellings(of: path)
+        if let located = PathPattern.locatedWithoutOpening(path), located != path {
+            names.formUnion(ProtectedData.spellings(of: located))
+        }
+        return names
     }
 
     func allowsRemoval(of url: URL) -> Bool {

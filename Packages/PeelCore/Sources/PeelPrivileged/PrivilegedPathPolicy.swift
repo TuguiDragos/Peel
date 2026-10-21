@@ -82,6 +82,8 @@ public struct PrivilegedPathPolicy: Sendable {
     private static let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_IMMUTABLE) | UInt32(SF_NOUNLINK)
 
     private let locations: [String]
+    /// The served folders alone, without those the helper takes only a link or a manifest from.
+    private let served: [String]
     private let restorable: [String]
     private let applicationLocations: [String]
     private let links: [String]
@@ -112,7 +114,8 @@ public struct PrivilegedPathPolicy: Sendable {
             guard stat(path, &info) == 0 else { return nil }
             return (info.st_dev, info.st_ino)
         }
-        locations = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath) + links + manifests
+        served = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
+        locations = served + links + manifests
         restorable = (restoreLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
         self.applicationLocations = applicationLocations.compactMap(Self.realPath)
         let library = Self.realPath(homeDirectory + "/Library") ?? homeDirectory + "/Library"
@@ -180,6 +183,12 @@ public struct PrivilegedPathPolicy: Sendable {
         guard let location = locations.first(where: { PathComponents.isPath(resolved, inside: $0) }) else {
             return .failure(.outsideAllowedLocations)
         }
+        // A folder on the way to one Peel looks inside stays too, since moving it would take that one along.
+        let lowered = resolved.lowercased()
+        let names = PathComponents.of(lowered)
+        guard !searchedFolders.contains(where: { $0.count > names.count && $0.starts(with: names) }),
+              !served.contains(where: { PathComponents.isPath($0.lowercased(), inside: lowered) })
+        else { return .failure(.irreplaceable) }
         // A tool's link sits directly in its folder, never deeper, and so does a browser's manifest.
         if links.contains(location), resolvedParent != location {
             return .failure(.outsideAllowedLocations)

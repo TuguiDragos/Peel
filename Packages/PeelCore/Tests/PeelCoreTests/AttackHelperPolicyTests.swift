@@ -281,6 +281,39 @@ extension AttackHelperPolicyTests {
         #expect(!policy(directory).open(inside.path(percentEncoded: false)).isFailure)
     }
 
+    @Test func theHelperRefusesAFolderAroundOnePeelSearches() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Application Support/Avid/Audio/Plug-Ins")
+        try directory.directory("home/Library/Application Support/Avid/Pro Tools")
+        try directory.directory("home/Library/Audio/Plug-Ins/Components")
+        try directory.directory("root/Library/Application Support/Avid/Audio/Plug-Ins")
+        try directory.directory("root/Library/Application Support/Avid/Pro Tools")
+        try directory.directory("root/Library/Application Support/Chromium/NativeMessagingHosts")
+        try directory.directory("home/Library/Application Support/Google/Chrome/NativeMessagingHosts")
+        let root = directory.url.path(percentEncoded: false) + "/"
+        let policy = PrivilegedPathPolicy(
+            homeDirectory: root + "home",
+            systemLocations: [root + "root/Library/Application Support", root + "root/Library/Application Support/Avid/Audio/Plug-Ins"],
+            restoreLocations: [],
+            manifestLocations: [root + "root/Library/Application Support/Chromium/NativeMessagingHosts"]
+        )
+        func opens(_ path: String) -> Bool {
+            !policy.open(directory.url.appending(path: path).path(percentEncoded: false)).isFailure
+        }
+
+        for holder in [
+            "home/Library/Application Support/Avid", "home/Library/Application Support/Avid/Audio", "home/Library/Audio",
+            "home/Library/Audio/Plug-Ins", "root/Library/Application Support/Avid", "root/Library/Application Support/AVID",
+        ] {
+            #expect(!opens(holder), "ATTACK SUCCEEDED: root would move \(holder) whole, and a folder Peel searches with it")
+        }
+        #expect(opens("home/Library/Application Support/Avid/Pro Tools"))
+        #expect(opens("root/Library/Application Support/Avid/Pro Tools"))
+        // A browser's own data goes with the browser, the folder it reads manifests from included.
+        #expect(opens("home/Library/Application Support/Google/Chrome"))
+        #expect(opens("root/Library/Application Support/Chromium"))
+    }
+
     @Test func theHelperRefusesACachesFolderWithAnIDEsLocalHistoryThreeLevelsDown() throws {
         let directory = try TemporaryDirectory()
         let caches = "home/Library/Containers/com.example.ide/Data/Library/Caches"

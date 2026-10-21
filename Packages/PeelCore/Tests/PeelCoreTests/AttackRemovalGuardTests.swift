@@ -334,6 +334,44 @@ struct AttackRemovalGuardTests {
 
     /// The hidden items tools share in the home folder, such as `.config` and `.zshrc`, are refused whatever an
     /// app calls itself. Anything else inside a shared folder can still go.
+    /// Peel looks inside these folders and never moves them whole, so neither may a folder on the way to one go.
+    @Test func theFolderAroundAPlacePeelLooksInside() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        try directory.file("home/Library/Application Support/Avid/Audio/Plug-Ins/Example.aaxplugin/Contents/Info.plist")
+        try directory.file("home/Library/Application Support/Avid/Pro Tools/settings.txt")
+        try directory.file("home/Library/Audio/Plug-Ins/Components/Example.component/Contents/Info.plist")
+        try directory.file("root/Library/Application Support/Avid/Audio/Plug-Ins/Example.aaxplugin/Contents/Info.plist")
+        try directory.file("root/opt/homebrew/share/zsh/site-functions/_example")
+        try directory.file("home/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.example.app.json")
+        let trashedFolder = try directory.directory("home/.Trash/Avid")
+        let trashedFile = try directory.file("home/.Trash/Avid.txt")
+        let guardian = RemovalGuard(environment: SearchEnvironment(homeDirectory: home, rootDirectory: root))
+
+        let holders = [
+            home.appending(path: "Library/Application Support/Avid"),
+            home.appending(path: "Library/Application Support/Avid/Audio"),
+            home.appending(path: "Library/Audio"),
+            home.appending(path: "Library/Audio/Plug-Ins"),
+            root.appending(path: "Library/Application Support/Avid"),
+            root.appending(path: "opt/homebrew"),
+        ]
+        for holder in holders {
+            #expect(guardian.refusal(of: holder) == .staysItself, "ATTACK SUCCEEDED: \(holder.path(percentEncoded: false)) goes, and a folder Peel looks inside with it")
+        }
+        #expect(guardian.allowsRemoval(of: home.appending(path: "Library/Application Support/Avid/Pro Tools")))
+        #expect(guardian.allowsRemoval(of: home.appending(path: "Library/Application Support/Avid/Audio/Plug-Ins/Example.aaxplugin")))
+        #expect(guardian.allowsRemoval(of: home.appending(path: "Library/Audio/Plug-Ins/Components/Example.component")))
+        // A browser's own data goes with the browser, the folder it reads manifests from included.
+        #expect(guardian.allowsRemoval(of: home.appending(path: "Library/Application Support/Google/Chrome")))
+        let avid = home.appending(path: "Library/Application Support/Avid2")
+        #expect(guardian.allowsPuttingBack(trashedFolder, at: avid))
+        try FileManager.default.moveItem(at: home.appending(path: "Library/Application Support/Avid"), to: avid)
+        #expect(guardian.allowsPuttingBack(trashedFolder, at: home.appending(path: "Library/Application Support/Avid")))
+        #expect(!guardian.allowsPuttingBack(trashedFile, at: home.appending(path: "Library/Application Support/Avid")))
+    }
+
     @Test func theFoldersTheWholeMacShares() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
