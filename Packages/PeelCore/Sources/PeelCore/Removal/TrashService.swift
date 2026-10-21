@@ -740,7 +740,6 @@ public struct TrashService: Sendable {
         }
         if fileManager.isWritableFile(atPath: ancestor) {
             do {
-                try fileManager.createDirectory(at: parent, withIntermediateDirectories: true)
                 try Self.putBack(item) { removalGuard.refusal(ofPuttingBack: item.trashedURL, at: $0) }
                 return nil
             } catch is RefusedOnceHeld {
@@ -758,20 +757,54 @@ public struct TrashService: Sendable {
         return .failed(failure)
     }
 
-    /// Moves `item` back from the Trash through a descriptor for its folder, which must already exist. The guard
-    /// is asked again about the destination as the kernel names it, and the move never replaces an item there.
+    /// Moves `item` back from the Trash through a descriptor for its folder, making the folders gone on the way
+    /// through descriptors too, never through a link. The guard judges the place as the kernel names it before any
+    /// folder is made and again before the move, which never replaces an item there; a refused Put Back's go again.
     static func putBack(_ item: TrashedItem, refusal: (URL) -> GuardRefusal?) throws {
         let trashed = try OpenItem.at(item.trashedURL.path(percentEncoded: false)).get()
         if let identity = item.identity, trashed.identity.map(TrashedItem.Identity.init) != identity {
             throw NotTheItemThatMoved()
         }
-        let folder = try DirectoryHandle.at(item.originalURL.deletingLastPathComponent().path(percentEncoded: false))
-            .get()
-        guard let held = folder.currentPath else { throw POSIXError(.ENOENT) }
         let name = item.originalURL.lastPathComponent
-        let destination = URL(filePath: held, directoryHint: .isDirectory).appending(path: name)
-        if let refused = refusal(destination) { throw RefusedOnceHeld(refusal: refused) }
-        try TrashMover.rename(trashed, to: name, in: folder).get()
+        var nearest = item.originalURL.deletingLastPathComponent().path(percentEncoded: false)
+        var missing: [String] = []
+        while PrivilegedPathPolicy.resolvedPath(nearest) == nil {
+            guard nearest != "/", !nearest.isEmpty else { throw POSIXError(.ENOENT) }
+            missing.insert((nearest as NSString).lastPathComponent, at: 0)
+            nearest = (nearest as NSString).deletingLastPathComponent
+        }
+        guard !missing.contains(where: { $0.isEmpty || $0 == "." || $0 == ".." }) else { throw POSIXError(.EINVAL) }
+
+        var folder = try DirectoryHandle.at(nearest).get()
+        var made: [(parent: DirectoryHandle, name: String, identity: ItemIdentity)] = []
+        func takeBack() {
+            for folder in made.reversed() {
+                folder.parent.removeFolder(folder.name, if: folder.identity)
+            }
+        }
+        func refused(below rest: [String]) throws -> GuardRefusal? {
+            guard let held = folder.currentPath else { throw POSIXError(.ENOENT) }
+            var destination = URL(filePath: held, directoryHint: .isDirectory)
+            for part in rest {
+                destination.append(path: part, directoryHint: .isDirectory)
+            }
+            return refusal(destination.appending(path: name))
+        }
+        if !missing.isEmpty, let refusal = try refused(below: missing) { throw RefusedOnceHeld(refusal: refusal) }
+        do {
+            for part in missing {
+                let next = try folder.child(part, makingIfMissing: true).get()
+                if let identity = next.made {
+                    made.append((folder, part, identity))
+                }
+                folder = next.folder
+            }
+            if let refusal = try refused(below: []) { throw RefusedOnceHeld(refusal: refusal) }
+            try TrashMover.rename(trashed, to: name, in: folder).get()
+        } catch {
+            takeBack()
+            throw error
+        }
     }
 
     /// Whether `url` sits directly in a Trash: `~/.Trash`, or `.Trashes/<uid>` at the root of its volume. The

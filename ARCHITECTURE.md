@@ -170,6 +170,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    real Trash, only to a place the guard allows, only when it is the item that went (`TrashedItem.identity`,
    its inode and birth time, read in the Trash as it landed and asked again of the item Put Back holds open),
    and, through the helper, only if the helper's own ledger says it moved that very item from that very place.
+   The folders gone on the way are made again through descriptors, never through a link, once the guard has
+   allowed the place, and are taken away again if the item then stays in the Trash.
    An app that comes back gets its Dock icon back where it was, a launch job the move stopped starts again as the
    file back in place declares it, and the apps put back are made known to Launch Services again only once every
    item is back.

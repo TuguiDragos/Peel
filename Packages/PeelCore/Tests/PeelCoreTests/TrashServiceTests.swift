@@ -833,6 +833,67 @@ struct TrashServiceTests {
         #expect(caches.appending(path: "Vendor.real/x.pdf").isThere)
     }
 
+    @Test func makesNoFolderForAPutBackTheGuardRefusesOnceTheFoldersAreHeld() throws {
+        let directory = try TemporaryDirectory()
+        let caches = try directory.directory("home/Library/Caches")
+        let trashed = try directory.file("home/.Trash/x.pdf")
+        let record = TrashedItem(originalURL: caches.appending(path: "Vendor/Deep/x.pdf"), trashedURL: trashed, date: .now)
+        var asked: [URL] = []
+
+        #expect(throws: TrashService.RefusedOnceHeld.self) {
+            try TrashService.putBack(record) { held in
+                asked.append(held)
+                return .protectedLocation
+            }
+        }
+
+        #expect(asked.map { $0.path(percentEncoded: false) }.map { $0.hasSuffix("/home/Library/Caches/Vendor/Deep/x.pdf") } == [true])
+        #expect(!caches.appending(path: "Vendor").isThere)
+        #expect(trashed.isThere)
+    }
+
+    @Test func takesAwayTheFoldersItMadeForAPutBackThatIsThenRefused() throws {
+        let directory = try TemporaryDirectory()
+        let caches = try directory.directory("home/Library/Caches")
+        let trashed = try directory.file("home/.Trash/x.pdf")
+        let record = TrashedItem(originalURL: caches.appending(path: "Vendor/Deep/x.pdf"), trashedURL: trashed, date: .now)
+        var asked = 0
+
+        #expect(throws: TrashService.RefusedOnceHeld.self) {
+            try TrashService.putBack(record) { _ in
+                asked += 1
+                guard asked == 2 else { return nil }
+                #expect(caches.appending(path: "Vendor/Deep").isThere, "the folders were not made before the move")
+                return .protectedLocation
+            }
+        }
+
+        #expect(asked == 2)
+        #expect(!caches.appending(path: "Vendor").isThere)
+        #expect(trashed.isThere)
+    }
+
+    @Test func putsNothingBackThroughALinkPlantedWhereAFolderWasMissing() throws {
+        let directory = try TemporaryDirectory()
+        let caches = try directory.directory("home/Library/Caches")
+        let elsewhere = try directory.directory("home/Documents/Elsewhere")
+        let trashed = try directory.file("home/.Trash/x.pdf")
+        let record = TrashedItem(originalURL: caches.appending(path: "Vendor/Deep/x.pdf"), trashedURL: trashed, date: .now)
+
+        #expect(throws: POSIXError.self) {
+            try TrashService.putBack(record) { _ in
+                try? FileManager.default.createSymbolicLink(
+                    atPath: caches.appending(path: "Vendor").path(percentEncoded: false),
+                    withDestinationPath: elsewhere.path(percentEncoded: false)
+                )
+                return nil
+            }
+        }
+
+        #expect(!elsewhere.appending(path: "Deep").isThere, "a folder was made through the link")
+        #expect(trashed.isThere)
+    }
+
     @Test func reallyMovesAFolderToTheTrashAndPutsItBack() async throws {
         let directory = try TemporaryDirectory()
         let item = try directory.file("home/Library/Caches/Example/note.txt")

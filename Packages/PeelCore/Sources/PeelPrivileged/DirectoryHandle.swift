@@ -57,6 +57,39 @@ public final class DirectoryHandle: Sendable {
         return DirectoryHandle(path: path == "/" ? "/" + name : path + "/" + name, descriptor: descriptor)
     }
 
+    /// The folder `name` inside this one, made when nothing is there, and never a link or a file in its place. A
+    /// folder made here comes back with its identity, so the caller can take it away again.
+    public func child(
+        _ name: String,
+        makingIfMissing: Bool
+    ) -> Result<(folder: DirectoryHandle, made: ItemIdentity?), POSIXError> {
+        var made: ItemIdentity?
+        if makingIfMissing {
+            if name.withCString({ mkdirat(descriptor, $0, 0o755) }) == 0 {
+                var info = stat()
+                guard name.withCString({ fstatat(descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
+                    let failure = POSIXError.last
+                    _ = name.withCString { unlinkat(descriptor, $0, AT_REMOVEDIR) }
+                    return .failure(failure)
+                }
+                made = ItemIdentity(info)
+            } else {
+                let failure = POSIXError.last
+                guard failure.code == .EEXIST else { return .failure(failure) }
+            }
+        }
+        guard let folder = child(name) else { return .failure(.last) }
+        return .success((folder, made))
+    }
+
+    /// Takes away the folder `name` inside this one, only while it is still the empty folder `made` names.
+    public func removeFolder(_ name: String, if made: ItemIdentity) {
+        var info = stat()
+        guard name.withCString({ fstatat(descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0, ItemIdentity(info) == made
+        else { return }
+        _ = name.withCString { unlinkat(descriptor, $0, AT_REMOVEDIR) }
+    }
+
     /// The owner of the directory itself, read through the descriptor.
     public func ownerIdentifier() -> uid_t? {
         var info = stat()
