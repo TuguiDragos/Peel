@@ -2,9 +2,9 @@ import Foundation
 internal import PeelPrivileged
 
 /// Where apps keep what may exist only on this Mac: local mail, message history, password vaults and sign-in codes,
-/// VPN connections, and what the person made with an app, such as saved games, databases, and the app's own backups.
-/// A folder at or inside one, or the app's folder that holds one, is shown and never selected for the person, who
-/// can still select it.
+/// VPN connections, what the person made with an app, such as saved games, databases, and the app's own backups, and
+/// the sign-ins to services that tools save when the person logs in. A folder at or inside one, or the app's folder
+/// that holds one, is shown and never selected for the person, who can still select it.
 enum KeptOnlyHere {
     static let places: [(folder: String, inside: String?, reason: HoldBack)] = [
         // Airmail's help, "Backup and restore Airmail for macOS".
@@ -48,6 +48,24 @@ enum KeptOnlyHere {
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
         // (`frontend/OBSApp.cpp`), and nowhere else.
         ("Library/Application Support/obs-studio", "basic", .holdsWorkMadeWithTheApp),
+        // Docker's `docker login`: with no credential store, the credentials go in `.docker/config.json`.
+        (".docker", "config.json", .holdsSignIns),
+        // Cargo's `cargo login`: the token is saved in `$CARGO_HOME/credentials.toml`, and `CARGO_HOME` is `.cargo`.
+        (".cargo", "credentials.toml", .holdsSignIns),
+        // The `.pypirc` specification (packaging.python.org): `$HOME/.pypirc`, with passwords and API tokens in it.
+        (".pypirc", nil, .holdsSignIns),
+        // RubyGems' `gem push`: the API key in `~/.gem/credentials` or `~/.local/share/gem/credentials`.
+        (".gem", "credentials", .holdsSignIns),
+        (".local/share/gem", "credentials", .holdsSignIns),
+        // Composer's "Authentication for private packages": the global `auth.json` in `COMPOSER_HOME`, which its
+        // command-line reference puts at `~/.composer` on macOS.
+        (".composer", "auth.json", .holdsSignIns),
+        // Google Cloud CLI's "Authorize the gcloud CLI": its credential files live in its configuration directory.
+        (".config/gcloud", nil, .holdsSignIns),
+        // Azure CLI's "MSAL-based Azure CLI": its token cache is kept as plain files on macOS, in `~/.azure`.
+        (".azure", nil, .holdsSignIns),
+        // Terraform's `terraform login`: the token goes in plain text to `~/.terraform.d/credentials.tfrc.json`.
+        (".terraform.d", "credentials.tfrc.json", .holdsSignIns),
     ]
 
     static func reason(for path: String, home: String) -> HoldBack? {

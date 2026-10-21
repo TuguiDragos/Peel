@@ -93545,6 +93545,112 @@
         }
       }
     },
+    "Not selected: this holds a sign-in to a service, such as a token a tool saved when you logged in. Once the Trash is emptied, you’d sign in again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje přihlášení ke službě, například token, který si nástroj uložil, když jste se přihlásili. Jakmile se koš vysype, budete se muset znovu přihlásit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält Anmeldedaten für einen Dienst, etwa ein Token, das ein Tool gesichert hat, als du dich angemeldet hast. Sobald der Papierkorb entleert ist, müsstest du dich nur erneut anmelden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene los datos de inicio de sesión en un servicio, como un token que una herramienta guardó cuando iniciaste sesión. En cuanto se vacíe la papelera, tendrías que volver a iniciar sesión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient des identifiants de connexion à un service, comme un jeton qu’un outil a enregistré lorsque vous vous êtes connecté. Une fois la corbeille vidée, vous n’auriez qu’à vous reconnecter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene i dati di accesso a un servizio, come un token salvato da uno strumento quando hai eseguito il login. Una volta svuotato il Cestino, dovrai eseguire di nuovo il login."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、ツールでログインしたときに保存されたトークンなど、サービスへのサインイン情報が含まれています。ゴミ箱を空にすると、サインインし直す必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 사용자가 로그인할 때 도구가 저장한 토큰처럼 서비스의 로그인 정보가 들어 있습니다. 휴지통을 비우면 다시 로그인하기만 하면 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat inloggegevens voor een dienst, zoals een token dat een tool heeft bewaard toen je inlogde. Zodra de prullenmand is geleegd, moet je opnieuw inloggen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera zapamiętane logowanie do usługi, na przykład token zachowany przez narzędzie, gdy logujesz się za jego pomocą. Po opróżnieniu Kosza wystarczy zalogować się ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém os dados de acesso a um serviço, como um token que uma ferramenta salvou quando você iniciou sessão. Depois que o Lixo for esvaziado, você precisaria iniciar sessão de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține o autentificare la un serviciu, cum ar fi un token pe care un instrument l‑a salvat când ați făcut login. După golirea Coșului, ar trebui să faceți login din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранятся данные для входа в сервис, например токен, который инструмент сохранил, когда Вы выполнили вход. После очистки Корзины Вам нужно будет лишь войти снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller en inloggning på en tjänst, till exempel en token som ett verktyg sparade när du loggade in. När papperskorgen har tömts behöver du logga in igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, oturum açtığınızda bir aracın kaydettiği bir jeton gibi, bir hizmete ait oturum açma bilgisini içerir. Çöp Sepeti boşaltıldığında yeniden oturum açmanız gerekir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігаються дані для входу в сервіс, як-от токен, який інструмент записав, коли ви входили в цей сервіс. Коли Смітник буде очищено, вам доведеться лише увійти знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有某项服务的登录信息，例如某个工具在你登录时保存的令牌。一旦清倒废纸篓，你只需重新登录即可。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有某項服務的登入資訊，例如某個工具在你登入時儲存的權杖。一旦清空「垃圾桶」，你就需要重新登入。"
+          }
+        }
+      }
+    },
     "Not selected: this holds message history that may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have a backup." : {
       "localizations" : {
         "cs" : {

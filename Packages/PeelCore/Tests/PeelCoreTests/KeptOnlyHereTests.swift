@@ -26,6 +26,11 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Example/Backups", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/obs-studio", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/obs-studio/basic/scenes/Untitled.json", .holdsWorkMadeWithTheApp),
+            (".docker", .holdsSignIns), (".docker/config.json", .holdsSignIns),
+            (".cargo/credentials.toml", .holdsSignIns), (".pypirc", .holdsSignIns),
+            (".gem/credentials", .holdsSignIns), (".local/share/gem/credentials", .holdsSignIns),
+            (".composer/auth.json", .holdsSignIns), (".config/gcloud/credentials.db", .holdsSignIns),
+            (".azure/msal_token_cache.json", .holdsSignIns), (".terraform.d/credentials.tfrc.json", .holdsSignIns),
         ]
         for (path, reason) in held {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == reason, "\(path)")
@@ -41,6 +46,7 @@ struct KeptOnlyHereTests {
             "Library/Group Containers/group.net.whatsapp.family",
             "Library/Application Support/Steam Link", "Library/Caches/Postgres", "Library/Application Support/Backupify",
             "Library/Application Support/obs-studio/logs",
+            ".docker/contexts", ".cargo/registry", ".config", ".local/share", ".terraform.d/plugins",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == nil, "\(path)")

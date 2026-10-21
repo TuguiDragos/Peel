@@ -84,6 +84,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsPasswordsOrCodes
     /// VPN connections, with their keys and certificates, that may exist only on this Mac (`KeptOnlyHere`).
     case holdsVPNConnections
+    /// A sign-in to a service a tool saved when the person logged in, such as a registry token (`KeptOnlyHere`).
+    case holdsSignIns
     /// What the person made with the app, such as saved games, databases, or the app's own backups, that may exist
     /// only on this Mac (`KeptOnlyHere`).
     case holdsWorkMadeWithTheApp

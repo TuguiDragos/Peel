@@ -370,8 +370,9 @@ Never selected for you, even when found:
 - A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`)
   inside.
 - What an app keeps that may exist only on this Mac: local mail, message history, a password manager's backups and an
-  authenticator's codes, VPN connections, a game's saves, a database, and a streaming app's scenes and profiles, each
-  where the app's own documentation or source says it keeps them, and anything named as an app's backups. When you
+  authenticator's codes, VPN connections, a game's saves, a database, a streaming app's scenes and profiles, and the
+  sign-in a tool saved when you logged in, such as Docker's or Cargo's, each where the app's own documentation or
+  source says it keeps them, and anything named as an app's backups. When you
   uninstall Xcode, the simulators it made in your home folder are listed too, with the apps installed in them and their
   data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
