@@ -63,6 +63,16 @@ public struct MakersUninstaller: Sendable, Hashable {
             .uninstaller("/Applications/FortiClientUninstaller.app"),
             "https://community.fortinet.com/t5/FortiGate/Technical-Tip-How-to-uninstall-FortiClient-on-macOS/ta-p/229617"
         ),
+        (
+            "GUNFMW623Y", ["com.bitdefender.endpointsecurityformac"], "Bitdefender",
+            .uninstaller("/Applications/Bitdefender/EndpointSecurityforMacUninstaller.app"),
+            "https://www.bitdefender.com/business/support/en/77209-87953-uninstalling-security-agents.html"
+        ),
+        (
+            "2H5GFH3774", ["com.sophos.endpoint.uiserver"], "Sophos",
+            .uninstaller("/Applications/Sophos/Remove Sophos Endpoint.app"),
+            "https://docs.sophos.com/esg/endpoint/help/en-us/help/Uninstall/"
+        ),
         // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
         (
             "EQHXZ8M8AV", ["com.google.chromeremotedesktop.me2me-host-uninstaller"], "Google",

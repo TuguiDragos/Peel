@@ -21,6 +21,14 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.microsoft.wdav", team: "UBF8T346G9"))?.maker == "Microsoft")
         #expect(MakersUninstaller.of(agent("com.netskope.client.Netskope-Client", team: "24W52P9M7W")) != nil)
         #expect(MakersUninstaller.of(agent("com.fortinet.FortiClient", team: "AH4XFXJ7DK")) != nil)
+        #expect(
+            MakersUninstaller.of(agent("com.bitdefender.EndpointSecurityforMac", team: "GUNFMW623Y"))?.step
+                == .uninstaller(URL(filePath: "/Applications/Bitdefender/EndpointSecurityforMacUninstaller.app", directoryHint: .isDirectory))
+        )
+        #expect(
+            MakersUninstaller.of(agent("com.sophos.endpoint.uiserver", team: "2H5GFH3774"))?.step
+                == .uninstaller(URL(filePath: "/Applications/Sophos/Remove Sophos Endpoint.app", directoryHint: .isDirectory))
+        )
         let eset = agent("com.eset.ees.g2", team: "P8DQRXPVLP", at: "/Applications/ESET Endpoint Security.app")
         #expect(
             MakersUninstaller.of(eset)?.step == .uninstaller(
