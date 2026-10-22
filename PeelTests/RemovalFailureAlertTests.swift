@@ -25,4 +25,16 @@ struct RemovalFailureAlertTests {
         let details = RemovalFailureAlert.details(for: outcome).components(separatedBy: "\n\n")
         #expect(details.filter { $0.contains("Example 30") }.count == 3)
     }
+
+    @Test func copiesTheShellLineTheAlertShows() {
+        let outcome = RemovalOutcome()
+        outcome.report(
+            TrashResult(failures: [TrashFailure(url: URL(filePath: "/Applications/Example.app"), reason: .locked)]),
+            shellReferences: [ShellReferences.Reference(file: URL(filePath: "/Users/someone/.zshrc"), line: 12)]
+        )
+        let shown = RemovalFailureAlert.message(for: outcome).components(separatedBy: "\n\n")
+        let line = shown.first { $0.contains("/Users/someone/.zshrc") }
+        #expect(line != nil)
+        #expect(RemovalFailureAlert.details(for: outcome).components(separatedBy: "\n\n").contains(line ?? ""))
+    }
 }

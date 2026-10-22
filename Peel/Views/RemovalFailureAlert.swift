@@ -156,8 +156,8 @@ struct RemovalFailureAlert: ViewModifier {
 
     static func details(for outcome: RemovalOutcome) -> String {
         var lines = quitLines(outcome) + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
-            + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome) + appManagementLines(outcome)
-            + privacyLines(outcome)
+            + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome) + shellLines(outcome)
+            + appManagementLines(outcome) + privacyLines(outcome)
         if #available(macOS 27, *) {
             lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
         }
