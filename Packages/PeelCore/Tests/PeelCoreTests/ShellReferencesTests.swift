@@ -28,6 +28,29 @@ struct ShellReferencesTests {
         #expect(await ShellReferences.find(naming: [], home: home).isEmpty)
     }
 
+    @Test func namesALineOnlyWhereThePathStandsWhole() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/.zshrc", contents: Data("""
+            export PATH="$HOME/Library/Application Support/CodeWhisperer/bin:$PATH"
+            source ~/Applications/Foo.app/Contents/env.sh
+            PATH=/Applications/Foo.appendix/bin:$PATH
+            cp -R /Applications/Foo.app.bak /tmp
+            alias foo=/applications/FOO.app/Contents/MacOS/foo
+            export PATH="$PATH:$HOME/Library/Application Support/Code/bin"
+            [ -d "/Applications/Foo.app" ] && echo yes
+            fpath=(~/Library/Application\\ Support/Code $fpath)
+            """.utf8))
+        let moved = [
+            URL(filePath: "/Applications/Foo.app", directoryHint: .isDirectory),
+            home.appending(path: "Library/Application Support/Code", directoryHint: .isDirectory),
+        ]
+
+        let found = await ShellReferences.find(naming: moved, home: home)
+
+        #expect(found.map(\.line) == [5, 6, 7, 8])
+    }
+
     @Test func readsTheStartupFilesOfEachShellOnce() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

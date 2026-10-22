@@ -18,20 +18,49 @@ public enum ShellReferences {
 
     @concurrent
     public static func find(naming moved: [URL], home: URL = .homeDirectory) async -> [Reference] {
-        let spellings = moved.flatMap { spellings(of: $0, home: home) }
+        let spellings = moved.flatMap { spellings(of: $0, home: home) }.map { Array($0.lowercased().utf8) }
         guard !spellings.isEmpty else { return [] }
         var references: [Reference] = []
         for file in await startupFiles(home: home) {
             guard let data = BoundedRead.data(at: file, maximum: maximumBytes) else { continue }
             let lines = String(decoding: data, as: UTF8.self).split(separator: "\n", omittingEmptySubsequences: false)
             for (index, line) in lines.enumerated() where !line.drop(while: \.isWhitespace).hasPrefix("#") {
-                if spellings.contains(where: { line.range(of: $0, options: .caseInsensitive) != nil }) {
+                let line = Array(line.lowercased().utf8)
+                if spellings.contains(where: { holdsWhole($0, in: line) }) {
                     references.append(Reference(file: file, line: index + 1))
                 }
             }
         }
         return references
     }
+
+    /// Whether `line` holds `path` whole, or followed by a slash into it, both in UTF-8: `~/.config/pad` is not in
+    /// `~/.config/padlock`, nor `/Applications/Pad.app` in `~/Applications/Pad.app`.
+    static func holdsWhole(_ path: [UInt8], in line: [UInt8]) -> Bool {
+        line.withUnsafeBytes { haystack in
+            path.withUnsafeBytes { needle in
+                guard let start = haystack.baseAddress, let target = needle.baseAddress, !path.isEmpty else {
+                    return false
+                }
+                var offset = 0
+                while let found = memmem(start + offset, line.count - offset, target, path.count) {
+                    let begin = UnsafeRawPointer(found) - start
+                    let end = begin + path.count
+                    if begin == 0 || startsAWord.contains(line[begin - 1]),
+                       end == line.count || endsAPath.contains(line[end]) {
+                        return true
+                    }
+                    offset = begin + 1
+                }
+                return false
+            }
+        }
+    }
+
+    private static let startsAWord = Set(" \t\r\u{0B}\u{0C}\"'`=:;,|&({[<>".utf8)
+
+    /// A backslash or a dollar sign goes on with the name, as an escaped space or a variable does.
+    private static let endsAPath = Set(" \t\r\u{0B}\u{0C}/\"'`:;,|&()}]<>".utf8)
 
     /// The files zsh, bash and fish read when a shell starts: zsh's `.zshenv` where the session's ZDOTDIR or the
     /// home folder puts it, the other three in the folder zsh names once `.zshenv` has run, and the rest in the home
