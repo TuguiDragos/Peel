@@ -312,6 +312,55 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.shownUpdateStatus(of: app) == .failed)
     }
 
+    @Test func homebrewsUpToDateInPlaceOfAFailedFeedLeavesTheUpdateTheFeedFound() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let clock = TestClock(homebrewChecked + 60 * 60)
+        let library = library(with: made.defaults, notesIn: folder, clock: clock)
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
+        AppcastProtocol.body.withLock {
+            $0 = Data(#"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><enclosure url="https://feed.example.com/u.zip" sparkle:version="101" sparkle:shortVersionString="1.1" /></item></channel></rss>"#.utf8)
+        }
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.1")
+
+        AppcastProtocol.body.withLock { $0 = Data() }
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.1", "the feed failed")
+
+        clock.set(homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.1")
+    }
+
+    @Test func aFeedThatFailedKeepsNoUpdateHomebrewNoLongerReports() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock { $0 = Data() }
+        let clock = TestClock(homebrewChecked + 60 * 60)
+        let library = library(with: made.defaults, notesIn: folder, clock: clock)
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        library.loadHomebrewCasks([cask("Fed", latest: "2.0", checked: homebrewChecked)], knowsItsOwnApps: true)
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "2.0")
+
+        clock.set(homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app) == .failed)
+    }
+
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Tool", in: folder)

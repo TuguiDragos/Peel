@@ -139,10 +139,18 @@ struct UpdateScheduleTests {
     /// A failed round, such as one with no network, learns nothing, so an update known to be waiting stays known.
     @Test func aFailureDoesNotEraseAnUpdateThatWasWaiting() {
         let waiting = UpdateStatus.updateAvailable(version: "2.0")
-        #expect(UpdateStatus.failed.following(waiting) == waiting)
-        #expect(UpdateStatus.failed.following(.upToDate) == .failed)
-        #expect(UpdateStatus.failed.following(nil) == .failed)
-        #expect(UpdateStatus.upToDate.following(waiting) == .upToDate, "a real answer replaces what was known")
-        #expect(UpdateStatus.updateAvailable(version: "3.0").following(waiting) == .updateAvailable(version: "3.0"))
+        let homebrews = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew)
+        let failed = UpdateAnswer(status: .failed)
+        #expect(failed.following(waiting) == waiting)
+        #expect(failed.following(.upToDate) == .failed)
+        #expect(failed.following(nil) == .failed)
+        #expect(UpdateAnswer(status: .upToDate).following(waiting) == .upToDate, "a real answer replaces what was known")
+        #expect(UpdateAnswer(status: .updateAvailable(version: "3.0")).following(waiting) == .updateAvailable(version: "3.0"))
+
+        let homebrewInstead = UpdateAnswer(status: .upToDate, standsInFor: .failed)
+        #expect(homebrewInstead.following(waiting) == waiting, "the feed failed")
+        #expect(homebrewInstead.following(homebrews) == .upToDate, "Homebrew no longer reports it")
+        #expect(failed.following(homebrews) == .failed, "Homebrew no longer reports it")
+        #expect(UpdateAnswer(status: .upToDate, standsInFor: .unsupported).following(waiting) == .upToDate)
     }
 }

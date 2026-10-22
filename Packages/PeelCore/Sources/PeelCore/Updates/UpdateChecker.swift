@@ -378,6 +378,17 @@ public struct UpdateAnswer: Sendable, Hashable {
         self.notesPage = notesPage
         self.standsInFor = standsInFor
     }
+
+    /// The status to keep when this answer follows `previous`. A check whose own source failed keeps an update that
+    /// source found earlier, even where Homebrew answered in its place, since failing to reach the server says
+    /// nothing about that update. An update Homebrew reported is kept only while Homebrew gives it.
+    public func following(_ previous: UpdateStatus?) -> UpdateStatus {
+        if (standsInFor ?? status) == .failed, let previous, case .updateAvailable(_, let source, _) = previous,
+           source != .homebrew {
+            return previous
+        }
+        return status
+    }
 }
 
 /// What asking for an update's notes came to.

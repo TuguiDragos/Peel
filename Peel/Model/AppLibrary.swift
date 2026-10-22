@@ -584,12 +584,14 @@ final class AppLibrary {
                 guard let app = asked[id], apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) else {
                     continue
                 }
-                let kept = answer.status.following(updateStatuses[id])
+                let kept = answer.following(updateStatuses[id])
+                // Homebrew's answer stands in for the app's own only where it is the status kept.
+                let standsInFor = kept == answer.status ? answer.standsInFor : nil
                 // Homebrew may have been read again while this answer was on its way: its casks decide where they can.
                 let shown = casks == self.casks
                     ? kept
                     : checker.statusWithoutAsking(
-                        for: app, preference: preference, casks: self.casks, known: answer.standsInFor ?? kept
+                        for: app, preference: preference, casks: self.casks, known: standsInFor ?? kept
                     ) ?? kept
                 // Any write redraws the whole Applications list, so an answer that changes nothing is not written.
                 if updateStatuses[id] != shown {
@@ -608,7 +610,7 @@ final class AppLibrary {
                     checked: answer.status == .failed ? memory[identifier]?.checked : .now,
                     describing: app,
                     developer: answer.developer ?? memory[identifier]?.developer,
-                    standsInFor: answer.standsInFor
+                    standsInFor: standsInFor
                 )
                 // Only an answer that found this update can say what is new in it; a failed one keeps what was known.
                 if case .updateAvailable(let version, _, _) = kept, answer.status == kept {

@@ -42,13 +42,6 @@ public enum UpdateStatus: Sendable, Hashable, Codable {
         return source == .homebrew ? String(version.prefix { $0 != "," }) : version
     }
 
-    /// The status to keep when this answer follows `previous`. A failed check keeps an update found earlier,
-    /// since failing to reach the server says nothing about that update.
-    public func following(_ previous: UpdateStatus?) -> UpdateStatus {
-        if self == .failed, case .updateAvailable = previous { return previous ?? self }
-        return self
-    }
-
     public var releaseNotes: URL? {
         if case .updateAvailable(_, _, let notes) = self { notes } else { nil }
     }
