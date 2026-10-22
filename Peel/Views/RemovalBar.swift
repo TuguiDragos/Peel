@@ -278,17 +278,28 @@ struct RemovalBar: View {
         }
     }
 
-    /// Under the question: the page's own words when only its selection moves, and otherwise a line for each page.
+    /// Under the question: the page's own words when only its selection moves, and otherwise a line for each of the
+    /// first pages, as many as an alert lists, and how many items the others hold. "Selected on N pages" lists all.
     @ViewBuilder
     private var questionMessage: some View {
         if case .carried(let page, _) = purpose, question.map(\.page) == [page] {
             pageMessage
         } else {
-            Text(verbatim: question.map(line).joined(separator: "\n"))
+            Text(verbatim: Self.lines(for: question).joined(separator: "\n"))
         }
     }
 
-    private func line(_ part: CarriedSelection.Part) -> String {
+    static func lines(for parts: [CarriedSelection.Part]) -> [String] {
+        let listed = parts.prefix(RemovalFailureAlert.mostListed)
+        var lines = listed.map(line)
+        let rest = parts.dropFirst(listed.count).reduce(0) { $0 + $1.count }
+        if rest > 0 {
+            lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
+        }
+        return lines
+    }
+
+    private static func line(_ part: CarriedSelection.Part) -> String {
         switch part.total.reading {
         case .exactly(0):
             String(inflecting: "\(part.title): ^[\(part.count) item](inflect: true)")

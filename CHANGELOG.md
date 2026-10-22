@@ -180,6 +180,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Lists what an app with a tool's identifier left while another such app is installed.
 
+#### Orphaned Files and Storage
+
+- With many pages selected, the Move to Trash question no longer runs past the bottom of the screen and takes its
+  buttons with it: it names the first few pages and counts the items of the others, which "Selected on N pages" lists.
+
 #### Duplicates and File Search
 
 - What they move goes as one removal, so a run that was interrupted shows in History as one interrupted removal.
