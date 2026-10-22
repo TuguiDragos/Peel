@@ -312,12 +312,17 @@ public enum FileSize {
 
     private static let walletPrefixes = ["wallet.dat.", "zecwallet-light-wallet.backup."]
 
-    /// True for a KeePass database (`.kdbx`) or a KeePassXC key file (`.keyx`), without which the database
-    /// cannot be opened.
+    /// True for a KeePass database (`.kdbx`), a KeePassXC key file (`.keyx`), without which the database cannot be
+    /// opened, or a vault 1Password 7 and earlier kept outside an account, in one of the formats it declares
+    /// (`.opvault`, `.agilekeychain`, `.legacyagilekeychain`).
     static func isPasswordDatabase(_ name: String) -> Bool {
         let name = name.lowercased()
-        return name.hasSuffix(".kdbx") || name.hasSuffix(".keyx")
+        return passwordDatabaseSuffixes.contains { name.hasSuffix($0) }
     }
+
+    private static let passwordDatabaseSuffixes = [
+        ".kdbx", ".keyx", ".opvault", ".agilekeychain", ".legacyagilekeychain",
+    ]
 }
 
 /// What is known about the folders being walked.

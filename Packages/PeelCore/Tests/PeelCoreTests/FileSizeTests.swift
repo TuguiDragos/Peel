@@ -496,10 +496,13 @@ struct FileSizeTests {
     }
 
     @Test func knowsAPasswordDatabaseAndItsKeyFile() {
-        for name in ["Passwords.kdbx", "VAULT.KDBX", "Vault.keyx"] {
+        for name in [
+            "Passwords.kdbx", "VAULT.KDBX", "Vault.keyx", "1Password.opvault", "1Password.agilekeychain",
+            "Old.legacyagilekeychain",
+        ] {
             #expect(FileSize.isPasswordDatabase(name), "\(name)")
         }
-        for name in ["Passwords.kdbx.lock", "notes.key", "kdbx", "Passwords.kdb"] {
+        for name in ["Passwords.kdbx.lock", "notes.key", "kdbx", "Passwords.kdb", "opvault", "Vault.opvault.zip"] {
             #expect(!FileSize.isPasswordDatabase(name), "\(name)")
         }
     }

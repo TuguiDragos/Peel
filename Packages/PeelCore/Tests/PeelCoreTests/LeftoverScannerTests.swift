@@ -1984,6 +1984,16 @@ struct LeftoverScannerTests {
         #expect(manifests["com.example.bridge.json"]?.match.isRecommended == true)
     }
 
+    @Test func aFolderHoldingAStandaloneVaultIsNeverSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Tunewell/Vault.opvault/default/profile.js")
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.leftovers.map(\.match.heldBack) == [.holdsAPasswordDatabase])
+    }
+
     @Test func aFolderWithAPasswordDatabaseOrItsKeyFileIsNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Tunewell/Backups/Passwords.kdbx")

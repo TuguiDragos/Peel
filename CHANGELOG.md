@@ -79,6 +79,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   `/Library/Application Support`, are listed and never selected, like a VPN's connections in your home folder.
 - The group folder where 1Password 7 kept its standalone vaults and their daily backups is listed and never selected,
   also when you uninstall 1Password 8, which uses it too.
+- A folder holding a 1Password vault kept outside an account, `.opvault` or `.agilekeychain`, is listed and never
+  selected, like one holding a KeePass database, and the pages that measure folders hold it back too.
 
 #### Space
 

@@ -370,8 +370,8 @@ Never selected for you, even when found:
   open, and moving it would free nothing.
 - `/Users/Shared`: it belongs to every account, not just yours.
 - A project changed in the last 7 days, and a download that changed in the last day, which may still be going.
-- A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`)
-  inside.
+- A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`,
+  a 1Password vault kept outside an account, `.opvault` or `.agilekeychain`) inside.
 - What an app keeps that may exist only on this Mac: local mail, message history, a password manager's backups and an
   authenticator's codes, VPN connections, a game's saves, a database, a streaming app's scenes and profiles, and the
   sign-in a tool saved when you logged in, such as Docker's or Cargo's, each where the app's own documentation or
