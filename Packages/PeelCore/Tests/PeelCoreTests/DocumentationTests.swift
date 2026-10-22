@@ -39,6 +39,7 @@ struct DocumentationTests {
         let minutes = Int(SpaceRemoval.stillInUse / 60)
         let days = Int(ProjectArtifacts.recentlyActive / (24 * 60 * 60))
         #expect(Installers.stillDownloading == 24 * 60 * 60, "the documents say a download that changed in the last day")
+        #expect(Homebrew.autoUpdateInterval == 24 * 60 * 60, "the documents say what Homebrew says counts for a day")
         let said = [
             ("GUIDE.md", "comes with \(themes) dark themes"),
             ("TERMINAL.md", "\(themes) dark themes"),
