@@ -186,18 +186,19 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
 - **The Trash, never deletion.** Nothing in Peel deletes anything of the user's. What it deletes outright holds
   nothing of theirs: the empty placeholder `TrashMover` makes to hold a name on a disk that cannot rename without
   replacing (exFAT), when the move it was made for fails; the folder `PreferenceBackup` makes for a reset's saved
-  settings, when saving fails while it is still empty; and the empty file cfprefsd writes back where a moved
-  settings file was when `PreferenceCleanup` forgets a domain it still holds, which would keep History from putting
-  that file back. Peel's list of refusals goes to the Trash when `peel history --refused --clear` asks. Four
-  actions can't be undone by History, and each says so where it is confirmed: Homebrew's own uninstall and
-  cleanups, resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after
-  Peel asked it to quit (`QuitBeforeRemoving`). Moving Mullvad VPN, Citrix Workspace, or TeamViewer starts that
-  app's own uninstaller, which deletes what History can't bring back, and Peel says so before it moves them
-  (`UninstallsItself`). Forgetting a preference domain happens only once its file is in the Trash, so putting the
-  file back undoes it, or, when saved settings are put back, once the settings in use are saved as a copy of their
-  own (`PreferenceBackup`). Every `brew` call runs without Homebrew's automatic cleanup
-  (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own; when a `brew.env` file of the user's
-  turns that back on (`Homebrew.overrides()`, from `brew config`), the Homebrew page says so and leaves upgrades to
+  settings, when saving fails while it is still empty; the folders Put Back makes on the way back
+  (`DirectoryHandle.child(_:makingIfMissing:)`), when the item then stays in the Trash and each is still the empty
+  folder it made; and the empty file cfprefsd writes back where a moved settings file was when `PreferenceCleanup`
+  forgets a domain it still holds, which would keep History from putting that file back. Peel's list of refusals goes
+  to the Trash when `peel history --refused --clear` asks. Four actions can't be undone by History, and each says so
+  where it is confirmed: Homebrew's own uninstall and cleanups, resetting an app's privacy permissions, and Force Quit
+  for an app that is still open 10 seconds after Peel asked it to quit (`QuitBeforeRemoving`). Moving Mullvad VPN,
+  Citrix Workspace, or TeamViewer starts that app's own uninstaller, which deletes what History can't bring back, and
+  Peel says so before it moves them (`UninstallsItself`). Forgetting a preference domain happens only once its file is
+  in the Trash, so putting the file back undoes it, or, when saved settings are put back, once the settings in use are
+  saved as a copy of their own (`PreferenceBackup`). Every `brew` call runs without Homebrew's automatic cleanup
+  (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own; when a `brew.env` file of the user's turns
+  that back on (`Homebrew.overrides()`, from `brew config`), the Homebrew page says so and leaves upgrades to
   Terminal.
 - **One guard.** `RemovalGuard` decides, for the app and the `peel` tool alike, whether an item may move. Its
   list of what nothing can bring back lives in `ProtectedData`, in PeelPrivileged, so the helper applies the
