@@ -11,16 +11,29 @@ struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
     static let mostListed = 4
 
+    /// The first lines of a list of apps, as many as an alert lists, and then how many apps the others are.
+    static func shortened(_ lines: [String]) -> [String] {
+        guard lines.count > mostListed else { return lines }
+        return lines.prefix(mostListed) + [String(inflecting: "And ^[\(lines.count - mostListed) more app](inflect: true).")]
+    }
+
+    /// Apps named in one sentence: the first ones, as many as an alert lists, and then how many the others are.
+    static func listed(_ names: [String]) -> String {
+        guard names.count > mostListed else { return names.formatted(.list(type: .and)) }
+        let others = String(inflecting: "^[\(names.count - mostListed) more app](inflect: true)")
+        return (names.prefix(mostListed) + [others]).formatted(.list(type: .and))
+    }
+
     @Environment(RemovalOutcome.self) private var outcome
     @Environment(OrphanLibrary.self) private var orphans
     @Environment(\.openSettings) private var openSettings
 
     func body(content: Content) -> some View {
         content.alert(title, isPresented: isPresented) {
-            if needsAppManagement {
+            if Self.needsAppManagement(outcome) {
                 Button("Open System Settings") { NSWorkspace.shared.open(AppManagement.settingsURL) }
             }
-            if needsHelper {
+            if Self.needsHelper(outcome) {
                 Button("Open Peel Settings") { SettingsPane.helper.open(with: openSettings) }
             }
             if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty {
@@ -33,14 +46,14 @@ struct RemovalFailureAlert: ViewModifier {
                 }
             }
             if !outcome.failures.isEmpty {
-                Button("Copy Details") { copyDetails() }
+                Button("Copy Details") { Self.copyDetails(of: outcome) }
             }
             // The alert reports, so Return closes it. Otherwise the first other button would be the default, and Return
             // would copy the details or open Settings.
             Button("OK", role: .cancel) {}
                 .keyboardShortcut(.defaultAction)
         } message: {
-            Text(verbatim: message)
+            Text(verbatim: Self.message(for: outcome))
         }
     }
 
@@ -76,21 +89,22 @@ struct RemovalFailureAlert: ViewModifier {
         return outcome.movedCount == 0 ? Text("Nothing was moved to the Trash.") : Text("Some items couldn’t be moved to the Trash.")
     }
 
-    private var message: String {
-        let listed = outcome.failures.prefix(Self.mostListed)
-        var lines = quitLines + listed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+    static func message(for outcome: RemovalOutcome) -> String {
+        let listed = outcome.failures.prefix(mostListed)
+        var lines = quitLines(outcome) + listed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
         let rest = outcome.failures.count - listed.count
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
-        lines += keptLines + driverLines + administratorLines + shellLines + extraLines
+        lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
+            + shellLines(outcome) + appManagementLines(outcome) + shortened(privacyLines(outcome))
         if #available(macOS 27, *) {
-            lines += trashLines
+            lines += trashLines(outcome, naming: Self.listed)
         }
         return lines.joined(separator: "\n\n")
     }
 
-    private var administratorLines: [String] {
+    private static func administratorLines(_ outcome: RemovalOutcome) -> [String] {
         let count = outcome.leftForAnAdministrator
         guard count > 0 else { return [] }
         return count == 1
@@ -99,14 +113,14 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     /// One line for the shell startup files that still name what moved: the person edits them, Peel never does.
-    private var shellLines: [String] {
+    private static func shellLines(_ outcome: RemovalOutcome) -> [String] {
         let references = outcome.shellReferences
         guard !references.isEmpty else { return [] }
         let places = references.map { String(localized: "\($0.file.abbreviatedPath), line \($0.line)") }
         return [String(localized: "Your shell startup files still name what moved, at \(places.formatted(.list(type: .and))). Peel reads these files and never changes them.")]
     }
 
-    private var driverLines: [String] {
+    private static func driverLines(_ outcome: RemovalOutcome) -> [String] {
         let drivers = outcome.driversAwaitingARestart
         guard !drivers.isEmpty else { return [] }
         let names = drivers.formatted(.list(type: .and))
@@ -116,47 +130,48 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     /// One line for the apps whose background items macOS still starts from the Trash at each login.
-    private var trashLines: [String] {
+    private static func trashLines(_ outcome: RemovalOutcome, naming: ([String]) -> String) -> [String] {
         let apps = outcome.appsStartingFromTheTrash
         guard !apps.isEmpty else { return [] }
-        let names = apps.formatted(.list(type: .and))
+        let names = naming(apps)
         return [String(localized: "macOS still starts the background items of \(names) from the Trash each time you log in, until you empty the Trash.")]
     }
 
     /// A line for each app that stayed, since its files, which wait for it, stayed too and are not listed.
-    private var keptLines: [String] {
+    private static func keptLines(_ outcome: RemovalOutcome) -> [String] {
         outcome.keptTheirFiles.map { String(localized: "\($0) stayed, and so did its files.") }
     }
 
-    private var extraLines: [String] {
-        var lines: [String] = []
-        if needsAppManagement {
-            lines.append(String(localized: "If Peel isn’t allowed under App Management, macOS won’t let it move another developer’s app to the Trash."))
-        }
-        lines += privacyLines
-        return lines
+    private static func appManagementLines(_ outcome: RemovalOutcome) -> [String] {
+        guard needsAppManagement(outcome) else { return [] }
+        return [String(localized: "If Peel isn’t allowed under App Management, macOS won’t let it move another developer’s app to the Trash.")]
     }
 
     /// Copies every item with its full path, since the alert lists only the first few and its text can't be
     /// selected.
-    private func copyDetails() {
-        var lines = quitLines + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
-            + keptLines + driverLines + administratorLines + extraLines
-        if #available(macOS 27, *) {
-            lines += trashLines
-        }
+    private static func copyDetails(of outcome: RemovalOutcome) {
         NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(lines.joined(separator: "\n\n"), forType: .string)
+        NSPasteboard.general.setString(details(for: outcome), forType: .string)
+    }
+
+    static func details(for outcome: RemovalOutcome) -> String {
+        var lines = quitLines(outcome) + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
+            + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome) + appManagementLines(outcome)
+            + privacyLines(outcome)
+        if #available(macOS 27, *) {
+            lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
+        }
+        return lines.joined(separator: "\n\n")
     }
 
     /// A line for each app whose tool kept what was selected for it, since the app was open.
-    private var quitLines: [String] {
+    private static func quitLines(_ outcome: RemovalOutcome) -> [String] {
         outcome.appsToQuit.map { String(localized: "Quit \($0) before removing its files.") }
     }
 
     /// One line per privacy reset. When a single failed reset is all there is to report, the title already
     /// says so, and the line gives only the reason.
-    private var privacyLines: [String] {
+    private static func privacyLines(_ outcome: RemovalOutcome) -> [String] {
         outcome.privacy.map { privacy in
             guard let problem = privacy.result.explanation else {
                 return String(localized: "\(privacy.app)’s privacy permissions were reset before the move.")
@@ -169,14 +184,14 @@ struct RemovalFailureAlert: ViewModifier {
 
     /// True when macOS refused to move an app although the user can write to its folder and nothing locks it.
     /// That refusal comes from App Management, which the user can allow in System Settings.
-    private var needsAppManagement: Bool {
+    private static func needsAppManagement(_ outcome: RemovalOutcome) -> Bool {
         outcome.failures.contains { failure in
             failure.reason == .notPermitted && failure.url.pathExtension.lowercased() == "app"
                 && AppManagement.isRefusedForWantOfPermission(failure.url)
         }
     }
 
-    private var needsHelper: Bool {
+    private static func needsHelper(_ outcome: RemovalOutcome) -> Bool {
         outcome.failures.contains { $0.reason == .needsHelper }
     }
 }

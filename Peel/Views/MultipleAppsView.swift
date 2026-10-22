@@ -311,11 +311,12 @@ struct MultipleAppsView: View {
         return lines.dropFirst().reduce(lines.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
     }
 
-    /// These chosen apps as a list: each by its name, or by where it is when another chosen app has the same name.
+    /// These chosen apps as a list, the first ones only, as an alert lists them: each by its name, or by where it is
+    /// when another chosen app has the same name.
     private func list(_ apps: [InstalledApp]) -> String {
-        apps.map { app in
+        RemovalFailureAlert.listed(apps.map { app in
             plan.apps.contains { $0.name == app.name && $0.url != app.url } ? app.url.abbreviatedPath : app.name
-        }.formatted(.list(type: .and))
+        })
     }
 
     /// The apps whose privacy permissions a removal of `urls` resets.
