@@ -52,6 +52,9 @@ enum KeptOnlyHere {
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
         // (`frontend/OBSApp.cpp`), and nowhere else.
         ("Library/Application Support/obs-studio", "basic", .holdsWorkMadeWithTheApp),
+        // iTerm2's "Dynamic Profiles" and "Running a Script": the profiles and the scripts the person wrote.
+        ("Library/Application Support/iTerm2", "Scripts", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/iTerm2", "DynamicProfiles", .holdsWorkMadeWithTheApp),
         // The user profile of LibreOffice and Apache OpenOffice (`UserInstallation` in their sources, `<name>/4` here
         // on a Mac). LibreOffice Help's "Paths": the person's own templates, AutoText, AutoCorrect texts and
         // dictionaries, and the automatic backup copies of documents.

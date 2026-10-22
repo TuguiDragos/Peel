@@ -32,6 +32,9 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/LibreOffice", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/LibreOffice/4/user/basic/Standard/Module1.xba", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/OpenOffice/4/user/template/Letter.ott", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/iTerm2", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/iTerm2/Scripts/AutoLaunch/hello.py", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/iTerm2/DynamicProfiles/Work.json", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Transmission", .holdsTorrents),
             ("Library/Application Support/Transmission/Transfers.plist", .holdsTorrents),
             ("Library/Application Support/qBittorrent", .holdsTorrents),
@@ -75,6 +78,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/qBittorrent/logs", "Library/Caches/qBittorrent", ".config/deluge/plugins",
             "Library/Application Support/Motrix/dht.dat", "Library/Application Support/WebTorrent/Posters",
             "Library/Caches/LibreOffice", "Library/Application Support/LibreOffice Beta",
+            "Library/Application Support/iTerm2/version.txt", "Library/Caches/com.googlecode.iterm2",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")

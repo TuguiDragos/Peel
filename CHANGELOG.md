@@ -85,6 +85,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and WebTorrent keep them, is listed and never selected: without it the app forgets every transfer.
 - The user profile of LibreOffice and Apache OpenOffice, with your own templates, AutoText, dictionaries, and the
   automatic backups of your documents, is listed and never selected.
+- iTerm2's folder in Application Support, with the scripts and dynamic profiles you wrote, is listed and never selected.
 
 #### Space
 
