@@ -76,36 +76,49 @@ public enum ShellFile {
     /// Whether a line of `startupFile` reads the file.
     public static func isSourced(_ url: URL, from startupFile: URL, home: URL) -> Bool {
         guard let data = BoundedRead.data(at: startupFile) else { return false }
-        return String(decoding: data, as: UTF8.self).split(separator: "\n")
-            .contains { sources(String($0), url, home: home) }
+        let reading = LineReading(of: url, home: home)
+        return String(decoding: data, as: UTF8.self).split(separator: "\n").contains { reading.reads(String($0)) }
     }
 
-    /// Whether `line` reads the file: `source` or `.` with the file's path as its argument, written from `$HOME`,
+    /// Whether a line reads the file: `source` or `.` with the file's path as its argument, written from `$HOME`,
     /// `${HOME}` or `~`, or whole, in quotes or not, its spaces escaped or not, and not in a comment. Peel's own line
     /// tests the file first, `[[ -r … ]] && source …`, and counts only when that test starts a command: run into the
     /// line before it, as happened in a file whose last line had no newline, zsh fails on the line and never reaches
-    /// the `source`.
-    static func sources(_ line: String, _ url: URL, home: URL) -> Bool {
-        let code = line.trimmingCharacters(in: .whitespaces).replacing("\\ ", with: " ")
-        guard !code.hasPrefix("#") else { return false }
-        let escaped = NSRegularExpression.escapedPattern(for:)
-        let whole = "[\"']?" + escaped(url.path(percentEncoded: false)) + "[\"']?"
-        let fromHome = url.path(below: home).map { below in
-            "\"?(?:\\$HOME|\\$\\{HOME\\}|~)/" + escaped(below) + "\"?"
+    /// the `source`. Made once for all the lines of a file, since making the patterns costs far more than a match.
+    struct LineReading {
+        private let test: Regex<AnyRegexOutput>?
+        private let readsAfterTheTest: Regex<AnyRegexOutput>?
+        private let reads: Regex<AnyRegexOutput>?
+
+        init(of url: URL, home: URL) {
+            let escaped = NSRegularExpression.escapedPattern(for:)
+            let whole = "[\"']?" + escaped(url.path(percentEncoded: false)) + "[\"']?"
+            let fromHome = url.path(below: home).map { below in
+                "\"?(?:\\$HOME|\\$\\{HOME\\}|~)/" + escaped(below) + "\"?"
+            }
+            let path = "(?:" + ([fromHome, whole].compactMap { $0 }).joined(separator: "|") + ")"
+            let start = #"(?:^|[\s;&|(){])"#
+            let test = #"\[\[\s+-r\s+"# + path + #"\s+\]\]\s*&&\s*"#
+            let reads = #"(?:source|\.)\s+"# + path + #"(?:$|[\s;&|)}#])"#
+            self.test = try? Regex(test)
+            readsAfterTheTest = try? Regex(start + test + reads)
+            self.reads = try? Regex(start + reads)
         }
-        let path = "(?:" + ([fromHome, whole].compactMap { $0 }).joined(separator: "|") + ")"
-        let start = #"(?:^|[\s;&|(){])"#
-        let test = #"\[\[\s+-r\s+"# + path + #"\s+\]\]\s*&&\s*"#
-        let reads = #"(?:source|\.)\s+"# + path + #"(?:$|[\s;&|)}#])"#
-        let contains = { (pattern: String) in (try? Regex(pattern)).map { code.contains($0) } ?? false }
-        return contains(test) ? contains(start + test + reads) : contains(start + reads)
+
+        func reads(_ line: String) -> Bool {
+            let code = line.trimmingCharacters(in: .whitespaces).replacing("\\ ", with: " ")
+            guard !code.hasPrefix("#") else { return false }
+            let contains = { (pattern: Regex<AnyRegexOutput>?) in pattern.map { code.contains($0) } ?? false }
+            return contains(test) ? contains(readsAfterTheTest) : contains(reads)
+        }
     }
 
     /// Whether `startupFile` sets the prompt after the line that reads Peel's file, so zsh shows that one instead.
     public static func setsItsOwnPrompt(after url: URL, in startupFile: URL, home: URL) -> Bool {
         guard let data = BoundedRead.data(at: startupFile) else { return false }
         let lines = String(decoding: data, as: UTF8.self).split(separator: "\n").map(String.init)
-        guard let peels = lines.firstIndex(where: { sources($0, url, home: home) }) else { return false }
+        let reading = LineReading(of: url, home: home)
+        guard let peels = lines.firstIndex(where: { reading.reads($0) }) else { return false }
         return lines[(peels + 1)...].contains {
             $0.trimmingCharacters(in: .whitespaces).contains(/^(?:(?:export|typeset(?:\s+-g)?)\s+)?(?:PROMPT|PS1)=/)
         }
