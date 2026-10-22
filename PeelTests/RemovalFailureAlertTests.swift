@@ -52,4 +52,22 @@ struct RemovalFailureAlertTests {
         few.report(TrashResult(), privacy: apps.prefix(2).map { ($0, .notKnownToTheSystem) })
         #expect(!RemovalFailureAlert.offersDetails(for: few))
     }
+
+    @Test func namesTheFirstAppsToQuitAndShellLinesAndCountsTheOthers() {
+        let outcome = RemovalOutcome()
+        outcome.report(
+            TrashResult(),
+            appsToQuit: (1...6).map { "Example \($0)" },
+            shellReferences: (1...6).map {
+                ShellReferences.Reference(file: URL(filePath: "/Users/someone/.zshrc"), line: $0 * 10)
+            }
+        )
+        let paragraphs = RemovalFailureAlert.message(for: outcome).components(separatedBy: "\n\n")
+        #expect(paragraphs.filter { $0.contains("Example") }.count == RemovalFailureAlert.mostListed)
+        let shell = paragraphs.first { $0.contains(".zshrc") } ?? ""
+        #expect(shell.contains("40") && !shell.contains("50") && !shell.contains("60"), "\(shell)")
+        let details = RemovalFailureAlert.details(for: outcome)
+        #expect(details.contains("Example 6") && details.contains("60"))
+        #expect(RemovalFailureAlert.offersDetails(for: outcome))
+    }
 }

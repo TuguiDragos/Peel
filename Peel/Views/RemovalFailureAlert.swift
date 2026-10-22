@@ -19,9 +19,12 @@ struct RemovalFailureAlert: ViewModifier {
 
     /// Apps named in one sentence: the first ones, as many as an alert lists, and then how many the others are.
     static func listed(_ names: [String]) -> String {
+        listed(names) { String(inflecting: "^[\($0) more app](inflect: true)") }
+    }
+
+    private static func listed(_ names: [String], others: (Int) -> String) -> String {
         guard names.count > mostListed else { return names.formatted(.list(type: .and)) }
-        let others = String(inflecting: "^[\(names.count - mostListed) more app](inflect: true)")
-        return (names.prefix(mostListed) + [others]).formatted(.list(type: .and))
+        return (names.prefix(mostListed) + [others(names.count - mostListed)]).formatted(.list(type: .and))
     }
 
     @Environment(RemovalOutcome.self) private var outcome
@@ -91,13 +94,14 @@ struct RemovalFailureAlert: ViewModifier {
 
     static func message(for outcome: RemovalOutcome) -> String {
         let listed = outcome.failures.prefix(mostListed)
-        var lines = quitLines(outcome) + listed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
+        var lines = shortened(quitLines(outcome)) + listed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
         let rest = outcome.failures.count - listed.count
         if rest > 0 {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
-            + shellLines(outcome) + appManagementLines(outcome) + shortened(privacyLines(outcome))
+            + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
+            + appManagementLines(outcome) + shortened(privacyLines(outcome))
         if #available(macOS 27, *) {
             lines += trashLines(outcome, naming: Self.listed)
         }
@@ -113,11 +117,11 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     /// One line for the shell startup files that still name what moved: the person edits them, Peel never does.
-    private static func shellLines(_ outcome: RemovalOutcome) -> [String] {
+    private static func shellLines(_ outcome: RemovalOutcome, naming: ([String]) -> String) -> [String] {
         let references = outcome.shellReferences
         guard !references.isEmpty else { return [] }
         let places = references.map { String(localized: "\($0.file.abbreviatedPath), line \($0.line)") }
-        return [String(localized: "Your shell startup files still name what moved, at \(places.formatted(.list(type: .and))). Peel reads these files and never changes them.")]
+        return [String(localized: "Your shell startup files still name what moved, at \(naming(places)). Peel reads these files and never changes them.")]
     }
 
     private static func driverLines(_ outcome: RemovalOutcome) -> [String] {
@@ -162,8 +166,9 @@ struct RemovalFailureAlert: ViewModifier {
 
     static func details(for outcome: RemovalOutcome) -> String {
         var lines = quitLines(outcome) + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
-            + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome) + shellLines(outcome)
-            + appManagementLines(outcome) + privacyLines(outcome)
+            + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
+            + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
+            + privacyLines(outcome)
         if #available(macOS 27, *) {
             lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
         }

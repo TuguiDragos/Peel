@@ -145,8 +145,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Applications
 
 - When many apps stay after a removal, as without App Management, the alert names the first few and counts the others,
-  so its Open System Settings button stays on the screen; Copy Details, offered whenever the alert names only the first
-  few, gives every app. Several apps' question names the first few apps that go and that stay the same way.
+  so its Open System Settings button stays on the screen. It does the same with the apps to quit and the lines of your
+  shell startup files, and Copy Details, offered whenever the alert names only the first few, gives them all. Several
+  apps' question names the first few apps that go and that stay the same way.
 - iPhone and iPad apps installed on the Mac from the App Store are checked for updates against their own listing, in the
   store they came from, and Mac apps sold together with their iPhone version against their Mac listing; both read "Can't
   check for updates" while the App Store listed their updates.
