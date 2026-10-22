@@ -62,16 +62,19 @@ public struct TweakStore: Sendable, TweakStoring {
         return TweakState(isOn: isOn, isManaged: isManaged, text: text, heldElsewhere: elsewhere)
     }
 
-    /// What each layer macOS searches holds for a key, in the order it searches them. The layer Peel writes is
-    /// the person's own for any host; a value set for this Mac alone comes before it, and the layers of every
-    /// account and, for a key of an app's domain, of the global domain come after it.
+    /// What each layer macOS searches holds for a key. The layer Peel writes is the person's own for any host; a value
+    /// set for this Mac alone comes before it, and after it, for a key of an app's domain, the person's global domain,
+    /// then every account's layers of the app and of the global domain ("Preference Domains", Apple's Preferences
+    /// Programming Topics for Core Foundation).
     struct Layers {
         var thisMac: CFPropertyList?
         var own: CFPropertyList?
         var everyAccount: CFPropertyList?
+        /// The person's own global domain.
         var everyApp: CFPropertyList?
+        var everyAccountForEveryApp: CFPropertyList?
 
-        var inEffect: CFPropertyList? { thisMac ?? own ?? everyAccount ?? everyApp }
+        var inEffect: CFPropertyList? { thisMac ?? own ?? everyApp ?? everyAccount ?? everyAccountForEveryApp }
     }
 
     private func layers(of tweak: Tweak) -> Layers {
@@ -93,7 +96,7 @@ public struct TweakStore: Sendable, TweakStoring {
             let global = kCFPreferencesAnyApplication
             layers.everyApp = value(kCFPreferencesCurrentUser, kCFPreferencesCurrentHost, in: global)
                 ?? value(kCFPreferencesCurrentUser, kCFPreferencesAnyHost, in: global)
-                ?? value(kCFPreferencesAnyUser, kCFPreferencesCurrentHost, in: global)
+            layers.everyAccountForEveryApp = value(kCFPreferencesAnyUser, kCFPreferencesCurrentHost, in: global)
                 ?? value(kCFPreferencesAnyUser, kCFPreferencesAnyHost, in: global)
         }
         return layers
@@ -106,8 +109,9 @@ public struct TweakStore: Sendable, TweakStoring {
     static func heldElsewhere(of kind: Tweak.Kind, isOn: Bool, in layers: Layers) -> TweakState.Elsewhere? {
         if layers.thisMac != nil { return .thisMac }
         guard layers.own == nil, case .aSwitch = kind, isOn else { return nil }
+        if layers.everyApp != nil { return .everyApp }
         if layers.everyAccount != nil { return .everyAccount }
-        return layers.everyApp != nil ? .everyApp : nil
+        return layers.everyAccountForEveryApp != nil ? .everyApp : nil
     }
 
     /// Returns what the key holds in the layer Peel writes (this user, any host), so it can be put back exactly

@@ -151,6 +151,15 @@ struct TweakTests {
         #expect(TweakStore.heldElsewhere(of: forThisApp, isOn: true, in: layers(thisMac: true)) == .thisMac)
     }
 
+    @Test func readsThePersonsGlobalValueBeforeEveryAccountsAsMacOSDoes() {
+        let layers = TweakStore.Layers(
+            thisMac: nil, own: nil, everyAccount: false as CFBoolean, everyApp: true as CFBoolean
+        )
+
+        #expect(layers.inEffect as? Bool == true)
+        #expect(TweakStore.heldElsewhere(of: .aSwitch(.boolean(true)), isOn: true, in: layers) == .everyApp)
+    }
+
     @Test func callsTheGlobalDomainWhatTheApiCallsIt() {
         #expect(TweakStore.domain("NSGlobalDomain") == kCFPreferencesAnyApplication)
         #expect(TweakStore.domain("com.apple.dock") == "com.apple.dock" as CFString)

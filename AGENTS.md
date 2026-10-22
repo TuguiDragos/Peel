@@ -296,10 +296,11 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **Apple's lookup is limited and lags a release.** Apple limits `itunes.apple.com/lookup` to about 20 calls a
   minute, so a process asks no faster (`RequestWindow`), and a copy of its catalog can name an older version for
   hours after a release, so an answer older than an update already found counts as a check that failed.
-- **A setting has layers, and Peel writes one of them.** macOS reads a key from a profile first, then from this
-  Mac's own layer, the person's, every account's, and, for an app's domain, the global domain's, and the first that
-  holds it wins. Peel writes the person's layer for every Mac, so a value it can't change from there shows with a
-  lock: one set for this Mac alone, and a switch that is on only through a layer below the person's (`TweakStore`).
+- **A setting has layers, and Peel writes one of them.** macOS reads a key from a profile first, then from the
+  person's layer for this Mac and for every Mac, then, for an app's domain, the person's global domain, and then every
+  account's layers, and the first that holds it wins. Peel writes the person's layer for every Mac, so a value it
+  can't change from there shows with a lock: one set for this Mac alone, and a switch that is on only through a layer
+  below the person's (`TweakStore`).
   `defaults write` with no type stores a number as text, so a number is read from its text too, as
   `UserDefaults.double(forKey:)` reads it.
 
