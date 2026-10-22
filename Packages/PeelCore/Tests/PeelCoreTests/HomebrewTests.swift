@@ -51,6 +51,47 @@ struct HomebrewTests {
         #expect(read.standardError == "Error: It seems the App source is not there.\n")
     }
 
+    @Test func readsWhenHomebrewLastCheckedForNewVersions() throws {
+        let repository = try TemporaryDirectory()
+        let fetchHead = try repository.file(".git/FETCH_HEAD", contents: Data("main of https://github.com/Homebrew/brew\n".utf8))
+        let checked = Date(timeIntervalSince1970: 1_792_315_250)
+        let path = fetchHead.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.modificationDate: checked], ofItemAtPath: path)
+        #expect(Homebrew.lastUpdateCheck(inRepository: repository.url) == checked)
+
+        let linked = try TemporaryDirectory()
+        try linked.directory(".git")
+        try FileManager.default.createSymbolicLink(at: linked.url.appending(path: ".git/FETCH_HEAD"), withDestinationURL: fetchHead)
+        #expect(Homebrew.lastUpdateCheck(inRepository: linked.url) == nil, "Homebrew's `find -type f` passes over a link")
+
+        let folder = try TemporaryDirectory()
+        try folder.directory(".git/FETCH_HEAD")
+        #expect(Homebrew.lastUpdateCheck(inRepository: folder.url) == nil)
+        let empty = try TemporaryDirectory()
+        #expect(Homebrew.lastUpdateCheck(inRepository: empty.url) == nil)
+    }
+
+    @Test func readsTheLastCheckOfTheHomebrewOnThisMac() async throws {
+        guard Homebrew.executableURL != nil else {
+            #expect(await Homebrew.lastUpdateCheck() == nil)
+            return
+        }
+        let answer = try await Homebrew.execute(["--repository"], autoUpdate: false, timeout: 30).answer()
+        let repository = try #require(Homebrew.folder(answering: answer))
+        let fetchHead = repository.appending(path: ".git/FETCH_HEAD").path(percentEncoded: false)
+        let attributes = try? FileManager.default.attributesOfItem(atPath: fetchHead)
+        let isAFile = attributes?[.type] as? FileAttributeType == .typeRegular
+        let expected = isAFile ? attributes?[.modificationDate] as? Date : nil
+        let read = await Homebrew.lastUpdateCheck()
+
+        #expect((read == nil) == (expected == nil))
+        if let read, let expected {
+            #expect(abs(read.timeIntervalSince(expected)) < 0.001)
+        }
+        guard await Homebrew.hasLocalDefinitions() else { return }
+        #expect(try await Homebrew.installedPackages().allSatisfy { $0.lastUpdateCheck == read })
+    }
+
     @Test func anUpgradeNeverWaitsForAnAnswer() {
         for autoUpdate in [true, false] {
             #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_ASK"] == "1")

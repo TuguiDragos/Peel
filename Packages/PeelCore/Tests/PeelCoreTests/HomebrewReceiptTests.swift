@@ -22,11 +22,11 @@ struct HomebrewReceiptTests {
     }
 
     @Test func readsTheCaskroomHomebrewNames() {
-        #expect(Homebrew.caskroom(answering: "/opt/homebrew/Caskroom\n")?.path(percentEncoded: false)
+        #expect(Homebrew.folder(answering: "/opt/homebrew/Caskroom\n")?.path(percentEncoded: false)
             == "/opt/homebrew/Caskroom/")
-        #expect(Homebrew.caskroom(answering: "") == nil)
-        #expect(Homebrew.caskroom(answering: "Caskroom\n") == nil)
-        #expect(Homebrew.caskroom(answering: "/opt/homebrew/Caskroom\n/usr/local/Caskroom\n") == nil)
+        #expect(Homebrew.folder(answering: "") == nil)
+        #expect(Homebrew.folder(answering: "Caskroom\n") == nil)
+        #expect(Homebrew.folder(answering: "/opt/homebrew/Caskroom\n/usr/local/Caskroom\n") == nil)
     }
 
     @Test func everyCaskInstalledOnThisMacIsReadAsItIsOnTheDisk() async throws {

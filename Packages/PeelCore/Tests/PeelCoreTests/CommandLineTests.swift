@@ -995,6 +995,16 @@ struct CommandLineTests {
         #expect(!some.nothingAnswered)
     }
 
+    @Test func saysWhyAppsHomebrewInstalledGotNoAnswer() {
+        let cask = HomebrewPackage(name: "example", kind: .cask, installedVersion: "1.0")
+        let checked = cask.noting(lastUpdateCheck: Date(timeIntervalSince1970: 1_792_315_250))
+        let utc = TimeZone(identifier: "UTC")!
+
+        #expect(UpdatesCommand.note(aboutCasksNotCheckedRecently: [], timeZone: utc) == nil)
+        #expect(UpdatesCommand.note(aboutCasksNotCheckedRecently: [checked], timeZone: utc) == "Homebrew last checked for new versions on 2026-10-18, so whether 1 app it installed is up to date isn't known. Run `brew update`, then check again.")
+        #expect(UpdatesCommand.note(aboutCasksNotCheckedRecently: [cask, cask], timeZone: utc) == "Homebrew doesn't say when it last checked for new versions, so whether 2 apps it installed are up to date isn't known.")
+    }
+
     /// `--all` lists an app Peel can't check as the app does. "No update feed" was wrong for an app that came with
     /// macOS, an App Store app with no Mac version to read, and an app whose bundle names no version.
     @Test func saysAnAppItCannotCheckCannotBeChecked() {

@@ -30,9 +30,14 @@ public struct UpdateChecker: Sendable {
     private let country: String
     private let systemVersion: String
     private let isAppleSilicon = HostArchitecture.isAppleSilicon
+    /// The time a check is made at, which decides whether what Homebrew says is recent enough to count.
+    private let clock: @Sendable () -> Date
 
-    public init(session: URLSession? = nil, locale: Locale = .current) {
+    public init(
+        session: URLSession? = nil, locale: Locale = .current, clock: @escaping @Sendable () -> Date = { .now }
+    ) {
         self.session = session ?? URLSession(configuration: Self.configuration)
+        self.clock = clock
         country = Self.storefront(of: locale)
         let version = ProcessInfo.processInfo.operatingSystemVersion
         systemVersion = "\(version.majorVersion).\(version.minorVersion).\(version.patchVersion)"
@@ -66,24 +71,20 @@ public struct UpdateChecker: Sendable {
         casks: [HomebrewPackage] = [],
         earlier: UpdateStatus? = nil
     ) async -> UpdateAnswer {
+        let homebrew = homebrewStatus(for: app, casks: casks)
+        if let status = Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrew) {
+            return UpdateAnswer(status: status)
+        }
         switch preference {
-        case .homebrew:
-            // A cask Homebrew knows but never installed says nothing about this app's version, so the
-            // app's own feed answers instead of a false "up to date".
-            if let homebrew = homebrewStatus(for: app, casks: casks) { return UpdateAnswer(status: homebrew) }
+        case .homebrew, .developer:
             return await feedAnswer(for: app, earlier: earlier)
         case .appStore:
             // Even with this preference, Apple is asked only about apps from the App Store. Any other app is
             // checked through its own feed, or not at all.
             return app.isFromAppStore
                 ? await appStoreAnswer(for: app, earlier: earlier) : await feedAnswer(for: app, earlier: earlier)
-        case .developer:
-            return await feedAnswer(for: app, earlier: earlier)
         case .automatic:
-            let homebrew = homebrewStatus(for: app, casks: casks)
-            if case .updateAvailable = homebrew { return UpdateAnswer(status: homebrew ?? .unsupported) }
-            // An app from a cask may have no feed of its own, and a feed can be down. In both cases what Homebrew
-            // knows is used rather than "Can't check for updates".
+            // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
             let feed = await feedAnswer(for: app, earlier: earlier)
             if let homebrew, feed.status == .unsupported || feed.status == .failed {
                 return UpdateAnswer(status: homebrew, developer: feed.developer)
@@ -92,16 +93,65 @@ public struct UpdateChecker: Sendable {
         }
     }
 
-    /// Homebrew's answer for `app`, found without a network request, or nil when Homebrew did not install this
-    /// copy. For a cask it did not install, Homebrew has a definition but no installed version to compare.
-    public func homebrewStatus(for app: InstalledApp, casks: [HomebrewPackage]) -> UpdateStatus? {
-        CaskEvidence.installedCask(for: app, in: casks).map(Self.homebrewStatus(of:))
+    /// The status `answer(for:preference:casks:earlier:)` gives `app` without asking any server, from Homebrew's
+    /// casks and the app's own files alone, or nil when the app's own feed or the App Store has to be asked.
+    public func statusWithoutAsking(
+        for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
+    ) -> UpdateStatus? {
+        Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrewStatus(for: app, casks: casks))
     }
 
-    /// The status Homebrew reports for `cask`, which is already known to be the app's.
-    public static func homebrewStatus(of cask: HomebrewPackage) -> UpdateStatus {
-        guard cask.isOutdated, let latest = cask.latestVersion else { return .upToDate }
-        return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
+    private static func statusWithoutAsking(
+        for app: InstalledApp, preference: UpdateSource, homebrew: UpdateStatus?
+    ) -> UpdateStatus? {
+        // An app whose bundle names no version, or no feed, has nothing to ask.
+        let hasNobodyToAsk = app.version == nil || app.updateFeed == nil
+        switch preference {
+        case .homebrew:
+            // A cask Homebrew knows but never installed says nothing about this app's version, and neither does one
+            // Homebrew can't tell about, so the app's own feed answers then instead of a false "up to date".
+            return homebrew ?? (hasNobodyToAsk ? .unsupported : nil)
+        case .automatic:
+            if case .updateAvailable = homebrew { return homebrew }
+            // An app from a cask may have no feed of its own: what Homebrew knows is used rather than "Can't check
+            // for updates".
+            return hasNobodyToAsk ? homebrew ?? .unsupported : nil
+        case .developer:
+            return hasNobodyToAsk ? .unsupported : nil
+        case .appStore:
+            return hasNobodyToAsk && !app.isFromAppStore ? .unsupported : nil
+        }
+    }
+
+    /// Homebrew's answer for `app`, found without a network request, or nil when Homebrew did not install this copy
+    /// or can't tell (`homebrewStatus(of:at:)`). For a cask it did not install, Homebrew has a definition but no
+    /// installed version to compare.
+    public func homebrewStatus(for app: InstalledApp, casks: [HomebrewPackage]) -> UpdateStatus? {
+        CaskEvidence.installedCask(for: app, in: casks).flatMap { Self.homebrewStatus(of: $0, at: clock()) }
+    }
+
+    /// The status Homebrew reports at `now` for `cask`, which is already known to be the app's, or nil when it can't
+    /// tell. A cask it doesn't mark outdated is up to date only while Homebrew's last check for new versions is less
+    /// than `Homebrew.autoUpdateInterval` old, the longest Homebrew itself waits before it checks again.
+    static func homebrewStatus(of cask: HomebrewPackage, at now: Date) -> UpdateStatus? {
+        if cask.isOutdated, let latest = cask.latestVersion {
+            return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
+        }
+        guard let checked = cask.lastUpdateCheck, now.timeIntervalSince(checked) < Homebrew.autoUpdateInterval else {
+            return nil
+        }
+        return .upToDate
+    }
+
+    /// The cask `app` came from when only Homebrew could say whether it is up to date and Homebrew's last check for
+    /// new versions is too old to tell (`homebrewStatus(of:at:)`), which is why a check has no answer for it.
+    public func caskNotCheckedRecently(
+        for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
+    ) -> HomebrewPackage? {
+        guard preference == .automatic || preference == .homebrew, app.version == nil || app.updateFeed == nil,
+              let cask = CaskEvidence.installedCask(for: app, in: casks)
+        else { return nil }
+        return Self.homebrewStatus(of: cask, at: clock()) == nil ? cask : nil
     }
 
     private func feedAnswer(for app: InstalledApp, earlier: UpdateStatus?) async -> UpdateAnswer {

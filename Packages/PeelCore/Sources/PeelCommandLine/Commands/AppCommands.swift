@@ -805,8 +805,11 @@ struct UpdatesCommand: AsyncParsableCommand {
         let preferences = UpdatePreferences.asTheAppSeesThem()
         let homebrew = await CaskLookup.installed()
         let toCheck = apps.filter { !preferences.isIgnored($0) }
+        let checker = UpdateChecker()
         let statuses = await ProgressLine.reporting { show in
-            await Self.statuses(for: toCheck, preference: preferences.source, casks: homebrew.casks) { answered in
+            await Self.statuses(
+                for: toCheck, checker: checker, preference: preferences.source, casks: homebrew.casks
+            ) { answered in
                 show(Self.progress(checked: answered, of: toCheck.count))
             }
         }
@@ -827,6 +830,12 @@ struct UpdatesCommand: AsyncParsableCommand {
         if let note = homebrew.note {
             Output.note(note)
         }
+        let notCheckedRecently = toCheck.filter { statuses[$0.id] == .unsupported }.compactMap { app in
+            checker.caskNotCheckedRecently(for: app, preference: preferences.source, casks: homebrew.casks)
+        }
+        if let note = Self.note(aboutCasksNotCheckedRecently: notCheckedRecently) {
+            Output.note(note)
+        }
         if report.ignored > 0 {
             Output.note("\(Output.count(report.ignored, "app is", "apps are")) set to be left alone in Peel and \(report.ignored == 1 ? "wasn't" : "weren't") checked.")
         }
@@ -837,6 +846,17 @@ struct UpdatesCommand: AsyncParsableCommand {
         if report.failed > 0 {
             Output.note("Couldn't check \(Output.count(report.failed, "app", "apps")), so \(report.failed == 1 ? "whether it has an update" : "whether they have updates") isn't known.")
         }
+    }
+
+    /// Says why the apps these casks installed got no answer: Homebrew's last check for new versions is too old to
+    /// tell (`UpdateChecker.caskNotCheckedRecently`).
+    static func note(aboutCasksNotCheckedRecently casks: [HomebrewPackage], timeZone: TimeZone = .current) -> String? {
+        guard !casks.isEmpty else { return nil }
+        let apps = "\(Output.count(casks.count, "app", "apps")) it installed \(casks.count == 1 ? "is" : "are")"
+        guard let checked = casks.compactMap(\.lastUpdateCheck).max() else {
+            return "Homebrew doesn't say when it last checked for new versions, so whether \(apps) up to date isn't known."
+        }
+        return "Homebrew last checked for new versions on \(Output.day(checked, timeZone: timeZone)), so whether \(apps) up to date isn't known. Run `brew update`, then check again."
     }
 
     static func progress(checked: Int, of total: Int) -> String {
@@ -856,12 +876,12 @@ struct UpdatesCommand: AsyncParsableCommand {
 
     private static func statuses(
         for apps: [InstalledApp],
+        checker: UpdateChecker,
         preference: UpdateSource,
         casks: [HomebrewPackage],
         answered: (Int) -> Void
     ) async -> [InstalledApp.ID: UpdateStatus] {
-        let checker = UpdateChecker()
-        return await withTaskGroup(of: (InstalledApp.ID, UpdateStatus).self) { group in
+        await withTaskGroup(of: (InstalledApp.ID, UpdateStatus).self) { group in
             var pending = apps.makeIterator()
             var statuses: [InstalledApp.ID: UpdateStatus] = [:]
             for _ in 0..<concurrentChecks {

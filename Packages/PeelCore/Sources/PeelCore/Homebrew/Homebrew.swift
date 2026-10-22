@@ -56,6 +56,9 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// True for an installed cask that left nothing on this Mac: every app gone from where Homebrew put it, or, for a
     /// cask with no app, every package it installed, as their receipts say. Set by `checkingWhatItInstalled`.
     public private(set) var isMissingWhatItInstalled = false
+    /// When Homebrew last checked for new versions, read before this package was (`Homebrew.lastUpdateCheck()`), or
+    /// nil when Peel couldn't tell. What `isOutdated` says is no more recent than that check.
+    public private(set) var lastUpdateCheck: Date?
 
     public var id: String { "\(kind.rawValue)/\(name)" }
 
@@ -112,6 +115,12 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     func noting(packagedApps: [String]) -> HomebrewPackage {
         var noted = self
         noted.packagedApps = packagedApps
+        return noted
+    }
+
+    public func noting(lastUpdateCheck: Date?) -> HomebrewPackage {
+        var noted = self
+        noted.lastUpdateCheck = lastUpdateCheck
         return noted
     }
 
@@ -426,6 +435,9 @@ public enum Homebrew {
     /// The command brew.sh gives for installing Homebrew. Its script says what it will do and waits before doing it.
     public static let installCommand = "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
     public static let website = URL(string: "https://brew.sh")!
+    /// How long Homebrew lets its last check for new versions stand before it checks again on its own: the default of
+    /// `HOMEBREW_AUTO_UPDATE_SECS` (`man brew`).
+    public static let autoUpdateInterval: TimeInterval = 24 * 60 * 60
 
     public struct CommandFailure: Error, Sendable, Hashable {
         public let output: String
@@ -529,14 +541,33 @@ public enum Homebrew {
         }
     }
 
+    /// When Homebrew last checked for new versions: when `brew update` last touched `.git/FETCH_HEAD` in Homebrew's
+    /// repository, the file Homebrew itself compares with `HOMEBREW_AUTO_UPDATE_SECS` before it updates on its own.
+    /// Nil when Homebrew doesn't say where its repository is, or the file isn't there.
+    @concurrent
+    public static func lastUpdateCheck() async -> Date? {
+        guard let answer = try? await answer(["--repository"]), let repository = folder(answering: answer) else {
+            return nil
+        }
+        return lastUpdateCheck(inRepository: repository)
+    }
+
+    /// Homebrew reads the file only as a regular file (`find -type f` in `utils/auto-update.sh`), never through a link.
+    static func lastUpdateCheck(inRepository repository: URL) -> Date? {
+        FileIdentity.of(repository.appending(path: ".git/FETCH_HEAD"))?.modificationDate
+    }
+
     @concurrent
     public static func installedPackages() async throws(CommandFailure) -> [HomebrewPackage] {
+        // Read first, so a check made while the packages are read leaves them dated older than they are, never newer.
+        let checked = await lastUpdateCheck()
         let output = try await answer(["info", "--json=v2", "--installed"])
-        let caskroom = (try? await answer(["--caskroom"])).flatMap(caskroom(answering:))
+        let caskroom = (try? await answer(["--caskroom"])).flatMap(folder(answering:))
         guard let packages = parseInstalled(Data(output.utf8), caskroom: caskroom) else {
             throw CommandFailure(output: output)
         }
-        return await checkedOnThisMac(packages, pkgutil: PackageReceipts.pkgutil)
+        let dated = packages.map { $0.noting(lastUpdateCheck: checked) }
+        return await checkedOnThisMac(dated, pkgutil: PackageReceipts.pkgutil)
     }
 
     /// The installed packages with what this Mac says of them: the receipts their casks name, where those packages
@@ -833,7 +864,8 @@ public enum Homebrew {
         return Set(line.dropFirst(prefix.count).split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) })
     }
 
-    static func caskroom(answering answer: String) -> URL? {
+    /// The one folder `brew --caskroom` or `brew --repository` answers with.
+    static func folder(answering answer: String) -> URL? {
         let lines = answer.split(whereSeparator: \.isNewline)
         guard lines.count == 1, let path = lines.first.map(String.init), path.hasPrefix("/") else { return nil }
         return URL(filePath: path, directoryHint: .isDirectory)

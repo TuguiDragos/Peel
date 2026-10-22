@@ -644,6 +644,28 @@ struct UpdateSourceTests {
         #expect(CaskEvidence.cask(for: firefox, in: casks)?.name == "firefox@esr")
     }
 
+    @Test func homebrewSaysAnAppIsUpToDateOnlyWithinADayOfItsLastCheck() {
+        let checked = Date(timeIntervalSince1970: 1_792_315_250)
+        let day = Homebrew.autoUpdateInterval
+        let unknown = HomebrewPackage(name: "example", kind: .cask, installedVersion: "1.0", latestVersion: "1.0")
+        let current = unknown.noting(lastUpdateCheck: checked)
+        let behind = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", latestVersion: "2.0", isOutdated: true
+        )
+        let update = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew, releaseNotes: nil)
+        let status = { (cask: HomebrewPackage, now: Date) in UpdateChecker.homebrewStatus(of: cask, at: now) }
+
+        #expect(day == 86_400)
+        #expect(status(current, checked + 60) == .upToDate)
+        #expect(status(current, checked + day - 1) == .upToDate)
+        #expect(status(current, checked + day) == nil, "Homebrew's own `find -newermt` wants it newer than a day")
+        #expect(status(current, checked + 4 * day) == nil)
+        #expect(status(unknown.noting(lastUpdateCheck: checked + day), checked) == .upToDate, "as for Homebrew")
+        #expect(status(unknown, checked) == nil, "no check known")
+        #expect(status(behind.noting(lastUpdateCheck: checked), checked + 4 * day) == update)
+        #expect(status(behind, checked) == update)
+    }
+
     @Test func anUpdateHomebrewReportedHoldsOnlyWhileTheAppIsHomebrews() {
         let homebrew = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew)
         #expect(homebrew.holds(whileHomebrews: true))

@@ -130,18 +130,38 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: sparkleApp()) == expected)
     }
 
+    private let homebrewChecked = Date(timeIntervalSince1970: 1_792_315_250)
+
+    private func checking(at now: Date) -> UpdateChecker {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [CannedProtocol.self]
+        return UpdateChecker(session: URLSession(configuration: configuration), clock: { now })
+    }
+
+    private var feedlessApp: InstalledApp {
+        InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example", version: "1.0")
+    }
+
+    private var fedApp: InstalledApp {
+        InstalledApp(
+            url: feedlessApp.url, bundleIdentifier: feedlessApp.bundleIdentifier, name: feedlessApp.name,
+            version: "1.0", buildVersion: "100", updateFeed: sparkleApp().updateFeed
+        )
+    }
+
+    private func cask(latest: String = "1.0", checked: Date?) -> HomebrewPackage {
+        HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", latestVersion: latest, isOutdated: latest != "1.0",
+            appNames: ["Example.app"]
+        ).noting(lastUpdateCheck: checked)
+    }
+
     /// Many apps installed with Homebrew carry no update feed of their own. In the automatic mode, Homebrew's
     /// answer is used for them rather than "Can't check for updates".
     @Test func automaticFallsBackToWhatHomebrewKnows() async {
-        let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example", version: "1.0")
-        let current = HomebrewPackage(
-            name: "example",
-            kind: .cask,
-            installedVersion: "1.0",
-            latestVersion: "1.0",
-            isOutdated: false,
-            appNames: ["Example.app"]
-        )
+        let app = feedlessApp
+        let current = cask(checked: homebrewChecked)
+        let checker = checking(at: homebrewChecked + 60 * 60)
         reply("nowhere.example.com", "")
 
         #expect(await checker.status(for: app, preference: .automatic, casks: [current]) == .upToDate)
@@ -159,6 +179,84 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
             updateFeed: fed.updateFeed
         )
         #expect(await checker.status(for: fed, preference: .automatic, casks: [current]) == .upToDate)
+    }
+
+    @Test func homebrewCanNotSayAnAppIsUpToDateADayAfterItChecked() async {
+        let later = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        let current = [cask(checked: homebrewChecked)]
+        reply("nowhere.example.com", "")
+
+        #expect(await later.status(for: feedlessApp, preference: .automatic, casks: current) == .unsupported)
+        #expect(await later.status(for: feedlessApp, preference: .homebrew, casks: current) == .unsupported)
+        #expect(
+            await later.status(for: feedlessApp, preference: .automatic, casks: [cask(checked: nil)]) == .unsupported,
+            "no check known"
+        )
+        #expect(
+            await later.status(for: feedlessApp, casks: [cask(latest: "2.0", checked: nil)])
+                == .updateAvailable(version: "2.0", source: .homebrew, releaseNotes: nil)
+        )
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
+
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"200\" sparkle:shortVersionString=\"2.0\" /></item>"))
+        #expect(
+            await later.status(for: fedApp, preference: .homebrew, casks: current)
+                == .updateAvailable(version: "2.0", source: .developer, releaseNotes: nil)
+        )
+        #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com"])
+
+        reply("feed.example.com", status: 500, "")
+        #expect(await later.status(for: fedApp, preference: .automatic, casks: current) == .failed)
+    }
+
+    @Test func answersWithoutAServerWhatHomebrewAndTheAppAloneDecide() async {
+        let recent = checking(at: homebrewChecked + 60 * 60)
+        let later = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        let current = [cask(checked: homebrewChecked)]
+        let outdated = [cask(latest: "2.0", checked: nil)]
+        let update = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew, releaseNotes: nil)
+        reply("nowhere.example.com", "")
+
+        for preference in UpdateSource.allCases {
+            for casks in [outdated, current, []] {
+                for checker in [recent, later] {
+                    let decided = checker.statusWithoutAsking(for: feedlessApp, preference: preference, casks: casks)
+                    #expect(decided != nil)
+                    #expect(await decided == checker.status(for: feedlessApp, preference: preference, casks: casks))
+                }
+            }
+        }
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
+
+        #expect(recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: current) == .upToDate)
+        #expect(later.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: current) == .unsupported)
+        #expect(later.statusWithoutAsking(for: feedlessApp, preference: .developer, casks: outdated) == .unsupported)
+        #expect(later.statusWithoutAsking(for: fedApp, preference: .automatic, casks: outdated) == update)
+        #expect(recent.statusWithoutAsking(for: fedApp, preference: .automatic, casks: current) == nil, "feed first")
+        #expect(recent.statusWithoutAsking(for: fedApp, preference: .homebrew, casks: current) == .upToDate)
+        #expect(later.statusWithoutAsking(for: fedApp, preference: .homebrew, casks: current) == nil, "its feed answers")
+        #expect(recent.statusWithoutAsking(for: fedApp, preference: .developer, casks: outdated) == nil)
+    }
+
+    @Test func namesTheCaskHomebrewHasNotCheckedForADay() {
+        let recent = checking(at: homebrewChecked + 60 * 60)
+        let later = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        let current = [cask(checked: homebrewChecked)]
+        let unknown = [cask(checked: nil)]
+        let outdated = [cask(latest: "2.0", checked: homebrewChecked)]
+
+        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: current)?.name == "example")
+        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .homebrew, casks: current)?.name == "example")
+        #expect(recent.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: unknown)?.name == "example")
+        #expect(recent.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: current) == nil)
+        #expect(
+            later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: outdated) == nil,
+            "an update Homebrew knows of is an answer"
+        )
+        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .developer, casks: current) == nil)
+        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .appStore, casks: current) == nil)
+        #expect(later.caskNotCheckedRecently(for: fedApp, preference: .automatic, casks: current) == nil, "its feed")
+        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: []) == nil)
     }
 
     @Test func aMacAppReadsNoIPhoneRecord() async {

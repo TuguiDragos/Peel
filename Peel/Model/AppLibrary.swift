@@ -532,13 +532,12 @@ final class AppLibrary {
         // Read here, where every caller passes. Settings promises that with this off, Peel contacts nothing on
         // its own, so even Rescan on an app's page only rescans files.
         guard defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true) else { return }
+        // What Homebrew says lasts only a day after its last check, so its casks decide again in every round.
+        applyHomebrewStatuses()
         let now = Date.now
         // An app is checked on a schedule kept by its identifier, so an app with none is left to Homebrew's answer.
-        // Peel's own copies are left to Sparkle, which checks the one running and is the only way it updates.
         let wanted = targets.filter { app in
-            guard let identifier = app.bundleIdentifier, !app.isPeelItself, !isIgnored(app),
-                  !appsInATrash.contains(app.id)
-            else { return false }
+            guard let identifier = app.bundleIdentifier, isAskedAboutUpdates(app) else { return false }
             guard !force else { return true }
             // Already being checked by another round: a second answer could double the wait for the next check.
             guard !appsCheckingForUpdates.contains(app.id) else { return false }
@@ -569,7 +568,6 @@ final class AppLibrary {
                 }
             }
             while case let (id, answer)? = await group.next() {
-                let status = answer.status
                 // The update source changed since this round began, and the round that change started answers now.
                 guard updateRounds.answered(id, in: round) else {
                     group.cancelAll()
@@ -582,6 +580,10 @@ final class AppLibrary {
                 guard let app = asked[id], apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) else {
                     continue
                 }
+                // Homebrew may have been read again while this answer was on its way: its casks decide where they can.
+                let status = casks == self.casks
+                    ? answer.status
+                    : checker.statusWithoutAsking(for: app, preference: preference, casks: self.casks) ?? answer.status
                 let kept = status.following(updateStatuses[id])
                 // Any write redraws the whole Applications list, so an answer that changes nothing is not written.
                 if updateStatuses[id] != kept {
@@ -792,18 +794,33 @@ final class AppLibrary {
         UpdateMemoryStore.save(memory, to: defaults)
     }
 
-    /// Records an update for each app whose cask Homebrew marks outdated. Reading Homebrew costs no network
-    /// request, so this doesn't wait for the update schedule, and Applications agrees with the Homebrew page.
-    /// It applies only to an app with no answer of its own, or whose own check failed or had no feed to ask:
-    /// an answer from the app's own feed wins.
+    /// Shows for each app Homebrew installed what a check would answer now without asking any server, from Homebrew's
+    /// casks and the app's own files. Reading Homebrew costs no network request, so this doesn't wait for the update
+    /// schedule, and Applications agrees with the Homebrew page. A check never asks Homebrew while the app's own feed
+    /// or the App Store is preferred: then only an update Homebrew knows of fills in for an app whose own check has
+    /// nothing, a failure, or no feed to ask.
     private func applyHomebrewStatuses() {
-        for (id, cask) in homebrewApps {
-            let homebrew = UpdateChecker.homebrewStatus(of: cask)
-            guard case .updateAvailable = homebrew else { continue }
-            let known = updateStatuses[id]
-            guard known == nil || known == .failed || known == .unsupported else { continue }
-            updateStatuses[id] = homebrew
+        let preference = updateSource
+        for app in apps where homebrewApps[app.id] != nil && isAskedAboutUpdates(app) {
+            let known = updateStatuses[app.id]
+            let decided: UpdateStatus?
+            switch preference {
+            case .automatic, .homebrew:
+                decided = updateChecker.statusWithoutAsking(for: app, preference: preference, casks: casks)
+            case .developer, .appStore:
+                let homebrew = updateChecker.homebrewStatus(for: app, casks: casks)
+                let hasNoAnswer = known == nil || known == .failed || known == .unsupported
+                decided = hasNoAnswer && homebrew?.version != nil ? homebrew : nil
+            }
+            guard let decided, decided != known else { continue }
+            updateStatuses[app.id] = decided
         }
+    }
+
+    /// Whether update checks ask about `app`. Never about Peel's own copies, which Sparkle keeps current, checking
+    /// the one running, nor about an app the user told Peel never to check or a copy in a Trash.
+    private func isAskedAboutUpdates(_ app: InstalledApp) -> Bool {
+        !app.isPeelItself && !isIgnored(app) && !appsInATrash.contains(app.id)
     }
 
     private func matchHomebrewApps() {
