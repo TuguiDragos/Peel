@@ -79,7 +79,8 @@ struct IntelDetailView: View {
                         UpdateStatusBadge(
                             app: app,
                             status: status,
-                            isChecking: library.appsCheckingForUpdates.contains(app.id)
+                            isChecking: library.appsCheckingForUpdates.contains(app.id),
+                            caskNotCheckedRecently: library.caskNotCheckedRecently(for: app)
                         )
                     }
                 }

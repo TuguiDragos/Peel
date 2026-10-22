@@ -7,6 +7,8 @@ struct UpdateStatusBadge: View {
     let isChecking: Bool
     /// When a check last got an answer, which is what the note for a failed check tells the user.
     var lastCheck: Date?
+    /// The cask the app came from, when only Homebrew could answer for it and Homebrew's last check is too old to tell.
+    var caskNotCheckedRecently: HomebrewPackage?
 
     var body: some View {
         BusyShown(isBusy: isChecking) { isShown in
@@ -55,11 +57,17 @@ struct UpdateStatusBadge: View {
         }
     }
 
-    /// Why Peel can't check this app. Four reasons share the one badge, so the note says which applies. The
+    /// Why Peel can't check this app. Several reasons share the one badge, so the note says which applies. The
     /// preferred update source is never the reason: an app not sold by the App Store is checked through its
     /// own feed whatever that setting says.
     private var unsupportedReason: Text {
-        if app.isSystemProtected {
+        if let cask = caskNotCheckedRecently {
+            if let checked = cask.lastUpdateCheck {
+                Text("Only Homebrew can say whether \(app.name) is up to date, and Homebrew last checked for new versions \(checked, format: .relative(presentation: .named)). Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again.")
+            } else {
+                Text("Only Homebrew can say whether \(app.name) is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says.")
+            }
+        } else if app.isSystemProtected {
             Text("\(app.name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask.")
         } else if app.version == nil {
             Text("\(app.name) doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app.")

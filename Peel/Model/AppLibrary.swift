@@ -434,6 +434,10 @@ final class AppLibrary {
         homebrewApps[app.id]
     }
 
+    func caskNotCheckedRecently(for app: InstalledApp) -> HomebrewPackage? {
+        updateChecker.caskNotCheckedRecently(for: app, preference: updateSource, casks: casks)
+    }
+
     func isUnused(_ app: InstalledApp) -> Bool {
         AppOrder.isUnused(app, forMonths: Self.unusedMonths)
     }

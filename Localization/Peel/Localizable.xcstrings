@@ -99063,6 +99063,218 @@
         }
       }
     },
+    "Only Homebrew can say whether %@ is up to date, and Homebrew last checked for new versions %@. Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, a Homebrew naposledy hledal nové verze %@. Peel bere v úvahu to, co Homebrew uvádí, jen jeden den od chvíle, kdy Homebrew hledal nové verze. Na stránce Homebrew použijte příkaz „Aktualizovat Homebrew“ nebo v Terminálu spusťte `brew update` a Peel bude moci znovu říct, zda je aplikace aktuální."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, und Homebrew hat zuletzt %@ nach neuen Versionen gesucht. Peel berücksichtigt die Angaben von Homebrew nach jeder Suche nur einen Tag lang. Führe „Homebrew aktualisieren“ auf der Seite „Homebrew“ oder `brew update` im Terminal aus, dann kann Peel es wieder sagen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew puede decir si %@ está actualizada, y Homebrew buscó versiones nuevas por última vez %@. Peel solo tiene en cuenta lo que dice Homebrew hasta un día después de esa búsqueda. Usa “Actualizar Homebrew” en la página Homebrew o ejecuta `brew update` en Terminal, y Peel podrá volver a saberlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul Homebrew peut dire si %@ est à jour, et Homebrew a recherché de nouvelles versions pour la dernière fois %@. Peel ne tient compte de ce que dit Homebrew que pendant un jour après chacune de ces recherches. Mettez à jour Homebrew sur la page Homebrew, ou exécutez `brew update` dans Terminal, et Peel pourra à nouveau dire si l’app est à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew può dire se %@ è aggiornata. Ultima volta che Homebrew ha cercato nuove versioni: %@. Peel tiene conto di ciò che dice Homebrew solo per un giorno dopo ogni ricerca. Aggiorna Homebrew nella pagina Homebrew, oppure esegui `brew update` in Terminale, e Peel potrà di nuovo dire se l’app è aggiornata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけです。Homebrewが最後に新しいバージョンを確認したのは%@です。PeelがHomebrewの回答を採用するのは、Homebrewが確認してから1日間だけです。“Homebrew”ページでHomebrewをアップデートするか、ターミナルで`brew update`を実行すると、Peelは再び判断できるようになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있으며, Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점은 %@입니다. Peel은 Homebrew가 확인한 후 하루 동안만 Homebrew의 응답을 반영합니다. Homebrew 페이지에서 ‘Homebrew 업데이트’를 실행하거나, 터미널에서 `brew update`를 실행하면 Peel이 다시 최신 버전 여부를 알려 줄 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, en Homebrew heeft %@ voor het laatst naar nieuwe versies gezocht. Peel telt wat Homebrew zegt alleen mee tot een dag nadat Homebrew heeft gezocht. Werk Homebrew bij op de pagina 'Homebrew' of voer `brew update` uit in Terminal, dan kan Peel het weer zeggen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, a Homebrew ostatnio sprawdzał dostępność nowych wersji %@. Peel uwzględnia to, co podaje Homebrew, tylko przez dobę po takim sprawdzeniu. Odśwież Homebrew na stronie Homebrew albo uruchom `brew update` w Terminalu, a Peel znów będzie mógł to określić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só o Homebrew pode dizer se %@ está atualizado, e o Homebrew buscou novas versões pela última vez %@. O Peel só leva em conta o que o Homebrew diz até um dia depois de cada busca. Use o comando Atualizar o Homebrew na página Homebrew ou execute `brew update` no Terminal, e o Peel volta a saber se o app está atualizado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, iar Homebrew a căutat ultima dată versiuni noi %@. Peel ține cont de ce spune Homebrew doar timp de o zi după ce acesta caută versiuni noi. Actualizați Homebrew în pagina Homebrew sau rulați `brew update` în Terminal, iar Peel va putea spune din nou dacă aplicația este actualizată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», а Homebrew в последний раз проверял наличие новых версий %@. Peel учитывает то, что сообщает Homebrew, только в течение суток после такой проверки. Обновите Homebrew на странице Homebrew или выполните `brew update` в Терминале, и Peel снова сможет это определить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, och Homebrew letade senast efter nya versioner %@. Peel godtar Homebrews svar bara i ett dygn efter att Homebrew har letat efter nya versioner. Uppdatera Homebrew på sidan Homebrew, eller kör `brew update` i Terminal, så kan Peel avgöra det igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir ve Homebrew yeni sürümleri en son %@ denetledi. Peel, Homebrew’un söylediklerini yalnızca Homebrew’un denetiminden sonraki bir gün boyunca geçerli sayar. Peel’in bunu yeniden söyleyebilmesi için Homebrew sayfasında Homebrew’u güncelleyin veya Terminal’de `brew update` komutunu çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, а він востаннє перевіряв наявність нових версій %@. Peel враховує те, що повідомляє Homebrew, лише протягом доби після такої перевірки. Оновіть Homebrew на сторінці «Homebrew» або виконайте `brew update` у Терміналі, і Peel знову зможе це визначити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，而Homebrew上次检查新版本是在%@。Peel只在Homebrew检查后的一天内采用它给出的结果。在Homebrew页面上更新Homebrew，或在“终端”中运行`brew update`，Peel即可再次判断。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，而Homebrew上次檢查新版本是在%@。Peel只會在Homebrew檢查後的一天內採信它的說法。只要在「Homebrew」頁面上更新Homebrew，或在「終端機」中執行`brew update`，Peel就能再次判斷。"
+          }
+        }
+      }
+    },
+    "Only Homebrew can say whether %@ is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, ale Peel nedokáže zjistit, kdy Homebrew naposledy hledal nové verze, a proto nebere v úvahu to, co Homebrew uvádí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, aber Peel kann nicht erkennen, wann Homebrew zuletzt nach neuen Versionen gesucht hat, daher berücksichtigt Peel die Angaben von Homebrew nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew puede decir si %@ está actualizada, pero Peel no puede saber cuándo buscó Homebrew versiones nuevas por última vez, así que no tiene en cuenta lo que dice Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul Homebrew peut dire si %@ est à jour, mais Peel ne peut pas savoir quand Homebrew a recherché de nouvelles versions pour la dernière fois, et ne tient donc pas compte de ce que dit Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew può dire se %@ è aggiornata, ma Peel non può sapere quando Homebrew ha cercato nuove versioni per l’ultima volta, quindi non tiene conto di ciò che dice Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Peelは、Homebrewが最後にいつ新しいバージョンを確認したかを判断できないため、Homebrewの回答を採用しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Peel은 Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점을 알 수 없으므로 Homebrew의 응답을 반영하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, maar Peel kan niet nagaan wanneer Homebrew voor het laatst naar nieuwe versies heeft gezocht, dus telt Peel wat Homebrew zegt niet mee."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, ale Peel nie może określić, kiedy Homebrew ostatnio sprawdzał dostępność nowych wersji, więc nie uwzględnia tego, co podaje Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só o Homebrew pode dizer se %@ está atualizado, mas o Peel não consegue saber quando o Homebrew buscou novas versões pela última vez, então não leva em conta o que o Homebrew diz."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, dar Peel nu poate ști când a căutat Homebrew ultima dată versiuni noi, așa că nu ține cont de ce spune Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», но Peel не может определить, когда Homebrew в последний раз проверял наличие новых версий, и поэтому не учитывает то, что сообщает Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, men Peel kan inte se när Homebrew senast letade efter nya versioner, så Peel godtar inte Homebrews svar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir, ancak Peel, Homebrew’un yeni sürümleri en son ne zaman denetlediğini bilemiyor, bu yüzden Homebrew’un söylediklerini geçerli saymıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, але Peel не може визначити, коли Homebrew востаннє перевіряв наявність нових версій, тож не враховує того, що повідомляє Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，但Peel无法判断Homebrew上次检查新版本是在何时，因此不会采用Homebrew给出的结果。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但Peel無法判斷Homebrew上次檢查新版本的時間，因此不會採信Homebrew的說法。"
+          }
+        }
+      }
+    },
     "Only Preview and ColorSync Utility read this setting." : {
       "localizations" : {
         "cs" : {
