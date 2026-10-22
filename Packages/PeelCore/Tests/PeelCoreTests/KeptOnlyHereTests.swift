@@ -33,7 +33,17 @@ struct KeptOnlyHereTests {
             (".azure/msal_token_cache.json", .holdsSignIns), (".terraform.d/credentials.tfrc.json", .holdsSignIns),
         ]
         for (path, reason) in held {
-            #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == reason, "\(path)")
+            #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == reason, "\(path)")
+        }
+        let heldOnTheMac: [(String, HoldBack)] = [
+            ("Library/Application Support/ZeroTier", .holdsVPNConnections),
+            ("Library/Application Support/ZeroTier/One/identity.secret", .holdsVPNConnections),
+            ("Library/Application Support/Tunnelblick", .holdsVPNConnections),
+            ("Library/Application Support/Tunnelblick/Shared/Office.tblk", .holdsVPNConnections),
+            ("Library/Application Support/Tunnelblick/Backup/Deployed/Office.tblk", .holdsVPNConnections),
+        ]
+        for (path, reason) in heldOnTheMac {
+            #expect(KeptOnlyHere.reason(for: "/\(path)", home: home, root: "/") == reason, "\(path)")
         }
     }
 
@@ -49,8 +59,16 @@ struct KeptOnlyHereTests {
             ".docker/contexts", ".cargo/registry", ".config", ".local/share", ".terraform.d/plugins",
         ]
         for path in free {
-            #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home) == nil, "\(path)")
+            #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")
         }
-        #expect(KeptOnlyHere.reason(for: "/Users/someone/Library/Application Support/Signal", home: home) == nil)
+        let freeOnTheMac = [
+            "Library/Application Support/ZeroTier/Other", "Library/Application Support/Tunnelblick/Logs",
+            "Library/Application Support/Tunnelblick/Users/me", "Library/Application Support/Signal",
+        ]
+        for path in freeOnTheMac {
+            #expect(KeptOnlyHere.reason(for: "/\(path)", home: home, root: "/") == nil, "\(path)")
+        }
+        #expect(KeptOnlyHere.reason(for: "/Users/someone/Library/Application Support/Signal", home: home, root: "/") == nil)
+        #expect(KeptOnlyHere.reason(for: "\(home)/Library/Application Support/ZeroTier", home: home, root: "/") == nil)
     }
 }

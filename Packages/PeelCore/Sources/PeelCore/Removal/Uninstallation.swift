@@ -129,7 +129,8 @@ public struct Uninstallation: Sendable {
                         otherCopies: others.copies
                     ),
                     parent: ParentAccess(url.deletingLastPathComponent()),
-                    home: home.path(percentEncoded: false)
+                    home: home.path(percentEncoded: false),
+                    root: environment.rootDirectory.path(percentEncoded: false)
                 )
                 .heldBack(managedBy.leftBehind)
                 leftovers.append(exclusions.holds(url) ? leftover.heldBack(.holdsAnExclusion) : leftover)
@@ -165,7 +166,8 @@ public struct Uninstallation: Sendable {
                     kind: .receipts,
                     match: LeftoverMatch(reason: .installerReceipt, confidence: .certain, sharedWith: []),
                     parent: ParentAccess(url.deletingLastPathComponent()),
-                    home: environment.homeDirectory.path(percentEncoded: false)
+                    home: environment.homeDirectory.path(percentEncoded: false),
+                    root: environment.rootDirectory.path(percentEncoded: false)
                 ))
             }
         }
@@ -204,12 +206,14 @@ public struct Uninstallation: Sendable {
             return installed?.reference ?? Bundle(url: URL(filePath: target))?.bundleIdentifier ?? target
         })
         let home = environment.homeDirectory.path(percentEncoded: false)
+        let root = environment.rootDirectory.path(percentEncoded: false)
         let leftover = await LeftoverScanner.leftover(
             at: folder,
             kind: .homebrewReceipt,
             match: LeftoverMatch(reason: .homebrewReceipt, confidence: .certain, sharedWith: sharedWith.sorted()),
             parent: ParentAccess(folder.deletingLastPathComponent()),
-            home: home
+            home: home,
+            root: root
         )
         var leftovers = [exclusions.holds(folder) ? leftover.heldBack(.holdsAnExclusion) : leftover]
         let receipt = PathPattern.comparablePath(of: folder)
@@ -223,7 +227,8 @@ public struct Uninstallation: Sendable {
                         reason: .leadsIntoItsHomebrewReceipt, confidence: .certain, sharedWith: sharedWith.sorted()
                     ),
                     parent: ParentAccess(location.url),
-                    home: home
+                    home: home,
+                    root: root
                 ))
             }
         }
@@ -265,7 +270,8 @@ public struct Uninstallation: Sendable {
                     otherCopies: claims.flatMap(\.copies) + (own?.otherCopies ?? [])
                 ),
                 parent: ParentAccess(item.url.deletingLastPathComponent()),
-                home: environment.homeDirectory.path(percentEncoded: false)
+                home: environment.homeDirectory.path(percentEncoded: false),
+                root: environment.rootDirectory.path(percentEncoded: false)
             )
             leftovers.append(exclusions.holds(item.url) ? leftover.heldBack(.holdsAnExclusion) : leftover)
         }

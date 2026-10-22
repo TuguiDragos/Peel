@@ -1168,6 +1168,21 @@ struct OrphanScannerTests {
         #expect(items.map(\.heldBack) == [.holdsVPNConnections])
     }
 
+    @Test func aVPNsIdentityInTheMacsLibraryOfAnAppThatLeftSaysSo() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Application Support/ZeroTier/One/identity.secret")
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.zerotier", name: "ZeroTier", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/ZeroTier.app"
+        )
+
+        let items = await scanner(in: directory).scan(installedApps: installed, remembered: [gone]).groups
+            .flatMap(\.items)
+
+        #expect(items.map(\.url.lastPathComponent) == ["ZeroTier"])
+        #expect(items.map(\.heldBack) == [.holdsVPNConnections])
+    }
+
     /// As on an app's page, since the app's developer may still ask for the report.
     @Test func aCrashReportOfAnAppThatLeftIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()

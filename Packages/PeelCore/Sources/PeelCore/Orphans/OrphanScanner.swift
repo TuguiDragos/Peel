@@ -91,6 +91,7 @@ public struct OrphanScanner: Sendable {
 
         let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
+            let root = environment.rootDirectory.path(percentEncoded: false)
             // Safari's web app container is another app's container, which macOS asks about, and is read only for one
             // of its web apps.
             for location in environment.locations where location.kind != .safariWebApps {
@@ -102,8 +103,8 @@ public struct OrphanScanner: Sendable {
                     }
                     return (location, await Self.scan(
                         location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,
-                        goneNames: goneNames, goneFolders: goneFolders, home: home, exclusions: exclusions,
-                        nestedFolderLimit: nestedFolderLimit, walk: walk
+                        goneNames: goneNames, goneFolders: goneFolders, home: home, root: root,
+                        exclusions: exclusions, nestedFolderLimit: nestedFolderLimit, walk: walk
                     ))
                 }
             }
@@ -219,6 +220,7 @@ public struct OrphanScanner: Sendable {
         reach: HelperReach
     ) async -> [AdministratorItem] {
         let home = environment.homeDirectory.path(percentEncoded: false)
+        let root = environment.rootDirectory.path(percentEncoded: false)
         let installed = Set(installedApps.map { $0.reference.lowercased() })
         let merged = LeftForAnAdministrator.Record.merged(records)
         var seen: Set<ItemKey> = []
@@ -262,7 +264,7 @@ public struct OrphanScanner: Sendable {
             let item = Self.holdingBack(
                 Self.item(
                     at: url, kind: record.kind, contents: contents,
-                    parent: ParentAccess(url.deletingLastPathComponent()), home: home
+                    parent: ParentAccess(url.deletingLastPathComponent()), home: home, root: root
                 ),
                 beyond: reach
             )
@@ -647,6 +649,7 @@ public struct OrphanScanner: Sendable {
         goneNames: [String: String],
         goneFolders: GoneFolders,
         home: String,
+        root: String,
         exclusions: Exclusions,
         nestedFolderLimit: Int,
         walk: @escaping LeftoverScanner.Measure
@@ -727,7 +730,7 @@ public struct OrphanScanner: Sendable {
                 identifier: candidate.identifier,
                 item: item(
                     at: candidate.url, kind: location.kind, contents: contents, parent: candidate.parent, home: home,
-                    namedAfter: candidate.namedAfter, folder: candidate.folder
+                    root: root, namedAfter: candidate.namedAfter, folder: candidate.folder
                 )
             )
         }
@@ -746,6 +749,7 @@ public struct OrphanScanner: Sendable {
         contents: FolderContents?,
         parent: ParentAccess,
         home: String,
+        root: String,
         namedAfter: String? = nil,
         folder: ProductFolder? = nil
     ) -> OrphanItem {
@@ -761,7 +765,7 @@ public struct OrphanScanner: Sendable {
             .holdsALibrary
         } else if ProtectedData.holdsWorkKeptInACache(path) {
             .holdsWorkKeptInACache
-        } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home) {
+        } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home, root: root) {
             keptOnlyHere
         } else if folder?.holdsWork(at: url) == true {
             .holdsWorkMadeWithTheApp

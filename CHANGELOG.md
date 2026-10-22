@@ -75,6 +75,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - A sign-in a tool saved when you logged in, such as Docker's `config.json` or the folder of the Google Cloud CLI, is
   listed and never selected, since logging in again brings it back.
+- ZeroTier's identity on its networks and Tunnelblick's shared VPN configurations, both kept in
+  `/Library/Application Support`, are listed and never selected, like a VPN's connections in your home folder.
 
 #### Space
 

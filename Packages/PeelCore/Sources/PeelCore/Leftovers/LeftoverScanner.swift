@@ -102,6 +102,7 @@ public struct LeftoverScanner: Sendable {
             // container makes macOS ask for its data unless Peel has Full Disk Access.
             for location in environment.locations where location.kind != .safariWebApps || app.isASafariWebApp {
                 let home = environment.homeDirectory.path(percentEncoded: false)
+                let root = environment.rootDirectory.path(percentEncoded: false)
                 let bundle = PathPattern.comparablePath(of: app.url)
                 _ = group.addTaskUnlessCancelled {
                     [exclusions, measure, refuses, installedByApple, nestedFolderLimit] in
@@ -109,6 +110,7 @@ public struct LeftoverScanner: Sendable {
                         location,
                         matcher: matcher,
                         home: home,
+                        root: root,
                         bundle: bundle,
                         exclusions: exclusions,
                         measure: measure,
@@ -199,6 +201,7 @@ public struct LeftoverScanner: Sendable {
         _ location: SearchLocation,
         matcher: LeftoverMatcher,
         home: String,
+        root: String,
         bundle: String,
         exclusions: Exclusions,
         measure: @escaping Measure,
@@ -243,10 +246,11 @@ public struct LeftoverScanner: Sendable {
         }
 
         let taken = await withoutWhatAppleInstalled(toMeasure, home: home, installedByApple: installedByApple)
-        let leftovers = await measured(taken, kind: location.kind, home: home, measure: measure)
+        let leftovers = await measured(taken, kind: location.kind, home: home, root: root, measure: measure)
         let inside = await nested(
-            in: nobodysFolders, of: location, matcher: matcher, home: home, bundle: bundle, exclusions: exclusions,
-            measure: measure, refuses: refuses, installedByApple: installedByApple, limit: nestedFolderLimit
+            in: nobodysFolders, of: location, matcher: matcher, home: home, root: root, bundle: bundle,
+            exclusions: exclusions, measure: measure, refuses: refuses, installedByApple: installedByApple,
+            limit: nestedFolderLimit
         )
         return .found(
             leftovers + inside.found, cutShort: inside.wasCutShort ? location : nil,
@@ -261,6 +265,7 @@ public struct LeftoverScanner: Sendable {
         of location: SearchLocation,
         matcher: LeftoverMatcher,
         home: String,
+        root: String,
         bundle: String,
         exclusions: Exclusions,
         measure: @escaping Measure,
@@ -294,7 +299,7 @@ public struct LeftoverScanner: Sendable {
             return .lookInside
         }
         let taken = await withoutWhatAppleInstalled(search.found, home: home, installedByApple: installedByApple)
-        let found = await measured(taken, kind: kind, home: home, measure: measure)
+        let found = await measured(taken, kind: kind, home: home, root: root, measure: measure)
         // A program keeps its files in a folder named by its identifier (Apple's File System Programming Guide), so
         // one the app has no claim on holds none of its files, even where Peel can't look inside.
         let unreadable = search.unreadable.filter { folder in
@@ -351,11 +356,11 @@ public struct LeftoverScanner: Sendable {
 
     /// Measures what one location found, a few at a time, and keeps the order it was found in.
     private static func measured(
-        _ found: [Found], kind: SearchLocation.Kind, home: String, measure: @escaping Measure
+        _ found: [Found], kind: SearchLocation.Kind, home: String, root: String, measure: @escaping Measure
     ) async -> [Leftover] {
         await found.concurrentMap(width: concurrentMeasurements) { item in
             await leftover(
-                at: item.url, kind: kind, match: item.match, parent: item.parent, home: home,
+                at: item.url, kind: kind, match: item.match, parent: item.parent, home: home, root: root,
                 foldersAbove: item.foldersAbove, measure: measure
             )
         }
@@ -369,6 +374,7 @@ public struct LeftoverScanner: Sendable {
         match: LeftoverMatch,
         parent: ParentAccess,
         home: String,
+        root: String,
         foldersAbove: FoldersAbove = .itsOwn,
         measure: Measure = LeftoverScanner.walk,
         syncsToOtherDevices: (URL) -> Bool = SyncedFolders().syncsToOtherDevices
@@ -393,7 +399,9 @@ public struct LeftoverScanner: Sendable {
             .holdsWorkKeptInACache
         } else if syncsToOtherDevices(url) {
             .inTheCloud
-        } else if let keptOnlyHere = KeptOnlyHere.reason(for: url.path(percentEncoded: false), home: home) {
+        } else if let keptOnlyHere = KeptOnlyHere.reason(
+            for: url.path(percentEncoded: false), home: home, root: root
+        ) {
             keptOnlyHere
         } else if contents?.couldNotBeRead == true {
             .couldNotBeRead

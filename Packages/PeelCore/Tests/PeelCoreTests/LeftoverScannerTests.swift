@@ -709,6 +709,26 @@ struct LeftoverScannerTests {
         #expect(Set(scan.unreadableLocations.map(\.url.lastPathComponent)) == ["net.example.shared", "Shared Data"])
     }
 
+    @Test func aVPNsIdentityAndItsSharedConnectionsInTheMacsLibraryAreNotSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Application Support/ZeroTier/One/identity.secret")
+        try directory.file("root/Library/Application Support/Tunnelblick/Shared/Office.tblk/Contents/Resources/config.ovpn")
+        let zeroTier = InstalledApp(
+            url: URL(filePath: "/Applications/ZeroTier.app"), bundleIdentifier: "org.example.zerotier", name: "ZeroTier"
+        )
+        let tunnelblick = InstalledApp(
+            url: URL(filePath: "/Applications/Tunnelblick.app"), bundleIdentifier: "org.example.tunnelblick",
+            name: "Tunnelblick"
+        )
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        for app in [zeroTier, tunnelblick] {
+            let leftovers = await scanner.scan(app, installedApps: [zeroTier, tunnelblick]).leftovers
+            #expect(leftovers.map(\.url.lastPathComponent) == [app.name])
+            #expect(leftovers.map(\.match.heldBack) == [.holdsVPNConnections])
+        }
+    }
+
     @Test(.permissionsHold) func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/LaunchDaemons/net.example.client.helper.plist")
@@ -1147,6 +1167,7 @@ struct LeftoverScannerTests {
             match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
             parent: ParentAccess(folder.deletingLastPathComponent()),
             home: directory.url.appending(path: "home").path(percentEncoded: false),
+            root: directory.url.appending(path: "root").path(percentEncoded: false),
             measure: { _ in FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
         )
 
@@ -1172,6 +1193,7 @@ struct LeftoverScannerTests {
                 match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
                 parent: ParentAccess(url.deletingLastPathComponent()),
                 home: directory.url.appending(path: "home").path(percentEncoded: false),
+                root: directory.url.appending(path: "root").path(percentEncoded: false),
                 measure: unread
             )
         }
@@ -1191,6 +1213,7 @@ struct LeftoverScannerTests {
                 match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
                 parent: ParentAccess(url.deletingLastPathComponent()),
                 home: directory.url.appending(path: "home").path(percentEncoded: false),
+                root: directory.url.appending(path: "root").path(percentEncoded: false),
                 syncsToOtherDevices: { $0.lastPathComponent == "Example" }
             )
         }
@@ -1212,7 +1235,8 @@ struct LeftoverScannerTests {
                 kind: .elsewhere,
                 match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
                 parent: ParentAccess(url.deletingLastPathComponent()),
-                home: directory.url.appending(path: "home").path(percentEncoded: false)
+                home: directory.url.appending(path: "home").path(percentEncoded: false),
+                root: directory.url.appending(path: "root").path(percentEncoded: false)
             )
         }
 

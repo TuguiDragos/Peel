@@ -68,13 +68,26 @@ enum KeptOnlyHere {
         (".terraform.d", "credentials.tfrc.json", .holdsSignIns),
     ]
 
-    static func reason(for path: String, home: String) -> HoldBack? {
+    /// The same, in the Library every account on the Mac shares.
+    static let localPlaces: [(folder: String, inside: String?, reason: HoldBack)] = [
+        // ZeroTier's "How to clear or reset your ZeroTier address": the node's identity is in this working folder,
+        // and a new one has to be authorized again on every network.
+        ("Library/Application Support/ZeroTier", "One", .holdsVPNConnections),
+        // Tunnelblick's "File Locations": shared configurations, and the backups of the configurations deployed
+        // inside the app.
+        ("Library/Application Support/Tunnelblick", "Shared", .holdsVPNConnections),
+        ("Library/Application Support/Tunnelblick", "Backup", .holdsVPNConnections),
+    ]
+
+    static func reason(for path: String, home: String, root: String) -> HoldBack? {
         let item = PathComponents.of(path.lowercased())
-        let home = (home as NSString).standardizingPath
-        for (folder, inside, reason) in places {
-            let folder = PathComponents.of((home as NSString).appendingPathComponent(folder).lowercased())
-            let place = folder + (inside.map { PathComponents.of($0.lowercased()) } ?? [])
-            if item.starts(with: place) || item == folder { return reason }
+        for (base, list) in [(home, places), (root, localPlaces)] {
+            let base = (base as NSString).standardizingPath
+            for (folder, inside, reason) in list {
+                let folder = PathComponents.of((base as NSString).appendingPathComponent(folder).lowercased())
+                let place = folder + (inside.map { PathComponents.of($0.lowercased()) } ?? [])
+                if item.starts(with: place) || item == folder { return reason }
+            }
         }
         // What an app names as its backups is a copy the person may need, whichever app made it.
         let words = (item.last ?? "").split { !$0.isLetter }
