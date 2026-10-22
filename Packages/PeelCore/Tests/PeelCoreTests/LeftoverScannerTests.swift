@@ -1984,6 +1984,19 @@ struct LeftoverScannerTests {
         #expect(manifests["com.example.bridge.json"]?.match.isRecommended == true)
     }
 
+    @Test func anOfficeSuitesUserProfileIsNotSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/LibreOffice/4/user/template/Letter.ott")
+        let suite = InstalledApp(
+            url: URL(filePath: "/Applications/LibreOffice.app"), bundleIdentifier: "org.example.office",
+            name: "LibreOffice"
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(suite, installedApps: [suite])
+
+        #expect(scan.leftovers.map(\.match.heldBack) == [.holdsWorkMadeWithTheApp])
+    }
+
     @Test func aTorrentClientsListOfTorrentsIsNotSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Transmission/resume/Example.1a2b3c4d.resume")

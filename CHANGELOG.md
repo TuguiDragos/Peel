@@ -83,6 +83,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   selected, like one holding a KeePass database, and the pages that measure folders hold it back too.
 - A torrent client's list of torrents and how far each one got, as Transmission, qBittorrent, BiglyBT, Deluge, Motrix,
   and WebTorrent keep them, is listed and never selected: without it the app forgets every transfer.
+- The user profile of LibreOffice and Apache OpenOffice, with your own templates, AutoText, dictionaries, and the
+  automatic backups of your documents, is listed and never selected.
 
 #### Space
 

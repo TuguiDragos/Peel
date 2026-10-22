@@ -29,6 +29,9 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Example/Backups", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/obs-studio", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/obs-studio/basic/scenes/Untitled.json", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/LibreOffice", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/LibreOffice/4/user/basic/Standard/Module1.xba", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/OpenOffice/4/user/template/Letter.ott", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Transmission", .holdsTorrents),
             ("Library/Application Support/Transmission/Transfers.plist", .holdsTorrents),
             ("Library/Application Support/qBittorrent", .holdsTorrents),
@@ -71,6 +74,7 @@ struct KeptOnlyHereTests {
             ".docker/contexts", ".cargo/registry", ".config", ".local/share", ".terraform.d/plugins",
             "Library/Application Support/qBittorrent/logs", "Library/Caches/qBittorrent", ".config/deluge/plugins",
             "Library/Application Support/Motrix/dht.dat", "Library/Application Support/WebTorrent/Posters",
+            "Library/Caches/LibreOffice", "Library/Application Support/LibreOffice Beta",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")

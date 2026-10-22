@@ -52,6 +52,11 @@ enum KeptOnlyHere {
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
         // (`frontend/OBSApp.cpp`), and nowhere else.
         ("Library/Application Support/obs-studio", "basic", .holdsWorkMadeWithTheApp),
+        // The user profile of LibreOffice and Apache OpenOffice (`UserInstallation` in their sources, `<name>/4` here
+        // on a Mac). LibreOffice Help's "Paths": the person's own templates, AutoText, AutoCorrect texts and
+        // dictionaries, and the automatic backup copies of documents.
+        ("Library/Application Support/LibreOffice", nil, .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/OpenOffice", nil, .holdsWorkMadeWithTheApp),
         // Torrent clients keep each torrent added and how far it got apart from what it downloaded, and forget every
         // transfer without them. Transmission's "Configuration Files": `torrents`, `resume` and the Mac app's
         // `Transfers.plist`, in this folder.
