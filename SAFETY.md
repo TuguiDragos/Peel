@@ -375,10 +375,11 @@ Never selected for you, even when found:
 - A project changed in the last 7 days, and a download that changed in the last day, which may still be going.
 - A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`,
   a 1Password vault kept outside an account, `.opvault` or `.agilekeychain`) inside.
-- What an app keeps that may exist only on this Mac: local mail, message history, a password manager's backups and an
-  authenticator's codes, VPN connections, a game's saves, a database, a streaming app's scenes and profiles, and the
-  sign-in a tool saved when you logged in, such as Docker's or Cargo's, each where the app's own documentation or
-  source says it keeps them, and anything named as an app's backups. When you
+- What an app keeps that may exist only on this Mac: local mail, message history, a password manager's vaults and
+  backups and an authenticator's codes, VPN connections and identities, a torrent client's list of torrents, a game's
+  saves, a database, a streaming app's scenes and profiles, an office suite's own templates and dictionaries, a
+  terminal's scripts and profiles, and the sign-in a tool saved when you logged in, such as Docker's or Cargo's, each
+  where the app's own documentation or source says it keeps them, and anything named as an app's backups. When you
   uninstall Xcode, the simulators it made in your home folder are listed too, with the apps installed in them and their
   data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
