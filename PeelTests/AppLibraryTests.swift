@@ -311,4 +311,46 @@ private nonisolated final class TestClock: Sendable {
         await round.value
         #expect(library.shownUpdateStatus(of: app)?.version == "2.0", "the feed was asked with what Homebrew said before")
     }
+
+    @Test func withTheAppsOwnFeedPreferredHomebrewAnswersForAnAppWithNoFeed() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Tool", in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        made.defaults.set(UpdateSource.developer.rawValue, forKey: SettingsKey.updateSource)
+        let clock = TestClock(homebrewChecked + 60 * 60)
+        let library = library(with: made.defaults, notesIn: folder, clock: clock)
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.tool" })
+        library.loadHomebrewCasks([cask("Tool", checked: homebrewChecked)], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+
+        library.loadHomebrewCasks([cask("Tool", latest: "2.0", checked: homebrewChecked)], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "2.0")
+
+        clock.set(homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        library.loadHomebrewCasks([cask("Tool", checked: homebrewChecked)], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app) == .unsupported)
+    }
+
+    @Test func aFeedThatFailedGivesWayToWhatHomebrewKnowsOnceHomebrewIsRead() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        made.defaults.set(UpdateSource.developer.rawValue, forKey: SettingsKey.updateSource)
+        AppcastProtocol.body.withLock { $0 = Data() }
+        let library = library(with: made.defaults, notesIn: folder, clock: TestClock(homebrewChecked + 60 * 60))
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app) == .failed)
+
+        library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+    }
 }

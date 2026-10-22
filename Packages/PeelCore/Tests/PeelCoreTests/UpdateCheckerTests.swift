@@ -230,7 +230,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
 
         #expect(recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: current) == .upToDate)
         #expect(later.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: current) == .unsupported)
-        #expect(later.statusWithoutAsking(for: feedlessApp, preference: .developer, casks: outdated) == .unsupported)
+        #expect(later.statusWithoutAsking(for: feedlessApp, preference: .developer, casks: outdated) == update)
         #expect(later.statusWithoutAsking(for: fedApp, preference: .automatic, casks: outdated) == update)
         #expect(recent.statusWithoutAsking(for: fedApp, preference: .automatic, casks: current) == nil, "feed first")
         #expect(recent.statusWithoutAsking(for: fedApp, preference: .homebrew, casks: current) == .upToDate)
@@ -253,10 +253,58 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
             later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: outdated) == nil,
             "an update Homebrew knows of is an answer"
         )
-        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .developer, casks: current) == nil)
-        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .appStore, casks: current) == nil)
+        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .developer, casks: current)?.name == "example")
+        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .appStore, casks: current)?.name == "example")
+        #expect(later.caskNotCheckedRecently(for: soldApp, preference: .appStore, casks: current) == nil, "Apple asked")
         #expect(later.caskNotCheckedRecently(for: fedApp, preference: .automatic, casks: current) == nil, "its feed")
         #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: []) == nil)
+    }
+
+    private var soldApp: InstalledApp {
+        InstalledApp(
+            url: feedlessApp.url, bundleIdentifier: feedlessApp.bundleIdentifier, name: feedlessApp.name,
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.mac)
+        )
+    }
+
+    @Test func everyPreferenceTurnsToHomebrewOnceItsOwnSourceCanNotAnswer() async {
+        let recent = checking(at: homebrewChecked + 60 * 60)
+        let later = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        let current = [cask(checked: homebrewChecked)]
+        let outdated = [cask(latest: "2.0", checked: homebrewChecked)]
+        let update = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew, releaseNotes: nil)
+        reply("nowhere.example.com", "")
+
+        #expect(await recent.status(for: feedlessApp, preference: .developer, casks: current) == .upToDate)
+        #expect(await recent.status(for: feedlessApp, preference: .appStore, casks: current) == .upToDate)
+        #expect(await recent.status(for: feedlessApp, preference: .developer, casks: outdated) == update)
+        #expect(await later.status(for: feedlessApp, preference: .developer, casks: current) == .unsupported)
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
+
+        reply("feed.example.com", status: 500, "")
+        #expect(await recent.status(for: fedApp, preference: .developer, casks: current) == .upToDate)
+
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"100\" sparkle:shortVersionString=\"1.0\" /></item>"))
+        #expect(await recent.status(for: fedApp, preference: .developer, casks: outdated) == .upToDate, "its feed first")
+        #expect(await recent.status(for: fedApp, preference: .automatic, casks: outdated) == update)
+    }
+
+    @Test func aSourceThatHadNoAnswerGivesWayToWhatHomebrewKnowsNow() {
+        let recent = checking(at: homebrewChecked + 60 * 60)
+        let later = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        let current = [cask(checked: homebrewChecked)]
+        let found = UpdateStatus.updateAvailable(version: "1.1", source: .developer, releaseNotes: nil)
+        let decided = { (checker: UpdateChecker, preference: UpdateSource, known: UpdateStatus?) in
+            checker.statusWithoutAsking(for: fedApp, preference: preference, casks: current, known: known)
+        }
+
+        #expect(decided(recent, .developer, .failed) == .upToDate)
+        #expect(decided(recent, .appStore, .unsupported) == .upToDate)
+        #expect(decided(recent, .automatic, .failed) == .upToDate)
+        #expect(decided(recent, .developer, .upToDate) == nil)
+        #expect(decided(recent, .developer, found) == nil)
+        #expect(decided(recent, .developer, nil) == nil)
+        #expect(decided(later, .developer, .failed) == nil)
     }
 
     @Test func aMacAppReadsNoIPhoneRecord() async {

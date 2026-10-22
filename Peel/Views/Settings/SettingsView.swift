@@ -243,7 +243,7 @@ private struct GeneralSettingsView: View {
                     .accessibilityLabel(Text("Prefer updates from"))
                 } label: {
                     titled("Prefer updates from",
-                           "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. When the source you prefer can’t answer for an app, its own feed does.")
+                           "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed.")
                 }
                 .disabled(!checksForAppUpdates)
                 .onChange(of: updateSource) { _, _ in

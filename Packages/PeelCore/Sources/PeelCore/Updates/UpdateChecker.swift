@@ -75,52 +75,52 @@ public struct UpdateChecker: Sendable {
         if let status = Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrew) {
             return UpdateAnswer(status: status)
         }
-        switch preference {
-        case .homebrew, .developer:
-            return await feedAnswer(for: app, earlier: earlier)
-        case .appStore:
-            // Even with this preference, Apple is asked only about apps from the App Store. Any other app is
-            // checked through its own feed, or not at all.
-            return app.isFromAppStore
-                ? await appStoreAnswer(for: app, earlier: earlier) : await feedAnswer(for: app, earlier: earlier)
-        case .automatic:
-            // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
-            let feed = await feedAnswer(for: app, earlier: earlier)
-            if let homebrew, feed.status == .unsupported || feed.status == .failed {
-                return UpdateAnswer(status: homebrew, developer: feed.developer)
-            }
-            return feed
+        // Even with the App Store preferred, Apple is asked only about apps from the App Store. Any other app is
+        // checked through its own feed, or not at all.
+        let own = preference == .appStore && app.isFromAppStore
+            ? await appStoreAnswer(for: app, earlier: earlier) : await feedAnswer(for: app, earlier: earlier)
+        // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
+        if let homebrew, own.status == .unsupported || own.status == .failed {
+            return UpdateAnswer(status: homebrew, developer: own.developer)
         }
+        return own
     }
 
     /// The status `answer(for:preference:casks:earlier:)` gives `app` without asking any server, from Homebrew's
     /// casks and the app's own files alone, or nil when the app's own feed or the App Store has to be asked.
+    /// `known` is the answer shown now: when it says the app's own source had no answer, what Homebrew knows now
+    /// answers in its place, as a check would.
     public func statusWithoutAsking(
-        for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
+        for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage], known: UpdateStatus? = nil
     ) -> UpdateStatus? {
-        Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrewStatus(for: app, casks: casks))
+        let homebrew = homebrewStatus(for: app, casks: casks)
+        if let status = Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrew) {
+            return status
+        }
+        return known == .unsupported || known == .failed ? homebrew : nil
     }
 
     private static func statusWithoutAsking(
         for app: InstalledApp, preference: UpdateSource, homebrew: UpdateStatus?
     ) -> UpdateStatus? {
-        // An app whose bundle names no version, or no feed, has nothing to ask.
-        let hasNobodyToAsk = app.version == nil || app.updateFeed == nil
+        let asksNobody = asksNobody(about: app, preference: preference)
         switch preference {
         case .homebrew:
             // A cask Homebrew knows but never installed says nothing about this app's version, and neither does one
             // Homebrew can't tell about, so the app's own feed answers then instead of a false "up to date".
-            return homebrew ?? (hasNobodyToAsk ? .unsupported : nil)
-        case .automatic:
-            if case .updateAvailable = homebrew { return homebrew }
+            return homebrew ?? (asksNobody ? .unsupported : nil)
+        case .automatic, .developer, .appStore:
+            if preference == .automatic, case .updateAvailable = homebrew { return homebrew }
             // An app from a cask may have no feed of its own: what Homebrew knows is used rather than "Can't check
             // for updates".
-            return hasNobodyToAsk ? homebrew ?? .unsupported : nil
-        case .developer:
-            return hasNobodyToAsk ? .unsupported : nil
-        case .appStore:
-            return hasNobodyToAsk && !app.isFromAppStore ? .unsupported : nil
+            return asksNobody ? homebrew ?? .unsupported : nil
         }
+    }
+
+    /// Whether a check of `app` has no server to ask: its bundle names no version or no feed, and it isn't an app
+    /// from the App Store with the App Store preferred.
+    private static func asksNobody(about app: InstalledApp, preference: UpdateSource) -> Bool {
+        (app.version == nil || app.updateFeed == nil) && !(preference == .appStore && app.isFromAppStore)
     }
 
     /// Homebrew's answer for `app`, found without a network request, or nil when Homebrew did not install this copy
@@ -148,7 +148,7 @@ public struct UpdateChecker: Sendable {
     public func caskNotCheckedRecently(
         for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
     ) -> HomebrewPackage? {
-        guard preference == .automatic || preference == .homebrew, app.version == nil || app.updateFeed == nil,
+        guard Self.asksNobody(about: app, preference: preference),
               let cask = CaskEvidence.installedCask(for: app, in: casks)
         else { return nil }
         return Self.homebrewStatus(of: cask, at: clock()) == nil ? cask : nil

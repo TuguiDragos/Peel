@@ -19156,108 +19156,108 @@
         }
       }
     },
-    "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. When the source you prefer can’t answer for an app, its own feed does." : {
+    "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Volba Automaticky se u aplikace nainstalované přes Homebrew ptá nejprve Homebrew, potom vlastního kanálu aplikace nebo App Storu. Když zdroj, kterému dáváte přednost, za aplikaci odpovědět nemůže, odpoví její vlastní kanál."
+            "value" : "Volba Automaticky se u aplikace nainstalované přes Homebrew ptá nejprve Homebrew, potom vlastního kanálu aplikace nebo App Storu. Jakákoli jiná volba řadí na první místo zdroj, kterému dáváte přednost, potom vlastní kanál aplikace a nakonec Homebrew u aplikace, kterou nainstaloval."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„Automatisch“ fragt bei einer von Homebrew installierten App zuerst Homebrew, dann den eigenen Feed der App oder den App Store. Wenn die bevorzugte Quelle für eine App keine Antwort geben kann, antwortet stattdessen der eigene Feed der App."
+            "value" : "„Automatisch“ fragt bei einer von Homebrew installierten App zuerst Homebrew, dann den eigenen Feed der App oder den App Store. Bei jeder anderen Option kommt zuerst die bevorzugte Quelle, dann der eigene Feed der App und bei einer von Homebrew installierten App zuletzt Homebrew."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La opción Automático pregunta primero a Homebrew por una app instalada con Homebrew, y después al canal de la propia app o a App Store. Cuando el origen que prefieres no puede responder por una app, responde su propio canal."
+            "value" : "La opción Automático pregunta primero a Homebrew por una app instalada con Homebrew, y después al canal de la propia app o a App Store. Cualquier otra opción pone primero el origen que prefieres, después el canal de la propia app y luego Homebrew en el caso de una app instalada con él."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "« Automatique » interroge d’abord Homebrew pour une app installée par Homebrew, puis le flux propre à l’app ou l’App Store. Lorsque la source que vous préférez ne peut pas répondre pour une app, c’est le flux propre à l’app qui répond."
+            "value" : "« Automatique » interroge d’abord Homebrew pour une app installée par Homebrew, puis le flux propre à l’app ou l’App Store. Tout autre choix place en premier la source que vous préférez, puis le flux propre à l’app, puis Homebrew pour une app qu’il a installée."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Automatico” chiede prima a Homebrew di un’app installata da Homebrew, poi al feed dell’app o ad App Store. Quando la fonte che preferisci non può rispondere per un’app, risponde il feed dell’app stessa."
+            "value" : "“Automatico” chiede prima a Homebrew di un’app installata da Homebrew, poi al feed dell’app o ad App Store. Qualsiasi altra scelta mette al primo posto la fonte che preferisci, poi il feed dell’app, poi Homebrew per un’app installata da Homebrew."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“自動”では、Homebrewでインストールしたアプリについては最初にHomebrewに問い合わせ、次にアプリ独自のフィードまたはApp Storeに問い合わせます。優先するアップデート元がアプリについて応答できない場合は、アプリ独自のフィードが応答します。"
+            "value" : "“自動”では、Homebrewでインストールしたアプリについては最初にHomebrewに問い合わせ、次にアプリ独自のフィードまたはApp Storeに問い合わせます。それ以外の選択肢では、優先するアップデート元、アプリ独自のフィードの順に問い合わせ、Homebrewでインストールしたアプリについては最後にHomebrewに問い合わせます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘자동’은 Homebrew가 설치한 앱에 대해 먼저 Homebrew에 묻고, 그다음 앱 자체 피드나 App Store에 묻습니다. 선호하는 출처가 어떤 앱에 대해 응답할 수 없으면 그 앱의 자체 피드가 응답합니다."
+            "value" : "‘자동’은 Homebrew가 설치한 앱에 대해 먼저 Homebrew에 묻고, 그다음 앱 자체 피드나 App Store에 묻습니다. 다른 항목을 선택하면 선호하는 출처에 먼저 묻고, 그다음 앱 자체 피드에, 그다음 Homebrew가 설치한 앱에 대해서는 Homebrew에 묻습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "'Automatisch' vraagt bij een app die Homebrew heeft geïnstalleerd eerst Homebrew, en daarna de eigen feed van de app of de App Store. Als de bron van je voorkeur geen antwoord kan geven voor een app, doet de eigen feed van die app dat."
+            "value" : "'Automatisch' vraagt bij een app die Homebrew heeft geïnstalleerd eerst Homebrew, en daarna de eigen feed van de app of de App Store. Bij elke andere keuze komt eerst de bron van je voorkeur, daarna de eigen feed van de app en dan Homebrew bij een app die ermee is geïnstalleerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opcja Automatycznie najpierw pyta Homebrew o aplikację zainstalowaną przez Homebrew, a potem kanał aplikacji lub App Store. Gdy preferowane źródło nie może odpowiedzieć w sprawie aplikacji, odpowiada jej własny kanał."
+            "value" : "Opcja Automatycznie najpierw pyta Homebrew o aplikację zainstalowaną przez Homebrew, a potem kanał aplikacji lub App Store. Każda inna opcja stawia na pierwszym miejscu preferowane źródło, potem kanał aplikacji, a potem Homebrew w przypadku aplikacji, którą zainstalował."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A opção Automático pergunta primeiro ao Homebrew sobre um app que o Homebrew instalou, depois ao feed do próprio app ou à App Store. Quando a fonte que você prefere não consegue responder por um app, o feed do próprio app responde."
+            "value" : "A opção Automático pergunta primeiro ao Homebrew sobre um app que o Homebrew instalou, depois ao feed do próprio app ou à App Store. Qualquer outra opção coloca primeiro a fonte que você prefere, depois o feed do próprio app e depois o Homebrew no caso de um app que ele instalou."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opțiunea „Automat” întreabă mai întâi Homebrew despre o aplicație instalată de Homebrew, apoi fluxul propriu al aplicației sau App Store. Când sursa preferată nu poate răspunde pentru o aplicație, răspunde fluxul propriu al acesteia."
+            "value" : "Opțiunea „Automat” întreabă mai întâi Homebrew despre o aplicație instalată de Homebrew, apoi fluxul propriu al aplicației sau App Store. Orice altă opțiune pune sursa preferată pe primul loc, apoi fluxul propriu al aplicației, apoi Homebrew pentru o aplicație instalată de acesta."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В режиме «Автоматически» Peel сначала спрашивает Homebrew о приложениях, установленных через Homebrew, а затем ленту самого приложения или App Store. Если предпочитаемый источник не может ответить о приложении, отвечает его собственная лента."
+            "value" : "В режиме «Автоматически» Peel сначала спрашивает Homebrew о приложениях, установленных через Homebrew, а затем ленту самого приложения или App Store. При выборе любого другого варианта Peel сначала спрашивает предпочитаемый источник, затем ленту самого приложения, а затем Homebrew о приложениях, установленных через него."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Med Automatiskt tillfrågas först Homebrew om en app som Homebrew har installerat, och därefter appens eget flöde eller App Store. När källan du föredrar inte kan svara för en app svarar appens eget flöde."
+            "value" : "Med Automatiskt tillfrågas först Homebrew om en app som Homebrew har installerat, och därefter appens eget flöde eller App Store. Med alla andra val kommer källan du föredrar först, därefter appens eget flöde och sist Homebrew för en app som Homebrew har installerat."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otomatik, Homebrew’un yüklediği bir uygulama için önce Homebrew’a, sonra uygulamanın kendi akışına veya App Store’a sorar. Tercih ettiğiniz kaynak bir uygulama için yanıt veremediğinde, yanıtı uygulamanın kendi akışı verir."
+            "value" : "Otomatik, Homebrew’un yüklediği bir uygulama için önce Homebrew’a, sonra uygulamanın kendi akışına veya App Store’a sorar. Diğer seçenekler ise tercih ettiğiniz kaynağı ilk sıraya koyar; ardından uygulamanın kendi akışı, sonra da Homebrew’un yüklediği bir uygulama için Homebrew gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "«Автоматично» спершу запитує Homebrew про програму, яку інсталював Homebrew, а потім власну стрічку програми або App Store. Коли вибране вами джерело не може відповісти щодо програми, відповідає її власна стрічка."
+            "value" : "«Автоматично» спершу запитує Homebrew про програму, яку інсталював Homebrew, а потім власну стрічку програми або App Store. Будь-який інший варіант ставить на перше місце вибране вами джерело, потім власну стрічку програми, а потім Homebrew для програми, яку він інсталював."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择“自动”时，对于由Homebrew安装的App，会先询问Homebrew，然后询问App自己的更新源或App Store。如果你首选的来源无法提供某个App的更新信息，则改为询问该App自己的更新源。"
+            "value" : "选择“自动”时，对于由Homebrew安装的App，会先询问Homebrew，然后询问App自己的更新源或App Store。选择其他选项时，会先询问你首选的来源，然后询问App自己的更新源，对于由Homebrew安装的App，最后询问Homebrew。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「自動」會先向Homebrew查詢由Homebrew安裝的App，再查詢App自己的Feed或App Store。當你偏好的來源無法回答某個App的更新時，就改由它自己的Feed回答。"
+            "value" : "「自動」會先向Homebrew查詢由Homebrew安裝的App，再查詢App自己的Feed或App Store。其他選項則會先查詢你偏好的來源，再查詢App自己的Feed，最後才向Homebrew查詢由它安裝的App。"
           }
         }
       }

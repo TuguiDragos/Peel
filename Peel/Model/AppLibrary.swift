@@ -587,7 +587,9 @@ final class AppLibrary {
                 // Homebrew may have been read again while this answer was on its way: its casks decide where they can.
                 let status = casks == self.casks
                     ? answer.status
-                    : checker.statusWithoutAsking(for: app, preference: preference, casks: self.casks) ?? answer.status
+                    : checker.statusWithoutAsking(
+                        for: app, preference: preference, casks: self.casks, known: answer.status
+                    ) ?? answer.status
                 let kept = status.following(updateStatuses[id])
                 // Any write redraws the whole Applications list, so an answer that changes nothing is not written.
                 if updateStatuses[id] != kept {
@@ -798,24 +800,17 @@ final class AppLibrary {
         UpdateMemoryStore.save(memory, to: defaults)
     }
 
-    /// Shows for each app Homebrew installed what a check would answer now without asking any server, from Homebrew's
-    /// casks and the app's own files. Reading Homebrew costs no network request, so this doesn't wait for the update
-    /// schedule, and Applications agrees with the Homebrew page. A check never asks Homebrew while the app's own feed
-    /// or the App Store is preferred: then only an update Homebrew knows of fills in for an app whose own check has
-    /// nothing, a failure, or no feed to ask.
+    /// Shows for each app Homebrew installed what a check would answer now without asking any server: what
+    /// Homebrew's casks and the app's own files decide, and what Homebrew knows where the app's own source had no
+    /// answer. Reading Homebrew costs no network request, so this doesn't wait for the update schedule, and
+    /// Applications agrees with the Homebrew page.
     private func applyHomebrewStatuses() {
         let preference = updateSource
         for app in apps where homebrewApps[app.id] != nil && isAskedAboutUpdates(app) {
             let known = updateStatuses[app.id]
-            let decided: UpdateStatus?
-            switch preference {
-            case .automatic, .homebrew:
-                decided = updateChecker.statusWithoutAsking(for: app, preference: preference, casks: casks)
-            case .developer, .appStore:
-                let homebrew = updateChecker.homebrewStatus(for: app, casks: casks)
-                let hasNoAnswer = known == nil || known == .failed || known == .unsupported
-                decided = hasNoAnswer && homebrew?.version != nil ? homebrew : nil
-            }
+            let decided = updateChecker.statusWithoutAsking(
+                for: app, preference: preference, casks: casks, known: known
+            )
             guard let decided, decided != known else { continue }
             updateStatuses[app.id] = decided
         }
