@@ -104,6 +104,30 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: sparkleApp()) == .upToDate)
     }
 
+    @Test func asksNothingAboutAnAppFromSetapp() async throws {
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"200\" sparkle:shortVersionString=\"2.0\" /></item>"))
+        func inspected(_ identifier: String, in directory: borrowing TemporaryDirectory) throws -> InstalledApp {
+            let info = [
+                "CFBundleIdentifier": identifier, "CFBundleShortVersionString": "1.0", "CFBundleVersion": "100",
+                "SUFeedURL": "https://feed.example.com/appcast.xml",
+            ]
+            let data = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            try data.write(to: directory.file("Sample.app/Contents/Info.plist"))
+            return try #require(AppInspector.inspect(directory.url.appending(path: "Sample.app")))
+        }
+
+        let fromSetapp = try TemporaryDirectory()
+        #expect(await checker.status(for: try inspected("org.example.Sample-setapp", in: fromSetapp)) == .unsupported)
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
+
+        let sold = try TemporaryDirectory()
+        #expect(
+            await checker.status(for: try inspected("org.example.Sample", in: sold))
+                == .updateAvailable(version: "2.0", source: .developer, releaseNotes: nil)
+        )
+        #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com"])
+    }
+
     /// Only a 200 is an answer, and what is not an appcast is a failed check.
     @Test func readsOnlyAProperAnswer() async {
         reply("feed.example.com", status: 404, appcast("<item><sparkle:version>999</sparkle:version></item>"))

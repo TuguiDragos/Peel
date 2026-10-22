@@ -65,9 +65,12 @@ extension UpdateFeed {
         info: [String: Any],
         electronConfiguration: String?,
         appStoreListing: AppStoreListing?,
-        isSystemProtected: Bool
+        isSystemProtected: Bool,
+        isFromSetapp: Bool
     ) -> UpdateFeed? {
-        guard !isSystemProtected else { return nil }
+        // Software Update keeps macOS's own apps current and Setapp the apps it installed, whatever feed the bundle
+        // names: Setapp's build of an app may still carry the feed of the version sold directly.
+        guard !isSystemProtected, !isFromSetapp else { return nil }
         if let appStoreListing {
             return .appStore(appStoreListing)
         }

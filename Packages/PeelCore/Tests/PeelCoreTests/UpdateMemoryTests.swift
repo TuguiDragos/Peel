@@ -3,14 +3,23 @@ import Foundation
 import Testing
 
 struct UpdateMemoryTests {
-    private func app(_ version: String, build: String = "1") -> InstalledApp {
+    private func app(_ version: String, build: String = "1", feed: UpdateFeed? = nil) -> InstalledApp {
         InstalledApp(
             url: URL(filePath: "/Applications/Foo.app", directoryHint: .isDirectory),
             bundleIdentifier: "com.example.foo",
             name: "Foo",
             version: version,
-            buildVersion: build
+            buildVersion: build,
+            updateFeed: feed
         )
+    }
+
+    private let feed = UpdateFeed.sparkle(URL(string: "https://feed.example.com/appcast.xml")!)
+
+    private func savedByAnEarlierChecker(_ entry: UpdateMemory) throws -> UpdateMemory {
+        var object = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(entry)) as? [String: Any])
+        object.removeValue(forKey: "revision")
+        return try JSONDecoder().decode(UpdateMemory.self, from: JSONSerialization.data(withJSONObject: object))
     }
 
     private let schedule = UpdateSchedule.next(after: .upToDate, following: nil)
@@ -77,7 +86,19 @@ struct UpdateMemoryTests {
             [String: UpdateMemory].self,
             from: Data(String(decoding: saved, as: UTF8.self).replacingOccurrences(of: "unsupported", with: "upToDate").utf8)
         )
-        #expect(UpdateMemory.recalled(from: upToDate, for: [app("1.0")], now: now) == upToDate)
+        #expect(UpdateMemory.recalled(from: upToDate, for: [app("1.0", feed: feed)], now: now) == upToDate)
+    }
+
+    @Test func forgetsWhatAnEarlierCheckerSaidOfAnAppNobodyIsAskedAbout() throws {
+        for status in [UpdateStatus.updateAvailable(version: "2.0"), .upToDate, .failed] {
+            let entry = UpdateMemory(status: status, schedule: schedule, checked: .now, describing: app("1.0"))
+            let earlier = ["com.example.foo": try savedByAnEarlierChecker(entry)]
+            #expect(UpdateMemory.recalled(from: earlier, for: [app("1.0")]).isEmpty, "\(status)")
+            #expect(UpdateMemory.recalled(from: earlier, for: [app("1.0", feed: feed)]) == earlier, "\(status)")
+
+            let current = ["com.example.foo": entry]
+            #expect(UpdateMemory.recalled(from: current, for: [app("1.0")]) == current, "\(status)")
+        }
     }
 
     /// An entry stored by an earlier version of Peel names no build, so it describes no app, and the app is

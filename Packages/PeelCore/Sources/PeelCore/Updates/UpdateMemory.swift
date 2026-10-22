@@ -50,9 +50,9 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     static let longestAbsence: TimeInterval = 90 * 24 * 60 * 60
 
     /// Returns the entries that still apply to `apps`. An entry is dropped when no installed copy is the build it
-    /// describes, which also makes that app due at once, when an earlier checker couldn't check the app, or when
-    /// the app is not installed and the entry is more than `longestAbsence` past due. With two copies at two
-    /// builds, the entry describes one of them and stays.
+    /// describes, which also makes that app due at once, when an earlier checker couldn't check the app or gave the
+    /// answer about a copy this checker asks nobody about, or when the app is not installed and the entry is more
+    /// than `longestAbsence` past due. With two copies at two builds, the entry describes one of them and stays.
     public static func recalled(
         from memory: [String: UpdateMemory],
         for apps: [InstalledApp],
@@ -60,11 +60,16 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     ) -> [String: UpdateMemory] {
         let installed = InstalledApp.byIdentifier(apps)
         return memory.filter { identifier, entry in
-            if entry.status == .unsupported, entry.revision ?? 1 < UpdateChecker.revision { return false }
+            let isEarlier = entry.revision ?? 1 < UpdateChecker.revision
+            if entry.status == .unsupported, isEarlier { return false }
             guard let copies = installed[identifier] else {
                 return entry.schedule.due.addingTimeInterval(longestAbsence) > now
             }
-            return copies.contains(where: entry.describes)
+            let described = copies.filter(entry.describes)
+            // An earlier checker may have asked a source this one no longer reads, and answering such a copy again
+            // costs no request.
+            if isEarlier, described.contains(where: UpdateChecker.asksNobody(about:)) { return false }
+            return !described.isEmpty
         }
     }
 }

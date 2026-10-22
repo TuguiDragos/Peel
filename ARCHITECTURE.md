@@ -337,8 +337,12 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   Homebrew no longer reports is forgotten then, and Peel reads Homebrew again once it has checked since. From the App
   Store it reads the listing of the installed bundle (`AppStoreListing`): the Mac's, which Apple gives for the desktop,
   also for an app sold once for iPhone and Mac, or the iPhone and iPad one for an app of those devices installed on the
-  Mac. Every answer that changes nothing makes the next check of that app wait longer, up to a week (`UpdateSchedule`),
-  and `UpdateMemory` keeps the last answer across launches.
+  Mac. An app that came with macOS or from Setapp gets no feed (`UpdateFeed.detect`, `InstalledApp.isFromSetapp`):
+  Software Update and Setapp keep them current, whatever feed the bundle carries. Every answer that changes nothing
+  makes the next check of that app wait longer, up to a week (`UpdateSchedule`), and `UpdateMemory` keeps the last
+  answer across launches, with the revision of the checker that gave it (`UpdateChecker.revision`): an answer an
+  earlier revision gave about an app it couldn't check, or about one this revision asks nobody about, is dropped, so
+  the app is asked again at the next round.
 - **Orphaned Files.** `OrphanScanner` lists what no installed app claims, under the app Peel saw go when it can
   name it (`AppMemory`), and selects nothing for the person.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again

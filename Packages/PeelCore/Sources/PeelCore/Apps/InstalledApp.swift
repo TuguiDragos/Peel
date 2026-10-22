@@ -121,11 +121,13 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
 
     public var isIntelOnly: Bool { architectures == [.x86_64] }
 
-    /// Whether the app came from Setapp. Setapp's documentation says a bundle identifier "must use the -setapp
-    /// suffix", and Setapp installs apps in an `Applications/Setapp` folder, the system's or the user's.
-    public var isFromSetapp: Bool {
+    public var isFromSetapp: Bool { Self.isFromSetapp(at: url, identifier: bundleIdentifier) }
+
+    /// Whether the app at `url` came from Setapp. Setapp's documentation says a bundle identifier "must use the
+    /// -setapp suffix", and Setapp installs apps in an `Applications/Setapp` folder, the system's or the user's.
+    static func isFromSetapp(at url: URL, identifier: String?) -> Bool {
         let folder = url.deletingLastPathComponent()
-        return bundleIdentifier?.lowercased().hasSuffix("-setapp") == true
+        return identifier?.lowercased().hasSuffix("-setapp") == true
             || (folder.lastPathComponent == "Setapp" && folder.deletingLastPathComponent().lastPathComponent == "Applications")
     }
 

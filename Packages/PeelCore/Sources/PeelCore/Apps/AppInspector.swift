@@ -121,7 +121,8 @@ public enum AppInspector {
                 info: info,
                 electronConfiguration: electronConfiguration,
                 appStoreListing: appStoreListing,
-                isSystemProtected: isSystemProtected
+                isSystemProtected: isSystemProtected,
+                isFromSetapp: InstalledApp.isFromSetapp(at: url, identifier: bundleIdentifier)
             ),
             updaterFolder: electronConfiguration.flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:)),
             productFolders: ProductFolders.of(appAt: url),

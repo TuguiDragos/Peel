@@ -332,16 +332,18 @@ struct UpdateFeedDetectionTests {
     private func bundle(
         info: [String: String],
         files: [String: String] = [:],
+        identifier: String = "com.example.app",
+        at path: String = "Example.app",
         in directory: borrowing TemporaryDirectory
     ) throws -> URL {
         var plist = info
-        plist["CFBundleIdentifier"] = "com.example.app"
+        plist["CFBundleIdentifier"] = identifier
         let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
-        try data.write(to: directory.file("Example.app/Contents/Info.plist"))
-        for (path, contents) in files {
-            try Data(contents.utf8).write(to: directory.file("Example.app/Contents/\(path)"))
+        try data.write(to: directory.file("\(path)/Contents/Info.plist"))
+        for (file, contents) in files {
+            try Data(contents.utf8).write(to: directory.file("\(path)/Contents/\(file)"))
         }
-        return directory.url.appending(path: "Example.app")
+        return directory.url.appending(path: path)
     }
 
     @Test func detectsSparkleOverHTTPSOnly() throws {
@@ -400,20 +402,51 @@ struct UpdateFeedDetectionTests {
         let info = ["SUFeedURL": "https://example.com/appcast.xml"]
 
         #expect(
-            UpdateFeed.detect(info: info, electronConfiguration: nil, appStoreListing: nil, isSystemProtected: true)
+            UpdateFeed.detect(
+                info: info, electronConfiguration: nil, appStoreListing: nil,
+                isSystemProtected: true, isFromSetapp: false
+            )
                 == nil
         )
         #expect(
-            UpdateFeed.detect(info: info, electronConfiguration: nil, appStoreListing: nil, isSystemProtected: false)
+            UpdateFeed.detect(
+                info: info, electronConfiguration: nil, appStoreListing: nil,
+                isSystemProtected: false, isFromSetapp: false
+            )
                 == .sparkle(try #require(URL(string: "https://example.com/appcast.xml")))
         )
+    }
+
+    @Test func leavesAnAppFromSetappToSetapp() throws {
+        let feed = ["SUFeedURL": "https://example.com/appcast.xml"]
+        let electron = ["Resources/app-update.yml": "provider: generic\nurl: https://example.com/updates/"]
+        let suffixed = try TemporaryDirectory()
+        let named = try bundle(info: feed, identifier: "org.example.Sample-setapp", in: suffixed)
+        #expect(try #require(AppInspector.inspect(named)).updateFeed == nil)
+
+        let electronBuild = try TemporaryDirectory()
+        let electronApp = try bundle(info: [:], files: electron, identifier: "org.example.Sample-setapp", in: electronBuild)
+        #expect(try #require(AppInspector.inspect(electronApp)).updateFeed == nil)
+
+        let setappFolder = try TemporaryDirectory()
+        let placed = try bundle(
+            info: feed, identifier: "org.example.Sample", at: "Applications/Setapp/Sample.app", in: setappFolder
+        )
+        #expect(try #require(AppInspector.inspect(placed)).updateFeed == nil)
+
+        let elsewhere = try TemporaryDirectory()
+        let direct = try bundle(info: feed, identifier: "org.example.Sample", at: "Sample.app", in: elsewhere)
+        #expect(try #require(AppInspector.inspect(direct)).updateFeed == .sparkle(URL(string: feed["SUFeedURL"]!)!))
     }
 
     @Test func peelReadsItsOwnFeedAsAnySparkleAppDoes() throws {
         let feed = "https://github.com/TuguiDragos/Peel/releases/latest/download/appcast.xml"
         let peel = ["CFBundleIdentifier": "com.tuguidragos.Peel", "SUFeedURL": feed]
         #expect(
-            UpdateFeed.detect(info: peel, electronConfiguration: nil, appStoreListing: nil, isSystemProtected: false)
+            UpdateFeed.detect(
+                info: peel, electronConfiguration: nil, appStoreListing: nil,
+                isSystemProtected: false, isFromSetapp: false
+            )
                 == .sparkle(URL(string: feed)!)
         )
         #expect(
@@ -421,7 +454,8 @@ struct UpdateFeedDetectionTests {
                 info: ["CFBundleIdentifier": "com.tuguidragos.Peel"],
                 electronConfiguration: nil,
                 appStoreListing: nil,
-                isSystemProtected: false
+                isSystemProtected: false,
+                isFromSetapp: false
             ) == nil
         )
     }

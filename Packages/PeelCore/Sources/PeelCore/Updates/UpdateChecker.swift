@@ -1,9 +1,9 @@
 public import Foundation
 
 public struct UpdateChecker: Sendable {
-    /// Raised whenever the checker learns to answer for apps it couldn't check before, so that the answer it gave
-    /// them is asked again rather than waited out (`UpdateMemory.recalled`).
-    public static let revision = 2
+    /// Raised whenever the checker answers some apps differently: an app an earlier revision couldn't check is asked
+    /// again rather than waited out, and so is one this revision asks nobody about (`UpdateMemory.recalled`).
+    public static let revision = 3
 
     /// The largest reply read. An update feed is a small XML, YAML, or JSON file, and its address comes from
     /// the app's own bundle, so the server is not trusted to keep its reply small.
@@ -121,6 +121,11 @@ public struct UpdateChecker: Sendable {
     /// from the App Store with the App Store preferred.
     private static func asksNobody(about app: InstalledApp, preference: UpdateSource) -> Bool {
         (app.version == nil || app.updateFeed == nil) && !(preference == .appStore && app.isFromAppStore)
+    }
+
+    /// Whether a check of `app` has no server to ask, whichever source is preferred.
+    static func asksNobody(about app: InstalledApp) -> Bool {
+        UpdateSource.allCases.allSatisfy { asksNobody(about: app, preference: $0) }
     }
 
     /// Homebrew's answer for `app`, found without a network request, or nil when Homebrew did not install this copy

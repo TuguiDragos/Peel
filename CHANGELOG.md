@@ -153,6 +153,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An update an app's own feed found stays when a later check can't reach the feed, even where Homebrew, not caught up
   yet, calls the app up to date.
 - An update Homebrew no longer reports leaves the list as soon as Peel reads Homebrew again, rather than a day later.
+- Applications and `peel updates` no longer check an app from Setapp against the feed of the version its maker sells
+  directly, which its bundle may still carry: Setapp keeps it current, and the app's page says so. What an earlier Peel
+  answered about it is forgotten at once.
 - A folder named like the app is no longer selected while another app's name holds that name, as Epic Games Launcher
   holds Epic: it is listed as also used by that app.
 - An app whose identifier a tool wrote for it, such as Electron's `com.electron.<name>`, no longer lists every other

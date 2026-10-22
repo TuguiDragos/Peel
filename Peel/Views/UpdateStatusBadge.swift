@@ -69,6 +69,8 @@ struct UpdateStatusBadge: View {
             }
         } else if app.isSystemProtected {
             Text("\(app.name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask.")
+        } else if app.isFromSetapp {
+            Text("\(app.name) came from Setapp. Setapp is what keeps it current, so Peel has nothing to ask.")
         } else if app.version == nil {
             Text("\(app.name) doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app.")
         } else if app.isFromAppStore {

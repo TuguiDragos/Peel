@@ -552,6 +552,112 @@
         }
       }
     },
+    "%@ came from Setapp. Setapp is what keeps it current, so Peel has nothing to ask." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ pochází ze služby Setapp. Aktuální ji udržuje Setapp, takže se Peel nemá na co ptát."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ stammt aus Setapp. Setapp hält die App auf dem neuesten Stand, daher muss Peel nicht nachfragen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ viene de Setapp. Setapp es lo que la mantiene al día, así que Peel no tiene nada que preguntar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ provient de Setapp. C’est Setapp qui le maintient à jour : Peel n’a donc rien à demander."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ proviene da Setapp. È Setapp a mantenerla aggiornata, quindi Peel non ha nulla da chiedere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”はSetappから入手したもので、Setappによって最新の状態に保たれます。そのため、Peelが問い合わせる必要はありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) Setapp에서 받은 앱입니다. Setapp이 이 앱을 최신 상태로 유지하므로 Peel이 물어볼 곳이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is afkomstig van Setapp. Setapp houdt het up-to-date, dus Peel hoeft niets te vragen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja %@ pochodzi z Setapp i jest uaktualniana przez Setapp, więc Peel nie ma o co pytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ veio do Setapp. É o Setapp que o mantém atualizado, então o Peel não tem nada a perguntar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația %@ vine din Setapp, iar Setapp o ține la zi, așa că Peel nu are ce verifica."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» установлено из Setapp. За его обновления отвечает Setapp, поэтому Peel не о чем спрашивать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kom från Setapp. Det är Setapp som håller appen aktuell, så Peel har inget att fråga om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Setapp’ten geldi. Onu güncel tutan Setapp’tir, bu yüzden Peel’in soracak bir şeyi yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» постачається через Setapp. Її оновлює Setapp, тож Peel нема про що запитувати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”来自Setapp，由Setapp保持最新，因此Peel无需查询。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」是來自Setapp的App。它由Setapp保持最新狀態，因此Peel無需詢問。"
+          }
+        }
+      }
+    },
     "%@ came with macOS. Software Update is what keeps it current, so Peel has nothing to ask." : {
       "localizations" : {
         "cs" : {
