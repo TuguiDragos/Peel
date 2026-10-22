@@ -134,7 +134,36 @@ struct GitSettingsTests {
         #expect(ledger.written.isEmpty && ledger.previous.isEmpty)
     }
 
-    @Test func theLedgerIsHandedOverAfterEveryKeyItChanges() async throws {
+    @Test func writesDownWhatAKeyHeldBeforeGitWritesIt() async throws {
+        let git = try await GitHome()
+        var ledger = GitLedger()
+        var files: [String] = []
+
+        let outcome = await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) { _ in
+            files.append(git.file)
+        }
+
+        #expect(outcome == .changed)
+        #expect(files.count == 1 && !files[0].contains("rebase"), "\(files)")
+        #expect(git.file.contains("rebase = true"))
+    }
+
+    @Test func takesAKeyGitRefusedBackOutOfTheLedger() async throws {
+        let git = try await GitHome()
+        let home = git.home.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.posixPermissions: 0o555], ofItemAtPath: home)
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: home) }
+        var ledger = GitLedger()
+        var handed: [[String: String]] = []
+
+        let outcome = await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) { handed.append($0.written) }
+
+        #expect(outcome == .refused)
+        #expect(handed == [["pull.rebase": "true"], [:]])
+        #expect(ledger.written.isEmpty && ledger.previous.isEmpty)
+    }
+
+    @Test func theLedgerIsHandedOverForEveryKeyItChanges() async throws {
         let git = try await GitHome()
         let key = try git.publicKey("id_ed25519.pub")
         var ledger = GitLedger()

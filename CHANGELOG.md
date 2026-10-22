@@ -124,7 +124,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   no newline after it keeps that line, and the tab says that zsh reads Peel's settings only for a line that reads them.
 - Turning off Sign commits with your SSH key puts back every key as it was, so signing you had with another format, such
   as GPG, goes on as before.
-- The Git tab saves its record of what each key held after every key it writes, and quitting Peel waits for the change.
+- The Git tab writes down what each key held before Git writes the key, and quitting Peel waits for the change.
 - Turn All Off on the Shell and SSH tabs never writes over a file of Peel's own that couldn't be read.
 - The Terminal tab says from the start when Terminal's profiles can't be read, instead of asking you to choose a theme.
 - Quitting Terminal from Peel's question applies the theme at once: Terminal counts as closed as soon as its process has

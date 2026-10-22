@@ -113,8 +113,8 @@ final class GitLibrary {
         return task
     }
 
-    /// Changes the settings through Git, saving the ledger after each key, and a quit asked meanwhile waits: ended
-    /// between a key Git wrote and the ledger's note of what it held, the note would be lost.
+    /// Changes the settings through Git, saving the ledger before each key Git writes, and a quit asked meanwhile
+    /// waits for the change to end.
     private func change(_ settings: [GitSetting], to isOn: Bool) async {
         if let git {
             await QuitGuard.shared.run {

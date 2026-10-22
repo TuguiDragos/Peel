@@ -20,8 +20,8 @@ public struct GitLedger {
         ["previous": previous, "written": written]
     }
 
-    /// Turns `setting` on through Git, and hands the ledger to `saving` after each key it takes in, so what a key
-    /// held before is kept even if Peel ends before the setting's other keys are written.
+    /// Turns `setting` on through Git, and hands the ledger to `saving` with each key before Git writes it, so what a
+    /// key held is kept even if Peel ends right after; a key Git refuses is taken out again and handed over once more.
     public mutating func turnOn(
         _ setting: GitSetting, signingKey: String?, in config: GitConfig, saving: (GitLedger) -> Void = { _ in }
     ) async -> Outcome {
@@ -33,10 +33,7 @@ public struct GitLedger {
             let name = wanted.key.lowercased()
             let before = settings[name]
             let isPeels = written[name].map { before == .some(.some($0)) } ?? false
-            if before != .some(.some(wanted.value)) {
-                guard await config.set(wanted.key, to: wanted.value) else { return .refused }
-                outcome = .changed
-            }
+            let kept = (previous: previous[name], written: written[name])
             if !isPeels {
                 switch before {
                 case .none: previous.removeValue(forKey: name)
@@ -46,6 +43,15 @@ public struct GitLedger {
             }
             written[name] = wanted.value
             saving(self)
+            if before != .some(.some(wanted.value)) {
+                guard await config.set(wanted.key, to: wanted.value) else {
+                    previous[name] = kept.previous
+                    written[name] = kept.written
+                    saving(self)
+                    return .refused
+                }
+                outcome = .changed
+            }
         }
         return outcome
     }
