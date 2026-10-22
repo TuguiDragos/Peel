@@ -23,6 +23,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Bitdefender Endpoint Security for Mac and Sophos Endpoint are left to their makers' own uninstallers, and the app's
   page gives the maker's step.
+- ExpressVPN, Private Internet Access, Cloudflare WARP, ZeroTier, Tunnelblick, and IVPN are left to their makers' own
+  uninstallers, which also turn off what they keep in the system, such as a kill switch or a network extension: the
+  app's page gives the command, opens the app whose own command removes it, or links the maker's instructions for the
+  uninstaller on its disk image.
 - After a removal, Peel reads the files your shell runs when it starts and names the lines that still point to what
   moved, such as a `PATH` entry or an alias into the app, in the alert and in `peel uninstall`. It changes none of these
   files.

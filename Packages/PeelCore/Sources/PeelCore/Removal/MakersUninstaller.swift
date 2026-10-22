@@ -1,7 +1,7 @@
 public import Foundation
 
-/// A security or management agent whose maker documents removing it with an uninstaller of its own, or such an
-/// uninstaller itself. Moved from its place, what the product keeps in the system and the settings that manage it
+/// A security or management agent, or a VPN, whose maker documents removing it with an uninstaller of its own, or such
+/// an uninstaller itself. Moved from its place, what the product keeps in the system and the settings that manage it
 /// would stay behind.
 public struct MakersUninstaller: Sendable, Hashable {
     /// What the maker's page says to do.
@@ -10,6 +10,10 @@ public struct MakersUninstaller: Sendable, Hashable {
         case command(String)
         /// An uninstaller to open.
         case uninstaller(URL)
+        /// A command in the app's own windows or menus, so the app is what to open.
+        case inTheApp(URL)
+        /// An uninstaller that comes on the disk image the app came on rather than on the Mac.
+        case onItsDiskImage
     }
 
     private enum Documented: Sendable {
@@ -18,6 +22,8 @@ public struct MakersUninstaller: Sendable, Hashable {
         case uninstallerInsideTheApp(String)
         /// The app is the uninstaller, which removes the product named here and then itself.
         case itself(removing: String)
+        case inTheApp
+        case onItsDiskImage
     }
 
     public let maker: String
@@ -27,8 +33,8 @@ public struct MakersUninstaller: Sendable, Hashable {
     /// The product this app removes, when the app is the uninstaller itself rather than the product.
     public let removes: String?
 
-    /// Each product with the signing team and the identifiers its maker's own deployment pages give, and the step and
-    /// page of its maker's uninstall instructions. An identifier names itself and any longer one after a dot.
+    /// Each product with the signing team and the identifiers its maker's own pages or its signed bundle give, and the
+    /// step and page of its maker's uninstall instructions. An identifier names itself and any longer one after a dot.
     private static let known: [(team: String, identifiers: [String], maker: String, step: Documented, page: String)] = [
         (
             "PXPZ95SK77", ["com.paloaltonetworks.globalprotect"], "Palo Alto Networks",
@@ -73,6 +79,32 @@ public struct MakersUninstaller: Sendable, Hashable {
             .uninstaller("/Applications/Sophos/Remove Sophos Endpoint.app"),
             "https://docs.sophos.com/esg/endpoint/help/en-us/help/Uninstall/"
         ),
+        (
+            "TC292Y5427", ["com.express.vpn"], "ExpressVPN", .inTheApp,
+            "https://www.expressvpn.com/support/troubleshooting/uninstall-expressvpn-app/"
+        ),
+        (
+            "5357M5NW9W", ["com.privateinternetaccess.vpn"], "Private Internet Access", .inTheApp,
+            "https://helpdesk.privateinternetaccess.com/hc/en-us/articles/46565840048027-macOS-Uninstalling-the-PIA-App-Using-the-In-App-Uninstaller"
+        ),
+        (
+            "68WVV388M8", ["com.cloudflare.1dot1dot1dot1.macos"], "Cloudflare",
+            .command("\"/Applications/Cloudflare WARP.app/Contents/Resources/uninstall.sh\""),
+            "https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/uninstall/"
+        ),
+        (
+            "8ZD9JUCZ4V", ["com.zerotier.zerotier-ui", "com.zerotier.zerotier-one"], "ZeroTier",
+            .command("sudo \"/Library/Application Support/ZeroTier/One/uninstall.sh\""),
+            "https://docs.zerotier.com/faq/macos-uninstall/"
+        ),
+        (
+            "Z2SG5H3HC8", ["net.tunnelblick.tunnelblick"], "Tunnelblick", .inTheApp,
+            "https://tunnelblick.net/cUninstall.html"
+        ),
+        (
+            "WQXXM75BYN", ["com.electron.ivpn-ui", "net.ivpn.client"], "IVPN", .onItsDiskImage,
+            "https://www.ivpn.net/knowledgebase/macos/macos-how-do-i-completely-uninstall-or-remove-the-ivpn-application/"
+        ),
         // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
         (
             "EQHXZ8M8AV", ["com.google.chromeremotedesktop.me2me-host-uninstaller"], "Google",
@@ -95,6 +127,8 @@ public struct MakersUninstaller: Sendable, Hashable {
         case .uninstallerInsideTheApp(let path):
             .uninstaller(app.url.appending(path: path, directoryHint: .isDirectory))
         case .itself: .uninstaller(app.url)
+        case .inTheApp: .inTheApp(app.url)
+        case .onItsDiskImage: .onItsDiskImage
         }
         let removes: String? = if case .itself(let removing) = product.step { removing } else { nil }
         return MakersUninstaller(maker: product.maker, step: step, instructions: instructions, removes: removes)

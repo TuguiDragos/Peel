@@ -1,8 +1,9 @@
 import PeelCore
 import SwiftUI
 
-/// The note on the page of a security or management agent, or of such an uninstaller: its maker's own uninstaller
-/// removes it whole, so Peel leaves it and its files where they are and offers the maker's step and instructions.
+/// The note on the page of a security or management agent or a VPN, or of such an uninstaller: its maker's own
+/// uninstaller removes it whole, so Peel leaves it and its files where they are and offers the maker's step and
+/// instructions.
 struct MakersUninstallerNotice: View {
     let app: String
     let uninstaller: MakersUninstaller
@@ -15,6 +16,10 @@ struct MakersUninstallerNotice: View {
             case .uninstaller(let url):
                 Button("Open Uninstaller") { NSWorkspace.shared.open(url) }
                     .disabled(!FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
+            case .inTheApp(let url):
+                Button("Open \(app)") { NSWorkspace.shared.open(url) }
+            case .onItsDiskImage:
+                EmptyView()
             }
             Link("\(uninstaller.maker)’s Instructions", destination: uninstaller.instructions)
         }

@@ -3,7 +3,7 @@
 public enum RemovedElsewhere: Sendable, Hashable {
     /// Peel itself: Remove Peel, in Settings, also takes its helper and login item away.
     case byRemovePeel
-    /// A security or management agent, which its maker's own uninstaller removes whole.
+    /// A security or management agent, or a VPN, which its maker's own uninstaller removes whole.
     case byItsMaker(MakersUninstaller)
     /// An app with system extensions macOS installed, which Finder's move asks macOS to remove and Peel's would not.
     case byFinder(systemExtensions: CarriedSystemExtensions)

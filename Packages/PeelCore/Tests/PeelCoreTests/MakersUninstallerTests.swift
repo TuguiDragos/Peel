@@ -40,6 +40,29 @@ struct MakersUninstallerTests {
         )
     }
 
+    @Test func knowsAVPNWhoseMakerDocumentsItsOwnUninstall() {
+        let express = agent("com.express.vpn", team: "TC292Y5427", at: "/Applications/ExpressVPN.app")
+        let tunnelblick = agent("net.tunnelblick.tunnelblick", team: "Z2SG5H3HC8", at: "/Applications/Tunnelblick.app")
+
+        #expect(MakersUninstaller.of(express)?.step == .inTheApp(express.url))
+        #expect(MakersUninstaller.of(agent("com.privateinternetaccess.vpn", team: "5357M5NW9W"))?.step == .inTheApp(
+            URL(filePath: "/Applications/Agent.app", directoryHint: .isDirectory)
+        ))
+        #expect(MakersUninstaller.of(tunnelblick)?.maker == "Tunnelblick")
+        #expect(
+            MakersUninstaller.of(agent("com.cloudflare.1dot1dot1dot1.macos", team: "68WVV388M8"))?.step
+                == .command("\"/Applications/Cloudflare WARP.app/Contents/Resources/uninstall.sh\"")
+        )
+        #expect(
+            MakersUninstaller.of(agent("com.zerotier.ZeroTier-UI", team: "8ZD9JUCZ4V"))?.step
+                == .command("sudo \"/Library/Application Support/ZeroTier/One/uninstall.sh\"")
+        )
+        #expect(MakersUninstaller.of(agent("com.zerotier.ZeroTier-One", team: "8ZD9JUCZ4V"))?.maker == "ZeroTier")
+        #expect(MakersUninstaller.of(agent("com.electron.ivpn-ui", team: "WQXXM75BYN"))?.step == .onItsDiskImage)
+        #expect(MakersUninstaller.of(agent("net.ivpn.client.IVPN", team: "WQXXM75BYN"))?.maker == "IVPN")
+        #expect(MakersUninstaller.of(agent("com.electron.ivpn-ui", team: "ABCDE12345")) == nil)
+    }
+
     @Test func knowsAnUninstallerItsMakerDocumentsOpeningToRemoveAProduct() {
         let path = "/Applications/Chrome Remote Desktop Host Uninstaller.app"
         let uninstaller = agent("com.google.chromeremotedesktop.me2me-host-uninstaller", team: "EQHXZ8M8AV", at: path)

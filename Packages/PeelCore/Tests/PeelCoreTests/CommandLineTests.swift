@@ -841,6 +841,22 @@ struct CommandLineTests {
         #expect(failure?.description.contains("uninstall_gp.sh") == true)
     }
 
+    @Test func refusesToUninstallAVPNAndSaysWhereItsOwnUninstallIs() throws {
+        func refusal(_ identifier: String, team: String, name: String) -> String? {
+            let app = InstalledApp(
+                url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory),
+                bundleIdentifier: identifier, name: name, teamIdentifier: team
+            )
+            return #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfRemovedElsewhere(app) }?
+                .description
+        }
+
+        #expect(refusal("com.express.vpn", team: "TC292Y5427", name: "ExpressVPN")?
+            .contains("use the uninstall command in ExpressVPN") == true)
+        #expect(refusal("com.electron.ivpn-ui", team: "WQXXM75BYN", name: "IVPN")?
+            .contains("use the uninstaller on the disk image it came on") == true)
+    }
+
     @Test func refusesToMoveAMakersUninstallerAloneAndSaysToOpenIt() throws {
         let uninstaller = InstalledApp(
             url: URL(filePath: "/Applications/Chrome Remote Desktop Host Uninstaller.app", directoryHint: .isDirectory),

@@ -38,8 +38,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   with how to remove them in Finder.
 - **Some apps go another way.** An app that installed a system extension, such as a VPN or a virtual camera, is
   listed with its files and nothing selected: only Finder's move to the Trash asks macOS to remove the extension, so
-  its page says to move it there. A security or management agent whose maker documents an uninstaller of its own,
-  such as GlobalProtect or Microsoft Defender, is left to that uninstaller, and its page says how. An app that runs
+  its page says to move it there. A security or management agent, or a VPN, whose maker documents an uninstaller of
+  its own, such as GlobalProtect, Microsoft Defender, or ExpressVPN, is left to that uninstaller, and its page says
+  how. An app that runs
   its own uninstaller once it leaves the Applications folder, such as Mullvad VPN or Citrix Workspace, is moved only
   after Peel tells you what that uninstaller will do. Peel itself goes only with Remove Peel, in Settings > General.
 - **Open apps quit first.** Peel asks an app that is open to quit before anything of it moves, and looks again at

@@ -492,6 +492,8 @@ struct UninstallCommand: AsyncParsableCommand {
             let step = switch uninstaller.step {
             case .command(let command): "run `\(command)`"
             case .uninstaller(let url): "open \(url.path(percentEncoded: false))"
+            case .inTheApp: "use the uninstall command in \(Output.plain(target.name))"
+            case .onItsDiskImage: "use the uninstaller on the disk image it came on"
             }
             throw CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
         case .byFinder(let carried):
