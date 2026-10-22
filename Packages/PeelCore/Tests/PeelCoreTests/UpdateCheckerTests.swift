@@ -209,11 +209,29 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(addresses.count == 2 && addresses.allSatisfy { $0.contains("entity=desktopSoftware") })
     }
 
+    @Test func asksAboutAnIPhoneAppByItsListingNumberInTheStoreItCameFrom() async {
+        let weather = InstalledApp(
+            url: URL(filePath: "/Applications/Weather.app"), bundleIdentifier: "org.example.weather", name: "Weather",
+            version: "6.9.1", isFromAppStore: true, updateFeed: .appStore(.iPhoneAndiPad(item: 1234, store: "de"))
+        )
+        CannedProtocol.addresses.withLock { $0 = [] }
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","trackId":1234,"version":"6.9.2","trackViewUrl":"https://apps.apple.com/de/app/id1234"}]}"#)
+        #expect(
+            await checker.status(for: weather)
+                == .updateAvailable(version: "6.9.2", source: .appStore, releaseNotes: URL(string: "https://apps.apple.com/de/app/id1234"))
+        )
+        #expect(CannedProtocol.addresses.withLock { $0 } == ["https://itunes.apple.com/lookup?id=1234&country=de"])
+
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","trackId":5678,"version":"9.0"}]}"#)
+        #expect(await checker.status(for: weather) == .unsupported, "another listing's record says nothing of this app")
+    }
+
     @Test func checksAnIPhoneOrIPadAppOnTheMacAgainstItsOwnListing() async {
         let wrapped = { (version: String) in
             InstalledApp(
                 url: URL(filePath: "/Applications/Weather.app"), bundleIdentifier: "org.example.weather",
-                name: "Weather", version: version, isFromAppStore: true, updateFeed: .appStore(.iPhoneAndiPad)
+                name: "Weather", version: version, isFromAppStore: true,
+                updateFeed: .appStore(.iPhoneAndiPad(item: nil, store: nil))
             )
         }
         CannedProtocol.addresses.withLock { $0 = [] }

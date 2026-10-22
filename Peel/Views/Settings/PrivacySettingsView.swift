@@ -21,7 +21,7 @@ struct PrivacySettingsView: View {
     var body: some View {
         Form {
             Section("What Peel Sends") {
-                Text("Peel sends no usage data and keeps no account. Update checks ask each app’s own feed, or the App Store for an app bought there, about that app alone, and tell the App Store your Mac’s region, since its answer depends on it. Taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through it. Homebrew’s vulnerability scan, which you start yourself, is the one thing that sends a list of what is installed all at once: the source and version of each installed formula, to api.osv.dev. Report an Issue puts Peel’s version, your macOS version, and whether your Mac has Apple silicon or Intel in the address it opens.")
+                Text("Peel sends no usage data and keeps no account. Update checks ask each app’s own feed, or the App Store for an app bought there, about that app alone, and tell the App Store a country, since its answer depends on it: the country of the store an iPhone or iPad app came from, or else your Mac’s region. Taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through it. Homebrew’s vulnerability scan, which you start yourself, is the one thing that sends a list of what is installed all at once: the source and version of each installed formula, to api.osv.dev. Report an Issue puts Peel’s version, your macOS version, and whether your Mac has Apple silicon or Intel in the address it opens.")
                     .font(.callout)
             }
 

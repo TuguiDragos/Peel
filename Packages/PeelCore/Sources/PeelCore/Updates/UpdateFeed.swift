@@ -10,8 +10,9 @@ public enum UpdateFeed: Sendable, Hashable {
 /// The App Store listing that describes an app's bundle, and so the one its updates are read from.
 public enum AppStoreListing: Sendable, Hashable {
     case mac
-    /// An iPhone or iPad app installed on a Mac, whose bundle is the very build that listing sells.
-    case iPhoneAndiPad
+    /// An iPhone or iPad app installed on a Mac, whose bundle is the very build that listing sells, with the
+    /// listing's number and the country of its store as the App Store's metadata beside the app gives them.
+    case iPhoneAndiPad(item: Int?, store: String?)
 }
 
 public enum UpdateSource: String, Sendable, Hashable, CaseIterable, Codable {

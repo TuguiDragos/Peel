@@ -307,12 +307,12 @@ struct AppStoreLookupTests {
     @Test func readsTheIPhoneAndIPadListingOfAnAppOfThoseDevices() {
         let iPad = #"{"resultCount":1,"results":[{"kind":"software","version":"1.4.5","artistName":"Example AG"}]}"#
         #expect(
-            AppStoreLookup.answer(in: Data(iPad.utf8), for: .iPhoneAndiPad)
+            AppStoreLookup.answer(in: Data(iPad.utf8), for: .iPhoneAndiPad(item: nil, store: nil))
                 == .listed(version: "1.4.5", page: nil, developer: "Example AG")
         )
         let mac = #"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.0"}]}"#
-        #expect(AppStoreLookup.answer(in: Data(mac.utf8), for: .iPhoneAndiPad) == .notListed)
-        #expect(AppStoreLookup.answer(in: Data(#"{"resultCount":0,"results":[]}"#.utf8), for: .iPhoneAndiPad) == .notListed)
+        #expect(AppStoreLookup.answer(in: Data(mac.utf8), for: .iPhoneAndiPad(item: nil, store: nil)) == .notListed)
+        #expect(AppStoreLookup.answer(in: Data(#"{"resultCount":0,"results":[]}"#.utf8), for: .iPhoneAndiPad(item: nil, store: nil)) == .notListed)
     }
 
     @Test func encodesLookupURL() {
@@ -321,8 +321,10 @@ struct AppStoreLookupTests {
             mac?.absoluteString
                 == "https://itunes.apple.com/lookup?bundleId=com.shazam.mac.Shazam&country=ro&entity=desktopSoftware"
         )
-        let iPad = AppStoreLookup.url(bundleIdentifier: "org.example.weather", country: "de", for: .iPhoneAndiPad)
+        let iPad = AppStoreLookup.url(bundleIdentifier: "org.example.weather", country: "de", for: .iPhoneAndiPad(item: nil, store: nil))
         #expect(iPad?.absoluteString == "https://itunes.apple.com/lookup?bundleId=org.example.weather&country=de")
+        let numbered = AppStoreLookup.url(bundleIdentifier: "org.example.weather", country: "de", for: .iPhoneAndiPad(item: 1234, store: "de"))
+        #expect(numbered?.absoluteString == "https://itunes.apple.com/lookup?id=1234&country=de")
     }
 }
 

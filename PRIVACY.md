@@ -10,11 +10,11 @@ Peel sends no analytics and has no account. On its own, it goes online only to c
 updates, and you can turn that off.
 
 Each check asks one app's own update feed about that app alone, or the App Store about an app from the App Store. It
-says only that Peel is asking, and tells the App Store the country of your Mac's region, since its answer depends on
-it. It sends no version, of the app or of Peel, and nothing about your macOS or your languages. Every check uses
-HTTPS, and a feed that sends it elsewhere is followed only to another HTTPS address. Each check asks about one app, but
-taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through
-it.
+says only that Peel is asking, and tells the App Store a country, since its answer depends on it: the country of the
+store an iPhone or iPad app came from, as the App Store notes beside the app, or else your Mac's region. It sends no
+version, of the app or of Peel, and nothing about your macOS or your languages. Every check uses HTTPS, and a feed that
+sends it elsewhere is followed only to another HTTPS address. Each check asks about one app, but taken together, the
+checks show the App Store which of its apps you have, and GitHub which of your apps update through it.
 
 For an update that waits, Peel also reads the page of release notes the app's feed names, and the app's own feed when
 Homebrew found the update, once per version, and keeps the notes so they show with no connection. When the feed names

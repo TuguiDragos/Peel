@@ -14,10 +14,12 @@ enum AppStoreLookup {
 
     static func url(bundleIdentifier: String, country: String, for listing: AppStoreListing) -> URL? {
         var components = URLComponents(string: "https://itunes.apple.com/lookup")
-        components?.queryItems = [
-            URLQueryItem(name: "bundleId", value: bundleIdentifier),
-            URLQueryItem(name: "country", value: country),
-        ]
+        let asked = if case .iPhoneAndiPad(let item?, _) = listing {
+            URLQueryItem(name: "id", value: String(item))
+        } else {
+            URLQueryItem(name: "bundleId", value: bundleIdentifier)
+        }
+        components?.queryItems = [asked, URLQueryItem(name: "country", value: country)]
         if listing == .mac {
             components?.queryItems?.append(URLQueryItem(name: "entity", value: "desktopSoftware"))
         }
@@ -28,7 +30,7 @@ enum AppStoreLookup {
         guard let results = (try? JSONDecoder().decode(Response.self, from: data))?.results else { return .unreadable }
         let isListed: (Response.Result) -> Bool = switch listing {
         case .mac: { $0.kind == "mac-software" || ($0.kind == "software" && $0.namesOnlyTheMac) }
-        case .iPhoneAndiPad: { $0.kind == "software" }
+        case .iPhoneAndiPad(let item, _): { $0.kind == "software" && (item == nil || $0.trackId == item) }
         }
         guard let record = results.first(where: isListed), let version = record.version else { return .notListed }
         return .listed(
@@ -42,6 +44,7 @@ enum AppStoreLookup {
     private struct Response: Decodable {
         struct Result: Decodable {
             let kind: String?
+            let trackId: Int?
             let version: String?
             let trackViewUrl: String?
             let artistName: String?

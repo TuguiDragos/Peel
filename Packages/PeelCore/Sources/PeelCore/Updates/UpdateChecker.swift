@@ -148,9 +148,10 @@ public struct UpdateChecker: Sendable {
             return UpdateAnswer(status: .unsupported)
         }
         let listing: AppStoreListing = if case .appStore(let listing) = app.updateFeed { listing } else { .mac }
-        var reply = await lookup(identifier, in: country, for: listing)
+        let store = if case .iPhoneAndiPad(_, let store?) = listing { store } else { country }
+        var reply = await lookup(identifier, in: store, for: listing)
         // A two-letter region with no store, such as Antarctica (AQ), is also refused with HTTP 400.
-        if reply.status == 400, country != "us" {
+        if reply.status == 400, store != "us" {
             reply = await lookup(identifier, in: "us", for: listing)
         }
         guard let data = reply.data else { return UpdateAnswer(status: .failed) }

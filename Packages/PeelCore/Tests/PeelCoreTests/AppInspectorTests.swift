@@ -456,7 +456,33 @@ struct AppInspectorTests {
         #expect(app.name == "Example")
         #expect(app.version == "3.4")
         #expect(app.isFromAppStore)
-        #expect(app.updateFeed == .appStore(.iPhoneAndiPad))
+        #expect(app.updateFeed == .appStore(.iPhoneAndiPad(item: nil, store: nil)))
+    }
+
+    @Test func readsTheListingNumberAndStoreTheAppStoreNotedBesideAnIPhoneApp() throws {
+        let directory = try TemporaryDirectory()
+        let inner = try directory.directory("Weather.app/Wrapper/weather.app")
+        try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.weather", "CFBundleShortVersionString": "6.9.2"],
+            format: .xml, options: 0
+        ).write(to: inner.appending(path: "Info.plist"))
+        let metadata: [String: Any] = ["itemId": 1234, "storefrontCountryCode": "de", "kind": "software"]
+        try PropertyListSerialization.data(fromPropertyList: metadata, format: .binary, options: 0)
+            .write(to: directory.url.appending(path: "Weather.app/Wrapper/iTunesMetadata.plist"))
+        let bundle = directory.url.appending(path: "Weather.app")
+        try FileManager.default.createSymbolicLink(
+            atPath: bundle.appending(path: "WrappedBundle").path(percentEncoded: false),
+            withDestinationPath: "Wrapper/weather.app"
+        )
+
+        let app = try #require(AppInspector.inspect(bundle))
+        #expect(app.updateFeed == .appStore(.iPhoneAndiPad(item: 1234, store: "de")))
+
+        let unreadable: [String: Any] = ["itemId": "1234", "storefrontCountryCode": "Deutschland"]
+        try PropertyListSerialization.data(fromPropertyList: unreadable, format: .binary, options: 0)
+            .write(to: directory.url.appending(path: "Weather.app/Wrapper/iTunesMetadata.plist"))
+        let unnumbered = try #require(AppInspector.inspect(bundle))
+        #expect(unnumbered.updateFeed == .appStore(.iPhoneAndiPad(item: nil, store: nil)))
     }
 
     /// Safari writes each web app as a template of its own `com.apple.Safari.WebApp`, named by the UUID it gives it.

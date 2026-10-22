@@ -87,6 +87,13 @@ public enum AppInspector {
         let receipt = layout.isWrapped
             ? url.appending(path: "Wrapper/iTunesMetadata.plist") : contents.appending(path: "_MASReceipt/receipt")
         let isFromAppStore = FileManager.default.fileExists(atPath: receipt.path(percentEncoded: false))
+        let appStoreListing: AppStoreListing? = if !isFromAppStore {
+            nil
+        } else if layout.isWrapped {
+            iPhoneAndiPadListing(metadataAt: receipt)
+        } else {
+            .mac
+        }
         let isSystemProtected = isSystemProtected(url)
         let use = use(of: url)
         let electronConfiguration = ElectronUpdater.configuration(in: contents)
@@ -113,7 +120,7 @@ public enum AppInspector {
             updateFeed: UpdateFeed.detect(
                 info: info,
                 electronConfiguration: electronConfiguration,
-                appStoreListing: isFromAppStore ? (layout.isWrapped ? .iPhoneAndiPad : .mac) : nil,
+                appStoreListing: appStoreListing,
                 isSystemProtected: isSystemProtected
             ),
             updaterFolder: electronConfiguration.flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:)),
@@ -121,6 +128,16 @@ public enum AppInspector {
             webApp: bundleIdentifier.flatMap { WebApp.of(identifier: $0, info: info) },
             carriesSystemExtensions: !AppExtensions.systemExtensions(carriedBy: url).isEmpty
         )
+    }
+
+    private static func iPhoneAndiPadListing(metadataAt url: URL) -> AppStoreListing {
+        let metadata = BoundedRead.data(at: url, maximum: 1_048_576).flatMap {
+            try? PropertyListSerialization.propertyList(from: $0, format: nil) as? [String: Any]
+        }
+        let item = (metadata?["itemId"] as? Int).flatMap { $0 > 0 ? $0 : nil }
+        let store = (metadata?["storefrontCountryCode"] as? String)?.lowercased()
+        let isACountry = store.map { $0.count == 2 && $0.allSatisfy { $0.isASCII && $0.isLetter } } ?? false
+        return .iPhoneAndiPad(item: item, store: isACountry ? store : nil)
     }
 
     private static let embeddedBundleDirectories = [
