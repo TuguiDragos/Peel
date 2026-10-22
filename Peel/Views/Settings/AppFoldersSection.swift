@@ -85,8 +85,8 @@ struct AppFoldersSection: View {
     }
 
     private var refusalMessage: Text {
-        let others = Text("Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, or a Library would slow down every look for apps. Choose the folder that holds the apps.\n\n\(refused.joined(separator: "\n"))")
-        let inATrash = Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(refusedInATrash.joined(separator: "\n"))")
+        let others = Text("Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, or a Library would slow down every look for apps. Choose the folder that holds the apps.\n\n\(RemovalFailureAlert.firstItems(refused).joined(separator: "\n"))")
+        let inATrash = Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(RemovalFailureAlert.firstItems(refusedInATrash).joined(separator: "\n"))")
         switch (refused.isEmpty, refusedInATrash.isEmpty) {
         case (false, true): return others
         case (true, false): return inATrash

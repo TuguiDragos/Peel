@@ -79,7 +79,7 @@ struct DuplicateScanForm: View {
         ) {
             Button("OK", role: .cancel) {}
         } message: {
-            let paths = rejectedFolders.map(\.abbreviatedPath).joined(separator: "\n")
+            let paths = RemovalFailureAlert.firstItems(rejectedFolders.map(\.abbreviatedPath)).joined(separator: "\n")
             Text("Choose a folder in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive and other folders that sync to your other devices, app data, the Music and TV apps’ media folders, and system folders aren’t scanned.\n\n\(paths)")
         }
     }

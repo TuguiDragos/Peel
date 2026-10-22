@@ -11,6 +11,12 @@ struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
     static let mostListed = 4
 
+    /// The first entries of a list, as many as an alert lists, and then how many items the others are.
+    static func firstItems(_ entries: [String]) -> [String] {
+        guard entries.count > mostListed else { return entries }
+        return entries.prefix(mostListed) + [String(inflecting: "And ^[\(entries.count - mostListed) more item](inflect: true).")]
+    }
+
     /// The first lines of a list of apps, as many as an alert lists, and then how many apps the others are.
     static func shortened(_ lines: [String]) -> [String] {
         guard lines.count > mostListed else { return lines }
@@ -93,12 +99,8 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     static func message(for outcome: RemovalOutcome) -> String {
-        let listed = outcome.failures.prefix(mostListed)
-        var lines = shortened(quitLines(outcome)) + listed.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
-        let rest = outcome.failures.count - listed.count
-        if rest > 0 {
-            lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
-        }
+        var lines = shortened(quitLines(outcome))
+            + firstItems(outcome.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
             + appManagementLines(outcome) + shortened(privacyLines(outcome))

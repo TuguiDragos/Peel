@@ -26,6 +26,20 @@ struct RemovalFailureAlertTests {
         #expect(details.filter { $0.contains("Example 30") }.count == 3)
     }
 
+    @Test func namesTheFirstFoldersAnAlertRefusesAndCountsTheOthers() {
+        let most = RemovalFailureAlert.mostListed
+        let paths = (1...30).map { "/Users/someone/Folder \($0)" }
+        let shown = RemovalFailureAlert.firstItems(paths)
+        #expect(shown.count == most + 1)
+        #expect(Array(shown.prefix(most)) == Array(paths.prefix(most)))
+        #expect(RemovalFailureAlert.firstItems(Array(paths.prefix(most))) == Array(paths.prefix(most)))
+
+        let refused = paths.map { (url: URL(filePath: $0), reason: ProjectArtifacts.Refusal.neverSearched) }
+        let reasons = ProjectList.reasons(refused).components(separatedBy: "\n\n")
+        #expect(reasons.count == most + 1, "\(reasons.count)")
+        #expect(!reasons.contains { $0.contains("Folder 30") })
+    }
+
     @Test func copiesTheShellLineTheAlertShows() {
         let outcome = RemovalOutcome()
         outcome.report(

@@ -180,8 +180,9 @@ struct ProjectList: View {
         }
     }
 
-    private static func reasons(_ folders: [(url: URL, reason: ProjectArtifacts.Refusal)]) -> String {
-        folders.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }.joined(separator: "\n\n")
+    static func reasons(_ folders: [(url: URL, reason: ProjectArtifacts.Refusal)]) -> String {
+        RemovalFailureAlert.firstItems(folders.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
+            .joined(separator: "\n\n")
     }
 
     private func phase(_ filtered: [ProjectGroup]) -> ScanPhase {

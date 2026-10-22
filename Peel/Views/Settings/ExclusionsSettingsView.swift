@@ -211,7 +211,7 @@ struct ExclusionsSettingsView: View {
         .alert(refused.count == 1 ? "That folder can’t be excluded." : "These folders can’t be excluded.", isPresented: isShowingRefusal) {
             Button("OK", role: .cancel) {}
         } message: {
-            let paths = refused.joined(separator: "\n")
+            let paths = RemovalFailureAlert.firstItems(refused).joined(separator: "\n")
             refused.count == 1
                 ? Text("That would hide too much from Peel. Choose the folders inside it that matter to you.\n\n\(paths)")
                 : Text("That would hide too much from Peel. Choose the folders inside them that matter to you.\n\n\(paths)")

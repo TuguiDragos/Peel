@@ -399,8 +399,10 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   (`HelperModel.change`). A failure goes back to whoever asked for the change and is shown there alone
   (`HelperFailureAlert`).
 - **An alert names the first few of a list that can grow.** AppKit never caps an alert's height, so a list of apps,
-  pages, or lines in one names its first four and counts the rest (`RemovalFailureAlert.mostListed`), and Copy
-  Details, offered whenever the alert leaves something out, gives them all.
+  pages, folders, or lines in one names its first four and counts the rest (`RemovalFailureAlert.mostListed`,
+  `RemovalFailureAlert.firstItems`), and Copy Details, where the alert offers it, gives them all. What the person has
+  to know whole before acting, the apps Peel asks to quit or would force quit and the formulae Clean Up uninstalls
+  for good, is named whole, in one sentence.
 
 ## Words and translations
 

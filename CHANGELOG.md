@@ -142,6 +142,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Open at Login reads and changes the login item away from the main thread, so the window no longer waits for macOS.
 - Remove Peel gives you the helper's ledger as the helper moves it to the Trash, so emptying the Trash needs no
   administrator's password for it.
+- When many of the folders you choose can't be used, the alert of App Folders and of Exclusions names the first few
+  and counts the others, so its button stays on the screen, as do the alerts of Build Artifacts and Duplicates.
 
 #### Applications
 
