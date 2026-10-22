@@ -283,6 +283,8 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
 
         reply("feed.example.com", status: 500, "")
         #expect(await recent.status(for: fedApp, preference: .developer, casks: current) == .upToDate)
+        #expect(await recent.answer(for: fedApp, preference: .developer, casks: current).standsInFor == .failed)
+        #expect(await recent.answer(for: fedApp, preference: .developer, casks: []).standsInFor == nil)
 
         reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"100\" sparkle:shortVersionString=\"1.0\" /></item>"))
         #expect(await recent.status(for: fedApp, preference: .developer, casks: outdated) == .upToDate, "its feed first")
@@ -304,7 +306,8 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(decided(recent, .developer, .upToDate) == nil)
         #expect(decided(recent, .developer, found) == nil)
         #expect(decided(recent, .developer, nil) == nil)
-        #expect(decided(later, .developer, .failed) == nil)
+        #expect(decided(later, .developer, .failed) == .failed, "Homebrew can no longer tell")
+        #expect(decided(later, .appStore, .unsupported) == .unsupported)
     }
 
     @Test func aMacAppReadsNoIPhoneRecord() async {

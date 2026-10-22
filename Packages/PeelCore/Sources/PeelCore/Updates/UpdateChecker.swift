@@ -81,15 +81,15 @@ public struct UpdateChecker: Sendable {
             ? await appStoreAnswer(for: app, earlier: earlier) : await feedAnswer(for: app, earlier: earlier)
         // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
         if let homebrew, own.status == .unsupported || own.status == .failed {
-            return UpdateAnswer(status: homebrew, developer: own.developer)
+            return UpdateAnswer(status: homebrew, developer: own.developer, standsInFor: own.status)
         }
         return own
     }
 
     /// The status `answer(for:preference:casks:earlier:)` gives `app` without asking any server, from Homebrew's
     /// casks and the app's own files alone, or nil when the app's own feed or the App Store has to be asked.
-    /// `known` is the answer shown now: when it says the app's own source had no answer, what Homebrew knows now
-    /// answers in its place, as a check would.
+    /// `known` is what that source answered last: where it had no answer, what Homebrew knows now answers in its
+    /// place, as a check would, and once Homebrew knows nothing that counts, the source's own answer stands again.
     public func statusWithoutAsking(
         for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage], known: UpdateStatus? = nil
     ) -> UpdateStatus? {
@@ -97,7 +97,7 @@ public struct UpdateChecker: Sendable {
         if let status = Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrew) {
             return status
         }
-        return known == .unsupported || known == .failed ? homebrew : nil
+        return known == .unsupported || known == .failed ? homebrew ?? known : nil
     }
 
     private static func statusWithoutAsking(
@@ -361,12 +361,22 @@ public struct UpdateAnswer: Sendable, Hashable {
     public let notes: ReleaseNotes?
     /// The page the feed names for what is new in the update found, when it does not write it in.
     public let notesPage: URL?
+    /// What the app's own feed or the App Store answered, `.failed` or `.unsupported`, when `status` is Homebrew's
+    /// answer in its place.
+    public let standsInFor: UpdateStatus?
 
-    public init(status: UpdateStatus, developer: String? = nil, notes: ReleaseNotes? = nil, notesPage: URL? = nil) {
+    public init(
+        status: UpdateStatus,
+        developer: String? = nil,
+        notes: ReleaseNotes? = nil,
+        notesPage: URL? = nil,
+        standsInFor: UpdateStatus? = nil
+    ) {
         self.status = status
         self.developer = developer
         self.notes = notes
         self.notesPage = notesPage
+        self.standsInFor = standsInFor
     }
 }
 

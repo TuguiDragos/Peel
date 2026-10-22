@@ -584,27 +584,31 @@ final class AppLibrary {
                 guard let app = asked[id], apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) else {
                     continue
                 }
+                let kept = answer.status.following(updateStatuses[id])
                 // Homebrew may have been read again while this answer was on its way: its casks decide where they can.
-                let status = casks == self.casks
-                    ? answer.status
+                let shown = casks == self.casks
+                    ? kept
                     : checker.statusWithoutAsking(
-                        for: app, preference: preference, casks: self.casks, known: answer.status
-                    ) ?? answer.status
-                let kept = status.following(updateStatuses[id])
+                        for: app, preference: preference, casks: self.casks, known: answer.standsInFor ?? kept
+                    ) ?? kept
                 // Any write redraws the whole Applications list, so an answer that changes nothing is not written.
-                if updateStatuses[id] != kept {
-                    updateStatuses[id] = kept
+                if updateStatuses[id] != shown {
+                    updateStatuses[id] = shown
                 }
-                if status != .failed {
+                if answer.status != .failed {
                     lastUpdateChecks[id] = .now
                 }
                 guard let identifier = app.bundleIdentifier else { continue }
                 memory[identifier] = UpdateMemory(
                     status: kept,
-                    schedule: UpdateSchedule.next(after: status, following: memory[identifier]?.schedule),
-                    checked: status == .failed ? memory[identifier]?.checked : .now,
+                    // A feed that failed is asked again on its own count, even where Homebrew answered in its place.
+                    schedule: UpdateSchedule.next(
+                        after: answer.standsInFor ?? answer.status, following: memory[identifier]?.schedule
+                    ),
+                    checked: answer.status == .failed ? memory[identifier]?.checked : .now,
                     describing: app,
-                    developer: answer.developer ?? memory[identifier]?.developer
+                    developer: answer.developer ?? memory[identifier]?.developer,
+                    standsInFor: answer.standsInFor
                 )
                 // Only an answer that found this update can say what is new in it; a failed one keeps what was known.
                 if case .updateAvailable(let version, _, _) = kept, answer.status == kept {
@@ -800,18 +804,20 @@ final class AppLibrary {
         UpdateMemoryStore.save(memory, to: defaults)
     }
 
-    /// Shows for each app Homebrew installed what a check would answer now without asking any server: what
-    /// Homebrew's casks and the app's own files decide, and what Homebrew knows where the app's own source had no
-    /// answer. Reading Homebrew costs no network request, so this doesn't wait for the update schedule, and
-    /// Applications agrees with the Homebrew page.
+    /// Shows what a check would answer now without asking any server, for each app Homebrew installed and each app
+    /// whose last answer is Homebrew's in place of its own source: what Homebrew's casks and the app's own files
+    /// decide, and what Homebrew knows where that source had no answer, for as long as it counts. Reading Homebrew
+    /// costs no network request, so this doesn't wait for the update schedule, and Applications agrees with the
+    /// Homebrew page.
     private func applyHomebrewStatuses() {
         let preference = updateSource
-        for app in apps where homebrewApps[app.id] != nil && isAskedAboutUpdates(app) {
-            let known = updateStatuses[app.id]
+        for app in apps where isAskedAboutUpdates(app) {
+            let remembered = app.bundleIdentifier.flatMap { memory[$0] }.flatMap { $0.describes(app) ? $0 : nil }
+            guard homebrewApps[app.id] != nil || remembered?.standsInFor != nil else { continue }
             let decided = updateChecker.statusWithoutAsking(
-                for: app, preference: preference, casks: casks, known: known
+                for: app, preference: preference, casks: casks, known: remembered.map { $0.standsInFor ?? $0.status }
             )
-            guard let decided, decided != known else { continue }
+            guard let decided, decided != updateStatuses[app.id] else { continue }
             updateStatuses[app.id] = decided
         }
     }

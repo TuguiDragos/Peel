@@ -16,6 +16,10 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     /// The developer's name from the App Store. It is saved because an App Store app's signature is Apple's and
     /// does not name the developer, and the next check may be a week away.
     public let developer: String?
+    /// What the app's own feed or the App Store answered when `status` is Homebrew's answer in its place
+    /// (`UpdateAnswer.standsInFor`). Homebrew's answer counts only while Homebrew gives it, and the app falls back to
+    /// this once it doesn't.
+    public let standsInFor: UpdateStatus?
     /// The `UpdateChecker.revision` that gave the answer; nil for one saved before revisions were kept.
     public let revision: Int?
 
@@ -24,12 +28,14 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         schedule: UpdateSchedule,
         checked: Date?,
         describing app: InstalledApp,
-        developer: String? = nil
+        developer: String? = nil,
+        standsInFor: UpdateStatus? = nil
     ) {
         self.status = status
         self.schedule = schedule
         self.checked = checked
         self.developer = developer
+        self.standsInFor = standsInFor
         version = app.version
         buildVersion = app.buildVersion
         revision = UpdateChecker.revision
