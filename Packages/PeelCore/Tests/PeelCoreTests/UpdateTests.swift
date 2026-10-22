@@ -292,6 +292,12 @@ struct AppStoreLookupTests {
 
         let iPhone = #"{"resultCount":1,"results":[{"kind":"software","version":"26.36.74"}]}"#
         #expect(AppStoreLookup.answer(in: Data(iPhone.utf8), for: .mac) == .notListed)
+        let sharedWithTheIPhone = #"{"resultCount":1,"results":[{"kind":"software","version":"16.13.2","supportedDevices":["MacDesktop-MacDesktop","iPhone5s-iPhone5s","iPadAir-iPadAir"]}]}"#
+        #expect(AppStoreLookup.answer(in: Data(sharedWithTheIPhone.utf8), for: .mac) == .notListed)
+        let theMacs = #"{"resultCount":1,"results":[{"kind":"software","version":"16.13.1","supportedDevices":["MacDesktop-MacDesktop","Watch4-Watch4"]}]}"#
+        #expect(
+            AppStoreLookup.answer(in: Data(theMacs.utf8), for: .mac) == .listed(version: "16.13.1", page: nil, developer: nil)
+        )
 
         // No record at all: the store doesn't sell the app in this region, or anymore. That is an answer too.
         #expect(AppStoreLookup.answer(in: Data(#"{"resultCount":0,"results":[]}"#.utf8), for: .mac) == .notListed)
@@ -310,8 +316,13 @@ struct AppStoreLookupTests {
     }
 
     @Test func encodesLookupURL() {
-        let url = AppStoreLookup.url(bundleIdentifier: "com.shazam.mac.Shazam", country: "ro")
-        #expect(url?.absoluteString == "https://itunes.apple.com/lookup?bundleId=com.shazam.mac.Shazam&country=ro")
+        let mac = AppStoreLookup.url(bundleIdentifier: "com.shazam.mac.Shazam", country: "ro", for: .mac)
+        #expect(
+            mac?.absoluteString
+                == "https://itunes.apple.com/lookup?bundleId=com.shazam.mac.Shazam&country=ro&entity=desktopSoftware"
+        )
+        let iPad = AppStoreLookup.url(bundleIdentifier: "org.example.weather", country: "de", for: .iPhoneAndiPad)
+        #expect(iPad?.absoluteString == "https://itunes.apple.com/lookup?bundleId=org.example.weather&country=de")
     }
 }
 

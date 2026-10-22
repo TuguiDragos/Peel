@@ -147,13 +147,13 @@ public struct UpdateChecker: Sendable {
         guard app.isFromAppStore, let installed = app.version, let identifier = app.bundleIdentifier else {
             return UpdateAnswer(status: .unsupported)
         }
-        var reply = await lookup(identifier, in: country)
+        let listing: AppStoreListing = if case .appStore(let listing) = app.updateFeed { listing } else { .mac }
+        var reply = await lookup(identifier, in: country, for: listing)
         // A two-letter region with no store, such as Antarctica (AQ), is also refused with HTTP 400.
         if reply.status == 400, country != "us" {
-            reply = await lookup(identifier, in: "us")
+            reply = await lookup(identifier, in: "us", for: listing)
         }
         guard let data = reply.data else { return UpdateAnswer(status: .failed) }
-        let listing: AppStoreListing = if case .appStore(let listing) = app.updateFeed { listing } else { .mac }
         switch AppStoreLookup.answer(in: data, for: listing) {
         case .unreadable:
             return UpdateAnswer(status: .failed)
@@ -171,8 +171,10 @@ public struct UpdateChecker: Sendable {
         }
     }
 
-    private func lookup(_ identifier: String, in country: String) async -> Reply {
-        guard let url = AppStoreLookup.url(bundleIdentifier: identifier, country: country) else { return Reply() }
+    private func lookup(_ identifier: String, in country: String, for listing: AppStoreListing) async -> Reply {
+        guard let url = AppStoreLookup.url(bundleIdentifier: identifier, country: country, for: listing) else {
+            return Reply()
+        }
         return await fetchReply(url)
     }
 

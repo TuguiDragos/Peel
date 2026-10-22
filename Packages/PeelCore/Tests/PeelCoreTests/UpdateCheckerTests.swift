@@ -13,6 +13,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
 
     static let replies = Mutex<[String: Reply]>([:])
     static let asked = Mutex<[String]>([])
+    static let addresses = Mutex<[String]>([])
 
     override class func canInit(with request: URLRequest) -> Bool { true }
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
@@ -21,6 +22,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     override func startLoading() {
         let host = request.url?.host() ?? ""
         Self.asked.withLock { $0.append(host) }
+        Self.addresses.withLock { $0.append(request.url?.absoluteString ?? "") }
         guard let reply = Self.replies.withLock({ $0[host] }), let url = request.url,
               let response = HTTPURLResponse(
                 url: url, statusCode: reply.status, httpVersion: "HTTP/1.1", headerFields: reply.headers
@@ -159,11 +161,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: fed, preference: .automatic, casks: [current]) == .upToDate)
     }
 
-    /// An app sold once for iPhone, iPad, and Mac has one record, of kind "software", whose version is the
-    /// iPhone's. For an app the store doesn't sell in this region, or anymore, Apple answers with no record at
-    /// all. Neither is a failed check: there is no Mac version to read, so the app is `.unsupported` and is asked
-    /// about again in a week, rather than read as a feed that is down and asked again every few hours.
-    @Test func aUniversalPurchaseIsNotAFailedCheck() async {
+    @Test func aMacAppReadsNoIPhoneRecord() async {
         let sold = InstalledApp(
             url: URL(filePath: "/Applications/Notes Pro.app"),
             bundleIdentifier: "com.example.notes",
@@ -173,7 +171,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
             updateFeed: .appStore(.mac)
         )
 
-        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","version":"3.6.7","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","version":"3.6.7","supportedDevices":["MacDesktop-MacDesktop","iPhone5s-iPhone5s","iPadAir-iPadAir"],"trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
         #expect(await checker.status(for: sold) == .unsupported)
 
         reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.0","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
@@ -193,6 +191,24 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: sold) == .failed, "an answer Peel can't read is still a failed check")
     }
 
+    @Test func asksTheMacListingOfAMacAppSoldWithItsIPhoneVersion() async {
+        let notes = { (version: String) in
+            InstalledApp(
+                url: URL(filePath: "/Applications/Notes.app"), bundleIdentifier: "org.example.notes", name: "Notes",
+                version: version, isFromAppStore: true, updateFeed: .appStore(.mac)
+            )
+        }
+        CannedProtocol.addresses.withLock { $0 = [] }
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","version":"7.1.30","supportedDevices":["MacDesktop-MacDesktop"],"trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
+        #expect(
+            await checker.status(for: notes("7.1.27"))
+                == .updateAvailable(version: "7.1.30", source: .appStore, releaseNotes: URL(string: "https://apps.apple.com/app/id1"))
+        )
+        #expect(await checker.status(for: notes("7.1.30")) == .upToDate)
+        let addresses = CannedProtocol.addresses.withLock { $0 }
+        #expect(addresses.count == 2 && addresses.allSatisfy { $0.contains("entity=desktopSoftware") })
+    }
+
     @Test func checksAnIPhoneOrIPadAppOnTheMacAgainstItsOwnListing() async {
         let wrapped = { (version: String) in
             InstalledApp(
@@ -200,6 +216,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
                 name: "Weather", version: version, isFromAppStore: true, updateFeed: .appStore(.iPhoneAndiPad)
             )
         }
+        CannedProtocol.addresses.withLock { $0 = [] }
         reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","version":"6.9.2","trackViewUrl":"https://apps.apple.com/app/id1","artistName":"Example LLC"}]}"#)
         #expect(
             await checker.status(for: wrapped("6.9.1"))
@@ -207,6 +224,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         )
         #expect(await checker.answer(for: wrapped("6.9.1")).developer == "Example LLC")
         #expect(await checker.status(for: wrapped("6.9.2")) == .upToDate)
+        #expect(CannedProtocol.addresses.withLock { $0 }.allSatisfy { !$0.contains("entity=") })
 
         reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"mac-software","version":"7.0","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
         #expect(await checker.status(for: wrapped("6.9.2")) == .unsupported, "a Mac record says nothing of an iPad build")

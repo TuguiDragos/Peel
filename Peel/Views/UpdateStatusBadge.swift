@@ -64,7 +64,7 @@ struct UpdateStatusBadge: View {
         } else if app.version == nil {
             Text("\(app.name) doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app.")
         } else if app.isFromAppStore {
-            Text("The App Store doesn’t give a Mac version of \(app.name) that Peel can compare. It lists some apps under one entry for all the devices they run on, with the iPhone’s version, and nothing for an app it doesn’t sell in this region. The App Store app itself knows when there is an update.")
+            Text("The App Store gives Peel no version of \(app.name) to compare, as for an app it doesn’t sell in your Mac’s region or doesn’t sell anymore. The App Store app itself knows when there is an update.")
         } else {
             Text("\(app.name) doesn’t say where it updates from in a way Peel can read. Peel reads an app’s update feed from the app’s own files, and asking Apple about every app instead would send Apple a list of what is installed on this Mac. Look for an update inside the app.")
         }

@@ -158675,108 +158675,108 @@
         }
       }
     },
-    "The App Store doesn’t give a Mac version of %@ that Peel can compare. It lists some apps under one entry for all the devices they run on, with the iPhone’s version, and nothing for an app it doesn’t sell in this region. The App Store app itself knows when there is an update." : {
+    "The App Store gives Peel no version of %@ to compare, as for an app it doesn’t sell in your Mac’s region or doesn’t sell anymore. The App Store app itself knows when there is an update." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U aplikace %@ neudává App Store žádnou verzi pro Mac, kterou by Peel dokázal porovnat. App Store uvádí některé aplikace pod jednou položkou pro všechna zařízení, na kterých běží, s verzí pro iPhone a u aplikace, kterou v této oblasti neprodává, neuvádí nic. Kdy je k dispozici aktualizace, ví sama aplikace App Store."
+            "value" : "U aplikace %@ neudává App Store žádnou verzi, kterou by Peel dokázal porovnat, jako u aplikace, kterou v oblasti vašeho Macu neprodává nebo už neprodává. Kdy je k dispozici aktualizace, ví sama aplikace App Store."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der App Store gibt keine Mac-Version von „%@“ an, mit der Peel vergleichen kann. Er führt einige Apps mit der Version des iPhone unter einem Eintrag für alle Geräte, auf denen sie laufen, und eine App, die er in dieser Region nicht verkauft, führt er gar nicht. Die App „App Store“ selbst weiß, wann es ein Update gibt."
+            "value" : "Der App Store gibt keine Version von „%@“ an, mit der Peel vergleichen kann, etwa bei einer App, die er in der Region deines Mac nicht oder nicht mehr verkauft. Die App „App Store“ selbst weiß, wann es ein Update gibt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store no indica una versión de %@ para Mac que Peel pueda comparar. Muestra algunas apps en una sola ficha para todos los dispositivos en los que funcionan, con la versión del iPhone, y no muestra nada de una app que no vende en esta región. La propia app App Store sabe cuándo hay una actualización."
+            "value" : "App Store no indica ninguna versión de %@ que Peel pueda comparar, como en el caso de una app que no vende en la región de tu Mac o que ya no vende. La propia app App Store sabe cuándo hay una actualización."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’App Store n’indique pas de version Mac de %@ que Peel puisse comparer. Il répertorie certaines apps sous une seule fiche pour tous les appareils sur lesquels elles fonctionnent, avec la version de l’iPhone, et n’a aucune fiche pour une app qu’il ne vend pas dans cette région. L’app App Store elle-même sait quand une mise à jour est disponible."
+            "value" : "L’App Store n’indique pas de version de %@ que Peel puisse comparer, comme c’est le cas pour une app qu’il ne vend pas dans la région de votre Mac ou qu’il ne vend plus. L’app App Store elle-même sait quand une mise à jour est disponible."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store non riporta una versione per Mac di %@ che Peel possa confrontare. Alcune app sono elencate in un’unica scheda per tutti i dispositivi su cui funzionano, con la versione per iPhone, e un’app che non è in vendita in questa zona non ha nessuna scheda. È l’app App Store a sapere quando c’è un aggiornamento."
+            "value" : "App Store non riporta nessuna versione di %@ che Peel possa confrontare, come accade per un’app che non è in vendita nella zona del Mac o che non è più in vendita. È l’app App Store a sapere quando c’è un aggiornamento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Storeは、“%@”について、Peelが比較できるMac版のバージョンを示していません。一部のアプリについては、対応するすべてのデバイス共通の1つの項目として掲載してiPhone版のバージョンを示し、この地域では販売していないアプリについては何も掲載していません。アップデートがあるかどうかは、App Storeアプリ自体が把握しています。"
+            "value" : "App Storeは、“%@”について、Peelが比較できるバージョンを示していません。Macの地域では販売していないアプリや、販売を終了したアプリの場合と同様です。アップデートがあるかどうかは、App Storeアプリ自体が把握しています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store는 ‘%@’에 대해 Peel이 비교할 수 있는 Mac용 버전을 알려 주지 않습니다. 일부 앱을 실행되는 모든 기기에 대해 하나의 항목으로 표시하면서 iPhone용 버전을 알려 주고, 이 지역에서 판매하지 않는 앱에 대해서는 아무것도 표시하지 않습니다. 업데이트가 있는지는 App Store 앱이 알고 있습니다."
+            "value" : "App Store는 ‘%@’에 대해 Peel이 비교할 수 있는 버전을 알려 주지 않습니다. Mac의 지역에서 판매하지 않거나 더 이상 판매하지 않는 앱의 경우가 그렇습니다. 업데이트가 있는지는 App Store 앱이 알고 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voor %@ vermeldt de App Store geen Mac-versie die Peel kan vergelijken. De App Store toont sommige apps als één onderdeel voor alle apparaten waarop ze werken, met de versie voor de iPhone, en niets voor een app die hij in deze regio niet verkoopt. De App Store-app zelf weet wanneer er een update is."
+            "value" : "Voor %@ vermeldt de App Store geen versie die Peel kan vergelijken, zoals bij een app die hij in de regio van je Mac niet verkoopt of niet meer verkoopt. De App Store-app zelf weet wanneer er een update is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store nie podaje wersji aplikacji %@ dla Maca, którą Peel mógłby porównać z zainstalowaną. Wyświetla niektóre aplikacje jako jedną pozycję dla wszystkich urządzeń, na których działają, podając wersję dla iPhone’a, a dla aplikacji, której nie sprzedaje w tym regionie, nie wyświetla nic. Sama aplikacja App Store wie, kiedy jest dostępne uaktualnienie."
+            "value" : "App Store nie podaje wersji aplikacji %@, którą Peel mógłby porównać z zainstalowaną, jak w przypadku aplikacji, której nie sprzedaje w regionie Twojego Maca lub już nie sprzedaje. Sama aplikacja App Store wie, kiedy jest dostępne uaktualnienie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A App Store não informa uma versão de %@ para Mac que o Peel consiga comparar. Ela lista alguns apps em uma única entrada para todos os dispositivos em que eles funcionam, com a versão do iPhone, e não lista nada para um app que ela não vende nesta região. O próprio app App Store sabe quando há uma atualização."
+            "value" : "A App Store não informa nenhuma versão de %@ para o Peel comparar, como no caso de um app que ela não vende na região do seu Mac ou que não vende mais. O próprio app App Store sabe quando há uma atualização."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pentru %@, App Store nu indică nicio versiune pentru Mac pe care Peel să o poată compara. Listează unele aplicații sub o singură intrare pentru toate dispozitivele pe care rulează, cu versiunea pentru iPhone, iar pentru o aplicație pe care nu o vinde în această regiune nu listează nimic. Aplicația App Store însăși știe când există o actualizare."
+            "value" : "Pentru %@, App Store nu indică nicio versiune pe care Peel să o poată compara, ca în cazul unei aplicații pe care nu o vinde în regiunea Mac‑ului dvs. sau nu o mai vinde. Aplicația App Store însăși știe când există o actualizare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store не сообщает версию приложения «%@» для Mac, которую Peel мог бы сравнить с установленной. Некоторые приложения указаны там одной записью для всех устройств, на которых они работают, и версия в ней относится к iPhone, а для приложения, которое не продается в этом регионе, нет никакой записи. Само приложение App Store знает, когда выходит обновление."
+            "value" : "App Store не сообщает версию приложения «%@», которую Peel мог бы сравнить с установленной, как бывает с приложением, которое не продается в регионе Вашего Mac или больше не продается. Само приложение App Store знает, когда выходит обновление."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store anger ingen version av %@ för Mac som Peel kan jämföra med. Den listar vissa appar under en och samma post för alla enheter som de fungerar på, med versionen för iPhone, och har ingenting för en app som den inte säljer i den här regionen. Appen App Store vet själv när det finns en uppdatering."
+            "value" : "App Store anger ingen version av %@ som Peel kan jämföra med, till exempel för en app som den inte säljer i datorns region eller inte längre säljer. Appen App Store vet själv när det finns en uppdatering."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store, %@ uygulaması için Peel’in karşılaştırabileceği bir Mac sürümü vermiyor. Bazı uygulamaları çalıştıkları tüm aygıtlar için tek bir kayıt altında, iPhone sürümüyle listeler; bu bölgede satmadığı bir uygulama için ise hiçbir şey listelemez. Ne zaman güncelleme olduğunu App Store uygulamasının kendisi bilir."
+            "value" : "App Store, Mac’inizin bölgesinde satmadığı veya artık satmadığı bir uygulama için olduğu gibi, %@ uygulaması için de Peel’in karşılaştırabileceği bir sürüm vermiyor. Ne zaman güncelleme olduğunu App Store uygulamasının kendisi bilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Для програми «%@» App Store не повідомляє версії для Mac, яку Peel може порівняти. App Store показує деякі програми одним записом для всіх пристроїв, на яких вони працюють, і повідомляє версію для iPhone, а для програми, яку не продає в цьому регіоні, не показує нічого. Про наявність оновлення знає сама програма App Store."
+            "value" : "Для програми «%@» App Store не повідомляє версії, яку Peel може порівняти, як буває з програмою, яку App Store не продає в регіоні вашого Mac або більше не продає. Про наявність оновлення знає сама програма App Store."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store没有给出“%@”Mac版的版本号供Peel比较。它对某些App支持的所有设备只列出一个条目，给出的版本号是iPhone版的；对于它在此地区不销售的App，则不列出任何条目。App Store App本身知道何时有更新。"
+            "value" : "App Store没有给出“%@”的版本号供Peel比较，例如它在你的Mac所设置的地区不销售或已不再销售的App就是如此。App Store App本身知道何时有更新。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store沒有提供Peel能比對的「%@」Mac版本。它會將某些App在其支援的所有裝置上列為同一個項目，而提供的版本是iPhone版；對於未在此地區販售的App，則不會列出任何項目。App Store App本身才知道何時有更新。"
+            "value" : "App Store沒有提供Peel能比對的「%@」版本，就像對於它未在你的Mac所設定的地區販售或已不再販售的App一樣。App Store App本身才知道何時有更新。"
           }
         }
       }
