@@ -21,6 +21,10 @@ struct TrashServiceTests {
         #expect(!service.isInsideATrash(lookalike))
         #expect(service.isInATrash(direct))
         #expect(!service.isInATrash(nested))
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        for url in [direct, nested, installed, lookalike] {
+            #expect(TrashService.isInsideATrash(url, home: home) == service.isInsideATrash(url), "\(url.path)")
+        }
     }
 
     private func service(in directory: borrowing TemporaryDirectory) throws -> TrashService {

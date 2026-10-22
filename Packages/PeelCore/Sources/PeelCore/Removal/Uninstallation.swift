@@ -99,7 +99,7 @@ public struct Uninstallation: Sendable {
             isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false,
             appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false,
             isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url),
-            isAppInTheTrash: TrashService(environment: environment).isInsideATrash(app.url),
+            isAppInTheTrash: TrashService.isInsideATrash(app.url, home: environment.homeDirectory),
             uninstallsItself: uninstallsItself,
             installedSystemExtensions: await AppExtensions.installed(carriedBy: app, asking: systemExtensions)
         )

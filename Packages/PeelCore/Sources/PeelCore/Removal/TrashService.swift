@@ -811,17 +811,24 @@ public struct TrashService: Sendable {
     /// folder is compared with links resolved, since one that is only called `.Trash` can be a link into
     /// Messages. `FileManager` is not asked: for a folder in iCloud Drive it names iCloud's Trash, not Peel's.
     public func isInATrash(_ url: URL) -> Bool {
-        guard let folder = resolvedFolder(of: url) else { return false }
+        guard let folder = Self.resolvedFolder(of: url) else { return false }
         return trashes(forItemsIn: folder).contains(folder)
     }
 
     /// Whether `url` is in a Trash, directly or in a folder there, where nothing can be moved again.
     public func isInsideATrash(_ url: URL) -> Bool {
-        guard let folder = resolvedFolder(of: url) else { return false }
-        return trashes(forItemsIn: folder).contains { PathComponents.isPath(folder, atOrInside: $0) }
+        Self.isInsideATrash(url, home: environment.homeDirectory)
     }
 
-    private func resolvedFolder(of url: URL) -> String? {
+    /// `isInsideATrash(_:)` for `home`, without the `RemovalGuard` a service builds, for code that only asks this.
+    public static func isInsideATrash(_ url: URL, home: URL = .homeDirectory) -> Bool {
+        guard let folder = resolvedFolder(of: url) else { return false }
+        return trashes(forItemsIn: folder, homes: [.homeDirectory, home]).contains {
+            PathComponents.isPath(folder, atOrInside: $0)
+        }
+    }
+
+    private static func resolvedFolder(of url: URL) -> String? {
         guard !url.pathComponents.contains(where: { $0 == "." || $0 == ".." }) else { return nil }
         return PrivilegedPathPolicy.resolvedPath(url.deletingLastPathComponent().path(percentEncoded: false))
     }

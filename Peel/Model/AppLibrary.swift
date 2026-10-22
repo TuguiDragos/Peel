@@ -315,8 +315,7 @@ final class AppLibrary {
     @discardableResult
     private func adopt(_ found: [InstalledApp]) -> [InstalledApp] {
         revealed = stillThere(revealed, beside: found)
-        let trash = TrashService()
-        appsInATrash = Set(revealed.filter { trash.isInsideATrash($0.url) }.map(\.id))
+        appsInATrash = Set(revealed.filter { TrashService.isInsideATrash($0.url) }.map(\.id))
         let listed = AppCatalog.sorted(found + revealed)
         let previous = Dictionary(apps.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let changed = listed.filter { app in previous[app.id].map { !$0.isTheSameBuild(as: app) } ?? false }
