@@ -862,6 +862,40 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.reason) == [.heldOpen(by: ["cat"])])
     }
 
+    @Test func readsTheOpenFilesAgainBeforeEachRequestToTheHelper() async throws {
+        let directory = try TemporaryDirectory()
+        let first = try (0..<HelperRequest.maximumItems).map {
+            try directory.file("home/Library/Caches/org.example.app/\($0).cache")
+        }
+        let last = try directory.file("home/Library/Caches/org.example.app/last.cache", bytes: 1_000_000)
+        let reader = Mutex<Process?>(nil)
+        defer { reader.withLock { $0?.terminate() } }
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            moveThroughHelper: { urls in
+                if !urls.contains(last) {
+                    let cat = Process()
+                    cat.executableURL = URL(filePath: "/bin/cat")
+                    cat.arguments = [last.path(percentEncoded: false)]
+                    cat.standardOutput = Pipe()
+                    try? cat.run()
+                    reader.withLock { $0 = cat }
+                    try? await Task.sleep(for: .milliseconds(1_050))
+                }
+                return TrashResult(trashed: urls.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
+            },
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+
+        let result = await service.trash(first + [last], usingHelperFor: Set(first + [last]))
+
+        #expect(result.trashed.map(\.originalURL) == first)
+        #expect(result.failures.map(\.reason) == [.heldOpen(by: ["cat"])])
+    }
+
     @Test func makesNoFolderForAPutBackTheGuardRefusesOnceTheFoldersAreHeld() throws {
         let directory = try TemporaryDirectory()
         let caches = try directory.directory("home/Library/Caches")

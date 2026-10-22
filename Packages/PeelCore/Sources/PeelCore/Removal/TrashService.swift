@@ -617,16 +617,7 @@ public struct TrashService: Sendable {
         // find it gone and report a failure.
         var paths = Folders()
         permitted.forEach { paths.add(PathPattern.comparablePath(of: $0)) }
-        var openFiles = OpenFiles.Fresh()
-        var allowed: [URL] = []
-        for url in permitted {
-            guard !paths.hold(PathPattern.comparablePath(of: url)) else { continue }
-            if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
-                result.failures.append(TrashFailure(url: url, reason: held))
-                continue
-            }
-            allowed.append(url)
-        }
+        let allowed = permitted.filter { !paths.hold(PathPattern.comparablePath(of: $0)) }
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
         // A command-line tool's link leads into its app until the app has moved, and the helper takes such a link
         // only once it leads nowhere, so the links go after everything else.
@@ -636,11 +627,22 @@ public struct TrashService: Sendable {
         var helperResult = TrashResult()
         // One request at a time, each answer written down before the next request goes, so a stop while the helper
         // works loses no more than the request under way. The helper's own limit also bounds how many items an
-        // answer that never comes can affect.
+        // answer that never comes can affect. The helper reads no open files, so they are read right before each
+        // request, and again once the last reading is older than `OpenFiles.lifetime`.
         let limit = HelperRequest.maximumItems
+        var openFiles = OpenFiles.Fresh()
         for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] {
             for start in stride(from: 0, to: batch.count, by: limit) {
-                let moved = await moveThroughHelper(Array(batch[start..<min(start + limit, batch.count)]))
+                var request: [URL] = []
+                for url in batch[start..<min(start + limit, batch.count)] {
+                    if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
+                        result.failures.append(TrashFailure(url: url, reason: held))
+                    } else {
+                        request.append(url)
+                    }
+                }
+                guard !request.isEmpty else { continue }
+                let moved = await moveThroughHelper(request)
                 journal?.note(moved.trashed, batch: removal)
                 MoveCount.current?.add(moved.trashed.count)
                 helperResult.trashed += moved.trashed
