@@ -32,7 +32,8 @@ prove, and only then fix.
    because of the change, and follow each one you find the same way, along its own path, until nothing that depends
    on the change is left unchecked. That includes every other way Peel reaches the same thing: an app moves from its
    own page, from several apps' page, from Package Receipts, and through the Homebrew page, so a rule about what may
-   move an app is asked on each of them.
+   move an app is asked on each of them. Measure what the change adds where it runs often, for each item a scan
+   walks or each line of a file it reads, on a large case as well as a small one.
 6. **Build and test after every change**, not only at the end: the whole package suite with warnings as errors,
    the app's Debug build, and the app's own tests, which run inside Peel
    ([CONTRIBUTING.md](CONTRIBUTING.md#what-you-need) has the commands). Before proposing the change, run what the
@@ -44,7 +45,9 @@ prove, and only then fix.
    a disk image made for it. A Debug build is Peel to macOS: it shares the installed Peel's settings, History,
    exclusions, and helper record, and what it moves is yours. Check a removal on files made for it, such as a folder
    on a disk image given to `peel duplicates` or `peel projects` with `--dry-run` first, and never run Remove Peel
-   in it.
+   in it. A made-up home (`CFFIXED_USER_HOME`) moves only the home folder: the temporary and cache folders macOS
+   gives the account (`confstr`) stay the real ones, and Developer and Space read them, so a check there selects
+   and never moves.
 8. **Leave nothing behind**: no probe, no debugging output, and nothing the change left unused.
 9. **Say exactly what happened.** Report a failing test with its output, a step you skipped as skipped, and what
    you couldn't prove as unproved. If something can't be checked on your Mac, say what and why in the pull
@@ -91,10 +94,14 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   container of Apple's own, work not saved yet, photo, music, and video libraries, a sandboxed app's `Documents`, the
   folders every account starts with, and work a tool keeps only in a cache folder. [SAFETY.md](SAFETY.md) lists every
   place. The guard judges the item, not how its path is spelled: each rule is asked of the path as written, as found on
-  disk, and as the kernel names the item, and the places it protects are known by device and inode too.
+  disk, and as the kernel names the item, and the places it protects are known by device and inode too. Every
+  folder on the way to one that stays itself stays too, such as `~/Library/Audio` on the way to the plug-in folders
+  Peel searches, since moving it would take that place along (`ProtectedObjects.ancestors`); a browser's own data
+  folder still goes with the browser.
 - **Paths are compared name by name, never as text.** A Swift `String` reads a slash and a combining mark after it
   as one `Character`, so `hasPrefix(folder + "/")` and `split(separator: "/")` miss a folder such a name sits in.
-  Every "is this inside that folder" question goes through `PathComponents`.
+  Every "is this inside that folder" question goes through `PathComponents`. A path looked for in a file's text
+  counts only where it stands whole, never inside a longer name (`ShellReferences.holdsWhole`).
 - **Only `certain` and `likely` matches that no other installed app claims are selected for the user.** Anything
   shared is shown and left unselected, and nothing is selected for an app that would stay.
 - **What may exist nowhere else is never selected for the user.** A folder with a wallet, a signing key, a password
@@ -193,6 +200,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
   the test ends it or the suite ends and its input closes: letting go of the `Process` ends nothing. A folder a
   test makes never ends in a package's extension: `org.example.App` is an app to macOS and to Peel, so nothing
   inside it is looked at as a folder's contents.
+- **A test of the app writes nothing of the person's.** Its preferences live in a domain of its own
+  (`MadeUpDefaults`), and it never calls what writes Peel's own folder, such as `AppLibrary.refresh()`, which
+  remembers the apps it read.
 - Some changes need a particular test:
   - matching: `LeftoverMatcherTests`, with the case the rule catches and a case it must not catch;
   - anything that decides what may be removed: a test that fails without the fix, written to get past the rule
@@ -245,7 +255,8 @@ If you are unsure whether something belongs in the helper, it doesn't.
   one was. `PreferenceCleanup` handles both.
 - **A program's end is learned from the kernel.** `NSRunningApplication.isTerminated` isn't always updated once an
   app has quit, so `ProcessEnds` watches the kernel's report of the process ending, set up before Peel asks the app
-  to quit.
+  to quit. AppKit's list of running apps still names an app for a few milliseconds after it ended, so whether a
+  process still runs is asked of the kernel too (`ProcessEnds.isRunning`).
 - **Only macOS removes a system extension.** Finder's move of the app that carries it asks macOS to, and so does
   Delete Extension in System Settings, which on macOS 27 deletes a network extension even once its app is gone; a
   move by any other app tells macOS nothing, and macOS may still keep one Finder asked about (a running network
@@ -265,6 +276,10 @@ If you are unsure whether something belongs in the helper, it doesn't.
   such a job, so it isn't taken for one with nothing left to run.
 - **Registering an app with Launch Services starts its extensions**, which make their folders again, so a Put Back
   registers the apps it brings back only once every item is back.
+- **Asking for an app's name or icon registers it with Launch Services.** `FileManager.displayName`, the
+  `localizedNameKey` and `effectiveIconKey` resource values, and IconServices register the bundle they are asked
+  about, so Peel asks them only about an app Launch Services already knows at that place, and names or draws any
+  other from its own files (`AppInspector.displayName`, `AppInspector.icon(ofAppAt:)`).
 - **Code that can run after Peel has moved stops trusting its bundle.** Peel's Finder extension can keep running
   from the Trash, where `NSImage(resource:)` traps on an asset it no longer finds, so it offers nothing once its
   bundle has left. Once Remove Peel has moved Peel, the main bundle still names the place it left, so the last words
@@ -275,12 +290,25 @@ If you are unsure whether something belongs in the helper, it doesn't.
   streams, in the order Homebrew wrote them.
 - **Never run `brew` by hand with `HOMEBREW_NO_INSTALL_FROM_API=1`**: Homebrew then clones its whole core tap, over
   a gigabyte. Peel sets it for one question only, whether Homebrew's copy of its definitions is on the Mac.
+- **What Homebrew says of versions is as new as its last check for them.** `brew update` touches `.git/FETCH_HEAD` in
+  Homebrew's repository, the mark Homebrew compares with its own day, so what it says counts for a day after that
+  check (`Homebrew.lastUpdateCheck()`, `Homebrew.autoUpdateInterval`), while an update it knows of always shows.
+- **Apple's lookup is limited and lags a release.** Apple limits `itunes.apple.com/lookup` to about 20 calls a
+  minute, so a process asks no faster (`RequestWindow`), and a copy of its catalog can name an older version for
+  hours after a release, so an answer older than an update already found counts as a check that failed.
+- **A setting has layers, and Peel writes one of them.** macOS reads a key from a profile first, then from this
+  Mac's own layer, the person's, every account's, and, for an app's domain, the global domain's, and the first that
+  holds it wins. Peel writes the person's layer for every Mac, so a value it can't change from there shows with a
+  lock: one set for this Mac alone, and a switch that is on only through a layer below the person's (`TweakStore`).
+  `defaults write` with no type stores a number as text, so a number is read from its text too, as
+  `UserDefaults.double(forKey:)` reads it.
 
 ## Code
 
 - Swift 6.4 in the Swift 6 language mode, macOS 26 and later only, with no code for an older macOS. The app runs on
   the main actor by default, and heavy work in PeelCore is `@concurrent`. The project's targets build with warnings
-  as errors, and the package is held to the same bar by `-warnings-as-errors` on the command line.
+  as errors, and so does the package, through its manifest (`.treatAllWarnings(as: .error)`), in every build;
+  `-warnings-as-errors` on the command line names it again.
 - **Never block on async work, and never wait in a loop.** A semaphore parks one of the few threads Swift's tasks
   run on, and a canceled task refuses to sleep, so a sleeping loop spins: a wait is a continuation woken once, by
   the answer or by a timer, as `FileSize` and `SlowRead` wait. A timer that ends a wait runs at user-initiated
@@ -369,6 +397,9 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   say what runs and show nothing half done: what the change left appears in one step, once a whole check has it
   (`HelperModel.change`). A failure goes back to whoever asked for the change and is shown there alone
   (`HelperFailureAlert`).
+- **An alert names the first few of a list that can grow.** AppKit never caps an alert's height, so a list of apps,
+  pages, or lines in one names its first four and counts the rest (`RemovalFailureAlert.mostListed`), and Copy
+  Details, offered whenever the alert leaves something out, gives them all.
 
 ## Words and translations
 
@@ -408,6 +439,9 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 - A change that alters what Peel does updates every document that describes it in the same change: README.md,
   GUIDE.md, SAFETY.md, PRIVACY.md, SECURITY.md, ARCHITECTURE.md, CHANGELOG.md, and TERMINAL.md, and this file and
   CONTRIBUTING.md when a rule they state changes.
+- CHANGELOG.md's entry for the next release gives each place in Peel a heading of its own under Added, Changed, and
+  Fixed, in the sidebar's order, with its lines under it. A line about two places goes under the first and names the
+  other, or under a heading that names both where it holds for both alike.
 - The documents say what Peel does and why, with Apple's or the tool's own documentation as the source. They don't
   name other cleaners or uninstallers, or compare Peel with them.
 - `docs/` is Peel's website. Only its text changes, and only to stay true to the app; its questions are written
@@ -417,7 +451,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 ## Commits and pull requests
 
 - One change per commit, each building and passing the tests, with a message that says in plain words what changed
-  for the person using Peel and why.
+  for the person using Peel and why. A commit that fixes what an issue reported ends with `Refs #` and the issue's
+  number, so GitHub lists it on the issue, and with no word that closes it: the maintainer closes the issue.
 - One change per pull request. Its description says what goes wrong without it, how it was tested (the test that
   failed before and passes after, and the page or command it was checked on), and what couldn't be checked.
 - If an assistant helped, say so in the description, and exactly how: what it wrote, what it reviewed, what it
