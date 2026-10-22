@@ -200,8 +200,9 @@ What you select on Orphaned Files, Space, Developer, Build Artifacts, Installers
 Search stays selected while you look at the others, and Move to Trash on any of them moves it all at once, as one
 entry in History. These pages select nothing for you, but for the copies Duplicates selects after a scan you start. A
 page counts once you have opened it, or once the Select menu in a tool's toolbar, which selects on every page the
-tool lists, has selected something there. The bar at the foot of the page says how many pages that is, and lists
-them. Move to Trash asks first, naming the first few pages and how many items the others hold.
+tool lists, has selected something there, and opens the first of those pages when none is open. The bar at the
+foot of the page says how many pages that is, and lists them. Move to Trash asks first, naming the first few pages
+and how many items the others hold.
 
 ## Look after your Mac
 

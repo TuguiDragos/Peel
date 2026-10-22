@@ -69,7 +69,12 @@ struct InstallerList: View {
                         (kind.page, installers.items(in: kind).selectableRows(canUseHelper: helper.canAct))
                     }),
                     selection: installers
-                )
+                ) { page in
+                    guard installers.selection == nil, let kind = filtered.first(where: { $0.page == page }) else {
+                        return
+                    }
+                    installers.selection = kind
+                }
             }
             ToolbarItem {
                 RescanButton(

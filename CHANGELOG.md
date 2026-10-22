@@ -195,6 +195,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - With many pages selected, the Move to Trash question no longer runs past the bottom of the screen and takes its
   buttons with it: it names the first few pages and counts the items of the others, which "Selected on N pages" lists.
+- The Select menu in the toolbar of Orphaned Files, Space, Developer, Build Artifacts, and Installers opens the first
+  page it selected on when no page is open, so what it selected shows, with Move to Trash, rather than nothing changing
+  until a page is chosen.
 
 #### Duplicates and File Search
 

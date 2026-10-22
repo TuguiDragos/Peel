@@ -107,7 +107,13 @@ struct OrphanList: View {
                 SelectOnEveryPage(
                     pages: SelectablePages(filtered.map { ($0.page, $0.selectableRows(canUseHelper: helper.canAct)) }),
                     selection: orphans
-                )
+                ) { page in
+                    // Needs an Administrator lists what can't move, so it has no bar either.
+                    guard orphans.selection == nil || orphans.selection == .forAnAdministrator,
+                          let group = filtered.first(where: { $0.page == page })
+                    else { return }
+                    orphans.selection = .group(group.id)
+                }
             }
             ToolbarItem {
                 RescanButton(

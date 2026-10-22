@@ -39,7 +39,12 @@ struct DeveloperList: View {
                 SelectOnEveryPage(
                     pages: SelectablePages(listed.map { ($0.page, $0.selectableRows) }),
                     selection: developer
-                )
+                ) { page in
+                    guard developer.selection == nil, let environment = listed.first(where: { $0.page == page }) else {
+                        return
+                    }
+                    developer.selection = environment.id
+                }
             }
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: developer.isRemoving, scan: developer.scanRun) {

@@ -9,12 +9,16 @@ struct SelectOnEveryPage: View {
     let selection: any RowSelection
     var reading: (() async -> Bool)?
     var isDisabled = false
+    /// Opens a page of the list when none with a bar is open, so what the menu selected shows, with Move to Trash.
+    let open: (CarriedSelection.Page) -> Void
 
     var body: some View {
         SelectMenu(
             pages: pages.selectablePageCount,
             list: pages.rows,
-            selection: SeeingPages(selection: selection, pages: pages, carrier: carrier),
+            selection: SeeingPages(
+                selection: selection, pages: pages, hasSeen: carrier.hasSeen, saw: carrier.saw, open: open
+            ),
             reading: reading,
             isDisabled: isDisabled
         )
@@ -22,26 +26,41 @@ struct SelectOnEveryPage: View {
 }
 
 /// The menu reads as selected only what Move to Trash would move: a row on a page not seen yet stays where it is.
-private final class SeeingPages: RowSelection {
+final class SeeingPages: RowSelection {
     private let selection: any RowSelection
     private let pages: SelectablePages<CarriedSelection.Page, URL>
-    private let carrier: SelectionCarrier
+    private let hasSeen: (CarriedSelection.Page) -> Bool
+    private let saw: (CarriedSelection.Page) -> Void
+    private let open: (CarriedSelection.Page) -> Void
 
-    init(selection: any RowSelection, pages: SelectablePages<CarriedSelection.Page, URL>, carrier: SelectionCarrier) {
+    init(
+        selection: any RowSelection,
+        pages: SelectablePages<CarriedSelection.Page, URL>,
+        hasSeen: @escaping (CarriedSelection.Page) -> Bool,
+        saw: @escaping (CarriedSelection.Page) -> Void,
+        open: @escaping (CarriedSelection.Page) -> Void
+    ) {
         self.selection = selection
         self.pages = pages
-        self.carrier = carrier
+        self.hasSeen = hasSeen
+        self.saw = saw
+        self.open = open
     }
 
     var selectedURLs: Set<URL> {
-        get { pages.counted(selection.selectedURLs, seen: carrier.hasSeen) }
+        get { pages.counted(selection.selectedURLs, seen: hasSeen) }
         set { select(newValue) }
     }
 
+    /// Selects `new`, counts every page it reaches as seen, and opens the first of them in the list's order.
     func select(_ new: Set<URL>) {
         selection.select(new)
-        for page in pages.pages(selectedIn: selection.selectedURLs) {
-            carrier.saw(page)
+        let selected = pages.pages(selectedIn: selection.selectedURLs)
+        for page in selected {
+            saw(page)
+        }
+        if let first = selected.first {
+            open(first)
         }
     }
 }

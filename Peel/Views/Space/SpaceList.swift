@@ -83,7 +83,10 @@ struct SpaceList: View {
                     reading: shown.contains { !$0.isReadOnly && space.plans[$0.id] == nil }
                         ? { await space.planEvery(shown) } : nil,
                     isDisabled: space.isScanning
-                )
+                ) { page in
+                    guard space.selection == nil, let item = shown.first(where: { $0.page == page }) else { return }
+                    space.selection = item.id
+                }
             }
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: space.isRemoving, scan: space.scanRun) {

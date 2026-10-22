@@ -150,7 +150,12 @@ struct ProjectList: View {
                 SelectOnEveryPage(
                     pages: SelectablePages(filtered.map { ($0.page, $0.artifacts.selectableRows) }),
                     selection: projects
-                )
+                ) { page in
+                    guard projects.selection == nil, let group = filtered.first(where: { $0.page == page }) else {
+                        return
+                    }
+                    projects.selection = group.id
+                }
             }
             ToolbarItem {
                 RescanButton(
