@@ -75,6 +75,9 @@ enum KeptOnlyHere {
         ("Library/Application Support/Motrix", "download.session", .holdsTorrents),
         // WebTorrent's `TORRENT_PATH`.
         ("Library/Application Support/WebTorrent", "Torrents", .holdsTorrents),
+        // Folx's own code: its list of downloads in `Folx3`, and before it `Folx` with `TorrentFiles`.
+        ("Library/Application Support/Eltima Software/Folx3", nil, .holdsTorrents),
+        ("Library/Application Support/Eltima Software/Folx", nil, .holdsTorrents),
         // Docker's `docker login`: with no credential store, the credentials go in `.docker/config.json`.
         (".docker", "config.json", .holdsSignIns),
         // Cargo's `cargo login`: the token is saved in `$CARGO_HOME/credentials.toml`, and `CARGO_HOME` is `.cargo`.

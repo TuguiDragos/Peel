@@ -182,6 +182,17 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         for name in names {
             if let withoutVersion = Naming.withoutTrailingVersion(name) { names.insert(withoutVersion) }
         }
+        // The identifier's last part when it is one of these names with a version right after it, as Folx's
+        // `com.eltima.Folx3` names its `Folx3` folders. A number after any other name stays part of that name.
+        if let last = bundleIdentifier?.split(separator: ".").last.map(String.init) {
+            let word = last.lowercased()
+            let isANameAndAVersion = names.contains { name in
+                let name = name.lowercased()
+                return word.count > name.count && word.hasPrefix(name)
+                    && word.dropFirst(name.count).allSatisfy { $0.isASCII && $0.isNumber }
+            }
+            if isANameAndAVersion { names.insert(last) }
+        }
         return names
     }
 

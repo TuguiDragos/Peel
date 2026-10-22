@@ -159,6 +159,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Services: Peel draws its icon from the app's own files.
 - While a removal of many items goes on, Peel reads again, once a second, which programs hold a file open, so a file an
   app opened meanwhile stays where it is.
+- The folders an app names after the last part of its identifier, its name with a version right after it, are found too,
+  such as Folx's `Folx3` folder and log and iTerm2's folder in Application Support.
 - An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder named by
   another program's identifier, such as Microsoft AutoUpdate's cache in `/Library/Caches`: it holds nothing of the
   app's.

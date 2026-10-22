@@ -487,6 +487,21 @@ struct LeftoverMatcherTests {
         #expect(Naming.withoutAttachedVersion("Studio2025.1.") == nil)
     }
 
+    @Test func matchesAFolderNamedByTheIdentifiersLastPartWhenItIsTheNameAndAVersion() {
+        let folx = InstalledApp(
+            url: URL(filePath: "/Applications/Folx.app"), bundleIdentifier: "org.example.Folx3", name: "Folx"
+        )
+        let matcher = LeftoverMatcher(app: folx, installedApps: [folx])
+        let other = InstalledApp(
+            url: URL(filePath: "/Applications/Folx.app"), bundleIdentifier: "org.example.Downloader3", name: "Folx"
+        )
+
+        #expect(matcher.match(fileName: "Folx3", kind: .applicationSupport)?.reason == .name)
+        #expect(matcher.match(fileName: "Folx3.log", kind: .logs)?.reason == .name)
+        #expect(matcher.match(fileName: "Folx4", kind: .applicationSupport) == nil)
+        #expect(LeftoverMatcher(app: other, installedApps: [other]).match(fileName: "Downloader3", kind: .caches) == nil)
+    }
+
     /// Only a trailing number counts as a version, so a name that ends in a word is kept whole.
     @Test func keepsTheWholeNameWhenTheLastWordIsNotAVersion() {
         #expect(Naming.withoutTrailingVersion("MuseScore 4") == "MuseScore")

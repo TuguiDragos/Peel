@@ -44,6 +44,8 @@ struct KeptOnlyHereTests {
             (".config/deluge", .holdsTorrents), (".config/deluge/state/torrents.fastresume", .holdsTorrents),
             ("Library/Application Support/Motrix/download.session", .holdsTorrents),
             ("Library/Application Support/WebTorrent/Torrents/1a2b.torrent", .holdsTorrents),
+            ("Library/Application Support/Eltima Software/Folx3/Folx3Data.storedata", .holdsTorrents),
+            ("Library/Application Support/Eltima Software/Folx/TorrentFiles/1a2b.torrent", .holdsTorrents),
             (".docker", .holdsSignIns), (".docker/config.json", .holdsSignIns),
             (".cargo/credentials.toml", .holdsSignIns), (".pypirc", .holdsSignIns),
             (".gem/credentials", .holdsSignIns), (".local/share/gem/credentials", .holdsSignIns),
@@ -79,6 +81,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/Motrix/dht.dat", "Library/Application Support/WebTorrent/Posters",
             "Library/Caches/LibreOffice", "Library/Application Support/LibreOffice Beta",
             "Library/Application Support/iTerm2/version.txt", "Library/Caches/com.googlecode.iterm2",
+            "Library/Application Support/Eltima Software", "Library/Application Support/Eltima Software/Elmedia Player",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")

@@ -1984,6 +1984,21 @@ struct LeftoverScannerTests {
         #expect(manifests["com.example.bridge.json"]?.match.isRecommended == true)
     }
 
+    @Test func findsTheFoldersAnAppNamesAfterTheLastPartOfItsIdentifier() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Eltima Software/Folx3/Folx3Data.storedata")
+        try directory.file("home/Library/Logs/Folx3.log")
+        let folx = InstalledApp(
+            url: URL(filePath: "/Applications/Folx.app"), bundleIdentifier: "org.example.Folx3", name: "Folx"
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(folx, installedApps: [folx])
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.lastPathComponent, $0.match) })
+
+        #expect(found["Folx3.log"]?.isRecommended == true)
+        #expect(found["Folx3"]?.heldBack == .holdsTorrents)
+    }
+
     @Test func anOfficeSuitesUserProfileIsNotSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/LibreOffice/4/user/template/Letter.ott")
