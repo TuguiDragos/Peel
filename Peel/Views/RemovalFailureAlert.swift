@@ -45,7 +45,7 @@ struct RemovalFailureAlert: ViewModifier {
                     Navigator.shared.requestedTool = .orphans
                 }
             }
-            if !outcome.failures.isEmpty {
+            if Self.offersDetails(for: outcome) {
                 Button("Copy Details") { Self.copyDetails(of: outcome) }
             }
             // The alert reports, so Return closes it. Otherwise the first other button would be the default, and Return
@@ -145,6 +145,12 @@ struct RemovalFailureAlert: ViewModifier {
     private static func appManagementLines(_ outcome: RemovalOutcome) -> [String] {
         guard needsAppManagement(outcome) else { return [] }
         return [String(localized: "If Peel isn’t allowed under App Management, macOS won’t let it move another developer’s app to the Trash.")]
+    }
+
+    /// Offered for a failure, whose full path the alert shortens, and wherever the alert names only the first entries
+    /// of a list, so every name it leaves out can still be read.
+    static func offersDetails(for outcome: RemovalOutcome) -> Bool {
+        !outcome.failures.isEmpty || message(for: outcome) != details(for: outcome)
     }
 
     /// Copies every item with its full path, since the alert lists only the first few and its text can't be

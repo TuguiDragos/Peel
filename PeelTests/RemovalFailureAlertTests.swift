@@ -37,4 +37,19 @@ struct RemovalFailureAlertTests {
         #expect(line != nil)
         #expect(RemovalFailureAlert.details(for: outcome).components(separatedBy: "\n\n").contains(line ?? ""))
     }
+
+    @Test func offersTheDetailsWhereTheAlertNamesOnlyTheFirstApps() {
+        let apps = (1...6).map { index in
+            InstalledApp(
+                url: URL(filePath: "/Applications/Example \(index).app"),
+                bundleIdentifier: "org.example.app\(index)", name: "Example \(index)"
+            )
+        }
+        let many = RemovalOutcome()
+        many.report(TrashResult(), privacy: apps.map { ($0, .notKnownToTheSystem) })
+        #expect(RemovalFailureAlert.offersDetails(for: many))
+        let few = RemovalOutcome()
+        few.report(TrashResult(), privacy: apps.prefix(2).map { ($0, .notKnownToTheSystem) })
+        #expect(!RemovalFailureAlert.offersDetails(for: few))
+    }
 }
