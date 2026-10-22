@@ -120,6 +120,8 @@ final class HomebrewLibrary {
 
     /// Whether Homebrew answered the last reading, so its definitions are on this Mac.
     private(set) var hasAnswered = false
+    /// Homebrew's last check for new versions as the last reading found it (`Homebrew.lastUpdateCheck()`).
+    private var checkedForUpdates: Date?
 
     var selectedPackage: HomebrewPackage? {
         switch selection {
@@ -178,6 +180,14 @@ final class HomebrewLibrary {
         isInstalled = Homebrew.executableURL != nil
     }
 
+    /// Reads the packages again when Homebrew checked for new versions since they were read, as `brew update` in
+    /// Terminal does: `checked` is its last check now (`Homebrew.lastUpdateCheck()`). Returns whether it read them.
+    func readAgain(ifHomebrewCheckedAt checked: Date?) async -> Bool {
+        guard packages != nil, runningCommand == nil, checked != checkedForUpdates else { return false }
+        await refresh()
+        return true
+    }
+
     /// Reads the installed packages again. `includingReclaimable` also asks how much `brew cleanup` would
     /// free, which only the Homebrew page shows. That is a Ruby command that walks the cache and the Cellar,
     /// so it is asked for only while that page is open or after a command, never on every change in
@@ -188,9 +198,11 @@ final class HomebrewLibrary {
             forgetHomebrew()
             return
         }
+        let checked = await Homebrew.lastUpdateCheck()
         guard let reading = await scanRun.run({ await self.read(includingReclaimable: includingReclaimable) }),
               isInstalled
         else { return }
+        checkedForUpdates = checked
         guard let (found, installed, preview, overridden) = reading else {
             needsDefinitions = true
             hasAnswered = false

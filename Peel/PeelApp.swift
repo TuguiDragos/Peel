@@ -192,6 +192,7 @@ struct PeelApp: App {
             history.checkReadability()
             stats.reload()
             homebrew.checkInstalled()
+            Task { await followHomebrewsChecks() }
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the
             // badge on Home in the sidebar shows a missing one. They read the helper's status again too.
             Task { await home.refresh() }
@@ -244,8 +245,16 @@ struct PeelApp: App {
         while !Task.isCancelled {
             try? await Task.sleep(for: .seconds(Self.updateCheckInterval), tolerance: .seconds(60))
             guard !Task.isCancelled, checksForAppUpdates else { continue }
+            await followHomebrewsChecks()
             await checkForUpdates()
         }
+    }
+
+    /// Reads Homebrew again once it checked for new versions since Peel last read it, as `brew update` in Terminal
+    /// does, so what it says now reaches Applications.
+    private func followHomebrewsChecks() async {
+        guard await homebrew.readAgain(ifHomebrewCheckedAt: Homebrew.lastUpdateCheck()) else { return }
+        library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
     }
 
     private func watchFreeSpace() async {
