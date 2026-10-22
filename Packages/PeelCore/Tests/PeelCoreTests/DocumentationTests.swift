@@ -36,7 +36,7 @@ struct DocumentationTests {
         let records = RemovalLog.maximumRecords.formatted(.number.locale(Locale(identifier: "en_US")))
         let idle = Int(HelperLifetime.standardIdleTimeout)
         let results = FileSearch.maximumResults.formatted(.number.locale(Locale(identifier: "en_US")))
-        let minutes = Int(SpaceRemoval.stillInUse / 60)
+        let minutes = Int(HoldBack.stillInUse / 60)
         let days = Int(ProjectArtifacts.recentlyActive / (24 * 60 * 60))
         #expect(Installers.stillDownloading == 24 * 60 * 60, "the documents say a download that changed in the last day")
         #expect(Homebrew.autoUpdateInterval == 24 * 60 * 60, "the documents say what Homebrew says counts for a day")

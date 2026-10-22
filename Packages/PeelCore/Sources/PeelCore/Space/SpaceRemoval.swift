@@ -96,7 +96,7 @@ public enum SpaceRemoval {
             let beyond: HoldBack? = needsAnAdministrator && reach.isBeyond(child) ? .beyondTheHelper : nil
             heldBack[child] = beyond ?? item.heldBack
                 ?? (systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents))
-                ?? (item.holdsBackRecentWrites && wasWrittenRecently(child, contents: contents)
+                ?? (item.holdsBackRecentWrites && HoldBack.wasWrittenRecently(child, contents: contents)
                     ? .writtenRecently : nil)
         }
         return Plan(
@@ -106,15 +106,6 @@ public enum SpaceRemoval {
             sizes: sizes,
             heldBack: heldBack, needsTheHelper: needsTheHelper, refused: children.refused
         )
-    }
-
-    static let stillInUse: TimeInterval = 15 * 60
-
-    /// The folder's own date counts too: it moves when an entry is added or removed.
-    private static func wasWrittenRecently(_ child: URL, contents: FolderContents?) -> Bool {
-        let own = (try? child.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
-        guard let written = [own, contents?.newestChange].compactMap(\.self).max() else { return false }
-        return Date.now.timeIntervalSince(written) < stillInUse
     }
 
     @concurrent

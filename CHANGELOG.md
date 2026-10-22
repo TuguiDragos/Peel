@@ -37,6 +37,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Developer
 
+- Spring Boot, with the working folders its servers leave in the temporary folder each time they start (`tomcat.`,
+  `tomcat-docbase.` or `jetty-docbase.` with the port and a number). One something wrote to in the last 15 minutes is
+  listed and not selected, since a server still running may be using it.
 - Lists the templates create-expo-app keeps in the temporary folder, and the Chrome that agent-browser downloads, which
   `agent-browser install` fetches again.
 

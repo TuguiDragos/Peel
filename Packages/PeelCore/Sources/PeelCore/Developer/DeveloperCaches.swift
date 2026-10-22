@@ -161,12 +161,15 @@ public enum DeveloperCaches {
         /// Where a Git clone here comes from when it is the tool's own, as `ToolSettings.gitAddress` writes it. A clone
         /// of anything else, which the person may have added under the same name, is listed and never selected.
         let clonedFrom: String?
+        /// True for a folder a running program may use without holding it open, which is listed and not selected
+        /// while something wrote to it within `HoldBack.stillInUse`.
+        let holdsBackRecentWrites: Bool
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
             rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
             rowsAreProjectState: Bool = false, movedBy: Relocation? = nil, base: Base = .home,
-            launchers: [String] = [], clonedFrom: String? = nil
+            launchers: [String] = [], clonedFrom: String? = nil, holdsBackRecentWrites: Bool = false
         ) {
             self.path = path
             self.kind = kind
@@ -180,6 +183,7 @@ public enum DeveloperCaches {
             self.base = base
             self.launchers = launchers
             self.clonedFrom = clonedFrom
+            self.holdsBackRecentWrites = holdsBackRecentWrites
         }
 
         /// Whether what is at `url` is the tool's own, as far as where it was cloned from says.
@@ -689,6 +693,25 @@ public enum DeveloperCaches {
             Folder("Library/Caches/Coursier/v1", .downloads, source: "https://github.com/coursier/coursier/blob/d3006393e44af0dc0165813f262de2de51e17a46/doc/docs/cache.md#L30"),
             Folder(".coursier/cache/v1", .downloads, source: "https://github.com/coursier/coursier/blob/d3006393e44af0dc0165813f262de2de51e17a46/doc/docs/cache.md#L48-L54"),
             Folder("Library/Caches/sbt", .buildData, source: "https://github.com/sbt/sbt/blob/f4618946c5b7055083f8c74bf84e4d1ad5e6a1e9/main/src/main/scala/sbt/internal/SysProp.scala#L231-L245"),
+        ]),
+        // A Spring Boot server makes these each time it starts, named for its port and a random number
+        // (`AbstractConfigurableWebServerFactory.TempDirs`), and before Spring Boot 4.1 left them behind.
+        Definition(id: "springboot", name: "Spring Boot", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
+            Folder(
+                "tomcat.*.*/", .cache,
+                source: "https://github.com/spring-projects/spring-boot/blob/e5e959e3b66bba353aa87f49d9b8036ebb63f0dc/module/spring-boot-tomcat/src/main/java/org/springframework/boot/tomcat/TomcatWebServerFactory.java#L412",
+                base: .userTemporary, holdsBackRecentWrites: true
+            ),
+            Folder(
+                "tomcat-docbase.*.*/", .cache,
+                source: "https://github.com/spring-projects/spring-boot/blob/e5e959e3b66bba353aa87f49d9b8036ebb63f0dc/module/spring-boot-tomcat/src/main/java/org/springframework/boot/tomcat/servlet/TomcatServletWebServerFactory.java#L191",
+                base: .userTemporary, holdsBackRecentWrites: true
+            ),
+            Folder(
+                "jetty-docbase.*.*/", .cache,
+                source: "https://github.com/spring-projects/spring-boot/blob/e5e959e3b66bba353aa87f49d9b8036ebb63f0dc/module/spring-boot-jetty/src/main/java/org/springframework/boot/jetty/servlet/JettyServletWebServerFactory.java#L305",
+                base: .userTemporary, holdsBackRecentWrites: true
+            ),
         ]),
         // Java Web Start keeps the applications a person installed in its cache, beside the ones it only cached.
         Definition(id: "oraclejava", name: "Java Web Start", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
@@ -1579,6 +1602,8 @@ public enum DeveloperCaches {
                 isTheTools: derived?.isXcodes ?? folder.isTheTools(at: url),
                 lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange },
                 heldBack: contents.flatMap(HoldBack.secret(in:))
+                    ?? (folder.holdsBackRecentWrites && HoldBack.wasWrittenRecently(url, contents: contents)
+                        ? .writtenRecently : nil)
             ))
         }
         guard !locations.isEmpty else { return nil }

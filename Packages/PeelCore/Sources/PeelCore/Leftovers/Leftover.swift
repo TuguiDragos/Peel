@@ -165,6 +165,17 @@ public enum HoldBack: String, Sendable, Hashable {
         if contents.holdsWallet { return .holdsAWallet }
         return contents.holdsPasswordDatabase ? .holdsAPasswordDatabase : nil
     }
+
+    /// How long after a write a program may still be using what it wrote (`writtenRecently`).
+    static let stillInUse: TimeInterval = 15 * 60
+
+    /// Whether something wrote to `url` within `stillInUse`. The folder's own date counts too: it moves when an entry
+    /// is added or removed.
+    static func wasWrittenRecently(_ url: URL, contents: FolderContents?) -> Bool {
+        let own = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
+        guard let written = [own, contents?.newestChange].compactMap(\.self).max() else { return false }
+        return Date.now.timeIntervalSince(written) < stillInUse
+    }
 }
 
 public struct LeftoverMatch: Sendable, Hashable {

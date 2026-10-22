@@ -486,7 +486,7 @@ struct DeveloperCachesTests {
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
             ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
             "metro-file-map-*", "node-compile-cache/", "tfhub_modules/", ".electron", "gensim-data", "stanza_resources",
-            ".u2net", ".create-expo-app",
+            ".u2net", ".create-expo-app", "tomcat.*.*/", "tomcat-docbase.*.*/", "jetty-docbase.*.*/",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -1713,6 +1713,39 @@ struct DeveloperCachesTests {
             "playwright_chromiumdev_profile-a1b2c3", "playwright-artifacts-d4e5f6",
         ])
         #expect(locations.allSatisfy { $0.kind == .cache && $0.isRecommended })
+    }
+
+    @Test func offersWhatSpringBootsServersLeftInTheTemporaryFolderAndHoldsBackOneStillWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let temporary = try directory.directory("var/T")
+        let anHourAgo = Date.now.addingTimeInterval(-3600)
+        for name in [
+            "tomcat.8080.10018690101673077448", "tomcat-docbase.8080.10054962961815905490",
+            "jetty-docbase.8080.10339006057543989247", "tomcat-native",
+        ] {
+            let file = try directory.file("var/T/\(name)/work/SESSIONS.ser", bytes: 400_000)
+            let work = file.deletingLastPathComponent()
+            for url in [file, work, work.deletingLastPathComponent()] {
+                try FileManager.default.setAttributes(
+                    [.modificationDate: anHourAgo], ofItemAtPath: url.path(percentEncoded: false)
+                )
+            }
+        }
+        try directory.file("var/T/tomcat.8081.10600000000000000000/work/upload.tmp", bytes: 400_000)
+        let springBoot = DeveloperCaches.definitions.filter { $0.id == "springboot" }
+
+        let locations = await DeveloperCaches.scan(
+            springBoot, homeDirectory: directory.url.appending(path: "home"), userTemporaryDirectory: temporary,
+            openFiles: OpenFiles(excluding: nil)
+        ).flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == [
+            "tomcat.8080.10018690101673077448", "tomcat-docbase.8080.10054962961815905490",
+            "jetty-docbase.8080.10339006057543989247", "tomcat.8081.10600000000000000000",
+        ])
+        let running = try #require(locations.first { $0.url.lastPathComponent.hasPrefix("tomcat.8081.") })
+        #expect(running.heldBack == .writtenRecently && !running.isRecommended)
+        #expect(locations.filter { $0.url != running.url }.allSatisfy { $0.kind == .cache && $0.isRecommended })
     }
 
     @Test func offersMetrosCachesInTheTemporaryFolderAndNothingInUse() async throws {
