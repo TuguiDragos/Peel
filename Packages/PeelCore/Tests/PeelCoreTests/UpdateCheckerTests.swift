@@ -14,6 +14,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     static let replies = Mutex<[String: Reply]>([:])
     static let asked = Mutex<[String]>([])
     static let addresses = Mutex<[String]>([])
+    static let times = Mutex<[ContinuousClock.Instant]>([])
 
     override class func canInit(with request: URLRequest) -> Bool { true }
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
@@ -22,6 +23,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     override func startLoading() {
         let host = request.url?.host() ?? ""
         Self.asked.withLock { $0.append(host) }
+        Self.times.withLock { $0.append(.now) }
         Self.addresses.withLock { $0.append(request.url?.absoluteString ?? "") }
         guard let reply = Self.replies.withLock({ $0[host] }), let url = request.url,
               let response = HTTPURLResponse(
@@ -42,7 +44,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     private var checker: UpdateChecker {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [CannedProtocol.self]
-        return UpdateChecker(session: URLSession(configuration: configuration))
+        return UpdateChecker(session: URLSession(configuration: configuration), appStoreWindow: .forTheAppStore())
     }
 
     /// Apple's lookup answers HTTP 400 for a region with no store, such as `150` (Europe), `001` (the world), or
@@ -59,7 +61,10 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     @Test func aRefusedStoreIsAskedOnceMoreAsTheUnitedStates() async {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [CannedProtocol.self]
-        let antarctic = UpdateChecker(session: URLSession(configuration: configuration), locale: Locale(identifier: "en_AQ"))
+        let antarctic = UpdateChecker(
+            session: URLSession(configuration: configuration), locale: Locale(identifier: "en_AQ"),
+            appStoreWindow: .forTheAppStore()
+        )
         let sold = InstalledApp(
             url: URL(filePath: "/Applications/Notes Pro.app"),
             bundleIdentifier: "com.example.notes",
@@ -128,6 +133,35 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com"])
     }
 
+    @Test func asksTheAppStoreNoFasterThanItsWindowLets() async {
+        CannedProtocol.replies.withLock {
+            $0 = ["itunes.apple.com": .init(body: Data(#"{"resultCount":0,"results":[]}"#.utf8))]
+        }
+        CannedProtocol.times.withLock { $0 = [] }
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [CannedProtocol.self]
+        let checker = UpdateChecker(
+            session: URLSession(configuration: configuration),
+            appStoreWindow: RequestWindow(limit: 2, window: .milliseconds(600))
+        )
+        let apps = (1...3).map { index in
+            InstalledApp(
+                url: URL(filePath: "/Applications/Store \(index).app"), bundleIdentifier: "org.example.store\(index)",
+                name: "Store \(index)", version: "1.0", isFromAppStore: true, updateFeed: .appStore(.mac)
+            )
+        }
+
+        await withTaskGroup(of: Void.self) { group in
+            for app in apps {
+                group.addTask { _ = await checker.status(for: app, preference: .appStore) }
+            }
+        }
+
+        let times = CannedProtocol.times.withLock { $0 }.sorted()
+        #expect(times.count == 3)
+        #expect(times.count == 3 && times[2] - times[0] >= .milliseconds(400), "\(times)")
+    }
+
     /// Only a 200 is an answer, and what is not an appcast is a failed check.
     @Test func readsOnlyAProperAnswer() async {
         reply("feed.example.com", status: 404, appcast("<item><sparkle:version>999</sparkle:version></item>"))
@@ -159,7 +193,9 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     private func checking(at now: Date) -> UpdateChecker {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [CannedProtocol.self]
-        return UpdateChecker(session: URLSession(configuration: configuration), clock: { now })
+        return UpdateChecker(
+            session: URLSession(configuration: configuration), clock: { now }, appStoreWindow: .forTheAppStore()
+        )
     }
 
     private var feedlessApp: InstalledApp {

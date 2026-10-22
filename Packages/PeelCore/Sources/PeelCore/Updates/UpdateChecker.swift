@@ -27,6 +27,8 @@ public struct UpdateChecker: Sendable {
     }
 
     private let session: URLSession
+    /// The pace of requests to the App Store, which the process shares.
+    private let appStoreWindow: RequestWindow
     private let country: String
     private let systemVersion: String
     private let isAppleSilicon = HostArchitecture.isAppleSilicon
@@ -36,7 +38,15 @@ public struct UpdateChecker: Sendable {
     public init(
         session: URLSession? = nil, locale: Locale = .current, clock: @escaping @Sendable () -> Date = { .now }
     ) {
+        self.init(session: session, locale: locale, clock: clock, appStoreWindow: .appStore)
+    }
+
+    init(
+        session: URLSession? = nil, locale: Locale = .current, clock: @escaping @Sendable () -> Date = { .now },
+        appStoreWindow: RequestWindow
+    ) {
         self.session = session ?? URLSession(configuration: Self.configuration)
+        self.appStoreWindow = appStoreWindow
         self.clock = clock
         country = Self.storefront(of: locale)
         let version = ProcessInfo.processInfo.operatingSystemVersion
@@ -240,10 +250,12 @@ public struct UpdateChecker: Sendable {
         }
     }
 
+    /// Asks the App Store once the process's window of requests to it lets: a check that is canceled meanwhile asks
+    /// nothing.
     private func lookup(_ identifier: String, in country: String, for listing: AppStoreListing) async -> Reply {
-        guard let url = AppStoreLookup.url(bundleIdentifier: identifier, country: country, for: listing) else {
-            return Reply()
-        }
+        guard let url = AppStoreLookup.url(bundleIdentifier: identifier, country: country, for: listing),
+              (try? await appStoreWindow.turn()) != nil
+        else { return Reply() }
         return await fetchReply(url)
     }
 

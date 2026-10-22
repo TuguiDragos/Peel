@@ -73,6 +73,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- Applications and `peel updates` ask the App Store about at most 20 apps a minute, the pace Apple documents for its
+  lookup, so a Mac with many apps from the App Store is checked within it rather than all at once.
 - Rescan asks about every app's updates again at once, whatever each one's schedule says.
 - Peel reads Homebrew again once Homebrew has checked for new versions since Peel last read it, as after `brew update`
   in Terminal.

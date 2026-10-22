@@ -102,7 +102,7 @@ private final class OneRequestServer: Sendable {
     private var checker: UpdateChecker {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [RecordingProtocol.self]
-        return UpdateChecker(session: URLSession(configuration: configuration))
+        return UpdateChecker(session: URLSession(configuration: configuration), appStoreWindow: .forTheAppStore())
     }
 
     @Test func asksAppleOnlyAboutAnAppItSold() async {
