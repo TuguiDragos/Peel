@@ -77,6 +77,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   listed and never selected, since logging in again brings it back.
 - ZeroTier's identity on its networks and Tunnelblick's shared VPN configurations, both kept in
   `/Library/Application Support`, are listed and never selected, like a VPN's connections in your home folder.
+- The group folder where 1Password 7 kept its standalone vaults and their daily backups is listed and never selected,
+  also when you uninstall 1Password 8, which uses it too.
 
 #### Space
 

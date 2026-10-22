@@ -29,6 +29,10 @@ enum KeptOnlyHere {
         // WhatsApp's "How to restore your chat history": chats on WhatsApp on Mac can't be backed up or restored
         // there, and aren't on its servers. The app's entitlements name this group, where it keeps them.
         ("Library/Group Containers/group.net.whatsapp.WhatsApp.shared", nil, .holdsMessageHistory),
+        // 1Password's "Migrate your existing 1Password data from standalone vaults" and "1Password backups":
+        // 1Password 7 and earlier kept standalone vaults, and a backup of them each day, in this group, which
+        // 1Password 8's signature names too.
+        ("Library/Group Containers/2BUA8C4S2C.com.agilebits", nil, .holdsPasswordsOrCodes),
         // Strongbox's "Where are Strongbox local backups stored on my Mac".
         ("Library/Group Containers/group.strongbox.mac.mcguill", "backups", .holdsPasswordsOrCodes),
         // Ente's "Offline mode": the codes are stored only on that device.

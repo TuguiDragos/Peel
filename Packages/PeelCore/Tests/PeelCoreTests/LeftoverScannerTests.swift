@@ -729,6 +729,23 @@ struct LeftoverScannerTests {
         }
     }
 
+    @Test func theStandaloneVaultsOfAnEarlierVersionAreNotSelectedWithTheOneThatReadsThem() async throws {
+        let directory = try TemporaryDirectory()
+        let groups = ["2BUA8C4S2C.com.agilebits", "2BUA8C4S2C.com.1password"]
+        try directory.file("home/Library/Group Containers/\(groups[0])/Library/Application Support/1Password/Data/B5.sqlite")
+        try directory.file("home/Library/Group Containers/\(groups[1])/Library/Application Support/1Password/Data/1password.sqlite")
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Vault.app"), bundleIdentifier: "org.example.vault", name: "Vault",
+            teamIdentifier: "2BUA8C4S2C", applicationGroups: groups
+        )
+
+        let leftovers = await LeftoverScanner(environment: environment(in: directory))
+            .scan(app, installedApps: [app]).leftovers
+        let heldBack = Dictionary(uniqueKeysWithValues: leftovers.map { ($0.url.lastPathComponent, $0.match.heldBack) })
+
+        #expect(heldBack == [groups[0]: .holdsPasswordsOrCodes, groups[1]: nil])
+    }
+
     @Test(.permissionsHold) func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/LaunchDaemons/net.example.client.helper.plist")
