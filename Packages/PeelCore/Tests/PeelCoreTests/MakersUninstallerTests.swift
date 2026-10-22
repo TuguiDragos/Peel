@@ -75,6 +75,25 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.zscaler.zscaler", team: "ABCDE12345")) == nil)
     }
 
+    @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
+        let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
+        let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"
+
+        let found = MakersUninstaller.of(anyConnect) { $0 == secureClient }
+        #expect(found?.step == .command("sudo \(secureClient)"))
+        #expect(found?.instructions.absoluteString.contains("224782") == true)
+        let older = MakersUninstaller.of(anyConnect) { _ in false }
+        #expect(older?.step == .command("sudo /opt/cisco/anyconnect/bin/vpn_uninstall.sh"))
+        #expect(older?.instructions.absoluteString.contains("anyconnect410") == true)
+    }
+
+    @Test func knowsSymantecEndpointProtectionByTheTeamItsSignatureNames() {
+        let symantec = agent("com.symantec.sep.mainapp", team: "9PTGMPNXZ2", at: "/Applications/Symantec Solutions/Symantec Endpoint Protection.app")
+
+        #expect(MakersUninstaller.of(symantec)?.step == .inTheApp(symantec.url))
+        #expect(MakersUninstaller.of(agent("com.symantec.sep.mainapp", team: "ABCDE12345")) == nil)
+    }
+
     @Test func knowsAnUninstallerItsMakerDocumentsOpeningToRemoveAProduct() {
         let path = "/Applications/Chrome Remote Desktop Host Uninstaller.app"
         let uninstaller = agent("com.google.chromeremotedesktop.me2me-host-uninstaller", team: "EQHXZ8M8AV", at: path)

@@ -29,6 +29,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   uninstaller on its disk image.
 - Zscaler Client Connector and Arq are left to their makers' own uninstallers: Zscaler's asks for the uninstall password
   your organization set, and Arq's asks whether to delete its backup settings.
+- Cisco AnyConnect, and Secure Client up to 5.1.2, are left to Cisco's uninstall script, the one that is on your Mac,
+  and Symantec Endpoint Protection to the uninstall command in its own window.
 - After a removal, Peel reads the files your shell runs when it starts and names the lines that still point to what
   moved, such as a `PATH` entry or an alias into the app, in the alert and in `peel uninstall`. It changes none of these
   files.

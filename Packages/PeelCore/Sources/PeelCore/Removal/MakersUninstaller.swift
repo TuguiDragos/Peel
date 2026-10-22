@@ -24,6 +24,9 @@ public struct MakersUninstaller: Sendable, Hashable {
         case itself(removing: String)
         case inTheApp
         case onItsDiskImage
+        /// The first script, run with `sudo`, with its own page while it is on the Mac, and the other one, with the
+        /// product's page, when it is not.
+        case scriptOnTheMac(String, page: String, otherwise: String)
     }
 
     public let maker: String
@@ -105,6 +108,20 @@ public struct MakersUninstaller: Sendable, Hashable {
             "WQXXM75BYN", ["com.electron.ivpn-ui", "net.ivpn.client"], "IVPN", .onItsDiskImage,
             "https://www.ivpn.net/knowledgebase/macos/macos-how-do-i-completely-uninstall-or-remove-the-ivpn-application/"
         ),
+        // AnyConnect 4 and Secure Client up to 5.1.2 share this identifier; the script on the Mac says which it is.
+        (
+            "DE8Y96K9QP", ["com.cisco.anyconnect.gui"], "Cisco",
+            .scriptOnTheMac(
+                "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh",
+                page: "https://www.cisco.com/c/en/us/support/docs/security/umbrella/224782-uninstall-secure-client-from-macos.html",
+                otherwise: "/opt/cisco/anyconnect/bin/vpn_uninstall.sh"
+            ),
+            "https://www.cisco.com/c/en/us/td/docs/security/vpn_client/anyconnect/anyconnect410/administration/guide/b-anyconnect-admin-guide-4-10/deploy-anyconnect.html"
+        ),
+        (
+            "9PTGMPNXZ2", ["com.symantec.sep.mainapp"], "Symantec", .inTheApp,
+            "https://knowledge.broadcom.com/external/article/156148"
+        ),
         // Zscaler's guide for deploying with Jamf names the team and `com.zscaler` as the prefix of its apps.
         (
             "PCBCQZJ7S7", ["com.zscaler"], "Zscaler",
@@ -126,20 +143,27 @@ public struct MakersUninstaller: Sendable, Hashable {
     /// The maker's uninstaller for `app`, known by the team of its checked signature and by its identifier, both as
     /// the maker documents them. An identifier alone is what a bundle says of itself, and would let any app keep Peel
     /// away from it.
-    static func of(_ app: InstalledApp) -> MakersUninstaller? {
+    static func of(
+        _ app: InstalledApp,
+        isOnTheMac: (String) -> Bool = { FileManager.default.fileExists(atPath: $0) }
+    ) -> MakersUninstaller? {
         guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased() else { return nil }
         guard let product = known.first(where: { product in
             product.team == team && product.identifiers.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
-        }), let instructions = URL(string: product.page) else { return nil }
-        let step: Step = switch product.step {
-        case .command(let command): .command(command)
-        case .uninstaller(let path): .uninstaller(URL(filePath: path, directoryHint: .isDirectory))
+        }) else { return nil }
+        let chosen: (step: Step, page: String) = switch product.step {
+        case .command(let command): (.command(command), product.page)
+        case .uninstaller(let path): (.uninstaller(URL(filePath: path, directoryHint: .isDirectory)), product.page)
         case .uninstallerInsideTheApp(let path):
-            .uninstaller(app.url.appending(path: path, directoryHint: .isDirectory))
-        case .itself: .uninstaller(app.url)
-        case .inTheApp: .inTheApp(app.url)
-        case .onItsDiskImage: .onItsDiskImage
+            (.uninstaller(app.url.appending(path: path, directoryHint: .isDirectory)), product.page)
+        case .itself: (.uninstaller(app.url), product.page)
+        case .inTheApp: (.inTheApp(app.url), product.page)
+        case .onItsDiskImage: (.onItsDiskImage, product.page)
+        case .scriptOnTheMac(let script, let page, let otherwise):
+            isOnTheMac(script) ? (.command("sudo \(script)"), page) : (.command("sudo \(otherwise)"), product.page)
         }
+        guard let instructions = URL(string: chosen.page) else { return nil }
+        let step = chosen.step
         let removes: String? = if case .itself(let removing) = product.step { removing } else { nil }
         return MakersUninstaller(maker: product.maker, step: step, instructions: instructions, removes: removes)
     }

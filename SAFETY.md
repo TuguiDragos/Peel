@@ -331,9 +331,10 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   and the Library folder itself stay.
 
 A security or management agent, a VPN, or a backup app whose maker documents removing it with an uninstaller of its
-own (GlobalProtect, Cortex XDR, Cisco Secure Client, ESET Endpoint Security, Microsoft Defender, Netskope Client,
-FortiClient, Bitdefender Endpoint Security for Mac, Sophos Endpoint, Zscaler Client Connector, ExpressVPN, Private
-Internet Access, Cloudflare WARP, ZeroTier, Tunnelblick, IVPN, and Arq) is listed the same way, and nothing of it can be selected: its page names the
+own (GlobalProtect, Cortex XDR, Cisco Secure Client and AnyConnect, ESET Endpoint Security, Microsoft Defender,
+Netskope Client, FortiClient, Bitdefender Endpoint Security for Mac, Sophos Endpoint, Symantec Endpoint Protection,
+Zscaler Client Connector, ExpressVPN, Private Internet Access, Cloudflare WARP, ZeroTier, Tunnelblick, IVPN, and Arq)
+is listed the same way, and nothing of it can be selected: its page names the
 maker's uninstaller, or opens the app whose own command removes it, and links to the maker's instructions, since moved
 from its place, what it keeps in the system and the settings that manage it would stay behind. Peel knows it by the
 team its checked signature names and by its identifier, both as the maker documents or signs them, never by the
