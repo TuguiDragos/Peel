@@ -65,6 +65,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Rescan asks about every app's updates again at once, whatever each one's schedule says.
 - Peel reads Homebrew again once Homebrew has checked for new versions since Peel last read it, as after `brew update`
   in Terminal.
+- With The App Store or The app's own feed preferred, an app its own source can't answer for gets what Homebrew knows,
+  as with Automatic, and `peel updates` says the same as Applications. The note under Prefer updates from in Settings
+  gives the order.
 - A folder named like the app without the word of its release channel, as Zed Nightly keeps its settings in `zed`, is
   shown for review and never selected, and Orphaned Files counts it as the installed channel's.
 
@@ -126,6 +129,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   days before: what Homebrew says counts for a day after it last checked for new versions, and the app's page then says
   when that was and that Update Homebrew lets Peel tell again. `peel updates` says it too.
 - An update Homebrew learns of shows at once, also for an app it had called up to date.
+- An app whose own feed couldn't be reached no longer reads "Up to date" on what Homebrew knew more than a day before,
+  or once Homebrew no longer has the app, and its feed is asked again as often as any feed that fails.
+- An update an app's own feed found stays when a later check can't reach the feed, even where Homebrew, not caught up
+  yet, calls the app up to date.
+- An update Homebrew no longer reports leaves the list as soon as Peel reads Homebrew again, rather than a day later.
 - A folder named like the app is no longer selected while another app's name holds that name, as Epic Games Launcher
   holds Epic: it is listed as also used by that app.
 - An app whose identifier a tool wrote for it, such as Electron's `com.electron.<name>`, no longer lists every other
