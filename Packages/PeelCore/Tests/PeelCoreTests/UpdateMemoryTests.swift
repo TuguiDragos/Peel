@@ -63,6 +63,23 @@ struct UpdateMemoryTests {
         )
     }
 
+    @Test func asksAgainAboutAnAppAnEarlierCheckerCouldNotCheck() throws {
+        let saved = Data(#"{"com.example.foo":{"status":{"unsupported":{}},"schedule":{"due":814968811,"isRetrying":false,"wait":604800},"checked":814364011,"version":"1.0","buildVersion":"1"}}"#.utf8)
+        let earlier = try JSONDecoder().decode([String: UpdateMemory].self, from: saved)
+        let now = Date(timeIntervalSinceReferenceDate: 814364011)
+
+        #expect(UpdateMemory.recalled(from: earlier, for: [app("1.0")], now: now).isEmpty)
+
+        let current = ["com.example.foo": UpdateMemory(status: .unsupported, schedule: schedule, checked: now, describing: app("1.0"))]
+        #expect(UpdateMemory.recalled(from: current, for: [app("1.0")], now: now) == current)
+
+        let upToDate = try JSONDecoder().decode(
+            [String: UpdateMemory].self,
+            from: Data(String(decoding: saved, as: UTF8.self).replacingOccurrences(of: "unsupported", with: "upToDate").utf8)
+        )
+        #expect(UpdateMemory.recalled(from: upToDate, for: [app("1.0")], now: now) == upToDate)
+    }
+
     /// An entry stored by an earlier version of Peel names no build, so it describes no app, and the app is
     /// checked again.
     @Test func readsAnEntryStoredBeforeBuildsWereKept() throws {

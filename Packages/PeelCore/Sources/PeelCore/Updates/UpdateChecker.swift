@@ -1,6 +1,10 @@
 public import Foundation
 
 public struct UpdateChecker: Sendable {
+    /// Raised whenever the checker learns to answer for apps it couldn't check before, so that the answer it gave
+    /// them is asked again rather than waited out (`UpdateMemory.recalled`).
+    public static let revision = 2
+
     /// The largest reply read. An update feed is a small XML, YAML, or JSON file, and its address comes from
     /// the app's own bundle, so the server is not trusted to keep its reply small.
     private static let maximumFeedBytes = 4 * 1_024 * 1_024

@@ -16,6 +16,8 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     /// The developer's name from the App Store. It is saved because an App Store app's signature is Apple's and
     /// does not name the developer, and the next check may be a week away.
     public let developer: String?
+    /// The `UpdateChecker.revision` that gave the answer; nil for one saved before revisions were kept.
+    public let revision: Int?
 
     public init(
         status: UpdateStatus,
@@ -30,6 +32,7 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         self.developer = developer
         version = app.version
         buildVersion = app.buildVersion
+        revision = UpdateChecker.revision
     }
 
     public func describes(_ app: InstalledApp) -> Bool {
@@ -41,8 +44,9 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     static let longestAbsence: TimeInterval = 90 * 24 * 60 * 60
 
     /// Returns the entries that still apply to `apps`. An entry is dropped when no installed copy is the build it
-    /// describes, which also makes that app due at once, or when the app is not installed and the entry is more
-    /// than `longestAbsence` past due. With two copies at two builds, the entry describes one of them and stays.
+    /// describes, which also makes that app due at once, when an earlier checker couldn't check the app, or when
+    /// the app is not installed and the entry is more than `longestAbsence` past due. With two copies at two
+    /// builds, the entry describes one of them and stays.
     public static func recalled(
         from memory: [String: UpdateMemory],
         for apps: [InstalledApp],
@@ -50,6 +54,7 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     ) -> [String: UpdateMemory] {
         let installed = InstalledApp.byIdentifier(apps)
         return memory.filter { identifier, entry in
+            if entry.status == .unsupported, entry.revision ?? 1 < UpdateChecker.revision { return false }
             guard let copies = installed[identifier] else {
                 return entry.schedule.due.addingTimeInterval(longestAbsence) > now
             }
