@@ -2,15 +2,15 @@ import Foundation
 
 enum AppStoreLookup {
     enum Answer: Equatable {
-        /// The Mac app's version, its store page (where the user can read what changed and update), its developer
+        /// The listing's version, its store page (where the user can read what changed and update), its developer
         /// as `artistName` gives it ("Apple" for Apple's own apps, where `sellerName` gives "Apple Inc."), and what
         /// is new in that version, as plain text.
-        case mac(version: String, page: URL?, developer: String?, notes: ReleaseNotes? = nil)
-        /// Apple answered, but with no Mac record. An app sold as one purchase for iPhone, iPad, and Mac has a
-        /// single record of kind "software" that carries the iPhone version, which cannot be compared with the
-        /// Mac app's. Apple also answers with no record at all for an app the store doesn't sell in this region,
-        /// or doesn't sell anymore. Neither is a failed lookup.
-        case noMacRecord
+        case listed(version: String, page: URL?, developer: String?, notes: ReleaseNotes? = nil)
+        /// Apple answered, but with no record of the listing asked. An app sold as one purchase for iPhone, iPad,
+        /// and Mac answers the Mac's question with a single record of kind "software" that carries the iPhone
+        /// version, which cannot be compared with the Mac app's. Apple also answers with no record at all for an
+        /// app the store doesn't sell in this region, or doesn't sell anymore. Neither is a failed lookup.
+        case notListed
         case unreadable
     }
 
@@ -23,14 +23,20 @@ enum AppStoreLookup {
         return components?.url
     }
 
-    static func answer(in data: Data) -> Answer {
+    static func answer(in data: Data, for listing: AppStoreListing) -> Answer {
         guard let results = (try? JSONDecoder().decode(Response.self, from: data))?.results else { return .unreadable }
-        guard let mac = results.first(where: { $0.kind == "mac-software" }), let version = mac.version else { return .noMacRecord }
-        return .mac(
+        let kind = switch listing {
+        case .mac: "mac-software"
+        case .iPhoneAndiPad: "software"
+        }
+        guard let record = results.first(where: { $0.kind == kind }), let version = record.version else {
+            return .notListed
+        }
+        return .listed(
             version: version,
-            page: mac.trackViewUrl.flatMap(URL.init(string:)),
-            developer: mac.artistName.flatMap { $0.isEmpty ? nil : $0 },
-            notes: mac.releaseNotes.flatMap { ReleaseNotes($0, format: .plainText) }
+            page: record.trackViewUrl.flatMap(URL.init(string:)),
+            developer: record.artistName.flatMap { $0.isEmpty ? nil : $0 },
+            notes: record.releaseNotes.flatMap { ReleaseNotes($0, format: .plainText) }
         )
     }
 

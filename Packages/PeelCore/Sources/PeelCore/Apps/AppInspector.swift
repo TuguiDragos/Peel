@@ -113,7 +113,7 @@ public enum AppInspector {
             updateFeed: UpdateFeed.detect(
                 info: info,
                 electronConfiguration: electronConfiguration,
-                isFromAppStore: isFromAppStore,
+                appStoreListing: isFromAppStore ? (layout.isWrapped ? .iPhoneAndiPad : .mac) : nil,
                 isSystemProtected: isSystemProtected
             ),
             updaterFolder: electronConfiguration.flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:)),

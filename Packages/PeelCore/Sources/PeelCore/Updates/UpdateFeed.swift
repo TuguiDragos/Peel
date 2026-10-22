@@ -4,7 +4,14 @@ internal import PeelPrivileged
 public enum UpdateFeed: Sendable, Hashable {
     case sparkle(URL)
     case electron(URL)
-    case appStore
+    case appStore(AppStoreListing)
+}
+
+/// The App Store listing that describes an app's bundle, and so the one its updates are read from.
+public enum AppStoreListing: Sendable, Hashable {
+    case mac
+    /// An iPhone or iPad app installed on a Mac, whose bundle is the very build that listing sells.
+    case iPhoneAndiPad
 }
 
 public enum UpdateSource: String, Sendable, Hashable, CaseIterable, Codable {
@@ -60,12 +67,12 @@ extension UpdateFeed {
     static func detect(
         info: [String: Any],
         electronConfiguration: String?,
-        isFromAppStore: Bool,
+        appStoreListing: AppStoreListing?,
         isSystemProtected: Bool
     ) -> UpdateFeed? {
         guard !isSystemProtected else { return nil }
-        if isFromAppStore {
-            return .appStore
+        if let appStoreListing {
+            return .appStore(appStoreListing)
         }
         if let feed = (info["SUFeedURL"] as? String).flatMap(URL.init(string:)), feed.scheme == "https" {
             return .sparkle(feed)

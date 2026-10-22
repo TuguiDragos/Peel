@@ -456,6 +456,7 @@ struct AppInspectorTests {
         #expect(app.name == "Example")
         #expect(app.version == "3.4")
         #expect(app.isFromAppStore)
+        #expect(app.updateFeed == .appStore(.iPhoneAndiPad))
     }
 
     /// Safari writes each web app as a template of its own `com.apple.Safari.WebApp`, named by the UUID it gives it.

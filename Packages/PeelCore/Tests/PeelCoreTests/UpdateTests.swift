@@ -284,18 +284,29 @@ struct AppStoreLookupTests {
     /// answer with no Mac record is still an answer, unlike a reply that cannot be read.
     @Test func usesOnlyMacApps() {
         let mac = #"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.11"}]}"#
-        #expect(AppStoreLookup.answer(in: Data(mac.utf8)) == .mac(version: "2.11", page: nil, developer: nil))
+        #expect(AppStoreLookup.answer(in: Data(mac.utf8), for: .mac) == .listed(version: "2.11", page: nil, developer: nil))
         // The developer is `artistName`, the name the App Store shows. For Apple's apps that is "Apple", the
         // name Peel also gives the apps Apple signs outside the store; `sellerName` would say "Apple Inc."
         let sold = #"{"resultCount":1,"results":[{"kind":"mac-software","version":"26.1","artistName":"Apple","sellerName":"Apple Inc."}]}"#
-        #expect(AppStoreLookup.answer(in: Data(sold.utf8)) == .mac(version: "26.1", page: nil, developer: "Apple"))
+        #expect(AppStoreLookup.answer(in: Data(sold.utf8), for: .mac) == .listed(version: "26.1", page: nil, developer: "Apple"))
 
         let iPhone = #"{"resultCount":1,"results":[{"kind":"software","version":"26.36.74"}]}"#
-        #expect(AppStoreLookup.answer(in: Data(iPhone.utf8)) == .noMacRecord)
+        #expect(AppStoreLookup.answer(in: Data(iPhone.utf8), for: .mac) == .notListed)
 
         // No record at all: the store doesn't sell the app in this region, or anymore. That is an answer too.
-        #expect(AppStoreLookup.answer(in: Data(#"{"resultCount":0,"results":[]}"#.utf8)) == .noMacRecord)
-        #expect(AppStoreLookup.answer(in: Data("<html>".utf8)) == .unreadable)
+        #expect(AppStoreLookup.answer(in: Data(#"{"resultCount":0,"results":[]}"#.utf8), for: .mac) == .notListed)
+        #expect(AppStoreLookup.answer(in: Data("<html>".utf8), for: .mac) == .unreadable)
+    }
+
+    @Test func readsTheIPhoneAndIPadListingOfAnAppOfThoseDevices() {
+        let iPad = #"{"resultCount":1,"results":[{"kind":"software","version":"1.4.5","artistName":"Example AG"}]}"#
+        #expect(
+            AppStoreLookup.answer(in: Data(iPad.utf8), for: .iPhoneAndiPad)
+                == .listed(version: "1.4.5", page: nil, developer: "Example AG")
+        )
+        let mac = #"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.0"}]}"#
+        #expect(AppStoreLookup.answer(in: Data(mac.utf8), for: .iPhoneAndiPad) == .notListed)
+        #expect(AppStoreLookup.answer(in: Data(#"{"resultCount":0,"results":[]}"#.utf8), for: .iPhoneAndiPad) == .notListed)
     }
 
     @Test func encodesLookupURL() {
@@ -339,13 +350,13 @@ struct UpdateFeedDetectionTests {
 
         let store = try TemporaryDirectory()
         let fromStore = try #require(AppInspector.inspect(try bundle(info: [:], files: ["_MASReceipt/receipt": ""], in: store)))
-        #expect(fromStore.updateFeed == .appStore)
+        #expect(fromStore.updateFeed == .appStore(.mac))
     }
 
     @Test func prefersAppStoreReceiptAndDetectsElectron() throws {
         let store = try TemporaryDirectory()
         let storeApp = try #require(AppInspector.inspect(try bundle(info: ["SUFeedURL": "https://example.com/appcast.xml"], files: ["_MASReceipt/receipt": ""], in: store)))
-        #expect(storeApp.updateFeed == .appStore)
+        #expect(storeApp.updateFeed == .appStore(.mac))
 
         let electron = try TemporaryDirectory()
         let electronApp = try #require(AppInspector.inspect(try bundle(info: [:], files: ["Resources/app-update.yml": "provider: generic\nurl: https://example.com/updates/"], in: electron)))
@@ -376,11 +387,11 @@ struct UpdateFeedDetectionTests {
         let info = ["SUFeedURL": "https://example.com/appcast.xml"]
 
         #expect(
-            UpdateFeed.detect(info: info, electronConfiguration: nil, isFromAppStore: false, isSystemProtected: true)
+            UpdateFeed.detect(info: info, electronConfiguration: nil, appStoreListing: nil, isSystemProtected: true)
                 == nil
         )
         #expect(
-            UpdateFeed.detect(info: info, electronConfiguration: nil, isFromAppStore: false, isSystemProtected: false)
+            UpdateFeed.detect(info: info, electronConfiguration: nil, appStoreListing: nil, isSystemProtected: false)
                 == .sparkle(try #require(URL(string: "https://example.com/appcast.xml")))
         )
     }
@@ -389,14 +400,14 @@ struct UpdateFeedDetectionTests {
         let feed = "https://github.com/TuguiDragos/Peel/releases/latest/download/appcast.xml"
         let peel = ["CFBundleIdentifier": "com.tuguidragos.Peel", "SUFeedURL": feed]
         #expect(
-            UpdateFeed.detect(info: peel, electronConfiguration: nil, isFromAppStore: false, isSystemProtected: false)
+            UpdateFeed.detect(info: peel, electronConfiguration: nil, appStoreListing: nil, isSystemProtected: false)
                 == .sparkle(URL(string: feed)!)
         )
         #expect(
             UpdateFeed.detect(
                 info: ["CFBundleIdentifier": "com.tuguidragos.Peel"],
                 electronConfiguration: nil,
-                isFromAppStore: false,
+                appStoreListing: nil,
                 isSystemProtected: false
             ) == nil
         )

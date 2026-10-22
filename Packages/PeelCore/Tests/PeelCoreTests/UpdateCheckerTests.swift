@@ -64,7 +64,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
             name: "Notes Pro",
             version: "1.0",
             isFromAppStore: true,
-            updateFeed: .appStore
+            updateFeed: .appStore(.mac)
         )
         reply("itunes.apple.com", status: 400, #"{"errorMessage":"Invalid value(s) for key(s): [country]"}"#)
         #expect(await antarctic.status(for: sold) == .failed)
@@ -170,7 +170,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
             name: "Notes Pro",
             version: "1.0",
             isFromAppStore: true,
-            updateFeed: .appStore
+            updateFeed: .appStore(.mac)
         )
 
         reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","version":"3.6.7","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
@@ -193,6 +193,25 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: sold) == .failed, "an answer Peel can't read is still a failed check")
     }
 
+    @Test func checksAnIPhoneOrIPadAppOnTheMacAgainstItsOwnListing() async {
+        let wrapped = { (version: String) in
+            InstalledApp(
+                url: URL(filePath: "/Applications/Weather.app"), bundleIdentifier: "org.example.weather",
+                name: "Weather", version: version, isFromAppStore: true, updateFeed: .appStore(.iPhoneAndiPad)
+            )
+        }
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"software","version":"6.9.2","trackViewUrl":"https://apps.apple.com/app/id1","artistName":"Example LLC"}]}"#)
+        #expect(
+            await checker.status(for: wrapped("6.9.1"))
+                == .updateAvailable(version: "6.9.2", source: .appStore, releaseNotes: URL(string: "https://apps.apple.com/app/id1"))
+        )
+        #expect(await checker.answer(for: wrapped("6.9.1")).developer == "Example LLC")
+        #expect(await checker.status(for: wrapped("6.9.2")) == .upToDate)
+
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"mac-software","version":"7.0","trackViewUrl":"https://apps.apple.com/app/id1"}]}"#)
+        #expect(await checker.status(for: wrapped("6.9.2")) == .unsupported, "a Mac record says nothing of an iPad build")
+    }
+
     /// An app whose bundle names no version, neither `CFBundleShortVersionString` nor `CFBundleVersion`, has nothing
     /// to compare a release with. Read as an empty version, any release was newer, forever. It claims no update, and
     /// nobody is asked.
@@ -208,12 +227,12 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         let feeds: [UpdateFeed] = [
             .sparkle(URL(string: "https://feed.example.com/appcast.xml")!),
             .electron(URL(string: "https://electron.example.com/latest-mac.yml")!),
-            .appStore,
+            .appStore(.mac),
         ]
         for feed in feeds {
             let unversioned = InstalledApp(
                 url: URL(filePath: "/Applications/Editor.app"), bundleIdentifier: "com.example.editor", name: "Editor",
-                isFromAppStore: feed == .appStore, updateFeed: feed
+                isFromAppStore: feed == .appStore(.mac), updateFeed: feed
             )
             #expect(await checker.status(for: unversioned) == .unsupported, "\(feed)")
         }
@@ -222,7 +241,7 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     private var storeApp: InstalledApp {
         InstalledApp(
             url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro",
-            version: "1.0", isFromAppStore: true, updateFeed: .appStore
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.mac)
         )
     }
 

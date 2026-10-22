@@ -30,7 +30,7 @@ struct InventoryTests {
                 app("Bear", bundleIdentifier: "net.shinyfrog.bear"),
                 app("Shazam", bundleIdentifier: "com.shazam.mac", isFromAppStore: true),
                 app("AdGuard", bundleIdentifier: "com.adguard.mac", feed: .sparkle(URL(string: "https://example.com/appcast.xml")!)),
-                app("Code", bundleIdentifier: "com.microsoft.VSCode", feed: .appStore),
+                app("Code", bundleIdentifier: "com.microsoft.VSCode", feed: .appStore(.mac)),
                 app("Nothing", bundleIdentifier: "com.example.nothing"),
                 app("Sample", bundleIdentifier: "org.example.Sample-setapp", feed: .sparkle(URL(string: "https://example.com/setapp.xml")!)),
             ],

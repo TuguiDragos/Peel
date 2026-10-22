@@ -153,12 +153,13 @@ public struct UpdateChecker: Sendable {
             reply = await lookup(identifier, in: "us")
         }
         guard let data = reply.data else { return UpdateAnswer(status: .failed) }
-        switch AppStoreLookup.answer(in: data) {
+        let listing: AppStoreListing = if case .appStore(let listing) = app.updateFeed { listing } else { .mac }
+        switch AppStoreLookup.answer(in: data, for: listing) {
         case .unreadable:
             return UpdateAnswer(status: .failed)
-        case .noMacRecord:
+        case .notListed:
             return UpdateAnswer(status: .unsupported)
-        case .mac(let latest, let page, let developer, let notes):
+        case .listed(let latest, let page, let developer, let notes):
             guard VersionComparison.isNewer(latest, than: installed) else {
                 return UpdateAnswer(status: .upToDate, developer: developer)
             }
