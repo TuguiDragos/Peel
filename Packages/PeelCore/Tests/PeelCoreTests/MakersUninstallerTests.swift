@@ -63,6 +63,18 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.electron.ivpn-ui", team: "ABCDE12345")) == nil)
     }
 
+    @Test func knowsAnAgentAndABackupAppWhoseMakersDocumentTheirOwnUninstall() {
+        let arq = agent("com.haystacksoftware.Arq", team: "48ZCSDVL96", at: "/Applications/Arq.app")
+
+        #expect(
+            MakersUninstaller.of(agent("com.zscaler.zscaler", team: "PCBCQZJ7S7"))?.step
+                == .uninstaller(URL(filePath: "/Applications/Zscaler/UninstallApplication.app", directoryHint: .isDirectory))
+        )
+        #expect(MakersUninstaller.of(agent("com.zscaler.tray", team: "PCBCQZJ7S7"))?.maker == "Zscaler")
+        #expect(MakersUninstaller.of(arq)?.step == .inTheApp(arq.url))
+        #expect(MakersUninstaller.of(agent("com.zscaler.zscaler", team: "ABCDE12345")) == nil)
+    }
+
     @Test func knowsAnUninstallerItsMakerDocumentsOpeningToRemoveAProduct() {
         let path = "/Applications/Chrome Remote Desktop Host Uninstaller.app"
         let uninstaller = agent("com.google.chromeremotedesktop.me2me-host-uninstaller", team: "EQHXZ8M8AV", at: path)

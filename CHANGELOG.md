@@ -27,6 +27,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   uninstallers, which also turn off what they keep in the system, such as a kill switch or a network extension: the
   app's page gives the command, opens the app whose own command removes it, or links the maker's instructions for the
   uninstaller on its disk image.
+- Zscaler Client Connector and Arq are left to their makers' own uninstallers: Zscaler's asks for the uninstall password
+  your organization set, and Arq's asks whether to delete its backup settings.
 - After a removal, Peel reads the files your shell runs when it starts and names the lines that still point to what
   moved, such as a `PATH` entry or an alias into the app, in the alert and in `peel uninstall`. It changes none of these
   files.

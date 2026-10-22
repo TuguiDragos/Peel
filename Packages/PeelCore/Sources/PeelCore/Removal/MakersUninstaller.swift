@@ -1,8 +1,8 @@
 public import Foundation
 
-/// A security or management agent, or a VPN, whose maker documents removing it with an uninstaller of its own, or such
-/// an uninstaller itself. Moved from its place, what the product keeps in the system and the settings that manage it
-/// would stay behind.
+/// A security or management agent, a VPN, or a backup app whose maker documents removing it with an uninstaller of its
+/// own, or such an uninstaller itself. Moved from its place, what the product keeps in the system and the settings that
+/// manage it would stay behind.
 public struct MakersUninstaller: Sendable, Hashable {
     /// What the maker's page says to do.
     public enum Step: Sendable, Hashable {
@@ -104,6 +104,16 @@ public struct MakersUninstaller: Sendable, Hashable {
         (
             "WQXXM75BYN", ["com.electron.ivpn-ui", "net.ivpn.client"], "IVPN", .onItsDiskImage,
             "https://www.ivpn.net/knowledgebase/macos/macos-how-do-i-completely-uninstall-or-remove-the-ivpn-application/"
+        ),
+        // Zscaler's guide for deploying with Jamf names the team and `com.zscaler` as the prefix of its apps.
+        (
+            "PCBCQZJ7S7", ["com.zscaler"], "Zscaler",
+            .uninstaller("/Applications/Zscaler/UninstallApplication.app"),
+            "https://help.zscaler.com/zscaler-client-connector/uninstalling-zscaler-client-connector"
+        ),
+        (
+            "48ZCSDVL96", ["com.haystacksoftware.arq"], "Arq", .inTheApp,
+            "https://www.arqbackup.com/documentation/arq7/English.lproj/troubleshooting.html"
         ),
         // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
         (
