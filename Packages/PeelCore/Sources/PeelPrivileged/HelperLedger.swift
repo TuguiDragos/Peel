@@ -83,6 +83,19 @@ public final class HelperLedger: Sendable {
         into trash: DirectoryHandle,
         givingTo user: uid_t
     ) -> Result<String?, POSIXError> {
+        moveFolder(folder, into: trash, givingTo: user) { folder, entry, owner in
+            entry.map { folder.give($0, to: owner) } ?? folder.giveItself(to: owner)
+        }
+    }
+
+    /// `moveFolder(_:into:givingTo:)`, where `changingOwner` gives `folder` itself, or the entry named inside it, to
+    /// an account.
+    static func moveFolder(
+        _ folder: String,
+        into trash: DirectoryHandle,
+        givingTo user: uid_t,
+        changingOwner: (_ folder: DirectoryHandle, _ entry: String?, _ owner: uid_t) -> Bool
+    ) -> Result<String?, POSIXError> {
         lock.withLock {
             switch OpenItem.at(folder) {
             case .failure(let error):
@@ -91,26 +104,27 @@ public final class HelperLedger: Sendable {
                 guard let mode = item.mode, mode & S_IFMT == S_IFDIR, mode & 0o077 == 0, item.owner == geteuid() else {
                     return .failure(POSIXError(.EPERM))
                 }
-                // Given to `user` before it moves, so emptying the Trash asks for no password: in the Trash its
-                // entries could no longer be listed without Full Disk Access. Taken back if the move fails, so the
-                // ledger is never the user's where the helper reads it.
-                give(item, to: user)
+                // Given to `user` so emptying the Trash asks for no password: the files while the folder is still
+                // root's and closed to everyone else, since in the Trash they could no longer be listed without Full
+                // Disk Access, and the folder itself only once it is there, through the descriptor held here, so the
+                // ledger is never the user's where the helper reads it. A failed move takes the files back.
+                let inside = item.parent.child(item.name)
+                let entries = (try? FileManager.default.contentsOfDirectory(atPath: item.path)) ?? []
+                func giveEntries(to owner: uid_t) {
+                    guard let inside else { return }
+                    for entry in entries {
+                        _ = changingOwner(inside, entry, owner)
+                    }
+                }
+                giveEntries(to: user)
                 let moved = TrashMover.move(item, into: trash)
-                if case .failure = moved {
-                    give(item, to: geteuid())
+                switch moved {
+                case .success: _ = inside.map { changingOwner($0, nil, user) }
+                case .failure: giveEntries(to: geteuid())
                 }
                 return moved.map { $0 }
             }
         }
-    }
-
-    private static func give(_ item: OpenItem, to user: uid_t) {
-        if let inside = item.parent.child(item.name) {
-            for entry in (try? FileManager.default.contentsOfDirectory(atPath: item.path)) ?? [] {
-                _ = inside.give(entry, to: user)
-            }
-        }
-        _ = item.parent.give(item.name, to: user)
     }
 
     public struct Unreadable: Error {}

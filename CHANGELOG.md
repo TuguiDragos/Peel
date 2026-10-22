@@ -139,7 +139,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Settings
 
 - Open at Login reads and changes the login item away from the main thread, so the window no longer waits for macOS.
-- Remove Peel hands you the helper's ledger before the helper moves it to the Trash, so emptying the Trash needs no
+- Remove Peel gives you the helper's ledger as the helper moves it to the Trash, so emptying the Trash needs no
   administrator's password for it.
 
 #### Applications

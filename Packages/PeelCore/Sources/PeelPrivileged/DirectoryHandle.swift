@@ -102,6 +102,11 @@ public final class DirectoryHandle: Sendable {
         name.withCString { fchownat(descriptor, $0, user, gid_t(bitPattern: -1), AT_SYMLINK_NOFOLLOW) == 0 }
     }
 
+    /// Makes this folder itself belong to `user`, wherever it is now and whatever names it there; its group stays.
+    public func giveItself(to user: uid_t) -> Bool {
+        fchown(descriptor, user, gid_t(bitPattern: -1)) == 0
+    }
+
     /// The owner of the directory itself, read through the descriptor.
     public func ownerIdentifier() -> uid_t? {
         var info = stat()

@@ -172,6 +172,48 @@ struct HelperLedgerTests {
         #expect(FileManager.default.fileExists(atPath: path("root/Library/Caches", in: directory)))
     }
 
+    @Test func givesTheLedgersFolderToThePersonOnlyOnceItIsInTheTrash() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let trashPath = try #require(trash.currentPath)
+        _ = try move("root/Library/Caches/com.example.plist", with: try ledger(in: directory), policy: policy, in: directory)
+        var given: [(entry: String?, inTheTrash: Bool)] = []
+
+        let moved = try HelperLedger.moveFolder(path("private", in: directory), into: trash, givingTo: 4_242) {
+            folder, entry, _ in
+            given.append((entry, folder.currentPath?.hasPrefix(trashPath + "/") == true))
+            return true
+        }.get()
+
+        #expect(moved != nil)
+        #expect(given.map(\.entry) == ["moved.plist", nil])
+        #expect(given.map(\.inTheTrash) == [false, true])
+    }
+
+    @Test func takesTheLedgersFilesBackWhenItsFolderCannotMove() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        _ = try move("root/Library/Caches/com.example.plist", with: try ledger(in: directory), policy: policy, in: directory)
+        try directory.directory("closed")
+        try directory.setPermissions(0o555, of: "closed")
+        defer { try? directory.setPermissions(0o755, of: "closed") }
+        let closed = try DirectoryHandle.at(path("closed", in: directory)).get()
+        var given: [(entry: String?, owner: uid_t)] = []
+
+        #expect(throws: POSIXError.self) {
+            try HelperLedger.moveFolder(path("private", in: directory), into: closed, givingTo: 4_242) {
+                _, entry, owner in
+                given.append((entry, owner))
+                return true
+            }.get()
+        }
+
+        #expect(given.map(\.entry) == ["moved.plist", "moved.plist"])
+        #expect(given.map(\.owner) == [4_242, geteuid()])
+        #expect(FileManager.default.fileExists(atPath: path("private/moved.plist", in: directory)))
+    }
+
     @Test func setsAsideALedgerItCannotReadAsOneAndStartsAnother() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)
