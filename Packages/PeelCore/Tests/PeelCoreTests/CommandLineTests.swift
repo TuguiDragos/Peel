@@ -551,12 +551,16 @@ struct CommandLineTests {
         #expect(Output.quoted("Editor") == "Editor")
         #expect(Output.quoted("Sam's Apps") == "'Sam'\\''s Apps'")
         let breaking = [
-            "Q&A", "Tools;Kit", "A|B", "(Beta)", "Cost$", "Back`tick", "Star*", "What?", "Wow!", "No#1", "-Dash", "=Equal",
+            "Q&A", "Tools;Kit", "A|B", "(Beta)", "Cost$", "Back`tick", "Star*", "What?", "Wow!", "No#1", "=Equal",
         ]
         for name in breaking + ["Sam's"] {
             #expect(Output.quoted(name).hasPrefix("'"), "\(name) would break the command it is pasted into")
         }
         #expect(Output.quoted("Café-2.0_x86/64+@%:=,") == "Café-2.0_x86/64+@%:=,")
+        #expect(Output.lastArgument("Editor") == "Editor")
+        #expect(Output.lastArgument("Notes Pro") == "'Notes Pro'")
+        #expect(Output.lastArgument("-Dash") == "-- -Dash")
+        #expect(Output.lastArgument("-Dash Pro") == "-- '-Dash Pro'")
     }
 
     // MARK: peel uninstall
@@ -631,7 +635,22 @@ struct CommandLineTests {
         #expect(notes[1] == Output.fullDiskAccessNote)
         #expect(notes[2].hasPrefix("There are more folders in /Users/me/Library/Caches than Peel looks inside"))
         #expect(notes[3] == "1 item needs administrator access and will stay. Remove it with the Peel app.")
-        #expect(notes[4] == "1 file needs review and will stay. See it with `peel leftovers Editor --all`.")
+        #expect(notes[4] == "1 file needs review and will stay. See it with `peel leftovers --all Editor`.")
+    }
+
+    @Test func offersACommandThatReadsANameBeginningWithADashAsTheApp() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/-Dash.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.dash", name: "-Dash"
+        )
+        let review = leftover(URL(filePath: "/Users/me/Library/Caches/review"), heldBack: .namedLikeTheApp)
+        let plan = UninstallPlan.make(uninstallation(app: app, leftovers: [review]), keepLeftovers: false) { _ in nil }
+
+        let notes = UninstallCommand.whatStays(
+            plan, app: app, homebrew: CaskLookup.Answer(), scan: LeftoverScan(leftovers: [], unreadableLocations: [])
+        )
+
+        #expect(notes == ["1 file needs review and will stay. See it with `peel leftovers --all -- -Dash`."])
     }
 
     @Test func saysWhereWhatOnlyAnAdministratorCanMoveIsListed() throws {
@@ -653,7 +672,7 @@ struct CommandLineTests {
         )
         #expect(notes == [
             "1 item needs an administrator, and Peel's helper isn't allowed to move it. Once Editor is in the Trash, Orphaned Files in the Peel app lists it under Needs an Administrator, with how to remove it.",
-            "1 file needs review and will stay. See it with `peel leftovers Editor --all`.",
+            "1 file needs review and will stay. See it with `peel leftovers --all Editor`.",
         ])
         #expect(UninstallPlan.make(editor, keepLeftovers: true, refusal: { _ in nil }).leftForAnAdministrator == 1)
         let json = try Output.jsonText(

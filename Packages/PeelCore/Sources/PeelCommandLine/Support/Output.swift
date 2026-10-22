@@ -52,13 +52,19 @@ enum Output {
     }
 
     /// Returns `name` so the reader can paste it into a command: in single quotes unless every character is a
-    /// letter, a digit, or one of `._/+-@%:=,`, which no shell reads as anything but itself, and the first is
-    /// neither `-`, an option to `peel`, nor `=`, a command name to zsh.
+    /// letter, a digit, or one of `._/+-@%:=,`, which no shell reads as anything but itself, and the first is not
+    /// `=`, which zsh reads as a command's path.
     static func quoted(_ name: String) -> String {
         let name = plain(name)
         let isPlain = !name.isEmpty && name.allSatisfy { $0.isLetter || $0.isNumber || "._/+-@%:=,".contains($0) }
-            && !"-=".contains(name.first ?? " ")
+            && name.first != "="
         return isPlain ? name : "'\(name.replacingOccurrences(of: "'", with: "'\\''"))'"
+    }
+
+    /// Returns `name` as the last argument of a command to paste, quoted, and after `--` when it begins with `-`,
+    /// which `peel` would otherwise read as options whatever the quotes.
+    static func lastArgument(_ name: String) -> String {
+        plain(name).hasPrefix("-") ? "-- " + quoted(name) : quoted(name)
     }
 
     /// Writes `text` to standard output unchanged, for output that already ends in a newline. When the write fails

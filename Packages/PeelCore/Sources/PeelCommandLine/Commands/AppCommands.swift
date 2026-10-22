@@ -695,7 +695,7 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         if plan.needsReview > 0 {
             let them = plan.needsReview == 1 ? "it" : "them"
-            notes.append("\(Output.count(plan.needsReview, "file needs", "files need")) review and will stay. See \(them) with `peel leftovers \(Output.quoted(app.name)) --all`.")
+            notes.append("\(Output.count(plan.needsReview, "file needs", "files need")) review and will stay. See \(them) with `peel leftovers --all \(Output.lastArgument(app.name))`.")
         }
         return notes
     }

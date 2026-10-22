@@ -208,7 +208,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### `peel`
 
-- A name beginning with `-` or `=` is quoted in a command `peel` offers to copy, so pasting it works.
+- The command `peel uninstall` offers to copy works for an app whose name begins with `-` or `=`: the name comes last,
+  quoted where a shell would read it otherwise, and after `--` when it begins with `-`, so it isn't read as an option.
 
 ### Security
 
