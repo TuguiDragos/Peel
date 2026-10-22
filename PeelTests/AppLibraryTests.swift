@@ -361,6 +361,30 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.shownUpdateStatus(of: app) == .failed)
     }
 
+    @Test func anUpdateHomebrewNoLongerReportsGoesAsSoonAsHomebrewIsRead() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder, clock: TestClock(homebrewChecked + 60 * 60))
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        library.loadHomebrewCasks([cask("Fed", latest: "2.0", checked: homebrewChecked)], knowsItsOwnApps: true)
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "2.0")
+
+        library.loadHomebrewCasks([cask("Fed", latest: "2.1", checked: homebrewChecked)], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "2.1")
+
+        library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app) == nil)
+        let saved = try #require(made.defaults.data(forKey: SettingsKey.updateMemory))
+        let memory = try JSONDecoder().decode([String: UpdateMemory].self, from: saved)
+        #expect(memory["org.example.fed"] == nil, "its feed answers at the next round")
+    }
+
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Tool", in: folder)

@@ -793,10 +793,15 @@ final class AppLibrary {
         applyHomebrewStatuses()
     }
 
-    /// Forgets an update Homebrew reported for an app it no longer counts as its own, saved answer included, so the
-    /// app is due and its own feed answers at the next round.
+    /// Forgets an update Homebrew reported and no longer reports, for an app it no longer counts as its own or whose
+    /// cask is no longer behind, saved answer included, so the app is due and its own feed answers at the next round.
+    /// One that stands in for the app's own source is decided again from that source's answer instead.
     private func forgetUpdatesHomebrewNoLongerOffers() {
-        let outlived = Set(updateStatuses.filter { !$0.value.holds(whileHomebrews: homebrewApps[$0.key] != nil) }.keys)
+        let outlived = Set(apps.filter { app in
+            guard let status = updateStatuses[app.id], remembered(app)?.standsInFor == nil else { return false }
+            let homebrew = homebrewApps[app.id] == nil ? nil : updateChecker.homebrewStatus(for: app, casks: casks)
+            return !status.holds(whileHomebrewSays: homebrew)
+        }.map(\.id))
         guard !outlived.isEmpty else { return }
         updateStatuses = updateStatuses.filter { !outlived.contains($0.key) }
         lastUpdateChecks = lastUpdateChecks.filter { !outlived.contains($0.key) }
@@ -814,14 +819,19 @@ final class AppLibrary {
     private func applyHomebrewStatuses() {
         let preference = updateSource
         for app in apps where isAskedAboutUpdates(app) {
-            let remembered = app.bundleIdentifier.flatMap { memory[$0] }.flatMap { $0.describes(app) ? $0 : nil }
-            guard homebrewApps[app.id] != nil || remembered?.standsInFor != nil else { continue }
+            let saved = remembered(app)
+            guard homebrewApps[app.id] != nil || saved?.standsInFor != nil else { continue }
             let decided = updateChecker.statusWithoutAsking(
-                for: app, preference: preference, casks: casks, known: remembered.map { $0.standsInFor ?? $0.status }
+                for: app, preference: preference, casks: casks, known: saved.map { $0.standsInFor ?? $0.status }
             )
             guard let decided, decided != updateStatuses[app.id] else { continue }
             updateStatuses[app.id] = decided
         }
+    }
+
+    /// The answer saved for `app`, while it is about the build installed.
+    private func remembered(_ app: InstalledApp) -> UpdateMemory? {
+        app.bundleIdentifier.flatMap { memory[$0] }.flatMap { $0.describes(app) ? $0 : nil }
     }
 
     /// Whether update checks ask about `app`. Never about Peel's own copies, which Sparkle keeps current, checking

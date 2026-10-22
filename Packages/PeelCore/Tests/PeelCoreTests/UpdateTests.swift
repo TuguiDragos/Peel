@@ -666,15 +666,17 @@ struct UpdateSourceTests {
         #expect(status(behind, checked) == update)
     }
 
-    @Test func anUpdateHomebrewReportedHoldsOnlyWhileTheAppIsHomebrews() {
+    @Test func anUpdateHomebrewReportedHoldsOnlyWhileHomebrewReportsOne() {
         let homebrew = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew)
-        #expect(homebrew.holds(whileHomebrews: true))
-        #expect(!homebrew.holds(whileHomebrews: false))
+        #expect(homebrew.holds(whileHomebrewSays: homebrew))
+        #expect(homebrew.holds(whileHomebrewSays: .updateAvailable(version: "2.1", source: .homebrew)))
+        #expect(!homebrew.holds(whileHomebrewSays: .upToDate))
+        #expect(!homebrew.holds(whileHomebrewSays: nil))
 
-        #expect(UpdateStatus.updateAvailable(version: "2.0", source: .developer).holds(whileHomebrews: false))
-        #expect(UpdateStatus.updateAvailable(version: "2.0", source: .appStore).holds(whileHomebrews: false))
-        #expect(UpdateStatus.upToDate.holds(whileHomebrews: false))
-        #expect(UpdateStatus.failed.holds(whileHomebrews: false))
+        #expect(UpdateStatus.updateAvailable(version: "2.0", source: .developer).holds(whileHomebrewSays: nil))
+        #expect(UpdateStatus.updateAvailable(version: "2.0", source: .appStore).holds(whileHomebrewSays: .upToDate))
+        #expect(UpdateStatus.upToDate.holds(whileHomebrewSays: nil))
+        #expect(UpdateStatus.failed.holds(whileHomebrewSays: nil))
     }
 
     @Test func showsAHomebrewVersionWithoutWhatTheDownloadNeeds() {
