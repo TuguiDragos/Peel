@@ -52,6 +52,21 @@ enum KeptOnlyHere {
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
         // (`frontend/OBSApp.cpp`), and nowhere else.
         ("Library/Application Support/obs-studio", "basic", .holdsWorkMadeWithTheApp),
+        // Torrent clients keep each torrent added and how far it got apart from what it downloaded, and forget every
+        // transfer without them. Transmission's "Configuration Files": `torrents`, `resume` and the Mac app's
+        // `Transfers.plist`, in this folder.
+        ("Library/Application Support/Transmission", nil, .holdsTorrents),
+        // qBittorrent's `SessionImpl`: `BT_backup`, or `torrents.db`, in its data folder.
+        ("Library/Application Support/qBittorrent", "BT_backup", .holdsTorrents),
+        ("Library/Application Support/qBittorrent", "torrents.db", .holdsTorrents),
+        // BiglyBT's `DownloadManagerStateImpl`: `active` in its user folder.
+        ("Library/Application Support/BiglyBT", "active", .holdsTorrents),
+        // Deluge's `TorrentManager`: `state` in its configuration folder, which is XDG's on a Mac.
+        (".config/deluge", "state", .holdsTorrents),
+        // Motrix's `getSessionPath`: aria2's session, read again at every start.
+        ("Library/Application Support/Motrix", "download.session", .holdsTorrents),
+        // WebTorrent's `TORRENT_PATH`.
+        ("Library/Application Support/WebTorrent", "Torrents", .holdsTorrents),
         // Docker's `docker login`: with no credential store, the credentials go in `.docker/config.json`.
         (".docker", "config.json", .holdsSignIns),
         // Cargo's `cargo login`: the token is saved in `$CARGO_HOME/credentials.toml`, and `CARGO_HOME` is `.cargo`.

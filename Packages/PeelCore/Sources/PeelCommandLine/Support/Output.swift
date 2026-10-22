@@ -335,6 +335,7 @@ extension HoldBack {
         case .holdsPasswordsOrCodes: "holds passwords or sign-in codes that may exist only on this Mac"
         case .holdsVPNConnections: "holds VPN connections that may exist only on this Mac"
         case .holdsSignIns: "holds a sign-in to a service, such as a token a tool saved when you logged in"
+        case .holdsTorrents: "holds your list of torrents and how far each one got, which may exist only on this Mac"
         case .holdsWorkMadeWithTheApp:
             "holds what you made with the app, such as saved games, databases, or its backups, that may exist only here"
         case .holdsSimulators: "holds the app's simulators, with the apps installed in them and their data"

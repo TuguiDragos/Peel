@@ -29,6 +29,15 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Example/Backups", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/obs-studio", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/obs-studio/basic/scenes/Untitled.json", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Transmission", .holdsTorrents),
+            ("Library/Application Support/Transmission/Transfers.plist", .holdsTorrents),
+            ("Library/Application Support/qBittorrent", .holdsTorrents),
+            ("Library/Application Support/qBittorrent/BT_backup/1a2b.fastresume", .holdsTorrents),
+            ("Library/Application Support/qBittorrent/torrents.db", .holdsTorrents),
+            ("Library/Application Support/BiglyBT/active/1a2b.dat", .holdsTorrents),
+            (".config/deluge", .holdsTorrents), (".config/deluge/state/torrents.fastresume", .holdsTorrents),
+            ("Library/Application Support/Motrix/download.session", .holdsTorrents),
+            ("Library/Application Support/WebTorrent/Torrents/1a2b.torrent", .holdsTorrents),
             (".docker", .holdsSignIns), (".docker/config.json", .holdsSignIns),
             (".cargo/credentials.toml", .holdsSignIns), (".pypirc", .holdsSignIns),
             (".gem/credentials", .holdsSignIns), (".local/share/gem/credentials", .holdsSignIns),
@@ -60,6 +69,8 @@ struct KeptOnlyHereTests {
             "Library/Application Support/Steam Link", "Library/Caches/Postgres", "Library/Application Support/Backupify",
             "Library/Application Support/obs-studio/logs",
             ".docker/contexts", ".cargo/registry", ".config", ".local/share", ".terraform.d/plugins",
+            "Library/Application Support/qBittorrent/logs", "Library/Caches/qBittorrent", ".config/deluge/plugins",
+            "Library/Application Support/Motrix/dht.dat", "Library/Application Support/WebTorrent/Posters",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")

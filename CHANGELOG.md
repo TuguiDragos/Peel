@@ -81,6 +81,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   also when you uninstall 1Password 8, which uses it too.
 - A folder holding a 1Password vault kept outside an account, `.opvault` or `.agilekeychain`, is listed and never
   selected, like one holding a KeePass database, and the pages that measure folders hold it back too.
+- A torrent client's list of torrents and how far each one got, as Transmission, qBittorrent, BiglyBT, Deluge, Motrix,
+  and WebTorrent keep them, is listed and never selected: without it the app forgets every transfer.
 
 #### Space
 

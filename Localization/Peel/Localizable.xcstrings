@@ -94499,6 +94499,112 @@
         }
       }
     },
+    "Not selected: this holds your list of torrents and how far each one got, which may exist only on this Mac. Once the Trash is emptied, you’d have to add each torrent again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje váš seznam torrentů i s průběhem jejich stahování, který může existovat jen v tomto Macu. Jakmile se koš vysype, budete muset každý torrent přidat znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält deine Torrent-Liste und den Fortschritt jedes Torrents, die es möglicherweise nur auf diesem Mac gibt. Sobald der Papierkorb entleert ist, müsstest du jeden Torrent erneut hinzufügen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene tu lista de torrents y el progreso de cada uno, algo que puede que solo exista en este Mac. En cuanto se vacíe la papelera, tendrías que volver a añadir cada torrent."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient votre liste de torrents et la progression de chacun, qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, il vous faudrait ajouter à nouveau chaque torrent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene l’elenco dei tuoi torrent e l’avanzamento di ciascuno, che potrebbero esistere solo su questo Mac. Una volta svuotato il Cestino, dovrai aggiungere di nuovo ogni torrent."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、追加したトレントのリストと、それぞれの進行状況が含まれており、このMacにしか存在しない可能性があります。ゴミ箱を空にすると、トレントを1つずつ追加し直す必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 Mac에만 있을 수 있는 토렌트 목록과 각 토렌트의 진행 상태가 들어 있습니다. 휴지통을 비우면 각 토렌트를 다시 추가해야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat je lijst met torrents en de voortgang van elke torrent, die misschien alleen op deze Mac staan. Zodra de prullenmand is geleegd, moet je elke torrent opnieuw toevoegen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera Twoją listę torrentów, która może istnieć tylko na tym Macu, wraz z postępem pobierania każdego z nich. Po opróżnieniu Kosza trzeba będzie ponownie dodać każdy torrent."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém a sua lista de torrents e o progresso de cada um, que podem existir só neste Mac. Depois que o Lixo for esvaziado, você precisaria adicionar cada torrent de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține lista dvs. de torrente și progresul fiecăruia, care pot exista doar pe acest Mac. După golirea Coșului, ar trebui să adăugați din nou fiecare torrent."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранятся Ваш список торрентов и прогресс загрузки каждого из них, и, возможно, они есть только на этом Mac. После очистки Корзины Вам нужно будет снова добавить каждый торрент."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller din lista över torrenter och hur långt var och en har kommit, uppgifter som kanske bara finns på den här datorn. När papperskorgen har tömts behöver du lägga till varje torrent igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, yalnızca bu Mac’te bulunabilecek torrent listenizi ve her birinin ne kadar ilerlediğini içerir. Çöp Sepeti boşaltıldığında her torrenti yeniden eklemeniz gerekir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігається ваш список торентів, який може існувати лише на цьому Mac, разом із перебігом викачування кожного з них. Коли Смітник буде очищено, вам доведеться знову додати кожен торент."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有你的种子列表以及每个种子的下载进度，这些内容可能仅存在于这台Mac上。一旦清倒废纸篓，你就需要重新添加每个种子。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有你的torrent列表及每個torrent的下載進度，這些內容可能只存在於這部Mac上。一旦清空「垃圾桶」，你就需要重新加入每個torrent。"
+          }
+        }
+      }
+    },
     "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it." : {
       "localizations" : {
         "cs" : {

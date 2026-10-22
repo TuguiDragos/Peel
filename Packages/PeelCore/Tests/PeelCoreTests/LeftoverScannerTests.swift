@@ -1984,6 +1984,25 @@ struct LeftoverScannerTests {
         #expect(manifests["com.example.bridge.json"]?.match.isRecommended == true)
     }
 
+    @Test func aTorrentClientsListOfTorrentsIsNotSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Transmission/resume/Example.1a2b3c4d.resume")
+        try directory.file("home/.config/deluge/state/torrents.state")
+        let transmission = InstalledApp(
+            url: URL(filePath: "/Applications/Transmission.app"), bundleIdentifier: "org.example.transmission",
+            name: "Transmission"
+        )
+        let deluge = InstalledApp(
+            url: URL(filePath: "/Applications/Deluge.app"), bundleIdentifier: "org.example.deluge", name: "Deluge"
+        )
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        for app in [transmission, deluge] {
+            let leftovers = await scanner.scan(app, installedApps: [transmission, deluge]).leftovers
+            #expect(leftovers.map(\.match.heldBack) == [.holdsTorrents], "\(app.name)")
+        }
+    }
+
     @Test func aFolderHoldingAStandaloneVaultIsNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Tunewell/Vault.opvault/default/profile.js")

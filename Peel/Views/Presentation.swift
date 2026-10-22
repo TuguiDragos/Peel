@@ -311,6 +311,8 @@ extension HoldBack {
             "Not selected: this holds VPN connections, with their keys and certificates, that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
         case .holdsSignIns:
             "Not selected: this holds a sign-in to a service, such as a token a tool saved when you logged in. Once the Trash is emptied, you’d sign in again."
+        case .holdsTorrents:
+            "Not selected: this holds your list of torrents and how far each one got, which may exist only on this Mac. Once the Trash is emptied, you’d have to add each torrent again."
         case .holdsWorkMadeWithTheApp:
             "Not selected: this holds what you made with the app, such as saved games, databases, or the app’s own backups, which may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have another copy."
         case .holdsSimulators:
