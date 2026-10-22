@@ -65,7 +65,8 @@ enum NestedSearch {
                 } catch CocoaError.fileReadNoSuchFile {
                     continue
                 } catch {
-                    if !ProtectedData.isApplesName(folder.lastPathComponent) {
+                    let name = folder.lastPathComponent
+                    if !ProtectedData.isApplesName(name), !SystemSupportFolders.isMacOSs(name) {
                         findings.unreadable.append(folder)
                     }
                     continue

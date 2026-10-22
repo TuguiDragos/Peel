@@ -1255,6 +1255,25 @@ struct OrphanScannerTests {
         #expect(!scan.needsFullDiskAccess)
     }
 
+    @Test(.permissionsHold) func saysNothingOfAFolderOfMacOSsOwnItCouldNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let folders = ["ApplePushService", "Example Software"]
+        try directory.file("root/Library/Application Support/ApplePushService/aps.db")
+        try directory.file("root/Library/Application Support/Example Software/org.example.mixer/settings.json")
+        for folder in folders {
+            try directory.setPermissions(0, of: "root/Library/Application Support/\(folder)")
+        }
+        defer {
+            for folder in folders {
+                try? directory.setPermissions(0o755, of: "root/Library/Application Support/\(folder)")
+            }
+        }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Example Software"])
+    }
+
     @Test func saysWhereItStoppedLookingInsideFolders() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Vendor One/notes.txt")
