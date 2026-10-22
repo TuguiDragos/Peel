@@ -55,8 +55,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The Tools tab asks Homebrew which tools it still offers only while Homebrew's own settings wouldn't make it update its
   lists over the network first.
 
+#### Settings
+
+- Privacy names the country an update check tells the App Store: that of the store an iPhone or iPad app came from, or
+  else your Mac's region.
+
 #### Applications
 
+- Rescan asks about every app's updates again at once, whatever each one's schedule says.
 - A folder named like the app without the word of its release channel, as Zed Nightly keeps its settings in `zed`, is
   shown for review and never selected, and Orphaned Files counts it as the installed channel's.
 
@@ -109,6 +115,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- iPhone and iPad apps installed on the Mac from the App Store are checked for updates against their own listing, in the
+  store they came from, and Mac apps sold together with their iPhone version against their Mac listing; both read "Can't
+  check for updates" while the App Store listed their updates.
+- An update from the App Store stays when a later answer, from a copy of Apple's catalog that isn't up to date yet,
+  names an older version.
 - A folder named like the app is no longer selected while another app's name holds that name, as Epic Games Launcher
   holds Epic: it is listed as also used by that app.
 - An app whose identifier a tool wrote for it, such as Electron's `com.electron.<name>`, no longer lists every other
