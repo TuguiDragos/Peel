@@ -27,7 +27,6 @@ public struct UpdateChecker: Sendable {
     }
 
     private let session: URLSession
-    /// The pace of requests to the App Store, which the process shares.
     private let appStoreWindow: RequestWindow
     private let country: String
     private let systemVersion: String
@@ -96,10 +95,8 @@ public struct UpdateChecker: Sendable {
         return own
     }
 
-    /// The status `answer(for:preference:casks:earlier:)` gives `app` without asking any server, from Homebrew's
-    /// casks and the app's own files alone, or nil when the app's own feed or the App Store has to be asked.
-    /// `known` is what that source answered last: where it had no answer, what Homebrew knows now answers in its
-    /// place, as a check would, and once Homebrew knows nothing that counts, the source's own answer stands again.
+    /// The status `answer` gives `app` without asking a server, from Homebrew's casks and the app's own files, or nil
+    /// when its source must be asked. Where that source had no answer (`known`), Homebrew's counts, else `known`.
     public func statusWithoutAsking(
         for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage], known: UpdateStatus? = nil
     ) -> UpdateStatus? {
@@ -145,9 +142,8 @@ public struct UpdateChecker: Sendable {
         CaskEvidence.installedCask(for: app, in: casks).flatMap { Self.homebrewStatus(of: $0, at: clock()) }
     }
 
-    /// The status Homebrew reports at `now` for `cask`, which is already known to be the app's, or nil when it can't
-    /// tell. A cask it doesn't mark outdated is up to date only while Homebrew's last check for new versions is less
-    /// than `Homebrew.autoUpdateInterval` old, the longest Homebrew itself waits before it checks again.
+    /// The status Homebrew reports at `now` for `cask`, known to be the app's, or nil when it can't tell: a cask
+    /// not outdated is up to date only within `Homebrew.autoUpdateInterval` of Homebrew's last check for new versions.
     static func homebrewStatus(of cask: HomebrewPackage, at now: Date) -> UpdateStatus? {
         if cask.isOutdated, let latest = cask.latestVersion {
             return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
@@ -396,9 +392,8 @@ public struct UpdateAnswer: Sendable, Hashable {
         self.standsInFor = standsInFor
     }
 
-    /// The status to keep when this answer follows `previous`. A check whose own source failed keeps an update that
-    /// source found earlier, even where Homebrew answered in its place, since failing to reach the server says
-    /// nothing about that update. An update Homebrew reported is kept only while Homebrew gives it.
+    /// The status to keep after `previous`: a check whose own source failed keeps an update that source found earlier,
+    /// even where Homebrew answered in its place, and an update Homebrew reported is kept only while Homebrew gives it.
     public func following(_ previous: UpdateStatus?) -> UpdateStatus {
         if (standsInFor ?? status) == .failed, let previous, case .updateAvailable(_, let source, _) = previous,
            source != .homebrew {

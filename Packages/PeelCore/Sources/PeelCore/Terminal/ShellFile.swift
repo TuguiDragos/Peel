@@ -80,11 +80,8 @@ public enum ShellFile {
         return String(decoding: data, as: UTF8.self).split(separator: "\n").contains { reading.reads(String($0)) }
     }
 
-    /// Whether a line reads the file: `source` or `.` with the file's path as its argument, written from `$HOME`,
-    /// `${HOME}` or `~`, or whole, in quotes or not, its spaces escaped or not, and not in a comment. Peel's own line
-    /// tests the file first, `[[ -r … ]] && source …`, and counts only when that test starts a command: run into the
-    /// line before it, as happened in a file whose last line had no newline, zsh fails on the line and never reaches
-    /// the `source`. Made once for all the lines of a file, since making the patterns costs far more than a match.
+    /// Whether a line reads the file with `source` or `.`, outside a comment. Made once per file: patterns are costly.
+    /// Peel's `[[ -r … ]] && source …` counts only where its test starts a command, or zsh never reaches the `source`.
     struct LineReading {
         private let test: Regex<AnyRegexOutput>?
         private let readsAfterTheTest: Regex<AnyRegexOutput>?

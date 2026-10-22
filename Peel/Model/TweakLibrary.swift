@@ -21,7 +21,6 @@ final class TweakLibrary {
     private let store: any TweakStoring
     private let defaults: UserDefaults
     private let home: URL
-    /// Restarts the process that owns a setting; `TweakRestart.run` unless a test gives its own.
     private let restart: @Sendable (Tweak.Restart) async -> Void
     /// What Peel changed, and the values from before. `TweakLedger` decides what turning a switch on or off
     /// does, and is tested there.
@@ -32,9 +31,6 @@ final class TweakLibrary {
     /// saved with the session ID, so they survive quitting Peel and are dropped after the next login.
     private(set) var waitingForLogOut: Set<Tweak.ID>
 
-    /// The preferences the tweaks are read from and written to, the store the ledger is kept in, the home whose
-    /// Trash a screenshot folder is checked against, and what restarts a process: the person's own unless a test
-    /// gives its own.
     init(
         store: any TweakStoring = TweakStore(),
         defaults: UserDefaults = .standard,
@@ -170,7 +166,6 @@ final class TweakLibrary {
     /// with no reason. A tweak leaves the set with its next write that lands, and all of them when the page goes.
     private(set) var refused: Set<Tweak.ID> = []
 
-    /// Forgets what the rows say about the last changes, when the page goes.
     func forgetNotices() {
         refused = []
         foldersLeftToMacOS = []

@@ -30,8 +30,7 @@ enum KeptOnlyHere {
         // there, and aren't on its servers. The app's entitlements name this group, where it keeps them.
         ("Library/Group Containers/group.net.whatsapp.WhatsApp.shared", nil, .holdsMessageHistory),
         // 1Password's "Migrate your existing 1Password data from standalone vaults" and "1Password backups":
-        // 1Password 7 and earlier kept standalone vaults, and a backup of them each day, in this group, which
-        // 1Password 8's signature names too.
+        // 1Password 7 and earlier kept standalone vaults and daily backups in this group, which 1Password 8 claims too.
         ("Library/Group Containers/2BUA8C4S2C.com.agilebits", nil, .holdsPasswordsOrCodes),
         // Strongbox's "Where are Strongbox local backups stored on my Mac".
         ("Library/Group Containers/group.strongbox.mac.mcguill", "backups", .holdsPasswordsOrCodes),
@@ -55,14 +54,12 @@ enum KeptOnlyHere {
         // iTerm2's "Dynamic Profiles" and "Running a Script": the profiles and the scripts the person wrote.
         ("Library/Application Support/iTerm2", "Scripts", .holdsWorkMadeWithTheApp),
         ("Library/Application Support/iTerm2", "DynamicProfiles", .holdsWorkMadeWithTheApp),
-        // The user profile of LibreOffice and Apache OpenOffice (`UserInstallation` in their sources, `<name>/4` here
-        // on a Mac). LibreOffice Help's "Paths": the person's own templates, AutoText, AutoCorrect texts and
-        // dictionaries, and the automatic backup copies of documents.
+        // LibreOffice's and Apache OpenOffice's user profile (`UserInstallation`, `<name>/4` on a Mac). LibreOffice
+        // Help's "Paths": the person's templates, AutoText, AutoCorrect texts, dictionaries, and documents' backups.
         ("Library/Application Support/LibreOffice", nil, .holdsWorkMadeWithTheApp),
         ("Library/Application Support/OpenOffice", nil, .holdsWorkMadeWithTheApp),
-        // Torrent clients keep each torrent added and how far it got apart from what it downloaded, and forget every
-        // transfer without them. Transmission's "Configuration Files": `torrents`, `resume` and the Mac app's
-        // `Transfers.plist`, in this folder.
+        // Torrent clients keep each torrent and its progress apart from the download, and forget every transfer without
+        // them. Transmission's "Configuration Files": `torrents`, `resume`, and the Mac app's `Transfers.plist`.
         ("Library/Application Support/Transmission", nil, .holdsTorrents),
         // qBittorrent's `SessionImpl`: `BT_backup`, or `torrents.db`, in its data folder.
         ("Library/Application Support/qBittorrent", "BT_backup", .holdsTorrents),

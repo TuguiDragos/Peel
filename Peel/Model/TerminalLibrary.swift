@@ -34,8 +34,6 @@ final class TerminalLibrary {
     var waitingForTerminal: Action?
     var terminalDidNotQuit = false
 
-    /// Terminal's settings, the store the ledger is kept in, and the home whose `.hushlogin` is read: the person's
-    /// own unless a test gives its own.
     init(
         settings: any TerminalSettingsStoring = TerminalSettings(),
         defaults: UserDefaults = .standard,
@@ -61,7 +59,6 @@ final class TerminalLibrary {
         showsWindowSwitch = TerminalWindows.switchMatters()
     }
 
-    /// Lets go of the last refusal, as the page goes: its reason was shown where the switch went back.
     func forgetRefusal() {
         wasRefused = false
     }

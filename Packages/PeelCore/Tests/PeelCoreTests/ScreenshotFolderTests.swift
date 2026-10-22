@@ -27,7 +27,6 @@ struct ScreenshotFolderTests {
         #expect(ScreenshotFolder.problem(with: shots, home: directory.url) == .notWritable)
     }
 
-    /// The setting is the folder's path as the person would write it, with no slash at the end.
     @Test func aFolderFromBeforeOnADiskThatIsNotConnectedMayStillTakeScreenshots() throws {
         let directory = try TemporaryDirectory()
         let away = "/Volumes/PeelTests-\(UUID().uuidString)/Screenshots"

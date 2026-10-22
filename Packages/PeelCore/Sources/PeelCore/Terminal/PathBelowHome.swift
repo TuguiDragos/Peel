@@ -29,9 +29,8 @@ extension String {
 }
 
 enum ShellCommand {
-    /// The command that adds `lines` at the end of `file`, each on a line of its own, and makes the file when it is
-    /// not there. An empty line goes first: a file whose last line has no newline after it would otherwise run into
-    /// the first of `lines`, and the shell would read the two as one.
+    /// The command that adds each of `lines` on a line of its own at the end of `file`, making the file if needed. An
+    /// empty line goes first, so a last line with no newline after it never runs into the first of `lines`.
     static func appending(_ lines: [String], to file: URL, home: URL) -> String {
         let arguments = ([""] + lines).map(\.quotedForTheShell).joined(separator: " ")
         return "printf '%s\\n' \(arguments) >> \(file.pathForTheShell(home: home))"

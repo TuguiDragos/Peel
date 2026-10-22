@@ -1,10 +1,8 @@
 import Foundation
 import Testing
 
-/// A preference domain of a test's own, kept in a folder of its own: a suite named by a path lives at that path,
-/// so cfprefsd writes nothing for it in the real Preferences folder, and forgetting it removes the folder. A domain
-/// named like an app's would get a file there, which cfprefsd writes again on its own time once the test has let
-/// the domain go.
+/// A preference domain kept at a path of the test's own, so cfprefsd writes nothing in the real Preferences folder,
+/// where a domain named like an app's would get a file that cfprefsd writes again after the test has let it go.
 struct MadeUpDefaults {
     private let folder: URL
     let defaults: UserDefaults

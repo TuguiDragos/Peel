@@ -4,7 +4,6 @@ import PeelCore
 import Synchronization
 import Testing
 
-/// Answers every request with one appcast, and sends nothing anywhere.
 private nonisolated final class AppcastProtocol: URLProtocol, @unchecked Sendable {
     static let body = Mutex(Data())
 
@@ -22,7 +21,6 @@ private nonisolated final class AppcastProtocol: URLProtocol, @unchecked Sendabl
     }
 }
 
-/// Holds every request until the test lets it through, so a round of checks can be caught while it waits.
 private nonisolated final class HeldProtocol: URLProtocol, @unchecked Sendable {
     static let body = Mutex(Data())
     static let arrived = Mutex<AsyncStream<Void>.Continuation?>(nil)

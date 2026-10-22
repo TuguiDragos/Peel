@@ -3,7 +3,6 @@ import Foundation
 import PeelCore
 import Testing
 
-/// Tweak settings as a test keeps them in memory, never the Mac's own.
 private final class FakeTweakStore: TweakStoring {
     var values: [String: Any] = [:]
     var refuses: Set<Tweak.ID> = []

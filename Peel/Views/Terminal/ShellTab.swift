@@ -195,9 +195,8 @@ private struct PromptSection: View {
         }
     }
 
-    /// Why zsh shows another prompt than Peel's, as zsh itself answered: Peel's line not read yet, a function that
-    /// sets the prompt before each command, or a line after Peel's. When zsh did not answer, what the startup file
-    /// says.
+    /// Why zsh shows another prompt than Peel's, as zsh answered: Peel's line not read yet, a function that sets it
+    /// before each command, or a line after Peel's; when zsh didn't answer, what the startup file says.
     private static func notice(for prompt: Prompt, in state: ShellLibrary.State) -> Text? {
         guard let startupFile = state.startupFile else { return nil }
         guard state.isSourced else {

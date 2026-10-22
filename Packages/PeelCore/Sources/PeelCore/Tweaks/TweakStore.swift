@@ -62,10 +62,8 @@ public struct TweakStore: Sendable, TweakStoring {
         return TweakState(isOn: isOn, isManaged: isManaged, text: text, heldElsewhere: elsewhere)
     }
 
-    /// What each layer macOS searches holds for a key. The layer Peel writes is the person's own for any host; a value
-    /// set for this Mac alone comes before it, and after it, for a key of an app's domain, the person's global domain,
-    /// then every account's layers of the app and of the global domain ("Preference Domains", Apple's Preferences
-    /// Programming Topics for Core Foundation).
+    /// What each layer macOS searches holds for a key, in Apple's order ("Preference Domains"): this Mac alone, the
+    /// person's own (Peel's), the person's global domain, then every account's, for the app and for every app.
     struct Layers {
         var thisMac: CFPropertyList?
         var own: CFPropertyList?
@@ -102,10 +100,8 @@ public struct TweakStore: Sendable, TweakStoring {
         return layers
     }
 
-    /// Where the value in effect comes from when Peel can't change it from its own layer: a value set for this
-    /// Mac alone wins over Peel's whatever it holds, and a switch read as on from a layer macOS falls back to,
-    /// with nothing of Peel's over it, could not be turned off, since removing Peel's key would change nothing.
-    /// A value Peel's own would win over, and a folder or a name, which Peel writes over it, are nobody else's.
+    /// Where a value Peel can't change from its own layer comes from: this Mac alone, which wins over Peel's, or, for a
+    /// switch on with nothing of Peel's, the layer macOS falls back to, since removing Peel's key would change nothing.
     static func heldElsewhere(of kind: Tweak.Kind, isOn: Bool, in layers: Layers) -> TweakState.Elsewhere? {
         if layers.thisMac != nil { return .thisMac }
         guard layers.own == nil, case .aSwitch = kind, isOn else { return nil }

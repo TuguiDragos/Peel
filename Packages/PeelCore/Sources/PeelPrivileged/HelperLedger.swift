@@ -104,10 +104,8 @@ public final class HelperLedger: Sendable {
                 guard let mode = item.mode, mode & S_IFMT == S_IFDIR, mode & 0o077 == 0, item.owner == geteuid() else {
                     return .failure(POSIXError(.EPERM))
                 }
-                // Given to `user` so emptying the Trash asks for no password: the files while the folder is still
-                // root's and closed to everyone else, since in the Trash they could no longer be listed without Full
-                // Disk Access, and the folder itself only once it is there, through the descriptor held here, so the
-                // ledger is never the user's where the helper reads it. A failed move takes the files back.
+                // Given to `user`, so emptying the Trash asks no password: the files here, while the folder is root's
+                // and closed, as the Trash can't be listed; the folder once there, not the user's where root reads it.
                 let inside = item.parent.child(item.name)
                 let entries = (try? FileManager.default.contentsOfDirectory(atPath: item.path)) ?? []
                 func giveEntries(to owner: uid_t) {

@@ -17,8 +17,6 @@ final class SSHLibrary {
     private(set) var state: State?
     private(set) var wasRefused = false
 
-    /// Peel's own file in `folder`, and the home whose `.ssh/config` is read: the person's own unless a test gives
-    /// its own.
     init(folder: URL = PeelFolder.url, home: URL = .homeDirectory) {
         file = SSHFile.url(in: folder)
         config = home.appending(path: ".ssh/config", directoryHint: .notDirectory)

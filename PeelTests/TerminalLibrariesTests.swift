@@ -3,7 +3,6 @@ import Foundation
 import PeelCore
 import Testing
 
-/// Terminal's settings as a test keeps them in memory, never Terminal's own.
 private final class FakeTerminalSettings: TerminalSettingsStoring {
     var isTerminalOpen = false
     var isManaged = false
@@ -37,7 +36,6 @@ struct TerminalLibrariesTests {
         return home
     }
 
-    /// A file Peel refuses to read, larger than it ever writes.
     private func unreadableFile(at url: URL) throws -> Int {
         try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
         let bytes = Data(repeating: UInt8(ascii: "#"), count: 65 * 1_024)

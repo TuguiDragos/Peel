@@ -1,9 +1,8 @@
 import Observation
 public import ServiceManagement
 
-/// Peel's own login item, as macOS reports it, read and changed away from the main actor, since `SMAppService` asks
-/// `smd` over XPC. The switch keeps the value it was set to until macOS answers, and a read that overlaps a change
-/// shows nothing.
+/// Peel's own login item, read and changed away from the main actor, since `SMAppService` asks `smd` over XPC. The
+/// switch keeps the value it was set to until macOS answers, and a read that overlaps a change shows nothing.
 @MainActor
 @Observable
 public final class LoginItem {

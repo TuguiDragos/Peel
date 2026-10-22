@@ -148,7 +148,6 @@ final class AppLibrary {
     /// What is new in each waiting update, read at launch, so a page shows it with no connection too.
     private(set) var releaseNotes = ReleaseNotesMemory()
     private let releaseNotesStore: ReleaseNotesStore
-    /// Where the update round's memory and the person's update preferences are kept.
     private let defaults: UserDefaults
     /// Apps shown from outside the scanned folders, such as one in Downloads or in the Trash. Kept apart,
     /// because the next reading of the folders doesn't find them and would drop their row and their page.
@@ -163,8 +162,6 @@ final class AppLibrary {
     private let updateChecker: UpdateChecker
     private let teamRegistry = TeamRegistry()
 
-    /// The stores are Peel's own unless a test passes its own, so a test of the update round writes nothing of the
-    /// person's.
     init(
         defaults: UserDefaults = .standard,
         updateChecker: UpdateChecker = UpdateChecker(),
@@ -296,7 +293,6 @@ final class AppLibrary {
     /// The round of checks Rescan started, which the next Rescan stops before it starts its own.
     @ObservationIgnored private(set) var recheck: Task<Void, Never>?
 
-    /// Asks about every app's updates now, whatever each one's schedule says.
     func checkEveryAppAgain() {
         recheck?.cancel()
         recheck = Task { await checkForUpdates(apps, force: true) }
@@ -810,11 +806,9 @@ final class AppLibrary {
         UpdateMemoryStore.save(memory, to: defaults)
     }
 
-    /// Shows what a check would answer now without asking any server, for each app Homebrew installed and each app
-    /// whose last answer is Homebrew's in place of its own source: what Homebrew's casks and the app's own files
-    /// decide, and what Homebrew knows where that source had no answer, for as long as it counts. Reading Homebrew
-    /// costs no network request, so this doesn't wait for the update schedule, and Applications agrees with the
-    /// Homebrew page.
+    /// Shows what a check would answer without asking a server, for each app Homebrew installed or answers for in place
+    /// of its own source. Reading Homebrew costs no network request, so this doesn't wait for the update schedule, and
+    /// Applications agrees with the Homebrew page.
     private func applyHomebrewStatuses() {
         let preference = updateSource
         for app in apps where isAskedAboutUpdates(app) {

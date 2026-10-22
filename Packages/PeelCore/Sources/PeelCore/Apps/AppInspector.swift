@@ -193,9 +193,8 @@ public enum AppInspector {
         }
     }
 
-    /// The icon of the app at `url`, as macOS draws it when Launch Services knows the app at that place. Asking
-    /// IconServices registers a bundle, as asking for its name does, so any other app's icon comes from its own
-    /// files, or is the generic one.
+    /// The icon of the app at `url`. Asking IconServices registers a bundle, as asking its name does, so only an app
+    /// Launch Services knows at that place is asked there; any other's comes from its own files, or is the generic one.
     public static func icon(ofAppAt url: URL) -> NSImage {
         if bundleIdentifier(ofAppAt: url).map({ isKnown(url, as: $0) }) == true {
             return NSWorkspace.shared.icon(forFile: url.path(percentEncoded: false))
@@ -203,7 +202,6 @@ public enum AppInspector {
         return ownIcon(ofAppAt: url) ?? NSWorkspace.shared.icon(for: .applicationBundle)
     }
 
-    /// The icon in the app's own files: the `.icns` its Info.plist names, else the image its asset catalog holds.
     static func ownIcon(ofAppAt url: URL) -> NSImage? {
         guard let bundle = Bundle(url: AppBundleLayout(of: url).signedBundle), let info = bundle.infoDictionary else {
             return nil

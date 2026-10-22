@@ -160,8 +160,6 @@ struct TweakLedgerTests {
         #expect(store.values[name.id] as? String == "ss")
     }
 
-    /// Once what the key held before is forgotten, turning the tweak off hands the setting to macOS, as for a
-    /// setting made outside Peel: for a folder that can no longer take screenshots.
     @Test func aForgottenPreviousValueHandsTheSettingToMacOS() throws {
         let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
         let store = FakeStore()

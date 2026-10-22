@@ -21,8 +21,6 @@ final class ShellLibrary {
     private(set) var wasRefused = false
     private(set) var draft = Prompt()
 
-    /// Peel's own file in `folder`, and the home whose startup files are read: the person's own unless a test gives
-    /// its own.
     init(folder: URL = PeelFolder.url, home: URL = .homeDirectory) {
         file = ShellFile.url(in: folder)
         self.home = home

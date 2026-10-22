@@ -1,10 +1,9 @@
 public import Foundation
 
 public enum DuplicateRemoval {
-    /// Moves the selected folders, then the selected copies, to the Trash as one removal. A copy moves only while
-    /// it and at least one unselected copy of its group are unchanged since the scan, and a folder only while it
-    /// and an unselected folder of its group still hold exactly what was compared. Each is checked right before its
-    /// own move, because a sync client, Finder, or another window can change the kept one while this runs.
+    /// Moves the selected folders, then the selected copies, to the Trash as one removal: each only while it and an
+    /// unselected one of its group are still what the scan compared, checked right before its own move, since a sync
+    /// client, Finder, or another window can change the kept one meanwhile.
     @concurrent
     public static func trash(
         _ selection: Set<URL>,

@@ -73,7 +73,6 @@ struct DocumentationTests {
         #expect(wrong.isEmpty, "\(wrong)")
     }
 
-    /// PRIVACY.md promises that Settings > Privacy shows every address Peel or Homebrew may contact.
     @Test func everyAddressPrivacyMDNamesIsInSettingsPrivacy() throws {
         let privacy = try String(contentsOf: LineLengthTests.repository.appending(path: "PRIVACY.md"), encoding: .utf8)
         let addresses = privacy.split(separator: "\n").compactMap { line in

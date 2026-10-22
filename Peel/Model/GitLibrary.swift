@@ -24,8 +24,6 @@ final class GitLibrary {
     private var waiting: [GitSetting: Int] = [:]
     private var changes: Task<Void, Never>?
 
-    /// The home whose Git settings are read and changed, and the store the ledger is kept in; the person's own
-    /// unless a test gives its own.
     init(home: URL = .homeDirectory, defaults: UserDefaults = .standard) {
         self.home = home
         self.defaults = defaults

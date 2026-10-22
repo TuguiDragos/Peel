@@ -123,9 +123,6 @@ struct TweakTests {
         #expect(!TweakStore.matches("zero" as CFString, .number(0)))
     }
 
-    /// A value Peel can't change from the layer it writes is named by where it comes from: a value set for this
-    /// Mac alone wins over Peel's, and a switch on from an administrator's file or from the global domain, with
-    /// nothing of Peel's over it, could not be turned off. A value Peel's own would win over is nobody else's.
     @Test func tellsWhereAValueComesFromThatPeelCannotChange() {
         let aSwitch = Tweak.Kind.aSwitch(.boolean(true))
         let forThisApp = Tweak.Kind.aSwitchForThisAppAlone(.boolean(true))

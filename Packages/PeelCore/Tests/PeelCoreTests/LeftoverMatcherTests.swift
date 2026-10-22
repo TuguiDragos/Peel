@@ -511,9 +511,6 @@ struct LeftoverMatcherTests {
         #expect(Naming.withoutTrailingVersion("Numi") == nil)
     }
 
-    /// "Harbor Nightly" keeps its channel in the app's name but not in its folders, which the stable release uses
-    /// too, so the folder is shown for review and never selected, and shared with the stable release while that one
-    /// is installed.
     @Test func showsForReviewAFolderNamedLikeTheAppWithoutItsChannelWord() throws {
         let nightly = app("org.example.harbor-nightly", name: "Harbor Nightly")
         let harbor = app("org.example.harbor", name: "Harbor")

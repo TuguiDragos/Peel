@@ -307,7 +307,6 @@ struct UninstallCommand: AsyncParsableCommand {
         let needsReview: Int
         let leftForAnAdministrator: Int
         let unreadableLocations: [String]
-        /// The lines of the shell startup files that still name what moved.
         let shellReferences: [ShellReference]
 
         struct ShellReference: Encodable {
@@ -850,8 +849,6 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
     }
 
-    /// Says why the apps these casks installed got no answer: Homebrew's last check for new versions is too old to
-    /// tell (`UpdateChecker.caskNotCheckedRecently`).
     static func note(aboutCasksNotCheckedRecently casks: [HomebrewPackage], timeZone: TimeZone = .current) -> String? {
         guard !casks.isEmpty else { return nil }
         let apps = "\(Output.count(casks.count, "app", "apps")) it installed \(casks.count == 1 ? "is" : "are")"

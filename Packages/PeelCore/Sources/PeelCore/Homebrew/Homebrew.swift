@@ -541,9 +541,8 @@ public enum Homebrew {
         }
     }
 
-    /// When Homebrew last checked for new versions: when `brew update` last touched `.git/FETCH_HEAD` in Homebrew's
-    /// repository, the file Homebrew itself compares with `HOMEBREW_AUTO_UPDATE_SECS` before it updates on its own.
-    /// Nil when Homebrew doesn't say where its repository is, or the file isn't there.
+    /// When Homebrew last checked for new versions: when `brew update` last touched `.git/FETCH_HEAD` in its
+    /// repository, which Homebrew compares with `HOMEBREW_AUTO_UPDATE_SECS`. Nil when that file can't be found.
     @concurrent
     public static func lastUpdateCheck() async -> Date? {
         guard let answer = try? await answer(["--repository"]), let repository = folder(answering: answer) else {
@@ -864,7 +863,6 @@ public enum Homebrew {
         return Set(line.dropFirst(prefix.count).split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) })
     }
 
-    /// The one folder `brew --caskroom` or `brew --repository` answers with.
     static func folder(answering answer: String) -> URL? {
         let lines = answer.split(whereSeparator: \.isNewline)
         guard lines.count == 1, let path = lines.first.map(String.init), path.hasPrefix("/") else { return nil }

@@ -334,7 +334,6 @@ struct AttackRemovalGuardTests {
 
     /// The hidden items tools share in the home folder, such as `.config` and `.zshrc`, are refused whatever an
     /// app calls itself. Anything else inside a shared folder can still go.
-    /// Peel looks inside these folders and never moves them whole, so neither may a folder on the way to one go.
     @Test func theFolderAroundAPlacePeelLooksInside() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

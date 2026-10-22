@@ -285,8 +285,6 @@ struct PrivilegedPathPolicyTests {
         #expect(PrivilegedPathPolicy.isValidLabel(label) == isValid)
     }
 
-    /// A folder on the way to a place Peel searches stays where a move is asked, but one a helper moved whole before
-    /// that rule held may come back from the Trash, as a folder only, so History stays the way back.
     @Test func putsBackAFolderOnTheWayToAPlacePeelSearchesAsAFolderOnly() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

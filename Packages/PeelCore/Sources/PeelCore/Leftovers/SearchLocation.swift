@@ -61,8 +61,7 @@ public struct SearchLocation: Sendable, Hashable {
             self == .commandLineTools || self == .shellCompletions
         }
 
-        /// True for a folder inside a browser's own data, which goes with the browser, so the folders above it are
-        /// not kept in place for it.
+        /// True for a folder in a browser's own data, which goes with the browser: no folder above it is kept for it.
         var sitsInABrowsersOwnData: Bool {
             self == .nativeMessagingHosts
         }

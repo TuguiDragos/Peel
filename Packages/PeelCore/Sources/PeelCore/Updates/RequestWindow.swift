@@ -6,7 +6,6 @@ actor RequestWindow {
     /// The App Store's, which every check in the process shares.
     static let appStore = forTheAppStore()
 
-    /// A window at the pace Apple gives for its lookup.
     static func forTheAppStore() -> RequestWindow {
         RequestWindow(limit: 20, window: .seconds(60))
     }

@@ -1319,8 +1319,6 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.url) == [stayed])
     }
 
-    /// Without Full Disk Access macOS lets Peel search the Trash but not list it, so what the helper moved is
-    /// looked for under the names the helper gives.
     @Test(.permissionsHold) func whatTheHelperMovedIsFoundAgainInATrashPeelMayNotRead() throws {
         let directory = try TemporaryDirectory()
         let trash = try directory.directory("home/.Trash")

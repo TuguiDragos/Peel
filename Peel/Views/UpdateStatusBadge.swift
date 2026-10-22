@@ -7,7 +7,6 @@ struct UpdateStatusBadge: View {
     let isChecking: Bool
     /// When a check last got an answer, which is what the note for a failed check tells the user.
     var lastCheck: Date?
-    /// The cask the app came from, when only Homebrew could answer for it and Homebrew's last check is too old to tell.
     var caskNotCheckedRecently: HomebrewPackage?
 
     var body: some View {

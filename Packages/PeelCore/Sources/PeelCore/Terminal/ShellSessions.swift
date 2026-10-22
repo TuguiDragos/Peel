@@ -72,10 +72,8 @@ public enum ShellSessions: Sendable, Equatable {
         await promptShown(home: home, zdotdir: Self.sessionZDOTDIR)
     }
 
-    /// Asks zsh for the prompt it shows: a login shell started as Terminal starts one, with the same environment,
-    /// that reads every startup file, runs the `precmd` hooks as it would before its first prompt and prints
-    /// `PROMPT` between marks, so what the startup files print before and `.zlogout` after is passed over. Nil when
-    /// the shell is not zsh or zsh did not answer in time.
+    /// Asks the login shell, as Terminal starts it, for its prompt once every startup file and `precmd` hook has
+    /// run, read between marks so the files' output is skipped. Nil when it isn't zsh or doesn't answer in time.
     func promptShown(home: URL, zdotdir: String?) async -> ShownPrompt? {
         guard case .zsh = self else { return nil }
         var environment = [
