@@ -181,6 +181,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Orphaned Files
 
+- The folders a Spring Boot server's embedded Tomcat leaves in the temporary folder, named `tomcat.` with the port and a
+  number, are no longer taken for apps' files, each listed as a gone app of its own.
 - Lists what an app with a tool's identifier left while another such app is installed.
 
 #### Orphaned Files and Storage

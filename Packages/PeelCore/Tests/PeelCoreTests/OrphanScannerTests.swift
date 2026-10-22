@@ -961,9 +961,30 @@ struct OrphanScannerTests {
         ("maccatalyst.org.example.notes", .containers, "maccatalyst.org.example.notes"),
         ("maccatalyst.org.example", .caches, nil),
         ("maccatalyst.com.apple.news", .containers, nil),
+        ("tomcat.8080.10018690101673077448", .temporaryItems, nil),
+        ("tomcat.8080.10018690101673077448", .caches, nil),
+        ("com.sublimetext.4", .caches, "com.sublimetext.4"),
+        ("xyz.960960.koodo", .caches, "xyz.960960.koodo"),
     ] as [(String, SearchLocation.Kind, String?)])
     func identifiesAppShapedNames(key: String, kind: SearchLocation.Kind, expected: String?) {
         #expect(OrphanScanner.orphanIdentifier(forKey: key, kind: kind) == expected)
+    }
+
+    @Test func leavesTheFoldersSpringBootsServersMakeInTheTemporaryFolderAlone() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("var/T/tomcat.8080.10018690101673077448/work/Tomcat/localhost/ROOT/SESSIONS.ser")
+        try directory.file("var/T/tomcat.8080.10054962961815905490/work/Tomcat/localhost/ROOT/SESSIONS.ser")
+        try directory.file("var/T/com.gone.app/cache.db")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            userTemporaryDirectory: directory.url.appending(path: "var/T", directoryHint: .isDirectory)
+        )
+
+        let scan = await OrphanScanner(environment: environment, isRegisteredApp: { _ in false }, systemApps: [])
+            .scan(installedApps: installed)
+
+        #expect(scan.groups.map(\.identifier) == ["com.gone.app"])
     }
 
     @Test func findsWhatAMacCatalystBuildLeft() async throws {

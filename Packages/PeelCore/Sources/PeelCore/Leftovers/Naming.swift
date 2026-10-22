@@ -107,15 +107,17 @@ enum Identifier {
     }
 
     /// Whether a name found on disk reads as an app's identifier, "com.example.app": at least three components and a
-    /// lowercase top-level domain after any `catalystPrefix`. Stricter than `isValid`, since a name nobody declared
-    /// is only a guess.
+    /// lowercase top-level domain after any `catalystPrefix`, and a name among the components after it, not only
+    /// numbers, as in a server's folder named for its port and a random number (`tomcat.8080.10018690101673077448`).
+    /// Stricter than `isValid`, since a name nobody declared is only a guess.
     static func isReverseDNS(_ identifier: String) -> Bool {
         let components = withoutCatalystPrefix(identifier).split(separator: ".", omittingEmptySubsequences: false)
         guard
             components.count >= 3,
             let domain = components.first,
             (2...6).contains(domain.count),
-            domain.allSatisfy({ $0.isASCII && $0.isLowercase })
+            domain.allSatisfy({ $0.isASCII && $0.isLowercase }),
+            components.dropFirst().contains(where: { component in component.contains { !$0.isNumber } })
         else { return false }
         return components.allSatisfy { component in
             !component.isEmpty
