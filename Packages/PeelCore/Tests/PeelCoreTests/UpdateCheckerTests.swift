@@ -191,6 +191,24 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: sold) == .failed, "an answer Peel can't read is still a failed check")
     }
 
+    @Test func keepsAnAppStoreUpdateWhenALaterAnswerNamesAnOlderVersion() async {
+        let notes = InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro",
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.mac)
+        )
+        let found = UpdateStatus.updateAvailable(version: "1.2", source: .appStore)
+        let mac = { (version: String) in #"{"resultCount":1,"results":[{"kind":"mac-software","version":"\#(version)"}]}"# }
+
+        reply("itunes.apple.com", mac("1.1"))
+        #expect(await checker.status(for: notes, earlier: found) == .failed)
+        reply("itunes.apple.com", mac("1.0"))
+        #expect(await checker.status(for: notes, earlier: found) == .failed)
+        reply("itunes.apple.com", mac("1.3"))
+        #expect(await checker.status(for: notes, earlier: found) == .updateAvailable(version: "1.3", source: .appStore))
+        reply("itunes.apple.com", mac("1.1"))
+        #expect(await checker.status(for: notes) == .updateAvailable(version: "1.1", source: .appStore))
+    }
+
     @Test func asksTheMacListingOfAMacAppSoldWithItsIPhoneVersion() async {
         let notes = { (version: String) in
             InstalledApp(

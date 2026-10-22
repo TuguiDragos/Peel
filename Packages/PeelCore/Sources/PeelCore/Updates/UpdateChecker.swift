@@ -46,14 +46,15 @@ public struct UpdateChecker: Sendable {
     }
 
     /// Returns the update status of `app`, without installing anything. `preference` decides which source to
-    /// believe when an app can be updated in more than one way.
+    /// believe when an app can be updated in more than one way, and `earlier` is the last answer about this build.
     @concurrent
     public func status(
         for app: InstalledApp,
         preference: UpdateSource = .automatic,
-        casks: [HomebrewPackage] = []
+        casks: [HomebrewPackage] = [],
+        earlier: UpdateStatus? = nil
     ) async -> UpdateStatus {
-        await answer(for: app, preference: preference, casks: casks).status
+        await answer(for: app, preference: preference, casks: casks, earlier: earlier).status
     }
 
     /// Returns the update status, and the developer's name when the App Store answered. An App Store app is
@@ -62,26 +63,28 @@ public struct UpdateChecker: Sendable {
     public func answer(
         for app: InstalledApp,
         preference: UpdateSource = .automatic,
-        casks: [HomebrewPackage] = []
+        casks: [HomebrewPackage] = [],
+        earlier: UpdateStatus? = nil
     ) async -> UpdateAnswer {
         switch preference {
         case .homebrew:
             // A cask Homebrew knows but never installed says nothing about this app's version, so the
             // app's own feed answers instead of a false "up to date".
             if let homebrew = homebrewStatus(for: app, casks: casks) { return UpdateAnswer(status: homebrew) }
-            return await feedAnswer(for: app)
+            return await feedAnswer(for: app, earlier: earlier)
         case .appStore:
             // Even with this preference, Apple is asked only about apps from the App Store. Any other app is
             // checked through its own feed, or not at all.
-            return app.isFromAppStore ? await appStoreAnswer(for: app) : await feedAnswer(for: app)
+            return app.isFromAppStore
+                ? await appStoreAnswer(for: app, earlier: earlier) : await feedAnswer(for: app, earlier: earlier)
         case .developer:
-            return await feedAnswer(for: app)
+            return await feedAnswer(for: app, earlier: earlier)
         case .automatic:
             let homebrew = homebrewStatus(for: app, casks: casks)
             if case .updateAvailable = homebrew { return UpdateAnswer(status: homebrew ?? .unsupported) }
             // An app from a cask may have no feed of its own, and a feed can be down. In both cases what Homebrew
             // knows is used rather than "Can't check for updates".
-            let feed = await feedAnswer(for: app)
+            let feed = await feedAnswer(for: app, earlier: earlier)
             if let homebrew, feed.status == .unsupported || feed.status == .failed {
                 return UpdateAnswer(status: homebrew, developer: feed.developer)
             }
@@ -101,14 +104,14 @@ public struct UpdateChecker: Sendable {
         return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
     }
 
-    private func feedAnswer(for app: InstalledApp) async -> UpdateAnswer {
+    private func feedAnswer(for app: InstalledApp, earlier: UpdateStatus?) async -> UpdateAnswer {
         // An app whose bundle names no version has nothing to compare a release with, so nobody is asked.
         guard let installed = app.version else { return UpdateAnswer(status: .unsupported) }
         return switch app.updateFeed {
         case nil: UpdateAnswer(status: .unsupported)
         case .sparkle(let url): await sparkleAnswer(for: app, installed: installed, at: url)
         case .electron(let url): await electronAnswer(installed: installed, at: url)
-        case .appStore: await appStoreAnswer(for: app)
+        case .appStore: await appStoreAnswer(for: app, earlier: earlier)
         }
     }
 
@@ -147,7 +150,7 @@ public struct UpdateChecker: Sendable {
 
     /// Asks the App Store about `app`, but only when the app has an App Store receipt, whoever calls this.
     /// Asking about other apps would send Apple, one identifier at a time, the list of installed apps.
-    private func appStoreAnswer(for app: InstalledApp) async -> UpdateAnswer {
+    private func appStoreAnswer(for app: InstalledApp, earlier: UpdateStatus?) async -> UpdateAnswer {
         guard app.isFromAppStore, let installed = app.version, let identifier = app.bundleIdentifier else {
             return UpdateAnswer(status: .unsupported)
         }
@@ -165,6 +168,12 @@ public struct UpdateChecker: Sendable {
         case .notListed:
             return UpdateAnswer(status: .unsupported)
         case .listed(let latest, let page, let developer, let notes):
+            // The App Store never goes back to an older version, so an answer older than the update it gave for this
+            // build comes from a copy of its catalog that isn't up to date yet, and is asked again later.
+            if case .updateAvailable(let found, .appStore, _) = earlier,
+               VersionComparison.isNewer(found, than: latest) {
+                return UpdateAnswer(status: .failed, developer: developer)
+            }
             guard VersionComparison.isNewer(latest, than: installed) else {
                 return UpdateAnswer(status: .upToDate, developer: developer)
             }

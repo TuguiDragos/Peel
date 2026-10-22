@@ -22,7 +22,7 @@ private nonisolated final class AppcastProtocol: URLProtocol, @unchecked Sendabl
     }
 }
 
-struct AppLibraryTests {
+@Suite(.serialized) struct AppLibraryTests {
     @Test func aRoundRemembersItsAnswerInTheStoresItWasGiven() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = folder.appending(path: "Updated.app", directoryHint: .isDirectory)
@@ -67,5 +67,43 @@ struct AppLibraryTests {
         #expect(String(decoding: remembered, as: UTF8.self).contains("org.example.updated"))
         #expect(FileManager.default.fileExists(atPath: notes.url.path(percentEncoded: false)))
         #expect(UserDefaults.standard.data(forKey: SettingsKey.updateMemory) == standardBefore)
+    }
+
+    @Test func anOlderAppStoreAnswerLeavesTheUpdateItFound() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = folder.appending(path: "Sold.app", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(
+            at: bundle.appending(path: "Contents/_MASReceipt"), withIntermediateDirectories: true
+        )
+        let info: [String: Any] = [
+            "CFBundleIdentifier": "org.example.sold", "CFBundleName": "Sold", "CFBundlePackageType": "APPL",
+            "CFBundleShortVersionString": "1.0", "CFBundleVersion": "100",
+        ]
+        try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            .write(to: bundle.appending(path: "Contents/Info.plist"))
+        try Data().write(to: bundle.appending(path: "Contents/_MASReceipt/receipt"))
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [AppcastProtocol.self]
+        let library = AppLibrary(
+            defaults: made.defaults,
+            updateChecker: UpdateChecker(session: URLSession(configuration: configuration)),
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json"))
+        )
+        let listing = { (version: String) in
+            Data(#"{"resultCount":1,"results":[{"kind":"mac-software","version":"\#(version)"}]}"#.utf8)
+        }
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.sold" })
+        AppcastProtocol.body.withLock { $0 = listing("1.2") }
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.2")
+
+        AppcastProtocol.body.withLock { $0 = listing("1.1") }
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.2")
     }
 }

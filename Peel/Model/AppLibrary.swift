@@ -547,8 +547,9 @@ final class AppLibrary {
             var pending = wanted.makeIterator()
             for _ in 0..<Self.concurrentUpdateChecks {
                 guard let app = pending.next() else { break }
+                let earlier = updateStatuses[app.id]
                 _ = group.addTaskUnlessCancelled {
-                    (app.id, await checker.answer(for: app, preference: preference, casks: casks))
+                    (app.id, await checker.answer(for: app, preference: preference, casks: casks, earlier: earlier))
                 }
             }
             while case let (id, answer)? = await group.next() {
@@ -590,8 +591,9 @@ final class AppLibrary {
                     }
                 }
                 if let app = pending.next() {
+                    let earlier = updateStatuses[app.id]
                     _ = group.addTaskUnlessCancelled {
-                        (app.id, await checker.answer(for: app, preference: preference, casks: casks))
+                        (app.id, await checker.answer(for: app, preference: preference, casks: casks, earlier: earlier))
                     }
                 }
             }
