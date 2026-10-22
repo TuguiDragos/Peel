@@ -286,6 +286,22 @@ final class AppLibrary {
         await checkSigningTeams()
     }
 
+    /// Reads the folders again and asks about every app's updates, in a round of its own so the list isn't held.
+    func rescan() async {
+        let changed = await refresh()
+        if !changed.isEmpty { await checkSigningTeams() }
+        checkEveryAppAgain()
+    }
+
+    /// The round of checks Rescan started, which the next Rescan stops before it starts its own.
+    @ObservationIgnored private(set) var recheck: Task<Void, Never>?
+
+    /// Asks about every app's updates now, whatever each one's schedule says.
+    func checkEveryAppAgain() {
+        recheck?.cancel()
+        recheck = Task { await checkForUpdates(apps, force: true) }
+    }
+
     private func keepUnreadable(of scan: AppScan) {
         if unreadable != scan.unreadable { unreadable = scan.unreadable }
         if unreadableNeedsFullDiskAccess != scan.needsFullDiskAccess {

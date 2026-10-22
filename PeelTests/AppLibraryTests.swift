@@ -69,8 +69,7 @@ private nonisolated final class AppcastProtocol: URLProtocol, @unchecked Sendabl
         #expect(UserDefaults.standard.data(forKey: SettingsKey.updateMemory) == standardBefore)
     }
 
-    @Test func anOlderAppStoreAnswerLeavesTheUpdateItFound() async throws {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+    private func soldApp(in folder: URL) throws -> URL {
         let bundle = folder.appending(path: "Sold.app", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(
             at: bundle.appending(path: "Contents/_MASReceipt"), withIntermediateDirectories: true
@@ -82,19 +81,30 @@ private nonisolated final class AppcastProtocol: URLProtocol, @unchecked Sendabl
         try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
             .write(to: bundle.appending(path: "Contents/Info.plist"))
         try Data().write(to: bundle.appending(path: "Contents/_MASReceipt/receipt"))
-        defer { try? FileManager.default.removeItem(at: folder) }
-        let made = try MadeUpDefaults()
-        defer { made.forget() }
+        return bundle
+    }
+
+    private func library(with defaults: UserDefaults, notesIn folder: URL) -> AppLibrary {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [AppcastProtocol.self]
-        let library = AppLibrary(
-            defaults: made.defaults,
+        return AppLibrary(
+            defaults: defaults,
             updateChecker: UpdateChecker(session: URLSession(configuration: configuration)),
             releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json"))
         )
-        let listing = { (version: String) in
-            Data(#"{"resultCount":1,"results":[{"kind":"mac-software","version":"\#(version)"}]}"#.utf8)
-        }
+    }
+
+    private func listing(_ version: String) -> Data {
+        Data(#"{"resultCount":1,"results":[{"kind":"mac-software","version":"\#(version)"}]}"#.utf8)
+    }
+
+    @Test func anOlderAppStoreAnswerLeavesTheUpdateItFound() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
 
         #expect(await library.reveal([bundle]))
         let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.sold" })
@@ -105,5 +115,28 @@ private nonisolated final class AppcastProtocol: URLProtocol, @unchecked Sendabl
         AppcastProtocol.body.withLock { $0 = listing("1.1") }
         await library.checkForUpdates([app], force: true)
         #expect(library.shownUpdateStatus(of: app)?.version == "1.2")
+    }
+
+    @Test func checkingEveryAppAgainAsksAnAppThatIsNotDue() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.sold" })
+        AppcastProtocol.body.withLock { $0 = listing("1.0") }
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+
+        AppcastProtocol.body.withLock { $0 = listing("1.1") }
+        await library.checkForUpdates([app])
+        #expect(library.shownUpdateStatus(of: app) == .upToDate, "not due yet")
+        library.checkEveryAppAgain()
+        library.checkEveryAppAgain()
+        await library.recheck?.value
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.1")
     }
 }

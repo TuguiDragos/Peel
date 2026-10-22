@@ -73,9 +73,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names, the
   App Store for apps bought there, or Homebrew for apps it installed, as Prefer updates from in Settings > General
   chooses, and shows what is new in the version that waits, as the app's own notes say it, even with no
-  connection. Skip This Version and Never Check This App keep it quiet about the ones you want left alone, and
-  Settings > General lists them under Muted Updates, where Check Again brings their updates back. Turning off Check
-  for app updates there stops the checks.
+  connection. Rescan in Applications asks about every app again at once. Skip This Version and Never Check This
+  App keep it quiet about the ones you want left alone, and Settings > General lists them under Muted Updates,
+  where Check Again brings their updates back. Turning off Check for app updates there stops the checks.
 
 ## Free up disk space
 

@@ -79,9 +79,8 @@ struct AppList: View {
                 AppListMenu()
             }
             ToolbarItem {
-                // The folder watcher reads the apps on its own; this is for someone who has just installed one.
                 RescanButton(isRunning: $isRescanning, isDisabled: library.isLoading, scan: library.scanRun) {
-                    await library.checkAgain(await library.refresh())
+                    await library.rescan()
                 }
             }
         }
