@@ -270,13 +270,16 @@ public struct LeftoverScanner: Sendable {
     ) async -> (found: [Leftover], wasCutShort: Bool, unreadable: [URL]) {
         let kind = location.kind
         let locationLength = location.url.pathComponents.count
+        func matching(_ url: URL, named name: String) -> LeftoverMatch? {
+            // A browser's manifest is whoever's program it runs, whatever it is called.
+            url.deletingLastPathComponent().lastPathComponent.lowercased() == "nativemessaginghosts"
+                ? runsSomethingInside(bundle, manifest: url)
+                : Self.match(name, at: url, kind: kind, matcher: matcher, home: home)
+        }
         let search: NestedSearch.Findings<Found> = await NestedSearch.walk(inside: folders, limit: limit) {
             url, name, parent, canLookInside in
             let path = url.path(percentEncoded: false)
-            // A browser's manifest is whoever's program it runs, whatever it is called.
-            let match = url.deletingLastPathComponent().lastPathComponent.lowercased() == "nativemessaginghosts"
-                ? runsSomethingInside(bundle, manifest: url)
-                : Self.match(name, at: url, kind: kind, matcher: matcher, home: home)
+            let match = matching(url, named: name)
             if let match, match.confidence >= .likely,
                !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url) else { return .pass }
@@ -292,7 +295,13 @@ public struct LeftoverScanner: Sendable {
         }
         let taken = await withoutWhatAppleInstalled(search.found, home: home, installedByApple: installedByApple)
         let found = await measured(taken, kind: kind, home: home, measure: measure)
-        return (found, search.wasCutShort, search.unreadable)
+        // A program keeps its files in a folder named by its identifier (Apple's File System Programming Guide), so
+        // one the app has no claim on holds none of its files, even where Peel can't look inside.
+        let unreadable = search.unreadable.filter { folder in
+            !Identifier.isReverseDNS(LeftoverMatcher.key(from: folder.lastPathComponent, kind: kind))
+                || matching(folder, named: folder.lastPathComponent) != nil
+        }
+        return (found, search.wasCutShort, unreadable)
     }
 
     /// What a search took, less what one of Apple's packages installed, which is Apple's whatever its name says. Only

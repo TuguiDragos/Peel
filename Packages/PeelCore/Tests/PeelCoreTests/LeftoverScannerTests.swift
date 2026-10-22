@@ -675,6 +675,40 @@ struct LeftoverScannerTests {
         #expect(scan.unreadableLocations.isEmpty)
     }
 
+    @Test(.permissionsHold) func leavesAnotherProgramsFolderItCannotReadUnsaid() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.other/cache.db")
+        try directory.file("home/.org.example.other/state")
+        try directory.setPermissions(0o000, of: "home/Library/Caches/org.example.other")
+        try directory.setPermissions(0o000, of: "home/.org.example.other")
+        defer {
+            try? directory.setPermissions(0o755, of: "home/Library/Caches/org.example.other")
+            try? directory.setPermissions(0o755, of: "home/.org.example.other")
+        }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.unreadableLocations.isEmpty)
+    }
+
+    @Test(.permissionsHold) func saysTheFoldersItCannotReadThatMayHoldTheAppsFiles() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/Vendor/net.example.shared/cache.db")
+        try directory.file("home/Library/Caches/Shared Data/cache.db")
+        try directory.setPermissions(0o000, of: "home/Library/Caches/Vendor/net.example.shared")
+        try directory.setPermissions(0o000, of: "home/Library/Caches/Shared Data")
+        defer {
+            try? directory.setPermissions(0o755, of: "home/Library/Caches/Vendor/net.example.shared")
+            try? directory.setPermissions(0o755, of: "home/Library/Caches/Shared Data")
+        }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(Set(scan.unreadableLocations.map(\.url.lastPathComponent)) == ["net.example.shared", "Shared Data"])
+    }
+
     @Test(.permissionsHold) func flagsItemsInReadOnlyLocationsAsRequiringPrivileges() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/LaunchDaemons/net.example.client.helper.plist")

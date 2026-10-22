@@ -148,6 +148,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Services: Peel draws its icon from the app's own files.
 - While a removal of many items goes on, Peel reads again, once a second, which programs hold a file open, so a file an
   app opened meanwhile stays where it is.
+- An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder named by
+  another program's identifier, such as Microsoft AutoUpdate's cache in `/Library/Caches`: it holds nothing of the
+  app's.
 
 #### Orphaned Files
 
