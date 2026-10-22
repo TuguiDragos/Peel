@@ -112,7 +112,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A number written as text, as `defaults write` stores it with no type flag, reads as the number it spells, so a wait
   before the hidden Dock slides out set that way no longer shows as off.
 - Put Back on the screenshot folder leaves the setting to macOS, and says so, when the folder from before isn't there
-  anymore, is in the Trash, or can't be written to, instead of writing back a folder screenshots can't be saved in.
+  anymore, is in the Trash, or can't be written to, instead of writing back a folder screenshots can't be saved in. A
+  folder on a disk that isn't connected is put back as it was, for when the disk is back.
 - The folder for screenshots is written without a slash at its end.
 - A write macOS refused keeps its word under the row until that tweak's next write lands, whatever other rows change.
 

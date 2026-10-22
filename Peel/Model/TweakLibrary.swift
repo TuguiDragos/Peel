@@ -145,7 +145,7 @@ final class TweakLibrary {
     /// folder from before that has become one is not put back: the key goes instead, and macOS saves on the Desktop.
     private func leaveToMacOSAFolderThatCannotTakeScreenshots(_ tweak: Tweak) {
         guard tweak.kind == .folder, let before = ledger.previousValues[tweak.id] as? String,
-              ScreenshotFolder.problem(with: URL(filePath: before, directoryHint: .isDirectory), home: home) != nil
+              ScreenshotFolder.cannotTakeScreenshots(before, home: home)
         else { return }
         ledger.forgetPreviousValue(of: tweak)
         foldersLeftToMacOS.insert(tweak.id)

@@ -14,6 +14,13 @@ public enum ScreenshotFolder {
         PathPattern.comparablePath(of: folder)
     }
 
+    /// Whether the folder a setting named before Peel changed it can no longer take screenshots. One on a disk that is
+    /// not connected can't be told, and takes them again once the disk is back.
+    public static func cannotTakeScreenshots(_ path: String, home: URL = .homeDirectory) -> Bool {
+        let folder = URL(filePath: path, directoryHint: .isDirectory)
+        return !folder.isOnADiskNotConnected && problem(with: folder, home: home) != nil
+    }
+
     public static func problem(with folder: URL, home: URL = .homeDirectory) -> Problem? {
         var isDirectory: ObjCBool = false
         let path = folder.path(percentEncoded: false)

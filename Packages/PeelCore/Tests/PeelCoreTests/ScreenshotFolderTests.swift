@@ -28,6 +28,17 @@ struct ScreenshotFolderTests {
     }
 
     /// The setting is the folder's path as the person would write it, with no slash at the end.
+    @Test func aFolderFromBeforeOnADiskThatIsNotConnectedMayStillTakeScreenshots() throws {
+        let directory = try TemporaryDirectory()
+        let away = "/Volumes/PeelTests-\(UUID().uuidString)/Screenshots"
+
+        #expect(!ScreenshotFolder.cannotTakeScreenshots(away, home: directory.url))
+        let gone = directory.url.appending(path: "Gone").path(percentEncoded: false)
+        #expect(ScreenshotFolder.cannotTakeScreenshots(gone, home: directory.url))
+        let shots = try directory.directory("Shots")
+        #expect(!ScreenshotFolder.cannotTakeScreenshots(shots.path(percentEncoded: false), home: directory.url))
+    }
+
     @Test func writesTheFolderWithoutATrailingSlash() throws {
         let directory = try TemporaryDirectory()
         let shots = try directory.directory("Shots")

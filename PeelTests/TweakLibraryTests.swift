@@ -127,6 +127,21 @@ struct TweakLibraryTests {
         #expect(library.foldersLeftToMacOS.isEmpty)
     }
 
+    @Test func putBackReturnsAScreenshotFolderOnADiskThatIsNotConnected() async throws {
+        let store = FakeTweakStore()
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let away = "/Volumes/PeelTests-\(UUID().uuidString)/Screenshots"
+        store.values[folder.id] = away
+        await library.turnOn(folder, text: "/Users/Shared")
+
+        await library.reset(folder)
+
+        #expect(store.values[folder.id] as? String == away)
+        #expect(library.foldersLeftToMacOS.isEmpty)
+    }
+
     @Test func twoRefusedSwitchesBothSaySo() async throws {
         let store = FakeTweakStore()
         let (library, made) = try makeLibrary(store: store)
