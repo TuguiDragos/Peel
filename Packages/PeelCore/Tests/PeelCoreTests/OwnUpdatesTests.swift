@@ -61,5 +61,8 @@ struct OwnUpdatesTests {
         #expect(keys.count == 2, "the app's Debug and Release configurations each name the key")
         #expect(Set(keys).count == 1)
         #expect(keys.first.flatMap { Data(base64Encoded: $0) }?.count == 32)
+        // Every copy already installed checks the feed and the disk image with this key, so changing it is a
+        // rotation that needs its own plan, never an edit.
+        #expect(keys.first == "eAlTd7muV2cH25kXo/VTc9vwbLIbpwYDw9Z0PHQ5hVE=")
     }
 }
