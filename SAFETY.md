@@ -370,8 +370,8 @@ Never selected for you, even when found:
   Developer page lists only what one tool owns outright: never a toolchain or an installation, never a file that
   holds an account or a token, and never a folder that keeps your own work beside a cache, such as an editor's
   unsaved files or a chat history, only the cache inside it.
-- A cache macOS keeps for its own services in `~/Library/Caches` (Spotlight's, the fonts') or in the container of one of
-  Apple's apps.
+- A cache or a log macOS keeps for its own services in `~/Library/Caches` or `~/Library/Logs` (Spotlight's caches,
+  Siri's logs) or in the container of one of Apple's apps.
 - A cache in `~/Library/Caches`, or in the folder macOS gives your account for caches, that something wrote to in
   the last 15 minutes: Peel knows an open app's caches only by the app's names, and a program may still be using
   one under a name of its own.

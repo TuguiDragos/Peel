@@ -214,6 +214,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - App Caches no longer selects what macOS keeps there for itself under a plain name, such as the picture of your Apple
   Account or Setup Assistant's cache, and Hidden App Caches leaves out two more of macOS's own audio services.
+- Logs no longer selects the logs macOS writes for its own services, such as Siri's in `~/Library/Logs/Assistant` and
+  those named `com.apple.`: as App Caches does with macOS's caches, it lists them and leaves them unselected.
 
 #### Duplicates and File Search
 

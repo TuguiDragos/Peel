@@ -338,7 +338,7 @@ extension HoldBack {
         case .signInPlugIn:
             "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it."
         case .keptByMacOS:
-            "Not selected: macOS keeps this cache for its own services, which may be using it right now."
+            "Not selected: macOS keeps this for its own services, which may be using it right now."
         case .openedFromMail:
             "Not selected: Mail keeps a copy here of each attachment you open, and one you edited may exist nowhere else."
         case .crashReport:

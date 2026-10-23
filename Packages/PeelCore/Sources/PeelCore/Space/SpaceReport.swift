@@ -472,7 +472,8 @@ public enum SpaceInventory {
 
     /// Whether macOS keeps `name` for its own services in a folder every account shares.
     static func isMacOSsOwn(_ name: String) -> Bool {
-        SystemCaches.isMacOSs(name) || SystemFolders.keeps(name, in: .logs)
+        ProtectedData.isApplesName(name) || SystemFolders.keeps(name, in: .caches)
+            || SystemFolders.keeps(name, in: .logs)
     }
 
     private static func folders(in parent: URL) -> [URL] {

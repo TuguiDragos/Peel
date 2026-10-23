@@ -23,6 +23,15 @@ struct SystemFoldersTests {
         }
     }
 
+    @Test func knowsMacOSsOwnByTheirNameOrApplesWhateverTheirCase() {
+        #expect(SpaceInventory.isMacOSsOwn("com.apple.Spotlight"))
+        #expect(SpaceInventory.isMacOSsOwn("CloudKit"))
+        #expect(SpaceInventory.isMacOSsOwn("cloudkit"))
+        #expect(SpaceInventory.isMacOSsOwn("Assistant"))
+        #expect(!SpaceInventory.isMacOSsOwn("pip"))
+        #expect(!SpaceInventory.isMacOSsOwn("org.example.app"))
+    }
+
     @Test func aProcessKeepsItsCachesHTTPStorageAndTemporaryItemsUnderOneName() {
         #expect(SystemFolders.keeps("familycircled", in: .caches))
         #expect(SystemFolders.keeps("familycircled", in: .httpStorages))

@@ -175,7 +175,8 @@ deletes for good. Once Xcode is gone, the Simulators area says to install it aga
 Library at the top of the disk, Space also lists the caches and logs apps keep for every account, and the crash
 reports macOS keeps. Those an administrator owns go through Peel's helper, and what macOS keeps there for its own
 services is never listed. In your own Logs, the folder macOS saves crash reports in stays and only the reports are
-offered, since macOS can't make that folder again. The logs Homebrew's services write in `/opt/homebrew/var/log` are
+offered, since macOS can't make that folder again. What macOS keeps for its own services in your own Caches and Logs
+is listed, and Select Recommended passes it by. The logs Homebrew's services write in `/opt/homebrew/var/log` are
 offered file by file, and the folders they sit in stay, since a service expects to find the folder it writes in.
 Where Developer knows part of a folder, Space says how much of it moves here and opens Developer for the rest. Space
 also explains the snapshots macOS keeps on the disk, which Peel never removes, and, on macOS 27, says how much

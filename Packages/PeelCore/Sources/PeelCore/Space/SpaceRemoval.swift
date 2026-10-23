@@ -81,7 +81,7 @@ public enum SpaceRemoval {
         measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
     ) async -> Plan {
         let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
-        let systemCaches = SystemCaches(environment: environment)
+        let macOSsOwn = MacOSsOwnItems(environment: environment)
         let reach = HelperReach(environment: environment)
         var sizes: [URL: Int64] = [:]
         var heldBack: [URL: HoldBack] = [:]
@@ -95,7 +95,7 @@ public enum SpaceRemoval {
             if needsAnAdministrator { needsTheHelper.insert(child) }
             let beyond: HoldBack? = needsAnAdministrator && reach.isBeyond(child) ? .beyondTheHelper : nil
             heldBack[child] = beyond ?? item.heldBack
-                ?? (systemCaches.keeps(child) ? .keptByMacOS : HoldBack.seen(in: contents))
+                ?? (macOSsOwn.contains(child) ? .keptByMacOS : HoldBack.seen(in: contents))
                 ?? (item.holdsBackRecentWrites && HoldBack.wasWrittenRecently(child, contents: contents)
                     ? .writtenRecently : nil)
         }
@@ -162,7 +162,7 @@ public enum SpaceRemoval {
         var inUse: [(url: URL, name: String)] = []
         var leftToDeveloper: [URL] = []
         var refused: [URL: GuardRefusal] = [:]
-        let systemCaches = SystemCaches(environment: environment)
+        let macOSsOwn = MacOSsOwnItems(environment: environment)
         let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?, onlyFiles inside: Bool = false) {
             let children = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
@@ -211,7 +211,7 @@ public enum SpaceRemoval {
         )
         for url in item.urls {
             // Everything in an app's container is that app's, whatever its name.
-            let owner = systemCaches.container(holding: url).flatMap { running[Naming.normalized($0)] }
+            let owner = macOSsOwn.container(holding: url).flatMap { running[Naming.normalized($0)] }
             sort(url, leaving: developerFolders.inside(url), owner: owner)
         }
         return (removable, inUse, leftToDeveloper, refused)

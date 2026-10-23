@@ -118,7 +118,7 @@ public enum HoldBack: String, Sendable, Hashable {
     case deletableSystemExtension
     /// An authorization plug-in macOS may load at login (`SignInPlugIns`), left to its maker's uninstaller.
     case signInPlugIn
-    /// A cache macOS keeps for its own services, which may be using it at any moment (`SystemCaches`).
+    /// What macOS keeps for its own services, which may be using it at any moment (`MacOSsOwnItems`).
     case keptByMacOS
     /// A copy Mail keeps of an attachment that was opened. One that was edited may exist nowhere else.
     case openedFromMail

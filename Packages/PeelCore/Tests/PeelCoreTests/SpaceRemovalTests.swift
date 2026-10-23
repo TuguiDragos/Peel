@@ -132,12 +132,14 @@ struct SpaceRemovalTests {
         #expect(plan.leftToDeveloper.map(\.lastPathComponent) == ["Google"])
     }
 
-    @Test func neverSelectsACacheMacOSKeepsForItself() async throws {
+    @Test func neverSelectsACacheOrALogMacOSKeepsForItself() async throws {
         let directory = try TemporaryDirectory()
         for name in ["com.apple.Spotlight", "familycircled", "GameStoreKit", "org.example.notes", "com.gone.app"] {
             try directory.file("home/Library/Caches/\(name)/data.db")
         }
-        try directory.file("home/Library/Logs/com.apple.example/run.log")
+        for name in ["com.apple.example", "Assistant", "org.example.notes"] {
+            try directory.file("home/Library/Logs/\(name)/run.log")
+        }
         let logs = SpaceItem(
             id: "logs",
             category: .library,
@@ -155,7 +157,9 @@ struct SpaceRemovalTests {
         #expect(names(Array(caches.suggested)) == ["com.gone.app", "org.example.notes"])
         let keptByMacOS = caches.heldBack.filter { $0.value == .keptByMacOS }.map(\.key)
         #expect(names(keptByMacOS) == ["GameStoreKit", "com.apple.Spotlight", "familycircled"])
-        #expect(names(Array(logged.suggested)) == ["com.apple.example"])
+        #expect(names(Array(logged.suggested)) == ["org.example.notes"])
+        let logsKept = logged.heldBack.filter { $0.value == .keptByMacOS }.map(\.key)
+        #expect(names(logsKept) == ["Assistant", "com.apple.example"])
     }
 
     @Test func holdsBackACacheWrittenInTheLastMinutesInTheCacheAreasOnly() async throws {

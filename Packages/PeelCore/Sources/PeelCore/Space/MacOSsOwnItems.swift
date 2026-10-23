@@ -1,27 +1,28 @@
 import Foundation
 internal import PeelPrivileged
 
-/// The folders in a Caches folder that macOS keeps for its own services, which may be using them at any moment.
-struct SystemCaches {
-    static func isMacOSs(_ name: String) -> Bool {
-        ProtectedData.isApplesName(name) || SystemFolders.keeps(name, in: .caches)
-    }
-
-    private let cachesFolders: Set<String>
+/// What macOS keeps for its own services in a Caches or a Logs folder, which those services may be using at any moment.
+struct MacOSsOwnItems {
+    private let folders: [String: SearchLocation.Kind]
     private let containerFolders: [[String]]
 
     init(environment: SearchEnvironment) {
         let locations = environment.locations
-        cachesFolders = Set(locations.filter { $0.kind == .caches }.map { PathPattern.comparablePath(of: $0.url) })
+        folders = Dictionary(
+            locations.filter { $0.kind == .caches || $0.kind == .logs }
+                .map { (PathPattern.comparablePath(of: $0.url), $0.kind) },
+            uniquingKeysWith: { first, _ in first }
+        )
         containerFolders = locations.filter { $0.kind == .containers || $0.kind == .groupContainers }
             .map { PathComponents.of(PathPattern.comparablePath(of: $0.url)) }
     }
 
-    /// Whether macOS keeps `url` for itself: a folder in a Caches folder named for macOS, or anything in the container
-    /// of one of Apple's own apps.
-    func keeps(_ url: URL) -> Bool {
-        if cachesFolders.contains(PathPattern.comparablePath(of: url.deletingLastPathComponent())) {
-            return Self.isMacOSs(url.lastPathComponent)
+    /// Whether macOS keeps `url` for itself: an item in a Caches or a Logs folder named as macOS names its own there,
+    /// or anything in the container of one of Apple's own apps.
+    func contains(_ url: URL) -> Bool {
+        if let kind = folders[PathPattern.comparablePath(of: url.deletingLastPathComponent())] {
+            let name = url.lastPathComponent
+            return ProtectedData.isApplesName(name) || SystemFolders.keeps(name, in: kind)
         }
         return container(holding: url).map(ProtectedData.isApplesName) ?? false
     }

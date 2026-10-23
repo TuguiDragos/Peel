@@ -357,7 +357,7 @@ extension HoldBack {
         case .deletableSystemExtension:
             "a network extension macOS installed, which System Settings > General > Login Items & Extensions > Network Extensions deletes"
         case .signInPlugIn: "a plug-in macOS may load at login, left to its maker's uninstaller"
-        case .keptByMacOS: "a cache macOS keeps for itself"
+        case .keptByMacOS: "macOS keeps it for its own services"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"
         case .inTheCloud: "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
