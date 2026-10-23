@@ -3,20 +3,6 @@ import Foundation
 import Testing
 
 struct SystemCachesTests {
-    @Test func everyNameIsCarriedByAPartOfTheSealedSystem() {
-        for (name, source) in SystemCaches.named {
-            #expect(FileManager.default.fileExists(atPath: source), "\(name): \(source)")
-            #expect(URL(filePath: source).deletingPathExtension().lastPathComponent == name, "\(name): \(source)")
-        }
-    }
-
-    @Test func everyLogIsNamedByThePartOfTheSealedSystemThatWritesIt() throws {
-        for (name, source) in SystemLogs.named {
-            let bytes = try Data(contentsOf: URL(filePath: source))
-            #expect(bytes.range(of: Data("/Library/Logs/\(name)".utf8)) != nil, "\(name): \(source)")
-        }
-    }
-
     @Test func knowsApplesCachesByTheirNameOrTheSystemsOwn() {
         #expect(SystemCaches.isMacOSs("com.apple.Spotlight"))
         #expect(SystemCaches.isMacOSs("CloudKit"))

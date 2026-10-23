@@ -187,14 +187,19 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder named by
   another program's identifier, such as Microsoft AutoUpdate's cache in `/Library/Caches`: it holds nothing of the
   app's.
+- An app named like something macOS keeps for its own services, such as `Knowledge` in Application Support,
+  `GeoServices` in Caches, `Assistant` in Logs, or `Logging` in `/Library/Preferences`, no longer takes it: the app's
+  page, `peel leftovers`, and `peel uninstall` leave it to macOS, whatever a Homebrew cask names.
 
 #### Orphaned Files
 
 - The folders a Spring Boot server's embedded Tomcat leaves in the temporary folder, named `tomcat.` with the port and a
   number, are no longer taken for apps' files, each listed as a gone app of its own.
-- The folder macOS keeps for its push notification service, `ApplePushService` in `/Library/Application Support`, is no
-  longer named among the folders Peel couldn't look inside, in Orphaned Files or on an app's page: only macOS can read
-  it, and no other app's files are there.
+- The folders macOS keeps for its own services, such as `ApplePushService` in `/Library/Application Support`, are no
+  longer named among the folders Peel couldn't look inside, in Orphaned Files or on an app's page: only macOS reads
+  them, and no other app's files are there.
+- Something macOS keeps for its own services is no longer listed once an app of the same name is gone, such as
+  `Application Support/Knowledge` after an app called Knowledge.
 - Lists what an app with a tool's identifier left while another such app is installed.
 
 #### Orphaned Files and Storage

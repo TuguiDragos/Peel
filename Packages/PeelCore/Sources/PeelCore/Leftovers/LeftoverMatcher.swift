@@ -89,12 +89,15 @@ struct LeftoverMatcher: Sendable {
         )
     }
 
-    /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it.
-    func match(fileName: String, kind: SearchLocation.Kind, at url: URL? = nil) -> LeftoverMatch? {
+    /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it,
+    /// and `nested` when it sits below the location's own entries.
+    func match(
+        fileName: String, kind: SearchLocation.Kind, at url: URL? = nil, nested: Bool = false
+    ) -> LeftoverMatch? {
         let key = Self.key(from: fileName, kind: kind)
         // A name still hidden here is the system's own: `.GlobalPreferences.plist` is the global domain.
         guard !key.hasPrefix(".") else { return nil }
-        let candidate = Candidate(key)
+        let candidate = Candidate(key, isMacOSs: !nested && SystemFolders.keeps(fileName, in: kind))
         guard let evidence = target.claim(for: candidate) else { return nil }
 
         var sharedWith: Set<String> = []
@@ -276,15 +279,17 @@ extension LeftoverMatcher {
         let normalized: String
         /// The name without a version written right after it, normalized, for a folder kept for one release.
         let withoutVersion: String?
+        /// True for a name only an app Apple signed may claim: one Apple gives its own, or one macOS keeps for its
+        /// services in the folder the item is directly in.
         let isApple: Bool
 
         var isLongEnoughToShare: Bool { normalized.count >= 4 }
 
-        init(_ key: String) {
+        init(_ key: String, isMacOSs: Bool = false) {
             self.key = key.lowercased()
             normalized = Naming.normalized(key)
             withoutVersion = Naming.withoutAttachedVersion(key).map(Naming.normalized)
-            isApple = ProtectedData.isApplesName(key)
+            isApple = isMacOSs || ProtectedData.isApplesName(key)
         }
     }
 

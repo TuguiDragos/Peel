@@ -700,4 +700,17 @@ struct LeftoverMatcherTests {
         let massive = app("com.native-instruments.massive", name: "Massive")
         #expect(match("Massive.vst3", in: .plugIns, for: serum, with: [massive]) == nil)
     }
+
+    @Test func aFolderMacOSKeepsUnderAPlainNameIsNoAppsByThatName() {
+        let knowledge = app("org.example.knowledge", name: "Knowledge")
+        let assistant = app("org.example.assistant", name: "Assistant")
+        let logging = app("org.example.logging", name: "Logging")
+
+        #expect(match("Knowledge", in: .applicationSupport, for: knowledge) == nil)
+        #expect(match("Assistant", in: .logs, for: assistant) == nil)
+        #expect(match("GeoServices", in: .caches, for: app("org.example.geoservices", name: "GeoServices")) == nil)
+        #expect(match("Logging", in: .preferences, for: logging) == nil)
+        #expect(match("Knowledge", in: .caches, for: knowledge)?.isRecommended == true)
+        #expect(match("Assistant", in: .applicationSupport, for: assistant)?.isRecommended == true)
+    }
 }

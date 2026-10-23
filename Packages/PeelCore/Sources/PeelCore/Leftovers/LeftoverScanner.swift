@@ -279,9 +279,9 @@ public struct LeftoverScanner: Sendable {
             // A browser's manifest is whoever's program it runs, whatever it is called.
             url.deletingLastPathComponent().lastPathComponent.lowercased() == "nativemessaginghosts"
                 ? runsSomethingInside(bundle, manifest: url)
-                : Self.match(name, at: url, kind: kind, matcher: matcher, home: home)
+                : Self.match(name, at: url, kind: kind, matcher: matcher, home: home, nested: true)
         }
-        let search: NestedSearch.Findings<Found> = await NestedSearch.walk(inside: folders, limit: limit) {
+        let search: NestedSearch.Findings<Found> = await NestedSearch.walk(inside: folders, of: kind, limit: limit) {
             url, name, parent, canLookInside in
             let path = url.path(percentEncoded: false)
             let match = matching(url, named: name)
@@ -346,7 +346,10 @@ public struct LeftoverScanner: Sendable {
     private static func foldersAbove(
         _ folders: some Collection<String>, kind: SearchLocation.Kind, matcher: LeftoverMatcher
     ) -> FoldersAbove {
-        if folders.contains(where: { isSomebodyElses($0, kind: kind, matcher: matcher) }) { return .anotherApps }
+        let isMacOSs = folders.first.map { SystemFolders.keeps($0, in: kind) } ?? false
+        if isMacOSs || folders.contains(where: { isSomebodyElses($0, kind: kind, matcher: matcher) }) {
+            return .anotherApps
+        }
         return folders.allSatisfy(matcher.namesTheAppOrItsMaker(folder:)) ? .itsOwn : .unknown
     }
 
@@ -476,14 +479,15 @@ public struct LeftoverScanner: Sendable {
         at url: URL,
         kind: SearchLocation.Kind,
         matcher: LeftoverMatcher,
-        home: String
+        home: String,
+        nested: Bool = false
     ) -> LeftoverMatch? {
         // A system extension macOS activated is its own to remove: it uninstalls one with the app it came in.
         guard url.pathExtension.lowercased() != "systemextension" else { return nil }
         if let updaters = matcher.updatersFolder(at: url, home: home) { return updaters }
         if let named = matcher.productFolder(at: url, home: home) { return named }
         let byName = DeclaredIdentifier.nameSaysNothing(of: url, kind: kind)
-            ? nil : matcher.match(fileName: name, kind: kind, at: url)
+            ? nil : matcher.match(fileName: name, kind: kind, at: url, nested: nested)
         guard byName == nil || DeclaredIdentifier.outranksTheName(of: url, kind: kind) else { return byName }
         // `.elsewhere`, so no extension is taken off the identifier as if it were a file name.
         let declared = DeclaredIdentifier.of(url, kind: kind).flatMap {

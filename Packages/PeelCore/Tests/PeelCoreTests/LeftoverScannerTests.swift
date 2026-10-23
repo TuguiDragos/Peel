@@ -516,8 +516,9 @@ struct LeftoverScannerTests {
         for folder in makers {
             #expect(found[folder]?.match.isRecommended == true, "\(folder)")
         }
+        #expect(found["SyncServices/Hollow"]?.match.heldBack == .insideAnotherAppsFolder)
+        #expect(found["tool/telemetry/hollow"]?.match.heldBack == .namedLikeTheApp)
         for folder in others {
-            #expect(found[folder]?.match.heldBack == .namedLikeTheApp, "\(folder)")
             #expect(found[folder]?.match.isRecommended == false, "\(folder)")
         }
     }
@@ -2124,5 +2125,30 @@ struct LeftoverScannerTests {
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
         <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>\(bundleIdentifier)</string></dict></plist>
         """.utf8)
+    }
+
+    @Test func anUninstallLeavesWhatMacOSKeepsUnderTheAppsName() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Knowledge/knowledgeC.db")
+        try directory.file("home/Library/Caches/Knowledge/cache.db")
+        try directory.file("home/Library/Application Support/SyncServices/Knowledge/data.db")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Knowledge.app"),
+            bundleIdentifier: "org.example.knowledge",
+            name: "Knowledge"
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let found = Dictionary(uniqueKeysWithValues: plan.scan.leftovers.map {
+            ("\($0.url.deletingLastPathComponent().lastPathComponent)/\($0.url.lastPathComponent)", $0)
+        })
+        #expect(Set(found.keys) == ["Caches/Knowledge", "SyncServices/Knowledge"])
+        #expect(found["Caches/Knowledge"]?.match.isRecommended == true)
+        #expect(found["SyncServices/Knowledge"]?.match.heldBack == .insideAnotherAppsFolder)
     }
 }

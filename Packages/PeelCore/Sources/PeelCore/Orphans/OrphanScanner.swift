@@ -605,7 +605,7 @@ public struct OrphanScanner: Sendable {
     ) async -> String? {
         let name = url.lastPathComponent
         guard
-            namedPlaces.contains(kind), !isSensitive(fileName: name),
+            namedPlaces.contains(kind), !isSensitive(fileName: name), !SystemFolders.keeps(name, in: kind),
             let app = goneNames[name.lowercased()],
             !ownership.isClaimed(fileName: name, kind: kind, identifier: app),
             !ownership.anInstalledAppsNameHolds(fileName: name, kind: kind)
@@ -704,6 +704,7 @@ public struct OrphanScanner: Sendable {
         // an app's identifier, so only what came with an app Peel saw go is listed there.
         let inside: NestedSearch.Findings<Candidate> = await NestedSearch.walk(
             inside: nobodysFolders,
+            of: location.kind,
             limit: nestedFolderLimit
         ) { url, _, parent, canLookInside in
             guard isAFileAFolderOrALink(url), !ProtectedData.refuses(url.path(percentEncoded: false), home: home),

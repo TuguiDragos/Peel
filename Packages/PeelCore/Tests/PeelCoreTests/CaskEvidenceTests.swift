@@ -377,4 +377,28 @@ struct CaskEvidenceTests {
         #expect(leftovers.first?.match.sharedWith == ["com.vendor.shared"])
         #expect(leftovers.first?.match.isRecommended == false)
     }
+
+    @Test func leavesOutACaskPathThatIsAFolderMacOSKeeps() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Library/Application Support/Knowledge/knowledgeC.db")
+        try directory.directory("home/Library/Caches/org.example.knowledge")
+        let cask = HomebrewPackage(name: "knowledge", kind: .cask, appNames: ["Knowledge.app"], leftoverPatterns: [
+            "~/Library/Application Support/Knowledge", "~/Library/Caches/org.example.knowledge",
+        ])
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Knowledge.app"), bundleIdentifier: "org.example.knowledge", name: "Knowledge"
+        )
+        let evidence = try #require(CaskEvidence.evidence(for: app, casks: [cask], home: home))
+
+        let leftovers = await Uninstallation.caskLeftovers(
+            evidence,
+            app: app,
+            exclusions: .none,
+            matcher: LeftoverMatcher(app: app, installedApps: [app]),
+            environment: environment(home)
+        )
+
+        #expect(leftovers.map(\.url.lastPathComponent) == ["org.example.knowledge"])
+    }
 }

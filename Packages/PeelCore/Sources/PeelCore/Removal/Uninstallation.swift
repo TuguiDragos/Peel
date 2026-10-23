@@ -254,10 +254,13 @@ public struct Uninstallation: Sendable {
         let bundle = PathPattern.comparablePath(of: app.url)
         let home = PathPattern.comparablePath(of: environment.homeDirectory)
         for item in evidence.items where !exclusions.excludes(item.url) && !isAtOrInside(bundle, item.url) {
-            // What one of Apple's packages installed is Apple's, whatever a cask says.
-            if !isAtOrInside(home, item.url), await installedByApple(item.url) { continue }
             let place = place(of: item.url, in: environment)
-            let own = matcher.match(fileName: item.url.lastPathComponent, kind: place.kind, at: item.url)
+            // Whatever a cask says, what macOS keeps for itself or one of Apple's packages installed is Apple's.
+            if place.components.count == 1, SystemFolders.keeps(item.url.lastPathComponent, in: place.kind) { continue }
+            if !isAtOrInside(home, item.url), await installedByApple(item.url) { continue }
+            let own = matcher.match(
+                fileName: item.url.lastPathComponent, kind: place.kind, at: item.url, nested: place.components.count > 1
+            )
             // Every folder on the way counts: a path inside a folder another app claims is not this app's alone.
             let claims = place.components.map { matcher.othersClaiming(fileName: $0, kind: place.kind) }
             let leftover = await LeftoverScanner.leftover(

@@ -35,11 +35,13 @@ enum NestedSearch {
     /// and each listing is cheap.
     static let folderLimit = 5_000
 
-    /// Lists `folders`, and every folder inside them that `visit` asks to look inside, `depth` levels down and at most
-    /// `limit` folders in all. `visit` is told whether a folder it asks to look inside would still be listed. A folder
-    /// of Apple's own that cannot be listed is not returned, since it holds no other app's files.
+    /// Lists `folders`, the entries of a location of `kind`, and every folder inside them that `visit` asks to look
+    /// inside, `depth` levels down and at most `limit` folders in all. `visit` is told whether a folder it asks to look
+    /// inside would still be listed. A folder of Apple's own that cannot be listed is not returned, since it holds no
+    /// other app's files.
     static func walk<Item>(
         inside folders: [URL],
+        of kind: SearchLocation.Kind,
         limit: Int,
         visit: (_ entry: URL, _ name: String, _ parent: ParentAccess, _ canLookInside: Bool) async -> Step<Item>
     ) async -> Findings<Item> {
@@ -66,7 +68,7 @@ enum NestedSearch {
                     continue
                 } catch {
                     let name = folder.lastPathComponent
-                    if !ProtectedData.isApplesName(name), !SystemSupportFolders.isMacOSs(name) {
+                    if !ProtectedData.isApplesName(name), level > 0 || !SystemFolders.keeps(name, in: kind) {
                         findings.unreadable.append(folder)
                     }
                     continue

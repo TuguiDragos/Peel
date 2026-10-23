@@ -1543,4 +1543,36 @@ struct OrphanScannerTests {
 
         #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["com.gone.app"])
     }
+
+    @Test func neverNamesAFolderMacOSKeepsAfterAnAppThatLeft() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Knowledge/knowledgeC.db")
+        try directory.file("home/Library/Caches/Knowledge/cache.db")
+        let knowledge = RememberedApp(
+            bundleIdentifier: "org.example.knowledge", name: "Knowledge", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/Knowledge.app"
+        )
+
+        let groups = await scanner(in: directory).scan(installedApps: installed, remembered: [knowledge]).groups
+
+        #expect(groups.flatMap(\.items).map { "\($0.kind.rawValue)/\($0.url.lastPathComponent)" } == ["caches/Knowledge"])
+    }
+
+    @Test(.permissionsHold) func saysNothingOfALogFolderOfMacOSsOwnItCouldNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let folders = ["Assistant", "Knowledge"]
+        for folder in folders {
+            try directory.file("home/Library/Logs/\(folder)/org.example.mixer/mixer.log")
+            try directory.setPermissions(0, of: "home/Library/Logs/\(folder)")
+        }
+        defer {
+            for folder in folders {
+                try? directory.setPermissions(0o755, of: "home/Library/Logs/\(folder)")
+            }
+        }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Knowledge"])
+    }
 }

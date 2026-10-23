@@ -326,6 +326,11 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **What macOS installed stays macOS's.** Something one of Apple's own installer packages put on the Mac, as its
   receipt shows, is never listed with an app, whatever it is named, nor among what an uninstall leaves for an
   administrator, such as a folder Xcode installed that is named for Chrome.
+- **What macOS keeps under a plain name stays macOS's.** macOS's own services keep some folders and files in your
+  Library and the Mac's under plain names, such as `Application Support/Knowledge`, `Caches/GeoServices`,
+  `Logs/Assistant`, or `/Library/Preferences/Logging`. An app called by the same name never takes one, and Orphaned
+  Files never lists one once such an app is gone. Peel knows each from macOS itself: a part of the system called by
+  that name, or one that names the path.
 - **An empty folder of the app's maker goes too.** A folder in your Library or the Mac's named for the app or its
   maker, such as `Application Support/<Maker>`, that an uninstall leaves empty goes to the Trash with it, through the
   helper when its files went that way; one with anything left inside, a hidden file included, one with another name,
