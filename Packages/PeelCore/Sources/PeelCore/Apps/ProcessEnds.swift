@@ -12,6 +12,30 @@ public enum ProcessEnds {
         return proc_pidinfo(identifier, PROC_PIDTBSDINFO, 0, &info, size) == size
     }
 
+    /// Whether the process ends within `limit` seconds, true at once for one that has ended already. Any process may
+    /// watch another one end, root's included (`kevent(2)`, EVFILT_PROC).
+    public static func ends(_ identifier: pid_t, within limit: TimeInterval) async -> Bool {
+        await withCheckedContinuation { continuation in
+            let resumed = OSAllocatedUnfairLock(initialState: false)
+            let finish: @Sendable (Bool) -> Void = { ended in
+                let isFirst = resumed.withLock { resumed in
+                    defer { resumed = true }
+                    return !resumed
+                }
+                if isFirst { continuation.resume(returning: ended) }
+            }
+            let watch = Task {
+                var ended = false
+                for await _ in of([identifier]) { ended = true }
+                finish(ended)
+            }
+            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + limit) {
+                watch.cancel()
+                finish(false)
+            }
+        }
+    }
+
     /// Each of `identifiers` as its process ends, at once for one that has ended already, watched from this call on.
     /// The stream finishes once every one has ended.
     public static func of(_ identifiers: [pid_t]) -> AsyncStream<pid_t> {

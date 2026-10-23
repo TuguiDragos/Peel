@@ -104,6 +104,34 @@ struct ProcessEndsTests {
         #expect(seen == [first.processIdentifier, second.processIdentifier])
     }
 
+    @Test func saysAProgramEndedWhenItEndsInTime() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
+        let identifier = program.processIdentifier
+
+        let ending = Task { await ProcessEnds.ends(identifier, within: 60) }
+        program.terminate()
+
+        #expect(await ending.value)
+    }
+
+    @Test func saysAProgramThatHasEndedAlreadyEnded() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
+        program.terminate()
+        program.waitUntilExit()
+
+        #expect(await ProcessEnds.ends(program.processIdentifier, within: 60))
+    }
+
+    @Test func saysAProgramThatKeepsRunningDidNotEndInTime() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
+        defer { program.terminate() }
+
+        #expect(await !ProcessEnds.ends(program.processIdentifier, within: 0.1))
+    }
+
     @Test func finishesAtOnceWithNoProgramToWatch() async {
         #expect(await collect(ProcessEnds.of([0, -1]), within: 1) == [])
     }

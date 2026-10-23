@@ -11,12 +11,18 @@ import Testing
 }
 
 private final class StandInHelper: NSObject, VersionQuestion, NSXPCListenerDelegate {
-    private let version: Int?
+    /// What it answers to each question in turn, the last one again once the others are given.
+    private let versions: Mutex<[Int?]>
     private let listener = NSXPCListener.anonymous()
     let handledAt = Mutex<UInt32?>(nil)
+    let questions = Mutex(0)
 
-    init(answering version: Int?) {
-        self.version = version
+    convenience init(answering version: Int?) {
+        self.init(answering: [version])
+    }
+
+    init(answering versions: [Int?]) {
+        self.versions = Mutex(versions)
         super.init()
         listener.delegate = self
         listener.resume()
@@ -33,6 +39,8 @@ private final class StandInHelper: NSObject, VersionQuestion, NSXPCListenerDeleg
 
     func protocolVersion(withReply reply: @escaping (Int) -> Void) {
         handledAt.withLock { $0 = qos_class_self().rawValue }
+        questions.withLock { $0 += 1 }
+        let version = versions.withLock { $0.count > 1 ? $0.removeFirst() : $0.first ?? nil }
         if let version { reply(version) }
     }
 
@@ -78,11 +86,44 @@ struct HelperAnswerTests {
         #expect(await PrivilegedHelper.isResponding(connecting: helper.connecting, waitingAtMost: Self.anyWait))
     }
 
-    @Test func aHelperOfAnotherVersionIsNotAnswering() async {
+    @Test func aHelperAnUpdateLeftRunningGivesWayToTheOneOfThisVersion() async {
+        let helper = StandInHelper(answering: [HelperIdentity.protocolVersion - 1, HelperIdentity.protocolVersion])
+        defer { helper.stop() }
+        let watched = Record<[pid_t]>([])
+
+        let answering = await PrivilegedHelper.isResponding(
+            connecting: helper.connecting, waitingAtMost: Self.anyWait
+        ) { process, _ in
+            watched.value.withLock { $0.append(process) }
+            return true
+        }
+
+        #expect(answering)
+        #expect(watched.value.withLock { $0 } == [getpid()])
+    }
+
+    @Test func aHelperOfAnotherVersionIsAskedOnceMoreOnceItsProcessEnds() async {
         let helper = StandInHelper(answering: HelperIdentity.protocolVersion - 1)
         defer { helper.stop() }
 
-        #expect(await !PrivilegedHelper.isResponding(connecting: helper.connecting, waitingAtMost: Self.anyWait))
+        let answering = await PrivilegedHelper.isResponding(
+            connecting: helper.connecting, waitingAtMost: Self.anyWait
+        ) { _, _ in true }
+
+        #expect(!answering)
+        #expect(helper.questions.withLock { $0 } == 2)
+    }
+
+    @Test func aHelperOfAnotherVersionWhoseProcessKeepsRunningIsNotAnswering() async {
+        let helper = StandInHelper(answering: [HelperIdentity.protocolVersion - 1, HelperIdentity.protocolVersion])
+        defer { helper.stop() }
+
+        let answering = await PrivilegedHelper.isResponding(
+            connecting: helper.connecting, waitingAtMost: Self.anyWait
+        ) { _, _ in false }
+
+        #expect(!answering)
+        #expect(helper.questions.withLock { $0 } == 1)
     }
 
     @Test func withNoConnectionThereIsNoAnswer() async {

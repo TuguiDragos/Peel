@@ -163,12 +163,27 @@ public enum PrivilegedHelper {
 
     static func isResponding(
         connecting connect: @escaping @Sendable () -> NSXPCConnection?,
-        waitingAtMost wait: TimeInterval = answerWait
+        waitingAtMost wait: TimeInterval = answerWait,
+        untilEnded: @escaping @Sendable (pid_t, TimeInterval) async -> Bool = { await ProcessEnds.ends($0, within: $1) }
     ) async -> Bool {
-        let version: Int? = await ask(connecting: connect, waitingAtMost: wait, fallback: nil) { helper, finish in
+        let deadline = ContinuousClock.now.advanced(by: .seconds(wait))
+        let left = { ContinuousClock.now.duration(to: deadline) / .seconds(1) }
+        let first = await askVersion(connecting: connect, waitingAtMost: wait)
+        guard let version = first.value else { return false }
+        if version == HelperIdentity.protocolVersion { return true }
+        // A helper of another version is one an update left running: it leaves as soon as no connection is open
+        // (`HelperLifetime`), and launchd then starts the one this copy carries. Another copy's helper answers again.
+        guard let process = first.process, await untilEnded(process, left()) else { return false }
+        return await askVersion(connecting: connect, waitingAtMost: left()).value == HelperIdentity.protocolVersion
+    }
+
+    private static func askVersion(
+        connecting connect: @escaping @Sendable () -> NSXPCConnection?,
+        waitingAtMost wait: TimeInterval
+    ) async -> (value: Int?, process: pid_t?) {
+        await answer(connecting: connect, waitingAtMost: wait, fallback: nil) { helper, finish in
             helper.protocolVersion { finish($0) }
         }
-        return version == HelperIdentity.protocolVersion
     }
 
     /// How long a request is waited for before it counts as unanswered: longer than any request takes, at most
@@ -339,15 +354,25 @@ public enum PrivilegedHelper {
         fallback: T,
         _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
+        await answer(connecting: connect, waitingAtMost: wait, fallback: fallback, body).value
+    }
+
+    /// `ask`, with the process that replied, which XPC knows once a message has come from it.
+    private static func answer<T: Sendable>(
+        connecting connect: @escaping @Sendable () -> NSXPCConnection?,
+        waitingAtMost wait: TimeInterval,
+        fallback: T,
+        _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+    ) async -> (value: T, process: pid_t?) {
         // XPC delivers a reply at the quality its message went out with, and never while Peel keeps every thread at
         // that quality busy, so the message goes out at the timer's quality, whatever the task that asks.
         await Task.detached(priority: .userInitiated) {
-            guard let connection = connect() else { return fallback }
+            guard let connection = connect() else { return (fallback, nil) }
             connection.remoteObjectInterface = remoteInterface()
             connection.resume()
             defer { connection.invalidate() }
 
-            return await withCheckedContinuation { continuation in
+            let value = await withCheckedContinuation { continuation in
                 let once = ResumeOnce()
                 let finish: @Sendable (T) -> Void = { value in
                     if once.claim() {
@@ -366,6 +391,8 @@ public enum PrivilegedHelper {
                 }
                 body(helper, finish)
             }
+            let process = connection.processIdentifier
+            return (value, process > 0 ? process : nil)
         }.value
     }
 }
