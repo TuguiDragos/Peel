@@ -67,21 +67,34 @@ enum SystemFolders {
     ]
 
     static let caches: [String: Proof] = [
+        "AAProfilePicture_*.png": .image("/System/Library/PrivateFrameworks/AOSUI.framework/Versions/A/AOSUI", naming: "AAProfilePicture_%@.png"),
         "AMSDataMigratorTool": .part("/System/Library/PrivateFrameworks/AppleMediaServices.framework/Versions/A/Resources/AMSDataMigratorTool"),
+        "amsengagementd": .file("/System/Library/Sandbox/Profiles/com.apple.amsengagementd.sb", naming: "/Library/Caches/amsengagementd"),
+        "amsondevicestoraged": .part("/System/Library/PrivateFrameworks/OnDeviceStorage.framework/Support/amsondevicestoraged"),
         "assessmentagent": .part("/usr/libexec/assessmentagent"),
         "AudioComponentRegistrar": .part("/System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar"),
         "AudioConverterService": .part("/System/Library/Frameworks/AudioToolbox.framework/XPCServices/AudioConverterService.xpc"),
         "betaenrollmentagent": .part("/usr/libexec/betaenrollmentagent"),
+        "Cleanup At Startup": .file("/System/Library/Sandbox/Profiles/com.apple.sharingd.sb", naming: "/Library/Caches/Cleanup At Startup"),
         "CloudKit": .part("/System/Library/Frameworks/CloudKit.framework"),
         "ColorSync": .part("/System/Library/ColorSync"),
+        "CommCenter": .file("/usr/share/sandbox/com.apple.CommCenter.sb", naming: "/Library/Caches/CommCenter"),
+        "commerce": .file("/System/Library/Sandbox/Profiles/com.apple.CommerceKit.TransactionService.sb", naming: "/Library/Caches/commerce"),
+        "Configuration": .file("/System/Library/Sandbox/Profiles/com.apple.maps.destinationd.sb", naming: "/Library/Caches/Configuration"),
         "containermanagerd": .part("/usr/libexec/containermanagerd"),
         "contentlinkingd": .part("/System/Library/PrivateFrameworks/Synapse.framework/Support/contentlinkingd"),
+        "ContextStoreAgent": .file("/System/Library/Sandbox/Profiles/com.apple.ContextStoreAgent.sb", naming: "/Library/Caches/ContextStoreAgent"),
+        "CoreSpeech": .file("/System/Library/Sandbox/Profiles/com.apple.corespeechd.sb", naming: "/Library/Caches/CoreSpeech"),
+        "CrashHandlerService": .part("/System/Library/Sandbox/Profiles/com.apple.audio.CrashHandlerService.sb"),
         "CSExattrCryptoService": .part("/System/Library/PrivateFrameworks/CSExattrCrypto.framework/Versions/A/XPCServices/CSExattrCryptoService.xpc"),
         "Desktop Pictures": .part("/System/Library/Desktop Pictures"),
+        "destinationd": .file("/System/Library/Sandbox/Profiles/com.apple.maps.destinationd.sb", naming: "/Library/Caches/destinationd"),
         "diagnosticextensionsd": .part("/usr/libexec/diagnosticextensionsd"),
         "duetexpertd": .part("/usr/libexec/duetexpertd"),
+        "EnergyKit": .file("/System/Library/Sandbox/Profiles/com.apple.EnergyKitService.sb", naming: "/Library/Caches/EnergyKit"),
         "FamilyCircle": .part("/System/Library/PrivateFrameworks/FamilyCircle.framework"),
         "familycircled": .part("/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled"),
+        "Finance": .file("/System/Library/Sandbox/Profiles/com.apple.financed.sb", naming: "/Library/Caches/Finance"),
         "gamed": .part("/usr/libexec/gamed"),
         "GameKit": .part("/System/Library/Frameworks/GameKit.framework"),
         "GameStoreKit": .part("/System/Library/PrivateFrameworks/GameStoreKit.framework"),
@@ -91,15 +104,40 @@ enum SystemFolders {
         "HomeKit": .part("/System/Library/Frameworks/HomeKit.framework"),
         "icdd": .part("/System/Library/Image Capture/Support/icdd"),
         "itunescloudd": .part("/System/Library/PrivateFrameworks/iTunesCloud.framework/Support/itunescloudd"),
+        "JetPackCache": .file("/System/Library/Sandbox/Profiles/com.apple.GameOverlayUI.sb", naming: "/Library/Caches/JetPackCache"),
+        "knowledge-agent": .file("/System/Library/Sandbox/Profiles/com.apple.knowledge-agent.sb", naming: "/Library/Caches/knowledge-agent"),
+        "locationd": .file("/usr/libexec/sysdiagnosed", naming: "Library/Caches/locationd"),
+        "mapspushd": .file("/System/Library/Sandbox/Profiles/com.apple.mapspushd.sb", naming: "/Library/Caches/mapspushd"),
+        "mbuseragent": .part("/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbuseragent"),
         "mediaanalysisd-access": .part("/System/Library/PrivateFrameworks/MediaAnalysisAccess.framework/Versions/A/XPCServices/mediaanalysisd-access.xpc"),
         "metrickitd": .part("/usr/libexec/metrickitd"),
+        "Metrics": .file("/System/Library/Sandbox/Profiles/com.apple.gamed.sb", naming: "/Library/Caches/Metrics"),
+        "MobileActivation": .file("/System/Library/Sandbox/Profiles/mobileactivationd.sb", naming: "/Library/Caches/MobileActivation"),
+        "mobileactivationd": .file("/System/Library/Sandbox/Profiles/mobileactivationd.sb", naming: "/Library/Caches/mobileactivationd"),
+        "mobileassetd": .file("/usr/share/sandbox/com.apple.mobileassetd.sb", naming: "/Library/Caches/mobileassetd"),
         "mobiletimerd": .part("/System/Library/PrivateFrameworks/MobileTimer.framework/Executables/mobiletimerd"),
+        "nbagent": .file("/System/Library/Sandbox/Profiles/com.apple.noticeboard.agent.sb", naming: "/Library/Caches/nbagent"),
+        "OnDemandResources": .file("/System/Library/Sandbox/Profiles/com.apple.AppStoreDaemon.StorePrivilegedODRService.sb", naming: "/Library/Caches/OnDemandResources"),
+        "OnDeviceStorage": .file("/System/Library/Sandbox/Profiles/com.apple.amsondevicestoraged.sb", naming: "/Library/Caches/OnDeviceStorage"),
         "PassKit": .part("/System/Library/Frameworks/PassKit.framework"),
         "proactived": .part("/usr/libexec/proactived"),
         "ptpcamerad": .part("/usr/libexec/ptpcamerad"),
+        "rtcreportingd": .file("/System/Library/Sandbox/Profiles/com.apple.rtcreportingd.sb", naming: "/Library/Caches/rtcreportingd"),
+        "SandboxHelper": .part("/System/Library/Sandbox/Profiles/com.apple.audio.SandboxHelper.sb"),
+        "SiriTTS": .file("/System/Library/Sandbox/Profiles/com.apple.SiriTTSTrainingAgent.sb", naming: "/Library/Caches/SiriTTS"),
+        "sportsd": .file("/System/Library/Sandbox/Profiles/com.apple.sportsd.sb", naming: "/Library/Caches/sportsd"),
+        "ssu": .file("/System/Library/Sandbox/Profiles/com.apple.assistant_cdmd.sb", naming: "/Library/Caches/ssu"),
         "StatusKitAgent": .part("/System/Library/PrivateFrameworks/StatusKit.framework/StatusKitAgent"),
+        "storeaccountd": .file("/System/Library/Sandbox/Profiles/com.apple.storeaccountd.sb", naming: "/Library/Caches/storeaccountd"),
+        "storeassetd": .file("/System/Library/Sandbox/Profiles/com.apple.storeassetd.sb", naming: "/Library/Caches/storeassetd"),
+        "storedownloadd": .file("/System/Library/Sandbox/Profiles/com.apple.storedownloadd.sb", naming: "/Library/Caches/storedownloadd"),
+        "storelegacy": .file("/System/Library/Sandbox/Profiles/com.apple.storelegacy.sb", naming: "/Library/Caches/storelegacy"),
+        "storeuid": .file("/System/Library/Sandbox/Profiles/com.apple.storeuid.sb", naming: "/Library/Caches/storeuid"),
         "studentd": .part("/usr/libexec/studentd"),
+        "SubmitDiagInfo": .file("/System/Library/Sandbox/Profiles/com.apple.SubmitDiagInfo.sb", naming: "/Library/Caches/SubmitDiagInfo"),
         "talagent": .part("/System/Library/CoreServices/talagent"),
+        "TTSResourceCache.plist": .file("/System/Library/Sandbox/Profiles/com.apple.accessibility.LiveTranscriptionAgent.sb", naming: "/Library/Caches/TTSResourceCache.plist"),
+        "VoiceTrigger": .file("/System/Library/Sandbox/Profiles/com.apple.assistantd.sb", naming: "/Library/Caches/VoiceTrigger"),
         "watchlistd": .part("/System/Library/PrivateFrameworks/WatchListKit.framework/Support/watchlistd"),
     ]
 
@@ -209,17 +247,31 @@ enum SystemFolders {
         case .caches, .httpStorages, .temporaryItems: cachesNames
         case .logs: logsNames
         case .preferences: preferencesNames
-        default: Set<String>()
+        default: noNames
         }
-        return names.contains(fileName.lowercased())
+        return names.hold(fileName)
     }
 
-    private static let applicationSupportNames = lowercased(applicationSupport)
-    private static let cachesNames = lowercased(caches)
-    private static let logsNames = lowercased(logs)
-    private static let preferencesNames = lowercased(preferences)
+    private static let applicationSupportNames = Names(applicationSupport)
+    private static let cachesNames = Names(caches)
+    private static let logsNames = Names(logs)
+    private static let preferencesNames = Names(preferences)
+    private static let noNames = Names([:])
 
-    private static func lowercased(_ list: [String: Proof]) -> Set<String> {
-        Set(list.keys.map { $0.lowercased() })
+    /// The names of one list, lowercased, those with a `*` read as patterns.
+    private struct Names {
+        let exact: Set<String>
+        let patterns: [String]
+
+        init(_ list: [String: Proof]) {
+            let names = list.keys.map { $0.lowercased() }
+            exact = Set(names.filter { !$0.contains("*") })
+            patterns = names.filter { $0.contains("*") }
+        }
+
+        func hold(_ name: String) -> Bool {
+            let name = name.lowercased()
+            return exact.contains(name) || patterns.contains { fnmatch($0, name, 0) == 0 }
+        }
     }
 }

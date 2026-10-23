@@ -224,6 +224,32 @@ struct SpaceRemovalTests {
         #expect(RemovalGuard(environment: environment).refusal(of: userCache) == .staysItself)
     }
 
+    @Test func knowsTheCachesMacOSKeepsForItsServicesUnderPlainNames() async throws {
+        let directory = try TemporaryDirectory()
+        let picture = "AAProfilePicture_F549004B-5FF9-47D0-ACCE-AF5B2A15F59A.png"
+        try directory.file("home/Library/Caches/\(picture)")
+        for name in ["mbuseragent", "org.example.notes"] {
+            try directory.file("home/Library/Caches/\(name)/Cache.db")
+        }
+        for name in ["CrashHandlerService", "SandboxHelper", "org.example.editor"] {
+            try directory.directory("C/\(name)")
+        }
+        let userCache = directory.url.appending(path: "C", directoryHint: .isDirectory)
+        var environment = environment(directory)
+        environment.userCacheDirectory = userCache
+        let hidden = SpaceItem(
+            id: "user-caches", category: .library, urls: [userCache], size: 0, handling: .trash, leavesMacOSsOwn: true
+        )
+
+        let caches = await SpaceRemoval.plan(for: item(directory), environment: environment, running: [:])
+        let inHidden = await SpaceRemoval.plan(for: hidden, environment: environment, running: [:])
+
+        #expect(caches.suggested.map(\.lastPathComponent) == ["org.example.notes"])
+        let kept = caches.heldBack.filter { $0.value == .keptByMacOS }.map(\.key.lastPathComponent)
+        #expect(Set(kept) == [picture, "mbuseragent"])
+        #expect(inHidden.removable.map(\.lastPathComponent) == ["org.example.editor"])
+    }
+
     /// In the caches every account shares, what macOS keeps is left out of the plan altogether: its services run
     /// as other accounts, whose open files Peel cannot see. What only an administrator can move goes through the
     /// helper.

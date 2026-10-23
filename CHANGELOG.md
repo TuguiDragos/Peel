@@ -210,6 +210,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   page it selected on when no page is open, so what it selected shows, with Move to Trash, rather than nothing changing
   until a page is chosen.
 
+#### Space
+
+- App Caches no longer selects what macOS keeps there for itself under a plain name, such as the picture of your Apple
+  Account or Setup Assistant's cache, and Hidden App Caches leaves out two more of macOS's own audio services.
+
 #### Duplicates and File Search
 
 - What they move goes as one removal, so a run that was interrupted shows in History as one interrupted removal.
