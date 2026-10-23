@@ -1034,6 +1034,22 @@ struct UninstallationTests {
         }
     }
 
+    @Test func anEmptiedFolderMacOSKeepsUnderTheAppsNameStays() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Applications/Knowledge.app")
+        let own = try directory.directory("home/Library/Application Support/Knowledge/org.example.knowledge")
+        let plan = uninstallation(
+            app: InstalledApp(url: bundle, bundleIdentifier: "org.example.knowledge", name: "Knowledge"),
+            leftovers: [file(own, .applicationSupport)]
+        )
+
+        let went = await plan.move([bundle, own], using: try service(in: directory, refusing: nil))
+
+        #expect(went.failures.isEmpty)
+        #expect(Set(went.trashed.map(\.originalURL)) == [bundle, own])
+        #expect(!directory.url.appending(path: "home/Library/Application Support/Knowledge").isMissing)
+    }
+
     /// A maker's folder can be named for the developer the app's signature names rather than for its identifier,
     /// as in `BraveSoftware/Brave-Browser`: once the profile has moved, the empty folder around it goes too.
     @Test func aMakersFolderNamedForTheDeveloperIsTheMakers() throws {

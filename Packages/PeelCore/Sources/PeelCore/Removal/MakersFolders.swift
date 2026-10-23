@@ -17,17 +17,24 @@ struct MakersFolders {
         Set(apps.filter { !$0.isApples }.flatMap(\.ownFolderNames))
     }
 
-    /// Deepest first. A folder with another name stops the walk, since it may be any app's.
+    /// Deepest first. A folder with another name stops the walk, since it may be any app's, and so does one macOS
+    /// keeps under that name directly in its location (`SystemFolders`).
     func above(_ moved: [URL]) -> [URL] {
         let locations = environment.locations
         let ends = Set(locations.map { PathPattern.comparablePath(of: $0.url) })
         let places = locations.filter { Self.kinds.contains($0.kind) }.map { PathPattern.comparablePath(of: $0.url) }
+        let kindsAt = Dictionary(grouping: locations, by: { PathPattern.comparablePath(of: $0.url) })
+            .mapValues { $0.map(\.kind) }
+        func isMacOSs(_ folder: URL) -> Bool {
+            let parent = PathPattern.comparablePath(of: folder.deletingLastPathComponent())
+            return (kindsAt[parent] ?? []).contains { SystemFolders.keeps(folder.lastPathComponent, in: $0) }
+        }
         var folders: [String: URL] = [:]
         for url in moved {
             var folder = url.deletingLastPathComponent()
             var path = PathPattern.comparablePath(of: folder)
             while !ends.contains(path), places.contains(where: { PathComponents.isPath(path, inside: $0) }),
-                  names.contains(Naming.folderName(folder.lastPathComponent)) {
+                  names.contains(Naming.folderName(folder.lastPathComponent)), !isMacOSs(folder) {
                 folders[path] = folder
                 folder = folder.deletingLastPathComponent()
                 path = PathPattern.comparablePath(of: folder)
