@@ -124,6 +124,21 @@ struct ProcessEndsTests {
         #expect(await ProcessEnds.ends(program.processIdentifier, within: 60))
     }
 
+    @Test func saysAProgramEndedWhileEveryThreadOfItsPriorityIsTaken() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
+        program.terminate()
+        program.waitUntilExit()
+        let limit: TimeInterval = 1
+        for _ in 0..<ProcessInfo.processInfo.activeProcessorCount {
+            Task.detached(priority: Task.currentPriority) { Self.takeAThread(for: limit + 0.5) }
+        }
+
+        let ended = await ProcessEnds.ends(program.processIdentifier, within: limit)
+
+        #expect(ended)
+    }
+
     @Test func saysAProgramThatKeepsRunningDidNotEndInTime() async throws {
         let directory = try TemporaryDirectory()
         let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
@@ -161,5 +176,14 @@ struct ProcessEndsTests {
 
     @Test func finishesAtOnceWithNoProgramToWatch() async {
         #expect(await collect(ProcessEnds.of([0, -1]), within: 1) == [])
+    }
+
+    @Test func saysNothingEndedWithNoProgramToWatch() async {
+        #expect(await !ProcessEnds.ends(-1, within: 60))
+    }
+
+    // Swift's pool has one thread per processor for each priority.
+    private static func takeAThread(for seconds: TimeInterval) {
+        Thread.sleep(forTimeInterval: seconds)
     }
 }

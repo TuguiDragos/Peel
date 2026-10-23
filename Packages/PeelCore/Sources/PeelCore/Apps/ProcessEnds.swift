@@ -24,26 +24,29 @@ public enum ProcessEnds {
     }
 
     /// Whether the process ends within `limit` seconds, true at once for one that has ended already. Any process may
-    /// watch another one end, root's included (`kevent(2)`, EVFILT_PROC).
+    /// watch another one end, root's included (`kevent(2)`, EVFILT_PROC). The end and the deadline both arrive on
+    /// dispatch: a task watching the end could wait for a thread of Swift's pool until the deadline had passed.
     public static func ends(_ identifier: pid_t, within limit: TimeInterval) async -> Bool {
-        await withCheckedContinuation { continuation in
+        guard identifier > 0 else { return false }
+        return await withCheckedContinuation { continuation in
             let resumed = OSAllocatedUnfairLock(initialState: false)
+            let source = DispatchSource.makeProcessSource(
+                identifier: identifier,
+                eventMask: .exit,
+                queue: .global(qos: .userInitiated)
+            )
             let finish: @Sendable (Bool) -> Void = { ended in
                 let isFirst = resumed.withLock { resumed in
                     defer { resumed = true }
                     return !resumed
                 }
-                if isFirst { continuation.resume(returning: ended) }
+                guard isFirst else { return }
+                source.cancel()
+                continuation.resume(returning: ended)
             }
-            let watch = Task {
-                var ended = false
-                for await _ in of([identifier]) { ended = true }
-                finish(ended)
-            }
-            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + limit) {
-                watch.cancel()
-                finish(false)
-            }
+            source.setEventHandler { finish(true) }
+            source.resume()
+            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + limit) { finish(false) }
         }
     }
 
