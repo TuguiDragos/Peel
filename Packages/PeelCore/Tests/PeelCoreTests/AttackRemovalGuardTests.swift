@@ -877,8 +877,6 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: "Documents/.GlobalPreferences.plist")))
     }
 
-    /// What the guard looks for a level or two inside a folder can sit in a folder it may not list, so a folder it
-    /// can't see all through stays. One only the helper can move, the helper looks inside as root.
     @Test(.permissionsHold) func aFolderItCannotSeeAllThroughStays() throws {
         let directory = try TemporaryDirectory()
         let guardian = RemovalGuard(environment: SearchEnvironment(
@@ -934,8 +932,6 @@ struct AttackRemovalGuardTests {
         #expect(ProtectedData.holdsABrowserWallet(path("Missing")) == .nothing)
     }
 
-    /// The helper knows nothing of the exclusions, so a folder Peel can't search for them stays, even one only the
-    /// helper could move.
     @Test(.permissionsHold) func aFolderItCannotSearchForAnExclusionStaysWhoeverWouldMoveIt() throws {
         let directory = try TemporaryDirectory()
         let vendor = "root/Library/Application Support/org.example.Vendor"

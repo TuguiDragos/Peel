@@ -1117,8 +1117,6 @@ struct LeftoverScannerTests {
         #expect(!found.isMeasured, "a folder nobody measured was given a size of zero")
     }
 
-    /// The helper knows nothing of the exclusions, so a folder Peel can't search for them is left alone, even one
-    /// only the helper could move.
     @Test(.permissionsHold) func leavesAloneAFolderItCannotSearchForAnExclusion() async throws {
         let directory = try TemporaryDirectory()
         let place = "root/Library/Application Support/Tunewell"

@@ -107,7 +107,6 @@ struct ExclusionsTests {
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], prefix: prefix) == false)
     }
 
-    /// A folder Peel can't look inside may hold what an excluded app keeps, so `brew uninstall` isn't run on it.
     @Test(.permissionsHold) func keepsAPackageItCannotSearchForAnExclusion() throws {
         let directory = try TemporaryDirectory()
         try directory.file("prefix/Caskroom/example/1.0/kept/org.example.excluded/state.db")

@@ -45,7 +45,6 @@ final class HomebrewLibrary {
             }
         }
 
-        /// Whether Homebrew deletes formulae for good while it runs, which it does keeping the ones Peel names.
         var deletesFormulae: Bool {
             switch self {
             case .uninstall, .cleanup, .clearOlderDownloads, .clearEveryDownload: true

@@ -122,7 +122,6 @@ public struct CarriedSystemExtensions: Sendable, Hashable {
     }
 
     public static let none = CarriedSystemExtensions(names: [])
-    /// What an app Peel couldn't look into may carry, which Finder's move asks macOS to remove.
     public static let notKnown = CarriedSystemExtensions(names: [], systemSettingsDeletesThem: false, isKnown: false)
 
     public var isEmpty: Bool { names.isEmpty && isKnown }

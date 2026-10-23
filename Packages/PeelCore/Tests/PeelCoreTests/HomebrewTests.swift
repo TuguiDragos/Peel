@@ -98,10 +98,6 @@ struct HomebrewTests {
         }
     }
 
-    /// `brew cleanup` and the autoremove that `brew uninstall` runs delete formulae and their old versions for good,
-    /// so the formulae the exclusions cover are named in `HOMEBREW_NO_CLEANUP_FORMULAE`, which Homebrew's own
-    /// documentation says makes it refuse to clean up or autoremove them.
-    /// A formula Peel can't look at may be one the exclusions cover, so nothing that deletes for good runs then.
     @Test(.permissionsHold) func keepsNoListItCannotReadWhole() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Cellar/wget/1.25.0")
@@ -121,6 +117,9 @@ struct HomebrewTests {
         #expect(excludingWget.keptFormulae(inCellarOf: directory.url.appending(path: "Missing")) == [])
     }
 
+    /// `brew cleanup` and the autoremove that `brew uninstall` runs delete formulae and their old versions for good,
+    /// so the formulae the exclusions cover are named in `HOMEBREW_NO_CLEANUP_FORMULAE`, which Homebrew's own
+    /// documentation says makes it refuse to clean up or autoremove them.
     @Test func homebrewIsToldToKeepTheFormulaeTheExclusionsCover() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Cellar/wget/1.25.0")

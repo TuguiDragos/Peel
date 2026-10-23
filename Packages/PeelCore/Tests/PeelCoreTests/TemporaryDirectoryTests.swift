@@ -2,7 +2,6 @@ import Foundation
 import Testing
 
 struct TemporaryDirectoryTests {
-    /// It takes its folder away when the test ends.
     @Test func onlyTemporaryDirectoryNamesTheTemporaryFolder() throws {
         let this = URL(filePath: #filePath)
         let folder = this.deletingLastPathComponent()

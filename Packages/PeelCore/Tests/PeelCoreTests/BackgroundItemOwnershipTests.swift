@@ -42,7 +42,6 @@ struct BackgroundItemOwnershipTests {
         #expect(!ownership.isOrphan(label: "org.example.cut", program: "/bin/sh\u{0}gone", owner: nil))
     }
 
-    /// launchd runs a daemon as root, so a program in a folder this account can't search is not gone.
     @Test(.permissionsHold) func neverCallsGoneAProgramInAFolderItCannotSearch() throws {
         let directory = try TemporaryDirectory()
         let program = try directory.file("Vendor/bin/agent").path(percentEncoded: false)

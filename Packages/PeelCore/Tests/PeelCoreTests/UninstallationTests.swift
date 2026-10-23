@@ -120,7 +120,6 @@ struct UninstallationTests {
         #expect(!unanswered.systemSettingsDeletesThem, "with no answer the category is not known")
     }
 
-    /// What Peel can't look into may carry a system extension, which only Finder's move asks macOS to remove.
     @Test(.permissionsHold) func leavesToFinderAnAppItCannotLookInto() async throws {
         let directory = try TemporaryDirectory()
         let app = try appCarryingAFilter(in: directory)
