@@ -12,6 +12,17 @@ public enum ProcessEnds {
         return proc_pidinfo(identifier, PROC_PIDTBSDINFO, 0, &info, size) == size
     }
 
+    /// When the process started, as the kernel says, or nil when no such process runs. `sysctl` tells it of any
+    /// process, root's included, while `proc_pidinfo` answers only about this account's.
+    static func startTime(of identifier: pid_t) -> Date? {
+        var info = kinfo_proc()
+        var size = MemoryLayout<kinfo_proc>.size
+        var name = [CTL_KERN, KERN_PROC, KERN_PROC_PID, identifier]
+        guard sysctl(&name, u_int(name.count), &info, &size, nil, 0) == 0, size > 0 else { return nil }
+        let start = info.kp_proc.p_un.__p_starttime
+        return Date(timeIntervalSince1970: TimeInterval(start.tv_sec) + TimeInterval(start.tv_usec) / 1_000_000)
+    }
+
     /// Whether the process ends within `limit` seconds, true at once for one that has ended already. Any process may
     /// watch another one end, root's included (`kevent(2)`, EVFILT_PROC).
     public static func ends(_ identifier: pid_t, within limit: TimeInterval) async -> Bool {

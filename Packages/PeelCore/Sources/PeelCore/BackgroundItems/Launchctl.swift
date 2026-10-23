@@ -7,6 +7,7 @@ enum Launchctl {
         var program: String?
         var managedBy: String?
         var parentBundleIdentifier: String?
+        var pid: pid_t?
     }
 
     /// Runs `launchctl` and returns its exit status and its output, error text included. `bootout` waits for
@@ -108,6 +109,7 @@ enum Launchctl {
             case "program": details.program = value
             case "managed_by": details.managedBy = value
             case "parent bundle identifier": details.parentBundleIdentifier = value
+            case "pid": details.pid = pid_t(value)
             default: break
             }
         }

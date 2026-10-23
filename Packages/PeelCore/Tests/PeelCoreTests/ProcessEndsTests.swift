@@ -132,6 +132,33 @@ struct ProcessEndsTests {
         #expect(await !ProcessEnds.ends(program.processIdentifier, within: 0.1))
     }
 
+    @Test func knowsWhenAProgramStarted() throws {
+        let before = Date.now
+        let directory = try TemporaryDirectory()
+        let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
+        defer { program.terminate() }
+
+        let started = try #require(ProcessEnds.startTime(of: program.processIdentifier))
+
+        #expect(started >= before && started <= .now)
+    }
+
+    @Test func knowsWhenAProcessOfAnotherAccountStarted() throws {
+        // launchd, root's, is process 1 on every Mac.
+        let started = try #require(ProcessEnds.startTime(of: 1))
+
+        #expect(started < .now)
+    }
+
+    @Test func knowsNoStartOfAProgramThatHasEnded() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.runningProgram("Example.app/Contents/MacOS/example")
+        program.terminate()
+        program.waitUntilExit()
+
+        #expect(ProcessEnds.startTime(of: program.processIdentifier) == nil)
+    }
+
     @Test func finishesAtOnceWithNoProgramToWatch() async {
         #expect(await collect(ProcessEnds.of([0, -1]), within: 1) == [])
     }

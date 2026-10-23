@@ -89,6 +89,32 @@ struct LaunchctlTests {
         #expect(details.path == "(submitted by smd.524)")
     }
 
+    @Test func readsTheProcessOfAJobThatRuns() throws {
+        let printed = """
+        system/org.example.helper = {
+        \tactive count = 1
+        \tpath = (submitted by smd.92)
+        \ttype = Submitted
+        \tmanaged_by = com.apple.xpc.ServiceManagement
+        \tstate = running
+        \tprogram identifier = Contents/MacOS/Helper (mode: 2)
+        \tparent bundle identifier = org.example.app
+        \tdomain = system
+        \truns = 7
+        \tpid = 5236
+        \tlast exit code = 0
+        \tendpoints = {
+        \t\t"org.example.helper" = {
+        \t\t\tport = 0x3d03
+        \t\t\tactive = 1
+        \t\t}
+        \t}
+        }
+        """
+
+        #expect(try #require(Launchctl.parseDetails(printed)).pid == 5236)
+    }
+
     @Test func tellsAJobThatLeftFromAnAnswerItCannotRead() {
         let printed = """
         gui/501/org.example.updater = {

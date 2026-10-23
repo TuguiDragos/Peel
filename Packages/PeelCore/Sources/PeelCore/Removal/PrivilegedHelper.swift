@@ -164,23 +164,52 @@ public enum PrivilegedHelper {
     static func isResponding(
         connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         waitingAtMost wait: TimeInterval = answerWait,
+        runningHelper: @escaping @Sendable (Date, TimeInterval) async -> pid_t? = {
+            await runningHelper(startedBefore: $0, within: $1)
+        },
         untilEnded: @escaping @Sendable (pid_t, TimeInterval) async -> Bool = { await ProcessEnds.ends($0, within: $1) }
     ) async -> Bool {
         let deadline = ContinuousClock.now.advanced(by: .seconds(wait))
         let left = { ContinuousClock.now.duration(to: deadline) / .seconds(1) }
+        let asked = Date.now
         let first = await askVersion(connecting: connect, waitingAtMost: wait)
-        guard let version = first.value else { return false }
-        if version == HelperIdentity.protocolVersion { return true }
-        // A helper of another version is one an update left running: it leaves as soon as no connection is open
-        // (`HelperLifetime`), and launchd then starts the one this copy carries. Another copy's helper answers again.
-        guard let process = first.process, await untilEnded(process, left()) else { return false }
+        if first.value == HelperIdentity.protocolVersion { return true }
+        guard first.value != nil || first.wasRejected else { return false }
+        // A helper of another version, or one XPC turns away because an update deleted its program, is one the update
+        // left running: it leaves as soon as no connection is open (`HelperLifetime`), and launchd then starts the one
+        // this copy carries. Another copy's helper keeps running.
+        var process = first.process
+        if process == nil { process = await runningHelper(asked, left()) }
+        if let process {
+            guard await untilEnded(process, left()) else { return false }
+        }
         return await askVersion(connecting: connect, waitingAtMost: left()).value == HelperIdentity.protocolVersion
+    }
+
+    /// The process launchd runs the helper in, if it already ran when Peel asked at `date`: XPC names no process whose
+    /// answer it turned away, launchd tells any account about a job of the system domain, and a process started later
+    /// can't have answered, being the helper this copy carries, started for another question.
+    @concurrent
+    static func runningHelper(startedBefore date: Date, within limit: TimeInterval) async -> pid_t? {
+        guard limit > 0, case .success(let output) = await Subprocess.run(
+            "/bin/launchctl", ["print", "system/\(HelperIdentity.helperIdentifier)"], timeout: limit
+        ) else { return nil }
+        return process(in: Launchctl.answer(status: output.status, output: output.text), startedBefore: date)
+    }
+
+    static func process(
+        in answer: Launchctl.Answer, startedBefore date: Date, startTime: (pid_t) -> Date? = ProcessEnds.startTime
+    ) -> pid_t? {
+        guard case .details(let details) = answer, let process = details.pid, let started = startTime(process),
+              started < date
+        else { return nil }
+        return process
     }
 
     private static func askVersion(
         connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         waitingAtMost wait: TimeInterval
-    ) async -> (value: Int?, process: pid_t?) {
+    ) async -> Reply<Int?> {
         await answer(connecting: connect, waitingAtMost: wait, fallback: nil) { helper, finish in
             helper.protocolVersion { finish($0) }
         }
@@ -357,42 +386,52 @@ public enum PrivilegedHelper {
         await answer(connecting: connect, waitingAtMost: wait, fallback: fallback, body).value
     }
 
-    /// `ask`, with the process that replied, which XPC knows once a message has come from it.
+    private struct Reply<Value: Sendable>: Sendable {
+        let value: Value
+        /// The process that answered, which XPC names once it has accepted a message from it.
+        let process: pid_t?
+        /// Whether XPC turned the answer away, its sender not meeting this copy's requirement for the helper.
+        let wasRejected: Bool
+    }
+
     private static func answer<T: Sendable>(
         connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         waitingAtMost wait: TimeInterval,
         fallback: T,
         _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
-    ) async -> (value: T, process: pid_t?) {
+    ) async -> Reply<T> {
         // XPC delivers a reply at the quality its message went out with, and never while Peel keeps every thread at
         // that quality busy, so the message goes out at the timer's quality, whatever the task that asks.
         await Task.detached(priority: .userInitiated) {
-            guard let connection = connect() else { return (fallback, nil) }
+            guard let connection = connect() else { return Reply(value: fallback, process: nil, wasRejected: false) }
             connection.remoteObjectInterface = remoteInterface()
             connection.resume()
             defer { connection.invalidate() }
 
-            let value = await withCheckedContinuation { continuation in
+            let (value, wasRejected) = await withCheckedContinuation { continuation in
                 let once = ResumeOnce()
-                let finish: @Sendable (T) -> Void = { value in
+                let finish: @Sendable (T, Bool) -> Void = { value, wasRejected in
                     if once.claim() {
-                        continuation.resume(returning: value)
+                        continuation.resume(returning: (value, wasRejected))
                     }
                 }
                 // A helper that is running but never answers keeps the connection valid, and so does one launchd
                 // keeps and cannot start, so only this timer ends the wait.
-                timers.asyncAfter(deadline: .now() + wait) { finish(fallback) }
+                timers.asyncAfter(deadline: .now() + wait) { finish(fallback, false) }
                 guard
-                    let helper = connection.remoteObjectProxyWithErrorHandler({ _ in finish(fallback) })
-                        as? any PeelHelperProtocol
+                    let helper = connection.remoteObjectProxyWithErrorHandler({ error in
+                        let error = error as NSError
+                        finish(fallback, error.domain == NSCocoaErrorDomain
+                            && error.code == NSXPCConnectionCodeSigningRequirementFailure)
+                    }) as? any PeelHelperProtocol
                 else {
-                    finish(fallback)
+                    finish(fallback, false)
                     return
                 }
-                body(helper, finish)
+                body(helper) { finish($0, false) }
             }
             let process = connection.processIdentifier
-            return (value, process > 0 ? process : nil)
+            return Reply(value: value, process: process > 0 ? process : nil, wasRejected: wasRejected)
         }.value
     }
 }
