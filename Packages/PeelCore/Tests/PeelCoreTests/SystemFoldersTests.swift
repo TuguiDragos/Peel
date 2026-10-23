@@ -3,24 +3,27 @@ import Foundation
 import Testing
 
 struct SystemFoldersTests {
-    @Test func everyNameIsProvedByTheSealedSystem() throws {
+    @Test func everyNameIsProvedByTheSealedSystem() {
         let lists = [
             SystemFolders.applicationSupport, SystemFolders.caches, SystemFolders.logs, SystemFolders.preferences,
             SystemFolders.webKit, SystemFolders.cookies,
         ]
         for (name, proof) in lists.joined() {
-            switch proof {
-            case .part(let path):
-                let part = URL(filePath: path).deletingPathExtension().lastPathComponent
-                let stem = URL(filePath: name).deletingPathExtension().lastPathComponent
-                #expect(FileManager.default.fileExists(atPath: path), "\(name): \(path)")
-                #expect(part == stem || part.hasSuffix("." + stem), "\(name): \(path)")
-            case .file(let path, let text):
-                let bytes = try Data(contentsOf: URL(filePath: path), options: .alwaysMapped)
-                #expect(bytes.range(of: Data(text.utf8)) != nil, "\(name): \(path)")
-            case .image(let path, let text):
-                #expect(try SharedCache.image(path, holds: text), "\(name): \(path)")
-            }
+            #expect(Self.holds(proof, for: name), "\(name): \(proof)")
+        }
+    }
+
+    private static func holds(_ proof: SystemFolders.Proof, for name: String) -> Bool {
+        switch proof {
+        case .part(let path):
+            let part = URL(filePath: path).deletingPathExtension().lastPathComponent
+            let stem = URL(filePath: name).deletingPathExtension().lastPathComponent
+            return FileManager.default.fileExists(atPath: path) && (part == stem || part.hasSuffix("." + stem))
+        case .file(let path, let text):
+            let bytes = try? Data(contentsOf: URL(filePath: path), options: .alwaysMapped)
+            return bytes?.range(of: Data(text.utf8)) != nil
+        case .image(let path, let text):
+            return (try? SharedCache.image(path, holds: text)) == true
         }
     }
 
