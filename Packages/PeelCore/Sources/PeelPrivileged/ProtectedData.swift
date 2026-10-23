@@ -332,8 +332,6 @@ public enum ProtectedData: Sendable {
         case notKnown
     }
 
-    /// The names in `folder`, none for a path that is not there or is no folder, and nil for a folder macOS would
-    /// not let this process list.
     static func names(in folder: String, followingLinks: Bool) -> [String]? {
         listing(folder, followingLinks: followingLinks) { try FileManager.default.contentsOfDirectory(atPath: $0) }
     }
