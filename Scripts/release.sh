@@ -258,3 +258,5 @@ for made in "$image" "$final"; do
     shasum -a 256 "$made"
 done
 echo "$feed/appcast.xml"
+echo "Once these are on the release, on its draft and again once it is published:"
+echo "swift Scripts/check_release.swift $version $build"

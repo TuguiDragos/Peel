@@ -476,6 +476,11 @@ and such a feed would fail every update.
 The script publishes nothing. The release on GitHub, `v<version>`, carries the disk image, the zip, and
 `appcast.xml`, and every copy reads the feed of the latest release only, so the feed goes up with the files it
 points to, in a release that is neither a draft nor a prerelease.
+`Scripts/check_release.swift <version> build/Release` then checks the release on GitHub, on its draft and again
+once it is published: it holds the three files under their names, the feed is the one `check_appcast.swift`
+passed, byte for byte, the disk image and the zip are the ones the script made (by the SHA-256 GitHub keeps of
+each), the feed's signature verifies with the project's update key and it offers that disk image at its address
+and length, and once published, the latest release serves that very feed.
 
 Before it runs, the version is set by hand in each of the project's targets: `MARKETING_VERSION`, and
 `CURRENT_PROJECT_VERSION`, the build every program carries, written as the year, month, and day it was set, such as
