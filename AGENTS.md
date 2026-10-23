@@ -192,20 +192,19 @@ If you are unsure whether something belongs in the helper, it doesn't.
   waits for the thing it measures (a program's end, a file's change), and work it waits on runs at user-initiated
   priority rather than the default. A test that reads this Mac through a tool (`pluginkit`, `mdfind`) waits for the
   tool's whole answer, never the time limit the page gives it: a runner with three processors takes longer.
-- The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services
-  from a test. In the package's tests that home is a `TemporaryDirectory`, which takes it away when the test ends,
-  and no other test there names the temporary folder (`TemporaryDirectoryTests`); a test of the app removes the
-  folder it made before it returns. An app a test expects Peel to act on is a made-up one, named under a domain kept
-  for examples
+- The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services from a
+  test. In the package's tests that home is a `TemporaryDirectory`, which takes it away when the test ends, and no other
+  test there names the temporary folder (`TemporaryDirectoryTests`); a test of the app removes the folder it made before
+  it returns. An app a test expects Peel to act on is a made-up one, named under a domain kept for examples
   (`org.example`, `com.example`, `net.example`). A program a test starts from a folder of its own is a copy of
-  `/bin/cat` signed ad hoc (`TemporaryDirectory.runningProgram`, or `runningPrograms` for several): macOS kills a
-  plain copy of one of its own programs started from anywhere else, usually within a second, for breaking its launch
+  `/bin/cat` signed ad hoc (`TemporaryDirectory.runningProgram`, or `runningPrograms` for several): macOS kills a plain
+  copy of one of its own programs started from anywhere else, usually within a second, for breaking its launch
   constraints. Every copy is made before any starts, since once a program inside an app runs, macOS takes away other
-  processes' right to write into that app. A copy is handed to the test only once it has echoed a line written to
-  it, since until then Gatekeeper checks it where it started and ends it if the test has moved it, and it runs until
-  the test ends it or the suite ends and its input closes: letting go of the `Process` ends nothing. A folder a
-  test makes never ends in a package's extension: `org.example.App` is an app to macOS and to Peel, so nothing
-  inside it is looked at as a folder's contents.
+  processes' right to write into that app. A copy is handed to the test only once it has echoed a line written to it,
+  since until then Gatekeeper checks it where it started and ends it if the test has moved it, and it runs until the
+  test ends it or the suite ends and its input closes: letting go of the `Process` ends nothing. A folder a test makes
+  never ends in a package's extension: `org.example.App` is an app to macOS and to Peel, so nothing inside it is looked
+  at as a folder's contents.
 - **A test of the app writes nothing of the person's.** Its preferences live in a domain of its own
   (`MadeUpDefaults`), and it never calls what writes Peel's own folder, such as `AppLibrary.refresh()`, which
   remembers the apps it read.

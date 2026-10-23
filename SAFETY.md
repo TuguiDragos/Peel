@@ -338,7 +338,7 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **An empty folder of the app's maker goes too.** A folder in your Library or the Mac's named for the app or its
   maker, such as `Application Support/<Maker>`, that an uninstall leaves empty goes to the Trash with it, through the
   helper when its files went that way; one with anything left inside, a hidden file included, one with another name,
-  and the Library folder itself stay.
+  one macOS keeps for its own services under that name, and the Library folder itself stay.
 
 A security or management agent, a VPN, or a backup app whose maker documents removing it with an uninstaller of its
 own (GlobalProtect, Cortex XDR, Cisco Secure Client and AnyConnect, ESET Endpoint Security, Microsoft Defender,
@@ -525,14 +525,14 @@ page and whatever its bundle is called, nor a folder that holds it a level or tw
 identifier, such as its caches or its container, is left out of every page and never moved, nor is a folder holding
 one a level or two down, nor one with a folder inside that macOS won't let Peel list, since such a folder may be in
 there: that holds even for what only the helper could move, as the helper knows nothing of your exclusions. Its other
-files, such as plug-ins, receipts, or a folder named after the app, are excluded
-only by their own paths, so to keep them, exclude them too.
+files, such as plug-ins, receipts, or a folder named after the app, are excluded only by their own paths, so to keep
+them, exclude them too.
 
 Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` for a
 package whose app, or whose own folder, you excluded, nor for one with a folder Peel can't look into for an app you
 excluded, nor for any package while your list isn't read or can't be, and Homebrew's cleanup keeps every formula whose
-folder you excluded. While Peel can't read Homebrew's Cellar, or a formula's folder in it, nothing that deletes
-formulae runs at all.
+folder you excluded. While Peel can't read Homebrew's Cellar, or can't look into a formula's folder in it for an app
+you excluded, nothing that deletes formulae runs at all.
 
 If the saved list is there and cannot be read, Peel does not treat it as empty. It moves nothing until you
 start over in Settings, `peel` refuses, and the file it could not read is kept beside the new one.

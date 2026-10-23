@@ -82,7 +82,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    plug-in and a container named by a UUID are also weighed by the identifier they declare: a plug-in's name says
    what it does and a UUID says nothing, so the identifier decides whose they are. A launch job is weighed by the
    program it runs, since anyone can name its file: a job that runs a program inside the app is the app's, and one
-   that runs a program inside another installed app is that app's. The answer is a `LeftoverMatch`: a confidence
+   that runs a program inside another installed app is that app's. What macOS keeps for its own services under a
+   plain name directly in a Library folder, such as `Application Support/Knowledge`, is no app's, whatever app is
+   called by that name (`SystemFolders`). The answer is a `LeftoverMatch`: a confidence
    (`certain`, `likely`, or `possible`), the reason, the other installed apps that claim the file too (with the apps
    of the same maker that macOS knows outside the Applications folders, the apps Peel saw installed before, whose
    identifiers stay theirs once they are gone, and, for a file only the app's name claims, another maker's app whose
@@ -111,7 +113,7 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      its own (`TrashService`'s
      `trash(apps:thenFiles:usingHelperFor:lettingTheirProgramsRun:emptiedFoldersNamed:)`, which an app's page,
      several apps' page, Remove Peel, and `peel uninstall` share). A folder named for the app or its maker that the
-     move leaves empty goes with them (`MakersFolders`).
+     move leaves empty goes with them, unless macOS keeps it under that name for its own services (`MakersFolders`).
    - `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
      about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
      moved. Items only an administrator can move go through the helper, and the links an app's tools and their
@@ -210,9 +212,12 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   never as text, since a slash and a combining mark after it are one Swift `Character`. The guard also refuses
   anything that syncs to other devices (`SyncedFolders`): what iCloud or a File Provider keeps, and what sits in a
   folder Syncthing, Resilio Sync, Synology Drive Client, or MEGA keeps in step, since the Trash would take it from
-  those devices too.
+  those devices too. It looks a level or two inside a folder for a library, a wallet, or work kept only in a cache,
+  and refuses a folder holding a folder macOS won't let Peel list, unless only the helper can move it, which looks
+  inside as root (`ProtectedData.Finding`).
 - **Exclusions everywhere.** The user's exclusions reach every scanner, so an excluded item never appears, and
-  a folder with something excluded inside is never moved.
+  a folder with something excluded inside is never moved, nor one Peel can't look into for an excluded app, since the
+  helper knows nothing of the exclusions.
 - **Unknown stays unknown.** A size that couldn't be measured, a list a tool didn't give, an answer that didn't
   come, whether an item is still in the Trash when macOS won't let Peel look (`TrashedItem.standing`): each is
   kept as not known, shown as such, never selected for the user, and never forgotten from History.

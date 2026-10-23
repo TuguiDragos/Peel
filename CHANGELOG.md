@@ -217,9 +217,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Homebrew
 
-- Clean Up, the download cleanups, and Uninstall run nothing while Peel can't read Homebrew's Cellar, or a formula's
-  folder in it, and say so: Homebrew deletes old versions for good, and Peel couldn't tell it which formulae your
-  exclusions cover.
+- Clean Up, the download cleanups, and Uninstall run nothing while Peel can't read Homebrew's Cellar, or can't look into
+  a formula's folder in it for an app you excluded, and say so: Homebrew deletes old versions for good, and Peel
+  couldn't tell it which formulae your exclusions cover.
 
 #### Space
 
@@ -241,6 +241,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The command `peel uninstall` offers to copy works for an app whose name begins with `-` or `=`: the name comes last,
   quoted where a shell would read it otherwise, and after `--` when it begins with `-`, so it isn't read as an option.
+- `peel leftovers` and `peel uninstall` say that a file found by its name inside a folder of macOS's own, such as
+  `SyncServices`, sits inside a folder that belongs to macOS or to another installed app, as the app's row says, rather
+  than inside another app's folder.
 
 ### Security
 
