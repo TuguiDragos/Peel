@@ -107,6 +107,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Fixed
 
+#### Home
+
+- Right after Peel updates itself, its helper no longer shows as not answering, and what only the helper can move
+  is no longer locked, while the helper of the version before is still leaving: Peel waits for it to go, then asks
+  again.
+
 #### Tweaks
 
 - A number written as text, as `defaults write` stores it with no type flag, reads as the number it spells, so a wait

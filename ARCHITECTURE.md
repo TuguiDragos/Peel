@@ -257,8 +257,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   program or property list to register it again, or it may not launch. launchd starts `Contents/MacOS/PeelHelper`
   from the app as it is at that moment, under a spawn constraint that names only the team and the helper's
   identifier, so the next request runs the new helper, and a helper still running when an update replaced its
-  program quits as soon as it is idle (`HelperLifetime`). That holds only while the helper's identifier and its
-  launchd property list stay the same: a version that changes either has to register the helper again.
+  program quits as soon as it is idle (`HelperLifetime`). Until then it answers with its own version, so a helper
+  of another version is waited for until its process ends, and asked once more (`PrivilegedHelper.isResponding`).
+  That holds only while the helper's identifier and its launchd property list stay the same: a version that
+  changes either has to register the helper again.
 - Any change to the helper means bumping `HelperIdentity.protocolVersion`, so Peel never works with a helper of
   another version.
 
