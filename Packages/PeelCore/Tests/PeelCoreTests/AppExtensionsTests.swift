@@ -361,7 +361,7 @@ struct AppExtensionsTests {
         try directory.file("\(extensions)/org.example.driver.dext/Info.plist", contents: info("org.example.driver", "Example Driver"))
         try directory.file("\(extensions)/notes.txt")
 
-        let carried = AppExtensions.systemExtensions(carriedBy: app)
+        let carried = try #require(AppExtensions.systemExtensions(carriedBy: app))
 
         #expect(carried.map(\.identifier) == ["org.example.driver", "org.example.filter"])
         #expect(carried.map(\.name) == ["Example Driver", "Example Filter"])

@@ -147,6 +147,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- An app whose folder of system extensions Peel can't look into is left to Finder, as one whose extensions Peel can
+  name, since only Finder's move asks macOS to remove them; its page and `peel uninstall` say so.
 - When many apps stay after a removal, as without App Management, the alert names the first few and counts the others,
   so its Open System Settings button stays on the screen. It does the same with the apps to quit and the lines of your
   shell startup files, and Copy Details, offered whenever the alert names only the first few, gives them all. Several

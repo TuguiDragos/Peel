@@ -359,7 +359,8 @@ its move to the Trash in Finder asks macOS to remove it. Its page says so, with 
 network extension, how to delete it in System Settings if it stays; `peel uninstall` refuses it with the same reason.
 Peel asks macOS which of the app's extensions it installed, and under which category (`systemextensionsctl`), leaves
 out one macOS is already removing, and when macOS doesn't answer, counts every extension the app carries and names
-only Finder's step.
+only Finder's step. An app whose folder of system extensions Peel can't look into is left to Finder the same way,
+since what it carries isn't known.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,

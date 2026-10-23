@@ -120,6 +120,27 @@ struct UninstallationTests {
         #expect(!unanswered.systemSettingsDeletesThem, "with no answer the category is not known")
     }
 
+    /// What Peel can't look into may carry a system extension, which only Finder's move asks macOS to remove.
+    @Test(.permissionsHold) func leavesToFinderAnAppItCannotLookInto() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try appCarryingAFilter(in: directory)
+        let extensions = "root/Applications/Example.app/Contents/Library/SystemExtensions"
+        try directory.setPermissions(0, of: extensions)
+        defer { try? directory.setPermissions(0o755, of: extensions) }
+
+        let carried = await AppExtensions.installed(carriedBy: app) { [] }
+        let several = await BulkUninstallation.prepare(
+            [app], installedApps: [app], systemExtensions: { [] },
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+        )
+
+        #expect(RemovedElsewhere.of(app, installedSystemExtensions: carried) == .byFinder(systemExtensions: .notKnown))
+        #expect(several.items.first?.removedElsewhere == .byFinder(systemExtensions: .notKnown))
+    }
+
     @Test func listsAnAppsSignInPlugInAndNeverOffersIt() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

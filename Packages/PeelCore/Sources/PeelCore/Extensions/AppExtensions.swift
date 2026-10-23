@@ -108,15 +108,24 @@ extension AppExtension {
 public struct CarriedSystemExtensions: Sendable, Hashable {
     public let names: [String]
     public let systemSettingsDeletesThem: Bool
+    /// False when Peel couldn't look into the app to name them.
+    public let isKnown: Bool
 
     public init(names: [String], systemSettingsDeletesThem: Bool = false) {
+        self.init(names: names, systemSettingsDeletesThem: systemSettingsDeletesThem, isKnown: true)
+    }
+
+    private init(names: [String], systemSettingsDeletesThem: Bool, isKnown: Bool) {
         self.names = names
         self.systemSettingsDeletesThem = systemSettingsDeletesThem
+        self.isKnown = isKnown
     }
 
     public static let none = CarriedSystemExtensions(names: [])
+    /// What an app Peel couldn't look into may carry, which Finder's move asks macOS to remove.
+    public static let notKnown = CarriedSystemExtensions(names: [], systemSettingsDeletesThem: false, isKnown: false)
 
-    public var isEmpty: Bool { names.isEmpty }
+    public var isEmpty: Bool { names.isEmpty && isKnown }
 }
 
 public enum AppExtensions {
@@ -286,7 +295,7 @@ public enum AppExtensions {
         carriedBy app: InstalledApp,
         asking answer: SystemExtensionsAnswer = askingMacOS
     ) async -> CarriedSystemExtensions {
-        let carried = systemExtensions(carriedBy: app.url)
+        guard let carried = systemExtensions(carriedBy: app.url) else { return .notKnown }
         guard !carried.isEmpty else { return .none }
         guard let installed = await answer() else { return CarriedSystemExtensions(names: carried.map(\.name)) }
         let identifiers = Set(carried.map(\.identifier))
@@ -301,20 +310,26 @@ public enum AppExtensions {
         )
     }
 
-    /// A `.systemextension` keeps its `Info.plist` in `Contents`, and a `.dext` at its top.
-    static func systemExtensions(carriedBy app: URL) -> [(identifier: String, name: String)] {
+    /// A `.systemextension` keeps its `Info.plist` in `Contents`, and a `.dext` at its top. Nil when the folder that
+    /// holds them, or one of them, can't be read.
+    static func systemExtensions(carriedBy app: URL) -> [(identifier: String, name: String)]? {
         let folder = app.appending(path: "Contents/Library/SystemExtensions", directoryHint: .isDirectory)
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-        return names.sorted().compactMap { name in
+        guard let names = ProtectedData.names(in: folder.path(percentEncoded: false), followingLinks: true) else {
+            return nil
+        }
+        var carried: [(identifier: String, name: String)] = []
+        for name in names.sorted() {
             let bundle = folder.appending(path: name, directoryHint: .isDirectory)
-            let info: [String: Any]? = switch bundle.pathExtension {
-            case "systemextension": AppInspector.infoDictionary(in: bundle.appending(path: "Contents"))
-            case "dext": AppInspector.infoDictionary(in: bundle)
-            default: nil
+            let info: [String: Any]?
+            switch bundle.pathExtension {
+            case "systemextension": info = AppInspector.infoDictionary(in: bundle.appending(path: "Contents"))
+            case "dext": info = AppInspector.infoDictionary(in: bundle)
+            default: continue
             }
             guard let identifier = info?["CFBundleIdentifier"] as? String else { return nil }
-            return (identifier, Self.name(of: bundle, info: info))
+            carried.append((identifier, Self.name(of: bundle, info: info)))
         }
+        return carried
     }
 
     /// Returns the system extensions, or nil when `systemextensionsctl` gave no answer Peel can read: its first

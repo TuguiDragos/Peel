@@ -495,6 +495,8 @@ struct UninstallCommand: AsyncParsableCommand {
             case .onItsDiskImage: "use the uninstaller on the disk image it came on"
             }
             throw CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
+        case .byFinder(let carried) where !carried.isKnown:
+            throw CommandFailure("Peel can't look inside \(Output.plain(target.name)) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. Move the app to the Trash in Finder.")
         case .byFinder(let carried):
             let names = carried.names
             let extensions = names.map(Output.plain).joined(separator: ", ")

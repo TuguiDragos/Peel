@@ -259,6 +259,9 @@ extension RemovedElsewhere {
     }
 
     private static func leftToFinder(_ carried: CarriedSystemExtensions) -> LocalizedStringResource {
+        guard carried.isKnown else {
+            return "Left alone: Peel can’t look inside the app to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder."
+        }
         let names = carried.names.formatted(.list(type: .and))
         if #available(macOS 27, *) {
             return carried.systemSettingsDeletesThem

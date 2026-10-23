@@ -158,6 +158,20 @@ struct AppInspectorTests {
         #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Plain.app"))).carriesSystemExtensions == false)
     }
 
+    @Test(.permissionsHold) func anAppItCannotLookIntoMayCarryASystemExtension() throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.guard"], at: "Guard.app/Contents/Info.plist", in: directory)
+        try plist(
+            ["CFBundleIdentifier": "org.example.guard.filter"],
+            at: "Guard.app/Contents/Library/SystemExtensions/org.example.guard.filter.systemextension/Contents/Info.plist",
+            in: directory
+        )
+        try directory.setPermissions(0, of: "Guard.app/Contents/Library/SystemExtensions")
+        defer { try? directory.setPermissions(0o755, of: "Guard.app/Contents/Library/SystemExtensions") }
+
+        #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Guard.app"))).carriesSystemExtensions)
+    }
+
     /// Spotlight does not index the temporary folder, and answers there with the bundle's modification date for when
     /// it was last used.
     @Test func anAppSpotlightDoesNotIndexHasNoRecordOfBeingOpened() throws {

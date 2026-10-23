@@ -127,7 +127,7 @@ public enum AppInspector {
             updaterFolder: electronConfiguration.flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:)),
             productFolders: ProductFolders.of(appAt: url),
             webApp: bundleIdentifier.flatMap { WebApp.of(identifier: $0, info: info) },
-            carriesSystemExtensions: !AppExtensions.systemExtensions(carriedBy: url).isEmpty
+            carriesSystemExtensions: AppExtensions.systemExtensions(carriedBy: url).map { !$0.isEmpty } ?? true
         )
     }
 

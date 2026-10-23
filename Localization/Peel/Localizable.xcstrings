@@ -69337,6 +69337,112 @@
         }
       }
     },
+    "Left alone: Peel can’t look inside the app to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: Peel nemůže nahlédnout do aplikace, aby zjistil, jaká rozšíření systému obsahuje, a systém macOS je odstraní jen tehdy, když se aplikace přesune do koše ve Finderu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Peel kann nicht in die App hineinsehen, um festzustellen, welche Systemerweiterungen darin enthalten sind, und macOS entfernt diese nur, wenn die App im Finder in den Papierkorb gelegt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: Peel no puede mirar dentro de la app para saber qué extensiones del sistema lleva, y macOS solo las elimina cuando la app va a la papelera en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : Peel ne peut pas regarder dans l’app pour savoir quelles extensions système s’y trouvent, et macOS ne les supprime que lorsque l’app est placée dans la corbeille depuis le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: Peel non può guardare all’interno dell’app per vedere quali estensioni di sistema contiene, e macOS le rimuove solo quando l’app viene spostata nel Cestino dal Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: Peelはこのアプリの中を調べられないため、どのシステム機能拡張が含まれているかを確認できません。macOSがこれらを削除するのは、Finderでアプリをゴミ箱に入れたときだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: Peel은 앱 안을 살펴볼 수 없어 어떤 시스템 확장 프로그램이 들어 있는지 알 수 없으며, macOS는 앱이 Finder에서 휴지통으로 이동될 때만 이 확장 프로그램들을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: Peel kan niet in de app kijken om te zien welke systeemextensies erin zitten, en macOS verwijdert die alleen als de app in Finder naar de prullenmand gaat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: Peel nie może zajrzeć do aplikacji, aby sprawdzić, jakie rozszerzenia systemowe zawiera, a macOS usuwa je tylko wtedy, gdy aplikacja zostanie przeniesiona do Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o Peel não consegue examinar o conteúdo do app para ver quais extensões do sistema ele traz, e o macOS só as remove quando o app vai para o Lixo no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: Peel nu poate căuta în interiorul aplicației pentru a vedea ce extensii de sistem conține, iar macOS le elimină doar când aplicația este mutată în Coș din Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: Peel не может заглянуть внутрь приложения, чтобы узнать, какие системные расширения в нем есть, а macOS удаляет их, только когда приложение перемещают в Корзину в Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: Peel kan inte titta inuti appen för att se vilka systemtillägg den innehåller, och macOS tar bort dem bara när appen flyttas till papperskorgen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: Peel, hangi sistem genişletmelerini içerdiğini görmek için uygulamanın içine bakamıyor ve bunlar, yalnızca uygulama Finder’da Çöp Sepeti’ne taşındığında macOS tarafından kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: Peel не може зазирнути всередину програми, щоб побачити, які системні розширення вона містить, а macOS вилучає їх, лише коли програму переміщують у Смітник у Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：Peel无法查看App内部以确定它附带了哪些系统扩展，而只有在“访达”中将App移到废纸篓时，macOS才会移除这些扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：Peel無法查看App的內容以得知它內含哪些系統延伸功能，而且只有在Finder中將App丟到「垃圾桶」時，macOS才會移除它們。"
+          }
+        }
+      }
+    },
     "Left alone: Peel removes itself only from Settings." : {
       "localizations" : {
         "cs" : {
@@ -107362,6 +107468,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel目前無法查看「垃圾桶」"
+          }
+        }
+      }
+    },
+    "Peel can’t look inside %@ to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže nahlédnout do aplikace %@, aby zjistil, jaká rozšíření systému obsahuje, a systém macOS je odstraní jen tehdy, když se aplikace přesune do koše ve Finderu. Proto Peel aplikaci i její soubory ponechává na místě: přesuňte ji do koše ve Finderu a stránka Osiřelé soubory pak zobrazí, co po sobě aplikace zanechala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht in „%@“ hineinsehen, um festzustellen, welche Systemerweiterungen darin enthalten sind, und macOS entfernt diese nur, wenn die App im Finder in den Papierkorb gelegt wird. Daher lässt Peel die App und ihre Dateien dort, wo sie sind: Lege die App im Finder in den Papierkorb. Was sie hinterlassen hat, zeigt dann die Seite „Verwaiste Dateien“ an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede mirar dentro de %@ para saber qué extensiones del sistema lleva, y macOS solo las elimina cuando la app va a la papelera en el Finder. Por eso, Peel deja la app y sus archivos donde están: trasládala a la papelera en el Finder y, después, la página Archivos huérfanos mostrará lo que haya dejado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas regarder dans %@ pour savoir quelles extensions système s’y trouvent, et macOS ne les supprime que lorsque l’app est placée dans la corbeille depuis le Finder. Peel laisse donc l’app là où elle est, avec ses fichiers : placez-la dans la corbeille depuis le Finder, et la page Fichiers orphelins liste ensuite ce que l’app a laissé derrière elle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non può guardare all’interno di %@ per vedere quali estensioni di sistema contiene, e macOS le rimuove solo quando l’app viene spostata nel Cestino dal Finder. Quindi Peel lascia l’app e i suoi file dove sono: spostala nel Cestino dal Finder, e poi “File orfani” elencherà ciò che l’app ha lasciato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは“%@”の中を調べられないため、どのシステム機能拡張が含まれているかを確認できません。macOSがこれらを削除するのは、Finderでアプリをゴミ箱に入れたときだけです。そのため、Peelはこのアプリとそのファイルをそのままにします。Finderでアプリをゴミ箱に入れてください。その後、このアプリが残したものが“孤立ファイル”に表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 ‘%@’ 안을 살펴볼 수 없어 어떤 시스템 확장 프로그램이 들어 있는지 알 수 없으며, macOS는 앱이 Finder에서 휴지통으로 이동될 때만 이 확장 프로그램들을 제거합니다. 따라서 Peel은 앱과 앱의 파일을 그대로 둡니다. Finder에서 앱을 휴지통으로 이동하십시오. 그러면 주인 없는 파일 페이지에 앱이 남긴 항목이 나열됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet in %@ kijken om te zien welke systeemextensies erin zitten, en macOS verwijdert die alleen als de app in Finder naar de prullenmand gaat. Daarom laat Peel de app en de bestanden ervan staan: verplaats de app in Finder naar de prullenmand, en daarna toont de pagina 'Verweesde bestanden' wat de app heeft achtergelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może zajrzeć do aplikacji %@, aby sprawdzić, jakie rozszerzenia systemowe zawiera, a macOS usuwa je tylko wtedy, gdy aplikacja zostanie przeniesiona do Kosza w Finderze. Dlatego Peel zostawia aplikację i jej pliki na miejscu: przenieś ją do Kosza w Finderze, a strona Osierocone pliki wyświetli potem pozostałości po niej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue examinar o conteúdo de %@ para ver quais extensões do sistema ele traz, e o macOS só as remove quando o app vai para o Lixo no Finder. Por isso, o Peel deixa o app e os arquivos dele onde estão: mova-o para o Lixo no Finder, e depois a página Arquivos Órfãos lista o que ele deixou para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate căuta în interiorul aplicației %@ pentru a vedea ce extensii de sistem conține, iar macOS le elimină doar când aplicația este mutată în Coș din Finder. De aceea, Peel lasă aplicația și fișierele ei acolo unde sunt: mutați‑o în Coș din Finder, iar pagina Fișiere orfane listează apoi ce a lăsat aplicația în urmă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может заглянуть внутрь приложения «%@», чтобы узнать, какие системные расширения в нем есть, а macOS удаляет их, только когда приложение перемещают в Корзину в Finder. Поэтому Peel оставляет на месте и приложение, и его файлы: переместите его в Корзину в Finder, и затем раздел «Осиротевшие файлы» покажет его остатки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte titta inuti %@ för att se vilka systemtillägg appen innehåller, och macOS tar bort dem bara när appen flyttas till papperskorgen i Finder. Därför låter Peel appen och dess filer vara där de är: flytta den till papperskorgen i Finder, och sedan listar sidan Övergivna filer det som appen lämnade kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, hangi sistem genişletmelerini içerdiğini görmek için %@ uygulamasının içine bakamıyor ve bunlar, yalnızca uygulama Finder’da Çöp Sepeti’ne taşındığında macOS tarafından kaldırılır. Bu yüzden Peel uygulamaya ve dosyalarına dokunmaz: uygulamayı Finder’da Çöp Sepeti’ne taşıyın, ardından Sahipsiz Dosyalar, uygulamanın geride bıraktıklarını listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може зазирнути всередину програми «%@», щоб побачити, які системні розширення вона містить, а macOS вилучає їх, лише коли програму переміщують у Смітник у Finder. Тому Peel лишає програму та її файли на місці: перемістіть її в Смітник у Finder, і тоді розділ «Покинуті файли» покаже, що вона залишила по собі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法查看“%@”内部以确定它附带了哪些系统扩展，而只有在“访达”中将该App移到废纸篓时，macOS才会移除这些扩展。因此Peel会将该App及其文件留在原处：请在“访达”中将它移到废纸篓，之后“孤立文件”会列出它留下的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法查看「%@」的內容以得知它內含哪些系統延伸功能，而且只有在Finder中將此App丟到「垃圾桶」時，macOS才會移除它們。因此Peel會將此App及其檔案原地保留：請在Finder中將它丟到「垃圾桶」，之後「孤立檔案」就會列出它留下的檔案。"
           }
         }
       }

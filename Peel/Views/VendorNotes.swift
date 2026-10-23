@@ -21,6 +21,9 @@ struct SystemExtensionNotice: View {
 
     // Each sentence is a literal of its own, so the string catalog finds every one.
     private var detail: Text {
+        guard extensions.isKnown else {
+            return Text("Peel can’t look inside \(app.name) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
+        }
         let names = extensions.names.formatted(.list(type: .and))
         let isOne = extensions.names.count == 1
         if #available(macOS 27, *) {
