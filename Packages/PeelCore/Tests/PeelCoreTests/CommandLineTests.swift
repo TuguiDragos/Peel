@@ -1146,6 +1146,8 @@ struct CommandLineTests {
         #expect(row(.certain, otherCopies: [URL(filePath: "/Volumes/Disk/Editor.app")])
             == "bundle identifier, review: shared with /Volumes/Disk/Editor.app")
         #expect(row(.possible) == "bundle identifier, review: possible match")
+        #expect(row(.likely, heldBack: .insideAnotherAppsFolder)
+            == "bundle identifier, review: inside a folder that belongs to macOS or to another installed app")
     }
 
     /// Nothing in Orphaned Files is ever suggested, so its `--remove` says what it moves instead: the group named.
