@@ -227,6 +227,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - What they move goes as one removal, so a run that was interrupted shows in History as one interrupted removal.
 
+#### Background Items
+
+- A job whose program sits in a folder only an administrator can open is no longer said to have nothing left to run,
+  nor offered for removal, and Orphaned Files no longer lists its file: launchd runs it as root, which reaches it.
+
 #### `peel`
 
 - The command `peel uninstall` offers to copy works for an app whose name begins with `-` or `=`: the name comes last,
