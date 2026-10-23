@@ -112,6 +112,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Right after Peel updates itself, its helper no longer shows as not answering, and what only the helper can move
   is no longer locked, while the helper of the version before is still leaving: Peel waits for it to go, then asks
   again.
+- The picture of your Mac keeps an even edge all around, with no pale smudge below a desktop Mac or a virtual
+  machine's display.
 
 #### Tweaks
 

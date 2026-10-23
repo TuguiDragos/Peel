@@ -74,31 +74,39 @@ struct DieCut: View {
     var edge: CGFloat = 4
 
     var body: some View {
-        ZStack {
+        Canvas { context, size in
+            // One resolved image for contour and picture: SwiftUI picks an icon's rep by scale, and reps differ.
+            let picture = context.resolve(Image(nsImage: image))
+            let scale = min(size.width / picture.size.width, size.height / picture.size.height)
+            let fitted = CGSize(width: picture.size.width * scale, height: picture.size.height * scale)
+            let frame = CGRect(
+                origin: CGPoint(x: (size.width - fitted.width) / 2, y: (size.height - fitted.height) / 2),
+                size: fitted
+            )
             if showsBorders {
-                contour(at: edge + 1, in: .primary)
+                contour(of: picture, in: frame, at: edge + 1, color: .primary, on: context)
             }
-            contour(at: edge, in: Album.stickerEdge)
-            Image(nsImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            contour(of: picture, in: frame, at: edge, color: Album.stickerEdge, on: context)
+            // Drawn only over the contour, so a shadow in the picture ends where the sticker does.
+            context.blendMode = .sourceAtop
+            context.draw(picture, in: frame)
         }
-        .compositingGroup()
         .shadow(color: Album.shadow, radius: 2.5, y: 1.5)
         .accessibilityIgnoresInvertColors()
     }
 
-    /// An outline `distance` points wide around the image's shape: the shape drawn 20 times in one color, each
-    /// copy moved `distance` points in a different direction.
-    private func contour(at distance: CGFloat, in style: some ShapeStyle) -> some View {
-        ForEach(0..<20, id: \.self) { step in
+    /// An outline `distance` points wide around what is at least half opaque in the picture, so not its soft shadow:
+    /// that part drawn 20 times in one color, each copy moved another way, and once in place, under every thin part.
+    private func contour(
+        of picture: GraphicsContext.ResolvedImage, in frame: CGRect, at distance: CGFloat, color: Color,
+        on context: GraphicsContext
+    ) {
+        var context = context
+        context.addFilter(.alphaThreshold(min: 0.5, color: color))
+        for step in 0...20 {
             let angle = Double(step) / 20 * 2 * .pi
-            Image(nsImage: image)
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .foregroundStyle(style)
-                .offset(x: cos(angle) * distance, y: sin(angle) * distance)
+            let moved = step < 20 ? distance : 0
+            context.draw(picture, in: frame.offsetBy(dx: cos(angle) * moved, dy: sin(angle) * moved))
         }
     }
 }
