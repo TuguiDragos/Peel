@@ -1,0 +1,114 @@
+{
+  "fill" : {
+    "solid" : "srgb:1.00000,0.60000,0.20000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : "none",
+          "glass" : false,
+          "image-name" : "Badge.svg",
+          "name" : "Badge"
+        }
+      ],
+      "name" : "Badge",
+      "shadow" : {
+        "kind" : "none",
+        "opacity" : 0
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill" : "none",
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "Flap.svg",
+          "name" : "Flap",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "name" : "Flap",
+      "shadow" : {
+        "kind" : "none",
+        "opacity" : 0
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill" : "none",
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "Sticker.svg",
+          "name" : "Sticker",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "name" : "Sticker",
+      "shadow" : {
+        "kind" : "none",
+        "opacity" : 0
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill" : "none",
+          "glass" : false,
+          "image-name" : "Grid.svg",
+          "name" : "Grid"
+        },
+        {
+          "fill" : "none",
+          "glass" : false,
+          "image-name" : "Background.svg",
+          "name" : "Background"
+        }
+      ],
+      "name" : "Blueprint Paper",
+      "shadow" : {
+        "kind" : "none",
+        "opacity" : 0
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "macOS"
+    ]
+  }
+}

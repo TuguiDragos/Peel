@@ -1,0 +1,12 @@
+<svg width='1024' height='1024' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+<line x1='0' y1='0' x2='0' y2='1024' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='0' y1='0' x2='1024' y2='0' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='256' y1='0' x2='256' y2='1024' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='0' y1='256' x2='1024' y2='256' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='512' y1='0' x2='512' y2='1024' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='0' y1='512' x2='1024' y2='512' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='768' y1='0' x2='768' y2='1024' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='0' y1='768' x2='1024' y2='768' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='1024' y1='0' x2='1024' y2='1024' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+<line x1='0' y1='1024' x2='1024' y2='1024' stroke='white' stroke-opacity='0.55' stroke-width='5'/>
+</svg>

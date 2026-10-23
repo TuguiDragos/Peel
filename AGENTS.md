@@ -356,7 +356,10 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 - It follows Liquid Glass. The sticker album look belongs to Home, the menu bar panel, and About only; every other
   screen reads as macOS, with system type, `Form` and `Section`, and native controls. Icons are SF Symbols, and the
   logo comes only from `Logo/`, but for the face at the head of the sidebar, which draws the logo's shape in code so
-  it can move (`Face` in `PeelFace.swift`): a change to the logo's shape changes those numbers too.
+  it can move (`Face` in `PeelFace.swift`): a change to the logo's shape changes those numbers too. A Debug build
+  wears `PeelDebug.icon`, which only the Debug configurations name: a blueprint of `Peel.icon` drawn by
+  [blueprint](https://github.com/MustafaNatur/blueprint), and drawn again whenever `Peel.icon` changes:
+  `blueprint Logo/Peel.icon --no-open -o Logo/PeelDebug.icon --color "#FFB25E,#FF9933,#F07A10" --badge DEV`.
 - Everything can be used without a pointer. VoiceOver, Voice Control, and Switch Control can press every switch,
   named by its row's title: on macOS 27 a row's switch is `RowSwitch`, whose label is empty rather than hidden,
   since a hidden label leaves AppKit's own switch outside the accessibility tree; on macOS 26 a switch whose label is

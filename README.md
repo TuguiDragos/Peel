@@ -227,6 +227,9 @@ xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -destinatio
 swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 ```
 
+A Debug build wears a blueprint of Peel's icon with a DEV badge (`Logo/PeelDebug.icon`), so it never passes for a
+release, which keeps `Logo/Peel.icon`.
+
 The helper starts only as the team named in `Support/com.tuguidragos.Peel.Helper.plist`, so to install the helper
 you build, put your team there as well. [ARCHITECTURE.md](ARCHITECTURE.md) explains how Peel is put together, and
 [CONTRIBUTING.md](CONTRIBUTING.md) what a change needs.
@@ -254,6 +257,8 @@ with all my heart.
   built on.
 - [Sparkle](https://github.com/sparkle-project/Sparkle), by the Sparkle Project, which updates Peel and checks that
   every update is signed as Peel's.
+- [blueprint](https://github.com/MustafaNatur/blueprint), by Mustafa Natur, which drew the icon a Debug build of
+  Peel wears.
 - [AppCleaner](https://freemacsoft.net/appcleaner/), by FreeMacSoft, and
   [Pearcleaner](https://github.com/alienator88/Pearcleaner), by alienator88, for the inspiration.
 - [Fable](https://claude.com/product/overview) and [Claude](https://claude.com), by
