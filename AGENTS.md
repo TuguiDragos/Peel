@@ -192,7 +192,10 @@ If you are unsure whether something belongs in the helper, it doesn't.
   priority rather than the default. A test that reads this Mac through a tool (`pluginkit`, `mdfind`) waits for the
   tool's whole answer, never the time limit the page gives it: a runner with three processors takes longer.
 - The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services
-  from a test. An app a test expects Peel to act on is a made-up one, named under a domain kept for examples
+  from a test. In the package's tests that home is a `TemporaryDirectory`, which takes it away when the test ends,
+  and no other test there names the temporary folder (`TemporaryDirectoryTests`); a test of the app removes the
+  folder it made before it returns. An app a test expects Peel to act on is a made-up one, named under a domain kept
+  for examples
   (`org.example`, `com.example`, `net.example`). A program a test starts from a folder of its own is a copy of
   `/bin/cat` signed ad hoc (`TemporaryDirectory.runningProgram`, or `runningPrograms` for several): macOS kills a
   plain copy of one of its own programs started from anywhere else, usually within a second, for breaking its launch

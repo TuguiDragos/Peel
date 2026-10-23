@@ -3,18 +3,22 @@ import Foundation
 import PeelPrivileged
 import Testing
 
-private struct SSHHome {
+private struct SSHHome: ~Copyable {
     let folder: URL
     let peelFile: URL
     let config: URL
+    private let directory: TemporaryDirectory
 
     init(before lines: [String] = []) throws {
-        folder = FileManager.default.temporaryDirectory.appending(path: "SSHFileTests-\(UUID().uuidString)", directoryHint: .isDirectory)
-        peelFile = SSHFile.url(in: folder.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
-        config = folder.appending(path: "config")
-        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let directory = try TemporaryDirectory()
+        let peelFile = SSHFile.url(in: directory.url.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
+        let config = directory.url.appending(path: "config")
         let including = SSHFile.lines(including: peelFile, home: URL(filePath: "/var/empty", directoryHint: .isDirectory))
         try (lines + including).joined(separator: "\n").appending("\n").write(to: config, atomically: true, encoding: .utf8)
+        folder = directory.url
+        self.peelFile = peelFile
+        self.config = config
+        self.directory = directory
     }
 
     /// The options ssh would use for `host`, by their names in lowercase, as `ssh -G` prints them.
@@ -142,8 +146,8 @@ struct SSHFileTests {
     }
 
     @Test func aMissingFileHasNothingOnAndOneThatCannotBeReadIsNotKnown() throws {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "SSHFileTests-\(UUID().uuidString)", directoryHint: .isDirectory)
-        let file = SSHFile.url(in: folder)
+        let directory = try TemporaryDirectory()
+        let file = SSHFile.url(in: directory.url)
         #expect(SSHFile.read(file) == [])
         try FileManager.default.createDirectory(at: file, withIntermediateDirectories: true)
         #expect(SSHFile.read(file) == nil)

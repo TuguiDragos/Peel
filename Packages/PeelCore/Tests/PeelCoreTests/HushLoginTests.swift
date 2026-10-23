@@ -3,15 +3,9 @@ import Foundation
 import Testing
 
 struct HushLoginTests {
-    private func home() throws -> URL {
-        let home = FileManager.default.temporaryDirectory.appending(path: "HushLoginTests-\(UUID().uuidString)", directoryHint: .isDirectory)
-        try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
-        return home
-    }
-
     @Test func isOnExactlyWhenLoginFindsTheFile() throws {
-        let home = try home()
-        defer { try? FileManager.default.removeItem(at: home) }
+        let directory = try TemporaryDirectory()
+        let home = directory.url
         let file = HushLogin.url(in: home)
         #expect(!HushLogin.isOn(in: home))
 
@@ -33,8 +27,8 @@ struct HushLoginTests {
     }
 
     @Test func turningOnLeavesAnEmptyFileOnlyTheAccountWrites() throws {
-        let home = try home()
-        defer { try? FileManager.default.removeItem(at: home) }
+        let directory = try TemporaryDirectory()
+        let home = directory.url
 
         #expect(HushLogin.turnOn(in: home))
         let attributes = try FileManager.default.attributesOfItem(
@@ -48,8 +42,8 @@ struct HushLoginTests {
     }
 
     @Test func turningOnKeepsTheFileThatIsThere() throws {
-        let home = try home()
-        defer { try? FileManager.default.removeItem(at: home) }
+        let directory = try TemporaryDirectory()
+        let home = directory.url
         let file = HushLogin.url(in: home)
         try Data("kept".utf8).write(to: file)
         let before =
@@ -65,8 +59,8 @@ struct HushLoginTests {
     }
 
     @Test func turningOnNeverWritesThroughALink() throws {
-        let home = try home()
-        defer { try? FileManager.default.removeItem(at: home) }
+        let directory = try TemporaryDirectory()
+        let home = directory.url
         let target = home.appending(path: "elsewhere")
         try FileManager.default.createSymbolicLink(at: HushLogin.url(in: home), withDestinationURL: target)
 

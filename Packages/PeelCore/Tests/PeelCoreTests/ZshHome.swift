@@ -4,16 +4,20 @@ import Testing
 
 /// A made-up home whose `.zshrc` sources Peel's file, the way a person's does once they add Peel's line, with
 /// `before` above that line and `thenRun` below it.
-struct ZshHome {
+struct ZshHome: ~Copyable {
     let home: URL
     let peelFile: URL
+    private let directory: TemporaryDirectory
 
     init(before: [String] = [], thenRun lines: [String] = []) throws {
-        home = FileManager.default.temporaryDirectory.appending(path: "ZshHome-\(UUID().uuidString)", directoryHint: .isDirectory)
-        peelFile = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
-        try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
+        let directory = try TemporaryDirectory()
+        let home = directory.url
+        let peelFile = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
         try (before + [ShellFile.line(sourcing: peelFile, home: home)] + lines).joined(separator: "\n").appending("\n")
             .write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
+        self.home = home
+        self.peelFile = peelFile
+        self.directory = directory
     }
 
     var environment: [String: String] {

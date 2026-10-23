@@ -88,17 +88,17 @@ struct ShellFileTests {
     }
 
     @Test func aMissingFileHasNothingOnAndOneThatCannotBeReadIsNotKnown() throws {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "ShellFileTests-\(UUID().uuidString)", directoryHint: .isDirectory)
-        let file = ShellFile.url(in: folder)
+        let directory = try TemporaryDirectory()
+        let file = ShellFile.url(in: directory.url)
         #expect(ShellFile.read(file) == .init())
         try FileManager.default.createDirectory(at: file, withIntermediateDirectories: true)
         #expect(ShellFile.read(file) == nil)
     }
 
     @Test func writingReplacesALinkInsteadOfWritingWhereItLeads() throws {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "ShellFileTests-\(UUID().uuidString)", directoryHint: .isDirectory)
-        let file = ShellFile.url(in: folder)
-        let theirs = folder.appending(path: "theirs")
+        let directory = try TemporaryDirectory()
+        let file = ShellFile.url(in: directory.url)
+        let theirs = directory.url.appending(path: "theirs")
         try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
         try "theirs\n".write(to: theirs, atomically: true, encoding: .utf8)
         try FileManager.default.createSymbolicLink(at: file, withDestinationURL: theirs)
@@ -175,14 +175,9 @@ struct PeelLinesCommandTests {
         return output.status
     }
 
-    private func madeUpHome() throws -> URL {
-        let home = FileManager.default.temporaryDirectory.appending(path: "PeelLines-\(UUID().uuidString)", directoryHint: .isDirectory)
-        try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
-        return home
-    }
-
     @Test func theShellsCommandAddsTheLineAtTheEndOfZshrcAndPeelFindsIt() async throws {
-        let home = try madeUpHome()
+        let directory = try TemporaryDirectory()
+        let home = directory.url
         let file = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
         let zshrc = home.appending(path: ".zshrc")
         let line = ShellFile.line(sourcing: file, home: home)
@@ -197,7 +192,8 @@ struct PeelLinesCommandTests {
     }
 
     @Test func theShellsCommandKeepsTheLastLineOfAZshrcThatEndsWithoutANewline() async throws {
-        let home = try madeUpHome()
+        let directory = try TemporaryDirectory()
+        let home = directory.url
         let file = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
         let zshrc = home.appending(path: ".zshrc")
         #expect(ShellFile.write(.init(settings: [.autoCD]), to: file))
@@ -217,7 +213,8 @@ struct PeelLinesCommandTests {
     }
 
     @Test func theSSHCommandMakesAClosedFolderAndAddsTheLinesPeelFinds() async throws {
-        let home = try madeUpHome()
+        let directory = try TemporaryDirectory()
+        let home = directory.url
         let file = SSHFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
         let config = home.appending(path: ".ssh/config")
         let lines = SSHFile.lines(including: file, home: home)

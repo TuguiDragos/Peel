@@ -44,7 +44,8 @@ struct TerminalToolTests {
     }
 
     @Test func gitsOwnKeysInTheCommandsAreOnesTheGitOnThisMacKnows() async throws {
-        let git = try #require(await GitConfig.find(home: FileManager.default.temporaryDirectory))
+        let home = try TemporaryDirectory()
+        let git = try #require(await GitConfig.find(home: home.url))
         let known = try #require(await git.knownKeys())
         let keys = TerminalTool.allCases.flatMap { $0.setup(prefix: Self.prefix) }.flatMap(\.lines)
             .filter { $0.hasPrefix("git config --global ") }
@@ -99,7 +100,8 @@ struct TerminalToolTests {
     }
 
     @Test func aToolIsInstalledOnlyWhenHomebrewLinkedEveryFormulaItNeeds() throws {
-        let prefix = FileManager.default.temporaryDirectory.appending(path: "TerminalToolTests-\(UUID().uuidString)", directoryHint: .isDirectory)
+        let directory = try TemporaryDirectory()
+        let prefix = directory.url
         let cellar = prefix.appending(path: "Cellar/fzf-tab/1.3.0", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: cellar, withIntermediateDirectories: true)
         try FileManager.default.createDirectory(at: prefix.appending(path: "opt"), withIntermediateDirectories: true)

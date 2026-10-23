@@ -191,8 +191,8 @@ import Testing
     /// With no language declared, the checks above would have nothing to look at, so this runs them on a
     /// catalog with one of each defect.
     @Test func theRulesCatchWhatTheyAreFor() throws {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "StringCatalogTests-\(UUID().uuidString)")
-        defer { try? FileManager.default.removeItem(at: folder) }
+        let directory = try TemporaryDirectory()
+        let folder = directory.url
         try FileManager.default.createDirectory(at: folder.appending(path: "Localization/Peel"), withIntermediateDirectories: true)
         func unit(_ value: String, _ state: String = "translated") -> [String: Any] {
             ["stringUnit": ["state": state, "value": value]]

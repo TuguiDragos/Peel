@@ -2,14 +2,17 @@ import Foundation
 @testable import PeelCore
 import Testing
 
-private struct GitHome {
+private struct GitHome: ~Copyable {
     let home: URL
     let config: GitConfig
+    private let directory: TemporaryDirectory
 
     init() async throws {
-        home = FileManager.default.temporaryDirectory.appending(path: "GitSettingsTests-\(UUID().uuidString)", directoryHint: .isDirectory)
-        try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
-        config = try #require(await GitConfig.find(home: home))
+        let directory = try TemporaryDirectory()
+        let config = try #require(await GitConfig.find(home: directory.url))
+        home = directory.url
+        self.config = config
+        self.directory = directory
     }
 
     var file: String {
@@ -240,7 +243,8 @@ struct GitSettingsTests {
     }
 
     @Test func gitIsTheOneTheDeveloperToolsOrHomebrewInstalledAndNeverTheShim() throws {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "GitSettingsTests-\(UUID().uuidString)", directoryHint: .isDirectory)
+        let directory = try TemporaryDirectory()
+        let folder = directory.url
         let developer = folder.appending(path: "Developer", directoryHint: .isDirectory)
         let homebrew = folder.appending(path: "homebrew", directoryHint: .isDirectory)
         for git in [developer.appending(path: "usr/bin/git"), homebrew.appending(path: "bin/git")] {
