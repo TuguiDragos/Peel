@@ -109742,6 +109742,112 @@
         }
       }
     },
+    "Peel couldn’t read Homebrew’s Cellar to tell which formulae your exclusions cover, so it ran nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst složku Cellar v Homebrew, aby zjistil, na které formulae se vztahují vaše výjimky, a proto nic nespustil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte den Cellar von Homebrew nicht lesen, um zu erkennen, welche Formulae unter deine Ausschlüsse fallen, und hat daher nichts ausgeführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer el Cellar de Homebrew para saber qué formulae cubren tus exclusiones, así que no ha ejecutado nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire le dossier Cellar de Homebrew pour savoir quelles formulae sont concernées par vos exclusions : Peel n’a donc rien exécuté."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere la cartella Cellar di Homebrew per capire quali sono le formulae coperte dalle tue esclusioni, quindi non ha eseguito nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、HomebrewのCellarを読み取れず、除外リストに含まれるformulaeを特定できなかったため、何も実行しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 제외 항목에 포함된 formulae를 확인하는 데 필요한 Homebrew의 Cellar를 읽을 수 없어 아무것도 실행하지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de Cellar van Homebrew niet lezen om na te gaan welke formulae onder je uitsluitingen vallen, en heeft daarom niets uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać folderu Cellar w Homebrew, aby ustalić, które formulae są objęte Twoimi wykluczeniami, więc niczego nie uruchomił."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler a pasta Cellar do Homebrew para identificar as formulae cobertas pelas suas exclusões, então não executou nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi dosarul Cellar al Homebrew pentru a afla ce formule sunt acoperite de excluderile dvs., așa că nu a rulat nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать папку Cellar Homebrew, чтобы определить, на какие formulae распространяются Ваши исключения, поэтому ничего не было запущено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa Homebrews Cellar för att avgöra vilka formulae som dina undantag omfattar, så Peel körde ingenting."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, hariç tutulanlarınızın kapsamında hangi formulae olduğunu anlamak için Homebrew’un Cellar klasörünü okuyamadı, bu yüzden hiçbir şey çalıştırmadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати папку Cellar Homebrew, щоб визначити, які formulae є у ваших винятках, тож Peel нічого не запускала."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取Homebrew的Cellar以判断哪些是你的排除项所涵盖的formulae，因此没有运行任何命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取Homebrew的Cellar以判斷哪些是你的排除項目所涵蓋的formulae，因此未執行任何Homebrew指令。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read its own files." : {
       "localizations" : {
         "cs" : {

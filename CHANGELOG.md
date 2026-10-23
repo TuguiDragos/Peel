@@ -210,6 +210,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   page it selected on when no page is open, so what it selected shows, with Move to Trash, rather than nothing changing
   until a page is chosen.
 
+#### Homebrew
+
+- Clean Up, the download cleanups, and Uninstall run nothing while Peel can't read Homebrew's Cellar, or a formula's
+  folder in it, and say so: Homebrew deletes old versions for good, and Peel couldn't tell it which formulae your
+  exclusions cover.
+
 #### Space
 
 - App Caches no longer selects what macOS keeps there for itself under a plain name, such as the picture of your Apple

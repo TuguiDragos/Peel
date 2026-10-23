@@ -284,16 +284,24 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     /// The installed formulae whose own folder under `prefix` is excluded or holds something excluded, which
     /// Homebrew is told to keep: `brew cleanup`, and the autoremove `brew uninstall` runs, delete formulae and their
-    /// old versions for good. An unreadable list, or one not read yet, keeps every formula.
-    public func keptFormulae(inCellarOf prefix: URL) -> [String] {
+    /// old versions for good. An unreadable list, or one not read yet, keeps every formula. Nil when the Cellar, or a
+    /// formula's folder in it, can't be looked into.
+    public func keptFormulae(inCellarOf prefix: URL) -> [String]? {
         let cellar = prefix.appending(path: "Cellar", directoryHint: .isDirectory)
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: cellar.path(percentEncoded: false))) ?? []
-        return names.filter { name in
-            guard !name.hasPrefix(".") else { return false }
-            guard isKnown else { return true }
+        guard let names = ProtectedData.names(in: cellar.path(percentEncoded: false), followingLinks: true) else {
+            return nil
+        }
+        var kept: [String] = []
+        for name in names.sorted() where !name.hasPrefix(".") {
             let own = cellar.appending(path: name, directoryHint: .isDirectory)
-            return excludes(own) || holds(own)
-        }.sorted()
+            guard isKnown, !excludes(own) else {
+                kept.append(name)
+                continue
+            }
+            guard let holds = holdsSomething(own) else { return nil }
+            if holds { kept.append(name) }
+        }
+        return kept
     }
 
     public func keeping<T>(_ items: [T], url: (T) -> URL) -> [T] {

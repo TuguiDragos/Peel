@@ -44,6 +44,14 @@ final class HomebrewLibrary {
                  .vulnerabilities: false
             }
         }
+
+        /// Whether Homebrew deletes formulae for good while it runs, which it does keeping the ones Peel names.
+        var deletesFormulae: Bool {
+            switch self {
+            case .uninstall, .cleanup, .clearOlderDownloads, .clearEveryDownload: true
+            case .upgrade, .upgradeAll, .update, .repairTaps, .health, .vulnerabilities: false
+            }
+        }
     }
 
     struct CommandResult: Identifiable {
@@ -261,7 +269,7 @@ final class HomebrewLibrary {
         // The installation is read first, since it says how to read the figures that follow. The other questions
         // take about as long as each other, so they run at the same time. Only the page shows the last two.
         let found = await Homebrew.installation()
-        let kept = found.map { ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: $0.prefix) } ?? []
+        let kept = found.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: $0.prefix) } ?? []
         async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
         async let overridden = includingReclaimable ? Homebrew.overrides() : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
@@ -332,6 +340,13 @@ final class HomebrewLibrary {
         if command.isUpgrade, await cleansUpAfterUpgrading() {
             return CommandResult(succeeded: false, output: String(localized: Self.cleansUp))
         }
+        var kept: [String] = []
+        if command.deletesFormulae {
+            switch await keptFormulae() {
+            case .formulae(let formulae): kept = formulae
+            case .nothingRuns(let result): return result
+            }
+        }
         do {
             let output: String
             switch command {
@@ -347,18 +362,14 @@ final class HomebrewLibrary {
                 }
             case .uninstall(let id):
                 guard let package = package(id) else { return gone }
-                guard let kept = await keptFormulae() else { return keepsNothing }
                 output = try await Homebrew.uninstall(package, keeping: kept)
             case .update:
                 output = try await Homebrew.updateMetadata()
             case .cleanup:
-                guard let kept = await keptFormulae() else { return keepsNothing }
                 output = try await Homebrew.cleanup(keeping: kept)
             case .clearOlderDownloads:
-                guard let kept = await keptFormulae() else { return keepsNothing }
                 output = try await Homebrew.cleanup(.olderThan(days: 30), keeping: kept)
             case .clearEveryDownload:
-                guard let kept = await keptFormulae() else { return keepsNothing }
                 output = try await Homebrew.cleanup(.everyDownload, keeping: kept)
             case .repairTaps:
                 output = try await Homebrew.repairTaps()
@@ -393,12 +404,20 @@ final class HomebrewLibrary {
         CommandResult(succeeded: false, output: String(localized: "Peel couldn’t make sure Homebrew keeps the formulae your exclusions cover, so it ran nothing. A brew.env file that sets HOMEBREW_NO_CLEANUP_FORMULAE replaces the list Peel gives it."))
     }
 
+    /// The formulae Homebrew is told to keep, or what Peel says when it runs nothing.
+    private enum Keeping {
+        case formulae([String])
+        case nothingRuns(CommandResult)
+    }
+
     /// The formulae the exclusions cover, which Homebrew is told to keep, asked again right before a command that
-    /// deletes for good. Nil when Peel can't tell which they are or Homebrew's own settings replace the list.
-    private func keptFormulae() async -> [String]? {
-        guard let prefix = installation?.prefix else { return nil }
-        let kept = ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: prefix)
-        return await Homebrew.keepsEvery(kept) ? kept : nil
+    /// deletes for good. Nothing runs when Peel can't tell which they are or Homebrew's own settings replace the list.
+    private func keptFormulae() async -> Keeping {
+        guard let prefix = installation?.prefix else { return .nothingRuns(keepsNothing) }
+        guard let kept = ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: prefix) else {
+            return .nothingRuns(CommandResult(succeeded: false, output: String(localized: "Peel couldn’t read Homebrew’s Cellar to tell which formulae your exclusions cover, so it ran nothing.")))
+        }
+        return await Homebrew.keepsEvery(kept) ? .formulae(kept) : .nothingRuns(keepsNothing)
     }
 
     private static func announce(_ words: LocalizedStringResource) {

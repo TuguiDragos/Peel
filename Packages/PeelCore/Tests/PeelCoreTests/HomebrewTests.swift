@@ -101,6 +101,26 @@ struct HomebrewTests {
     /// `brew cleanup` and the autoremove that `brew uninstall` runs delete formulae and their old versions for good,
     /// so the formulae the exclusions cover are named in `HOMEBREW_NO_CLEANUP_FORMULAE`, which Homebrew's own
     /// documentation says makes it refuse to clean up or autoremove them.
+    /// A formula Peel can't look at may be one the exclusions cover, so nothing that deletes for good runs then.
+    @Test(.permissionsHold) func keepsNoListItCannotReadWhole() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Cellar/wget/1.25.0")
+        try directory.directory("Cellar/jq/1.8.1/kept/org.example.excluded")
+        let excludingWget = Exclusions(paths: [directory.url.appending(path: "Cellar/wget")])
+        let excludingAnApp = Exclusions(bundleIdentifiers: ["org.example.excluded"])
+        defer {
+            try? directory.setPermissions(0o755, of: "Cellar")
+            try? directory.setPermissions(0o755, of: "Cellar/jq/1.8.1")
+        }
+
+        try directory.setPermissions(0, of: "Cellar")
+        #expect(excludingWget.keptFormulae(inCellarOf: directory.url) == nil)
+        try directory.setPermissions(0o755, of: "Cellar")
+        try directory.setPermissions(0, of: "Cellar/jq/1.8.1")
+        #expect(excludingAnApp.keptFormulae(inCellarOf: directory.url) == nil)
+        #expect(excludingWget.keptFormulae(inCellarOf: directory.url.appending(path: "Missing")) == [])
+    }
+
     @Test func homebrewIsToldToKeepTheFormulaeTheExclusionsCover() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Cellar/wget/1.25.0")
@@ -110,7 +130,7 @@ struct HomebrewTests {
             directory.url.appending(path: "Cellar/jq"), directory.url.appending(path: "Cellar/python@3.13/3.13.7"),
         ])
 
-        let kept = exclusions.keptFormulae(inCellarOf: directory.url)
+        let kept = try #require(exclusions.keptFormulae(inCellarOf: directory.url))
         #expect(kept == ["jq", "python@3.13"])
         #expect(Exclusions.unreadable.keptFormulae(inCellarOf: directory.url) == ["jq", "python@3.13", "wget"])
 

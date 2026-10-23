@@ -530,7 +530,8 @@ only by their own paths, so to keep them, exclude them too.
 Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` for a
 package whose app, or whose own folder, you excluded, nor for one with a folder Peel can't look into for an app you
 excluded, nor for any package while your list isn't read or can't be, and Homebrew's cleanup keeps every formula whose
-folder you excluded.
+folder you excluded. While Peel can't read Homebrew's Cellar, or a formula's folder in it, nothing that deletes
+formulae runs at all.
 
 If the saved list is there and cannot be read, Peel does not treat it as empty. It moves nothing until you
 start over in Settings, `peel` refuses, and the file it could not read is kept beside the new one.
