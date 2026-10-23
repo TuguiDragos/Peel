@@ -16,14 +16,26 @@ struct SavedSettingsSection: View {
     /// launch and quit, because a read of the workspace while drawing gives Observation nothing to follow.
     @State private var openApps: Set<String> = []
 
-    private var copies: [PreferenceBackup.Copy] { SavedSettings.shared.copies }
+    private var copies: [PreferenceBackup.Copy]? { SavedSettings.shared.copies }
 
     var body: some View {
         Group {
-            if !copies.isEmpty {
+            if copies?.isEmpty != true {
                 Section {
-                    ForEach(copies) { copy in
-                        row(for: copy)
+                    if let copies {
+                        ForEach(copies) { copy in
+                            row(for: copy)
+                        }
+                    } else {
+                        HStack {
+                            StatusLabel(title: Text("Peel can’t read the folder that keeps the saved copies of settings, so none can be listed or put back."))
+                            Spacer()
+                            Button("Show in Finder", systemImage: "folder") {
+                                NSWorkspace.shared.activateFileViewerSelecting([PreferenceBackup.defaultDirectory])
+                            }
+                            .labelStyle(.iconOnly)
+                            .help(Text("Show in Finder"))
+                        }
                     }
                 } header: {
                     heading(
@@ -123,7 +135,7 @@ struct SavedSettingsSection: View {
     }
 
     private func refreshOpenApps() {
-        openApps = Set(copies.map(\.bundleIdentifier).filter(isRunning))
+        openApps = Set((copies ?? []).map(\.bundleIdentifier).filter(isRunning))
     }
 
     private func putBack(_ copy: PreferenceBackup.Copy, named name: String) async {

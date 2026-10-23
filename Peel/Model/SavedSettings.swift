@@ -8,6 +8,7 @@ import PeelCore
 final class SavedSettings {
     static let shared = SavedSettings()
 
+    /// Nil while the folder that keeps them can't be read.
     private(set) var copies = PreferenceBackup.copies()
 
     private init() {}

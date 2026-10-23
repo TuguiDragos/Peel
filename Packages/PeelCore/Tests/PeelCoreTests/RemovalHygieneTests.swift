@@ -408,7 +408,7 @@ struct RemovalHygieneTests {
         )
 
         #expect(restored == .complete)
-        let copies = PreferenceBackup.copies(in: backups)
+        let copies = try #require(PreferenceBackup.copies(in: backups))
         #expect(copies.count == 2, "the settings in use were not kept as a copy of their own")
         let previous = try #require(copies.first { $0.folder != folder })
         #expect(FileManager.default.fileExists(atPath: previous.folder.appending(path: "com.example.app.plist").path(percentEncoded: false)))
@@ -511,7 +511,7 @@ struct RemovalHygieneTests {
             #expect(restored == .exclusionsNotKnown)
         }
         #expect(asked.withLock { $0 }.isEmpty, "settings were saved, cleared or put back while the exclusions were not known")
-        #expect(PreferenceBackup.copies(in: backups).count == 1)
+        #expect(PreferenceBackup.copies(in: backups)?.count == 1)
     }
 
     @Test func leavesAnExcludedAppsSettingsAlone() async throws {
@@ -624,7 +624,7 @@ struct RemovalHygieneTests {
             return
         }
         #expect(one != two)
-        #expect(PreferenceBackup.copies(in: backups).map(\.folder.lastPathComponent).count == 2)
+        #expect(PreferenceBackup.copies(in: backups)?.count == 2)
     }
 
     /// Arc's identifier is `company.thebrowser.Browser` and Obsidian's `md.obsidian`. A copy of their settings is
@@ -653,7 +653,7 @@ struct RemovalHygieneTests {
                 continue
             }
         }
-        #expect(Set(PreferenceBackup.copies(in: backups).map(\.bundleIdentifier)) == ["company.thebrowser.Browser", "md.obsidian"])
+        #expect(Set(try #require(PreferenceBackup.copies(in: backups)).map(\.bundleIdentifier)) == ["company.thebrowser.Browser", "md.obsidian"])
     }
 
     /// Settings lists the saved copies, newest first, to put back or clear. A copy may hold a license key.
@@ -668,7 +668,7 @@ struct RemovalHygieneTests {
         try directory.directory("Backups/somebody else's folder")
         try directory.directory("Backups/com.example.app 2026-09-20 093000 x")
 
-        let copies = PreferenceBackup.copies(in: backups)
+        let copies = try #require(PreferenceBackup.copies(in: backups))
 
         #expect(copies.map(\.bundleIdentifier) == ["com.example.app", "com.example.app", "com.other.tool", "com.example.app"])
         #expect(copies.map(\.folder.lastPathComponent).prefix(2) == ["com.example.app 2026-09-20 093000 2", "com.example.app 2026-09-20 093000"])
@@ -677,6 +677,17 @@ struct RemovalHygieneTests {
                 calendar: .current, year: 2026, month: 9, day: 20, hour: 9, minute: 30, second: 0
             ).date
         )
+    }
+
+    @Test(.permissionsHold) func aFolderOfCopiesItCannotReadIsNotEmpty() throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        try directory.file("Backups/com.example.app 2026-09-18 101500/com.example.app.plist")
+        try directory.setPermissions(0, of: "Backups")
+        defer { try? directory.setPermissions(0o755, of: "Backups") }
+
+        #expect(PreferenceBackup.copies(in: backups) == nil)
+        #expect(PreferenceBackup.copies(in: directory.url.appending(path: "Missing")) == [])
     }
 
     /// A saved copy can hold a license key or an account, and once the Trash is emptied it may be the only way

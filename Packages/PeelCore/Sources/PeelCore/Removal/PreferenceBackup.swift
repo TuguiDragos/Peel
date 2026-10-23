@@ -191,13 +191,14 @@ public enum PreferenceBackup {
         public var id: URL { folder }
     }
 
-    /// Lists the saved copies in `directory`, newest first. Only folders named the way `save` names them
-    /// (bundle identifier, then time, then a number for a second copy in the same second) count; anything else is
-    /// ignored.
-    public static func copies(in directory: URL = PreferenceBackup.defaultDirectory) -> [Copy] {
-        let folders =
-            (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
-        return folders.compactMap { folder -> (copy: Copy, number: Int)? in
+    /// Lists the saved copies in `directory`, newest first, or nil when the folder is there and can't be listed. Only
+    /// folders named the way `save` names them (bundle identifier, then time, then a number for a second copy in the
+    /// same second) count; anything else is ignored.
+    public static func copies(in directory: URL = PreferenceBackup.defaultDirectory) -> [Copy]? {
+        guard let names = ProtectedData.names(in: directory.path(percentEncoded: false), followingLinks: false) else {
+            return nil
+        }
+        return names.map { directory.appending(path: $0) }.compactMap { folder -> (copy: Copy, number: Int)? in
             // An identifier has no space, so the name reads as the identifier, the day, the time, and a number.
             let parts = folder.lastPathComponent.split(separator: " ", omittingEmptySubsequences: false)
                 .map(String.init)

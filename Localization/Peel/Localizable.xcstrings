@@ -107790,6 +107790,112 @@
         }
       }
     },
+    "Peel can’t read the folder that keeps the saved copies of settings, so none can be listed or put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst složku s uloženými kopiemi nastavení, takže žádnou z nich nelze zobrazit ani vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann den Ordner mit den gesicherten Kopien der Einstellungen nicht lesen, daher kann keine davon angezeigt oder zurückgelegt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer la carpeta que contiene las copias guardadas de los ajustes, así que no se puede mostrar ni restaurar ninguna."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire le dossier qui conserve les copies enregistrées des réglages : aucune ne peut donc être listée ni remise en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere la cartella che conserva le copie salvate delle impostazioni, quindi non se ne può elencare né ripristinare nessuna."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、保存された設定のコピーを保管しているフォルダを読み取れないため、コピーを1つも表示できず、戻すこともできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 저장된 설정 복사본을 보관하는 폴더를 읽을 수 없으므로 어떤 복사본도 나열하거나 되돌려 놓을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan de map met de bewaarde kopieën van instellingen niet lezen, dus kunnen er geen kopieën worden getoond of teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać folderu z zachowanymi kopiami ustawień, więc żadnej z nich nie można wyświetlić ani przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler a pasta que guarda as cópias salvas dos ajustes, então nenhuma pode ser listada nem colocada de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi dosarul în care sunt păstrate copiile salvate ale configurărilor, așa că niciuna nu poate fi listată sau pusă înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать папку с сохраненными копиями настроек, поэтому их нельзя ни показать, ни восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa mappen som innehåller de sparade kopiorna av inställningarna, så inga kan listas eller läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, ayarların kaydedilmiş kopyalarını tutan klasörü okuyamıyor, bu yüzden hiçbiri listelenemiyor veya yerine konamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати папку зі збереженими копіями налаштувань, тож жодної з них не можна показати чи повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取存放已保存的设置副本的文件夹，因此无法列出任何副本，也无法将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取存放已儲存的設定副本的檔案夾，因此無法列出或還原任何副本。"
+          }
+        }
+      }
+    },
     "Peel can’t run this file." : {
       "localizations" : {
         "cs" : {

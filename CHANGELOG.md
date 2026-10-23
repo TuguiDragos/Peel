@@ -144,6 +144,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   administrator's password for it.
 - When many of the folders you choose can't be used, the alert of App Folders and of Exclusions names the first few
   and counts the others, so its button stays on the screen, as do the alerts of Build Artifacts and Duplicates.
+- When Peel can't read the folder that keeps the saved copies of settings, Saved Settings says so, with Show in Finder,
+  rather than not showing at all as if no copy were kept.
 
 #### Applications
 
