@@ -133,7 +133,7 @@ public struct Uninstallation: Sendable {
                     root: environment.rootDirectory.path(percentEncoded: false)
                 )
                 .heldBack(managedBy.leftBehind)
-                leftovers.append(exclusions.holds(url) ? leftover.heldBack(.holdsAnExclusion) : leftover)
+                leftovers.append(exclusions.holdBack(for: url).map(leftover.heldBack) ?? leftover)
             }
         }
         return leftovers
@@ -215,7 +215,7 @@ public struct Uninstallation: Sendable {
             home: home,
             root: root
         )
-        var leftovers = [exclusions.holds(folder) ? leftover.heldBack(.holdsAnExclusion) : leftover]
+        var leftovers = [exclusions.holdBack(for: folder).map(leftover.heldBack) ?? leftover]
         let receipt = PathPattern.comparablePath(of: folder)
         for location in environment.locations where location.kind.isForLinks {
             let links = HomebrewReceipt.links(in: location.url, leadingInto: receipt)
@@ -276,7 +276,7 @@ public struct Uninstallation: Sendable {
                 home: environment.homeDirectory.path(percentEncoded: false),
                 root: environment.rootDirectory.path(percentEncoded: false)
             )
-            leftovers.append(exclusions.holds(item.url) ? leftover.heldBack(.holdsAnExclusion) : leftover)
+            leftovers.append(exclusions.holdBack(for: item.url).map(leftover.heldBack) ?? leftover)
         }
         return leftovers
     }

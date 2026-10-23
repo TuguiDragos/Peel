@@ -235,7 +235,11 @@ struct HomebrewDetailView: View {
             guard let extensionsAnswer, extensionsAnswer.apps == carrying else { return "Checking…" }
             if let removedElsewhere = extensionsAnswer.removedElsewhere { return removedElsewhere.explanation }
         }
-        return exclusions.exclusions.excludes(package, apps: apps, prefix: homebrew.installation?.prefix) ? "Excluded in Settings" : nil
+        switch exclusions.exclusions.excludes(package, apps: apps, prefix: homebrew.installation?.prefix) {
+        case true?: return "Excluded in Settings"
+        case nil: return "Can’t be checked against your exclusions"
+        case false?: return nil
+        }
     }
 
     private var caskApps: [InstalledApp] {

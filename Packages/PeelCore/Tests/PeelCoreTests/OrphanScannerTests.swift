@@ -573,6 +573,33 @@ struct OrphanScannerTests {
         #expect(item.size == nil)
     }
 
+    /// The helper knows nothing of the exclusions, so a folder Peel can't search for them is left alone, even one
+    /// only the helper could move.
+    @Test(.permissionsHold) func leavesAloneAFolderItCannotSearchForAnExclusion() async throws {
+        let directory = try TemporaryDirectory()
+        let place = "root/Library/Application Support/com.gone.app"
+        try directory.file(place + "/kept/org.example.excluded/state.db")
+        try directory.setPermissions(0, of: place + "/kept")
+        try directory.setPermissions(0o555, of: place)
+        defer {
+            try? directory.setPermissions(0o755, of: place)
+            try? directory.setPermissions(0o755, of: place + "/kept")
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scanner = OrphanScanner(
+            environment: environment, exclusions: Exclusions(bundleIdentifiers: ["org.example.excluded"]),
+            isRegisteredApp: { _ in false }
+        )
+
+        let item = try #require(await scanner.scan(installedApps: installed).groups.first?.items.first)
+
+        #expect(item.requiresPrivileges)
+        #expect(item.heldBack == .couldNotLookInside)
+    }
+
     /// A reason that keeps a folder where it is outranks what the walk saw, which only leaves it to be chosen.
     @Test func whatKeepsAFolderInPlaceOutranksWhatTheWalkSaw() async throws {
         let directory = try TemporaryDirectory()

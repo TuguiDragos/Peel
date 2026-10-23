@@ -234,6 +234,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A folder with a folder inside that macOS won't let Peel list is refused, by the app and by the helper, since a photo
   library, a browser's wallet, or work an app keeps only in a cache may be in there, and its row says so. One only an
   administrator can move is left to the helper, which looks inside as root.
+- While you exclude an app, such a folder stays even when only the helper could move it, since a folder of the app you
+  excluded may be in there and the helper knows nothing of your exclusions; the Homebrew page doesn't run
+  `brew uninstall` on a package with one.
 
 ## 1.1.0 (2026-10-14)
 

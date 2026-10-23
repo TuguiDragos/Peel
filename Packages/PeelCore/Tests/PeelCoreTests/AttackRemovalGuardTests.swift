@@ -933,4 +933,28 @@ struct AttackRemovalGuardTests {
         #expect(ProtectedData.holdsABrowserWallet(path("Profiles")) == .notKnown)
         #expect(ProtectedData.holdsABrowserWallet(path("Missing")) == .nothing)
     }
+
+    /// The helper knows nothing of the exclusions, so a folder Peel can't search for them stays, even one only the
+    /// helper could move.
+    @Test(.permissionsHold) func aFolderItCannotSearchForAnExclusionStaysWhoeverWouldMoveIt() throws {
+        let directory = try TemporaryDirectory()
+        let vendor = "root/Library/Application Support/org.example.Vendor"
+        try directory.file(vendor + "/kept/org.example.excluded/state.db")
+        try directory.setPermissions(0, of: vendor + "/kept")
+        try directory.setPermissions(0o555, of: vendor)
+        defer {
+            try? directory.setPermissions(0o755, of: vendor)
+            try? directory.setPermissions(0o755, of: vendor + "/kept")
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let url = directory.url.appending(path: vendor, directoryHint: .isDirectory)
+        let excluding = RemovalGuard(environment: environment, exclusions: Exclusions(bundleIdentifiers: ["org.example.excluded"]))
+
+        #expect(FileAccess.requiresPrivilegesToRemove(url))
+        #expect(excluding.refusal(of: url) == .couldNotLookInside)
+        #expect(RemovalGuard(environment: environment).refusal(of: url) == nil, "with no app excluded, the helper looks")
+    }
 }

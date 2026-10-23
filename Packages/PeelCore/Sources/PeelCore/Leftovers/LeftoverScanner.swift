@@ -151,7 +151,7 @@ public struct LeftoverScanner: Sendable {
         }
         return LeftoverScan(
             leftovers: leftovers
-                .map { exclusions.holds($0.url) ? $0.heldBack(.holdsAnExclusion) : $0 }
+                .map { leftover in exclusions.holdBack(for: leftover.url).map(leftover.heldBack) ?? leftover }
                 .sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             cutShortLocations: cutShortLocations.sorted(by: byPath),

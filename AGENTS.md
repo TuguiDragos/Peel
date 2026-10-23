@@ -142,7 +142,8 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   (`lstat` answering `ENOENT`) makes one of Peel's own files empty; anything else reads as unreadable, and while
   History or the exclusions can't be read, nothing moves. The guard's rules that look a level or two inside a folder
   answer `ProtectedData.Finding`, and a folder with one inside they couldn't list is refused, unless only the helper
-  can move it, which looks inside as root.
+  can move it, which looks inside as root. The exclusions' look for an excluded app answers nil the same way
+  (`Exclusions.appFolders(inside:)`), which refuses even what the helper would move: the helper has no exclusions.
 
 ## The privileged helper
 

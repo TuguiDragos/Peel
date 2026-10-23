@@ -126,10 +126,27 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
-    /// True when something excluded sits inside `url`, so moving `url` would take it along.
+    /// True when something excluded is known to sit inside `url`, so moving `url` would take it along.
     public func holds(_ url: URL) -> Bool {
+        holdsSomething(url) == true
+    }
+
+    /// Whether something excluded sits inside `url`, or nil when a folder inside can't be looked into for an excluded
+    /// app. It reads the disk.
+    func holdsSomething(_ url: URL) -> Bool? {
         guard !spellings.isEmpty || !bundleIdentifiers.isEmpty else { return false }
-        return holds(spellings: Self.spellings(of: url)) || !appFolders(inside: url).isEmpty
+        if holds(spellings: Self.spellings(of: url)) { return true }
+        return appFolders(inside: url).map { !$0.isEmpty }
+    }
+
+    /// Why an item stays for the exclusions: something excluded is inside, or a folder inside can't be looked into
+    /// for one, which only Peel can do, since the helper knows nothing of the exclusions.
+    func holdBack(for url: URL) -> HoldBack? {
+        switch holdsSomething(url) {
+        case true?: .holdsAnExclusion
+        case nil: .couldNotLookInside
+        case false?: nil
+        }
     }
 
     /// `holds(_:)` for a path whose spellings are already worked out.
@@ -140,20 +157,28 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
-    /// The excluded apps' folders, and the excluded apps themselves, a level or two inside `folder`. It reads the disk.
-    func appFolders(inside folder: URL) -> [URL] {
+    /// The excluded apps' folders, and the excluded apps themselves, a level or two inside `folder`, or nil when a
+    /// folder there can't be listed. It reads the disk.
+    func appFolders(inside folder: URL) -> [URL]? {
         guard !bundleIdentifiers.isEmpty else { return [] }
         let list = { (folder: URL) in
-            (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
+            ProtectedData.names(in: folder.path(percentEncoded: false), followingLinks: false)?
+                .map { folder.appending(path: $0) }
         }
         let isExcluded = { (url: URL) in
             appFolderNames.contains(url.lastPathComponent.lowercased()) || isAnExcludedApp(url)
         }
-        return list(folder).flatMap { child in
-            if isExcluded(child) { return [child] }
-            guard child.isRealFolder else { return [] }
-            return list(child).filter(isExcluded)
+        guard let children = list(folder) else { return nil }
+        var found: [URL] = []
+        for child in children {
+            if isExcluded(child) {
+                found.append(child)
+            } else if child.isRealFolder {
+                guard let inside = list(child) else { return nil }
+                found += inside.filter(isExcluded)
+            }
         }
+        return found
     }
 
     /// Whether `url` is an app whose own Info.plist declares an excluded identifier: its bundle is named for the app,
@@ -172,7 +197,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
             Self.spellings(of: path).map(PathComponents.of).contains { names in
                 asked.contains { names.count > $0.count && names.starts(with: $0) }
             }
-        } + appFolders(inside: url)
+        } + (appFolders(inside: url) ?? [])
         return inside.filter { place in !inside.contains { $0 != place && Exclusions(paths: [$0]).excludes(place) } }
     }
 
@@ -231,21 +256,30 @@ public struct Exclusions: Sendable, Codable, Hashable {
         app.bundleIdentifier.map(excludes(bundleIdentifier:)) == true || excludes(app.url)
     }
 
-    /// True when `brew uninstall` would delete something excluded: an app the package installs (`apps` are the
-    /// installed apps known to be its), an app identifier it quits, or its own folder under `prefix`. An
-    /// unreadable list, or one not read yet, counts as excluding every package, since `brew uninstall` cannot be
-    /// undone.
-    public func excludes(_ package: HomebrewPackage, apps: [InstalledApp], prefix: URL?) -> Bool {
+    /// Whether `brew uninstall` would delete something excluded: an app the package installs (`apps` are the
+    /// installed apps known to be its), an app identifier it quits, or its own folder under `prefix`. Nil when one of
+    /// these can't be looked into for an excluded app. An unreadable list, or one not read yet, counts as excluding
+    /// every package, since `brew uninstall` cannot be undone.
+    public func excludes(_ package: HomebrewPackage, apps: [InstalledApp], prefix: URL?) -> Bool? {
         guard isKnown else { return true }
-        let targets = package.appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) } + apps.map(\.url)
-        if targets.contains(where: { excludes($0) || holds($0) }) { return true }
         if apps.contains(where: { $0.bundleIdentifier.map(excludes(bundleIdentifier:)) == true }) { return true }
         if package.quitIdentifiers.contains(where: { excludes(bundleIdentifier: $0) }) { return true }
-        guard let prefix else { return false }
-        let own = prefix
-            .appending(path: package.kind == .cask ? "Caskroom" : "Cellar", directoryHint: .isDirectory)
-            .appending(path: package.name, directoryHint: .isDirectory)
-        return excludes(own) || holds(own)
+        let own = prefix.map {
+            $0.appending(path: package.kind == .cask ? "Caskroom" : "Cellar", directoryHint: .isDirectory)
+                .appending(path: package.name, directoryHint: .isDirectory)
+        }
+        let folders = package.appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) } + apps.map(\.url)
+            + [own].compactMap(\.self)
+        var isKnownToHoldNothing = true
+        for folder in folders {
+            if excludes(folder) { return true }
+            switch holdsSomething(folder) {
+            case true?: return true
+            case nil: isKnownToHoldNothing = false
+            case false?: break
+            }
+        }
+        return isKnownToHoldNothing ? false : nil
     }
 
     /// The installed formulae whose own folder under `prefix` is excluded or holds something excluded, which

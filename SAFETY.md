@@ -522,12 +522,15 @@ the other tools leave it out. An excluded app still appears in Applications, so 
 removal plan and no reset, in the app and in `peel`, and nothing moves it to the Trash or puts it back, from any
 page and whatever its bundle is called, nor a folder that holds it a level or two down. A folder named with its
 identifier, such as its caches or its container, is left out of every page and never moved, nor is a folder holding
-one a level or two down. Its other files, such as plug-ins, receipts, or a folder named after the app, are excluded
+one a level or two down, nor one with a folder inside that macOS won't let Peel list, since such a folder may be in
+there: that holds even for what only the helper could move, as the helper knows nothing of your exclusions. Its other
+files, such as plug-ins, receipts, or a folder named after the app, are excluded
 only by their own paths, so to keep them, exclude them too.
 
 Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` for a
-package whose app, or whose own folder, you excluded, nor for any package while your list isn't read or can't be,
-and Homebrew's cleanup keeps every formula whose folder you excluded.
+package whose app, or whose own folder, you excluded, nor for one with a folder Peel can't look into for an app you
+excluded, nor for any package while your list isn't read or can't be, and Homebrew's cleanup keeps every formula whose
+folder you excluded.
 
 If the saved list is there and cannot be read, Peel does not treat it as empty. It moves nothing until you
 start over in Settings, `peel` refuses, and the file it could not read is kept beside the new one.

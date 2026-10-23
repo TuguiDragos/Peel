@@ -206,9 +206,11 @@ struct RemovalGuard: Sendable {
         guard !exclusions.isAnExcludedApp(item ?? URL(filePath: path)) else { return .excluded }
         var couldNotLookInside = false
         for name in names {
-            guard exclusions.appFolders(inside: URL(filePath: name, directoryHint: .isDirectory)).isEmpty else {
-                return .excluded
+            // The helper knows nothing of the exclusions, so a folder that can't be looked into for one stays.
+            guard let excluded = exclusions.appFolders(inside: URL(filePath: name, directoryHint: .isDirectory)) else {
+                return .couldNotLookInside
             }
+            guard excluded.isEmpty else { return .excluded }
             // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
             // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
             guard !ProtectedData.holdsAContainersDocuments(name) else { return .holdsDocuments }

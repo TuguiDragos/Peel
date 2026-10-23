@@ -92,19 +92,31 @@ struct ExclusionsTests {
         let cask = HomebrewPackage(name: "example", kind: .cask, appTargets: ["/Applications/Example.app"], quitIdentifiers: ["com.example.app"])
         let formula = HomebrewPackage(name: "wget", kind: .formula)
 
-        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app")]).excludes(cask, apps: [], prefix: prefix))
-        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app/Contents/Resources/keep")]).excludes(cask, apps: [], prefix: prefix))
-        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [app], prefix: prefix))
-        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [], prefix: prefix), "the identifier it quits names it too")
-        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Caskroom/example")]).excludes(cask, apps: [], prefix: prefix))
-        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew")]).excludes(formula, apps: [], prefix: prefix))
-        #expect(Exclusions.unreadable.excludes(formula, apps: [], prefix: prefix), "a list that cannot be read keeps everything")
-        #expect(Exclusions.notYetRead.excludes(formula, apps: [], prefix: prefix), "a list not read yet keeps everything")
+        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app")]).excludes(cask, apps: [], prefix: prefix) == true)
+        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app/Contents/Resources/keep")]).excludes(cask, apps: [], prefix: prefix) == true)
+        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [app], prefix: prefix) == true)
+        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [], prefix: prefix) == true, "the identifier it quits names it too")
+        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Caskroom/example")]).excludes(cask, apps: [], prefix: prefix) == true)
+        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew")]).excludes(formula, apps: [], prefix: prefix) == true)
+        #expect(Exclusions.unreadable.excludes(formula, apps: [], prefix: prefix) == true, "a list that cannot be read keeps everything")
+        #expect(Exclusions.notYetRead.excludes(formula, apps: [], prefix: prefix) == true, "a list not read yet keeps everything")
 
         let unrelated = Exclusions(paths: [URL(filePath: "/Applications/Other.app")], bundleIdentifiers: ["com.other.app"])
-        #expect(!unrelated.excludes(cask, apps: [app], prefix: prefix))
-        #expect(!unrelated.excludes(formula, apps: [], prefix: prefix))
-        #expect(!Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], prefix: prefix))
+        #expect(unrelated.excludes(cask, apps: [app], prefix: prefix) == false)
+        #expect(unrelated.excludes(formula, apps: [], prefix: prefix) == false)
+        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], prefix: prefix) == false)
+    }
+
+    /// A folder Peel can't look inside may hold what an excluded app keeps, so `brew uninstall` isn't run on it.
+    @Test(.permissionsHold) func keepsAPackageItCannotSearchForAnExclusion() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("prefix/Caskroom/example/1.0/kept/org.example.excluded/state.db")
+        try directory.setPermissions(0, of: "prefix/Caskroom/example/1.0")
+        defer { try? directory.setPermissions(0o755, of: "prefix/Caskroom/example/1.0") }
+        let prefix = directory.url.appending(path: "prefix", directoryHint: .isDirectory)
+        let cask = HomebrewPackage(name: "example", kind: .cask)
+
+        #expect(Exclusions(bundleIdentifiers: ["org.example.excluded"]).excludes(cask, apps: [], prefix: prefix) == nil)
     }
 
     @Test func matchesAppsByBundleIdentifierOrPlace() {

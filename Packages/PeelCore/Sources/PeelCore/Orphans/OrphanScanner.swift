@@ -166,6 +166,9 @@ public struct OrphanScanner: Sendable {
                 item.heldBack = .signInPlugIn
                 return (entry.identifier, item)
             }
+            if item.leftAlone == nil, exclusions.holdBack(for: item.url) == .couldNotLookInside {
+                item.heldBack = .couldNotLookInside
+            }
             return (entry.identifier, Self.holdingBack(item, beyond: reach))
         }
         let teams = Set(installedApps.compactMap(\.teamIdentifier))

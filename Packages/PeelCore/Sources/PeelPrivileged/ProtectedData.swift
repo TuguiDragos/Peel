@@ -332,7 +332,7 @@ public enum ProtectedData: Sendable {
         case notKnown
     }
 
-    static func names(in folder: String, followingLinks: Bool) -> [String]? {
+    public static func names(in folder: String, followingLinks: Bool) -> [String]? {
         listing(folder, followingLinks: followingLinks) { try FileManager.default.contentsOfDirectory(atPath: $0) }
     }
 
