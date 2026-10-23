@@ -314,6 +314,7 @@ extension GuardRefusal {
         case .holdsDocuments: "holds an app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
+        case .couldNotLookInside: "macOS wouldn't let Peel look inside to make sure nothing Peel protects is there"
         }
     }
 }
@@ -332,6 +333,7 @@ extension HoldBack {
         case .holdsAnExclusion: "holds something you excluded"
         case .notMeasured: "not measured in time"
         case .couldNotBeRead: "macOS wouldn't let Peel read inside"
+        case .couldNotLookInside: "macOS wouldn't let Peel look inside to make sure nothing Peel protects is there"
         case .holdsDocuments: "holds the app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"
         case .holdsAWallet: "holds a wallet or a signing key"

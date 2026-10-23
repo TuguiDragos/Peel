@@ -388,23 +388,27 @@ public struct LeftoverScanner: Sendable {
         // A folder that did not answer in time is unknown, not empty: it may hold a repository, and the largest
         // folders are the ones that run out of time.
         let contents = await measure(url)
+        let path = url.path(percentEncoded: false)
+        let requiresPrivileges = parent.requiresPrivileges(toRemove: url)
+        let wallet = ProtectedData.holdsABrowserWallet(path)
+        let library = ProtectedData.holdsALibrary(path)
+        let work = ProtectedData.holdsWorkKeptInACache(path)
         // What the guard will refuse comes first, whatever the walk saw. A folder macOS refuses to open would read
         // as empty, and an empty folder of the app's own would be selected. From macOS 27, another team's container
         // is refused outright rather than prompted for.
-        let heldBack: HoldBack? = if ProtectedData.holds(url.path(percentEncoded: false), home: home)
-            || ProtectedData.holdsABrowserWallet(url.path(percentEncoded: false)) {
+        let heldBack: HoldBack? = if ProtectedData.holds(path, home: home) || wallet == .found {
             .holdsKeys
-        } else if kind == .containers, ProtectedData.holdsAContainersDocuments(url.path(percentEncoded: false)) {
+        } else if kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
             .holdsDocuments
-        } else if ProtectedData.holdsALibrary(url.path(percentEncoded: false)) {
+        } else if library == .found {
             .holdsALibrary
-        } else if ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) {
+        } else if work == .found {
             .holdsWorkKeptInACache
+        } else if !requiresPrivileges, [wallet, library, work].contains(.notKnown) {
+            .couldNotLookInside
         } else if syncsToOtherDevices(url) {
             .inTheCloud
-        } else if let keptOnlyHere = KeptOnlyHere.reason(
-            for: url.path(percentEncoded: false), home: home, root: root
-        ) {
+        } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home, root: root) {
             keptOnlyHere
         } else if contents?.couldNotBeRead == true {
             .couldNotBeRead
@@ -419,7 +423,7 @@ public struct LeftoverScanner: Sendable {
             match: heldBack.map(match.forReview) ?? match,
             size: contents?.size ?? 0,
             isMeasured: contents.map { !$0.couldNotBeRead } ?? false,
-            requiresPrivileges: parent.requiresPrivileges(toRemove: url),
+            requiresPrivileges: requiresPrivileges,
             holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url)
         )
     }

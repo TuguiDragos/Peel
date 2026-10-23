@@ -109,8 +109,8 @@ struct BrowserWalletTests {
         let plain = try directory.directory("Other/Default")
         try directory.directory("Other/Default/Local Extension Settings")
 
-        #expect(ProtectedData.holdsABrowserWallet(profile.path(percentEncoded: false)))
-        #expect(!ProtectedData.holdsABrowserWallet(plain.path(percentEncoded: false)))
+        #expect(ProtectedData.holdsABrowserWallet(profile.path(percentEncoded: false)) == .found)
+        #expect(ProtectedData.holdsABrowserWallet(plain.path(percentEncoded: false)) == .nothing)
     }
 
     @Test func bravesOwnWalletKeepsItsProfile() throws {

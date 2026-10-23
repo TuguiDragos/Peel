@@ -1570,7 +1570,7 @@ public enum DeveloperCaches {
                 guard !folder.rowsAreProjectState || project != nil else { continue }
                 // Skips a folder that holds work kept nowhere else, such as the state Deno's
                 // scripts keep in `location_data`. Removing it would lose that work.
-                guard !ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) else { continue }
+                guard ProtectedData.holdsWorkKeptInACache(url.path(percentEncoded: false)) != .found else { continue }
                 // Skips a symbolic link, which is how people move a big cache to another disk.
                 // Moving the link frees nothing.
                 guard (try? url.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink) != true else { continue }

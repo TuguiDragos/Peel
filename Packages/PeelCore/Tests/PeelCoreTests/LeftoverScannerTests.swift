@@ -1063,7 +1063,7 @@ struct LeftoverScannerTests {
     }
 
     /// A folder inside the leftover that macOS will not open may hold what nothing brings back, as a helper's own
-    /// `Private` folder with a wallet in it, so the leftover is not read to the end and is never selected.
+    /// `Private` folder with a wallet in it, so the leftover is not read to the end and is left alone.
     @Test(.permissionsHold) func aLeftoverNotReadToTheEndIsNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/net.example.client/settings.plist", bytes: 4_096)
@@ -1077,7 +1077,7 @@ struct LeftoverScannerTests {
         )
         let found = try #require(scan.leftovers.first { $0.url.path(percentEncoded: false).hasSuffix("Application Support/net.example.client") })
 
-        #expect(found.match.heldBack == .couldNotBeRead, "a folder read only in part was taken for all it holds")
+        #expect(found.match.heldBack == .couldNotLookInside, "a folder read only in part was taken for all it holds")
         #expect(!found.match.isRecommended)
         #expect(!found.isMeasured)
     }
@@ -2150,5 +2150,24 @@ struct LeftoverScannerTests {
         #expect(Set(found.keys) == ["Caches/Knowledge", "SyncServices/Knowledge"])
         #expect(found["Caches/Knowledge"]?.match.isRecommended == true)
         #expect(found["SyncServices/Knowledge"]?.match.heldBack == .insideAnotherAppsFolder)
+    }
+
+    @Test(.permissionsHold) func holdsBackAFolderItCannotSeeAllThrough() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Tide/kept/state.db")
+        try directory.setPermissions(0, of: "home/Library/Application Support/Tide/kept")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Application Support/Tide/kept") }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let tide = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == "Tide" })
+        #expect(tide.match.heldBack == .couldNotLookInside)
     }
 }

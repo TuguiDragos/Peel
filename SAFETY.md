@@ -91,6 +91,10 @@ and its key-value databases in `location_data`, and Raycast keeps the images of 
 inside its cache folder. Those folders, and any cache folder that holds one, stay: emptying "App Caches" in Space
 leaves them where they are.
 
+Peel finds a library, a browser profile with a wallet, or such work by looking a level or two inside a folder. So a
+folder with a folder inside that macOS won't let Peel list stays too, since what is in there isn't known, and its row
+says so. A folder only an administrator can move is looked into by Peel's helper instead, as root, before it moves it.
+
 Also refused: a sandboxed app's own `Data/Documents`, which is where that app keeps *your* work, not its
 settings. The rule holds for the folder around it too: while `Data/Documents` holds anything, or cannot be
 read, the app's whole container stays, and Peel shows it with the reason instead of selecting it. The folders

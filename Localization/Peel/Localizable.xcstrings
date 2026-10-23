@@ -70185,6 +70185,112 @@
         }
       }
     },
+    "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS nedovolil Peelu nahlédnout dovnitř a ověřit, že tam není nic, co Peel chrání, například knihovna nebo peněženka. Pokud Peel ještě nemá plný přístup k disku, jeho udělení v Nastavení systému mu to může umožnit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS hat Peel nicht hineinsehen lassen, daher kann Peel nicht sicherstellen, dass darin nichts liegt, was Peel schützt, etwa eine Mediathek oder eine Wallet. Falls Peel noch keinen Festplattenvollzugriff hat, kann Peel möglicherweise hineinsehen, wenn du ihn in den Systemeinstellungen erteilst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS no ha dejado que Peel mire dentro para asegurarse de que no hay nada que Peel proteja, como una biblioteca o un monedero digital. Si Peel aún no tiene acceso total al disco, dárselo en Ajustes del Sistema puede permitirle verlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS n’a pas laissé Peel regarder à l’intérieur pour s’assurer qu’aucun élément que Peel protège, comme une bibliothèque ou un portefeuille, ne s’y trouve. Si Peel n’a pas encore l’accès complet au disque, le lui accorder dans Réglages Système peut lui permettre de le voir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS non ha permesso a Peel di esaminarne il contenuto per assicurarsi che non contenga nulla di ciò che Peel protegge, come una libreria o un wallet. Se Peel non ha ancora l’accesso completo al disco, concederlo in Impostazioni di Sistema potrebbe permettergli di vederlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: macOSがPeelに中を調べることを許可しなかったため、ライブラリやウォレットなど、Peelが保護しているものが中にないことを確認できません。Peelにまだフルディスクアクセスがない場合は、システム設定で許可すると確認できるようになる可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: macOS가 Peel이 안을 살펴보지 못하게 해서 보관함이나 지갑처럼 Peel이 보호하는 항목이 그곳에 없는지 확인할 수 없습니다. Peel에 아직 전체 디스크 접근 권한이 없다면, 시스템 설정에서 권한을 부여하면 볼 수 있을지도 모릅니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS liet Peel er niet in kijken om na te gaan of er niets in zit wat Peel beschermt, zoals een bibliotheek of een wallet. Als Peel nog geen volledige schijftoegang heeft, kan Peel het misschien zien als je die in Systeeminstellingen geeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS nie pozwolił aplikacji Peel zajrzeć do środka i upewnić się, że nie ma tam niczego, co Peel chroni, na przykład biblioteki lub portfela. Jeśli Peel nie ma jeszcze pełnego dostępu do dysku, nadanie go w Ustawieniach systemowych może to umożliwić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS não deixou o Peel examinar o conteúdo para ter certeza de que não há ali nada do que o Peel protege, como uma biblioteca ou uma carteira. Se o Peel ainda não tem Acesso Total ao Disco, concedê-lo nos Ajustes do Sistema pode permitir que ele veja."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS nu i‑a permis aplicației Peel să caute înăuntru pentru a se asigura că acolo nu se află nimic protejat de Peel, cum ar fi o bibliotecă sau un portofel. Dacă Peel nu are încă Acces complet la disc, acordarea acestuia în Configurări sistem îi poate permite să vadă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS не позволила Peel заглянуть внутрь, чтобы убедиться, что там нет ничего из того, что защищает Peel, например медиатеки или кошелька. Если у Peel еще нет полного доступа к диску, предоставьте его в Системных настройках: возможно, тогда Peel увидит содержимое."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS lät inte Peel titta inuti för att kontrollera att inget som Peel skyddar, till exempel ett bibliotek eller en plånbok, finns där. Om Peel ännu inte har full skivtillgång kan Peel kanske se innehållet när du har gett Peel den åtkomsten i Systeminställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS, Peel’in içine bakıp Peel’in koruduğu hiçbir şeyin, örneğin bir fotoğraf, müzik ya da video arşivi veya bir cüzdan, orada olmadığından emin olmasına izin vermedi. Peel’in henüz Tam Disk Erişimi yoksa, bu izni Sistem Ayarları’nda vermek görmesini sağlayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS не дала Peel зазирнути всередину, щоб переконатися, що там немає нічого, що захищає Peel, як-от медіатеки або гаманця. Якщо Peel ще не має повного доступу до диска, його надання в Системних параметрах може дати їй змогу це побачити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：macOS不允许Peel查看其中的内容，因此无法确认里面没有受Peel保护的项目，例如资料库或钱包。如果Peel还没有完全磁盘访问权限，在“系统设置”中授予后，它或许就能看到。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：macOS不讓Peel查看其中的內容，因此無法確定裡面沒有任何受Peel保護的項目，例如資料庫或錢包。如果Peel尚未取得「完全取用磁碟」權限，在「系統設定」中給予此權限後，它或許就能看到。"
+          }
+        }
+      }
+    },
     "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here." : {
       "localizations" : {
         "cs" : {
@@ -119001,6 +119107,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會移動此項目：它會透過iCloud或其他App與你的其他裝置同步，丟到「垃圾桶」也會將它從這些裝置上移除。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: systém macOS nedovolil Peelu nahlédnout dovnitř a ověřit, že tam není nic, co Peel chrání, například knihovna nebo peněženka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: macOS hat Peel nicht hineinsehen lassen, daher kann Peel nicht sicherstellen, dass darin nichts liegt, was Peel schützt, etwa eine Mediathek oder eine Wallet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: macOS no ha dejado que Peel mire dentro para asegurarse de que no hay nada que Peel proteja, como una biblioteca o un monedero digital."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : macOS n’a pas laissé Peel regarder à l’intérieur pour s’assurer qu’aucun élément que Peel protège, comme une bibliothèque ou un portefeuille, ne s’y trouve."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: macOS non ha permesso a Peel di esaminarne il contenuto per assicurarsi che non contenga nulla di ciò che Peel protegge, come una libreria o un wallet."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。macOSがPeelに中を調べることを許可しなかったため、ライブラリやウォレットなど、Peelが保護しているものが中にないことを確認できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. macOS가 Peel이 안을 살펴보지 못하게 해서 보관함이나 지갑처럼 Peel이 보호하는 항목이 그곳에 없는지 확인할 수 없기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: macOS liet Peel er niet in kijken om na te gaan of er niets in zit wat Peel beschermt, zoals een bibliotheek of een wallet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: macOS nie pozwolił aplikacji Peel zajrzeć do środka i upewnić się, że nie ma tam niczego, co Peel chroni, na przykład biblioteki lub portfela."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: o macOS não deixou o Peel examinar o conteúdo para ter certeza de que não há ali nada do que o Peel protege, como uma biblioteca ou uma carteira."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: macOS nu i‑a permis aplicației Peel să caute înăuntru pentru a se asigura că acolo nu se află nimic protejat de Peel, cum ar fi o bibliotecă sau un portofel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: macOS не позволила Peel заглянуть внутрь, чтобы убедиться, что там нет ничего из того, что защищает Peel, например медиатеки или кошелька."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: macOS lät inte Peel titta inuti för att kontrollera att inget som Peel skyddar, till exempel ett bibliotek eller en plånbok, finns där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: macOS, Peel’in içine bakıp Peel’in koruduğu hiçbir şeyin, örneğin bir fotoğraf, müzik ya da video arşivi veya bir cüzdan, orada olmadığından emin olmasına izin vermedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: macOS не дала Peel зазирнути всередину, щоб переконатися, що там немає нічого, що захищає Peel, як-от медіатеки або гаманця."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：macOS不允许Peel查看其中的内容，因此无法确认里面没有受Peel保护的项目，例如资料库或钱包。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：macOS不讓Peel查看其中的內容，因此無法確定裡面沒有任何受Peel保護的項目，例如資料庫或錢包。"
           }
         }
       }

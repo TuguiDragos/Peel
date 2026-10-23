@@ -758,14 +758,20 @@ public struct OrphanScanner: Sendable {
         // rewritten in place, so the newest date inside comes from the walk.
         let own = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
         let path = url.path(percentEncoded: false)
+        let requiresPrivileges = parent.requiresPrivileges(toRemove: url)
+        let wallet = ProtectedData.holdsABrowserWallet(path)
+        let library = ProtectedData.holdsALibrary(path)
+        let work = ProtectedData.holdsWorkKeptInACache(path)
         let heldBack: HoldBack? = if kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
             .holdsDocuments
-        } else if ProtectedData.holds(path, home: home) || ProtectedData.holdsABrowserWallet(path) {
+        } else if ProtectedData.holds(path, home: home) || wallet == .found {
             .holdsKeys
-        } else if ProtectedData.holdsALibrary(path) {
+        } else if library == .found {
             .holdsALibrary
-        } else if ProtectedData.holdsWorkKeptInACache(path) {
+        } else if work == .found {
             .holdsWorkKeptInACache
+        } else if !requiresPrivileges, [wallet, library, work].contains(.notKnown) {
+            .couldNotLookInside
         } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home, root: root) {
             keptOnlyHere
         } else if folder?.holdsWork(at: url) == true {
@@ -782,7 +788,7 @@ public struct OrphanScanner: Sendable {
             kind: kind,
             size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
             modificationDate: [own, contents?.newestChange].compactMap(\.self).max(),
-            requiresPrivileges: parent.requiresPrivileges(toRemove: url),
+            requiresPrivileges: requiresPrivileges,
             heldBack: heldBack,
             namedAfter: namedAfter,
             holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url),

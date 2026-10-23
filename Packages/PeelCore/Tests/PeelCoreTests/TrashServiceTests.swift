@@ -1214,7 +1214,7 @@ struct TrashServiceTests {
         #expect(!guardian.allowsRemoval(of: keychains))
 
         #expect(folders.map(accessed) == folders.map { _ in longAgo.tv_sec })
-        #expect(!ProtectedData.holdsALibrary(keychains.path(percentEncoded: false)))
+        #expect(ProtectedData.holdsALibrary(keychains.path(percentEncoded: false)) == .nothing)
         #expect(accessed(keychains) > longAgo.tv_sec, "listing a folder no longer moves its access time")
     }
 

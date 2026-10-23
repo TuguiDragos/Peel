@@ -23,6 +23,8 @@ public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
     case holdsALibrary
     /// Work an app keeps only in a cache folder is inside, such as an editor's local history.
     case holdsWorkKeptInACache
+    /// macOS would not let Peel list a folder inside it, so whether something Peel never moves is there is not known.
+    case couldNotLookInside
 
     /// A fixed word for the reason, which the refusal log stores, so a record still reads in a later version.
     public var name: String {
@@ -36,6 +38,7 @@ public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
         case .holdsDocuments: "holds-documents"
         case .holdsALibrary: "holds-a-library"
         case .holdsWorkKeptInACache: "holds-work-kept-in-a-cache"
+        case .couldNotLookInside: "could-not-look-inside"
         }
     }
 
@@ -201,6 +204,7 @@ struct RemovalGuard: Sendable {
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
         guard !exclusions.isAnExcludedApp(item ?? URL(filePath: path)) else { return .excluded }
+        var couldNotLookInside = false
         for name in names {
             guard exclusions.appFolders(inside: URL(filePath: name, directoryHint: .isDirectory)).isEmpty else {
                 return .excluded
@@ -208,10 +212,16 @@ struct RemovalGuard: Sendable {
             // An uninstall lists a whole container, and the documents inside would go with it. Space lists a
             // vendor's whole cache folder, and work kept only there (an IDE's local history) would go with it.
             guard !ProtectedData.holdsAContainersDocuments(name) else { return .holdsDocuments }
-            guard !ProtectedData.holdsWorkKeptInACache(name) else { return .holdsWorkKeptInACache }
-            guard !ProtectedData.holdsALibrary(name) else { return .holdsALibrary }
-            guard !ProtectedData.holdsABrowserWallet(name) else { return .holdsProtectedData }
+            let work = ProtectedData.holdsWorkKeptInACache(name)
+            guard work != .found else { return .holdsWorkKeptInACache }
+            let library = ProtectedData.holdsALibrary(name)
+            guard library != .found else { return .holdsALibrary }
+            let wallet = ProtectedData.holdsABrowserWallet(name)
+            guard wallet != .found else { return .holdsProtectedData }
+            couldNotLookInside = couldNotLookInside || [work, library, wallet].contains(.notKnown)
         }
+        // A folder the person can't change moves only through the helper, which looks inside as root first.
+        guard !couldNotLookInside || FileAccess.requiresPrivilegesToRemove(url) else { return .couldNotLookInside }
         return nil
     }
 

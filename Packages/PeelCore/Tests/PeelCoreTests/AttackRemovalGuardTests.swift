@@ -876,4 +876,61 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: "Library/Preferences/com.example.app.plist")))
         #expect(guardian.allowsRemoval(of: home.appending(path: "Documents/.GlobalPreferences.plist")))
     }
+
+    /// What the guard looks for a level or two inside a folder can sit in a folder it may not list, so a folder it
+    /// can't see all through stays. One only the helper can move, the helper looks inside as root.
+    @Test(.permissionsHold) func aFolderItCannotSeeAllThroughStays() throws {
+        let directory = try TemporaryDirectory()
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+        var folders: [String: URL] = [:]
+        for name in ["Partly", "Open", "Closed"] {
+            try directory.file("home/Library/Caches/org.example.\(name)/kept/state.db")
+            folders[name] = directory.url.appending(path: "home/Library/Caches/org.example.\(name)", directoryHint: .isDirectory)
+        }
+        let closed = ["home/Library/Caches/org.example.Partly/kept", "home/Library/Caches/org.example.Closed"]
+        for folder in closed {
+            try directory.setPermissions(0, of: folder)
+        }
+        defer {
+            for folder in closed {
+                try? directory.setPermissions(0o755, of: folder)
+            }
+        }
+
+        #expect(guardian.refusal(of: try #require(folders["Partly"])) == .couldNotLookInside)
+        #expect(guardian.refusal(of: try #require(folders["Open"])) == nil)
+        #expect(guardian.refusal(of: try #require(folders["Closed"])) == nil)
+    }
+
+    @Test(.permissionsHold) func aLookInsideKnowsWhatItCouldNotSee() throws {
+        let directory = try TemporaryDirectory()
+        let path = { (relative: String) in directory.url.appending(path: relative).path(percentEncoded: false) }
+        try directory.file("Shelf/2019/Summer.photoslibrary/database/Photos.sqlite")
+        try directory.file("Shelf/kept/state.db")
+        try directory.file("Box/kept/state.db")
+        try directory.file("Library/Caches/org.example.Viewer/LocalHistory/changes.storageData")
+        try directory.file("Library/Caches/org.example.Editor/kept/state.db")
+        try directory.file("Profiles/kept/state.db")
+        let closed = ["Shelf/kept", "Box/kept", "Library/Caches/org.example.Editor/kept", "Profiles/kept"]
+        for folder in closed {
+            try directory.setPermissions(0, of: folder)
+        }
+        defer {
+            for folder in closed {
+                try? directory.setPermissions(0o755, of: folder)
+            }
+        }
+
+        #expect(ProtectedData.holdsALibrary(path("Shelf")) == .found)
+        #expect(ProtectedData.holdsALibrary(path("Box")) == .notKnown)
+        #expect(ProtectedData.holdsALibrary(path("Missing")) == .nothing)
+        #expect(ProtectedData.holdsALibrary(path("Library/Caches/org.example.Viewer/LocalHistory/changes.storageData")) == .nothing)
+        #expect(ProtectedData.holdsWorkKeptInACache(path("Library/Caches/org.example.Viewer")) == .found)
+        #expect(ProtectedData.holdsWorkKeptInACache(path("Library/Caches/org.example.Editor")) == .notKnown)
+        #expect(ProtectedData.holdsABrowserWallet(path("Profiles")) == .notKnown)
+        #expect(ProtectedData.holdsABrowserWallet(path("Missing")) == .nothing)
+    }
 }

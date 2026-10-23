@@ -140,7 +140,9 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
 - **What can't be read is unknown, never empty or zero.** A folder macOS won't let Peel read, or one that doesn't
   answer in time, has no size (`FileSize` answers nil) and is never taken for empty. Only a name that isn't there
   (`lstat` answering `ENOENT`) makes one of Peel's own files empty; anything else reads as unreadable, and while
-  History or the exclusions can't be read, nothing moves.
+  History or the exclusions can't be read, nothing moves. The guard's rules that look a level or two inside a folder
+  answer `ProtectedData.Finding`, and a folder with one inside they couldn't list is refused, unless only the helper
+  can move it, which looks inside as root.
 
 ## The privileged helper
 

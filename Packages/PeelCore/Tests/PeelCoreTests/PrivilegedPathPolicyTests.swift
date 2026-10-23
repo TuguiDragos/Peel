@@ -472,6 +472,19 @@ struct PrivilegedPathPolicyTests {
             #expect(!explanation.contains(where: { ("\u{2010}"..."\u{2015}").contains($0) || $0 == "-" }))
         }
     }
+
+    @Test(.permissionsHold) func refusesAFolderItCannotSeeAllThrough() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        for name in ["Partly", "Open"] {
+            try directory.file("root/Library/Caches/org.example.\(name)/kept/state.db")
+        }
+        try directory.setPermissions(0, of: "root/Library/Caches/org.example.Partly/kept")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/Caches/org.example.Partly/kept") }
+
+        #expect(policy.refusal(of: path("root/Library/Caches/org.example.Partly", in: directory)) == .irreplaceable)
+        #expect(policy.refusal(of: path("root/Library/Caches/org.example.Open", in: directory)) == nil)
+    }
 }
 
 private extension Result where Failure == PrivilegedPathPolicy.Rejection {

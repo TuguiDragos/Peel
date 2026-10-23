@@ -251,32 +251,41 @@ extension ProtectedData {
     /// a profile it is also true for what a wallet can share with other extensions: `Local Storage`, Firefox's
     /// `storage`, and `Preferences`, where Brave keeps its own wallet. It reads the disk, so it needs the path as
     /// spelled on disk.
-    public static func holdsABrowserWallet(_ path: String) -> Bool {
+    public static func holdsABrowserWallet(_ path: String) -> Finding {
         let components = PathComponents.of(path)
-        if let profile = profile(sharedBy: components), isAProfileWithAWallet(profile) { return true }
+        if let profile = profile(sharedBy: components), isAProfileWithAWallet(profile) { return .found }
         // Only a folder can be a profile or hold one.
         var info = stat()
-        guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return false }
-        if isAProfileWithAWallet(path) { return true }
+        guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return .nothing }
+        if isAProfileWithAWallet(path) { return .found }
 
         let folder = components.last?.lowercased() ?? ""
-        return entries(of: path).contains { child in
-            if isAWalletsStorage(child.name.lowercased(), in: folder) { return true }
-            guard !child.isAFile else { return false }
+        guard let children = entries(of: path) else { return .notKnown }
+        var finding = Finding.nothing
+        for child in children {
+            if isAWalletsStorage(child.name.lowercased(), in: folder) { return .found }
+            guard !child.isAFile else { continue }
             let inside = path + "/" + child.name
-            return isAProfileWithAWallet(inside)
-                || entries(of: inside).contains { !$0.isAFile && isAProfileWithAWallet(inside + "/" + $0.name) }
+            if isAProfileWithAWallet(inside) { return .found }
+            guard let deeper = entries(of: inside) else {
+                finding = .notKnown
+                continue
+            }
+            if deeper.contains(where: { !$0.isAFile && isAProfileWithAWallet(inside + "/" + $0.name) }) { return .found }
         }
+        return finding
     }
 
-    /// The names in `folder`, each with whether it is a regular file, which is no profile and holds none. The kind
-    /// comes with the listing, so a folder of many files costs no call for each file.
-    private static func entries(of folder: String) -> [(name: String, isAFile: Bool)] {
-        let url = URL(filePath: folder, directoryHint: .isDirectory)
-        let found =
-            (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isRegularFileKey]))
-            ?? []
-        return found.map {
+    /// The names in `folder`, each with whether it is a regular file, which is no profile and holds none, or nil for
+    /// a folder macOS would not let this process list. The kind comes with the listing, so a folder of many files
+    /// costs no call for each file.
+    private static func entries(of folder: String) -> [(name: String, isAFile: Bool)]? {
+        let found = listing(folder, followingLinks: false) {
+            try FileManager.default.contentsOfDirectory(
+                at: URL(filePath: $0, directoryHint: .isDirectory), includingPropertiesForKeys: [.isRegularFileKey]
+            )
+        }
+        return found?.map {
             ($0.lastPathComponent, (try? $0.resourceValues(forKeys: [.isRegularFileKey]))?.isRegularFile == true)
         }
     }

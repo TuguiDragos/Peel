@@ -154,6 +154,7 @@ extension GuardRefusal {
         case .holdsDocuments: "Peel won’t move this: an app’s documents are inside."
         case .holdsALibrary: "Peel won’t move this: a photo, music, or video library is inside."
         case .holdsWorkKeptInACache: "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history."
+        case .couldNotLookInside: "Peel won’t move this: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there."
         }
     }
 }
@@ -293,6 +294,8 @@ extension HoldBack {
             "Not selected: this folder took too long to measure, so Peel doesn’t know how big it is or what is inside."
         case .couldNotBeRead:
             "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see."
+        case .couldNotLookInside:
+            "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see."
         case .holdsDocuments:
             "Left alone: the app’s own Documents folder is inside and may hold what you made with it. Peel never removes that."
         case .holdsALibrary:

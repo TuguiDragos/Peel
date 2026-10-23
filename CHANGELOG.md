@@ -231,6 +231,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Every folder on the way to a place Peel searches, such as `~/Library/Audio`, is refused whole, by the app and by
   the helper, so what is inside it can't go as part of its folder. A browser's own data folder still goes with the
   browser.
+- A folder with a folder inside that macOS won't let Peel list is refused, by the app and by the helper, since a photo
+  library, a browser's wallet, or work an app keeps only in a cache may be in there, and its row says so. One only an
+  administrator can move is left to the helper, which looks inside as root.
 
 ## 1.1.0 (2026-10-14)
 

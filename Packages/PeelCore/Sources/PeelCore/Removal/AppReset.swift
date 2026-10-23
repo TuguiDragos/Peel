@@ -309,11 +309,11 @@ public struct AppReset: Sendable {
     }
 
     /// True for a folder that holds a wallet's or a key's file `ProtectedData` names, or a browser profile with a
-    /// wallet in it, which `RemovalGuard` would refuse to move.
+    /// wallet in it, or one Peel can't see all through, which `RemovalGuard` would refuse to move.
     private static func holdsKeys(_ url: URL, home: URL) -> Bool {
         let path = url.path(percentEncoded: false)
         let home = home.path(percentEncoded: false)
         return ProtectedData.refuses(path, home: home) || ProtectedData.holds(path, home: home)
-            || ProtectedData.holdsABrowserWallet(path)
+            || ProtectedData.holdsABrowserWallet(path) != .nothing
     }
 }

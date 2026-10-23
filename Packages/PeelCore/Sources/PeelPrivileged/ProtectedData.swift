@@ -295,25 +295,60 @@ public enum ProtectedData: Sendable {
     /// the images of its clipboard history, which it keeps on the Mac alone, in `Clipboard` inside its cache folder.
     static let workKeptInCaches: Set<String> = ["localhistory", "location_data", "clipboard"]
 
-    /// True for a path under a `Caches` folder that is at or inside one of those folders, or holds one a level
-    /// or two down, and for a Library's `Caches` folder holding one three levels down, which is how deep they sit
+    /// Whether a path under a `Caches` folder is at or inside one of those folders, or holds one a level or two
+    /// down, and whether a Library's `Caches` folder holds one three levels down, which is how deep they sit
     /// (`Caches/JetBrains/<product>/LocalHistory`). It reads the disk, so it needs the path as spelled on disk.
-    public static func holdsWorkKeptInACache(_ path: String) -> Bool {
+    public static func holdsWorkKeptInACache(_ path: String) -> Finding {
         let components = PathComponents.of(path).map { $0.lowercased() }
-        guard let caches = components.lastIndex(of: "caches") else { return false }
+        guard let caches = components.lastIndex(of: "caches") else { return .nothing }
         if caches + 1 == components.count {
-            return caches > 0 && components[caches - 1] == "library" && holdsWorkKeptInACache(path, levels: 3)
+            guard caches > 0, components[caches - 1] == "library" else { return .nothing }
+            return holdsWorkKeptInACache(path, levels: 3)
         }
-        if components[(caches + 1)...].contains(where: workKeptInCaches.contains) { return true }
+        if components[(caches + 1)...].contains(where: workKeptInCaches.contains) { return .found }
         return holdsWorkKeptInACache(path, levels: 2)
     }
 
-    private static func holdsWorkKeptInACache(_ folder: String, levels: Int) -> Bool {
-        guard levels > 0 else { return false }
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder)) ?? []
-        return names.contains { name in
-            workKeptInCaches.contains(name.lowercased()) || holdsWorkKeptInACache(folder + "/" + name, levels: levels - 1)
+    private static func holdsWorkKeptInACache(_ folder: String, levels: Int) -> Finding {
+        guard levels > 0 else { return .nothing }
+        guard let names = names(in: folder, followingLinks: true) else { return .notKnown }
+        var finding = Finding.nothing
+        for name in names {
+            if workKeptInCaches.contains(name.lowercased()) { return .found }
+            switch holdsWorkKeptInACache(folder + "/" + name, levels: levels - 1) {
+            case .found: return .found
+            case .notKnown: finding = .notKnown
+            case .nothing: break
+            }
         }
+        return finding
+    }
+
+    /// What a look a level or two inside a folder found: what it looked for, nothing, or nothing known, because a
+    /// folder it had to look into is there and could not be listed.
+    public enum Finding: Sendable {
+        case found
+        case nothing
+        case notKnown
+    }
+
+    /// The names in `folder`, none for a path that is not there or is no folder, and nil for a folder macOS would
+    /// not let this process list.
+    static func names(in folder: String, followingLinks: Bool) -> [String]? {
+        listing(folder, followingLinks: followingLinks) { try FileManager.default.contentsOfDirectory(atPath: $0) }
+    }
+
+    /// What `list` gives for `folder`: none for a path that is not there or is no folder, a link to one included unless
+    /// `followingLinks`, and nil when listing a folder that is there fails.
+    static func listing<Entry>(
+        _ folder: String, followingLinks: Bool, _ list: (String) throws -> [Entry]
+    ) -> [Entry]? {
+        var info = stat()
+        guard (followingLinks ? stat(folder, &info) : lstat(folder, &info)) == 0 else {
+            return [ENOENT, ENOTDIR, ELOOP].contains(errno) ? [] : nil
+        }
+        guard info.st_mode & S_IFMT == S_IFDIR else { return [] }
+        return try? list(folder)
     }
 
     /// True for a file of the global preferences domain: `.GlobalPreferences.plist`, its `_m` twin, and the
@@ -446,20 +481,28 @@ public enum ProtectedData: Sendable {
         librarySuffixes.contains { name.hasSuffix($0) }
     }
 
-    /// True for a folder that holds one of those libraries a level or two down, as in
-    /// `<year>/<name>.photoslibrary`. A library can sit anywhere, so no list of places can protect the folder
-    /// around one, and this looks inside the folder instead. It reads the disk.
-    public static func holdsALibrary(_ path: String) -> Bool {
-        let folder = URL(filePath: path, directoryHint: .isDirectory)
-        let children =
-            (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.isDirectoryKey]))
-            ?? []
-        return children.contains { child in
-            if isALibrary(child.lastPathComponent.lowercased()) { return true }
-            guard (try? child.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true else { return false }
-            let deeper = (try? FileManager.default.contentsOfDirectory(atPath: child.path(percentEncoded: false))) ?? []
-            return deeper.contains { isALibrary($0.lowercased()) }
+    /// Whether a folder holds one of those libraries a level or two down, as in `<year>/<name>.photoslibrary`. A
+    /// library can sit anywhere, so no list of places can protect the folder around one, and this looks inside the
+    /// folder instead. It reads the disk.
+    public static func holdsALibrary(_ path: String) -> Finding {
+        guard let children = names(in: path, followingLinks: false) else { return .notKnown }
+        var finding = Finding.nothing
+        for child in children {
+            if isALibrary(child.lowercased()) { return .found }
+            let inside = path + "/" + child
+            var info = stat()
+            guard lstat(inside, &info) == 0 else {
+                if errno != ENOENT { finding = .notKnown }
+                continue
+            }
+            guard info.st_mode & S_IFMT == S_IFDIR else { continue }
+            guard let deeper = names(in: inside, followingLinks: false) else {
+                finding = .notKnown
+                continue
+            }
+            if deeper.contains(where: { isALibrary($0.lowercased()) }) { return .found }
         }
+        return finding
     }
 
     /// The lowercase names a check should compare for `path`: as written, with its `.` and `..` read, and with
