@@ -713,4 +713,14 @@ struct LeftoverMatcherTests {
         #expect(match("Knowledge", in: .caches, for: knowledge)?.isRecommended == true)
         #expect(match("Assistant", in: .applicationSupport, for: assistant)?.isRecommended == true)
     }
+
+    @Test func whatWebKitKeepsUnderAPlainNameIsNoAppsByThatName() {
+        let databases = app("org.example.databases", name: "Databases")
+        let cookies = app("org.example.cookies", name: "Cookies")
+
+        #expect(match("Databases", in: .webKit, for: databases) == nil)
+        #expect(match("LocalStorage", in: .webKit, for: app("org.example.localstorage", name: "LocalStorage")) == nil)
+        #expect(match("Cookies.binarycookies", in: .cookies, for: cookies) == nil)
+        #expect(match("Databases", in: .caches, for: databases)?.isRecommended == true)
+    }
 }

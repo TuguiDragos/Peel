@@ -239,6 +239,17 @@ enum SystemFolders {
         "Xsan": .file("/System/Library/ConfigurationProfiles/PlugIns/xsanplugin.profileDomainPlugin/Contents/MacOS/xsanplugin", naming: "Library/Preferences/Xsan"),
     ]
 
+    static let webKit: [String: Proof] = [
+        "Databases": .image("/System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebKitLegacy.framework/Versions/A/WebKitLegacy", naming: "~/Library/WebKit/Databases"),
+        "JavaScriptCoreDebug": .image("/System/Library/PrivateFrameworks/Safari.framework/Versions/A/Safari", naming: "~/Library/WebKit/JavaScriptCoreDebug"),
+        "LocalStorage": .image("/System/Library/PrivateFrameworks/SafariSharedUI.framework/Versions/A/SafariSharedUI", naming: "~/Library/WebKit/LocalStorage"),
+        "MediaKeys": .image("/System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebKitLegacy.framework/Versions/A/WebKitLegacy", naming: "~/Library/WebKit/MediaKeys"),
+    ]
+
+    static let cookies: [String: Proof] = [
+        "Cookies.binarycookies": .image("/System/Library/Frameworks/WebKit.framework/Versions/A/WebKit", naming: "Cookies.binarycookies"),
+    ]
+
     /// Whether macOS keeps an item called `fileName` for its own services in a folder of `kind`. A process keeps its
     /// caches, its HTTP storage and its temporary items under the same name.
     static func keeps(_ fileName: String, in kind: SearchLocation.Kind) -> Bool {
@@ -247,6 +258,8 @@ enum SystemFolders {
         case .caches, .httpStorages, .temporaryItems: cachesNames
         case .logs: logsNames
         case .preferences: preferencesNames
+        case .webKit: webKitNames
+        case .cookies: cookiesNames
         default: noNames
         }
         return names.hold(fileName)
@@ -256,6 +269,8 @@ enum SystemFolders {
     private static let cachesNames = Names(caches)
     private static let logsNames = Names(logs)
     private static let preferencesNames = Names(preferences)
+    private static let webKitNames = Names(webKit)
+    private static let cookiesNames = Names(cookies)
     private static let noNames = Names([:])
 
     /// The names of one list, lowercased, those with a `*` read as patterns.

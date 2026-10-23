@@ -190,8 +190,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   another program's identifier, such as Microsoft AutoUpdate's cache in `/Library/Caches`: it holds nothing of the
   app's.
 - An app named like something macOS keeps for its own services, such as `Knowledge` in Application Support,
-  `GeoServices` in Caches, `Assistant` in Logs, or `Logging` in `/Library/Preferences`, no longer takes it: the app's
-  page, `peel leftovers`, and `peel uninstall` leave it to macOS, whatever a Homebrew cask names.
+  `GeoServices` in Caches, `Assistant` in Logs, `Logging` in `/Library/Preferences`, WebKit's `Databases`, or the
+  cookie store `Cookies.binarycookies`, no longer takes it: the app's page, `peel leftovers`, and `peel uninstall` leave
+  it to macOS, whatever a Homebrew cask names.
 
 #### Orphaned Files
 

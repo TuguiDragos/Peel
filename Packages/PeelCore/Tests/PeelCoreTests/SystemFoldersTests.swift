@@ -6,6 +6,7 @@ struct SystemFoldersTests {
     @Test func everyNameIsProvedByTheSealedSystem() throws {
         let lists = [
             SystemFolders.applicationSupport, SystemFolders.caches, SystemFolders.logs, SystemFolders.preferences,
+            SystemFolders.webKit, SystemFolders.cookies,
         ]
         for (name, proof) in lists.joined() {
             switch proof {
