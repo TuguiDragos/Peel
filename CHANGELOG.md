@@ -232,8 +232,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Background Items
 
-- A job whose program sits in a folder only an administrator can open is no longer said to have nothing left to run,
-  nor offered for removal, and Orphaned Files no longer lists its file: launchd runs it as root, which reaches it.
+- A job whose program sits in a folder your account can't open is no longer said to have nothing left to run, nor
+  offered for removal, and Orphaned Files no longer lists its file: launchd starts a daemon as root, which reaches it.
 
 #### `peel`
 
