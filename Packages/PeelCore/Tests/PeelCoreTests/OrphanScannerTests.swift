@@ -600,6 +600,24 @@ struct OrphanScannerTests {
         #expect(item.heldBack == .couldNotLookInside)
     }
 
+    @Test func leavesOutAFolderHoldingAnExcludedApp() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/com.gone.app/kept/org.example.excluded/state.db")
+        try directory.file("home/Library/Application Support/com.gone.other/state.db")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scanner = OrphanScanner(
+            environment: environment, exclusions: Exclusions(bundleIdentifiers: ["org.example.excluded"]),
+            isRegisteredApp: { _ in false }
+        )
+
+        let items = await scanner.scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(items.map(\.url.lastPathComponent) == ["com.gone.other"])
+    }
+
     /// A reason that keeps a folder where it is outranks what the walk saw, which only leaves it to be chosen.
     @Test func whatKeepsAFolderInPlaceOutranksWhatTheWalkSaw() async throws {
         let directory = try TemporaryDirectory()

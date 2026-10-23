@@ -147,11 +147,13 @@ public struct OrphanScanner: Sendable {
             uniquingKeysWith: { first, _ in first }
         )
         let folders = manifestFolders
-        let kept = found.filter {
-            !exclusions.excludes($0.item.url) && !exclusions.holds($0.item.url)
-                && !exclusions.excludes(bundleIdentifier: $0.identifier)
-                && !(owners[$0.identifier.lowercased()].map { here.contains($0.lowercased()) } ?? false)
-                && !Self.servesAProgram($0.item.url, in: folders)
+        let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: Bool?)? in
+            guard !exclusions.excludes(entry.item.url), !exclusions.excludes(bundleIdentifier: entry.identifier),
+                  !(owners[entry.identifier.lowercased()].map { here.contains($0.lowercased()) } ?? false),
+                  !Self.servesAProgram(entry.item.url, in: folders)
+            else { return nil }
+            let holds = exclusions.holdsSomething(entry.item.url)
+            return holds == true ? nil : (entry.identifier, entry.item, holds)
         }
         .map { entry in
             var item = entry.item
@@ -166,7 +168,7 @@ public struct OrphanScanner: Sendable {
                 item.heldBack = .signInPlugIn
                 return (entry.identifier, item)
             }
-            if item.leftAlone == nil, exclusions.holdBack(for: item.url) == .couldNotLookInside {
+            if item.leftAlone == nil, entry.holds == nil {
                 item.heldBack = .couldNotLookInside
             }
             return (entry.identifier, Self.holdingBack(item, beyond: reach))
