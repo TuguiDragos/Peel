@@ -12,10 +12,13 @@ enum SystemFolders {
         case file(String, naming: String)
         /// An image in the dyld shared cache that holds `naming`.
         case image(String, naming: String)
+        /// A proof only macOS `version` and earlier hold: a later macOS took the part away, and a Mac that ran one
+        /// still keeps the folder.
+        indirect case through(Int, Proof)
     }
 
     static let applicationSupport: [String: Proof] = [
-        "Accessibility": .file("/System/Library/ExtensionKit/Extensions/AccessibilitySettingsExtension.appex/Contents/MacOS/AccessibilitySettingsExtension", naming: "Library/Application Support/Accessibility"),
+        "Accessibility": .through(26, .file("/System/Library/ExtensionKit/Extensions/AccessibilitySettingsExtension.appex/Contents/MacOS/AccessibilitySettingsExtension", naming: "Library/Application Support/Accessibility")),
         "AddressBook": .file("/System/Library/Sandbox/Profiles/com.apple.iMessage.addressbook.sb", naming: "/Library/Application Support/AddressBook"),
         "Animoji": .file("/System/Library/Sandbox/Profiles/com.apple.avatarsd.sb", naming: "/Library/Application Support/Animoji"),
         "App Store": .file("/System/Library/Frameworks/StoreKit.framework/Support/storekitagent", naming: "Library/Application Support/App Store"),
@@ -116,7 +119,7 @@ enum SystemFolders {
         "mobileactivationd": .file("/System/Library/Sandbox/Profiles/mobileactivationd.sb", naming: "/Library/Caches/mobileactivationd"),
         "mobileassetd": .file("/usr/share/sandbox/com.apple.mobileassetd.sb", naming: "/Library/Caches/mobileassetd"),
         "mobiletimerd": .part("/System/Library/PrivateFrameworks/MobileTimer.framework/Executables/mobiletimerd"),
-        "nbagent": .file("/System/Library/Sandbox/Profiles/com.apple.noticeboard.agent.sb", naming: "/Library/Caches/nbagent"),
+        "nbagent": .through(26, .file("/System/Library/Sandbox/Profiles/com.apple.noticeboard.agent.sb", naming: "/Library/Caches/nbagent")),
         "OnDemandResources": .file("/System/Library/Sandbox/Profiles/com.apple.AppStoreDaemon.StorePrivilegedODRService.sb", naming: "/Library/Caches/OnDemandResources"),
         "OnDeviceStorage": .file("/System/Library/Sandbox/Profiles/com.apple.amsondevicestoraged.sb", naming: "/Library/Caches/OnDeviceStorage"),
         "PassKit": .part("/System/Library/Frameworks/PassKit.framework"),
@@ -154,8 +157,8 @@ enum SystemFolders {
         "CallHistory": .file("/System/Library/Sandbox/Profiles/com.apple.assistantd.transcoded.sb", naming: "/Library/Logs/CallHistory"),
         "CoreCapture": .file("/usr/libexec/wifivelocityd", naming: "Library/Logs/CoreCapture"),
         "CoreStorage.log": .file("/System/Library/Filesystems/apfs.fs/Contents/Resources/apfs_preflight_converter", naming: "Library/Logs/CoreStorage.log"),
-        "CoreTelephonyTrace": .file("/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter", naming: "Library/Logs/CoreTelephonyTrace"),
-        "CoreTelephonyTraceScratch": .file("/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter", naming: "Library/Logs/CoreTelephonyTraceScratch"),
+        "CoreTelephonyTrace": .through(26, .file("/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter", naming: "Library/Logs/CoreTelephonyTrace")),
+        "CoreTelephonyTraceScratch": .through(26, .file("/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter", naming: "Library/Logs/CoreTelephonyTraceScratch")),
         "CrashReporter": .file("/usr/libexec/DumpPanic", naming: "/Library/Logs/CrashReporter"),
         "DiagnosticReports": .file("/System/Library/CoreServices/SubmitDiagInfo", naming: "Library/Logs/DiagnosticReports"),
         "DiscRecording.log": .file("/System/Library/SystemProfiler/SPLogsReporter.spreporter/Contents/MacOS/SPLogsReporter", naming: "Library/Logs/DiscRecording.log"),
@@ -166,13 +169,13 @@ enum SystemFolders {
         "intelligentroutingd": .file("/System/Library/Sandbox/Profiles/com.apple.intelligentroutingd.sb", naming: "/Library/Logs/intelligentroutingd"),
         "InternetAccounts": .file("/System/Library/Sandbox/Profiles/frameworks.sb", naming: "/Library/Logs/InternetAccounts"),
         "IOKit": .file("/System/Library/CoreServices/powerd.bundle/powerd", naming: "Library/Logs/IOKit"),
-        "khwm.log": .file("/usr/libexec/sysstatuscheck", naming: "Library/Logs/khwm.log"),
+        "khwm.log": .through(26, .file("/usr/libexec/sysstatuscheck", naming: "Library/Logs/khwm.log")),
         "LKDC-setup.log": .file("/usr/libexec/configureLocalKDC", naming: "/Library/Logs/LKDC-setup.log"),
         "ManagedClient": .file("/System/Library/CoreServices/SecurityAgentPlugins/MCXMechanism.bundle/Contents/MacOS/MCXMechanism", naming: "Library/Logs/ManagedClient"),
         "MCXTools.log": .file("/usr/libexec/mcxalr", naming: "/Library/Logs/MCXTools.log"),
         "MDM": .file("/System/Library/ExtensionKit/Extensions/ProfilesSettingsExt.appex/Contents/MacOS/ProfilesSettingsExt", naming: "Library/Logs/MDM"),
         "MDMSim": .file("/usr/libexec/mdmclient", naming: "Library/Logs/MDMSim"),
-        "mdworker": .file("/usr/share/sandbox/mdworker-mail.sb", naming: "/Library/Logs/mdworker"),
+        "mdworker": .through(26, .file("/usr/share/sandbox/mdworker-mail.sb", naming: "/Library/Logs/mdworker")),
         "Metal": .file("/System/Library/Sandbox/Profiles/com.apple.mtlcompilerservice.sb", naming: "/Library/Logs/Metal"),
         "milod": .file("/System/Library/Sandbox/Profiles/com.apple.milod.sb", naming: "/Library/Logs/milod"),
         "mobileactivationd": .file("/usr/libexec/mobileactivationd", naming: "Library/Logs/mobileactivationd"),
@@ -200,7 +203,7 @@ enum SystemFolders {
         "Touch": .file("/System/Library/HIDPlugins/ServicePlugins/HSTouchHIDService.plugin/Contents/MacOS/HSTouchHIDService", naming: "Library/Logs/Touch"),
         "Trial": .file("/System/Library/Sandbox/Profiles/com.apple.triald.sb", naming: "/Library/Logs/Trial"),
         "Ubiquity": .file("/System/Library/Sandbox/Profiles/com.apple.bird.sb", naming: "/Library/Logs/Ubiquity"),
-        "vinylscratch": .file("/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter", naming: "Library/Logs/vinylscratch"),
+        "vinylscratch": .through(26, .file("/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter", naming: "Library/Logs/vinylscratch")),
         "VoiceTrigger": .file("/System/Library/Sandbox/Profiles/com.apple.corespeechd.sb", naming: "/Library/Logs/VoiceTrigger"),
         "WebDAVFileSharing.log": .file("/usr/libexec/wfs/webdavsharing_mapper", naming: "Library/Logs/WebDAVFileSharing.log"),
         "WindowServer": .file("/usr/libexec/sysdiagnosed", naming: "/Library/Logs/WindowServer"),
@@ -228,8 +231,8 @@ enum SystemFolders {
         "networkserviceproxy.plist": .file("/System/Library/Sandbox/Profiles/com.apple.networkserviceproxy.sb", naming: "/Library/Preferences/networkserviceproxy.plist"),
         "nfcd.plist": .file("/System/Library/Sandbox/Profiles/nfcd.sb", naming: "/Library/Preferences/nfcd.plist"),
         "no_backup": .file("/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter", naming: "no_backup/commcenter_runtime_storage"),
-        "OpenDirectory": .file("/System/Library/Sandbox/Profiles/com.apple.opendirectoryd-deny-default.sb", naming: "/Library/Preferences/OpenDirectory"),
-        "opendirectoryd.plist": .file("/System/Library/Sandbox/Profiles/com.apple.opendirectoryd-deny-default.sb", naming: "/Library/Preferences/opendirectoryd.plist"),
+        "OpenDirectory": .file("/usr/libexec/opendirectoryd", naming: "/Library/Preferences/OpenDirectory/"),
+        "opendirectoryd.plist": .through(26, .file("/System/Library/Sandbox/Profiles/com.apple.opendirectoryd-deny-default.sb", naming: "/Library/Preferences/opendirectoryd.plist")),
         "pbs.plist": .part("/System/Library/CoreServices/pbs"),
         "ProtectedCloudStorage": .part("/System/Library/PrivateFrameworks/ProtectedCloudStorage.framework"),
         "rtcreportingd.plist": .file("/System/Library/Sandbox/Profiles/com.apple.rtcreportingd.sb", naming: "/Library/Preferences/rtcreportingd.plist"),

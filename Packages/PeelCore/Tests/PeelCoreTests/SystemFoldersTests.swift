@@ -24,6 +24,8 @@ struct SystemFoldersTests {
             return bytes?.range(of: Data(text.utf8)) != nil
         case .image(let path, let text):
             return (try? SharedCache.image(path, holds: text)) == true
+        case .through(let version, let proof):
+            return ProcessInfo.processInfo.operatingSystemVersion.majorVersion > version || holds(proof, for: name)
         }
     }
 
