@@ -42,6 +42,19 @@ struct BackgroundItemOwnershipTests {
         #expect(!ownership.isOrphan(label: "org.example.cut", program: "/bin/sh\u{0}gone", owner: nil))
     }
 
+    /// launchd runs a daemon as root, so a program in a folder this account can't search is not gone.
+    @Test(.permissionsHold) func neverCallsGoneAProgramInAFolderItCannotSearch() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("Vendor/bin/agent").path(percentEncoded: false)
+        try directory.setPermissions(0, of: "Vendor")
+        defer { try? directory.setPermissions(0o755, of: "Vendor") }
+        let ownership = BackgroundItemOwnership(installedApps: []) { _ in nil }
+        let job = try #require(JobDefinition(["Label": "org.example.agent", "Program": program]))
+
+        #expect(!ownership.isOrphan(job))
+        #expect(!ownership.isOrphan(label: "org.example.agent", program: program, owner: nil))
+    }
+
     /// What the helper refuses, the page must not offer: both read the same label.
     @Test func knowsTheJobTheHelperWillNotActOn() {
         func item(_ label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem {

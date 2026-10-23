@@ -129,7 +129,12 @@ public struct BackgroundItemOwnership: Sendable {
     private static let standardPath = ["/usr/bin", "/bin", "/usr/sbin", "/sbin"]
 
     private static func exists(_ program: String) -> Bool {
-        guard !program.contains("/") else { return FileManager.default.fileExists(atPath: program) }
+        guard !program.contains("/") else {
+            // Gone only when nothing is there: launchd runs a daemon as root, which reaches a folder this account
+            // can't search.
+            var info = stat()
+            return stat(program, &info) == 0 || ![ENOENT, ENOTDIR, ELOOP].contains(errno)
+        }
         return standardPath.contains { FileManager.default.isExecutableFile(atPath: $0 + "/" + program) }
     }
 
