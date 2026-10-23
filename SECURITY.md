@@ -151,9 +151,9 @@ have, and anything that destroys data that cannot be recovered.
   (with Peel's update key, or, as Sparkle allows when that key changes, in a disk image signed with
   Peel's Developer ID), one older than the copy installed, or one from anywhere but its signed feed.
   The one exception is Sparkle's design: a feed whose signature has kept failing for 20 days is read
-  without its release notes, so that a changed key can still reach every copy, and what it offers
-  installs only when it is signed as above. Peel updates itself with Sparkle, so a flaw in Sparkle
-  that reaches Peel is in scope too, and it is passed on to the Sparkle project.
+  without its release notes or its critical mark, so that a changed key can still reach every copy,
+  and what it offers installs only when it is signed as above. Peel updates itself with Sparkle, so
+  a flaw in Sparkle that reaches Peel is in scope too, and it is passed on to the Sparkle project.
 
 **What Peel reads, runs, and writes.**
 
