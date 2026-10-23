@@ -4,14 +4,15 @@ Run after building the Debug configuration into `build/DerivedData`:
     python3 Scripts/sync_localizations.py            writes the catalogs
     python3 Scripts/sync_localizations.py --check    writes nothing, says what would change, exits 1 if anything would
 
-There are five catalogs in `Localization/`: Localizable and InfoPlist for the app and for the Finder extension,
-and AppShortcuts (the phrases Siri and Spotlight match). InfoPlist holds the text macOS shows from an Info.plist,
-such as the app's permission prompts and the copyright in Finder's Info window. Apple's `xcstringstool sync`
-updates Localizable and AppShortcuts from the build's `.stringsdata` files. It adds new strings. A string that is
-not in the build output is removed when it has no translations, and otherwise marked stale with its translations
-kept. The tool picks the strings table by the catalog's file name, so each catalog is synced on a copy with the
-same name. InfoPlist has no `.stringsdata`: its English is read from the target's Info.plist in `Support/`, and the
-bundle's name is marked as never translated.
+There are six catalogs in `Localization/`: Localizable and InfoPlist for the app and for the Finder extension,
+AppShortcuts (the phrases Siri and Spotlight match), and DebugBuild, the app's strings that only a Debug build shows,
+which the Release configuration leaves out. InfoPlist holds the text macOS shows from an Info.plist, such as the app's
+permission prompts and the copyright in Finder's Info window. Apple's `xcstringstool sync` updates Localizable,
+AppShortcuts, and DebugBuild from the build's `.stringsdata` files. It adds new strings. A string that is not in the
+build output is removed when it has no translations, and otherwise marked stale with its translations kept. The tool
+picks the strings table by the catalog's file name, so each catalog is synced on a copy with the same name. InfoPlist
+has no `.stringsdata`: its English is read from the target's Info.plist in `Support/`, and the bundle's name is marked
+as never translated.
 
 The script stops instead of guessing. It exits when there is no build output, because a sync against nothing would
 treat every string as gone, and when the build is older than the code, because a sync against it would miss what
@@ -28,6 +29,7 @@ LOCALIZATION = PROJECT / "Localization"
 SYNCED = [
     ("Peel", LOCALIZATION / "Peel/Localizable.xcstrings"),
     ("Peel", LOCALIZATION / "Peel/AppShortcuts.xcstrings"),
+    ("Peel", LOCALIZATION / "Peel/DebugBuild.xcstrings"),
     ("PeelFinder", LOCALIZATION / "PeelFinder/Localizable.xcstrings"),
 ]
 INFO = [

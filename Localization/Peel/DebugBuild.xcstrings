@@ -1,0 +1,113 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "The DEV icon is made with [blueprint](https://github.com/MustafaNatur/blueprint)" : {
+      "comment" : "Only in a Debug build of Peel, whose icon wears a DEV badge and is drawn by blueprint, an open source tool. Keep the link as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikona DEV je vytvořena nástrojem [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das DEV-Symbol wurde mit [blueprint](https://github.com/MustafaNatur/blueprint) erstellt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El icono DEV está hecho con [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’icône DEV est créée avec [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’icona DEV è creata con [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEVアイコンは[blueprint](https://github.com/MustafaNatur/blueprint)で作成しています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEV 아이콘은 [blueprint](https://github.com/MustafaNatur/blueprint)를 사용하여 만들었습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het DEV-symbool is gemaakt met [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikonę DEV utworzono za pomocą [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O ícone DEV é feito com o [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pictograma DEV este făcută cu [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значок DEV создан с помощью [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEV-symbolen är skapad med [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEV simgesi [blueprint](https://github.com/MustafaNatur/blueprint) ile oluşturulmuştur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Іконку DEV створено за допомогою [blueprint](https://github.com/MustafaNatur/blueprint)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEV图标使用[blueprint](https://github.com/MustafaNatur/blueprint)制作"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEV圖像使用[blueprint](https://github.com/MustafaNatur/blueprint)製作"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

@@ -12,6 +12,7 @@ import Testing
         Catalog(path: "Localization/Peel/InfoPlist.xcstrings", table: .infoPlist),
         Catalog(path: "Localization/PeelFinder/InfoPlist.xcstrings", table: .infoPlist),
         Catalog(path: "Localization/Peel/AppShortcuts.xcstrings", table: .appShortcuts),
+        Catalog(path: "Localization/Peel/DebugBuild.xcstrings", table: .localizable),
     ]
 
     @Test(arguments: catalogs) func everyDeclaredLanguageIsCompleteAndSound(catalog: Catalog) throws {
@@ -155,6 +156,37 @@ import Testing
         #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
     }
 
+    @Test func everyAboutCreditFitsOnOneLine() throws {
+        let localizable = try Self.localizable()
+        let debugBuild = try Self.strings(in: "Localization/Peel/DebugBuild.xcstrings")
+        let credits = [
+            (localizable, "The peel command uses [swift-argument-parser](peel-license:swift-argument-parser-LICENSE)"),
+            (localizable, "The face’s motion is adapted from [blobatar](peel-license:blobatar-LICENSE)"),
+            (debugBuild, "The DEV icon is made with [blueprint](https://github.com/MustafaNatur/blueprint)"),
+            (localizable, "Peel updates itself with [Sparkle](peel-license:Sparkle-LICENSE)"),
+        ]
+        let aboutWidth: CGFloat = 380
+        let padding: CGFloat = 32
+        let callout = NSFont.preferredFont(forTextStyle: .callout)
+        var problems: [String] = []
+        for language in try ["en"] + Self.declaredLanguages() {
+            let font = Self.font(callout, in: language)
+            for (catalog, key) in credits {
+                guard catalog[key] != nil else {
+                    problems.append("\(key.debugDescription) is not in the catalog")
+                    continue
+                }
+                let text = (Self.value(of: key, in: language, catalog) ?? key)
+                    .replacing(/\[([^\]]+)\]\([^)]+\)/) { String($0.output.1) }
+                let width = (text as NSString).size(withAttributes: [.font: font]).width
+                if width > aboutWidth - 2 * padding {
+                    problems.append("\(language): \(text.debugDescription) is \(Int(width.rounded(.up))) points, and About has \(Int(aboutWidth - 2 * padding))")
+                }
+            }
+        }
+        #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
+    }
+
     static let sidebarNames = [
         "Home", "Tweaks", "Terminal", "History", "Settings", "Applications", "Orphaned Files", "Intel Software",
         "Package Receipts", "Space", "Developer", "Build Artifacts", "Installers and Backups", "Duplicates",
@@ -165,8 +197,12 @@ import Testing
     static let sidebarSymbol: CGFloat = 26
 
     static func localizable() throws -> [String: [String: Any]] {
+        try strings(in: "Localization/Peel/Localizable.xcstrings")
+    }
+
+    static func strings(in path: String) throws -> [String: [String: Any]] {
         let checker = CatalogChecker(root: repository, required: [])
-        return try #require(checker.load("Localization/Peel/Localizable.xcstrings")?["strings"] as? [String: [String: Any]])
+        return try #require(checker.load(path)?["strings"] as? [String: [String: Any]])
     }
 
     static func value(of key: String, in language: String, _ catalog: [String: [String: Any]]) -> String? {

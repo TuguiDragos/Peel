@@ -90,6 +90,13 @@ struct AboutContent: View {
                 "The face’s motion is adapted from [blobatar](peel-license:blobatar-LICENSE)",
                 comment: "The face is Peel’s logo with eyes, at the head of the sidebar. Keep the link as it is."
             )
+            #if DEBUG
+            Text(
+                "The DEV icon is made with [blueprint](https://github.com/MustafaNatur/blueprint)",
+                tableName: "DebugBuild",
+                comment: "Only in a Debug build of Peel, whose icon wears a DEV badge and is drawn by blueprint, an open source tool. Keep the link as it is."
+            )
+            #endif
             Text(
                 "Peel updates itself with [Sparkle](peel-license:Sparkle-LICENSE)",
                 comment: "Sparkle is the open source framework that installs Peel’s updates. Keep the link as it is."

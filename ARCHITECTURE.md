@@ -284,7 +284,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - **Languages.** Every string a person reads is in the string catalogs in `Localization/`, translated into 17
   languages. The key is the English, so changing a sentence means translating it again; the tests fail until
   every language has it. PeelCore never translates: it returns plain English, and the app turns known
-  sentences into the reader's language (`FixedSentence`).
+  sentences into the reader's language (`FixedSentence`). What only a Debug build shows is in
+  `DebugBuild.xcstrings`, which the Release configuration leaves out.
 - **Tweaks.** The Tweaks page changes 40 settings of macOS and of its apps, each one preference key of one domain
   (`TweakCatalog`), through CFPreferences and never by editing a file: cfprefsd keeps its own copy of a domain and
   writes it back over a file changed behind it (`TweakStore`). It writes the layer System Settings writes, the

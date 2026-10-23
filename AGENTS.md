@@ -423,12 +423,14 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   Romanian, German, French, Spanish, Portuguese (Brazilian), Italian, Japanese, Simplified and Traditional
   Chinese, Dutch, Korean, Russian, Polish, Turkish, Swedish, Czech, and Ukrainian.
 - Write new or changed interface text in English, then run `python3 Scripts/sync_localizations.py` after a Debug
-  build so the catalogs list it. In the Localizable and AppShortcuts catalogs the English is the key, so new text has
+  build so the catalogs list it. In every catalog but InfoPlist the English is the key, so new text has
   no translations, and changed text is new text: the sync keeps the entry of the text it replaced, marked stale with
   its translations. `StringCatalogTests` fails for both until all 17 are written for the new text and the stale entry
   is gone, which happens before the change is merged. Text an Info.plist shows (a permission prompt, the copyright)
   keeps its key, and its translations are marked for review until they are written again.
 - Text a person reads goes through the catalogs: `Text(verbatim:)` is only for what is not words, or for a name.
+  Text that only a Debug build shows (inside `#if DEBUG`) takes the `DebugBuild` table (`tableName: "DebugBuild"`),
+  whose catalog the Release configuration leaves out (`EXCLUDED_SOURCE_FILE_NAMES`), so a release carries none of it.
 - A translation uses the words macOS itself uses in that language for every place, menu, and command, and writes the
   marks macOS writes there: Dutch keeps the straight apostrophe, German puts a no-break space before an ellipsis,
   French one before ? : ! and ; and inside « », App Store keeps one in the languages whose macOS writes it so, and

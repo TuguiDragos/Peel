@@ -37,4 +37,12 @@ struct DebugBuildTests {
         #expect(blueprint.map(\.name) == ["Badge"] + original.map(\.name) + ["Blueprint Paper"])
         #expect(Array(blueprint.dropFirst().prefix(original.count)).map(\.layers) == original.map(\.layers))
     }
+
+    @Test func aReleaseLeavesOutTheStringsOnlyADebugBuildShows() {
+        let leavingThemOut = configurations.filter {
+            $0.settings.contains("EXCLUDED_SOURCE_FILE_NAMES = DebugBuild.xcstrings;")
+        }
+        #expect(leavingThemOut.map(\.name) == ["Release"])
+        #expect(leavingThemOut.allSatisfy { $0.settings.contains("INFOPLIST_FILE = \"Support/Peel-Info.plist\";") })
+    }
 }
