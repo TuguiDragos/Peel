@@ -79,7 +79,9 @@ struct TerminalLibrariesTests {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
         let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
-        let library = ShellLibrary(folder: folder, home: home)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/zsh"
+        let library = ShellLibrary(folder: folder, home: home, terminal: terminal)
         try ("precmd() { PROMPT='mine> ' }\n" + library.line + "\n")
             .write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
         try "export ZDOTDIR=\"$HOME\"\n".write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
@@ -92,6 +94,21 @@ struct TerminalLibrariesTests {
         await library.refresh()
         #expect(library.state?.shownPrompt?.setBeforeEachCommandBy == ["precmd"])
         #expect(library.state?.shownPrompt?.prompt == "mine> ")
+    }
+
+    @Test func theShellTabLooksForNoZshrcWhenTerminalOpensBash() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/bash"
+        let library = ShellLibrary(folder: folder, home: home, terminal: terminal)
+        try (library.line + "\n").write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
+
+        await library.refresh()
+        #expect(library.state?.shell == .bash)
+        #expect(library.state?.startupFile == nil)
+        #expect(library.state?.isSourced == false)
     }
 
     @Test func theTerminalTabKnowsFromTheStartWhenTerminalsProfilesCannotBeRead() throws {

@@ -17,13 +17,19 @@ final class ShellLibrary {
 
     let file: URL
     private let home: URL
+    private let terminal: any TerminalSettingsStoring
     private(set) var state: State?
     private(set) var wasRefused = false
     private(set) var draft = Prompt()
 
-    init(folder: URL = PeelFolder.url, home: URL = .homeDirectory) {
+    init(
+        folder: URL = PeelFolder.url,
+        home: URL = .homeDirectory,
+        terminal: any TerminalSettingsStoring = TerminalSettings()
+    ) {
         file = ShellFile.url(in: folder)
         self.home = home
+        self.terminal = terminal
     }
 
     var line: String {
@@ -39,7 +45,7 @@ final class ShellLibrary {
         if known == nil {
             known = await ShellFile.knownToZsh()
         }
-        let shell = ShellSessions.inTerminal(TerminalSettings(), home: home)
+        let shell = ShellSessions.inTerminal(terminal, home: home)
         let startupFile = await shell?.zshrc(home: home)
         let choices = ShellFile.read(file)
         let isSourced = startupFile.map { ShellFile.isSourced(file, from: $0, home: home) } ?? false
