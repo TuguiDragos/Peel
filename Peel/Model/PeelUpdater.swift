@@ -69,6 +69,14 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
     ) -> Bool {
         immediateFocus
     }
+
+    /// Where Sparkle hands Peel an update it leaves to Peel to tell, which Sparkle requires once Peel takes any.
+    /// `newerVersion`, set when Sparkle found it, already shows it in the face, the sidebar and About.
+    nonisolated func standardUserDriverWillHandleShowingUpdate(
+        _ handleShowingUpdate: Bool,
+        forUpdate update: SUAppcastItem,
+        state: SPUUserUpdateState
+    ) {}
 }
 
 /// Why Sparkle skips a check it starts on its own, in its log. It shows nothing and schedules the next check.
