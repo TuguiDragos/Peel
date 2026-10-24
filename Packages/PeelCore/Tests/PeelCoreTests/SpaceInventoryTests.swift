@@ -426,7 +426,9 @@ struct SpaceInventoryTests {
         } ?? false
         let isInstalled = FileManager.default.isExecutableFile(atPath: Simctl.program.path(percentEncoded: false))
 
-        let help = await Simctl.runtimeHelp()
+        // Space gives `simctl` five seconds, and on a busy Mac it can take longer to reach CoreSimulator's service,
+        // so the test waits for its whole answer.
+        let help = await Simctl.runtimeHelp(within: nil)
 
         if xcrunFindsOne && isInstalled {
             #expect(help?.contains("Usage: simctl runtime") == true)

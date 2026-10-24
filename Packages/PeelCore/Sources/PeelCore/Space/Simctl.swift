@@ -10,15 +10,15 @@ enum Simctl {
     )
 
     /// What `simctl help runtime` prints, which it writes to standard error. Nil when `xcrun` would find no `simctl`
-    /// in the active developer folder, or the program did not answer.
-    static func runtimeHelp() async -> String? {
+    /// in the active developer folder, or the program did not answer within `timeout` seconds, when there is one.
+    static func runtimeHelp(within timeout: TimeInterval? = 5) async -> String? {
         guard let developer = await DeveloperFolder.active(),
               FileManager.default.isExecutableFile(
                   atPath: developer.appending(path: "usr/bin/simctl").path(percentEncoded: false)
               )
         else { return nil }
         let answer = await Subprocess.run(
-            program.path(percentEncoded: false), ["help", "runtime"], environment: [:], timeout: 5,
+            program.path(percentEncoded: false), ["help", "runtime"], environment: [:], timeout: timeout,
             errorsIntoOutput: true
         )
         guard case .success(let output) = answer, output.status == 0 else { return nil }

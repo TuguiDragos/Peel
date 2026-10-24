@@ -511,7 +511,7 @@ public enum SpaceInventory {
         minimumSize: Int64,
         exclusions: Exclusions = .none,
         measure: @escaping FileSize.Measure,
-        simctlRuntimeHelp: @escaping @Sendable () async -> String? = Simctl.runtimeHelp
+        simctlRuntimeHelp: @escaping @Sendable () async -> String? = { await Simctl.runtimeHelp() }
     ) async -> SpaceReport {
         let containers = appContainers(in: home)
         let groups = groupContainers(in: home)
