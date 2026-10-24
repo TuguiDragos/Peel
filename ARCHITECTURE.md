@@ -489,7 +489,7 @@ and length, and once published, the latest release serves that very feed.
 
 Before it runs, the version is set by hand in each of the project's targets: `MARKETING_VERSION`, and
 `CURRENT_PROJECT_VERSION`, the build every program carries, written as the year, month, and day it was set, such as
-261022 for 1.2.0, with the release's entry in CHANGELOG.md. The script needs a Developer ID Application certificate
+261024 for 1.2.0, with the release's entry in CHANGELOG.md. The script needs a Developer ID Application certificate
 in the keychain, a notary profile stored once with `xcrun notarytool store-credentials` (it uses the one named Peel
 unless given another), the update key in the Keychain under the account peel, made once with Sparkle's
 `generate_keys --account peel`, and uv (`brew install uv`), and it refuses to start without uv.
