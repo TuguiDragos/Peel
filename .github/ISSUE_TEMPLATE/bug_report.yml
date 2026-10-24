@@ -1,6 +1,7 @@
 name: Report a problem
 description: Something in Peel doesn't work as it should.
 labels: ["bug"]
+assignees: ["TuguiDragos"]
 body:
   - type: markdown
     attributes:
