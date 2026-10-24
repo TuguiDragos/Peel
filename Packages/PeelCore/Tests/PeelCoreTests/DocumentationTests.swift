@@ -38,6 +38,7 @@ struct DocumentationTests {
         let results = FileSearch.maximumResults.formatted(.number.locale(Locale(identifier: "en_US")))
         let minutes = Int(HoldBack.stillInUse / 60)
         let days = Int(ProjectArtifacts.recentlyActive / (24 * 60 * 60))
+        let spaceFloor = SpaceInventory.minimumSize / 1_000_000
         #expect(Installers.stillDownloading == 24 * 60 * 60, "the documents say a download that changed in the last day")
         #expect(Homebrew.autoUpdateInterval == 24 * 60 * 60, "the documents say what Homebrew says counts for a day")
         let said = [
@@ -63,6 +64,7 @@ struct DocumentationTests {
             ("SAFETY.md", "in the last \(minutes) minutes"),
             ("SAFETY.md", "changed in the last \(days) days, and a download that changed in the last day"),
             ("GUIDE.md", "changed in the last \(days) days"),
+            ("GUIDE.md", "An area smaller than \(spaceFloor) MB isn't listed."),
             ("docs/index.html", "\(themes) dark themes"),
             ("docs/llms.txt", "\(themes) dark themes"),
             ("docs/index.html", "\(tweaks) settings macOS already has"),
