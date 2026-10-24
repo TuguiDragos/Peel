@@ -75,8 +75,12 @@ struct DieCut: View {
 
     var body: some View {
         Canvas { context, size in
-            // One resolved image for contour and picture: SwiftUI picks an icon's rep by scale, and reps differ.
-            let picture = context.resolve(Image(nsImage: image))
+            let side = min(size.width, size.height)
+            guard side > 0, let sized = image.copy() as? NSImage else { return }
+            // SwiftUI draws an NSImage from the rendition of its own size, so the copy takes the size it shows here.
+            // One resolved image serves contour and picture, since renditions are composed differently.
+            sized.size = NSSize(width: side, height: side)
+            let picture = context.resolve(Image(nsImage: sized))
             let scale = min(size.width / picture.size.width, size.height / picture.size.height)
             let fitted = CGSize(width: picture.size.width * scale, height: picture.size.height * scale)
             let frame = CGRect(

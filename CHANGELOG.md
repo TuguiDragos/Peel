@@ -3,6 +3,14 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
+## 1.2.1 (not released yet)
+
+### Fixed
+
+#### Home
+
+- The picture of your Mac is sharp: it was drawn from a small rendition and enlarged.
+
 ## 1.2.0 (2026-10-24)
 
 ### Added
