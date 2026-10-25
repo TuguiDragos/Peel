@@ -54,6 +54,10 @@ enum KeptOnlyHere {
         // iTerm2's "Dynamic Profiles" and "Running a Script": the profiles and the scripts the person wrote.
         ("Library/Application Support/iTerm2", "Scripts", .holdsWorkMadeWithTheApp),
         ("Library/Application Support/iTerm2", "DynamicProfiles", .holdsWorkMadeWithTheApp),
+        // Sublime Text's "Reverting to a Freshly Installed State" and "Packages": its data folder keeps the person's
+        // settings and the packages they made in `Packages`, which can't be installed again.
+        ("Library/Application Support/Sublime Text", "Packages", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Sublime Text 3", "Packages", .holdsWorkMadeWithTheApp),
         // LibreOffice's and Apache OpenOffice's user profile (`UserInstallation`, `<name>/4` on a Mac). LibreOffice
         // Help's "Paths": the person's templates, AutoText, AutoCorrect texts, dictionaries, and documents' backups.
         ("Library/Application Support/LibreOffice", nil, .holdsWorkMadeWithTheApp),

@@ -35,6 +35,9 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/iTerm2", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/iTerm2/Scripts/AutoLaunch/hello.py", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/iTerm2/DynamicProfiles/Work.json", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Sublime Text", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Sublime Text/Packages/User/Notes.sublime-snippet", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Sublime Text 3/Packages/User/plugin.py", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Transmission", .holdsTorrents),
             ("Library/Application Support/Transmission/Transfers.plist", .holdsTorrents),
             ("Library/Application Support/qBittorrent", .holdsTorrents),
@@ -82,6 +85,7 @@ struct KeptOnlyHereTests {
             "Library/Caches/LibreOffice", "Library/Application Support/LibreOffice Beta",
             "Library/Application Support/iTerm2/version.txt", "Library/Caches/com.googlecode.iterm2",
             "Library/Application Support/Eltima Software", "Library/Application Support/Eltima Software/Elmedia Player",
+            "Library/Caches/Sublime Text", "Library/Application Support/Sublime Merge",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")
