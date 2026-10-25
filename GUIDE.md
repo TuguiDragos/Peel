@@ -112,8 +112,11 @@ Space shows what fills your disk, area by area, and what each area is.
   less, are left out unless you choose a smaller size, in the app and in `peel duplicates` alike. Copies whose
   Finder tags, Finder comment, or resource fork differ aren't duplicates, since moving one would lose them. After a
   scan you start, Peel selects every copy in each group but the first, which it suggests keeping, so look before you
-  move them: one copy is always kept. A chosen folder Peel doesn't scan, such as one that syncs to your other
-  devices or a repository, is named with why, in Scan Settings and with the result.
+  move them: one copy is always kept. A copy in a folder that syncs to your other devices, such as iCloud Drive or
+  what Desktop and Documents hold when they are in iCloud, is listed and never moved, since the Trash would take it
+  from your other devices too: beside a copy on this Mac it is marked Stays, and a group whose every copy syncs is
+  listed under Synced to Other Devices. A chosen folder Peel doesn't scan, such as a repository, is named with why,
+  in Scan Settings and with the result.
 - **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and in
   the folders directly inside them, where installers are usually left, with archives there that hold an app or an
   installer. It also lists packages an app keeps in Application Support, macOS installers, device firmware,

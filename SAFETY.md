@@ -83,7 +83,7 @@ Anything that syncs to your other devices stays too, wherever it is: what iCloud
 as what is on your Desktop and in Documents when they are in iCloud Drive, and what is in a folder Syncthing, Resilio
 Sync, Synology Drive Client, or MEGA keeps in step, known by the entry each writes at that folder's root (`.stfolder`,
 `.sync/ID`, `.SynologyWorkingDirectory`, `.megaignore`). The Trash would take it from your other devices too. Its row
-says so, and File Search doesn't list it.
+says so, File Search doesn't list it, and Duplicates lists such a copy marked Stays, never selected and never moved.
 
 Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android Studio keep a
 history of your changes in `LocalHistory`, beside their caches, which no repository may hold, Deno keeps `localStorage`
@@ -461,7 +461,9 @@ stays before you move the others. Nothing inside a repository, a project, `node_
 app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`: they
 only count toward the folder around them. Copies that differ in their Finder tags, their Finder comment, or their
 resource fork are not duplicates, since moving one would take that away, and a folder kept only in the cloud is never
-looked into.
+looked into. A copy in a folder that syncs to your other devices, iCloud Drive or one a sync app keeps in step, is
+listed and never selected or moved: its row reads Stays, and a group whose every copy syncs is listed under Synced to
+Other Devices.
 
 What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and Backups,
 Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of them moves all of

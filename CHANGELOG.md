@@ -5,6 +5,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ## 1.2.1 (not released yet)
 
+### Added
+
+#### Duplicates
+
+- Duplicates scans the folders that sync to your other devices too, such as iCloud Drive, what Desktop and Documents
+  hold when they are in iCloud, and what a sync app keeps in step, and lists the copies it finds there without ever
+  moving them: beside a copy on this Mac such a copy is marked Stays, and a group whose every copy syncs is listed
+  under Synced to Other Devices. `peel duplicates` marks such a copy `stays` and lists it under `synced` in its JSON.
+
 ### Fixed
 
 #### Home
@@ -18,10 +27,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Duplicates
 
-- A chosen folder Peel doesn't scan is named with why, in Scan Settings, when it is added, and with the result:
-  it syncs to your other devices, holds app data, is a package, is outside your home folder, is a repository, or
-  isn't there. Before, every such folder counted as one Peel couldn't read, and the page asked for Full Disk
-  Access even when Peel had it.
+- A chosen folder Peel doesn't scan is named with why, in Scan Settings, when it is added, and with the result: it
+  holds app data, is a package, is outside your home folder, is a repository, or isn't there. Before, every such
+  folder counted as one Peel couldn't read, and the page asked for Full Disk Access even when Peel had it.
 
 ## 1.2.0 (2026-10-24)
 
