@@ -27,11 +27,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An update waits for Peel to quit even when Peel sits in a folder with accented letters in its name, and the
   Install on Quit button is translated into Ukrainian, Russian, French, and Spanish (Sparkle 2.10.1).
 
+#### Applications and Storage
+
+- In every table of what would be removed, the circled i at the end of a row sits level with the row's checkbox,
+  kind, and size. Before, it dropped below them whenever the badge or the kind took a second line in a narrow
+  window.
+
 #### Duplicates
 
 - A chosen folder Peel doesn't scan is named with why, in Scan Settings, when it is added, and with the result: it
   holds app data, is a package, is outside your home folder, is a repository, or isn't there. Before, every such
   folder counted as one Peel couldn't read, and the page asked for Full Disk Access even when Peel had it.
+- On a group's page, the Quick Look button sits level with the copy's badge and size, not below them.
 
 ## 1.2.0 (2026-10-24)
 
