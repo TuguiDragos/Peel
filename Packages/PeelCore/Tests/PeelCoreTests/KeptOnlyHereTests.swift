@@ -37,6 +37,9 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/minecraft/saves/New World/level.dat", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/minecraft/screenshots/2026-10-25_21.04.12.png", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Postgres/var-17", .holdsWorkMadeWithTheApp),
+            ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", .holdsWorkMadeWithTheApp),
+            ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac/ThingsData-1A2B3/Things Database.thingsdatabase",
+             .holdsWorkMadeWithTheApp),
             ("Library/Application Support/.com.example.notes.backups", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Example/Backups", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/obs-studio", .holdsWorkMadeWithTheApp),
@@ -104,6 +107,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/Mozilla/NativeMessagingHosts/org.example.host.json",
             "Library/Caches/Firefox/Profiles/abcd1234.default-release", "Library/Application Support/Google",
             "Library/Application Support/Google/GoogleUpdater", "Library/Application Support/BraveSoftware",
+            "Library/Containers/com.culturedcode.ThingsMac", "Library/Caches/com.culturedcode.ThingsMac",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")

@@ -72,6 +72,8 @@ enum KeptOnlyHere {
         // Postgres.app's "Installing Postgres.app": its default data directory is `Postgres/var-XX`, and deleting the
         // data directories is an optional step of uninstalling it.
         ("Library/Application Support/Postgres", nil, .holdsWorkMadeWithTheApp),
+        // Cultured Code's "Completely Uninstalling Things": deleting this group container deletes the to-dos.
+        ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", nil, .holdsWorkMadeWithTheApp),
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
         // (`frontend/OBSApp.cpp`), and nowhere else.
         ("Library/Application Support/obs-studio", "basic", .holdsWorkMadeWithTheApp),
