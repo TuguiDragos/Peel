@@ -109,8 +109,9 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   finish reading, is shown with its reason and moves only when the user selects it. `peel uninstall`, `peel orphans
   --remove`, and `peel projects --remove` pass it by, and Select All takes it only once the user has answered the
   question that counts what Peel doesn't recommend (`SelectableRows.notRecommendedAdded`). A repository can still be
-  selected in two places, since its tool clones it again: inside a folder its tool tags as a cache
-  (`CACHEDIR.TAG`), such as Swift Package Manager's `.build`, and inside a cache on the Developer page.
+  selected in two places, since its tool clones it again: inside Swift Package Manager's `.build`, which it tags as a
+  cache (`CACHEDIR.TAG`), and inside a cache on the Developer page; a tag alone never makes a repository selectable
+  (`Definition.remakesItsClones`).
 - **The user's exclusions reach every scanner**, so an excluded item never appears in the first place.
 - **What a file says about itself is anyone's word.** Any program can write a launch job, an app's Info.plist, or one
   of Peel's own records, so a program path that holds a NUL names no program, an app's name goes into a pattern only

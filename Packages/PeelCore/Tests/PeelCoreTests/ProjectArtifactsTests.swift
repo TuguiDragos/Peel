@@ -1024,6 +1024,31 @@ struct ProjectArtifactsTests {
         #expect(found.filter(\.isRecommended).map(\.project.lastPathComponent) == ["tool"])
     }
 
+    @Test func aTaggedPythonEnvironmentIsAnEnvironmentWhateverItIsCalledAndKeepsItsClones() async throws {
+        let directory = try TemporaryDirectory()
+        let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n# created by virtualenv automatically\n".utf8)
+        for (project, file, environment) in [
+            ("scripts", "main.py", ".venv"), ("api", "requirements.txt", ".env"), ("app", "pyproject.toml", ".venv"),
+        ] {
+            try directory.file("Projects/\(project)/\(file)", bytes: 16)
+            try directory.file("Projects/\(project)/\(environment)/CACHEDIR.TAG", contents: tag)
+            try directory.file("Projects/\(project)/\(environment)/pyvenv.cfg", bytes: 16)
+        }
+        try directory.file("Projects/app/.venv/src/mylib/.git/HEAD", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")]).artifacts
+
+        let rows = Dictionary(uniqueKeysWithValues: found.map { ("\($0.project.lastPathComponent)/\($0.name)", $0) })
+        for row in ["scripts/.venv", "api/.env"] {
+            #expect(rows[row]?.isEnvironment == true, "\(row)")
+            #expect(rows[row]?.tool == "Python", "\(row)")
+            #expect(rows[row]?.isRecommended == false, "\(row)")
+        }
+        #expect(rows["app/.venv"]?.heldBack == .holdsRepository)
+        #expect(ProjectArtifacts.BackupMarks(found, excluded: [], excludedFromAbove: []).markable.isEmpty)
+    }
+
     @Test func aFolderGitTracksIsListedAndNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         let git = try await GitFixture(home: directory.url.appending(path: "home"))
@@ -1270,6 +1295,11 @@ struct ProjectArtifactsTests {
             case .holdsOnlyFoldersNamedByDigest(let characters):
                 try directory.file("\(artifact)/\(String(repeating: "a", count: characters))/content")
             case nil: try directory.file("\(artifact)/content")
+            }
+            if definition.isFoundOnlyByItsTag {
+                try directory.file(
+                    "\(artifact)/CACHEDIR.TAG", contents: Data("Signature: 8a477f597d28d172789f06886806bc55\n".utf8)
+                )
             }
             expected[artifact] = definition.tool
         }

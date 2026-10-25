@@ -408,13 +408,13 @@ shown with their size as "Unknown", never as zero, in every tool and in History 
 read quickly may be exactly the one with work inside, and nothing is selected for you without saying how much it is. A
 total that leaves such a folder out reads "Over" what is known.
 
-A repository can still be selected in two places, since its tool makes everything there again. One is a folder its
-tool tags as a cache (`CACHEDIR.TAG`): Swift Package Manager tags `.build`, where it clones a package's
-dependencies, and `swift package reset` deletes that folder whole, so Build Artifacts can still select it. The other
-is a cache on the Developer page, a folder its tool's documentation or source shows to be a cache, such as the
-packages Xcode checks out into DerivedData or the clones Cargo and Swift Package Manager keep, which the tool clones
-again when it needs them. Of Carthage's folder in a project, only `Carthage/Build`, which `carthage build` makes, is
-offered: its checkouts, which people commit in, carry no such tag and are never listed.
+A repository can still be selected in two places, since its tool makes everything there again. One is Swift Package
+Manager's `.build`, which it tags as a cache (`CACHEDIR.TAG`) and where it clones a package's dependencies: `swift
+package reset` deletes that folder whole, so Build Artifacts can still select it. A tag alone never makes a repository
+selectable: anyone can write one. The other is a cache on the Developer page, a folder its tool's documentation or
+source shows to be a cache, such as the packages Xcode checks out into DerivedData or the clones Cargo and Swift Package
+Manager keep, which the tool clones again when it needs them. Of Carthage's folder in a project, only `Carthage/Build`,
+which `carthage build` makes, is offered: its checkouts, which people commit in, carry no such tag and are never listed.
 
 Build Artifacts recommends what a build or a package manager makes again from the project's own files, such as
 `DerivedData`, `.build`, and `.next`, once Peel can tell that nothing in the project has changed for a week. That
@@ -423,20 +423,21 @@ includes `node_modules` and `Pods`, which `npm install` and `pod install` put ba
 is part of the project, so it is listed and never selected, and so is one in a repository whose list of tracked files
 Peel can't read. Peel reads that list from Git's own index, as Git documents it, and never runs Git in a project.
 Installed packages are listed and never selected, since packages are often installed into them by hand: a Python
-environment (`.venv`, `venv`, `env`, PDM's `__pypackages__`, tox's `.tox`, Nox's `.nox`), Composer's `vendor`, Mix's
-`deps`, Shards' `lib`, and Elm's `elm-stuff`. So is Terraform's `.terraform`, which keeps the workspace you chose, and
-xwin's `.xwin-cache`, the Windows SDK a Rust project builds against, which only `xwin splat` with your own options puts
-back. Pixi's `.pixi/envs` can be suggested: Pixi makes it again from `pixi.lock` and never lets it be edited by hand. A
-Meson build folder, whatever its name and wherever Peel finds it, is never selected: it also keeps the options its build
-was set up with, which Meson's own `--wipe` carries over and nothing else in the project holds. Neither is Bloop's
-`.bloop`, which keeps the workspace settings written there. A folder whose name says nothing on its own, such as
-`target` or `build`, is listed and never selected either. Of a Godot project's `.godot`, only the caches Godot makes
-again are offered, `imported` and `shader_cache`: the folder also holds the export passwords and keys
-(`export_credentials.cfg`), which exist nowhere else. Nx's `.nx` is offered only when it holds nothing but the cache and
-the database beside it, which `nx reset` removes together, since a team can keep its release plans there. Build
-Artifacts never searches a hidden folder, a Library, or a folder a tool fills, such as `node_modules`: apps and tools
-keep there what they install, as an editor keeps each extension's `package.json` beside the `node_modules` it runs with.
-A folder chosen to search that is one of those, or sits inside one, is refused with the reason.
+environment (`.venv`, `venv`, `env`, PDM's `__pypackages__`, tox's `.tox`, Nox's `.nox`, and any folder tagged as a
+cache that holds the `pyvenv.cfg` every environment has), Composer's `vendor`, Mix's `deps`, Shards' `lib`, and Elm's
+`elm-stuff`. So is Terraform's `.terraform`, which keeps the workspace you chose, and xwin's `.xwin-cache`, the Windows
+SDK a Rust project builds against, which only `xwin splat` with your own options puts back. Pixi's `.pixi/envs` can be
+suggested: Pixi makes it again from `pixi.lock` and never lets it be edited by hand. A Meson build folder, whatever its
+name and wherever Peel finds it, is never selected: it also keeps the options its build was set up with, which Meson's
+own `--wipe` carries over and nothing else in the project holds. Neither is Bloop's `.bloop`, which keeps the workspace
+settings written there. A folder whose name says nothing on its own, such as `target` or `build`, is listed and never
+selected either. Of a Godot project's `.godot`, only the caches Godot makes again are offered, `imported` and
+`shader_cache`: the folder also holds the export passwords and keys (`export_credentials.cfg`), which exist nowhere
+else. Nx's `.nx` is offered only when it holds nothing but the cache and the database beside it, which `nx reset`
+removes together, since a team can keep its release plans there. Build Artifacts never searches a hidden folder, a
+Library, or a folder a tool fills, such as `node_modules`: apps and tools keep there what they install, as an editor
+keeps each extension's `package.json` beside the `node_modules` it runs with. A folder chosen to search that is one of
+those, or sits inside one, is refused with the reason.
 
 Developer, Build Artifacts, Space, and Installers and Backups select nothing for you: opening a page selects nothing,
 and Select Recommended selects what Peel recommends there.

@@ -101,6 +101,9 @@ public enum ProjectArtifacts {
         /// What the folder holds that only its tool writes, for a kind no project file stands beside.
         var proof: Proof?
         var keepsItsSetup = false
+        var isFoundOnlyByItsTag = false
+        /// The tool clones its dependencies inside and clones them again, so a repository there is not the person's.
+        var remakesItsClones = false
 
         /// Names ending in `*` are prefixes, and a path such as `tmp/cache` names a folder inside another.
         func candidates(among names: Set<String>, in folder: URL) -> [String] {
@@ -203,7 +206,7 @@ public enum ProjectArtifacts {
         ),
         Definition(
             name: ".build", markers: ["Package.swift"], tool: "Swift Package Manager", isGeneric: false,
-            source: "Xcode 27: swift build --help (--scratch-path, default .build)"
+            source: "Xcode 27: swift build --help (--scratch-path, default .build)", remakesItsClones: true
         ),
         Definition(
             name: "Pods", markers: ["Podfile"], tool: "CocoaPods", isGeneric: false,
@@ -518,6 +521,11 @@ public enum ProjectArtifacts {
         Definition(
             name: "env", markers: pythonProjectFiles, tool: "Python", isGeneric: true, isEnvironment: true,
             source: "https://docs.python.org/3/library/venv.html", proof: .holds("pyvenv.cfg")
+        ),
+        // uv and virtualenv tag every environment they make as a cache, whatever it is called.
+        Definition(
+            name: "*", markers: [], tool: "Python", isGeneric: false, isEnvironment: true,
+            source: "https://peps.python.org/pep-0405/", proof: .holds("pyvenv.cfg"), isFoundOnlyByItsTag: true
         ),
         Definition(
             name: "__pycache__", markers: [], tool: "Python", isGeneric: false,
@@ -1049,8 +1057,7 @@ public enum ProjectArtifacts {
                 lastActivityIsCertain: activity.isCertain,
                 hasGenericName: artifact.found.definition?.isGeneric ?? false,
                 isEnvironment: artifact.found.definition?.isEnvironment ?? false,
-                // A tool that tags its folder as a cache makes everything in it again, its own clones included.
-                heldBack: (heldBack == .holdsRepository && artifact.found.isTaggedAsACache ? nil : heldBack)
+                heldBack: (heldBack == .holdsRepository && artifact.found.remakesItsClones ? nil : heldBack)
                     ?? (artifact.found.definition?.keepsItsSetup == true ? .keepsItsSetup : nil)
             )
         }
@@ -1100,6 +1107,8 @@ public enum ProjectArtifacts {
         let definition: Definition?
         let isTaggedAsACache: Bool
         var isBesideItsToolsFile = false
+
+        var remakesItsClones: Bool { isTaggedAsACache && definition?.remakesItsClones == true }
     }
 
     /// Lists `folder` and finds the artifacts in it, or nil when it cannot be listed.
@@ -1110,7 +1119,7 @@ public enum ProjectArtifacts {
         let names = Set(entries.map(\.lastPathComponent))
         var artifactNames: Set<String> = []
         var found: [Found] = []
-        for definition in definitions {
+        for definition in definitions where !definition.isFoundOnlyByItsTag {
             let candidates = definition.candidates(among: names, in: folder)
             guard !candidates.isEmpty, definition.hasMarker(besides: names, in: folder) else { continue }
             for name in candidates {
