@@ -339,6 +339,8 @@ struct PackageReceiptsTests {
         #expect(items["Guard"]?.isLeftAlone == true)
         #expect(items["Citrix Receiver"]?.heldBack == .leftToItsUninstaller)
         #expect(items["Citrix Extra"]?.heldBack == nil)
+        #expect(items["Citrix Workspace.app"]?.uninstallsItself?.uninstaller == .deletesTheApp)
+        #expect(items["Citrix Extra"]?.uninstallsItself == nil)
         #expect(items["zerotier-one"]?.heldBack == .holdsVPNConnections)
     }
 

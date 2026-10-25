@@ -22,6 +22,8 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         public var heldBack: HoldBack?
         /// How an app the package installed is removed instead, by the rules its own page follows.
         public var removedElsewhere: RemovedElsewhere?
+        /// An app whose own uninstaller runs once it moves, which the question before the move warns about.
+        public var uninstallsItself: UninstallsItself? = nil
 
         /// True when Peel never moves this item. It is listed but never offered.
         public var isLeftAlone: Bool {

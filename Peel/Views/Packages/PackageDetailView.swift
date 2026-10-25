@@ -106,8 +106,19 @@ struct PackageDetailView: View {
                 }
             }
             Button("Cancel", role: .cancel) {}
+        } message: {
+            if let removalNote {
+                removalNote
+            }
         }
         .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
+    }
+
+    /// What an app that uninstalls itself once it moves does then, as its own page warns.
+    private var removalNote: Text? {
+        let warnings = selectedItems.compactMap(\.uninstallsItself).map(\.warning)
+        guard let first = warnings.first else { return nil }
+        return warnings.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
     }
 
     /// Explains why the list is empty. An unknown file list is checked first: it means `pkgutil` gave none,

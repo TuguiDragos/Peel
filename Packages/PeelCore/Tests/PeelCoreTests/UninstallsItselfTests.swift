@@ -120,6 +120,18 @@ struct UninstallsItselfTests {
         #expect(Set(result.trashed.map(\.originalURL)) == [installed.app.url, preferences])
     }
 
+    @Test func itsBundleMovesAloneWhileItsOwnProgramRunsFromItOnlyWhenAskedTo() async throws {
+        let installed = try Installed()
+
+        let kept = try await installed.service().trash([installed.app.url], usingHelperFor: [])
+        let moved = try await installed.service().trash(
+            [installed.app.url], usingHelperFor: [], lettingTheirProgramsRun: [installed.app.url]
+        )
+
+        #expect(kept.trashed.isEmpty)
+        #expect(moved.trashed.map(\.originalURL) == [installed.app.url], "\(moved.failures.map(\.reason))")
+    }
+
     @Test func itsBundleGoesThroughTheHelperWhileItsOwnProgramRunsFromIt() async throws {
         let installed = try Installed()
         let trash = try installed.directory.directory("home/.Trash")

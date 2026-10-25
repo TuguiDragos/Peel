@@ -280,7 +280,8 @@ public enum PackageReceipts {
             removedApps[PathPattern.comparablePath(of: app.url)] = removed
         }
         let removedWithItsApp = apps.lazy.compactMap { removedApps[PathPattern.comparablePath(of: $0.url)] }.first
-        let uninstaller = apps.lazy.compactMap { UninstallsItself.of($0, environment: environment) }.first
+        let uninstallers = apps.compactMap { UninstallsItself.of($0, environment: environment) }
+        let uninstaller = uninstallers.first
         var items: [PackageReceipt.Item] = []
         var seen: Set<String> = []
         for path in found.offered {
@@ -313,7 +314,8 @@ public enum PackageReceipts {
                 refusal: removalGuard.refusal(of: url),
                 heldBack: heldBack,
                 removedElsewhere: url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
-                    ? removedApps[place] : removedWithItsApp
+                    ? removedApps[place] : removedWithItsApp,
+                uninstallsItself: uninstallers.first { PathPattern.comparablePath(of: $0.app.url) == place }
             ))
         }
 

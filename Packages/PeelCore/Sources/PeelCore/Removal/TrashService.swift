@@ -472,8 +472,10 @@ public struct TrashService: Sendable {
 
     /// Moves `privilegedURLs` through the privileged helper and everything else as the current user.
     @concurrent
-    public func trash(_ urls: [URL], usingHelperFor privilegedURLs: Set<URL>) async -> TrashResult {
-        await trash(urls, usingHelperFor: privilegedURLs, removal: UUID(), lettingTheirProgramsRun: [])
+    public func trash(
+        _ urls: [URL], usingHelperFor privilegedURLs: Set<URL>, lettingTheirProgramsRun running: Set<URL> = []
+    ) async -> TrashResult {
+        await trash(urls, usingHelperFor: privilegedURLs, removal: UUID(), lettingTheirProgramsRun: running)
     }
 
     /// Moves `apps` first, then what `files` returns for the apps that stayed, as one removal. An app's files wait

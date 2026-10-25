@@ -39,7 +39,8 @@ final class PackageLibrary {
         let result = await QuitGuard.shared.run {
             let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
                 items.map(\.url),
-                usingHelperFor: privileged
+                usingHelperFor: privileged,
+                lettingTheirProgramsRun: Set(items.filter { $0.uninstallsItself != nil }.map(\.url))
             )
             // Written down before the rescan, which can take a while: History is the way back for what just moved.
             await record(result)
