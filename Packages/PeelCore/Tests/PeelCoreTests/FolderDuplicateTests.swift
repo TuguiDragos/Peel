@@ -115,7 +115,11 @@ struct FolderDuplicateTests {
         let result = try await scan(directory)
 
         #expect(names(result).isEmpty)
-        #expect(!result.groups.flatMap(\.files).contains { $0.url.path(percentEncoded: false).contains("/Pictures/") })
+        // The files inside it are listed beside the copies outside it, each held back, and nothing is suggested.
+        let synced = result.groups.flatMap(\.files).filter { $0.url.path(percentEncoded: false).contains("/Pictures/") }
+        #expect(synced.map(\.url.lastPathComponent).sorted() == ["a.jpg", "b.jpg"])
+        #expect(synced.allSatisfy { $0.heldBack == .inTheCloud })
+        #expect(result.suggestedSelection.isEmpty)
     }
 
     /// A folder kept only in the cloud, which no test can make, is named to the scan.

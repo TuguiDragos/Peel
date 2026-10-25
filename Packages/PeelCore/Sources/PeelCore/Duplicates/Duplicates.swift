@@ -39,6 +39,9 @@ public struct DuplicateFile: Sendable, Hashable, Identifiable {
         reclaimableSize < allocatedSize
     }
     let identity: FileIdentity
+    /// Why the copy is listed but never moved: it syncs to the person's other devices, where a move to the Trash
+    /// would remove it too. Nil for a copy that may move.
+    public var heldBack: HoldBack? = nil
 
     public var id: URL { url }
 
@@ -50,15 +53,28 @@ public struct DuplicateFile: Sendable, Hashable, Identifiable {
 public struct DuplicateGroup: Sendable, Hashable, Identifiable {
     /// The SHA-256 of the contents.
     public let id: String
-    /// Identical files, the suggested one to keep first.
+    /// Identical files, the suggested one to keep first. A copy that syncs to other devices is among them, held
+    /// back: it is shown and never moved.
     public let files: [DuplicateFile]
 
     public var size: Int64 {
         files.first?.size ?? 0
     }
 
+    /// The copies that may move, in the order of `files`: the first of them is the one Peel keeps.
+    public var movableFiles: [DuplicateFile] {
+        files.filter { $0.heldBack == nil }
+    }
+
+    /// True when every copy syncs to other devices, so nothing in the group can be freed: the app lists such a
+    /// group apart.
+    public var everyCopySyncs: Bool {
+        files.allSatisfy { $0.heldBack == .inTheCloud }
+    }
+
+    /// What moving every movable copy but the first would free.
     public var reclaimableSize: Int64 {
-        files.dropFirst().reduce(0) { $0 + $1.reclaimableSize }
+        movableFiles.dropFirst().reduce(0) { $0 + $1.reclaimableSize }
     }
 }
 
@@ -136,9 +152,9 @@ public struct DuplicateScan: Sendable {
         groups.isEmpty && folderGroups.isEmpty && !notLookedIn.isEmpty
     }
 
-    /// Every file except the suggested one to keep in each group.
+    /// Every copy that may move except the first of them in each group. A copy that syncs is never suggested.
     public var suggestedSelection: Set<URL> {
-        Set(groups.flatMap { $0.files.dropFirst().map(\.url) })
+        Set(groups.flatMap { $0.movableFiles.dropFirst().map(\.url) })
     }
 
     public var suggestedFolderSelection: Set<URL> {
@@ -172,6 +188,12 @@ public struct DuplicateScan: Sendable {
     /// every group always stays, so the last one not selected cannot be.
     public static func canChange(_ url: URL, among copies: [URL], selected: Set<URL>) -> Bool {
         selected.contains(url) || copies.count { !selected.contains($0) } > 1
+    }
+
+    /// `canChange(_:among:selected:)` for a copy of `group`: one held back can never be selected, and it counts as a
+    /// copy that stays for the others.
+    public static func canChange(_ file: DuplicateFile, in group: DuplicateGroup, selected: Set<URL>) -> Bool {
+        file.heldBack == nil && canChange(file.url, among: group.files.map(\.url), selected: selected)
     }
 
     private static func keepingOne(of groups: [[URL]], _ selection: Set<URL>) -> Set<URL> {

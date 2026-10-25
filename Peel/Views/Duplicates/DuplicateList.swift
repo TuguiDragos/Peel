@@ -17,23 +17,36 @@ struct DuplicateList: View {
             if let scan = duplicates.scan {
                 let folderGroups = scan.folderGroups.filter { $0.matches(searchText) }
                 let groups = scan.groups.filter { $0.matches(searchText) }
-                // Headings appear only when folder groups are listed. A list of files alone has none.
+                let local = groups.filter { !$0.everyCopySyncs }
+                // The groups whose every copy syncs to other devices, which Peel shows and never moves, in a
+                // section of their own, so they never mix with what is on this Mac.
+                let synced = groups.filter(\.everyCopySyncs)
+                // Headings appear only when folder groups or synced groups are listed. A list of files alone has none.
                 List(selection: $duplicates.selection) {
-                    if !folderGroups.isEmpty {
-                        Section {
-                            folderRows(folderGroups)
-                        } header: {
-                            Text("Folders")
-                        }
-                        if !groups.isEmpty {
+                    if !folderGroups.isEmpty || !synced.isEmpty {
+                        if !folderGroups.isEmpty {
                             Section {
-                                fileRows(groups)
+                                folderRows(folderGroups)
+                            } header: {
+                                Text("Folders")
+                            }
+                        }
+                        if !local.isEmpty {
+                            Section {
+                                fileRows(local)
                             } header: {
                                 Text("Files")
                             }
                         }
+                        if !synced.isEmpty {
+                            Section {
+                                fileRows(synced)
+                            } header: {
+                                Text("Synced to Other Devices")
+                            }
+                        }
                     } else {
-                        fileRows(groups)
+                        fileRows(local)
                     }
                 }
                 .accessibilityLabel(Text(Tool.duplicates.title))
@@ -235,8 +248,19 @@ private struct DuplicateGroupRow: View {
                 .foregroundStyle(.secondary)
             }
             Spacer(minLength: 6)
-            Text(group.reclaimableSize.byteCount)
+            if group.everyCopySyncs {
+                // Nothing here frees space on this Mac: the figure is the copies' size, with the symbol that says
+                // they sync.
+                Label {
+                    Text(group.size.byteCount)
+                } icon: {
+                    Image(systemName: "icloud")
+                }
                 .rowFigure()
+            } else {
+                Text(group.reclaimableSize.byteCount)
+                    .rowFigure()
+            }
         }
         .padding(.vertical, 2)
     }

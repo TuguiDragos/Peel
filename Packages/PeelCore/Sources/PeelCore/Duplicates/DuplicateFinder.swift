@@ -46,12 +46,9 @@ public struct DuplicateFinder: Sendable {
             .filter { FileManager.default.fileExists(atPath: $0.path(percentEncoded: false)) }
     }
 
-    /// Why a chosen folder is not scanned. `refusal(of:)` answers the first four for any folder, which is what
+    /// Why a chosen folder is not scanned. `refusal(of:)` answers the first three for any folder, which is what
     /// `canScan` refuses; a scan adds the last two for a chosen folder it finds so.
     public enum Refusal: Sendable, Hashable {
-        /// It syncs to other devices, through iCloud, a file provider, or a sync app's folder, where a removed copy
-        /// would be removed too.
-        case inTheCloud
         /// App data, the Music and TV apps' media folders, or a place Peel protects, such as a library or a keychain.
         case appData
         /// An app or another package, or a folder inside one: what is inside belongs to it.
@@ -65,22 +62,24 @@ public struct DuplicateFinder: Sendable {
     }
 
     /// Whether `folder` may be scanned: a folder in the home folder, in `/Users/Shared`, or on another writable
-    /// volume. App data, system locations, and places whose files cannot be brought back are refused, such as
-    /// iCloud Drive or a folder another app keeps in step, where a removal reaches every device.
+    /// volume. App data and system locations are refused. A folder that syncs to other devices, such as iCloud
+    /// Drive or one another app keeps in step, is scanned, and each copy found in it is held back: a removal there
+    /// reaches every device, so the scan shows such copies and never moves them.
     public func canScan(_ folder: URL) -> Bool {
         refusal(of: folder) == nil
     }
 
-    /// Why `folder` may not be scanned, or nil. The cloud is asked first: a folder in iCloud Drive or in
-    /// `Library/CloudStorage` is protected data too, and syncing is the reason that explains it.
+    /// Why `folder` may not be scanned, or nil. iCloud Drive and the folder where file providers keep their files
+    /// are in the home's Library and protected data to the guard, which refuses each copy inside when the scan
+    /// asks it; the scan shows those copies and never moves them, so neither rule refuses such a folder here.
     public func refusal(of folder: URL) -> Refusal? {
         let path = Self.path(of: folder.resolvingSymlinksInPath())
         let home = Self.path(of: homeDirectory)
-        if SyncedFolders().syncsToOtherDevices(folder) || Self.isInACloudFolder(path) { return .inTheCloud }
-        if ProtectedData.refuses(path, home: home) { return .appData }
         if folder.isOrIsInsideAPackage { return .inAPackage }
+        let syncs = Self.isInACloudFolder(path)
+        if !syncs, ProtectedData.refuses(path, home: home) { return .appData }
         if path.isInside(home) {
-            return Self.managedFolders.contains { path.isInside(home + "/" + $0) } ? .appData : nil
+            return !syncs && Self.managedFolders.contains { path.isInside(home + "/" + $0) } ? .appData : nil
         }
         guard path.isInside("/Users/Shared") || PathComponents.isPath(path, inside: "/Volumes") else {
             return .outsideTheHome
@@ -181,7 +180,13 @@ public struct DuplicateFinder: Sendable {
             }
         }
         guard !Task.isCancelled else { throw CancellationError() }
-        let sampledGroups = try Self.movable(Self.grouped(sampled), names: names, isMovable: removalGuard.allowsRemoval)
+        let synced = SyncedFolders()
+        let sampledGroups = try Self.movable(
+            Self.grouped(sampled),
+            names: names,
+            refusal: removalGuard.refusal(of:),
+            syncsToOtherDevices: { synced.syncsToOtherDevices($0) || Self.isInACloudFolder(Self.path(of: $0)) }
+        )
         let finalGroups = sampledGroups.filter { !FileDigest.isSampled(size: $0[0].item.identity.size) }
 
         let toVerify = sampledGroups.filter { FileDigest.isSampled(size: $0[0].item.identity.size) }
@@ -210,6 +215,8 @@ public struct DuplicateFinder: Sendable {
     struct Candidate: Sendable {
         let url: URL
         let identity: FileIdentity
+        /// Set by `movable` for a copy that is kept in its group but never moved.
+        var heldBack: HoldBack? = nil
     }
 
     typealias HashedCandidate = (item: Candidate, digest: ContentDigest)
@@ -302,28 +309,40 @@ public struct DuplicateFinder: Sendable {
     }
 
     /// The groups as they may move: each file under the first of its `names`, in the order the walk found them,
-    /// that `isMovable` allows, and a group only while two files are left. `isMovable`, the guard, which opens the
-    /// file and the folders above it, is asked only here, of files whose first and last bytes already match another's.
+    /// that `refusal` allows, else under the first that syncs to other devices, held back, and a group only while
+    /// two files are left. `refusal`, the guard, which opens the file and the folders above it, is asked only here,
+    /// of files whose first and last bytes already match another's. A name the guard refuses that syncs is kept
+    /// whatever the guard's own reason: the guard would refuse the move either way, and that it syncs is what the
+    /// person needs to know.
     static func movable(
         _ groups: [[HashedCandidate]],
         names: [FileIdentity.Link: [Candidate]],
-        isMovable: (URL) -> Bool
+        refusal: (URL) -> GuardRefusal?,
+        syncsToOtherDevices: (URL) -> Bool
     ) throws(CancellationError) -> [[HashedCandidate]] {
         var asked = 0
         var movable: [[HashedCandidate]] = []
         for group in groups {
             var kept: [HashedCandidate] = []
             for member in group {
+                var synced: Candidate?
                 for name in names[member.item.identity.link] ?? [member.item] {
                     asked += 1
                     if asked.isMultiple(of: 256) {
                         guard !Task.isCancelled else { throw CancellationError() }
                     }
-                    if isMovable(name.url) {
+                    if refusal(name.url) == nil {
                         kept.append((item: name, digest: member.digest))
+                        synced = nil
                         break
                     }
+                    if synced == nil, syncsToOtherDevices(name.url) {
+                        var held = name
+                        held.heldBack = .inTheCloud
+                        synced = held
+                    }
                 }
+                if let synced { kept.append((item: synced, digest: member.digest)) }
             }
             if kept.count > 1 { movable.append(kept) }
         }
@@ -366,7 +385,8 @@ public struct DuplicateFinder: Sendable {
                     size: candidate.identity.size,
                     reclaimableSize: ReclaimableSpace.of(candidate.url),
                     allocatedSize: ReclaimableSpace.allocated(candidate.url),
-                    identity: candidate.identity
+                    identity: candidate.identity,
+                    heldBack: candidate.heldBack
                 )
             }
         return DuplicateGroup(id: members[0].digest.hexadecimal, files: files)

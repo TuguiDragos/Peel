@@ -120,9 +120,9 @@ struct AttackDuplicateTests {
         #expect(!left.isEmpty, "ATTACK SUCCEEDED: the group lost every copy")
     }
 
-    /// Duplicates does not scan iCloud Drive: the removal guard refuses everything in it, so every copy offered
-    /// there would fail to move.
-    @Test func iCloudDuplicatesAreOfferedAndThenRefused() async throws {
+    /// Duplicates scans iCloud Drive and lists every copy found there held back, never suggested; a removal asked
+    /// for anyway is refused by the guard, since a deletion there reaches every device.
+    @Test func iCloudDuplicatesAreListedHeldBackAndNeverMoved() async throws {
         let directory = try TemporaryDirectory()
         let contents = bytes(4_000)
         let cloud = "home/Library/Mobile Documents/com~apple~CloudDocs"
@@ -130,10 +130,12 @@ struct AttackDuplicateTests {
         try directory.file("\(cloud)/a copy.pdf", contents: contents)
         let found = try await scan(directory, folders: [cloud])
 
-        #expect(found.groups.isEmpty, "iCloud Drive is offered for duplicate cleaning")
-        guard !found.groups.isEmpty else { return }
-        let result = await DuplicateRemoval.trash(found.suggestedSelection, from: found, using: try service(directory))
-        #expect(result.failures.map(\.reason) == [.guarded(.protectedLocation)], "and then every removal is refused")
+        let group = try #require(found.groups.first, "iCloud Drive is scanned")
+        #expect(group.everyCopySyncs, "ATTACK SUCCEEDED: a copy in iCloud Drive may move")
+        #expect(found.suggestedSelection.isEmpty)
+        let result = await DuplicateRemoval.trash([group.files[1].url], from: found, using: try service(directory))
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.guarded(.protectedLocation)], "and the removal is refused")
     }
 
     /// A media library whose app is not installed is a plain folder to the enumerator. A file inside one must not

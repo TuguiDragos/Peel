@@ -582,7 +582,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "duplicates",
         abstract: "Find folders and files with identical contents.",
-        discussion: "Without folders, Peel scans Desktop, Documents, Downloads, Pictures, Movies, and Music. The first copy of each group is the one Peel suggests keeping. A folder is a copy of another only when every file under it matches, so what a folder already speaks for isn't listed again on its own."
+        discussion: "Without folders, Peel scans Desktop, Documents, Downloads, Pictures, Movies, and Music. The first copy of each group is the one Peel suggests keeping. A copy in a folder that syncs to your other devices, such as iCloud Drive, is listed as one that stays and is never moved. A folder is a copy of another only when every file under it matches, so what a folder already speaks for isn't listed again on its own."
     )
 
     @Argument(help: "Folders to scan.", completion: .directory)
@@ -604,7 +604,10 @@ struct DuplicatesCommand: AsyncParsableCommand {
     struct Record: Encodable {
         let size: Int64
         let reclaimableSize: Int64
+        /// The copies that may move, the kept one first.
         let files: [String]
+        /// The copies that sync to other devices, listed and never moved.
+        let synced: [String]
     }
 
     struct FolderRecord: Encodable {
@@ -635,7 +638,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         }
         let rejected = urls.filter { !finder.canScan($0) }
         guard rejected.isEmpty else {
-            throw ValidationError("Peel can't scan \(rejected.map(Output.path).joined(separator: ", ")). Choose folders in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive and other folders that sync to your other devices, app data, the Music and TV apps' media folders, apps and other packages, and system folders aren't scanned.")
+            throw ValidationError("Peel can't scan \(rejected.map(Output.path).joined(separator: ", ")). Choose folders in your home folder, /Users/Shared, or a disk Peel can write to. App data, the Music and TV apps' media folders, apps and other packages, and system folders aren't scanned.")
         }
     }
 
@@ -662,7 +665,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
             }
             for group in scan.groups {
                 Output.line(Self.heading(for: group))
-                Output.table(Self.rows(for: group.files.map(\.url)), indent: "  ")
+                Output.table(Self.rows(for: group.files), indent: "  ")
             }
             let total =
                 scan.groups.reduce(0) { $0 + $1.reclaimableSize }
@@ -690,7 +693,11 @@ struct DuplicatesCommand: AsyncParsableCommand {
         }
         if !scan.skippedLocations.isEmpty {
             let folders = scan.skippedLocations.map { Output.path($0.url) }.joined(separator: ", ")
-            notes.append("Peel didn't look in \(folders), so there may be duplicates there. It leaves repositories alone, and doesn't scan iCloud Drive, app data, or system folders.")
+            notes.append("Peel didn't look in \(folders), so there may be duplicates there. It leaves repositories alone, and doesn't scan app data or system folders.")
+        }
+        let synced = scan.groups.reduce(0) { total, group in total + group.files.count { $0.heldBack != nil } }
+        if synced > 0 {
+            notes.append("\(Output.count(synced, "copy syncs", "copies sync")) to your other devices, so Peel lists them as copies that stay and never moves them.")
         }
         return notes
     }
@@ -705,8 +712,13 @@ struct DuplicatesCommand: AsyncParsableCommand {
                     folders: group.folders.map { Output.path($0.url) }
                 )
             },
-            files: scan.groups.map {
-                Record(size: $0.size, reclaimableSize: $0.reclaimableSize, files: $0.files.map { Output.path($0.url) })
+            files: scan.groups.map { group in
+                Record(
+                    size: group.size,
+                    reclaimableSize: group.reclaimableSize,
+                    files: group.movableFiles.map { Output.path($0.url) },
+                    synced: group.files.filter { $0.heldBack != nil }.map { Output.path($0.url) }
+                )
             },
             unreadableLocations: scan.unreadableLocations.map(Output.path),
             skippedLocations: scan.skippedLocations.map { Output.path($0.url) }
@@ -737,6 +749,15 @@ struct DuplicatesCommand: AsyncParsableCommand {
         copies.enumerated().map { index, url in [index == 0 ? "keep" : "", Output.path(url)] }
     }
 
+    /// One row per copy of a file: the first copy that may move is marked "keep", one that syncs to other devices
+    /// "stays", since Peel lists it and never moves it.
+    static func rows(for files: [DuplicateFile]) -> [[String]] {
+        let kept = files.first { $0.heldBack == nil }?.url
+        return files.map { file in
+            [file.heldBack != nil ? "stays" : file.url == kept ? "keep" : "", Output.path(file.url)]
+        }
+    }
+
     func clean(
         _ scan: DuplicateScan,
         using service: TrashService,
@@ -744,15 +765,18 @@ struct DuplicatesCommand: AsyncParsableCommand {
         refusals: RefusalLog = RefusalLog()
     ) async throws {
         let folders = scan.folderGroups.flatMap { $0.folders.dropFirst() }
-        let files = scan.groups.flatMap { $0.files.dropFirst() }
+        let files = scan.groups.flatMap { $0.movableFiles.dropFirst() }
         guard !folders.isEmpty || !files.isEmpty else {
             Output.line("No duplicates found.")
             return
         }
-        // Where each group's kept copy is comes first: it is what the decision rests on.
-        let kept = scan.folderGroups.compactMap { $0.folders.first?.url }
-            + scan.groups.compactMap { $0.files.first?.url }
-        Output.table(kept.map { ["keep", Output.path($0)] })
+        // Where each group's kept copy is comes first, and the copies that sync, which stay: it is what the
+        // decision rests on.
+        let kept = scan.folderGroups.compactMap { $0.folders.first?.url }.map { ["keep", Output.path($0)] }
+            + scan.groups.flatMap { group in
+                Self.rows(for: group.files).filter { $0[0] != "" }
+            }
+        Output.table(kept)
         let cleanup = Cleanup.of(
             folders.map { (url: $0.url, size: $0.reclaimableSize) }
                 + files.map { (url: $0.url, size: $0.reclaimableSize) },

@@ -464,12 +464,44 @@ struct FileCommandTests {
         let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let group = try #require(scan.groups.first)
 
-        let rows = DuplicatesCommand.rows(for: group.files.map(\.url))
+        let rows = DuplicatesCommand.rows(for: group.files)
 
         #expect(rows.count == 3)
         #expect(rows.map(\.first) == ["keep", "", ""])
         #expect(rows[0][1] == Output.path(group.files[0].url))
         #expect(DuplicatesCommand.heading(for: group).hasPrefix("3 copies of 4 kB, "))
+    }
+
+    /// A copy in a folder that syncs to other devices is listed as one that stays, and never moved; the JSON names
+    /// it apart from the copies that may move.
+    @Test func listsACopyThatSyncsAsOneThatStays() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
+        try directory.directory("home/Synced/.stfolder")
+        try directory.file("home/Synced/a.bin", contents: contents)
+        try directory.file("home/Documents/a.bin", contents: contents)
+        try directory.file("home/Documents/a copy.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let group = try #require(scan.groups.first)
+        let synced = try #require(group.files.first { $0.heldBack == .inTheCloud })
+
+        let rows = DuplicatesCommand.rows(for: group.files)
+        #expect(rows.first { $0[1] == Output.path(synced.url) }?[0] == "stays")
+        #expect(rows.map { $0[0] }.sorted() == ["", "keep", "stays"])
+
+        let json = try Output.jsonText(DuplicatesCommand.found(in: scan))
+        let found = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let record = try #require((found["files"] as? [[String: Any]])?.first)
+        #expect(record["synced"] as? [String] == [Output.path(synced.url)])
+        #expect((record["files"] as? [String])?.count == 2)
+
+        try await (command(["duplicates", "--remove", "-y"]) as DuplicatesCommand)
+            .clean(scan, using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+
+        #expect(await moved(logs) == ["a copy.bin"])
+        #expect(FileManager.default.fileExists(atPath: synced.url.path(percentEncoded: false)))
     }
 
     @Test func saysHowManyCopiesOfAFolderAndHowBigItIs() async throws {

@@ -125,7 +125,11 @@ private struct DuplicateFileRow: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer(minLength: 12)
-                    if !isSelected {
+                    if let heldBack = file.heldBack {
+                        // A copy that syncs to other devices is shown and never moved; its words say why.
+                        Badge(title: Text("Stays"), systemImage: "icloud", tint: .blue)
+                            .accessibilityHint(Text(heldBack.explanation))
+                    } else if !isSelected {
                         Badge(title: Text("Keep"), systemImage: "checkmark", tint: .green)
                     }
                     Text(file.size.byteCount)
@@ -135,7 +139,7 @@ private struct DuplicateFileRow: View {
             }
             .toggleStyle(.checkbox)
             .disabled(!canChangeSelection)
-            .help(canChangeSelection ? Text(verbatim: file.url.path(percentEncoded: false)) : Text("Peel always keeps at least one copy."))
+            .help(help)
 
             Button {
                 preview.url = file.url
@@ -152,6 +156,12 @@ private struct DuplicateFileRow: View {
             Button("Quick Look", systemImage: "eye") { preview.url = file.url }
             ItemMenu(url: file.url)
         }
+    }
+
+    /// The path, or why the checkbox can't be changed: the copy syncs to other devices, or it is the last one.
+    private var help: Text {
+        if let heldBack = file.heldBack { return Text(heldBack.explanation) }
+        return canChangeSelection ? Text(verbatim: file.url.path(percentEncoded: false)) : Text("Peel always keeps at least one copy.")
     }
 }
 

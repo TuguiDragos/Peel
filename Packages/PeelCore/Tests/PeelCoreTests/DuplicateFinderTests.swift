@@ -62,10 +62,11 @@ struct DuplicateFinderTests {
         #expect(FileIdentity(late).modificationDate == Date(timeIntervalSince1970: 10_000_000_000.000000005))
     }
 
-    /// A name that may not move leaves the file to its next name, and a group left with one file is no group.
+    /// A name that may not move leaves the file to its next name, and a group left with one file is no group. A name
+    /// the guard refuses because it syncs to other devices is kept, held back: the group shows it and never moves it.
     @Test func asksWhetherAFileMayMoveOnlyOnceItsBytesMatchAnother() throws {
         let directory = try TemporaryDirectory()
-        for name in ["a", "b", "refused", "other", "alone", "partner"] {
+        for name in ["a", "b", "refused", "other", "alone", "partner", "synced", "twin"] {
             try directory.file("files/\(name)", contents: randomData(count: 10))
         }
         try FileManager.default.linkItem(at: directory.url.appending(path: "files/refused"), to: directory.url.appending(path: "files/linked"))
@@ -81,19 +82,27 @@ struct DuplicateFinderTests {
             [(try candidate("a"), digest), (try candidate("b"), digest)],
             [(refused, digest), (try candidate("other"), digest)],
             [(try candidate("alone"), digest), (try candidate("partner"), digest)],
+            [(try candidate("synced"), digest), (try candidate("twin"), digest)],
         ]
 
         var asked: [String] = []
         let movable = try DuplicateFinder.movable(
             groups,
-            names: [refused.identity.link: [refused, try candidate("linked")]]
-        ) { url in
-            asked.append(url.lastPathComponent)
-            return !["refused", "partner"].contains(url.lastPathComponent)
-        }
+            names: [refused.identity.link: [refused, try candidate("linked")]],
+            refusal: { url in
+                asked.append(url.lastPathComponent)
+                switch url.lastPathComponent {
+                case "refused", "partner": return .protectedLocation
+                case "synced": return .inTheCloud
+                default: return nil
+                }
+            },
+            syncsToOtherDevices: { $0.lastPathComponent == "synced" }
+        )
 
-        #expect(asked == ["a", "b", "refused", "linked", "other", "alone", "partner"])
-        #expect(movable.map { $0.map(\.item.url.lastPathComponent) } == [["a", "b"], ["linked", "other"]])
+        #expect(asked == ["a", "b", "refused", "linked", "other", "alone", "partner", "synced", "twin"])
+        #expect(movable.map { $0.map(\.item.url.lastPathComponent) } == [["a", "b"], ["linked", "other"], ["synced", "twin"]])
+        #expect(movable[2].map(\.item.heldBack) == [.inTheCloud, nil])
     }
 
     @Test func groupsFilesWithIdenticalContents() async throws {
@@ -258,9 +267,34 @@ struct DuplicateFinderTests {
         #expect(inside.groups.isEmpty, "a folder inside a repository was scanned")
     }
 
-    /// A sync app's marker at the top of the home folder sets every folder in it aside at once, each named with that
-    /// reason: nothing was unread, so Full Disk Access is not what the person needs.
-    @Test func namesWhyEveryChosenFolderWasSetAside() async throws {
+    /// A folder that syncs to other devices is scanned, and each copy found in it is listed and held back: a copy
+    /// moved there would be removed from every device. Nothing in such a group is suggested, since the one copy that
+    /// could move is the only one that stays on this Mac.
+    @Test func listsACopyThatSyncsApartAndNeverSelectsIt() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.directory("home/Synced/.stfolder")
+        try directory.file("home/Synced/a.bin", contents: contents)
+        try directory.file("home/Documents/a.bin", contents: contents)
+
+        let scan = try await scan(directory, folders: ["home/Synced", "home/Documents"])
+        let group = try #require(scan.groups.first)
+
+        #expect(scan.skippedLocations.isEmpty)
+        let synced = try #require(group.files.first { $0.url.pathComponents.contains("Synced") })
+        let local = try #require(group.files.first { $0.url.pathComponents.contains("Documents") })
+        #expect(synced.heldBack == .inTheCloud)
+        #expect(local.heldBack == nil)
+        #expect(!group.everyCopySyncs)
+        #expect(group.movableFiles.map(\.url) == [local.url])
+        #expect(group.reclaimableSize == 0)
+        #expect(scan.suggestedSelection.isEmpty)
+        #expect(!DuplicateScan.canChange(synced, in: group, selected: []))
+        #expect(DuplicateScan.canChange(local, in: group, selected: []))
+    }
+
+    /// A group whose every copy syncs is listed too, under its own heading in the app, with nothing to free.
+    @Test func listsAGroupWhoseEveryCopySyncs() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
         try directory.directory("home/.stfolder")
@@ -268,13 +302,14 @@ struct DuplicateFinderTests {
         try directory.file("home/Documents/a.bin", contents: contents)
 
         let scan = try await scan(directory, folders: ["home/Desktop", "home/Documents"])
+        let group = try #require(scan.groups.first)
 
-        #expect(scan.groups.isEmpty)
-        #expect(scan.skippedLocations.map(\.url.lastPathComponent) == ["Desktop", "Documents"])
-        #expect(scan.skippedLocations.map(\.reason) == [.inTheCloud, .inTheCloud])
-        #expect(scan.unreadableLocations.isEmpty)
-        #expect(!scan.needsFullDiskAccess)
-        #expect(scan.readNothing)
+        #expect(scan.skippedLocations.isEmpty)
+        #expect(group.files.count == 2)
+        #expect(group.everyCopySyncs)
+        #expect(group.movableFiles.isEmpty)
+        #expect(group.reclaimableSize == 0)
+        #expect(scan.suggestedSelection.isEmpty)
     }
 
     /// A chosen folder that is not there, as a folder on a disk that isn't connected, is named rather than passed over.
@@ -478,9 +513,9 @@ struct DuplicateFinderTests {
 
         #expect(finder.canScan(home))
         #expect(finder.canScan(home.appending(path: "Documents")))
-        // A file removed from iCloud Drive is removed from every device, so it is never offered.
-        #expect(!finder.canScan(home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs/Photos")))
-        #expect(!finder.canScan(home.appending(path: "Library/CloudStorage/Dropbox")))
+        // A file removed from iCloud Drive is removed from every device: scanned, its copies are held back.
+        #expect(finder.canScan(home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs/Photos")))
+        #expect(finder.canScan(home.appending(path: "Library/CloudStorage/Dropbox")))
         #expect(!finder.canScan(home.appending(path: "Library")))
         #expect(!finder.canScan(home.appending(path: "Library/Application Support")))
         #expect(!finder.canScan(home.appending(path: "Music/Music")))
@@ -501,8 +536,10 @@ struct DuplicateFinderTests {
         let finder = DuplicateFinder(homeDirectory: home)
 
         #expect(finder.refusal(of: home.appending(path: "Documents")) == nil)
-        #expect(finder.refusal(of: home.appending(path: "Synced")) == .inTheCloud)
-        #expect(finder.refusal(of: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs")) == .inTheCloud)
+        // A folder that syncs is scanned; what is found in it is held back, never moved.
+        #expect(finder.refusal(of: home.appending(path: "Synced")) == nil)
+        #expect(finder.refusal(of: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs")) == nil)
+        #expect(finder.refusal(of: home.appending(path: "Library/CloudStorage/Dropbox")) == nil)
         #expect(finder.refusal(of: home.appending(path: "Library")) == .appData)
         #expect(finder.refusal(of: home.appending(path: "Music/Music")) == .appData)
         #expect(finder.refusal(of: home.appending(path: "Pictures/Thing.app")) == .inAPackage)
@@ -522,7 +559,8 @@ struct DuplicateFinderTests {
     }
 
 
-    @Test func refusesAFolderASyncAppKeepsInStep() throws {
+    /// A folder a sync app keeps in step is scanned like any other; what is found in it is held back, never moved.
+    @Test func scansAFolderASyncAppKeepsInStep() throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
         try directory.directory("home/Sync/.stfolder")
@@ -530,8 +568,8 @@ struct DuplicateFinderTests {
         try directory.directory("home/Documents")
         let finder = DuplicateFinder(homeDirectory: home)
 
-        #expect(!finder.canScan(home.appending(path: "Sync", directoryHint: .isDirectory)))
-        #expect(!finder.canScan(home.appending(path: "Sync/Photos", directoryHint: .isDirectory)))
+        #expect(finder.canScan(home.appending(path: "Sync", directoryHint: .isDirectory)))
+        #expect(finder.canScan(home.appending(path: "Sync/Photos", directoryHint: .isDirectory)))
         #expect(finder.canScan(home.appending(path: "Documents", directoryHint: .isDirectory)))
     }
 

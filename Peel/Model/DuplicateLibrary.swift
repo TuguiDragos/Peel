@@ -201,7 +201,7 @@ final class DuplicateLibrary {
     }
 
     func canChange(_ file: DuplicateFile, in group: DuplicateGroup) -> Bool {
-        DuplicateScan.canChange(file.url, among: group.files.map(\.url), selected: selectedURLs)
+        DuplicateScan.canChange(file, in: group, selected: selectedURLs)
     }
 
     /// Changes nothing that would leave the group with no copy.
