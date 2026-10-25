@@ -123,6 +123,26 @@ struct FileSearchTests {
         #expect(!results.isTruncated)
     }
 
+    @Test func moviesLeaveOutTypeScriptThatMacOSTypesAsATransportStream() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let code = try directory.file("home/Projects/app/index.ts", contents: Data("export const answer = 42\n".utf8))
+        var packets = [UInt8](repeating: 0xFF, count: 188 * 3)
+        for start in stride(from: 0, to: packets.count, by: 188) { packets[start] = 0x47 }
+        let clip = try directory.file("home/Movies/clip.ts", contents: Data(packets))
+        var blueRay = [UInt8](repeating: 0xFF, count: 192 * 3)
+        for start in stride(from: 4, to: blueRay.count, by: 192) { blueRay[start] = 0x47 }
+        let recording = try directory.file("home/Movies/recording.ts", contents: Data(blueRay))
+        let paths = [code, clip, recording].map { $0.path(percentEncoded: false) }
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+
+        let movies = FileSearch.results(from: paths, kind: .movies, environment: environment, allows: { _ in true })
+        let anything = FileSearch.results(from: paths, kind: .any, environment: environment, allows: { _ in true })
+
+        #expect(Set(movies.files.map(\.url.lastPathComponent)) == ["clip.ts", "recording.ts"])
+        #expect(Set(anything.files.map(\.url.lastPathComponent)) == ["index.ts", "clip.ts", "recording.ts"])
+    }
+
     @Test func neverListsAFileThatSyncsToTheCloud() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

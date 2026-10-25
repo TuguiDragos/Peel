@@ -97,13 +97,14 @@ public enum FileSearch {
         let scope = criteria.scope == .home ? kMDQueryScopeHome : kMDQueryScopeComputer
         MDQuerySetSearchScope(query, [scope] as CFArray, 0)
         guard let paths = await gather(query), !Task.isCancelled else { return FileSearchResults(didRun: false) }
-        return results(from: paths, environment: environment, exclusions: exclusions)
+        return results(from: paths, kind: criteria.kind, environment: environment, exclusions: exclusions)
     }
 
     /// Turns the paths Spotlight found into results: checked on disk, sorted, and cut to `maximumResults`. It is
     /// separate from the query so a test can pass its own paths, and its own answer in place of the guard's.
     static func results(
         from paths: [String],
+        kind: FileKind = .any,
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
         allows: ((URL) -> Bool)? = nil
@@ -128,7 +129,7 @@ public enum FileSearch {
         var results = FileSearchResults()
         for candidate in candidates {
             let url = URL(filePath: candidate.path)
-            guard allows(url) else { continue }
+            guard kind != .movies || isAMovie(url), allows(url) else { continue }
             guard results.files.count < maximumResults else {
                 results.isTruncated = true
                 break
@@ -143,6 +144,18 @@ public enum FileSearch {
             ))
         }
         return results
+    }
+
+    /// macOS gives TypeScript's `.ts` the type of an MPEG-2 transport stream, a movie, so such a file is one only when
+    /// it begins as one: packets that each start with the byte 0x47, every 188 bytes, or every 192 after the 4-byte
+    /// header Blu-ray adds (ISO/IEC 13818-1).
+    static func isAMovie(_ url: URL) -> Bool {
+        guard UTType(filenameExtension: url.pathExtension) == .mpeg2TransportStream else { return true }
+        guard let bytes = BoundedRead.prefix(of: url, count: 197).map(Array.init) else { return false }
+        func packets(from start: Int, every length: Int) -> Bool {
+            bytes.count > start + length && bytes[start] == 0x47 && bytes[start + length] == 0x47
+        }
+        return packets(from: 0, every: 188) || packets(from: 4, every: 192)
     }
 
     /// Whether a file's contents are on this Mac. One whose contents live only in the cloud (`SF_DATALESS`) frees
