@@ -268,6 +268,23 @@ struct OrphanScannerTests {
         #expect(items.contains { $0.url.lastPathComponent == "org.example.inkpot" && $0.heldBack == nil })
     }
 
+    @Test func listsTheDataFolderOfACodeEditorThatLeftAndHoldsItsWorkBack() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Inkwell/User/globalStorage/storage.json", bytes: 64)
+        try directory.file("home/Library/Application Support/Inkwell/User/History/-5c6d/entries.json", bytes: 64)
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.inkwell", name: "Inkwell Editor", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Inkwell Editor.app",
+            productFolders: ProductFolders.vsCodeFolders(in: ["nameShort": "Inkwell", "dataFolderName": ".inkwell"])
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [gone])
+
+        let group = scan.groups.first { $0.identifier == "org.example.inkwell" }
+        let folder = group?.items.first { $0.url.lastPathComponent == "Inkwell" }
+        #expect(folder?.heldBack == .holdsWorkMadeWithTheApp)
+    }
+
     @Test func listsABrowsersManifestThatStartsNothing() async throws {
         let directory = try TemporaryDirectory()
         let hosts = "root/Library/Google/Chrome/NativeMessagingHosts"

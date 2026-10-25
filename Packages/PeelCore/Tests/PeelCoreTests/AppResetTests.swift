@@ -20,6 +20,29 @@ struct AppResetTests {
         )
     }
 
+    @Test func offersACodeEditorsDataFolderOnlyWhileNoUnsavedFileOrLocalHistoryIsInside() async throws {
+        let directory = try TemporaryDirectory()
+        for name in ["Inkwell", "Slate"] {
+            try directory.file("Library/Application Support/\(name)/User/globalStorage/storage.json", bytes: 4096)
+        }
+        try directory.file("Library/Application Support/Inkwell/User/History/-5c6d/entries.json", bytes: 4096)
+        let editor = { (name: String) in
+            InstalledApp(
+                url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: "com.example.\(name.lowercased())",
+                name: name,
+                productFolders: ProductFolders.vsCodeFolders(in: ["nameShort": name, "dataFolderName": ".\(name.lowercased())"])
+            )
+        }
+        let apps = [editor("Inkwell"), editor("Slate")]
+
+        let held = await AppReset.prepare(apps[0], installedApps: apps, environment: home(directory))
+        let free = await AppReset.prepare(apps[1], installedApps: apps, environment: home(directory))
+
+        #expect(held.items(in: .appData).isEmpty)
+        #expect(free.items(in: .appData).map(\.url.lastPathComponent) == ["Slate"])
+        #expect(!free.suggestedSelection.contains { $0.lastPathComponent == "Slate" })
+    }
+
     @Test func sortsWhatItFindsIntoSettingsWebDataAndAppData() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)

@@ -31,6 +31,25 @@ struct ProductFoldersTests {
         #expect(ProductFolders.of(appAt: try directory.directory("Applications/Plain.app")).isEmpty)
     }
 
+    @Test func namesTheFolderACodeEditorKeepsItsDataInAndTheWorkInside() {
+        let data = ProductFolder(
+            path: "Library/Application Support/Example Editor", proof: "User/globalStorage/storage.json",
+            work: ["Backups", "User/History"]
+        )
+
+        let folders = ProductFolders.vsCodeFolders(in: ["nameShort": "Example Editor", "dataFolderName": ".example-editor"])
+
+        #expect(folders == [ProductFolder(path: ".example-editor", proof: "argv.json"), data])
+        #expect(ProductFolders.vsCodeFolders(in: ["nameShort": "Example Editor"]).isEmpty)
+        for name in ["", ".", "..", ".hidden", "../Documents", "Example/Editor"] {
+            #expect(ProductFolders.vsCodeFolders(in: ["nameShort": name, "dataFolderName": ".x"]).count == 1, "\(name)")
+        }
+        #expect(ProductFolders.believes(data))
+        #expect(!ProductFolders.believes(ProductFolder(path: data.path, proof: nil, work: data.work)))
+        #expect(!ProductFolders.believes(ProductFolder(path: "Library/Caches/Example Editor", proof: data.proof, work: data.work)))
+        #expect(!ProductFolders.believes(ProductFolder(path: "Library/Application Support/..", proof: data.proof, work: data.work)))
+    }
+
     @Test func believesAFolderReadBackOnlyAsTheRulesNameIt() {
         let ide = ProductFolders.jetBrainsFolders(in: ["productVendor": "ExampleVendor", "dataDirectoryName": "ExampleIDE2025.2"])
         let editor = ProductFolders.vsCodeFolders(in: ["dataFolderName": ".example-editor"])

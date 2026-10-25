@@ -245,6 +245,41 @@ struct LeftoverScannerTests {
         #expect(others.isEmpty)
     }
 
+    @Test func leavesACodeEditorsDataFolderWithUnsavedFilesOrLocalHistoryForThePersonToSelect() async throws {
+        let directory = try TemporaryDirectory()
+        let support = "home/Library/Application Support"
+        for name in ["Inkwell", "Quill", "Slate", "Plain"] where name != "Plain" {
+            try directory.file("\(support)/\(name)/User/globalStorage/storage.json", bytes: 64)
+            try directory.directory("\(support)/\(name)/Backups")
+        }
+        try directory.file("\(support)/Inkwell/Backups/1a2b/untitled/Untitled-1", bytes: 64)
+        try directory.file("\(support)/Quill/User/History/-5c6d/entries.json", bytes: 64)
+        try directory.file("\(support)/Plain/settings.json", bytes: 64)
+        let editor = { (name: String) in
+            InstalledApp(
+                url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: "org.example.\(name.lowercased())",
+                name: name,
+                productFolders: ProductFolders.vsCodeFolders(in: ["nameShort": name, "dataFolderName": ".\(name.lowercased())"])
+            )
+        }
+        let apps = ["Inkwell", "Quill", "Slate", "Plain"].map(editor)
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        var folders: [String: Leftover] = [:]
+        for app in apps {
+            let scan = await scanner.scan(app, installedApps: apps)
+            folders[app.name] = scan.leftovers.first { $0.url.lastPathComponent == app.name }
+        }
+
+        for name in ["Inkwell", "Quill"] {
+            #expect(folders[name]?.match.reason == .namedByTheApp, "\(name)")
+            #expect(folders[name]?.match.heldBack == .holdsWorkMadeWithTheApp, "\(name)")
+        }
+        #expect(folders["Slate"]?.match.reason == .namedByTheApp)
+        #expect(folders["Slate"]?.match.isRecommended == true)
+        #expect(folders["Plain"]?.match.reason == .name)
+    }
+
     /// A preference file whose bytes are not a property list holds settings nobody can read, so its row says so. A
     /// file that reads as one does not.
     @Test func marksAPreferenceFileThatIsNoPropertyList() async throws {

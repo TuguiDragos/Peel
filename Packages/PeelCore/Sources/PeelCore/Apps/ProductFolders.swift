@@ -57,6 +57,8 @@ enum ProductFolders {
         let names = PathComponents.of(folder.path)
         let named = switch names.count {
         case 4: jetBrainsFolders(in: ["productVendor": names[2], "dataDirectoryName": names[3]])
+        case 3 where names[0] == "Library" && names[1] == "Application Support" && isOneName(names[2]):
+            [vsCodeData(named: names[2])]
         case 1: vsCodeFolders(in: ["dataFolderName": names[0], "sharedDataFolderName": names[0]])
         default: [ProductFolder]()
         }
@@ -82,14 +84,26 @@ enum ProductFolders {
     }
 
     /// A code editor built on VS Code keeps its extensions in `~/<dataFolderName>`, beside the `argv.json` it writes
-    /// there, and what its windows share in `~/<sharedDataFolderName>/sharedStorage`. Each folder is taken only while
-    /// it holds what VS Code writes there.
+    /// there, what its windows share in `~/<sharedDataFolderName>/sharedStorage`, and the rest in
+    /// `Application Support/<nameShort>`, with unsaved files in `Backups` and local history in `User/History`. Each
+    /// folder is taken only while it holds what VS Code writes there.
     static func vsCodeFolders(in product: [String: Any]?) -> [ProductFolder] {
-        [("dataFolderName", "argv.json"), ("sharedDataFolderName", "sharedStorage")].compactMap { key, proof in
+        let keys = [("dataFolderName", "argv.json"), ("sharedDataFolderName", "sharedStorage")]
+        let home: [ProductFolder] = keys.compactMap { key, proof in
             guard let name = product?[key] as? String, name.hasPrefix("."), isOneName(String(name.dropFirst()))
             else { return nil }
             return ProductFolder(path: name, proof: proof)
         }
+        guard product?["dataFolderName"] is String, let name = product?["nameShort"] as? String, isOneName(name)
+        else { return home }
+        return home + [vsCodeData(named: name)]
+    }
+
+    private static func vsCodeData(named name: String) -> ProductFolder {
+        ProductFolder(
+            path: "Library/Application Support/\(name)", proof: "User/globalStorage/storage.json",
+            work: ["Backups", "User/History"]
+        )
     }
 
     /// One plain name: not hidden, and nothing but letters, digits, spaces, `-`, `_` and `.`.
