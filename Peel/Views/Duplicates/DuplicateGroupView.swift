@@ -119,7 +119,9 @@ private struct DuplicateFileRow: View {
     var isFirst = false
 
     var body: some View {
-        HStack(spacing: 10) {
+        // On the first text baseline, with each button centered on that line as the thumbnail is: centered on the
+        // whole row, a button sat below the badge and the size beside it.
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
             if let heldBack = file.heldBack {
                 // No checkbox: the copy can never be selected, and a disabled one would dim the very words the
                 // person reads here, where the copy is. The cloud stands where the other rows' checkbox stands, 16
@@ -148,6 +150,7 @@ private struct DuplicateFileRow: View {
                 .labelStyle(.iconOnly)
                 .buttonStyle(.borderless)
                 .help(Text("Show in Finder"))
+                .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 5 }
             } else {
                 Toggle(isOn: Binding(get: { isSelected }, set: { duplicates.setSelected($0, file, in: group) })) {
                     item
@@ -165,6 +168,7 @@ private struct DuplicateFileRow: View {
                 .labelStyle(.iconOnly)
                 .buttonStyle(.borderless)
                 .help(Text("Quick Look"))
+                .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 5 }
             }
         }
         .tableRow(isFirst: isFirst)
