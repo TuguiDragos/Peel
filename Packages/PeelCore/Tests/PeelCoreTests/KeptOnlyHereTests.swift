@@ -24,6 +24,9 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Steam/userdata/123/570/remote", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/minecraft", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/minecraft/saves/New World/level.dat", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/minecraft/screenshots/2026-10-25_21.04.12.png", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Postgres/var-17", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/.com.example.notes.backups", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Example/Backups", .holdsWorkMadeWithTheApp),
@@ -86,6 +89,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/iTerm2/version.txt", "Library/Caches/com.googlecode.iterm2",
             "Library/Application Support/Eltima Software", "Library/Application Support/Eltima Software/Elmedia Player",
             "Library/Caches/Sublime Text", "Library/Application Support/Sublime Merge",
+            "Library/Application Support/minecraft/versions", "Library/Application Support/Minecraft Launcher",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")

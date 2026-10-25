@@ -45,6 +45,10 @@ enum KeptOnlyHere {
         // Steam Support's "Steam Cloud": cloud files are kept here by default, and with Steam Cloud off a game's saves
         // are kept only here.
         ("Library/Application Support/Steam", "userdata", .holdsWorkMadeWithTheApp),
+        // Mojang's "Manually Uninstall Minecraft: Java Edition": the saved worlds and screenshots are in this folder,
+        // and Minecraft support can't recover deleted files.
+        ("Library/Application Support/minecraft", "saves", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/minecraft", "screenshots", .holdsWorkMadeWithTheApp),
         // Postgres.app's "Installing Postgres.app": its default data directory is `Postgres/var-XX`, and deleting the
         // data directories is an optional step of uninstalling it.
         ("Library/Application Support/Postgres", nil, .holdsWorkMadeWithTheApp),
