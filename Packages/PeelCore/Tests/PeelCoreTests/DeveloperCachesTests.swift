@@ -529,8 +529,8 @@ struct DeveloperCachesTests {
             ".hex", "Library/Caches/gleam/hex/hexpm", ".pub-cache", ".local/share/gem", ".cache/rebar3", ".stack", ".opam",
             "Library/Caches/org.R-project.R/R/renv", ".dartServer",
             // VS Code and the editors built on it keep unsaved files in `Backups`; Zed its database and threads;
-            // Neovim its swap and undo files.
-            "Library/Application Support/Code", "Library/Application Support/Code - Insiders",
+            // Neovim its swap and undo files, and its plug-ins whatever they like in its cache, such as a sign-in key.
+            ".cache/nvim", "Library/Application Support/Code", "Library/Application Support/Code - Insiders",
             "Library/Application Support/VSCodium", "Library/Application Support/Cursor",
             "Library/Application Support/Windsurf", "Library/Application Support/Devin",
             "Library/Application Support/Zed", ".local/state/nvim",
@@ -592,6 +592,18 @@ struct DeveloperCachesTests {
             ".claude/cache", ".claude/debug", ".claude/statsig", ".claude/image-cache", ".claude/logs", ".codex/log",
             ".codex/cache",
         ])
+    }
+
+    @Test func listsWhatNeovimItselfCachesAndNeverWhatItsPlugInsKeepThere() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".cache/nvim/luac/%2fUsers%2fme%2f.config%2fnvim%2finit.luac", bytes: 4_096)
+        try directory.file(".cache/nvim/codeium/config.json", bytes: 64)
+
+        let environments = await scanned(directory.url)
+
+        let listed = environments.filter { $0.id == "neovim" }.flatMap(\.locations)
+            .map { $0.url.pathComponents.suffix(2).joined(separator: "/") }
+        #expect(listed == ["nvim/luac"])
     }
 
     @Test func listsWhatOtherCodingAgentsCacheAndLogButNeverTheirSettings() async throws {

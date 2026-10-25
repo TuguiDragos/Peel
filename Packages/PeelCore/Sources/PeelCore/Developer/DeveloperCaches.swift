@@ -960,7 +960,7 @@ public enum DeveloperCaches {
             Folder(".android/build-cache", .buildData, source: "https://android.googlesource.com/platform/tools/base/+/55f19833771c87543085e99f6d2a6d92ea2adddd/build-system/gradle-core/src/main/java/com/android/build/gradle/internal/BuildCacheUtils.java#108"),
         ], ownFolders: ["Library/Caches/Google/AndroidStudio*", "Library/Logs/Google/AndroidStudio*"]),
         Definition(id: "neovim", name: "Neovim", systemImage: "curlybraces", appBundleIdentifiers: [], folders: [
-            Folder(".cache/nvim", .cache, source: "https://github.com/neovim/neovim/blob/f76c1ca25a6cba0a0e2cbb916e14995bd7f987b3/runtime/doc/starting.txt#L1404-L1405"),
+            Folder(".cache/nvim/luac", .cache, source: "https://github.com/neovim/neovim/blob/f76c1ca25a6cba0a0e2cbb916e14995bd7f987b3/runtime/lua/vim/loader.lua#L54"),
             Folder(".local/share/nvim/lazy", .environments, source: "https://github.com/folke/lazy.nvim/blob/306a05526ada86a7b30af95c5cc81ffba93fef97/lua/lazy/core/config.lua#L8"),
             Folder(".local/share/nvim/lazy-rocks", .environments, source: "https://github.com/folke/lazy.nvim/blob/306a05526ada86a7b30af95c5cc81ffba93fef97/lua/lazy/core/config.lua#L61"),
             Folder(".local/share/nvim/mason", .environments, source: "https://github.com/mason-org/mason.nvim/blob/2a6940af80375532e5e9e7c1f2fc6319a1b7a69d/lua/mason/settings.lua#L9"),
