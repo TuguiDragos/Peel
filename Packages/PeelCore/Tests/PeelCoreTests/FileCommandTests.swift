@@ -592,7 +592,9 @@ struct FileCommandTests {
     /// A chosen folder Peel didn't look in, such as a repository, is said, so an empty answer is not read as none.
     @Test func saysWhichFoldersItDidNotLookIn() {
         let skipped = URL(filePath: "/Users/me/Projects/app", directoryHint: .isDirectory)
-        let scan = DuplicateScan(groups: [], unreadableLocations: [], skippedLocations: [skipped])
+        let scan = DuplicateScan(
+            groups: [], unreadableLocations: [], skippedLocations: [.init(url: skipped, reason: .insideARepository)]
+        )
 
         let notes = DuplicatesCommand.notes(for: scan)
 
@@ -604,7 +606,9 @@ struct FileCommandTests {
         let scan = DuplicateScan(
             groups: [],
             unreadableLocations: [URL(filePath: "/Users/me/Locked", directoryHint: .isDirectory)],
-            skippedLocations: [URL(filePath: "/Users/me/Projects/app", directoryHint: .isDirectory)]
+            skippedLocations: [
+                .init(url: URL(filePath: "/Users/me/Projects/app", directoryHint: .isDirectory), reason: .insideARepository),
+            ]
         )
 
         let json = try Output.jsonText(DuplicatesCommand.found(in: scan))

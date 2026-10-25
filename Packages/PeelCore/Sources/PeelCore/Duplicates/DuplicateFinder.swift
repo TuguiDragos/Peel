@@ -46,22 +46,70 @@ public struct DuplicateFinder: Sendable {
             .filter { FileManager.default.fileExists(atPath: $0.path(percentEncoded: false)) }
     }
 
+    /// Why a chosen folder is not scanned. `refusal(of:)` answers the first four for any folder, which is what
+    /// `canScan` refuses; a scan adds the last two for a chosen folder it finds so.
+    public enum Refusal: Sendable, Hashable {
+        /// It syncs to other devices, through iCloud, a file provider, or a sync app's folder, where a removed copy
+        /// would be removed too.
+        case inTheCloud
+        /// App data, the Music and TV apps' media folders, or a place Peel protects, such as a library or a keychain.
+        case appData
+        /// An app or another package, or a folder inside one: what is inside belongs to it.
+        case inAPackage
+        /// Outside the home folder and `/Users/Shared`, or on a volume Peel can't write to.
+        case outsideTheHome
+        /// A repository, or a folder inside one, which the scan leaves alone.
+        case insideARepository
+        /// Not a folder Peel can reach, as one on a disk that isn't connected.
+        case notAFolder
+    }
+
     /// Whether `folder` may be scanned: a folder in the home folder, in `/Users/Shared`, or on another writable
     /// volume. App data, system locations, and places whose files cannot be brought back are refused, such as
     /// iCloud Drive or a folder another app keeps in step, where a removal reaches every device.
     public func canScan(_ folder: URL) -> Bool {
+        refusal(of: folder) == nil
+    }
+
+    /// Why `folder` may not be scanned, or nil. The cloud is asked first: a folder in iCloud Drive or in
+    /// `Library/CloudStorage` is protected data too, and syncing is the reason that explains it.
+    public func refusal(of folder: URL) -> Refusal? {
         let path = Self.path(of: folder.resolvingSymlinksInPath())
         let home = Self.path(of: homeDirectory)
-        guard !ProtectedData.refuses(path, home: home), !SyncedFolders().syncsToOtherDevices(folder),
-              !folder.isOrIsInsideAPackage
-        else { return false }
+        if SyncedFolders().syncsToOtherDevices(folder) || Self.isInACloudFolder(path) { return .inTheCloud }
+        if ProtectedData.refuses(path, home: home) { return .appData }
+        if folder.isOrIsInsideAPackage { return .inAPackage }
         if path.isInside(home) {
-            return !Self.managedFolders.contains { path.isInside(home + "/" + $0) }
+            return Self.managedFolders.contains { path.isInside(home + "/" + $0) } ? .appData : nil
         }
         guard path.isInside("/Users/Shared") || PathComponents.isPath(path, inside: "/Volumes") else {
-            return false
+            return .outsideTheHome
         }
-        return (try? folder.resourceValues(forKeys: [.volumeIsReadOnlyKey]).volumeIsReadOnly) != true
+        let isReadOnly = (try? folder.resourceValues(forKeys: [.volumeIsReadOnlyKey]).volumeIsReadOnly) == true
+        return isReadOnly ? .outsideTheHome : nil
+    }
+
+    /// Why a scan would set `folder` aside, or nil: what `refusal(of:)` refuses, a folder that is not there, or a
+    /// repository. It is what the scan asks of each chosen folder, and what the list of folders says beside one.
+    public func reasonToSetAside(_ folder: URL) -> Refusal? {
+        refusal(of: folder)
+            ?? (!Self.isAFolder(folder) ? .notAFolder : nil)
+            ?? (Self.isInsideARepository(folder, home: homeDirectory) ? .insideARepository : nil)
+    }
+
+    /// Whether `path` is in iCloud Drive, or in the folder where file providers keep their files.
+    private static func isInACloudFolder(_ path: String) -> Bool {
+        let names = PathComponents.of(path.lowercased())
+        return zip(names, names.dropFirst()).contains { folder, inside in
+            folder == "library" && ["mobile documents", "cloudstorage"].contains(inside)
+        }
+    }
+
+    /// Whether `url` is a folder Peel can reach, links followed.
+    private static func isAFolder(_ url: URL) -> Bool {
+        var isDirectory: ObjCBool = false
+        return FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isDirectory)
+            && isDirectory.boolValue
     }
 
     /// Whether `url` is a photo, music, or video library. Its files belong to the library's app, so none of them
@@ -79,8 +127,10 @@ public struct DuplicateFinder: Sendable {
     ) async throws(CancellationError) -> DuplicateScan {
         let environment = SearchEnvironment(homeDirectory: homeDirectory, rootDirectory: URL(filePath: "/"))
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
-        let skipped = options.folders.filter { !canScan($0) || Self.isInsideARepository($0, home: homeDirectory) }
-        let skippedPaths = Set(skipped.map(Self.path(of:)))
+        let skipped = options.folders.compactMap { folder in
+            reasonToSetAside(folder).map { DuplicateScan.FolderSetAside(url: folder, reason: $0) }
+        }
+        let skippedPaths = Set(skipped.map { Self.path(of: $0.url) })
         let scannable = options.folders.filter { !skippedPaths.contains(Self.path(of: $0)) }
         let neverProjects = Self.neverProjects(chosen: scannable, home: homeDirectory)
         // Saved even when the scan is stopped: the digests computed by then are still correct.

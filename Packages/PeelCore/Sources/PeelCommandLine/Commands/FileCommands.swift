@@ -689,7 +689,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
             )
         }
         if !scan.skippedLocations.isEmpty {
-            let folders = scan.skippedLocations.map(Output.path).joined(separator: ", ")
+            let folders = scan.skippedLocations.map { Output.path($0.url) }.joined(separator: ", ")
             notes.append("Peel didn't look in \(folders), so there may be duplicates there. It leaves repositories alone, and doesn't scan iCloud Drive, app data, or system folders.")
         }
         return notes
@@ -709,7 +709,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
                 Record(size: $0.size, reclaimableSize: $0.reclaimableSize, files: $0.files.map { Output.path($0.url) })
             },
             unreadableLocations: scan.unreadableLocations.map(Output.path),
-            skippedLocations: scan.skippedLocations.map(Output.path)
+            skippedLocations: scan.skippedLocations.map { Output.path($0.url) }
         )
     }
 

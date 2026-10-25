@@ -428,7 +428,8 @@ struct FolderDuplicateTests {
         let result = try await scan(directory, folders: chosen)
         #expect(names(result) == [])
         #expect(result.groups.isEmpty)
-        #expect(result.skippedLocations.map(\.lastPathComponent) == ["Tool.app", "Contents"])
+        #expect(result.skippedLocations.map(\.url.lastPathComponent) == ["Tool.app", "Contents"])
+        #expect(result.skippedLocations.map(\.reason) == [.inAPackage, .inAPackage])
     }
 
     /// A hidden folder, or one inside a hidden folder, is never offered, as the file scan never lists a hidden file:

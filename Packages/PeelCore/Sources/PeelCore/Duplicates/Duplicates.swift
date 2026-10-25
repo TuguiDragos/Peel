@@ -107,15 +107,27 @@ public struct DuplicateScan: Sendable {
     /// A file inside one of these is never listed in `groups` as well.
     public var folderGroups: [DuplicateFolderGroup] = []
     public let unreadableLocations: [URL]
-    /// Chosen folders that were not scanned, such as iCloud Drive, app data, system folders, and repositories.
-    public var skippedLocations: [URL] = []
+    /// Chosen folders that were not scanned, each with why: in the cloud, app data, a package, outside the home
+    /// folder, a repository, or not there.
+    public var skippedLocations: [FolderSetAside] = []
     /// True when macOS privacy protection refused one of the unreadable folders, which Full Disk Access would
     /// allow. It stays false for a folder locked by ordinary permissions, or one that is missing.
     public var needsFullDiskAccess = false
 
+    /// A chosen folder the scan did not look in, and why.
+    public struct FolderSetAside: Sendable, Hashable {
+        public let url: URL
+        public let reason: DuplicateFinder.Refusal
+
+        public init(url: URL, reason: DuplicateFinder.Refusal) {
+            self.url = url
+            self.reason = reason
+        }
+    }
+
     /// The folders Peel could not read or skipped, where duplicates may still be, whatever else it found.
     public var notLookedIn: [URL] {
-        unreadableLocations + skippedLocations
+        unreadableLocations + skippedLocations.map(\.url)
     }
 
     /// True when no duplicates were found but some of what was asked for could not be read or was skipped, even

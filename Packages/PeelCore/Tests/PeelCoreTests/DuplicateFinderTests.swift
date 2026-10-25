@@ -251,11 +251,41 @@ struct DuplicateFinderTests {
 
         let root = try await scan(directory, folders: ["home/Developer/Thing"])
         #expect(root.groups.isEmpty)
-        #expect(root.skippedLocations.count == 1)
+        #expect(root.skippedLocations.map(\.reason) == [.insideARepository])
         #expect(root.readNothing)
 
         let inside = try await scan(directory, folders: ["home/Developer/Thing/assets"])
         #expect(inside.groups.isEmpty, "a folder inside a repository was scanned")
+    }
+
+    /// A sync app's marker at the top of the home folder sets every folder in it aside at once, each named with that
+    /// reason: nothing was unread, so Full Disk Access is not what the person needs.
+    @Test func namesWhyEveryChosenFolderWasSetAside() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.directory("home/.stfolder")
+        try directory.file("home/Desktop/a.bin", contents: contents)
+        try directory.file("home/Documents/a.bin", contents: contents)
+
+        let scan = try await scan(directory, folders: ["home/Desktop", "home/Documents"])
+
+        #expect(scan.groups.isEmpty)
+        #expect(scan.skippedLocations.map(\.url.lastPathComponent) == ["Desktop", "Documents"])
+        #expect(scan.skippedLocations.map(\.reason) == [.inTheCloud, .inTheCloud])
+        #expect(scan.unreadableLocations.isEmpty)
+        #expect(!scan.needsFullDiskAccess)
+        #expect(scan.readNothing)
+    }
+
+    /// A chosen folder that is not there, as a folder on a disk that isn't connected, is named rather than passed over.
+    @Test func namesAChosenFolderThatIsNotThere() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home")
+
+        let scan = try await scan(directory, folders: ["home/Gone"])
+
+        #expect(scan.skippedLocations.map(\.reason) == [.notAFolder])
+        #expect(scan.readNothing)
     }
 
     /// Copies found elsewhere do not hide a chosen folder Peel did not look in: the page still names it.
@@ -458,6 +488,26 @@ struct DuplicateFinderTests {
         #expect(!finder.canScan(URL(filePath: "/Applications")))
         #expect(!finder.canScan(URL(filePath: "/System/Library")))
         #expect(!finder.canScan(URL(filePath: "/Volumes/")))
+    }
+
+    /// Each refusal says why, so a chosen folder Peel won't scan is named with its reason rather than counted as a
+    /// folder it couldn't read.
+    @Test func saysWhyAFolderIsNotScanned() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        for path in ["Documents", "Library", "Music/Music", "Pictures/Thing.app", "Synced/.stfolder"] {
+            try directory.directory("home/" + path)
+        }
+        let finder = DuplicateFinder(homeDirectory: home)
+
+        #expect(finder.refusal(of: home.appending(path: "Documents")) == nil)
+        #expect(finder.refusal(of: home.appending(path: "Synced")) == .inTheCloud)
+        #expect(finder.refusal(of: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs")) == .inTheCloud)
+        #expect(finder.refusal(of: home.appending(path: "Library")) == .appData)
+        #expect(finder.refusal(of: home.appending(path: "Music/Music")) == .appData)
+        #expect(finder.refusal(of: home.appending(path: "Pictures/Thing.app")) == .inAPackage)
+        #expect(finder.refusal(of: URL(filePath: "/")) == .outsideTheHome)
+        #expect(finder.refusal(of: URL(filePath: "/Applications")) == .outsideTheHome)
     }
 
     @Test func refusesTheTrashOfEveryDisk() throws {
