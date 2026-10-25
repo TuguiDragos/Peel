@@ -229,11 +229,12 @@ and how many items the others hold.
   the place in System Settings that turns it on or off.
 - **Plug-ins:** plug-ins of every kind, from audio units to Quick Look, each of which you can move to the Trash,
   after Peel warns that apps using it may stop working.
-- **Package Receipts:** what installer packages other than Apple's put on your Mac, item by item, to move to the
-  Trash. Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what
-  something else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no
-  longer counts the package as installed. An app a package installed follows the rules of its own page: one whose
-  system extension macOS installed is left for you to move in Finder.
+- **Package Receipts:** what installer packages other than Apple's put on your Mac, item by item, to move to the Trash.
+  Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what something
+  else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no longer counts
+  the package as installed. An app a package installed follows the rules of its own page, and so does the rest of its
+  package: what is left to Finder or to the maker's uninstaller stays where it is, and what may exist only on this Mac
+  is shown and not selected.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:
   apps, the Intel-only parts inside other apps, plug-ins, drivers, background items, and the commands in
   `/usr/local`.

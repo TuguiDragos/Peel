@@ -137,7 +137,7 @@ enum KeptOnlyHere {
     ]
 
     static func reason(for path: String, home: String, root: String) -> HoldBack? {
-        let item = PathComponents.of(path.lowercased())
+        let item = PathComponents.of((path as NSString).standardizingPath.lowercased())
         for (base, list) in [(home, places), (root, localPlaces)] {
             let base = (base as NSString).standardizingPath
             for (folder, inside, reason) in list {

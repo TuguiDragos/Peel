@@ -91,7 +91,8 @@ public enum PackageReceipts {
                         removalGuard: removalGuard,
                         reach: reach,
                         shared: shared,
-                        installed: installed
+                        installed: installed,
+                        environment: environment
                     ).receipt
                 }
             }
@@ -106,7 +107,8 @@ public enum PackageReceipts {
                             removalGuard: removalGuard,
                             reach: reach,
                             shared: shared,
-                            installed: installed
+                            installed: installed,
+                            environment: environment
                         ).receipt
                     }
                 }
@@ -155,7 +157,8 @@ public enum PackageReceipts {
                 removalGuard: removalGuard,
                 reach: reach,
                 shared: shared,
-                installed: installed
+                installed: installed,
+                environment: .current
             )
             guard found.installs(wanted) else { continue }
             receipts.append(found.receipt)
@@ -246,7 +249,8 @@ public enum PackageReceipts {
         removalGuard: RemovalGuard,
         reach: HelperReach,
         shared: [String],
-        installed: InstalledSystemExtensions
+        installed: InstalledSystemExtensions,
+        environment: SearchEnvironment
     ) async -> Found {
         guard let (info, volume, installLocation) = await description(of: identifier, pkgutil: pkgutil) else {
             // `pkgutil` named the package but did not describe it. It stays listed, with what it installed unknown,
@@ -265,6 +269,18 @@ public enum PackageReceipts {
         let files = lines(of: listing)
 
         let found = topLevel(files: files, installLocation: installLocation.path(percentEncoded: false))
+        // An app's own rules reach the rest of its package, as they reach its files on its page.
+        let apps = found.offered
+            .filter { ($0 as NSString).pathExtension.caseInsensitiveCompare("app") == .orderedSame }
+            .compactMap { AppInspector.inspect(URL(filePath: PathPattern.located($0) ?? $0)) }
+        var removedApps: [String: RemovedElsewhere] = [:]
+        for app in apps {
+            let carried = await AppExtensions.installed(carriedBy: app) { await installed.answer() }
+            let removed = RemovedElsewhere.of(app, installedSystemExtensions: carried)
+            removedApps[PathPattern.comparablePath(of: app.url)] = removed
+        }
+        let removedWithItsApp = apps.lazy.compactMap { removedApps[PathPattern.comparablePath(of: $0.url)] }.first
+        let uninstaller = apps.lazy.compactMap { UninstallsItself.of($0, environment: environment) }.first
         var items: [PackageReceipt.Item] = []
         var seen: Set<String> = []
         for path in found.offered {
@@ -277,18 +293,27 @@ public enum PackageReceipts {
             let place = PathPattern.comparablePath(of: url)
             let isShared = shared.contains { PathComponents.isPath(place, atOrInside: $0) }
             let isFilledByOthers = found.othersFilled.contains(path)
+            let heldBack: HoldBack? = if SignInPlugIns.isOne(url, root: volume) {
+                .signInPlugIn
+            } else if requiresPrivileges && reach.isBeyond(url) {
+                .beyondTheHelper
+            } else if uninstaller?.removes(url) == true {
+                .leftToItsUninstaller
+            } else {
+                KeptOnlyHere.reason(
+                    for: url.path(percentEncoded: false), home: environment.homeDirectory.path(percentEncoded: false),
+                    root: volume.path(percentEncoded: false)
+                ) ?? HoldBack.seen(in: contents) ?? contents.flatMap(KeptOnlyHere.reason(seenIn:))
+                    ?? (isShared ? .sharedWithEveryone : nil) ?? (isFilledByOthers ? .holdsWhatOthersPut : nil)
+            }
             items.append(PackageReceipt.Item(
                 url: url,
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 requiresPrivileges: requiresPrivileges,
                 refusal: removalGuard.refusal(of: url),
-                heldBack: SignInPlugIns.isOne(url, root: volume)
-                    ? .signInPlugIn
-                    : requiresPrivileges && reach.isBeyond(url)
-                        ? .beyondTheHelper
-                        : HoldBack.seen(in: contents) ?? (isShared ? .sharedWithEveryone : nil)
-                            ?? (isFilledByOthers ? .holdsWhatOthersPut : nil),
-                removedElsewhere: await removedElsewhere(url, installed: installed)
+                heldBack: heldBack,
+                removedElsewhere: url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
+                    ? removedApps[place] : removedWithItsApp
             ))
         }
 
@@ -305,15 +330,6 @@ public enum PackageReceipts {
             ),
             paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) }
         )
-    }
-
-    /// How an app a package installed is removed instead, by the rules its own page follows: Finder for its system
-    /// extensions, Remove Peel for Peel, its maker's uninstaller for an agent.
-    private static func removedElsewhere(_ url: URL, installed: InstalledSystemExtensions) async -> RemovedElsewhere? {
-        guard url.pathExtension.caseInsensitiveCompare("app") == .orderedSame, let app = AppInspector.inspect(url)
-        else { return nil }
-        let carried = await AppExtensions.installed(carriedBy: app) { await installed.answer() }
-        return RemovedElsewhere.of(app, installedSystemExtensions: carried)
     }
 
     /// What `pkgutil --pkg-info-plist` says of a package, with the volume and the folder its file list is relative to.

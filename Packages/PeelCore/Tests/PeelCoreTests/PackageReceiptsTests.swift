@@ -260,6 +260,88 @@ struct PackageReceiptsTests {
         #expect(items["Plain.app"]?.isLeftAlone == false)
     }
 
+    @Test func leavesTheRestOfAPackageToWhatRemovesItsApp() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let plist = { (object: [String: Any]) in
+            try PropertyListSerialization.data(fromPropertyList: object, format: .xml, options: 0)
+        }
+        try directory.file(
+            "Applications/Guard.app/Contents/Info.plist",
+            contents: plist(["CFBundleIdentifier": "org.example.guard", "CFBundleName": "Guard"])
+        )
+        try directory.file(
+            "Applications/Guard.app/Contents/Library/SystemExtensions/org.example.guard.filter.systemextension/Contents/Info.plist",
+            contents: plist(["CFBundleIdentifier": "org.example.guard.filter", "CFBundleName": "Guard Filter"])
+        )
+        try directory.file("Library/Application Support/Guard/rules.json", bytes: 16)
+        let workspace = "Applications/Citrix Workspace.app"
+        try directory.file(
+            "\(workspace)/Contents/Info.plist",
+            contents: plist(["CFBundleIdentifier": "com.citrix.receiver.nomas", "CFBundleName": "Citrix Workspace"])
+        )
+        let uninstaller = "Library/Citrix Workspace/Uninstaller/Uninstall Citrix Workspace"
+        try directory.file(uninstaller)
+        try directory.setPermissions(0o755, of: uninstaller)
+        try directory.file("Library/LaunchAgents/com.citrix.UninstallMonitor.plist", contents: plist([
+            "Label": "com.citrix.UninstallMonitor",
+            "ProgramArguments": [volume.appending(path: uninstaller).path(percentEncoded: false)],
+            "WatchPaths": [volume.appending(path: workspace).path(percentEncoded: false)],
+        ]))
+        try directory.file("Library/Application Support/Citrix Receiver/config.xml", bytes: 16)
+        try directory.file("Library/Application Support/Citrix Extra/notes.txt", bytes: 16)
+        try directory.file("Library/Application Support/ZeroTier/One/zerotier-one", bytes: 16)
+        try directory.file("Library/Application Support/ZeroTier/One/identity.secret", bytes: 16)
+        let files = [
+            "org.example.guard.pkg": [
+                "Applications/Guard.app", "Library/Application Support/Guard",
+                "Library/Application Support/Guard/rules.json",
+            ],
+            "com.citrix.ICAClient": [
+                workspace, "Library/Application Support/Citrix Receiver",
+                "Library/Application Support/Citrix Receiver/config.xml", "Library/Application Support/Citrix Extra",
+                "Library/Application Support/Citrix Extra/notes.txt",
+            ],
+            "com.zerotier.pkg.ZeroTierOne": [
+                "Library/Application Support/ZeroTier", "Library/Application Support/ZeroTier/One",
+                "Library/Application Support/ZeroTier/One/zerotier-one",
+            ],
+        ]
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("com.citrix.ICAClient", "com.zerotier.pkg.ZeroTierOne", "org.example.guard.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "/"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return files[arguments[1]]?.joined(separator: "\n")
+            default:
+                return nil
+            }
+        }
+        let filter = AppExtension(
+            identifier: "org.example.guard.filter", name: "Guard Filter", kind: .systemExtension, point: nil, owner: nil,
+            url: nil, election: .on, teamIdentifier: nil, reportedState: nil
+        )
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: pkgutil, environment: environment, systemExtensions: { [filter] }
+        )
+
+        let items = Dictionary(
+            uniqueKeysWithValues: scan.receipts.flatMap(\.items).map { ($0.url.lastPathComponent, $0) }
+        )
+        let finder = RemovedElsewhere.byFinder(systemExtensions: CarriedSystemExtensions(names: ["Guard Filter"]))
+        #expect(items["Guard"]?.removedElsewhere == finder)
+        #expect(items["Guard"]?.isLeftAlone == true)
+        #expect(items["Citrix Receiver"]?.heldBack == .leftToItsUninstaller)
+        #expect(items["Citrix Extra"]?.heldBack == nil)
+        #expect(items["zerotier-one"]?.heldBack == .holdsVPNConnections)
+    }
+
     /// A receipt's file list leaves out the install prefix, such as `Applications`, so the path is asked about again
     /// without its leading folders, and the answer is believed only if the receipt really installed that path.
     @Test func findsThePackageThatInstalledAnAppUnderAnInstallPrefix() async throws {
