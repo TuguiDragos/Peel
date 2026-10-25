@@ -72,6 +72,11 @@ public struct DuplicateGroup: Sendable, Hashable, Identifiable {
         files.allSatisfy { $0.heldBack == .inTheCloud }
     }
 
+    /// True when a copy that syncs to other devices is among the files, so the page says what such a copy means.
+    public var holdsASyncedCopy: Bool {
+        files.contains { $0.heldBack == .inTheCloud }
+    }
+
     /// What moving every movable copy but the first would free.
     public var reclaimableSize: Int64 {
         movableFiles.dropFirst().reduce(0) { $0 + $1.reclaimableSize }

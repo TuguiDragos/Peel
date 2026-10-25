@@ -27,7 +27,7 @@ struct DuplicateGroupView: View {
                 }
                 .listRowSeparator(.hidden)
             } header: {
-                heading("Copies", "Selected copies go to the Trash. Peel always keeps at least one.")
+                heading("Copies", copiesNote)
             }
             .disabled(duplicates.isRemoving)
         }
@@ -39,6 +39,17 @@ struct DuplicateGroupView: View {
         .navigationTitle(Text(verbatim: group.files[0].url.lastPathComponent))
         .toolbar(removing: .title)
         .quickLookPreview(Bindable(preview).url, in: group.files.map(\.url))
+    }
+
+    /// What the note beside Copies says, which follows what the group holds.
+    private var copiesNote: LocalizedStringResource {
+        if group.everyCopySyncs {
+            "These copies sync to your other devices, so Peel lists them and never moves one: the Trash would take it from every device."
+        } else if group.holdsASyncedCopy {
+            "Selected copies go to the Trash. Peel always keeps at least one. A copy marked Stays syncs to your other devices and is never moved."
+        } else {
+            "Selected copies go to the Trash. Peel always keeps at least one."
+        }
     }
 
     private var header: some View {
@@ -109,47 +120,52 @@ private struct DuplicateFileRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Toggle(isOn: Binding(get: { isSelected }, set: { duplicates.setSelected($0, file, in: group) })) {
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    FileThumbnail(url: file.url)
-                        .frame(width: 20, height: 20)
-                        .clipShape(.rect(cornerRadius: 4, style: .continuous))
-                    .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 5 }
-                    .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(file.url.abbreviatedPath)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                        Text("Modified \(file.modificationDate, format: .relative(presentation: .named))")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer(minLength: 12)
-                    if let heldBack = file.heldBack {
-                        // A copy that syncs to other devices is shown and never moved; its words say why.
-                        Badge(title: Text("Stays"), systemImage: "icloud", tint: .blue)
-                            .accessibilityHint(Text(heldBack.explanation))
-                    } else if !isSelected {
-                        Badge(title: Text("Keep"), systemImage: "checkmark", tint: .green)
-                    }
-                    Text(file.size.byteCount)
-                        .monospacedDigit()
-                        .foregroundStyle(.secondary)
+            if let heldBack = file.heldBack {
+                // No checkbox: the copy can never be selected, and a disabled one would dim the very words the
+                // person reads here, where the copy is. The cloud stands where the other rows' checkbox stands, 16
+                // points wide and 5 before the item, so the copies of a group line up.
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
+                    Image(systemName: "icloud")
+                        .foregroundStyle(.blue)
+                        .frame(width: 16, height: 16)
+                        .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 3 }
+                        .accessibilityHidden(true)
+                    item
                 }
-            }
-            .toggleStyle(.checkbox)
-            .disabled(!canChangeSelection)
-            .help(help)
+                .accessibilityElement(children: .combine)
+                .accessibilityHint(Text(heldBack.explanation))
+                .help(Text(heldBack.explanation))
 
-            Button {
-                preview.url = file.url
-            } label: {
-                Label("Quick Look", systemImage: "eye")
-                    .minimumTarget()
-            }
+                // Where the copy is matters more than a look at it: what is done with it is done in Finder or on
+                // another device. The folder symbol, the menu's for Show in Finder, is close to the eye's width, so
+                // the two buttons read as one column.
+                Button {
+                    NSWorkspace.shared.activateFileViewerSelecting([file.url])
+                } label: {
+                    Label("Show in Finder", systemImage: "folder")
+                        .minimumTarget()
+                }
+                .labelStyle(.iconOnly)
+                .buttonStyle(.borderless)
+                .help(Text("Show in Finder"))
+            } else {
+                Toggle(isOn: Binding(get: { isSelected }, set: { duplicates.setSelected($0, file, in: group) })) {
+                    item
+                }
+                .toggleStyle(.checkbox)
+                .disabled(!canChangeSelection)
+                .help(canChangeSelection ? Text(verbatim: file.url.path(percentEncoded: false)) : Text("Peel always keeps at least one copy."))
+
+                Button {
+                    preview.url = file.url
+                } label: {
+                    Label("Quick Look", systemImage: "eye")
+                        .minimumTarget()
+                }
                 .labelStyle(.iconOnly)
                 .buttonStyle(.borderless)
                 .help(Text("Quick Look"))
+            }
         }
         .tableRow(isFirst: isFirst)
         .contextMenu {
@@ -158,10 +174,32 @@ private struct DuplicateFileRow: View {
         }
     }
 
-    /// The path, or why the checkbox can't be changed: the copy syncs to other devices, or it is the last one.
-    private var help: Text {
-        if let heldBack = file.heldBack { return Text(heldBack.explanation) }
-        return canChangeSelection ? Text(verbatim: file.url.path(percentEncoded: false)) : Text("Peel always keeps at least one copy.")
+    /// The thumbnail, the path with its date, the badge and the size, which every copy's row shows.
+    private var item: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            FileThumbnail(url: file.url)
+                .frame(width: 20, height: 20)
+                .clipShape(.rect(cornerRadius: 4, style: .continuous))
+                .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 5 }
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(file.url.abbreviatedPath)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                Text("Modified \(file.modificationDate, format: .relative(presentation: .named))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 12)
+            if file.heldBack != nil {
+                Badge(title: Text("Stays"), systemImage: "hand.raised")
+            } else if !isSelected {
+                Badge(title: Text("Keep"), systemImage: "checkmark", tint: .green)
+            }
+            Text(file.size.byteCount)
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+        }
     }
 }
 

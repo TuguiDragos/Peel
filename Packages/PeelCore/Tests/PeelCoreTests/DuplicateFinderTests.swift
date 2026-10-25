@@ -118,6 +118,7 @@ struct DuplicateFinderTests {
 
         #expect(Set(names(result)) == [["Pictures/photo.jpg", "Documents/photo copy.jpg"], ["Desktop/note.txt", "Documents/note.txt"]])
         #expect(result.suggestedSelection.map(\.lastPathComponent).sorted() == ["note.txt", "photo copy.jpg"])
+        #expect(result.groups.allSatisfy { !$0.holdsASyncedCopy })
     }
 
     /// Moving a copy takes its Finder tags and its resource fork with it, so copies that differ in either are not
@@ -286,6 +287,7 @@ struct DuplicateFinderTests {
         #expect(synced.heldBack == .inTheCloud)
         #expect(local.heldBack == nil)
         #expect(!group.everyCopySyncs)
+        #expect(group.holdsASyncedCopy)
         #expect(group.movableFiles.map(\.url) == [local.url])
         #expect(group.reclaimableSize == 0)
         #expect(scan.suggestedSelection.isEmpty)
@@ -307,6 +309,7 @@ struct DuplicateFinderTests {
         #expect(scan.skippedLocations.isEmpty)
         #expect(group.files.count == 2)
         #expect(group.everyCopySyncs)
+        #expect(group.holdsASyncedCopy)
         #expect(group.movableFiles.isEmpty)
         #expect(group.reclaimableSize == 0)
         #expect(scan.suggestedSelection.isEmpty)

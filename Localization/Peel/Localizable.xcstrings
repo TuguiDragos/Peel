@@ -142190,6 +142190,112 @@
         }
       }
     },
+    "Selected copies go to the Trash. Peel always keeps at least one. A copy marked Stays syncs to your other devices and is never moved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrané kopie se přesunou do koše. Peel vždy ponechá alespoň jednu. Kopie označená jako „Synchronizuje se“ je synchronizována s vašimi ostatními zařízeními a nikdy se nepřesune."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Kopien werden in den Papierkorb gelegt. Peel behält immer mindestens eine. Eine mit „Bleibt“ markierte Kopie wird mit deinen anderen Geräten synchronisiert und nie verschoben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las copias seleccionadas van a la papelera. Peel siempre conserva al menos una. Una copia marcada como “Se sincroniza” se sincroniza con tus otros dispositivos y nunca se traslada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les copies sélectionnées sont placées dans la corbeille. Peel en conserve toujours au moins une. Une copie marquée « Reste en place » est synchronisée avec vos autres appareils et n’est jamais déplacée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le copie selezionate vanno nel Cestino. Peel ne tiene sempre almeno una. Una copia contrassegnata con “Resta” si sincronizza con gli altri tuoi dispositivi e non viene mai spostata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択したコピーはゴミ箱に入ります。Peelは必ず少なくとも1つを残します。“同期済み”と表示されたコピーはほかのデバイスに同期されているため、決して移動されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 복사본은 휴지통으로 이동합니다. Peel은 항상 하나 이상을 유지합니다. ‘남음’으로 표시된 복사본은 다른 기기와 동기화되며 절대 이동되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geselecteerde kopieën gaan naar de prullenmand. Peel behoudt er altijd minstens één. Een kopie met de markering 'Gesynchroniseerd' wordt gesynchroniseerd met je andere apparaten en wordt nooit verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznaczone kopie trafiają do Kosza. Peel zawsze zachowuje co najmniej jedną. Kopia oznaczona jako „Synchronizowane” jest synchronizowana z Twoimi pozostałymi urządzeniami, a Peel nigdy jej nie przenosi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As cópias selecionadas vão para o Lixo. O Peel sempre mantém pelo menos uma. Uma cópia marcada como Sincronizada é sincronizada com os seus outros dispositivos e nunca é movida."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiile selectate sunt mutate în Coș. Peel păstrează întotdeauna cel puțin una. O copie marcată cu „Se sincronizează” nu este mutată niciodată: se sincronizează pe celelalte dispozitive ale dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбранные копии перемещаются в Корзину. Peel всегда оставляет хотя бы одну. Копия с пометкой «Синхронизируется» синхронизируется с другими Вашими устройствами и никогда не перемещается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markerade kopior flyttas till papperskorgen. Peel behåller alltid minst en. En kopia märkt ”Synkroniseras” synkroniseras till dina andra enheter och flyttas aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili kopyalar Çöp Sepeti’ne gider. Peel her zaman en az birini tutar. Eşzamanlanıyor olarak işaretlenmiş bir kopya diğer aygıtlarınızla eşzamanlanıyor ve hiçbir zaman taşınmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрані копії переміщуються в Смітник. Peel завжди залишає щонайменше одну. Копія з позначкою «Синхронізується» синхронізується з іншими вашими пристроями, і Peel ніколи її не переміщує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所选副本会移到废纸篓。Peel始终至少保留一个。标记为“已同步”的副本会同步到你的其他设备，绝不会被移动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選取的副本會丟到「垃圾桶」。Peel一律至少保留一份。標示為「已同步」的副本會與你的其他裝置同步，絕不會被移動。"
+          }
+        }
+      }
+    },
     "Selected on ^[%lld page](inflect: true)" : {
       "comment" : "Under the figure in the bar at the foot of a page, when the selection is on several pages: the figure is a size, such as 426 kB. Word Selected as the bar's own \"Selected\" is worded, agreeing with no number but the pages'.",
       "localizations" : {
@@ -169781,6 +169887,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些副本共用儲存空間，因此移除它們所釋放的空間會少於其大小。"
+          }
+        }
+      }
+    },
+    "These copies sync to your other devices, so Peel lists them and never moves one: the Trash would take it from every device." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto kopie se synchronizují s vašimi ostatními zařízeními, takže je Peel zobrazuje, ale žádnou z nich nikdy nepřesune: přesunutí do koše by ji odstranilo ze všech zařízení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Kopien werden mit deinen anderen Geräten synchronisiert, daher führt Peel sie auf und verschiebt nie eine davon: Der Papierkorb würde sie von jedem Gerät entfernen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estas copias se sincronizan con tus otros dispositivos, así que Peel las muestra y nunca traslada ninguna: la papelera la eliminaría de todos tus dispositivos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ces copies sont synchronisées avec vos autres appareils, si bien que Peel les liste sans jamais en déplacer une : la placer dans la corbeille la supprimerait de tous vos appareils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queste copie si sincronizzano con gli altri tuoi dispositivi, quindi Peel le elenca e non ne sposta mai una: il Cestino la rimuoverebbe da tutti i dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらのコピーはほかのデバイスに同期されています。ゴミ箱に入れるとすべてのデバイスから削除されるため、Peelは一覧に表示するだけで、決して移動しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 복사본들은 다른 기기와 동기화되므로, Peel은 목록에 표시만 하고 하나도 이동하지 않습니다. 휴지통으로 이동하면 모든 기기에서 삭제되기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze kopieën worden gesynchroniseerd met je andere apparaten, dus Peel toont ze wel, maar verplaatst er nooit één: eenmaal in de prullenmand zou die van al je apparaten verdwijnen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te kopie są synchronizowane z Twoimi pozostałymi urządzeniami, więc Peel je wyświetla, ale nigdy żadnej nie przenosi: po przeniesieniu do Kosza zostałaby usunięta ze wszystkich urządzeń."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estas cópias são sincronizadas com os seus outros dispositivos, por isso o Peel as lista e nunca move nenhuma: mover uma delas para o Lixo a removeria de todos os dispositivos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceste copii se sincronizează pe celelalte dispozitive ale dvs., așa că Peel le listează, dar nu mută niciodată niciuna: mutarea în Coș ar elimina‑o de pe toate dispozitivele."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эти копии синхронизируются с другими Вашими устройствами, поэтому Peel показывает их, но никогда не перемещает ни одну из них: если переместить копию в Корзину, она будет удалена со всех устройств."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De här kopiorna synkroniseras till dina andra enheter, så Peel visar dem i listan men flyttar aldrig någon av dem: om den flyttades till papperskorgen skulle den tas bort från alla enheter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu kopyalar diğer aygıtlarınızla eşzamanlanıyor, bu yüzden Peel onları listeler ama hiçbirini asla taşımaz: Çöp Sepeti’ne taşınan bir kopya her aygıttan silinir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ці копії синхронізуються з іншими вашими пристроями, тож Peel показує їх у списку, але ніколи не переміщує жодної з них: переміщення в Смітник прибрало б копію з усіх пристроїв."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些副本会同步到你的其他设备，因此Peel会列出它们，但绝不会移动其中任何一个：一旦移到废纸篓，它就会从所有设备中删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些副本會與你的其他裝置同步，因此Peel會列出它們，但絕不會移動任何一份：丟到「垃圾桶」會將它從所有裝置上移除。"
           }
         }
       }

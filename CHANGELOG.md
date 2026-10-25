@@ -11,8 +11,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Duplicates scans the folders that sync to your other devices too, such as iCloud Drive, what Desktop and Documents
   hold when they are in iCloud, and what a sync app keeps in step, and lists the copies it finds there without ever
-  moving them: beside a copy on this Mac such a copy is marked Stays, and a group whose every copy syncs is listed
-  under Synced to Other Devices. `peel duplicates` marks such a copy `stays` and lists it under `synced` in its JSON.
+  moving them: beside a copy on this Mac such a copy is marked Stays, with a Show in Finder button in place of its
+  checkbox and Quick Look, and a group whose every copy syncs is listed under Synced to Other Devices. The note
+  beside Copies says what Stays means. `peel duplicates` marks such a copy `stays` and lists it under `synced` in
+  its JSON.
 
 ### Fixed
 
