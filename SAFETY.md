@@ -390,9 +390,9 @@ Never selected for you, even when found:
   backups and an authenticator's codes, VPN connections and identities, a torrent client's list of torrents, a game's
   saves, a database, a streaming app's scenes and profiles, an office suite's own templates and dictionaries, a
   terminal's scripts and profiles, and the sign-in a tool saved when you logged in, such as Docker's or Cargo's, each
-  where the app's own documentation or source says it keeps them, and anything named as an app's backups. When you
-  uninstall Xcode, the simulators it made in your home folder are listed too, with the apps installed in them and their
-  data, and never selected.
+  where the app's own documentation or source says it keeps them, and anything named as an app's backups, or the
+  app's folder that keeps them. When you uninstall Xcode, the simulators it made in your home folder are listed too,
+  with the apps installed in them and their data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
 - A file a program has open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is

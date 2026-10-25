@@ -447,6 +447,7 @@ public struct LeftoverScanner: Sendable {
         // are. Holding it back costs a checkmark, and the row says what is inside.
         if let secret = HoldBack.secret(in: contents) { return secret }
         if contents.holdsRepository { return .holdsRepository }
+        if let backups = KeptOnlyHere.reason(seenIn: contents) { return backups }
         if kind == .logs, CrashReport.isOne(url) { return .crashReport }
         if kind == .sharedFolder { return .sharedWithEveryone }
         if Self.namedGroundOfSomebodyElse.contains(kind), match.restsOnAName { return .namedLikeTheApp }

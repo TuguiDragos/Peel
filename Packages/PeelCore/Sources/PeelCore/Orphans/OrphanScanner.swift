@@ -785,8 +785,8 @@ public struct OrphanScanner: Sendable {
             .crashReport
         } else {
             // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
-            HoldBack.seen(in: contents) ?? (kind == .sharedFolder ? .sharedWithEveryone : nil)
-                ?? (namedAfter != nil ? .namedLikeTheApp : nil)
+            HoldBack.seen(in: contents) ?? contents.flatMap(KeptOnlyHere.reason(seenIn:))
+                ?? (kind == .sharedFolder ? .sharedWithEveryone : nil) ?? (namedAfter != nil ? .namedLikeTheApp : nil)
         }
         return OrphanItem(
             url: url,

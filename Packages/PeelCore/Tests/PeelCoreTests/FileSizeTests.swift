@@ -474,6 +474,27 @@ struct FileSizeTests {
         }
     }
 
+    @Test func reportsBackupsKeptDirectlyInside() async throws {
+        let directory = try TemporaryDirectory()
+        let novels = try directory.directory("novels")
+        try directory.file("novels/Backups/My Novel.bak.zip", bytes: 64)
+        let library = try directory.directory("library")
+        try directory.file("library/library-backup.sqlite", bytes: 64)
+        let empty = try directory.directory("empty")
+        try directory.directory("empty/Backups")
+        let deeper = try directory.directory("deeper")
+        try directory.file("deeper/User/globalStorage/state.vscdb.backup", bytes: 64)
+        let lookalike = try directory.directory("lookalike")
+        try directory.file("lookalike/Backupify/settings.json", bytes: 64)
+
+        for folder in [novels, library] {
+            #expect(await FileSize.contents(of: folder)?.holdsBackups == true, "\(folder.lastPathComponent)")
+        }
+        for folder in [empty, deeper, lookalike] {
+            #expect(await FileSize.contents(of: folder)?.holdsBackups == false, "\(folder.lastPathComponent)")
+        }
+    }
+
     /// The names wallets and their keys go by, as each project's documentation or source gives them, and names
     /// that only look close.
     @Test func knowsTheNamesWalletsAndTheirKeysGoBy() {

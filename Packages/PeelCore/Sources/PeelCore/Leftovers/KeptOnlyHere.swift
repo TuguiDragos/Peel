@@ -117,7 +117,15 @@ enum KeptOnlyHere {
             }
         }
         // What an app names as its backups is a copy the person may need, whichever app made it.
-        let words = (item.last ?? "").split { !$0.isLetter }
-        return words.contains("backup") || words.contains("backups") ? .holdsWorkMadeWithTheApp : nil
+        return namesBackups(item.last ?? "") ? .holdsWorkMadeWithTheApp : nil
+    }
+
+    static func reason(seenIn contents: FolderContents) -> HoldBack? {
+        contents.holdsBackups ? .holdsWorkMadeWithTheApp : nil
+    }
+
+    static func namesBackups(_ name: String) -> Bool {
+        let words = name.lowercased().split { !$0.isLetter }
+        return words.contains("backup") || words.contains("backups")
     }
 }

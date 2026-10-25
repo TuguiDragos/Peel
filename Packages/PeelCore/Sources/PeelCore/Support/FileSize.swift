@@ -15,6 +15,8 @@ public struct FolderContents: Sendable, Hashable {
     public let holdsWallet: Bool
     /// True when a password database or its key file was seen inside (`isPasswordDatabase(_:)`).
     public let holdsPasswordDatabase: Bool
+    /// True when something directly inside is named as backups: a file, or a folder that holds something.
+    public let holdsBackups: Bool
     /// The latest modification date of anything inside. A folder's own date does not change when a file in
     /// it is rewritten in place.
     public let newestChange: Date?
@@ -35,6 +37,7 @@ public struct FolderContents: Sendable, Hashable {
         holdsRepository: Bool,
         holdsWallet: Bool = false,
         holdsPasswordDatabase: Bool = false,
+        holdsBackups: Bool = false,
         newestChange: Date? = nil,
         couldNotBeRead: Bool = false,
         taken: Int64? = nil
@@ -44,6 +47,7 @@ public struct FolderContents: Sendable, Hashable {
         self.holdsRepository = holdsRepository
         self.holdsWallet = holdsWallet
         self.holdsPasswordDatabase = holdsPasswordDatabase
+        self.holdsBackups = holdsBackups
         self.newestChange = newestChange
         self.couldNotBeRead = couldNotBeRead
     }
@@ -204,6 +208,7 @@ public enum FileSize {
         var holdsRepository = repositoryMarkers.contains(url.lastPathComponent)
         var holdsWallet = isWallet(url.lastPathComponent)
         var holdsPasswordDatabase = isPasswordDatabase(url.lastPathComponent)
+        var holdsBackups = false
         var newestChange: Date?
         // A file with several names goes only once every name has gone, so it counts once, and only when all of
         // its names are inside.
@@ -220,6 +225,10 @@ public enum FileSize {
                 if repositoryMarkers.contains(file.lastPathComponent) { holdsRepository = true }
                 if isWallet(file.lastPathComponent) { holdsWallet = true }
                 if isPasswordDatabase(file.lastPathComponent) { holdsPasswordDatabase = true }
+                if !holdsBackups, enumerator.level == 2,
+                   KeptOnlyHere.namesBackups(file.deletingLastPathComponent().lastPathComponent) {
+                    holdsBackups = true
+                }
                 guard let values = try? file.resourceValues(forKeys: fileKeys) else { return .next }
                 if let written = values.contentModificationDate, written > newestChange ?? .distantPast {
                     newestChange = written
@@ -227,6 +236,9 @@ public enum FileSize {
                 guard values.isRegularFile == true else {
                     if isDataless(file) { enumerator.skipDescendants() }
                     return .next
+                }
+                if !holdsBackups, enumerator.level == 1, KeptOnlyHere.namesBackups(file.lastPathComponent) {
+                    holdsBackups = true
                 }
                 if let links = values.linkCount, links > 1, let identifier = values.fileIdentifier {
                     severalNames[identifier, default: (0, links, Int64(values.totalFileAllocatedSize ?? 0))].seen += 1
@@ -249,6 +261,7 @@ public enum FileSize {
             holdsRepository: holdsRepository,
             holdsWallet: holdsWallet,
             holdsPasswordDatabase: holdsPasswordDatabase,
+            holdsBackups: holdsBackups,
             newestChange: newestChange,
             couldNotBeRead: refused.happened,
             taken: taken

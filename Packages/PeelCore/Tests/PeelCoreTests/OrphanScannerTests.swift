@@ -247,6 +247,27 @@ struct OrphanScannerTests {
         #expect(await scanner.stillOrphaned([item], installedApps: installed + [back], remembered: [editor]).isEmpty)
     }
 
+    @Test func holdsBackAGoneAppsFolderThatHoldsItsBackups() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/org.example.quillworks/Backups/My Novel.bak.zip", bytes: 64)
+        try directory.file("home/Library/Application Support/org.example.inkpot/Settings.plist", bytes: 64)
+        let gone = { (identifier: String, name: String) in
+            RememberedApp(
+                bundleIdentifier: identifier, name: name, teamIdentifier: nil, lastSeen: .now,
+                lastPath: "/Applications/\(name).app"
+            )
+        }
+
+        let scan = await scanner(in: directory).scan(
+            installedApps: installed,
+            remembered: [gone("org.example.quillworks", "Quillworks"), gone("org.example.inkpot", "Inkpot")]
+        )
+
+        let items = scan.groups.flatMap(\.items)
+        #expect(items.first { $0.url.lastPathComponent == "org.example.quillworks" }?.heldBack == .holdsWorkMadeWithTheApp)
+        #expect(items.contains { $0.url.lastPathComponent == "org.example.inkpot" && $0.heldBack == nil })
+    }
+
     @Test func listsABrowsersManifestThatStartsNothing() async throws {
         let directory = try TemporaryDirectory()
         let hosts = "root/Library/Google/Chrome/NativeMessagingHosts"

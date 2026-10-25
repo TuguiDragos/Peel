@@ -53,6 +53,33 @@ struct LeftoverScannerTests {
         #expect(!plan.scan.leftovers.contains { $0.url.lastPathComponent == ".org.example.app.plist" })
     }
 
+    @Test func leavesTheAppsFolderThatHoldsItsBackupsForThePersonToSelect() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Quillworks/Backups/My Novel.bak.zip", bytes: 64)
+        try directory.file("home/Library/Application Support/Quillworks/Settings.plist", bytes: 64)
+        try directory.directory("home/Library/Application Support/Inkpot/Backups")
+        try directory.file("home/Library/Application Support/Inkpot/Settings.plist", bytes: 64)
+        let quillworks = InstalledApp(
+            url: URL(filePath: "/Applications/Quillworks.app"), bundleIdentifier: "org.example.quillworks",
+            name: "Quillworks"
+        )
+        let inkpot = InstalledApp(
+            url: URL(filePath: "/Applications/Inkpot.app"), bundleIdentifier: "org.example.inkpot", name: "Inkpot"
+        )
+        let apps = [quillworks, inkpot]
+        let environment = environment(in: directory)
+
+        let kept = await Uninstallation.prepare(quillworks, installedApps: apps, environment: environment)
+        let free = await Uninstallation.prepare(inkpot, installedApps: apps, environment: environment)
+
+        let folder = try #require(kept.scan.leftovers.first { $0.url.lastPathComponent == "Quillworks" })
+        #expect(folder.match.heldBack == .holdsWorkMadeWithTheApp)
+        #expect(!kept.suggestedSelection(canUseHelper: false).contains(folder.url))
+        let control = try #require(free.scan.leftovers.first { $0.url.lastPathComponent == "Inkpot" })
+        #expect(control.match.heldBack == nil)
+        #expect(free.suggestedSelection(canUseHelper: false).contains(control.url))
+    }
+
     /// Folders that no app claims are looked into one at a time, so the scan has to notice a stop between them.
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
