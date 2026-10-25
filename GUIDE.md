@@ -20,11 +20,11 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   the top of a Library, or inside another app's folder or one of Apple's, so it waits under Review Before Removing.
   So does a folder named like the app while another installed app's name holds that name, as Epic Games Launcher
   holds Epic: the folder may be that app's.
-- **What may exist nowhere else is left to you.** A folder holding a crypto wallet, a signing key, a password
-  database, or a repository is shown with its reason and not selected, and so is a place where an app keeps what
-  may exist only on this Mac, such as local mail, message history, sign-in codes, VPN connections, a torrent client's
-  list of torrents, a game's saves, a database, a code editor's unsaved files and local history, an app's own backups,
-  or the sign-in a tool saved when you logged in. Uninstalling Xcode lists the simulators it made the same way.
+- **What may exist nowhere else is left to you.** A folder holding a crypto wallet, a signing key, a password database,
+  or a repository is shown with its reason and not selected, and so is a place where an app keeps what may exist only on
+  this Mac, such as local mail, message history, sign-in codes, a browser's saved passwords, VPN connections, a torrent
+  client's list of torrents, a game's saves, a database, a code editor's unsaved files and local history, an app's own
+  backups, or the sign-in a tool saved when you logged in. Uninstalling Xcode lists the simulators it made the same way.
 - **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected, and a
   folder holding another installed app's own data, such as Xcode's in `~/Library/Developer`, can't be selected at
   all, and neither can anything that syncs to your other devices, an app's container holding your documents, or a

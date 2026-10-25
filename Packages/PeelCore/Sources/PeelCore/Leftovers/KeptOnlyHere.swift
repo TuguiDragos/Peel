@@ -38,6 +38,26 @@ enum KeptOnlyHere {
         ("Library/Containers/io.ente.auth.mac", nil, .holdsPasswordsOrCodes),
         // Proton Authenticator's entitlements; Apple: the app's primary group container holds its store.
         ("Library/Group Containers/group.me.proton.authenticator", nil, .holdsPasswordsOrCodes),
+        // Mozilla's "Profiles - Where Firefox stores your bookmarks, passwords and other user data": each profile keeps
+        // the saved passwords in `key4.db` and `logins.json`, and Firefox can be uninstalled without losing them.
+        ("Library/Application Support/Firefox", "Profiles", .holdsPasswordsOrCodes),
+        // Chromium's `docs/user_data_dir.md` and `password_manager_constants.cc`: each browser's folder holds its
+        // profiles, most often `Default`, and a profile keeps the saved passwords in `Login Data`. Brave's folders are
+        // named by its `build/config.gni` and `BRANDING`. Opera's desktop blog names its folder, which before Opera 102
+        // was the profile itself.
+        ("Library/Application Support/Google/Chrome", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Google/Chrome Beta", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Google/Chrome Dev", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Google/Chrome Canary", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Chromium", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/BraveSoftware/Brave-Browser", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/BraveSoftware/Brave-Browser-Beta", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/BraveSoftware/Brave-Browser-Dev", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/BraveSoftware/Brave-Browser-Nightly", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/BraveSoftware/Brave-Origin", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/BraveSoftware/Brave-Origin-Beta", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/BraveSoftware/Brave-Origin-Nightly", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/com.operasoftware.Opera", nil, .holdsPasswordsOrCodes),
         // Tunnelblick's "File Locations" and "Uninstalling Tunnelblick".
         ("Library/Application Support/Tunnelblick", "Configurations", .holdsVPNConnections),
         // SparkLabs' "Uninstalling Viscosity (Mac)": connection data.

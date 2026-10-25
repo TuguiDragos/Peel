@@ -20,6 +20,15 @@ struct KeptOnlyHereTests {
              .holdsPasswordsOrCodes),
             ("Library/Group Containers/group.strongbox.mac.mcguill", .holdsPasswordsOrCodes),
             ("Library/Containers/io.ente.auth.mac", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Firefox", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Firefox/Profiles/abcd1234.default-release/logins.json", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Google/Chrome", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Google/Chrome/Default/Login Data", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Google/Chrome Canary", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Chromium/Default", .holdsPasswordsOrCodes),
+            ("Library/Application Support/BraveSoftware/Brave-Browser/Default/Login Data", .holdsPasswordsOrCodes),
+            ("Library/Application Support/BraveSoftware/Brave-Origin-Nightly", .holdsPasswordsOrCodes),
+            ("Library/Application Support/com.operasoftware.Opera/Login Data", .holdsPasswordsOrCodes),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
@@ -90,6 +99,11 @@ struct KeptOnlyHereTests {
             "Library/Application Support/Eltima Software", "Library/Application Support/Eltima Software/Elmedia Player",
             "Library/Caches/Sublime Text", "Library/Application Support/Sublime Merge",
             "Library/Application Support/minecraft/versions", "Library/Application Support/Minecraft Launcher",
+            "Library/Application Support/Google/Chrome/NativeMessagingHosts/org.example.host.json",
+            "Library/Application Support/Chromium/NativeMessagingHosts/org.example.host.json",
+            "Library/Application Support/Mozilla/NativeMessagingHosts/org.example.host.json",
+            "Library/Caches/Firefox/Profiles/abcd1234.default-release", "Library/Application Support/Google",
+            "Library/Application Support/Google/GoogleUpdater", "Library/Application Support/BraveSoftware",
         ]
         for path in free {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")
