@@ -8,7 +8,7 @@ struct DuplicateScanForm: View {
 
     @Environment(DuplicateLibrary.self) private var duplicates
     @State private var isChoosingFolders = false
-    @State private var rejectedFolders: [URL] = []
+    @State private var rejectedFolders: [DuplicateScan.FolderSetAside] = []
     let onScan: () -> Void
 
     var body: some View {
@@ -79,8 +79,7 @@ struct DuplicateScanForm: View {
         ) {
             Button("OK", role: .cancel) {}
         } message: {
-            let paths = RemovalFailureAlert.firstItems(rejectedFolders.map(\.abbreviatedPath)).joined(separator: "\n")
-            Text("Choose a folder in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive and other folders that sync to your other devices, app data, the Music and TV apps’ media folders, and system folders aren’t scanned.\n\n\(paths)")
+            Text(verbatim: DuplicateList.reasons(rejectedFolders))
         }
     }
 
@@ -93,18 +92,27 @@ struct DuplicateScanForm: View {
 }
 
 /// A row for a folder chosen for the scan. It is a separate view so that its display name, which comes from
-/// Launch Services, is looked up once per row rather than on every redraw of the form.
+/// Launch Services, is looked up once per row rather than on every redraw of the form. A folder a scan would set
+/// aside, such as a suggested one that syncs to other devices now, says why under its name.
 private struct FolderRow: View {
     @Environment(DuplicateLibrary.self) private var duplicates
+    @State private var reason: DuplicateFinder.Refusal?
     let folder: URL
 
     var body: some View {
         HStack(spacing: 8) {
             AppIcon(url: folder)
                 .frame(width: 18, height: 18)
-            Text(verbatim: FileManager.default.displayName(atPath: folder.path(percentEncoded: false)))
-                .lineLimit(1)
-                .truncationMode(.middle)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(verbatim: FileManager.default.displayName(atPath: folder.path(percentEncoded: false)))
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                if let reason {
+                    StatusLabel(title: Text(verbatim: reason.explanation))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
             Spacer(minLength: 8)
             Button {
                 duplicates.folders.removeAll { $0 == folder }
@@ -118,5 +126,6 @@ private struct FolderRow: View {
             .help(Text("Don’t scan this folder"))
         }
         .help(folder.abbreviatedPath)
+        .task(id: folder) { reason = await duplicates.reasonToSetAside(folder) }
     }
 }

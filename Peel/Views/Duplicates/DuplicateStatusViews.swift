@@ -69,17 +69,21 @@ struct DuplicateSummaryView: View {
             RemovalsHeldBanner()
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
-            // Shown only when Full Disk Access would help: it can't fix a folder that is missing, or one the
-            // user's account can't read.
+            // The banner only when Full Disk Access would help; a folder locked by ordinary permissions is named
+            // instead, and so is each chosen folder the scan set aside, with why.
             if scan.needsFullDiskAccess {
                 FullDiskAccessBanner()
                     .padding(.horizontal, 20)
                     .padding(.top, 12)
+            } else if !scan.unreadableLocations.isEmpty {
+                UnreadableFoldersNotice(folders: scan.unreadableLocations)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
             }
-            if !scan.notLookedIn.isEmpty {
+            if !scan.skippedLocations.isEmpty {
                 Notice(
-                    title: Text("Peel couldn’t look in ^[\(scan.notLookedIn.count) folder](inflect: true)"),
-                    detail: Text(verbatim: scan.notLookedIn.map(\.abbreviatedPath).formatted(.list(type: .and))),
+                    title: Text("Some folders couldn’t be searched"),
+                    detail: Text(verbatim: DuplicateList.reasons(scan.skippedLocations)),
                     kind: .note
                 ) {}
                 .padding(.horizontal, 20)

@@ -222,6 +222,20 @@ extension ProjectArtifacts.Refusal {
     }
 }
 
+extension DuplicateFinder.Refusal {
+    /// Why a chosen folder isn't scanned for duplicates, shown where the folder was chosen and with the result.
+    var explanation: String {
+        switch self {
+        case .inTheCloud: String(localized: "It is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app.")
+        case .appData: String(localized: "It is app data, the Music or TV app’s media folder, or something Peel protects, such as a photo library or a keychain.")
+        case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
+        case .outsideTheHome: String(localized: "It is outside your home folder and /Users/Shared, or on a disk Peel can’t write to.")
+        case .insideARepository: String(localized: "It is a repository, or sits inside one, and Peel leaves repositories alone.")
+        case .notAFolder: String(localized: "It isn’t a folder Peel can reach. A disk that isn’t connected looks like this too.")
+        }
+    }
+}
+
 extension RestoreFailure {
     /// Why one item stayed in the Trash. Shown beside the item, since a batch can fail for several reasons.
     var explanation: String {

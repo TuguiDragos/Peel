@@ -90,12 +90,24 @@ final class DuplicateLibrary {
         groupCount = scan.groups.count + scan.folderGroups.count
     }
 
-    /// Adds the folders Peel can scan and returns the others.
-    func add(_ urls: [URL]) -> [URL] {
-        for url in urls where finder.canScan(url) && !folders.contains(url) {
-            folders.append(url)
+    /// Adds the folders Peel can scan and returns the others, each with why.
+    func add(_ urls: [URL]) -> [DuplicateScan.FolderSetAside] {
+        var refused: [DuplicateScan.FolderSetAside] = []
+        for url in urls {
+            if let reason = finder.refusal(of: url) {
+                refused.append(DuplicateScan.FolderSetAside(url: url, reason: reason))
+            } else if !folders.contains(url) {
+                folders.append(url)
+            }
         }
-        return urls.filter { !finder.canScan($0) }
+        return refused
+    }
+
+    /// Why a scan would set `folder` aside, or nil. Asked off the main actor: it looks at the disk, and a folder on
+    /// a network volume can be slow to answer.
+    func reasonToSetAside(_ folder: URL) async -> DuplicateFinder.Refusal? {
+        let finder = finder
+        return await Task.detached { finder.reasonToSetAside(folder) }.value
     }
 
     /// A scan clears the list, so none starts while a move to the Trash is taking what it lists.

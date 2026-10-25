@@ -43,11 +43,23 @@ struct DuplicateList: View {
                     if !(scan.groups.isEmpty && scan.folderGroups.isEmpty), groups.isEmpty, folderGroups.isEmpty {
                         ContentUnavailableView.search(text: searchText)
                     } else if scan.readNothing {
-                        // Shown instead of "No Duplicates": copies may be in folders Peel couldn't read or skipped.
+                        // Shown instead of "No Duplicates": copies may be in folders Peel couldn't read, which are
+                        // named, or in the chosen folders it set aside, each named with why.
                         ContentUnavailableView {
-                            Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
+                            if scan.unreadableLocations.isEmpty {
+                                Label("Not Everything Could Be Searched", systemImage: "exclamationmark.triangle")
+                            } else {
+                                Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
+                            }
                         } description: {
-                            Text("No duplicates were found, but Peel couldn’t look in ^[\(scan.notLookedIn.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access, or choose folders it can read.")
+                            if scan.needsFullDiskAccess {
+                                Text("No duplicates were found, but macOS kept Peel out of a folder you chose. Give Peel Full Disk Access to look there too.")
+                            } else if !scan.unreadableLocations.isEmpty {
+                                Text("Peel couldn’t look inside \(scan.unreadableLocations.map(\.abbreviatedPath).formatted(.list(type: .and))), so something may be there that isn’t listed here.")
+                            }
+                            if !scan.skippedLocations.isEmpty {
+                                Text(verbatim: Self.reasons(scan.skippedLocations))
+                            }
                         } actions: {
                             if scan.needsFullDiskAccess {
                                 Button("Open System Settings") { home.openFullDiskAccessSettings() }
@@ -114,18 +126,32 @@ struct DuplicateList: View {
         .announcesScan(
             duplicates.isScanning,
             found: summary,
-            couldNotLook: duplicates.scan?.readNothing == true ? "Not Everything Could Be Read" : nil,
+            couldNotLook: duplicates.scan?.readNothing != true ? nil
+                : duplicates.scan?.unreadableLocations.isEmpty == true ? "Not Everything Could Be Searched"
+                : "Not Everything Could Be Read",
             wasStopped: duplicates.scan == nil
         )
         .navigationTitle(Text(Tool.duplicates.title))
     }
 
-    /// What VoiceOver hears when a scan ends: what it found, and the folders it could not look in.
+    /// What VoiceOver hears when a scan ends: what it found, then the folders Peel couldn't read and the chosen
+    /// folders it set aside, each kind in its own words.
     private var summary: AttributedString? {
-        guard let found = duplicates.summary, let count = duplicates.scan?.notLookedIn.count, count > 0 else {
-            return duplicates.summary
+        guard var words = duplicates.summary, let scan = duplicates.scan else { return duplicates.summary }
+        if !scan.unreadableLocations.isEmpty {
+            let count = scan.unreadableLocations.count
+            words = words + " " + AttributedString(localized: "Peel couldn’t look in ^[\(count) folder](inflect: true).")
         }
-        return found + " " + AttributedString(localized: "Peel couldn’t look in ^[\(count) folder](inflect: true).")
+        if !scan.skippedLocations.isEmpty {
+            words = words + " " + AttributedString(localized: "Some folders couldn’t be searched")
+        }
+        return words
+    }
+
+    /// Each folder set aside and why, as many as an alert lists.
+    static func reasons(_ folders: [DuplicateScan.FolderSetAside]) -> String {
+        RemovalFailureAlert.firstItems(folders.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
+            .joined(separator: "\n\n")
     }
 
     /// A new scan clears what the last one found, so it asks first when there is something to lose.

@@ -24817,112 +24817,6 @@
         }
       }
     },
-    "Choose a folder in your home folder, /Users/Shared, or a disk Peel can write to. iCloud Drive and other folders that sync to your other devices, app data, the Music and TV apps’ media folders, and system folders aren’t scanned.\n\n%@" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zvolte složku ve své domovské složce, ve složce /Users/Shared nebo na disku, na který může Peel zapisovat. iCloud Drive a další složky, které se synchronizují s vašimi ostatními zařízeními, data aplikací, složky médií aplikací Hudba a TV a systémové složky se neprohledávají.\n\n%@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle einen Ordner in deinem Benutzerordner, in /Users/Shared oder auf einem Volume, auf das Peel schreiben kann. iCloud Drive und andere Ordner, die mit deinen anderen Geräten synchronisiert werden, App-Daten, die Medienordner der Apps „Musik“ und „TV“ sowie Systemordner werden nicht gescannt.\n\n%@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige una carpeta que esté en tu carpeta de inicio, en /Users/Shared o en un disco en el que Peel pueda escribir. No se analizan iCloud Drive, las demás carpetas que se sincronizan con tus otros dispositivos, los datos de las apps, las carpetas multimedia de las apps Música y TV ni las carpetas del sistema.\n\n%@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez un dossier situé dans votre dossier de départ, dans /Users/Shared ou sur un disque où Peel peut écrire. iCloud Drive et les autres dossiers synchronisés avec vos autres appareils, les données des apps, les dossiers multimédias des apps Musique et TV, et les dossiers système ne sont pas analysés.\n\n%@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scegli una cartella nella tua cartella Inizio, in /Users/Shared o in un disco su cui Peel può scrivere. iCloud Drive e le altre cartelle che si sincronizzano con gli altri tuoi dispositivi, i dati delle app, le cartelle multimediali delle app Musica e TV e le cartelle di sistema non vengono analizzati.\n\n%@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ホームフォルダ、/Users/Shared、またはPeelが書き込めるディスクにあるフォルダを選択してください。iCloud Drive、ほかのデバイスに同期されているその他のフォルダ、アプリのデータ、ミュージックアプリとTVアプリのメディアフォルダ、システムフォルダはスキャンしません。\n\n%@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "홈 폴더, /Users/Shared 또는 Peel이 쓸 수 있는 디스크에 있는 폴더를 선택하십시오. 다른 기기와 동기화되는 iCloud Drive 및 기타 폴더, 앱 데이터, 음악 앱과 TV 앱의 미디어 폴더, 시스템 폴더는 스캔하지 않습니다.\n\n%@"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kies een map in je thuismap, in /Users/Shared of op een schijf waarop Peel kan schrijven. iCloud Drive en andere mappen die met je andere apparaten worden gesynchroniseerd, appgegevens, de mediamappen van de apps Muziek en TV en systeemmappen worden niet gescand.\n\n%@"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wybierz folder w swoim folderze domowym, w /Users/Shared lub na dysku, na którym Peel może zapisywać. iCloud Drive i inne foldery synchronizowane z Twoimi pozostałymi urządzeniami, dane aplikacji, foldery multimediów aplikacji Muzyka i TV oraz foldery systemowe nie są skanowane.\n\n%@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha uma pasta dentro da sua pasta pessoal, em /Users/Shared ou em um disco no qual o Peel possa gravar. O iCloud Drive e outras pastas sincronizadas com os seus outros dispositivos, os dados de apps, as pastas de mídia dos apps Música e TV e as pastas do sistema não são analisados.\n\n%@"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alegeți un dosar din dosarul dvs. de reședință, din /Users/Shared sau de pe un disc pe care Peel poate scrie. iCloud Drive și alte dosare care se sincronizează pe celelalte dispozitive ale dvs., datele aplicațiilor, dosarele media ale aplicațiilor Muzică și TV și dosarele de sistem nu sunt scanate.\n\n%@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите папку внутри Вашей папки пользователя, в /Users/Shared или на диске, куда Peel может записывать. iCloud Drive и другие папки, которые синхронизируются с другими Вашими устройствами, данные приложений, папки медиафайлов приложений «Музыка» и «TV», а также системные папки не сканируются.\n\n%@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Välj en mapp i din hemmapp, i /Users/Shared eller på en skiva som Peel kan skriva till. iCloud Drive och andra mappar som synkroniseras till dina andra enheter, appdata, mediemapparna för apparna Musik och TV samt systemmappar skannas inte.\n\n%@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ana klasörünüzde, /Users/Shared içinde veya Peel’in yazabildiği bir diskte bir klasör seçin. iCloud Drive, diğer aygıtlarınızla eşzamanlanan başka klasörler, uygulama verileri, Müzik ve TV uygulamalarının ortam klasörleri ve sistem klasörleri taranmaz.\n\n%@"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Виберіть папку у своїй Домівці, у /Users/Shared або на диску, на який Peel може записувати. iCloud Drive та інші папки, які синхронізуються з іншими вашими пристроями, дані програм, папки з медіафайлами програм «Музика» і «TV» та системні папки не скануються.\n\n%@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请选取位于你的个人文件夹、/Users/Shared或Peel可写入的磁盘中的文件夹。iCloud云盘和其他同步到你的其他设备的文件夹、App数据、“音乐”和“TV”App的媒体文件夹以及系统文件夹都不会被扫描。\n\n%@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請選擇個人專屬檔案夾、/Users/Shared或Peel可寫入之磁碟中的檔案夾。「iCloud雲碟」和其他會與你的其他裝置同步的檔案夾、App資料、「音樂」和「TV」App的媒體檔案夾，以及系統檔案夾都不會掃描。\n\n%@"
-          }
-        }
-      }
-    },
     "Choose a group to see the files it contains." : {
       "localizations" : {
         "cs" : {
@@ -61655,6 +61549,112 @@
         }
       }
     },
+    "It is a repository, or sits inside one, and Peel leaves repositories alone." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to repozitář, nebo jeho součást, a repozitáře Peel nechává nedotčené."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein Repository oder liegt in einem, und Peel lässt Repositorys unangetastet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es un repositorio, o está dentro de uno, y Peel no toca los repositorios."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un dépôt, ou il se trouve dans un dépôt, et Peel laisse les dépôts de côté."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È un repository, oppure si trova all’interno di uno, e Peel non tocca i repository."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リポジトリであるか、その中にあり、Peelはリポジトリには手を付けません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장소이거나 그 안에 있으며, Peel은 저장소를 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een repository, of het staat in een repository, en Peel laat repository's met rust."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To repozytorium albo folder wewnątrz repozytorium, a Peel nie rusza repozytoriów."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É um repositório, ou está dentro de um, e o Peel não mexe em repositórios."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un depozit, ori se află într‑unul, iar Peel lasă depozitele neatinse."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это репозиторий или папка внутри него, а репозитории Peel не затрагивает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är ett kodförråd, eller så ligger den i ett, och Peel lämnar kodförråd orörda."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir depo veya bir deponun içinde; Peel depolara dokunmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це репозиторій або папка всередині репозиторію, а репозиторії Peel лишає на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是代码仓库，或者位于其中，而Peel不会触碰代码仓库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是儲存庫，或位於其中，而Peel會將儲存庫原地保留。"
+          }
+        }
+      }
+    },
     "It is an app or another package, or inside one, and what is inside belongs to it." : {
       "localizations" : {
         "cs" : {
@@ -61863,6 +61863,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此套件是Homebrew在目前版本之外另外保留的較舊版本。"
+          }
+        }
+      }
+    },
+    "It is app data, the Music or TV app’s media folder, or something Peel protects, such as a photo library or a keychain." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jsou to data aplikací, složka s médii aplikace Hudba nebo TV, nebo něco, co Peel chrání, například knihovna fotek nebo svazek klíčů."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies sind App-Daten, der Medienordner der App „Musik“ oder „TV“ oder etwas, das Peel schützt, etwa eine Fotomediathek oder ein Schlüsselbund."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son datos de apps, la carpeta de contenido de la app Música o de la app TV, o algo que Peel protege, como una biblioteca de fotos o un llavero."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un dossier de données d’apps, le dossier multimédia de l’app Musique ou TV, ou un élément que Peel protège, comme une bibliothèque de photos ou un trousseau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene i dati di un’app, è la cartella dei file multimediali dell’app Musica o TV, oppure è qualcosa che Peel protegge, come una libreria di foto o un portachiavi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリのデータ、“ミュージック”アプリや“TV”アプリのメディアフォルダ、または写真ライブラリやキーチェーンなど、Peelが保護しているものです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 데이터이거나, 음악 앱 또는 TV 앱의 미디어 폴더이거나, 사진 보관함이나 키체인처럼 Peel이 보호하는 항목입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het zijn gegevens van een app, de map 'Media' van de app Muziek of TV, of iets wat Peel beschermt, zoals een fotobibliotheek of een sleutelhanger."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To dane aplikacji, folder Multimedia aplikacji Muzyka lub TV albo coś, co Peel chroni, na przykład biblioteka zdjęć lub pęk kluczy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É uma pasta de dados de apps, a pasta de mídia do app Música ou do app TV, ou algo que o Peel protege, como uma biblioteca de fotos ou as chaves do macOS."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un dosar cu date ale aplicațiilor, dosarul Multimedia al aplicației Muzică sau TV, ori ceva protejat de Peel, cum ar fi o bibliotecă foto sau un portchei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это данные приложений, папка с медиафайлами приложения «Музыка» или «TV» либо то, что защищает Peel, например медиатека Фото или связка ключей."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är appdata, mappen där appen Musik eller TV sparar sina medier, eller något som Peel skyddar, till exempel ett bildbibliotek eller en nyckelring."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama verileri, Müzik veya TV uygulamasının ortam dosyalarını tuttuğu klasör ya da Peel’in koruduğu bir şey, örneğin bir fotoğraf arşivi veya bir anahtar zinciri."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це дані програми, папка «Медіавміст» програми «Музика» чи «TV» або те, що захищає Peel, як-от медіатека фото чи вʼязка ключів."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是App数据、“音乐”App或“TV”App的媒体文件夹，或者受Peel保护的项目，例如照片资料库或钥匙串。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是App的資料、「音樂」或「TV」App的媒體檔案夾，或是受Peel保護的項目，例如照片資料庫或鑰匙圈。"
           }
         }
       }
@@ -62923,6 +63029,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它位於Peel的輔助程式可處理的檔案夾之外。"
+          }
+        }
+      }
+    },
+    "It is outside your home folder and /Users/Shared, or on a disk Peel can’t write to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je mimo vaši domovskou složku a mimo /Users/Shared, nebo na disku, na který Peel nemůže zapisovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner liegt außerhalb deines Benutzerordners und außerhalb von /Users/Shared oder auf einem Volume, auf das Peel nicht schreiben kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está fuera de tu carpeta de inicio y de /Users/Shared, o en un disco en el que Peel no puede escribir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il se trouve en dehors de votre dossier de départ et de /Users/Shared, ou sur un disque sur lequel Peel ne peut pas écrire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si trova al di fuori della tua cartella Inizio e di /Users/Shared, oppure su un disco su cui Peel non può scrivere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームフォルダと/Users/Sharedの外にあるか、Peelが書き込めないディスク上にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 폴더와 /Users/Shared 밖에 있거나, Peel이 쓸 수 없는 디스크에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het staat buiten je thuismap en /Users/Shared, of op een schijf waarop Peel niet kan schrijven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znajduje się poza Twoim folderem domowym i folderem /Users/Shared albo na dysku, na którym Peel nie może zapisywać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está fora da sua pasta pessoal e de /Users/Shared, ou em um disco em que o Peel não consegue gravar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se află în afara dosarului dvs. de reședință și a dosarului /Users/Shared, ori pe un disc pe care Peel nu poate scrie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта папка находится вне Вашей папки пользователя и /Users/Shared либо на диске, на который Peel не может записывать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den ligger utanför din hemmapp och /Users/Shared, eller på en skiva som Peel inte kan skriva till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüzün ve /Users/Shared klasörünün dışında ya da Peel’in yazamadığı bir diskte."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка лежить поза вашою Домівкою та поза /Users/Shared або на диску, на який Peel не може записувати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位于你的个人文件夹和/Users/Shared之外，或者位于Peel无法写入的磁盘上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位於你的個人專屬檔案夾和/Users/Shared之外，或位於Peel無法寫入的磁碟上。"
           }
         }
       }
@@ -86165,342 +86377,108 @@
         }
       }
     },
-    "No duplicates were found, but Peel couldn’t look in ^[%lld folder](inflect: true), so there may be some there. Give Peel Full Disk Access, or choose folders it can read." : {
+    "No duplicates were found, but macOS kept Peel out of a folder you chose. Give Peel Full Disk Access to look there too." : {
       "localizations" : {
         "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nenašly se žádné duplikáty, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku nebo zvolte složky, které může číst."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nenašly se žádné duplikáty, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku nebo zvolte složky, které může číst."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nenašly se žádné duplikáty, ale Peel nemohl nahlédnout do %lld složky, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku nebo zvolte složky, které může číst."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nenašly se žádné duplikáty, ale Peel nemohl nahlédnout do %lld složek, takže tam nějaké být mohou. Udělte Peelu plný přístup k disku nebo zvolte složky, které může číst."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenašly se žádné duplikáty, ale systém macOS Peelu nedovolil nahlédnout do jedné ze zvolených složek. Udělte Peelu plný přístup k disku, aby se mohl podívat i tam."
           }
         },
         "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Es wurden keine Duplikate gefunden, aber Peel konnte in %lld Ordner nicht hineinsehen, daher könnte es dort welche geben. Gib Peel Festplattenvollzugriff oder wähle Ordner, die Peel lesen kann."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Es wurden keine Duplikate gefunden, aber Peel konnte in %lld Ordner nicht hineinsehen, daher könnte es dort welche geben. Gib Peel Festplattenvollzugriff oder wähle Ordner, die Peel lesen kann."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wurden keine Duplikate gefunden, aber macOS hat Peel den Zugriff auf einen von dir gewählten Ordner verwehrt. Gib Peel Festplattenvollzugriff, damit Peel auch dort nachsehen kann."
           }
         },
         "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "No se han encontrado duplicados, pero Peel no ha podido mirar en %lld de carpetas, así que podría haber alguno ahí. Da a Peel acceso total al disco o elige carpetas que pueda leer."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "No se han encontrado duplicados, pero Peel no ha podido mirar en una carpeta, así que podría haber alguno ahí. Da a Peel acceso total al disco o elige carpetas que pueda leer."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "No se han encontrado duplicados, pero Peel no ha podido mirar en %lld carpetas, así que podría haber alguno ahí. Da a Peel acceso total al disco o elige carpetas que pueda leer."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han encontrado duplicados, pero macOS no ha dejado a Peel entrar en una carpeta que has elegido. Da a Peel acceso total al disco para que también mire ahí."
           }
         },
         "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Aucun doublon n’a été trouvé, mais Peel n’a pas pu regarder dans %lld de dossiers, qui peuvent donc en contenir. Accordez à Peel l’accès complet au disque, ou choisissez des dossiers qu’il peut lire."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Aucun doublon n’a été trouvé, mais Peel n’a pas pu regarder dans %lld dossier, qui peut donc en contenir. Accordez à Peel l’accès complet au disque, ou choisissez des dossiers qu’il peut lire."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Aucun doublon n’a été trouvé, mais Peel n’a pas pu regarder dans %lld dossiers, qui peuvent donc en contenir. Accordez à Peel l’accès complet au disque, ou choisissez des dossiers qu’il peut lire."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun doublon n’a été trouvé, mais macOS a empêché Peel d’accéder à un dossier que vous avez choisi. Accordez à Peel l’accès complet au disque pour qu’il y regarde aussi."
           }
         },
         "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Non sono stati trovati duplicati, ma Peel non è riuscito a esaminare %lld di cartelle, quindi lì potrebbero essercene. Concedi a Peel l’accesso completo al disco o scegli cartelle che può leggere."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Non sono stati trovati duplicati, ma Peel non è riuscito a esaminare una cartella, quindi lì potrebbero essercene. Concedi a Peel l’accesso completo al disco o scegli cartelle che può leggere."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Non sono stati trovati duplicati, ma Peel non è riuscito a esaminare %lld cartelle, quindi lì potrebbero essercene. Concedi a Peel l’accesso completo al disco o scegli cartelle che può leggere."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è stato trovato alcun duplicato, ma macOS ha impedito a Peel di accedere a una cartella che hai scelto. Concedi a Peel l’accesso completo al disco per esaminare anche quella."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重複項目は見つかりませんでしたが、Peelが調べられなかったフォルダが%lld個あるため、そこに重複項目がある可能性があります。Peelにフルディスクアクセスを許可するか、Peelが読み取れるフォルダを選択してください。"
+            "value" : "重複項目は見つかりませんでしたが、選択したフォルダの1つにmacOSがPeelのアクセスを許可しませんでした。そこも調べられるように、Peelにフルディスクアクセスを許可してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "중복된 항목을 찾지 못했지만, Peel이 폴더 %lld개를 살펴볼 수 없었으므로 그곳에 중복된 항목이 있을 수 있습니다. Peel에 전체 디스크 접근 권한을 부여하거나 Peel이 읽을 수 있는 폴더를 선택하십시오."
+            "value" : "중복된 항목을 찾지 못했지만, 선택한 폴더 중 macOS가 Peel의 접근을 막은 폴더가 있습니다. 그곳도 살펴보려면 Peel에 전체 디스크 접근 권한을 부여하십시오."
           }
         },
         "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Er zijn geen dubbele onderdelen gevonden, maar Peel kon niet in één map kijken, dus daar kunnen er nog zijn. Geef Peel volledige schijftoegang of kies mappen die Peel kan lezen."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Er zijn geen dubbele onderdelen gevonden, maar Peel kon niet in %lld mappen kijken, dus daar kunnen er nog zijn. Geef Peel volledige schijftoegang of kies mappen die Peel kan lezen."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er zijn geen dubbele onderdelen gevonden, maar macOS hield Peel buiten een map die je hebt gekozen. Geef Peel volledige schijftoegang om daar ook te kijken."
           }
         },
         "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nie znaleziono duplikatów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku lub wybierz foldery, które może odczytać."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nie znaleziono duplikatów, ale Peel nie mógł zajrzeć do %lld folderów, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku lub wybierz foldery, które może odczytać."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nie znaleziono duplikatów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku lub wybierz foldery, które może odczytać."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nie znaleziono duplikatów, ale Peel nie mógł zajrzeć do %lld folderu, więc mogą tam jakieś być. Daj aplikacji Peel pełny dostęp do dysku lub wybierz foldery, które może odczytać."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie znaleziono duplikatów, ale macOS nie wpuścił Peel do wybranego przez Ciebie folderu. Daj aplikacji Peel pełny dostęp do dysku, aby zajrzeć także tam."
           }
         },
         "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nenhuma duplicata foi encontrada, mas o Peel não conseguiu examinar %lld de pastas, então pode haver algumas lá. Dê ao Peel Acesso Total ao Disco ou escolha pastas que ele consiga ler."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nenhuma duplicata foi encontrada, mas o Peel não conseguiu examinar %lld pasta, então pode haver algumas lá. Dê ao Peel Acesso Total ao Disco ou escolha pastas que ele consiga ler."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nenhuma duplicata foi encontrada, mas o Peel não conseguiu examinar %lld pastas, então pode haver algumas lá. Dê ao Peel Acesso Total ao Disco ou escolha pastas que ele consiga ler."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma duplicata foi encontrada, mas o macOS impediu o Peel de entrar em uma pasta que você escolheu. Dê ao Peel Acesso Total ao Disco para que ele examine lá também."
           }
         },
         "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nu s‑au găsit duplicate, dar Peel nu a putut căuta în %lld dosare, așa că acolo ar putea exista unele. Acordați aplicației Peel Acces complet la disc sau alegeți dosare pe care le poate citi."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nu s‑au găsit duplicate, dar Peel nu a putut căuta în %lld dosar, așa că acolo ar putea exista unele. Acordați aplicației Peel Acces complet la disc sau alegeți dosare pe care le poate citi."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nu s‑au găsit duplicate, dar Peel nu a putut căuta în %lld de dosare, așa că acolo ar putea exista unele. Acordați aplicației Peel Acces complet la disc sau alegeți dosare pe care le poate citi."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s‑au găsit duplicate, dar macOS a împiedicat accesul aplicației Peel la un dosar ales de dvs. Acordați aplicației Peel Acces complet la disc pentru a căuta și acolo."
           }
         },
         "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дубликаты не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску или выберите папки, которые он может прочитать."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дубликаты не найдены, но Peel не смог заглянуть в %lld папок, так что там они могут быть. Предоставьте Peel полный доступ к диску или выберите папки, которые он может прочитать."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дубликаты не найдены, но Peel не смог заглянуть в %lld папку, так что там они могут быть. Предоставьте Peel полный доступ к диску или выберите папки, которые он может прочитать."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дубликаты не найдены, но Peel не смог заглянуть в %lld папки, так что там они могут быть. Предоставьте Peel полный доступ к диску или выберите папки, которые он может прочитать."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дубликаты не найдены, но macOS не пустила Peel в одну из выбранных Вами папок. Предоставьте Peel полный доступ к диску, чтобы он заглянул и туда."
           }
         },
         "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Inga dubbletter hittades, men Peel kunde inte titta i en mapp, så det kan finnas några där. Ge Peel full skivtillgång eller välj mappar som Peel kan läsa."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Inga dubbletter hittades, men Peel kunde inte titta i %lld mappar, så det kan finnas några där. Ge Peel full skivtillgång eller välj mappar som Peel kan läsa."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inga dubbletter hittades, men macOS stängde ute Peel från en mapp som du valde. Ge Peel full skivtillgång för att titta där också."
           }
         },
         "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Yinelenen bulunamadı ama Peel %lld klasörün içine bakamadı, bu yüzden orada yinelenenler olabilir. Peel’e Tam Disk Erişimi verin veya Peel’in okuyabileceği klasörler seçin."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Yinelenen bulunamadı ama Peel %lld klasörün içine bakamadı, bu yüzden orada yinelenenler olabilir. Peel’e Tam Disk Erişimi verin veya Peel’in okuyabileceği klasörler seçin."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yinelenen bulunamadı ama macOS, Peel’in seçtiğiniz bir klasöre girmesine izin vermedi. Oraya da bakabilmesi için Peel’e Tam Disk Erişimi verin."
           }
         },
         "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дублікатів не знайдено, але Peel не вдалося зазирнути в %lld папки, тож вони можуть бути там. Надайте Peel повний доступ до диска або виберіть папки, які Peel може прочитати."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дублікатів не знайдено, але Peel не вдалося зазирнути в %lld папок, тож вони можуть бути там. Надайте Peel повний доступ до диска або виберіть папки, які Peel може прочитати."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дублікатів не знайдено, але Peel не вдалося зазирнути в %lld папку, тож вони можуть бути там. Надайте Peel повний доступ до диска або виберіть папки, які Peel може прочитати."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Дублікатів не знайдено, але Peel не вдалося зазирнути в %lld папки, тож вони можуть бути там. Надайте Peel повний доступ до диска або виберіть папки, які Peel може прочитати."
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дублікатів не знайдено, але macOS не пустила Peel до однієї з вибраних вами папок. Надайте Peel повний доступ до диска, щоб зазирнути й туди."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未找到重复项，但有%lld个文件夹Peel无法查看，因此其中可能仍有重复项。请授予Peel完全磁盘访问权限，或选取它能读取的文件夹。"
+            "value" : "未找到重复项，但macOS阻止了Peel访问你选取的某个文件夹。授予Peel完全磁盘访问权限，即可一并查看该文件夹。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "沒有找到重複項目，但Peel無法查看%lld個檔案夾，因此那裡可能還有。請給予Peel「完全取用磁碟」權限，或選擇它能讀取的檔案夾。"
+            "value" : "沒有找到重複項目，但macOS不讓Peel進入你選擇的某個檔案夾。請給予Peel「完全取用磁碟」權限，讓它也能查看那裡。"
           }
         }
       }
@@ -108740,346 +108718,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法列出保留在此磁碟上的快照，這些快照可能佔用此磁碟的部分空間。"
-          }
-        }
-      }
-    },
-    "Peel couldn’t look in ^[%lld folder](inflect: true)" : {
-      "localizations" : {
-        "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nemohl nahlédnout do %lld složek"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nemohl nahlédnout do %lld složky"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nemohl nahlédnout do %lld složky"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nemohl nahlédnout do %lld složek"
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel konnte in %lld Ordner nicht hineinsehen"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel konnte in %lld Ordner nicht hineinsehen"
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no ha podido mirar en %lld de carpetas"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no ha podido mirar en una carpeta"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no ha podido mirar en %lld carpetas"
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel n’a pas pu regarder dans %lld de dossiers"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel n’a pas pu regarder dans %lld dossier"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel n’a pas pu regarder dans %lld dossiers"
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non è riuscito a esaminare %lld di cartelle"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non è riuscito a esaminare una cartella"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non è riuscito a esaminare %lld cartelle"
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelが調べられなかったフォルダが%lld個あります"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 폴더 %lld개를 살펴볼 수 없음"
-          }
-        },
-        "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel kon niet in één map kijken"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel kon niet in %lld mappen kijken"
-                }
-              }
-            }
-          }
-        },
-        "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie mógł zajrzeć do %lld folderów"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie mógł zajrzeć do %lld folderów"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie mógł zajrzeć do %lld folderu"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie mógł zajrzeć do %lld folderu"
-                }
-              }
-            }
-          }
-        },
-        "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não conseguiu examinar %lld de pastas"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não conseguiu examinar %lld pasta"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não conseguiu examinar %lld pastas"
-                }
-              }
-            }
-          }
-        },
-        "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu a putut căuta în %lld dosare"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu a putut căuta în %lld dosar"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu a putut căuta în %lld de dosare"
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не смог заглянуть в %lld папки"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не смог заглянуть в %lld папок"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не смог заглянуть в %lld папку"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не смог заглянуть в %lld папки"
-                }
-              }
-            }
-          }
-        },
-        "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel kunde inte titta i en mapp"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel kunde inte titta i %lld mappar"
-                }
-              }
-            }
-          }
-        },
-        "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel %lld klasörün içine bakamadı"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel %lld klasörün içine bakamadı"
-                }
-              }
-            }
-          }
-        },
-        "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не вдалося зазирнути в %lld папки"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не вдалося зазирнути в %lld папок"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не вдалося зазирнути в %lld папку"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не вдалося зазирнути в %lld папки"
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有%lld个文件夹Peel无法查看"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel無法查看%lld個檔案夾"
           }
         }
       }
