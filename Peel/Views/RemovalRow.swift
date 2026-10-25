@@ -64,7 +64,9 @@ struct RemovalRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 6) {
+        // On the title's line, where the checkbox is: centered on the whole row, the note sat below the size and
+        // the kind whenever the badge or the kind took a second line.
+        HStack(alignment: .checkboxTitleLine, spacing: 6) {
             checkboxAndItem
             if hasNoteColumn {
                 note
