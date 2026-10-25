@@ -64,6 +64,66 @@ struct PackageReceiptsTests {
         #expect(items == ["/Applications/Example.app"])
     }
 
+    @Test func offersAFolderWholeOnlyWhenNothingInsideItAtAnyDepthIsAnotherOnes() {
+        let support = "/Library/Application Support"
+        let tree: [String: [String]] = [
+            "\(support)/ZeroTier": ["One"],
+            "\(support)/ZeroTier/One": ["zerotier-one", "uninstall.sh", "identity.secret"],
+            "\(support)/org.pqrs": ["Karabiner-DriverKit-VirtualHIDDevice", "config", "tmp"],
+            "\(support)/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice": ["scripts"],
+            "\(support)/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/scripts": ["uninstall.sh"],
+            "\(support)/Logitech.localized": ["LogiOptionsPlus", "LogiRightSightForWebcams"],
+            "\(support)/Logitech.localized/LogiRightSightForWebcams": ["agent"],
+            "\(support)/Vendor": ["Product"],
+            "\(support)/Vendor/Product": ["Resources"],
+            "\(support)/Vendor/Product/Resources": ["data.bin"],
+        ]
+        let files = [
+            "ZeroTier", "ZeroTier/One", "ZeroTier/One/zerotier-one", "ZeroTier/One/uninstall.sh",
+            "org.pqrs", "org.pqrs/Karabiner-DriverKit-VirtualHIDDevice",
+            "org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/scripts",
+            "org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/scripts/uninstall.sh",
+            "Logitech.localized", "Logitech.localized/LogiRightSightForWebcams",
+            "Logitech.localized/LogiRightSightForWebcams/agent",
+            "Vendor", "Vendor/Product", "Vendor/Product/Resources", "Vendor/Product/Resources/data.bin",
+        ]
+
+        let found = PackageReceipts.topLevel(
+            files: files,
+            installLocation: support,
+            namesInside: { tree[$0] },
+            exists: { path in tree[path] != nil || files.contains { "\(support)/\($0)" == path } }
+        )
+
+        #expect(found.offered == [
+            "\(support)/Logitech.localized/LogiRightSightForWebcams", "\(support)/Vendor",
+            "\(support)/ZeroTier/One/uninstall.sh", "\(support)/ZeroTier/One/zerotier-one",
+            "\(support)/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice",
+        ])
+        #expect(found.othersFilled.isEmpty)
+    }
+
+    @Test func offersALinkThePackageInstalledAsOneItemWithoutLookingThrough() throws {
+        let directory = try TemporaryDirectory()
+        let root = directory.url.path(percentEncoded: false)
+        try directory.file("Library/Application Support/Vendor/Versions/2/tool", bytes: 16)
+        try directory.file("Library/Application Support/Vendor/Versions/2/settings.json", bytes: 16)
+        try FileManager.default.createSymbolicLink(
+            atPath: "\(root)/Library/Application Support/Vendor/Current", withDestinationPath: "Versions/2"
+        )
+        let files = [
+            "Library/Application Support/Vendor", "Library/Application Support/Vendor/Current",
+            "Library/Application Support/Vendor/Versions", "Library/Application Support/Vendor/Versions/2",
+            "Library/Application Support/Vendor/Versions/2/tool",
+            "Library/Application Support/Vendor/Versions/2/settings.json",
+        ]
+
+        let found = PackageReceipts.topLevel(files: files, installLocation: root)
+
+        #expect(found.offered.map { ($0 as NSString).lastPathComponent } == ["Vendor"])
+        #expect(found.othersFilled.isEmpty)
+    }
+
     @Test func resolvesPathsAgainstTheInstallLocationAndSkipsMissingFiles() {
         let files = ["Example.app", "Example.app/Contents", "Gone.app"]
         let items = PackageReceipts.topLevel(files: files, installLocation: "/Applications", exists: { $0 != "/Applications/Gone.app" }).offered
@@ -113,6 +173,44 @@ struct PackageReceiptsTests {
             "StudioSync: sharedWithEveryone", "Vendor Coin: holdsAWallet", "Vendor Plain: none", "Vendor Repo: holdsRepository",
             "Vendor Shared: holdsWhatOthersPut",
         ])
+    }
+
+    @Test func offersOnlyWhatThePackageWroteInFoldersOthersWroteInToo() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        try directory.file("Library/Application Support/Vendor Node/One/vendor-node", bytes: 16)
+        try directory.file("Library/Application Support/Vendor Node/One/identity.secret", bytes: 16)
+        try directory.file("Library/Application Support/org.example/Driver/driver.sh", bytes: 16)
+        try directory.file("Library/Application Support/org.example/config/profile.json", bytes: 16)
+        try directory.file("Library/Application Support/Example.plugin/Contents/Info.plist", bytes: 16)
+        try directory.file("Library/Application Support/Example.plugin/Contents/Updated", bytes: 16)
+        let listing = [
+            "Vendor Node", "Vendor Node/One", "Vendor Node/One/vendor-node",
+            "org.example", "org.example/Driver", "org.example/Driver/driver.sh",
+            "Example.plugin", "Example.plugin/Contents", "Example.plugin/Contents/Info.plist",
+        ].joined(separator: "\n")
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("com.example.node")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "Library/Application Support"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return listing
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+
+        let items = scan.receipts.flatMap(\.items).map {
+            $0.url.path(percentEncoded: false).components(separatedBy: "Library/Application Support/").last ?? ""
+        }
+        #expect(items.sorted() == ["Example.plugin", "Vendor Node/One/vendor-node", "org.example/Driver"])
     }
 
     @Test func leavesAnAppToFinderWhenMacOSInstalledItsSystemExtension() async throws {

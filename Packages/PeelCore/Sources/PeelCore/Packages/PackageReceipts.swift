@@ -372,7 +372,7 @@ public enum PackageReceipts {
         files: [String],
         installLocation: String,
         home: String = URL.homeDirectory.path(percentEncoded: false),
-        namesInside: (String) -> [String]? = { try? FileManager.default.contentsOfDirectory(atPath: $0) },
+        namesInside: (String) -> [String]? = PackageReceipts.namesInside,
         exists: (String) -> Bool = { URL(filePath: $0).isThere }
     ) -> (onDisk: [String], offered: [String], othersFilled: Set<String>) {
         let root = (installLocation as NSString).standardizingPath
@@ -396,38 +396,63 @@ public enum PackageReceipts {
         var othersFilled: Set<String> = []
         let onDisk = outermost
             .flatMap {
-                onlyWhatThisPackageWrote($0, listed: folded, namesInside: namesInside, othersFilled: &othersFilled)
+                onlyWhatThisPackageWrote(
+                    $0, listed: folded, namesInside: namesInside, exists: exists, othersFilled: &othersFilled
+                )
             }
             .sorted()
         return (onDisk, onDisk.filter { !ProtectedData.refuses($0, home: home) }, othersFilled)
     }
 
-    /// Returns `path` when this package installed everything inside it, and otherwise the parts inside it that
-    /// the package did install, so a vendor folder that two of its products share is never offered whole. A
-    /// bundle is always one item: an app that updated itself does not match its receipt file by file, and
+    /// Returns `path` when this package installed everything inside it, at any depth, and otherwise the parts
+    /// inside it that the package did install, so a vendor folder that two of its products share is never offered
+    /// whole. A bundle is always one item: an app that updated itself does not match its receipt file by file, and
     /// its parts are never listed on their own. `listed` holds the package's paths in lowercase.
     static func onlyWhatThisPackageWrote(
         _ path: String,
         listed: Set<String>,
         namesInside: (String) -> [String]?,
+        exists: (String) -> Bool,
         depth: Int = 0,
         othersFilled: inout Set<String>
     ) -> [String] {
-        guard (path as NSString).pathExtension.isEmpty else { return [path] }
-        guard let names = namesInside(path) else { return [path] }
+        guard let names = namesInside(path), !isBundle(path, exists: exists) else { return [path] }
         let inside = names.map { (path as NSString).appendingPathComponent($0) }
-        guard inside.contains(where: { !listed.contains($0.lowercased()) }) else { return [path] }
         let own = inside.filter { listed.contains($0.lowercased()) }
+        func parts(_ depth: Int) -> [String] {
+            own.flatMap {
+                onlyWhatThisPackageWrote(
+                    $0, listed: listed, namesInside: namesInside, exists: exists, depth: depth,
+                    othersFilled: &othersFilled
+                )
+            }
+        }
+        if own.count == inside.count {
+            let found = parts(depth)
+            return found == own && !own.contains(where: othersFilled.contains) ? [path] : found
+        }
         // Nothing inside is listed, or the search went as deep as it goes: the folder is still the only thing this
         // receipt can name, and what else is in it is not this package's.
         guard !own.isEmpty, depth < deepestDescent else {
             othersFilled.insert(path)
             return [path]
         }
-        return own.flatMap {
-            onlyWhatThisPackageWrote(
-                $0, listed: listed, namesInside: namesInside, depth: depth + 1, othersFilled: &othersFilled
-            )
+        return parts(depth + 1)
+    }
+
+    /// What is inside a folder, or nil for a file or a link, which is one item whatever it leads to.
+    static func namesInside(_ path: String) -> [String]? {
+        var info = stat()
+        guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return nil }
+        return try? FileManager.default.contentsOfDirectory(atPath: path)
+    }
+
+    /// A folder with an extension and an `Info.plist` in `Contents`, or in `Resources` for a framework. A dot alone
+    /// is no bundle: `Logitech.localized` is a plain folder.
+    private static func isBundle(_ path: String, exists: (String) -> Bool) -> Bool {
+        guard !(path as NSString).pathExtension.isEmpty else { return false }
+        return ["Contents/Info.plist", "Resources/Info.plist"].contains {
+            exists((path as NSString).appendingPathComponent($0))
         }
     }
 
