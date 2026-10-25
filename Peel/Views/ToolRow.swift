@@ -35,7 +35,7 @@ extension ToolRow where Trailing == EmptyView {
     }
 }
 
-extension Text {
+extension View {
     /// Styles the size or count at a row's trailing edge, with monospaced digits so the figures line up.
     func rowFigure() -> some View {
         font(.subheadline).monospacedDigit().foregroundStyle(.secondary)
