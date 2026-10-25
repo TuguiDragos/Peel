@@ -10,8 +10,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-version=2.10.0
-commit=eef1a539a373c1f1a320624b1130fc5de7b2e100
+version=2.10.1
+commit=ab7d71291238df6e0492143b120c9b696a35f603
 # No build folder's path may begin with the checkout's, even inside a name (build/Sparkle and build/SparkleBuild):
 # the compiler then writes the modules it built relative to the source, cutting the path there, and dsymutil can't
 # find them.
