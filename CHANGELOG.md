@@ -11,6 +11,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The picture of your Mac is sharp: it was drawn from a small rendition and enlarged.
 
+#### Updates
+
+- An update waits for Peel to quit even when Peel sits in a folder with accented letters in its name, and the
+  Install on Quit button is translated into Ukrainian, Russian, French, and Spanish (Sparkle 2.10.1).
+
 ## 1.2.0 (2026-10-24)
 
 ### Added
