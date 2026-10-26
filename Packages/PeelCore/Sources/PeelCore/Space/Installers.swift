@@ -140,14 +140,16 @@ public enum Installers {
             )
         } + [Folder(url: root.appending(path: "Users/Shared", directoryHint: .isDirectory), isSharedWithEveryone: true)]
         var folders: [Folder] = []
+        // A scan its page left asks nothing more: reading a folder macOS guards puts up macOS's question again.
         for place in places {
+            guard !Task.isCancelled else { break }
             if canList(place.url) == .missing { unreadable.append(place.url) }
             folders += [place] + subfolders(of: place.url).map {
                 Folder(url: $0, isSharedWithEveryone: place.isSharedWithEveryone, holdsDownloads: place.holdsDownloads)
             }
         }
 
-        for folder in folders {
+        for folder in folders where !Task.isCancelled {
             for url in files(in: folder.url) {
                 // The extension is checked before measuring, since measuring a folder walks all of it.
                 let suffix = url.pathExtension.lowercased()
@@ -181,6 +183,7 @@ public enum Installers {
             }
         }
 
+        guard !Task.isCancelled else { return InstallerScan(items: items, unreadableLocations: unreadable) }
         let applications = root.appending(path: "Applications", directoryHint: .isDirectory)
         items += await macOSInstallers(
             in: [Folder(url: applications, isSharedWithEveryone: false)] + folders,

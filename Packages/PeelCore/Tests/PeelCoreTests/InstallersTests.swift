@@ -627,6 +627,34 @@ struct InstallersTests {
         #expect(measured.withLock { $0 } == 1, "it went on measuring after it was canceled")
     }
 
+    @Test func aScanCanceledWhileMacOSAsksAsksNothingMore() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Applications")
+        let home = directory.url
+        let asked = Mutex<[String]>([])
+        let answer = DispatchSemaphore(value: 0)
+        let (firstQuestion, isAsked) = AsyncStream.makeStream(of: Void.self)
+
+        let scan = Task {
+            await Installers.scan(
+                installedApps: [], home: home, root: home, exclusions: .none, minimumSize: 100_000,
+                measure: LeftoverScanner.walk,
+                canList: { url in
+                    asked.withLock { $0.append(url.lastPathComponent) }
+                    isAsked.yield()
+                    if url.lastPathComponent == "Downloads" { answer.wait() }
+                    return .granted
+                }
+            )
+        }
+        for await _ in firstQuestion { break }
+        scan.cancel()
+        answer.signal()
+        _ = await scan.value
+
+        #expect(asked.withLock { $0 } == ["Downloads"])
+    }
+
     /// A device backup can hold hundreds of thousands of files, so it is the most likely to run out of time. An
     /// unknown size is not zero: the backup is listed first, where the biggest go, and its size reads as unknown.
     @Test func aBackupThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {
