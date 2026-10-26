@@ -171,6 +171,21 @@ struct BackgroundItemActionsTests {
         #expect(!daemon("com.apple.example").hasAnUnusableLabel)
     }
 
+    @Test func anAgentWhoseNameReachesAnotherJobIsLeftAlone() {
+        func agent(_ label: String) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: .agent, source: .userLibrary, plistURL: nil, program: "/usr/local/bin/agent",
+                runsAtLoad: true, keepsAlive: true, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil,
+                isOrphan: false, state: .loaded, isDisabled: false
+            )
+        }
+
+        #expect(!agent("com.openssh.ssh-agent/x").canBeControlled)
+        #expect(agent("com.openssh.ssh-agent/x").hasAnUnusableLabel)
+        #expect(BackgroundItemActions.refusal(for: agent("com.openssh.ssh-agent/x")) != nil)
+        #expect(agent("org.example.agent").canBeControlled)
+    }
+
     @Test func aJobInTheUserDomainIsAskedAboutThere() throws {
         let directory = try TemporaryDirectory()
         let job = try PropertyListSerialization.data(

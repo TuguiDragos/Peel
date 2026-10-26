@@ -95,14 +95,24 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     }
 
     /// True when Peel may start, stop, enable and disable the job: never under a label of macOS or for a system
-    /// extension, and a daemon only under a label the helper takes, which also leaves out the helper itself.
+    /// extension, an agent only under a label `launchctl` reads whole, and a daemon only under a label the helper
+    /// takes, which also leaves out the helper itself.
     public var canBeControlled: Bool {
-        !usesALabelOfMacOS && !isSystemExtension && (!requiresPrivileges || PrivilegedPathPolicy.allowsDaemon(label))
+        !usesALabelOfMacOS && !isSystemExtension
+            && (requiresPrivileges ? PrivilegedPathPolicy.allowsDaemon(label) : isReadWholeByLaunchctl)
     }
 
-    /// True for a name Peel never passes to `launchctl` (`PrivilegedPathPolicy.isValidLabel`). Apple's names have notes
-    /// of their own.
-    public var hasAnUnusableLabel: Bool { !label.hasPrefix("com.apple.") && !PrivilegedPathPolicy.isValidLabel(label) }
+    /// `launchctl` reads a service's name up to the next slash, so a label with one reaches another job.
+    private var isReadWholeByLaunchctl: Bool {
+        !label.utf8.contains { $0 == 0x2F || $0 < 0x20 || $0 == 0x7F }
+    }
+
+    /// True for a name Peel never passes to `launchctl`: one the helper refuses for a daemon, or one `launchctl` would
+    /// misread for an agent. Apple's names have notes of their own.
+    public var hasAnUnusableLabel: Bool {
+        !label.hasPrefix("com.apple.")
+            && (requiresPrivileges ? !PrivilegedPathPolicy.isValidLabel(label) : !isReadWholeByLaunchctl)
+    }
 
     /// True when Peel may disable the job: not one ServiceManagement manages, and one whose row Enable stays on.
     public var mayBeDisabled: Bool { canBeControlled && !isManagedByServiceManagement && staysListedWhenDisabled }
