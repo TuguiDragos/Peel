@@ -37,6 +37,9 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
 
     public var id: URL { url }
 
+    /// False for a device backup and for what Peel never moves, whatever the helper can do.
+    public var canBeMoved: Bool { !isReadOnly && heldBack?.cannotBeMoved != true }
+
     public func isLocked(canUseHelper: Bool) -> Bool {
         requiresPrivileges && heldBack?.cannotBeMoved != true && !canUseHelper
     }
@@ -54,12 +57,16 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
 }
 
 extension Collection where Element == InstallerItem {
+    public var movable: SizeTotal {
+        SizeTotal(filter(\.canBeMoved).map(\.size))
+    }
+
     public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
-        let open = filter { !$0.isReadOnly && !$0.isLocked(canUseHelper: canUseHelper) }
+        let selectable = filter { $0.canBeMoved && !$0.isLocked(canUseHelper: canUseHelper) }
         return SelectableRows(
             rows: map(\.url),
-            selectable: open.filter { $0.heldBack?.cannotBeMoved != true }.map(\.url),
-            recommended: open.filter { $0.heldBack == nil }.map(\.url)
+            selectable: selectable.map(\.url),
+            recommended: selectable.filter { $0.heldBack == nil }.map(\.url)
         )
     }
 }

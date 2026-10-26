@@ -308,6 +308,29 @@ struct InstallersTests {
     }
 
 
+    @Test func countsToRemoveOnlyWhatCanMove() {
+        func item(
+            _ name: String,
+            kind: InstallerItem.Kind = .appInstaller,
+            isReadOnly: Bool = false,
+            heldBack: HoldBack? = nil
+        ) -> InstallerItem {
+            var item = InstallerItem(
+                url: URL(filePath: "/Users/me/Downloads/\(name)"), kind: kind, name: name, size: 1_000, date: nil,
+                installedApp: nil, isReadOnly: isReadOnly, notes: []
+            )
+            item.heldBack = heldBack
+            return item
+        }
+        let items = [
+            item("Tool.dmg"), item("Synced.dmg", heldBack: .inTheCloud),
+            item("iPhone", kind: .deviceBackup, isReadOnly: true), item("Old.iso", heldBack: .mayBeTheOnlyCopy),
+        ]
+
+        #expect(items.movable == SizeTotal(known: 2_000, isComplete: true))
+        #expect(items.filter(\.canBeMoved).map(\.name) == ["Tool.dmg", "Old.iso"])
+    }
+
     @Test func anInstallerInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Documents/.stfolder")

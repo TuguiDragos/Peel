@@ -81,8 +81,9 @@ extension ProjectLibrary {
 }
 
 extension InstallerLibrary {
+    /// The items, sized by what Peel can move: a device backup is the app's that made it, and stays off the size.
     var looked: Looked? {
-        scan.map { Looked(count: $0.items.count, size: SizeTotal($0.items.map(\.size))) }
+        scan.map { Looked(count: $0.items.count, size: $0.items.movable) }
     }
 }
 

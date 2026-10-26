@@ -106,7 +106,7 @@ struct InstallerDetailView: View {
             }
         } trailing: {
             TotalLabel(
-                total: SizeTotal(rows.map(\.size)),
+                total: kind == .deviceBackup ? SizeTotal(rows.map(\.size)) : rows.movable,
                 caption: Text(kind == .deviceBackup ? "on this Mac" : "to remove")
             )
         }
