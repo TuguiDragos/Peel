@@ -283,6 +283,28 @@ struct DeveloperCachesTests {
         #expect(chat.locations.map(\.url.lastPathComponent).sorted() == ["Cache", "GPUCache"])
     }
 
+    @Test func makesOneToolOfEveryCopyOfAnElectronApp() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let copy = { (place: String, identifier: String) throws -> InstalledApp in
+            try directory.directory("\(place)/Chat.app/Contents/Frameworks/Electron Framework.framework")
+            return InstalledApp(
+                url: directory.url.appending(path: "\(place)/Chat.app", directoryHint: .isDirectory),
+                bundleIdentifier: identifier, name: "Chat", bundleName: "Chat"
+            )
+        }
+        let apps = [
+            try copy("Applications", "org.example.chat"), try copy("home/Applications", "org.example.chat"),
+            try copy("Other", "org.example.chat-beta"),
+        ]
+        try directory.file("home/Library/Application Support/Chat/Local State")
+
+        let definitions = DeveloperCaches.electronDefinitions(for: apps, home: home)
+
+        #expect(definitions.map(\.id) == ["electron.org.example.chat"])
+        #expect(definitions.first?.appBundleIdentifiers == ["org.example.chat", "org.example.chat-beta"])
+    }
+
     @Test func listsVSCodesOwnFoldersForAnEditorBuiltOnItAndNeverItsBackups() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

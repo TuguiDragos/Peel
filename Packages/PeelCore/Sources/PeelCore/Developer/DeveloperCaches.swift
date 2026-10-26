@@ -1469,16 +1469,27 @@ public enum DeveloperCaches {
         let chromium = "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/"
         let codeCache = chromium + "content/browser/storage_partition_impl.cc#L1587-L1595"
         let exists = { (url: URL) in FileManager.default.fileExists(atPath: url.path(percentEncoded: false)) }
-        return apps.compactMap { app in
+        // One tool for each folder of data, which waits for every copy of an app and every app keeping its data there.
+        var made: [(folder: String, definition: Definition)] = []
+        for app in apps {
             guard let identifier = app.bundleIdentifier, let bundleName = app.bundleName,
                   !covered.contains(bundleName.lowercased()),
                   exists(app.url.appending(path: "Contents/Frameworks/Electron Framework.framework"))
-            else { return nil }
+            else { continue }
             let editor = vsCodeProductName(of: app)
             let name = editor ?? bundleName
             guard !name.isEmpty, !name.contains("/"), name != ".", name != "..", !covered.contains(name.lowercased())
-            else { return nil }
-            guard exists(home.appending(path: "Library/Application Support/\(name)/Local State")) else { return nil }
+            else { continue }
+            guard exists(home.appending(path: "Library/Application Support/\(name)/Local State")) else { continue }
+            if let index = made.firstIndex(where: { $0.folder == name.lowercased() }) {
+                let shared = made[index].definition
+                guard !shared.appBundleIdentifiers.contains(identifier) else { continue }
+                made[index].definition = Definition(
+                    id: shared.id, name: shared.name, systemImage: shared.systemImage,
+                    appBundleIdentifiers: shared.appBundleIdentifiers + [identifier], folders: shared.folders
+                )
+                continue
+            }
             let data = "Library/Application Support/\(PathPattern.literal(name))"
             // Each persistent session an app opens keeps the same caches in a folder of its own.
             let partitions = "\(data)/Partitions/*"
@@ -1499,11 +1510,12 @@ public enum DeveloperCaches {
             ] + ["ShaderCache", "GrShaderCache", "GraphiteDawnCache", "GPUPersistentCache"].map {
                 Folder("\(data)/\($0)", .cache, source: electron + "electron_browser_client.cc#L1206-L1222")
             } + (editor == nil ? [] : vsCodesOwnFolders(in: data))
-            return Definition(
+            made.append((name.lowercased(), Definition(
                 id: "electron.\(identifier)", name: app.name, systemImage: "macwindow",
                 appBundleIdentifiers: [identifier], folders: folders
-            )
+            )))
         }
+        return made.map(\.definition)
     }
 
     /// `nameShort` in the app's `product.json`, the name VS Code keeps its data under.
