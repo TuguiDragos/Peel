@@ -823,11 +823,6 @@ final class AppLibrary {
         defaults.set(skippedVersions, forKey: SettingsKey.skippedUpdateVersions)
     }
 
-    /// Called often, including every time the Applications list appears. Apps are matched to casks again only
-    /// when the casks changed, since `adopt` already does it when the apps change, and matching holds the
-    /// main thread.
-    /// `knowsItsOwnApps` is true when `packages` says of every app whether Homebrew installed it, and not while
-    /// Homebrew could not be read.
     struct Upgrade {
         /// The app as the upgrade left it.
         let app: InstalledApp
@@ -843,6 +838,15 @@ final class AppLibrary {
         upgrades[app.id] = upgrade
     }
 
+    /// True once casks came from a reading of Homebrew that says of every app whether it installed it.
+    private(set) var hasMatchedHomebrew = false
+    /// Whether `cask(for:)` answers for every app listed: the apps were read, and matched to such a reading. Until
+    /// then an app Homebrew installed may still look like one it didn't.
+    var knowsHomebrewsApps: Bool { hasLoaded && hasMatchedHomebrew }
+
+    /// Called whenever Homebrew is read again. Apps are matched to casks again only when the casks changed, since
+    /// `adopt` already does it when the apps change, and matching holds the main thread. `knowsItsOwnApps` is true
+    /// when `packages` says of every app whether Homebrew installed it, and not while Homebrew could not be read.
     func loadHomebrewCasks(_ packages: [HomebrewPackage], knowsItsOwnApps: Bool) {
         let casks = packages.filter { $0.kind == .cask }
         if casks != self.casks {
@@ -851,6 +855,7 @@ final class AppLibrary {
         }
         if knowsItsOwnApps {
             forgetUpdatesHomebrewNoLongerOffers()
+            hasMatchedHomebrew = true
         }
         applyHomebrewStatuses()
     }

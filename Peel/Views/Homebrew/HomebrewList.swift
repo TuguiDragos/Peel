@@ -426,7 +426,10 @@ struct HomebrewList: View {
                             .minimumTarget()
                     }
                         .buttonStyle(.borderless)
-                        .disabled(homebrew.upgradable.isEmpty || isBusy || quittingToUpgrade.isWaiting)
+                        .disabled(
+                            homebrew.upgradable.isEmpty || isBusy || quittingToUpgrade.isWaiting
+                                || homebrew.upgradable.contains { $0.kind == .cask } && !library.knowsHomebrewsApps
+                        )
                 }
             }
         }

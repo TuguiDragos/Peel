@@ -133,7 +133,8 @@ struct HomebrewDetailView: View {
                                 isConfirmingUpgrade = true
                             }
                             .buttonStyle(.borderedProminent)
-                            .disabled(package.isPinned)
+                            // A cask's apps, which have to quit first, are known only once they are matched.
+                            .disabled(package.isPinned || package.kind == .cask && !library.knowsHomebrewsApps)
                         }
                     }
                     if isRunning {
@@ -261,6 +262,8 @@ struct HomebrewDetailView: View {
     private var uninstallRefusal: LocalizedStringResource? {
         if exclusions.exclusions.isUnreadable { return "Exclusions can’t be read: see Settings" }
         if !exclusions.exclusions.hasBeenRead { return "Checking…" }
+        // Until then the cask's apps aren't known, and with them neither are the rules their own pages follow.
+        if !library.knowsHomebrewsApps { return "Checking…" }
         let apps = caskApps
         // Homebrew deletes the app, so an app its own page never removes is never uninstalled from here either.
         if let removedElsewhere = apps.lazy.compactMap(\.removedElsewhere).first { return removedElsewhere.explanation }
