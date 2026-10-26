@@ -635,7 +635,12 @@ struct ProjectsCommand: AsyncParsableCommand {
             yes: removal.yes,
             using: service,
             recordingIn: log,
-            refusals: refusals
+            refusals: refusals,
+            move: { service, urls in
+                // The question takes time, and work may have started in a project meanwhile.
+                let changed = await ProjectArtifacts.changedSinceScan(suggested, among: artifacts)
+                return await service.trash(urls, refusing: { changed.contains($0) ? .changedSinceScan : nil })
+            }
         )
     }
 

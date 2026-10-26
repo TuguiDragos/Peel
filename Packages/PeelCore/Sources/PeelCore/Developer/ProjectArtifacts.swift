@@ -821,6 +821,21 @@ public enum ProjectArtifacts {
         definitions.flatMap(\.markers).filter { $0.hasPrefix("*") }.map { String($0.dropFirst()) }
     )
 
+    /// Read again right before a move: the artifacts of `chosen` Peel would suggest whose project has changed in the
+    /// last 7 days, or can't be read whole anymore. A folder chosen though Peel didn't suggest it stays chosen. `all`
+    /// is every artifact the scan found.
+    @concurrent
+    public static func changedSinceScan(_ chosen: [ProjectArtifact], among all: [ProjectArtifact]) async -> Set<URL> {
+        let suggested = chosen.filter(\.isRecommended)
+        guard !suggested.isEmpty else { return [] }
+        let activities = await lastActivities(of: suggested.map(\.project), passingBy: all.map(\.url))
+        let cutoff = Date.now.addingTimeInterval(-recentlyActive)
+        return Set(suggested.filter { artifact in
+            guard let activity = activities[key(of: artifact.project)], activity.isCertain else { return true }
+            return activity.date.map { $0 > cutoff } ?? false
+        }.map(\.url))
+    }
+
     /// Each project's name as a list shows it: its folder's name, or, while another of `projects` has a folder of the
     /// same name, as many folders above it as tell them apart, as in `acme/frontend`.
     public static func names(of projects: [URL]) -> [String] {
@@ -1060,30 +1075,7 @@ public enum ProjectArtifacts {
 
     /// Builds write into artifacts while nobody works on a project, so its last change passes by every one inside.
     private static func withLastActivity(_ pending: [Pending]) async -> [ProjectArtifact] {
-        let projects = Dictionary(
-            pending.map { (key(of: $0.project), $0.project) }, uniquingKeysWith: { first, _ in first }
-        )
-        var inside: [String: Set<String>] = [:]
-        for artifact in pending {
-            let path = key(of: artifact.url)
-            var above = artifact.url.deletingLastPathComponent()
-            while true {
-                let folder = key(of: above)
-                if projects[folder] != nil {
-                    inside[folder, default: []].insert(String(path.dropFirst(folder.count + 1)))
-                }
-                guard folder != "/" else { break }
-                above = above.deletingLastPathComponent()
-            }
-        }
-        var activities: [String: (date: Date?, isCertain: Bool)] = [:]
-        for (project, folder) in projects {
-            guard !Task.isCancelled else { break }
-            let ignoring = inside[project] ?? []
-            activities[project] = await SlowRead.answer(within: FileSize.budget) { isGivenUp in
-                lastActivity(in: folder, ignoring: ignoring, isGivenUp: isGivenUp)
-            } ?? (date: nil, isCertain: false)
-        }
+        let activities = await lastActivities(of: pending.map(\.project), passingBy: pending.map(\.url))
         return pending.map { artifact in
             let activity = activities[key(of: artifact.project)] ?? (date: nil, isCertain: false)
             let heldBack = HoldBack.seen(in: artifact.contents)
@@ -1101,6 +1093,37 @@ public enum ProjectArtifacts {
                     ?? (artifact.found.definition?.keepsItsSetup == true ? .keepsItsSetup : nil)
             )
         }
+    }
+
+    /// Each project's last change, keyed by `key(of:)`, passing by every one of `artifacts` inside it, those of the
+    /// projects inside it included.
+    private static func lastActivities(
+        of projects: [URL],
+        passingBy artifacts: [URL]
+    ) async -> [String: (date: Date?, isCertain: Bool)] {
+        let projects = Dictionary(projects.map { (key(of: $0), $0) }, uniquingKeysWith: { first, _ in first })
+        var inside: [String: Set<String>] = [:]
+        for artifact in artifacts {
+            let path = key(of: artifact)
+            var above = artifact.deletingLastPathComponent()
+            while true {
+                let folder = key(of: above)
+                if projects[folder] != nil {
+                    inside[folder, default: []].insert(String(path.dropFirst(folder.count + 1)))
+                }
+                guard folder != "/" else { break }
+                above = above.deletingLastPathComponent()
+            }
+        }
+        var activities: [String: (date: Date?, isCertain: Bool)] = [:]
+        for (project, folder) in projects {
+            guard !Task.isCancelled else { break }
+            let ignoring = inside[project] ?? []
+            activities[project] = await SlowRead.answer(within: FileSize.budget) { isGivenUp in
+                lastActivity(in: folder, ignoring: ignoring, isGivenUp: isGivenUp)
+            } ?? (date: nil, isCertain: false)
+        }
+        return activities
     }
 
     /// The nearest folder from `folder` up to `root` holding a repository or a tool's project file, else `folder`.

@@ -164,8 +164,10 @@ struct ProjectList: View {
             }
         }
         .task {
-            guard projects.groups == nil, !projects.isScanning, !projects.scanRun.wasStopped else { return }
-            await projects.refresh()
+            await projects.refreshUnlessScanned(within: ProjectLibrary.scanAgainAfter)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            Task { await projects.refreshUnlessScanned(within: ProjectLibrary.scanAgainAfter) }
         }
         .rescanOnExclusionChange("ProjectList") { await projects.refresh() }
         .rescanAfterPutBack(.projects) { await projects.refresh() }

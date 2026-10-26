@@ -45,9 +45,24 @@ final class ProjectLibrary {
     var selection: URL?
     var selectedURLs: Set<URL> = []
 
-    init() {
-        folders = (UserDefaults.standard.array(forKey: Self.foldersKey) as? [String] ?? [])
+    private let defaults: UserDefaults
+    @ObservationIgnored private var scannedAt: ContinuousClock.Instant?
+
+    /// How long what a scan saw is shown before the page, appearing or with Peel coming forward, looks again.
+    static let scanAgainAfter: Duration = .seconds(60 * 60)
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        folders = (defaults.array(forKey: Self.foldersKey) as? [String] ?? [])
             .map { URL(filePath: $0, directoryHint: .isDirectory) }
+    }
+
+    /// Scans unless the last scan ended less than `age` ago, one or a removal runs, or the last scan was stopped: a
+    /// project changed in the last 7 days is held back, so what a scan saw ages.
+    func refreshUnlessScanned(within age: Duration) async {
+        guard !isScanning, !isRemoving, !scanRun.wasStopped else { return }
+        if let scannedAt, ContinuousClock.now - scannedAt < age { return }
+        await refresh()
     }
 
     var selectedGroup: ProjectGroup? {
@@ -62,6 +77,7 @@ final class ProjectLibrary {
             let scan = await ProjectArtifacts.scan(roots: folders, exclusions: ExclusionsStore.shared.exclusions)
             return (scan, await TimeMachineExclusion.standings(of: scan.artifacts.map(\.url)))
         }) else { return }
+        scannedAt = .now
         let artifacts = scan.artifacts
         wasCutShort = scan.wasCutShort
         needsFullDiskAccess = scan.needsFullDiskAccess
@@ -163,7 +179,7 @@ final class ProjectLibrary {
     }
 
     private func save() {
-        UserDefaults.standard.set(folders.map { $0.path(percentEncoded: false) }, forKey: Self.foldersKey)
+        defaults.set(folders.map { $0.path(percentEncoded: false) }, forKey: Self.foldersKey)
     }
 
     private func group(of page: CarriedSelection.Page) -> ProjectGroup? {
@@ -190,8 +206,12 @@ extension ProjectLibrary: CarriesSelection {
         guard let group = group(of: part.page) else { return TrashResult() }
         isRemoving = true
         defer { isRemoving = false }
-        let urls = group.artifacts.map(\.url).filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) }
-        return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls)
+        let chosen = group.artifacts.filter { selectedURLs.contains($0.url) && part.sizes.keys.contains($0.url) }
+        let changed = await ProjectArtifacts.changedSinceScan(chosen, among: (groups ?? []).flatMap(\.artifacts))
+        return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
+            chosen.map(\.url),
+            refusing: { changed.contains($0) ? .changedSinceScan : nil }
+        )
     }
 
     func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {

@@ -341,6 +341,29 @@ struct ProjectArtifactsTests {
         #expect(artifact("DerivedData").keptBecause == nil && artifact("DerivedData").isRecommended)
     }
 
+    @Test func refusesASuggestedFolderWhoseProjectChangedSinceTheScan() async throws {
+        let directory = try TemporaryDirectory()
+        for project in ["app", "tool"] {
+            try directory.file("Code/\(project)/package.json", bytes: 16)
+            try directory.file("Code/\(project)/src/index.js", bytes: 16)
+            try directory.file("Code/\(project)/node_modules/left-pad/index.js", bytes: 16)
+        }
+        try directory.file("Code/app/.venv/pyvenv.cfg", bytes: 16)
+        try directory.file("Code/app/requirements.txt", bytes: 16)
+        try age(directory.url, days: 60)
+        let scan = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code")])
+        try FileManager.default.setAttributes(
+            [.modificationDate: Date.now],
+            ofItemAtPath: directory.url.appending(path: "Code/app/src/index.js").path(percentEncoded: false)
+        )
+
+        let changed = await ProjectArtifacts.changedSinceScan(scan.artifacts, among: scan.artifacts)
+
+        #expect(scan.artifacts.filter(\.isRecommended).count == 2)
+        #expect(changed.map(\.lastPathComponent) == ["node_modules"])
+        #expect(changed.allSatisfy { $0.path(percentEncoded: false).contains("/app/") })
+    }
+
     @Test func findsWhatJavaScriptToolsBuild() async throws {
         try await expectFound([
             Kind(artifact: ".nuxt", marker: "nuxt.config.ts", tool: "Nuxt", isGeneric: false),
