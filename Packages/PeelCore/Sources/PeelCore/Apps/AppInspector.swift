@@ -180,7 +180,7 @@ public enum AppInspector {
         infoDictionary(in: AppBundleLayout(of: url).infoFolder)?["CFBundleIdentifier"] as? String
     }
 
-    private static func displayName(of url: URL, identifier: String?) -> String {
+    static func displayName(of url: URL, identifier: String?) -> String {
         let name = identifier.map { isKnown(url, as: $0) } == true
             ? FileManager.default.displayName(atPath: url.path(percentEncoded: false)) : url.lastPathComponent
         return name.hasSuffix(".app") ? String(name.dropLast(4)) : name

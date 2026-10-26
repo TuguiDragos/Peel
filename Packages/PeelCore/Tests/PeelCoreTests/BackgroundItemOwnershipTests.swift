@@ -151,6 +151,35 @@ struct BackgroundItemOwnershipTests {
         #expect(!planted.isConfirmed)
     }
 
+    @Test func ownsAJobByTheBundleItsProgramSitsIn() throws {
+        let directory = try TemporaryDirectory()
+        for folder in ["Vendor", ".Trash"] {
+            try directory.file("\(folder)/Updater.app/Contents/Info.plist", contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.updater"], format: .xml, options: 0))
+        }
+        let bundle = directory.url.appending(path: "Vendor/Updater.app").path(percentEncoded: false)
+        let program = bundle + "/Contents/MacOS/Updater"
+        func owner(_ teams: [String: String], program: String = program) -> BackgroundItemOwnership.Owner? {
+            BackgroundItemOwnership(installedApps: [], teamOfProgram: { teams[$0] })
+                .owner(label: "org.example.updater.agent", associated: [], program: program)
+        }
+
+        let signed = try #require(owner([program: "ABCDE12345", bundle: "ABCDE12345"]))
+        #expect(signed.bundleIdentifier == "org.example.updater")
+        #expect(signed.name == "Updater")
+        #expect(signed.url == URL(filePath: bundle, directoryHint: .isDirectory))
+        #expect(signed.isConfirmed)
+
+        let unsigned = try #require(owner([:]))
+        #expect(unsigned.url == URL(filePath: bundle, directoryHint: .isDirectory))
+        #expect(!unsigned.isConfirmed, "a bundle anyone can make proves nothing")
+        #expect(owner([program: "ABCDE12345", bundle: "ZZZZZ99999"])?.isConfirmed == false)
+        #expect(owner([program: "ABCDE12345"])?.isConfirmed == false)
+
+        let trashed = directory.url.appending(path: ".Trash/Updater.app/Contents/MacOS/Updater").path(percentEncoded: false)
+        #expect(owner([:], program: trashed)?.url == nil, "a copy in a Trash isn't installed")
+    }
+
     @Test func knowsWhereTheOwnerIs() {
         #expect(ownership.owner(label: "com.other.tool.helper", associated: [], program: nil)?.url == URL(filePath: "/Applications/Tool.app"))
         let associated = ownership.owner(label: "org.unrelated.label", associated: ["com.example.app"], program: "/usr/local/bin/example-helper")

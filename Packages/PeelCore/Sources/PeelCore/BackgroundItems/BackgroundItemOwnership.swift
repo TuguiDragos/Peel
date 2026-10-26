@@ -10,7 +10,8 @@ public struct BackgroundItemOwnership: Sendable {
         /// Where the app is, or nil when it is gone.
         public let url: URL?
         /// True when macOS registered the job for the app, or its program is signed by the app's team or sits
-        /// inside the app. False when only a name points to the app: a label, or a bundle anyone can make.
+        /// inside the app (outside the scanned folders, an app signed by the program's team). False when only a name
+        /// points to the app: a label, or a bundle anyone can make.
         public var isConfirmed = true
 
         public var isInstalled: Bool { url != nil }
@@ -58,10 +59,22 @@ public struct BackgroundItemOwnership: Sendable {
                .first(where: { $0.teamIdentifier == team }) {
             return Owner(bundleIdentifier: app.bundleIdentifier, name: app.name, url: app.url)
         }
-        if let identifier = Self.bundleIdentifier(inProgramPath: program) {
-            var owner = owner(forIdentifier: identifier)
-            owner.isConfirmed = byIdentifier[identifier.lowercased()].map { proves(program, $0, team: team) } ?? false
-            return owner
+        if let bundle = Self.bundle(holding: program) {
+            if let app = byIdentifier[bundle.identifier.lowercased()] {
+                return Owner(
+                    bundleIdentifier: app.bundleIdentifier,
+                    name: app.name,
+                    url: app.url,
+                    isConfirmed: proves(program, app, team: team)
+                )
+            }
+            let url = URL(filePath: bundle.path, directoryHint: .isDirectory)
+            return Owner(
+                bundleIdentifier: bundle.identifier,
+                name: AppInspector.displayName(of: url, identifier: bundle.identifier),
+                url: AppInspector.isInATrash(url) ? nil : url,
+                isConfirmed: team != nil && teamOfProgram(bundle.path) == team
+            )
         }
         if let app = appMatching(label: label) {
             return Owner(
@@ -179,9 +192,15 @@ public struct BackgroundItemOwnership: Sendable {
             .max { $0.key.count < $1.key.count }?.value
     }
 
-    static func bundleIdentifier(inProgramPath path: String?) -> String? {
-        guard let path, let range = path.range(of: ".app/") else { return nil }
-        let bundle = URL(filePath: String(path[..<range.lowerBound]) + ".app", directoryHint: .isDirectory)
-        return AppInspector.infoDictionary(in: bundle.appending(path: "Contents", directoryHint: .isDirectory))?["CFBundleIdentifier"] as? String
+    /// The outermost app bundle `program` sits in, with the identifier its Info.plist declares.
+    static func bundle(holding program: String?) -> (path: String, identifier: String)? {
+        guard let program, let range = program.range(of: ".app/") else { return nil }
+        let path = String(program[..<range.lowerBound]) + ".app"
+        let contents = URL(filePath: path, directoryHint: .isDirectory)
+            .appending(path: "Contents", directoryHint: .isDirectory)
+        guard let identifier = AppInspector.infoDictionary(in: contents)?["CFBundleIdentifier"] as? String else {
+            return nil
+        }
+        return (path, identifier)
     }
 }

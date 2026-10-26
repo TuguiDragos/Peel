@@ -184,7 +184,7 @@ struct LaunchctlTests {
             .write(to: directory.file("Example.app/Contents/Info.plist"))
         let helper = directory.url.appending(path: "Example.app/Contents/MacOS/Helper").path(percentEncoded: false)
 
-        #expect(BackgroundItemOwnership.bundleIdentifier(inProgramPath: helper) == "com.example.app")
-        #expect(BackgroundItemOwnership.bundleIdentifier(inProgramPath: "/usr/bin/true") == nil)
+        #expect(BackgroundItemOwnership.bundle(holding: helper)?.identifier == "com.example.app")
+        #expect(BackgroundItemOwnership.bundle(holding: "/usr/bin/true") == nil)
     }
 }
