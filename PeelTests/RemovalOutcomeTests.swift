@@ -46,4 +46,47 @@ struct RemovalOutcomeTests {
         #expect(RemovalFailureAlert.message(for: outcome).hasPrefix("What moved is in the Trash"))
         #expect(RemovalFailureAlert.details(for: outcome).hasPrefix("What moved is in the Trash"))
     }
+
+    private func history(in folder: URL, outcome: RemovalOutcome, staying: String? = nil) -> RemovalHistoryStore {
+        RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            outcome: outcome,
+            knowsTheExclusions: { true },
+            restoring: { items, _ in items.map { $0.originalURL.lastPathComponent == staying ? .needsHelper : nil } }
+        )
+    }
+
+    private func moved(_ names: [String]) throws -> TrashResult {
+        try TrashResult(trashed: names.map { name in
+            let item = #"{"originalURL": "file:///Users/me/\#(name)", "trashedURL": "file:///Users/me/.Trash/\#(name)", "date": 0}"#
+            return try JSONDecoder().decode(TrashedItem.self, from: Data(item.utf8))
+        })
+    }
+
+    @Test func anUndoThatLeavesAnItemSaysWhyWhereverThePersonIs() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let outcome = RemovalOutcome()
+        let history = history(in: folder, outcome: outcome, staying: "Driver")
+        await history.record(try moved(["Cache", "Driver"]), tool: .plugins, source: "Plug-ins", sizes: [:])
+
+        await history.undoLastRemoval()
+
+        #expect(outcome.putBackFailures.map(\.url.lastPathComponent) == ["Driver"])
+        #expect(outcome.putBackFailures.first?.failure == .needsHelper)
+        #expect(history.undoTitle != nil, "what stayed can be put back once the helper can")
+    }
+
+    @Test func undoGoesOnceItsRemovalIsPutBackFromHistory() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let history = history(in: folder, outcome: RemovalOutcome())
+        await history.record(try moved(["Cache"]), tool: .plugins, source: "Plug-ins", sizes: [:])
+        #expect(history.undoTitle != nil)
+
+        await history.restore(history.records, canUseHelper: false)
+
+        #expect(history.undoTitle == nil)
+    }
 }

@@ -115,8 +115,11 @@ nonisolated struct RefusalBatch: Identifiable, Hashable {
 final class RemovalHistoryStore {
     private let log: RemovalLog
     private let refusals: RefusalLog
-    /// Where a removal History couldn't record is told, with whatever else the removal left to tell.
+    /// Where a removal History couldn't record is told, with whatever else the removal left to tell, and what an
+    /// Undo left in the Trash.
     private let outcome: RemovalOutcome?
+    private let knowsTheExclusions: () -> Bool
+    private let restoring: ([TrashedItem], Bool) async -> [RestoreFailure?]
     /// Read again here once History has counted a removal, rather than by each tool.
     var stats: LifetimeStats?
     /// The last batch moved, for Undo. `@Environment(\.undoManager)` is nil in an app with no documents,
@@ -168,10 +171,22 @@ final class RemovalHistoryStore {
         refusalBatches.first { $0.id == selection }
     }
 
-    init(log: RemovalLog = RemovalLog(), refusals: RefusalLog = RefusalLog(), outcome: RemovalOutcome? = nil) {
+    /// `restoring` puts items back, for each the reason it stayed or nil, and `knowsTheExclusions` says whether
+    /// anything may move: both are the app's own unless a test stands in for them.
+    init(
+        log: RemovalLog = RemovalLog(),
+        refusals: RefusalLog = RefusalLog(),
+        outcome: RemovalOutcome? = nil,
+        knowsTheExclusions: @escaping () -> Bool = { ExclusionsStore.shared.exclusions.isKnown },
+        restoring: @escaping ([TrashedItem], Bool) async -> [RestoreFailure?] = { items, canUseHelper in
+            await TrashService(exclusions: ExclusionsStore.shared.exclusions).restore(items, canUseHelper: canUseHelper)
+        }
+    ) {
         self.log = log
         self.refusals = refusals
         self.outcome = outcome
+        self.knowsTheExclusions = knowsTheExclusions
+        self.restoring = restoring
     }
 
     func load() async {
@@ -296,7 +311,7 @@ final class RemovalHistoryStore {
     /// Why nothing may move to the Trash or back now: the exclusions are not known, or History can't be read or
     /// written.
     var holdingReason: TrashFailure.Reason? {
-        guard ExclusionsStore.shared.exclusions.isKnown else { return .guarded(.exclusionsNotKnown) }
+        guard knowsTheExclusions() else { return .guarded(.exclusionsNotKnown) }
         if isUnreadable { return .historyUnreadable }
         return cannotBeWritten ? .historyCannotBeWritten : nil
     }
@@ -308,7 +323,22 @@ final class RemovalHistoryStore {
     func undoLastRemoval() async {
         guard let undoable, !isRestoring, mayMove else { return }
         self.undoable = nil
-        await restore(undoable.records, canUseHelper: canUseHelper)
+        let stayed = await restore(undoable.records, canUseHelper: canUseHelper, tellingThePage: false)
+        guard !stayed.isEmpty else { return }
+        outcome?.reportPutBack(stayed.map {
+            RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
+        })
+        // What stayed for a reason that can pass, such as the helper or something in its place, can be asked again.
+        let again = stayed.filter { $0.failure != .missingFromTrash && $0.failure != .notAllowed }.map(\.record)
+        if !again.isEmpty { self.undoable = (again, undoable.title) }
+    }
+
+    /// Takes the records `ids` names out of what Undo would put back, once they are back or gone from History.
+    private func keepUndoable(without ids: Set<RemovalRecord.ID>) {
+        guard let undoable, !ids.isEmpty else { return }
+        let left = undoable.records.filter { !ids.contains($0.id) }
+        guard left.count != undoable.records.count else { return }
+        self.undoable = left.isEmpty ? nil : (left, undoable.title)
     }
 
     /// Shows the log's records, or keeps what is already on screen when the log was left untouched or holds the
@@ -317,6 +347,8 @@ final class RemovalHistoryStore {
         problem = outcome.problem
         checkReadability()
         guard let records = outcome.records else { return }
+        // What left History since it was listed, as by `peel restore`, is no longer Undo's to put back.
+        keepUndoable(without: Set(self.records.map(\.id)).subtracting(records.map(\.id)))
         listedChange += 1
         let change = listedChange
         guard let listed = await Self.listed(records, unless: self.records), change == listedChange else { return }
@@ -354,39 +386,48 @@ final class RemovalHistoryStore {
         return (batches, searchKeys)
     }
 
-    func restore(_ records: [RemovalRecord], canUseHelper: Bool) async {
+    /// Puts `records` back and answers what stayed, each with why. History's page shows the reasons
+    /// (`tellingThePage`); an Undo, asked from any page, has them told by the app instead.
+    @discardableResult
+    func restore(
+        _ records: [RemovalRecord], canUseHelper: Bool, tellingThePage: Bool = true
+    ) async -> [(record: RemovalRecord, failure: RestoreFailure)] {
         // One restore at a time, however often it is asked for: two rounds over the same records would each
         // report the items the other put back as already there.
-        guard !isRestoring, mayMove else { return }
+        guard !isRestoring, mayMove else { return [] }
         isRestoring = true
         defer { isRestoring = false }
-        let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
-        await QuitGuard.shared.run {
+        return await QuitGuard.shared.run {
             var restored: Set<UUID> = []
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
+            var stayed: [(record: RemovalRecord, failure: RestoreFailure)] = []
             let ordered = records.inPutBackOrder
-            let answers = await service.restore(ordered.map(\.trashedItem), canUseHelper: canUseHelper)
+            let answers = await restoring(ordered.map(\.trashedItem), canUseHelper)
             for (record, answer) in zip(ordered, answers) {
                 if let failure = answer {
                     problems[record.id] = failure
+                    stayed.append((record, failure))
                 } else {
                     restored.insert(record.id)
                 }
             }
-            failures = problems
+            if tellingThePage { failures = problems }
             selectedIDs.subtract(restored)
             if !restored.isEmpty {
+                keepUndoable(without: restored)
                 await apply(await log.remove(restored))
                 // A move is announced, and so is its undoing: the rows only vanish from the list.
                 AccessibilityNotification.Announcement(
                     AttributedString(localized: "Put back ^[\(restored.count) item](inflect: true).")
                 ).post()
             }
+            return stayed
         }
     }
 
     /// Removes `records` from History. The page offers this for items that have left the Trash.
     func forget(_ records: [RemovalRecord]) async {
+        keepUndoable(without: Set(records.map(\.id)))
         await apply(await log.remove(Set(records.map(\.id))))
         selectedIDs.subtract(records.map(\.id))
     }

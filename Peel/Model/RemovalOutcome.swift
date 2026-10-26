@@ -12,6 +12,11 @@ final class RemovalOutcome {
         let result: PrivacyReset.Result
     }
 
+    struct PutBackFailure: Hashable {
+        let url: URL
+        let failure: RestoreFailure
+    }
+
     private(set) var failures: [TrashFailure] = []
     /// The privacy resets the removal ran that are worth telling the user about.
     private(set) var privacy: [Privacy] = []
@@ -29,16 +34,22 @@ final class RemovalOutcome {
     private(set) var shellReferences: [ShellReferences.Reference] = []
     /// True when History couldn't record the removal, so Put Back has nothing to go on for what moved.
     private(set) var historyCouldNotRecord = false
+    /// What an Undo left in the Trash: Undo is asked from any page, so what came of it is told here.
+    private(set) var putBackFailures: [PutBackFailure] = []
     private(set) var movedCount = 0
 
     var isEmpty: Bool {
         failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
             && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0 && shellReferences.isEmpty
-            && !historyCouldNotRecord
+            && !historyCouldNotRecord && putBackFailures.isEmpty
     }
 
     func noteHistoryCouldNotRecord() {
         historyCouldNotRecord = true
+    }
+
+    func reportPutBack(_ failures: [PutBackFailure]) {
+        putBackFailures = failures
     }
 
     /// Keeps what the removal could not do, what a restart or an emptied Trash finishes, and what stays for an
@@ -85,5 +96,6 @@ final class RemovalOutcome {
         leftForAnAdministrator = 0
         shellReferences = []
         historyCouldNotRecord = false
+        putBackFailures = []
     }
 }

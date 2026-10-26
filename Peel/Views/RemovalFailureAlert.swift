@@ -77,6 +77,9 @@ struct RemovalFailureAlert: ViewModifier {
         if outcome.historyCouldNotRecord {
             return Text("History couldn’t record this removal.")
         }
+        if !outcome.putBackFailures.isEmpty, outcome.failures.isEmpty {
+            return Text("Some items couldn’t be put back.")
+        }
         if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty,
            outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
             return outcome.driversAwaitingARestart.isEmpty
@@ -102,7 +105,9 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     static func message(for outcome: RemovalOutcome) -> String {
-        var lines = historyLines(outcome) + shortened(quitLines(outcome))
+        var lines = historyLines(outcome)
+            + firstItems(outcome.putBackFailures.map { "\($0.url.abbreviatedPath)\n\($0.failure.explanation)" })
+            + shortened(quitLines(outcome))
             + firstItems(outcome.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
@@ -164,7 +169,7 @@ struct RemovalFailureAlert: ViewModifier {
     /// Offered for a failure, whose full path the alert shortens, and wherever the alert names only the first entries
     /// of a list, so every name it leaves out can still be read.
     static func offersDetails(for outcome: RemovalOutcome) -> Bool {
-        !outcome.failures.isEmpty || message(for: outcome) != details(for: outcome)
+        !outcome.failures.isEmpty || !outcome.putBackFailures.isEmpty || message(for: outcome) != details(for: outcome)
     }
 
     /// Copies every item with its full path, since the alert lists only the first few and its text can't be
@@ -175,7 +180,9 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     static func details(for outcome: RemovalOutcome) -> String {
-        var lines = historyLines(outcome) + quitLines(outcome)
+        var lines = historyLines(outcome)
+            + outcome.putBackFailures.map { "\($0.url.path(percentEncoded: false))\n\($0.failure.explanation)" }
+            + quitLines(outcome)
             + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
             + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
@@ -215,6 +222,7 @@ struct RemovalFailureAlert: ViewModifier {
 
     private static func needsHelper(_ outcome: RemovalOutcome) -> Bool {
         outcome.failures.contains { $0.reason == .needsHelper }
+            || outcome.putBackFailures.contains { $0.failure == .needsHelper }
     }
 }
 
