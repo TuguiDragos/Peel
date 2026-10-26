@@ -31,6 +31,29 @@ struct IntelInspectorTests {
     private let intel: UInt32 = 0x0100_0007
     private let appleSilicon: UInt32 = 0x0100_000C
 
+    @Test func findsAnIntelProgramWhoseFileStartsWithItsI386Slice() throws {
+        let directory = try TemporaryDirectory()
+        var bytes = Data([0xCA, 0xFE, 0xBA, 0xBE, 0x00, 0x00, 0x00, 0x02])
+        for (cpuType, offset) in [(UInt32(7), UInt32(4_096)), (intel, UInt32(8_192))] {
+            for value in [cpuType, 3, offset, 4_096, 12] {
+                bytes += [24, 16, 8, 0].map { UInt8(value >> $0 & 0xFF) }
+            }
+        }
+        bytes += Data(count: 4_096 - bytes.count)
+        bytes += Data([0xCE, 0xFA, 0xED, 0xFE, 0x07, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00])
+        bytes += Data(count: 8_192 - bytes.count)
+        bytes += intelHeader(fileType: 2)
+        bytes += Data(count: 12_288 - bytes.count)
+        let filter = try directory.file("Printers/Vendor/filter", contents: bytes)
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755], ofItemAtPath: filter.path(percentEncoded: false)
+        )
+        let printers = directory.url.appending(path: "Printers").path(percentEncoded: false)
+
+        #expect(MachOHeader.isProgram(at: filter))
+        #expect(IntelInspector.programs(in: [printers]).map(\.lastPathComponent) == ["filter"])
+    }
+
     /// The drivers, the background items, and the tools are scanned after the apps, and those later steps must
     /// stop as well.
     @Test func aStoppedScanStops() async throws {

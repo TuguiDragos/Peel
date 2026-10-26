@@ -5,6 +5,8 @@ enum MachOHeader {
     private static let fatMagic: UInt32 = 0xCAFE_BABE
     private static let fatMagic64: UInt32 = 0xCAFE_BABF
     private static let machMagic64Swapped: UInt32 = 0xCFFA_EDFE
+    /// `MH_CIGAM`: a 32 bit header, as an i386 slice has, which keeps its file type at the same place.
+    private static let machMagicSwapped: UInt32 = 0xCEFA_EDFE
     private static let cpuTypeARM64: UInt32 = 0x0100_000C
     private static let cpuTypeX86_64: UInt32 = 0x0100_0007
     private static let maximumFatArchitectures = 32
@@ -39,7 +41,8 @@ enum MachOHeader {
             return read > 0 ? Array(buffer[0..<read]) : []
         }
         func isAProgram(_ header: [UInt8]) -> Bool {
-            bigEndianUInt32(header, at: 0) == machMagic64Swapped
+            let magic = bigEndianUInt32(header, at: 0)
+            return (magic == machMagic64Swapped || magic == machMagicSwapped)
                 && littleEndianUInt32(header, at: 12) == programFileType
         }
         let header = bytes(at: 0, count: 32)
