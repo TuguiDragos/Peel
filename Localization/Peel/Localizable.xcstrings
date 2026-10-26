@@ -36729,112 +36729,6 @@
         }
       }
     },
-    "Downloads a browser never finished, still under the name it gives a file until the download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox, and .download for Safari." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stahování, která prohlížeč nikdy nedokončil a která stále nesou název, jaký souboru dává do konce stahování: .crdownload pro Chrome a prohlížeče založené na projektu Chromium, .part pro Firefox a .download pro Safari."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloads, die ein Browser nie abgeschlossen hat, noch unter dem Namen, den er einer Datei bis zum Ende des Downloads gibt: .crdownload für Chrome und die auf Chromium basierenden Browser, .part für Firefox und .download für Safari."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Descargas que un navegador nunca terminó, aún con el nombre que da a un archivo hasta que acaba la descarga: .crdownload en Chrome y en los navegadores basados en Chromium, .part en Firefox y .download en Safari."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les téléchargements qu’un navigateur n’a jamais terminés, encore sous le nom qu’il donne à un fichier jusqu’à la fin du téléchargement : .crdownload pour Chrome et les navigateurs basés sur Chromium, .part pour Firefox et .download pour Safari."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download che un browser non ha mai completato, ancora con il nome che dà al file finché il download non termina: .crdownload per Chrome e i browser basati su Chromium, .part per Firefox e .download per Safari."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ブラウザが完了しなかったダウンロードです。ダウンロードが終わるまでブラウザがファイルに付ける名前のまま残っています。Chromeと、Chromiumをベースにしたブラウザでは.crdownload、Firefoxでは.part、Safariでは.downloadです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "브라우저가 완료하지 못한 다운로드로, 다운로드가 끝날 때까지 브라우저가 파일에 붙이는 이름이 아직 그대로 남아 있습니다. Chrome 및 Chromium 기반 브라우저는 .crdownload, Firefox는 .part, Safari는 .download입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloads die een browser nooit heeft voltooid, nog onder de naam die de browser een bestand geeft tot de download klaar is: .crdownload voor Chrome en de browsers die op Chromium zijn gebouwd, .part voor Firefox en .download voor Safari."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pliki, których przeglądarka nigdy nie skończyła pobierać, wciąż pod nazwą, jaką nadaje plikowi do końca pobierania: .crdownload w Chrome i przeglądarkach opartych na Chromium, .part w przeglądarce Firefox i .download w Safari."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloads que um navegador nunca concluiu, ainda com o nome que ele dá a um arquivo até o fim do download: .crdownload no Chrome e nos navegadores baseados no Chromium, .part no Firefox e .download no Safari."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Descărcări pe care un browser nu le‑a terminat, încă sub numele pe care îl dă unui fișier până la încheierea descărcării: .crdownload pentru Chrome și browserele bazate pe Chromium, .part pentru Firefox și .download pentru Safari."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Загрузки, которые браузер так и не завершил. У таких файлов все еще временное имя, которое браузер дает файлу до окончания загрузки: .crdownload в Chrome и браузерах на основе Chromium, .part в Firefox и .download в Safari."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hämtningar som en webbläsare aldrig slutförde, fortfarande under det namn den ger en fil tills hämtningen är klar: .crdownload för Chrome och webbläsarna som bygger på Chromium, .part för Firefox och .download för Safari."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir tarayıcının hiç tamamlamadığı indirmeler; indirme bitene kadar dosyaya verdiği adı hâlâ taşırlar: Chrome ve Chromium tabanlı tarayıcılar için .crdownload, Firefox için .part ve Safari için .download."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Викачування, яких браузер так і не завершив. Файл досі має назву, яку браузер дає йому, доки викачування не закінчиться: .crdownload у Chrome і браузерах на основі Chromium, .part у Firefox і .download у Safari."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "浏览器未完成的下载，仍使用浏览器在下载结束前为文件指定的名称：Chrome及基于Chromium的浏览器为.crdownload，Firefox为.part，Safari浏览器为.download。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "瀏覽器未完成的下載項目，在下載結束前仍使用瀏覽器為檔案取的名稱：Chrome及以Chromium為基礎的瀏覽器使用.crdownload，Firefox使用.part，Safari使用.download。"
-          }
-        }
-      }
-    },
     "Downloads kept so you can install them again" : {
       "localizations" : {
         "cs" : {
@@ -36937,6 +36831,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下載檔案，保留供你重新安裝"
+          }
+        }
+      }
+    },
+    "Downloads never finished, still under the name a file has until its download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox and programs such as torrent clients, and .download for Safari." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stahování, která se nikdy nedokončila a která stále nesou název, jaký soubor má do konce stahování: .crdownload pro Chrome a prohlížeče založené na projektu Chromium, .part pro Firefox a programy, jako jsou torrentoví klienti, a .download pro Safari."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads, die nie abgeschlossen wurden, noch unter dem Namen, den eine Datei bis zum Ende ihres Downloads trägt: .crdownload für Chrome und die auf Chromium basierenden Browser, .part für Firefox und Programme wie Torrent-Clients sowie .download für Safari."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargas que nunca terminaron, aún con el nombre que tiene un archivo hasta que acaba su descarga: .crdownload en Chrome y en los navegadores basados en Chromium, .part en Firefox y en programas como los clientes de torrent, y .download en Safari."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les téléchargements jamais terminés, encore sous le nom que porte un fichier jusqu’à la fin de son téléchargement : .crdownload pour Chrome et les navigateurs basés sur Chromium, .part pour Firefox et des programmes comme les clients torrent, et .download pour Safari."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download mai completati, ancora con il nome che un file ha finché il download non termina: .crdownload per Chrome e i browser basati su Chromium, .part per Firefox e per programmi come i client torrent, e .download per Safari."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了しなかったダウンロードです。ダウンロードが終わるまでファイルに付けられている名前のまま残っています。Chromeと、Chromiumをベースにしたブラウザでは.crdownload、Firefoxや、トレントクライアントなどのプログラムでは.part、Safariでは.downloadです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료되지 않은 다운로드로, 다운로드가 끝날 때까지 파일에 붙는 이름이 아직 그대로 남아 있습니다. Chrome 및 Chromium 기반 브라우저는 .crdownload, Firefox와 토렌트 클라이언트 같은 프로그램은 .part, Safari는 .download입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads die nooit zijn voltooid, nog onder de naam die een bestand heeft tot de download klaar is: .crdownload voor Chrome en de browsers die op Chromium zijn gebouwd, .part voor Firefox en programma's zoals torrentclients, en .download voor Safari."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki, których pobieranie nigdy się nie zakończyło, wciąż pod nazwą, jaką plik ma do końca pobierania: .crdownload w Chrome i przeglądarkach opartych na Chromium, .part w przeglądarce Firefox i programach takich jak klienty torrentów oraz .download w Safari."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads nunca concluídos, ainda com o nome que um arquivo tem até o fim do download: .crdownload no Chrome e nos navegadores baseados no Chromium, .part no Firefox e em programas como clientes de torrent, e .download no Safari."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descărcări care nu s‑au terminat niciodată, încă sub numele pe care îl are un fișier până la încheierea descărcării: .crdownload pentru Chrome și browserele bazate pe Chromium, .part pentru Firefox și pentru programe precum clienții de torrent, iar .download pentru Safari."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузки, которые так и не завершились. У таких файлов все еще временное имя, которое файл носит до окончания загрузки: .crdownload в Chrome и браузерах на основе Chromium, .part в Firefox и программах вроде торрент-клиентов, а .download в Safari."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hämtningar som aldrig slutfördes, fortfarande under det namn som en fil har tills hämtningen är klar: .crdownload för Chrome och webbläsarna som bygger på Chromium, .part för Firefox och program som torrentklienter, och .download för Safari."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiç tamamlanmamış indirmeler; bir dosyanın, indirmesi bitene kadar taşıdığı adı hâlâ taşırlar: Chrome ve Chromium tabanlı tarayıcılar için .crdownload, Firefox ve torrent istemcileri gibi programlar için .part ve Safari için .download."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Викачування, які так і не завершилися. Файл досі має назву, яку отримує на час викачування: .crdownload у Chrome і браузерах на основі Chromium, .part у Firefox і таких програмах, як торент-клієнти, та .download у Safari."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未完成的下载，仍使用文件在下载结束前的名称：Chrome及基于Chromium的浏览器为.crdownload，Firefox和种子客户端等程序为.part，Safari浏览器为.download。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未完成的下載項目，仍使用檔案在下載結束前所用的名稱：Chrome及以Chromium為基礎的瀏覽器使用.crdownload，Firefox及torrent用戶端等程式使用.part，Safari使用.download。"
           }
         }
       }
@@ -94417,6 +94417,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：某個程式現在正打開此項目，而且可能仍在下載它。"
+          }
+        }
+      }
+    },
+    "Not selected: a program that resumes downloads, such as a torrent client, may still finish this." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: program, který navazuje přerušená stahování, například torrentový klient, může toto stahování ještě dokončit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Ein Programm, das Downloads fortsetzt, etwa ein Torrent-Client, schließt diesen Download möglicherweise noch ab."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: un programa que reanuda descargas, como un cliente de torrent, aún podría terminar esta descarga."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : un programme qui reprend les téléchargements, comme un client torrent, peut encore terminer celui-ci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: un programma che riprende i download, come un client torrent, potrebbe ancora completarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: トレントクライアントなど、ダウンロードを再開するプログラムが、まだこれを完了させる可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 토렌트 클라이언트처럼 다운로드를 이어서 받는 프로그램이 아직 이 다운로드를 완료할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: een programma dat downloads hervat, zoals een torrentclient, voltooit dit misschien nog."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: program, który wznawia pobieranie, na przykład klient torrentów, może jeszcze dokończyć pobieranie tego pliku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: um programa que retoma downloads, como um cliente de torrent, ainda pode concluir este download."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: un program care reia descărcările, cum ar fi un client de torrent, poate încă să termine această descărcare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: программа, которая возобновляет загрузки, например торрент-клиент, еще может завершить эту загрузку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: ett program som återupptar hämtningar, till exempel en torrentklient, kan fortfarande slutföra den här hämtningen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: torrent istemcisi gibi, indirmeleri kaldığı yerden sürdüren bir program bunu hâlâ tamamlayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: програма, яка відновлює викачування, як-от торент-клієнт, ще може його завершити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：能够续传下载的程序（例如种子客户端）可能仍会完成此下载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：可接續下載的程式（例如torrent用戶端）可能仍會完成此下載。"
           }
         }
       }

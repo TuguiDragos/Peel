@@ -375,6 +375,27 @@ struct InstallersTests {
         #expect(items["Archive.zip.part"]?.heldBack == .changedRecently)
     }
 
+    @Test func aPartFileNoBrowserLeftIsLeftToChoose() async throws {
+        let directory = try TemporaryDirectory()
+        let torrent = try directory.file("Downloads/Film.mkv.part", bytes: 400_000)
+        let firefox = try directory.file("Downloads/Disk.dmg.part", bytes: 400_000)
+        try directory.file("Downloads/Disk.dmg", bytes: 0)
+        try directory.directory("Applications")
+        let old: [FileAttributeKey: Any] = [.modificationDate: Date.now.addingTimeInterval(-3 * 24 * 60 * 60)]
+        for url in [torrent, firefox] {
+            try FileManager.default.setAttributes(old, ofItemAtPath: url.path(percentEncoded: false))
+        }
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0) })
+        #expect(items["Film.mkv.part"]?.heldBack == .mayStillBeResumed)
+        #expect(items["Disk.dmg.part"]?.heldBack == .some(nil))
+    }
+
     /// Safari keeps a download in a `.download` package until it ends. The package is the unfinished download, and
     /// the file growing inside it is what says when it last changed.
     @Test func findsSafarisUnfinishedDownloadsByTheirNewestWrite() async throws {

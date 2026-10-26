@@ -118,16 +118,17 @@ Space shows what fills your disk, area by area, and what each area is.
   from your other devices too: beside a copy on this Mac it is marked Stays, and a group whose every copy syncs is
   listed under Synced to Other Devices. A chosen folder Peel doesn't scan, such as a repository, is named with why,
   in Scan Settings and with the result.
-- **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and in
-  the folders directly inside them, where installers are usually left, with archives there that hold an app or an
-  installer. It also lists packages an app keeps in Application Support, macOS installers, device firmware,
-  downloads a browser never finished, and updates apps downloaded and keep until they install them. Your iPhone and
-  iPad backups are listed with their size once Peel has Full Disk Access, and never moved. Nothing is selected for
-  you, and Select Recommended takes only what you can download again, such as an installed app's installer, any
-  installer in Downloads, a macOS installer, or device firmware. It passes by an encrypted disk image, an installer
-  elsewhere that is no installed app's, a package an app keeps for itself, a download that changed in the last day,
-  an update whose app is open, and anything in Shared, open in a program, or syncing to your other devices. A disk
-  image can also be one you made to keep files in, so look before you select it.
+- **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and in the
+  folders directly inside them, where installers are usually left, with archives there that hold an app or an installer.
+  It also lists packages an app keeps in Application Support, macOS installers, device firmware, downloads never
+  finished, and updates apps downloaded and keep until they install them. Your iPhone and iPad backups are listed with
+  their size once Peel has Full Disk Access, and never moved. Nothing is selected for you, and Select Recommended takes
+  only what you can download again, such as an installed app's installer, any installer in Downloads, a macOS installer,
+  or device firmware. It passes by an encrypted disk image, an installer elsewhere that is no installed app's, a package
+  an app keeps for itself, a download that changed in the last day, a `.part` file no browser left, which a torrent
+  client or another program that resumes downloads may still finish, an update whose app is open, and anything in
+  Shared, open in a program, or syncing to your other devices. A disk image can also be one you made to keep files in,
+  so look before you select it.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac, as Finder shows them: what is in
   iCloud Drive and each app's documents, never an app's own data. Downloads are listed in the folders Finder shows
   them in, named as Finder names them, the biggest first, and a folder's checkbox selects every file in it; a file

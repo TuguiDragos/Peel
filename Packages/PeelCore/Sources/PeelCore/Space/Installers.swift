@@ -587,12 +587,15 @@ public enum Installers {
 
     /// Makes the item for an unfinished download. One that changed within `stillDownloading` may still be going, so
     /// it is left for the person to choose. A package changes when the file growing inside it does (`newestInside`).
+    /// A `.part` file is a browser's only beside the empty file Firefox makes under the final name before it starts
+    /// (`DownloadCore.sys.mjs`): torrent clients and other programs that resume downloads use `.part` too.
     static func incompleteDownload(
         at url: URL, size: Int64?, heldBack: HoldBack?, newestInside: Date?
     ) -> InstallerItem {
         let own = (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate
         let changed = [own, newestInside].compactMap(\.self).max()
         let isRecent = changed.map { Date.now.timeIntervalSince($0) < stillDownloading } ?? true
+        let mayBeResumed = url.pathExtension.lowercased() == "part" && !isEmptyFile(url.deletingPathExtension())
         return InstallerItem(
             url: url,
             kind: .incompleteDownload,
@@ -603,8 +606,14 @@ public enum Installers {
             isReadOnly: false,
             notes: [],
             requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-            heldBack: heldBack ?? (isRecent ? .changedRecently : nil)
+            heldBack: heldBack ?? (isRecent ? .changedRecently : mayBeResumed ? .mayStillBeResumed : nil)
         )
+    }
+
+    private static func isEmptyFile(_ url: URL) -> Bool {
+        var info = stat()
+        guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
+        return info.st_mode & S_IFMT == S_IFREG && info.st_size == 0
     }
 
     static func firmware(at url: URL, size: Int64?, heldBack: HoldBack?) -> InstallerItem {

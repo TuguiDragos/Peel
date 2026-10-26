@@ -375,6 +375,8 @@ extension HoldBack {
             "Not selected: a program has this open right now, and may still be downloading it."
         case .changedRecently:
             "Not selected: this changed in the last day, so it may still be downloading."
+        case .mayStillBeResumed:
+            "Not selected: a program that resumes downloads, such as a torrent client, may still finish this."
         case .writtenRecently:
             "Not selected: something wrote to this in the last 15 minutes, so a program may still be using it."
         case .keptByAnApp:
