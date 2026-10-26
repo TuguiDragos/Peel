@@ -60,11 +60,19 @@ struct BackgroundItemList: View {
             }
         }
         // The first scan waits for the installed apps, which it needs to trace each item to the app that owns it.
+        // After it, the list is read again each time it is shown and each time Peel comes forward.
         .task(id: library.hasLoaded) {
-            guard library.hasLoaded, backgroundItems.items == nil, !backgroundItems.scanRun.isWaitedFor,
-                  !backgroundItems.scanRun.wasStopped
-            else { return }
+            guard library.hasLoaded else { return }
+            guard backgroundItems.items == nil else {
+                await backgroundItems.readAgain(installedApps: library.apps)
+                return
+            }
+            guard !backgroundItems.scanRun.isWaitedFor, !backgroundItems.scanRun.wasStopped else { return }
             await backgroundItems.refresh(installedApps: library.apps)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            guard library.hasLoaded else { return }
+            Task { await backgroundItems.readAgain(installedApps: library.apps) }
         }
         .rescanOnExclusionChange("BackgroundItemList") { await backgroundItems.refresh(installedApps: library.apps) }
         .rescanAfterPutBack(.backgroundItems) { await backgroundItems.refresh(installedApps: library.apps) }

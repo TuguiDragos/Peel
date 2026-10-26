@@ -26,14 +26,39 @@ final class BackgroundItemLibrary {
     /// The installed apps passed to the last scan, reused by the rescan after an action. Without them no item
     /// could be traced to the app that owns it.
     private var installedApps: [InstalledApp] = []
+    private let scan: @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan
+
+    init(
+        scan: @escaping @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan = {
+            await BackgroundItems.scan(installedApps: $0, exclusions: $1)
+        }
+    ) {
+        self.scan = scan
+    }
 
     func refresh(installedApps: [InstalledApp]) async {
         self.installedApps = installedApps
+        let scan = scan
         guard
-            let result = await scanRun.run({
-                await BackgroundItems.scan(installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions)
-            })
+            let result = await scanRun.run({ await scan(installedApps, ExclusionsStore.shared.exclusions) })
         else { return }
+        show(result)
+    }
+
+    /// Reads the list again without showing a scan, once it has been read: System Settings and other apps change what
+    /// launchd runs. Never while an action runs, since the scan after it decides what the list says.
+    func readAgain(installedApps: [InstalledApp]) async {
+        guard items != nil, runningActionItemIDs.isEmpty else { return }
+        self.installedApps = installedApps
+        let scan = scan
+        guard
+            let result = await scanRun.runQuietly({ await scan(installedApps, ExclusionsStore.shared.exclusions) }),
+            runningActionItemIDs.isEmpty
+        else { return }
+        show(result)
+    }
+
+    private func show(_ result: BackgroundItems.Scan) {
         items = result.items
         unanswered = result.unanswered
         scans += 1

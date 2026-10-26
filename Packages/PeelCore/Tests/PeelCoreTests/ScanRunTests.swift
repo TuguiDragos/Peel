@@ -136,6 +136,43 @@ struct ScanRunTests {
         _ = await asking.value
     }
 
+    @Test func aQuietReadShowsNothing() async {
+        let scan = ScanRun()
+
+        let wasRunning = await scan.runQuietly { scan.isRunning }
+
+        #expect(wasRunning == false, "nothing turns busy, so the page announces nothing and keeps its Rescan button")
+        #expect(!scan.isRunning && !scan.wasStopped)
+    }
+
+    @Test func aQuietReadNeverRunsOverAScan() async {
+        let scan = ScanRun()
+        let waiting = Waiting()
+        let asking = Task { await scan.run { await waiting.run(answering: 1) } }
+        await waiting.untilStarted()
+        let quiet = Waiting()
+
+        let answer = await scan.runQuietly { await quiet.run(answering: 2) }
+
+        #expect(answer == nil)
+        #expect(!quiet.started)
+        #expect(scan.isRunning && !waiting.stopped, "the scan goes on")
+        scan.stop()
+        _ = await asking.value
+    }
+
+    @Test func aScanOvertakesAQuietRead() async {
+        let scan = ScanRun()
+        let quiet = Waiting()
+        let asking = Task { await scan.runQuietly { await quiet.run(answering: 1) } }
+        await quiet.untilStarted()
+
+        #expect(await scan.run { 2 } == 2)
+        #expect(await asking.value == nil)
+        #expect(quiet.stopped)
+        #expect(!scan.isRunning && !scan.wasStopped)
+    }
+
     @Test func aScanAfterAStopIsNoLongerStopped() async {
         let scan = ScanRun()
         let waiting = Waiting()

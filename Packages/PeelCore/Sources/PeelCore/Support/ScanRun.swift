@@ -62,6 +62,21 @@ public final class ScanRun {
         return task.isCancelled ? nil : answer
     }
 
+    /// Runs `work` as a read the page doesn't show, as when it reads itself again on its own: nothing turns busy, so
+    /// nothing is announced. Nil, without running, while a scan runs, and when a scan starts before it ends.
+    public func runQuietly<Answer: Sendable>(_ work: @escaping @MainActor () async -> Answer) async -> Answer? {
+        guard !isRunning else { return nil }
+        stopNewest?()
+        newest += 1
+        let asked = newest
+        let task = Task { await work() }
+        stopNewest = { task.cancel() }
+        let answer = await withTaskCancellationHandler { await task.value } onCancel: { task.cancel() }
+        guard asked == newest else { return nil }
+        stopNewest = nil
+        return task.isCancelled ? nil : answer
+    }
+
     /// Stops the running scan. `isRunning` turns false at once, so the Rescan button comes back; the scan
     /// itself ends a moment later, and what it found is dropped.
     public func stop() {
