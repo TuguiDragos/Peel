@@ -1596,6 +1596,22 @@ struct OrphanScannerTests {
         #expect(scan.groups.isEmpty)
     }
 
+    @Test(.permissionsHold) func aLinkIntoAnAppInAPlacePeelCannotLookIsNotListed() async throws {
+        let directory = try TemporaryDirectory()
+        let bin = try directory.directory("root/usr/local/bin")
+        let tool = try directory.file("Closed/Closed.app/Contents/MacOS/closed")
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "closed").path(percentEncoded: false),
+            withDestinationPath: tool.path(percentEncoded: false)
+        )
+        try directory.setPermissions(0o000, of: "Closed")
+        defer { try? directory.setPermissions(0o755, of: "Closed") }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.isEmpty)
+    }
+
     /// A shell completion an app's installer linked into zsh's folder leads nowhere once the app is gone, and zsh
     /// then complains in every new shell. It is listed as a tool's link is.
     @Test func listsAShellCompletionThatLeadsIntoAnAppThatIsGone() async throws {

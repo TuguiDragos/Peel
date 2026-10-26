@@ -549,7 +549,7 @@ public struct OrphanScanner: Sendable {
     }
 
     /// The app bundle a link leads into, when that bundle is gone. Nil for a link into an app that is still
-    /// there, one on a disk that isn't connected, or into no app at all.
+    /// there or may be, on a disk that isn't connected or where Peel can't look, or into no app at all.
     static func goneApp(behind link: URL) -> URL? {
         guard
             let destination = try? FileManager.default.destinationOfSymbolicLink(
@@ -563,8 +563,7 @@ public struct OrphanScanner: Sendable {
             filePath: NSString.path(withComponents: Array(components[...app])),
             directoryHint: .isDirectory
         )
-        guard !bundle.isOnADiskNotConnected else { return nil }
-        return FileManager.default.fileExists(atPath: bundle.path(percentEncoded: false)) ? nil : bundle
+        return bundle.isMissing && !bundle.isOnADiskNotConnected ? bundle : nil
     }
 
     /// The identifier an item is listed under, or nil when it must not be listed. A link is named for its tool,
