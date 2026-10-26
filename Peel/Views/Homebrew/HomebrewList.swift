@@ -16,6 +16,14 @@ struct HomebrewList: View {
     @State private var casksToForget: [HomebrewPackage]?
 
     var body: some View {
+        // Reading what a command or a Forget changed dims the list as a Rescan does, on the same timing.
+        BusyShown(isBusy: homebrew.isReadingWhatChanged) { isReading in
+            page(isReading: isReading)
+        }
+    }
+
+    @ViewBuilder
+    private func page(isReading: Bool) -> some View {
         @Bindable var homebrew = homebrew
         let shown = listed
         let byKind = Dictionary(grouping: shown, by: \.kind)
@@ -55,7 +63,7 @@ struct HomebrewList: View {
         }
         .accessibilityLabel(Text(Tool.homebrew.title))
         .scrollBarBelowSectionHeaders()
-        .scanState(phase(shown), isRescanning: isRescanning, scan: homebrew.scanRun) { placeholder(shown) }
+        .scanState(phase(shown), isRescanning: isRescanning || isReading, scan: homebrew.scanRun) { placeholder(shown) }
         // A `List` inserts a new section in one frame, with no animation, so the rows below it jump. To soften
         // that, the column fades in when a health or vulnerability report appears or is cleared.
         .fadesInColumn(on: [homebrew.findings == nil, homebrew.advisories == nil])
@@ -490,12 +498,12 @@ struct HomebrewList: View {
                 SectionHeaderLine {
                     heading("Updates Available", "Homebrew has a newer version of these. A pinned package is held on purpose, so it is listed and left alone.")
                 } actions: {
-                    BusyShown(isBusy: homebrew.runningCommand == .upgradeAll) { isShown in
+                    BusyShown(isBusy: homebrew.commandHomebrewRuns == .upgradeAll) { isShown in
                         if isShown {
                             ProgressView().controlSize(.small).transition(.opacity)
                         }
                     }
-                    .motion(value: homebrew.runningCommand == .upgradeAll)
+                    .motion(value: homebrew.commandHomebrewRuns == .upgradeAll)
                     Button { isConfirmingUpgradeAll = true } label: {
                         Text("Upgrade All")
                             .minimumTarget()
@@ -537,12 +545,12 @@ struct HomebrewList: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } actions: {
-                    BusyShown(isBusy: homebrew.isForgetting) { isShown in
+                    BusyShown(isBusy: !homebrew.casksBeingForgotten.isEmpty) { isShown in
                         if isShown {
                             ProgressView().controlSize(.small).transition(.opacity)
                         }
                     }
-                    .motion(value: homebrew.isForgetting)
+                    .motion(value: homebrew.casksBeingForgotten.isEmpty)
                     Button { casksToForget = casks } label: {
                         Text("Forget All")
                             .minimumTarget()
@@ -626,12 +634,12 @@ struct HomebrewList: View {
             Label { Text(title) } icon: { Image(systemName: systemImage) }
             InfoNote(name: String(localized: title), detail: detail)
             Spacer(minLength: 8)
-            BusyShown(isBusy: homebrew.runningCommand == command) { isShown in
+            BusyShown(isBusy: homebrew.commandHomebrewRuns == command) { isShown in
                 if isShown {
                     ProgressView().controlSize(.small).transition(.opacity)
                 }
             }
-            .motion(value: homebrew.runningCommand == command)
+            .motion(value: homebrew.commandHomebrewRuns == command)
             // Only the controls are disabled while Homebrew is busy, so the info note can still be opened.
             trailing()
                 .buttonStyle(.bordered)

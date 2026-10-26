@@ -194,6 +194,7 @@ struct HomebrewDetailView: View {
             }
         }
         .formStyle(.grouped)
+        .dimmedWhileBusy(homebrew.isReadingWhatChanged)
         .navigationTitle(package.name)
         .toolbar(removing: .title)
         // Asked first, as Upgrade All is: an upgrade can run for a long time while Homebrew builds on this Mac.
@@ -293,8 +294,8 @@ struct HomebrewDetailView: View {
     }
 
     private var isRunning: Bool {
-        if homebrew.forgetting.contains(package.id) { return true }
-        return switch homebrew.runningCommand {
+        if homebrew.casksBeingForgotten.contains(package.id) { return true }
+        return switch homebrew.commandHomebrewRuns {
         case .upgrade(let id), .uninstall(let id): id == package.id
         case .upgradeAll: package.isOutdated && package.joinsUpgradeAll
         case .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health, .vulnerabilities, nil:

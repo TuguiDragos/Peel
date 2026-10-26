@@ -127,10 +127,18 @@ final class HomebrewLibrary {
     /// doesn't end it.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
+    /// The command the page is busy with: Homebrew runs it, then Peel reads what it changed, and nothing else starts
+    /// until both are done.
     private(set) var runningCommand: Command?
-    /// The casks whose records Peel is moving to the Trash. No command runs beside it.
+    /// The casks the page is forgetting, until Peel has read Homebrew again. No command runs beside it.
     private(set) var forgetting: Set<HomebrewPackage.ID> = []
     var isForgetting: Bool { !forgetting.isEmpty }
+    /// True once a command or a Forget has finished and Peel reads Homebrew again to see what it changed.
+    private(set) var isReadingWhatChanged = false
+    /// The command while Homebrew itself runs it, which is what its spinner, "Running Homebrew…" and Stop stand for.
+    var commandHomebrewRuns: Command? { isReadingWhatChanged ? nil : runningCommand }
+    /// The casks while Peel moves their records, which is what Forget's spinner stands for.
+    var casksBeingForgotten: Set<HomebrewPackage.ID> { isReadingWhatChanged ? [] : forgetting }
     /// The last lines Homebrew has written in the running upgrade. Nil when no upgrade runs.
     private(set) var progress: String?
     /// True once the person asked the running upgrade to stop.
@@ -306,7 +314,7 @@ final class HomebrewLibrary {
         guard runningCommand == nil, !isForgetting, command.onlyLooks || mayChange else { return nil }
         runningCommand = command
         defer {
-            (runningCommand, runningTask, progress, isStopping) = (nil, nil, nil, false)
+            (runningCommand, isReadingWhatChanged) = (nil, false)
         }
         let task = Task { await outcome(of: command) }
         runningTask = task
@@ -321,8 +329,12 @@ final class HomebrewLibrary {
         } else {
             outcome = await QuitGuard.shared.run(stoppingWith: stop) { await task.value }
         }
+        (runningTask, progress, isStopping) = (nil, nil, false)
         if showsResult, let outcome { result = outcome }
-        if !command.onlyLooks { await refresh(includingReclaimable: true) }
+        if !command.onlyLooks {
+            isReadingWhatChanged = true
+            await refresh(includingReclaimable: true)
+        }
         return outcome
     }
 
@@ -331,13 +343,14 @@ final class HomebrewLibrary {
     func forget(_ casks: [HomebrewPackage], recording record: (TrashResult) async -> Void) async -> TrashResult? {
         guard runningCommand == nil, !isForgetting, mayChange else { return nil }
         forgetting = Set(casks.map(\.id))
-        defer { forgetting = [] }
+        defer { (forgetting, isReadingWhatChanged) = ([], false) }
         let result = await QuitGuard.shared.run {
             let result = await HomebrewReceipt.forget(casks, exclusions: ExclusionsStore.shared.exclusions)
             // Written down before Homebrew is read again, which can take a while: History is the way back.
             await record(result)
             return result
         }
+        isReadingWhatChanged = true
         await refresh(includingReclaimable: true)
         return result
     }
@@ -352,7 +365,7 @@ final class HomebrewLibrary {
 
     /// Stops the running upgrade: Homebrew is asked to stop, and killed if it does not.
     func stopUpgrade() {
-        guard runningCommand?.isUpgrade == true else { return }
+        guard commandHomebrewRuns?.isUpgrade == true else { return }
         isStopping = true
         runningTask?.cancel()
     }
