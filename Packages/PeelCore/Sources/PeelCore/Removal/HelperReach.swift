@@ -31,7 +31,9 @@ struct HelperReach: Sendable {
         guard lstat(trashed.path(percentEncoded: false), &info) == 0,
               let located = PathPattern.located(original.path(percentEncoded: false))
         else { return nil }
-        return policy.refusal(ofPuttingBack: located, owner: info.st_uid, mode: info.st_mode)
+        let rejection = policy.refusal(ofPuttingBack: located, owner: info.st_uid, mode: info.st_mode)
+        // A folder this process can't look into may be one root can: the helper answers for that itself.
+        return rejection == .unresolvableParent ? nil : rejection
     }
 
     /// True when the helper would refuse `url` for where it is: outside the folders it serves, in `/Applications`
