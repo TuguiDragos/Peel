@@ -469,10 +469,6 @@ private struct GeneralSettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .onChange(of: checksForAppUpdates) { _, isChecking in
-            guard isChecking else { return }
-            Task { await library.checkForUpdates(library.apps) }
-        }
         .task {
             readStandings()
             await home.loginItem.refresh()

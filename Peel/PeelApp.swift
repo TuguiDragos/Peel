@@ -451,6 +451,10 @@ struct PeelApp: App {
                 QuitGuard.quit()
             }
         }
+        .onChange(of: checksForAppUpdates) { _, isChecking in
+            guard isChecking else { return }
+            Task { await library.checkForUpdates(library.apps) }
+        }
         .onChange(of: warnsWhenDiskIsNearlyFull) { _, warns in
             // Turned on again, the warning is new: a disk that is already nearly full is told about at once.
             UserDefaults.standard.removeObject(forKey: SettingsKey.toldDiskIsNearlyFull)
