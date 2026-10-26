@@ -81,6 +81,17 @@ struct RemovalHygieneTests {
         #expect(jobs.map(\.domain) == ["user/\(getuid())", "gui/\(getuid())"])
     }
 
+    @Test func stopsAMovedFilesJobOnlyWhenLaunchdLoadedItFromThatFile() throws {
+        let directory = try TemporaryDirectory()
+        let other = try launchdPlist("root/Library/LaunchAgents/org.example.updater.plist", label: "org.example.updater", in: directory)
+        let moved = directory.url.appending(path: "home/Library/LaunchAgents/org.example.updater.plist")
+        let job = LaunchdCleanup.Job(label: "org.example.updater", isDaemon: false, plist: moved)
+
+        #expect(LaunchdCleanup.isLoaded(from: moved.path(percentEncoded: false), job))
+        #expect(LaunchdCleanup.isLoaded(from: nil, job))
+        #expect(!LaunchdCleanup.isLoaded(from: other.path(percentEncoded: false), job))
+    }
+
     @Test func findsThePreferenceDomainsToForget() {
         let urls = [
             URL(filePath: "/Users/x/Library/Preferences/com.example.app.plist"),

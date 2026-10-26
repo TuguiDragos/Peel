@@ -124,6 +124,16 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.anotherFileIsLoaded {
+                Section {
+                    Notice(
+                        title: Text("Another file with this name is loaded"),
+                        detail: Text("launchd runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here."),
+                        kind: .note
+                    ) {}
+                }
+            }
+
             if item.hasAnUnusableLabel, !item.canBeControlled {
                 Section {
                     Notice(
@@ -354,11 +364,11 @@ struct BackgroundItemDetailView: View {
             .contentTransition(.opacity)
     }
 
-    /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, and a
-    /// file macOS can't load don't have. A job loaded from a file elsewhere has only Stop. A job Peel may not disable
-    /// has only Enable, while launchd keeps it disabled.
+    /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
+    /// file macOS can't load, and a file whose label launchd runs from another file don't have. A job loaded from a
+    /// file elsewhere has only Stop. A job Peel may not disable has only Enable, while launchd keeps it disabled.
     private var hasOwnControls: Bool {
-        guard item.canBeControlled, item.state != .unknown, !item.isUnreadable else {
+        guard item.canBeControlled, item.state != .unknown, !item.isUnreadable, !item.anotherFileIsLoaded else {
             return false
         }
         if item.canOnlyBeStopped { return true }

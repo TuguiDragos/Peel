@@ -49,7 +49,11 @@ public enum BackgroundItems {
             inTheUserDomain: Launchctl.parseSystemServices(await userDomainPrint.output).map { Set($0.keys) }
         )
 
-        var items = declared(in: environment, ownership: ownership, exclusions: exclusions, loaded: loaded)
+        var items = await settlingSharedLabels(
+            declared(in: environment, ownership: ownership, exclusions: exclusions, loaded: loaded)
+        ) { item in
+            Launchctl.parseDetails(await Launchctl.run(["print", BackgroundItemActions.target(of: item)]).output)?.path
+        }
 
         let submitted = undeclared(in: loaded, declared: items, uid: getuid())
 
@@ -252,6 +256,31 @@ public enum BackgroundItems {
             }
         }
         return items
+    }
+
+    /// Gives a job two files declare its state on the row of the file launchd loaded it from, which `loadedFrom` asks
+    /// of launchd, and marks the other row as not loaded. When launchd doesn't say which, neither row is said to run.
+    static func settlingSharedLabels(
+        _ items: [BackgroundItem], loadedFrom: (BackgroundItem) async -> String?
+    ) async -> [BackgroundItem] {
+        let declared = items.indices.filter { items[$0].plistURL != nil && !items[$0].isUnreadable }
+        let shared = Dictionary(grouping: declared) { "\(items[$0].kind.rawValue)/\(items[$0].label)" }
+            .values.filter { $0.count > 1 }
+        var settled = items
+        for rows in shared where ![.notLoaded, .unknown].contains(items[rows[0]].state) {
+            let path = await loadedFrom(items[rows[0]]).map { PathPattern.comparablePath(of: URL(filePath: $0)) }
+            for row in rows {
+                guard let path else {
+                    settled[row].state = .unknown
+                    continue
+                }
+                if let plist = items[row].plistURL, PathPattern.comparablePath(of: plist) != path {
+                    settled[row].state = .notLoaded
+                    settled[row].anotherFileIsLoaded = true
+                }
+            }
+        }
+        return settled
     }
 
     /// A job file launchd can't load, named by its file since it declares no label that can be read.

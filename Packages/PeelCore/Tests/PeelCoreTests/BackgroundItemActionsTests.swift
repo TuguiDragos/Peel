@@ -585,6 +585,28 @@ struct DeclaredBackgroundItemsTests {
         )
     }
 
+    @Test func aLabelTwoFilesDeclareRunsFromTheOneLaunchdNames() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/LaunchAgents/org.example.updater.plist", contents: job("org.example.updater"))
+        let shared = try directory.file(
+            "root/Library/LaunchAgents/org.example.updater.plist", contents: job("org.example.updater")
+        )
+        let items = BackgroundItems.declared(
+            in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []),
+            loaded: BackgroundItems.Loaded(user: ["org.example.updater": 42])
+        )
+
+        let named = await BackgroundItems.settlingSharedLabels(items) { _ in shared.path(percentEncoded: false) }
+        let unknown = await BackgroundItems.settlingSharedLabels(items) { _ in nil }
+        let loadedRow = named.first { $0.source == .systemLibrary }
+        let otherRow = named.first { $0.source == .userLibrary }
+
+        #expect(loadedRow?.state == .running(pid: 42))
+        #expect(otherRow?.state == .notLoaded)
+        #expect(otherRow?.anotherFileIsLoaded == true)
+        #expect(unknown.count == 2 && unknown.allSatisfy { $0.state == .unknown })
+    }
+
     /// launchd runs a program with the arguments after it, and a program named apart from them (`Program`) takes the
     /// place of the first. The whole command is read for its shape.
     @Test func readsTheWholeCommandOfAJob() throws {

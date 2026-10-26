@@ -435,10 +435,10 @@ struct PrivilegedPathPolicyTests {
         try plist("one.plist", label: "com.twice.daemon")
         try plist("two.plist", label: "com.twice.daemon")
 
-        #expect(SystemDaemons.file(declaring: "com.vendor.daemon", in: daemons) == real.path(percentEncoded: false))
-        #expect(SystemDaemons.file(declaring: "com.linked.daemon", in: daemons) == nil, "a link out of the folder was followed")
-        #expect(SystemDaemons.file(declaring: "com.twice.daemon", in: daemons) == nil, "two files declare it, and one was picked")
-        #expect(SystemDaemons.file(declaring: "com.nobody.daemon", in: daemons) == nil)
+        #expect(SystemDaemons.files(declaring: "com.vendor.daemon", in: daemons) == [real.path(percentEncoded: false)])
+        #expect(SystemDaemons.files(declaring: "com.linked.daemon", in: daemons).isEmpty, "a link out of the folder was followed")
+        #expect(SystemDaemons.files(declaring: "com.twice.daemon", in: daemons).count == 2, "two files declare it")
+        #expect(SystemDaemons.files(declaring: "com.nobody.daemon", in: daemons).isEmpty)
     }
 
     /// The helper opens only what really sits in the user's Trash. The path comes from the app, which reads it

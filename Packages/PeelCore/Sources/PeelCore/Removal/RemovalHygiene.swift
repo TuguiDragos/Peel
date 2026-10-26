@@ -44,8 +44,11 @@ enum LaunchdCleanup {
     @concurrent
     static func stop(_ jobs: [Job], canUseHelper: Bool) async -> [Job] {
         var stopped: [Job] = []
-        for job in jobs
-        where await bootout(job.label, in: job.domain, isDaemon: job.isDaemon, canUseHelper: canUseHelper) {
+        for job in jobs {
+            let loadedFrom = Launchctl.parseDetails(await Launchctl.run(["print", "\(job.domain)/\(job.label)"]).output)?.path
+            guard isLoaded(from: loadedFrom, job),
+                  await bootout(job.label, in: job.domain, isDaemon: job.isDaemon, canUseHelper: canUseHelper)
+            else { continue }
             stopped.append(job)
         }
         return stopped
@@ -90,6 +93,14 @@ enum LaunchdCleanup {
             group.cancelAll()
         }
         return stopped
+    }
+
+    /// Whether the job launchd runs under `job`'s label comes from `job`'s file: not when launchd names another file
+    /// that is still there, as when two files declare one label.
+    static func isLoaded(from loadedFrom: String?, _ job: Job) -> Bool {
+        guard let loadedFrom else { return true }
+        let other = URL(filePath: loadedFrom)
+        return PathPattern.comparablePath(of: other) == PathPattern.comparablePath(of: job.plist) || other.isMissing
     }
 
     static func isAppsOwn(_ label: String) -> Bool {

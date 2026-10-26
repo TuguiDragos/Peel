@@ -31,6 +31,7 @@ extension FixedSentence {
         case .notMovedByHelper: "Peel’s helper didn’t move this from there, so it stays in the Trash. You can drag it back out in Finder."
         case .invalidRequest: "The request wasn’t valid."
         case .configurationMissing: "The configuration file is missing."
+        case .declaredTwice: "Two files declare this job."
         case .toolTimedOut: "The tool didn’t answer in time, so it was stopped."
         case .toolStopped: "Stopped before it finished."
         case .receiptMisplaced: "The receipt isn’t where macOS keeps receipts."

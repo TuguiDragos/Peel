@@ -39,7 +39,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True when no installed app claims the job and its program is gone from disk, or it names none of its own.
     /// The full rule is `BackgroundItemOwnership.isOrphan(label:program:owner:)`.
     public let isOrphan: Bool
-    public let state: State
+    public internal(set) var state: State
     public let isDisabled: Bool
     /// False when only a name points to the owner (`BackgroundItemOwnership.Owner.isConfirmed`).
     public var isOwnerConfirmed = true
@@ -66,6 +66,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True for a job launchd runs from a file no longer on disk, removed while it was loaded: launchd forgets it at
     /// the next logout or restart, and nothing loads it again.
     public var isFileGone = false
+    public var anotherFileIsLoaded = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 

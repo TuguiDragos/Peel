@@ -17,10 +17,9 @@ public enum SystemDaemons {
     /// Where other vendors' daemons are installed.
     public static let installed = "/Library/LaunchDaemons"
 
-    /// The one file in `directory` that declares `label`. A file's name usually repeats its label but need
-    /// not, so a job is loaded only from the file that declares it. Links are not followed, and a label that
-    /// two files declare returns nil.
-    public static func file(declaring label: String, in directory: String = installed) -> String? {
+    /// The files in `directory` that declare `label`, two at most: a job is loaded only from the one file that
+    /// declares it, since a file's name usually repeats its label but need not. Links are not followed.
+    public static func files(declaring label: String, in directory: String = installed) -> [String] {
         let contents = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []
         let declaring = contents.lazy
             .filter { $0.hasSuffix(".plist") }
@@ -36,8 +35,7 @@ public enum SystemDaemons {
                 else { return false }
                 return plist["Label"] as? String == label
             }
-        let found = Array(declaring.prefix(2))
-        return found.count == 1 ? found[0] : nil
+        return Array(declaring.prefix(2))
     }
 
     public static func labels(in directory: String) -> Set<String> {

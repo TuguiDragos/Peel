@@ -16306,6 +16306,112 @@
         }
       }
     },
+    "Another file with this name is loaded" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Načtený je jiný soubor s tímto názvem"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine andere Datei mit diesem Namen ist geladen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otro archivo con este nombre está cargado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un autre fichier portant ce nom est chargé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È caricato un altro file con questo nome"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同じ名前の別のファイルが読み込まれています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름이 같은 다른 파일이 로드되어 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is een ander bestand met deze naam geladen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wczytany jest inny plik o tej nazwie"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outro arquivo com este nome está carregado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este încărcat un alt fișier cu acest nume"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загружен другой файл с таким же именем"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En annan fil med det här namnet är inläst"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ada sahip başka bir dosya yüklü"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завантажено інший файл із цією назвою"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已载入同名的另一个文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一個同名的檔案已載入"
+          }
+        }
+      }
+    },
     "Any kind" : {
       "localizations" : {
         "cs" : {
@@ -187335,6 +187441,112 @@
         }
       }
     },
+    "Two files declare this job." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuto úlohu uvádějí dva soubory."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwei Dateien definieren diesen Job."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dos archivos declaran esta tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deux fichiers déclarent cette tâche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo elemento è dichiarato da due file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このジョブを宣言しているファイルが2つあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 작업을 지정하는 파일이 두 개 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze taak wordt in twee bestanden vermeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To zadanie jest zadeklarowane w dwóch plikach."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dois arquivos declaram esta tarefa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Două fișiere declară această sarcină."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это задание объявлено в двух файлах."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här jobbet anges i två filer."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu işi iki dosya tanımlıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це завдання оголошено у двох файлах."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有两个文件声明了此任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有兩個檔案宣告了此工作。"
+          }
+        }
+      }
+    },
     "Two hyphens stay two hyphens instead of becoming a long dash." : {
       "localizations" : {
         "cs" : {
@@ -221039,6 +221251,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用中"
+          }
+        }
+      }
+    },
+    "launchd runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd spouští tuto úlohu z jiného souboru, který uvádí stejný název, takže tento soubor není načtený. Peel ji odtud nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd führt diesen Job aus einer anderen Datei aus, die denselben Namen angibt, daher ist diese Datei nicht geladen. Peel startet, stoppt, aktiviert oder deaktiviert ihn nicht von hier aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd ejecuta esta tarea desde otro archivo que declara el mismo nombre, así que este archivo no está cargado. Desde aquí, Peel no la inicia, no la detiene, no la activa ni la desactiva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd exécute cette tâche à partir d’un autre fichier qui déclare le même nom : ce fichier-ci n’est donc pas chargé. Peel ne démarre pas cet élément, ne l’arrête pas, ne l’active pas et ne le désactive pas d’ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd esegue questo elemento da un altro file che dichiara lo stesso nome, quindi questo file non è caricato. Da qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchdは、同じ名前を宣言している別のファイルからこのジョブを実行しているため、このファイルは読み込まれていません。Peelはここから開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd가 같은 이름을 지정하는 다른 파일에서 이 작업을 실행하므로 이 파일은 로드되지 않습니다. Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd voert deze taak uit vanuit een ander bestand dat dezelfde naam vermeldt, dus dit bestand is niet geladen. Peel start het van hieruit niet, stopt het niet en schakelt het niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd uruchamia to zadanie z innego pliku, który deklaruje tę samą nazwę, więc ten plik nie jest wczytany. Peel go stąd nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O launchd executa esta tarefa a partir de outro arquivo que declara o mesmo nome, então este arquivo não está carregado. O Peel não a inicia, não a interrompe, não a ativa nem a desativa daqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd rulează această sarcină dintr‑un alt fișier care declară același nume, așa că acest fișier nu este încărcat. Peel nu îl pornește, nu îl oprește, nu îl activează și nu îl dezactivează de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd запускает это задание из другого файла, в котором объявлено то же имя, поэтому этот файл не загружен. Peel не запускает, не останавливает, не включает и не выключает его отсюда."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd kör det här jobbet från en annan fil som anger samma namn, så den här filen är inte inläst. Peel varken startar, stoppar, aktiverar eller avaktiverar det härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd bu işi aynı adı tanımlayan başka bir dosyadan çalıştırıyor, bu yüzden bu dosya yüklü değil. Peel onu buradan başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd виконує це завдання з іншого файлу, який оголошує таку саму назву, тож цей файл не завантажено. Peel не запускає, не зупиняє, не вмикає й не вимикає його звідси."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd从另一个声明了相同名称的文件运行此任务，因此此文件未载入。Peel不会从此处启动、停止、启用或停用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd會從另一個宣告相同名稱的檔案執行此工作，因此這個檔案未載入。Peel不會從這裡啟動、停止、啟用或停用它。"
           }
         }
       }

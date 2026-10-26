@@ -164,13 +164,13 @@ final class HelperService: NSObject, PeelHelperProtocol {
         }
         let target = "system/\(label)"
         // The job's file is found by the `Label` inside it, since a file's name does not always match its label.
-        let plist = command == .bootstrap ? SystemDaemons.file(declaring: label) : nil
-        if command == .bootstrap, plist == nil {
-            reply(HelperRefusal.missingConfiguration.rawValue)
+        let plists = command == .bootstrap ? SystemDaemons.files(declaring: label) : []
+        if command == .bootstrap, plists.count != 1 {
+            reply((plists.isEmpty ? HelperRefusal.missingConfiguration : .declaredTwice).rawValue)
             return
         }
         let arguments = switch command {
-        case .bootstrap: ["bootstrap", "system", plist ?? ""]
+        case .bootstrap: ["bootstrap", "system", plists[0]]
         case .bootout: ["bootout", target]
         case .kickstart: ["kickstart", target]
         case .enable: ["enable", target]
