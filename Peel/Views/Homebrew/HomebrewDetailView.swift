@@ -123,6 +123,9 @@ struct HomebrewDetailView: View {
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 } else {
+                    if package.isMissingWhatItInstalled {
+                        RemovalsHeldBanner()
+                    }
                     HStack {
                         if package.isMissingWhatItInstalled {
                             Button("Forget Cask") { casksToForget = [package] }
@@ -175,7 +178,6 @@ struct HomebrewDetailView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-            
                 }
             }
 

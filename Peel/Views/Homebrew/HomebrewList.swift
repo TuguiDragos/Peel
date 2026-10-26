@@ -514,6 +514,7 @@ struct HomebrewList: View {
     private func alreadyGone(_ casks: [HomebrewPackage]) -> some View {
         if !casks.isEmpty {
             Section {
+                RemovalsHeldBanner()
                 ForEach(casks) { cask in
                     VStack(alignment: .leading, spacing: 1) {
                         Text(verbatim: cask.name)
