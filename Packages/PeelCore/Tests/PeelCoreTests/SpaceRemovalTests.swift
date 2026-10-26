@@ -11,7 +11,7 @@ struct SpaceRemovalTests {
             id: "caches",
             category: .library,
             urls: [directory.url.appending(path: "home/Library/Caches", directoryHint: .isDirectory)],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash
         )
     }
@@ -36,7 +36,7 @@ struct SpaceRemovalTests {
                 closed,
                 directory.url.appending(path: "home/Library/Missing", directoryHint: .isDirectory),
             ],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash
         )
         try directory.setPermissions(0o000, of: "home/Library/Logs")
@@ -58,7 +58,7 @@ struct SpaceRemovalTests {
             id: "virtual-machines",
             category: .virtualMachines,
             urls: [directory.url.appending(path: "home/Library/Containers/org.example.vm/Data/vms", directoryHint: .isDirectory)],
-            size: 64,
+            size: SizeTotal(known: 64, isComplete: true),
             handling: .readOnly
         )
 
@@ -82,7 +82,7 @@ struct SpaceRemovalTests {
             id: "logs",
             category: .library,
             urls: [directory.url.appending(path: "home/Library/Logs", directoryHint: .isDirectory)],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash
         )
         try directory.file("home/Library/Logs/JetBrains/idea.log")
@@ -124,7 +124,7 @@ struct SpaceRemovalTests {
             id: "logs",
             category: .library,
             urls: [directory.url.appending(path: "home/Library/Logs", directoryHint: .isDirectory)],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash
         )
         let named = { (urls: [URL]) in
@@ -170,7 +170,7 @@ struct SpaceRemovalTests {
             id: "logs",
             category: .library,
             urls: [directory.url.appending(path: "home/Library/Logs", directoryHint: .isDirectory)],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash
         )
         let names = { (urls: [URL]) in urls.map(\.lastPathComponent).sorted() }
@@ -206,7 +206,7 @@ struct SpaceRemovalTests {
         environment.userCacheDirectory = userCache
         let report = await SpaceInventory.scan(
             home: home, root: directory.url.appending(path: "root"), userCache: userCache, minimumSize: 1,
-            measure: FileSize.measure
+            measure: LeftoverScanner.walk
         )
 
         for id in ["caches", "user-caches", "logs"] {
@@ -243,7 +243,8 @@ struct SpaceRemovalTests {
         var environment = environment(directory)
         environment.userCacheDirectory = userCache
         let caches = SpaceItem(
-            id: "user-caches", category: .library, urls: [userCache], size: 0, handling: .trash, leavesMacOSsOwn: true
+            id: "user-caches", category: .library, urls: [userCache], size: SizeTotal(known: 0, isComplete: true),
+            handling: .trash, leavesMacOSsOwn: true
         )
 
         let plan = await SpaceRemoval.plan(for: caches, environment: environment, running: [:])
@@ -268,7 +269,8 @@ struct SpaceRemovalTests {
         var environment = environment(directory)
         environment.userCacheDirectory = userCache
         let hidden = SpaceItem(
-            id: "user-caches", category: .library, urls: [userCache], size: 0, handling: .trash, leavesMacOSsOwn: true
+            id: "user-caches", category: .library, urls: [userCache], size: SizeTotal(known: 0, isComplete: true),
+            handling: .trash, leavesMacOSsOwn: true
         )
 
         let caches = await SpaceRemoval.plan(for: item(directory), environment: environment, running: [:])
@@ -292,7 +294,7 @@ struct SpaceRemovalTests {
             id: "system-caches",
             category: .library,
             urls: [directory.url.appending(path: "root/Library/Caches", directoryHint: .isDirectory)],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash,
             leavesMacOSsOwn: true
         )
@@ -317,7 +319,7 @@ struct SpaceRemovalTests {
             id: "system-logs",
             category: .library,
             urls: [logs, reports],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash,
             leavesMacOSsOwn: true,
             onlyFilesIn: [reports]
@@ -341,14 +343,14 @@ struct SpaceRemovalTests {
         let report = await SpaceInventory.scan(
             home: directory.url.appending(path: "home", directoryHint: .isDirectory),
             root: directory.url.appending(path: "root", directoryHint: .isDirectory),
-            minimumSize: 1, measure: FileSize.measure
+            minimumSize: 1, measure: LeftoverScanner.walk
         )
         let logs = try #require(report.items.first { $0.id == "logs" })
 
         let plan = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
 
         #expect(plan.removable.map(\.lastPathComponent).sorted() == ["Example_2026-09-28.ips", "org.example.tool"])
-        #expect(logs.size.map { $0 < 12_000 } == true)
+        #expect(logs.size.isComplete && logs.size.known < 12_000)
         let removalGuard = RemovalGuard(environment: environment(directory), exclusions: .none)
         #expect(removalGuard.refusal(of: reports) == .staysItself)
     }
@@ -366,7 +368,7 @@ struct SpaceRemovalTests {
         let report = await SpaceInventory.scan(
             home: directory.url.appending(path: "home", directoryHint: .isDirectory),
             root: directory.url.appending(path: "root", directoryHint: .isDirectory),
-            minimumSize: 1, measure: FileSize.measure
+            minimumSize: 1, measure: LeftoverScanner.walk
         )
         let logs = try #require(report.items.first { $0.id == "homebrew-logs" })
         let folder = try #require(logs.urls.first)
@@ -378,7 +380,7 @@ struct SpaceRemovalTests {
         }
         #expect(offered.sorted() == ["nginx/error.log", "postgresql@17.log", "redis.log"])
         #expect(plan.heldBack.filter { $0.value == .writtenRecently }.map(\.key.lastPathComponent) == ["postgresql@17.log"])
-        #expect(logs.size.map { $0 >= 12_000 && $0 < 16_000 } == true)
+        #expect(logs.size.isComplete && logs.size.known >= 12_000 && logs.size.known < 16_000)
         let removalGuard = RemovalGuard(environment: environment(directory), exclusions: .none)
         #expect(removalGuard.refusal(of: folder) == .staysItself)
     }
@@ -404,7 +406,7 @@ struct SpaceRemovalTests {
             id: "system-caches",
             category: .library,
             urls: [directory.url.appending(path: "root/Library/Caches", directoryHint: .isDirectory)],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash,
             leavesMacOSsOwn: true
         )
@@ -424,7 +426,7 @@ struct SpaceRemovalTests {
             id: "system-caches",
             category: .library,
             urls: [directory.url.appending(path: "root/Library/Caches", directoryHint: .isDirectory)],
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash,
             leavesMacOSsOwn: true
         )
@@ -451,7 +453,7 @@ struct SpaceRemovalTests {
             urls: ["org.example.chat", "org.example.notes", "com.apple.Safari"].map {
                 directory.url.appending(path: "\(containers)/\($0)/Data/Library/Caches", directoryHint: .isDirectory)
             },
-            size: 0,
+            size: SizeTotal(known: 0, isComplete: true),
             handling: .trash
         )
         let notes = URL(filePath: "/Applications/Notes Example.app")
@@ -494,7 +496,7 @@ struct SpaceRemovalTests {
                 let caches = "\(groups)/ABCDE12345.org.example.\(name)/Library/Caches"
                 return directory.url.appending(path: caches, directoryHint: .isDirectory)
             },
-            size: 8_192,
+            size: SizeTotal(known: 8_192, isComplete: true),
             handling: .trash
         )
 
@@ -530,7 +532,7 @@ struct SpaceRemovalTests {
             id: "mail-downloads",
             category: .library,
             urls: downloads.map { directory.url.appending(path: $0, directoryHint: .isDirectory) },
-            size: 8_192,
+            size: SizeTotal(known: 8_192, isComplete: true),
             handling: .trash,
             heldBack: .openedFromMail
         )

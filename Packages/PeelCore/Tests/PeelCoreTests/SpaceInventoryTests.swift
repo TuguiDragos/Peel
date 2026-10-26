@@ -17,7 +17,7 @@ struct SpaceInventoryTests {
                 home: directory.url,
                 root: directory.url,
                 minimumSize: 1,
-                measure: unanswered.measure
+                measure: unanswered.walk
             )
         }
 
@@ -37,14 +37,14 @@ struct SpaceInventoryTests {
 
         let report = await SpaceInventory.scan(
             home: directory.url.appending(path: "home"), root: directory.url.appending(path: "root"),
-            userCache: userCache, minimumSize: 1, measure: FileSize.measure
+            userCache: userCache, minimumSize: 1, measure: LeftoverScanner.walk
         )
 
         let item = try #require(report.items.first { $0.id == "user-caches" })
         #expect(item.urls == [userCache])
         #expect(item.handling == .trash)
         #expect(item.leavesMacOSsOwn)
-        #expect(item.size != nil, "what macOS keeps was measured")
+        #expect(item.size.isComplete, "what macOS keeps was measured")
     }
 
     @Test func reportsOnlyWhatIsBigEnough() async throws {
@@ -54,13 +54,13 @@ struct SpaceInventoryTests {
 
         let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
         let report = await SpaceInventory.scan(
-            home: directory.url, root: root, minimumSize: 100_000, measure: FileSize.measure
+            home: directory.url, root: root, minimumSize: 100_000, measure: LeftoverScanner.walk
         )
         #expect(report.items.map(\.id) == ["logs"])
         #expect(report.items.first?.handling == .trash)
 
         let everything = await SpaceInventory.scan(
-            home: directory.url, root: root, minimumSize: 1, measure: FileSize.measure
+            home: directory.url, root: root, minimumSize: 1, measure: LeftoverScanner.walk
         )
         #expect(Set(everything.items.map(\.id)) == ["logs", "colima"])
     }
@@ -74,12 +74,12 @@ struct SpaceInventoryTests {
 
         let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
         let report = await SpaceInventory.scan(home: directory.url, root: root, minimumSize: 100_000) { url in
-            url.lastPathComponent == "Caches" ? nil : await FileSize.reclaimableSize(of: url, within: FileSize.budget)
+            url.lastPathComponent == "Caches" ? nil : await FileSize.contents(of: url)
         }
 
         #expect(report.items.map(\.id) == ["caches", "logs"])
-        #expect(report.items.first?.size == nil)
-        #expect(try #require(report.items.last?.size) >= 400_000)
+        #expect(report.items.first?.size.reading == .unknown)
+        #expect(report.items.last.map { $0.size.isComplete && $0.size.known >= 400_000 } == true)
     }
 
     /// Without Full Disk Access some areas are refused, and a refused one is kept like one that ran out of time.
@@ -93,10 +93,10 @@ struct SpaceInventoryTests {
             home: directory.url.appending(path: "home", directoryHint: .isDirectory),
             root: directory.url.appending(path: "root", directoryHint: .isDirectory),
             minimumSize: 100_000,
-            measure: FileSize.measure
+            measure: LeftoverScanner.walk
         )
         #expect(report.items.map(\.id) == ["logs"])
-        #expect(report.items.first?.size == nil)
+        #expect(report.items.first?.size.reading == .unknown)
         #expect(!report.needsFullDiskAccess, "ordinary permissions were read as a refusal Full Disk Access would lift")
     }
 
@@ -110,10 +110,48 @@ struct SpaceInventoryTests {
             home: directory.url.appending(path: "home", directoryHint: .isDirectory),
             root: directory.url.appending(path: "root", directoryHint: .isDirectory),
             minimumSize: 100_000,
-            measure: FileSize.measure
+            measure: LeftoverScanner.walk
         )
         #expect(report.items.map(\.id) == ["system-logs"])
-        #expect(report.items.first?.size == nil)
+        #expect(report.items.first?.size.reading == .unknown)
+    }
+
+    @Test(.permissionsHold) func keepsWhatItMeasuredBesideAFolderItCannotOpen() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Logs/org.example.tool/run.log", bytes: 400_000)
+        try directory.file("root/Library/Logs/DiagnosticReports/org.example.tool.ips", bytes: 16)
+        try directory.setPermissions(0, of: "root/Library/Logs/DiagnosticReports")
+        defer { try? directory.setPermissions(0o755, of: "root/Library/Logs/DiagnosticReports") }
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 100_000,
+            measure: LeftoverScanner.walk
+        )
+
+        let logs = try #require(report.items.first { $0.id == "system-logs" })
+        #expect(!logs.size.isComplete)
+        #expect(logs.size.known >= 400_000)
+    }
+
+    @Test(.permissionsHold) func keepsWhatItSawInAFolderItCouldNotReadAllThrough() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.app/blob", bytes: 400_000)
+        try directory.file("home/Library/Caches/org.example.app/closed/blob", bytes: 16)
+        try directory.setPermissions(0, of: "home/Library/Caches/org.example.app/closed")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Caches/org.example.app/closed") }
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 100_000,
+            measure: LeftoverScanner.walk
+        )
+
+        let caches = try #require(report.items.first { $0.id == "caches" })
+        #expect(!caches.size.isComplete)
+        #expect(caches.size.known >= 400_000)
     }
 
     @Test func leavesOutWhatIsExcludedAndWhatItHolds() async throws {
@@ -127,13 +165,14 @@ struct SpaceInventoryTests {
         ])
 
         let report = await SpaceInventory.scan(
-            home: directory.url, root: directory.url, minimumSize: 1, exclusions: exclusions, measure: FileSize.measure
+            home: directory.url, root: directory.url, minimumSize: 1, exclusions: exclusions,
+            measure: LeftoverScanner.walk
         )
 
         #expect(!report.items.contains { $0.id == "parallels" })
         let caches = try #require(report.items.first { $0.id == "caches" })
         let kept = await FileSize.reclaimableSize(of: directory.url.appending(path: "Library/Caches/org.example.kept"))
-        #expect(caches.size == kept)
+        #expect(caches.size == SizeTotal([kept]))
     }
 
     @Test func leavesOutWhatAnExcludedAppKeepsInItsOwnFolders() async throws {
@@ -144,12 +183,12 @@ struct SpaceInventoryTests {
 
         let report = await SpaceInventory.scan(
             home: directory.url, root: directory.url, minimumSize: 1,
-            exclusions: Exclusions(bundleIdentifiers: ["org.example.Notes"]), measure: FileSize.measure
+            exclusions: Exclusions(bundleIdentifiers: ["org.example.Notes"]), measure: LeftoverScanner.walk
         )
 
         let caches = try #require(report.items.first { $0.id == "caches" })
         let kept = await FileSize.reclaimableSize(of: directory.url.appending(path: "Library/Caches/org.example.kept"))
-        #expect(caches.size == kept)
+        #expect(caches.size == SizeTotal([kept]))
         #expect(!report.items.flatMap(\.urls).contains { $0.path(percentEncoded: false).contains("org.example.Notes") })
     }
 
@@ -162,10 +201,10 @@ struct SpaceInventoryTests {
         let report = await SpaceInventory.scan(
             home: directory.url, root: directory.url, minimumSize: 1, exclusions: Exclusions(paths: [excluded])
         ) { url in
-            url.lastPathComponent == excluded.lastPathComponent ? nil : await FileSize.measure(url)
+            url.lastPathComponent == excluded.lastPathComponent ? nil : await LeftoverScanner.walk(url)
         }
 
-        #expect(report.items.first { $0.id == "caches" }?.size == nil)
+        #expect(report.items.first { $0.id == "caches" }?.size.reading == .unknown)
     }
 
     @Test func leavesWhatOthersOwnToThem() async throws {
@@ -176,7 +215,7 @@ struct SpaceInventoryTests {
             home: directory.url,
             root: directory.url,
             minimumSize: 1,
-            measure: FileSize.measure
+            measure: LeftoverScanner.walk
         )
         let machines = try #require(report.items.first { $0.id == "colima" })
         #expect(machines.isReadOnly)
@@ -192,7 +231,7 @@ struct SpaceInventoryTests {
             home: directory.url,
             root: directory.url,
             minimumSize: 100_000,
-            measure: FileSize.measure
+            measure: LeftoverScanner.walk
         )
         #expect(report.items.map(\.id) == ["wallpapers"])
     }
@@ -209,7 +248,7 @@ struct SpaceInventoryTests {
             home: directory.url,
             root: directory.url,
             minimumSize: 100_000,
-            measure: FileSize.measure
+            measure: LeftoverScanner.walk
         )
         let simulators = try #require(report.items.first { $0.id == "simulators" })
         let paths = simulators.urls.map { $0.lastPathComponent }
@@ -232,7 +271,7 @@ struct SpaceInventoryTests {
         )
 
         let report = await SpaceInventory.scan(
-            home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure
+            home: directory.url, root: directory.url, minimumSize: 1, measure: LeftoverScanner.walk
         )
 
         let folders = { (id: String) in
@@ -250,7 +289,7 @@ struct SpaceInventoryTests {
         try directory.file("\(container)/5A1F/Plan.pages", bytes: 8_000)
 
         let report = await SpaceInventory.scan(
-            home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure
+            home: directory.url, root: directory.url, minimumSize: 1, measure: LeftoverScanner.walk
         )
 
         let attachments = try #require(report.items.first { $0.id == "mail-downloads" })
@@ -269,7 +308,7 @@ struct SpaceInventoryTests {
         try directory.file("Library/Containers/org.example.chat/Data/tmp/upload.part", bytes: 8_000)
 
         let report = await SpaceInventory.scan(
-            home: directory.url, root: directory.url, minimumSize: 1, measure: FileSize.measure
+            home: directory.url, root: directory.url, minimumSize: 1, measure: LeftoverScanner.walk
         )
 
         let folders = report.items.first { $0.id == "container-caches" }?.urls
@@ -284,7 +323,7 @@ struct SpaceInventoryTests {
         let report = await SpaceInventory.scan(
             home: directory.url.appending(path: "home", directoryHint: .isDirectory),
             root: directory.url.appending(path: "root", directoryHint: .isDirectory),
-            minimumSize: 1, measure: FileSize.measure
+            minimumSize: 1, measure: LeftoverScanner.walk
         )
 
         let cache = try #require(report.items.first { $0.id == "battlenet-cache" })
@@ -304,14 +343,14 @@ struct SpaceInventoryTests {
         let report = await SpaceInventory.scan(
             home: directory.url.appending(path: "home", directoryHint: .isDirectory),
             root: directory.url.appending(path: "root", directoryHint: .isDirectory),
-            minimumSize: 1, measure: FileSize.measure
+            minimumSize: 1, measure: LeftoverScanner.walk
         )
 
         let caches = try #require(report.items.first { $0.id == "system-caches" })
         #expect(caches.urls.map { $0.pathComponents.suffix(2).joined(separator: "/") } == ["Library/Caches"])
         #expect(caches.handling == .trash)
         #expect(caches.leavesMacOSsOwn)
-        #expect(caches.size.map { $0 >= 8_000 && $0 < 50_000 } == true)
+        #expect(caches.size.isComplete && caches.size.known >= 8_000 && caches.size.known < 50_000)
     }
 
     /// The logs every account shares are measured without what macOS writes there for its own services, and the
@@ -326,14 +365,14 @@ struct SpaceInventoryTests {
         let report = await SpaceInventory.scan(
             home: directory.url.appending(path: "home", directoryHint: .isDirectory),
             root: directory.url.appending(path: "root", directoryHint: .isDirectory),
-            minimumSize: 1, measure: FileSize.measure
+            minimumSize: 1, measure: LeftoverScanner.walk
         )
 
         let logs = try #require(report.items.first { $0.id == "system-logs" })
         #expect(logs.urls.map { $0.pathComponents.suffix(2).joined(separator: "/") } == [
             "Library/Logs", "Logs/DiagnosticReports",
         ])
-        #expect(logs.size.map { $0 >= 12_000 && $0 < 50_000 } == true)
+        #expect(logs.size.isComplete && logs.size.known >= 12_000 && logs.size.known < 50_000)
     }
 
     @Test func findsEveryPlaceOfEveryAreaItKnows() async throws {
@@ -350,7 +389,7 @@ struct SpaceInventoryTests {
             }
         }
 
-        let report = await SpaceInventory.scan(home: home, root: root, minimumSize: 1, measure: FileSize.measure)
+        let report = await SpaceInventory.scan(home: home, root: root, minimumSize: 1, measure: LeftoverScanner.walk)
 
         let inside = directory.url.lastPathComponent + "/"
         let places = report.items.flatMap { item in
@@ -409,7 +448,7 @@ struct SpaceInventoryTests {
 
         func commands(_ help: String?) async throws -> [String] {
             let report = await SpaceInventory.scan(
-                home: directory.url, root: directory.url, minimumSize: 0, measure: FileSize.measure,
+                home: directory.url, root: directory.url, minimumSize: 0, measure: LeftoverScanner.walk,
                 simctlRuntimeHelp: { help }
             )
             return try #require(report.items.first { $0.id == "simulators" }).commands
@@ -473,7 +512,8 @@ struct SpaceInventoryTests {
                 handling: .readOnly,
                 managedBy: identifiers.map { .init(identifiers: $0, leftBehind: .holdsWorkMadeWithTheApp) }
             )
-            return SpaceInventory.item(area, urls: [], size: 0, home: home, root: home, simctlRuntimeHelp: nil)
+            let size = SizeTotal(known: 0, isComplete: true)
+            return SpaceInventory.item(area, urls: [], size: size, home: home, root: home, simctlRuntimeHelp: nil)
         }
 
         #expect(item(managedBy: ["org.example.gone"]).managingAppIsMissing)
@@ -487,7 +527,7 @@ struct SpaceInventoryTests {
         try directory.file("Library/Android/sdk/ndk/27.2.12479018/source.properties", bytes: 400_000)
 
         let report = await SpaceInventory.scan(
-            home: directory.url, root: directory.url, minimumSize: 100_000, measure: FileSize.measure
+            home: directory.url, root: directory.url, minimumSize: 100_000, measure: LeftoverScanner.walk
         )
 
         let rust = try #require(report.items.first { $0.id == "rust-toolchains" })

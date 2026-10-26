@@ -64,7 +64,7 @@ extension HomebrewLibrary {
 
 extension SpaceLibrary {
     var looked: Looked? {
-        report.map { Looked(count: $0.items.count, size: SizeTotal($0.items.map(\.size))) }
+        report.map { Looked(count: $0.items.count, size: SizeTotal(combining: $0.items.map(\.size))) }
     }
 }
 

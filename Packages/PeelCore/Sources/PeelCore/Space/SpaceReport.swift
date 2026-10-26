@@ -23,8 +23,9 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public let id: String
     public let category: Category
     public let urls: [URL]
-    /// Nil when measuring one of its folders ran out of time or was refused. Unknown is not the same as empty.
-    public let size: Int64?
+    /// What its folders take: the least it can be when one of them ran out of time or couldn't be read all through.
+    /// Unknown is not the same as empty.
+    public let size: SizeTotal
     public let handling: Handling
     /// Why nothing in this area is recommended, whatever each item holds.
     public var heldBack: HoldBack?
@@ -400,24 +401,34 @@ public enum SpaceInventory {
         ),
     ]
 
-    /// The total size of `urls` less what is excluded inside them, or nil when any of it could not be measured. A
-    /// folder a file provider owns can stall a directory read for minutes, and a very big folder can run out of
-    /// time as well. An area with an unknown size is still listed, since it may be the biggest one on the disk.
+    /// The total size of `urls` less what is excluded inside them. A folder read only in part counts what was seen; one
+    /// that ran out of time (a file provider can stall a read for minutes), or holds an excluded place that did, is
+    /// unknown. An area whose size isn't all known is still listed, since it may be the biggest one.
     private static func size(
         of urls: [URL],
         leaving exclusions: Exclusions,
-        measure: @escaping FileSize.Measure
-    ) async -> Int64? {
-        var total: Int64 = 0
+        measure: @escaping LeftoverScanner.Measure
+    ) async -> SizeTotal {
+        var parts: [SizeTotal] = []
         for url in urls {
-            guard var measured = await measure(url) else { return nil }
-            for place in exclusions.places(inside: url) where !place.isMissing {
-                guard let excluded = await measure(place) else { return nil }
-                measured -= excluded
+            // A stopped scan asks about nothing more.
+            guard !Task.isCancelled else { return SizeTotal(known: 0, isComplete: false) }
+            guard let contents = await measure(url) else {
+                parts.append(SizeTotal(known: 0, isComplete: false))
+                continue
             }
-            total += max(0, measured)
+            var known = contents.size
+            var isComplete = !contents.couldNotBeRead
+            for place in exclusions.places(inside: url) where !place.isMissing {
+                guard let excluded = await measure(place), !excluded.couldNotBeRead else {
+                    (known, isComplete) = (0, false)
+                    break
+                }
+                known -= excluded.size
+            }
+            parts.append(SizeTotal(known: max(0, known), isComplete: isComplete))
         }
-        return total
+        return SizeTotal(combining: parts)
     }
 
     /// The folders Space empties. Each stays itself, since Space moves what is inside, never the folder.
@@ -495,7 +506,7 @@ public enum SpaceInventory {
             userCache: environment.userCacheDirectory,
             minimumSize: minimumSize,
             exclusions: exclusions,
-            measure: FileSize.measure
+            measure: LeftoverScanner.walk
         )
     }
 
@@ -507,7 +518,7 @@ public enum SpaceInventory {
         userCache: URL? = nil,
         minimumSize: Int64,
         exclusions: Exclusions = .none,
-        measure: @escaping FileSize.Measure,
+        measure: @escaping LeftoverScanner.Measure,
         simctlRuntimeHelp: @escaping @Sendable () async -> String? = { await Simctl.runtimeHelp() }
     ) async -> SpaceReport {
         let containers = appContainers(in: home)
@@ -530,8 +541,8 @@ public enum SpaceInventory {
         // Four areas are measured at a time. One after another, the wait would be the sum of them all, and a
         // folder that never answers would delay every area after it by its whole budget. Four leaves room for
         // the rest of the app.
-        var measured: [(definition: Definition, urls: [URL], size: Int64?)] = []
-        await withTaskGroup(of: (Definition, [URL], Int64?).self) { group in
+        var measured: [(definition: Definition, urls: [URL], size: SizeTotal)] = []
+        await withTaskGroup(of: (Definition, [URL], SizeTotal).self) { group in
             var pending = wanted.makeIterator()
             func addNext() -> Bool {
                 guard !Task.isCancelled, let (definition, urls) = pending.next() else { return false }
@@ -548,16 +559,17 @@ public enum SpaceInventory {
             }
         }
         let help = await simctlHelp
-        let items = measured.filter { $0.size.map { $0 >= minimumSize } ?? true }.map { definition, urls, size in
+        let shown = measured.filter { !$0.size.isComplete || $0.size.known >= minimumSize }
+        let items = shown.map { definition, urls, size in
             item(definition, urls: urls, size: size, home: home, root: root, simctlRuntimeHelp: help)
         }
 
         return SpaceReport(
             // An unknown size sorts first: an area that ran out of time is most likely one of the biggest.
-            items: items.sorted { ($0.size ?? .max) > ($1.size ?? .max) },
+            items: items.sorted { $1.size < $0.size },
             snapshots: await LocalSnapshots.list(),
             needsFullDiskAccess: items.contains {
-                $0.size == nil && $0.urls.contains { FullDiskAccess.canList($0) == .missing }
+                !$0.size.isComplete && $0.urls.contains { FullDiskAccess.canList($0) == .missing }
             }
         )
     }
@@ -565,7 +577,7 @@ public enum SpaceInventory {
     static func item(
         _ definition: Definition,
         urls: [URL],
-        size: Int64?,
+        size: SizeTotal,
         home: URL,
         root: URL,
         simctlRuntimeHelp help: String?

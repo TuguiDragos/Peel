@@ -247,7 +247,7 @@ private struct SpaceRow: View {
                 Text("Managed by its own app")
             }
         } trailing: {
-            Text(item.size.byteCount)
+            Text(item.size.text)
                 .rowFigure()
         }
     }

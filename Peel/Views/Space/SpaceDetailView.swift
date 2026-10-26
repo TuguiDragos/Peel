@@ -180,8 +180,8 @@ struct SpaceDetailView: View {
                     ?? folder.lastPathComponent
             }
             .formatted(.list(type: .and))
-        let title: Text = if let size = item.size, total.reading != .unknown {
-            Text("\(total.text) of \(size.byteCount) can be moved here.")
+        let title: Text = if item.size.isComplete, total.reading != .unknown {
+            Text("\(total.text) of \(item.size.known.byteCount) can be moved here.")
         } else {
             Text("Part of this folder is left to the Developer page.")
         }
@@ -217,7 +217,7 @@ struct SpaceDetailView: View {
 
     /// The size of the item's folders until the plan is ready, then the size of what can be moved to the Trash.
     private var total: SizeTotal {
-        guard let plan else { return SizeTotal([item.size]) }
+        guard let plan else { return item.size }
         return SizeTotal(plan.removable.map { plan.sizes[$0] } + plan.unreadable.map { _ -> Int64? in nil })
     }
 
