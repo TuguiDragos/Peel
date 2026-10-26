@@ -69,6 +69,26 @@ struct SpaceRemovalTests {
         #expect(now.removable.isEmpty)
     }
 
+    @Test func seesWhatTheAreaHoldsFromTheSameMomentAsWhatItMoves() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.gone.app/old.db", bytes: 4_000)
+        try directory.file("home/Library/Caches/com.spotify.client/audio.db", bytes: 8_000)
+        try directory.file("home/Library/Caches/Coursier/v1/https/repo.jar", bytes: 16_000)
+        var plan = await SpaceRemoval.plan(
+            for: item(directory), environment: environment(directory), running: ["comspotifyclient": "Spotify"]
+        )
+        #expect(plan.seen == nil)
+
+        plan.developerSizes = await SpaceRemoval.sizesLeftToDeveloper(in: plan)
+        plan.keptSizes = await SpaceRemoval.sizesKeptInPlace(in: plan)
+
+        #expect(plan.keptSizes?.keys.map(\.lastPathComponent) == ["com.spotify.client"])
+        let seen = try #require(plan.seen)
+        #expect(seen.isComplete && seen.known >= 28_000)
+        plan.unreadable = [directory.url.appending(path: "home/Library/Caches/org.example.closed")]
+        #expect(plan.seen?.isComplete == false)
+    }
+
     /// Space moves each folder inside Caches whole, but Coursier's folder holds the JVMs that `JAVA_HOME` points
     /// at, and Poetry's holds its virtual environments. Only Developer knows which part of such a folder is a cache.
     @Test func leavesToDeveloperEveryFolderDeveloperListsSomethingInside() async throws {

@@ -180,8 +180,8 @@ struct SpaceDetailView: View {
                     ?? folder.lastPathComponent
             }
             .formatted(.list(type: .and))
-        let title: Text = if item.size.isComplete, total.reading != .unknown {
-            Text("\(total.text) of \(item.size.known.byteCount) can be moved here.")
+        let title: Text = if let seen = plan.seen, seen.isComplete, total.reading != .unknown {
+            Text("\(total.text) of \(seen.known.byteCount) can be moved here.")
         } else {
             Text("Part of this folder is left to the Developer page.")
         }

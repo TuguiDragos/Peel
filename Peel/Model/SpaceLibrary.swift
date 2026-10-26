@@ -52,12 +52,15 @@ final class SpaceLibrary: RowSelection {
     }
 
     /// Measures the folders the area's plan leaves to Developer once its list is shown, since only the page's notice
-    /// reads their sizes. A plan made again meanwhile takes them only if it leaves the same folders.
+    /// reads their sizes, and with them those it keeps in place, so the notice says what the area holds now. A plan
+    /// made again meanwhile takes them only if it leaves the same folders.
     private func measureWhatIsLeftToDeveloper(in item: SpaceItem) async {
         guard let plan = plans[item.id], !plan.leftToDeveloper.isEmpty else { return }
         let sizes = await SpaceRemoval.sizesLeftToDeveloper(in: plan)
+        let keptSizes = await SpaceRemoval.sizesKeptInPlace(in: plan)
         guard !Task.isCancelled, plans[item.id]?.leftToDeveloper == plan.leftToDeveloper else { return }
         plans[item.id]?.developerSizes = sizes
+        plans[item.id]?.keptSizes = keptSizes
     }
 
     private func newPlan(for item: SpaceItem) async -> (plan: SpaceRemoval.Plan, exclusions: Int) {
@@ -76,6 +79,7 @@ final class SpaceLibrary: RowSelection {
         // The sizes measured for the same folders stand until they are measured again, so the page's notice holds.
         if let previous, previous.leftToDeveloper == plan.leftToDeveloper {
             plan.developerSizes = previous.developerSizes
+            plan.keptSizes = previous.keptSizes
         }
         let chosen = plan.selection(keeping: selectedURLs, canUseHelper: canUseHelper)
         selectedURLs.subtract(previous?.removable ?? [])
