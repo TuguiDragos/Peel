@@ -114,6 +114,20 @@ struct OrphanScannerTests {
         )
     }
 
+    @Test(.permissionsHold) func aContainerPeelCannotLookIntoIsCountedAsNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let closed = try directory.directory("home/Library/Containers/org.example.closed")
+        try directory.file("home/Library/Containers/org.example.closed/Data/data.db")
+        try directory.file("home/Library/Containers/org.example.open/Data/data.db")
+        try directory.setPermissions(0o000, of: closed)
+        defer { try? directory.setPermissions(0o755, of: closed) }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.map(\.identifier) == ["org.example.open"])
+        #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["org.example.closed"])
+    }
+
     @Test func aSystemExtensionACopyOfWhichMacOSKeepsIsLeftToMacOS() async throws {
         let directory = try TemporaryDirectory()
         let kept = try directory.directory("root/Library/SystemExtensions/5DF88A99/org.example.mixer.camera.systemextension")

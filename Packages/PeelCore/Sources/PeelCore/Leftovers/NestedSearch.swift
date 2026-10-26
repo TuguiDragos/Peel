@@ -12,6 +12,8 @@ enum NestedSearch {
         case take(Item)
         /// The entry is a folder to list in turn.
         case lookInside
+        /// The entry may be one of the things searched for, but it couldn't be looked into to tell.
+        case notKnown
         case pass
     }
 
@@ -81,6 +83,7 @@ enum NestedSearch {
                     switch await visit(entry, name, parent, level + 1 < depth) {
                     case .take(let item): findings.found.append(item)
                     case .lookInside: deeper.append(entry)
+                    case .notKnown: findings.unreadable.append(entry)
                     case .pass: break
                     }
                 }

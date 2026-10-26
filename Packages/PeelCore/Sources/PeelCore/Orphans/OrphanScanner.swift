@@ -436,9 +436,13 @@ public struct OrphanScanner: Sendable {
                     kind: item.kind,
                     goneNames: [item.url.lastPathComponent.lowercased(): app],
                     ownership: ownership
-                ) != nil
+                ) == .listed(app)
+            } else if case .listed = await Self.orphanIdentifier(
+                of: item.url, kind: item.kind, ownership: ownership, jobs: jobs
+            ) {
+                true
             } else {
-                await Self.orphanIdentifier(of: item.url, kind: item.kind, ownership: ownership, jobs: jobs) != nil
+                false
             }
             if isStillOrphaned { kept.append(item) }
         }
@@ -513,16 +517,15 @@ public struct OrphanScanner: Sendable {
         return Identifier.isReverseDNS(key) ? key : identifier
     }
 
-    /// Whether the folder holds an item that an installed app claims. Crash reporters and other shared libraries
-    /// keep one folder per app inside their own, so a folder named after nobody can still hold an app's files.
-    /// A folder that did not answer in time, or that macOS will not list, counts as holding one, so it is never
-    /// reported as nobody's.
+    /// Whether the folder holds an item that an installed app claims, or nil when it didn't answer in time or macOS
+    /// won't list it. Crash reporters and other shared libraries keep one folder per app inside their own, so a folder
+    /// named after nobody can still hold an app's files.
     static func holdsFilesOfAnInstalledApp(
         _ url: URL,
         kind: SearchLocation.Kind,
         ownership: AppOwnership
-    ) async -> Bool {
-        guard let names = await SlowRead.names(in: url) else { return true }
+    ) async -> Bool? {
+        guard let names = await SlowRead.names(in: url) else { return nil }
         return names.contains { name in
             let key = LeftoverMatcher.key(from: name, kind: kind)
             guard let identifier = orphanIdentifier(forKey: key, kind: kind) else { return false }
@@ -566,9 +569,17 @@ public struct OrphanScanner: Sendable {
         return bundle.isMissing && !bundle.isOnADiskNotConnected ? bundle : nil
     }
 
-    /// The identifier an item is listed under, or nil when it must not be listed. A link is named for its tool,
-    /// so it is listed under the app it leads into: the identifier Peel remembers for that path, or the app's name.
-    /// With `goneApps`, only an identifier that came with one of those apps is listed (`cameWithAnAppThatLeft`).
+    /// What Orphaned Files makes of an item: listed under an identifier, left out, or not known, for a folder that may
+    /// hold an installed app's files and that Peel couldn't look into.
+    enum Listing: Equatable {
+        case listed(String)
+        case notListed
+        case notKnown
+    }
+
+    /// How an item is listed. A link is named for its tool, so it is listed under the app it leads into: the
+    /// identifier Peel remembers for that path, or the app's name. With `goneApps`, only an identifier that came with
+    /// one of those apps is listed (`cameWithAnAppThatLeft`).
     private static func orphanIdentifier(
         of url: URL,
         kind: SearchLocation.Kind,
@@ -576,11 +587,12 @@ public struct OrphanScanner: Sendable {
         jobs: BackgroundItemOwnership,
         goneBundles: [String: String] = [:],
         cameWithOneOf goneApps: [String]? = nil
-    ) async -> String? {
+    ) async -> Listing {
         if kind.isForLinks {
-            guard let bundle = goneApp(behind: url) else { return nil }
-            return goneBundles[PathPattern.comparablePath(of: bundle)]
-                ?? bundle.deletingPathExtension().lastPathComponent
+            guard let bundle = goneApp(behind: url) else { return .notListed }
+            return .listed(
+                goneBundles[PathPattern.comparablePath(of: bundle)] ?? bundle.deletingPathExtension().lastPathComponent
+            )
         }
         let name = url.lastPathComponent
         guard
@@ -591,10 +603,13 @@ public struct OrphanScanner: Sendable {
             goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),
             !jobs.ownsItem(named: identifier),
-            await !holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership),
             !isStillAJob(url, kind: kind, jobs: jobs)
-        else { return nil }
-        return identifier
+        else { return .notListed }
+        switch await holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership) {
+        case false?: return .listed(identifier)
+        case true?: return .notListed
+        case nil: return .notKnown
+        }
     }
 
     /// The gone app whose own product file named `url` for its data, while no installed app has a claim on it.
@@ -622,15 +637,19 @@ public struct OrphanScanner: Sendable {
         kind: SearchLocation.Kind,
         goneNames: [String: String],
         ownership: AppOwnership
-    ) async -> String? {
+    ) async -> Listing {
         let name = url.lastPathComponent
         guard
             namedPlaces.contains(kind), !isSensitive(fileName: name), !SystemFolders.keeps(name, in: kind),
             let app = goneNames[name.lowercased()],
             !ownership.isClaimed(fileName: name, kind: kind, identifier: app),
             !ownership.anInstalledAppsNameHolds(fileName: name, kind: kind)
-        else { return nil }
-        return await holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership) ? nil : app
+        else { return .notListed }
+        switch await holdsFilesOfAnInstalledApp(url, kind: kind, ownership: ownership) {
+        case false?: return .listed(app)
+        case true?: return .notListed
+        case nil: return .notKnown
+        }
     }
 
     /// Whether a plug-in or a framework came with an app Peel saw go: its identifier is that app's, extends it, or
@@ -689,6 +708,7 @@ public struct OrphanScanner: Sendable {
         let parent = ParentAccess(location.url)
         var candidates: [Candidate] = []
         var nobodysFolders: [URL] = []
+        var notLookedInto: [URL] = []
         for name in entries where location.considers(fileName: name) {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
@@ -701,7 +721,7 @@ public struct OrphanScanner: Sendable {
                 continue
             }
             var namedAfter: String?
-            var identifier = await orphanIdentifier(
+            var listing = await orphanIdentifier(
                 of: url,
                 kind: location.kind,
                 ownership: ownership,
@@ -709,14 +729,19 @@ public struct OrphanScanner: Sendable {
                 goneBundles: goneBundles,
                 cameWithOneOf: location.kind.isLoadedCode ? goneApps : nil
             )
-            if identifier == nil {
-                namedAfter = await goneApp(named: url, kind: location.kind, goneNames: goneNames, ownership: ownership)
-                identifier = namedAfter
+            if listing == .notListed {
+                listing = await goneApp(named: url, kind: location.kind, goneNames: goneNames, ownership: ownership)
+                if case .listed(let app) = listing { namedAfter = app }
             }
-            if let identifier {
+            switch listing {
+            case .listed(let identifier):
                 candidates.append(Candidate(url: url, identifier: identifier, namedAfter: namedAfter, parent: parent))
-            } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !exclusions.excludes(url) {
-                nobodysFolders.append(url)
+            case .notKnown:
+                notLookedInto.append(url)
+            case .notListed:
+                if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !exclusions.excludes(url) {
+                    nobodysFolders.append(url)
+                }
             }
         }
 
@@ -733,12 +758,13 @@ public struct OrphanScanner: Sendable {
             if let named = goneApp(owningFolder: url, kind: location.kind, among: goneFolders, ownership: ownership) {
                 return .take(Candidate(url: url, identifier: named.identifier, parent: parent, folder: named.folder))
             }
-            if let identifier = await orphanIdentifier(
+            switch await orphanIdentifier(
                 of: url, kind: location.kind, ownership: ownership, jobs: jobs, cameWithOneOf: goneApps
             ) {
-                return .take(Candidate(url: url, identifier: identifier, parent: parent))
+            case .listed(let identifier): return .take(Candidate(url: url, identifier: identifier, parent: parent))
+            case .notKnown: return .notKnown
+            case .notListed: return canLookInside && url.isRealFolder ? .lookInside : .pass
             }
-            return canLookInside && url.isRealFolder ? .lookInside : .pass
         }
         candidates += inside.found
 
@@ -758,7 +784,7 @@ public struct OrphanScanner: Sendable {
         return .found(
             found,
             cutShort: inside.wasCutShort ? location : nil,
-            unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }
+            unreadable: (notLookedInto + inside.unreadable).map { SearchLocation(kind: location.kind, url: $0) }
         )
     }
 
