@@ -627,6 +627,25 @@ struct TrashServiceTests {
         #expect(lockedFolder == .folderLocked)
     }
 
+    @Test(.permissionsHold) func saysWhenTheFolderAnItemGoesBackToIsGoneAndOnlyTheHelperCouldMakeIt() throws {
+        let directory = try TemporaryDirectory()
+        let support = try directory.directory("root/Library/Application Support")
+        let trashed = try directory.file("home/.Trash/item.txt", bytes: 1)
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            )
+        ) { $0 }
+        let item = TrashedItem(
+            originalURL: support.appending(path: "Vendor/Product/item.txt"), trashedURL: trashed, date: .now
+        )
+        try directory.setPermissions(0o555, of: support)
+        defer { try? directory.setPermissions(0o755, of: support) }
+
+        #expect(service.refusal(ofPuttingBack: item, canUseHelper: true) == .folderGone)
+    }
+
     @Test(.permissionsHold) func leavesToTheHelperAWayBackOnlyRootCanLookInto() throws {
         let directory = try TemporaryDirectory()
         let vendor = try directory.directory("root/Library/Application Support/Vendor")

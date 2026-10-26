@@ -241,6 +241,8 @@ extension RestoreFailure {
         case .notInATrash: "it isn't in the Trash where Peel put it"
         case .locked: "it is locked; unlock it in Finder's Get Info"
         case .folderLocked: "the folder it goes back to is locked; unlock it in Finder's Get Info"
+        case .folderGone:
+            "the folder it goes back to isn't there anymore; put that folder back first, or drag it out of the Trash in Finder"
         case .needsAppManagement:
             "macOS lets your terminal app put back another developer's app only with App Management; allow it in System Settings > Privacy & Security > App Management, or put it back with the Peel app"
         case .notPermitted: "macOS didn't allow it"

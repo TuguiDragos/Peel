@@ -170558,6 +170558,112 @@
         }
       }
     },
+    "The folder it goes back to isn’t there anymore. Put that folder back first, or drag this out of the Trash in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složka, do které se to má vrátit, už neexistuje. Nejprve vraťte zpět tuto složku, nebo to ve Finderu přetáhněte z koše ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Ordner, in den es zurückgelegt wird, ist nicht mehr vorhanden. Lege zuerst diesen Ordner zurück oder ziehe dieses Objekt im Finder aus dem Papierkorb."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La carpeta a la que vuelve ya no está. Restaura primero esa carpeta, o saca esto de la papelera arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le dossier où il doit retourner n’existe plus. Remettez d’abord ce dossier en place, ou sortez cet élément de la corbeille dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cartella in cui deve tornare non c’è più. Prima ripristina quella cartella, oppure trascina questo elemento fuori dal Cestino nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戻し先のフォルダがもうありません。先にそのフォルダを戻すか、Finderでこれをゴミ箱からドラッグして取り出してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "되돌아갈 폴더가 더 이상 없습니다. 먼저 해당 폴더를 되돌려 놓거나, Finder에서 이 항목을 휴지통 밖으로 드래그하여 꺼내십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De map waarin het wordt teruggezet, bestaat niet meer. Zet die map eerst terug, of sleep dit in Finder uit de prullenmand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folderu, do którego ta rzecz ma wrócić, już nie ma. Najpierw przywróć ten folder albo przeciągnij tę rzecz z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A pasta para onde ele volta não existe mais. Coloque essa pasta de volta primeiro, ou arraste isto para fora do Lixo no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul în care trebuie să revină nu mai există. Mai întâi puneți înapoi acel dosar sau, în Finder, trageți acest articol afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папки, в которую возвращается объект, больше нет. Сначала восстановите эту папку или перетащите объект из Корзины в Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mappen som det ska tillbaka till finns inte längre. Lägg tillbaka den mappen först, eller dra ut det här ur papperskorgen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri döneceği klasör artık yok. Önce o klasörü yerine koyun veya bunu Finder’da sürükleyerek Çöp Sepeti’nden çıkarın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папки, куди його треба повернути, уже немає. Спершу поверніть цю папку або перетягніть цей елемент у Finder зі Смітника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它要放回的文件夹已不存在。请先将该文件夹放回原处，或者在“访达”中将此项从废纸篓中拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它要還原到的檔案夾已不存在。請先還原該檔案夾，或在Finder中將此項目從「垃圾桶」拖出來。"
+          }
+        }
+      }
+    },
     "The folder it’s in couldn’t be found." : {
       "localizations" : {
         "cs" : {

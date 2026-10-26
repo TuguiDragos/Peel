@@ -256,6 +256,8 @@ extension RestoreFailure {
         case .locked: String(localized: "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again.")
         case .folderLocked:
             String(localized: "The folder it goes back to is locked. In Finder, choose File > Get Info for that folder and deselect Locked, then try again.")
+        case .folderGone:
+            String(localized: "The folder it goes back to isn’t there anymore. Put that folder back first, or drag this out of the Trash in Finder.")
         case .needsAppManagement:
             String(localized: "macOS lets Peel put back another developer’s app only with App Management. Allow Peel in System Settings > Privacy & Security > App Management, then try again.")
         case .notPermitted: String(localized: "macOS didn’t allow it.")

@@ -207,6 +207,7 @@ public enum RestoreFailure: Sendable, Hashable {
     /// It is locked in the Trash, as Finder's Get Info locks it.
     case locked
     case folderLocked
+    case folderGone
     /// Another developer's app, which macOS lets Peel change only with App Management.
     case needsAppManagement
     /// macOS's privacy protection refused it.
@@ -217,7 +218,9 @@ public enum RestoreFailure: Sendable, Hashable {
     public var isFinal: Bool {
         switch self {
         case .missingFromTrash, .notAllowed, .notInATrash: true
-        case .alreadyThere, .needsHelper, .locked, .folderLocked, .needsAppManagement, .notPermitted, .failed: false
+        case .alreadyThere, .needsHelper, .locked, .folderLocked, .folderGone, .needsAppManagement, .notPermitted,
+             .failed:
+            false
         }
     }
 }
@@ -769,6 +772,7 @@ public struct TrashService: Sendable {
         if FileAccess.isLockedInFinder(item.trashedURL) { return .locked }
         if FileAccess.isLockedInFinder(URL(filePath: Self.folder(puttingBack: item))) { return .folderLocked }
         if Self.needsTheHelper(toPutBack: item) {
+            if Self.isFolderGone(puttingBack: item) { return .folderGone }
             let reach = HelperReach(environment: environment)
             if let rejection = reach.refusal(ofPuttingBack: item.trashedURL, at: item.originalURL) {
                 return .failed(rejection.explanation)
@@ -786,6 +790,16 @@ public struct TrashService: Sendable {
             ancestor = (ancestor as NSString).deletingLastPathComponent
         }
         return ancestor
+    }
+
+    /// Whether the folder `item` goes back into is gone, which the helper doesn't make again. A folder this process
+    /// can't look into isn't known to be gone.
+    static func isFolderGone(puttingBack item: TrashedItem) -> Bool {
+        var info = stat()
+        guard lstat(item.originalURL.deletingLastPathComponent().path(percentEncoded: false), &info) != 0 else {
+            return false
+        }
+        return errno == ENOENT || errno == ENOTDIR
     }
 
     /// Whether putting `item` back is the helper's to do: the person can't write to the folder it goes back into.
