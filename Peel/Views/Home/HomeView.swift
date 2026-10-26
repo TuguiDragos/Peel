@@ -42,14 +42,13 @@ struct HomeView: View {
                 }
             }
         }
-        .task {
-            while !Task.isCancelled {
-                let change = Greeting.change(after: .now)
-                try? await Task.sleep(until: .now + .seconds(max(1, change.timeIntervalSinceNow)), clock: .continuous)
-                guard !Task.isCancelled else { return }
-                home.updateGreeting()
-            }
-        }
+    }
+}
+
+/// Draws the greeting again at each of its changes, and as it appears, so it is never the one of an hour gone by.
+private struct GreetingChanges: TimelineSchedule {
+    func entries(from startDate: Date, mode: TimelineScheduleMode) -> some Sequence<Date> {
+        Greeting.changes(from: startDate)
     }
 }
 
@@ -60,11 +59,13 @@ struct HomeContent: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text(home.greeting.title)
-                .font(.system(size: 26, weight: .bold, design: .rounded))
-                .foregroundStyle(Album.ink)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
+            TimelineView(GreetingChanges()) { context in
+                Text(Greeting.at(context.date).title)
+                    .font(.system(size: 26, weight: .bold, design: .rounded))
+                    .foregroundStyle(Album.ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
             if let device = home.device {
                 deviceCard(device).padding(.top, 38)
                 specs(device).padding(.top, 22)

@@ -24,6 +24,12 @@ struct GreetingTests {
         #expect(Greeting.at(date(0), calendar: calendar) == .evening)
     }
 
+    @Test func listsWhenTheGreetingIsDrawnAgain() {
+        let changes = Array(Greeting.changes(from: date(11, 59), calendar: calendar).prefix(3))
+
+        #expect(changes == [date(11, 59), date(12), date(18)])
+    }
+
     @Test func findsTheNextChange() {
         #expect(Greeting.change(after: date(3), calendar: calendar) == date(5))
         #expect(Greeting.change(after: date(5), calendar: calendar) == date(12))

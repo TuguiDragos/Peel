@@ -101,7 +101,6 @@ final class HomeModel {
     private(set) var isFinderExtensionFromAnotherCopy = false
     private let refreshes = OneRunAtATime()
     private var isReadingModelName = false
-    private(set) var greeting = Greeting.at(.now)
     private var found: [Permission: State] = [:]
     private(set) var notificationStatus: UNAuthorizationStatus = .notDetermined
     private(set) var appManagement: AccessState = .unknown
@@ -164,7 +163,6 @@ final class HomeModel {
     }
 
     private func read() async {
-        greeting = .at(.now)
         // The card needs none of the checks below, so it is read first and arrives with the window.
         let isFirstRead = device == nil
         if isFirstRead {
@@ -227,10 +225,6 @@ final class HomeModel {
         guard let name = await DeviceInfo.marketingName() else { return }
         UserDefaults.standard.set(name, forKey: Self.modelNameKey + identifier)
         device = device?.named(name)
-    }
-
-    func updateGreeting() {
-        greeting = .at(.now)
     }
 
     func record(appManagement state: AccessState) {
