@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 public enum PackageActions {
     static let misplacedReceipt = "The receipt isn’t where macOS keeps receipts."
@@ -11,6 +11,25 @@ public enum PackageActions {
         guard !identifier.isEmpty, !identifier.hasPrefix("."), !identifier.contains("/") else { return [] }
         return ["bom", "plist"].map { receiptsFolder(onVolume: volume).appending(path: identifier + "." + $0) }
             .filter(\.isThere).map(PathPattern.spelledOnDisk)
+    }
+
+    /// When a receipt on `volume` last changed: the newest date of the folder macOS keeps them in and of what is in it.
+    /// Writing, forgetting, or putting back a receipt changes the folder's; an upgrade rewrites a receipt in place,
+    /// which changes only the file's. Nil when the folder can't be read.
+    public static func receiptsChanged(
+        onVolume volume: URL = URL(filePath: "/", directoryHint: .isDirectory)
+    ) -> Date? {
+        let folder = receiptsFolder(onVolume: volume)
+        let path = folder.path(percentEncoded: false)
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: path) else { return nil }
+        return ([folder] + names.map { folder.appending(path: $0) }).compactMap(modified).max()
+    }
+
+    private static func modified(_ url: URL) -> Date? {
+        var info = stat()
+        guard lstat(url.path(percentEncoded: false), &info) == 0 else { return nil }
+        let time = info.st_mtimespec
+        return Date(timeIntervalSince1970: TimeInterval(time.tv_sec) + TimeInterval(time.tv_nsec) / 1_000_000_000)
     }
 
     private static func receiptsFolder(onVolume volume: URL) -> URL {

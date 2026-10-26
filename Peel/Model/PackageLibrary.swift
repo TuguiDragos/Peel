@@ -13,6 +13,9 @@ final class PackageLibrary {
     private(set) var isWorking = false
     var selection: PackageReceipt.ID?
     var selectedURLs: Set<URL> = []
+    /// When a receipt last changed as the last scan began, so a receipt written, forgotten, or put back elsewhere since
+    /// is noticed: on an app's page, by an uninstall, from History, or by an installer.
+    private var scannedChange: Date?
 
     var selectedReceipt: PackageReceipt? {
         receipts?.first { $0.id == selection }
@@ -30,9 +33,11 @@ final class PackageLibrary {
     }
 
     func refresh() async {
+        let change = PackageActions.receiptsChanged()
         guard
             let scan = await scanRun.run({ await PackageReceipts.list(exclusions: ExclusionsStore.shared.exclusions) })
         else { return }
+        scannedChange = change
         let result = scan.receipts
         receipts = result
         couldNotAsk = scan.couldNotAsk
@@ -40,6 +45,13 @@ final class PackageLibrary {
         if let selection, !result.contains(where: { $0.id == selection }) {
             self.selection = nil
         }
+    }
+
+    /// Reads the receipts again when one changed since the last scan.
+    func refreshIfReceiptsChanged() async {
+        guard receipts != nil, !isScanning, !isWorking else { return }
+        guard PackageActions.receiptsChanged() != scannedChange else { return }
+        await refresh()
     }
 
     func removeSelectedItems(recording record: (TrashResult) async -> Void) async -> TrashResult {

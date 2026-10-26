@@ -15,6 +15,26 @@ struct PackageActionsTests {
         )
     }
 
+    @Test func knowsWhenAReceiptChanged() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("private/var/db/receipts")
+        let receipt = try directory.file("private/var/db/receipts/org.example.pkg.plist", bytes: 16)
+        let written = Date(timeIntervalSince1970: 1_790_000_000)
+        func date(_ date: Date, of item: URL) throws {
+            let path = item.path(percentEncoded: false)
+            try FileManager.default.setAttributes([.modificationDate: date], ofItemAtPath: path)
+        }
+        try date(written, of: folder)
+        try date(written, of: receipt)
+
+        #expect(PackageActions.receiptsChanged(onVolume: directory.url) == written)
+        // An upgrade rewrites a receipt in place, which leaves the folder's own date as it was.
+        let upgraded = written + 3_600
+        try date(upgraded, of: receipt)
+        #expect(PackageActions.receiptsChanged(onVolume: directory.url) == upgraded)
+        #expect(PackageActions.receiptsChanged(onVolume: directory.url.appending(path: "elsewhere")) == nil)
+    }
+
     @Test func aReceiptIsItsTwoFiles() throws {
         let directory = try TemporaryDirectory()
         try directory.file("private/var/db/receipts/com.example.tool.bom")

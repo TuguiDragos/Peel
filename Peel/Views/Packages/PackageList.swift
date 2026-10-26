@@ -3,6 +3,7 @@ import SwiftUI
 
 struct PackageList: View {
     @Environment(PackageLibrary.self) private var packages
+    @Environment(RemovalHistoryStore.self) private var history
     @State private var searchText = ""
     @State private var isRescanning = false
 
@@ -74,8 +75,18 @@ struct PackageList: View {
             }
         }
         .task {
-            guard packages.receipts == nil, !packages.isScanning, !packages.scanRun.wasStopped else { return }
+            guard packages.receipts == nil else {
+                await packages.refreshIfReceiptsChanged()
+                return
+            }
+            guard !packages.isScanning, !packages.scanRun.wasStopped else { return }
             await packages.refresh()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            Task { await packages.refreshIfReceiptsChanged() }
+        }
+        .onChange(of: history.revision) {
+            Task { await packages.refreshIfReceiptsChanged() }
         }
         .rescanOnExclusionChange("PackageList") { await packages.refresh() }
         .rescanAfterPutBack(.packages) { await packages.refresh() }
