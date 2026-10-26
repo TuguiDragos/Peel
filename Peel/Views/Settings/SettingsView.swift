@@ -421,7 +421,7 @@ private struct GeneralSettingsView: View {
                         // Peel's alone.
                         .disabled(
                             selfUninstall.isRunning || !library.hasLoaded || way == .waitingForHomebrew
-                                || !history.mayMove || Self.runsFromAReadOnlyCopy
+                                || !history.mayMove || Self.runsFromAReadOnlyCopy || waitsForAnAdministrator
                         )
                     }
                     if selfUninstall.isRunning {
@@ -446,6 +446,10 @@ private struct GeneralSettingsView: View {
                             .foregroundStyle(.secondary)
                     } else if Self.runsFromAReadOnlyCopy {
                         Text(SelfUninstall.explanation(of: .readOnlyCopy))
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    } else if waitsForAnAdministrator {
+                        Text(verbatim: SelfUninstall.onlyAnAdministrator)
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if way == .waitingForHomebrew {
@@ -623,6 +627,10 @@ extension GeneralSettingsView {
         )
     }
 
+
+    private var waitsForAnAdministrator: Bool {
+        SelfUninstall.waitsForAnAdministrator(standing: helper.standing, status: helper.status)
+    }
 
     /// The cask Homebrew installed this copy of Peel from, found by the rule the Applications list follows.
     fileprivate var ownCask: HomebrewPackage? {

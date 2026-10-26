@@ -69,6 +69,16 @@ final class SelfUninstall {
         return homebrewKnowsItsApps ? .removePeel : .waitingForHomebrew
     }
 
+    /// Whether Peel can't remove itself from this account: its helper is registered, and only an administrator may
+    /// change it.
+    static func waitsForAnAdministrator(standing: PrivilegedHelper.Standing, status: PrivilegedHelper.Status) -> Bool {
+        standing == .notThisAccount && (status == .enabled || status == .requiresApproval)
+    }
+
+    static var onlyAnAdministrator: String {
+        String(localized: "Only an administrator can remove Peel’s helper, so Peel can’t remove itself from this account. Log in as an administrator and choose Remove Peel there.")
+    }
+
     static var removeCommand: String {
         "sudo rm -f /usr/local/bin/peel"
     }
@@ -169,7 +179,7 @@ final class SelfUninstall {
         let helperStayed = String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
         switch stay {
         case .helperIsNotThisAccounts:
-            return helperStayed
+            return onlyAnAdministrator
         case .helperStayed(let reason, let ledger):
             let reason = reason ?? helperStayed
             return ledger == .moved ? "\(reason)\n\n\(ledgerInTheTrash)" : reason
