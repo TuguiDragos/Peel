@@ -40,13 +40,12 @@ struct VisibleApps {
 }
 
 private enum UpdateMemoryStore {
-    static func load(from defaults: UserDefaults) -> [String: UpdateMemory] {
-        guard let data = defaults.data(forKey: SettingsKey.updateMemory) else { return [:] }
-        return (try? JSONDecoder().decode([String: UpdateMemory].self, from: data)) ?? [:]
+    static func load(from defaults: UserDefaults) -> UpdateMemories {
+        defaults.data(forKey: SettingsKey.updateMemory).flatMap(UpdateMemories.init(data:)) ?? UpdateMemories()
     }
 
-    static func save(_ memory: [String: UpdateMemory], to defaults: UserDefaults) {
-        guard let data = try? JSONEncoder().encode(memory) else { return }
+    static func save(_ memory: UpdateMemories, to defaults: UserDefaults) {
+        guard let data = memory.data else { return }
         defaults.set(data, forKey: SettingsKey.updateMemory)
     }
 }
@@ -146,7 +145,7 @@ final class AppLibrary {
     /// True when any of the list's filters is on, the same three `visible(matching:)` applies.
     var isFiltering: Bool { !sources.isEmpty || selectedDeveloper != nil || showsOnlyUnused }
 
-    private var memory: [String: UpdateMemory]
+    private var memory: UpdateMemories
     /// What is new in each waiting update, read at launch, so a page shows it with no connection too.
     private(set) var releaseNotes = ReleaseNotesMemory()
     private let releaseNotesStore: ReleaseNotesStore
@@ -334,7 +333,7 @@ final class AppLibrary {
         picked.formIntersection(present)
 
         // Forgets what was learned about a build that was replaced, including when to check it again.
-        let recalled = UpdateMemory.recalled(from: memory, for: listed)
+        let recalled = memory.recalled(for: listed)
         if recalled != memory {
             memory = recalled
             UpdateMemoryStore.save(memory, to: defaults)
@@ -353,8 +352,7 @@ final class AppLibrary {
     /// Restores the update answers saved by earlier runs, for apps still at the build they describe.
     private func recall() {
         for app in apps {
-            guard let identifier = app.bundleIdentifier, let remembered = memory[identifier], remembered.describes(app)
-            else { continue }
+            guard let remembered = remembered(app) else { continue }
             updateStatuses[app.id] = remembered.status
             if let checked = remembered.checked {
                 lastUpdateChecks[app.id] = checked
@@ -412,7 +410,7 @@ final class AppLibrary {
     }
 
     func developer(of app: InstalledApp) -> String? {
-        appDevelopers.developer(of: app, remembered: app.bundleIdentifier.flatMap { memory[$0]?.developer })
+        appDevelopers.developer(of: app, remembered: app.bundleIdentifier.flatMap(memory.developer(of:)))
     }
 
     var developers: [String] {
@@ -539,13 +537,13 @@ final class AppLibrary {
         let now = Date.now
         // An app is checked on a schedule kept by its identifier, so an app with none is left to Homebrew's answer.
         let wanted = targets.filter { app in
-            guard let identifier = app.bundleIdentifier, isAskedAboutUpdates(app) else { return false }
+            guard app.bundleIdentifier != nil, isAskedAboutUpdates(app) else { return false }
             guard !force else { return true }
             // Already being checked by another round: a second answer could double the wait for the next check.
             guard !appsCheckingForUpdates.contains(app.id) else { return false }
             // An update whose notes are still to be asked for is checked now rather than on its next turn.
             let notesWait = releaseNotes.asks(about: updateStatuses[app.id], of: app, with: updatePreferences)
-            return memory[identifier]?.schedule.isDue(at: now) ?? true || notesWait
+            return remembered(app)?.schedule.isDue(at: now) ?? true || notesWait
         }
         // The list's own entry, not the caller's: a page that was open through an upgrade still holds the old build.
         .map { app in apps.first { $0.id == app.id } ?? app }
@@ -610,18 +608,19 @@ final class AppLibrary {
                     lastUpdateChecks[id] = .now
                 }
                 guard let identifier = app.bundleIdentifier else { continue }
-                memory[identifier] = UpdateMemory(
+                let before = remembered(app)
+                memory.keep(UpdateMemory(
                     status: kept,
                     // A feed that failed is asked again on its own count, even where Homebrew answered in its place.
                     schedule: UpdateSchedule.next(
-                        after: answer.standsInFor ?? answer.status, following: memory[identifier]?.schedule
+                        after: answer.standsInFor ?? answer.status, following: before?.schedule
                     ),
-                    checked: answer.status == .failed ? memory[identifier]?.checked : .now,
+                    checked: answer.status == .failed ? before?.checked : .now,
                     describing: app,
-                    developer: answer.developer ?? memory[identifier]?.developer,
+                    developer: answer.developer ?? memory.developer(of: identifier),
                     standsInFor: standsInFor,
                     isNotListed: answer.isNotListed
-                )
+                ), for: app)
                 // Only an answer that found this update can say what is new in it; a failed one keeps what was known.
                 if case .updateAvailable(let version, _, _) = kept, answer.status == kept {
                     if let notes = answer.notes {
@@ -725,7 +724,7 @@ final class AppLibrary {
         updateRounds.sourceChanged()
         updateStatuses = [:]
         lastUpdateChecks = [:]
-        memory = [:]
+        memory = UpdateMemories()
         UpdateMemoryStore.save(memory, to: defaults)
         await checkForUpdates(apps, force: true)
     }
@@ -812,7 +811,7 @@ final class AppLibrary {
         updateStatuses = updateStatuses.filter { !outlived.contains($0.key) }
         lastUpdateChecks = lastUpdateChecks.filter { !outlived.contains($0.key) }
         for app in apps where outlived.contains(app.id) {
-            if let identifier = app.bundleIdentifier { memory[identifier] = nil }
+            memory.forget(app)
         }
         UpdateMemoryStore.save(memory, to: defaults)
     }
@@ -835,7 +834,7 @@ final class AppLibrary {
 
     /// The answer saved for `app`, while it is about the build installed.
     private func remembered(_ app: InstalledApp) -> UpdateMemory? {
-        app.bundleIdentifier.flatMap { memory[$0] }.flatMap { $0.describes(app) ? $0 : nil }
+        memory.entry(for: app)
     }
 
     /// Whether update checks ask about `app`. Never about Peel's own copies, which Sparkle keeps current, checking

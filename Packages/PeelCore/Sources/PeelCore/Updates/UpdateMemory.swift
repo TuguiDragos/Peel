@@ -50,28 +50,87 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     /// How long past its due date an entry is kept for an app that is not installed, such as one on a disk that
     /// is not connected. Without a limit, the saved list would keep an entry for every app ever seen.
     static let longestAbsence: TimeInterval = 90 * 24 * 60 * 60
+}
 
-    /// Returns the entries that still apply to `apps`. An entry is dropped when no installed copy is the build it
-    /// describes, which also makes that app due at once, when an earlier checker couldn't check the app or gave the
-    /// answer about a copy this checker asks nobody about, or when the app is not installed and the entry is more
-    /// than `longestAbsence` past due. With two copies at two builds, the entry describes one of them and stays.
-    public static func recalled(
-        from memory: [String: UpdateMemory],
-        for apps: [InstalledApp],
-        now: Date = .now
-    ) -> [String: UpdateMemory] {
-        let installed = InstalledApp.byIdentifier(apps)
-        return memory.filter { identifier, entry in
-            let isEarlier = entry.revision ?? 1 < UpdateChecker.revision
-            if entry.status == .unsupported, isEarlier { return false }
-            guard let copies = installed[identifier] else {
-                return entry.schedule.due.addingTimeInterval(longestAbsence) > now
-            }
-            let described = copies.filter(entry.describes)
-            // An earlier checker may have asked a source this one no longer reads, and answering such a copy again
-            // costs no request.
-            if isEarlier, described.contains(where: UpdateChecker.asksNobody(about:)) { return false }
-            return !described.isEmpty
+/// What Peel knows about every app's updates, by bundle identifier, with an entry for each build a copy is at: an app
+/// and a beta of it share an identifier, and each keeps its own answer and schedule.
+public struct UpdateMemories: Equatable, Sendable {
+    private var entries: [String: [UpdateMemory]]
+
+    public init() {
+        entries = [:]
+    }
+
+    /// One entry per identifier, as Peel saved it before it kept one for each build.
+    init(_ earlier: [String: UpdateMemory]) {
+        entries = earlier.mapValues { [$0] }
+    }
+
+    /// Reads what was saved, in either form, or nil when it can't be read.
+    public init?(data: Data) {
+        let decoder = JSONDecoder()
+        if let builds = try? decoder.decode([String: [UpdateMemory]].self, from: data) {
+            entries = builds
+        } else if let earlier = try? decoder.decode([String: UpdateMemory].self, from: data) {
+            entries = earlier.mapValues { [$0] }
+        } else {
+            return nil
         }
+    }
+
+    public var data: Data? {
+        try? JSONEncoder().encode(entries)
+    }
+
+    public var isEmpty: Bool {
+        entries.isEmpty
+    }
+
+    /// The entry about the build `app` is at.
+    public func entry(for app: InstalledApp) -> UpdateMemory? {
+        app.bundleIdentifier.flatMap { entries[$0] }?.first { $0.describes(app) }
+    }
+
+    /// Keeps `entry` for the build `app` is at, in place of the one about that build.
+    public mutating func keep(_ entry: UpdateMemory, for app: InstalledApp) {
+        guard let identifier = app.bundleIdentifier else { return }
+        entries[identifier, default: []].removeAll { $0.describes(app) }
+        entries[identifier, default: []].append(entry)
+    }
+
+    public mutating func forget(_ app: InstalledApp) {
+        guard let identifier = app.bundleIdentifier else { return }
+        entries[identifier]?.removeAll { $0.describes(app) }
+        if entries[identifier]?.isEmpty == true { entries[identifier] = nil }
+    }
+
+    /// The developer the App Store named for any build of the app, the latest kept first.
+    public func developer(of identifier: String) -> String? {
+        entries[identifier]?.reversed().lazy.compactMap(\.developer).first
+    }
+
+    /// The entries that still apply to `apps`. An entry is dropped when no installed copy is the build it describes,
+    /// which also makes that copy due at once, when an earlier checker couldn't check the app or gave the answer about
+    /// a copy this checker asks nobody about, or when the app is not installed and the entry is more than
+    /// `UpdateMemory.longestAbsence` past due.
+    public func recalled(for apps: [InstalledApp], now: Date = .now) -> UpdateMemories {
+        let installed = InstalledApp.byIdentifier(apps)
+        var recalled = UpdateMemories()
+        for (identifier, builds) in entries {
+            let kept = builds.filter { entry in
+                let isEarlier = entry.revision ?? 1 < UpdateChecker.revision
+                if entry.status == .unsupported, isEarlier { return false }
+                guard let copies = installed[identifier] else {
+                    return entry.schedule.due.addingTimeInterval(UpdateMemory.longestAbsence) > now
+                }
+                let described = copies.filter(entry.describes)
+                // An earlier checker may have asked a source this one no longer reads, and answering such a copy
+                // again costs no request.
+                if isEarlier, described.contains(where: UpdateChecker.asksNobody(about:)) { return false }
+                return !described.isEmpty
+            }
+            if !kept.isEmpty { recalled.entries[identifier] = kept }
+        }
+        return recalled
     }
 }

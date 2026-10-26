@@ -377,8 +377,8 @@ private nonisolated final class TestClock: Sendable {
         await library.checkForUpdates([app], force: true)
         #expect(library.shownUpdateStatus(of: app) == .upToDate)
         let saved = try #require(made.defaults.data(forKey: SettingsKey.updateMemory))
-        let memory = try JSONDecoder().decode([String: UpdateMemory].self, from: saved)
-        #expect(memory["org.example.fed"]?.schedule.isRetrying == true, "the feed failed")
+        let memory = try #require(UpdateMemories(data: saved))
+        #expect(memory.entry(for: app)?.schedule.isRetrying == true, "the feed failed")
 
         clock.set(homebrewChecked + 2 * Homebrew.autoUpdateInterval)
         library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
@@ -473,8 +473,8 @@ private nonisolated final class TestClock: Sendable {
         library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
         #expect(library.shownUpdateStatus(of: app) == nil)
         let saved = try #require(made.defaults.data(forKey: SettingsKey.updateMemory))
-        let memory = try JSONDecoder().decode([String: UpdateMemory].self, from: saved)
-        #expect(memory["org.example.fed"] == nil, "its feed answers at the next round")
+        let memory = try #require(UpdateMemories(data: saved))
+        #expect(memory.entry(for: app) == nil, "its feed answers at the next round")
     }
 
     @Test func aRoundAsksEveryAppEvenWhenAppsLeaveTheListBeforeTheirAnswers() async throws {
@@ -514,10 +514,8 @@ private nonisolated final class TestClock: Sendable {
         #expect(await library.reveal([bundle]))
         let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
         await library.checkForUpdates([app], force: true)
-        let remembered = { () -> [String: UpdateMemory]? in
-            made.defaults.data(forKey: SettingsKey.updateMemory).flatMap {
-                try? JSONDecoder().decode([String: UpdateMemory].self, from: $0)
-            }
+        let remembered = { () -> UpdateMemories? in
+            made.defaults.data(forKey: SettingsKey.updateMemory).flatMap(UpdateMemories.init(data:))
         }
         let known = remembered()
         #expect(library.shownUpdateStatus(of: app) == .upToDate)
@@ -596,6 +594,49 @@ private nonisolated final class TestClock: Sendable {
 
         #expect(library.hasUpdate(app))
         #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
+    }
+
+    @Test func twoCopiesOfAnAppAtTwoBuildsKeepAnAnswerEach() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        func copy(_ name: String, version: String, build: String, feed: String?) throws -> URL {
+            let bundle = folder.appending(path: "\(name).app", directoryHint: .isDirectory)
+            try FileManager.default.createDirectory(
+                at: bundle.appending(path: "Contents"), withIntermediateDirectories: true
+            )
+            var info: [String: Any] = [
+                "CFBundleIdentifier": "org.example.twin", "CFBundleName": name, "CFBundlePackageType": "APPL",
+                "CFBundleShortVersionString": version, "CFBundleVersion": build,
+            ]
+            info["SUFeedURL"] = feed
+            try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                .write(to: bundle.appending(path: "Contents/Info.plist"))
+            return bundle
+        }
+        let released = try copy("Twin", version: "1.0", build: "100", feed: "https://feed.example.com/appcast.xml")
+        let beta = try copy("Twin Beta", version: "2.0", build: "200", feed: nil)
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock {
+            $0 = Data("""
+            <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>\
+            <enclosure url="https://feed.example.com/u.zip" sparkle:version="101" sparkle:shortVersionString="1.1" />\
+            </item></channel></rss>
+            """.utf8)
+        }
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal([released, beta]))
+        let copies = library.apps.filter { $0.bundleIdentifier == "org.example.twin" }
+        #expect(copies.count == 2)
+
+        await library.checkForUpdates(copies, force: true)
+
+        let data = made.defaults.data(forKey: SettingsKey.updateMemory)
+        let saved = try #require(data.flatMap(UpdateMemories.init(data:)))
+        let releasedCopy = try #require(copies.first { $0.version == "1.0" })
+        let betaCopy = try #require(copies.first { $0.version == "2.0" })
+        #expect(saved.entry(for: releasedCopy)?.status.version == "1.1")
+        #expect(saved.entry(for: betaCopy)?.status == .unsupported)
     }
 
     @Test func theListMovesAnUpdateFoundDuringARoundOnceTheRoundEnds() async throws {
