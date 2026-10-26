@@ -3,6 +3,7 @@ import SwiftUI
 
 struct RemovalBar: View {
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(ExclusionsStore.self) private var exclusions
     @Environment(SelectionCarrier.self) private var carrier
     /// What the last removal moved while this bar was on screen, shown briefly in place of the selection.
     @State private var moved: RemovalBatch?
@@ -37,6 +38,9 @@ struct RemovalBar: View {
     var waitingToQuit: String?
     /// iCloud Drive's Remove Downloads: on macOS 27 the spinner says how far it got, and the button stops it.
     var removal: (progress: MoveProgress, stop: () -> Void)?
+    /// False for an action History doesn't record, such as freeing iCloud downloads: it then waits only for the
+    /// exclusions, and the bar never shows what History just moved.
+    var recordsInHistory = true
 
     private enum Purpose {
         /// What the page itself selected, which `onRemove` acts on.
@@ -70,7 +74,8 @@ struct RemovalBar: View {
         notice: BarNotice? = nil,
         progress: MoveProgress? = nil,
         waitingToQuit: String? = nil,
-        removal: (progress: MoveProgress, stop: () -> Void)? = nil
+        removal: (progress: MoveProgress, stop: () -> Void)? = nil,
+        recordsInHistory: Bool = true
     ) {
         purpose = .own(
             SizeTotal(known: selectedSize, isComplete: isSelectionMeasured),
@@ -86,6 +91,7 @@ struct RemovalBar: View {
         self.progress = progress
         self.waitingToQuit = waitingToQuit
         self.removal = removal
+        self.recordsInHistory = recordsInHistory
     }
 
     /// A bar for a page of the storage tools, whose selection travels to the others' pages.
@@ -131,9 +137,15 @@ struct RemovalBar: View {
         }
     }
 
+    static func mayAct(recordsInHistory: Bool, history: RemovalHistoryStore, exclusionsAreKnown: Bool) -> Bool {
+        recordsInHistory ? history.mayMove : exclusionsAreKnown
+    }
+
     var body: some View {
         let reading = reading
-        let isEnabled = reading.isEnabled && history.mayMove
+        let isEnabled = reading.isEnabled && Self.mayAct(
+            recordsInHistory: recordsInHistory, history: history, exclusionsAreKnown: exclusions.exclusions.isKnown
+        )
         BusyShown(isBusy: moving?.isMoving == true) { isShowingMove in
             BusyShown(isBusy: waitingToQuit != nil) { isShowingWait in
                 BusyShown(isBusy: isScanning) { isShowingScan in
@@ -230,7 +242,7 @@ struct RemovalBar: View {
             if let names { waitingNames = names }
         }
         .onChange(of: history.justMoved) { _, batch in
-            moved = batch
+            if recordsInHistory { moved = batch }
         }
         .task(id: moved) {
             guard moved != nil else { return }

@@ -24,7 +24,7 @@ struct CloudView: View {
         List {
             header
                 .listRowSeparator(.hidden)
-            RemovalsHeldBanner()
+            RemovalsHeldBanner(recordsInHistory: false)
 
             if !cloud.refusals.isEmpty {
                 Section {
@@ -161,7 +161,8 @@ struct CloudView: View {
                         title: "Remove Downloads",
                         systemImage: "icloud.and.arrow.down",
                         notice: freed,
-                        removal: (cloud.freeing, cloud.stopFreeing)
+                        removal: (cloud.freeing, cloud.stopFreeing),
+                        recordsInHistory: false
                     )
                 } else {
                     RemovalBar(
@@ -173,7 +174,8 @@ struct CloudView: View {
                         onRemove: { isConfirming = true },
                         title: "Remove Downloads",
                         systemImage: "icloud.and.arrow.down",
-                        notice: freed
+                        notice: freed,
+                        recordsInHistory: false
                     )
                 }
             }

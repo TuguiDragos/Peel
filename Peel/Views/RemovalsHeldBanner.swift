@@ -8,17 +8,22 @@ enum MovesHeld: Equatable {
     case historyUnreadable
     case historyUnwritable
 
-    static func reason(exclusionsUnreadable: Bool, historyUnreadable: Bool, historyUnwritable: Bool) -> MovesHeld? {
+    static func reason(
+        exclusionsUnreadable: Bool, historyUnreadable: Bool, historyUnwritable: Bool, recordsInHistory: Bool = true
+    ) -> MovesHeld? {
         if exclusionsUnreadable { return .exclusionsUnreadable }
+        guard recordsInHistory else { return nil }
         if historyUnreadable { return .historyUnreadable }
         return historyUnwritable ? .historyUnwritable : nil
     }
 
     @MainActor
-    static func reason(exclusions: ExclusionsStore, history: RemovalHistoryStore) -> MovesHeld? {
+    static func reason(
+        exclusions: ExclusionsStore, history: RemovalHistoryStore, recordsInHistory: Bool = true
+    ) -> MovesHeld? {
         reason(
             exclusionsUnreadable: exclusions.exclusions.isUnreadable, historyUnreadable: history.isUnreadable,
-            historyUnwritable: history.cannotBeWritten
+            historyUnwritable: history.cannotBeWritten, recordsInHistory: recordsInHistory
         )
     }
 }
@@ -31,9 +36,11 @@ struct RemovalsHeldBanner: View {
     @Environment(\.openSettings) private var openSettings
     /// On History's own page, whose list says it with Start Over beside it, History is left unsaid here.
     var isOnHistoryPage = false
+    /// False on a page whose action History doesn't record, which only the exclusions hold back.
+    var recordsInHistory = true
 
     var body: some View {
-        let held = MovesHeld.reason(exclusions: exclusions, history: history)
+        let held = MovesHeld.reason(exclusions: exclusions, history: history, recordsInHistory: recordsInHistory)
         if held == .exclusionsUnreadable {
             Notice(
                 title: Text("Peel couldn’t read your exclusions"),

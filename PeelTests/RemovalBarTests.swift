@@ -25,4 +25,21 @@ struct RemovalBarTests {
         #expect(lines.last?.contains("76") == true, "\(lines.last ?? "")")
         #expect(RemovalBar.lines(for: parts(most)).count == most)
     }
+
+    @Test func anActionHistoryDoesntRecordWaitsOnlyForTheExclusions() throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let unreadable = folder.appending(path: "removals.json")
+        try FileManager.default.createDirectory(at: unreadable, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: unreadable), refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true }
+        )
+        history.checkReadability()
+        #expect(history.isUnreadable)
+
+        #expect(RemovalBar.mayAct(recordsInHistory: false, history: history, exclusionsAreKnown: true))
+        #expect(!RemovalBar.mayAct(recordsInHistory: false, history: history, exclusionsAreKnown: false))
+        #expect(!RemovalBar.mayAct(recordsInHistory: true, history: history, exclusionsAreKnown: true))
+    }
 }

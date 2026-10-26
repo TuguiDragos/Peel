@@ -12,4 +12,17 @@ struct MovesHeldTests {
         #expect(reason(false, true, true) == .historyUnreadable)
         #expect(reason(false, false, true) == .historyUnwritable)
     }
+
+    @Test func anActionHistoryDoesntRecordWaitsOnlyForTheExclusions() {
+        func reason(_ exclusions: Bool, _ history: Bool, _ writing: Bool) -> MovesHeld? {
+            MovesHeld.reason(
+                exclusionsUnreadable: exclusions, historyUnreadable: history, historyUnwritable: writing,
+                recordsInHistory: false
+            )
+        }
+
+        #expect(reason(false, true, false) == nil)
+        #expect(reason(false, false, true) == nil)
+        #expect(reason(true, true, true) == .exclusionsUnreadable)
+    }
 }
