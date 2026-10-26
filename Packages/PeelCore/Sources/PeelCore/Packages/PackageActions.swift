@@ -2,6 +2,7 @@ public import Foundation
 
 public enum PackageActions {
     static let misplacedReceipt = "The receipt isn’t where macOS keeps receipts."
+    static let forgottenReceipt = "It was already forgotten."
 
     /// Returns the receipt's files that exist: `<identifier>.bom` and `<identifier>.plist` in
     /// `private/var/db/receipts` on `volume`. macOS counts the package as installed only while they are there.
@@ -47,9 +48,12 @@ public enum PackageActions {
     static func forget(_ receipt: PackageReceipt, through service: TrashService) async -> TrashResult {
         let files = receiptFiles(of: receipt.identifier, onVolume: receipt.volume)
         guard !files.isEmpty else {
-            // Named by the file macOS would keep, so the failure says which receipt rather than which disk.
-            let missing = receiptsFolder(onVolume: receipt.volume).appending(path: receipt.identifier + ".plist")
-            return TrashResult(failures: [TrashFailure(url: missing, reason: .failed(Self.misplacedReceipt))])
+            // Named by the file macOS would keep, so the failure says which receipt rather than which disk. With the
+            // folder there, the receipt was forgotten some other way since Peel read it.
+            let folder = receiptsFolder(onVolume: receipt.volume)
+            let missing = folder.appending(path: receipt.identifier + ".plist")
+            let why = folder.isRealFolder ? Self.forgottenReceipt : Self.misplacedReceipt
+            return TrashResult(failures: [TrashFailure(url: missing, reason: .failed(why))])
         }
         return await service.trash(files, usingHelperFor: Set(files))
     }

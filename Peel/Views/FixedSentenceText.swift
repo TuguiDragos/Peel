@@ -34,6 +34,7 @@ extension FixedSentence {
         case .toolTimedOut: "The tool didn’t answer in time, so it was stopped."
         case .toolStopped: "Stopped before it finished."
         case .receiptMisplaced: "The receipt isn’t where macOS keeps receipts."
+        case .receiptForgotten: "It was already forgotten."
         case .homebrewNotInstalled: "Homebrew isn’t installed."
         case .helperUnavailable: "Peel’s helper isn’t available."
         }

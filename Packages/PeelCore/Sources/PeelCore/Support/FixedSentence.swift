@@ -1,7 +1,7 @@
 internal import PeelPrivileged
 
 /// Every fixed English sentence Peel's own code shows the user from outside the app's string catalog: the
-/// refusals of the path rules and of the helper, a tool that timed out or was stopped, and three of PeelCore's.
+/// refusals of the path rules and of the helper, a tool that timed out or was stopped, and four of PeelCore's.
 /// The helper cannot know the user's language and PeelCore has no catalog, so each arrives in English, and
 /// the app recognizes it here to show it translated. Anything else (a tool's own output, an error macOS
 /// wrote) is not one of these.
@@ -13,7 +13,7 @@ public enum FixedSentence: CaseIterable, Sendable {
     case helperOutOfDate, accountNotAllowed, tooManyItems, noTrash, pathTooLong, cannotKeepRecord, cannotReadRecord
     case notInTrash, notMovedByHelper, invalidRequest, configurationMissing
     case toolTimedOut, toolStopped
-    case receiptMisplaced, homebrewNotInstalled, helperUnavailable
+    case receiptMisplaced, receiptForgotten, homebrewNotInstalled, helperUnavailable
 
     public init?(_ message: String) {
         guard let found = Self.allCases.first(where: { $0.english == message }) else { return nil }
@@ -52,6 +52,7 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .toolTimedOut: Subprocess.Failure.timedOut.explanation
         case .toolStopped: Subprocess.Failure.canceled.explanation
         case .receiptMisplaced: PackageActions.misplacedReceipt
+        case .receiptForgotten: PackageActions.forgottenReceipt
         case .homebrewNotInstalled: Homebrew.notInstalled
         case .helperUnavailable: PrivilegedHelper.unavailable
         }

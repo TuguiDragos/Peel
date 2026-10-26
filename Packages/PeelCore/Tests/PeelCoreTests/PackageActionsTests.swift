@@ -108,5 +108,10 @@ struct PackageActionsTests {
 
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.url.lastPathComponent) == ["com.example.gone.plist"])
+        #expect(result.failures.map(\.reason) == [.failed(PackageActions.misplacedReceipt)])
+
+        try directory.directory("private/var/db/receipts")
+        let forgotten = await PackageActions.forget(receipt("com.example.gone", on: directory.url), through: service)
+        #expect(forgotten.failures.map(\.reason) == [.failed(PackageActions.forgottenReceipt)], "it was forgotten already")
     }
 }
