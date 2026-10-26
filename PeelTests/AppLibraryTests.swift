@@ -482,6 +482,28 @@ private nonisolated final class TestClock: Sendable {
         #expect(known != nil && remembered() == known, "nothing learned, nothing put off")
     }
 
+    @Test func anAppStoreUpdateStaysUntilTwoAnswersInARowListNoSuchApp() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.sold" })
+        AppcastProtocol.body.withLock { $0 = listing("1.2") }
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.2")
+
+        AppcastProtocol.body.withLock { $0 = Data(#"{"resultCount":0,"results":[]}"#.utf8) }
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "1.2")
+
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app) == .unsupported)
+    }
+
     @Test func notesNoServerAnsweredWaitForTheirTurnUnlessThePersonAsks() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")

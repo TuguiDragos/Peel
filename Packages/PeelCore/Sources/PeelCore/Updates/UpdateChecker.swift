@@ -63,15 +63,19 @@ public struct UpdateChecker: Sendable {
     }
 
     /// Returns the update status of `app`, without installing anything. `preference` decides which source to
-    /// believe when an app can be updated in more than one way, and `earlier` is the last answer about this build.
+    /// believe when an app can be updated in more than one way, `earlier` is the last answer about this build, and
+    /// `notListedBefore` says the App Store's last answer about it listed no such app.
     @concurrent
     public func status(
         for app: InstalledApp,
         preference: UpdateSource = .automatic,
         casks: [HomebrewPackage] = [],
-        earlier: UpdateStatus? = nil
+        earlier: UpdateStatus? = nil,
+        notListedBefore: Bool = false
     ) async -> UpdateStatus {
-        await answer(for: app, preference: preference, casks: casks, earlier: earlier).status
+        await answer(
+            for: app, preference: preference, casks: casks, earlier: earlier, notListedBefore: notListedBefore
+        ).status
     }
 
     /// Returns the update status, and the developer's name when the App Store answered. An App Store app is
@@ -81,7 +85,8 @@ public struct UpdateChecker: Sendable {
         for app: InstalledApp,
         preference: UpdateSource = .automatic,
         casks: [HomebrewPackage] = [],
-        earlier: UpdateStatus? = nil
+        earlier: UpdateStatus? = nil,
+        notListedBefore: Bool = false
     ) async -> UpdateAnswer {
         let homebrew = homebrewStatus(for: app, casks: casks)
         if let status = Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrew) {
@@ -90,11 +95,14 @@ public struct UpdateChecker: Sendable {
         // Even with the App Store preferred, Apple is asked only about apps from the App Store. Any other app is
         // checked through its own feed, or not at all.
         let own = preference == .appStore && app.isFromAppStore
-            ? await appStoreAnswer(for: app, earlier: earlier) : await feedAnswer(for: app, earlier: earlier)
+            ? await appStoreAnswer(for: app, earlier: earlier, notListedBefore: notListedBefore)
+            : await feedAnswer(for: app, earlier: earlier, notListedBefore: notListedBefore)
         guard !own.wasOffline else { return own }
         // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
         if let homebrew, own.status == .unsupported || own.status == .failed {
-            return UpdateAnswer(status: homebrew, developer: own.developer, standsInFor: own.status)
+            return UpdateAnswer(
+                status: homebrew, developer: own.developer, standsInFor: own.status, isNotListed: own.isNotListed
+            )
         }
         return own
     }
@@ -182,14 +190,16 @@ public struct UpdateChecker: Sendable {
         return Self.homebrewStatus(of: cask, appVersion: app.version, at: clock()) == nil ? cask : nil
     }
 
-    private func feedAnswer(for app: InstalledApp, earlier: UpdateStatus?) async -> UpdateAnswer {
+    private func feedAnswer(
+        for app: InstalledApp, earlier: UpdateStatus?, notListedBefore: Bool
+    ) async -> UpdateAnswer {
         // An app whose bundle names no version has nothing to compare a release with, so nobody is asked.
         guard let installed = app.version else { return UpdateAnswer(status: .unsupported) }
         return switch app.updateFeed {
         case nil: UpdateAnswer(status: .unsupported)
         case .sparkle(let url): await sparkleAnswer(for: app, installed: installed, at: url)
         case .electron(let url): await electronAnswer(installed: installed, at: url)
-        case .appStore: await appStoreAnswer(for: app, earlier: earlier)
+        case .appStore: await appStoreAnswer(for: app, earlier: earlier, notListedBefore: notListedBefore)
         }
     }
 
@@ -230,7 +240,9 @@ public struct UpdateChecker: Sendable {
 
     /// Asks the App Store about `app`, but only when the app has an App Store receipt, whoever calls this.
     /// Asking about other apps would send Apple, one identifier at a time, the list of installed apps.
-    private func appStoreAnswer(for app: InstalledApp, earlier: UpdateStatus?) async -> UpdateAnswer {
+    private func appStoreAnswer(
+        for app: InstalledApp, earlier: UpdateStatus?, notListedBefore: Bool
+    ) async -> UpdateAnswer {
         guard app.isFromAppStore, let installed = app.version, let identifier = app.bundleIdentifier else {
             return UpdateAnswer(status: .unsupported)
         }
@@ -246,7 +258,12 @@ public struct UpdateChecker: Sendable {
         case .unreadable:
             return UpdateAnswer(status: .failed)
         case .notListed:
-            return UpdateAnswer(status: .unsupported)
+            // An app the store just offered an update for is believed unlisted only when the answer before this
+            // one said so too; a first such answer is asked again later, as a failed check.
+            if case .updateAvailable(_, .appStore, _) = earlier, !notListedBefore {
+                return UpdateAnswer(status: .failed, isNotListed: true)
+            }
+            return UpdateAnswer(status: .unsupported, isNotListed: true)
         case .listed(let latest, let page, let developer, let notes):
             // The App Store never goes back to an older version, so an answer older than the update it gave for this
             // build comes from a copy of its catalog that isn't up to date yet, and is asked again later.
@@ -431,6 +448,8 @@ public struct UpdateAnswer: Sendable, Hashable {
     public let standsInFor: UpdateStatus?
     /// True when this Mac wasn't online, so the check learned nothing about the app.
     public let wasOffline: Bool
+    /// True when the App Store answered that it lists no such app.
+    public let isNotListed: Bool
 
     public init(
         status: UpdateStatus,
@@ -438,7 +457,8 @@ public struct UpdateAnswer: Sendable, Hashable {
         notes: ReleaseNotes? = nil,
         notesPage: URL? = nil,
         standsInFor: UpdateStatus? = nil,
-        wasOffline: Bool = false
+        wasOffline: Bool = false,
+        isNotListed: Bool = false
     ) {
         self.status = status
         self.developer = developer
@@ -446,6 +466,7 @@ public struct UpdateAnswer: Sendable, Hashable {
         self.notesPage = notesPage
         self.standsInFor = standsInFor
         self.wasOffline = wasOffline
+        self.isNotListed = isNotListed
     }
 
     /// The status to keep after `previous`: a check whose own source failed keeps an update that source found earlier,

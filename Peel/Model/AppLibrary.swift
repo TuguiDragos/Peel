@@ -559,12 +559,20 @@ final class AppLibrary {
 
         await withTaskGroup(of: (InstalledApp.ID, UpdateAnswer).self) { group in
             var pending = wanted.makeIterator()
-            for _ in 0..<Self.concurrentUpdateChecks {
-                guard let app = pending.next() else { break }
+            @MainActor func askNext() {
+                guard let app = pending.next() else { return }
                 let earlier = updateStatuses[app.id]
+                let notListedBefore = remembered(app)?.isNotListed == true
                 _ = group.addTaskUnlessCancelled {
-                    (app.id, await checker.answer(for: app, preference: preference, casks: casks, earlier: earlier))
+                    let answer = await checker.answer(
+                        for: app, preference: preference, casks: casks,
+                        earlier: earlier, notListedBefore: notListedBefore
+                    )
+                    return (app.id, answer)
                 }
+            }
+            for _ in 0..<Self.concurrentUpdateChecks {
+                askNext()
             }
             while case let (id, answer)? = await group.next() {
                 // The update source changed since this round began, and the round that change started answers now.
@@ -573,12 +581,7 @@ final class AppLibrary {
                     continue
                 }
                 // Whatever comes of this answer, the next app is asked, so one that left the list costs no place.
-                if let app = pending.next() {
-                    let earlier = updateStatuses[app.id]
-                    _ = group.addTaskUnlessCancelled {
-                        (app.id, await checker.answer(for: app, preference: preference, casks: casks, earlier: earlier))
-                    }
-                }
+                askNext()
                 // In a canceled round every pending request ends as a failure. Recording those would erase
                 // what was known and put off the next check for hours, and so would recording a check made while
                 // this Mac wasn't online, which leaves the app due at the next round.
@@ -613,7 +616,8 @@ final class AppLibrary {
                     checked: answer.status == .failed ? memory[identifier]?.checked : .now,
                     describing: app,
                     developer: answer.developer ?? memory[identifier]?.developer,
-                    standsInFor: standsInFor
+                    standsInFor: standsInFor,
+                    isNotListed: answer.isNotListed
                 )
                 // Only an answer that found this update can say what is new in it; a failed one keeps what was known.
                 if case .updateAvailable(let version, _, _) = kept, answer.status == kept {

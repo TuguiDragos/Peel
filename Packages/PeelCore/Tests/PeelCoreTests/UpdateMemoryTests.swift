@@ -118,4 +118,18 @@ struct UpdateMemoryTests {
 
         #expect(old["com.example.foo"]?.describes(app("1.0")) == false)
     }
+
+    @Test func keepsAcrossLaunchesThatTheAppStoreListedNoSuchApp() throws {
+        let entry = UpdateMemory(
+            status: .updateAvailable(version: "1.2", source: .appStore), schedule: schedule, checked: nil,
+            describing: app("1.0"), isNotListed: true
+        )
+        let saved = try JSONDecoder().decode(UpdateMemory.self, from: JSONEncoder().encode(entry))
+        #expect(saved.isNotListed == true)
+
+        var object = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(entry)) as? [String: Any])
+        object.removeValue(forKey: "isNotListed")
+        let earlier = try JSONDecoder().decode(UpdateMemory.self, from: JSONSerialization.data(withJSONObject: object))
+        #expect(earlier.isNotListed == nil && earlier.status == entry.status)
+    }
 }

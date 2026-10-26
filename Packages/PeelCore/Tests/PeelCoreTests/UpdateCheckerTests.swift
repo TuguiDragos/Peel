@@ -453,6 +453,21 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: notes) == .updateAvailable(version: "1.1", source: .appStore))
     }
 
+    @Test func believesTheAppStoreNoLongerListsAnAppWithAnUpdateFoundOnlyOnTheSecondAnswer() async {
+        let notes = InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro",
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.mac)
+        )
+        let found = UpdateStatus.updateAvailable(version: "1.2", source: .appStore)
+        reply("itunes.apple.com", #"{"resultCount":0,"results":[]}"#)
+
+        let first = await checker.answer(for: notes, earlier: found)
+        #expect(first.status == .failed && first.isNotListed)
+        #expect(first.following(found) == found)
+        #expect(await checker.status(for: notes, earlier: found, notListedBefore: true) == .unsupported)
+        #expect(await checker.status(for: notes) == .unsupported, "with no update found, it is believed at once")
+    }
+
     @Test func asksTheMacListingOfAMacAppSoldWithItsIPhoneVersion() async {
         let notes = { (version: String) in
             InstalledApp(

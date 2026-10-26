@@ -20,6 +20,8 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     public let standsInFor: UpdateStatus?
     /// The `UpdateChecker.revision` that gave the answer; nil for one saved before revisions were kept.
     public let revision: Int?
+    /// Whether the App Store's answer was that it lists no such app; nil for one saved before this was kept.
+    public let isNotListed: Bool?
 
     public init(
         status: UpdateStatus,
@@ -27,13 +29,15 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         checked: Date?,
         describing app: InstalledApp,
         developer: String? = nil,
-        standsInFor: UpdateStatus? = nil
+        standsInFor: UpdateStatus? = nil,
+        isNotListed: Bool = false
     ) {
         self.status = status
         self.schedule = schedule
         self.checked = checked
         self.developer = developer
         self.standsInFor = standsInFor
+        self.isNotListed = isNotListed
         version = app.version
         buildVersion = app.buildVersion
         revision = UpdateChecker.revision
