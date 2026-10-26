@@ -254,7 +254,7 @@ public struct TrashService: Sendable {
     typealias StartJob = @Sendable (LaunchdCleanup.Job, _ canUseHelper: Bool) async -> Void
     typealias ForgetDomains = @Sendable ([URL], _ owner: String?) async -> Void
     typealias MoveThroughHelper = @Sendable ([URL]) async -> TrashResult
-    typealias PutBackDockTiles = @Sendable (URL) async -> Void
+    typealias PutBackDockTiles = @Sendable (_ items: [URL]) async -> Void
     typealias RunningInside = @Sendable (_ app: URL) async -> [LaunchdCleanup.Running]
     typealias StopRunning = @Sendable ([LaunchdCleanup.Running], _ canUseHelper: Bool) async -> [LaunchdCleanup.Running]
     typealias RegistrationAtLogin = @Sendable (_ app: URL) async -> StartsAtLogin.Registration?
@@ -724,14 +724,19 @@ public struct TrashService: Sendable {
     }
 
     /// Puts `items` back in the order given, each as `restore(_:canUseHelper:)` does, and answers for each why it
-    /// stayed, or nil. Launch Services leaves out an app in the Trash and isn't told it moved back, so the apps among
-    /// them are registered again, but only once every item is back: a registered app starts its extensions, which
-    /// would make their containers again before the ones in the Trash went back.
+    /// stayed, or nil. The Dock tiles an uninstall took out for them go back then, all at once. Launch Services
+    /// leaves out an app in the Trash and isn't told it moved back, so the apps among them are registered again, but
+    /// only once every item is back: a registered app starts its extensions, which would make their containers again
+    /// before the ones in the Trash went back.
     @concurrent
     public func restore(_ items: [TrashedItem], canUseHelper: Bool = false) async -> [RestoreFailure?] {
         var answers: [RestoreFailure?] = []
         for item in items {
             answers.append(await restore(item, canUseHelper: canUseHelper))
+        }
+        let back = zip(items, answers).filter { $0.1 == nil }.map(\.0.originalURL)
+        if !back.isEmpty {
+            await putBackDockTiles(back)
         }
         for (item, answer) in zip(items, answers)
         where answer == nil && item.originalURL.pathExtension.caseInsensitiveCompare("app") == .orderedSame {
@@ -741,12 +746,11 @@ public struct TrashService: Sendable {
     }
 
     /// Moves an item from the Trash back where it came from, through the helper when the folder needs
-    /// administrator rights, and puts back the Dock tiles an uninstall took out for it.
+    /// administrator rights.
     @concurrent
     func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
         let failure = await moveBack(item, canUseHelper: canUseHelper)
         if failure == nil {
-            await putBackDockTiles(item.originalURL)
             // The label comes from History, which any process of the user can rewrite, so the job starts only as the
             // file now back in place declares it.
             if let label = item.stoppedJob,

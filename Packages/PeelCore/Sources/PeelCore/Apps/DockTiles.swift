@@ -116,32 +116,38 @@ public struct DockTiles: Sendable {
         return true
     }
 
-    /// Puts back the tiles taken out for the app at `app`, each in its own list, unless that list holds one for it
-    /// again.
-    public func putBack(_ app: URL) async {
-        guard let removed = FileLock.whileHeld(beside: memory, { read()?[key(app)] }) else { return }
-        var settled: Set<DockList> = []
+    /// Puts back the tiles taken out for `apps`, each in its own list unless that list holds one for its app again,
+    /// and restarts the Dock once. Each list takes its tiles in the order of the places they had, so apps taken out
+    /// together come back as they were, whatever order they are put back in.
+    public func putBack(_ apps: [URL]) async {
+        guard let remembered = FileLock.whileHeld(beside: memory, { read() }) else { return }
+        let removed = Set(apps.map(key)).compactMap { key in remembered[key].map { (key: key, entries: $0) } }
+        var settled: [String: Set<DockList>] = [:]
         var changed = false
         for list in DockList.allCases {
-            let entries = removed.filter { $0.list == list }
-            guard !entries.isEmpty, var tiles = store.tiles(in: list) else { continue }
-            if indices(of: app, in: tiles).isEmpty {
-                for entry in entries.sorted(by: { $0.index < $1.index }) {
-                    if let tile = try? PropertyListSerialization.propertyList(from: entry.tile, format: nil) {
-                        tiles.insert(tile, at: min(entry.index, tiles.count))
-                    }
+            let wanted = removed.filter { $0.entries.contains { $0.list == list } }
+            guard !wanted.isEmpty, var tiles = store.tiles(in: list) else { continue }
+            let missing = wanted.filter { indices(ofKey: $0.key, in: tiles).isEmpty }
+            let entries = missing.flatMap { $0.entries.filter { $0.list == list } }
+            for entry in entries.sorted(by: { $0.index < $1.index }) {
+                if let tile = try? PropertyListSerialization.propertyList(from: entry.tile, format: nil) {
+                    tiles.insert(tile, at: min(entry.index, tiles.count))
                 }
+            }
+            if !entries.isEmpty {
                 guard store.setTiles(tiles, in: list) else { continue }
                 changed = true
             }
-            settled.insert(list)
+            for app in wanted { settled[app.key, default: []].insert(list) }
         }
         if changed {
             await store.restartTheDock()
         }
         _ = change { entries in
-            let left = entries[key(app)]?.filter { !settled.contains($0.list) } ?? []
-            entries[key(app)] = left.isEmpty ? nil : left
+            for (key, lists) in settled {
+                let left = entries[key]?.filter { !lists.contains($0.list) } ?? []
+                entries[key] = left.isEmpty ? nil : left
+            }
         }
     }
 
@@ -157,7 +163,11 @@ public struct DockTiles: Sendable {
     }
 
     private func indices(of app: URL, in tiles: [Any]) -> [Int] {
-        tiles.indices.filter { Self.path(of: tiles[$0]) == key(app) }
+        indices(ofKey: key(app), in: tiles)
+    }
+
+    private func indices(ofKey key: String, in tiles: [Any]) -> [Int] {
+        tiles.indices.filter { Self.path(of: tiles[$0]) == key }
     }
 
     private func key(_ app: URL) -> String {

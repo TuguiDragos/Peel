@@ -540,7 +540,7 @@ struct TrashServiceTests {
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
                 rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
             ),
-            putBackDockTiles: { url in asked.withLock { $0.append(url.lastPathComponent) } }
+            putBackDockTiles: { urls in asked.withLock { $0.append(contentsOf: urls.map(\.lastPathComponent)) } }
         ) { url in
             let destination = trash.appending(path: url.lastPathComponent)
             try FileManager.default.moveItem(at: url, to: destination)
@@ -549,8 +549,8 @@ struct TrashServiceTests {
 
         let moved = try #require(await service.trash([app]).trashed.first)
         #expect(asked.withLock { $0 }.isEmpty)
-        #expect(await service.restore(moved) == nil)
-        #expect(await service.restore(moved) != nil)
+        #expect(await service.restore([moved]) == [nil])
+        #expect(await service.restore([moved]) != [nil])
         #expect(asked.withLock { $0 } == ["org.example.Studio.app"])
     }
 

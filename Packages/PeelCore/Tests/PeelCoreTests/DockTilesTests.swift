@@ -65,14 +65,14 @@ struct DockTilesTests {
         ])
         #expect(await tiles.holding([studio]).isEmpty)
 
-        await tiles.putBack(studio)
+        await tiles.putBack([studio])
         #expect(store.paths() == [
             "/System/Applications/Mail.app", "/Applications/org.example.Studio.app",
             "/Volumes/Other/org.example.Studio.app", "/Applications/org.example.Notes.app",
         ])
         #expect(store.restarts.load(ordering: .relaxed) == 2)
 
-        await tiles.putBack(studio)
+        await tiles.putBack([studio])
         #expect(store.paths().count == 4, "a tile was put back twice")
     }
 
@@ -104,12 +104,32 @@ struct DockTilesTests {
         #expect(store.paths() == ["/System/Applications/Mail.app", "/Applications/org.example.Notes.app"])
         #expect(store.restarts.load(ordering: .relaxed) == 1)
 
-        await tiles.putBack(studio)
-        await tiles.putBack(tools)
+        await tiles.putBack([studio])
+        await tiles.putBack([tools])
         #expect(store.paths() == [
             "/System/Applications/Mail.app", "/Applications/org.example.Studio.app",
             "/Applications/org.example.Notes.app", "/Applications/org.example.Tools.app",
         ])
+    }
+
+    @Test func putsBackSeveralAppsTilesInTheirOrderWithOneRestart() async throws {
+        let directory = try TemporaryDirectory()
+        let tools = URL(filePath: "/Applications/org.example.Tools.app", directoryHint: .isDirectory)
+        let store = Store([
+            Self.tile("file:///System/Applications/Mail.app/"),
+            Self.tile("file:///Applications/org.example.Studio.app/"),
+            Self.tile("file:///Applications/org.example.Notes.app/"),
+            Self.tile("file:///Applications/org.example.Tools.app/"),
+            Self.tile("file:///System/Applications/Music.app/"),
+        ])
+        let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
+        let original = store.paths()
+
+        #expect(await tiles.takeOut([studio, tools]))
+        await tiles.putBack([tools, studio])
+
+        #expect(store.paths() == original)
+        #expect(store.restarts.load(ordering: .relaxed) == 2)
     }
 
     @Test func leavesTheDockAsItIsForAnAppWithNoTile() async throws {
@@ -118,7 +138,7 @@ struct DockTilesTests {
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
         #expect(!(await tiles.takeOut([studio])))
-        await tiles.putBack(studio)
+        await tiles.putBack([studio])
         #expect(store.paths() == ["/Applications/org.example.Notes.app"])
         #expect(store.restarts.load(ordering: .relaxed) == 0)
     }
@@ -131,7 +151,7 @@ struct DockTilesTests {
 
         #expect(await tiles.takeOut([studio]))
         _ = store.setTiles([Self.tile("file:///Applications/org.example.Studio.app/")], in: .persistent)
-        await tiles.putBack(studio)
+        await tiles.putBack([studio])
 
         #expect(store.paths() == ["/Applications/org.example.Studio.app"])
     }
@@ -152,7 +172,7 @@ struct DockTilesTests {
         #expect(store.paths(in: .recent) == ["/Applications/org.example.Notes.app"])
         #expect(store.paths() == ["/System/Applications/Mail.app"])
 
-        await tiles.putBack(studio)
+        await tiles.putBack([studio])
         #expect(store.paths(in: .recent) == [
             "/Applications/org.example.Notes.app", "/Applications/org.example.Studio.app",
         ])
@@ -172,7 +192,7 @@ struct DockTilesTests {
         #expect(store.paths(in: .recent).isEmpty)
         #expect(store.restarts.load(ordering: .relaxed) == 1)
 
-        await tiles.putBack(studio)
+        await tiles.putBack([studio])
         #expect(store.paths() == ["/Applications/org.example.Studio.app"])
         #expect(store.paths(in: .recent) == ["/Applications/org.example.Studio.app"])
         #expect(store.restarts.load(ordering: .relaxed) == 2)
@@ -188,7 +208,7 @@ struct DockTilesTests {
         try JSONSerialization.data(withJSONObject: [PathPattern.comparablePath(of: studio): [entry]]).write(to: memory)
         let store = Store([Self.tile("file:///System/Applications/Mail.app/")], recent: [])
 
-        await DockTiles(store: store, memory: memory).putBack(studio)
+        await DockTiles(store: store, memory: memory).putBack([studio])
 
         #expect(store.paths() == ["/Applications/org.example.Studio.app", "/System/Applications/Mail.app"])
         #expect(store.paths(in: .recent).isEmpty)
@@ -209,7 +229,7 @@ struct DockTilesTests {
 
         store.refusing.withLock { $0 = [] }
         _ = store.setTiles([], in: .recent)
-        await tiles.putBack(studio)
+        await tiles.putBack([studio])
 
         #expect(store.paths() == ["/Applications/org.example.Studio.app"])
         #expect(store.paths(in: .recent).isEmpty, "a tile that never left the Dock was put back")
