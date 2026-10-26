@@ -61,7 +61,7 @@ struct BackgroundItemList: View {
         }
         // The first scan waits for the installed apps, which it needs to trace each item to the app that owns it.
         .task(id: library.hasLoaded) {
-            guard library.hasLoaded, backgroundItems.items == nil, !backgroundItems.isScanning,
+            guard library.hasLoaded, backgroundItems.items == nil, !backgroundItems.scanRun.isWaitedFor,
                   !backgroundItems.scanRun.wasStopped
             else { return }
             await backgroundItems.refresh(installedApps: library.apps)

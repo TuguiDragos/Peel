@@ -96,7 +96,7 @@ struct SpaceList: View {
         }
         .task {
             if space.report != nil { await space.readDisk() }
-            guard space.report == nil, !space.isScanning, !space.scanRun.wasStopped else { return }
+            guard space.report == nil, !space.scanRun.isWaitedFor, !space.scanRun.wasStopped else { return }
             await space.refresh()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in

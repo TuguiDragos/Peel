@@ -53,7 +53,9 @@ struct DeveloperList: View {
             }
         }
         .task {
-            guard developer.environments == nil, !developer.isScanning, !developer.scanRun.wasStopped else { return }
+            guard developer.environments == nil, !developer.scanRun.isWaitedFor, !developer.scanRun.wasStopped else {
+                return
+            }
             await developer.refresh()
         }
         .rescanOnExclusionChange("DeveloperList") { await developer.refresh() }

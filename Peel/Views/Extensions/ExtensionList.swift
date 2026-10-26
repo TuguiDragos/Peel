@@ -67,7 +67,9 @@ struct ExtensionList: View {
             }
         }
         .task {
-            guard extensions.extensions == nil, !extensions.isScanning, !extensions.scanRun.wasStopped else { return }
+            guard extensions.extensions == nil, !extensions.scanRun.isWaitedFor, !extensions.scanRun.wasStopped else {
+                return
+            }
             await extensions.refresh()
         }
         .rescanOnExclusionChange("ExtensionList") { await extensions.refresh() }

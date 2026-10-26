@@ -49,7 +49,7 @@ final class PackageLibrary {
 
     /// Reads the receipts again when one changed since the last scan.
     func refreshIfReceiptsChanged() async {
-        guard receipts != nil, !isScanning, !isWorking else { return }
+        guard receipts != nil, !scanRun.isWaitedFor, !isWorking else { return }
         guard PackageActions.receiptsChanged() != scannedChange else { return }
         await refresh()
     }

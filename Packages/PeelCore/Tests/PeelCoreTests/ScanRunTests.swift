@@ -26,6 +26,29 @@ struct ScanRunTests {
         }
     }
 
+    /// Work that waits, whatever cancels it, until the test lets it go, as a read waits while macOS asks.
+    private final class Stuck: Sendable {
+        private let state = Mutex<(started: Bool, waiter: CheckedContinuation<Void, Never>?)>((false, nil))
+
+        func run() async -> Int {
+            await withCheckedContinuation { waiter in state.withLock { $0 = (true, waiter) } }
+            return 1
+        }
+
+        func release() {
+            state.withLock {
+                $0.waiter?.resume()
+                $0.waiter = nil
+            }
+        }
+
+        func untilStarted() async {
+            while !state.withLock({ $0.started }) {
+                try? await Task.sleep(for: .milliseconds(1))
+            }
+        }
+    }
+
     @Test func aStoppedScanAnswersNothingAndSaysSo() async {
         let scan = ScanRun()
         let waiting = Waiting()
@@ -70,6 +93,25 @@ struct ScanRunTests {
         #expect(waiting.stopped)
         #expect(!scan.isRunning)
         #expect(!scan.wasStopped)
+    }
+
+    @Test func aScanItsPageLeftIsNoLongerWaitedFor() async {
+        let scan = ScanRun()
+        let stuck = Stuck()
+        let asking = Task { await scan.run { await stuck.run() } }
+        await stuck.untilStarted()
+        let wasWaitedFor = scan.isWaitedFor
+
+        asking.cancel()
+        await Task.yield()
+        let isWaitedFor = scan.isWaitedFor
+        let next = await scan.run { 2 }
+        stuck.release()
+
+        #expect(wasWaitedFor && !isWaitedFor)
+        #expect(next == 2)
+        #expect(await asking.value == nil)
+        #expect(!scan.isRunning && !scan.wasStopped && !scan.isAbandoned)
     }
 
     /// While a scan runs, the page shows how many items it has read, a number that moves even while a folder

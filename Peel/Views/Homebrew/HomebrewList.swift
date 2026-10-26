@@ -126,7 +126,7 @@ struct HomebrewList: View {
         .task {
             // Only this page shows what Clean Up would free, so the figure is asked for here, and only while
             // it's unknown: `brew cleanup --dry-run` has to walk the cache and the Cellar to work it out.
-            guard !homebrew.isScanning, !homebrew.scanRun.wasStopped,
+            guard !homebrew.scanRun.isWaitedFor, !homebrew.scanRun.wasStopped,
                   homebrew.packages == nil || homebrew.reclaimable == nil
             else { return }
             await homebrew.refresh(includingReclaimable: true)

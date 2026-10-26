@@ -60,7 +60,7 @@ final class ProjectLibrary {
     /// Scans unless the last scan ended less than `age` ago, one or a removal runs, or the last scan was stopped: a
     /// project changed in the last 7 days is held back, so what a scan saw ages.
     func refreshUnlessScanned(within age: Duration) async {
-        guard !isScanning, !isRemoving, !scanRun.wasStopped else { return }
+        guard !scanRun.isWaitedFor, !isRemoving, !scanRun.wasStopped else { return }
         if let scannedAt, ContinuousClock.now - scannedAt < age { return }
         await refresh()
     }

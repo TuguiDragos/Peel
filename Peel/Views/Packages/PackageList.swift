@@ -79,7 +79,7 @@ struct PackageList: View {
                 await packages.refreshIfReceiptsChanged()
                 return
             }
-            guard !packages.isScanning, !packages.scanRun.wasStopped else { return }
+            guard !packages.scanRun.isWaitedFor, !packages.scanRun.wasStopped else { return }
             await packages.refresh()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in

@@ -13,6 +13,11 @@ public final class ScanRun {
     /// True when the last scan was stopped before it finished. The page then shows what the scan before it
     /// found, or says that nothing was read.
     public private(set) var wasStopped = false
+    /// True when the page that asked for the running scan went away. The scan may still be waiting on macOS, and
+    /// its answer will be dropped, so a page that comes back starts its own.
+    public private(set) var isAbandoned = false
+    /// True while a scan runs for a page that still waits for its answer.
+    public var isWaitedFor: Bool { isRunning && !isAbandoned }
     /// What the scan has read so far (`ScanCount`), brought up to date ten times a second while it runs.
     public private(set) var itemsRead = 0
     @ObservationIgnored private var newest = 0
@@ -30,6 +35,7 @@ public final class ScanRun {
         let task = Task { await ScanCount.$current.withValue(count) { await work() } }
         stopNewest = { task.cancel() }
         wasStopped = false
+        isAbandoned = false
         isRunning = true
         itemsRead = 0
         let reading = Task { [weak self] in
@@ -43,11 +49,16 @@ public final class ScanRun {
             await task.value
         } onCancel: {
             task.cancel()
+            Task { @MainActor [weak self] in
+                guard let self, asked == self.newest else { return }
+                self.isAbandoned = true
+            }
         }
         reading.cancel()
         guard asked == newest else { return nil }
         stopNewest = nil
         isRunning = false
+        isAbandoned = false
         return task.isCancelled ? nil : answer
     }
 
@@ -59,6 +70,7 @@ public final class ScanRun {
         stopNewest = nil
         newest += 1
         isRunning = false
+        isAbandoned = false
         wasStopped = true
     }
 }

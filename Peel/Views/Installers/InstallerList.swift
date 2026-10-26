@@ -89,7 +89,8 @@ struct InstallerList: View {
             }
         }
         .task(id: library.hasLoaded) {
-            guard library.hasLoaded, installers.scan == nil, !installers.isScanning, !installers.scanRun.wasStopped
+            guard library.hasLoaded, installers.scan == nil, !installers.scanRun.isWaitedFor,
+                  !installers.scanRun.wasStopped
             else { return }
             await installers.refresh(installedApps: library.apps)
         }

@@ -219,7 +219,7 @@ struct CloudView: View {
             Text(verbatim: leftAlone.message)
         }
         .task {
-            guard cloud.files == nil, !cloud.isScanning, !cloud.scanRun.wasStopped else { return }
+            guard cloud.files == nil, !cloud.scanRun.isWaitedFor, !cloud.scanRun.wasStopped else { return }
             await cloud.refresh()
         }
         .rescanOnExclusionChange("CloudView") { await cloud.refresh() }

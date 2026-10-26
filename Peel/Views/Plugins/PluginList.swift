@@ -99,7 +99,7 @@ struct PluginList: View {
             }
         }
         .task {
-            guard plugins.plugins == nil, !plugins.isScanning, !plugins.scanRun.wasStopped else { return }
+            guard plugins.plugins == nil, !plugins.scanRun.isWaitedFor, !plugins.scanRun.wasStopped else { return }
             await plugins.refresh()
         }
         .rescanOnExclusionChange("PluginList") { await plugins.refresh() }
