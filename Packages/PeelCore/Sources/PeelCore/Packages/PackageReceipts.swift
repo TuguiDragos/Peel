@@ -267,6 +267,8 @@ public enum PackageReceipts {
 
         let listing = await pkgutil(["--files", identifier])
         let files = lines(of: listing)
+        let throughScripts = listing != nil
+            && (files.isEmpty || isTemporary(installLocation: info["install-location"] as? String ?? ""))
 
         let found = topLevel(files: files, installLocation: installLocation.path(percentEncoded: false))
         // An app's own rules reach the rest of its package, as they reach its files on its page.
@@ -327,8 +329,9 @@ public enum PackageReceipts {
                 volume: volume,
                 items: items,
                 // Judged from the disk: `items` leaves out what is excluded or protected, even while it is there.
-                nothingLeftOnDisk: listing != nil && found.onDisk.isEmpty,
-                isFileListKnown: listing != nil
+                nothingLeftOnDisk: listing != nil && !throughScripts && found.onDisk.isEmpty,
+                isFileListKnown: listing != nil,
+                installedThroughItsScripts: throughScripts
             ),
             paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) }
         )
@@ -346,6 +349,14 @@ public enum PackageReceipts {
         let volume = URL(filePath: info["volume"] as? String ?? "/", directoryHint: .isDirectory)
         let location = info["install-location"] as? String ?? ""
         return (info, volume, volume.appending(path: location, directoryHint: .isDirectory))
+    }
+
+    /// Whether a package's install location, relative to its volume, is one of the temporary folders an installer's
+    /// scripts move files out of.
+    static func isTemporary(installLocation location: String) -> Bool {
+        let names = PathComponents.of(location).filter { $0 != "." }
+        let place = names.first == "private" ? Array(names.dropFirst()) : names
+        return place.first == "tmp" || (place.first == "var" && ["tmp", "folders"].contains(place.dropFirst().first))
     }
 
     private static func path(of file: String, in installLocation: URL) -> URL {

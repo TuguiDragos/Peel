@@ -45,6 +45,9 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// False when `pkgutil` did not say what the package installed, because it failed or ran out of time.
     /// Nothing can then be said about what is left, and an empty list is not "nothing left".
     public var isFileListKnown = true
+    /// True when the package's scripts put its files in place: it installed into a temporary folder, or listed
+    /// nothing. Its receipt then doesn't say where they are, so nothing is judged left or gone from it.
+    public var installedThroughItsScripts = false
 
     public var id: String { identifier }
 

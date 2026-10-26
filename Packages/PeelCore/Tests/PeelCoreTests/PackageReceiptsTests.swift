@@ -213,6 +213,42 @@ struct PackageReceiptsTests {
         #expect(items.sorted() == ["Example.plugin", "Vendor Node/One/vendor-node", "org.example/Driver"])
     }
 
+    @Test func aPackageWhoseScriptsPlaceItsFilesIsNeverReceiptOnly() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        try directory.file("Applications/Mixer.app/Contents/Info.plist", bytes: 16)
+        let locations = ["org.example.mixer": "tmp/MXR", "org.example.mixer.scripts": "", "org.example.gone": "Applications"]
+        let listings = [
+            "org.example.mixer": "Mixer.app\nMixer.app/Contents\nMixer.app/Contents/Info.plist",
+            "org.example.mixer.scripts": "",
+            "org.example.gone": "Gone.app\nGone.app/Contents",
+        ]
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.gone", "org.example.mixer", "org.example.mixer.scripts")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": locations[arguments[1]] ?? ""]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return listings[arguments[1]]
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+        let receipts = scan.receipts
+
+        let byScripts = receipts.filter { $0.identifier.hasPrefix("org.example.mixer") }
+        #expect(byScripts.count == 2)
+        #expect(byScripts.allSatisfy { $0.installedThroughItsScripts && !$0.nothingLeftOnDisk })
+        let gone = try #require(receipts.first { $0.identifier == "org.example.gone" })
+        #expect(gone.nothingLeftOnDisk && !gone.installedThroughItsScripts)
+    }
+
     @Test func leavesAnAppToFinderWhenMacOSInstalledItsSystemExtension() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)

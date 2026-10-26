@@ -126,6 +126,8 @@ struct PackageDetailView: View {
     private var emptyListReason: LocalizedStringResource {
         if !receipt.isFileListKnown {
             "macOS didn’t say what this package installed, so Peel can’t tell what is left."
+        } else if receipt.installedThroughItsScripts {
+            "This package’s scripts put its files in place, so its receipt doesn’t say where they are."
         } else if receipt.nothingLeftOnDisk {
             "Nothing from this package is left on disk."
         } else {

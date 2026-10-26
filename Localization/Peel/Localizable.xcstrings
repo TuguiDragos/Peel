@@ -175983,6 +175983,112 @@
         }
       }
     },
+    "This package’s scripts put its files in place, so its receipt doesn’t say where they are." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory tohoto balíčku rozmístily jeho skripty, takže záznam o instalaci neuvádí, kde jsou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Skripte dieses Pakets legen seine Dateien ab, daher gibt seine Quittung nicht an, wo sie liegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los scripts de este paquete colocaron sus archivos en su sitio, así que su recibo no indica dónde están."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce sont les scripts de ce paquet qui mettent ses fichiers en place : son reçu n’indique donc pas où ils se trouvent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli script di questo pacchetto hanno collocato i suoi file, quindi la sua ricevuta non indica dove si trovano."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このパッケージはスクリプトでファイルを配置したため、レシートにはファイルの場所が記載されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 패키지의 스크립트가 파일을 배치했으므로 수신 정보에는 파일이 어디에 있는지 나와 있지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De scripts van dit pakket hebben de bestanden ervan op hun plek gezet, dus het installatiebewijs vermeldt niet waar ze staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skrypty tego pakietu same rozmieściły jego pliki, więc jego potwierdzenie nie podaje, gdzie się one znajdują."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os scripts deste pacote colocaram os arquivos dele no lugar, por isso o recibo não diz onde eles estão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scripturile acestui pachet i‑au pus fișierele la locul lor, așa că recipisa sa nu spune unde se află acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы этого пакета размещают его собственные скрипты, поэтому в квитанции не указано, где они находятся."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här paketets skript har placerat filerna, så kvittot anger inte var de finns."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu paketin dosyalarını kendi betikleri yerleştirdi, bu yüzden makbuzu bu dosyaların nerede olduğunu belirtmiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли цього пакета розмістили його скрипти, тож у його квитанції не вказано, де вони лежать."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此软件包的文件由其脚本放置到位，因此它的回执没有说明这些文件的位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此套件是由其指令碼將檔案放置到位的，因此它的收據沒有說明這些檔案位於何處。"
+          }
+        }
+      }
+    },
     "This part inside the app is Intel only. It runs through Rosetta, or not at all." : {
       "localizations" : {
         "cs" : {
