@@ -654,7 +654,7 @@ struct HomebrewOutputView: View {
                 Image(systemName: result.succeeded ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                     .foregroundStyle(result.succeeded ? .green : .red)
             }
-            if !result.succeeded {
+            if !result.succeeded, Homebrew.askedForAPassword(in: result.output) {
                 Text("If the command needs your password, run it in Terminal.")
                     .font(.callout)
                     .foregroundStyle(.secondary)

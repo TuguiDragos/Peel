@@ -477,6 +477,12 @@ indirect enum CaskValue: Decodable, Sendable {
 
 public enum Homebrew {
     static let notInstalled = "Homebrew isn’t installed."
+
+    /// Whether `sudo` stopped for a password it had no terminal to ask in, in its own words, which it writes in English
+    /// in the environment Peel runs Homebrew in.
+    public static func askedForAPassword(in transcript: String) -> Bool {
+        ["a terminal is required to read the password", "a password is required"].contains(where: transcript.contains)
+    }
     /// The command brew.sh gives for installing Homebrew. Its script says what it will do and waits before doing it.
     public static let installCommand = "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
     public static let website = URL(string: "https://brew.sh")!

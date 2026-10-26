@@ -19,6 +19,28 @@ struct HomebrewTests {
     /// `man brew`: unless `HOMEBREW_NO_INSTALL_CLEANUP` is set, `brew upgrade` runs `brew cleanup` by itself, for
     /// the upgraded packages and every 30 days for all of them, which deletes old versions and downloads for good.
     /// Peel deletes those only through Clean Up, which asks first, so no call it makes may clean up on its own.
+    @Test func knowsWhenSudoAskedForAPassword() {
+        let sudo = """
+            ==> Running installer for zoom with sudo; the password may be necessary.
+            sudo: a terminal is required to read the password; either use the -S option to read from standard input \
+            or configure an askpass helper
+            sudo: a password is required
+            Error: Failure while executing; `/usr/bin/sudo -u root -E -- /usr/sbin/installer -pkg zoom.pkg` exited with 1.
+            """
+        let network = """
+            curl: (6) Could not resolve host: formulae.brew.sh
+            Error: Failure while executing; `/usr/bin/curl --disable --globoff` exited with 6.
+            """
+        let build = """
+            Error: An exception occurred within a child process:
+              BuildError: Failed executing: make install
+            """
+
+        #expect(Homebrew.askedForAPassword(in: sudo))
+        #expect(!Homebrew.askedForAPassword(in: network))
+        #expect(!Homebrew.askedForAPassword(in: build))
+    }
+
     @Test func anUpgradeNeverCleansUpOnItsOwn() {
         for autoUpdate in [true, false] {
             #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_INSTALL_CLEANUP"] == "1")
