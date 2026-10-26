@@ -72,7 +72,7 @@ struct FileSearchList: View {
                 ContentUnavailableView(
                     "Search for Files",
                     systemImage: "doc.text.magnifyingglass",
-                    description: Text("Type a name or choose a kind or size.")
+                    description: Text("Type a name, or choose a kind or size in Filters.")
                 )
             } else if search.results?.didRun == false {
                 ContentUnavailableView(
@@ -99,18 +99,30 @@ struct FileSearchList: View {
                             }
                         }
                     }
-                } else if !results.unindexedDisks.isEmpty {
-                    ContentUnavailableView(
-                        "No Results",
-                        systemImage: "magnifyingglass",
-                        description: Text("Check the spelling or try a new search. Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
-                    )
                 } else {
-                    ContentUnavailableView(
-                        "No Results",
-                        systemImage: "magnifyingglass",
-                        description: Text("Check the spelling or try a new search. File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched.")
-                    )
+                    // A search shows this only once it answered for the criteria as they are now.
+                    let criteria = search.criteria
+                    ContentUnavailableView {
+                        Label("No Results", systemImage: "magnifyingglass")
+                    } description: {
+                        VStack(spacing: 8) {
+                            if !criteria.trimmedName.isEmpty {
+                                Text("Check the spelling or try a new search.")
+                            }
+                            if criteria.narrowingFilters > 0 {
+                                Text("The filters you chose may leave out what you’re looking for.")
+                            }
+                            if results.unindexedDisks.isEmpty {
+                                Text("File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched.")
+                            } else {
+                                Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
+                            }
+                        }
+                    } actions: {
+                        if criteria.narrowingFilters > 0 {
+                            Button("Clear Filters") { search.criteria = criteria.clearingFilters() }
+                        }
+                    }
                 }
             }
         }
@@ -132,8 +144,13 @@ struct FileSearchList: View {
         .navigationTitle(Text(Tool.fileSearch.title))
         .toolbar {
             ToolbarItem {
-                Button("Filters", systemImage: "line.3.horizontal.decrease.circle") { isShowingFilters = true }
+                let filters = search.criteria.narrowingFilters
+                Button(
+                    "Filters",
+                    systemImage: filters > 0 ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle"
+                ) { isShowingFilters = true }
                     .help(Text("Filters"))
+                    .accessibilityValue(filters > 0 ? Text("^[\(filters) filter](inflect: true) on") : Text(verbatim: ""))
                     .popover(isPresented: $isShowingFilters, arrowEdge: .bottom) {
                         FileSearchForm()
                     }

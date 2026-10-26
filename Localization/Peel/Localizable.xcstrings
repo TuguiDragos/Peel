@@ -24181,214 +24181,108 @@
         }
       }
     },
-    "Check the spelling or try a new search. File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched." : {
+    "Check the spelling or try a new search." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zkontrolujte pravopis nebo zadejte jiný dotaz. Stránka Hledání souborů najde jen to, co indexuje Spotlight, takže složku uvedenou v Nastavení systému > Spotlight > Soukromí při hledání neprohledává."
+            "value" : "Zkontrolujte pravopis nebo zadejte jiný dotaz."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Überprüfe die Schreibweise oder starte eine neue Suche. Die Seite „Dateisuche“ findet nur, was Spotlight indiziert, daher wird ein Ordner, der unter „Systemeinstellungen“ > „Spotlight“ > „Datenschutz der Suchfunktion“ aufgeführt ist, nicht durchsucht."
+            "value" : "Überprüfe die Schreibweise oder starte eine neue Suche."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Comprueba la ortografía o prueba con una nueva búsqueda. La página Búsqueda de archivos solo encuentra lo que indexa Spotlight, así que no busca en ninguna carpeta que aparezca en Ajustes del Sistema > Spotlight > Privacidad de la búsqueda."
+            "value" : "Comprueba la ortografía o prueba con una nueva búsqueda."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vérifiez l’orthographe ou lancez une nouvelle recherche. La page Recherche de fichiers ne trouve que ce que Spotlight indexe : un dossier listé dans Réglages Système > Spotlight > Recherche et confidentialité n’est donc pas inclus dans la recherche."
+            "value" : "Vérifiez l’orthographe ou lancez une nouvelle recherche."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verifica che non ci siano errori di battitura o esegui una nuova ricerca. “Ricerca file” trova solo ciò che Spotlight indicizza, quindi non cerca nelle cartelle elencate in Impostazioni di Sistema > Spotlight > Privacy della ricerca."
+            "value" : "Verifica che non ci siano errori di battitura o esegui una nuova ricerca."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "スペルをチェックするか、新規検索をしてみてください。“ファイル検索”ではSpotlightの索引にあるものしか見つけられないため、“システム設定”＞“Spotlight”＞“検索のプライバシー”に追加されているフォルダは検索されません。"
+            "value" : "スペルをチェックするか、新規検索をしてみてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "맞춤법을 확인하거나 새로운 검색을 시도하십시오. 파일 검색 페이지는 Spotlight가 인덱싱하는 항목만 찾으므로, 시스템 설정 > Spotlight > 검색 개인정보 보호에 나열된 폴더는 검색되지 않습니다."
+            "value" : "맞춤법을 확인하거나 새로운 검색을 시도하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controleer de spelling of probeer een nieuwe zoekopdracht. De pagina 'Bestanden zoeken' vindt alleen wat Spotlight indexeert, dus een map die in Systeeminstellingen > Spotlight > Zoeken en privacy staat, wordt niet doorzocht."
+            "value" : "Controleer de spelling of probeer een nieuwe zoekopdracht."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sprawdź pisownię frazy lub użyj innej. Strona Wyszukiwanie plików znajduje tylko to, co indeksuje Spotlight, więc folder wymieniony w Ustawieniach systemowych > Spotlight > Wyszukiwanie i prywatność nie jest przeszukiwany."
+            "value" : "Sprawdź pisownię frazy lub użyj innej."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verifique a ortografia ou tente uma nova busca. A página Busca de Arquivos só encontra o que o Spotlight indexa, então não busca em uma pasta listada em Ajustes do Sistema > Spotlight > Privacidade na Busca."
+            "value" : "Verifique a ortografia ou tente uma nova busca."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verificați ortografia sau încercați altă căutare. Pagina Căutare fișiere găsește doar ce indexează Spotlight, așa că un dosar listat în Configurări sistem > Spotlight > Intimitatea căutărilor nu este inclus în căutare."
+            "value" : "Verificați ortografia sau încercați altă căutare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Проверьте написание или попробуйте изменить запрос. Раздел «Поиск файлов» находит только то, что индексирует Spotlight, поэтому поиск не выполняется в папках из списка в разделе «Системные настройки» > «Spotlight» > «Конфиденциальность Поиска»."
+            "value" : "Проверьте написание или попробуйте изменить запрос."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kontrollera stavningen eller försök med en ny sökning. Sidan Filsökning hittar bara det som Spotlight indexerar, så en mapp som listas i Systeminställningar > Spotlight > Sökningsintegritet genomsöks inte."
+            "value" : "Kontrollera stavningen eller försök med en ny sökning."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yazım denetimi yapın veya yeni bir arama deneyin. Dosya Arama yalnızca Spotlight’ın dizinlediklerini bulur, bu yüzden Sistem Ayarları > Spotlight > Arama Gizliliği bölümünde listelenen bir klasörde arama yapılmaz."
+            "value" : "Yazım denetimi yapın veya yeni bir arama deneyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перевірте правопис або спробуйте новий запит. Розділ «Пошук файлів» знаходить лише те, що індексує Spotlight, тож не шукає в папках, доданих до списку в розділі Системні параметри > Spotlight > Приватність пошуку."
+            "value" : "Перевірте правопис або спробуйте новий запит."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "检查拼写或尝试新搜索词。“文件搜索”只会找到“聚焦”已索引的内容，因此不会搜索列在“系统设置”>“聚焦”>“搜索隐私”中的文件夹。"
+            "value" : "检查拼写或尝试新搜索词。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "檢查拼字或嘗試新的搜尋項目。「檔案搜尋」只會找到Spotlight已建立索引的項目，因此不會搜尋列在「系統設定」>「Spotlight」>「搜尋隱私權」中的檔案夾。"
-          }
-        }
-      }
-    },
-    "Check the spelling or try a new search. Spotlight isn’t indexing %@, so File Search can’t find anything there." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zkontrolujte pravopis nebo zadejte jiný dotaz. Spotlight neindexuje %@, takže stránka Hledání souborů tam nemůže nic najít."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Überprüfe die Schreibweise oder starte eine neue Suche. Spotlight indiziert %@ nicht, daher kann die Seite „Dateisuche“ dort nichts finden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comprueba la ortografía o prueba con una nueva búsqueda. Spotlight no indexa %@, así que la página Búsqueda de archivos no puede encontrar nada ahí."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérifiez l’orthographe ou lancez une nouvelle recherche. Spotlight n’indexe pas %@ : la page Recherche de fichiers ne peut donc rien y trouver."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verifica che non ci siano errori di battitura o esegui una nuova ricerca. Spotlight non indicizza %@, quindi “Ricerca file” non può trovare nulla lì."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スペルをチェックするか、新規検索をしてみてください。Spotlightが%@の索引を作成していないため、“ファイル検索”ではそこにあるものを見つけられません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "맞춤법을 확인하거나 새로운 검색을 시도하십시오. Spotlight가 %@을(를) 인덱싱하지 않으므로 파일 검색 페이지는 그곳에서 아무것도 찾을 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controleer de spelling of probeer een nieuwe zoekopdracht. Spotlight indexeert %@ niet, dus kan de pagina 'Bestanden zoeken' daar niets vinden."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sprawdź pisownię frazy lub użyj innej. Spotlight nie indeksuje: %@, więc strona Wyszukiwanie plików nie może niczego tam znaleźć."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verifique a ortografia ou tente uma nova busca. O Spotlight não está indexando %@, então a página Busca de Arquivos não consegue encontrar nada lá."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificați ortografia sau încercați altă căutare. Spotlight nu indexează %@, așa că pagina Căutare fișiere nu poate găsi nimic acolo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверьте написание или попробуйте изменить запрос. Spotlight не индексирует %@, поэтому раздел «Поиск файлов» не может там ничего найти."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrollera stavningen eller försök med en ny sökning. Spotlight indexerar inte %@, så sidan Filsökning kan inte hitta något där."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yazım denetimi yapın veya yeni bir arama deneyin. Spotlight, %@ içeriğini dizinlemiyor, bu yüzden Dosya Arama orada hiçbir şey bulamaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перевірте правопис або спробуйте новий запит. Spotlight не індексує %@, тож розділ «Пошук файлів» не може там нічого знайти."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查拼写或尝试新搜索词。“聚焦”没有索引“%@”，因此“文件搜索”无法在其中找到任何内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檢查拼字或嘗試新的搜尋項目。Spotlight沒有為%@建立索引，因此「檔案搜尋」無法在那裡找到任何項目。"
+            "value" : "檢查拼字或嘗試新的搜尋項目。"
           }
         }
       }
@@ -28205,6 +28099,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除所有下載檔案"
+          }
+        }
+      }
+    },
+    "Clear Filters" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vymazat filtry"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter löschen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar filtros"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer les filtres"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancella filtri"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フィルタを消去"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "필터 지우기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis filters"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymaż filtry"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limpar Filtros"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați filtrele"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить фильтры"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rensa filter"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtreleri Temizle"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистити фільтри"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除筛选条件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除過濾條件"
           }
         }
       }
@@ -40867,6 +40867,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "檔案搜尋"
+          }
+        }
+      }
+    },
+    "File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stránka Hledání souborů najde jen to, co indexuje Spotlight, takže složku uvedenou v Nastavení systému > Spotlight > Soukromí při hledání neprohledává."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite „Dateisuche“ findet nur, was Spotlight indiziert, daher wird ein Ordner, der unter „Systemeinstellungen“ > „Spotlight“ > „Datenschutz der Suchfunktion“ aufgeführt ist, nicht durchsucht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La página Búsqueda de archivos solo encuentra lo que indexa Spotlight, así que no busca en ninguna carpeta que aparezca en Ajustes del Sistema > Spotlight > Privacidad de la búsqueda."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page Recherche de fichiers ne trouve que ce que Spotlight indexe : un dossier listé dans Réglages Système > Spotlight > Recherche et confidentialité n’est donc pas inclus dans la recherche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Ricerca file” trova solo ciò che Spotlight indicizza, quindi non cerca nelle cartelle elencate in Impostazioni di Sistema > Spotlight > Privacy della ricerca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“ファイル検索”ではSpotlightの索引にあるものしか見つけられないため、“システム設定”＞“Spotlight”＞“検索のプライバシー”に追加されているフォルダは検索されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일 검색 페이지는 Spotlight가 인덱싱하는 항목만 찾으므로, 시스템 설정 > Spotlight > 검색 개인정보 보호에 나열된 폴더는 검색되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De pagina 'Bestanden zoeken' vindt alleen wat Spotlight indexeert, dus een map die in Systeeminstellingen > Spotlight > Zoeken en privacy staat, wordt niet doorzocht."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strona Wyszukiwanie plików znajduje tylko to, co indeksuje Spotlight, więc folder wymieniony w Ustawieniach systemowych > Spotlight > Wyszukiwanie i prywatność nie jest przeszukiwany."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A página Busca de Arquivos só encontra o que o Spotlight indexa, então não busca em uma pasta listada em Ajustes do Sistema > Spotlight > Privacidade na Busca."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagina Căutare fișiere găsește doar ce indexează Spotlight, așa că un dosar listat în Configurări sistem > Spotlight > Intimitatea căutărilor nu este inclus în căutare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раздел «Поиск файлов» находит только то, что индексирует Spotlight, поэтому поиск не выполняется в папках из списка в разделе «Системные настройки» > «Spotlight» > «Конфиденциальность Поиска»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sidan Filsökning hittar bara det som Spotlight indexerar, så en mapp som listas i Systeminställningar > Spotlight > Sökningsintegritet genomsöks inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya Arama yalnızca Spotlight’ın dizinlediklerini bulur, bu yüzden Sistem Ayarları > Spotlight > Arama Gizliliği bölümünde listelenen bir klasörde arama yapılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розділ «Пошук файлів» знаходить лише те, що індексує Spotlight, тож не шукає в папках, доданих до списку в розділі Системні параметри > Spotlight > Приватність пошуку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“文件搜索”只会找到“聚焦”已索引的内容，因此不会搜索列在“系统设置”>“聚焦”>“搜索隐私”中的文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「檔案搜尋」只會找到Spotlight已建立索引的項目，因此不會搜尋列在「系統設定」>「Spotlight」>「搜尋隱私權」中的檔案夾。"
           }
         }
       }
@@ -172216,6 +172322,112 @@
         }
       }
     },
+    "The filters you chose may leave out what you’re looking for." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zvolené filtry mohou vynechat to, co hledáte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Filter, die du gewählt hast, lassen möglicherweise aus, wonach du suchst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que los filtros que has elegido dejen fuera lo que buscas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les filtres que vous avez choisis écartent peut-être ce que vous recherchez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I filtri che hai scelto potrebbero lasciare fuori ciò che stai cercando."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択したフィルタによって、探しているものが結果から外れている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 필터 때문에 찾고 있는 항목이 표시되지 않을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De filters die je hebt gekozen, laten misschien weg wat je zoekt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybrane przez Ciebie filtry mogą pomijać to, czego szukasz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os filtros que você escolheu podem deixar de fora o que você está procurando."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrele pe care le‑ați ales pot omite ceea ce căutați."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбранные Вами фильтры могут исключать то, что Вы ищете."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtren som du har valt kan utelämna det som du letar efter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçtiğiniz filtreler aradığınız şeyi dışarıda bırakıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрані вами фільтри можуть приховувати те, що ви шукаєте."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你选取的筛选条件可能会过滤掉你要查找的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你選擇的過濾條件可能會將你要找的項目過濾掉。"
+          }
+        }
+      }
+    },
     "The folder from before can’t take screenshots anymore, so macOS saves them on the Desktop." : {
       "localizations" : {
         "cs" : {
@@ -186381,108 +186593,108 @@
         }
       }
     },
-    "Type a name or choose a kind or size." : {
+    "Type a name, or choose a kind or size in Filters." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zadejte název nebo zvolte druh či velikost."
+            "value" : "Zadejte název nebo ve Filtrech zvolte druh či velikost."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gib einen Namen ein oder wähle eine Art oder Größe."
+            "value" : "Gib einen Namen ein oder wähle unter „Filter“ eine Art oder Größe."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escribe un nombre o elige una clase o un tamaño."
+            "value" : "Escribe un nombre, o elige una clase o un tamaño en Filtros."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saisissez un nom, ou choisissez un type ou une taille."
+            "value" : "Saisissez un nom, ou choisissez un type ou une taille dans Filtres."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Digita un nome o scegli un tipo o una dimensione."
+            "value" : "Digita un nome, oppure scegli un tipo o una dimensione in Filtri."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "名前を入力するか、種類やサイズを選択してください。"
+            "value" : "名前を入力するか、“フィルタ”で種類やサイズを選択してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이름을 입력하거나 종류 또는 크기를 선택하십시오."
+            "value" : "이름을 입력하거나 ‘필터’에서 종류 또는 크기를 선택하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Typ een naam of kies een soort of grootte."
+            "value" : "Typ een naam of kies een soort of grootte bij 'Filters'."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wpisz nazwę albo wybierz rodzaj lub wielkość."
+            "value" : "Wpisz nazwę albo wybierz rodzaj lub wielkość w Filtrach."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Digite um nome ou escolha um tipo ou tamanho."
+            "value" : "Digite um nome ou escolha um tipo ou tamanho em Filtros."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Introduceți un nume sau alegeți un tip ori o dimensiune."
+            "value" : "Introduceți un nume sau alegeți un tip ori o dimensiune din Filtre."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Введите имя или выберите тип либо размер."
+            "value" : "Введите имя или выберите тип либо размер с помощью кнопки «Фильтры»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skriv ett namn eller välj en typ eller storlek."
+            "value" : "Skriv ett namn eller välj en typ eller storlek under Filter."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir ad yazın veya bir tür ya da büyüklük seçin."
+            "value" : "Bir ad yazın veya Filtreler’de bir tür ya da büyüklük seçin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Введіть назву або виберіть тип чи розмір."
+            "value" : "Введіть назву або виберіть тип чи розмір за допомогою кнопки «Фільтри»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "键入名称，或选取种类或大小。"
+            "value" : "键入名称，或在“筛选条件”中选取种类或大小。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "輸入名稱，或選擇種類或大小。"
+            "value" : "輸入名稱，或在「過濾條件」中選擇種類或大小。"
           }
         }
       }
@@ -205237,6 +205449,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld個檔案"
+          }
+        }
+      }
+    },
+    "^[%lld filter](inflect: true) on" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zapnuté filtry"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zapnutého filtru"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zapnutý filtr"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld zapnutých filtrů"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Filter aktiv"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Filter aktiv"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de filtros activados"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtro activado"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtros activados"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de filtres activés"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtre activé"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtres activés"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld di filtri attivi"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtro attivo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtri attivi"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個のフィルタがオン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "필터 %lld개 켜짐"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filter aan"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filters aan"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Włączono %lld filtry"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Włączono %lld filtrów"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Włączono %lld filtr"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Włączono %lld filtra"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de filtros ativados"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtro ativado"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtros ativados"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtre activate"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtru activat"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld de filtre activate"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Включено %lld фильтра"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Включено %lld фильтров"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Включен %lld фильтр"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Включено %lld фильтра"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filter aktivt"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filter aktiva"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtre açık"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld filtre açık"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld фільтри увімкнено"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld фільтрів увімкнено"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld фільтр увімкнено"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld фільтра увімкнено"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld个筛选条件已打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已開啟%lld個過濾條件"
           }
         }
       }

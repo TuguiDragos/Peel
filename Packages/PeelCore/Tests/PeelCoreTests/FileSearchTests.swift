@@ -112,6 +112,22 @@ struct FileSearchTests {
         #expect(criteria.isSearchable)
     }
 
+    @Test func countsAndClearsTheFiltersThatNarrowTheSearch() {
+        var criteria = FileSearchCriteria()
+        criteria.name = "report"
+        criteria.scope = .computer
+        #expect(criteria.narrowingFilters == 0)
+        criteria.kind = .movies
+        criteria.minimumSize = 1_000_000_000
+        criteria.unmodifiedDays = 730
+        #expect(criteria.narrowingFilters == 3)
+
+        let cleared = criteria.clearingFilters()
+        #expect(cleared.narrowingFilters == 0)
+        #expect(cleared.kind == .any && cleared.minimumSize == 0 && cleared.unmodifiedDays == 0)
+        #expect(cleared.name == "report" && cleared.scope == .computer)
+    }
+
     @Test func fileKindsMatchContentTypes() throws {
         let docx = try #require(UTType(filenameExtension: "docx"))
         let markdown = try #require(UTType(filenameExtension: "md"))

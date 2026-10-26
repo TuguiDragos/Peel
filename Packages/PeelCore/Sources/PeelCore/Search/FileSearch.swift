@@ -25,8 +25,21 @@ public struct FileSearchCriteria: Sendable, Hashable {
         !trimmedName.isEmpty || minimumSize > 0 || kind != .any
     }
 
-    var trimmedName: String {
+    public var trimmedName: String {
         name.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// How many of the kind, the size and the age are chosen, each keeping out what a name alone would find.
+    public var narrowingFilters: Int {
+        [kind != .any, minimumSize > 0, unmodifiedDays > 0].count(where: \.self)
+    }
+
+    public func clearingFilters() -> FileSearchCriteria {
+        var cleared = self
+        cleared.kind = .any
+        cleared.minimumSize = 0
+        cleared.unmodifiedDays = 0
+        return cleared
     }
 }
 

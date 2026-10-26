@@ -427,12 +427,13 @@ struct CatalogChecker {
     static let integer = try! NSRegularExpression(pattern: #"%(\d+\$)?(ll|l)?d"#)
     /// The language codes Apple's tables use where they differ from Peel's.
     static let appleLanguages = ["zh-Hans": "zh_CN", "zh-Hant": "zh_TW", "pt": "pt_BR"]
-    /// What Peel calls by macOS's own names, each with the system table and key that hold that name.
+    /// What Peel says in macOS's own words, each with the system table and key that hold them.
     static let systemWords: [(key: String, table: String, apple: String)] = [
         ("Full Disk Access", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "ALL_FILES"),
         ("App Management", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "APPLICATION_BUNDLES"),
         ("Show in Finder", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "REVEAL_IN_FINDER"),
         ("Login Items & Extensions", "/System/Library/ExtensionKit/Extensions/LoginItems.appex/Contents/Resources/Localizable.loctable", "Login Items & Extensions"),
+        ("Check the spelling or try a new search.", "/System/Library/Frameworks/SwiftUI.framework/Versions/Current/Resources/Localizable.loctable", "ContentUnavailableView_Search_Secondary_Text"),
     ]
     /// The items Peel puts in menus SwiftUI builds, each with SwiftUI's key. Their words are SwiftUI's, whatever
     /// the English says: in Polish, About Peel reads "Peel…".
