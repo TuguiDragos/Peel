@@ -1,5 +1,5 @@
 import Darwin
-import Foundation
+public import Foundation
 import PeelPrivileged
 
 public enum BackgroundItems {
@@ -10,10 +10,16 @@ public enum BackgroundItems {
         public let items: [BackgroundItem]
         /// The kinds that may be missing jobs, because `launchctl` answered about them in a form Peel cannot read.
         public let unanswered: Set<BackgroundItem.Kind>
+        /// The folders that kept Peel from listing a folder of job files, so a job whose file is there and which isn't
+        /// loaded is missing.
+        public let unreadableFolders: [URL]
 
-        public init(items: [BackgroundItem] = [], unanswered: Set<BackgroundItem.Kind> = []) {
+        public init(
+            items: [BackgroundItem] = [], unanswered: Set<BackgroundItem.Kind> = [], unreadableFolders: [URL] = []
+        ) {
             self.items = items
             self.unanswered = unanswered
+            self.unreadableFolders = unreadableFolders
         }
     }
 
@@ -77,34 +83,76 @@ public enum BackgroundItems {
             return results
         }
         let undeclared = merged(found, loaded: loaded)
-        items = placing(undeclared.items, into: items)
+        let unlisted = unlistedJobFolders(in: environment, exclusions: exclusions)
+        items = placing(undeclared.items, into: items, unlisted: unlisted.map { ($0.folder, $0.source) })
         items += disabledJobs(in: loaded, listed: items, ownership: ownership)
 
         return Scan(
             items: items
                 .filter { $0.ownerBundleIdentifier.map(exclusions.excludes(bundleIdentifier:)) != true }
                 .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending },
-            unanswered: undeclared.unanswered
+            unanswered: undeclared.unanswered,
+            unreadableFolders: unlisted.map(\.refused).reduce(into: []) { if !$0.contains($1) { $0.append($1) } }
         )
     }
 
     /// The rows, each job launchd loaded from a file Peel can't read in the place of that file's row, with the file's
     /// folder as its source; then the other loaded jobs.
-    static func placing(_ loadedJobs: [BackgroundItem], into rows: [BackgroundItem]) -> [BackgroundItem] {
+    private static func jobFolders(
+        in environment: SearchEnvironment
+    ) -> [(folder: URL, kind: BackgroundItem.Kind, source: BackgroundItem.Source)] {
+        let userLibrary = environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory)
+        let systemLibrary = environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory)
+        return [
+            (userLibrary.appending(path: "LaunchAgents", directoryHint: .isDirectory), .agent, .userLibrary),
+            (systemLibrary.appending(path: "LaunchAgents", directoryHint: .isDirectory), .agent, .systemLibrary),
+            (systemLibrary.appending(path: "LaunchDaemons", directoryHint: .isDirectory), .daemon, .systemLibrary),
+        ]
+    }
+
+    /// The folders of the three that Peel can't list, each with where its jobs come from and the folder that kept Peel
+    /// out, which can be one around it.
+    static func unlistedJobFolders(
+        in environment: SearchEnvironment, exclusions: Exclusions = .none
+    ) -> [(folder: URL, source: BackgroundItem.Source, refused: URL)] {
+        jobFolders(in: environment).compactMap { folder, _, source in
+            guard !exclusions.excludes(folder),
+                  (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) == nil,
+                  let refused = FileAccess.refusedFolder(folder)
+            else { return nil }
+            return (folder, source, refused)
+        }
+    }
+
+    /// The rows, each job launchd loaded from a file Peel can't read in the place of that file's row, with the file's
+    /// folder as its source; then the other loaded jobs, one from a folder Peel can't list with that folder's source.
+    static func placing(
+        _ loadedJobs: [BackgroundItem],
+        into rows: [BackgroundItem],
+        unlisted: [(folder: URL, source: BackgroundItem.Source)] = []
+    ) -> [BackgroundItem] {
         var rows = rows
         var others: [BackgroundItem] = []
         for job in loadedJobs {
-            let file = job.plistURL.map(PathPattern.comparablePath(of:))
-            guard let file, let index = rows.firstIndex(where: {
-                $0.isClosedToPeel && $0.isNamedByItsFile && $0.plistURL.map(PathPattern.comparablePath(of:)) == file
-            }) else {
+            guard let plist = job.plistURL else {
                 others.append(job)
                 continue
             }
+            let file = PathPattern.comparablePath(of: plist)
+            let folder = PathPattern.comparablePath(of: plist.deletingLastPathComponent())
             var placed = job
-            placed.source = rows[index].source
             placed.isClosedToPeel = true
-            rows[index] = placed
+            if let index = rows.firstIndex(where: {
+                $0.isClosedToPeel && $0.isNamedByItsFile && $0.plistURL.map(PathPattern.comparablePath(of:)) == file
+            }) {
+                placed.source = rows[index].source
+                rows[index] = placed
+            } else if let unlisted = unlisted.first(where: { PathPattern.comparablePath(of: $0.folder) == folder }) {
+                placed.source = unlisted.source
+                others.append(placed)
+            } else {
+                others.append(job)
+            }
         }
         return rows + others
     }
@@ -238,16 +286,8 @@ public enum BackgroundItems {
         exclusions: Exclusions = .none,
         loaded: Loaded = Loaded()
     ) -> [BackgroundItem] {
-        let userLibrary = environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory)
-        let systemLibrary = environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory)
-        let folders: [(URL, BackgroundItem.Kind, BackgroundItem.Source)] = [
-            (userLibrary.appending(path: "LaunchAgents", directoryHint: .isDirectory), .agent, .userLibrary),
-            (systemLibrary.appending(path: "LaunchAgents", directoryHint: .isDirectory), .agent, .systemLibrary),
-            (systemLibrary.appending(path: "LaunchDaemons", directoryHint: .isDirectory), .daemon, .systemLibrary),
-        ]
-
         var items: [BackgroundItem] = []
-        for (folder, kind, source) in folders {
+        for (folder, kind, source) in jobFolders(in: environment) {
             for plist in plists(in: folder) where !exclusions.excludes(plist) {
                 // A label of macOS's own is shown too, and marked (`usesALabelOfMacOS`): macOS keeps its jobs
                 // elsewhere, so a file here that borrows one is somebody else's, and a common way to hide a job.

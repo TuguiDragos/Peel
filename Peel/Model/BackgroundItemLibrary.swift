@@ -7,6 +7,8 @@ final class BackgroundItemLibrary {
     private(set) var items: [BackgroundItem]?
     /// The kinds of job some of which may be missing, because macOS answered about them in a form Peel cannot read.
     private(set) var unanswered: Set<BackgroundItem.Kind> = []
+    /// The folders that kept Peel from listing a folder of job files.
+    private(set) var unreadableFolders: [URL] = []
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -74,6 +76,7 @@ final class BackgroundItemLibrary {
     private func show(_ result: BackgroundItems.Scan, read: Int) {
         items = result.items
         unanswered = result.unanswered
+        unreadableFolders = result.unreadableFolders
         scans += 1
         if let selection, items?.contains(where: { $0.id == selection }) != true {
             self.selection = nil
@@ -159,8 +162,14 @@ final class BackgroundItemLibrary {
 }
 
 extension BackgroundItemLibrary {
-    /// What the page says when some jobs may be missing, or nil when macOS answered about every kind.
-    var unansweredNote: LocalizedStringResource? { unanswered.missingJobsNote }
+    /// What the page says when some jobs may be missing, a paragraph for each reason, or nil when none is.
+    var missingNote: String? {
+        let parts = (unanswered.missingJobsNote.map { [String(localized: $0)] } ?? [])
+            + unreadableFolders.map {
+                String(localized: "Peel can’t look in \($0.abbreviatedPath), so a job whose file is there shows here only while macOS has it loaded.")
+            }
+        return parts.isEmpty ? nil : parts.joined(separator: "\n\n")
+    }
 }
 
 extension Set<BackgroundItem.Kind> {

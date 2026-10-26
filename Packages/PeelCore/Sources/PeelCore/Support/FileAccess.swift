@@ -25,6 +25,18 @@ public enum FileAccess {
         access(url.path(percentEncoded: false), R_OK) != 0 && (errno == EACCES || errno == EPERM)
     }
 
+    /// The folder that kept Peel out of `folder`: `folder` itself when Peel can see it but not list it, or the folder
+    /// around it Peel can't look into. Nil when nothing is there, or a file is, which hides nothing.
+    static func refusedFolder(_ folder: URL) -> URL? {
+        var info = stat()
+        if stat(folder.path(percentEncoded: false), &info) == 0 {
+            return info.st_mode & S_IFMT == S_IFDIR ? folder : nil
+        }
+        guard ![ENOENT, ENOTDIR, ELOOP].contains(errno) else { return nil }
+        let around = folder.deletingLastPathComponent()
+        return around.path(percentEncoded: false) == folder.path(percentEncoded: false) ? nil : refusedFolder(around)
+    }
+
     static func isARealFolder(_ url: URL) -> Bool {
         var info = stat()
         return lstat(url.path(percentEncoded: false), &info) == 0 && info.st_mode & S_IFMT == S_IFDIR

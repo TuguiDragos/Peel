@@ -12,8 +12,8 @@ struct BackgroundItemList: View {
         let filtered = filteredItems
 
         List(selection: $backgroundItems.selection) {
-            if let note = backgroundItems.unansweredNote, !filtered.isEmpty {
-                Notice(title: Text("Part of this list may be missing"), detail: Text(note), kind: .note) {}
+            if let note = backgroundItems.missingNote, !filtered.isEmpty {
+                Notice(title: Text("Part of this list may be missing"), detail: Text(verbatim: note), kind: .note) {}
                     .padding(.vertical, 6)
                     .listRowSeparator(.hidden)
             }
@@ -23,12 +23,17 @@ struct BackgroundItemList: View {
         .accessibilityLabel(Text(Tool.backgroundItems.title))
         .scrollBarBelowSectionHeaders(!filtered.isEmpty)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: backgroundItems.scanRun) {
-            if let note = backgroundItems.unansweredNote, backgroundItems.items?.isEmpty == true {
-                ContentUnavailableView(
-                    "macOS Didn’t Answer",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text(note)
-                )
+            if backgroundItems.items?.isEmpty == true,
+               let note = backgroundItems.missingNote, let title = couldNotLook {
+                ContentUnavailableView {
+                    Label {
+                        Text(title)
+                    } icon: {
+                        Image(systemName: "exclamationmark.triangle")
+                    }
+                } description: {
+                    Text(verbatim: note)
+                }
             } else if backgroundItems.items?.isEmpty == true {
                 ContentUnavailableView(
                     "No Background Items",
@@ -45,7 +50,7 @@ struct BackgroundItemList: View {
         .announcesScan(
             backgroundItems.isScanning,
             found: backgroundItems.summary,
-            couldNotLook: backgroundItems.unanswered.isEmpty ? nil : "macOS Didn’t Answer",
+            couldNotLook: couldNotLook,
             wasStopped: backgroundItems.scanRun.wasStopped
         )
         .toolbar {
@@ -83,6 +88,11 @@ struct BackgroundItemList: View {
         } message: {
             alertMessage
         }
+    }
+
+    private var couldNotLook: LocalizedStringResource? {
+        if !backgroundItems.unanswered.isEmpty { return "macOS Didn’t Answer" }
+        return backgroundItems.unreadableFolders.isEmpty ? nil : "Not Everything Could Be Read"
     }
 
     private func phase(_ filtered: [BackgroundItem]) -> ScanPhase {

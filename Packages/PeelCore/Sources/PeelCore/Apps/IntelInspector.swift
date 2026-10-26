@@ -331,27 +331,18 @@ public enum IntelInspector {
     private static func entries(of directory: URL, unreadable: inout [URL]) -> [URL] {
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: directory.path(percentEncoded: false))
         else {
-            if let folder = refusedFolder(directory) { unreadable.append(folder) }
+            if let folder = FileAccess.refusedFolder(directory) { unreadable.append(folder) }
             return []
         }
         return names.map { directory.appending(path: $0) }
     }
 
-    /// The folder that kept Peel out of `folder`: `folder` itself when Peel can see it but not list it, or the folder
-    /// around it Peel can't look into. Nil when nothing is there, or a file is, which hides nothing.
-    static func refusedFolder(_ folder: URL) -> URL? {
-        var info = stat()
-        if stat(folder.path(percentEncoded: false), &info) == 0 {
-            return info.st_mode & S_IFMT == S_IFDIR ? folder : nil
-        }
-        guard ![ENOENT, ENOTDIR, ELOOP].contains(errno) else { return nil }
-        let around = folder.deletingLastPathComponent()
-        return around.path(percentEncoded: false) == folder.path(percentEncoded: false) ? nil : refusedFolder(around)
-    }
 
     /// Notes `program`, which macOS wouldn't let Peel read, or the folder around it Peel can't look into.
     private static func noteRefused(_ program: URL, in unreadable: inout [URL]) {
-        unreadable.append(program.isThere ? program : refusedFolder(program.deletingLastPathComponent()) ?? program)
+        unreadable.append(
+            program.isThere ? program : FileAccess.refusedFolder(program.deletingLastPathComponent()) ?? program
+        )
     }
 
     /// Whether a file can be run by anyone: one that only root may run still runs, though Peel can't read it.
@@ -383,7 +374,9 @@ public enum IntelInspector {
             if stat(candidate.path(percentEncoded: false), &status) == 0 {
                 if isRunnable(status) { return candidate }
             } else if ![ENOENT, ENOTDIR, ELOOP].contains(errno) {
-                if let folder = refusedFolder(candidate.deletingLastPathComponent()) { unreadable.append(folder) }
+                if let folder = FileAccess.refusedFolder(candidate.deletingLastPathComponent()) {
+                    unreadable.append(folder)
+                }
                 return nil
             }
         }
@@ -407,14 +400,14 @@ public enum IntelInspector {
                     return true
                 }
             ) else {
-                if let folder = refusedFolder(url) { unreadable.append(folder) }
+                if let folder = FileAccess.refusedFolder(url) { unreadable.append(folder) }
                 continue
             }
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
                 if driverExtensions.contains(item.pathExtension) { bundles.append(item) }
             }
-            unreadable += refused.compactMap(refusedFolder)
+            unreadable += refused.compactMap(FileAccess.refusedFolder)
         }
         return bundles
     }
@@ -434,7 +427,7 @@ public enum IntelInspector {
                     return true
                 }
             ) else {
-                if let folder = refusedFolder(url) { unreadable.append(folder) }
+                if let folder = FileAccess.refusedFolder(url) { unreadable.append(folder) }
                 continue
             }
             for case let item as URL in enumerator {
@@ -454,7 +447,7 @@ public enum IntelInspector {
                 case false?: break
                 }
             }
-            unreadable += refused.compactMap(refusedFolder)
+            unreadable += refused.compactMap(FileAccess.refusedFolder)
         }
         return programs
     }
@@ -471,7 +464,7 @@ public enum IntelInspector {
                 if stat(program.path(percentEncoded: false), &info) == 0 {
                     if isRunnable(info) { tools.append((command.lastPathComponent, program)) }
                 } else if ![ENOENT, ENOTDIR, ELOOP].contains(errno),
-                          let place = refusedFolder(program.deletingLastPathComponent()) {
+                          let place = FileAccess.refusedFolder(program.deletingLastPathComponent()) {
                     unreadable.append(place)
                 }
             }

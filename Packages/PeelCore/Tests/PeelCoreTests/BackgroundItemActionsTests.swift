@@ -718,6 +718,33 @@ struct DeclaredBackgroundItemsTests {
         #expect(rows.last?.source == .otherFile && rows.last?.isClosedToPeel == false)
     }
 
+    @Test(.permissionsHold) func namesAJobFolderPeelCannotLookIn() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/LaunchAgents")
+        try directory.setPermissions(0, of: "home/Library/LaunchAgents")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/LaunchAgents") }
+
+        let unlisted = BackgroundItems.unlistedJobFolders(in: environment(directory))
+
+        #expect(unlisted.map(\.refused.lastPathComponent) == ["LaunchAgents"], "a folder that isn't there hides nothing")
+        #expect(unlisted.first?.source == .userLibrary)
+    }
+
+    @Test func aJobLoadedFromAFolderPeelCannotLookInComesFromThatFolder() {
+        let folder = URL(filePath: "/org.example/home/Library/LaunchAgents", directoryHint: .isDirectory)
+        let job = BackgroundItem(
+            label: "org.example.agent", kind: .agent, source: .otherFile,
+            plistURL: folder.appending(path: "org.example.agent.plist"), program: "/bin/sh", runsAtLoad: nil,
+            keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false,
+            state: .running(pid: 7), isDisabled: false
+        )
+
+        let rows = BackgroundItems.placing([job], into: [], unlisted: [(folder, .userLibrary)])
+
+        #expect(rows.first?.source == .userLibrary, "launchd loaded it from its own folder, not from elsewhere")
+        #expect(rows.first?.isClosedToPeel == true)
+    }
+
     /// macOS keeps its own jobs under `/System/Library` and `/Library/Apple/System/Library`, so a file in these
     /// folders that uses one of their labels, or any `com.apple.` label, is not macOS's. A label names a job only
     /// in its own domain, so such a copy runs beside the real one: it is listed, marked, and never acted on.

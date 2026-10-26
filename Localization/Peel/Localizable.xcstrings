@@ -114122,6 +114122,112 @@
         }
       }
     },
+    "Peel can’t look in %@, so a job whose file is there shows here only while macOS has it loaded." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže nahlédnout do složky %@, takže úloha, jejíž soubor tam je, se tu zobrazí, jen dokud ji má systém macOS načtenou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht in %@ hineinsehen, daher wird ein Job, dessen Datei dort liegt, hier nur angezeigt, solange macOS ihn geladen hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede mirar en %@, así que una tarea cuyo archivo esté ahí solo aparece aquí mientras macOS la tenga cargada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas regarder dans %@ : une tâche dont le fichier s’y trouve n’apparaît donc ici que tant que macOS la garde chargée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a esaminare %@, quindi un elemento il cui file si trova lì compare qui solo mentre macOS lo tiene caricato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@の中を調べられないため、そこにファイルがあるジョブは、macOSが読み込んでいる間しかここに表示されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@ 안을 살펴볼 수 없으므로, 파일이 그곳에 있는 작업은 macOS가 로드해 둔 동안에만 여기에 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet in %@ kijken, dus een taak waarvan het bestand daar staat, wordt hier alleen getoond zolang macOS die taak heeft geladen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może zajrzeć do %@, więc zadanie, którego plik się tam znajduje, pojawia się tutaj tylko wtedy, gdy macOS ma je wczytane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue examinar o conteúdo de %@, então uma tarefa cujo arquivo está lá só aparece aqui enquanto o macOS a mantém carregada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate căuta în %@, așa că o sarcină al cărei fișier se află acolo apare aici doar cât timp macOS o are încărcată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может заглянуть в %@, поэтому задание, файл которого находится там, показывается здесь, только пока оно загружено в macOS."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte titta i %@, så ett jobb vars fil finns där visas bara här medan macOS har det inläst."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, %@ klasörünün içine bakamıyor, bu yüzden dosyası orada olan bir iş burada yalnızca macOS onu yüklü tuttuğu sürece görünür."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може зазирнути в %@, тож завдання, файл якого лежить там, показується тут, лише поки macOS тримає його завантаженим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法查看%@中的内容，因此文件位于其中的任务只在macOS已载入它时才会显示在这里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法查看%@，因此檔案位於那裡的工作，只有在macOS已載入它時才會顯示在這裡。"
+          }
+        }
+      }
+    },
     "Peel can’t look in the Trash right now" : {
       "localizations" : {
         "cs" : {
