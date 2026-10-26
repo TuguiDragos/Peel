@@ -255,10 +255,16 @@ struct HomePermissionsContent: View {
         } else if !home.waitingRequired.isEmpty, home.hasChecked {
             // A required permission that is still pending is not set up. For example, a helper waiting for
             // approval cannot move anything that needs an administrator, so Home must not say "You're all set".
-            let waiting = home.waitingRequired.map { String(localized: $0.title) }.formatted(.list(type: .and))
+            let waiting = HomeModel.Permission.inSystemSettings(home.waitingRequired)
+            let others = waiting.others.map { String(localized: $0.title) }.formatted(.list(type: .and))
+            let sentences = [
+                waiting.allowsPeel
+                    ? String(localized: "Allow Peel in System Settings under Login Items & Extensions.") : nil,
+                waiting.others.isEmpty ? nil : String(localized: "Check \(others) in System Settings."),
+            ]
             Notice(
                 title: Text("Almost there"),
-                detail: Text("Check \(waiting) in System Settings."),
+                detail: Text(verbatim: sentences.compactMap(\.self).joined(separator: "\n")),
                 kind: .note,
                 isAlbum: true
             ) {}

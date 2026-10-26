@@ -26,6 +26,17 @@ final class HomeModel {
             }
         }
 
+        /// What Home asks in System Settings of the permissions still waiting there. macOS lists the helper under Login
+        /// Items & Extensions as Peel itself, so it is never named by its title.
+        struct Waiting: Equatable {
+            let allowsPeel: Bool
+            let others: [Permission]
+        }
+
+        static func inSystemSettings(_ waiting: [Permission]) -> Waiting {
+            Waiting(allowsPeel: waiting.contains(.helper), others: waiting.filter { $0 != .helper })
+        }
+
         var title: LocalizedStringResource {
             switch self {
             case .fullDiskAccess: "Full Disk Access"
