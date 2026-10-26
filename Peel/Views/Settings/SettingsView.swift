@@ -275,8 +275,11 @@ private struct GeneralSettingsView: View {
                     HStack {
                         StatusLabel(title: Text("Peel needs Full Disk Access to watch the Trash."), systemImage: "lock.trianglebadge.exclamationmark")
                         Spacer()
-                        // Goes through `HomeModel`, so Home offers "Reopen Peel" afterward: Full Disk Access
-                        // applies only to a process started after it is granted.
+                        // Full Disk Access applies only to a new process, so once it may have been given, Peel offers
+                        // to reopen.
+                        if home.needsRelaunchForFullDiskAccess {
+                            Button("Reopen Peel") { home.relaunch() }
+                        }
                         Button("Open System Settings") {
                             home.openFullDiskAccessSettings()
                         }
