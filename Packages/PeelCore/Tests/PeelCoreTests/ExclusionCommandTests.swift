@@ -148,6 +148,49 @@ struct ExclusionCommandTests {
         #expect(await saved(store).isEmpty, "the app stayed excluded while the command said it was not")
     }
 
+    @Test func saysAPathIsNotThereYetAndCountsOnlyWhatWentOn() async throws {
+        let directory = try TemporaryDirectory()
+        let store = store(in: directory)
+        let kept = try directory.directory("home/Keep")
+        let missing = directory.url.appending(path: "home/Later")
+        try await add([kept.path(percentEncoded: false)], in: store)
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await add([kept.path(percentEncoded: false), missing.path(percentEncoded: false)], in: store)
+        }
+
+        #expect(collected.output.contains("Peel will leave 1 item alone."))
+        #expect(collected.notes.contains("Later isn't there yet. Peel will leave it alone once it is."))
+    }
+
+    @Test func namesTheFolderThatLeavesAPathAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let store = store(in: directory)
+        let kept = try directory.directory("home/Keep")
+        try await add([kept.path(percentEncoded: false)], in: store)
+
+        let failure = await #expect(throws: CommandFailure.self) {
+            try await remove([kept.appending(path: "notes.txt").path(percentEncoded: false)], in: store)
+        }
+
+        #expect(failure?.description.contains("inside \(Output.plain(Output.path(kept)))") == true)
+    }
+
+    @Test func addsAnAppWithTwoCopiesByItsIdentifier() async throws {
+        let directory = try TemporaryDirectory()
+        let store = store(in: directory)
+        let copy = InstalledApp(
+            url: URL(filePath: "/Users/me/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor",
+            name: "Editor"
+        )
+
+        try await add(["--app", "com.example.editor"], in: store, among: [editor, copy])
+
+        #expect(await saved(store).bundleIdentifiers == ["com.example.editor"])
+    }
+
     @Test func refusesToRemoveWhatWasNotThere() async throws {
         let directory = try TemporaryDirectory()
         let store = store(in: directory)

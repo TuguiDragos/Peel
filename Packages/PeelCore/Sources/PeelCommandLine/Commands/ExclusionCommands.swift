@@ -102,20 +102,34 @@ struct ExclusionsCommand: AsyncParsableCommand {
         }
 
         func run(in store: ExclusionStore, among apps: [InstalledApp]? = nil) async throws {
-            _ = try await ExclusionsCommand.current(in: store)
+            let current = try await ExclusionsCommand.current(in: store)
             // The app is looked up before the list is changed, since looking it up can take a while.
             // An app with no identifier is left alone by where it is.
             var identifier: String?
             var added = paths.map(URL.init(argument:))
             if let app {
-                let found = try await ExclusionsCommand.app(app, among: apps)
-                if let found = found.bundleIdentifier { identifier = found } else { added.append(found.url) }
+                let installed = if let apps { apps } else { await AppCatalog.installedApps() }
+                // An identifier leaves every copy alone, so two copies that share one need no choice between them.
+                if let shared = installed.lazy.compactMap(\.bundleIdentifier)
+                    .first(where: { $0.caseInsensitiveCompare(app) == .orderedSame }) {
+                    identifier = shared
+                } else {
+                    let found = try await ExclusionsCommand.app(app, among: installed)
+                    if let found = found.bundleIdentifier { identifier = found } else { added.append(found.url) }
+                }
             }
+            for url in added where url.isMissing {
+                Output.note("\(Output.plain(Output.path(url))) isn't there yet. Peel will leave it alone once it is.")
+            }
+            var after = current
+            after.add(added)
+            let newIdentifier = identifier.map { !current.bundleIdentifiers.contains($0) } ?? false
+            let new = after.paths.count - current.paths.count + (newIdentifier ? 1 : 0)
             try await ExclusionsCommand.change(in: store) { [identifier, added] exclusions in
                 exclusions.add(added)
                 if let identifier { exclusions.bundleIdentifiers.insert(identifier) }
             }
-            Output.line("Peel will leave \(Output.count(paths.count + (app == nil ? 0 : 1), "item", "items")) alone.")
+            Output.line(new == 0 ? "Peel was already leaving that alone." : "Peel will leave \(Output.count(new, "item", "items")) alone.")
         }
     }
 
@@ -157,6 +171,12 @@ struct ExclusionsCommand: AsyncParsableCommand {
             }
             var remaining = before
             guard remaining.remove(removed) || !before.bundleIdentifiers.isDisjoint(with: identifiers) else {
+                // What is inside a folder on the list stays alone until the folder comes off.
+                if let (url, folder) = removed.lazy.compactMap({ url in
+                    before.reasons(excluding: url, app: nil).folders.first.map { (url, $0) }
+                }).first {
+                    throw CommandFailure("Peel leaves \(Output.plain(Output.path(url))) alone because it is inside \(Output.plain(Output.path(folder))), which is on the list. Remove that instead.")
+                }
                 throw CommandFailure("Peel wasn't leaving that alone. See `peel exclusions list`.")
             }
             try await ExclusionsCommand.change(in: store) { [identifiers, removed] exclusions in
