@@ -339,6 +339,7 @@ public enum BackgroundItems {
         item.runsFromTheTrash = programIsUnnamed && running.map { AppInspector.isInATrash(URL(filePath: $0)) } == true
         item.isSystemExtension = program.map { PathComponents.isPath($0, inside: "/Library/SystemExtensions") } == true
         item.isManagedByServiceManagement = details.managedBy == serviceManagement
+        item.isFileGone = !isAnApps && path?.isMissing == true
         if isAnApps, item.canBeControlled, !item.isManagedByServiceManagement {
             item.staysListedWhenDisabled =
                 ownership.owner(label: candidate.label, associated: [], program: nil)?.isInstalled == true

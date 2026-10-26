@@ -69349,6 +69349,324 @@
         }
       }
     },
+    "Its file is gone" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její soubor zmizel"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seine Datei ist nicht mehr vorhanden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su archivo ya no está"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son fichier a disparu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo file non c’è più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この項目のファイルがなくなっています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일이 사라짐"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand is verdwenen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliku tej rzeczy już nie ma"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo dele não existe mais"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul său nu mai există"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его файла больше нет"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen är borta"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyası artık yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його файлу вже немає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的文件已不存在"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的檔案已不存在"
+          }
+        }
+      }
+    },
+    "Its file was removed while it was loaded, so macOS runs it until the Mac restarts and nothing starts it again. Stop takes it out now." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její soubor byl odstraněn, zatímco byla načtená, takže ji systém macOS nechá běžet až do restartu Macu a nic ji znovu nespustí. Tlačítko Zastavit ji odebere hned."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seine Datei wurde entfernt, während es geladen war, daher führt macOS es aus, bis der Mac neu startet, und nichts startet es erneut. „Stoppen“ beendet es sofort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su archivo se eliminó mientras estaba cargado, así que macOS lo sigue ejecutando hasta que el Mac se reinicie, y nada lo vuelve a iniciar. “Detener” lo quita ahora."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son fichier a été supprimé alors qu’il était chargé : macOS l’exécute donc jusqu’au redémarrage du Mac, et rien ne le relancera ensuite. Le bouton Arrêter le retire de launchd dès maintenant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo file è stato rimosso mentre era caricato, quindi macOS lo esegue fino al riavvio del Mac e poi nulla lo avvierà di nuovo. Il pulsante Interrompi lo toglie subito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み込まれている間にファイルが取り除かれたため、macOSはMacを再起動するまでこれを実行し続けますが、再び起動するものはありません。“停止”で今すぐ取り除けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로드되어 있는 동안 파일이 제거되었으므로, macOS는 Mac을 재시동할 때까지 이 항목을 실행하며 그 후에는 아무것도 이 항목을 다시 시작하지 않습니다. ‘중단’을 클릭하면 지금 launchd에서 제거됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand ervan is verwijderd terwijl het geladen was, dus macOS voert het uit totdat de Mac opnieuw opstart, en daarna start niets het opnieuw. 'Stop' haalt het nu weg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jej plik usunięto, gdy była wczytana, więc macOS utrzymuje ją w działaniu aż do ponownego uruchomienia Maca, a potem nic jej już nie uruchomi. Przycisk Zatrzymaj od razu usunie ją z launchd."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo dele foi removido enquanto ele estava carregado, então o macOS o executa até o Mac ser reiniciado, e depois disso nada o inicia novamente. O botão Parar o retira do launchd agora."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul său a fost eliminat cât timp era încărcat, așa că macOS îl rulează până când Mac‑ul repornește și nimic nu îl mai pornește după aceea. „Opriți” îl scoate chiar acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его файл удалили, пока он был загружен, поэтому macOS выполняет его до перезагрузки Mac, и ничто не запустит его снова. Кнопка «Остановить» уберет его прямо сейчас."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen togs bort medan jobbet var inläst, så macOS kör det tills datorn startas om, och inget startar det igen. ”Stoppa” tar bort det ur launchd nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyası, öğe yüklüyken kaldırıldı, bu yüzden macOS onu Mac yeniden başlayana kadar çalıştırır ve ardından hiçbir şey onu yeniden başlatmaz. Durdur düğmesi onu şimdi devreden çıkarır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його файл вилучено, поки елемент був завантажений, тож macOS виконує його до перезапуску Mac, і ніщо не запустить його знову. Кнопка «Зупинити» вилучає його вже зараз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的文件在它载入期间被移除，因此macOS会一直运行它直到Mac重新启动，之后也不会有任何程序再次启动它。“停止”会立即将它从launchd中移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的檔案在它載入期間被移除，因此macOS會執行它直到Mac重新開機，之後也不會有任何東西再次啟動它。「停止」會立即將它移除。"
+          }
+        }
+      }
+    },
+    "Its file was removed while it was loaded, so macOS runs it until you log out and nothing starts it again. Stop takes it out now." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její soubor byl odstraněn, zatímco byla načtená, takže ji systém macOS nechá běžet, dokud se neodhlásíte, a nic ji znovu nespustí. Tlačítko Zastavit ji odebere hned."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seine Datei wurde entfernt, während es geladen war, daher führt macOS es aus, bis du dich abmeldest, und nichts startet es erneut. „Stoppen“ beendet es sofort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su archivo se eliminó mientras estaba cargado, así que macOS lo sigue ejecutando hasta que cierres sesión, y nada lo vuelve a iniciar. “Detener” lo quita ahora."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son fichier a été supprimé alors qu’il était chargé : macOS l’exécute donc jusqu’à ce que vous fermiez la session, et rien ne le relancera ensuite. Le bouton Arrêter le retire de launchd dès maintenant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo file è stato rimosso mentre era caricato, quindi macOS lo esegue fino al logout e poi nulla lo avvierà di nuovo. Il pulsante Interrompi lo toglie subito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み込まれている間にファイルが取り除かれたため、macOSはログアウトするまでこれを実行し続けますが、再び起動するものはありません。“停止”で今すぐ取り除けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로드되어 있는 동안 파일이 제거되었으므로, macOS는 사용자가 로그아웃할 때까지 이 항목을 실행하며 그 후에는 아무것도 이 항목을 다시 시작하지 않습니다. ‘중단’을 클릭하면 지금 launchd에서 제거됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand ervan is verwijderd terwijl het geladen was, dus macOS voert het uit totdat je uitlogt, en daarna start niets het opnieuw. 'Stop' haalt het nu weg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jej plik usunięto, gdy była wczytana, więc macOS utrzymuje ją w działaniu, dopóki się nie wylogujesz, a potem nic jej już nie uruchomi. Przycisk Zatrzymaj od razu usunie ją z launchd."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo dele foi removido enquanto ele estava carregado, então o macOS o executa até você finalizar a sessão, e depois disso nada o inicia novamente. O botão Parar o retira do launchd agora."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul său a fost eliminat cât timp era încărcat, așa că macOS îl rulează până când faceți logout și nimic nu îl mai pornește după aceea. „Opriți” îl scoate chiar acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его файл удалили, пока он был загружен, поэтому macOS выполняет его, пока Вы не выйдете из системы, и ничто не запустит его снова. Кнопка «Остановить» уберет его прямо сейчас."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen togs bort medan jobbet var inläst, så macOS kör det tills du loggar ut, och inget startar det igen. ”Stoppa” tar bort det ur launchd nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyası, öğe yüklüyken kaldırıldı, bu yüzden macOS onu siz oturumu kapatana kadar çalıştırır ve ardından hiçbir şey onu yeniden başlatmaz. Durdur düğmesi onu şimdi devreden çıkarır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його файл вилучено, поки елемент був завантажений, тож macOS виконує його, доки ви не вийдете із системи, і ніщо не запустить його знову. Кнопка «Зупинити» вилучає його вже зараз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的文件在它载入期间被移除，因此macOS会一直运行它直到你退出登录，之后也不会有任何程序再次启动它。“停止”会立即将它从launchd中移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的檔案在它載入期間被移除，因此macOS會執行它直到你登出，之後也不會有任何東西再次啟動它。「停止」會立即將它移除。"
+          }
+        }
+      }
+    },
     "Its maker has deprecated it." : {
       "localizations" : {
         "cs" : {

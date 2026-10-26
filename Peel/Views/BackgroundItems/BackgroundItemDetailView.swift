@@ -151,7 +151,17 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
-            if item.source == .otherFile {
+            if item.isFileGone {
+                Section {
+                    Notice(
+                        title: Text("Its file is gone"),
+                        detail: item.kind == .daemon
+                            ? Text("Its file was removed while it was loaded, so macOS runs it until the Mac restarts and nothing starts it again. Stop takes it out now.")
+                            : Text("Its file was removed while it was loaded, so macOS runs it until you log out and nothing starts it again. Stop takes it out now."),
+                        kind: .note
+                    ) {}
+                }
+            } else if item.source == .otherFile {
                 Section {
                     Notice(
                         title: Text("Loaded from a file elsewhere"),
@@ -248,7 +258,7 @@ struct BackgroundItemDetailView: View {
     }
 
     private var finderURL: URL? {
-        item.plistURL ?? item.program.map { URL(filePath: $0) }
+        (item.isFileGone ? nil : item.plistURL) ?? item.program.map { URL(filePath: $0) }
     }
 
     private var isBusy: Bool {
@@ -336,12 +346,15 @@ struct BackgroundItemDetailView: View {
 
     /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
     /// file macOS can't load, and a job loaded from a file elsewhere don't have. Disabled, that last one would leave
-    /// the list at the next logout or restart with nothing left to Enable it from. A job Peel may not disable has only
-    /// Enable, while launchd keeps it disabled.
+    /// the list at the next logout or restart with nothing left to Enable it from. A job whose file is gone has only
+    /// Stop. A job Peel may not disable has only Enable, while launchd keeps it disabled.
     private var hasOwnControls: Bool {
-        guard item.canBeControlled, item.state != .unknown, item.source != .otherFile, !item.isUnreadable else {
+        guard item.canBeControlled, item.state != .unknown, item.source != .otherFile || item.isFileGone,
+              !item.isUnreadable
+        else {
             return false
         }
+        if item.isFileGone { return true }
         if #available(macOS 27, *), item.isLeftByAGoneApp { return true }
         return !item.isSeenOnlyWhileLoaded || item.isDisabled || item.mayBeDisabled
     }
@@ -366,8 +379,12 @@ struct BackgroundItemDetailView: View {
 
     private var ownControls: some View {
         Group {
-            // Stopping takes the job out of launchd, and nothing else removes one whose app is gone.
-            if #available(macOS 27, *), item.isLeftByAGoneApp {
+            // Stopping takes the job out of launchd, and nothing else removes one whose file or app is gone.
+            if item.isFileGone {
+                Button("Stop", systemImage: "stop.fill") {
+                    Task { await backgroundItems.perform(.stop, on: item) }
+                }
+            } else if #available(macOS 27, *), item.isLeftByAGoneApp {
                 Button("Remove", systemImage: "xmark.circle") {
                     Task { await backgroundItems.perform(.stop, on: item) }
                 }

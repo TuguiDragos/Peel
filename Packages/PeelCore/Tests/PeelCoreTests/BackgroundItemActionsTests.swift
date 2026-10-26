@@ -146,6 +146,27 @@ struct BackgroundItemActionsTests {
         #expect(disabled.first { $0.label == "org.example.tide.other" }.map { $0.runsAtLoad == nil && $0.keepsAlive == nil } == true)
     }
 
+    @Test func aJobWhoseFileIsGoneSaysSo() throws {
+        let directory = try TemporaryDirectory()
+        let job = try PropertyListSerialization.data(
+            fromPropertyList: ["Label": "org.example.tide.agent", "Program": "/bin/cat"], format: .xml, options: 0
+        )
+        let elsewhere = try directory.file("Elsewhere/org.example.tide.agent.plist", contents: job)
+        let gone = directory.url.appending(path: "Library/LaunchAgents/org.example.tide.gone.plist")
+        func item(_ label: String, loadedFrom file: URL) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                (label, .agent, "gui/501/\(label)"),
+                answer: .details(Launchctl.JobDetails(path: file.path(percentEncoded: false), program: "/bin/cat")),
+                ownership: BackgroundItemOwnership(installedApps: []), loaded: .init(), exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+
+        #expect(try item("org.example.tide.gone", loadedFrom: gone).isFileGone)
+        #expect(try !item("org.example.tide.agent", loadedFrom: elsewhere).isFileGone)
+    }
+
     @Test func aSystemExtensionsJobIsLeftToSystemSettings() throws {
         let label = "NetworkExtension.org.example.tide.network-extension.1.0.42"
         let printed = """

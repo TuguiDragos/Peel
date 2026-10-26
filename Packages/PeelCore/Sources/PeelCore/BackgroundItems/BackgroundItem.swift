@@ -63,6 +63,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// False for an app's job that, once disabled, would leave the list at the next restart: launchd keeps only its
     /// label, which neither starts with its app's identifier nor is declared in its app's bundle.
     public var staysListedWhenDisabled = true
+    /// True for a job launchd runs from a file no longer on disk, removed while it was loaded: launchd forgets it at
+    /// the next logout or restart, and nothing loads it again.
+    public var isFileGone = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
