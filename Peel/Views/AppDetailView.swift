@@ -105,7 +105,8 @@ struct AppDetailView: View {
                 privacyReset: privacyReset,
                 isShowingReset: $isShowingReset,
                 isConfirmingPrivacyReset: $isConfirmingPrivacyReset,
-                upgradeOutput: $upgradeOutput
+                upgradeOutput: $upgradeOutput,
+                isRemoving: plan.isRemoving || quitting.isWaiting
             )
             .listRowSeparator(.hidden)
 

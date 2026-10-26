@@ -13,6 +13,8 @@ struct AppPageHeader: View {
     @Binding var isShowingReset: Bool
     @Binding var isConfirmingPrivacyReset: Bool
     @Binding var upgradeOutput: HomebrewLibrary.CommandResult?
+    /// True while the page removes the app or waits for it to quit first, when nothing else is started from here.
+    let isRemoving: Bool
     @State private var quitting = QuitBeforeRemoving()
 
     var body: some View {
@@ -67,6 +69,7 @@ struct AppPageHeader: View {
                 }
                 moreMenu
             }
+            .disabled(isRemoving)
             if let upgrade = library.upgrade(of: plan.app) {
                 outcome(of: upgrade)
             } else if let source = updateSource, waitingVersion != nil {
