@@ -47,6 +47,18 @@ public struct CarriedSelection: Sendable {
             Part(page: page, title: title, source: source, sourceKey: sourceKey, sizes: sizes, movesLast: movesLast)
         }
 
+        /// The items of this part `result` neither moved, refused, nor took along in a folder it moved.
+        func unaccounted(by result: TrashResult) -> [URL] {
+            let moved = Set(result.trashed.map { CarriedSelection.writtenPath(of: $0.originalURL) })
+            let refused = Set(result.failures.map { CarriedSelection.writtenPath(of: $0.url) })
+            return sizes.keys.filter { url in
+                let path = CarriedSelection.writtenPath(of: url)
+                return !moved.contains(path) && !refused.contains(path)
+                    && !CarriedSelection.folders(above: path).contains(where: moved.contains)
+            }
+            .sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
+        }
+
         public var removalPart: RemovalPart {
             RemovalPart(source: source, sourceKey: sourceKey, tool: page.tool)
         }
@@ -181,7 +193,9 @@ public struct CarriedSelection: Sendable {
     public static func pass(_ parts: [Part], move: (Part) async -> TrashResult?) async -> Pass {
         var pass = Pass()
         for part in parts {
-            if let result = await move(part) {
+            if var result = await move(part) {
+                // A tool moves what its page lists and selects now, so what changed since the question stays.
+                result.failures += part.unaccounted(by: result).map { TrashFailure(url: $0, reason: .changedSinceScan) }
                 pass.moved.append((part, result))
             } else {
                 pass.kept.append(part)

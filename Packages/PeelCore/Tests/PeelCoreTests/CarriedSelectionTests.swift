@@ -121,6 +121,21 @@ struct CarriedSelectionTests {
         #expect(pass.moved.map(\.part.page.scope) == ["Peel"])
     }
 
+    @Test func anItemAskedForThatChangedSinceIsSaidToHaveStayed() async {
+        let parts = [part("orphans", "org.example.chat", ["Chat": 100, "Chat/cache": 10, "chat.plist": 1, "gone": 5])]
+        let pass = await CarriedSelection.pass(parts) { part in
+            let folder = URL(filePath: "/Users/x/Chat")
+            let preferences = URL(filePath: "/Users/x/chat.plist")
+            return TrashResult(
+                trashed: [TrashedItem(originalURL: folder, trashedURL: folder, date: .now)],
+                failures: [TrashFailure(url: preferences, reason: .locked)]
+            )
+        }
+
+        #expect(pass.result.failures.map(\.url.lastPathComponent).sorted() == ["chat.plist", "gone"])
+        #expect(pass.result.failures.first { $0.url.lastPathComponent == "gone" }?.reason == .changedSinceScan)
+    }
+
     /// What a pass did is told once, whichever parts it came from: every item the parts moved, and every one
     /// their tools refused.
     @Test func aPassTellsWhatEveryPartMovedAndRefused() async {
