@@ -61,6 +61,26 @@ struct RemovalHygieneTests {
         ])
     }
 
+    @Test func stopsAndStartsABackgroundAgentInTheUserDomain() throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
+        let contents = try PropertyListSerialization.data(
+            fromPropertyList: ["Label": "org.example.background", "LimitLoadToSessionType": "Background"],
+            format: .xml, options: 0
+        )
+        let background = try directory.file("home/Library/LaunchAgents/org.example.background.plist", contents: contents)
+        let window = try launchdPlist(
+            "home/Library/LaunchAgents/org.example.window.plist", label: "org.example.window", in: directory
+        )
+
+        let jobs = LaunchdCleanup.jobs(for: [background, window], environment: environment)
+
+        #expect(jobs.map(\.domain) == ["user/\(getuid())", "gui/\(getuid())"])
+    }
+
     @Test func findsThePreferenceDomainsToForget() {
         let urls = [
             URL(filePath: "/Users/x/Library/Preferences/com.example.app.plist"),

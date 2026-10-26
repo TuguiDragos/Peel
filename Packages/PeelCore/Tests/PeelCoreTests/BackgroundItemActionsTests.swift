@@ -146,6 +146,29 @@ struct BackgroundItemActionsTests {
         #expect(disabled.first { $0.label == "org.example.tide.other" }.map { $0.runsAtLoad == nil && $0.keepsAlive == nil } == true)
     }
 
+    @Test func aJobInTheUserDomainIsAskedAboutThere() throws {
+        let directory = try TemporaryDirectory()
+        let job = try PropertyListSerialization.data(
+            fromPropertyList: ["Label": "org.example.background", "Program": "/bin/cat"], format: .xml, options: 0
+        )
+        let file = try directory.file("Elsewhere/org.example.background.plist", contents: job)
+        let loaded = BackgroundItems.Loaded(
+            user: ["org.example.background": 42, "org.example.window": nil], inTheUserDomain: ["org.example.background"]
+        )
+
+        let undeclared = BackgroundItems.undeclared(in: loaded, declared: [], uid: 501)
+        let found = BackgroundItems.undeclaredItem(
+            try #require(undeclared.first),
+            answer: .details(Launchctl.JobDetails(path: file.path(percentEncoded: false), program: "/bin/cat")),
+            ownership: BackgroundItemOwnership(installedApps: []), loaded: loaded, exclusions: .none
+        )
+
+        #expect(undeclared.map(\.target) == ["user/501/org.example.background", "gui/501/org.example.window"])
+        guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+        #expect(item.loadsInTheBackgroundSession)
+        #expect(BackgroundItems.Loaded(user: [:], inTheUserDomain: nil).unanswered == [.agent])
+    }
+
     @Test func aJobWhoseFileIsGoneSaysSo() throws {
         let directory = try TemporaryDirectory()
         let job = try PropertyListSerialization.data(
@@ -753,7 +776,7 @@ struct DeclaredBackgroundItemsTests {
 
         #expect(items.first { $0.label == "com.example.agent" }?.state == .unknown)
         #expect(items.first { $0.label == "com.example.daemon" }?.state == .unknown)
-        #expect(BackgroundItems.undeclared(in: loaded, declared: items, userDomain: "gui/501").isEmpty)
+        #expect(BackgroundItems.undeclared(in: loaded, declared: items, uid: 501).isEmpty)
     }
 
     /// A loaded job is asked about as one an app submitted only when no file in the three folders declares it, so
@@ -768,7 +791,7 @@ struct DeclaredBackgroundItemsTests {
             loaded: loaded
         )
 
-        let undeclared = BackgroundItems.undeclared(in: loaded, declared: items, userDomain: "gui/501")
+        let undeclared = BackgroundItems.undeclared(in: loaded, declared: items, uid: 501)
 
         #expect(undeclared.map(\.label) == ["com.example.submitted"])
         #expect(undeclared.first?.target == "gui/501/com.example.submitted")

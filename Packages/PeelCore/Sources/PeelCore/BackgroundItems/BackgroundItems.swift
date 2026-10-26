@@ -37,18 +37,21 @@ public enum BackgroundItems {
         async let userList = Launchctl.run(["list"])
         async let systemPrint = Launchctl.run(["print", "system"])
         async let userDisabledOutput = Launchctl.run(["print-disabled", userDomain])
+        // `launchctl list` names the jobs of the user's own domain too, which launchd keeps apart from the GUI one.
+        async let userDomainPrint = Launchctl.run(["print", "user/\(getuid())"])
 
         let systemOutput = await systemPrint.output
         let loaded = Loaded(
             user: Launchctl.parseList(await userList.output),
             system: Launchctl.parseSystemServices(systemOutput),
             userDisabled: Launchctl.parseDisabled(await userDisabledOutput.output),
-            systemDisabled: Launchctl.parseDisabled(systemOutput)
+            systemDisabled: Launchctl.parseDisabled(systemOutput),
+            inTheUserDomain: Launchctl.parseSystemServices(await userDomainPrint.output).map { Set($0.keys) }
         )
 
         var items = declared(in: environment, ownership: ownership, exclusions: exclusions, loaded: loaded)
 
-        let submitted = undeclared(in: loaded, declared: items, userDomain: userDomain)
+        let submitted = undeclared(in: loaded, declared: items, uid: getuid())
 
         let found = await withTaskGroup(of: Undeclared.self) { group in
             var pending = submitted.makeIterator()
@@ -103,12 +106,14 @@ public enum BackgroundItems {
     static func undeclared(
         in loaded: Loaded,
         declared items: [BackgroundItem],
-        userDomain: String
+        uid: uid_t
     ) -> [(label: String, kind: BackgroundItem.Kind, target: String)] {
         // By kind and label: an item's `id` also holds its file's path, which a loaded job does not report.
         let known = Set(items.map { "\($0.kind.rawValue)/\($0.label)" })
         let candidates: [(label: String, kind: BackgroundItem.Kind, target: String)] =
-            (loaded.user ?? [:]).keys.map { ($0, .agent, "\(userDomain)/\($0)") }
+            (loaded.user ?? [:]).keys.map { label in
+                (label, .agent, "\(loaded.isInTheUserDomain(label) ? "user" : "gui")/\(uid)/\(label)")
+            }
             + (loaded.system ?? [:]).keys.map { ($0, .daemon, "system/\($0)") }
         return candidates.filter { label, kind, _ in
             !label.hasPrefix("com.apple.") && !label.hasPrefix("application.") && !known.contains("\(kind.rawValue)/\(label)")
@@ -162,6 +167,12 @@ public enum BackgroundItems {
         var system: [String: Int32?]? = [:]
         var userDisabled: [String: Bool]? = [:]
         var systemDisabled: [String: Bool]? = [:]
+        /// The agents launchd keeps in the user's own domain rather than the GUI one, which are asked about there.
+        var inTheUserDomain: Set<String>? = []
+
+        func isInTheUserDomain(_ label: String) -> Bool {
+            inTheUserDomain?.contains(label) == true
+        }
 
         /// The state of the job `label` of `kind`, known only when what `launchctl` said about both the jobs and
         /// the overrides of its domain could be read.
@@ -183,7 +194,7 @@ public enum BackgroundItems {
         /// known only from them, may be missing.
         var unanswered: Set<BackgroundItem.Kind> {
             var kinds: Set<BackgroundItem.Kind> = []
-            if user == nil || userDisabled == nil { kinds.insert(.agent) }
+            if user == nil || userDisabled == nil || inTheUserDomain == nil { kinds.insert(.agent) }
             if system == nil || systemDisabled == nil { kinds.insert(.daemon) }
             return kinds
         }
@@ -340,6 +351,7 @@ public enum BackgroundItems {
         item.isSystemExtension = program.map { PathComponents.isPath($0, inside: "/Library/SystemExtensions") } == true
         item.isManagedByServiceManagement = details.managedBy == serviceManagement
         item.isFileGone = !isAnApps && path?.isMissing == true
+        item.loadsInTheBackgroundSession = candidate.kind == .agent && loaded.isInTheUserDomain(candidate.label)
         if isAnApps, item.canBeControlled, !item.isManagedByServiceManagement {
             item.staysListedWhenDisabled =
                 ownership.owner(label: candidate.label, associated: [], program: nil)?.isInstalled == true

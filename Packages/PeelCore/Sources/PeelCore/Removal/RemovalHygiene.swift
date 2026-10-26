@@ -7,6 +7,9 @@ enum LaunchdCleanup {
         let isDaemon: Bool
         /// The file that declares it.
         let plist: URL
+        var loadsInTheBackgroundSession = false
+
+        var domain: String { LaunchdCleanup.domain(isDaemon: isDaemon, background: loadsInTheBackgroundSession) }
     }
 
     /// A job launchd runs now whose program sits inside an app: one of the app's own background programs. `plist` is
@@ -16,8 +19,24 @@ enum LaunchdCleanup {
         let isDaemon: Bool
         let pid: pid_t
         let plist: URL?
+        var loadsInTheBackgroundSession = false
 
-        var job: Job? { plist.map { Job(label: label, isDaemon: isDaemon, plist: $0) } }
+        var domain: String { LaunchdCleanup.domain(isDaemon: isDaemon, background: loadsInTheBackgroundSession) }
+
+        var job: Job? {
+            plist.map {
+                Job(
+                    label: label, isDaemon: isDaemon, plist: $0,
+                    loadsInTheBackgroundSession: loadsInTheBackgroundSession
+                )
+            }
+        }
+    }
+
+    /// A daemon's domain is the system's; an agent's is the GUI one, or the user's own for one that loads only in the
+    /// Background session (`man launchctl`: the two "still have discrete sets of services").
+    static func domain(isDaemon: Bool, background: Bool) -> String {
+        isDaemon ? "system" : background ? "user/\(getuid())" : "gui/\(getuid())"
     }
 
     /// Stops jobs whose configuration has gone, so launchd doesn't keep them running or restart them, and answers
@@ -25,19 +44,21 @@ enum LaunchdCleanup {
     @concurrent
     static func stop(_ jobs: [Job], canUseHelper: Bool) async -> [Job] {
         var stopped: [Job] = []
-        for job in jobs where await bootout(job.label, isDaemon: job.isDaemon, canUseHelper: canUseHelper) {
+        for job in jobs
+        where await bootout(job.label, in: job.domain, isDaemon: job.isDaemon, canUseHelper: canUseHelper) {
             stopped.append(job)
         }
         return stopped
     }
 
-    /// The jobs running now, in this user's domain and the system's, whose program sits inside `app`. An app Launch
+    /// The jobs running now, in this user's domains and the system's, whose program sits inside `app`. An app Launch
     /// Services opened is a job too (`application.`), which is quit as an app and never stopped as a job.
     @concurrent
     static func running(inside app: URL, environment: SearchEnvironment = .current) async -> [Running] {
         let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app))
         var found: [Running] = []
-        for (domain, isDaemon) in [("gui/\(getuid())", false), ("system", true)] {
+        for (isDaemon, background) in [(false, false), (false, true), (true, false)] {
+            let domain = domain(isDaemon: isDaemon, background: background)
             let services = Launchctl.parseSystemServices(await Launchctl.run(["print", domain]).output) ?? [:]
             for case let (label, pid?) in services where isAppsOwn(label) {
                 guard let program = RunningProgram.path(of: pid),
@@ -45,7 +66,9 @@ enum LaunchdCleanup {
                 else { continue }
                 let path = Launchctl.parseDetails(await Launchctl.run(["print", "\(domain)/\(label)"]).output)?.path
                 let plist = path.flatMap { jobs(for: [URL(filePath: $0)], environment: environment).first?.plist }
-                found.append(Running(label: label, isDaemon: isDaemon, pid: pid, plist: plist))
+                found.append(Running(
+                    label: label, isDaemon: isDaemon, pid: pid, plist: plist, loadsInTheBackgroundSession: background
+                ))
             }
         }
         return found
@@ -56,7 +79,8 @@ enum LaunchdCleanup {
     static func stop(_ jobs: [Running], canUseHelper: Bool, patience: Duration = .seconds(10)) async -> [Running] {
         let ends = ProcessEnds.of(jobs.map(\.pid))
         var stopped: [Running] = []
-        for job in jobs where await bootout(job.label, isDaemon: job.isDaemon, canUseHelper: canUseHelper) {
+        for job in jobs
+        where await bootout(job.label, in: job.domain, isDaemon: job.isDaemon, canUseHelper: canUseHelper) {
             stopped.append(job)
         }
         await withTaskGroup(of: Void.self) { group in
@@ -73,12 +97,12 @@ enum LaunchdCleanup {
             && !SystemDaemons.shipped.contains(label) && !SystemAgents.shipped.contains(label)
     }
 
-    private static func bootout(_ label: String, isDaemon: Bool, canUseHelper: Bool) async -> Bool {
+    private static func bootout(_ label: String, in domain: String, isDaemon: Bool, canUseHelper: Bool) async -> Bool {
         if isDaemon {
             guard canUseHelper, PrivilegedHelper.status == .enabled else { return false }
             return await PrivilegedHelper.runDaemonCommand(.bootout, label: label) == nil
         }
-        return await Launchctl.run(["bootout", "gui/\(getuid())/\(label)"]).status == 0
+        return await Launchctl.run(["bootout", "\(domain)/\(label)"]).status == 0
     }
 
     @concurrent
@@ -87,7 +111,7 @@ enum LaunchdCleanup {
             guard canUseHelper, PrivilegedHelper.status == .enabled else { return }
             _ = await PrivilegedHelper.runDaemonCommand(.bootstrap, label: job.label)
         } else {
-            _ = await Launchctl.run(["bootstrap", "gui/\(getuid())", job.plist.path(percentEncoded: false)])
+            _ = await Launchctl.run(["bootstrap", job.domain, job.plist.path(percentEncoded: false)])
         }
     }
 
@@ -106,10 +130,14 @@ enum LaunchdCleanup {
             guard all.contains(parent) else { return nil }
             // A label macOS itself uses would reach macOS's own job, whatever file declared it.
             guard
-                let label = BoundedRead.propertyList(at: url)?["Label"] as? String, PrivilegedPathPolicy.isValidLabel(label),
+                let plist = BoundedRead.propertyList(at: url),
+                let label = plist["Label"] as? String, PrivilegedPathPolicy.isValidLabel(label),
                 !SystemDaemons.shipped.contains(label), !SystemAgents.shipped.contains(label)
             else { return nil }
-            return Job(label: label, isDaemon: daemons.contains(parent), plist: url)
+            return Job(
+                label: label, isDaemon: daemons.contains(parent), plist: url,
+                loadsInTheBackgroundSession: JobDefinition(plist)?.loadsOnlyInTheBackground == true
+            )
         }
     }
 }

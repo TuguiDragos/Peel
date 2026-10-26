@@ -35,8 +35,8 @@ enum Launchctl {
         return jobs
     }
 
-    /// Parses the "services = { … }" block of `launchctl print system`: "pid exit-status label". Nil when there is
-    /// no such block.
+    /// Parses the "services = { … }" block `launchctl print` gives for a domain, the system's or a user's: "pid
+    /// exit-status label". Nil when there is no such block.
     static func parseSystemServices(_ output: String) -> [String: Int32?]? {
         var jobs: [String: Int32?]?
         for line in output.split(whereSeparator: \.isNewline) {
