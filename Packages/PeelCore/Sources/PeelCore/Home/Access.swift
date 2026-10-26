@@ -89,10 +89,13 @@ public enum CommandLineTool {
     }
 
     /// The shell command that links the tool, built from where Peel really is rather than a fixed path, or nil once the
-    /// link leads to this copy's tool and where something that may not be Peel's is in the link's place. `ln -f`
-    /// deletes what is there, so only a link to another Peel's tool is replaced. A single quote in the path is closed,
-    /// escaped, and reopened, so the shell reads the path as written.
+    /// link leads to this copy's tool, where something that may not be Peel's is in the link's place, and from a
+    /// temporary copy, whose link would lead nowhere once Peel quits. `ln -f` deletes what is there, so only a link to
+    /// another Peel's tool is replaced. A single quote in the path is closed, escaped, and reopened, so the shell reads
+    /// the path as written.
     public static func installCommand(embedded: URL, standing: Standing) -> String? {
+        let bundle = embedded.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        guard place(of: bundle) != .temporaryCopy else { return nil }
         let path = embedded.path(percentEncoded: false).replacingOccurrences(of: "'", with: "'\\''")
         let link = switch standing {
         case .missing: "ln -s"

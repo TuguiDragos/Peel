@@ -252,6 +252,9 @@ struct AppManagementTests {
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .missing) == "sudo mkdir -p /usr/local/bin && sudo ln -s '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .otherPeel) == "sudo mkdir -p /usr/local/bin && sudo ln -sf '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .somethingElse) == nil)
+        let translocated = URL(filePath: "/private/var/folders/x/AppTranslocation/41B9A/d/Peel.app/Contents/Helpers/peel")
+        #expect(CommandLineTool.installCommand(embedded: translocated, standing: .missing) == nil)
+        #expect(CommandLineTool.installCommand(embedded: translocated, standing: .otherPeel) == nil)
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .installed) == nil)
     }
 

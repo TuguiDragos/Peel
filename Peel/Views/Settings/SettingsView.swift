@@ -341,8 +341,7 @@ private struct GeneralSettingsView: View {
                 LabeledContent {
                     if commandLine == .installed {
                         state("Installed", "checkmark.circle", .green)
-                    } else if Self.place != .temporaryCopy, let installCommand {
-                        // Not offered from a temporary copy: a link into it would break as soon as Peel quits.
+                    } else if let installCommand {
                         CopyButton(text: installCommand)
                     }
                 } label: {
