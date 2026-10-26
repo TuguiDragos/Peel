@@ -862,6 +862,10 @@ struct UpdatesCommand: AsyncParsableCommand {
         if left > 0 {
             notes.append("Homebrew's settings leave \(Output.count(left, "app", "apps")) to update \(left == 1 ? "itself" : "themselves") (HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS), so Homebrew doesn't compare \(left == 1 ? "its version" : "their versions"), and whether \(left == 1 ? "it is" : "they are") up to date isn't known.")
         }
+        let disabled = casks(.disabled).count
+        if disabled > 0 {
+            notes.append("Homebrew no longer upgrades \(Output.count(disabled, "app", "apps")) it installed, since it has disabled \(disabled == 1 ? "its cask" : "their casks"), so whether \(disabled == 1 ? "it is" : "they are") up to date isn't known.")
+        }
         return notes.compactMap(\.self)
     }
 

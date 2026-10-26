@@ -19,6 +19,22 @@ struct HomebrewTests {
     /// `man brew`: unless `HOMEBREW_NO_INSTALL_CLEANUP` is set, `brew upgrade` runs `brew cleanup` by itself, for
     /// the upgraded packages and every 30 days for all of them, which deletes old versions and downloads for good.
     /// Peel deletes those only through Clean Up, which asks first, so no call it makes may clean up on its own.
+    @Test func aDisabledPackageWaitsForNoUpgrade() {
+        func package(_ stage: HomebrewRetirement.Stage?) -> HomebrewPackage {
+            HomebrewPackage(
+                name: "tool", kind: .cask, installedVersion: "1.0", latestVersion: "2.0", isOutdated: true,
+                retirement: stage.map { HomebrewRetirement(stage: $0, reason: nil, disableDate: nil, replacement: nil) }
+            )
+        }
+
+        #expect(package(nil).waitsForAnUpgrade && package(nil).joinsUpgradeAll)
+        #expect(package(.deprecated).waitsForAnUpgrade && package(.deprecated).joinsUpgradeAll)
+        #expect(!package(.disabled).waitsForAnUpgrade)
+        #expect(!package(.disabled).joinsUpgradeAll)
+        #expect(package(.disabled).whyHomebrewCannotCompare == .disabled)
+        #expect(UpdateChecker.homebrewStatus(of: package(.disabled), appVersion: "1.0", at: .now) == nil)
+    }
+
     @Test func knowsWhenSudoAskedForAPassword() {
         let sudo = """
             ==> Running installer for zoom with sudo; the password may be necessary.

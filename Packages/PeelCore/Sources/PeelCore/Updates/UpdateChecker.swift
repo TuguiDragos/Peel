@@ -159,7 +159,7 @@ public struct UpdateChecker: Sendable {
     /// The status Homebrew reports at `now` for `cask`, known to be the app's at `appVersion`, or nil when it can't
     /// tell (`whyHomebrewCannotTell(about:at:)`).
     static func homebrewStatus(of cask: HomebrewPackage, appVersion: String?, at now: Date) -> UpdateStatus? {
-        if cask.isOutdated, let latest = cask.latestVersion, !isAlready(appVersion, at: latest) {
+        if cask.waitsForAnUpgrade, let latest = cask.latestVersion, !isAlready(appVersion, at: latest) {
             return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
         }
         return whyHomebrewCannotTell(about: cask, at: now) == nil ? .upToDate : nil
@@ -538,6 +538,8 @@ public struct HomebrewCannotTell: Sendable, Hashable {
         /// The app updates itself, and Homebrew's settings leave such casks to their apps
         /// (`HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS`).
         case leftToTheApp
+        /// Homebrew has disabled the cask, so it no longer upgrades it.
+        case disabled
     }
 
     public let cask: HomebrewPackage

@@ -75,6 +75,7 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// Why Homebrew's `outdated` says nothing of whether this cask's app is behind, or nil when Homebrew compares its
     /// version: a cask written `version :latest` installs whatever is newest each time.
     public var whyHomebrewCannotCompare: HomebrewCannotTell.Reason? {
+        if !isStillUpgraded { return .disabled }
         if latestVersion == "latest" { return .installsTheNewest }
         return isLeftToItsApp ? .leftToTheApp : nil
     }
@@ -89,13 +90,19 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// Whether Upgrade All takes it along when it is out of date: a pinned package is held at its version on purpose,
     /// and a cask whose upgrade needs an administrator is upgraded in Terminal.
     public var joinsUpgradeAll: Bool {
-        !isPinned && !upgradeNeedsAnAdministrator && !isMissingWhatItInstalled && !isStoppedMidUpgrade
+        isStillUpgraded && !isPinned && !upgradeNeedsAnAdministrator && !isMissingWhatItInstalled
+            && !isStoppedMidUpgrade
     }
 
     /// Whether Homebrew offers a newer version that it can install. It upgrades a cask's app where it put it, so it
     /// can't upgrade a cask whose apps are gone.
     public var waitsForAnUpgrade: Bool {
-        isOutdated && !isMissingWhatItInstalled && !isStoppedMidUpgrade
+        isOutdated && isStillUpgraded && !isMissingWhatItInstalled && !isStoppedMidUpgrade
+    }
+
+    /// Whether Homebrew still upgrades it: one it has disabled gets no more upgrades, though `outdated` may say it is.
+    public var isStillUpgraded: Bool {
+        retirement?.stage != .disabled
     }
 
     /// Returns a copy that notes whether what the installed cask put on the Mac is all gone, asked of the disk now: its

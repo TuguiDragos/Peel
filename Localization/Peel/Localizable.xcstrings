@@ -105243,6 +105243,112 @@
         }
       }
     },
+    "Only Homebrew could say whether %@ is up to date, but Homebrew has disabled it and no longer upgrades it. Look for an update inside the app, or on its maker’s website." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen Homebrew by mohl říct, zda je aplikace %@ aktuální, ale Homebrew ji vyřadil a už ji neupgraduje. Aktualizaci hledejte přímo v aplikaci nebo na webu jejího výrobce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Homebrew könnte sagen, ob „%@“ auf dem neuesten Stand ist, aber Homebrew hat die App deaktiviert und führt keine Upgrades mehr für sie aus. Suche in der App selbst oder auf der Website des Herstellers nach einem Update."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew podría decir si %@ está actualizada, pero Homebrew la ha desactivado y ya no la actualiza. Busca actualizaciones dentro de la app o en el sitio web de su fabricante."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul Homebrew pourrait dire si %@ est à jour, mais Homebrew l’a désactivé et ne le met plus à niveau. Recherchez une mise à jour dans l’app ou sur le site web de son éditeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew potrebbe dire se %@ è aggiornata, ma Homebrew l’ha disabilitata e non la aggiorna più. Cerca un aggiornamento dall’interno dell’app o sul sito web del suo produttore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Homebrewはこのアプリの提供を終了しており、今後はアップグレードしません。アプリ内か、開発元のWebサイトでアップデートを探してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Homebrew가 이 앱을 비활성화하여 더 이상 업그레이드하지 않습니다. 앱 안이나 제작자의 웹사이트에서 업데이트를 찾아보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen Homebrew zou kunnen zeggen of %@ up-to-date is, maar Homebrew heeft de app uitgeschakeld en upgradet die niet meer. Zoek in de app zelf of op de website van de maker naar een update."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko Homebrew mógłby określić, czy aplikacja %@ jest aktualna, ale Homebrew ją wyłączył i już jej nie uaktualnia. Poszukaj uaktualnienia w samej aplikacji lub w witrynie jej producenta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só o Homebrew poderia dizer se %@ está atualizado, mas o Homebrew o desativou e não faz mais upgrade dele. Procure uma atualização dentro do app ou no site do fabricante."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar Homebrew ar putea spune dacă aplicația %@ este actualizată, dar Homebrew a dezactivat‑o și nu îi mai face upgrade. Căutați actualizări chiar în aplicație sau pe site‑ul web al producătorului ei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только Homebrew мог бы сообщить, установлена ли новейшая версия приложения «%@», но Homebrew отключил его и больше не обновляет. Поищите обновление в самом приложении или на сайте его производителя."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara Homebrew skulle kunna avgöra om %@ är uppdaterad, men Homebrew har avaktiverat den och uppgraderar den inte längre. Leta efter en uppdatering i appen eller på tillverkarens webbplats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilirdi, ancak Homebrew onu etkisizleştirdi ve artık yükseltmiyor. Uygulamanın içinde veya üreticisinin web sitesinde bir güncelleme olup olmadığına bakın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сказати, чи потребує програма «%@» оновлення, міг би лише Homebrew, але Homebrew вимкнув цей пакет і більше його не оновлює. Пошукайте оновлення в самій програмі або на вебсайті її виробника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能判断“%@”是否为最新版本，但Homebrew已停用它，不再升级它。请在App内或其厂商的网站上查找更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但Homebrew已停用它，不再升級它。請在該App內或其廠商的網站上檢查更新。"
+          }
+        }
+      }
+    },
     "Only Homebrew could say whether %@ is up to date, but Homebrew’s settings leave apps that update themselves to their own updates, so it doesn’t compare their versions. Look for an update inside the app." : {
       "localizations" : {
         "cs" : {

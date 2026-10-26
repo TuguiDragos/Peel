@@ -81,6 +81,8 @@ struct UpdateStatusBadge: View {
                 Text("Only Homebrew could say whether \(app.name) is up to date, but it installs whatever is newest each time, so it has no version to compare this copy with. Look for an update inside the app.")
             case .leftToTheApp:
                 Text("Only Homebrew could say whether \(app.name) is up to date, but Homebrew’s settings leave apps that update themselves to their own updates, so it doesn’t compare their versions. Look for an update inside the app.")
+            case .disabled:
+                Text("Only Homebrew could say whether \(app.name) is up to date, but Homebrew has disabled it and no longer upgrades it. Look for an update inside the app, or on its maker’s website.")
             }
         case .cameWithMacOS:
             Text("\(app.name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask.")

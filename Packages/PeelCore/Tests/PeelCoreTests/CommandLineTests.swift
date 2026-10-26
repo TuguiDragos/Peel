@@ -1044,11 +1044,12 @@ struct CommandLineTests {
         #expect(UpdatesCommand.notes(about: [], timeZone: utc).isEmpty)
         #expect(UpdatesCommand.notes(about: [notChecked(checked)], timeZone: utc) == ["Homebrew last checked for new versions on 2026-10-18, so whether 1 app it installed is up to date isn't known. Run `brew update`, then check again."])
         #expect(UpdatesCommand.notes(about: [notChecked(cask), notChecked(cask)], timeZone: utc) == ["Homebrew doesn't say when it last checked for new versions, so whether 2 apps it installed are up to date isn't known."])
-        let reasons: [HomebrewCannotTell.Reason] = [.installsTheNewest, .leftToTheApp, .leftToTheApp]
+        let reasons: [HomebrewCannotTell.Reason] = [.installsTheNewest, .leftToTheApp, .leftToTheApp, .disabled]
         let others = reasons.map { HomebrewCannotTell(cask: cask, reason: $0) }
         #expect(UpdatesCommand.notes(about: others, timeZone: utc) == [
             "1 app Homebrew installed gets whatever is newest each time, so Homebrew has no version to compare, and whether it is up to date isn't known.",
             "Homebrew's settings leave 2 apps to update themselves (HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS), so Homebrew doesn't compare their versions, and whether they are up to date isn't known.",
+            "Homebrew no longer upgrades 1 app it installed, since it has disabled its cask, so whether it is up to date isn't known.",
         ])
     }
 
