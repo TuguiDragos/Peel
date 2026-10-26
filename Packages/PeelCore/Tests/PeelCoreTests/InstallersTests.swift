@@ -627,6 +627,22 @@ struct InstallersTests {
         #expect(measured.withLock { $0 } == 1, "it went on measuring after it was canceled")
     }
 
+    @Test func aDiskImageOpenRightNowIsNotSuggested() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Applications")
+        let image = try AttachedImage(at: directory.url.appending(path: "Downloads/Tool.dmg"))
+        try directory.file("Downloads/Other.dmg", bytes: 400_000)
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+        image.detach()
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(heldBack["Tool.dmg"] == .attachedDiskImage)
+        #expect(heldBack["Other.dmg"] == .some(nil))
+    }
+
     @Test func aScanCanceledWhileMacOSAsksAsksNothingMore() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Applications")

@@ -134,6 +134,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case inTheCloud
     /// A file a program has open right now, which may still be downloading it.
     case openInAProgram
+    /// A disk image attached right now, which macOS holds open until it is ejected.
+    case attachedDiskImage
     /// A download that changed within the last day, which may still be going.
     case changedRecently
     /// A `.part` file no browser left, which a program that resumes downloads, such as a torrent client, may still

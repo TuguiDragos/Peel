@@ -197,6 +197,8 @@ extension TrashFailure.Reason {
             String(localized: "It is in use by \(tools.formatted(.list(type: .and))). Run \(BuildDaemon.stopCommands(for: tools).map { "`\($0)`" }.formatted(.list(type: .and))), then try again.", bundle: bundle)
         case .inUseByMacOS(let processes):
             String(localized: "macOS is using it right now, through \(processes.formatted(.list(type: .and))), so it stays where it is.", bundle: bundle)
+        case .attachedDiskImage:
+            String(localized: "It is a disk image that is open right now. Eject it, then try again.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)
         }
     }
@@ -395,6 +397,8 @@ extension HoldBack {
             "Left alone: this syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them."
         case .openInAProgram:
             "Not selected: a program has this open right now, and may still be downloading it."
+        case .attachedDiskImage:
+            "Not selected: this disk image is open right now. Eject it first."
         case .changedRecently:
             "Not selected: this changed in the last day, so it may still be downloading."
         case .mayStillBeResumed:

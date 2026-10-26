@@ -20,11 +20,15 @@ struct OpenFiles {
     private let programs: [pid_t: String]
     /// The program the excluded process runs. Its open files are no hold, but where it runs from is.
     private let excludedProgram: [String]?
+    private let attachedImages: [[String]]
 
     /// Each regular file held open for reading or writing, and the program each process runs, which it holds as long
     /// as it runs. A watch (`O_EVTONLY`, as Finder keeps on what it shows) and a folder are no hold on what is inside.
-    init(excluding excluded: pid_t? = getpid()) {
+    init(excluding excluded: pid_t? = getpid(), attachedImages: [String] = []) {
         excludedProgram = excluded.flatMap(RunningProgram.path(of:)).map(PathComponents.of)
+        self.attachedImages = attachedImages.map {
+            PathComponents.of(PathPattern.canonical(URL(filePath: $0)).path(percentEncoded: false))
+        }
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
         var files: [File] = []
@@ -52,12 +56,18 @@ struct OpenFiles {
 
     /// A reading of the open files that is made again once it is older than `lifetime`.
     struct Fresh {
-        private var reading = OpenFiles()
+        private let attachedImages: [String]
+        private var reading: OpenFiles
         private var read = ContinuousClock.now
+
+        init(attachedImages: [String] = []) {
+            self.attachedImages = attachedImages
+            reading = OpenFiles(attachedImages: attachedImages)
+        }
 
         mutating func refusal(of url: URL, lettingItsProgramsRun: Bool) -> TrashFailure.Reason? {
             if ContinuousClock.now - read > OpenFiles.lifetime {
-                reading = OpenFiles()
+                reading = OpenFiles(attachedImages: attachedImages)
                 read = .now
             }
             return reading.refusal(of: url, lettingItsProgramsRun: lettingItsProgramsRun)
@@ -70,6 +80,10 @@ struct OpenFiles {
         Set(holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map(\.process)).sorted()
     }
 
+    func isAttachedDiskImage(_ url: URL) -> Bool {
+        attachedImages.contains(PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)))
+    }
+
     func processes(holding url: URL, lettingItsProgramsRun: Bool = false) -> Set<pid_t> {
         Set(holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map(\.pid))
     }
@@ -78,6 +92,7 @@ struct OpenFiles {
     func refusal(of url: URL, lettingItsProgramsRun: Bool) -> TrashFailure.Reason? {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         if !lettingItsProgramsRun, let excludedProgram, excludedProgram.starts(with: names) { return .peelRunsFromIt }
+        if attachedImages.contains(where: { $0.starts(with: names) }) { return .attachedDiskImage }
         return Self.refusal(heldBy: holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map { file in
             Holder(
                 process: file.process, owner: file.owner,

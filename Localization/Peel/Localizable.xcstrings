@@ -63909,6 +63909,112 @@
         }
       }
     },
+    "It is a disk image that is open right now. Eject it, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to obraz disku, který je právě otevřený. Vysuňte ho a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist eine Image-Datei, die gerade geöffnet ist. Wirf sie aus und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es una imagen de disco que está abierta ahora mismo. Expúlsala y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il s’agit d’une image disque actuellement ouverte. Éjectez-la, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È un’immagine disco aperta in questo momento. Espellila, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在開いているディスクイメージです。取り出してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 열려 있는 디스크 이미지입니다. 추출한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een schijfkopie die op dit moment is geopend. Verwijder de bijbehorende schijf in Finder en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To obraz dysku, który jest teraz otwarty. Wysuń go i spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É uma imagem de disco que está aberta neste momento. Ejete-a e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este o imagine de disc deschisă chiar acum. Ejectați‑o, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это образ диска, который сейчас подключен. Извлеките его, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är en skivavbild som är öppen just nu. Mata ut den och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, şu anda açık olan bir disk görüntüsü. Onu çıkarın, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це образ диска, який саме зараз відкрито. Вийміть його та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是当前已打开的磁盘映像。请推出它，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是目前已打開的磁碟映像檔。請將它退出，然後再試一次。"
+          }
+        }
+      }
+    },
     "It is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one. Apps and tools keep what they install there, so Peel doesn’t look for projects in it." : {
       "localizations" : {
         "cs" : {
@@ -99153,6 +99259,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：此項目在過去一天內有變更，因此可能仍在下載。"
+          }
+        }
+      }
+    },
+    "Not selected: this disk image is open right now. Eject it first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tento obraz disku je právě otevřený. Nejprve ho vysuňte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Diese Image-Datei ist gerade geöffnet. Wirf sie zuerst aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: esta imagen de disco está abierta ahora mismo. Expúlsala primero."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : cette image disque est ouverte en ce moment. Éjectez-la d’abord."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: questa immagine disco è aperta in questo momento. Prima espellila."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このディスクイメージは現在開いています。先に取り出してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 디스크 이미지는 지금 열려 있습니다. 먼저 추출하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: deze schijfkopie is op dit moment geopend. Verwijder eerst de bijbehorende schijf in Finder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten obraz dysku jest teraz otwarty. Najpierw go wysuń."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: esta imagem de disco está aberta neste momento. Ejete-a primeiro."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: această imagine de disc este deschisă chiar acum. Mai întâi ejectați‑o."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот образ диска сейчас подключен. Сначала извлеките его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den här skivavbilden är öppen just nu. Mata ut den först."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu disk görüntüsü şu anda açık. Önce onu çıkarın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей образ диска саме зараз відкрито. Спершу вийміть його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此磁盘映像当前已打开。请先推出它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此磁碟映像檔目前已打開。請先將它退出。"
           }
         }
       }

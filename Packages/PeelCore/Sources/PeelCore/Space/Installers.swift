@@ -111,13 +111,15 @@ public enum Installers {
         exclusions: Exclusions = .none,
         minimumSize: Int64 = Installers.minimumSize
     ) async -> InstallerScan {
-        await scan(
+        let attached = await AttachedDiskImages.paths() ?? []
+        return await scan(
             installedApps: installedApps,
             home: home,
             root: root,
             exclusions: exclusions,
             minimumSize: minimumSize,
-            measure: LeftoverScanner.walk
+            measure: LeftoverScanner.walk,
+            openFiles: OpenFiles(attachedImages: attached)
         )
     }
 
@@ -267,6 +269,7 @@ public enum Installers {
     ) -> HoldBack? {
         if syncsToOtherDevices(url) { return .inTheCloud }
         if let seen { return seen }
+        if openFiles.isAttachedDiskImage(url) { return .attachedDiskImage }
         if !openFiles.holders(of: url).isEmpty { return .openInAProgram }
         return folder.isSharedWithEveryone ? .sharedWithEveryone : nil
     }

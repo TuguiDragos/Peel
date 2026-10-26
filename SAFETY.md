@@ -179,7 +179,9 @@ programs that run as another account or as root, macOS's own among them, only th
 files it holds open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of
 the disk, where those programs keep theirs, does not list them at all. Neither you nor Peel can quit such a program,
 so Peel never asks you to: what it runs from stays, and says so, until it is stopped in Background Items or by the
-app's own uninstaller, or, for an app another user of this Mac has open, until it is quit in that user's account.
+app's own uninstaller, or, for an app another user of this Mac has open, until it is quit in that user's account. A
+disk image that is open right now, which macOS's disk image service holds under an account of its own, is known from
+`hdiutil info`: it stays, and so does a folder holding it, until it is ejected.
 
 The folder your account's crash reports are saved in, `~/Library/Logs/DiagnosticReports`, never moves: macOS's
 analytics helper can't make it again once it is gone, and crash reports would stop being saved. Space offers only
@@ -401,7 +403,7 @@ Never selected for you, even when found:
   them. When you uninstall Xcode, the simulators it made in your home folder are listed too, with the apps installed in
   them and their data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
-- A file a program has open right now.
+- A file a program has open right now, and a disk image that is open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
   running, which may install it when the app quits.
 - An encrypted disk image, and a disk image, package, or archive outside Downloads that isn't an installed app's

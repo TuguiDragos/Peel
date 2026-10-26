@@ -943,6 +943,19 @@ struct TrashServiceTests {
         #expect(caches.appending(path: "Vendor.real/x.pdf").isThere)
     }
 
+    @Test func refusesADiskImageOpenRightNowAndTheFolderItIsIn() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let image = try AttachedImage(at: directory.url.appending(path: "home/Downloads/Tool/Tool.dmg"))
+        let folder = image.url.deletingLastPathComponent()
+
+        let result = await service.trash([image.url, folder])
+        image.detach()
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.attachedDiskImage, .attachedDiskImage])
+    }
+
     @Test func readsTheOpenFilesAgainWhileAMoveGoesOn() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)

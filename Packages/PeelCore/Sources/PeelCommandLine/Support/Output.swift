@@ -389,6 +389,7 @@ extension HoldBack {
         case .crashReport: "a crash report, which the app's developer may still ask for"
         case .inTheCloud: "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
         case .openInAProgram: "open in a program right now, which may still be downloading it"
+        case .attachedDiskImage: "a disk image open right now; eject it first"
         case .changedRecently: "changed in the last day, so it may still be downloading"
         case .mayStillBeResumed: "a program that resumes downloads, such as a torrent client, may still finish it"
         case .writtenRecently: "written to in the last 15 minutes, so a program may still be using it"
@@ -482,6 +483,7 @@ extension TrashFailure.Reason {
         case .heldByABuildTool(let tools):
             "in use by \(tools.map(Output.plain).joined(separator: ", ")); run \(BuildDaemon.stopCommands(for: tools).map { "`\($0)`" }.joined(separator: " and ")), then try again"
         case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
+        case .attachedDiskImage: "a disk image open right now; eject it, then try again"
         case .failed(let message): Output.plain(message)
         }
     }

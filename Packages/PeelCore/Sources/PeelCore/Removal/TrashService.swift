@@ -96,6 +96,8 @@ public struct TrashFailure: Sendable, Hashable {
         case heldByABuildTool(by: [String])
         /// Only macOS's own programs hold it, and nobody quits those.
         case inUseByMacOS(by: [String])
+        /// It is a disk image attached right now, or a folder holding one, which macOS holds open until it is ejected.
+        case attachedDiskImage
         case failed(String)
     }
 
@@ -116,7 +118,7 @@ extension TrashFailure.Reason {
         case .historyUnreadable, .historyCannotBeWritten, .needsHelper: false
         case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser,
-             .heldByABuildTool, .inUseByMacOS, .failed: true
+             .heldByABuildTool, .inUseByMacOS, .attachedDiskImage, .failed: true
         }
     }
 
@@ -148,6 +150,7 @@ extension TrashFailure.Reason {
         case .openForAnotherUser: "open-for-another-user"
         case .heldByABuildTool: "held-by-a-build-tool"
         case .inUseByMacOS: "in-use-by-macos"
+        case .attachedDiskImage: "attached-disk-image"
         case .failed: "failed"
         }
     }
@@ -190,6 +193,7 @@ extension TrashFailure.Reason {
         case "held-by-a-build-tool":
             self = .heldByABuildTool(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "in-use-by-macos": self = .inUseByMacOS(by: (detail ?? "").split(separator: "\n").map(String.init))
+        case "attached-disk-image": self = .attachedDiskImage
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -463,7 +467,7 @@ public struct TrashService: Sendable {
         // The guard reads the disk, so it is asked once for each item.
         let refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
         let allowed = urls.filter { refusals[$0] == nil }
-        var openFiles = OpenFiles.Fresh()
+        var openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
         // Read before the move, while the files are still there to say which jobs they declare.
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
 
@@ -675,7 +679,7 @@ public struct TrashService: Sendable {
         // answer that never comes can affect. The helper reads no open files, so they are read right before each
         // request, and again once the last reading is older than `OpenFiles.lifetime`.
         let limit = HelperRequest.maximumItems
-        var openFiles = OpenFiles.Fresh()
+        var openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
         for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] {
             for start in stride(from: 0, to: batch.count, by: limit) {
                 var request: [URL] = []
