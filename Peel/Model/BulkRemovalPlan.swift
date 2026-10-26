@@ -67,15 +67,38 @@ final class BulkRemovalPlan {
 
     var unreadableLocations: [SearchLocation] { bulk?.unreadableLocations ?? [] }
 
-    /// The processes of the chosen apps with anything of theirs selected that run now, helpers included. Files never
-    /// move out from under a running app, so an app that stays still quits before a file of its own moves.
+    /// What the alert asks: an app's own words when one runs, as its page says them, whether it goes or only its files
+    /// do, and for several, the plural when all of them go.
+    static func quitTitle(running: [InstalledApp], going: Set<URL>) -> LocalizedStringResource {
+        if running.count == 1, let app = running.first {
+            return going.contains(app.url) ? "Quit \(app.name) before removing it." : "Quit \(app.name) before removing its files."
+        }
+        return running.allSatisfy { going.contains($0.url) } ? "Quit these apps before removing them." : "Quit these apps first."
+    }
+
+    /// The chosen apps with anything of theirs selected that run now. Files never move out from under a running app,
+    /// so an app that stays still quits before a file of its own moves.
+    var runningApps: [InstalledApp] {
+        let running = RunningCopies.current
+        return owningSelected.filter { app in
+            !RunningCopies.belonging(to: app, among: running, installedApps: installedApps).isEmpty
+        }
+    }
+
+    /// The processes of `runningApps`, helpers included, each once: two copies of an app share their helpers.
     var runningProcesses: [NSRunningApplication] {
         let running = RunningCopies.current
-        let owners = Set(items.filter { selectedURLs.contains($0.url) }.flatMap(\.apps))
-        return apps.filter { owners.contains($0.reference) }.flatMap { app in
+        var seen: Set<pid_t> = []
+        return owningSelected.flatMap { app in
             RunningCopies.belonging(to: app, among: running, installedApps: installedApps)
+                .filter { seen.insert($0.identifier).inserted }
                 .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
         }
+    }
+
+    private var owningSelected: [InstalledApp] {
+        let owners = Set(items.filter { selectedURLs.contains($0.url) }.flatMap(\.apps))
+        return apps.filter { owners.contains($0.reference) }
     }
 
     /// The revision of the exclusions the last scan read, nil before the first.

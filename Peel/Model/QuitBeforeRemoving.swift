@@ -27,8 +27,14 @@ final class QuitBeforeRemoving {
 
     /// The names of what still runs, for the alerts.
     var names: String {
-        running.filter { !ended.contains($0.processIdentifier) }.map { $0.localizedName ?? $0.bundleIdentifier ?? "" }
-            .formatted(.list(type: .and))
+        let open = running.filter { !ended.contains($0.processIdentifier) }
+        return Self.named(open.map { $0.localizedName ?? $0.bundleIdentifier ?? "" })
+    }
+
+    /// Each name once, and the first few of many, as an alert lists them.
+    static func named(_ names: [String]) -> String {
+        var seen: Set<String> = []
+        return RemovalFailureAlert.listed(names.filter { seen.insert($0).inserted })
     }
 
     /// Goes on at once when none of `processes` runs, and otherwise asks the person to quit them first.

@@ -13,6 +13,7 @@ struct MultipleAppsView: View {
     @State private var isRescanning = false
     @State private var questionTitle = Text(verbatim: "")
     @State private var questionNote = Text(verbatim: "")
+    @State private var quitTitle = Text(verbatim: "")
     @Environment(RemovalOutcome.self) private var outcome
 
     init(apps: [InstalledApp]) {
@@ -149,7 +150,7 @@ struct MultipleAppsView: View {
         } message: {
             questionNote
         }
-        .alert("Quit these apps before removing them.", isPresented: Bindable(quitting).isAsking) {
+        .alert(quitTitle, isPresented: Bindable(quitting).isAsking) {
             Button("Quit Apps") { quitting.quit() }
             Button("Cancel", role: .cancel) { quitting.giveUp() }
         } message: {
@@ -332,6 +333,9 @@ struct MultipleAppsView: View {
     private func requestRemoval() {
         let plan = plan
         let running = plan.runningProcesses
+        if !running.isEmpty {
+            quitTitle = Text(BulkRemovalPlan.quitTitle(running: plan.runningApps, going: plan.selectedURLs))
+        }
         quitting.check(running) {
             Task {
                 if !running.isEmpty {
