@@ -239,6 +239,12 @@ public struct HomebrewInstallation: Sendable, Hashable {
     public let prefix: URL
     /// Where Homebrew keeps its formulae, as it says: in its repository when it has one there, else under the prefix.
     public let cellar: URL
+    /// Where Homebrew itself is, as it says: the prefix on a Mac with Apple silicon, `/usr/local/Homebrew` on Intel.
+    public let repository: URL
+    /// The account the repository belongs to, which installed Homebrew.
+    public private(set) var owner: String?
+    /// Whether this account may change Homebrew (`Homebrew.mayBeChanged`), judged when it was read.
+    public private(set) var mayBeChangedByThisAccount = true
 
     public var caskroom: URL {
         prefix.appending(path: "Caskroom", directoryHint: .isDirectory)
@@ -256,14 +262,24 @@ public struct HomebrewInstallation: Sendable, Hashable {
     /// `brew bundle` is part of Homebrew since 4.4.25; before, it lived in a tap that asking for it would download.
     public var writesABrewfile: Bool { isAtLeast(4, 4, 25) }
 
-    public init(version: String, prefix: URL, cellar: URL? = nil) {
+    public init(version: String, prefix: URL, cellar: URL? = nil, repository: URL? = nil) {
         self.version = version
         self.prefix = prefix
         self.cellar = cellar ?? prefix.appending(path: "Cellar", directoryHint: .isDirectory)
+        self.repository = repository ?? prefix
         numbers = version
             .prefix { $0.isNumber || $0 == "." }
             .split(separator: ".")
             .compactMap { Int($0) }
+    }
+
+    /// A copy that says whose Homebrew this is and whether this account may change it.
+    func judgedForThisAccount() -> HomebrewInstallation {
+        var judged = self
+        let path = repository.path(percentEncoded: false)
+        judged.owner = (try? FileManager.default.attributesOfItem(atPath: path))?[.ownerAccountName] as? String
+        judged.mayBeChangedByThisAccount = Homebrew.mayBeChanged(cellar: cellar, repository: repository)
+        return judged
     }
 
     private func isAtLeast(_ required: Int...) -> Bool {
@@ -484,6 +500,14 @@ indirect enum CaskValue: Decodable, Sendable {
 
 public enum Homebrew {
     static let notInstalled = "Homebrew isn’t installed."
+
+    /// Whether this account may change the Homebrew whose Cellar and repository these are, as `brew update` judges it
+    /// (`cmd/update.sh`): the Cellar, when there is one, and the repository can be written. Homebrew belongs to the
+    /// account that installed it, so another account of the Mac can read it and not change it.
+    static func mayBeChanged(cellar: URL, repository: URL) -> Bool {
+        func writable(_ url: URL) -> Bool { access(url.path(percentEncoded: false), W_OK) == 0 }
+        return (cellar.isMissing || writable(cellar)) && writable(repository)
+    }
 
     /// Whether `sudo` stopped for a password it had no terminal to ask in, in its own words, which it writes in English
     /// in the environment Peel runs Homebrew in.
@@ -751,11 +775,13 @@ public enum Homebrew {
     @concurrent
     public static func installation() async -> HomebrewInstallation? {
         guard executableURL != nil, let version = try? await answer(["--version"]) else { return nil }
-        return installation(
+        let found = installation(
             versionAnswer: version,
             prefixAnswer: try? await answer(["--prefix"]),
-            cellarAnswer: try? await answer(["--cellar"])
+            cellarAnswer: try? await answer(["--cellar"]),
+            repositoryAnswer: try? await answer(["--repository"])
         )
+        return found?.judgedForThisAccount()
     }
 
     /// The installation as Homebrew describes it. Its prefix and Cellar are asked, never worked out from where `brew`
@@ -764,7 +790,8 @@ public enum Homebrew {
     static func installation(
         versionAnswer: String,
         prefixAnswer: String?,
-        cellarAnswer: String?
+        cellarAnswer: String?,
+        repositoryAnswer: String? = nil
     ) -> HomebrewInstallation? {
         // The first line is `Homebrew <version>`; anything under it names a tap.
         guard let first = versionAnswer.split(whereSeparator: \.isNewline).first else { return nil }
@@ -777,7 +804,8 @@ public enum Homebrew {
         return HomebrewInstallation(
             version: version,
             prefix: URL(filePath: PathPattern.comparablePath(of: prefix), directoryHint: .notDirectory),
-            cellar: cellar
+            cellar: cellar,
+            repository: repositoryAnswer.flatMap(folder(answering:))
         )
     }
 

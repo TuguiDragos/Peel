@@ -98,6 +98,19 @@ final class HomebrewLibrary {
 
     var knowsItsOwnApps: Bool { !isInstalled || hasAnswered }
 
+    /// Whether this account may change Homebrew, true until Homebrew has been read. On another account of the Mac its
+    /// lists can be read, and what changes it is left to the account it belongs to.
+    var mayChange: Bool { installation?.mayBeChangedByThisAccount ?? true }
+
+    /// Why this account can't change Homebrew, or nil when it can.
+    var belongsToAnotherAccount: LocalizedStringResource? {
+        guard !mayChange else { return nil }
+        if let owner = installation?.owner {
+            return "Homebrew on this Mac belongs to \(owner), so only that account can update or change it."
+        }
+        return "Homebrew on this Mac belongs to another account, so only that account can update or change it."
+    }
+
     /// Incremented only when the known casks or receipts change, or Homebrew leaves the Mac. An app's page scans
     /// again when it does, so a page opened before the evidence arrived picks it up, and a page the user is working
     /// on isn't scanned again for nothing.
@@ -288,7 +301,7 @@ final class HomebrewLibrary {
     /// Homebrew page opens no sheet about it later.
     @discardableResult
     func run(_ command: Command, showsResult: Bool = true) async -> CommandResult? {
-        guard runningCommand == nil, !isForgetting else { return nil }
+        guard runningCommand == nil, !isForgetting, command.onlyLooks || mayChange else { return nil }
         runningCommand = command
         defer {
             (runningCommand, runningTask, progress, isStopping) = (nil, nil, nil, false)
@@ -314,7 +327,7 @@ final class HomebrewLibrary {
     /// Moves the Homebrew receipt of each of `casks` whose apps are gone to the Trash, records it with `record`, and
     /// reads the packages again, so Homebrew no longer lists them. Nil while Homebrew is busy.
     func forget(_ casks: [HomebrewPackage], recording record: (TrashResult) async -> Void) async -> TrashResult? {
-        guard runningCommand == nil, !isForgetting else { return nil }
+        guard runningCommand == nil, !isForgetting, mayChange else { return nil }
         forgetting = Set(casks.map(\.id))
         defer { forgetting = [] }
         let result = await QuitGuard.shared.run {

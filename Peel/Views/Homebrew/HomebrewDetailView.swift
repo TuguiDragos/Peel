@@ -118,57 +118,64 @@ struct HomebrewDetailView: View {
             }
 
             Section {
-                HStack {
-                    if package.isMissingWhatItInstalled {
-                        Button("Forget Cask") { casksToForget = [package] }
-                            .buttonStyle(.borderedProminent)
-                            .disabled(!history.mayMove)
-                            .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
-                    } else if package.waitsForAnUpgrade {
-                        if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
-                            let kind = package.kind == .cask ? "--cask" : "--formula"
-                            CopyButton(text: "brew upgrade \(kind) \(package.fullName)", title: "Copy Upgrade Command")
-                        } else {
-                            Button("Upgrade", systemImage: "arrow.down.circle") {
-                                isConfirmingUpgrade = true
+                if let anotherAccount = homebrew.belongsToAnotherAccount {
+                    Text(anotherAccount)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                } else {
+                    HStack {
+                        if package.isMissingWhatItInstalled {
+                            Button("Forget Cask") { casksToForget = [package] }
+                                .buttonStyle(.borderedProminent)
+                                .disabled(!history.mayMove)
+                                .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
+                        } else if package.waitsForAnUpgrade {
+                            if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
+                                let kind = package.kind == .cask ? "--cask" : "--formula"
+                                CopyButton(text: "brew upgrade \(kind) \(package.fullName)", title: "Copy Upgrade Command")
+                            } else {
+                                Button("Upgrade", systemImage: "arrow.down.circle") {
+                                    isConfirmingUpgrade = true
+                                }
+                                .buttonStyle(.borderedProminent)
+                                // A cask's apps, which have to quit first, are known only once they are matched.
+                                .disabled(package.isPinned || package.kind == .cask && !library.knowsHomebrewsApps)
                             }
-                            .buttonStyle(.borderedProminent)
-                            // A cask's apps, which have to quit first, are known only once they are matched.
-                            .disabled(package.isPinned || package.kind == .cask && !library.knowsHomebrewsApps)
+                        }
+                        if isRunning {
+                            ProgressView()
+                                .controlSize(.small)
+                            Text("Running Homebrew…")
+                                .foregroundStyle(.secondary)
+                        } else if let uninstallRefusal {
+                            Label { Text(uninstallRefusal) } icon: { Image(systemName: "hand.raised.fill") }
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        if isUninstalledInTerminal {
+                            CopyButton(text: "brew uninstall --cask \(package.fullName)", title: "Copy Uninstall Command")
+                        } else {
+                            Button("Uninstall", systemImage: "trash", role: .destructive) {
+                                isConfirmingUninstall = true
+                            }
+                            .disabled(uninstallRefusal != nil)
                         }
                     }
-                    if isRunning {
-                        ProgressView()
-                            .controlSize(.small)
-                        Text("Running Homebrew…")
-                            .foregroundStyle(.secondary)
-                    } else if let uninstallRefusal {
-                        Label { Text(uninstallRefusal) } icon: { Image(systemName: "hand.raised.fill") }
+                    .disabled(
+                        homebrew.runningCommand != nil || homebrew.isForgetting || quittingToUpgrade.isWaiting
+                            || quittingToUninstall.isWaiting
+                    )
+                    if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp) {
+                        Text(HomebrewLibrary.cleansUp)
+                            .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-                    Spacer()
-                    if isUninstalledInTerminal {
-                        CopyButton(text: "brew uninstall --cask \(package.fullName)", title: "Copy Uninstall Command")
-                    } else {
-                        Button("Uninstall", systemImage: "trash", role: .destructive) {
-                            isConfirmingUninstall = true
-                        }
-                        .disabled(uninstallRefusal != nil)
+                    if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator) || isUninstalledInTerminal {
+                        Text(needsTerminal)
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
                     }
-                }
-                .disabled(
-                    homebrew.runningCommand != nil || homebrew.isForgetting || quittingToUpgrade.isWaiting
-                        || quittingToUninstall.isWaiting
-                )
-                if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp) {
-                    Text(HomebrewLibrary.cleansUp)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
-                if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator) || isUninstalledInTerminal {
-                    Text(needsTerminal)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
+            
                 }
             }
 

@@ -50602,6 +50602,112 @@
       "comment" : "A product's name, never translated.",
       "shouldTranslate" : false
     },
+    "Homebrew Belongs to Another Account" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew patří jinému účtu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew gehört einem anderen Benutzeraccount"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew pertenece a otra cuenta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew appartient à un autre compte"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew appartiene a un altro account"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは別のアカウントのものです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 다른 계정에 속해 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hoort bij een andere account"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew należy do innego konta"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew Pertence a Outra Conta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew aparține altui cont"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew принадлежит другой учетной записи"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew tillhör ett annat konto"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew Başka Bir Hesaba Ait"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew належить іншому обліковому запису"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew属于其他账户"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew屬於另一個帳號"
+          }
+        }
+      }
+    },
     "Homebrew Has to Update First" : {
       "localizations" : {
         "cs" : {
@@ -55050,6 +55156,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew已不再提供此套件：它無法再次安裝，也不會再收到升級。已安裝的版本仍會保留，直到你將它解除安裝。"
+          }
+        }
+      }
+    },
+    "Homebrew on this Mac belongs to %@, so only that account can update or change it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew v tomto Macu patří účtu %@, takže ho může aktualizovat nebo měnit jen tento účet."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew auf diesem Mac gehört dem Benutzeraccount „%@“, daher kann nur dieser Benutzeraccount Homebrew aktualisieren oder ändern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Homebrew de este Mac pertenece a %@, así que solo esa cuenta puede actualizarlo o modificarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur ce Mac, Homebrew appartient à %@ : seul ce compte peut donc le mettre à jour ou le modifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew su questo Mac appartiene all’account %@, quindi solo quell’account può aggiornarlo o modificarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacのHomebrewはアカウント“%@”のものであるため、アップデートや変更ができるのはそのアカウントだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 Homebrew는 ‘%@’ 계정에 속해 있으므로 해당 계정만 Homebrew를 업데이트하거나 변경할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew op deze Mac hoort bij de account '%@', dus alleen die account kan Homebrew bijwerken of wijzigen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew na tym Macu należy do konta %@, więc tylko to konto może go odświeżać lub zmieniać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew deste Mac pertence à conta %@, então só essa conta pode atualizá-lo ou alterá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew de pe acest Mac aparține contului %@, așa că doar acel cont îl poate actualiza sau modifica."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew на этом Mac принадлежит учетной записи «%@», поэтому обновлять или изменять его может только эта учетная запись."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew på den här datorn tillhör %@, så bara det kontot kan uppdatera eller ändra det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’teki Homebrew %@ hesabına ait, bu yüzden onu yalnızca o hesap güncelleyebilir veya değiştirebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew на цьому Mac належить обліковому запису «%@», тож лише цей обліковий запис може оновлювати чи змінювати його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac上的Homebrew属于“%@”，因此只有该账户才能更新或更改它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上的Homebrew屬於「%@」，因此只有該帳號可以更新或更改它。"
+          }
+        }
+      }
+    },
+    "Homebrew on this Mac belongs to another account, so only that account can update or change it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew v tomto Macu patří jinému účtu, takže ho může aktualizovat nebo měnit jen ten účet."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew auf diesem Mac gehört einem anderen Benutzeraccount, daher kann nur dieser Benutzeraccount Homebrew aktualisieren oder ändern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Homebrew de este Mac pertenece a otra cuenta, así que solo esa cuenta puede actualizarlo o modificarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur ce Mac, Homebrew appartient à un autre compte : seul ce compte peut donc le mettre à jour ou le modifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew su questo Mac appartiene a un altro account, quindi solo quell’account può aggiornarlo o modificarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacのHomebrewは別のアカウントのものであるため、アップデートや変更ができるのはそのアカウントだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 Homebrew는 다른 계정에 속해 있으므로 해당 계정만 Homebrew를 업데이트하거나 변경할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew op deze Mac hoort bij een andere account, dus alleen die account kan Homebrew bijwerken of wijzigen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew na tym Macu należy do innego konta, więc tylko tamto konto może go odświeżać lub zmieniać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew deste Mac pertence a outra conta, então só essa conta pode atualizá-lo ou alterá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew de pe acest Mac aparține altui cont, așa că doar acel cont îl poate actualiza sau modifica."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew на этом Mac принадлежит другой учетной записи, поэтому обновлять или изменять его может только она."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew på den här datorn tillhör ett annat konto, så bara det kontot kan uppdatera eller ändra det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’teki Homebrew başka bir hesaba ait, bu yüzden onu yalnızca o hesap güncelleyebilir veya değiştirebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew на цьому Mac належить іншому обліковому запису, тож лише той обліковий запис може оновлювати чи змінювати його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac上的Homebrew属于其他账户，因此只有该账户才能更新或更改它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上的Homebrew屬於另一個帳號，因此只有該帳號可以更新或更改它。"
           }
         }
       }

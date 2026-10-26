@@ -24,6 +24,11 @@ struct HomebrewList: View {
         List(selection: $homebrew.selection) {
             // While searching, the page lists only the matching packages and hides every other section.
             if searchText.isEmpty, homebrew.isInstalled, !homebrew.needsDefinitions {
+                if let anotherAccount = homebrew.belongsToAnotherAccount {
+                    Notice(title: Text("Homebrew Belongs to Another Account"), detail: Text(anotherAccount), kind: .note) {}
+                        .padding(.vertical, 6)
+                        .listRowSeparator(.hidden)
+                }
                 installation
                 overridden
                 maintenance
@@ -50,7 +55,8 @@ struct HomebrewList: View {
             homebrew.isScanning,
             found: homebrew.summary,
             couldNotLook: !homebrew.isInstalled ? "Homebrew Isn’t Installed"
-                : homebrew.needsDefinitions ? "Homebrew Has to Update First" : nil,
+                : !homebrew.needsDefinitions ? nil
+                : homebrew.mayChange ? "Homebrew Has to Update First" : "Homebrew Belongs to Another Account",
             wasStopped: homebrew.scanRun.wasStopped
         )
         .toolbar {
@@ -441,7 +447,7 @@ struct HomebrewList: View {
                     }
                         .buttonStyle(.borderless)
                         .disabled(
-                            homebrew.upgradable.isEmpty || isBusy || quittingToUpgrade.isWaiting
+                            homebrew.upgradable.isEmpty || isBusy || quittingToUpgrade.isWaiting || !homebrew.mayChange
                                 || homebrew.upgradable.contains { $0.kind == .cask } && !library.knowsHomebrewsApps
                         )
                 }
@@ -486,7 +492,7 @@ struct HomebrewList: View {
                             .minimumTarget()
                     }
                         .buttonStyle(.borderless)
-                        .disabled(isBusy || !history.mayMove)
+                        .disabled(isBusy || !history.mayMove || !homebrew.mayChange)
                         .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
                 }
             }
@@ -574,7 +580,7 @@ struct HomebrewList: View {
             trailing()
                 .buttonStyle(.bordered)
                 .controlSize(.small)
-                .disabled(isBusy)
+                .disabled(isBusy || !command.onlyLooks && !homebrew.mayChange)
         }
         .padding(.vertical, 1)
     }
@@ -635,6 +641,13 @@ struct HomebrewList: View {
                 }
                 Button("Homebrew Is in Another Folder") { SettingsPane.general.open(with: openSettings) }
             }
+        } else if homebrew.needsDefinitions, homebrew.packages?.isEmpty != false, homebrew.runningCommand == nil,
+                  let anotherAccount = homebrew.belongsToAnotherAccount {
+            ContentUnavailableView(
+                "Homebrew Belongs to Another Account",
+                systemImage: "person.crop.circle.badge.exclamationmark",
+                description: Text(anotherAccount)
+            )
         } else if homebrew.needsDefinitions, homebrew.packages?.isEmpty != false, homebrew.runningCommand == nil {
             ContentUnavailableView {
                 Label("Homebrew Has to Update First", systemImage: "arrow.down.circle")

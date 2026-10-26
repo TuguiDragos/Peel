@@ -12,8 +12,30 @@ struct HomebrewTests {
         #expect(installation?.prefix.path(percentEncoded: false) == "/usr/local")
         #expect(installation?.cellar.path(percentEncoded: false) == "/usr/local/Homebrew/Cellar/")
         #expect(installation?.caskroom.path(percentEncoded: false) == "/usr/local/Caskroom/")
+        #expect(installation?.repository.path(percentEncoded: false) == "/usr/local")
+        let withRepository = Homebrew.installation(
+            versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/usr/local\n", cellarAnswer: "/usr/local/Cellar\n",
+            repositoryAnswer: "/usr/local/Homebrew\n"
+        )
+        #expect(withRepository?.repository.path(percentEncoded: false) == "/usr/local/Homebrew/")
         #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: nil, cellarAnswer: "/c\n") == nil)
         #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/p\n", cellarAnswer: "c\n") == nil)
+    }
+
+    @Test(.permissionsHold) func knowsWhetherThisAccountMayChangeHomebrew() throws {
+        let directory = try TemporaryDirectory()
+        let repository = try directory.directory("homebrew")
+        let cellar = repository.appending(path: "Cellar", directoryHint: .isDirectory)
+
+        #expect(Homebrew.mayBeChanged(cellar: cellar, repository: repository), "a Cellar not made yet stops nothing")
+        try directory.directory("homebrew/Cellar")
+        #expect(Homebrew.mayBeChanged(cellar: cellar, repository: repository))
+        try directory.setPermissions(0o555, of: cellar)
+        #expect(!Homebrew.mayBeChanged(cellar: cellar, repository: repository))
+        try directory.setPermissions(0o755, of: cellar)
+        try directory.setPermissions(0o555, of: repository)
+        defer { try? directory.setPermissions(0o755, of: repository) }
+        #expect(!Homebrew.mayBeChanged(cellar: cellar, repository: repository))
     }
 
     @Test func aDisabledPackageWaitsForNoUpgrade() {
