@@ -192,8 +192,10 @@ final class HomebrewLibrary {
         overrides.contains(.cleansUp) ? [] : outdated.filter(\.joinsUpgradeAll)
     }
 
-    func count(of kind: HomebrewPackage.Kind) -> Int {
-        (packages ?? []).count { $0.kind == kind }
+    /// How many packages of `kind` are installed, or nil while Homebrew hasn't said what is installed.
+    func count(of kind: HomebrewPackage.Kind) -> Int? {
+        guard hasAnswered else { return nil }
+        return (packages ?? []).count { $0.kind == kind }
     }
 
     /// Reads again whether Homebrew is installed, which the sidebar's default for the Homebrew page follows.

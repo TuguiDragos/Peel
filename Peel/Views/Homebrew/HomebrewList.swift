@@ -30,6 +30,10 @@ struct HomebrewList: View {
                         .listRowSeparator(.hidden)
                 }
                 installation
+                // On macOS 27 what Homebrew said, or didn't, comes right under its section, before maintenance.
+                if #available(macOS 27, *) {
+                    empty
+                }
                 overridden
                 maintenance
                 health
@@ -37,7 +41,9 @@ struct HomebrewList: View {
                 retired(homebrew.retired)
                 updates(outdated)
                 alreadyGone(homebrew.alreadyGone)
-                empty
+                if #unavailable(macOS 27) {
+                    empty
+                }
             }
             section(Text("Formulae"), packages: byKind[.formula] ?? [])
             section(Text("Casks"), packages: byKind[.cask] ?? [])
@@ -208,10 +214,10 @@ struct HomebrewList: View {
             }
             .labeledContentStyle(.oneLine)
             LabeledContent("Formulae") {
-                Text(homebrew.count(of: .formula), format: .number).monospacedDigit()
+                count(of: .formula)
             }
             LabeledContent("Casks") {
-                Text(homebrew.count(of: .cask), format: .number).monospacedDigit()
+                count(of: .cask)
             }
         } header: {
             heading(
@@ -391,6 +397,13 @@ struct HomebrewList: View {
                 } actions: {}
             }
         }
+    }
+
+    private func count(of kind: HomebrewPackage.Kind) -> Text {
+        guard let count = homebrew.count(of: kind) else {
+            return Text(verbatim: String(localized: "Unknown (Homebrew count)", defaultValue: "Unknown"))
+        }
+        return Text(count, format: .number).monospacedDigit()
     }
 
     @ViewBuilder
