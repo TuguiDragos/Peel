@@ -4,6 +4,16 @@ import Testing
 
 @MainActor
 struct LoginItemTests {
+    @Test func isNotKnownUntilMacOSAnswers() async {
+        let item = LoginItem(read: { .enabled }, change: { _ in LoginItem.Answer(status: .enabled) })
+
+        let before = item.isKnown
+        await item.refresh()
+
+        #expect(!before)
+        #expect(item.isKnown && item.isOn)
+    }
+
     @Test func keepsWhatTheSwitchWasSetToUntilMacOSAnswers() async {
         var release: CheckedContinuation<Void, Never>?
         let item = LoginItem(read: { .notRegistered }) { on in

@@ -42,6 +42,9 @@ public final class LoginItem {
         asked ?? Self.isOn(status)
     }
 
+    /// Whether macOS has said what the item is, or the person has just set it. Until then `isOn` is no fact.
+    public var isKnown: Bool { status != nil || asked != nil }
+
     public var needsApproval: Bool {
         status == .requiresApproval
     }

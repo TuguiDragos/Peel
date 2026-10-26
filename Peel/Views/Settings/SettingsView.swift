@@ -298,6 +298,7 @@ private struct GeneralSettingsView: View {
                 // A binding, not `onChange`: macOS's own answer landing in the model must not register again.
                 toggle("Open Peel at login", isOn: Binding(get: { home.loginItem.isOn }, set: { home.loginItem.set(on: $0) }),
                        "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.")
+                    .disabled(!home.loginItem.isKnown)
                 if home.loginItem.needsApproval {
                     HStack {
                         StatusLabel(title: Text("Peel is turned off in Login Items & Extensions, so macOS won’t start it."))
@@ -338,9 +339,13 @@ private struct GeneralSettingsView: View {
                     let isOn = home.state(of: .finderExtension) == .on
                     HStack(spacing: 5) {
                         Text("Finder extension")
-                        state(isOn ? "On" : home.isFinderExtensionFromAnotherCopy ? "On in another copy of Peel" : "Off",
-                              isOn ? "checkmark.circle" : "minus.circle",
-                              isOn ? .green : .secondary)
+                        if home.hasChecked {
+                            state(isOn ? "On" : home.isFinderExtensionFromAnotherCopy ? "On in another copy of Peel" : "Off",
+                                  isOn ? "checkmark.circle" : "minus.circle",
+                                  isOn ? .green : .secondary)
+                        } else {
+                            state("Checking…", "hourglass", .secondary)
+                        }
                         InfoNote(
                             name: String(localized: "Finder extension"),
                             detail: Text("Control-click an app in Finder and choose Uninstall with Peel to see what it leaves behind.")
