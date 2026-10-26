@@ -70,7 +70,8 @@ final class HomebrewLibrary {
     private(set) var reclaimable: Int64?
     /// The formulae `brew cleanup` would uninstall for good because nothing needs them anymore.
     private(set) var autoremovable: [String] = []
-    /// What Homebrew's own settings undo of how Peel runs it, read with the page and before an upgrade.
+    /// What Homebrew's own settings undo of how Peel runs it, or change of what it tells Peel, read with the packages
+    /// and again before an upgrade.
     private(set) var overrides: Homebrew.Overrides = []
     /// Homebrew has no local copy of its package definitions, for example because its cache was cleared (not
     /// by Peel: its Developer page leaves them alone). Any question would make Homebrew download them again,
