@@ -230,6 +230,7 @@ struct FolderDuplicates: Sendable {
                 name: entry.lastPathComponent,
                 identity: FileIdentity(info),
                 isNeverOffered: isNeverOffered || Self.isHidden(entry, info) || entry.isAPackage
+                    || DuplicateFinder.isAnAppsDocument(entry)
             )
         case S_IFREG:
             guard info.st_flags & UInt32(SF_DATALESS) == 0, !entry.isInTheCloud else { return .leftOut }

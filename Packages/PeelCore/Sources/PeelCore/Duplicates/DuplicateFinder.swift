@@ -117,6 +117,28 @@ public struct DuplicateFinder: Sendable {
         ProtectedData.extensions.contains(url.pathExtension.lowercased())
     }
 
+    /// Whether `url` is a document its app keeps as a package. Launch Services knows one as a package only while its
+    /// app is installed, so these are named here, each from its maker, and a file inside one is never offered alone.
+    static func isAnAppsDocument(_ url: URL) -> Bool {
+        appDocuments.contains(url.pathExtension.lowercased())
+    }
+
+    private static let appDocuments: Set<String> = [
+        // Logic Pro, "a package or a project folder": support.apple.com/guide/logicpro/lgcpce128e82
+        "logicx",
+        // MainStage, "concert package": support.apple.com/101568
+        "mainstage",
+        // Scrivener, "packages of files": scrivener.tenderapp.com/help/kb/macos/password-protecting-your-work
+        "scriv",
+        // DEVONthink, "databases are packages": its help, Repairing a defective database
+        "dtbase2",
+        // Capture One, "a .cocatalog package": support.captureone.com/hc/en-us/articles/11019291187997
+        "cocatalog",
+        // Lightroom Classic's preview caches beside a catalog:
+        // helpx.adobe.com/lightroom-classic/desktop/kb/preference-file-and-other-file-locations.html
+        "lrdata",
+    ]
+
     /// Finds folders whose whole contents are identical, then identical files. Files are compared by size, then
     /// by their first and last bytes, then by a SHA-256 of the whole file.
     @concurrent
@@ -282,13 +304,14 @@ public struct DuplicateFinder: Sendable {
                     }
                     guard let values = try? url.resourceValues(forKeys: keys) else { return }
                     if values.isDirectory == true {
-                        // The enumerator does not treat a library as a package when its app is not installed, so
-                        // libraries are skipped here: the guard would refuse every copy inside one. A folder
-                        // already offered whole covers everything inside it, so its files are not offered again.
+                        // The enumerator does not treat a library or an app's document as a package when its app is
+                        // not installed, so they are skipped here: the guard would refuse every copy inside a library,
+                        // and a file taken from a document breaks it. A folder already offered whole covers
+                        // everything inside it, so its files are not offered again.
                         if url.lastPathComponent == "node_modules" || excludedFolders.contains(Self.path(of: url))
                             || spokenFor.contains(Self.path(of: url))
                             || exclusions.excludes(url) || Self.isRepository(url) || Self.isAUserLibrary(url)
-                            || isDataless(url) {
+                            || Self.isAnAppsDocument(url) || isDataless(url) {
                             enumerator.skipDescendants()
                         }
                         return

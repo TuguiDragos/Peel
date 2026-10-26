@@ -175,6 +175,28 @@ struct AttackDuplicateTests {
         #expect(result.failures.map(\.reason) == [.guarded(.protectedLocation)], "and the removal is refused")
     }
 
+    @Test func neverOffersWhatIsInsideAnAppsDocumentWhoseAppIsGone() async throws {
+        let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
+        let one = try TemporaryDirectory()
+        try one.file("home/Music/Song.logicx/Media/take.wav", contents: contents)
+        try one.file("home/Desktop/take.wav", contents: contents)
+        let many = try TemporaryDirectory()
+        let documents = [
+            "Song.logicx", "Gig.mainstage", "Novel.scriv", "Notes.dtBase2", "Shoot.cocatalog", "Catalog Previews.lrdata",
+        ]
+        for document in documents {
+            try many.file("home/Music/\(document)/Media/take.wav", contents: contents)
+        }
+
+        let file = try await DuplicateFinder(homeDirectory: one.url.appending(path: "home"))
+            .scan(.everySize(in: [one.url.appending(path: "home")]))
+        let folders = try await DuplicateFinder(homeDirectory: many.url.appending(path: "home"))
+            .scan(.everySize(in: [many.url.appending(path: "home")]))
+
+        #expect(file.groups.isEmpty, "ATTACK SUCCEEDED: a file inside an app's document was offered")
+        #expect(folders.groups.isEmpty && folders.folderGroups.isEmpty, "ATTACK SUCCEEDED: inside a document was offered")
+    }
+
     /// A media library whose app is not installed is a plain folder to the enumerator. A file inside one must not
     /// be offered, because the guard refuses to move it. The library is of a kind no app on this Mac registers as
     /// a package: an installed app's package would be skipped whole, and the test would never reach Peel's rule.
