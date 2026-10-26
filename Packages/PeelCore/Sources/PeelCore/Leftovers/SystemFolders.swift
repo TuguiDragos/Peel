@@ -242,6 +242,11 @@ enum SystemFolders {
         "Xsan": .file("/System/Library/ConfigurationProfiles/PlugIns/xsanplugin.profileDomainPlugin/Contents/MacOS/xsanplugin", naming: "Library/Preferences/Xsan"),
     ]
 
+    /// At the top of a Library, beside the folders Peel searches one by one.
+    static let library: [String: Proof] = [
+        "OSAnalytics": .file("/System/Library/Sandbox/Profiles/com.apple.analyticsd.sb", naming: "/Library/OSAnalytics"),
+    ]
+
     static let webKit: [String: Proof] = [
         "Databases": .image("/System/Library/Frameworks/WebKit.framework/Versions/A/Frameworks/WebKitLegacy.framework/Versions/A/WebKitLegacy", naming: "~/Library/WebKit/Databases"),
         "JavaScriptCoreDebug": .image("/System/Library/PrivateFrameworks/Safari.framework/Versions/A/Safari", naming: "~/Library/WebKit/JavaScriptCoreDebug"),
@@ -263,6 +268,7 @@ enum SystemFolders {
         case .preferences: preferencesNames
         case .webKit: webKitNames
         case .cookies: cookiesNames
+        case .library: libraryNames
         default: noNames
         }
         return names.hold(fileName)
@@ -274,6 +280,7 @@ enum SystemFolders {
     private static let preferencesNames = Names(preferences)
     private static let webKitNames = Names(webKit)
     private static let cookiesNames = Names(cookies)
+    private static let libraryNames = Names(library)
     private static let noNames = Names([:])
 
     /// The names of one list, lowercased, those with a `*` read as patterns.

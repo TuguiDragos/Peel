@@ -1400,6 +1400,25 @@ struct OrphanScannerTests {
         #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Example Software"])
     }
 
+    @Test(.permissionsHold) func saysNothingOfAFolderOfMacOSsOwnAtTheTopOfALibrary() async throws {
+        let directory = try TemporaryDirectory()
+        let folders = ["OSAnalytics", "Example Software"]
+        try directory.file("root/Library/OSAnalytics/Diagnostics/report.ips")
+        try directory.file("root/Library/Example Software/org.example.mixer/settings.json")
+        for folder in folders {
+            try directory.setPermissions(0, of: "root/Library/\(folder)")
+        }
+        defer {
+            for folder in folders {
+                try? directory.setPermissions(0o755, of: "root/Library/\(folder)")
+            }
+        }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Example Software"])
+    }
+
     @Test func saysWhereItStoppedLookingInsideFolders() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Vendor One/notes.txt")
