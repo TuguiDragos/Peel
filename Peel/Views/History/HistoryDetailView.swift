@@ -31,6 +31,13 @@ struct HistoryDetailView: View {
     }
 
     var body: some View {
+        // A quick Put Back shows nothing, as a quick removal doesn't; the button stays off all the same.
+        BusyShown(isBusy: history.isRestoring) { isShowingRestore in
+            page(isShowingRestore: isShowingRestore)
+        }
+    }
+
+    private func page(isShowingRestore: Bool) -> some View {
         List {
             header
                 .listRowSeparator(.hidden)
@@ -38,7 +45,7 @@ struct HistoryDetailView: View {
 
             // The records appear only once the disk has answered, so no row changes after it is drawn.
             if let standing {
-                records(in: standing)
+                records(in: standing, isShowingRestore: isShowingRestore)
             }
         }
         .scrollBarBelowSectionHeaders()
@@ -46,7 +53,7 @@ struct HistoryDetailView: View {
             let selectedCount = standing?.selectedCount(in: history.selectedIDs) ?? 0
             RestoreBar(
                 count: selectedCount,
-                isRestoring: history.isRestoring,
+                isRestoring: isShowingRestore,
                 isEnabled: selectedCount > 0 && !history.isRestoring && history.mayMove
             ) {
                 guard let standing else { return }
@@ -91,7 +98,7 @@ struct HistoryDetailView: View {
     }
 
     @ViewBuilder
-    private func records(in standing: RemovalStanding) -> some View {
+    private func records(in standing: RemovalStanding, isShowingRestore: Bool) -> some View {
         if standing.missingCount > 0 {
             Notice(
                 title: Text("^[\(standing.missingCount) item](inflect: true) left the Trash"),
@@ -158,7 +165,7 @@ struct HistoryDetailView: View {
                 )
             }
         }
-        .disabled(history.isRestoring)
+        .disabled(isShowingRestore)
     }
 
     private var header: some View {
