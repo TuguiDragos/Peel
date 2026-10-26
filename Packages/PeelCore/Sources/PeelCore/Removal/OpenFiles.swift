@@ -8,7 +8,10 @@ internal import PeelPrivileged
 struct OpenFiles {
     private enum Hold { case reads, writes, runs }
 
-    private typealias File = (names: [String], process: String, pid: pid_t, hold: Hold, isAnotherAccounts: Bool)
+    /// Whose a process is: this account's, another user's of this Mac, or the system's, root's and the services'.
+    enum Owner { case thisAccount, anotherUser, system }
+
+    private typealias File = (names: [String], process: String, pid: pid_t, hold: Hold, owner: Owner)
 
     private let files: [File]
     /// The program each process that holds something runs, by its identifier.
@@ -31,8 +34,8 @@ struct OpenFiles {
             guard !paths.isEmpty else { continue }
             programs[pid] = path
             let process = Self.name(of: pid, program: path)
-            let isAnotherAccounts = kill(pid, 0) != 0 && errno == EPERM
-            files += paths.map { (PathComponents.of($0.path), process, pid, $0.hold, isAnotherAccounts) }
+            let owner = kill(pid, 0) != 0 && errno == EPERM ? Self.owner(ofAccount: Self.uid(of: pid)) : .thisAccount
+            files += paths.map { (PathComponents.of($0.path), process, pid, $0.hold, owner) }
         }
         self.files = files
         self.programs = programs
@@ -69,14 +72,45 @@ struct OpenFiles {
     func refusal(of url: URL, lettingItsProgramsRun: Bool) -> TrashFailure.Reason? {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         if !lettingItsProgramsRun, let excludedProgram, excludedProgram.starts(with: names) { return .peelRunsFromIt }
-        let holding = holding(url, lettingItsProgramsRun: lettingItsProgramsRun)
-        guard !holding.isEmpty else { return nil }
+        return Self.refusal(heldBy: holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map { file in
+            Holder(
+                process: file.process, owner: file.owner,
+                isMacOSsOwn: programs[file.pid].map(Self.isMacOSsOwn) ?? false
+            )
+        })
+    }
+
+    struct Holder {
+        let process: String
+        let owner: Owner
+        let isMacOSsOwn: Bool
+    }
+
+    /// Why an item held by `holders` can't move, each kind of holder with the step that lets it go.
+    static func refusal(heldBy holders: [Holder]) -> TrashFailure.Reason? {
+        guard !holders.isEmpty else { return nil }
         // macOS's own programs are named only when nothing else holds the item, since nobody quits them.
-        let named = holding.filter { !(programs[$0.pid].map(Self.isMacOSsOwn) ?? false) }
-        guard !named.isEmpty else { return .inUseByMacOS(by: Set(holding.map(\.process)).sorted()) }
-        let others = Set(named.filter(\.isAnotherAccounts).map(\.process)).sorted()
-        if !others.isEmpty { return .heldByAnotherAccount(by: others) }
+        let named = holders.filter { !$0.isMacOSsOwn }
+        guard !named.isEmpty else { return .inUseByMacOS(by: Set(holders.map(\.process)).sorted()) }
+        let processes = { (owner: Owner) in Set(named.filter { $0.owner == owner }.map(\.process)).sorted() }
+        if case let users = processes(.anotherUser), !users.isEmpty { return .openForAnotherUser(by: users) }
+        if case let system = processes(.system), !system.isEmpty { return .heldByAnotherAccount(by: system) }
         return .heldOpen(by: Set(named.map(\.process)).sorted())
+    }
+
+    /// A user account starts at 501 on macOS, and the accounts below it are the system's services; `nobody` is -2.
+    static func owner(ofAccount uid: uid_t?) -> Owner {
+        guard let uid, uid >= 501, uid != uid_t(bitPattern: -2) else { return .system }
+        return .anotherUser
+    }
+
+    /// The account a process runs as, which `sysctl` tells of any process, root's included.
+    static func uid(of pid: pid_t) -> uid_t? {
+        var info = kinfo_proc()
+        var size = MemoryLayout<kinfo_proc>.size
+        var name = [CTL_KERN, KERN_PROC, KERN_PROC_PID, pid]
+        guard sysctl(&name, u_int(name.count), &info, &size, nil, 0) == 0, size > 0 else { return nil }
+        return info.kp_eproc.e_ucred.cr_uid
     }
 
     private func holding(_ url: URL, lettingItsProgramsRun: Bool) -> [File] {

@@ -88,6 +88,8 @@ public struct TrashFailure: Sendable, Hashable {
         case peelRunsFromIt
         /// Processes of another account, root's included, run from it, and neither the person nor Peel may quit them.
         case heldByAnotherAccount(by: [String])
+        /// Another user of this Mac has it open in their own account, where it can be quit.
+        case openForAnotherUser(by: [String])
         /// Only macOS's own programs hold it, and nobody quits those.
         case inUseByMacOS(by: [String])
         case failed(String)
@@ -109,13 +111,14 @@ extension TrashFailure.Reason {
         switch self {
         case .historyUnreadable, .needsHelper: false
         case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
-             .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .inUseByMacOS, .failed: true
+             .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser, .inUseByMacOS,
+             .failed: true
         }
     }
 
     var isHeldByPrograms: Bool {
         switch self {
-        case .heldOpen, .heldByAnotherAccount: true
+        case .heldOpen, .heldByAnotherAccount, .openForAnotherUser: true
         default: false
         }
     }
@@ -137,6 +140,7 @@ extension TrashFailure.Reason {
         case .heldOpen: "held-open"
         case .peelRunsFromIt: "peel-runs-from-it"
         case .heldByAnotherAccount: "held-by-another-account"
+        case .openForAnotherUser: "open-for-another-user"
         case .inUseByMacOS: "in-use-by-macos"
         case .failed: "failed"
         }
@@ -146,7 +150,8 @@ extension TrashFailure.Reason {
         switch self {
         case .failed(let message): message
         case .somethingElseMoved(let name): name
-        case .heldOpen(let processes), .heldByAnotherAccount(let processes), .inUseByMacOS(let processes):
+        case .heldOpen(let processes), .heldByAnotherAccount(let processes), .openForAnotherUser(let processes),
+             .inUseByMacOS(let processes):
             processes.joined(separator: "\n")
         default: nil
         }
@@ -173,6 +178,8 @@ extension TrashFailure.Reason {
         case "peel-runs-from-it": self = .peelRunsFromIt
         case "held-by-another-account":
             self = .heldByAnotherAccount(by: (detail ?? "").split(separator: "\n").map(String.init))
+        case "open-for-another-user":
+            self = .openForAnotherUser(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "in-use-by-macos": self = .inUseByMacOS(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "failed": self = .failed(detail ?? "")
         default: return nil

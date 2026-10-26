@@ -143,6 +143,27 @@ struct OpenFilesTests {
         #expect(refusal == .heldOpen(by: ["agent"]))
     }
 
+    @Test func tellsAnotherUserOfThisMacFromTheSystem() {
+        #expect(OpenFiles.owner(ofAccount: 0) == .system)
+        #expect(OpenFiles.owner(ofAccount: 89) == .system)
+        #expect(OpenFiles.owner(ofAccount: uid_t(bitPattern: -2)) == .system)
+        #expect(OpenFiles.owner(ofAccount: nil) == .system)
+        #expect(OpenFiles.owner(ofAccount: 502) == .anotherUser)
+        #expect(OpenFiles.uid(of: 1) == 0)
+        #expect(OpenFiles.uid(of: getpid()) == getuid())
+    }
+
+    @Test func anAppOpenInAnotherUsersAccountIsQuitThereNotInBackgroundItems() {
+        let open = OpenFiles.Holder(process: "Spotify", owner: .anotherUser, isMacOSsOwn: false)
+        let daemon = OpenFiles.Holder(process: "updater", owner: .system, isMacOSsOwn: false)
+        let mine = OpenFiles.Holder(process: "agent", owner: .thisAccount, isMacOSsOwn: false)
+
+        #expect(OpenFiles.refusal(heldBy: [open, daemon]) == .openForAnotherUser(by: ["Spotify"]))
+        #expect(OpenFiles.refusal(heldBy: [daemon]) == .heldByAnotherAccount(by: ["updater"]))
+        #expect(OpenFiles.refusal(heldBy: [mine]) == .heldOpen(by: ["agent"]))
+        #expect(OpenFiles.refusal(heldBy: []) == nil)
+    }
+
     @Test func knowsMacOSsOwnProgramsByWhereTheyRun() {
         let macOSs = [
             "/usr/libexec/appleaccountd", "/usr/sbin/cfprefsd", "/sbin/launchd",

@@ -62397,6 +62397,218 @@
         }
       }
     },
+    "It is in use by %@ in another user’s account on this Mac. Quit it in that account, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používá ji %@ v účtu jiného uživatele v tomto Macu. Ukončete ho v účtu tohoto uživatele a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %@ in einem anderen Benutzeraccount auf diesem Mac verwendet. Beende das Programm im anderen Benutzeraccount und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@ en la cuenta de otro usuario de este Mac. Sal de él en esa cuenta antes de volver a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@ dans le compte d’un autre utilisateur de ce Mac. Quittez-le dans le compte de cet utilisateur, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@ nell’account di un altro utente su questo Mac. Escine in quell’account, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中です。使用しているプログラムはこのMacの別のユーザのアカウントで実行されているため、そのアカウントで終了してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 다른 사용자 계정에서 실행되고 있는 %@에서 사용 중입니다. 그 계정에서 해당 프로그램을 종료한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@ in de account van een andere gebruiker op deze Mac. Stop het in die account en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używane przez: %@. Ten program działa na koncie innego użytkownika tego Maca. Zakończ go na tamtym koncie, a potem spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@ na conta de outro usuário deste Mac. Encerre-o nessa conta e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %@ în contul altui utilizator de pe acest Mac. Închideți‑l în contul respectiv, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект используется: %@. Эта программа открыта в учетной записи другого пользователя на этом Mac. Завершите ее в той учетной записи, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %@ i en annan användares konto på den här datorn. Avsluta det i det kontot och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’teki başka bir kullanıcının hesabında %@ tarafından kullanılıyor. O hesapta programdan çıkın, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовує %@ в обліковому записі іншого користувача на цьому Mac. Завершіть його в тому обліковому записі та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被这台Mac上另一个用户账户中的“%@”使用。请在该账户中退出它，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@在這部Mac上其他使用者的帳號中使用。請在該帳號中結束它，然後再試一次。"
+          }
+        }
+      }
+    },
+    "It is in use by %@ in another user’s account on this Mac. Quit them in that account, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používají ji %@ v účtu jiného uživatele v tomto Macu. Ukončete je v účtu tohoto uživatele a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %@ in einem anderen Benutzeraccount auf diesem Mac verwendet. Beende die Programme im anderen Benutzeraccount und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@ en la cuenta de otro usuario de este Mac. Sal de ellos en esa cuenta antes de volver a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@ dans le compte d’un autre utilisateur de ce Mac. Quittez-les dans le compte de cet utilisateur, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@ nell’account di un altro utente su questo Mac. Escine in quell’account, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中です。使用しているプログラムはいずれも、このMacの別のユーザのアカウントで実行されているため、そのアカウントでそれらを終了してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 다른 사용자 계정에서 실행되고 있는 %@에서 사용 중입니다. 그 계정에서 해당 프로그램들을 종료한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@ in de account van een andere gebruiker op deze Mac. Stop ze in die account en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używane przez: %@. Te programy działają na koncie innego użytkownika tego Maca. Zakończ je na tamtym koncie, a potem spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@ na conta de outro usuário deste Mac. Encerre-os nessa conta e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %@ în contul altui utilizator de pe acest Mac. Închideți‑le în contul respectiv, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект используется: %@. Эти программы открыты в учетной записи другого пользователя на этом Mac. Завершите их в той учетной записи, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %@ i en annan användares konto på den här datorn. Avsluta dem i det kontot och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’teki başka bir kullanıcının hesabında %@ tarafından kullanılıyor. O hesapta programlardan çıkın, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовують %@ в обліковому записі іншого користувача на цьому Mac. Завершіть їх у тому обліковому записі та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被这台Mac上另一个用户账户中的“%@”使用。请在该账户中退出它们，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@在這部Mac上其他使用者的帳號中使用。請在該帳號中結束它們，然後再試一次。"
+          }
+        }
+      }
+    },
     "It is in use by %@, which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again." : {
       "localizations" : {
         "cs" : {

@@ -954,6 +954,7 @@ struct CommandLineTests {
         #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent", "java"]).summary == "in use by FigmaAgent, java; quit them, or stop them in Background Items if they have no window, then try again")
         #expect(TrashFailure.Reason.heldByAnotherAccount(by: ["CtxHelper", "updater"]).summary == "in use by CtxHelper, updater, running as another account or as the system, which Peel can't quit; stop them in Background Items or with the app's own uninstaller, then try again")
         #expect(TrashFailure.Reason.inUseByMacOS(by: ["geod", "appleaccountd"]).summary == "in use by macOS (geod, appleaccountd)")
+        #expect(TrashFailure.Reason.openForAnotherUser(by: ["Spotify"]).summary == "in use by Spotify in another user's account on this Mac; quit it in that account, then try again")
     }
 
     /// The line printed about the privacy reset after the move, and whether it makes the command fail.

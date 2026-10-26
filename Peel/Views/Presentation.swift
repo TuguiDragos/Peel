@@ -188,6 +188,10 @@ extension TrashFailure.Reason {
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again.", bundle: bundle)
         case .heldByAnotherAccount(let processes):
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again.", bundle: bundle)
+        case .openForAnotherUser(let processes) where processes.count > 1:
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))) in another user’s account on this Mac. Quit them in that account, then try again.", bundle: bundle)
+        case .openForAnotherUser(let processes):
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))) in another user’s account on this Mac. Quit it in that account, then try again.", bundle: bundle)
         case .inUseByMacOS(let processes):
             String(localized: "macOS is using it right now, through \(processes.formatted(.list(type: .and))), so it stays where it is.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)

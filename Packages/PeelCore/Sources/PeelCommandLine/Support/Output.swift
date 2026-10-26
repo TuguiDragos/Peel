@@ -448,6 +448,10 @@ extension TrashFailure.Reason {
             "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop them in Background Items or with the app's own uninstaller, then try again"
         case .heldByAnotherAccount(let processes):
             "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop it in Background Items or with the app's own uninstaller, then try again"
+        case .openForAnotherUser(let processes) where processes.count > 1:
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")) in another user's account on this Mac; quit them in that account, then try again"
+        case .openForAnotherUser(let processes):
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")) in another user's account on this Mac; quit it in that account, then try again"
         case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
         case .failed(let message): Output.plain(message)
         }

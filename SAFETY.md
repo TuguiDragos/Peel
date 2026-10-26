@@ -176,7 +176,7 @@ programs that run as another account or as root, macOS's own among them, only th
 files it holds open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of
 the disk, where those programs keep theirs, does not list them at all. Neither you nor Peel can quit such a program,
 so Peel never asks you to: what it runs from stays, and says so, until it is stopped in Background Items or by the
-app's own uninstaller.
+app's own uninstaller, or, for an app another user of this Mac has open, until it is quit in that user's account.
 
 The folder your account's crash reports are saved in, `~/Library/Logs/DiagnosticReports`, never moves: macOS's
 analytics helper can't make it again once it is gone, and crash reports would stop being saved. Space offers only

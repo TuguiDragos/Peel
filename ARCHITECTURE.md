@@ -142,8 +142,10 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      moved, and `peel uninstall` refuses it.
    - A program another account runs, root's included, can't be quit by the person or by Peel (`kill(2)` answers
      `EPERM`), so it is never in the question to quit apps (`RunningCopies.Process.mayBeQuit`), and what it runs
-     from stays with a reason of its own (`heldByAnotherAccount`), as does an item only macOS's own programs hold
-     (`inUseByMacOS`), since nobody quits those. `OpenFiles.refusal(of:lettingItsProgramsRun:)` is the one rule.
+     from stays with a reason of its own: `openForAnotherUser` when it is another user's of this Mac (an account
+     from 501, read with `sysctl`), who can quit it in their own account, and `heldByAnotherAccount` for the system's
+     own services, as does an item only macOS's own programs hold (`inUseByMacOS`), since nobody quits those.
+     `OpenFiles.refusal(heldBy:)` is the one rule.
    - The app's privacy permissions are reset, when that was chosen, just before the move and only once the
      checks the move makes first (the guard, History, and the programs holding it) say it will go
      (`PrivacyReset`).
