@@ -105,13 +105,15 @@ public struct OrphanScan: Sendable {
     public var cutShortLocations: [SearchLocation] = []
     /// What only an administrator can move, listed apart from the groups.
     public var forAnAdministrator: [AdministratorItem] = []
+    /// Apps macOS knows on another disk that claimed something: Peel remembers them for when that disk isn't connected.
+    public var appsOnOtherDisks: [InstalledApp] = []
 
     /// The same scan without the group `id`, as when the person said it belongs to an app.
     public func without(_ id: OrphanGroup.ID) -> OrphanScan {
         OrphanScan(
             groups: groups.filter { $0.id != id }, unreadableLocations: unreadableLocations,
             needsFullDiskAccess: needsFullDiskAccess, cutShortLocations: cutShortLocations,
-            forAnAdministrator: forAnAdministrator
+            forAnAdministrator: forAnAdministrator, appsOnOtherDisks: appsOnOtherDisks
         )
     }
 }

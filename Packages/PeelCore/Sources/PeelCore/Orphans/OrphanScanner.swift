@@ -1,5 +1,6 @@
 import Foundation
 internal import PeelPrivileged
+import Synchronization
 
 public struct OrphanScanner: Sendable {
     private static let systemPrefixes = [
@@ -10,6 +11,8 @@ public struct OrphanScanner: Sendable {
     public let environment: SearchEnvironment
     public let exclusions: Exclusions
     private let isRegisteredApp: @Sendable (String) -> Bool
+    private let knownPlaces: @Sendable (String) -> [URL]
+    private let isOnAnotherDisk: @Sendable (URL) -> Bool
     /// The apps that come with macOS, which can claim files like any other app. Nil means `AppCatalog.systemApps`.
     private let systemApps: [InstalledApp]?
     private let walk: LeftoverScanner.Measure
@@ -34,11 +37,15 @@ public struct OrphanScanner: Sendable {
         walk: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
         nestedFolderLimit: Int = NestedSearch.folderLimit,
         systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
-        installedByApple: @escaping LeftoverScanner.InstalledByApple = { await PackageReceipts.isInstalledByApple($0) }
+        installedByApple: @escaping LeftoverScanner.InstalledByApple = { await PackageReceipts.isInstalledByApple($0) },
+        knownPlaces: @escaping @Sendable (String) -> [URL] = AppInspector.applicationURLs(forBundleIdentifier:),
+        isOnAnotherDisk: @escaping @Sendable (URL) -> Bool = Disks.isOnAnotherDisk
     ) {
         self.environment = environment
         self.exclusions = exclusions
         self.isRegisteredApp = isRegisteredApp
+        self.knownPlaces = knownPlaces
+        self.isOnAnotherDisk = isOnAnotherDisk
         self.systemApps = systemApps
         self.walk = walk
         self.nestedFolderLimit = nestedFolderLimit
@@ -69,8 +76,14 @@ public struct OrphanScanner: Sendable {
         let (installedApps, gone) = Self.split(remembered, installedApps: installedApps)
         let here = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
         let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
+        let knownToMacOS = AppsKnownToMacOS()
         let ownership = AppOwnership(
-            installedApps: installedApps + systemApps, goneApps: goneApps, isRegisteredApp: isRegisteredApp
+            installedApps: installedApps + systemApps, goneApps: goneApps,
+            isRegisteredApp: { [isRegisteredApp] identifier in
+                guard isRegisteredApp(identifier) else { return false }
+                knownToMacOS.note(identifier)
+                return true
+            }
         )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
         let goneBundles = Dictionary(
@@ -193,7 +206,9 @@ public struct OrphanScanner: Sendable {
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
             cutShortLocations: cutShortLocations.sorted(by: byPath),
             forAnAdministrator: (Self.claiming(apart, by: records) + recorded)
-                .sorted { Self.comesBefore($0.item, $1.item) }
+                .sorted { Self.comesBefore($0.item, $1.item) },
+            appsOnOtherDisks: knownToMacOS.identifiers.flatMap(knownPlaces).filter(isOnAnotherDisk)
+                .compactMap { AppInspector.inspect($0) }
         )
     }
 
@@ -534,7 +549,7 @@ public struct OrphanScanner: Sendable {
     }
 
     /// The app bundle a link leads into, when that bundle is gone. Nil for a link into an app that is still
-    /// there, or into no app at all.
+    /// there, one on a disk that isn't connected, or into no app at all.
     static func goneApp(behind link: URL) -> URL? {
         guard
             let destination = try? FileManager.default.destinationOfSymbolicLink(
@@ -548,6 +563,7 @@ public struct OrphanScanner: Sendable {
             filePath: NSString.path(withComponents: Array(components[...app])),
             directoryHint: .isDirectory
         )
+        guard !bundle.isOnADiskNotConnected else { return nil }
         return FileManager.default.fileExists(atPath: bundle.path(percentEncoded: false)) ? nil : bundle
     }
 
@@ -828,5 +844,16 @@ struct GoneFolders: Sendable {
               let named = byPath[PathPattern.comparablePath(of: url).lowercased()], named.folder.holdsProof(at: url)
         else { return nil }
         return named
+    }
+}
+
+/// The apps macOS knows, by identifier, that claimed something during one scan.
+private final class AppsKnownToMacOS: Sendable {
+    private let claimed = Mutex<Set<String>>([])
+
+    var identifiers: [String] { claimed.withLock { $0.sorted() } }
+
+    func note(_ identifier: String) {
+        _ = claimed.withLock { $0.insert(identifier) }
     }
 }

@@ -93,15 +93,16 @@ Space shows what fills your disk, area by area, and what each area is.
 - **Orphaned Files:** files left behind by apps you already removed. Each group is tied to its app by the app's
   identifier, by a folder a code editor or a JetBrains IDE named for its data, by the name of an app Peel saw
   installed and then saw go, or, for the copy macOS keeps of a system extension, by the app macOS's own record
-  names. It also lists the files browsers keep to start a helper program that is gone. Nothing is selected for you.
-  A system extension's copy can't be selected, since only macOS removes it, and its row says how. Peel doesn't list
-  what only a guess could tie to an app, so look for it yourself: a folder named only for a maker, such as `Google`
-  in Application Support, a data folder only the app's documentation names, such as Tor Browser's `TorBrowser-Data`,
-  a folder named like a gone app while another installed app's name holds that name, such as one called Epic beside
-  Epic Games Launcher, and a hidden folder in your home named like an app, since one such as `~/.local` is shared by
-  many command-line tools. What only an administrator can move, from a place Peel's helper isn't allowed to move it
-  from, is listed apart under Needs an Administrator, with how to remove it in Finder, and so is what an uninstall
-  left there, which nothing else would tie to the app once it is gone.
+  names. An app on another disk keeps its files out of the list while that disk isn't connected, once Orphaned Files
+  has looked with the disk connected. It also lists the files browsers keep to start a helper program that is gone.
+  Nothing is selected for you. A system extension's copy can't be selected, since only macOS removes it, and its row
+  says how. Peel doesn't list what only a guess could tie to an app, so look for it yourself: a folder named only for
+  a maker, such as `Google` in Application Support, a data folder only the app's documentation names, such as Tor
+  Browser's `TorBrowser-Data`, a folder named like a gone app while another installed app's name holds that name,
+  such as one called Epic beside Epic Games Launcher, and a hidden folder in your home named like an app, since one
+  such as `~/.local` is shared by many command-line tools. What only an administrator can move, from a place Peel's
+  helper isn't allowed to move it from, is listed apart under Needs an Administrator, with how to remove it in
+  Finder, and so is what an uninstall left there, which nothing else would tie to the app once it is gone.
 - **Developer:** caches of developer tools, editors, browsers, and AI models. Nothing is selected for you, and Select
   Recommended passes by what you may want again; toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only

@@ -356,7 +356,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   earlier revision gave about an app it couldn't check, or about one this revision asks nobody about, is dropped, so
   the app is asked again at the next round.
 - **Orphaned Files.** `OrphanScanner` lists what no installed app claims, under the app Peel saw go when it can
-  name it (`AppMemory`), and selects nothing for the person.
+  name it (`AppMemory`), and selects nothing for the person. An app macOS knows on another disk that claims something
+  is remembered too (`OrphanScan.appsOnOtherDisks`, `Disks`), so its files stay its own while that disk isn't
+  connected, and a link into an app on such a disk is not one into an app that is gone.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference
@@ -395,7 +397,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/exclusions.json` | The user's exclusions. |
 | `~/Library/Application Support/Peel/Preference Backups/` | The settings Peel saved before resetting an app, and before putting a saved copy back. |
 | `~/Library/Application Support/Peel/digests.bin` | What Duplicates already read, so an unchanged file isn't read again. |
-| `~/Library/Application Support/Peel/apps.json` | The apps Peel has seen, kept once they are gone, so Orphaned Files can name what they left (`AppMemory`). |
+| `~/Library/Application Support/Peel/apps.json` | The apps Peel has seen, and those macOS knows on another disk that claimed a file, kept once they are gone or out of reach, so Orphaned Files can name what they left (`AppMemory`). |
 | `~/Library/Application Support/Peel/teams.json` | Which team signs each app, so a change of signer can be told (`TeamRegistry`). |
 | `~/Library/Application Support/Peel/orphan-owners.json` | The orphaned files the user said belong to an installed app. |
 | `~/Library/Application Support/Peel/left-for-an-administrator.json` | What an uninstall left that only an administrator can move, from a place the helper doesn't serve, so Orphaned Files lists it under Needs an Administrator once the app is gone. |

@@ -1401,6 +1401,38 @@ struct OrphanScannerTests {
         #expect(scan.groups.map(\.identifier) == ["org.example-gone.app"])
     }
 
+    @Test func notesTheAppsMacOSKnowsOnAnotherDiskThatClaimFiles() async throws {
+        let directory = try TemporaryDirectory()
+        let info = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.extern</string>
+        <key>CFBundleName</key><string>Extern</string></dict></plist>
+        """
+        let extern = try directory.file("Disk/Applications/Extern.app/Contents/Info.plist", contents: Data(info.utf8))
+            .deletingLastPathComponent().deletingLastPathComponent()
+        try directory.file("home/Library/Preferences/org.example.extern.plist")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scan = { (onAnotherDisk: Bool) in
+            await OrphanScanner(
+                environment: environment,
+                isRegisteredApp: { $0 == "org.example.extern" },
+                systemApps: [],
+                knownPlaces: { $0 == "org.example.extern" ? [extern] : [] },
+                isOnAnotherDisk: { _ in onAnotherDisk }
+            ).scan(installedApps: installed)
+        }
+
+        let elsewhere = await scan(true)
+        let here = await scan(false)
+
+        #expect(elsewhere.groups.isEmpty)
+        #expect(elsewhere.appsOnOtherDisks.map(\.bundleIdentifier) == ["org.example.extern"])
+        #expect(here.appsOnOtherDisks.isEmpty)
+    }
+
     @Test(.permissionsHold) func anAppInAPlacePeelCannotReadHasNotLeft() async throws {
         let directory = try TemporaryDirectory()
         var remembered: [RememberedApp] = []
@@ -1548,6 +1580,20 @@ struct OrphanScannerTests {
         #expect(gone.confidence.level == .certain)
         #expect(gone.confidence.reasons == [.leadsIntoAnAppThatIsGone])
         #expect(Set(try #require(groups["com.remembered.app"]).items.map(\.url.lastPathComponent)) == ["rem", "com.remembered.app"])
+    }
+
+    @Test func aLinkIntoAnAppOnADiskThatIsNotConnectedIsNotListed() async throws {
+        let directory = try TemporaryDirectory()
+        let bin = try directory.directory("root/opt/homebrew/bin")
+        let disk = "/Volumes/org.example.NotConnected-\(UUID().uuidString)"
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "extern").path(percentEncoded: false),
+            withDestinationPath: "\(disk)/Applications/Extern.app/Contents/MacOS/extern"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.isEmpty)
     }
 
     /// A shell completion an app's installer linked into zsh's folder leads nowhere once the app is gone, and zsh
