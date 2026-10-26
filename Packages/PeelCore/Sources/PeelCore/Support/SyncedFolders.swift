@@ -9,8 +9,9 @@ import Synchronization
 final class SyncedFolders: Sendable {
     /// The entry each app keeps at the root of a folder it syncs: Syncthing's folder marker (`.stfolder`, its default
     /// `markerName`), the share's identifier in Resilio Sync's `.sync` folder, Synology Drive Client's working folder,
-    /// and the ignore file MEGA writes in every new sync (`src/sync.cpp` in meganz/sdk).
-    static let markers = [".stfolder", ".sync/ID", ".SynologyWorkingDirectory", ".megaignore"]
+    /// the ignore file MEGA writes in every new sync (`src/sync.cpp` in meganz/sdk), and the cache Dropbox keeps in
+    /// its folder when it doesn't sync through File Provider (Dropbox's "How to clear the Dropbox cache folder").
+    static let markers = [".stfolder", ".sync/ID", ".SynologyWorkingDirectory", ".megaignore", ".dropbox.cache"]
 
     private let answers = Mutex<[String: Bool]>([:])
 

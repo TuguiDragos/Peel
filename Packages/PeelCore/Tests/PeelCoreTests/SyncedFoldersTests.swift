@@ -5,7 +5,10 @@ import Testing
 struct SyncedFoldersTests {
     @Test func knowsWhatEachSyncAppKeepsInStep() throws {
         let directory = try TemporaryDirectory()
-        let roots = ["Syncthing": ".stfolder/", "Resilio": ".sync/ID", "Synology": ".SynologyWorkingDirectory/", "MEGA": ".megaignore"]
+        let roots = [
+            "Syncthing": ".stfolder/", "Resilio": ".sync/ID", "Synology": ".SynologyWorkingDirectory/", "MEGA": ".megaignore",
+            "Dropbox": ".dropbox.cache/",
+        ]
         for (root, marker) in roots {
             if marker.hasSuffix("/") {
                 try directory.directory("home/\(root)/\(marker)")

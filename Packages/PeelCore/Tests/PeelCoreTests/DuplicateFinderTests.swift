@@ -295,6 +295,20 @@ struct DuplicateFinderTests {
         #expect(DuplicateScan.canChange(local, in: group, selected: []))
     }
 
+    @Test func aCopyInADropboxFolderOutsideFileProviderIsHeldBack() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.directory("home/Dropbox/.dropbox.cache")
+        try directory.file("home/Dropbox/Shared/plan.bin", contents: contents)
+        try directory.file("home/Documents/plan.bin", contents: contents)
+
+        let scan = try await scan(directory, folders: ["home/Dropbox", "home/Documents"])
+        let group = try #require(scan.groups.first)
+
+        #expect(group.files.first { $0.url.pathComponents.contains("Dropbox") }?.heldBack == .inTheCloud)
+        #expect(scan.suggestedSelection.isEmpty)
+    }
+
     /// A group whose every copy syncs is listed too, under its own heading in the app, with nothing to free.
     @Test func listsAGroupWhoseEveryCopySyncs() async throws {
         let directory = try TemporaryDirectory()
