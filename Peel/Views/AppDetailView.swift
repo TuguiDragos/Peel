@@ -191,6 +191,7 @@ struct AppDetailView: View {
         }
         .scrollBarBelowSectionHeaders()
         .scanState(phase, fadesInResults: false, scan: plan.scanRun)
+        .announcesScan(plan.isScanning, found: plan.total.spoken, wasStopped: plan.scanRun.wasStopped)
         .edgeBar(.bottom) {
             if plan.scan != nil {
                 let selected = plan.request.total
