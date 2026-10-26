@@ -665,6 +665,10 @@ private struct HelperSettingsView: View {
             Section {
                 switch helper.standing {
                 case .notInstalled:
+                    if helper.isRegisteredByAnotherCopy {
+                        Text("Peel’s helper was installed by another copy of Peel, and this copy can’t use it.")
+                            .font(.callout)
+                    }
                     Button("Install Helper", systemImage: "lock.shield") {
                         Task { failure = await helper.install() }
                     }
@@ -730,6 +734,8 @@ private struct HelperSettingsView: View {
                 state("Installed", "checkmark.circle", .green)
             case .waitingForApproval:
                 state("Needs approval, or was turned off", "clock", .orange)
+            case .notInstalled where helper.isRegisteredByAnotherCopy:
+                state("Installed by another copy of Peel", "exclamationmark.triangle", .orange)
             case .notInstalled:
                 state("Not installed", "minus.circle", .secondary)
             }
