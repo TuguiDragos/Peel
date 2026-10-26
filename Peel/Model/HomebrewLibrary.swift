@@ -292,7 +292,17 @@ final class HomebrewLibrary {
         }
         let task = Task { await outcome(of: command) }
         runningTask = task
-        let outcome = await task.value
+        // A quit waits for what changes something, and asks before it stops an upgrade, which can take long.
+        var stop: (@MainActor () -> Void)?
+        if command.isUpgrade {
+            stop = { [weak self] in self?.stopUpgrade() }
+        }
+        let outcome: CommandResult?
+        if command.onlyLooks {
+            outcome = await task.value
+        } else {
+            outcome = await QuitGuard.shared.run(stoppingWith: stop) { await task.value }
+        }
         if showsResult, let outcome { result = outcome }
         if !command.onlyLooks { await refresh(includingReclaimable: true) }
         return outcome

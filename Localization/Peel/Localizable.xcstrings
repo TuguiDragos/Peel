@@ -53782,6 +53782,112 @@
         }
       }
     },
+    "Homebrew is still upgrading." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew stále upgraduje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew führt noch ein Upgrade aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew aún está actualizando paquetes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew effectue encore une mise à niveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew sta ancora eseguendo l’aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewはまだアップグレード中です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 아직 업그레이드 중입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew is nog aan het upgraden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew jeszcze nie zakończył uaktualniania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew ainda está fazendo upgrade."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew încă face upgrade."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew еще выполняет обновление."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew uppgraderar fortfarande."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hâlâ yükseltme yapıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ще оновлює пакети."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew仍在升级。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew仍在升級。"
+          }
+        }
+      }
+    },
     "Homebrew isn’t installed." : {
       "localizations" : {
         "cs" : {
@@ -57940,6 +58046,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如果指令需要你的密碼，請在「終端機」中執行。"
+          }
+        }
+      }
+    },
+    "If you quit now, Homebrew stops, and a package it is in the middle of installing may be left half installed. A cask’s app can stay in Homebrew’s folder until you reinstall the cask." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokud teď Peel ukončíte, Homebrew se zastaví a balíček, který právě instaluje, může zůstat napůl nainstalovaný. Aplikace, kterou instaluje cask, může zůstat ve složce Homebrew, dokud cask znovu nenainstalujete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du Peel jetzt beendest, stoppt Homebrew, und ein Paket, das Homebrew gerade installiert, bleibt möglicherweise nur teilweise installiert. Die App eines Casks kann im Ordner von Homebrew bleiben, bis du den Cask erneut installierst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si sales ahora, Homebrew se detiene, y un paquete que esté instalando en este momento puede quedar a medio instalar. La app de un cask puede quedarse en la carpeta de Homebrew hasta que vuelvas a instalar el cask."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous quittez maintenant, Homebrew s’arrête, et un paquet qu’il est en train d’installer pourrait rester partiellement installé. L’app d’un cask peut rester dans le dossier de Homebrew jusqu’à ce que vous réinstalliez le cask."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se esci ora, Homebrew si interrompe e un pacchetto che sta installando potrebbe restare installato a metà. L’app di un cask può restare nella cartella di Homebrew finché non reinstalli il cask."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今終了するとHomebrewが停止し、インストールしている途中のパッケージが不完全にインストールされたままになる場合があります。caskのアプリは、caskを再インストールするまでHomebrewのフォルダに残ることがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 종료하면 Homebrew가 중단되며, Homebrew가 설치 중인 패키지는 일부만 설치된 상태로 남을 수 있습니다. cask의 앱은 cask를 다시 설치할 때까지 Homebrew의 폴더에 남아 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je Peel nu stopt, stopt Homebrew ook, en een pakket dat Homebrew nog aan het installeren is, kan half geïnstalleerd achterblijven. De app van een cask kan in de map van Homebrew blijven staan totdat je de cask opnieuw installeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeśli teraz zakończysz Peel, Homebrew się zatrzyma, a pakiet, który właśnie instaluje, może zostać zainstalowany częściowo. Aplikacja danego cask może pozostać w folderze Homebrew, dopóki ponownie nie zainstalujesz tego cask."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você encerrar o Peel agora, o Homebrew é interrompido, e um pacote que ele estiver instalando no momento pode ficar instalado pela metade. O app de um cask pode ficar na pasta do Homebrew até você reinstalar o cask."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dacă închideți Peel acum, Homebrew se oprește, iar un pachet pe care încă îl instalează poate rămâne instalat pe jumătate. Aplicația unui cask poate rămâne în dosarul Homebrew până când reinstalați cask‑ul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если завершить Peel сейчас, Homebrew остановится, и пакет, который он устанавливает в этот момент, может остаться установленным наполовину. Приложение из cask может остаться в папке Homebrew, пока Вы не переустановите этот cask."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du avslutar nu stoppas Homebrew, och ett paket som Homebrew håller på att installera kan bli halvt installerat. En casks app kan ligga kvar i Homebrews mapp tills du installerar om casken."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şimdi çıkarsanız Homebrew durur ve yüklemekte olduğu bir paket yarım yüklenmiş hâlde kalabilir. Bir cask paketinin uygulaması, siz o cask paketini yeniden yükleyene kadar Homebrew’un klasöründe kalabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Якщо зараз завершити роботу, Homebrew зупиниться, і пакет, який він саме інсталює, може залишитися інстальованим лише частково. Програма, яку інсталює cask, може лишитися в папці Homebrew, доки ви не перевстановите цей cask."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果现在退出，Homebrew会停止，它正在安装的软件包可能只安装了部分。cask的App可能会留在Homebrew的文件夹中，直到你重新安装该cask。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你現在結束，Homebrew會停止，而它正在安裝的套件可能只有一部分完成安裝。cask的App可能會留在Homebrew的檔案夾中，直到你重新安裝該cask。"
           }
         }
       }
@@ -68681,6 +68893,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保留"
+          }
+        }
+      }
+    },
+    "Keep Peel Open" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ponechat Peel otevřený"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel geöffnet lassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener Peel abierto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laisser Peel ouvert"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantieni Peel aperto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelを開いたままにする"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 열어 두기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Houd Peel open"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pozostaw Peel otwarty"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manter o Peel Aberto"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsați Peel deschis"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставить Peel открытым"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Låt Peel vara öppen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’i Açık Tut"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Залишити Peel відкритою"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持Peel打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "讓Peel保持打開"
           }
         }
       }
@@ -158359,6 +158677,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "停止查看「%@」"
+          }
+        }
+      }
+    },
+    "Stop and Quit" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastavit a ukončit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stoppen und beenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detener y salir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter et quitter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interrompi ed esci"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止して終了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "중단 및 종료"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop Homebrew en Peel"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatrzymaj i zakończ"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar e Encerrar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opriți și închideți"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановить и завершить"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stoppa och avsluta"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durdur ve Çık"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зупинити й завершити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止并退出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止並結束"
           }
         }
       }
