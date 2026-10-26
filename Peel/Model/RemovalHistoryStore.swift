@@ -173,6 +173,7 @@ final class RemovalHistoryStore {
     private(set) var putBack: [Tool: Int] = [:]
     /// The count each page last listed under, kept here so a page off screen at a Put Back lists it when it returns.
     @ObservationIgnored private var listedAfterPutBack = ScannedRevisions()
+    @ObservationIgnored private var listedRefusals: [RefusalRecord] = []
     /// Counts each change of what History lists. The lists are prepared off the main actor, and one prepared for an
     /// older change must never replace a newer one.
     private var listedChange = 0
@@ -242,8 +243,12 @@ final class RemovalHistoryStore {
         refusalProblem = read.problem
         refusalChange += 1
         let change = refusalChange
-        let listed = await Self.listed(read.records ?? [])
+        let records = read.records ?? []
+        // The refusals listed already, read again, change nothing; an older listing still on its way is dropped.
+        guard records != listedRefusals else { return }
+        let listed = await Self.listed(records)
         guard change == refusalChange else { return }
+        listedRefusals = records
         refusalBatches = listed.batches
         refusalSearchKeys = listed.searchKeys
         revision += 1

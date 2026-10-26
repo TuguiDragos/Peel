@@ -117,6 +117,23 @@ struct RefusalLogTests {
         #expect(Set(records.map(\.source)) == ["Older", "New"])
     }
 
+    @Test func readsUnchangedRefusalsWithoutDecodingThemAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "refusals.json")
+        let refused = (0..<(RefusalLog.maximumRecords - 1)).map { failure("/Users/me/item-\($0)", .lastCopy) }
+        await RefusalLog(url: url).add(refused, source: "Old", tool: "duplicates")
+        let app = RefusalLog(url: url)
+
+        let first = await app.processorTimeToLoad()
+        let again = await app.processorTimeToLoad()
+        await RefusalLog(url: url).add([failure("/Users/me/new", .notPermitted)], source: "Tool", tool: "space")
+        let afterAnotherWriter = await app.load().records
+
+        #expect(again < first / 10, "read in \(first), then in \(again)")
+        #expect(afterAnotherWriter?.count == RefusalLog.maximumRecords)
+        #expect(afterAnotherWriter?.contains { $0.source == "Tool" } == true)
+    }
+
     /// The file is Peel's, but any process the user runs can rewrite it.
     @Test func aRowThatMakesNoSenseCostsThatRowAlone() async throws {
         let directory = try TemporaryDirectory()
@@ -321,5 +338,12 @@ struct RefusalLogTests {
         #expect(groups.first?.date == ISO8601DateFormatter().date(from: "2026-09-20T10:00:00Z"))
         #expect(groups.last?.records.count == 1)
         #expect(groups.last?.parts == [RemovalPart(source: "Editor", sourceKey: nil, tool: "applications")])
+    }
+}
+
+extension RefusalLog {
+    /// Measured on the actor's own thread, where the read runs.
+    fileprivate func processorTimeToLoad() -> Duration {
+        processorTime { _ = load() }
     }
 }

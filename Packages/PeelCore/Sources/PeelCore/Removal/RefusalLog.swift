@@ -54,6 +54,8 @@ public actor RefusalLog {
     static let maximumRecords = 5_000
 
     public let url: URL
+    /// What was last read or written, kept while the file stays the same, as in `RemovalLog`.
+    private var kept: (file: FileIdentity, records: [RefusalRecord])?
 
     public init(url: URL = RemovalHistory.refusalsURL) {
         self.url = url
@@ -105,10 +107,13 @@ public actor RefusalLog {
     /// when the file could not be read or set aside, so it must not be written over.
     private func current() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?) {
         guard !url.isMissing else { return ([], nil) }
-        guard let data = BoundedRead.data(at: url, maximum: 16 * 1_024 * 1_024) else { return (nil, .unreadable) }
+        if let kept, FileIdentity.of(url) == kept.file { return (kept.records, nil) }
+        guard let read = BoundedRead.contents(at: url, maximum: 16 * 1_024 * 1_024) else { return (nil, .unreadable) }
+        let data = read.data
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = LogTime.decoding
         if let records = try? decoder.decode([RefusalRecord].self, from: data) {
+            kept = (read.file, records)
             return (records, nil)
         }
         // A row that a later version wrote, or that a hand edit broke, must not cost the other rows.
@@ -137,6 +142,9 @@ public actor RefusalLog {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         guard let data = try? encoder.encode(records) else { return false }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        return (try? data.write(to: url, options: .atomic)) != nil
+        guard (try? data.write(to: url, options: .atomic)) != nil else { return false }
+        // Every writer takes the lock, so the file here is the one just written.
+        kept = FileIdentity.of(url).map { ($0, records) }
+        return true
     }
 }
