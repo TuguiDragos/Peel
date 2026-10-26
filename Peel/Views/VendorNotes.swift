@@ -75,6 +75,13 @@ struct PackageReceiptSection: View {
         .forgetReceiptDialog(for: $receiptToForget, forget: forget)
     }
 
+    private var forgetHelp: Text {
+        if plan.isExcluded { return Text(.excludedApp) }
+        return helper.canAct
+            ? Text("The receipt goes to the Trash. Files stay where they are.")
+            : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
+    }
+
     @ViewBuilder
     private func rows(for receipt: PackageReceipt) -> some View {
         let files = plan.filesOutside[receipt.id] ?? []
@@ -94,7 +101,7 @@ struct PackageReceiptSection: View {
                 .buttonStyle(.borderless)
                 // The page promises that an excluded app's files are left alone, its receipt included.
                 .disabled(isForgetting || !helper.canAct || plan.isExcluded || !history.mayMove)
-                .help(plan.isExcluded ? Text(.excludedApp) : helper.canAct ? Text("The receipt goes to the Trash. Files stay where they are.") : Text("Needs Peel’s helper. Settings says why it can’t act yet."))
+                .help(forgetHelp)
             }
             if files.isEmpty {
                 Text("Outside the app, Peel found nothing that belongs to this package alone.")

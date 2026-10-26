@@ -16,7 +16,8 @@ struct PackageDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            if receipt.items.contains(where: { $0.requiresPrivileges && !$0.isLeftAlone }), !helper.canAct {
+            // Forget Receipt always needs the helper, whatever the items need.
+            if !helper.canAct {
                 HelperRequiredBanner()
             }
 
@@ -65,7 +66,7 @@ struct PackageDetailView: View {
                     }
                     .buttonStyle(.borderless)
                     .disabled(!helper.canAct || !history.mayMove)
-                    .help(helper.canAct ? Text("The receipt goes to the Trash. Files stay where they are.") : Text("Needs Peel’s helper. Settings says why it can’t act yet."))
+                    .help(forgetHelp)
                 }
             }
         }
@@ -112,6 +113,12 @@ struct PackageDetailView: View {
             }
         }
         .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
+    }
+
+    private var forgetHelp: Text {
+        helper.canAct
+            ? Text("The receipt goes to the Trash. Files stay where they are.")
+            : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
     }
 
     /// What an app that uninstalls itself once it moves does then, as its own page warns.

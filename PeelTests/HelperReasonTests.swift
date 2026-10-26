@@ -1,0 +1,19 @@
+import Foundation
+@testable import Peel
+import PeelCore
+import Testing
+
+@MainActor
+struct HelperReasonTests {
+    @Test func saysWhyTheHelperCannotActWithoutPromisingItWillSoon() {
+        let reason = { (standing: PrivilegedHelper.Standing, anotherCopy: Bool) in
+            String(localized: standing.whyItCannotAct(registeredByAnotherCopy: anotherCopy))
+        }
+
+        #expect(reason(.notThisAccount, false) == String(localized: "Only an administrator can use Peel’s helper, so Peel can’t remove these from this account."))
+        #expect(reason(.notInstalled, false) == String(localized: "Install Peel’s helper to remove the items in the system folders it serves."))
+        #expect(reason(.notInstalled, true) == String(localized: "Peel’s helper was installed by another copy of Peel, and this copy can’t use it."))
+        #expect(reason(.waitingForApproval, false) == String(localized: "Peel’s helper is waiting to be allowed in System Settings, under Login Items & Extensions."))
+        #expect(reason(.notAnswering, false) == String(localized: "Peel’s helper isn’t answering. Repair it in Settings."))
+    }
+}

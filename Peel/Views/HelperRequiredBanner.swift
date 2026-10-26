@@ -24,14 +24,21 @@ struct HelperRequiredBanner: View {
     }
 
     private var detail: Text {
-        switch helper.standing {
+        Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
+    }
+}
+
+extension PrivilegedHelper.Standing {
+    /// Why Peel's helper can't act, for a page or a control that needs it.
+    func whyItCannotAct(registeredByAnotherCopy: Bool) -> LocalizedStringResource {
+        switch self {
         case .ready, .notInstalled:
-            helper.isRegisteredByAnotherCopy
-                ? Text("Peel’s helper was installed by another copy of Peel, and this copy can’t use it.")
-                : Text("Install Peel’s helper to remove the items in the system folders it serves.")
-        case .waitingForApproval: Text("Peel’s helper is waiting to be allowed in System Settings, under Login Items & Extensions.")
-        case .notThisAccount: Text("Only an administrator can use Peel’s helper, so Peel can’t remove these from this account.")
-        case .notAnswering: Text("Peel’s helper isn’t answering. Repair it in Settings.")
+            registeredByAnotherCopy
+                ? "Peel’s helper was installed by another copy of Peel, and this copy can’t use it."
+                : "Install Peel’s helper to remove the items in the system folders it serves."
+        case .waitingForApproval: "Peel’s helper is waiting to be allowed in System Settings, under Login Items & Extensions."
+        case .notThisAccount: "Only an administrator can use Peel’s helper, so Peel can’t remove these from this account."
+        case .notAnswering: "Peel’s helper isn’t answering. Repair it in Settings."
         }
     }
 }

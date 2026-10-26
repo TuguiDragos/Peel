@@ -175,7 +175,8 @@ struct AppDetailView: View {
                     ) {}
                     .listRowSeparator(.hidden)
                 }
-                if plan.requiresHelper, !helper.canAct {
+                // A receipt's Forget needs the helper as well.
+                if plan.requiresHelper || !plan.packageReceipts.isEmpty, !helper.canAct {
                     HelperRequiredBanner()
                 }
 
