@@ -74,6 +74,7 @@ struct RemovalOutcomeTests {
         await history.undoLastRemoval()
 
         #expect(outcome.putBackFailures.map(\.url.lastPathComponent) == ["Driver"])
+        #expect(outcome.putBackAsked == 2)
         #expect(outcome.putBackFailures.first?.failure == .needsHelper)
         #expect(history.undoTitle != nil, "what stayed can be put back once the helper can")
     }

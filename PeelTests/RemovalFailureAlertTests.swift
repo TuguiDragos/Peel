@@ -30,7 +30,7 @@ struct RemovalFailureAlertTests {
         let outcome = RemovalOutcome()
         outcome.reportPutBack([
             .init(url: URL(filePath: "/Applications/Example.app"), failure: .needsAppManagement),
-        ])
+        ], of: 1)
 
         let message = RemovalFailureAlert.message(for: outcome)
 

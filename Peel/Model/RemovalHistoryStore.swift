@@ -365,7 +365,7 @@ final class RemovalHistoryStore {
         guard !stayed.isEmpty else { return }
         outcome?.reportPutBack(stayed.map {
             RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
-        })
+        }, of: undoable.records.count)
         // What stayed for a reason that can pass, such as the helper or something in its place, can be asked again.
         let again = stayed.filter { !$0.failure.isFinal }.map(\.record)
         if !again.isEmpty { self.undoable = (again, undoable.title) }

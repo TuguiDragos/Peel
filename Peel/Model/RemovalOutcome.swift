@@ -36,6 +36,8 @@ final class RemovalOutcome {
     private(set) var historyCouldNotRecord = false
     /// What an Undo left in the Trash: Undo is asked from any page, so what came of it is told here.
     private(set) var putBackFailures: [PutBackFailure] = []
+    /// How many items that Undo asked to put back.
+    private(set) var putBackAsked = 0
     private(set) var movedCount = 0
 
     var isEmpty: Bool {
@@ -48,8 +50,9 @@ final class RemovalOutcome {
         historyCouldNotRecord = true
     }
 
-    func reportPutBack(_ failures: [PutBackFailure]) {
+    func reportPutBack(_ failures: [PutBackFailure], of asked: Int) {
         putBackFailures = failures
+        putBackAsked = asked
     }
 
     /// Keeps what the removal could not do, what a restart or an emptied Trash finishes, and what stays for an
@@ -97,5 +100,6 @@ final class RemovalOutcome {
         shellReferences = []
         historyCouldNotRecord = false
         putBackFailures = []
+        putBackAsked = 0
     }
 }

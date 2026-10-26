@@ -88,7 +88,7 @@ struct RemovalFailureAlert: ViewModifier {
             return Text("History couldn’t record this removal.")
         }
         if !outcome.putBackFailures.isEmpty, outcome.failures.isEmpty {
-            return Text("Some items couldn’t be put back.")
+            return Text(verbatim: RestoreFailure.title(stayed: outcome.putBackFailures.count, of: outcome.putBackAsked))
         }
         if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty,
            outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {

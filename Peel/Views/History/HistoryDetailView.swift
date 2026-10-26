@@ -14,6 +14,8 @@ struct HistoryDetailView: View {
     @State private var isShowingFailures = false
     /// This batch's items that stayed in the Trash, in the order the page lists them.
     @State private var failures: [(record: RemovalRecord, failure: RestoreFailure)] = []
+    /// How many items the last Put Back asked for, for the alert's title.
+    @State private var askedToPutBack = 0
     let batch: RemovalBatch
 
     /// The id of the page's task: the batch, and each time History was read again. When either changes, the page
@@ -49,6 +51,7 @@ struct HistoryDetailView: View {
             ) {
                 guard let standing else { return }
                 let selected = standing.selected(among: batch.records, in: history.selectedIDs)
+                askedToPutBack = selected.count
                 Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }
         }
@@ -70,7 +73,10 @@ struct HistoryDetailView: View {
             failures = batch.records.compactMap { record in all[record.id].map { (record, $0) } }
             isShowingFailures = !failures.isEmpty
         }
-        .alert("Some items couldn’t be put back.", isPresented: $isShowingFailures) {
+        .alert(
+            Text(verbatim: RestoreFailure.title(stayed: failures.count, of: askedToPutBack)),
+            isPresented: $isShowingFailures
+        ) {
             if failures.contains(where: { $0.failure == .needsAppManagement }) {
                 Button("Open System Settings") { NSWorkspace.shared.open(AppManagement.settingsURL) }
             }

@@ -266,6 +266,15 @@ extension RestoreFailure {
     }
 }
 
+extension RestoreFailure {
+    /// The title of the alert after a Put Back of `asked` items that left `stayed` of them in the Trash.
+    static func title(stayed: Int, of asked: Int) -> String {
+        asked > 1 && stayed >= asked
+            ? String(localized: "None of these could be put back.")
+            : String(inflecting: "^[\(stayed) item](inflect: true) couldn’t be put back.")
+    }
+}
+
 extension CloudRefusal {
     /// Why a file's local copy was not freed. Freeing deletes nothing, since the file stays in iCloud, so no
     /// way back is offered.
