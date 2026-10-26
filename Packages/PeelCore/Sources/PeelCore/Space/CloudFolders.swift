@@ -24,6 +24,16 @@ public struct CloudFolder: Sendable, Hashable, Identifiable {
     public static func ordered(_ folders: [CloudFolder]) -> [CloudFolder] {
         folders.sorted { $0.size != $1.size ? $0.size > $1.size : $0.names.lexicographicallyPrecedes($1.names) }
     }
+
+    /// A search over `files` that reads only what their rows and their folders' rows show, never the part of the path
+    /// every file shares. A line end keeps a query from matching across two names.
+    public static func searchable(_ files: [CloudFile], in folders: [CloudFolder]) -> SearchableList<CloudFile> {
+        var shown: [URL: [String]] = [:]
+        for folder in folders {
+            for file in folder.files { shown[file.url] = folder.names }
+        }
+        return SearchableList(files) { ((shown[$0.url] ?? []) + [$0.name]).joined(separator: "\n") }
+    }
 }
 
 extension CloudStorage {

@@ -49,21 +49,23 @@ struct SearchingTests {
         #expect(!artifact.matches("DerivedData"))
     }
 
-    @Test func findsAnICloudFileByNameFolderOrPath() {
+    @Test func findsAnICloudFileByWhatItsRowsShow() {
+        let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
         let file = CloudFile(
-            url: URL(filePath: "/Users/x/Library/Mobile Documents/com~apple~CloudDocs/Muzica FARA NUME.mov"),
+            url: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs/Concerts/Muzica FARA NUME.mov"),
             name: "Muzica FARA NUME.mov",
             container: "iCloud Drive",
             size: 10,
             modified: nil
         )
 
-        let list = SearchableList([file], key: \.searchKey)
-        #expect(list.matching("muzica") == [file])
-        #expect(list.matching("CloudDocs") == [file])
-        #expect(list.matching("iCloud") == [file])
-        #expect(list.matching("Wallpaper").isEmpty)
-        #expect(list.matching("Drive/Users").isEmpty)
+        let list = CloudFolder.searchable([file], in: CloudStorage.folders(of: [file], home: home))
+        for shown in ["muzica", "iCloud", "Concerts"] {
+            #expect(list.matching(shown) == [file], "\(shown)")
+        }
+        for hidden in ["Mobile", "Library", "CloudDocs", "someone", "Users", "Drive Concerts", "Wallpaper"] {
+            #expect(list.matching(hidden).isEmpty, "\(hidden)")
+        }
     }
 
     @Test func findsIntelSoftwareByNameOrTheAppItSitsIn() {
@@ -89,7 +91,7 @@ struct SearchingTests {
             modified: nil
         )
 
-        let list = SearchableList([file], key: \.searchKey)
+        let list = CloudFolder.searchable([file], in: [])
         #expect(list.matching("sedinta") == [file])
         #expect(list.matching("ȘEDINȚĂ") == [file])
     }
@@ -97,7 +99,7 @@ struct SearchingTests {
     @Test func anEmptyQueryKeepsEverything() {
         #expect(duplicates("/a/b.txt").matches(""))
         let file = CloudFile(url: URL(filePath: "/a"), name: "a", container: "c", size: 1, modified: nil)
-        #expect(SearchableList([file], key: \.searchKey).matching("") == [file])
+        #expect(CloudFolder.searchable([file], in: []).matching("") == [file])
         #expect(IntelFinding(url: URL(filePath: "/a"), kind: .app, name: "a", owner: nil, size: 1).matches(""))
     }
 

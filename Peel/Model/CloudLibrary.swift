@@ -6,14 +6,13 @@ import PeelCore
 final class CloudLibrary {
     private(set) var files: [CloudFile]? {
         didSet {
-            searchable = SearchableList(files ?? [], key: \.searchKey)
             lastMatch = nil
             lastFolders = nil
             sizes = Dictionary((files ?? []).map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
             updateSelectedSize()
         }
     }
-    @ObservationIgnored private var searchable = SearchableList<CloudFile>([], key: \.searchKey)
+    @ObservationIgnored private var searchable = CloudFolder.searchable([], in: [])
     /// The last search and what it found. A view asks again whenever it is drawn, a checkbox included.
     @ObservationIgnored private var lastMatch: (query: String, files: [CloudFile])?
     @ObservationIgnored private var sizes: [URL: Int64] = [:]
@@ -86,6 +85,7 @@ final class CloudLibrary {
             })
         else { return }
         folders = scan.folders
+        searchable = CloudFolder.searchable(scan.files, in: scan.folders)
         files = scan.files
         cutShort = scan.cutShort
         couldNotRead = scan.couldNotRead

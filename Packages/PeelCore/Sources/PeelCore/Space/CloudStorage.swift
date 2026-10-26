@@ -410,11 +410,3 @@ public enum CloudStorage {
         return parts.last.map(String.init) ?? folder
     }
 }
-
-extension CloudFile {
-    /// What a search looks in: the folder it belongs to, and the whole path, which ends in its name, since the row
-    /// shows an abbreviated path. A line end keeps a query from matching across the two.
-    public var searchKey: String {
-        container + "\n" + url.path(percentEncoded: false)
-    }
-}
