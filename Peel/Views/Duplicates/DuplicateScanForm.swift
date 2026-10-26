@@ -100,11 +100,12 @@ private struct FolderRow: View {
     let folder: URL
 
     var body: some View {
+        let name = FileManager.default.displayName(atPath: folder.path(percentEncoded: false))
         HStack(spacing: 8) {
             AppIcon(url: folder)
                 .frame(width: 18, height: 18)
             VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: FileManager.default.displayName(atPath: folder.path(percentEncoded: false)))
+                Text(verbatim: name)
                     .lineLimit(1)
                     .truncationMode(.middle)
                 if let reason {
@@ -123,6 +124,7 @@ private struct FolderRow: View {
             }
             .buttonStyle(.plain)
             .foregroundStyle(.secondary)
+            .accessibilityLabel(Text("Remove \(name)"))
             .help(Text("Don’t scan this folder"))
         }
         .help(folder.abbreviatedPath)

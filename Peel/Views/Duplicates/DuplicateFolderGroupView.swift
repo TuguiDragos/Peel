@@ -44,12 +44,7 @@ struct DuplicateFolderGroupView: View {
                 Text(verbatim: group.folders[0].url.lastPathComponent)
                     .pageTitle()
                     .help(Text(verbatim: group.folders[0].url.lastPathComponent))
-                HStack(spacing: 6) {
-                    Badge(title: Text(verbatim: group.size.byteCount), systemImage: "folder")
-                    Badge(title: Text("^[\(group.fileCount) file](inflect: true)"), systemImage: "doc")
-                    Badge(title: Text(group.folders.count, format: .number), systemImage: "folder.badge.plus")
-                        .accessibilityLabel(Text("^[\(group.folders.count) copy](inflect: true)"))
-                }
+                DuplicateFolderGroupBadges(group: group)
             }
             Spacer(minLength: 8)
             DuplicateSelectedTotal(bytes: duplicates.selectedSize(in: group))
@@ -68,6 +63,19 @@ struct DuplicateFolderGroupView: View {
         }
         .frame(width: 92, height: 80)
         .accessibilityHidden(true)
+    }
+}
+
+struct DuplicateFolderGroupBadges: View {
+    let group: DuplicateFolderGroup
+
+    var body: some View {
+        FlowLayout(spacing: 6) {
+            Badge(title: Text(verbatim: group.size.byteCount), systemImage: "folder")
+            Badge(title: Text("^[\(group.fileCount) file](inflect: true)"), systemImage: "doc")
+            Badge(title: Text(group.folders.count, format: .number), systemImage: "folder.badge.plus")
+                .accessibilityLabel(Text("^[\(group.folders.count) copy](inflect: true)"))
+        }
     }
 }
 
