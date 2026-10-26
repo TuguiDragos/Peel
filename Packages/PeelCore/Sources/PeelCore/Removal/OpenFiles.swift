@@ -11,7 +11,9 @@ struct OpenFiles {
     /// Whose a process is: this account's, another user's of this Mac, or the system's, root's and the services'.
     enum Owner { case thisAccount, anotherUser, system }
 
-    private typealias File = (names: [String], process: String, pid: pid_t, hold: Hold, owner: Owner)
+    private typealias File = (
+        names: [String], process: String, pid: pid_t, hold: Hold, owner: Owner, daemon: BuildDaemon?
+    )
 
     private let files: [File]
     /// The program each process that holds something runs, by its identifier.
@@ -35,7 +37,10 @@ struct OpenFiles {
             programs[pid] = path
             let process = Self.name(of: pid, program: path)
             let owner = kill(pid, 0) != 0 && errno == EPERM ? Self.owner(ofAccount: Self.uid(of: pid)) : .thisAccount
-            files += paths.map { (PathComponents.of($0.path), process, pid, $0.hold, owner) }
+            let isJava = path.map { URL(filePath: $0).lastPathComponent == "java" } == true
+            let daemon = owner == .thisAccount && isJava
+                ? Self.arguments(of: pid).flatMap(BuildDaemon.running(with:)) : nil
+            files += paths.map { (PathComponents.of($0.path), process, pid, $0.hold, owner, daemon) }
         }
         self.files = files
         self.programs = programs
@@ -75,7 +80,7 @@ struct OpenFiles {
         return Self.refusal(heldBy: holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map { file in
             Holder(
                 process: file.process, owner: file.owner,
-                isMacOSsOwn: programs[file.pid].map(Self.isMacOSsOwn) ?? false
+                isMacOSsOwn: programs[file.pid].map(Self.isMacOSsOwn) ?? false, daemon: file.daemon
             )
         })
     }
@@ -84,6 +89,7 @@ struct OpenFiles {
         let process: String
         let owner: Owner
         let isMacOSsOwn: Bool
+        var daemon: BuildDaemon? = nil
     }
 
     /// Why an item held by `holders` can't move, each kind of holder with the step that lets it go.
@@ -95,7 +101,34 @@ struct OpenFiles {
         let processes = { (owner: Owner) in Set(named.filter { $0.owner == owner }.map(\.process)).sorted() }
         if case let users = processes(.anotherUser), !users.isEmpty { return .openForAnotherUser(by: users) }
         if case let system = processes(.system), !system.isEmpty { return .heldByAnotherAccount(by: system) }
+        let daemons = named.compactMap(\.daemon)
+        if daemons.count == named.count { return .heldByABuildTool(by: Set(daemons.map(\.rawValue)).sorted()) }
         return .heldOpen(by: Set(named.map(\.process)).sorted())
+    }
+
+    /// The arguments a process of this account was started with, as `sysctl` gives them (`KERN_PROCARGS2`): their
+    /// count, the program's path and the zero bytes after it, then each argument, ended by a zero byte.
+    static func arguments(of pid: pid_t) -> [String]? {
+        var maximum: Int32 = 0
+        var size = MemoryLayout<Int32>.size
+        var name = [CTL_KERN, KERN_ARGMAX]
+        guard sysctl(&name, u_int(name.count), &maximum, &size, nil, 0) == 0, maximum > 0 else { return nil }
+        var buffer = [UInt8](repeating: 0, count: Int(maximum))
+        size = buffer.count
+        name = [CTL_KERN, KERN_PROCARGS2, pid]
+        guard sysctl(&name, u_int(name.count), &buffer, &size, nil, 0) == 0, size > MemoryLayout<Int32>.size
+        else { return nil }
+        let count = buffer.withUnsafeBytes { $0.loadUnaligned(as: Int32.self) }
+        var index = MemoryLayout<Int32>.size
+        while index < size, buffer[index] != 0 { index += 1 }
+        while index < size, buffer[index] == 0 { index += 1 }
+        var arguments: [String] = []
+        while arguments.count < count, index < size {
+            let end = buffer[index..<size].firstIndex(of: 0) ?? size
+            arguments.append(String(decoding: buffer[index..<end], as: UTF8.self))
+            index = end + 1
+        }
+        return arguments
     }
 
     /// A user account starts at 501 on macOS, and the accounts below it are the system's services; `nobody` is -2.

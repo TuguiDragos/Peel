@@ -164,6 +164,36 @@ struct OpenFilesTests {
         #expect(OpenFiles.refusal(heldBy: []) == nil)
     }
 
+    @Test func aBuildToolsDaemonIsNamedByItsToolWithTheCommandThatStopsIt() throws {
+        let directory = try TemporaryDirectory()
+        let log = try directory.file("home/.gradle/daemon/9.2/daemon-1.out.log")
+        let main = "org.gradle.launcher.daemon.bootstrap.GradleDaemon"
+        let daemon = try Self.program("jdk/bin/java", in: directory, arguments: ["-", main, "9.2"], writingTo: log)
+        defer { daemon.terminate() }
+
+        let refusal = OpenFiles().refusal(of: log.deletingLastPathComponent(), lettingItsProgramsRun: false)
+
+        #expect(OpenFiles.arguments(of: daemon.processIdentifier)?.suffix(3) == ["-", main, "9.2"])
+        #expect(refusal == .heldByABuildTool(by: ["Gradle"]))
+    }
+
+    @Test func knowsEachBuildToolsDaemonByHowTheToolStartsIt() {
+        let gradle = ["/jdk/bin/java", "-Xmx512m", "-cp", "/x/gradle-launcher-9.2.jar",
+                      "org.gradle.launcher.daemon.bootstrap.GradleDaemon", "9.2"]
+        let kotlin = ["/jdk/bin/java", "-cp", "/x/kotlin-compiler-embeddable.jar",
+                      "org.jetbrains.kotlin.daemon.KotlinCompileDaemon", "--daemon-runFilesPath=/x"]
+        let bazel = ["bazel(project)", "-Xverify:none", "-jar", "/x/install/0123/A-server.jar", "--output_base=/x"]
+        let mvnd = ["/jdk/bin/java", "-Dmvnd.id=5a2c", "org.codehaus.plexus.classworlds.launcher.Launcher"]
+        let maven = ["/jdk/bin/java", "org.codehaus.plexus.classworlds.launcher.Launcher", "install"]
+
+        #expect(BuildDaemon.running(with: gradle) == .gradle)
+        #expect(BuildDaemon.running(with: kotlin) == .kotlin)
+        #expect(BuildDaemon.running(with: bazel) == .bazel)
+        #expect(BuildDaemon.running(with: mvnd) == .mavenDaemon)
+        #expect(BuildDaemon.running(with: maven) == nil)
+        #expect(BuildDaemon.allCases.map(\.stop) == ["gradle --stop", "gradle --stop", "bazel shutdown", "mvnd --stop"])
+    }
+
     @Test func knowsMacOSsOwnProgramsByWhereTheyRun() {
         let macOSs = [
             "/usr/libexec/appleaccountd", "/usr/sbin/cfprefsd", "/sbin/launchd",
@@ -184,6 +214,39 @@ struct OpenFilesTests {
 
         #expect(macOSs.filter { !OpenFiles.isMacOSsOwn($0) } == [])
         #expect(thePersons.filter(OpenFiles.isMacOSsOwn) == [])
+    }
+
+    /// A copy of `cat` at `path`, started with `arguments` and holding `file` open for writing as its error output. It
+    /// echoes a line before this returns, so macOS has let it run, and reads its input until the test closes it.
+    private static func program(
+        _ path: String, in directory: borrowing TemporaryDirectory, arguments: [String], writingTo file: URL
+    ) throws -> Process {
+        let program = directory.url.appending(path: path)
+        try FileManager.default.createDirectory(
+            at: program.deletingLastPathComponent(), withIntermediateDirectories: true
+        )
+        try FileManager.default.copyItem(at: URL(filePath: "/bin/cat"), to: program)
+        let signing = try Process.run(
+            URL(filePath: "/usr/bin/codesign"), arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
+        )
+        signing.waitUntilExit()
+        let input = Pipe()
+        let output = Pipe()
+        let errors = try FileHandle(forWritingTo: file)
+        defer { try? errors.close() }
+        let line = Data("running\n".utf8)
+        try input.fileHandleForWriting.write(contentsOf: line)
+        let process = Process()
+        process.executableURL = program
+        process.arguments = arguments
+        process.standardInput = input
+        process.standardOutput = output
+        process.standardError = errors
+        try process.run()
+        guard try output.fileHandleForReading.read(upToCount: line.count) == line else {
+            throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
+        }
+        return process
     }
 
     /// `iostat`, run from where macOS keeps it, writing into `file`, which it holds open until it ends five minutes on.

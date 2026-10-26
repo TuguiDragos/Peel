@@ -452,6 +452,8 @@ extension TrashFailure.Reason {
             "in use by \(processes.map(Output.plain).joined(separator: ", ")) in another user's account on this Mac; quit them in that account, then try again"
         case .openForAnotherUser(let processes):
             "in use by \(processes.map(Output.plain).joined(separator: ", ")) in another user's account on this Mac; quit it in that account, then try again"
+        case .heldByABuildTool(let tools):
+            "in use by \(tools.map(Output.plain).joined(separator: ", ")); run \(BuildDaemon.stopCommands(for: tools).map { "`\($0)`" }.joined(separator: " and ")), then try again"
         case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
         case .failed(let message): Output.plain(message)
         }

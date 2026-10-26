@@ -90,6 +90,8 @@ public struct TrashFailure: Sendable, Hashable {
         case heldByAnotherAccount(by: [String])
         /// Another user of this Mac has it open in their own account, where it can be quit.
         case openForAnotherUser(by: [String])
+        /// Only build tools' daemons hold it, which the tools' own commands stop (`BuildDaemon`).
+        case heldByABuildTool(by: [String])
         /// Only macOS's own programs hold it, and nobody quits those.
         case inUseByMacOS(by: [String])
         case failed(String)
@@ -111,14 +113,14 @@ extension TrashFailure.Reason {
         switch self {
         case .historyUnreadable, .needsHelper: false
         case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
-             .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser, .inUseByMacOS,
-             .failed: true
+             .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser,
+             .heldByABuildTool, .inUseByMacOS, .failed: true
         }
     }
 
     var isHeldByPrograms: Bool {
         switch self {
-        case .heldOpen, .heldByAnotherAccount, .openForAnotherUser: true
+        case .heldOpen, .heldByAnotherAccount, .openForAnotherUser, .heldByABuildTool: true
         default: false
         }
     }
@@ -141,6 +143,7 @@ extension TrashFailure.Reason {
         case .peelRunsFromIt: "peel-runs-from-it"
         case .heldByAnotherAccount: "held-by-another-account"
         case .openForAnotherUser: "open-for-another-user"
+        case .heldByABuildTool: "held-by-a-build-tool"
         case .inUseByMacOS: "in-use-by-macos"
         case .failed: "failed"
         }
@@ -151,7 +154,7 @@ extension TrashFailure.Reason {
         case .failed(let message): message
         case .somethingElseMoved(let name): name
         case .heldOpen(let processes), .heldByAnotherAccount(let processes), .openForAnotherUser(let processes),
-             .inUseByMacOS(let processes):
+             .heldByABuildTool(let processes), .inUseByMacOS(let processes):
             processes.joined(separator: "\n")
         default: nil
         }
@@ -180,6 +183,8 @@ extension TrashFailure.Reason {
             self = .heldByAnotherAccount(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "open-for-another-user":
             self = .openForAnotherUser(by: (detail ?? "").split(separator: "\n").map(String.init))
+        case "held-by-a-build-tool":
+            self = .heldByABuildTool(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "in-use-by-macos": self = .inUseByMacOS(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "failed": self = .failed(detail ?? "")
         default: return nil
