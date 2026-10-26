@@ -63,10 +63,10 @@ struct SpaceRemovalTests {
         )
 
         let plan = await SpaceRemoval.plan(for: machines, environment: environment(directory))
-        let removable = await SpaceRemoval.removable(in: machines, environment: environment(directory))
+        let now = await SpaceRemoval.movableNow(in: machines, environment: environment(directory))
 
         #expect(plan.removable.isEmpty)
-        #expect(removable.isEmpty)
+        #expect(now.removable.isEmpty)
     }
 
     /// Space moves each folder inside Caches whole, but Coursier's folder holds the JVMs that `JAVA_HOME` points
@@ -563,14 +563,27 @@ struct SpaceRemovalTests {
         let running = ["comspotifyclient": "Spotify"]
 
         let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: running)
-        let removable = await SpaceRemoval.removable(
-            in: item(directory),
-            environment: environment(directory),
-            running: running
+        let now = await SpaceRemoval.movableNow(
+            in: item(directory), environment: environment(directory), running: running
         )
 
-        #expect(removable.map(\.lastPathComponent) == ["com.gone.app"])
-        #expect(removable == plan.removable)
+        #expect(now.removable.map(\.lastPathComponent) == ["com.gone.app"])
+        #expect(now.removable == plan.removable)
+    }
+
+    @Test func theMovesCheckNamesTheAppOpenedSinceThePlan() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.spotify.client/audio.db")
+        try directory.file("home/Library/Caches/com.gone.app/old.db")
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
+
+        let now = await SpaceRemoval.movableNow(
+            in: item(directory), environment: environment(directory), running: ["comspotifyclient": "Spotify"]
+        )
+
+        #expect(plan.removable.map(\.lastPathComponent).sorted() == ["com.gone.app", "com.spotify.client"])
+        #expect(now.removable.map(\.lastPathComponent) == ["com.gone.app"])
+        #expect(now.inUse.map { "\($0.url.lastPathComponent): \($0.name)" } == ["com.spotify.client: Spotify"])
     }
 
     /// Many cache and log folders are named after the app rather than its bundle identifier, such as `Firefox`,

@@ -188,16 +188,21 @@ extension SpaceLibrary: CarriesSelection {
     }
 
     /// Asks the area again rather than trusting its plan: an app opened since may be writing to some of these
-    /// folders, and they are left where they are.
+    /// folders, and they stay where they are, each told as in use by that app.
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let item = report?.items.first(where: { $0.page == part.page }) else { return TrashResult() }
         isRemoving = true
         defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions
-        let removable = await SpaceRemoval.removable(in: item, exclusions: exclusions, running: RunningCopies.current)
-            .filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) }
-        return await TrashService(exclusions: exclusions)
+        let chosen = selectedURLs.intersection(part.sizes.keys)
+        let now = await SpaceRemoval.movableNow(in: item, exclusions: exclusions, running: RunningCopies.current)
+        let removable = now.removable.filter(chosen.contains)
+        var result = await TrashService(exclusions: exclusions)
             .trash(removable, usingHelperFor: Set(removable.filter(FileAccess.requiresPrivilegesToRemove)))
+        result.failures += now.inUse.filter { chosen.contains($0.url) }.map {
+            TrashFailure(url: $0.url, reason: .heldOpen(by: [$0.name]))
+        }
+        return result
     }
 
     func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {

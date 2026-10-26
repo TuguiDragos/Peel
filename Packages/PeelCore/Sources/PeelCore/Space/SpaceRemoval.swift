@@ -141,28 +141,29 @@ public enum SpaceRemoval {
         return sizes
     }
 
-    /// What of `item` can move now, measuring nothing: the check a move makes just before it moves, since an app
-    /// opened since the plan may be writing to some of these folders.
+    /// What of `item` can move now, measuring nothing, and what an app open now keeps: the check a move makes just
+    /// before it moves, since an app opened since the plan may be writing to some of these folders.
     @concurrent
-    public static func removable(
+    public static func movableNow(
         in item: SpaceItem,
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
         running: [RunningCopies.Process]
-    ) async -> [URL] {
-        await removable(
+    ) async -> (removable: [URL], inUse: [(url: URL, name: String)]) {
+        await movableNow(
             in: item, environment: environment, exclusions: exclusions, running: namesOfRunningApps(running)
         )
     }
 
     @concurrent
-    static func removable(
+    static func movableNow(
         in item: SpaceItem,
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         running: [String: String] = [:]
-    ) async -> [URL] {
-        children(of: item, environment: environment, exclusions: exclusions, running: running).removable
+    ) async -> (removable: [URL], inUse: [(url: URL, name: String)]) {
+        let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
+        return (children.removable, children.inUse)
     }
 
     private static func children(
