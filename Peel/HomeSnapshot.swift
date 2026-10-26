@@ -17,6 +17,7 @@ enum HomeSnapshot {
         let stats = LifetimeStats()
         let found = FoundLastTimeStore()
         let homebrew = HomebrewLibrary()
+        let history = RemovalHistoryStore()
         await home.refresh()
         await ExclusionsStore.shared.load()
         let window = Color(nsColor: .windowBackgroundColor)
@@ -50,7 +51,7 @@ enum HomeSnapshot {
                     // by side.
                     try render(
                         HomePermissionsContent().environment(home).environment(helper)
-                            .environment(ExclusionsStore.shared),
+                            .environment(ExclusionsStore.shared).environment(history),
                         width: 720,
                         on: window,
                         scheme: scheme,
@@ -59,7 +60,7 @@ enum HomeSnapshot {
                     )
                     try render(
                         HomePermissionsContent().environment(home).environment(helper)
-                            .environment(ExclusionsStore.shared),
+                            .environment(ExclusionsStore.shared).environment(history),
                         width: 480,
                         on: window,
                         scheme: scheme,

@@ -6,6 +6,7 @@ struct HomePermissionsContent: View {
     @Environment(HomeModel.self) private var home
     @Environment(HelperModel.self) private var helper
     @Environment(ExclusionsStore.self) private var exclusions
+    @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.openSettings) private var openSettings
     @State private var pointingAt: HomeModel.Permission?
     @State private var helperFailure: HelperModel.Failure?
@@ -216,10 +217,11 @@ struct HomePermissionsContent: View {
         .frame(width: Self.markSize, height: Self.markSize)
     }
 
-    /// Unreadable exclusions come first: until they are read, nothing moves at all.
+    /// What keeps every move back comes first, as on the pages that move things: until it is gone, nothing moves.
     @ViewBuilder
     private var banner: some View {
-        if exclusions.exclusions.isUnreadable {
+        let held = MovesHeld.reason(exclusions: exclusions, history: history)
+        if held == .exclusionsUnreadable {
             Notice(
                 title: Text("Peel couldn’t read your exclusions"),
                 detail: Text("Peel removes nothing and puts nothing back until you start the list over in Settings."),
@@ -228,6 +230,21 @@ struct HomePermissionsContent: View {
                 Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
                     .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
             }
+        } else if held == .historyUnreadable {
+            Notice(
+                title: Text("Peel couldn’t read History"),
+                detail: Text("Peel removes nothing until you start History over, so that everything it moves can be put back."),
+                isAlbum: true
+            ) {
+                Button("Open History") { Navigator.shared.requestedTool = .history }
+                    .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
+            }
+        } else if held == .historyUnwritable {
+            Notice(
+                title: Text("Peel can’t write History"),
+                detail: Text("The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back."),
+                isAlbum: true
+            ) {}
         } else if home.needsAttention {
             let notice = MissingPermissionsNotice(
                 helper: helper.standing,
