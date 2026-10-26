@@ -274,10 +274,23 @@ public struct PrivilegedPathPolicy: Sendable {
     /// `parent`: such a folder takes back only what root owns and nobody else can write to, which is how anything the
     /// helper took from there looks. Anything else could have been rewritten while it sat in the user's Trash. A
     /// browser starts the program a manifest names, so a manifests folder is one that code is loaded from.
-    public func keepsOut(owner: uid_t?, mode: mode_t?, at path: String, in parent: String) -> Bool {
+    private func keepsOut(owner: uid_t?, mode: mode_t?, at path: String, in parent: String) -> Bool {
         let takesAnything = restorable.contains { PathComponents.isPath(path, inside: $0) }
         guard !takesAnything || manifests.contains(parent) else { return false }
         return owner != trustedOwner || mode.map { $0 & 0o022 != 0 } ?? true
+    }
+
+    /// What `openDestination` would answer before it opens anything, for an item `owner` owns with `mode`, nil when it
+    /// would go on to open the folder.
+    public func refusal(ofPuttingBack path: String, owner: uid_t?, mode: mode_t?) -> Rejection? {
+        let aFolder = mode.map { $0 & S_IFMT == S_IFDIR } ?? false
+        switch resolve(path, in: locations, puttingBackAFolder: aFolder) {
+        case .failure(let rejection):
+            return rejection
+        case .success(let item):
+            if links.contains(item.parent), mode.map({ $0 & S_IFMT == S_IFLNK }) != true { return .notALink }
+            return keepsOut(owner: owner, mode: mode, at: item.path, in: item.parent) ? .loadsCode : nil
+        }
     }
 
     /// Like `open`, for a path where nothing exists yet. A folder that code is loaded from keeps out what `keepsOut`

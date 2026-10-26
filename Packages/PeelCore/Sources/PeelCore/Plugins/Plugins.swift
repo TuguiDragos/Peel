@@ -40,7 +40,7 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     /// protected. Such a plug-in is listed and never offered.
     public let refusal: GuardRefusal?
     /// True when, moved through Peel's helper, it could not come back from History: code is loaded from its folder,
-    /// and it isn't root's alone (`PrivilegedPathPolicy.keepsOut`).
+    /// and it isn't root's alone (the helper's `.loadsCode`).
     public var staysInTheTrash = false
 
     public var id: URL { url }
@@ -152,7 +152,8 @@ public enum Plugins {
                 requiresPrivileges: requiresPrivileges,
                 refusal: removalGuard.refusal(of: item.url)
             )
-            plugin.staysInTheTrash = requiresPrivileges && reach.keepsOut(item.url, at: item.url)
+            plugin.staysInTheTrash = requiresPrivileges
+                && reach.refusal(ofPuttingBack: item.url, at: item.url) == .loadsCode
             return plugin
         }
         let sorted = plugins.compactMap(\.self).sorted {

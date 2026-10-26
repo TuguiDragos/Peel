@@ -597,6 +597,24 @@ struct TrashServiceTests {
         #expect(throughTheHelper == .failed(PrivilegedPathPolicy.Rejection.loadsCode.explanation))
     }
 
+    @Test(.permissionsHold) func saysWhatTheHelperWouldOfAPlaceItDoesNotServe() throws {
+        let directory = try TemporaryDirectory()
+        let locked = try directory.directory("home/Locked")
+        let trashed = try directory.file("home/.Trash/notes.txt", bytes: 1)
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            )
+        ) { $0 }
+        let item = TrashedItem(originalURL: locked.appending(path: "notes.txt"), trashedURL: trashed, date: .now)
+        try directory.setPermissions(0o555, of: locked)
+        defer { try? directory.setPermissions(0o755, of: locked) }
+
+        let outside = PrivilegedPathPolicy.Rejection.outsideAllowedLocations.explanation
+        #expect(service.refusal(ofPuttingBack: item) == .failed(outside))
+    }
+
     @Test func aMoveRefusedForAnItemLockedInFinderSaysItIsLocked() async throws {
         let directory = try TemporaryDirectory()
         let locked = try directory.file("home/Library/Preferences/org.example.locked.plist")

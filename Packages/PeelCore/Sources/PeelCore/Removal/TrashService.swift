@@ -759,8 +759,9 @@ public struct TrashService: Sendable {
         guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
         if Self.needsTheHelper(toPutBack: item),
-           HelperReach(environment: environment).keepsOut(item.trashedURL, at: item.originalURL) {
-            return .failed(PrivilegedPathPolicy.Rejection.loadsCode.explanation)
+           let rejection = HelperReach(environment: environment)
+               .refusal(ofPuttingBack: item.trashedURL, at: item.originalURL) {
+            return .failed(rejection.explanation)
         }
         return nil
     }
