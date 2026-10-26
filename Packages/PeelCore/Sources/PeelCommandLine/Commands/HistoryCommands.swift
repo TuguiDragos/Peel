@@ -17,7 +17,12 @@ struct Batch {
     var date: Date { group.date }
     /// Where the removal moved from: one part, or one for each tool whose selection it moved.
     var parts: [RemovalPart] { group.parts }
+    /// Every part's source, as `--json` writes it.
     var source: String { Output.list(parts.map(\.source)) }
+    /// The removal's name in the table: every part's source, or the first few and how many more pages there are.
+    var name: String {
+        RemovalPart.name(parts.map(\.source), more: { Output.count($0, "more page", "more pages") }, list: Output.list)
+    }
     /// The tool the removal moved from, or nil for one that moved from several or was interrupted.
     var tool: String? { parts.count == 1 ? parts[0].namedTool : nil }
     var size: SizeTotal { group.size }
@@ -213,7 +218,7 @@ struct HistoryCommand: AsyncParsableCommand {
             [
                 batch.shortID,
                 Output.day(batch.date),
-                batch.source,
+                batch.name,
                 Output.number(batch.records.count),
                 Output.size(batch.size),
                 batch.state,

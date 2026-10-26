@@ -147,6 +147,34 @@ struct HistoryCommandTests {
         #expect(listedParts.compactMap { $0["tool"] as? String } == ["developer", "projects", "duplicates"])
     }
 
+    @Test func namesTheFirstPagesOfALongRemovalAndCountsTheRest() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let batch = UUID()
+        let now = Date.now
+        let records = (1...30).map { index in
+            RemovalRecord(
+                batch: batch,
+                item: TrashedItem(
+                    originalURL: directory.url.appending(path: "home/project\(index)/node_modules"),
+                    trashedURL: directory.url.appending(path: "home/.Trash/node_modules \(index)"),
+                    date: now.addingTimeInterval(Double(index))
+                ),
+                size: 10,
+                source: "project\(index)",
+                tool: "projects"
+            )
+        }
+        _ = await logs.removals.add(records)
+
+        let named = HistoryCommand.rows(for: Batch.all(in: records))[1][2]
+        #expect(named == "project1, project2, project3, project4, and 26 more pages")
+
+        let removal = try #require(try listed(try await printed(["history", "--json"], from: logs)).first as? [String: Any])
+        #expect((removal["parts"] as? [[String: Any]])?.count == 30)
+        #expect((removal["source"] as? String)?.hasSuffix(", and project30") == true)
+    }
+
     /// A removal cut short comes back into History with no tool, since which tool moved it is not known, and
     /// `--json` says so with null rather than a name.
     @Test func anInterruptedRemovalNamesNoTool() async throws {

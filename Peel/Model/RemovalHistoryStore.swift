@@ -10,16 +10,20 @@ nonisolated struct RemovalBatch: Identifiable, Hashable {
     let tools: [Tool]
     let date: Date
     let records: [RemovalRecord]
-    /// The title the row shows: each part's source, in the order they moved. A source Peel stored with a key is
-    /// shown in the user's language, any other source as stored.
+    /// The title the row shows: the parts' titles in the order they moved, or the first few and how many more
+    /// pages there are.
     let title: String
+    /// Every part's title, which a search looks through. A source Peel stored with a key is shown in the user's
+    /// language, any other source as stored.
+    let partTitles: [String]
 
     init(id: UUID, parts: [RemovalPart], date: Date, records: [RemovalRecord]) {
         self.id = id
         tools = Self.tools(of: parts)
         self.date = date
         self.records = records
-        title = Self.title(of: parts)
+        partTitles = Self.titles(of: parts)
+        title = Self.title(naming: partTitles)
     }
 
     /// The one tool the batch moved from, or nil for a batch from several.
@@ -33,9 +37,14 @@ nonisolated struct RemovalBatch: Identifiable, Hashable {
         return tools
     }
 
-    static func title(of parts: [RemovalPart]) -> String {
+    static func titles(of parts: [RemovalPart]) -> [String] {
         parts.map { title(source: $0.source, key: $0.sourceKey, tool: Tool(rawValue: $0.tool)) }
-            .formatted(.list(type: .and))
+    }
+
+    static func title(naming titles: [String]) -> String {
+        RemovalPart.name(titles, more: { String(inflecting: "^[\($0) more page](inflect: true)") }) {
+            $0.formatted(.list(type: .and))
+        }
     }
 
     static func title(source: String, key: String?, tool: Tool?) -> String {
@@ -100,14 +109,16 @@ nonisolated struct RefusalBatch: Identifiable, Hashable {
     let id: UUID
     let date: Date
     let records: [RefusalRecord]
-    /// The sources in the user's language, as `RemovalBatch.title(of:)` gives them.
+    /// The sources in the user's language, named as `RemovalBatch` names them.
     let title: String
+    let partTitles: [String]
 
     init(_ group: RefusalGroup) {
         id = group.id
         date = group.date
         records = group.records
-        title = RemovalBatch.title(of: group.parts)
+        partTitles = RemovalBatch.titles(of: group.parts)
+        title = RemovalBatch.title(naming: partTitles)
     }
 }
 
@@ -378,7 +389,7 @@ final class RemovalHistoryStore {
             RemovalBatch(id: group.id, parts: group.parts, date: group.date, records: group.records)
         }
         let searchKeys = Dictionary(uniqueKeysWithValues: batches.map {
-            ($0.id, searchKey(title: $0.title, names: $0.records.map(\.originalURL.lastPathComponent)))
+            ($0.id, searchKey(titles: $0.partTitles, names: $0.records.map(\.originalURL.lastPathComponent)))
         })
         return (batches, searchKeys)
     }
@@ -390,7 +401,7 @@ final class RemovalHistoryStore {
     ) async -> (batches: [RefusalBatch], searchKeys: [RefusalBatch.ID: String]) {
         let batches = RefusalRecord.grouped(records).map(RefusalBatch.init)
         let searchKeys = Dictionary(uniqueKeysWithValues: batches.map {
-            ($0.id, searchKey(title: $0.title, names: $0.records.map(\.url.lastPathComponent)))
+            ($0.id, searchKey(titles: $0.partTitles, names: $0.records.map(\.url.lastPathComponent)))
         })
         return (batches, searchKeys)
     }
@@ -458,10 +469,10 @@ final class RemovalHistoryStore {
     }
 
 
-    /// A batch's title and the name of each item in it, joined into one string, so a search makes one call
+    /// A batch's part titles and the name of each item in it, joined into one string, so a search makes one call
     /// per batch rather than one per record.
-    nonisolated private static func searchKey(title: String, names: [String]) -> String {
-        ([title] + names).joined(separator: "\n")
+    nonisolated private static func searchKey(titles: [String], names: [String]) -> String {
+        (titles + names).joined(separator: "\n")
     }
 
 }

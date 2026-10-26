@@ -89,6 +89,16 @@ public struct RemovalPart: Sendable, Hashable {
             }
             .map(\.key)
     }
+
+    /// How many parts a removal's name lists before it only counts the rest.
+    public static let mostNamed = 4
+
+    /// A removal's name from its parts' titles, short enough for a window's title or a menu: every title, or the
+    /// first few and then `more`, which says how many pages the rest are, joined by `list`.
+    public static func name(_ titles: [String], more: (Int) -> String, list: ([String]) -> String) -> String {
+        guard titles.count > mostNamed else { return list(titles) }
+        return list(Array(titles.prefix(mostNamed)) + [more(titles.count - mostNamed)])
+    }
 }
 
 extension RemovalPart {
