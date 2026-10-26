@@ -465,6 +465,34 @@ struct CloudStorageTests {
         #expect(edited.map(\.reason) == [.changedSinceScan])
     }
 
+    @Test func leavesAlonePackagesThatHoldSomethingExcludedSinceTheScan() async throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        let inside = try directory.file("\(drive)/Notes.rtfd/TXT.rtf", bytes: 2_000_000)
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+        let scanned = try #require(collector.collected.files.first)
+        let undated = CloudFile(
+            url: scanned.url, name: scanned.name, container: scanned.container, size: 1, modified: nil
+        )
+        let excluded = Exclusions(paths: [inside])
+        var evicted: [URL] = []
+
+        let refused = await CloudStorage.free([scanned], exclusions: excluded, isSafe: { _ in true }) {
+            evicted.append($0)
+        }.refused
+        let undatedRefused = await CloudStorage.free([undated], exclusions: excluded, isSafe: { _ in true }) {
+            evicted.append($0)
+        }.refused
+
+        #expect(refused.map(\.reason) == [.excluded])
+        #expect(undatedRefused.map(\.reason) == [.excluded])
+        #expect(evicted.isEmpty)
+    }
+
     @Test func stopsBetweenFilesOnceItsTaskIsCancelled() async throws {
         let directory = try TemporaryDirectory()
         let files = try downloads(3, in: directory)

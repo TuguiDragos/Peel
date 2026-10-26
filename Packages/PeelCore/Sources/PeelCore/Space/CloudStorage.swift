@@ -337,14 +337,23 @@ public enum CloudStorage {
             }
             var url = file.url
             url.removeAllCachedResourceValues()
-            guard
-                let values = try? url.resourceValues(forKeys: keys),
-                isSafe(values),
-                values.isRegularFile == true
-                    ? values.contentModificationDate == file.modified
-                    : values.isPackage == true
-                        && package(url, values, exclusions: exclusions, unless: { false })?.modified == file.modified
-            else {
+            guard let values = try? url.resourceValues(forKeys: keys), isSafe(values) else {
+                done.refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
+                continue
+            }
+            if values.isPackage == true, exclusions.holds(url) {
+                done.refused.append(CloudRefusal(url: file.url, reason: .excluded))
+                continue
+            }
+            let modified: Date? = if values.isRegularFile == true {
+                values.contentModificationDate
+            } else if values.isPackage == true {
+                package(url, values, exclusions: exclusions, unless: { false })?.modified
+            } else {
+                nil
+            }
+            // A date that can't be read, now or at the scan, never says the file is as it was.
+            guard let modified, modified == file.modified else {
                 done.refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
                 continue
             }
