@@ -320,6 +320,24 @@ struct FileCommandTests {
         #expect(FileManager.default.fileExists(atPath: other.items[0].url.path(percentEncoded: false)))
     }
 
+    @Test func namesTheRemovalAsTheListNamesTheGroup() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        var group = OrphanGroup(identifier: "com.example.gone", items: [try orphan("com.example.gone", in: directory)])
+        group.rememberedApp = RememberedApp(
+            bundleIdentifier: "com.example.gone", name: "Gone", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Gone.app"
+        )
+        let scan = OrphanScan(groups: [group], unreadableLocations: [])
+
+        try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand).clean(
+            "com.example.gone", in: scan, apps: [], remembered: [], scanner: scanner(in: directory),
+            using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals
+        )
+
+        #expect(await logs.removals.load().records?.map(\.source) == ["Gone"])
+    }
+
     /// The command line never uses the helper, so what needs administrator access stays, is recorded as refused,
     /// and, since nothing else moved, the command exits 1.
     @Test func leavesWhatNeedsAdministratorAccessAndSaysSo() async throws {

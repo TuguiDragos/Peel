@@ -106,13 +106,17 @@ extension OrphanGroup {
 
 extension OrphanLibrary: CarriesSelection {
     var carriedParts: [CarriedSelection.Part] {
-        (scan?.groups ?? []).compactMap { group in
-            let selected = selected(in: group)
+        Self.parts(of: scan?.groups ?? [], selecting: selectedURLs)
+    }
+
+    static func parts(of groups: [OrphanGroup], selecting selectedURLs: Set<URL>) -> [CarriedSelection.Part] {
+        groups.compactMap { group in
+            let selected = group.items.filter { selectedURLs.contains($0.url) }
             guard !selected.isEmpty else { return nil }
             return CarriedSelection.Part(
                 page: group.page,
                 title: group.title,
-                source: group.identifier,
+                source: group.title,
                 sourceKey: nil,
                 sizes: Dictionary(selected.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
             )
