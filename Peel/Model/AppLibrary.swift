@@ -709,7 +709,15 @@ final class AppLibrary {
 
     /// The answer about `app`'s updates that its page shows: an update the user muted is not announced again.
     func shownUpdateStatus(of app: InstalledApp) -> UpdateStatus? {
-        app.isPeelItself ? nil : updatePreferences.shownStatus(updateStatuses[app.id], for: app)
+        guard !app.isPeelItself else { return nil }
+        let shown = updatePreferences.shownStatus(updateStatuses[app.id], for: app)
+        // With the checks off, an "up to date" ages unasked: past the longest wait it says nothing, unless Homebrew
+        // says it now, which counts only for a day after its own check.
+        guard shown == .upToDate, !defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true),
+              !updateChecker.stillHolds(answeredAt: lastUpdateChecks[app.id]),
+              updateChecker.homebrewStatus(for: app, casks: casks) != .upToDate
+        else { return shown }
+        return nil
     }
 
     /// The apps the reading of the folders found, without those shown on the list from elsewhere: what is installed,

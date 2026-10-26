@@ -34,7 +34,11 @@ struct UpdateStatusBadge: View {
             case .updateAvailable:
                 Badge(title: Text("Update available: \(status.displayVersion ?? "")"), systemImage: "arrow.down.circle", tint: .blue)
             case .upToDate:
-                Badge(title: Text("Up to date"), systemImage: "checkmark.circle", tint: .green)
+                if let lastCheck {
+                    upToDate.help(Text("Peel last checked \(lastCheck, format: .relative(presentation: .named))."))
+                } else {
+                    upToDate
+                }
             case .unsupported:
                 NoteBadge(
                     title: Text("Can’t check for updates"),
@@ -54,6 +58,10 @@ struct UpdateStatusBadge: View {
                 )
             }
         }
+    }
+
+    private var upToDate: some View {
+        Badge(title: Text("Up to date"), systemImage: "checkmark.circle", tint: .green)
     }
 
     /// Why Peel can't check this app. Several reasons share the one badge, so the note says which applies. The

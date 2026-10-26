@@ -185,6 +185,12 @@ public struct UpdateChecker: Sendable {
         return !VersionComparison.isNewer(tap, than: version)
     }
 
+    /// Whether an answer that came at `checked` may still be shown as true while nothing asks again: for
+    /// `UpdateSchedule.longest`, the longest wait between two checks. An answer of unknown date doesn't hold.
+    public func stillHolds(answeredAt checked: Date?) -> Bool {
+        checked.map { clock().timeIntervalSince($0) <= UpdateSchedule.longest } ?? false
+    }
+
     /// The cask `app` came from, and why Homebrew can't tell, when only Homebrew could say whether the app is up to
     /// date and it has no answer (`homebrewStatus(of:appVersion:at:)`), so a check has none for the app.
     public func homebrewCannotTell(

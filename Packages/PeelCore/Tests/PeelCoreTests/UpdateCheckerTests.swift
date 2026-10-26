@@ -357,6 +357,13 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
         #expect(notChecked?.reason == .notCheckedRecently)
     }
 
+    @Test func anAnswerHoldsForTheLongestWaitBetweenTwoChecks() {
+        let day: TimeInterval = 24 * 60 * 60
+        #expect(checking(at: homebrewChecked + 6 * day).stillHolds(answeredAt: homebrewChecked))
+        #expect(!checking(at: homebrewChecked + 8 * day).stillHolds(answeredAt: homebrewChecked))
+        #expect(!checking(at: homebrewChecked).stillHolds(answeredAt: nil))
+    }
+
     @Test func takesNoUpToDateFromHomebrewWhereItComparesNoVersion() {
         let recent = checking(at: homebrewChecked + 60 * 60)
         let newest = HomebrewPackage(

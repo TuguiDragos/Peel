@@ -596,6 +596,34 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
     }
 
+    @Test func anUpToDateNoCheckRenewsSaysNothingAfterTheLongestWait() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock {
+            $0 = Data("""
+            <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>\
+            <enclosure url="https://feed.example.com/u.zip" sparkle:version="100" sparkle:shortVersionString="1.0" />\
+            </item></channel></rss>
+            """.utf8)
+        }
+        let now = Date.now
+        let clock = TestClock(now)
+        let library = library(with: made.defaults, notesIn: folder, clock: clock)
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        await library.checkForUpdates([app], force: true)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+
+        made.defaults.set(false, forKey: SettingsKey.checksForAppUpdates)
+        clock.set(now + 24 * 60 * 60)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+        clock.set(now + 30 * 24 * 60 * 60)
+        #expect(library.shownUpdateStatus(of: app) == nil)
+    }
+
     @Test func theRoundRescanStartsSaysWhenItEnds() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
