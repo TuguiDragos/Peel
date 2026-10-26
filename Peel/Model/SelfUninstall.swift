@@ -3,17 +3,57 @@ import Foundation
 import Observation
 import PeelCore
 
-/// Peel removing itself: its own files and the app, once the helper and the login item are gone.
+/// Peel removing itself: its own files and the app, once the helper and the login item are gone. The app holds one,
+/// so a removal goes on, and is told, whatever page or window started it.
 @Observable
 final class SelfUninstall {
     private(set) var isRunning = false
-    var failure: String?
-    /// What stayed after the app itself moved to the Trash: files, and a login item. Peel is running from the Trash by
-    /// then, so the alert that lists them has a single button, which quits.
-    private(set) var leftBehind: String?
     /// Where Peel's words are read once it is in the Trash: the folder of the language it was using, there, since the
     /// main bundle still names the place Peel left. Nil reads them from the main bundle.
     private(set) var words: Bundle?
+    /// Says what came of a removal that didn't end with Peel gone: the app's own alert, which a test stands in for.
+    private let tell: @MainActor (Report, _ words: Bundle?) -> Void
+
+    enum Report: Equatable {
+        case stayed(String)
+        /// Peel is in the Trash, and what stayed behind, after which Peel quits.
+        case leftBehind(String)
+    }
+
+    init(tell: @escaping @MainActor (Report, _ words: Bundle?) -> Void = SelfUninstall.alert) {
+        self.tell = tell
+    }
+
+    /// The alert of the app, shown wherever the person is, since the page that started the removal may be gone.
+    static func alert(_ report: Report, words: Bundle?) {
+        let alert = NSAlert()
+        switch report {
+        case .stayed(let reason):
+            alert.messageText = String(localized: "Peel couldn’t remove itself.")
+            alert.informativeText = reason
+            alert.runModal()
+        case .leftBehind(let lines):
+            alert.messageText = String(localized: "Peel is in the Trash, but a few things stayed behind.", bundle: words)
+            alert.informativeText = lines
+            alert.addButton(withTitle: String(localized: "Quit Peel", bundle: words))
+            alert.runModal()
+            quit()
+        }
+    }
+
+    /// Runs `removal` alone: never beside another removal of Peel, nor while Peel moves something, puts something
+    /// back, or runs Homebrew, whose History and folder Remove Peel takes. A quit is refused meanwhile, since Peel ends
+    /// itself once it has gone.
+    func runAlone(quitGuard: QuitGuard = .shared, _ removal: () async -> Void) async {
+        guard !isRunning else { return }
+        guard !quitGuard.hasWorkUnderWay else {
+            tell(.stayed(String(localized: "Peel is still moving something, putting something back, or running Homebrew. Try again once it’s done.")), words)
+            return
+        }
+        isRunning = true
+        defer { isRunning = false }
+        await quitGuard.runRefusingQuit(removal)
+    }
 
     /// How this copy of Peel is removed: with Homebrew's command when Homebrew installed it, which it goes on listing
     /// otherwise, or with Remove Peel.
@@ -43,16 +83,14 @@ final class SelfUninstall {
     }
 
     /// Removes Peel. The plan is made first, so a plan that cannot be made leaves Peel as it was, and then
-    /// `SelfRemoval.remove` takes the steps. A quit is refused meanwhile, since Peel ends itself once it has gone.
+    /// `SelfRemoval.remove` takes the steps.
     func run(
         installedApps: [InstalledApp],
         helper: HelperModel,
         pausing work: StandingWork,
         recording record: (TrashResult) async -> Void = { _ in }
     ) async {
-        isRunning = true
-        defer { isRunning = false }
-        await QuitGuard.shared.runRefusingQuit {
+        await runAlone {
             await remove(installedApps: installedApps, helper: helper, pausing: work, recording: record)
         }
     }
@@ -65,7 +103,7 @@ final class SelfUninstall {
     ) async {
         let bundleURL = Bundle.main.bundleURL
         guard let app = await AppLibrary.inspect(bundleURL) else {
-            failure = String(localized: "Peel couldn’t read its own files.")
+            tell(.stayed(String(localized: "Peel couldn’t read its own files.")), words)
             return
         }
         let exclusions = ExclusionsStore.shared.exclusions
@@ -75,7 +113,7 @@ final class SelfUninstall {
         if let block = SelfRemoval.block(
             selection: urls, isExcluded: plan.isExcluded, isOnAReadOnlyVolume: isOnAReadOnlyVolume
         ) {
-            failure = Self.explanation(of: block)
+            tell(.stayed(Self.explanation(of: block)), words)
             return
         }
 
@@ -96,7 +134,7 @@ final class SelfUninstall {
         )
         guard case .moved(let moved, let stayed, let opensAtLogin) = outcome else {
             if case .stayed(let stay) = outcome {
-                failure = Self.failure(for: stay)
+                tell(.stayed(Self.failure(for: stay)), words)
             }
             return
         }
@@ -110,10 +148,10 @@ final class SelfUninstall {
             lines.append(String(localized: "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions.", bundle: words))
         }
         guard lines.isEmpty else {
-            leftBehind = lines.joined(separator: "\n\n")
+            tell(.leftBehind(lines.joined(separator: "\n\n")), words)
             return
         }
-        quit()
+        Self.quit()
     }
 
     static func explanation(of block: SelfRemoval.Block) -> String {
@@ -150,7 +188,7 @@ final class SelfUninstall {
 
     /// Exits at once with `_exit`: `NSApp.terminate` would let AppKit write the window's frame and saved state again,
     /// and `exit` runs the handlers that write the cookie store at exit, all of which were just removed.
-    func quit() {
+    static func quit() {
         _exit(EXIT_SUCCESS)
     }
 }

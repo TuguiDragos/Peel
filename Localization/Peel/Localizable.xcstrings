@@ -118126,6 +118126,112 @@
         }
       }
     },
+    "Peel is still moving something, putting something back, or running Homebrew. Try again once it’s done." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ještě něco přesouvá, něco vrací zpět nebo spouští Homebrew. Zkuste to znovu, až skončí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt gerade noch etwas, legt etwas zurück oder führt Homebrew aus. Versuche es erneut, sobald Peel fertig ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel aún está trasladando algo, restaurando algo o ejecutando Homebrew. Vuelve a intentarlo cuando termine."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel est encore en train de déplacer quelque chose, de remettre quelque chose en place ou d’exécuter Homebrew. Réessayez une fois qu’il a terminé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sta ancora spostando o ripristinando qualcosa, oppure sta eseguendo Homebrew. Riprova quando avrà finito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはまだ、何かを移動しているか、何かを戻しているか、Homebrewを実行しています。完了したら、もう一度やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 아직 무언가를 이동하거나, 되돌려 놓거나, Homebrew를 실행하고 있습니다. 작업이 끝나면 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel is nog iets aan het verplaatsen of terugzetten, of voert Homebrew uit. Probeer het opnieuw zodra dat klaar is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nadal coś przenosi, coś przywraca lub uruchamia Homebrew. Spróbuj ponownie, gdy skończy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel ainda está movendo algo, colocando algo de volta ou executando o Homebrew. Tente novamente quando ele terminar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel încă mută ceva, pune ceva înapoi sau rulează Homebrew. Încercați din nou după ce termină."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel еще что-то перемещает или восстанавливает либо работает с Homebrew. Повторите попытку, когда он закончит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel håller fortfarande på att flytta något, lägga tillbaka något eller köra Homebrew. Försök igen när det är klart."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hâlâ bir şey taşıyor, bir şeyi yerine koyuyor veya Homebrew’u çalıştırıyor. Bu iş bittiğinde yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ще щось переміщує, щось повертає або виконує команди Homebrew. Спробуйте ще раз, коли вона закінчить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel仍在移动或放回某些内容，或者正在运行Homebrew。请在它完成后再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel仍在移動項目、還原項目或執行Homebrew。請在完成後再試一次。"
+          }
+        }
+      }
+    },
     "Peel is still set to open at login: remove it in System Settings > General > Login Items & Extensions." : {
       "localizations" : {
         "cs" : {
@@ -137739,6 +137845,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除Peel後，peel指令仍會保留。若也要移除它，請在「終端機」中執行此指令："
+          }
+        }
+      }
+    },
+    "Removing Peel…" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraňování Peelu…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wird entfernt …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminando Peel…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suppression de Peel…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovo Peel…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelをアンインストール中…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 제거 중…"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijderen…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalowuję Peel…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removendo o Peel…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminare Peel…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаление Peel…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort Peel…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kaldırılıyor…"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучення Peel…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在移除Peel…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在移除Peel⋯"
           }
         }
       }

@@ -212,7 +212,7 @@ private struct GeneralSettingsView: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(StandingWork.self) private var background
     @Environment(HomeModel.self) private var home
-    @State private var selfUninstall = SelfUninstall()
+    @Environment(SelfUninstall.self) private var selfUninstall
     @State private var isChoosingSidebarTools = false
     // The widest tool symbol at the body size, so the titles of the tools line up.
     @ScaledMetric(relativeTo: .body) private var toolSymbolWidth = 20.0
@@ -419,7 +419,15 @@ private struct GeneralSettingsView: View {
                                 || !history.mayMove || Self.runsFromAReadOnlyCopy
                         )
                     }
-                    if exclusions.exclusions.isUnreadable {
+                    if selfUninstall.isRunning {
+                        HStack(spacing: 6) {
+                            ProgressView()
+                                .controlSize(.small)
+                            Text("Removing Peel…")
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                        }
+                    } else if exclusions.exclusions.isUnreadable {
                         Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
@@ -484,19 +492,6 @@ private struct GeneralSettingsView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, and Saved Settings. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash.")
-        }
-        .alert("Peel couldn’t remove itself.", isPresented: isShowingSelfRemovalFailure) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(verbatim: selfUninstall.failure ?? "")
-        }
-        .alert(
-            Text("Peel is in the Trash, but a few things stayed behind.", bundle: selfUninstall.words),
-            isPresented: .constant(selfUninstall.leftBehind != nil)
-        ) {
-            Button { selfUninstall.quit() } label: { Text("Quit Peel", bundle: selfUninstall.words) }
-        } message: {
-            Text(verbatim: selfUninstall.leftBehind ?? "")
         }
     }
 }
@@ -627,12 +622,6 @@ extension GeneralSettingsView {
         )
     }
 
-    fileprivate var isShowingSelfRemovalFailure: Binding<Bool> {
-        Binding(
-            get: { selfUninstall.failure != nil },
-            set: { if !$0 { selfUninstall.failure = nil } }
-        )
-    }
 
     /// The cask Homebrew installed this copy of Peel from, found by the rule the Applications list follows.
     fileprivate var ownCask: HomebrewPackage? {

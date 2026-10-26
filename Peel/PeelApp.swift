@@ -71,6 +71,7 @@ struct PeelApp: App {
     @State private var space: SpaceLibrary
     @State private var carrier: SelectionCarrier
     @State private var background = StandingWork()
+    @State private var selfUninstall = SelfUninstall()
     @State private var textEditing = TextEditing()
     @State private var sheetInFront = SheetInFront()
     @State private var hasLaunched = false
@@ -411,6 +412,7 @@ struct PeelApp: App {
                 .environment(background)
                 .environment(space)
                 .environment(carrier)
+                .environment(selfUninstall)
                 .environment(exclusions)
                 // Settings also open from the sidebar, so this window needs everything they read, `trashMonitor` too.
                 .environment(trashMonitor)
@@ -496,6 +498,7 @@ struct PeelApp: App {
                 .environment(home)
                 .environment(background)
                 .environment(orphans)
+                .environment(selfUninstall)
         }
         .windowResizability(.contentSize)
 

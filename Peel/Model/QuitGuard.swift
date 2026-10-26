@@ -47,6 +47,9 @@ final class QuitGuard {
         return try await work()
     }
 
+    /// Whether a removal, a Put Back or a Homebrew command is under way.
+    var hasWorkUnderWay: Bool { running > 0 }
+
     /// Runs Peel's removal of itself, which ends Peel its own way, so a quit asked meanwhile is refused. Quitting
     /// through AppKit would write the window's place and Peel's settings again, just after they went to the Trash.
     func runRefusingQuit<T>(_ work: () async -> T) async -> T {
