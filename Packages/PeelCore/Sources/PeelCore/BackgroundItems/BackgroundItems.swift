@@ -327,6 +327,7 @@ public enum BackgroundItems {
             unusualCommand: UnusualCommand(arguments: job?.arguments ?? program.map { [$0] } ?? [])
         )
         item.runsFromTheTrash = programIsUnnamed && running.map { AppInspector.isInATrash(URL(filePath: $0)) } == true
+        item.isSystemExtension = program.map { PathComponents.isPath($0, inside: "/Library/SystemExtensions") } == true
         return .item(item)
     }
 

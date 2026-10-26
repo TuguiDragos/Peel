@@ -105667,6 +105667,112 @@
         }
       }
     },
+    "Open Extensions" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít stránku Rozšíření"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Erweiterungen“ öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Extensiones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la page Extensions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Estensioni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "機能拡張を開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확장 프로그램 페이지 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open 'Extensies'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz stronę Rozszerzenia"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Extensões"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți pagina Extensii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть раздел «Расширения»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Tillägg"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genişletmeler’i Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити сторінку «Розширення»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开扩展"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開延伸功能"
+          }
+        }
+      }
+    },
     "Open Finder" : {
       "localizations" : {
         "cs" : {
@@ -179167,6 +179273,112 @@
         }
       }
     },
+    "This is a system extension" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto je rozšíření systému"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist eine Systemerweiterung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es una extensión del sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il s’agit d’une extension système"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa è un’estensione di sistema"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはシステム機能拡張です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목은 시스템 확장 프로그램입니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is een systeemextensie"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To jest rozszerzenie systemowe"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta é uma extensão do sistema"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceasta este o extensie de sistem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это системное расширение"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här är ett systemtillägg"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu bir sistem genişletmesi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це системне розширення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是系统扩展"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是系統延伸功能"
+          }
+        }
+      }
+    },
     "This is what the app keeps for you, which can include your own work. Peel never selects it for you." : {
       "localizations" : {
         "cs" : {
@@ -219270,6 +219482,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會執行使用此名稱的工作，但這個檔案不是由macOS安裝的，因此Peel不會在這裡啟動、停止或移除它。請查看該檔案，瞭解是什麼將它放在那裡。"
+          }
+        }
+      }
+    },
+    "macOS runs it, and only System Settings > General > Login Items & Extensions changes it, so Peel doesn’t start, stop, enable, or disable it here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spouští ho systém macOS a měnit ho lze jen v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení, a proto ho tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS führt sie aus, und ändern lässt sie sich nur unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, daher startet, stoppt, aktiviert oder deaktiviert Peel sie hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS la ejecuta, y solo se puede cambiar en Ajustes del Sistema > General > Ítems de inicio y extensiones, así que aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS l’exécute, et il ne peut être modifié que dans Réglages Système > Général > Ouverture et extensions : Peel ne le démarre donc pas, ne l’arrête pas, ne l’active pas et ne le désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS la esegue, e si può modificare solo in Impostazioni di Sistema > Generali > Elementi login ed estensioni, quindi qui Peel non la avvia, non la interrompe, non la abilita e non la disabilita."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはmacOSが実行しているもので、変更できるのは“システム設定”＞“一般”＞“ログイン項目と機能拡張”だけのため、Peelはここで開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 항목을 실행하며 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서만 변경할 수 있으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS voert het uit, en het kan alleen worden gewijzigd in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS je uruchamia, a zmienić je można tylko w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania, więc Peel go tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS a executa, e ela só pode ser alterada em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, por isso o Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS o rulează și poate fi modificată doar din Configurări sistem > General > Lansare la login și extensii, așa că Peel nu o pornește, nu o oprește, nu o activează și nu o dezactivează de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его запускает macOS, а изменить его можно только в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения», поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kör det, och det kan bara ändras i Systeminställningar > Allmänt > Startobjekt och tillägg, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu macOS çalıştırır ve yalnızca Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden değiştirilebilir, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його виконує macOS, і змінити його можна лише в розділі Системні параметри > Загальні > Автозапуск і розширення, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它由macOS运行，并且只有“系统设置”>“通用”>“登录项与扩展”可以更改它，因此Peel不会在此处启动、停止、启用或停用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會執行它，而且只有「系統設定」>「一般」>「登入項目與延伸功能」能更改它，因此Peel不會在這裡啟動、停止、啟用或停用它。"
           }
         }
       }

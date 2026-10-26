@@ -54,6 +54,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True while an app's job runs from inside a Trash: its app was moved there, and macOS starts it from there at
     /// each login until the Trash is emptied.
     public var runsFromTheTrash = false
+    /// True for a job launchd runs for a system extension, whose program sits in `/Library/SystemExtensions`: macOS
+    /// runs it, and only System Settings changes it.
+    public var isSystemExtension = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
@@ -82,10 +85,10 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         declaresAnAppleLabel || SystemDaemons.shipped.contains(label) || SystemAgents.shipped.contains(label)
     }
 
-    /// True when Peel may start, stop, enable and disable the job: never under a label of macOS, and a daemon only
-    /// under a label the helper takes, which also leaves out the helper itself.
+    /// True when Peel may start, stop, enable and disable the job: never under a label of macOS or for a system
+    /// extension, and a daemon only under a label the helper takes, which also leaves out the helper itself.
     public var canBeControlled: Bool {
-        !usesALabelOfMacOS && (!requiresPrivileges || PrivilegedPathPolicy.allowsDaemon(label))
+        !usesALabelOfMacOS && !isSystemExtension && (!requiresPrivileges || PrivilegedPathPolicy.allowsDaemon(label))
     }
 
     public var removalRequiresPrivileges: Bool { source == .systemLibrary }

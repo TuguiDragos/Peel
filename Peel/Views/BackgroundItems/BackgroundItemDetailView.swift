@@ -124,6 +124,20 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.isSystemExtension {
+                Section {
+                    Notice(
+                        title: Text("This is a system extension"),
+                        detail: Text("macOS runs it, and only System Settings > General > Login Items & Extensions changes it, so Peel doesn’t start, stop, enable, or disable it here."),
+                        kind: .note
+                    ) {
+                        Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
+                        Button("Open Extensions") { Navigator.shared.requestedTool = .extensions }
+                    }
+                    .padding(.vertical, 6)
+                }
+            }
+
             if item.source == .otherFile {
                 Section {
                     Notice(
@@ -200,11 +214,12 @@ struct BackgroundItemDetailView: View {
         }
     }
 
-    /// Whether this item needs administrator access while the helper can't act. Never true for Peel's own helper
-    /// or a job under one of macOS's labels: neither offers an action, so the helper would change nothing.
+    /// Whether this item needs administrator access while the helper can't act. Never true for Peel's own helper,
+    /// a job under one of macOS's labels, or a system extension: none offers an action, so the helper would change
+    /// nothing.
     private var needsHelper: Bool {
-        !item.isPeelsHelper && !item.usesALabelOfMacOS && (item.requiresPrivileges || item.removalRequiresPrivileges)
-            && !helper.canAct
+        !item.isPeelsHelper && !item.usesALabelOfMacOS && !item.isSystemExtension
+            && (item.requiresPrivileges || item.removalRequiresPrivileges) && !helper.canAct
     }
 
     private func answer(_ fact: Bool?) -> Text {

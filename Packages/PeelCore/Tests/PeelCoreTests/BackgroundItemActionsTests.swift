@@ -146,6 +146,43 @@ struct BackgroundItemActionsTests {
         #expect(disabled.first { $0.label == "org.example.tide.other" }.map { $0.runsAtLoad == nil && $0.keepsAlive == nil } == true)
     }
 
+    @Test func aSystemExtensionsJobIsLeftToSystemSettings() throws {
+        let label = "NetworkExtension.org.example.tide.network-extension.1.0.42"
+        let printed = """
+            system/\(label) = {
+            \tactive count = 2
+            \tpath = (submitted by smd[43864])
+            \ttype = Submitted
+            \tstate = running
+
+            \tprogram = /Library/SystemExtensions/76132A3E-1833-4E7B-99E9-D2947DEA2142/org.example.tide.network-extension.systemextension/Contents/MacOS/org.example.tide.network-extension
+            \tdomain = system
+            \tpid = 52348
+            }
+            """
+        let details = try #require(Launchctl.parseDetails(printed))
+        func item(_ details: Launchctl.JobDetails) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                (label, .daemon, "system/\(label)"), answer: .details(details),
+                ownership: BackgroundItemOwnership(installedApps: []), loaded: .init(system: [label: 52348]),
+                exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+        var elsewhere = details
+        elsewhere.program = "/Library/Application Support/org.example.tide/helper"
+
+        let extensionsJob = try item(details)
+        let helpersJob = try item(elsewhere)
+
+        #expect(extensionsJob.isSystemExtension)
+        #expect(!extensionsJob.canBeControlled)
+        #expect(BackgroundItemActions.refusal(for: extensionsJob) != nil)
+        #expect(!helpersJob.isSystemExtension)
+        #expect(helpersJob.canBeControlled)
+    }
+
     @Test func aDisabledJobLaunchdDoesNotHaveIsEnabledFirst() {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
         let disabled = BackgroundItem(
