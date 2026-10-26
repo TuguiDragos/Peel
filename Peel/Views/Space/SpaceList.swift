@@ -99,6 +99,7 @@ struct SpaceList: View {
             await space.refresh()
         }
         .rescanOnExclusionChange("SpaceList") { await space.refresh() }
+        .rescanAfterPutBack(.space) { await space.refresh() }
     }
 
     private func storage(_ report: SpaceReport) -> some View {

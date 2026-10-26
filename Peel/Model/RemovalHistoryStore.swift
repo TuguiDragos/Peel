@@ -158,6 +158,10 @@ final class RemovalHistoryStore {
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
     /// Counts the reloads asked for, so a removal's page looks in the Trash again with each.
     private(set) var reloads = 0
+    /// Counts, for each tool, the Put Backs that brought back what it had moved, so its page lists them again.
+    private(set) var putBack: [Tool: Int] = [:]
+    /// The count each page last listed under, kept here so a page off screen at a Put Back lists it when it returns.
+    @ObservationIgnored private var listedAfterPutBack = ScannedRevisions()
     /// Counts each change of what History lists. The lists are prepared off the main actor, and one prepared for an
     /// older change must never replace a newer one.
     private var listedChange = 0
@@ -333,6 +337,11 @@ final class RemovalHistoryStore {
         if !again.isEmpty { self.undoable = (again, undoable.title) }
     }
 
+    /// Whether a Put Back brought back what `tool` moved since its page last asked. False the first time it asks.
+    func needsRescanAfterPutBack(_ tool: Tool) -> Bool {
+        listedAfterPutBack.needsRescan(tool.rawValue, at: putBack[tool, default: 0])
+    }
+
     /// Takes the records `ids` names out of what Undo would put back, once they are back or gone from History.
     private func keepUndoable(without ids: Set<RemovalRecord.ID>) {
         guard let undoable, !ids.isEmpty else { return }
@@ -415,6 +424,9 @@ final class RemovalHistoryStore {
             selectedIDs.subtract(restored)
             if !restored.isEmpty {
                 keepUndoable(without: restored)
+                for tool in Set(ordered.filter { restored.contains($0.id) }.compactMap { Tool(rawValue: $0.tool) }) {
+                    putBack[tool, default: 0] += 1
+                }
                 await apply(await log.remove(restored))
                 // A move is announced, and so is its undoing: the rows only vanish from the list.
                 AccessibilityNotification.Announcement(

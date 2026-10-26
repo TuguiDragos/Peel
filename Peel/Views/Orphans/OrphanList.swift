@@ -138,6 +138,7 @@ struct OrphanList: View {
             await orphans.refresh(from: library)
         }
         .rescanOnExclusionChange("OrphanList") { await orphans.refresh(from: library) }
+        .rescanAfterPutBack(.orphans) { await orphans.refresh(from: library) }
     }
 
     private func phase(_ filtered: [OrphanGroup], _ forAnAdministrator: [AdministratorItem]) -> ScanPhase {

@@ -57,6 +57,7 @@ struct DeveloperList: View {
             await developer.refresh()
         }
         .rescanOnExclusionChange("DeveloperList") { await developer.refresh() }
+        .rescanAfterPutBack(.developer) { await developer.refresh() }
     }
 
     private var phase: ScanPhase {

@@ -67,6 +67,7 @@ struct BackgroundItemList: View {
             await backgroundItems.refresh(installedApps: library.apps)
         }
         .rescanOnExclusionChange("BackgroundItemList") { await backgroundItems.refresh(installedApps: library.apps) }
+        .rescanAfterPutBack(.backgroundItems) { await backgroundItems.refresh(installedApps: library.apps) }
         // Shown from the list, which stays on screen. An alert on the item's page would vanish with the page if
         // the rescan after the action removed the item, and then show up on the next item the user opens.
         .alert(failureTitle, isPresented: isShowingFailure) {

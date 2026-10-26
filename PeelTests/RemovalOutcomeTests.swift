@@ -89,4 +89,18 @@ struct RemovalOutcomeTests {
 
         #expect(history.undoTitle == nil)
     }
+
+    @Test func aPutBackTellsThePageOfTheToolThatMovedWhatCameBack() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let history = history(in: folder, outcome: RemovalOutcome())
+        await history.record(try moved(["Cache"]), tool: .plugins, source: "Plug-ins", sizes: [:])
+        #expect(!history.needsRescanAfterPutBack(.plugins) && !history.needsRescanAfterPutBack(.space))
+
+        await history.undoLastRemoval()
+
+        #expect(history.needsRescanAfterPutBack(.plugins))
+        #expect(!history.needsRescanAfterPutBack(.plugins), "once it has listed again")
+        #expect(!history.needsRescanAfterPutBack(.space))
+    }
 }

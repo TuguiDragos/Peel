@@ -172,6 +172,7 @@ struct ProjectList: View {
             await projects.refresh()
         }
         .rescanOnExclusionChange("ProjectList") { await projects.refresh() }
+        .rescanAfterPutBack(.projects) { await projects.refresh() }
     }
 
     @ViewBuilder private var unsearchableReasons: some View {

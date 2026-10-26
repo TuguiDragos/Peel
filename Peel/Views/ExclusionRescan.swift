@@ -17,6 +17,24 @@ extension View {
     func rescanOnExclusionChange(scannedUnder revision: Int?, _ rescan: @escaping () async -> Void) -> some View {
         modifier(PageExclusionRescan(scannedUnder: revision, rescan: rescan))
     }
+
+    /// Scans again once a Put Back, from History or Undo, brought back what `tool` moved, so it is listed again.
+    func rescanAfterPutBack(_ tool: Tool, _ rescan: @escaping () async -> Void) -> some View {
+        modifier(PutBackRescan(tool: tool, rescan: rescan))
+    }
+}
+
+private struct PutBackRescan: ViewModifier {
+    @Environment(RemovalHistoryStore.self) private var history
+    let tool: Tool
+    let rescan: () async -> Void
+
+    func body(content: Content) -> some View {
+        content.task(id: history.putBack[tool, default: 0]) {
+            guard history.needsRescanAfterPutBack(tool) else { return }
+            await rescan()
+        }
+    }
 }
 
 private struct PageExclusionRescan: ViewModifier {

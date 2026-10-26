@@ -92,6 +92,7 @@ struct InstallerList: View {
             await installers.refresh(installedApps: library.apps)
         }
         .rescanOnExclusionChange("InstallerList") { await installers.refresh(installedApps: library.apps) }
+        .rescanAfterPutBack(.installers) { await installers.refresh(installedApps: library.apps) }
     }
 
     private func phase(_ filtered: [InstallerItem.Kind]) -> ScanPhase {

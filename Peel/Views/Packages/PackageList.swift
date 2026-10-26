@@ -76,6 +76,7 @@ struct PackageList: View {
             await packages.refresh()
         }
         .rescanOnExclusionChange("PackageList") { await packages.refresh() }
+        .rescanAfterPutBack(.packages) { await packages.refresh() }
     }
 
     private func phase(_ filtered: [PackageReceipt]) -> ScanPhase {

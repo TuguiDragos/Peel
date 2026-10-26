@@ -101,6 +101,7 @@ struct PluginList: View {
             await plugins.refresh()
         }
         .rescanOnExclusionChange("PluginList") { await plugins.refresh() }
+        .rescanAfterPutBack(.plugins) { await plugins.refresh() }
     }
 
     private func phase(_ filtered: [Plugin]) -> ScanPhase {
