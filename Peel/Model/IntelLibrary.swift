@@ -69,7 +69,7 @@ extension IntelFinding.Kind {
     func explanation(onAppleSilicon: Bool) -> LocalizedStringResource {
         guard onAppleSilicon else {
             return switch self {
-            case .app: "This app has no Apple silicon version. On this Intel Mac it runs natively."
+            case .app: "This copy is built for Intel only. On this Intel Mac it runs natively."
             case .insideApp: "This part inside the app is Intel only. On this Intel Mac it runs natively."
             case .plugin: "This plug-in is Intel only. On this Intel Mac it loads natively."
             case .driver: "This driver is Intel only. On this Intel Mac it runs natively."
@@ -78,7 +78,8 @@ extension IntelFinding.Kind {
             }
         }
         return switch self {
-        case .app: "This app has no Apple silicon version, so it needs Rosetta to run."
+        case .app:
+            "This copy is built for Intel only, so it needs Rosetta to run. If its maker offers a version for Apple silicon, install that one instead."
         case .insideApp: "This part inside the app is Intel only. It runs through Rosetta, or not at all."
         case .plugin: "This plug-in is Intel only, so it needs Rosetta to load."
         case .driver: "This driver is Intel only. The device it serves may stop working without Rosetta."

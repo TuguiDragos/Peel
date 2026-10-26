@@ -174499,218 +174499,6 @@
         }
       }
     },
-    "This app has no Apple silicon version, so it needs Rosetta to run." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tato aplikace nemá verzi pro čipy Apple, takže ke spuštění potřebuje prostředí Rosetta."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese App hat keine Version für Apple Chips, daher benötigt sie Rosetta, um zu laufen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esta app no tiene una versión compatible con el chip de Apple, así que necesita Rosetta para ejecutarse."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cette app n’a pas de version pour puce Apple : elle a donc besoin de Rosetta pour s’exécuter."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questa app non ha una versione per Mac con chip Apple, quindi per funzionare richiede Rosetta."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このアプリにはAppleシリコン対応のバージョンがないため、実行するにはRosettaが必要です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 앱에는 Apple silicon 버전이 없으므로 실행하려면 Rosetta가 필요합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze app heeft geen versie voor Apple silicon en heeft dus Rosetta nodig om te werken."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta aplikacja nie ma wersji dla układów scalonych Apple, więc do działania potrzebuje Rosetty."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este app não tem versão para Apple silicon, então precisa do Rosetta para ser executado."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Această aplicație nu are o versiune pentru cip Apple, așa că are nevoie de Rosetta pentru a rula."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У этого приложения нет версии для чипов Apple, поэтому для работы ему нужна Rosetta."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Den här appen har ingen version för Apple Silicon, så den behöver Rosetta för att köras."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu uygulamanın Apple Silicon sürümü yok, bu yüzden çalışmak için Rosetta gerekir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ця програма не має версії для Apple Silicon, тож для роботи потребує Rosetta."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此App没有Apple芯片版本，因此需要Rosetta才能运行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此App沒有Apple晶片版本，因此需要Rosetta才能執行。"
-          }
-        }
-      }
-    },
-    "This app has no Apple silicon version. On this Intel Mac it runs natively." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tato aplikace nemá verzi pro čipy Apple. Na tomto Macu s procesorem Intel běží nativně."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese App hat keine Version für Apple Chips. Auf diesem Intel-Mac läuft sie nativ."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esta app no tiene una versión compatible con el chip de Apple. En este Mac con procesador Intel se ejecuta de forma nativa."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cette app n’a pas de version pour puce Apple. Sur ce Mac à processeur Intel, elle s’exécute en natif."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Questa app non ha una versione per Mac con chip Apple. Su questo Mac Intel funziona in modo nativo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このアプリにはAppleシリコン対応のバージョンがありません。このIntel搭載Macではネイティブに動作します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 앱에는 Apple silicon 버전이 없습니다. 이 Intel Mac에서는 네이티브로 실행됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze app heeft geen versie voor Apple silicon. Op deze Intel-Mac werkt de app native."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta aplikacja nie ma wersji dla układów scalonych Apple. Na tym Macu z procesorem Intel działa natywnie."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este app não tem versão para Apple silicon. Neste Mac com Intel, ele é executado nativamente."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Această aplicație nu are o versiune pentru cip Apple. Pe acest Mac cu Intel rulează nativ."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У этого приложения нет версии для чипов Apple. На этом Mac с процессором Intel оно работает нативно."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Den här appen har ingen version för Apple Silicon. På den här Intel-baserade datorn körs den utan Rosetta."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu uygulamanın Apple Silicon sürümü yok. Intel işlemcili bu Mac’te yerel olarak çalışır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ця програма не має версії для Apple Silicon. На цьому Mac з процесором Intel вона працює нативно."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此App没有Apple芯片版本。在这台Intel Mac上，它以原生方式运行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此App沒有Apple晶片版本。在這部Intel Mac上，它以原生方式執行。"
-          }
-        }
-      }
-    },
     "This app is excluded" : {
       "localizations" : {
         "cs" : {
@@ -175237,6 +175025,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這可能需要較長的時間，因為Homebrew會在這部Mac上建置某些套件。升級進行時，進度會顯示在此頁面上，你也可以在此停止升級。"
+          }
+        }
+      }
+    },
+    "This copy is built for Intel only, so it needs Rosetta to run. If its maker offers a version for Apple silicon, install that one instead." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato kopie je sestavená jen pro procesory Intel, takže ke spuštění potřebuje prostředí Rosetta. Pokud výrobce nabízí verzi pro čipy Apple, nainstalujte raději ji."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Kopie ist nur für Intel entwickelt, daher benötigt sie Rosetta, um zu laufen. Wenn der Hersteller eine Version für Apple Chips anbietet, installiere stattdessen diese."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta copia está creada solo para Intel, así que necesita Rosetta para ejecutarse. Si su fabricante ofrece una versión compatible con el chip de Apple, instala esa en su lugar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette copie est conçue uniquement pour Intel : elle a donc besoin de Rosetta pour s’exécuter. Si son éditeur propose une version pour puce Apple, installez plutôt celle-ci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa copia è compilata solo per Intel, quindi per funzionare richiede Rosetta. Se il suo produttore offre una versione per Mac con chip Apple, installa quella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このコピーはIntel専用にビルドされているため、実行するにはRosettaが必要です。開発元がAppleシリコン対応のバージョンを提供している場合は、代わりにそちらをインストールしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 복사본은 Intel 전용으로 빌드되었으므로 실행하려면 Rosetta가 필요합니다. 제작자가 Apple silicon용 버전을 제공한다면 대신 그 버전을 설치하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze kopie is alleen gemaakt voor Intel en heeft dus Rosetta nodig om te werken. Als de maker een versie voor Apple silicon aanbiedt, installeer die dan in plaats van deze."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta kopia jest skompilowana tylko dla procesorów Intel, więc do działania potrzebuje Rosetty. Jeśli jej producent oferuje wersję dla układów scalonych Apple, zainstaluj zamiast niej tamtą wersję."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cópia foi feita só para Intel, então precisa do Rosetta para ser executada. Se o fabricante oferecer uma versão para Apple silicon, instale essa versão em vez desta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această copie este compilată doar pentru Intel, așa că are nevoie de Rosetta pentru a rula. Dacă producătorul ei oferă o versiune pentru cip Apple, instalați‑o pe aceea în schimb."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта копия собрана только для Intel, поэтому для работы ей нужна Rosetta. Если производитель предлагает версию для чипов Apple, лучше установите ее."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här kopian är byggd bara för Intel, så den behöver Rosetta för att köras. Om tillverkaren erbjuder en version för Apple Silicon installerar du den i stället."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu kopya yalnızca Intel için derlendi, bu yüzden çalışmak için Rosetta gerekir. Üreticisi Apple Silicon için bir sürüm sunuyorsa bunun yerine o sürümü yükleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю копію створено лише для Intel, тож для роботи вона потребує Rosetta. Якщо виробник пропонує версію для Apple Silicon, інсталюйте натомість її."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此副本仅为Intel构建，因此需要Rosetta才能运行。如果其厂商提供适用于Apple芯片的版本，请改为安装该版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此副本僅為Intel建置，因此需要Rosetta才能執行。如果它的廠商提供適用於Apple晶片的版本，請改為安裝該版本。"
+          }
+        }
+      }
+    },
+    "This copy is built for Intel only. On this Intel Mac it runs natively." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato kopie je sestavená jen pro procesory Intel. Na tomto Macu s procesorem Intel běží nativně."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Kopie ist nur für Intel entwickelt. Auf diesem Intel-Mac läuft sie nativ."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta copia está creada solo para Intel. En este Mac con procesador Intel se ejecuta de forma nativa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette copie est conçue uniquement pour Intel. Sur ce Mac à processeur Intel, elle s’exécute en natif."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa copia è compilata solo per Intel. Su questo Mac Intel funziona in modo nativo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このコピーはIntel専用にビルドされています。このIntel搭載Macではネイティブに動作します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 복사본은 Intel 전용으로 빌드되었습니다. 이 Intel Mac에서는 네이티브로 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze kopie is alleen gemaakt voor Intel. Op deze Intel-Mac werkt die native."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta kopia jest skompilowana tylko dla procesorów Intel. Na tym Macu z procesorem Intel działa natywnie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cópia foi feita só para Intel. Neste Mac com Intel, ela é executada nativamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această copie este compilată doar pentru Intel. Pe acest Mac cu Intel rulează nativ."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта копия собрана только для Intel. На этом Mac с процессором Intel она работает нативно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här kopian är byggd bara för Intel. På den här Intel-baserade datorn körs den utan Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu kopya yalnızca Intel için derlendi. Intel işlemcili bu Mac’te yerel olarak çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю копію створено лише для Intel. На цьому Mac з процесором Intel вона працює нативно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此副本仅为Intel构建。在这台Intel Mac上，它以原生方式运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此副本僅為Intel建置。在這部Intel Mac上，它以原生方式執行。"
           }
         }
       }
