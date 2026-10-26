@@ -457,9 +457,9 @@ named for a background job whose program is still there, such as the settings a 
 job, is that job's and is never listed, and so is a folder named like a gone app while an installed app's name holds
 that name as whole words, as Epic Games Launcher holds Epic: it may be that app's.
 
-On every list, Select All selects every row you can select, what Peel holds back included, and asks first,
-counting what Peel doesn't recommend; Return answers Select Recommended. Each held back row still shows its reason
-beside it.
+On every list, Select All selects every row you can select, what Peel holds back included, and asks first, counting what
+Peel doesn't recommend; Return answers Select Recommended, or Cancel when nothing is recommended. Each held back row
+still shows its reason beside it.
 
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. When a scan you
 started ends, Duplicates selects every copy but the first of each group, the one it suggests keeping: check which copy

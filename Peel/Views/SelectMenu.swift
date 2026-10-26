@@ -82,7 +82,12 @@ struct SelectMenu: View {
                 .keyboardShortcut(.defaultAction)
             }
             Button("Select All") { selection.select(list.selectingAll(in: selection.selectedURLs)) }
-            Button("Cancel", role: .cancel) {}
+            if list.recommended.isEmpty {
+                Button("Cancel", role: .cancel) {}
+                    .keyboardShortcut(.defaultAction)
+            } else {
+                Button("Cancel", role: .cancel) {}
+            }
         } message: {
             if list.recommended.isEmpty {
                 Text("This selects ^[\(notRecommended ?? 0) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it.")
