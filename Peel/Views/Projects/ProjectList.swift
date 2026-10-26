@@ -17,7 +17,7 @@ struct ProjectList: View {
         let all = projects.groups ?? []
         guard !searchText.isEmpty else { return all }
         return all.filter { group in
-            SearchText.matches(group.project.lastPathComponent, searchText)
+            SearchText.matches(group.name, searchText)
                 || group.artifacts.contains { $0.matches(searchText) }
         }
     }
@@ -196,7 +196,7 @@ private struct ProjectRow: View {
 
     var body: some View {
         ToolRow(systemImage: "folder") {
-            Text(verbatim: group.project.lastPathComponent)
+            Text(verbatim: group.name)
                 .lineLimit(1)
         } details: {
             switch group.lastChange {

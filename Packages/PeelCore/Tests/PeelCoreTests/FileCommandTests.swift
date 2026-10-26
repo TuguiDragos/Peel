@@ -674,6 +674,24 @@ struct FileCommandTests {
         #expect(found["skippedLocations"] as? [String] == ["/Users/me/Projects/app"])
     }
 
+    @Test func aRemovalFromTwoProjectsOfTheSameNameIsNotNamedForOne() {
+        let artifacts = ["/Users/me/Developer/acme/web", "/Users/me/Developer/globex/web"].map { project in
+            ProjectArtifact(
+                url: URL(filePath: project + "/node_modules", directoryHint: .isDirectory),
+                project: URL(filePath: project, directoryHint: .isDirectory),
+                name: "node_modules",
+                tool: "npm",
+                size: 10,
+                lastActivity: nil,
+                hasGenericName: false,
+                isEnvironment: false
+            )
+        }
+
+        #expect(ProjectsCommand.source(of: artifacts) == ("Build artifacts", "tool"))
+        #expect(ProjectsCommand.source(of: [artifacts[0], artifacts[0]]) == ("web", nil))
+    }
+
     /// A chosen folder macOS kept Peel out of is said whatever the output, so an empty answer is not read as none.
     @Test func saysWhenItCouldNotLookInAChosenFolder() throws {
         let locked = URL(filePath: "/Users/me/Library/Safari", directoryHint: .isDirectory)

@@ -6,6 +6,8 @@ import PeelCore
 /// One project folder and everything a build left inside it.
 struct ProjectGroup: Identifiable, Hashable {
     let project: URL
+    /// The folder's name, with the folders above it while another listed project has a folder of the same name.
+    let name: String
     let artifacts: [ProjectArtifact]
 
     var id: URL { project }
@@ -65,11 +67,13 @@ final class ProjectLibrary {
         needsFullDiskAccess = scan.needsFullDiskAccess
         unreadable = scan.unreadableLocations
         unsearchable = scan.refusedRoots
-        let result = Dictionary(grouping: artifacts, by: \.project)
-            .map {
+        let byProject = Array(Dictionary(grouping: artifacts, by: \.project))
+        let result = zip(byProject, ProjectArtifacts.names(of: byProject.map(\.key)))
+            .map { entry, name in
                 ProjectGroup(
-                    project: $0.key,
-                    artifacts: $0.value.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) }
+                    project: entry.key,
+                    name: name,
+                    artifacts: entry.value.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) }
                 )
             }
             .sorted { $0.total > $1.total }
@@ -174,8 +178,8 @@ extension ProjectLibrary: CarriesSelection {
             guard !selected.isEmpty else { return nil }
             return CarriedSelection.Part(
                 page: group.page,
-                title: group.project.lastPathComponent,
-                source: group.project.lastPathComponent,
+                title: group.name,
+                source: group.name,
                 sourceKey: nil,
                 sizes: Dictionary(selected.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
             )

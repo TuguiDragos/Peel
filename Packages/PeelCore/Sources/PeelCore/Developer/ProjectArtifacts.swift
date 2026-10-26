@@ -804,6 +804,24 @@ public enum ProjectArtifacts {
         definitions.flatMap(\.markers).filter { $0.hasPrefix("*") }.map { String($0.dropFirst()) }
     )
 
+    /// Each project's name as a list shows it: its folder's name, or, while another of `projects` has a folder of the
+    /// same name, as many folders above it as tell them apart, as in `acme/frontend`.
+    public static func names(of projects: [URL]) -> [String] {
+        let paths = projects.map { PathComponents.of(key(of: $0)) }
+        var lengths = Array(repeating: 1, count: paths.count)
+        while true {
+            let names = paths.indices.map { paths[$0].suffix(lengths[$0]).joined(separator: "/") }
+            var grew = false
+            for clash in Dictionary(grouping: paths.indices, by: { names[$0] }).values where clash.count > 1 {
+                for index in clash where lengths[index] < paths[index].count {
+                    lengths[index] += 1
+                    grew = true
+                }
+            }
+            if !grew { return names }
+        }
+    }
+
     static let maximumFolders = 40_000
     /// Past this many entries read, a project's last change counts as unknown.
     static let maximumActivitySamples = 10_000

@@ -306,6 +306,17 @@ struct ProjectArtifactsTests {
         #expect(!scan.wasCutShort)
     }
 
+    @Test func namesProjectsInFoldersOfTheSameNameApart() {
+        let projects = [
+            "/Users/me/Developer/acme/frontend", "/Users/me/Developer/globex/frontend", "/Users/me/Code/apps/web",
+            "/Users/me/Code/examples/apps/web", "/Users/me/Code/site",
+        ].map { URL(filePath: $0, directoryHint: .isDirectory) }
+
+        #expect(ProjectArtifacts.names(of: projects) == [
+            "acme/frontend", "globex/frontend", "Code/apps/web", "examples/apps/web", "site",
+        ])
+    }
+
     @Test func findsWhatJavaScriptToolsBuild() async throws {
         try await expectFound([
             Kind(artifact: ".nuxt", marker: "nuxt.config.ts", tool: "Nuxt", isGeneric: false),

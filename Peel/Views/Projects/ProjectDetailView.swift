@@ -34,7 +34,7 @@ struct ProjectDetailView: View {
                 } actions: {
                     SelectMenu(
                         list: group.artifacts.selectableRows,
-                        place: Text(verbatim: group.project.lastPathComponent),
+                        place: Text(verbatim: group.name),
                         selection: projects
                     )
                 }
@@ -69,7 +69,7 @@ struct ProjectDetailView: View {
             )
         }
         .fadesInColumn(whenRowsChange: group.artifacts.map(\.url))
-        .navigationTitle(group.project.lastPathComponent)
+        .navigationTitle(group.name)
         .toolbar(removing: .title)
     }
 
@@ -110,9 +110,9 @@ struct ProjectDetailView: View {
 
     private var header: some View {
         PageHeader(systemImage: "folder") {
-            Text(verbatim: group.project.lastPathComponent)
+            Text(verbatim: group.name)
                 .pageTitle()
-                .help(Text(verbatim: group.project.lastPathComponent))
+                .help(Text(verbatim: group.name))
         } details: {
             Text(group.project.abbreviatedPath)
                 .font(.subheadline.monospaced())

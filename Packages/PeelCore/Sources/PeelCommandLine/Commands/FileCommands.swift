@@ -621,11 +621,11 @@ struct ProjectsCommand: AsyncParsableCommand {
             Output.line("Nothing here is safe to suggest. See `peel projects`.")
             return
         }
-        let projects = Set(suggested.map(\.project.lastPathComponent)).sorted()
+        let (source, sourceKey) = Self.source(of: suggested)
         let cleanup = Cleanup.of(
             suggested.map { (url: $0.url, size: $0.size) },
-            source: projects.count == 1 ? projects[0] : "Build artifacts",
-            sourceKey: projects.count == 1 ? nil : "tool",
+            source: source,
+            sourceKey: sourceKey,
             tool: "projects",
             service: service
         )
@@ -637,6 +637,13 @@ struct ProjectsCommand: AsyncParsableCommand {
             recordingIn: log,
             refusals: refusals
         )
+    }
+
+    /// How History names a removal: by its project when it moves from one, otherwise as build artifacts.
+    static func source(of artifacts: [ProjectArtifact]) -> (source: String, sourceKey: String?) {
+        let projects = Set(artifacts.map { PathPattern.comparablePath(of: $0.project) })
+        guard projects.count == 1, let project = artifacts.first?.project else { return ("Build artifacts", "tool") }
+        return (project.lastPathComponent, nil)
     }
 
     static func rows(for artifacts: [ProjectArtifact]) -> [[String]] {
