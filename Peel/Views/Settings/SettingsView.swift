@@ -217,7 +217,6 @@ private struct GeneralSettingsView: View {
     // The widest tool symbol at the body size, so the titles of the tools line up.
     @ScaledMetric(relativeTo: .body) private var toolSymbolWidth = 20.0
     @State private var isConfirmingSelfRemoval = false
-    @State private var loginItem = LoginItem.ofTheMainApp()
 
     private func readStandings() {
         commandLine = HomeModel.commandLineStanding
@@ -294,9 +293,9 @@ private struct GeneralSettingsView: View {
                     notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t warn you when the disk is almost full."))
                 }
                 // A binding, not `onChange`: macOS's own answer landing in the model must not register again.
-                toggle("Open Peel at login", isOn: Binding(get: { loginItem.isOn }, set: { loginItem.set(on: $0) }),
+                toggle("Open Peel at login", isOn: Binding(get: { home.loginItem.isOn }, set: { home.loginItem.set(on: $0) }),
                        "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.")
-                if loginItem.needsApproval {
+                if home.loginItem.needsApproval {
                     HStack {
                         StatusLabel(title: Text("Peel is turned off in Login Items & Extensions, so macOS won’t start it."))
                         Spacer()
@@ -305,7 +304,7 @@ private struct GeneralSettingsView: View {
                         }
                     }
                 }
-                if let failure = loginItem.failure {
+                if let failure = home.loginItem.failure {
                     StatusLabel(title: Text(failure))
                         .textSelection(.enabled)
                 }
@@ -459,12 +458,12 @@ private struct GeneralSettingsView: View {
         }
         .task {
             readStandings()
-            await loginItem.refresh()
+            await home.loginItem.refresh()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             // The user may have changed the login item in System Settings, or a saved copy in Finder.
             readStandings()
-            Task { await loginItem.refresh() }
+            Task { await home.loginItem.refresh() }
         }
         .confirmationDialog("Remove Peel from this Mac?", isPresented: $isConfirmingSelfRemoval) {
             Button("Remove Peel", role: .destructive) {

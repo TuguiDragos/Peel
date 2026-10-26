@@ -117,8 +117,12 @@ final class HomeModel {
     private(set) var hasChecked = false
     private let frontmost = FrontmostApp.shared
 
-    init(helper: HelperModel) {
+    /// The login item Settings switches too, so Home shows each change as it lands.
+    let loginItem: LoginItem
+
+    init(helper: HelperModel, loginItem: LoginItem = .ofTheMainApp()) {
         self.helper = helper
+        self.loginItem = loginItem
         appManagement = AccessState(stored: UserDefaults.standard.string(forKey: Self.appManagementKey))
     }
 
@@ -127,6 +131,9 @@ final class HomeModel {
         var states = found
         if hasChecked {
             states[.helper] = helperState
+        }
+        if let status = loginItem.status {
+            states[.openAtLogin] = status == .enabled ? .on : .off
         }
         return states
     }
@@ -184,13 +191,12 @@ final class HomeModel {
         needsRelaunchForFullDiskAccess = FullDiskAccess.offersReopen(
             fullDisk, systemSettingsWasInFront: frontmost.hasShownSystemSettings
         )
-        let opensAtLogin = await LoginItem.status() == .enabled
+        await loginItem.refresh()
         found = [
             .fullDiskAccess: state(for: fullDisk),
             .appManagement: state(for: appManagementSeenThisLaunch ?? appManagement),
             .notifications: notificationStatus == .authorized ? .on : .off,
             .finderExtension: isFinderExtensionEnabled ? .on : .off,
-            .openAtLogin: opensAtLogin ? .on : .off,
             .commandLine: Self.commandLineState(
                 isOnThePath: CommandLineTool.isOnThePath(
                     embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
