@@ -27,6 +27,9 @@ final class BackgroundItemLibrary {
     /// could be traced to the app that owns it.
     private var installedApps: [InstalledApp] = []
     private let scan: @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan
+    /// The reads of the list started so far, so that a job just enabled is judged by a read started after it.
+    private var readsStarted = 0
+    private var enabledJobs: [(job: BackgroundItem, readsBefore: Int)] = []
 
     init(
         scan: @escaping @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan = {
@@ -38,32 +41,49 @@ final class BackgroundItemLibrary {
 
     func refresh(installedApps: [InstalledApp]) async {
         self.installedApps = installedApps
+        readsStarted += 1
+        let read = readsStarted
         let scan = scan
         guard
             let result = await scanRun.run({ await scan(installedApps, ExclusionsStore.shared.exclusions) })
         else { return }
-        show(result)
+        show(result, read: read)
     }
 
     /// Reads the list again without showing a scan, once it has been read: System Settings and other apps change what
-    /// launchd runs. Never while an action runs, since the scan after it decides what the list says.
+    /// launchd runs. Never while an action runs, whose own scan follows it.
     func readAgain(installedApps: [InstalledApp]) async {
         guard items != nil, runningActionItemIDs.isEmpty else { return }
         self.installedApps = installedApps
+        readsStarted += 1
+        let read = readsStarted
         let scan = scan
         guard
             let result = await scanRun.runQuietly({ await scan(installedApps, ExclusionsStore.shared.exclusions) }),
             runningActionItemIDs.isEmpty
         else { return }
-        show(result)
+        show(result, read: read)
     }
 
-    private func show(_ result: BackgroundItems.Scan) {
+    /// Notes a job just enabled. The first read of the list started after now says whether it left the list, whoever
+    /// asked for that read: the action's own scan may be overtaken by another.
+    func noteEnabled(_ item: BackgroundItem) {
+        enabledJobs.append((item, readsStarted))
+    }
+
+    private func show(_ result: BackgroundItems.Scan, read: Int) {
         items = result.items
         unanswered = result.unanswered
         scans += 1
         if let selection, items?.contains(where: { $0.id == selection }) != true {
             self.selection = nil
+        }
+        let judged = enabledJobs.filter { $0.readsBefore < read }.map(\.job)
+        enabledJobs.removeAll { $0.readsBefore < read }
+        for job in judged {
+            if let alert = Self.alertAfterEnabling(job, listed: items) {
+                alerts.add(alert)
+            }
         }
     }
 
@@ -106,14 +126,13 @@ final class BackgroundItemLibrary {
     ) async {
         runningActionItemIDs.insert(item.id)
         defer { runningActionItemIDs.remove(item.id) }
-        var isEnabled = false
         do {
             switch action {
             case .start: try await BackgroundItemActions.start(item)
             case .stop: try await BackgroundItemActions.stop(item)
             case .enable:
                 try await BackgroundItemActions.setEnabled(true, for: item)
-                isEnabled = true
+                noteEnabled(item)
             case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
             case .moveToTrash:
                 let exclusions = ExclusionsStore.shared.exclusions
@@ -136,9 +155,6 @@ final class BackgroundItemLibrary {
             alerts.add(.failed(ActionFailure(label: item.label, action: action, reason: error)))
         }
         await refresh(installedApps: installedApps)
-        if isEnabled, let alert = Self.alertAfterEnabling(item, listed: items) {
-            alerts.add(alert)
-        }
     }
 }
 
