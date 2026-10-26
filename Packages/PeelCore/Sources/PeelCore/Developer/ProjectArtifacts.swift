@@ -804,7 +804,6 @@ public enum ProjectArtifacts {
         definitions.flatMap(\.markers).filter { $0.hasPrefix("*") }.map { String($0.dropFirst()) }
     )
 
-    static let maximumDepth = 8
     static let maximumFolders = 40_000
     /// Past this many entries read, a project's last change counts as unknown.
     static let maximumActivitySamples = 10_000
@@ -970,7 +969,7 @@ public enum ProjectArtifacts {
     ) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool, unreadable: [URL]) {
         var pending: [Pending] = []
         var unreadable: [URL] = []
-        var queue: [(url: URL, depth: Int)] = [(root, 0)]
+        var queue = [root]
         // An index, since `removeFirst` would make the walk quadratic.
         var next = 0
         var visited = 0
@@ -978,7 +977,7 @@ public enum ProjectArtifacts {
         var projectFolders: [String: Bool] = [:]
 
         while next < queue.count, visited < maximumFolders, !Task.isCancelled {
-            let (folder, depth) = queue[next]
+            let folder = queue[next]
             next += 1
             visited += 1
             // The folders already walked are let go now and then, so a long walk does not keep them all.
@@ -1007,12 +1006,11 @@ public enum ProjectArtifacts {
                 pending.append(Pending(url: url, project: project, found: artifact, contents: await measure(url)))
             }
 
-            guard depth < maximumDepth else { continue }
             for entry in look.entries where !reached.contains(Self.key(of: entry)) {
                 guard isRealFolder(entry), !exclusions.excludes(entry), !isSkipped(entry.lastPathComponent) else {
                     continue
                 }
-                queue.append((entry, depth + 1))
+                queue.append(entry)
             }
         }
         return (await withLastActivity(pending), next < queue.count, unreadable)

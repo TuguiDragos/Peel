@@ -294,6 +294,18 @@ struct ProjectArtifactsTests {
         #expect(next.isRecentlyActive, "a change in the project's own public folder was not counted")
     }
 
+    @Test func findsAProjectHoweverDeepItSits() async throws {
+        let directory = try TemporaryDirectory()
+        let deep = "Code/Work/Clients/Acme/2025/Web/apps/site/examples/demo"
+        try directory.file("\(deep)/package.json", contents: Data("{}".utf8))
+        try directory.file("\(deep)/node_modules/left-pad/index.js", contents: Data("//".utf8))
+
+        let scan = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code")])
+
+        #expect(scan.artifacts.map(\.project.lastPathComponent) == ["demo"])
+        #expect(!scan.wasCutShort)
+    }
+
     @Test func findsWhatJavaScriptToolsBuild() async throws {
         try await expectFound([
             Kind(artifact: ".nuxt", marker: "nuxt.config.ts", tool: "Nuxt", isGeneric: false),
