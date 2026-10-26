@@ -151,6 +151,7 @@ final class AppLibrary {
     var isFiltering: Bool { !sources.isEmpty || selectedDeveloper != nil || showsOnlyUnused }
 
     private var memory: UpdateMemories
+    @ObservationIgnored private var announced: AnnouncedUpdates
     /// What is new in each waiting update, read at launch, so a page shows it with no connection too.
     private(set) var releaseNotes = ReleaseNotesMemory()
     private let releaseNotesStore: ReleaseNotesStore
@@ -178,6 +179,9 @@ final class AppLibrary {
         self.releaseNotesStore = releaseNotesStore
         ignoredApps = Set(defaults.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? [])
         skippedVersions = defaults.dictionary(forKey: SettingsKey.skippedUpdateVersions) as? [String: String] ?? [:]
+        announced = AnnouncedUpdates(
+            versions: defaults.dictionary(forKey: SettingsKey.announcedUpdates) as? [String: String] ?? [:]
+        )
         memory = UpdateMemoryStore.load(from: defaults)
     }
 
@@ -377,6 +381,10 @@ final class AppLibrary {
             if let checked = remembered.checked {
                 lastUpdateChecks[app.id] = checked
             }
+        }
+        // Before Peel noted what it told of, the updates found earlier were told of as they were found.
+        if defaults.object(forKey: SettingsKey.announcedUpdates) == nil {
+            _ = updatesToAnnounce()
         }
     }
 
@@ -750,6 +758,18 @@ final class AppLibrary {
     }
 
     var menuBarUpdateCount: Int { menuBarUpdates.count }
+
+    /// The installed apps whose waiting update no notification has named, which then count as named
+    /// (`AnnouncedUpdates`), kept across launches.
+    func updatesToAnnounce() -> [InstalledApp] {
+        let new = announced.takeNew(
+            appsWithUpdates, version: { updateStatuses[$0.id]?.version }, whileChecking: !appsCheckingForUpdates.isEmpty
+        )
+        if !new.isEmpty || defaults.object(forKey: SettingsKey.announcedUpdates) == nil {
+            defaults.set(announced.versions, forKey: SettingsKey.announcedUpdates)
+        }
+        return new
+    }
 
     var updateSource: UpdateSource {
         UpdateSource(rawValue: defaults.string(forKey: SettingsKey.updateSource) ?? "") ?? .automatic

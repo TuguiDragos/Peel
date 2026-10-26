@@ -4,7 +4,6 @@ import SwiftUI
 
 struct AppList: View {
     @Environment(AppLibrary.self) private var library
-    @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var isRescanning = false
     let searchText: String
@@ -102,9 +101,6 @@ struct AppList: View {
         .dimmedWhileBusy(isRescanning)
         .task(id: library.revision) {
             await library.loadSizes()
-        }
-        .task(id: homebrew.revision) {
-            library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
         }
     }
 

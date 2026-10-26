@@ -130,6 +130,23 @@ struct PeelApp: App {
         }
     }
 
+    /// Brings every new reading of Homebrew to Applications, whoever started it: the Homebrew page's Update Homebrew
+    /// too, after which Homebrew's own mark no longer changes.
+    private func followHomebrew() async {
+        for await _ in Observations({ (homebrew.revision, homebrew.evidenceRevision) }) {
+            library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
+        }
+    }
+
+    /// Tells of the updates no notification has named yet, once no round of checks runs, whoever found them.
+    private func followUpdates() async {
+        for await _ in Observations({ (library.updatesRevision, library.revision, library.appsCheckingForUpdates) }) {
+            let found = library.updatesToAnnounce()
+            guard let first = found.first else { continue }
+            notifications.notify(updatesAvailable: found.count, firstName: first.name, firstApp: first.url)
+        }
+    }
+
     /// Tells the Trash watch where the listed apps are, so it watches the Trash of each other disk they are on.
     private func followAppsForTheTrash() async {
         for await _ in Observations({ library.revision }) {
@@ -179,7 +196,7 @@ struct PeelApp: App {
         // A newly installed app has never been checked, so it is due. The round checks only the apps that
         // are due.
         if checksForAppUpdates {
-            await checkForUpdates()
+            await library.checkForUpdates(library.apps)
         }
     }
 
@@ -249,7 +266,7 @@ struct PeelApp: App {
             try? await Task.sleep(for: .seconds(Self.updateCheckInterval), tolerance: .seconds(60))
             guard !Task.isCancelled, checksForAppUpdates else { continue }
             await followHomebrewsChecks()
-            await checkForUpdates()
+            await library.checkForUpdates(library.apps)
         }
     }
 
@@ -303,7 +320,7 @@ struct PeelApp: App {
         Navigator.shared.openWindow = openWindow
         background.start([
             followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
-            followHelper,
+            followHelper, followHomebrew, followUpdates,
         ])
         textEditing.start()
         sheetInFront.start()
@@ -345,19 +362,11 @@ struct PeelApp: App {
         library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
         await Marks.interval("Signing teams") { await library.checkSigningTeams() }
         if checksForAppUpdates {
-            await Marks.interval("Update checks") { await checkForUpdates() }
+            await Marks.interval("Update checks") { await library.checkForUpdates(library.apps) }
         }
         await homeChecked
     }
 
-    /// Checks the apps that are due, and posts one notification when updates appear that were not waiting before.
-    private func checkForUpdates() async {
-        let before = Set(library.appsWithUpdates.map(\.id))
-        await library.checkForUpdates(library.apps)
-        let found = library.appsWithUpdates.filter { !before.contains($0.id) }
-        guard !found.isEmpty else { return }
-        notifications.notify(updatesAvailable: found.count, firstName: found[0].name, firstApp: found[0].url)
-    }
 
     /// Whether the menu bar item shows. `MenuBarExtra` writes it back at every scene update, and each write to an
     /// `AppStorage` makes every `AppStorage` in the app read again, so a write of the value it holds is left out.
