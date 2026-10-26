@@ -38,12 +38,17 @@ struct HomebrewReceiptTests {
             #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false), isDirectory: &isFolder))
             #expect(isFolder.boolValue, "\(folder.path())")
             let receipts = URL(filePath: "/private/var/db/receipts", directoryHint: .isDirectory)
+            let midUpgrade = try FileManager.default.contentsOfDirectory(atPath: folder.path).contains { version in
+                version.hasSuffix(".upgrading") && cask.appTargets.contains {
+                    !folder.appending(path: version).appending(path: URL(filePath: $0).lastPathComponent).isMissing
+                }
+            }
             let gone = cask.appTargets.isEmpty
                 ? !cask.packageIdentifiers.isEmpty && cask.packageIdentifiers.allSatisfy { identifier in
                     identifier.range(of: "^[A-Za-z0-9_-][A-Za-z0-9._-]*$", options: .regularExpression) != nil
                         && receipts.appending(path: "\(identifier).plist").isMissing
                 }
-                : cask.appTargets.allSatisfy { URL(filePath: $0).isMissing }
+                : cask.appTargets.allSatisfy { URL(filePath: $0).isMissing } && !midUpgrade
             #expect(cask.isMissingWhatItInstalled == gone, "\(cask.name)")
         }
     }
@@ -60,6 +65,20 @@ struct HomebrewReceiptTests {
         #expect(!installed.cask(installing: []).checkingWhatItInstalled().isMissingWhatItInstalled)
         let known = HomebrewPackage(name: "example", kind: .cask, appTargets: [PathPattern.comparablePath(of: gone)])
         #expect(!known.checkingWhatItInstalled().isMissingWhatItInstalled)
+    }
+
+    @Test func aCaskStoppedMidUpgradeKeepsItsAppInTheCaskroom() throws {
+        let installed = try Installed()
+        let target = installed.directory.url.appending(path: "root/Applications/Example.app", directoryHint: .isDirectory)
+        let cask = installed.cask(installing: [InstalledApp(url: target, bundleIdentifier: "org.example.app", name: "Example")])
+        #expect(cask.checkingWhatItInstalled().isMissingWhatItInstalled)
+
+        try installed.directory.directory("root/opt/homebrew/Caskroom/example/1.0.upgrading/Example.app")
+        let stopped = cask.checkingWhatItInstalled()
+
+        #expect(!stopped.isMissingWhatItInstalled)
+        #expect(stopped.isStoppedMidUpgrade)
+        #expect(!stopped.joinsUpgradeAll)
     }
 
     @Test func aCaskOfPackagesAloneIsGoneOnceEveryReceiptIs() throws {

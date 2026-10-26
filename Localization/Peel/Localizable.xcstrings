@@ -9763,108 +9763,108 @@
         }
       }
     },
-    "A package Homebrew is in the middle of installing may be left half installed, and may need installing again." : {
+    "A package Homebrew is in the middle of installing may be left half installed, and may need installing again. A cask’s app can stay in Homebrew’s folder until you reinstall the cask." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Balíček, který Homebrew právě instaluje, může zůstat napůl nainstalovaný a možná ho bude potřeba nainstalovat znovu."
+            "value" : "Balíček, který Homebrew právě instaluje, může zůstat napůl nainstalovaný a možná ho bude potřeba nainstalovat znovu. Aplikace, kterou instaluje cask, může zůstat ve složce Homebrew, dokud cask znovu nenainstalujete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein Paket, das Homebrew gerade installiert, bleibt möglicherweise nur teilweise installiert und muss eventuell erneut installiert werden."
+            "value" : "Ein Paket, das Homebrew gerade installiert, bleibt möglicherweise nur teilweise installiert und muss eventuell erneut installiert werden. Die App eines Casks kann im Ordner von Homebrew bleiben, bis du den Cask erneut installierst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un paquete que Homebrew esté instalando en este momento puede quedar a medio instalar, y puede que haya que volver a instalarlo."
+            "value" : "Un paquete que Homebrew esté instalando en este momento puede quedar a medio instalar, y puede que haya que volver a instalarlo. La app de un cask puede quedarse en la carpeta de Homebrew hasta que vuelvas a instalar el cask."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un paquet que Homebrew est en train d’installer pourrait rester partiellement installé, et il faudrait peut-être le réinstaller."
+            "value" : "Un paquet que Homebrew est en train d’installer pourrait rester partiellement installé, et il faudrait peut-être le réinstaller. L’app d’un cask peut rester dans le dossier de Homebrew jusqu’à ce que vous réinstalliez le cask."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un pacchetto che Homebrew sta installando potrebbe restare installato a metà e dover essere reinstallato."
+            "value" : "Un pacchetto che Homebrew sta installando potrebbe restare installato a metà e dover essere reinstallato. L’app di un cask può restare nella cartella di Homebrew finché non reinstalli il cask."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewがインストールしている途中のパッケージは、不完全にインストールされたままになり、再インストールが必要になる場合があります。"
+            "value" : "Homebrewがインストールしている途中のパッケージは、不完全にインストールされたままになり、再インストールが必要になる場合があります。caskのアプリは、caskを再インストールするまでHomebrewのフォルダに残ることがあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 설치 중인 패키지는 일부만 설치된 상태로 남을 수 있으며, 다시 설치해야 할 수도 있습니다."
+            "value" : "Homebrew가 설치 중인 패키지는 일부만 설치된 상태로 남을 수 있으며, 다시 설치해야 할 수도 있습니다. cask의 앱은 cask를 다시 설치할 때까지 Homebrew의 폴더에 남아 있을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een pakket dat Homebrew nog aan het installeren is, kan half geïnstalleerd achterblijven en moet dan misschien opnieuw worden geïnstalleerd."
+            "value" : "Een pakket dat Homebrew nog aan het installeren is, kan half geïnstalleerd achterblijven en moet dan misschien opnieuw worden geïnstalleerd. De app van een cask kan in de map van Homebrew blijven staan totdat je de cask opnieuw installeert."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pakiet, który Homebrew właśnie instaluje, może zostać zainstalowany częściowo i może wymagać ponownej instalacji."
+            "value" : "Pakiet, który Homebrew właśnie instaluje, może zostać zainstalowany częściowo i może wymagać ponownej instalacji. Aplikacja danego cask może pozostać w folderze Homebrew, dopóki ponownie nie zainstalujesz tego cask."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um pacote que o Homebrew estiver instalando no momento pode ficar instalado pela metade, e talvez precise ser instalado de novo."
+            "value" : "Um pacote que o Homebrew estiver instalando no momento pode ficar instalado pela metade, e talvez precise ser instalado de novo. O app de um cask pode ficar na pasta do Homebrew até você reinstalar o cask."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un pachet pe care Homebrew încă îl instalează poate rămâne instalat pe jumătate și s‑ar putea să trebuiască reinstalat."
+            "value" : "Un pachet pe care Homebrew încă îl instalează poate rămâne instalat pe jumătate și s‑ar putea să trebuiască reinstalat. Aplicația unui cask poate rămâne în dosarul Homebrew până când reinstalați cask‑ul."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пакет, который Homebrew устанавливает в этот момент, может остаться установленным наполовину, и его, возможно, придется установить снова."
+            "value" : "Пакет, который Homebrew устанавливает в этот момент, может остаться установленным наполовину, и его, возможно, придется установить снова. Приложение из cask может остаться в папке Homebrew, пока Вы не переустановите этот cask."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ett paket som Homebrew håller på att installera kan bli halvt installerat och behöva installeras igen."
+            "value" : "Ett paket som Homebrew håller på att installera kan bli halvt installerat och behöva installeras igen. En casks app kan ligga kvar i Homebrews mapp tills du installerar om casken."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un yüklemekte olduğu bir paket yarım yüklenmiş hâlde kalabilir ve yeniden yüklenmesi gerekebilir."
+            "value" : "Homebrew’un yüklemekte olduğu bir paket yarım yüklenmiş hâlde kalabilir ve yeniden yüklenmesi gerekebilir. Bir cask paketinin uygulaması, siz o cask paketini yeniden yükleyene kadar Homebrew’un klasöründe kalabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пакет, який Homebrew саме інсталює, може залишитися інстальованим лише частково, і його, можливо, доведеться інсталювати знову."
+            "value" : "Пакет, який Homebrew саме інсталює, може залишитися інстальованим лише частково, і його, можливо, доведеться інсталювати знову. Програма, яку інсталює cask, може лишитися в папці Homebrew, доки ви не перевстановите цей cask."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew正在安装的软件包可能只安装了部分，之后可能需要重新安装。"
+            "value" : "Homebrew正在安装的软件包可能只安装了部分，之后可能需要重新安装。cask的App可能会留在Homebrew的文件夹中，直到你重新安装该cask。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew正在安裝的套件可能只有一部分完成安裝，因此可能需要重新安裝。"
+            "value" : "Homebrew正在安裝的套件可能只有一部分完成安裝，因此可能需要重新安裝。cask的App可能會留在Homebrew的檔案夾中，直到你重新安裝該cask。"
           }
         }
       }
@@ -32135,6 +32135,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拷貝路徑"
+          }
+        }
+      }
+    },
+    "Copy Reinstall Command" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkopírovat příkaz k přeinstalaci"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuinstallationsbefehl kopieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar comando de reinstalación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier la commande de réinstallation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia comando di reinstallazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再インストールコマンドをコピー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "재설치 명령 복사"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieer herinstallatiecommando"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiuj polecenie ponownej instalacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar Comando de Reinstalação"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiați comanda de reinstalare"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопировать команду переустановки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiera ominstallationskommando"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden Yükleme Komutunu Kopyala"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопіювати команду перевстановлення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷贝重新安装命令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷貝重新安裝指令"
           }
         }
       }
@@ -55920,6 +56026,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew建議改用「%@」formula。"
+          }
+        }
+      }
+    },
+    "Homebrew was stopped while it upgraded this cask, so its app is still in Homebrew’s folder rather than where it belongs. Reinstalling the cask in Terminal puts it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew byl zastaven, zatímco tento cask upgradoval, takže jeho aplikace je stále ve složce Homebrew, a ne tam, kam patří. Když cask v Terminálu přeinstalujete, aplikace se vrátí na své místo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew wurde während des Upgrades dieses Casks gestoppt, daher liegt seine App noch im Ordner von Homebrew statt dort, wo sie hingehört. Wenn du den Cask im Terminal erneut installierst, kommt sie wieder an ihren Platz."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew se detuvo mientras actualizaba este cask, así que su app sigue en la carpeta de Homebrew en vez de donde le corresponde. Al reinstalar el cask en Terminal, la app vuelve a su sitio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a été arrêté pendant la mise à niveau de ce cask : son app se trouve donc encore dans le dossier de Homebrew au lieu d’être à sa place. Réinstaller le cask dans Terminal la remet en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew è stato interrotto mentre aggiornava questo cask, quindi la sua app si trova ancora nella cartella di Homebrew anziché dove dovrebbe stare. Reinstallare il cask in Terminale la rimette al suo posto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このcaskのアップグレード中にHomebrewが停止されたため、アプリが本来の場所ではなく、まだHomebrewのフォルダにあります。ターミナルでcaskを再インストールすると、元の場所に戻ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 이 cask를 업그레이드하는 도중에 중단되었으므로, 앱이 원래 있어야 할 위치가 아니라 아직 Homebrew의 폴더에 있습니다. 터미널에서 cask를 다시 설치하면 앱이 원래 위치로 돌아갑니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew is gestopt tijdens het upgraden van deze cask, dus de app ervan staat nog in de map van Homebrew in plaats van op de plek waar die hoort. Als je de cask in Terminal opnieuw installeert, wordt de app teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew został zatrzymany podczas uaktualniania tego cask, więc jego aplikacja nadal jest w folderze Homebrew, a nie tam, gdzie powinna być. Ponowna instalacja tego cask w Terminalu przywróci ją na miejsce."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew foi interrompido enquanto fazia upgrade deste cask, então o app dele ainda está na pasta do Homebrew, e não onde deveria estar. Reinstalar o cask no Terminal o coloca de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a fost oprit în timp ce făcea upgrade acestui cask, așa că aplicația sa se află încă în dosarul Homebrew, nu la locul ei. Dacă reinstalați cask‑ul în Terminal, aplicația revine la locul ei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew был остановлен во время обновления этого cask, поэтому его приложение все еще находится в папке Homebrew, а не на своем месте. Если переустановить cask в Терминале, приложение вернется на место."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew stoppades medan det uppgraderade den här casken, så dess app ligger fortfarande i Homebrews mapp i stället för där den hör hemma. Om du installerar om casken i Terminal läggs appen tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew bu cask paketini yükseltirken durduruldu, bu yüzden paketin uygulaması olması gereken yerde değil, hâlâ Homebrew’un klasöründe. Cask paketini Terminal’de yeniden yüklemek uygulamayı yerine koyar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew зупинили, коли він оновлював цей cask, тож його програма досі в папці Homebrew, а не там, де має бути. Якщо перевстановити cask у Терміналі, програма повернеться на місце."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew在升级此cask时被停止，因此它的App仍在Homebrew的文件夹中，而不在其应在的位置。在“终端”中重新安装该cask即可将其App放回应在的位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew在升級此cask時被停止，因此它的App仍在Homebrew的檔案夾中，而不在它應在的位置。在「終端機」中重新安裝此cask即可將它放回原位。"
           }
         }
       }
@@ -165037,6 +165249,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「垃圾桶」存放的是準備丟棄的項目，因此儲存在那裡的截圖會在清空「垃圾桶」時被刪除。"
+          }
+        }
+      }
+    },
+    "The Upgrade Was Stopped" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade byl zastaven"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Upgrade wurde gestoppt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha detenido la actualización"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La mise à niveau a été arrêtée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’aggiornamento è stato interrotto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップグレードが停止されました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업그레이드가 중단됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De upgrade is gestopt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uaktualnianie zostało zatrzymane"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Upgrade Foi Interrompido"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade‑ul a fost oprit"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновление было остановлено"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uppgraderingen stoppades"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükseltme Durduruldu"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлення зупинено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升级已被停止"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升級已停止"
           }
         }
       }

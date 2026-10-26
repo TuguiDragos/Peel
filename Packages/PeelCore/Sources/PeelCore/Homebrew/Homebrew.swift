@@ -56,6 +56,10 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// True for an installed cask that left nothing on this Mac: every app gone from where Homebrew put it, or, for a
     /// cask with no app, every package it installed, as their receipts say. Set by `checkingWhatItInstalled`.
     public private(set) var isMissingWhatItInstalled = false
+    /// True for an installed cask whose upgrade was stopped once Homebrew had moved its app into the cask's folder,
+    /// renamed `<version>.upgrading`: Homebrew puts it back only when the upgrade fails with an error, not when it is
+    /// stopped. Set by `checkingWhatItInstalled`.
+    public private(set) var isStoppedMidUpgrade = false
     /// When Homebrew last checked for new versions, read before this package was (`Homebrew.lastUpdateCheck()`), or
     /// nil when Peel couldn't tell. What `isOutdated` says is no more recent than that check.
     public private(set) var lastUpdateCheck: Date?
@@ -65,13 +69,13 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// Whether Upgrade All takes it along when it is out of date: a pinned package is held at its version on purpose,
     /// and a cask whose upgrade needs an administrator is upgraded in Terminal.
     public var joinsUpgradeAll: Bool {
-        !isPinned && !upgradeNeedsAnAdministrator && !isMissingWhatItInstalled
+        !isPinned && !upgradeNeedsAnAdministrator && !isMissingWhatItInstalled && !isStoppedMidUpgrade
     }
 
     /// Whether Homebrew offers a newer version that it can install. It upgrades a cask's app where it put it, so it
     /// can't upgrade a cask whose apps are gone.
     public var waitsForAnUpgrade: Bool {
-        isOutdated && !isMissingWhatItInstalled
+        isOutdated && !isMissingWhatItInstalled && !isStoppedMidUpgrade
     }
 
     /// Returns a copy that notes whether what the installed cask put on the Mac is all gone, asked of the disk now: its
@@ -81,13 +85,25 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         receipts: URL = URL(filePath: "/private/var/db/receipts", directoryHint: .isDirectory)
     ) -> HomebrewPackage {
         var checked = self
-        checked.isMissingWhatItInstalled = caskroomFolder != nil && (appTargets.isEmpty
+        let missing = appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) }
+            .filter { $0.isMissing && !$0.isOnADiskNotConnected }
+        checked.isStoppedMidUpgrade = caskroomFolder.map {
+            Self.holdsMidUpgrade(missing.map(\.lastPathComponent), in: $0)
+        } ?? false
+        checked.isMissingWhatItInstalled = caskroomFolder != nil && !checked.isStoppedMidUpgrade && (appTargets.isEmpty
             ? Self.packagesAreGone(packageIdentifiers, receipts: receipts)
-            : appTargets.allSatisfy { target in
-                let app = URL(filePath: target, directoryHint: .isDirectory)
-                return app.isMissing && !app.isOnADiskNotConnected
-            })
+            : missing.count == appTargets.count)
         return checked
+    }
+
+    /// Whether one of `apps` sits in a `<version>.upgrading` folder inside the cask's folder.
+    private static func holdsMidUpgrade(_ apps: [String], in folder: URL) -> Bool {
+        guard !apps.isEmpty, let versions = try? FileManager.default.contentsOfDirectory(atPath: folder.path) else {
+            return false
+        }
+        return versions.filter { $0.hasSuffix(".upgrading") }.contains { version in
+            apps.contains { !folder.appending(path: version).appending(path: $0).isMissing }
+        }
     }
 
     /// True when `identifiers` name packages exactly and none of them has a receipt left. Homebrew reads each as a

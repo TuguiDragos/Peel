@@ -37,7 +37,7 @@ struct HomebrewProgressView: View {
             Button("Stop", role: .destructive) { homebrew.stopUpgrade() }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("A package Homebrew is in the middle of installing may be left half installed, and may need installing again.")
+            Text("A package Homebrew is in the middle of installing may be left half installed, and may need installing again. A cask’s app can stay in Homebrew’s folder until you reinstall the cask.")
         }
     }
 

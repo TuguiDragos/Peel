@@ -84,6 +84,14 @@ struct HomebrewDetailView: View {
                     detail: Text("Homebrew still lists this cask, but the packages it installed aren’t on this Mac anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
                     kind: .note
                 ) {}
+            } else if package.isStoppedMidUpgrade {
+                Notice(
+                    title: Text("The Upgrade Was Stopped"),
+                    detail: Text("Homebrew was stopped while it upgraded this cask, so its app is still in Homebrew’s folder rather than where it belongs. Reinstalling the cask in Terminal puts it back."),
+                    kind: .caution
+                ) {
+                    CopyButton(text: "brew reinstall --cask \(package.fullName)", title: "Copy Reinstall Command")
+                }
             } else if package.isMissingWhatItInstalled {
                 Notice(
                     title: Text("The App Is Already Gone"),
