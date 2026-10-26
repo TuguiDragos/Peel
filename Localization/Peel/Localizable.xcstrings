@@ -111934,108 +111934,108 @@
         }
       }
     },
-    "Peel asks each app’s update feed, the App Store, or Homebrew for the latest version. It never installs anything on its own." : {
+    "Peel asks each app’s update feed, the App Store, or Homebrew for the latest version. It never installs anything on its own. With this off, Peel doesn’t look for its own updates either, unless you choose Check for Updates in the Peel menu." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se na nejnovější verzi ptá kanálu aktualizací dané aplikace, App Storu nebo Homebrew. Sám od sebe nikdy nic neinstaluje."
+            "value" : "Peel se na nejnovější verzi ptá kanálu aktualizací dané aplikace, App Storu nebo Homebrew. Sám od sebe nikdy nic neinstaluje. Když je tato volba vypnutá, Peel nehledá ani vlastní aktualizace, pokud v nabídce Peel nezvolíte Vyhledat aktualizaci."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel fragt den Update-Feed jeder App, den App Store oder Homebrew nach der neuesten Version. Peel installiert nie etwas von sich aus."
+            "value" : "Peel fragt den Update-Feed jeder App, den App Store oder Homebrew nach der neuesten Version. Peel installiert nie etwas von sich aus. Ist dies deaktiviert, sucht Peel auch nicht nach eigenen Updates, es sei denn, du wählst „Nach Updates suchen“ im Menü „Peel“."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel pregunta la versión más reciente al canal de actualizaciones de cada app, a App Store o a Homebrew. Nunca instala nada por su cuenta."
+            "value" : "Peel pregunta la versión más reciente al canal de actualizaciones de cada app, a App Store o a Homebrew. Nunca instala nada por su cuenta. Con esto desactivado, Peel tampoco busca sus propias actualizaciones, salvo que elijas “Buscar actualizaciones” en el menú Peel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel demande la dernière version au flux de mises à jour de chaque app, à l’App Store ou à Homebrew. Il n’installe jamais rien de lui-même."
+            "value" : "Peel demande la dernière version au flux de mises à jour de chaque app, à l’App Store ou à Homebrew. Il n’installe jamais rien de lui-même. Si cette option est désactivée, Peel ne recherche pas non plus ses propres mises à jour, sauf si vous choisissez « Rechercher les mises à jour » dans le menu Peel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel chiede l’ultima versione al feed di aggiornamento di ciascuna app, ad App Store o a Homebrew. Non installa mai nulla di sua iniziativa."
+            "value" : "Peel chiede l’ultima versione al feed di aggiornamento di ciascuna app, ad App Store o a Homebrew. Non installa mai nulla di sua iniziativa. Con questa opzione disattivata, Peel non cerca nemmeno i propri aggiornamenti, a meno che tu non scelga “Verifica aggiornamenti” nel menu Peel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、各アプリのアップデートフィード、App Store、またはHomebrewに最新バージョンを問い合わせます。自動的に何かをインストールすることは決してありません。"
+            "value" : "Peelは、各アプリのアップデートフィード、App Store、またはHomebrewに最新バージョンを問い合わせます。自動的に何かをインストールすることは決してありません。これをオフにすると、“Peel”メニューから“アップデートを確認”を選択しない限り、Peelは自身のアップデートも確認しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 각 앱의 업데이트 피드, App Store 또는 Homebrew에 최신 버전을 묻습니다. 스스로 무언가를 설치하는 일은 절대 없습니다."
+            "value" : "Peel은 각 앱의 업데이트 피드, App Store 또는 Homebrew에 최신 버전을 묻습니다. 스스로 무언가를 설치하는 일은 절대 없습니다. 이 기능이 꺼져 있으면 Peel 메뉴에서 ‘업데이트 확인’을 선택하지 않는 한 Peel 자체의 업데이트도 찾지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel vraagt de updatefeed van elke app, de App Store of Homebrew naar de nieuwste versie. Peel installeert nooit iets uit zichzelf."
+            "value" : "Peel vraagt de updatefeed van elke app, de App Store of Homebrew naar de nieuwste versie. Peel installeert nooit iets uit zichzelf. Als dit uit staat, zoekt Peel ook niet naar zijn eigen updates, tenzij je 'Zoek naar updates' kiest in het menu 'Peel'."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel pyta kanał uaktualnień każdej aplikacji, App Store lub Homebrew o najnowszą wersję. Nigdy niczego nie instaluje samodzielnie."
+            "value" : "Peel pyta kanał uaktualnień każdej aplikacji, App Store lub Homebrew o najnowszą wersję. Nigdy niczego nie instaluje samodzielnie. Gdy to jest wyłączone, Peel nie szuka też własnych uaktualnień, chyba że wybierzesz polecenie Sprawdź uaktualnienia w menu Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel pergunta a versão mais recente ao feed de atualização de cada app, à App Store ou ao Homebrew. Ele nunca instala nada por conta própria."
+            "value" : "O Peel pergunta a versão mais recente ao feed de atualização de cada app, à App Store ou ao Homebrew. Ele nunca instala nada por conta própria. Com esta opção desativada, o Peel também não busca as próprias atualizações, a menos que você escolha Buscar Atualizações no menu Peel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cere cea mai recentă versiune de la fluxul de actualizări al fiecărei aplicații, de la App Store sau de la Homebrew. Nu instalează niciodată nimic de la sine."
+            "value" : "Peel cere cea mai recentă versiune de la fluxul de actualizări al fiecărei aplicații, de la App Store sau de la Homebrew. Nu instalează niciodată nimic de la sine. Cu această opțiune dezactivată, Peel nu își caută nici propriile actualizări, decât dacă alegeți „Căutați actualizări” din meniul Peel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запрашивает последнюю версию у ленты обновлений каждого приложения, App Store или Homebrew. Сам он никогда ничего не устанавливает."
+            "value" : "Peel запрашивает последнюю версию у ленты обновлений каждого приложения, App Store или Homebrew. Сам он никогда ничего не устанавливает. Если этот параметр выключен, Peel не ищет и собственные обновления, кроме случаев, когда Вы выбираете «Проверить наличие обновлений» в меню «Peel»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågar varje apps uppdateringsflöde, App Store eller Homebrew efter den senaste versionen. Peel installerar aldrig något på egen hand."
+            "value" : "Peel frågar varje apps uppdateringsflöde, App Store eller Homebrew efter den senaste versionen. Peel installerar aldrig något på egen hand. När det här är avstängt letar Peel inte heller efter sina egna uppdateringar, om du inte väljer ”Leta efter uppdateringar” i Peel-menyn."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel en son sürümü her uygulamanın güncelleme akışına, App Store’a veya Homebrew’a sorar. Hiçbir zaman kendiliğinden bir şey yüklemez."
+            "value" : "Peel en son sürümü her uygulamanın güncelleme akışına, App Store’a veya Homebrew’a sorar. Hiçbir zaman kendiliğinden bir şey yüklemez. Bu kapalıyken Peel, siz Peel menüsünden Güncellemeleri Denetle’yi seçmedikçe kendi güncellemelerini de aramaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel дізнається найновішу версію зі стрічки оновлень кожної програми, з App Store або від Homebrew. Peel ніколи нічого не інсталює самостійно."
+            "value" : "Peel дізнається найновішу версію зі стрічки оновлень кожної програми, з App Store або від Homebrew. Peel ніколи нічого не інсталює самостійно. Коли це вимкнено, Peel не шукає й власних оновлень, хіба що ви виберете «Перевірити наявність оновлень» у меню «Peel»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel会向每个App的更新源、App Store或Homebrew查询最新版本。它绝不会自行安装任何内容。"
+            "value" : "Peel会向每个App的更新源、App Store或Homebrew查询最新版本。它绝不会自行安装任何内容。关闭此项后，Peel也不会查找它自己的更新，除非你在Peel菜单中选取“检查更新”。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會向每個App的更新Feed、App Store或Homebrew查詢最新版本。它絕不會自行安裝任何項目。"
+            "value" : "Peel會向每個App的更新Feed、App Store或Homebrew查詢最新版本。它絕不會自行安裝任何項目。關閉此選項後，Peel也不會檢查它自己的更新項目，除非你在「Peel」選單中選擇「檢查更新項目」。"
           }
         }
       }

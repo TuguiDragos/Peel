@@ -227,7 +227,7 @@ private struct GeneralSettingsView: View {
         Form {
             Section("Updates") {
                 toggle("Check for app updates", isOn: $checksForAppUpdates,
-                       "Peel asks each app’s update feed, the App Store, or Homebrew for the latest version. It never installs anything on its own.")
+                       "Peel asks each app’s update feed, the App Store, or Homebrew for the latest version. It never installs anything on its own. With this off, Peel doesn’t look for its own updates either, unless you choose Check for Updates in the Peel menu.")
                 // The choices stay short, because a pop-up button that doesn't fit truncates its title. The note
                 // explains what Automatic does.
                 LabeledContent {
