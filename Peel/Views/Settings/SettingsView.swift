@@ -196,6 +196,7 @@ private struct GeneralSettingsView: View {
     @State private var commandLine = HomeModel.commandLineStanding
     private var installCommand: String? { SettingsKey.commandLineInstallCommand(for: commandLine) }
     private static let place = CommandLineTool.place()
+    private static let runsFromAReadOnlyCopy = SelfRemoval.isOnAReadOnlyVolume(Bundle.main.bundleURL)
 
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.updateSource) private var updateSource = UpdateSource.automatic.rawValue
@@ -408,7 +409,7 @@ private struct GeneralSettingsView: View {
                         .disabled(
                             selfUninstall.isRunning || !library.hasLoaded
                                 || (homebrew.isInstalled && homebrew.packages == nil)
-                                || !history.mayMove
+                                || !history.mayMove || Self.runsFromAReadOnlyCopy
                         )
                     }
                     if exclusions.exclusions.isUnreadable {
@@ -421,6 +422,10 @@ private struct GeneralSettingsView: View {
                             .foregroundStyle(.secondary)
                     } else if history.cannotBeWritten {
                         Text("The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    } else if Self.runsFromAReadOnlyCopy {
+                        Text(SelfUninstall.explanation(of: .readOnlyCopy))
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }

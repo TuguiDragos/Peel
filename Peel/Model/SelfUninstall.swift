@@ -57,8 +57,11 @@ final class SelfUninstall {
         let exclusions = ExclusionsStore.shared.exclusions
         let plan = await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions)
         let urls = plan.unreviewedSelection
-        guard !urls.isEmpty else {
-            failure = String(localized: "Peel won’t move itself from here: its folder needs an administrator, or Peel is excluded in Settings. Drag it to the Trash in Finder, which asks for an administrator when one is needed.")
+        let isOnAReadOnlyVolume = SelfRemoval.isOnAReadOnlyVolume(bundleURL)
+        if let block = SelfRemoval.block(
+            selection: urls, isExcluded: plan.isExcluded, isOnAReadOnlyVolume: isOnAReadOnlyVolume
+        ) {
+            failure = Self.explanation(of: block)
             return
         }
 
@@ -97,6 +100,17 @@ final class SelfUninstall {
             return
         }
         quit()
+    }
+
+    static func explanation(of block: SelfRemoval.Block) -> String {
+        switch block {
+        case .excluded:
+            String(localized: "Peel won’t move itself: it is excluded in Settings > Exclusions. Take it off the list there, then choose Remove Peel again.")
+        case .readOnlyCopy:
+            String(localized: "Peel is running from a copy macOS made because it is still marked as downloaded, or from its disk image, and that copy can’t be moved. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
+        case .needsAnAdministrator:
+            String(localized: "Peel won’t move itself from here: its folder needs an administrator. Drag it to the Trash in Finder, which asks for an administrator.")
+        }
     }
 
     private static func failure(for stay: SelfRemoval.Stay) -> String {

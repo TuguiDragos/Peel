@@ -35,6 +35,19 @@ private actor StepLog {
 }
 
 struct SelfRemovalTests {
+    @Test func saysWhyRemovePeelWouldMoveNothingOfPeelsFromWhereItRuns() throws {
+        let directory = try TemporaryDirectory()
+        let app = URL(filePath: "/Applications/Peel.app")
+
+        #expect(SelfRemoval.block(selection: [app], isExcluded: false, isOnAReadOnlyVolume: true) == nil)
+        #expect(SelfRemoval.block(selection: [], isExcluded: true, isOnAReadOnlyVolume: true) == .excluded)
+        #expect(SelfRemoval.block(selection: [], isExcluded: false, isOnAReadOnlyVolume: true) == .readOnlyCopy)
+        let administrator = SelfRemoval.block(selection: [], isExcluded: false, isOnAReadOnlyVolume: false)
+        #expect(administrator == .needsAnAdministrator)
+        #expect(SelfRemoval.isOnAReadOnlyVolume(URL(filePath: "/System/Applications/Calculator.app")))
+        #expect(!SelfRemoval.isOnAReadOnlyVolume(directory.url))
+    }
+
     private func service(
         in directory: borrowing TemporaryDirectory,
         exclusions: Exclusions = .none

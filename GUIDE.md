@@ -401,9 +401,10 @@ In Settings > General, choose Remove Peel. Peel then:
   exclusions, and the settings Peel saved when you reset an app;
 - ends its Finder extension, takes its icon out of the Dock, clears its settings, and quits.
 
-Remove Peel takes no step while Peel itself can't move, such as from a folder only an administrator can change, and
-while its helper is installed, only an administrator's account can remove it, so from another account Peel stays
-where it is.
+Remove Peel takes no step while Peel itself can't move, such as from a folder only an administrator can change, or
+from the copy macOS runs while Peel is still marked as downloaded, or from its disk image: move Peel to the
+Applications folder, open it there, and choose Remove Peel. And while its helper is installed, only an
+administrator's account can remove it, so from another account Peel stays where it is.
 
 If you dragged Peel to the Trash instead, its helper stays registered: System Settings > General > Login Items &
 Extensions still lists Peel among the apps with background activity. Put Peel back from the Trash in Finder, open it,

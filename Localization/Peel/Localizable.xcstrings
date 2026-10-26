@@ -114412,6 +114412,112 @@
         }
       }
     },
+    "Peel is running from a copy macOS made because it is still marked as downloaded, or from its disk image, and that copy can’t be moved. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel běží z kopie, kterou vytvořil macOS, protože je stále označený jako stažený, nebo běží ze svého obrazu disku. Tuto kopii nelze přesunout. Ukončete Peel, přesuňte ho do složky Aplikace, otevřete ho tam a znovu zvolte „Odstranit Peel“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel läuft aus einer Kopie, die macOS erstellt hat, weil Peel noch als Download markiert ist, oder aus seiner Image-Datei, und diese Kopie lässt sich nicht verschieben. Beende Peel, bewege es in den Ordner „Programme“, öffne es dort und wähle erneut „Peel entfernen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se está ejecutando desde una copia que hizo macOS porque aún está marcado como descargado, o desde su imagen de disco, y esa copia no se puede trasladar. Sal de Peel, muévelo a la carpeta Aplicaciones, ábrelo desde ahí y vuelve a elegir “Eliminar Peel”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel s’exécute depuis une copie créée par macOS, car il est encore marqué comme téléchargé, ou depuis son image disque, et cette copie ne peut pas être déplacée. Quittez Peel, déplacez-le dans le dossier Applications, ouvrez-le depuis cet emplacement, puis choisissez à nouveau « Supprimer Peel »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel è in esecuzione da una copia creata da macOS perché è ancora contrassegnato come scaricato, oppure dalla sua immagine disco, e quella copia non si può spostare. Esci da Peel, spostalo nella cartella Applicazioni, aprilo da lì e scegli di nuovo “Rimuovi Peel”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはダウンロードしたものとしてマークされたままのため、macOSが作成したコピーから実行されているか、Peelのディスクイメージから実行されています。そのコピーは移動できません。Peelを終了して“アプリケーション”フォルダに移動し、そこで開いてから、もう一度“Peelをアンインストール”を選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 아직 다운로드한 항목으로 표시되어 있어서 macOS가 만든 복사본에서 실행되고 있거나, Peel의 디스크 이미지에서 실행되고 있으며, 이 복사본은 이동할 수 없습니다. Peel을 종료하고 응용 프로그램 폴더로 옮긴 다음, 그곳에서 열고 ‘Peel 제거’를 다시 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wordt uitgevoerd vanuit een kopie die macOS heeft gemaakt, omdat Peel nog als gedownload is gemarkeerd, of vanuit zijn schijfkopie, en die kopie kan niet worden verplaatst. Stop Peel, verplaats het naar de map 'Apps', open het daar en kies opnieuw 'Verwijder Peel'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel działa z kopii utworzonej przez macOS, ponieważ nadal jest oznaczony jako pobrany, albo ze swojego obrazu dysku, a tej kopii nie można przenieść. Zakończ Peel, przenieś go do folderu Aplikacje, otwórz go tam i ponownie wybierz „Odinstaluj Peel”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel está sendo executado a partir de uma cópia que o macOS fez porque ele ainda está marcado como baixado, ou a partir da imagem de disco dele, e essa cópia não pode ser movida. Encerre o Peel, mova-o para a pasta Aplicativos, abra-o lá e escolha “Remover o Peel” novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rulează dintr‑o copie făcută de macOS, deoarece este încă marcat ca descărcat, sau de pe imaginea sa de disc, iar acea copie nu poate fi mutată. Închideți Peel, mutați‑l în dosarul Aplicații, deschideți‑l de acolo și alegeți din nou „Eliminați Peel”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запущен либо из копии, которую создала macOS, потому что он все еще отмечен как загруженный из интернета, либо со своего образа диска, и эту копию нельзя переместить. Завершите Peel, переместите его в папку «Программы», откройте его там и снова выберите «Удалить Peel»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel körs från en kopia som macOS har skapat eftersom appen fortfarande är märkt som hämtad, eller från sin skivavbild, och den kopian kan inte flyttas. Avsluta Peel, flytta appen till mappen Appar, öppna den därifrån och välj ”Ta bort Peel” igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, hâlâ indirilmiş olarak işaretli olduğu için macOS’in oluşturduğu bir kopyadan veya kendi disk görüntüsünden çalışıyor ve bu kopya taşınamaz. Peel’den çıkın, onu Uygulamalar klasörüne taşıyın, oradan açın ve “Peel’i Kaldır” düğmesini yeniden tıklayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel працює з копії, яку створила macOS, бо програму досі позначено як викачану, або з її образу диска, і цю копію не можна перемістити. Завершіть програму «Peel», перемістіть її в папку «Програми», відкрийте звідти й знову виберіть «Вилучити Peel»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正在从macOS制作的副本运行，因为它仍被标记为已下载；或者正在从它的磁盘映像运行。这样的副本无法移动。请退出Peel，将它移到“应用程序”文件夹并从那里打开它，然后再次选取“移除Peel”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正從macOS建立的副本執行，因為它仍被標記為已下載的項目，或者Peel正從它的磁碟映像檔執行，而這份副本無法移動。請結束Peel，將它移到「應用程式」檔案夾，在那裡打開它，然後再次選擇「移除Peel」。"
+          }
+        }
+      }
+    },
     "Peel is running from a copy macOS made because it is still marked as downloaded. Move Peel to the Applications folder and open it from there." : {
       "localizations" : {
         "cs" : {
@@ -120261,108 +120367,214 @@
         }
       }
     },
-    "Peel won’t move itself from here: its folder needs an administrator, or Peel is excluded in Settings. Drag it to the Trash in Finder, which asks for an administrator when one is needed." : {
+    "Peel won’t move itself from here: its folder needs an administrator. Drag it to the Trash in Finder, which asks for an administrator." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se odsud sám nepřesune: jeho složka vyžaduje oprávnění správce nebo je Peel vyloučen v Nastavení. Přetáhněte ho do koše ve Finderu, který v případě potřeby požádá o údaje správce."
+            "value" : "Peel se odsud sám nepřesune: jeho složka vyžaduje oprávnění správce. Přetáhněte ho do koše ve Finderu, který požádá o údaje správce."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verschiebt sich von hier aus nicht selbst: Der Ordner, in dem Peel liegt, erfordert einen Administrator, oder Peel ist in den Einstellungen ausgeschlossen. Ziehe Peel im Finder in den Papierkorb. Der Finder fragt nach einem Administrator, wenn einer nötig ist."
+            "value" : "Peel verschiebt sich von hier aus nicht selbst: Der Ordner, in dem Peel liegt, erfordert einen Administrator. Ziehe Peel im Finder in den Papierkorb. Der Finder fragt nach einem Administrator."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no se trasladará a sí mismo desde aquí: su carpeta necesita un administrador o Peel está excluido en Ajustes. Arrástralo a la papelera en el Finder, que pide un administrador cuando hace falta."
+            "value" : "Peel no se trasladará a sí mismo desde aquí: su carpeta necesita un administrador. Arrástralo a la papelera en el Finder, que pide un administrador."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : son dossier nécessite un administrateur, ou Peel est exclu dans les Réglages. Faites-le glisser dans la corbeille depuis le Finder, qui demande l’autorisation d’un administrateur si nécessaire."
+            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : son dossier nécessite un administrateur. Faites-le glisser dans la corbeille depuis le Finder, qui demande l’autorisation d’un administrateur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Da qui Peel non sposta sé stesso: la sua cartella richiede un amministratore, oppure Peel è escluso nelle Impostazioni. Trascinalo nel Cestino dal Finder, che chiede l’autorizzazione di un amministratore quando serve."
+            "value" : "Da qui Peel non sposta sé stesso: la sua cartella richiede un amministratore. Trascinalo nel Cestino dal Finder, che chiede l’autorizzazione di un amministratore."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはここから自身を移動しません。Peelがあるフォルダでは管理者の権限が必要か、Peelが“設定”で除外されているためです。Finderでゴミ箱にドラッグしてください。必要な場合は、Finderが管理者の認証を求めます。"
+            "value" : "Peelはここから自身を移動しません。Peelがあるフォルダでは管理者の権限が必要なためです。Finderでゴミ箱にドラッグしてください。その際、Finderが管理者の認証を求めます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. Peel이 있는 폴더에 관리자 권한이 필요하거나, 설정에서 Peel이 제외되어 있기 때문입니다. Finder에서 Peel을 휴지통으로 드래그하십시오. 관리자가 필요한 경우 Finder가 관리자 인증을 요청합니다."
+            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. Peel이 있는 폴더에 관리자 권한이 필요하기 때문입니다. Finder에서 Peel을 휴지통으로 드래그하십시오. Finder가 관리자 인증을 요청합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: voor de map is een beheerder nodig, of Peel is uitgesloten in Instellingen. Sleep Peel in Finder naar de prullenmand, dan vraagt Finder om een beheerder als dat nodig is."
+            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: voor de map is een beheerder nodig. Sleep Peel in Finder naar de prullenmand, dan vraagt Finder om een beheerder."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: jego folder wymaga uprawnień administratora albo Peel jest wykluczony w Ustawieniach. Przeciągnij go do Kosza w Finderze, który w razie potrzeby poprosi o dane administratora."
+            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: jego folder wymaga uprawnień administratora. Przeciągnij go do Kosza w Finderze, który poprosi o dane administratora."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não vai se mover daqui: a pasta dele requer um administrador, ou o Peel está excluído nos Ajustes. Arraste-o para o Lixo no Finder, que pede um administrador quando é necessário."
+            "value" : "O Peel não vai se mover daqui: a pasta dele requer um administrador. Arraste-o para o Lixo no Finder, que pede um administrador."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu se mută singur de aici: dosarul său necesită un administrator sau Peel este exclus în Configurări. Trageți‑l în Coș din Finder, care cere un administrator atunci când este nevoie."
+            "value" : "Peel nu se mută singur de aici: dosarul său necesită un administrator. Trageți‑l în Coș din Finder, care cere un administrator."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не будет перемещать себя отсюда: для его папки нужен администратор или Peel исключен в Настройках. Перетащите его в Корзину в Finder: Finder запросит данные администратора, если это понадобится."
+            "value" : "Peel не будет перемещать себя отсюда: для его папки нужен администратор. Перетащите его в Корзину в Finder: Finder запросит данные администратора."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel flyttar inte sig själv härifrån: mappen kräver en administratör, eller så är Peel undantagen i Inställningar. Dra Peel till papperskorgen i Finder, som ber om en administratör när det behövs."
+            "value" : "Peel flyttar inte sig själv härifrån: mappen kräver en administratör. Dra Peel till papperskorgen i Finder, som ber om en administratör."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kendini buradan taşımaz: bulunduğu klasör bir yönetici gerektiriyor veya Peel, Ayarlar’da hariç tutulmuş. Onu Finder’da Çöp Sepeti’ne sürükleyin; Finder gerektiğinde yönetici ister."
+            "value" : "Peel kendini buradan taşımaz: bulunduğu klasör bir yönetici gerektiriyor. Onu Finder’da Çöp Sepeti’ne sürükleyin; Finder yönetici ister."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не перемістить себе звідси: змінювати її папку може лише адміністратор, або Peel є у винятках у Параметрах. Перетягніть Peel у Смітник у Finder: якщо потрібен адміністратор, Finder попросить його дані."
+            "value" : "Peel не перемістить себе звідси: змінювати її папку може лише адміністратор. Перетягніть Peel у Смітник у Finder: Finder попросить дані адміністратора."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不会从此处移动自己：它所在的文件夹需要管理员权限，或者Peel已在“设置”中被排除。请在“访达”中将它拖到废纸篓，必要时“访达”会要求管理员授权。"
+            "value" : "Peel不会从此处移动自己：它所在的文件夹需要管理员权限。请在“访达”中将它拖到废纸篓，“访达”会要求管理员授权。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不會從這裡移動自己：它所在的檔案夾需要管理者權限，或Peel已在「設定」中被排除。請在Finder中將它拖到「垃圾桶」，需要時Finder會要求管理者驗證。"
+            "value" : "Peel不會從這裡移動自己：它所在的檔案夾需要管理者權限。請在Finder中將它拖到「垃圾桶」，Finder會要求管理者驗證。"
+          }
+        }
+      }
+    },
+    "Peel won’t move itself: it is excluded in Settings > Exclusions. Take it off the list there, then choose Remove Peel again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se sám nepřesune: je vyloučen v Nastavení > Výjimky. Odeberte ho tam ze seznamu a pak znovu zvolte „Odstranit Peel“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt sich nicht selbst: Peel ist unter „Einstellungen“ > „Ausschlüsse“ ausgeschlossen. Nimm Peel dort von der Liste und wähle dann erneut „Peel entfernen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no se trasladará a sí mismo: está excluido en Ajustes > Exclusiones. Quítalo de esa lista y vuelve a elegir “Eliminar Peel”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de se placer dans la corbeille : il est exclu dans Réglages > Exclusions. Retirez-le de cette liste, puis choisissez à nouveau « Supprimer Peel »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non sposta sé stesso: è escluso in Impostazioni > Esclusioni. Toglilo da quell’elenco, poi scegli di nuovo “Rimuovi Peel”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは自身を移動しません。“設定”＞“除外”で除外されているためです。そこでリストから削除してから、もう一度“Peelをアンインストール”を選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 자신을 이동하지 않습니다. 설정 > 제외 항목에서 Peel이 제외되어 있기 때문입니다. 그곳의 목록에서 Peel을 제거한 다음 ‘Peel 제거’를 다시 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst zichzelf niet: Peel is uitgesloten in Instellingen > Uitsluitingen. Haal Peel daar van de lijst en kies daarna opnieuw 'Verwijder Peel'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie przeniesie się sam do Kosza: jest wykluczony w Ustawieniach > Wykluczenia. Usuń go tam z listy, a potem ponownie wybierz „Odinstaluj Peel”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai se mover: ele está excluído em Ajustes > Exclusões. Tire-o da lista lá e escolha “Remover o Peel” novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu se mută singur: este exclus în Configurări > Excluderi. Scoateți‑l din lista de acolo, apoi alegeți din nou „Eliminați Peel”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет перемещать себя: он исключен в разделе «Настройки» > «Исключения». Там уберите его из списка, а затем снова выберите «Удалить Peel»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte sig själv: Peel är undantagen i Inställningar > Undantag. Ta bort den från listan där och välj sedan ”Ta bort Peel” igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendini taşımaz: Ayarlar > Hariç Tutulanlar’da hariç tutulmuş. Onu oradaki listeden çıkarın, ardından “Peel’i Kaldır” düğmesini yeniden tıklayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить себе: її додано до винятків у розділі Параметри > Винятки. Приберіть її з цього списку, а потім знову виберіть «Вилучити Peel»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动自己：它已在“设置”>“排除项”中被排除。请在那里将它从列表中去掉，然后再次选取“移除Peel”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動自己：它已在「設定」>「排除項目」中排除。請在那裡將它從列表中移除，然後再次選擇「移除Peel」。"
           }
         }
       }

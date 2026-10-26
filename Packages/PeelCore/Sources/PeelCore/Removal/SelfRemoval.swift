@@ -76,6 +76,30 @@ public enum SelfRemoval {
         case moved(app: TrashedItem, stayed: [TrashFailure], opensAtLogin: Bool)
     }
 
+    /// Why Remove Peel would move nothing of Peel's from where it runs.
+    public enum Block: Sendable, Equatable {
+        case excluded
+        /// Peel runs from a copy that can't be moved: the read-only copy macOS runs an app from while it is still
+        /// marked as downloaded, or its disk image.
+        case readOnlyCopy
+        /// Peel's folder needs an administrator, which only Finder asks for.
+        case needsAnAdministrator
+    }
+
+    /// Why a plan that selects `selection` of Peel's would move nothing, or nil when it moves something.
+    public static func block(selection: [URL], isExcluded: Bool, isOnAReadOnlyVolume: Bool) -> Block? {
+        guard selection.isEmpty else { return nil }
+        if isExcluded { return .excluded }
+        return isOnAReadOnlyVolume ? .readOnlyCopy : .needsAnAdministrator
+    }
+
+    /// Whether `url` is on a volume mounted read-only (`statfs(2)`, `MNT_RDONLY`), which Foundation's resource value
+    /// doesn't say of the startup disk.
+    public static func isOnAReadOnlyVolume(_ url: URL) -> Bool {
+        var info = statfs()
+        return statfs(url.path(percentEncoded: false), &info) == 0 && info.f_flags & UInt32(MNT_RDONLY) != 0
+    }
+
     public enum Stay: Equatable {
         /// This account can't change the helper, which serves every administrator of this Mac.
         case helperIsNotThisAccounts
