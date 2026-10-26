@@ -24,6 +24,11 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         status == .denied
     }
 
+    static func mayShow() async -> Bool {
+        let status = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+        return status == .authorized || status == .provisional
+    }
+
     func notify(applicationTrashed url: URL) {
         let content = UNMutableNotificationContent()
         let name = AppInspector.displayName(of: url)

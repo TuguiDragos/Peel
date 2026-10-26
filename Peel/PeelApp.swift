@@ -276,9 +276,11 @@ struct PeelApp: App {
 
     private func checkFreeSpace() async {
         let storage = await LowDiskSpace.storage()
+        // Read before `told`, so two checks running at once can't both tell.
+        let canTell = await PeelNotifications.mayShow()
         let defaults = UserDefaults.standard
         let told = defaults.bool(forKey: SettingsKey.toldDiskIsNearlyFull)
-        let answer = LowDiskSpace.check(storage, told: told)
+        let answer = LowDiskSpace.check(storage, told: told, canTell: canTell)
         // Written only when it changes: every write to the defaults makes each `AppStorage` in the app read again.
         if answer.told != told {
             defaults.set(answer.told, forKey: SettingsKey.toldDiskIsNearlyFull)

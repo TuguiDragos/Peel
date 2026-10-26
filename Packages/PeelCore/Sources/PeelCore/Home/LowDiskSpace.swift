@@ -13,10 +13,13 @@ public enum LowDiskSpace {
     static let nearlyFull = 0.10
     static let roomAgain = 0.125
 
-    public static func check(_ storage: DeviceInfo.Storage, told: Bool) -> Answer {
+    /// `canTell` is whether macOS shows Peel's notifications now: a warning it can't show stays owed.
+    public static func check(_ storage: DeviceInfo.Storage, told: Bool, canTell: Bool) -> Answer {
         guard storage.total > 0 else { return Answer(tell: false, told: told) }
         let free = Double(storage.free) / Double(storage.total)
-        if free < nearlyFull { return Answer(tell: !told, told: true) }
+        if free < nearlyFull {
+            return canTell ? Answer(tell: !told, told: true) : Answer(tell: false, told: told)
+        }
         return Answer(tell: false, told: told && free < roomAgain)
     }
 
