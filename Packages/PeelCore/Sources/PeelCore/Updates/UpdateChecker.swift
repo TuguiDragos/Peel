@@ -274,9 +274,6 @@ public struct UpdateChecker: Sendable {
         return await fetchReply(url)
     }
 
-    private func fetch(_ url: URL) async -> Data? {
-        await fetchReply(url).data
-    }
 
     /// The errors that mean this Mac isn't online rather than that the server failed.
     static func meansOffline(_ error: any Error) -> Bool {
@@ -298,7 +295,8 @@ public struct UpdateChecker: Sendable {
         guard answer.status.source == .homebrew else { return .notGiven }
         switch app.updateFeed {
         case .sparkle(let url):
-            guard let data = await fetch(url) else { return .unanswered }
+            let reply = await fetchReply(url)
+            guard let data = reply.data else { return Self.lookup(withoutNotes: reply) }
             let releases = Appcast.releases(in: data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon)
             guard let item = releases?.first(where: { item in
                 item.displayVersion.map { VersionComparison.compare($0, version) == .orderedSame } ?? false
@@ -307,7 +305,8 @@ public struct UpdateChecker: Sendable {
             guard let page = item.notesPage else { return .notGiven }
             return await notes(at: page)
         case .electron(let url):
-            guard let data = await fetch(url) else { return .unanswered }
+            let reply = await fetchReply(url)
+            guard let data = reply.data else { return Self.lookup(withoutNotes: reply) }
             let feed = String(decoding: data, as: UTF8.self)
             guard let latest = ElectronUpdater.version(fromFeed: feed),
                   VersionComparison.compare(latest, version) == .orderedSame,
@@ -323,7 +322,7 @@ public struct UpdateChecker: Sendable {
     /// encoding, and as Markdown, plain text or HTML by the page's type or extension.
     private func notes(at page: URL) async -> ReleaseNotesLookup {
         let reply = await fetchReply(page)
-        guard let data = reply.data else { return .unanswered }
+        guard let data = reply.data else { return Self.lookup(withoutNotes: reply) }
         let named = reply.textEncodingName.map { CFStringConvertIANACharSetNameToEncoding($0 as CFString) }
         let encoding = named.flatMap { encoding in
             encoding == kCFStringEncodingInvalidId
@@ -332,6 +331,16 @@ public struct UpdateChecker: Sendable {
         let text = String(data: data, encoding: encoding ?? .utf8) ?? String(decoding: data, as: UTF8.self)
         let notes = ReleaseNotes(text, format: Self.format(ofNotesAt: page, type: reply.mimeType))
         return notes.map(ReleaseNotesLookup.found) ?? .notGiven
+    }
+
+    /// A reply that brought nothing: no notes for this version when the server refused the address itself (a 4xx, but
+    /// for a timeout or too many requests), and otherwise no answer, unless this Mac wasn't online.
+    private static func lookup(withoutNotes reply: Reply) -> ReleaseNotesLookup {
+        if reply.wasOffline { return .offline }
+        guard let status = reply.status, (400..<500).contains(status), status != 408, status != 429 else {
+            return .unanswered
+        }
+        return .notGiven
     }
 
     /// Markdown is asked first, since a server may send it as `text/plain`; a page with no type is HTML (Sparkle's
@@ -455,6 +464,8 @@ public enum ReleaseNotesLookup: Sendable, Hashable {
     case found(ReleaseNotes)
     /// None are given for this version, or there is no address of the app's own to ask: not asked again.
     case notGiven
-    /// The server did not answer, so they are asked for again with the next check.
+    /// The server did not answer, so they are asked for again once a wait is over.
     case unanswered
+    /// This Mac wasn't online, so no server was asked and nothing was learned.
+    case offline
 }

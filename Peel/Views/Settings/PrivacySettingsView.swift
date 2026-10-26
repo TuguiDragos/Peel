@@ -32,7 +32,7 @@ struct PrivacySettingsView: View {
                     hostRow(Text(verbatim: host.address), host.purpose)
                 }
                 // Not an address, so unlike the host names above, this name is translated.
-                hostRow(Text("Each app’s own update feed"), "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version.")
+                hostRow(Text("Each app’s own update feed"), "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version, and again hours later when its server didn’t answer.")
                 LabeledContent {
                     Toggle(isOn: $checksForAppUpdates) { EmptyView() }
                         .labelsHidden()

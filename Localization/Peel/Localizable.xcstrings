@@ -168967,108 +168967,108 @@
         }
       }
     },
-    "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version." : {
+    "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version, and again hours later when its server didn’t answer." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adresa zapsaná uvnitř aplikace a všechny adresy, na které přesměrovává. U čekající aktualizace také stránka s poznámkami k vydání, kterou uvádí kanál, jednou pro každou verzi."
+            "value" : "Adresa zapsaná uvnitř aplikace a všechny adresy, na které přesměrovává. U čekající aktualizace také stránka s poznámkami k vydání, kterou uvádí kanál, jednou pro každou verzi a znovu o několik hodin později, pokud její server neodpověděl."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Adresse, die in der App steht, und wohin sie weiterleitet. Bei einem ausstehenden Update außerdem die vom Feed genannte Seite mit den Versionshinweisen, einmal pro Version."
+            "value" : "Die Adresse, die in der App steht, und wohin sie weiterleitet. Bei einem ausstehenden Update außerdem die vom Feed genannte Seite mit den Versionshinweisen, einmal pro Version und Stunden später erneut, wenn ihr Server nicht geantwortet hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La dirección escrita dentro de la app, y el lugar al que redirija. Para una actualización pendiente, también la página de notas de la versión que indique el canal, una vez por versión."
+            "value" : "La dirección escrita dentro de la app, y el lugar al que redirija. Para una actualización pendiente, también la página de notas de la versión que indique el canal, una vez por versión, y de nuevo unas horas después si su servidor no respondió."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’adresse inscrite dans l’app, et celle vers laquelle elle redirige. Pour une mise à jour en attente, Peel consulte aussi la page des notes de mise à jour indiquée par le flux, une fois par version."
+            "value" : "L’adresse inscrite dans l’app, et celle vers laquelle elle redirige. Pour une mise à jour en attente, Peel consulte aussi la page des notes de mise à jour indiquée par le flux, une fois par version, et de nouveau quelques heures plus tard si son serveur n’a pas répondu."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’indirizzo scritto all’interno dell’app, e ovunque esso reindirizzi. Per un aggiornamento in attesa, anche la pagina che il feed indica per le note della versione, una volta per ogni versione."
+            "value" : "L’indirizzo scritto all’interno dell’app, e ovunque esso reindirizzi. Per un aggiornamento in attesa, anche la pagina che il feed indica per le note della versione, una volta per ogni versione, e di nuovo alcune ore dopo se il suo server non ha risposto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリ内に記載されたアドレスと、そのリダイレクト先です。アップデートが待機中の場合は、フィードに記載されたリリースノートのページにも、バージョンごとに1回アクセスします。"
+            "value" : "アプリ内に記載されたアドレスと、そのリダイレクト先です。アップデートが待機中の場合は、フィードに記載されたリリースノートのページにも、バージョンごとに1回アクセスします。ページのサーバが応答しなかった場合は、数時間後にもう一度アクセスします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱 안에 적힌 주소와, 그 주소가 리디렉션하는 모든 곳입니다. 대기 중인 업데이트가 있으면 피드에 적힌 릴리즈 노트 페이지에도 버전마다 한 번씩 연결합니다."
+            "value" : "앱 안에 적힌 주소와, 그 주소가 리디렉션하는 모든 곳입니다. 대기 중인 업데이트가 있으면 피드에 적힌 릴리즈 노트 페이지에도 버전마다 한 번씩 연결하며, 해당 서버가 응답하지 않았으면 몇 시간 후에 다시 연결합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het adres dat in de app staat, en waar dat ook naar doorverwijst. Bij een wachtende update ook de pagina met versienotities die de feed noemt, één keer per versie."
+            "value" : "Het adres dat in de app staat, en waar dat ook naar doorverwijst. Bij een wachtende update ook de pagina met versienotities die de feed noemt, één keer per versie, en uren later opnieuw als de server van die pagina niet reageerde."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adres zapisany w aplikacji oraz miejsca, do których przekierowuje. W przypadku czekającego uaktualnienia także strona z informacjami o wersji podana w kanale, raz dla każdej wersji."
+            "value" : "Adres zapisany w aplikacji oraz miejsca, do których przekierowuje. W przypadku czekającego uaktualnienia także strona z informacjami o wersji podana w kanale, raz dla każdej wersji, i ponownie po kilku godzinach, jeśli jej serwer nie odpowiedział."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O endereço escrito dentro do app, e qualquer endereço para onde ele redirecione. Para uma atualização pendente, também a página de notas de lançamento que o feed indica, uma vez por versão."
+            "value" : "O endereço escrito dentro do app, e qualquer endereço para onde ele redirecione. Para uma atualização pendente, também a página de notas de lançamento que o feed indica, uma vez por versão, e de novo horas depois, se o servidor dela não tiver respondido."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adresa scrisă în aplicație și orice loc spre care redirecționează aceasta. Pentru o actualizare în așteptare, și pagina cu notele de publicare pe care o indică fluxul, câte o dată pentru fiecare versiune."
+            "value" : "Adresa scrisă în aplicație și orice loc spre care redirecționează aceasta. Pentru o actualizare în așteptare, și pagina cu notele de publicare pe care o indică fluxul, câte o dată pentru fiecare versiune și din nou, câteva ore mai târziu, dacă serverul paginii nu a răspuns."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Адрес, записанный внутри приложения, и адрес, на который он перенаправляет. Для ожидающего обновления также страница с заметками к выпуску, указанная в ленте, один раз для каждой версии."
+            "value" : "Адрес, записанный внутри приложения, и адрес, на который он перенаправляет. Для ожидающего обновления также страница с заметками к выпуску, указанная в ленте, один раз для каждой версии и повторно через несколько часов, если ее сервер не ответил."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adressen som står i appen, och dit den omdirigerar. Även sidan med versionsanmärkningar som flödet anger för en väntande uppdatering, en gång per version."
+            "value" : "Adressen som står i appen, och dit den omdirigerar. Även sidan med versionsanmärkningar som flödet anger för en väntande uppdatering, en gång per version, och igen några timmar senare om sidans server inte svarade."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamanın içinde yazılı adres ve bu adresin yönlendirdiği her yer. Bekleyen bir güncelleme için ayrıca akışın belirttiği çıkış notları sayfası, her sürüm için bir kez."
+            "value" : "Uygulamanın içinde yazılı adres ve bu adresin yönlendirdiği her yer. Bekleyen bir güncelleme için ayrıca akışın belirttiği çıkış notları sayfası, her sürüm için bir kez ve sunucusu yanıt vermediğinde saatler sonra bir kez daha."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Адреса, записана всередині програми, і будь-яка адреса, куди вона перенаправляє. Для оновлення, яке очікує, також сторінка з примітками до випуску, яку вказує стрічка, один раз для кожної версії."
+            "value" : "Адреса, записана всередині програми, і будь-яка адреса, куди вона перенаправляє. Для оновлення, яке очікує, також сторінка з примітками до випуску, яку вказує стрічка, один раз для кожної версії, і ще раз через кілька годин, якщо її сервер не відповів."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "写在App内部的地址，以及它重定向到的任何地址。对于等待中的更新，还包括更新源中指明的发布说明页面，每个版本访问一次。"
+            "value" : "写在App内部的地址，以及它重定向到的任何地址。对于等待中的更新，还包括更新源中指明的发布说明页面，每个版本访问一次，如果其服务器没有回应，则在数小时后再次访问。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "寫在App內的網址，以及它重新導向的任何位置。對於等待中的更新項目，也包括Feed中指定的版本附註頁面，每個版本一次。"
+            "value" : "寫在App內的網址，以及它重新導向的任何位置。對於等待中的更新項目，也包括Feed中指定的版本附註頁面，每個版本一次；若該頁面的伺服器沒有回應，則會在數小時後再試一次。"
           }
         }
       }

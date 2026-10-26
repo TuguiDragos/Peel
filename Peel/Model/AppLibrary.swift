@@ -540,7 +540,7 @@ final class AppLibrary {
             guard !force else { return true }
             // Already being checked by another round: a second answer could double the wait for the next check.
             guard !appsCheckingForUpdates.contains(app.id) else { return false }
-            // An update whose notes were never asked for is checked once now rather than on its next turn.
+            // An update whose notes are still to be asked for is checked now rather than on its next turn.
             let notesWait = releaseNotes.asks(about: updateStatuses[app.id], of: app, with: updatePreferences)
             return memory[identifier]?.schedule.isDue(at: now) ?? true || notesWait
         }
@@ -619,7 +619,7 @@ final class AppLibrary {
                 if case .updateAvailable(let version, _, _) = kept, answer.status == kept {
                     if let notes = answer.notes {
                         releaseNotes.record(.found(notes), of: identifier, version: version)
-                    } else if releaseNotes.asks(about: kept, of: app, with: updatePreferences) {
+                    } else if releaseNotes.asks(about: kept, of: app, with: updatePreferences, force: force) {
                         notesToAsk.append(ReleaseNotesQuestion(app: app, answer: answer, version: version))
                     }
                 }
@@ -665,6 +665,8 @@ final class AppLibrary {
                 askNext()
             }
             while let (question, lookup) = await group.next() {
+                // A stopped round's requests end without an answer, which would put the notes off for hours.
+                guard !Task.isCancelled else { continue }
                 if let identifier = question.app.bundleIdentifier {
                     releaseNotes.record(lookup, of: identifier, version: question.version)
                 }

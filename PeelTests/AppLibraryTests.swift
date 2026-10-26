@@ -63,6 +63,32 @@ private nonisolated final class SometimesOfflineProtocol: URLProtocol, @unchecke
     }
 }
 
+private nonisolated final class NotesProtocol: URLProtocol, @unchecked Sendable {
+    /// What the notes page answers, or nil to hold it until it is stopped.
+    static let notesStatus = Mutex<Int?>(503)
+    static let asked = Mutex<[String]>([])
+    static let arrived = Mutex<AsyncStream<Void>.Continuation?>(nil)
+
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func stopLoading() {}
+
+    override func startLoading() {
+        guard let url = request.url, let host = url.host() else { return }
+        Self.asked.withLock { $0.append(host) }
+        let isFeed = host == "feed.example.com"
+        if !isFeed { _ = Self.arrived.withLock { $0?.yield() } }
+        guard let status = isFeed ? 200 : Self.notesStatus.withLock({ $0 }),
+              let response = HTTPURLResponse(url: url, statusCode: status, httpVersion: "HTTP/1.1", headerFields: nil)
+        else { return }
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        if isFeed {
+            client?.urlProtocol(self, didLoad: Data(#"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><enclosure url="https://feed.example.com/u.zip" sparkle:version="101" sparkle:shortVersionString="1.1" /><sparkle:releaseNotesLink>https://notes.example.com/1.1.html</sparkle:releaseNotesLink></item></channel></rss>"#.utf8))
+        }
+        client?.urlProtocolDidFinishLoading(self)
+    }
+}
+
 private nonisolated final class TestClock: Sendable {
     private let moment: Mutex<Date>
 
@@ -454,6 +480,53 @@ private nonisolated final class TestClock: Sendable {
 
         #expect(library.shownUpdateStatus(of: app) == .upToDate)
         #expect(known != nil && remembered() == known, "nothing learned, nothing put off")
+    }
+
+    @Test func notesNoServerAnsweredWaitForTheirTurnUnlessThePersonAsks() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        NotesProtocol.notesStatus.withLock { $0 = 503 }
+        NotesProtocol.asked.withLock { $0 = [] }
+        let library = library(with: made.defaults, notesIn: folder, answeredBy: NotesProtocol.self)
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+
+        await library.checkForUpdates([app], force: true)
+        #expect(library.hasUpdate(app))
+        #expect(NotesProtocol.asked.withLock { $0 } == ["feed.example.com", "notes.example.com"])
+
+        await library.checkForUpdates([app])
+        #expect(NotesProtocol.asked.withLock { $0 }.count == 2, "the next round asks nothing")
+
+        await library.checkForUpdates([app], force: true)
+        #expect(NotesProtocol.asked.withLock { $0 }.suffix(2) == ["feed.example.com", "notes.example.com"])
+    }
+
+    @Test func aStoppedRoundPutsNoNotesOff() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        NotesProtocol.notesStatus.withLock { $0 = nil }
+        defer { NotesProtocol.notesStatus.withLock { $0 = 503 } }
+        let (arrivals, arrival) = AsyncStream.makeStream(of: Void.self)
+        NotesProtocol.arrived.withLock { $0 = arrival }
+        defer { NotesProtocol.arrived.withLock { $0 = nil } }
+        let library = library(with: made.defaults, notesIn: folder, answeredBy: NotesProtocol.self)
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+
+        let round = Task { await library.checkForUpdates([app], force: true) }
+        for await _ in arrivals { break }
+        round.cancel()
+        await round.value
+
+        #expect(library.hasUpdate(app))
+        #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
     }
 
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {

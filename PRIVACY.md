@@ -17,10 +17,10 @@ sends it elsewhere is followed only to another HTTPS address. Each check asks ab
 checks show the App Store which of its apps you have, and GitHub which of your apps update through it.
 
 For an update that waits, Peel also reads the page of release notes the app's feed names, and the app's own feed when
-Homebrew found the update, once per version, and keeps the notes so they show with no connection. When the feed names
-a page of notes for each language, Peel asks for the one in your language, so the server that keeps those pages can
-tell which language you read. Nothing in them is loaded or run: Peel shows their text, and a link in them opens only
-when you click it.
+Homebrew found the update, once per version (again hours later only when its server didn't answer), and keeps the notes
+so they show with no connection. When the feed names a page of notes for each language, Peel asks for the one in your
+language, so the server that keeps those pages can tell which language you read. Nothing in them is loaded or run: Peel
+shows their text, and a link in them opens only when you click it.
 
 Homebrew goes online only when you ask it to: to update, to upgrade, to repair its taps, which asks each tap's
 repository whether its main branch was renamed, or to scan for vulnerabilities. That scan, which Homebrew runs as
@@ -51,4 +51,4 @@ them as the page loads, and they are posted only if you send the issue.
 | `formulae.brew.sh` | Homebrew's list of packages, when you ask Homebrew to update or upgrade. |
 | `ghcr.io` | Where Homebrew downloads the packages it upgrades, and wherever it redirects. A package with no ready-made build for your Mac downloads its source from the address its formula names, and a cask comes from its maker's own address. |
 | `api.osv.dev` | The database of known vulnerabilities that Homebrew's scan checks your formulae against. |
-| Each app's own update feed | The address written inside the app, such as a Sparkle feed, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version. |
+| Each app's own update feed | The address written inside the app, such as a Sparkle feed, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version, and again hours later when its server didn't answer. |

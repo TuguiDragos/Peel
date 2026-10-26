@@ -74,6 +74,11 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
 
         #expect(away.status == .failed && away.wasOffline)
         #expect(down.status == .failed && !down.wasOffline)
+        let page = UpdateAnswer(
+            status: .updateAvailable(version: "1.1", source: .developer, releaseNotes: nil),
+            notesPage: URL(string: "https://notes.example.com/1.1.html")
+        )
+        #expect(await offline.releaseNotes(for: app, answer: page) == .offline)
         #expect(UpdateChecker.configuration.waitsForConnectivity)
     }
 
@@ -576,6 +581,9 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
 
         reply("feed.example.com", status: 503, "")
         #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .unanswered)
+
+        reply("feed.example.com", status: 404, "")
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .notGiven)
     }
 
     @Test func readsTheNotesPageAFeedLinksToAsSparkleDoes() async throws {
@@ -609,6 +617,19 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
         let latin = await answer(linking: "2.0.html", "<p>Café</p>".data(using: .isoLatin1)!, type: "text/html; charset=iso-8859-1")
         let latinNotes = try #require(ReleaseNotes("<p>Café</p>", format: .html))
         #expect(await checker.releaseNotes(for: sparkleApp(), answer: latin) == .found(latinNotes))
+    }
+
+    @Test func takesANotesPageTheServerRefusesForNoNotes() async {
+        let item = "<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"200\" sparkle:shortVersionString=\"2.0\" /><sparkle:releaseNotesLink>https://notes.example.com/2.0.html</sparkle:releaseNotesLink></item>"
+        reply("feed.example.com", appcast(item))
+        let answer = await checker.answer(for: sparkleApp())
+
+        for status in [403, 404, 410] {
+            reply("notes.example.com", status: status, "")
+            #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .notGiven, "\(status)")
+        }
+        reply("notes.example.com", status: 503, "")
+        #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .unanswered)
     }
 
     @Test func readsANotesPagesFormatInSparklesOrder() {

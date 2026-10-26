@@ -7,6 +7,18 @@ public struct ReleaseNotesMemory: Sendable, Equatable, Codable {
         let version: String
         /// Nil once asked for and none were given.
         let notes: ReleaseNotes?
+        let unanswered: Unanswered?
+    }
+
+    /// The tries in a row that no server answered, the last one at `at`.
+    private struct Unanswered: Sendable, Equatable, Codable {
+        let at: Date
+        let times: Int
+
+        /// Six hours after the first try, then twice as long after each, up to two days, as for a feed that fails.
+        var asksAgain: Date {
+            at + min(UpdateSchedule.afterFailure * pow(2, Double(times - 1)), UpdateSchedule.longestAfterFailure)
+        }
     }
 
     private var entries: [String: Entry] = [:]
@@ -18,25 +30,44 @@ public struct ReleaseNotesMemory: Sendable, Equatable, Codable {
         entries[identifier].flatMap { $0.version == version ? $0.notes : nil }
     }
 
-    /// Whether the notes of `version` are still to be asked for: nobody asked yet, or no server answered.
-    public func asks(_ identifier: String, version: String) -> Bool {
-        entries[identifier]?.version != version
+    /// Whether the notes of `version` are still to be asked for: nobody asked yet, or no server answered and its wait
+    /// is over, or at once when `force`, for a check the person asked for.
+    public func asks(_ identifier: String, version: String, at now: Date = .now, force: Bool = false) -> Bool {
+        guard let entry = entries[identifier], entry.version == version else { return true }
+        guard let unanswered = entry.unanswered else { return false }
+        return force || now >= unanswered.asksAgain
     }
 
     /// Whether the notes of the update `status` names are to be asked for: only an update that waits for the person,
     /// never a version they skipped or an app they told Peel to leave alone.
-    public func asks(about status: UpdateStatus?, of app: InstalledApp, with preferences: UpdatePreferences) -> Bool {
+    public func asks(
+        about status: UpdateStatus?,
+        of app: InstalledApp,
+        with preferences: UpdatePreferences,
+        force: Bool = false
+    ) -> Bool {
         guard preferences.isWaiting(status, for: app), let version = status?.version,
               let identifier = app.bundleIdentifier
         else { return false }
-        return asks(identifier, version: version)
+        return asks(identifier, version: version, force: force)
     }
 
-    public mutating func record(_ lookup: ReleaseNotesLookup, of identifier: String, version: String) {
+    public mutating func record(
+        _ lookup: ReleaseNotesLookup, of identifier: String, version: String, at now: Date = .now
+    ) {
+        let before = entries[identifier].flatMap { $0.version == version ? $0 : nil }
         switch lookup {
-        case .found(let notes): entries[identifier] = Entry(version: version, notes: notes)
-        case .notGiven: entries[identifier] = Entry(version: version, notes: nil)
-        case .unanswered: break
+        case .found(let notes):
+            entries[identifier] = Entry(version: version, notes: notes, unanswered: nil)
+        case .notGiven:
+            entries[identifier] = Entry(version: version, notes: nil, unanswered: nil)
+        case .unanswered:
+            // Notes already found stay, and a try made before the wait was over keeps the wait it had.
+            if let before, before.unanswered.map({ now < $0.asksAgain }) ?? true { return }
+            let times = (before?.unanswered?.times ?? 0) + 1
+            entries[identifier] = Entry(version: version, notes: nil, unanswered: Unanswered(at: now, times: times))
+        case .offline:
+            break
         }
     }
 
