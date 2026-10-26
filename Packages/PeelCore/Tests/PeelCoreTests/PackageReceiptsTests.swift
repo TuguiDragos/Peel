@@ -473,6 +473,35 @@ struct PackageReceiptsTests {
         #expect(asked.withLock { $0 }.first == PathPattern.comparablePath(of: app), "the real path is asked about first")
     }
 
+    @Test func findsAPackageInstalledIntoTheAppItself() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url).path(percentEncoded: false)
+        let app = PathPattern.canonical(try directory.directory("Applications/Example.app"))
+        try directory.file("Applications/Example.app/Contents/Info.plist", bytes: 16)
+        // As `pkgutil` matches a path: literally, against the file list relative to the install location.
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--file-info-plist": arguments[1] == "/Contents/Info.plist"
+                ? PkgutilAnswer.fileInfo(arguments[1], packages: "org.example.inside", "org.example.other")
+                : PkgutilAnswer.fileInfo(arguments[1])
+            case "--pkg-info-plist": PkgutilAnswer.packageInfo(
+                arguments[1], volume: volume,
+                location: arguments[1] == "org.example.other" ? "Applications/Other.app" : "Applications/Example.app"
+            )
+            case "--files": "Contents\nContents/Info.plist\n"
+            default: nil
+            }
+        }
+
+        let found = await PackageReceipts.receipts(installing: app, exclusions: .none, pkgutil: pkgutil)
+        let wroteOnlyTheApp = await PackageReceipts.receipts(writingOnly: app, pkgutil: pkgutil)
+
+        #expect(found.map(\.identifier) == ["org.example.inside"])
+        let items = found.first?.items.map { PathPattern.comparablePath(of: $0.url) }
+        #expect(items == [PathPattern.comparablePath(of: app)])
+        #expect(wroteOnlyTheApp == ["org.example.inside"])
+    }
+
     /// A link the package installed is on the disk even when what it leads to is gone, so the package is not
     /// "Receipt only": `fileExists` follows the link and would call it missing.
     @Test func aDanglingLinkThePackageInstalledIsStillThere() throws {

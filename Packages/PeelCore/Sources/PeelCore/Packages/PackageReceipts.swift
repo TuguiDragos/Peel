@@ -140,10 +140,7 @@ public enum PackageReceipts {
         systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
     ) async -> [PackageReceipt] {
         let wanted = PathPattern.comparablePath(of: PathPattern.canonical(url))
-        var identifiers: Set<String> = []
-        for path in Self.spellings(of: wanted) where identifiers.isEmpty && !Task.isCancelled {
-            identifiers = Set(Self.packageIdentifiers(in: await pkgutil(["--file-info-plist", path])))
-        }
+        let identifiers = await packages(listing: wanted, pkgutil: pkgutil)
 
         var receipts: [PackageReceipt] = []
         let removalGuard = RemovalGuard(environment: .current, exclusions: exclusions)
@@ -172,11 +169,7 @@ public enum PackageReceipts {
     /// they are compared name by name in that form, since most of them need not exist.
     static func receipts(writingOnly app: URL, pkgutil: Pkgutil) async -> [String] {
         let bundle = PathPattern.canonical(app)
-        let spellings = Self.spellings(of: PathPattern.comparablePath(of: bundle))
-        var identifiers: Set<String> = []
-        for path in spellings where identifiers.isEmpty && !Task.isCancelled {
-            identifiers = Set(Self.packageIdentifiers(in: await pkgutil(["--file-info-plist", path])))
-        }
+        let identifiers = await packages(listing: PathPattern.comparablePath(of: bundle), pkgutil: pkgutil)
         let names = PathComponents.of(bundle.path(percentEncoded: false))
         var found: [String] = []
         for identifier in identifiers.sorted() where !Task.isCancelled {
@@ -188,9 +181,30 @@ public enum PackageReceipts {
             let wanted = Array(names.dropFirst(location.count))
             let entries = lines(of: listing).map { PathComponents.of($0).filter { $0 != "." } }
             let isTheAppOrOnTheWay = { (entry: [String]) in entry.starts(with: wanted) || wanted.starts(with: entry) }
-            if entries.contains(wanted), entries.allSatisfy(isTheAppOrOnTheWay) { found.append(identifier) }
+            // A package installed into the app itself lists only what is inside it, so it wrote the app and no more.
+            if wanted.isEmpty || entries.contains(wanted), entries.allSatisfy(isTheAppOrOnTheWay) {
+                found.append(identifier)
+            }
         }
         return found
+    }
+
+    /// The packages whose receipts list the bundle at `path`, as `pkgutil` names them: it matches a path literally
+    /// against each receipt's file list, which is relative to the package's install location.
+    private static func packages(listing path: String, pkgutil: Pkgutil) async -> Set<String> {
+        for asked in spellings(of: path) where !Task.isCancelled {
+            let identifiers = Set(packageIdentifiers(in: await pkgutil(["--file-info-plist", asked])))
+            if !identifiers.isEmpty { return identifiers }
+        }
+        // A package installed into a bundle lists only what is inside it, as `Contents/...`, like every package
+        // installed that way, so only the one whose install location is this bundle counts.
+        var inside: Set<String> = []
+        for identifier in packageIdentifiers(in: await pkgutil(["--file-info-plist", "/Contents/Info.plist"]))
+        where !Task.isCancelled {
+            guard let location = await description(of: identifier, pkgutil: pkgutil)?.installLocation else { continue }
+            if PathPattern.comparablePath(of: PathPattern.canonical(location)) == path { inside.insert(identifier) }
+        }
+        return inside
     }
 
     /// Returns `path`, then the same path with its leading folders dropped one at a time (`/a/b/c`, `/b/c`,
@@ -237,9 +251,13 @@ public enum PackageReceipts {
     struct Found {
         let receipt: PackageReceipt
         let paths: [String]
+        /// Where the package put what it lists. One installed into a bundle, an app's own folder, made that bundle.
+        var installLocation: String?
 
         func installs(_ path: String) -> Bool {
-            paths.contains { PathPattern.comparablePath(of: PathPattern.canonical(URL(filePath: $0))) == path }
+            let comparable = { PathPattern.comparablePath(of: PathPattern.canonical(URL(filePath: $0))) }
+            return paths.contains { comparable($0) == path }
+                || !paths.isEmpty && installLocation.map(comparable) == path
         }
     }
 
@@ -335,7 +353,8 @@ public enum PackageReceipts {
                 installedThroughItsScripts: throughScripts,
                 installedApps: apps.map(\.name).sorted()
             ),
-            paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) }
+            paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) },
+            installLocation: installLocation.path(percentEncoded: false)
         )
     }
 
