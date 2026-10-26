@@ -441,14 +441,19 @@ private nonisolated final class TestClock: Sendable {
         #expect(await library.reveal([bundle]))
         let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
         await library.checkForUpdates([app], force: true)
-        let known = made.defaults.data(forKey: SettingsKey.updateMemory)
+        let remembered = { () -> [String: UpdateMemory]? in
+            made.defaults.data(forKey: SettingsKey.updateMemory).flatMap {
+                try? JSONDecoder().decode([String: UpdateMemory].self, from: $0)
+            }
+        }
+        let known = remembered()
         #expect(library.shownUpdateStatus(of: app) == .upToDate)
 
         SometimesOfflineProtocol.isOffline.withLock { $0 = true }
         await library.checkForUpdates([app], force: true)
 
         #expect(library.shownUpdateStatus(of: app) == .upToDate)
-        #expect(made.defaults.data(forKey: SettingsKey.updateMemory) == known, "nothing learned, nothing put off")
+        #expect(known != nil && remembered() == known, "nothing learned, nothing put off")
     }
 
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {
