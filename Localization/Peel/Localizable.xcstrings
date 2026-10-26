@@ -114334,6 +114334,112 @@
         }
       }
     },
+    "Peel can’t read its file" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst její soubor"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann die Datei dieses Objekts nicht lesen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer su archivo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire son fichier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere il suo file"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこの項目のファイルを読み取れません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 파일을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan het bestand niet lezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać pliku tej rzeczy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler o arquivo dele"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu îi poate citi fișierul"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может прочитать его файл"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa filen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu öğenin dosyasını okuyamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати його файл"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取它的文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取它的檔案"
+          }
+        }
+      }
+    },
     "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one." : {
       "localizations" : {
         "cs" : {
@@ -225837,6 +225943,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS只有在Peel獲得「App管理」權限時，才允許它還原其他開發者的App。請在「系統設定」>「隱私權與安全性」>「App管理」中允許Peel，然後再試一次。"
+          }
+        }
+      }
+    },
+    "macOS lets only its owner read it, so Peel can’t tell what it runs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ho dovoluje číst jen jeho vlastníkovi, takže Peel nemůže zjistit, co položka spouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS erlaubt nur dem Eigentümer der Datei, sie zu lesen, daher kann Peel nicht erkennen, was dieses Objekt ausführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS solo deja que lo lea su propietario, así que Peel no puede saber qué ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’autorise que son propriétaire à lire ce fichier : Peel ne peut donc pas savoir ce que cet élément exécute."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS consente di leggerlo solo al suo proprietario, quindi Peel non può sapere cosa esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSでは所有者しかこのファイルを読み取れないため、Peelには何が実行されるのかわかりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 소유자만 이 파일을 읽을 수 있게 하므로 Peel은 이 항목이 무엇을 실행하는지 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laat alleen de eigenaar het bestand lezen, dus Peel kan niet zien wat dit onderdeel uitvoert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS pozwala odczytać go tylko jego właścicielowi, więc Peel nie może ustalić, co ta rzecz uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS só deixa o proprietário do arquivo lê-lo, então o Peel não sabe dizer o que este item executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS îi permite doar proprietarului să îl citească, așa că Peel nu poate ști ce rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS разрешает читать этот файл только его владельцу, поэтому Peel не может сказать, что запускает этот объект."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS låter bara ägaren läsa den, så Peel kan inte avgöra vad jobbet kör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bu dosyayı yalnızca sahibinin okumasına izin veriyor, bu yüzden Peel öğenin neyi çalıştırdığını bilemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS дозволяє читати цей файл лише його власникові, тож Peel не може визначити, що запускає цей елемент."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只允许其所有者读取它，因此Peel无法判断它运行什么。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只允許它的擁有者讀取它，因此Peel無法判斷它會執行什麼。"
+          }
+        }
+      }
+    },
+    "macOS lets only its owner read it, so what Peel shows here is what macOS says of the job it loaded from it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ho dovoluje číst jen jeho vlastníkovi, takže Peel tu zobrazuje to, co systém macOS uvádí o úloze, kterou z něj načetl."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS erlaubt nur dem Eigentümer der Datei, sie zu lesen, daher zeigt Peel hier, was macOS über den daraus geladenen Job mitteilt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS solo deja que lo lea su propietario, así que lo que Peel muestra aquí es lo que macOS dice de la tarea que cargó desde él."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’autorise que son propriétaire à lire ce fichier : ce que Peel affiche ici est donc ce que macOS indique de la tâche qu’il a chargée à partir de celui-ci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS consente di leggerlo solo al suo proprietario, quindi ciò che Peel mostra qui è ciò che macOS dice dell’elemento che ha caricato da quel file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSでは所有者しかこのファイルを読み取れないため、ここでPeelが表示しているのは、macOSがこのファイルから読み込んだジョブについて報告している内容です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 소유자만 이 파일을 읽을 수 있게 하므로, Peel이 여기에 표시하는 내용은 macOS가 이 파일에서 로드한 작업에 대해 알려 주는 내용입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laat alleen de eigenaar het bestand lezen, dus wat Peel hier toont, is wat macOS meldt over de taak die het eruit heeft geladen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS pozwala odczytać go tylko jego właścicielowi, więc Peel pokazuje tutaj to, co macOS podaje o zadaniu, które z niego wczytał."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS só deixa o proprietário do arquivo lê-lo, então o que o Peel mostra aqui é o que o macOS diz da tarefa que carregou a partir dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS îi permite doar proprietarului să îl citească, așa că Peel afișează aici ce spune macOS despre sarcina pe care a încărcat‑o din el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS разрешает читать этот файл только его владельцу, поэтому здесь Peel показывает то, что macOS сообщает о задании, которое она загрузила из этого файла."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS låter bara ägaren läsa den, så det som Peel visar här är det som macOS säger om jobbet som lästes in från den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bu dosyayı yalnızca sahibinin okumasına izin veriyor, bu yüzden Peel’in burada gösterdikleri, macOS’in bu dosyadan yüklediği iş hakkında söyledikleridir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS дозволяє читати цей файл лише його власникові, тож тут Peel показує те, що macOS повідомляє про завдання, яке вона з нього завантажила."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只允许其所有者读取它，因此Peel在此处显示的是macOS对它从该文件载入的任务的描述。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只允許它的擁有者讀取它，因此Peel在這裡顯示的內容，是macOS對它從此檔案載入的工作所提供的資訊。"
           }
         }
       }

@@ -192,6 +192,11 @@ private struct BackgroundItemRow: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
+                } else if item.isClosedToPeel, item.isNamedByItsFile {
+                    StatusLabel(title: Text("Peel can’t read its file"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
                 } else if item.isFileGone {
                     StatusLabel(title: Text("Its file is gone"))
                         .font(.caption)

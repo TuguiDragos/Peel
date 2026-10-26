@@ -77,7 +77,7 @@ public enum BackgroundItems {
             return results
         }
         let undeclared = merged(found, loaded: loaded)
-        items += undeclared.items
+        items = placing(undeclared.items, into: items)
         items += disabledJobs(in: loaded, listed: items, ownership: ownership)
 
         return Scan(
@@ -86,6 +86,27 @@ public enum BackgroundItems {
                 .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending },
             unanswered: undeclared.unanswered
         )
+    }
+
+    /// The rows, each job launchd loaded from a file Peel can't read in the place of that file's row, with the file's
+    /// folder as its source; then the other loaded jobs.
+    static func placing(_ loadedJobs: [BackgroundItem], into rows: [BackgroundItem]) -> [BackgroundItem] {
+        var rows = rows
+        var others: [BackgroundItem] = []
+        for job in loadedJobs {
+            let file = job.plistURL.map(PathPattern.comparablePath(of:))
+            guard let file, let index = rows.firstIndex(where: {
+                $0.isClosedToPeel && $0.isNamedByItsFile && $0.plistURL.map(PathPattern.comparablePath(of:)) == file
+            }) else {
+                others.append(job)
+                continue
+            }
+            var placed = job
+            placed.source = rows[index].source
+            placed.isClosedToPeel = true
+            rows[index] = placed
+        }
+        return rows + others
     }
 
     /// The items among what `launchctl` said of each undeclared job, and the kinds some of whose jobs may be missing:
@@ -112,8 +133,9 @@ public enum BackgroundItems {
         declared items: [BackgroundItem],
         uid: uid_t
     ) -> [(label: String, kind: BackgroundItem.Kind, target: String)] {
-        // By kind and label: an item's `id` also holds its file's path, which a loaded job does not report.
-        let known = Set(items.map { "\($0.kind.rawValue)/\($0.label)" })
+        // By kind and label: an item's `id` also holds its file's path, which a loaded job does not report. A file
+        // Peel can't read names no label, so whatever job launchd loaded from it is asked about too.
+        let known = Set(items.filter { !$0.isClosedToPeel }.map { "\($0.kind.rawValue)/\($0.label)" })
         let candidates: [(label: String, kind: BackgroundItem.Kind, target: String)] =
             (loaded.user ?? [:]).keys.map { label in
                 (label, .agent, "\(loaded.isInTheUserDomain(label) ? "user" : "gui")/\(uid)/\(label)")
@@ -230,7 +252,11 @@ public enum BackgroundItems {
                 // A label of macOS's own is shown too, and marked (`usesALabelOfMacOS`): macOS keeps its jobs
                 // elsewhere, so a file here that borrows one is somebody else's, and a common way to hide a job.
                 guard let job = JobDefinition(contentsOf: plist) else {
-                    items.append(unreadable(plist, kind: kind, source: source, ownership: ownership))
+                    items.append(
+                        FileAccess.isClosedToReading(plist)
+                            ? closed(plist, kind: kind, source: source, ownership: ownership, loaded: loaded)
+                            : unreadable(plist, kind: kind, source: source, ownership: ownership)
+                    )
                     continue
                 }
                 let owner = ownership.owner(label: job.label, associated: job.associated, program: job.program)
@@ -263,7 +289,7 @@ public enum BackgroundItems {
     static func settlingSharedLabels(
         _ items: [BackgroundItem], loadedFrom: (BackgroundItem) async -> String?
     ) async -> [BackgroundItem] {
-        let declared = items.indices.filter { items[$0].plistURL != nil && !items[$0].isUnreadable }
+        let declared = items.indices.filter { items[$0].plistURL != nil && !items[$0].isNamedByItsFile }
         let shared = Dictionary(grouping: declared) { "\(items[$0].kind.rawValue)/\(items[$0].label)" }
             .values.filter { $0.count > 1 }
         var settled = items
@@ -304,7 +330,40 @@ public enum BackgroundItems {
             state: .notLoaded,
             isDisabled: false,
             isOwnerConfirmed: owner?.isConfirmed ?? false,
-            isUnreadable: true
+            isUnreadable: true,
+            isNamedByItsFile: true
+        )
+    }
+
+    /// A job file macOS lets only its owner read, named by its file until launchd says which job it loaded from it.
+    /// What it runs is not known, so it is never called orphaned, and it is said not loaded only when no job runs
+    /// under its name.
+    private static func closed(
+        _ plist: URL,
+        kind: BackgroundItem.Kind,
+        source: BackgroundItem.Source,
+        ownership: BackgroundItemOwnership,
+        loaded: Loaded
+    ) -> BackgroundItem {
+        let name = plist.deletingPathExtension().lastPathComponent
+        let owner = ownership.owner(label: name, associated: [], program: nil)
+        return BackgroundItem(
+            label: name,
+            kind: kind,
+            source: source,
+            plistURL: plist,
+            program: nil,
+            runsAtLoad: nil,
+            keepsAlive: nil,
+            ownerBundleIdentifier: owner?.bundleIdentifier,
+            ownerName: owner?.name,
+            ownerURL: owner?.url,
+            isOrphan: false,
+            state: loaded.state(of: name, kind) == .notLoaded ? .notLoaded : .unknown,
+            isDisabled: loaded.override(of: name, kind) ?? false,
+            isOwnerConfirmed: owner?.isConfirmed ?? false,
+            isClosedToPeel: true,
+            isNamedByItsFile: true
         )
     }
 

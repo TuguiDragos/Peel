@@ -20,6 +20,11 @@ public enum FileAccess {
         accessError == EPERM && !isLocked
     }
 
+    /// Whether `url` is there and this process may not read it, as a file only its owner reads (`access(2)`).
+    static func isClosedToReading(_ url: URL) -> Bool {
+        access(url.path(percentEncoded: false), R_OK) != 0 && (errno == EACCES || errno == EPERM)
+    }
+
     static func isARealFolder(_ url: URL) -> Bool {
         var info = stat()
         return lstat(url.path(percentEncoded: false), &info) == 0 && info.st_mode & S_IFMT == S_IFDIR

@@ -201,6 +201,16 @@ struct BackgroundItemDetailView: View {
                         kind: .note
                     ) {}
                 }
+            } else if item.isClosedToPeel {
+                Section {
+                    Notice(
+                        title: Text("Peel can’t read its file"),
+                        detail: item.isNamedByItsFile
+                            ? Text("macOS lets only its owner read it, so Peel can’t tell what it runs.")
+                            : Text("macOS lets only its owner read it, so what Peel shows here is what macOS says of the job it loaded from it."),
+                        kind: .note
+                    ) {}
+                }
             } else if item.state == .unknown {
                 Section {
                     Notice(
@@ -365,10 +375,11 @@ struct BackgroundItemDetailView: View {
     }
 
     /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
-    /// file macOS can't load, and a file whose label launchd runs from another file don't have. A job loaded from a
-    /// file elsewhere has only Stop. A job Peel may not disable has only Enable, while launchd keeps it disabled.
+    /// file named by itself since its label couldn't be read, and a file whose label launchd runs from another file
+    /// don't have. A job loaded from a file elsewhere has only Stop. A job Peel may not disable has only Enable, while
+    /// launchd keeps it disabled.
     private var hasOwnControls: Bool {
-        guard item.canBeControlled, item.state != .unknown, !item.isUnreadable, !item.anotherFileIsLoaded else {
+        guard item.canBeControlled, item.state != .unknown, !item.isNamedByItsFile, !item.anotherFileIsLoaded else {
             return false
         }
         if item.canOnlyBeStopped { return true }

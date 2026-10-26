@@ -26,7 +26,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
 
     public let label: String
     public let kind: Kind
-    public let source: Source
+    public internal(set) var source: Source
     public let plistURL: URL?
     public let program: String?
     /// Whether launchd starts the job as it loads it, and again after it exits; nil when nothing Peel can read says.
@@ -43,9 +43,13 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public let isDisabled: Bool
     /// False when only a name points to the owner (`BackgroundItemOwnership.Owner.isConfirmed`).
     public var isOwnerConfirmed = true
-    /// True for a file launchd can't load: not a property list, or one without a `Label`. It is named by its file,
-    /// and nothing but moving it is offered.
+    /// True for a file launchd can't load: not a property list, or one without a `Label`.
     public var isUnreadable = false
+    /// True for a file macOS lets only its owner read, as launchd does as root: what Peel knows of its job comes from
+    /// launchd, and until launchd says which job it loaded from the file, the row is named by the file.
+    public var isClosedToPeel = false
+    /// True for a row named by its file, since Peel couldn't read the label inside: nothing but moving it is offered.
+    public var isNamedByItsFile = false
     /// What in the job's command is worth a second look, if anything.
     public var unusualCommand: UnusualCommand?
     /// True for an agent its file limits to the Background session, which launchd keeps in the user domain rather

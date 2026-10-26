@@ -656,6 +656,68 @@ struct DeclaredBackgroundItemsTests {
         #expect(items.filter { !$0.isUnreadable }.map(\.label) == ["org.example.agent"])
     }
 
+    @Test(.permissionsHold) func namesAJobFilePeelCannotReadForWhatItIs() throws {
+        let directory = try TemporaryDirectory()
+        let closed = "home/Library/LaunchAgents/org.example.closed.plist"
+        try directory.file(closed, contents: job("org.example.agent", program: "/bin/sh"))
+        try directory.setPermissions(0, of: closed)
+        try directory.file("home/Library/LaunchAgents/org.example.broken.plist", contents: Data("<plist".utf8))
+
+        let items = BackgroundItems.declared(
+            in: environment(directory), ownership: BackgroundItemOwnership(installedApps: [])
+        )
+
+        let unread = try #require(items.first { $0.label == "org.example.closed" })
+        #expect(unread.isClosedToPeel && unread.isNamedByItsFile)
+        #expect(!unread.isUnreadable, "launchd reads it as root, so nothing says macOS can't load it")
+        #expect(!unread.isOrphan, "what it runs is not known")
+        #expect(unread.state == .notLoaded)
+        let broken = try #require(items.first { $0.label == "org.example.broken" })
+        #expect(broken.isUnreadable && !broken.isClosedToPeel)
+    }
+
+    @Test func asksLaunchdWhichJobAFilePeelCannotReadLoaded() {
+        var closed = BackgroundItem(
+            label: "org.example.closed", kind: .agent, source: .userLibrary,
+            plistURL: URL(filePath: "/org.example/LaunchAgents/org.example.closed.plist"), program: nil,
+            runsAtLoad: nil, keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil,
+            isOrphan: false, state: .unknown, isDisabled: false
+        )
+        closed.isClosedToPeel = true
+        closed.isNamedByItsFile = true
+        let loaded = BackgroundItems.Loaded(user: ["org.example.closed": 42])
+
+        #expect(BackgroundItems.undeclared(in: loaded, declared: [closed], uid: 501).map(\.label) == ["org.example.closed"])
+    }
+
+    @Test func aJobLoadedFromAFilePeelCannotReadTakesItsRow() {
+        func item(
+            _ label: String, _ source: BackgroundItem.Source, _ plist: String, program: String? = nil
+        ) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: .daemon, source: source, plistURL: URL(filePath: plist), program: program,
+                runsAtLoad: nil, keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil,
+                isOrphan: false, state: .running(pid: 7), isDisabled: false
+            )
+        }
+        var closed = item("org.example.closed", .systemLibrary, "/Library/LaunchDaemons/org.example.closed.plist")
+        closed.state = .unknown
+        closed.isClosedToPeel = true
+        closed.isNamedByItsFile = true
+        let fromIt = item(
+            "org.example.daemon", .otherFile, "/Library/LaunchDaemons/org.example.closed.plist",
+            program: "/usr/local/bin/org.example.daemon"
+        )
+        let elsewhere = item("org.example.stray", .otherFile, "/org.example/org.example.stray.plist")
+
+        let rows = BackgroundItems.placing([fromIt, elsewhere], into: [closed])
+
+        #expect(rows.map(\.label) == ["org.example.daemon", "org.example.stray"])
+        #expect(rows.first?.source == .systemLibrary, "launchd loaded it from its own folder, not from elsewhere")
+        #expect(rows.first?.isClosedToPeel == true && rows.first?.isNamedByItsFile == false)
+        #expect(rows.last?.source == .otherFile && rows.last?.isClosedToPeel == false)
+    }
+
     /// macOS keeps its own jobs under `/System/Library` and `/Library/Apple/System/Library`, so a file in these
     /// folders that uses one of their labels, or any `com.apple.` label, is not macOS's. A label names a job only
     /// in its own domain, so such a copy runs beside the real one: it is listed, marked, and never acted on.
