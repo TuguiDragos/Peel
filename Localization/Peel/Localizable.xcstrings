@@ -12950,6 +12950,112 @@
         }
       }
     },
+    "All Results Left Out" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Všechny výsledky vynechány"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Ergebnisse ausgelassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se han dejado fuera todos los resultados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les résultats ont été écartés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutti i risultati omessi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべての結果が表示対象外です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 결과가 표시되지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle resultaten weggelaten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pominięto wszystkie wyniki"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos os Resultados Ficaram de Fora"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toate rezultatele au fost omise"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ни один результат не показан"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alla träffar utelämnades"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Sonuçlar Dışarıda Bırakıldı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жодного результату не показано"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有结果均未列出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已略過所有結果"
+          }
+        }
+      }
+    },
     "All users" : {
       "localizations" : {
         "cs" : {
@@ -73049,6 +73155,1706 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不顯示在側邊欄中：%@。"
+          }
+        }
+      }
+    },
+    "Left out: ^[%lld file](inflect: true) among what you excluded in Settings." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubory z toho, co jste vyloučili v Nastavení."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souboru z toho, co jste vyloučili v Nastavení."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubor z toho, co jste vyloučili v Nastavení."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souborů z toho, co jste vyloučili v Nastavení."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Datei, die unter deine Ausschlüsse in den Einstellungen fällt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Dateien, die unter deine Ausschlüsse in den Einstellungen fallen."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld de archivos que forman parte de lo que has excluido en Ajustes."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se ha dejado fuera %lld archivo que forma parte de lo que has excluido en Ajustes."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld archivos que forman parte de lo que has excluido en Ajustes."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld de fichiers parmi ce que vous avez exclu dans les Réglages."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écarté : %lld fichier parmi ce que vous avez exclu dans les Réglages."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld fichiers parmi ce que vous avez exclu dans les Réglages."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld di file tra ciò che hai escluso nelle Impostazioni."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omesso: %lld file tra ciò che hai escluso nelle Impostazioni."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld file tra ciò che hai escluso nelle Impostazioni."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“設定”で除外したものに含まれる%lld個のファイルは表示対象外です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시되지 않음: 설정에서 제외한 항목에 포함된 파일 %lld개."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestand dat valt onder wat je in Instellingen hebt uitgesloten."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestanden die vallen onder wat je in Instellingen hebt uitgesloten."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliki wśród rzeczy wykluczonych przez Ciebie w Ustawieniach."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plików wśród rzeczy wykluczonych przez Ciebie w Ustawieniach."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plik wśród rzeczy wykluczonych przez Ciebie w Ustawieniach."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliku wśród rzeczy wykluczonych przez Ciebie w Ustawieniach."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld de arquivos cobertos pelas suas exclusões nos Ajustes."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficou de fora: %lld arquivo coberto pelas suas exclusões nos Ajustes."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld arquivos cobertos pelas suas exclusões nos Ajustes."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld fișiere aflate printre ce ați exclus în Configurări."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omis: %lld fișier aflat printre ce ați exclus în Configurări."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld de fișiere aflate printre ce ați exclus în Configurări."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла из того, что Вы исключили в Настройках."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлов из того, что Вы исключили в Настройках."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл из того, что Вы исключили в Настройках."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла из того, что Вы исключили в Настройках."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld fil bland det som du har undantagit i Inställningar."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld filer bland det som du har undantagit i Inställningar."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: Ayarlar’da hariç tuttuklarınız arasındaki %lld dosya."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: Ayarlar’da hariç tuttuklarınız arasındaki %lld dosya."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файли серед того, що ви додали до винятків у Параметрах."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлів серед того, що ви додали до винятків у Параметрах."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл серед того, що ви додали до винятків у Параметрах."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла серед того, що ви додали до винятків у Параметрах."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未列出：%lld个文件，属于你在“设置”中排除的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已略過：%lld個屬於你在「設定」中排除之項目的檔案。"
+          }
+        }
+      }
+    },
+    "Left out: ^[%lld file](inflect: true) in iCloud or another place that syncs to your other devices. Peel never moves what syncs, since moving it to the Trash would also remove it from them." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubory na iCloudu nebo na jiném místě, které se synchronizuje s vašimi ostatními zařízeními. Peel nikdy nepřesouvá to, co se synchronizuje, protože přesunutím do koše byste to odstranili také z nich."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souboru na iCloudu nebo na jiném místě, které se synchronizuje s vašimi ostatními zařízeními. Peel nikdy nepřesouvá to, co se synchronizuje, protože přesunutím do koše byste to odstranili také z nich."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubor na iCloudu nebo na jiném místě, které se synchronizuje s vašimi ostatními zařízeními. Peel nikdy nepřesouvá to, co se synchronizuje, protože přesunutím do koše byste to odstranili také z nich."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souborů na iCloudu nebo na jiném místě, které se synchronizuje s vašimi ostatními zařízeními. Peel nikdy nepřesouvá to, co se synchronizuje, protože přesunutím do koše byste to odstranili také z nich."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Datei in iCloud oder an einem anderen Ort, der mit deinen anderen Geräten synchronisiert wird. Peel verschiebt nichts, was synchronisiert wird, denn es in den Papierkorb zu legen, würde es auch von diesen Geräten entfernen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Dateien in iCloud oder an einem anderen Ort, der mit deinen anderen Geräten synchronisiert wird. Peel verschiebt nichts, was synchronisiert wird, denn es in den Papierkorb zu legen, würde es auch von diesen Geräten entfernen."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld de archivos que están en iCloud o en otro lugar que se sincroniza con tus otros dispositivos. Peel nunca traslada lo que se sincroniza, ya que trasladarlo a la papelera también lo eliminaría de ellos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se ha dejado fuera %lld archivo que está en iCloud o en otro lugar que se sincroniza con tus otros dispositivos. Peel nunca traslada lo que se sincroniza, ya que trasladarlo a la papelera también lo eliminaría de ellos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld archivos que están en iCloud o en otro lugar que se sincroniza con tus otros dispositivos. Peel nunca traslada lo que se sincroniza, ya que trasladarlo a la papelera también lo eliminaría de ellos."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld de fichiers situés dans iCloud ou dans un autre emplacement synchronisé avec vos autres appareils. Peel ne déplace jamais ce qui est synchronisé, car le placer dans la corbeille le supprimerait aussi de ces appareils."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écarté : %lld fichier situé dans iCloud ou dans un autre emplacement synchronisé avec vos autres appareils. Peel ne déplace jamais ce qui est synchronisé, car le placer dans la corbeille le supprimerait aussi de ces appareils."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld fichiers situés dans iCloud ou dans un autre emplacement synchronisé avec vos autres appareils. Peel ne déplace jamais ce qui est synchronisé, car le placer dans la corbeille le supprimerait aussi de ces appareils."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld di file su iCloud o in un’altra posizione che si sincronizza con gli altri tuoi dispositivi. Peel non sposta mai ciò che si sincronizza, perché spostarlo nel Cestino lo rimuoverebbe anche da quei dispositivi."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omesso: %lld file su iCloud o in un’altra posizione che si sincronizza con gli altri tuoi dispositivi. Peel non sposta mai ciò che si sincronizza, perché spostarlo nel Cestino lo rimuoverebbe anche da quei dispositivi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld file su iCloud o in un’altra posizione che si sincronizza con gli altri tuoi dispositivi. Peel non sposta mai ciò che si sincronizza, perché spostarlo nel Cestino lo rimuoverebbe anche da quei dispositivi."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudなど、ほかのデバイスに同期される場所にある%lld個のファイルは表示対象外です。Peelは同期されるものを決して移動しません。ゴミ箱に入れると、それらのデバイスからも削除されるためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시되지 않음: iCloud 또는 다른 기기와 동기화되는 다른 위치에 있는 파일 %lld개. Peel은 동기화되는 항목을 절대 이동하지 않습니다. 휴지통으로 이동하면 해당 기기에서도 삭제되기 때문입니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestand in iCloud of op een andere plek die met je andere apparaten wordt gesynchroniseerd. Peel verplaatst nooit wat wordt gesynchroniseerd, want als het naar de prullenmand wordt verplaatst, verdwijnt het ook van die apparaten."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestanden in iCloud of op een andere plek die met je andere apparaten wordt gesynchroniseerd. Peel verplaatst nooit wat wordt gesynchroniseerd, want als het naar de prullenmand wordt verplaatst, verdwijnt het ook van die apparaten."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliki w iCloud lub innym miejscu synchronizowanym z Twoimi pozostałymi urządzeniami. Peel nigdy nie przenosi tego, co jest synchronizowane, ponieważ po przeniesieniu do Kosza zostałoby usunięte także z nich."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plików w iCloud lub innym miejscu synchronizowanym z Twoimi pozostałymi urządzeniami. Peel nigdy nie przenosi tego, co jest synchronizowane, ponieważ po przeniesieniu do Kosza zostałoby usunięte także z nich."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plik w iCloud lub innym miejscu synchronizowanym z Twoimi pozostałymi urządzeniami. Peel nigdy nie przenosi tego, co jest synchronizowane, ponieważ po przeniesieniu do Kosza zostałoby usunięte także z nich."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliku w iCloud lub innym miejscu synchronizowanym z Twoimi pozostałymi urządzeniami. Peel nigdy nie przenosi tego, co jest synchronizowane, ponieważ po przeniesieniu do Kosza zostałoby usunięte także z nich."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld de arquivos no iCloud ou em outro local sincronizado com os seus outros dispositivos. O Peel nunca move o que é sincronizado, pois movê-lo para o Lixo também o removeria deles."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficou de fora: %lld arquivo no iCloud ou em outro local sincronizado com os seus outros dispositivos. O Peel nunca move o que é sincronizado, pois movê-lo para o Lixo também o removeria deles."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld arquivos no iCloud ou em outro local sincronizado com os seus outros dispositivos. O Peel nunca move o que é sincronizado, pois movê-lo para o Lixo também o removeria deles."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld fișiere de pe iCloud sau dintr‑un alt loc care se sincronizează pe celelalte dispozitive ale dvs. Peel nu mută niciodată ce se sincronizează, deoarece mutarea în Coș l‑ar elimina și de pe acestea."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omis: %lld fișier de pe iCloud sau dintr‑un alt loc care se sincronizează pe celelalte dispozitive ale dvs. Peel nu mută niciodată ce se sincronizează, deoarece mutarea în Coș l‑ar elimina și de pe acestea."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld de fișiere de pe iCloud sau dintr‑un alt loc care se sincronizează pe celelalte dispozitive ale dvs. Peel nu mută niciodată ce se sincronizează, deoarece mutarea în Coș l‑ar elimina și de pe acestea."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла в iCloud или другом месте, которое синхронизируется с другими Вашими устройствами. Peel никогда не перемещает то, что синхронизируется, поскольку, если переместить это в Корзину, оно будет удалено также с этих устройств."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлов в iCloud или другом месте, которое синхронизируется с другими Вашими устройствами. Peel никогда не перемещает то, что синхронизируется, поскольку, если переместить это в Корзину, оно будет удалено также с этих устройств."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл в iCloud или другом месте, которое синхронизируется с другими Вашими устройствами. Peel никогда не перемещает то, что синхронизируется, поскольку, если переместить это в Корзину, оно будет удалено также с этих устройств."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла в iCloud или другом месте, которое синхронизируется с другими Вашими устройствами. Peel никогда не перемещает то, что синхронизируется, поскольку, если переместить это в Корзину, оно будет удалено также с этих устройств."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld fil i iCloud eller på en annan plats som synkroniseras till dina andra enheter. Peel flyttar aldrig det som synkroniseras, eftersom det också skulle tas bort från dem om det flyttades till papperskorgen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld filer i iCloud eller på en annan plats som synkroniseras till dina andra enheter. Peel flyttar aldrig det som synkroniseras, eftersom det också skulle tas bort från dem om det flyttades till papperskorgen."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: iCloud’da veya diğer aygıtlarınızla eşzamanlanan başka bir yerdeki %lld dosya. Peel eşzamanlanan hiçbir şeyi taşımaz, çünkü Çöp Sepeti’ne taşınırsa diğer aygıtlarınızdan da silinir."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: iCloud’da veya diğer aygıtlarınızla eşzamanlanan başka bir yerdeki %lld dosya. Peel eşzamanlanan hiçbir şeyi taşımaz, çünkü Çöp Sepeti’ne taşınırsa diğer aygıtlarınızdan da silinir."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файли в iCloud або в іншому місці, яке синхронізується з іншими вашими пристроями. Peel ніколи не переміщує те, що синхронізується, бо переміщення в Смітник також прибрало б це з них."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлів в iCloud або в іншому місці, яке синхронізується з іншими вашими пристроями. Peel ніколи не переміщує те, що синхронізується, бо переміщення в Смітник також прибрало б це з них."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл в iCloud або в іншому місці, яке синхронізується з іншими вашими пристроями. Peel ніколи не переміщує те, що синхронізується, бо переміщення в Смітник також прибрало б це з них."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла в iCloud або в іншому місці, яке синхронізується з іншими вашими пристроями. Peel ніколи не переміщує те, що синхронізується, бо переміщення в Смітник також прибрало б це з них."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未列出：%lld个文件，位于iCloud或其他会同步到你的其他设备的位置。Peel绝不会移动会同步的内容，因为如果将它移到废纸篓，它也会从这些设备中删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已略過：%lld個位於iCloud或其他會與你的其他裝置同步之位置的檔案。Peel絕不會移動會同步的項目，因為將它丟到「垃圾桶」也會將它從這些裝置上移除。"
+          }
+        }
+      }
+    },
+    "Left out: ^[%lld file](inflect: true) in places Peel never moves anything from, such as macOS itself, Mail, Messages, or a photo library." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubory na místech, odkud Peel nikdy nic nepřesouvá, jako je samotný systém macOS, Mail, Zprávy nebo knihovna fotek."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souboru na místech, odkud Peel nikdy nic nepřesouvá, jako je samotný systém macOS, Mail, Zprávy nebo knihovna fotek."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubor na místech, odkud Peel nikdy nic nepřesouvá, jako je samotný systém macOS, Mail, Zprávy nebo knihovna fotek."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souborů na místech, odkud Peel nikdy nic nepřesouvá, jako je samotný systém macOS, Mail, Zprávy nebo knihovna fotek."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Datei an Orten, aus denen Peel nie etwas verschiebt, etwa macOS selbst, Mail, Nachrichten oder eine Fotomediathek."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Dateien an Orten, aus denen Peel nie etwas verschiebt, etwa macOS selbst, Mail, Nachrichten oder eine Fotomediathek."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld de archivos que están en lugares de los que Peel nunca traslada nada, como el propio macOS, Mail, Mensajes o una biblioteca de fotos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se ha dejado fuera %lld archivo que está en un lugar del que Peel nunca traslada nada, como el propio macOS, Mail, Mensajes o una biblioteca de fotos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld archivos que están en lugares de los que Peel nunca traslada nada, como el propio macOS, Mail, Mensajes o una biblioteca de fotos."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld de fichiers situés dans des emplacements d’où Peel ne déplace jamais rien, comme macOS lui-même, Mail, Messages ou une bibliothèque de photos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écarté : %lld fichier situé dans un emplacement d’où Peel ne déplace jamais rien, comme macOS lui-même, Mail, Messages ou une bibliothèque de photos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld fichiers situés dans des emplacements d’où Peel ne déplace jamais rien, comme macOS lui-même, Mail, Messages ou une bibliothèque de photos."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld di file in posizioni da cui Peel non sposta mai nulla, come macOS stesso, Mail, Messaggi o una libreria di Foto."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omesso: %lld file in posizioni da cui Peel non sposta mai nulla, come macOS stesso, Mail, Messaggi o una libreria di Foto."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld file in posizioni da cui Peel non sposta mai nulla, come macOS stesso, Mail, Messaggi o una libreria di Foto."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS自体、“メール”、“メッセージ”、写真ライブラリなど、Peelが決して何も移動しない場所にある%lld個のファイルは表示対象外です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시되지 않음: macOS 자체, Mail, 메시지 또는 사진 보관함처럼 Peel이 아무것도 이동하지 않는 위치에 있는 파일 %lld개."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestand op plekken waar Peel nooit iets vandaan verplaatst, zoals macOS zelf, Mail, Berichten of een fotobibliotheek."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestanden op plekken waar Peel nooit iets vandaan verplaatst, zoals macOS zelf, Mail, Berichten of een fotobibliotheek."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliki w miejscach, z których Peel nigdy niczego nie przenosi, takich jak sam macOS, Poczta, Wiadomości czy biblioteka zdjęć."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plików w miejscach, z których Peel nigdy niczego nie przenosi, takich jak sam macOS, Poczta, Wiadomości czy biblioteka zdjęć."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plik w miejscach, z których Peel nigdy niczego nie przenosi, takich jak sam macOS, Poczta, Wiadomości czy biblioteka zdjęć."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliku w miejscach, z których Peel nigdy niczego nie przenosi, takich jak sam macOS, Poczta, Wiadomości czy biblioteka zdjęć."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld de arquivos em locais de onde o Peel nunca move nada, como o próprio macOS, os apps Mail e Mensagens ou uma biblioteca de fotos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficou de fora: %lld arquivo em locais de onde o Peel nunca move nada, como o próprio macOS, os apps Mail e Mensagens ou uma biblioteca de fotos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld arquivos em locais de onde o Peel nunca move nada, como o próprio macOS, os apps Mail e Mensagens ou uma biblioteca de fotos."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld fișiere aflate în locuri din care Peel nu mută niciodată nimic, cum ar fi macOS însuși, Mail, Mesaje sau o bibliotecă foto."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omis: %lld fișier aflat în locuri din care Peel nu mută niciodată nimic, cum ar fi macOS însuși, Mail, Mesaje sau o bibliotecă foto."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld de fișiere aflate în locuri din care Peel nu mută niciodată nimic, cum ar fi macOS însuși, Mail, Mesaje sau o bibliotecă foto."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла из мест, откуда Peel никогда ничего не перемещает, например из самой macOS, приложений «Почта» и «Сообщения» или медиатеки фотографий."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлов из мест, откуда Peel никогда ничего не перемещает, например из самой macOS, приложений «Почта» и «Сообщения» или медиатеки фотографий."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл из мест, откуда Peel никогда ничего не перемещает, например из самой macOS, приложений «Почта» и «Сообщения» или медиатеки фотографий."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла из мест, откуда Peel никогда ничего не перемещает, например из самой macOS, приложений «Почта» и «Сообщения» или медиатеки фотографий."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld fil på platser som Peel aldrig flyttar något från, till exempel själva macOS, Mail, Meddelanden eller ett bildbibliotek."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld filer på platser som Peel aldrig flyttar något från, till exempel själva macOS, Mail, Meddelanden eller ett bildbibliotek."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: macOS’in kendisi, Mail, Mesajlar veya bir fotoğraf arşivi gibi, Peel’in hiçbir zaman bir şey taşımadığı yerlerdeki %lld dosya."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: macOS’in kendisi, Mail, Mesajlar veya bir fotoğraf arşivi gibi, Peel’in hiçbir zaman bir şey taşımadığı yerlerdeki %lld dosya."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файли в місцях, звідки Peel ніколи нічого не переміщує, як-от сама macOS, Пошта, Повідомлення чи медіатека фото."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлів у місцях, звідки Peel ніколи нічого не переміщує, як-от сама macOS, Пошта, Повідомлення чи медіатека фото."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл у місцях, звідки Peel ніколи нічого не переміщує, як-от сама macOS, Пошта, Повідомлення чи медіатека фото."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла в місцях, звідки Peel ніколи нічого не переміщує, як-от сама macOS, Пошта, Повідомлення чи медіатека фото."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未列出：%lld个文件，位于Peel绝不会从中移动任何内容的位置，例如macOS本身、“邮件”、“信息”或照片资料库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已略過：%lld個位於Peel絕不會從中移動任何項目之位置的檔案，例如macOS本身、「郵件」、「訊息」或照片資料庫。"
+          }
+        }
+      }
+    },
+    "Left out: ^[%lld file](inflect: true) macOS didn’t let Peel look at." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubory, do kterých systém macOS nedovolil Peelu nahlédnout."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souboru, do kterých systém macOS nedovolil Peelu nahlédnout."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubor, do kterého systém macOS nedovolil Peelu nahlédnout."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souborů, do kterých systém macOS nedovolil Peelu nahlédnout."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Datei, auf die macOS Peel keinen Zugriff gewährt hat."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Dateien, auf die macOS Peel keinen Zugriff gewährt hat."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld de archivos porque macOS no ha permitido que Peel los mire."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se ha dejado fuera %lld archivo porque macOS no ha permitido que Peel lo mire."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld archivos porque macOS no ha permitido que Peel los mire."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld de fichiers que macOS n’a pas permis à Peel d’examiner."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écarté : %lld fichier que macOS n’a pas permis à Peel d’examiner."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld fichiers que macOS n’a pas permis à Peel d’examiner."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld di file che macOS non ha permesso a Peel di esaminare."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omesso: %lld file che macOS non ha permesso a Peel di esaminare."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld file che macOS non ha permesso a Peel di esaminare."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがPeelに読み取りを許可しなかった%lld個のファイルは表示対象外です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시되지 않음: macOS가 Peel이 살펴보지 못하게 한 파일 %lld개."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestand waar macOS Peel niet naar liet kijken."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestanden waar macOS Peel niet naar liet kijken."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliki, do których macOS nie pozwolił aplikacji Peel zajrzeć."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plików, do których macOS nie pozwolił aplikacji Peel zajrzeć."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plik, do którego macOS nie pozwolił aplikacji Peel zajrzeć."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliku, do których macOS nie pozwolił aplikacji Peel zajrzeć."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld de arquivos que o macOS não deixou o Peel examinar."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficou de fora: %lld arquivo que o macOS não deixou o Peel examinar."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld arquivos que o macOS não deixou o Peel examinar."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld fișiere pe care macOS nu i‑a permis aplicației Peel să le examineze."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omis: %lld fișier pe care macOS nu i‑a permis aplicației Peel să îl examineze."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld de fișiere pe care macOS nu i‑a permis aplicației Peel să le examineze."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла, которые macOS не позволила Peel просмотреть."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлов, которые macOS не позволила Peel просмотреть."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл, который macOS не позволила Peel просмотреть."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла, которые macOS не позволила Peel просмотреть."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld fil som macOS inte lät Peel titta på."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld filer som macOS inte lät Peel titta på."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: macOS’in Peel’in bakmasına izin vermediği %lld dosya."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: macOS’in Peel’in bakmasına izin vermediği %lld dosya."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файли, які macOS не дала Peel переглянути."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлів, які macOS не дала Peel переглянути."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл, який macOS не дала Peel переглянути."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла, які macOS не дала Peel переглянути."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未列出：%lld个文件，macOS不允许Peel查看它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已略過：%lld個macOS不讓Peel查看的檔案。"
+          }
+        }
+      }
+    },
+    "Left out: ^[%lld file](inflect: true), since Peel can’t check what it finds against your exclusions until it can read them." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubory, protože Peel nemůže porovnat, co najde, s vašimi výjimkami, dokud je nedokáže přečíst."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souboru, protože Peel nemůže porovnat, co najde, s vašimi výjimkami, dokud je nedokáže přečíst."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld soubor, protože Peel nemůže porovnat, co najde, s vašimi výjimkami, dokud je nedokáže přečíst."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vynecháno: %lld souborů, protože Peel nemůže porovnat, co najde, s vašimi výjimkami, dokud je nedokáže přečíst."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Datei, da Peel das Gefundene erst dann mit deinen Ausschlüssen abgleichen kann, wenn sie lesbar sind."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ausgelassen: %lld Dateien, da Peel das Gefundene erst dann mit deinen Ausschlüssen abgleichen kann, wenn sie lesbar sind."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld de archivos, ya que Peel no puede comparar lo que encuentra con tus exclusiones hasta que pueda leerlas."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se ha dejado fuera %lld archivo, ya que Peel no puede comparar lo que encuentra con tus exclusiones hasta que pueda leerlas."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se han dejado fuera %lld archivos, ya que Peel no puede comparar lo que encuentra con tus exclusiones hasta que pueda leerlas."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld de fichiers, car Peel ne peut pas comparer ce qu’il trouve à vos exclusions tant qu’il ne peut pas les lire."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écarté : %lld fichier, car Peel ne peut pas comparer ce qu’il trouve à vos exclusions tant qu’il ne peut pas les lire."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Écartés : %lld fichiers, car Peel ne peut pas comparer ce qu’il trouve à vos exclusions tant qu’il ne peut pas les lire."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld di file, perché Peel non può confrontare ciò che trova con le tue esclusioni finché non riesce a leggerle."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omesso: %lld file, perché Peel non può confrontare ciò che trova con le tue esclusioni finché non riesce a leggerle."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omessi: %lld file, perché Peel non può confrontare ciò che trova con le tue esclusioni finché non riesce a leggerle."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個のファイルは表示対象外です。Peelは除外リストを読み取れるようになるまで、見つけたものを除外リストと照合できないためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시되지 않음: 파일 %lld개. Peel이 제외 항목을 읽을 수 있게 되기 전까지는 찾은 항목을 제외 항목과 대조할 수 없기 때문입니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestand, omdat Peel wat het vindt pas aan je uitsluitingen kan toetsen als het die kan lezen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Weggelaten: %lld bestanden, omdat Peel wat het vindt pas aan je uitsluitingen kan toetsen als het die kan lezen."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliki, ponieważ Peel nie może sprawdzić znalezionych rzeczy pod kątem Twoich wykluczeń, dopóki nie będzie mógł ich odczytać."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plików, ponieważ Peel nie może sprawdzić znalezionych rzeczy pod kątem Twoich wykluczeń, dopóki nie będzie mógł ich odczytać."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld plik, ponieważ Peel nie może sprawdzić znalezionych rzeczy pod kątem Twoich wykluczeń, dopóki nie będzie mógł ich odczytać."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pominięto: %lld pliku, ponieważ Peel nie może sprawdzić znalezionych rzeczy pod kątem Twoich wykluczeń, dopóki nie będzie mógł ich odczytać."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld de arquivos, pois o Peel não pode conferir o que encontra com as suas exclusões até conseguir lê-las."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficou de fora: %lld arquivo, pois o Peel não pode conferir o que encontra com as suas exclusões até conseguir lê-las."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ficaram de fora: %lld arquivos, pois o Peel não pode conferir o que encontra com as suas exclusões até conseguir lê-las."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld fișiere, deoarece Peel nu poate compara ce găsește cu excluderile dvs. până când nu le poate citi."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omis: %lld fișier, deoarece Peel nu poate compara ce găsește cu excluderile dvs. până când nu le poate citi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Omise: %lld de fișiere, deoarece Peel nu poate compara ce găsește cu excluderile dvs. până când nu le poate citi."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла, поскольку Peel не может сверить найденное с Вашими исключениями, пока не сможет их прочитать."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлов, поскольку Peel не может сверить найденное с Вашими исключениями, пока не сможет их прочитать."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл, поскольку Peel не может сверить найденное с Вашими исключениями, пока не сможет их прочитать."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла, поскольку Peel не может сверить найденное с Вашими исключениями, пока не сможет их прочитать."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld fil, eftersom Peel inte kan kontrollera det som hittas mot dina undantag förrän Peel kan läsa dem."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Visas inte: %lld filer, eftersom Peel inte kan kontrollera det som hittas mot dina undantag förrän Peel kan läsa dem."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: %lld dosya, çünkü Peel hariç tutulanlar listenizi okuyabilene kadar bulduklarını bu listeyle karşılaştıramaz."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dışarıda bırakılanlar: %lld dosya, çünkü Peel hariç tutulanlar listenizi okuyabilene kadar bulduklarını bu listeyle karşılaştıramaz."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файли, бо Peel не може звірити знайдене з вашими винятками, доки не зможе їх прочитати."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файлів, бо Peel не може звірити знайдене з вашими винятками, доки не зможе їх прочитати."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файл, бо Peel не може звірити знайдене з вашими винятками, доки не зможе їх прочитати."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld файла, бо Peel не може звірити знайдене з вашими винятками, доки не зможе їх прочитати."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未列出：%lld个文件，因为在能够读取你的排除项之前，Peel无法对照排除项检查它找到的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已略過：%lld個檔案，因為在Peel能讀取你的排除項目之前，它無法依據排除項目檢查找到的內容。"
           }
         }
       }
@@ -156133,6 +157939,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spotlight輸入程式"
+          }
+        }
+      }
+    },
+    "Spotlight isn’t indexing %@, so File Search can’t find anything there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight neindexuje %@, takže stránka Hledání souborů tam nemůže nic najít."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight indiziert %@ nicht, daher kann die Seite „Dateisuche“ dort nichts finden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight no indexa %@, así que la página Búsqueda de archivos no puede encontrar nada ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight n’indexe pas %@ : la page Recherche de fichiers ne peut donc rien y trouver."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight non indicizza %@, quindi “Ricerca file” non può trovare nulla lì."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlightが%@の索引を作成していないため、“ファイル検索”ではそこにあるものを見つけられません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight가 %@을(를) 인덱싱하지 않으므로 파일 검색 페이지는 그곳에서 아무것도 찾을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight indexeert %@ niet, dus kan de pagina 'Bestanden zoeken' daar niets vinden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight nie indeksuje: %@, więc strona Wyszukiwanie plików nie może niczego tam znaleźć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Spotlight não está indexando %@, então a página Busca de Arquivos não consegue encontrar nada lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight nu indexează %@, așa că pagina Căutare fișiere nu poate găsi nimic acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight не индексирует %@, поэтому раздел «Поиск файлов» не может там ничего найти."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight indexerar inte %@, så sidan Filsökning kan inte hitta något där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight, %@ içeriğini dizinlemiyor, bu yüzden Dosya Arama orada hiçbir şey bulamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight не індексує %@, тож розділ «Пошук файлів» не може там нічого знайти."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“聚焦”没有索引“%@”，因此“文件搜索”无法在其中找到任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight沒有為%@建立索引，因此「檔案搜尋」無法在那裡找到任何項目。"
           }
         }
       }

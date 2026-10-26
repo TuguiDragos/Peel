@@ -49,6 +49,8 @@ public struct FileSearchResults: Sendable {
     public var files: [FoundFile] = []
     /// True when more than `FileSearch.maximumResults` files were found and the list was cut to that many.
     public var isTruncated = false
+    /// The files Spotlight found that the list leaves out, by why. A file the cut left out counts there, not here.
+    public var leftOut: [FileSearch.LeftOut: Int] = [:]
     /// False when the query itself could not be made or run, which is not the same as finding nothing.
     public var didRun = true
     /// The disks Spotlight doesn't index, named as Finder names them, asked only when nothing was found.
@@ -59,6 +61,35 @@ public struct FileSearchResults: Sendable {
 
 public enum FileSearch {
     public static let maximumResults = 2_000
+
+    public enum LeftOut: Sendable, Hashable, CaseIterable {
+        /// It syncs to the person's other devices, or lives only in the cloud.
+        case syncs
+        case excluded
+        case exclusionsNotKnown
+        /// It is part of macOS, or sits inside something Peel protects.
+        case protected
+        case couldNotBeRead
+
+        init(_ refusal: GuardRefusal) {
+            switch refusal {
+            case .inTheCloud: self = .syncs
+            case .excluded: self = .excluded
+            case .exclusionsNotKnown: self = .exclusionsNotKnown
+            case .couldNotLookInside: self = .couldNotBeRead
+            case .staysItself, .protectedLocation, .holdsProtectedData, .holdsDocuments, .holdsALibrary,
+                 .holdsWorkKeptInACache:
+                self = .protected
+            }
+        }
+    }
+
+    enum Judgment: Equatable {
+        case listed
+        case leftOut(LeftOut)
+        /// Not a file of the search's after all, as far as Peel can tell without downloading it.
+        case skipped
+    }
 
     /// Runs a Spotlight query and returns the paths it found, or nil when it could not run or was stopped.
     typealias Gather = @concurrent @Sendable (sending MDQuery) async -> [String]?
@@ -116,24 +147,32 @@ public enum FileSearch {
         return results
     }
 
-    /// Turns the paths Spotlight found into results: checked on disk, sorted, and cut to `maximumResults`. It is
-    /// separate from the query so a test can pass its own paths, and its own answer in place of the guard's.
+    /// Turns the paths Spotlight found into results: checked on disk, sorted, cut to `maximumResults`, and what was
+    /// left out counted by why. Separate from the query, so a test can pass its own paths and answers.
     static func results(
         from paths: [String],
         kind: FileKind = .any,
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
-        allows: ((URL) -> Bool)? = nil
+        refusal: ((URL) -> GuardRefusal?)? = nil,
+        syncsToOtherDevices: (@Sendable (URL) -> Bool)? = nil
     ) -> FileSearchResults {
-        let allows = allows ?? RemovalGuard(environment: environment, exclusions: exclusions).allowsRemoval(of:)
+        let syncsToOtherDevices = syncsToOtherDevices ?? SyncedFolders().syncsToOtherDevices
+        let refusal = refusal ?? RemovalGuard(
+            environment: environment, exclusions: exclusions, syncsToOtherDevices: syncsToOtherDevices
+        ).refusal(of:)
         let appData = AppDataFolders(home: environment.homeDirectory)
+        var results = FileSearchResults()
         var candidates: [(path: String, info: stat, belongsToAnApp: Bool)] = []
         for path in paths {
             guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             var info = stat()
-            guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, holdsItsContentsHere(info) else {
+            guard lstat(path, &info) == 0 else {
+                // A file gone since Spotlight saw it isn't left out, but one macOS kept Peel from is.
+                if errno == EPERM || errno == EACCES { results.leftOut[.couldNotBeRead, default: 0] += 1 }
                 continue
             }
+            guard info.st_mode & S_IFMT == S_IFREG else { continue }
             candidates.append((path, info, appData.holds(path)))
         }
         // In the list's order before the guard is asked, so it is asked only about files that can make the list.
@@ -142,36 +181,65 @@ public enum FileSearch {
             if $0.belongsToAnApp != $1.belongsToAnApp { return !$0.belongsToAnApp }
             return $0.info.st_size != $1.info.st_size ? $0.info.st_size > $1.info.st_size : $0.path < $1.path
         }
-        var results = FileSearchResults()
         for candidate in candidates {
             let url = URL(filePath: candidate.path)
-            guard kind != .movies || isAMovie(url), allows(url) else { continue }
-            guard results.files.count < maximumResults else {
-                results.isTruncated = true
-                break
+            let hasRoom = results.files.count < maximumResults
+            let judgment = judge(
+                url, info: candidate.info, kind: kind, refusal: refusal, syncsToOtherDevices: syncsToOtherDevices
+            )
+            switch judgment {
+            case .skipped:
+                continue
+            case .leftOut(let reason):
+                // Counted only while the list had room: whatever came after was left out by the cut.
+                if hasRoom { results.leftOut[reason, default: 0] += 1 }
+            case .listed:
+                guard hasRoom else {
+                    results.isTruncated = true
+                    return results
+                }
+                results.files.append(FoundFile(
+                    url: url,
+                    size: Int64(candidate.info.st_size),
+                    modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
+                    requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
+                    belongsToAnApp: candidate.belongsToAnApp,
+                    identity: FileIdentity(candidate.info)
+                ))
             }
-            results.files.append(FoundFile(
-                url: url,
-                size: Int64(candidate.info.st_size),
-                modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
-                requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
-                belongsToAnApp: candidate.belongsToAnApp,
-                identity: FileIdentity(candidate.info)
-            ))
         }
         return results
+    }
+
+    static func judge(
+        _ url: URL, info: stat, kind: FileKind, refusal: (URL) -> GuardRefusal?, syncsToOtherDevices: (URL) -> Bool
+    ) -> Judgment {
+        guard holdsItsContentsHere(info) else {
+            // A transport stream is a movie only by its first bytes, and reading a file that lives only in the cloud
+            // downloads it.
+            return kind == .movies && isTypedAsATransportStream(url) ? .skipped : .leftOut(.syncs)
+        }
+        guard kind != .movies || isAMovie(url) else { return .skipped }
+        guard let refused = refusal(url) else { return .listed }
+        // That a file syncs is what the person needs to know, whatever else the guard says: a file in iCloud Drive
+        // sits in a tree the guard protects.
+        return .leftOut(refused == .inTheCloud || syncsToOtherDevices(url) ? .syncs : LeftOut(refused))
     }
 
     /// macOS gives TypeScript's `.ts` the type of an MPEG-2 transport stream, a movie, so such a file is one only when
     /// it begins as one: packets that each start with the byte 0x47, every 188 bytes, or every 192 after the 4-byte
     /// header Blu-ray adds (ISO/IEC 13818-1).
     static func isAMovie(_ url: URL) -> Bool {
-        guard UTType(filenameExtension: url.pathExtension) == .mpeg2TransportStream else { return true }
+        guard isTypedAsATransportStream(url) else { return true }
         guard let bytes = BoundedRead.prefix(of: url, count: 197).map(Array.init) else { return false }
         func packets(from start: Int, every length: Int) -> Bool {
             bytes.count > start + length && bytes[start] == 0x47 && bytes[start + length] == 0x47
         }
         return packets(from: 0, every: 188) || packets(from: 4, every: 192)
+    }
+
+    static func isTypedAsATransportStream(_ url: URL) -> Bool {
+        UTType(filenameExtension: url.pathExtension) == .mpeg2TransportStream
     }
 
     /// Whether a file's contents are on this Mac. One whose contents live only in the cloud (`SF_DATALESS`) frees

@@ -1205,6 +1205,21 @@ struct CommandLineTests {
         #expect(message.contains("See 'peel inventory --help'"))
     }
 
+    @Test func searchSaysWhatItLeftOutAndWhy() throws {
+        var results = FileSearchResults()
+        results.leftOut = [.syncs: 52, .excluded: 1]
+        let text = try #require(try PeelCommand.parseAsRoot(["search", "--name", "report"]) as? SearchCommand)
+        let json = try #require(try PeelCommand.parseAsRoot(["search", "--name", "report", "--json"]) as? SearchCommand)
+        let notes = "Left out: 52 files in iCloud or another place that syncs to your other devices. Peel never moves what syncs.\nLeft out: 1 file among what you excluded.\n"
+
+        for (search, output) in [(text, "No files listed.\n"), (json, "[\n\n]\n")] {
+            let collected = Output.Collected()
+            try Output.$collected.withValue(collected) { try search.report(results) }
+            #expect(collected.output == output)
+            #expect(collected.notes == notes)
+        }
+    }
+
     @Test func parsesCommandsAndRejectsUnboundedSearches() throws {
         let duplicates = try PeelCommand.parseAsRoot(["duplicates", "~/Pictures", "--kind", "disk-images", "--min-size", "1.5GB", "--json"])
         let parsed = try #require(duplicates as? DuplicatesCommand)

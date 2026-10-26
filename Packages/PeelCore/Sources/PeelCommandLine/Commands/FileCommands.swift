@@ -854,11 +854,14 @@ struct SearchCommand: AsyncParsableCommand {
         guard results.didRun else {
             throw CommandFailure("Spotlight didn't answer, so Peel can't say what is on this Mac. Try the search again.")
         }
-        let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")
         guard !results.isNothingIndexed else {
+            let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")
             throw CommandFailure("Spotlight isn't indexing \(unindexed), so Peel can't find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there.")
         }
+        try report(results)
+    }
 
+    func report(_ results: FileSearchResults) throws {
         if output.json {
             try Output.json(
                 results.files.map {
@@ -866,7 +869,7 @@ struct SearchCommand: AsyncParsableCommand {
                 }
             )
         } else if results.files.isEmpty {
-            Output.line("No files found.")
+            Output.line(results.leftOut.isEmpty ? "No files found." : "No files listed.")
         } else {
             Output.table(
                 results.files.map { [Output.size($0.size), Output.day($0.modificationDate), Output.path($0.url)] }
@@ -875,8 +878,26 @@ struct SearchCommand: AsyncParsableCommand {
         if results.isTruncated {
             Output.note("Only the first \(Output.number(FileSearch.maximumResults)) files are shown. Narrow the search to see the rest.")
         }
+        for reason in FileSearch.LeftOut.allCases {
+            if let count = results.leftOut[reason] { Output.note(Self.note(for: reason, count: count)) }
+        }
         if !results.unindexedDisks.isEmpty {
+            let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")
             Output.note("Spotlight isn't indexing \(unindexed), so nothing there was searched.")
+        }
+    }
+
+    private static func note(for reason: FileSearch.LeftOut, count: Int) -> String {
+        let files = Output.count(count, "file", "files")
+        return switch reason {
+        case .syncs:
+            "Left out: \(files) in iCloud or another place that syncs to your other devices. Peel never moves what syncs."
+        case .excluded: "Left out: \(files) among what you excluded."
+        case .exclusionsNotKnown:
+            "Left out: \(files), since Peel can't check what it finds against your exclusions until it can read them."
+        case .protected:
+            "Left out: \(files) in places Peel never moves anything from, such as macOS itself, Mail, Messages, or a photo library."
+        case .couldNotBeRead: "Left out: \(files) macOS didn't let Peel look at."
         }
     }
 }

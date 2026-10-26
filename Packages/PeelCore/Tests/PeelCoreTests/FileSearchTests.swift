@@ -148,6 +148,7 @@ struct FileSearchTests {
         #expect(results.files.map(\.url.lastPathComponent) == ["large.png", "small.png", "huge.png"])
         #expect(results.files.last?.belongsToAnApp == true)
         #expect(!results.isTruncated)
+        #expect(results.leftOut == [.protected: 1])
     }
 
     @Test func moviesLeaveOutTypeScriptThatMacOSTypesAsATransportStream() throws {
@@ -163,8 +164,8 @@ struct FileSearchTests {
         let paths = [code, clip, recording].map { $0.path(percentEncoded: false) }
         let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
 
-        let movies = FileSearch.results(from: paths, kind: .movies, environment: environment, allows: { _ in true })
-        let anything = FileSearch.results(from: paths, kind: .any, environment: environment, allows: { _ in true })
+        let movies = FileSearch.results(from: paths, kind: .movies, environment: environment, refusal: { _ in nil })
+        let anything = FileSearch.results(from: paths, kind: .any, environment: environment, refusal: { _ in nil })
 
         #expect(Set(movies.files.map(\.url.lastPathComponent)) == ["clip.ts", "recording.ts"])
         #expect(Set(anything.files.map(\.url.lastPathComponent)) == ["index.ts", "clip.ts", "recording.ts"])
@@ -181,10 +182,75 @@ struct FileSearchTests {
         let results = FileSearch.results(
             from: [synced, local].map { $0.path(percentEncoded: false) },
             environment: environment,
-            allows: guardian.allowsRemoval(of:)
+            refusal: guardian.refusal(of:)
         )
 
         #expect(results.files.map(\.url.lastPathComponent) == ["Setup.dmg"])
+        #expect(results.leftOut == [.syncs: 1])
+    }
+
+    @Test func aRefusedFileThatSyncsIsCountedAsSyncing() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let inICloudDrive = try directory.file("home/Library/Mobile Documents/com~apple~CloudDocs/Report.pdf")
+        let keychain = try directory.file("home/Library/Keychains/login.keychain-db")
+
+        let results = FileSearch.results(
+            from: [inICloudDrive, keychain].map { $0.path(percentEncoded: false) },
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            syncsToOtherDevices: { $0.lastPathComponent == "Report.pdf" }
+        )
+
+        #expect(results.files.isEmpty)
+        #expect(results.leftOut == [.syncs: 1, .protected: 1])
+    }
+
+    @Test func aFileOnlyInTheCloudIsCountedAsSyncingAndNeverRead() throws {
+        let directory = try TemporaryDirectory()
+        var packets = [UInt8](repeating: 0xFF, count: 188 * 3)
+        for start in stride(from: 0, to: packets.count, by: 188) { packets[start] = 0x47 }
+        let clip = try directory.file("clip.ts", contents: Data(packets))
+        var info = stat()
+        info.st_mode = S_IFREG
+        info.st_flags = UInt32(SF_DATALESS)
+        func judged(_ kind: FileKind) -> FileSearch.Judgment {
+            FileSearch.judge(clip, info: info, kind: kind, refusal: { _ in nil }, syncsToOtherDevices: { _ in false })
+        }
+
+        #expect(judged(.any) == .leftOut(.syncs))
+        #expect(judged(.movies) == .skipped)
+    }
+
+    @Test func countsWhatItCannotCheckAgainstExclusionsNotYetRead() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let file = try directory.file("home/Documents/kept.png")
+
+        let results = FileSearch.results(
+            from: [file.path(percentEncoded: false)],
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            exclusions: .notYetRead
+        )
+
+        #expect(results.files.isEmpty)
+        #expect(results.leftOut == [.exclusionsNotKnown: 1])
+    }
+
+    @Test(.permissionsHold) func countsAFileMacOSWouldNotLetItLookAt() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let closed = try directory.file("home/Closed/Report.pdf")
+        let gone = directory.url.appending(path: "home/Documents/gone.pdf")
+        try directory.setPermissions(0o000, of: "home/Closed")
+        defer { try? directory.setPermissions(0o755, of: "home/Closed") }
+
+        let results = FileSearch.results(
+            from: [closed, gone].map { $0.path(percentEncoded: false) },
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+        )
+
+        #expect(results.files.isEmpty)
+        #expect(results.leftOut == [.couldNotBeRead: 1])
     }
 
     /// A file whose contents live only in the cloud (`SF_DATALESS`) takes no room on this Mac, so moving it frees
@@ -212,12 +278,35 @@ struct FileSearchTests {
         let results = FileSearch.results(
             from: paths + [biggest.path(percentEncoded: false)],
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
-            allows: { _ in true }
+            refusal: { _ in nil }
         )
 
         #expect(results.files.count == FileSearch.maximumResults)
         #expect(results.files.first?.url == biggest)
         #expect(results.isTruncated)
+    }
+
+    @Test func countsOnlyWhatTheListHadRoomFor() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        var paths: [String] = []
+        for index in 0..<FileSearch.maximumResults {
+            paths.append(try directory.file("home/Documents/file\(index).png", bytes: 100).path(percentEncoded: false))
+        }
+        let bigRefused = try directory.file("home/Documents/refused-big.png", bytes: 1_000)
+        let smallRefused = try directory.file("home/Documents/refused-small.png", bytes: 50)
+        let last = try directory.file("home/Documents/last.png", bytes: 10)
+
+        let results = FileSearch.results(
+            from: paths + [bigRefused, smallRefused, last].map { $0.path(percentEncoded: false) },
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            refusal: { $0.lastPathComponent.hasPrefix("refused") ? .protectedLocation : nil },
+            syncsToOtherDevices: { _ in false }
+        )
+
+        #expect(results.files.count == FileSearch.maximumResults)
+        #expect(results.isTruncated)
+        #expect(results.leftOut == [.protected: 1])
     }
 
     /// The guard is asked only about the files that can make the list: the largest first, and no further once
@@ -234,9 +323,9 @@ struct FileSearchTests {
         let results = FileSearch.results(
             from: paths,
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
-            allows: { _ in
+            refusal: { _ in
                 asked.withLock { $0 += 1 }
-                return true
+                return nil
             }
         )
 
@@ -260,6 +349,7 @@ struct FileSearchTests {
         )
 
         #expect(results.files.map(\.url) == [other])
+        #expect(results.leftOut == [.excluded: 1])
     }
 
     @Test func movesTheFilesItListedAsOneRemoval() async throws {

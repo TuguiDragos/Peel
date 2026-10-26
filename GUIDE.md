@@ -141,7 +141,8 @@ Space shows what fills your disk, area by area, and what each area is.
   this Mac, found through Spotlight, up to 2,000 at a time, so a folder in System Settings > Spotlight > Search
   Privacy isn't searched; when nothing is found, the page names any disk Spotlight isn't indexing. A file in a
   Library folder, an app's working data, is listed last and never recommended, and one that needs an administrator
-  stays where it is.
+  stays where it is. The page says how many files Spotlight found that it doesn't list, and why: what syncs to your
+  other devices, what you excluded, what sits where Peel never moves anything, and what macOS didn't let Peel look at.
 
 <details>
 <summary>Developer, Build Artifacts, and Space, in detail</summary>

@@ -20,6 +20,15 @@ struct FileSearchList: View {
                     .foregroundStyle(.secondary)
                     .listRowSeparator(.hidden)
             }
+            if let results = search.results, !results.files.isEmpty, !results.leftOut.isEmpty {
+                Label {
+                    LeftOutLines(leftOut: results.leftOut, alignment: .leading)
+                } icon: {
+                    Image(systemName: "eye.slash")
+                }
+                .foregroundStyle(.secondary)
+                .listRowSeparator(.hidden)
+            }
             if let results = search.results, !results.files.isEmpty {
                 Section {
                     ForEach(results.files) { file in
@@ -79,6 +88,17 @@ struct FileSearchList: View {
                         systemImage: "magnifyingglass",
                         description: Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there.")
                     )
+                } else if !results.leftOut.isEmpty {
+                    ContentUnavailableView {
+                        Label("All Results Left Out", systemImage: "eye.slash")
+                    } description: {
+                        VStack(spacing: 8) {
+                            LeftOutLines(leftOut: results.leftOut)
+                            if !results.unindexedDisks.isEmpty {
+                                Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
+                            }
+                        }
+                    }
                 } else if !results.unindexedDisks.isEmpty {
                     ContentUnavailableView(
                         "No Results",
@@ -104,8 +124,7 @@ struct FileSearchList: View {
         .announcesScan(
             search.isSearching,
             found: search.summary,
-            couldNotLook: search.results?.didRun == false ? "Spotlight Didn’t Answer"
-                : search.results?.isNothingIndexed == true ? "Not Indexed by Spotlight" : nil,
+            couldNotLook: message,
             wasStopped: search.scanRun.wasStopped || !search.criteria.isSearchable
         )
         // Here the column's search field is part of the search, so it is always shown.
@@ -152,6 +171,14 @@ struct FileSearchList: View {
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
+    /// The title of the page's own message where it says more than that nothing was found.
+    private var message: LocalizedStringResource? {
+        guard let results = search.results else { return nil }
+        if !results.didRun { return "Spotlight Didn’t Answer" }
+        if results.isNothingIndexed { return "Not Indexed by Spotlight" }
+        return results.files.isEmpty && !results.leftOut.isEmpty ? "All Results Left Out" : nil
+    }
+
     private var phase: ScanPhase {
         if search.isSearching, search.results?.files.isEmpty ?? true { return .scanning(.spotlight) }
         // A first search stopped before it answered says so; one left behind by words since cleared does not.
@@ -159,5 +186,33 @@ struct FileSearchList: View {
         if search.results == nil { return .message }
         if search.results?.files.isEmpty == true { return .message }
         return .content
+    }
+}
+
+private struct LeftOutLines: View {
+    let leftOut: [FileSearch.LeftOut: Int]
+    var alignment = HorizontalAlignment.center
+
+    var body: some View {
+        VStack(alignment: alignment, spacing: 6) {
+            ForEach(FileSearch.LeftOut.allCases.filter { leftOut[$0] != nil }, id: \.self) { reason in
+                line(for: reason, count: leftOut[reason] ?? 0)
+            }
+        }
+    }
+
+    private func line(for reason: FileSearch.LeftOut, count: Int) -> Text {
+        switch reason {
+        case .syncs:
+            Text("Left out: ^[\(count) file](inflect: true) in iCloud or another place that syncs to your other devices. Peel never moves what syncs, since moving it to the Trash would also remove it from them.")
+        case .excluded:
+            Text("Left out: ^[\(count) file](inflect: true) among what you excluded in Settings.")
+        case .exclusionsNotKnown:
+            Text("Left out: ^[\(count) file](inflect: true), since Peel can’t check what it finds against your exclusions until it can read them.")
+        case .protected:
+            Text("Left out: ^[\(count) file](inflect: true) in places Peel never moves anything from, such as macOS itself, Mail, Messages, or a photo library.")
+        case .couldNotBeRead:
+            Text("Left out: ^[\(count) file](inflect: true) macOS didn’t let Peel look at.")
+        }
     }
 }

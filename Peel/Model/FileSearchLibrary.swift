@@ -69,6 +69,7 @@ final class FileSearchLibrary {
         guard kept.count < results.files.count else { return }
         let gone = Set(results.files.map(\.url)).subtracting(kept.map(\.url))
         self.results?.files = kept
+        self.results?.leftOut[.excluded, default: 0] += gone.count
         selectedURLs.subtract(gone)
         recommendedURLs.subtract(gone)
         for url in gone {
