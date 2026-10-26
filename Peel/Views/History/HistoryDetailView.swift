@@ -71,6 +71,9 @@ struct HistoryDetailView: View {
             isShowingFailures = !failures.isEmpty
         }
         .alert("Some items couldn’t be put back.", isPresented: $isShowingFailures) {
+            if failures.contains(where: { $0.failure == .needsAppManagement }) {
+                Button("Open System Settings") { NSWorkspace.shared.open(AppManagement.settingsURL) }
+            }
             if failures.contains(where: { $0.failure == .needsHelper }) {
                 Button("Open Peel Settings") { SettingsPane.helper.open(with: openSettings) }
             }

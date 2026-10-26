@@ -204,13 +204,20 @@ public enum RestoreFailure: Sendable, Hashable {
     case notAllowed(GuardRefusal)
     /// The record names something that isn't in a Trash where Peel put it.
     case notInATrash
+    /// It is locked in the Trash, as Finder's Get Info locks it.
+    case locked
+    case folderLocked
+    /// Another developer's app, which macOS lets Peel change only with App Management.
+    case needsAppManagement
+    /// macOS's privacy protection refused it.
+    case notPermitted
     case failed(String)
 
     /// True when asking again can't help: the item left the Trash, or Peel puts nothing back from or to there.
     public var isFinal: Bool {
         switch self {
         case .missingFromTrash, .notAllowed, .notInATrash: true
-        case .alreadyThere, .needsHelper, .failed: false
+        case .alreadyThere, .needsHelper, .locked, .folderLocked, .needsAppManagement, .notPermitted, .failed: false
         }
     }
 }
@@ -759,6 +766,8 @@ public struct TrashService: Sendable {
         }
         guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
+        if FileAccess.isLockedInFinder(item.trashedURL) { return .locked }
+        if FileAccess.isLockedInFinder(URL(filePath: Self.folder(puttingBack: item))) { return .folderLocked }
         if Self.needsTheHelper(toPutBack: item) {
             let reach = HelperReach(environment: environment)
             if let rejection = reach.refusal(ofPuttingBack: item.trashedURL, at: item.originalURL) {
@@ -769,14 +778,19 @@ public struct TrashService: Sendable {
         return nil
     }
 
-    /// Whether putting `item` back is the helper's to do: the nearest folder on its way that exists is one the person
-    /// can't write to. Missing folders are made again, so that is the folder that decides.
-    static func needsTheHelper(toPutBack item: TrashedItem) -> Bool {
+    /// The nearest folder on `item`'s way back that exists, which its Put Back writes into: missing folders are made
+    /// again.
+    static func folder(puttingBack item: TrashedItem) -> String {
         var ancestor = item.originalURL.deletingLastPathComponent().path(percentEncoded: false)
         while !FileManager.default.fileExists(atPath: ancestor), ancestor != "/" {
             ancestor = (ancestor as NSString).deletingLastPathComponent
         }
-        return !FileManager.default.isWritableFile(atPath: ancestor)
+        return ancestor
+    }
+
+    /// Whether putting `item` back is the helper's to do: the person can't write to the folder it goes back into.
+    static func needsTheHelper(toPutBack item: TrashedItem) -> Bool {
+        !FileManager.default.isWritableFile(atPath: folder(puttingBack: item))
     }
 
     private func moveBack(_ item: TrashedItem, canUseHelper: Bool) async -> RestoreFailure? {
@@ -794,6 +808,11 @@ public struct TrashService: Sendable {
                 return .alreadyThere
             } catch {
                 guard Self.reason(for: error) == .notPermitted else { return .failed(error.localizedDescription) }
+                // Refused by macOS rather than by the permissions, the helper couldn't do it either.
+                if FileAccess.isProtectedByPrivacy(item.trashedURL) {
+                    let isAnApp = item.trashedURL.pathExtension.caseInsensitiveCompare("app") == .orderedSame
+                    return isAnApp ? .needsAppManagement : .notPermitted
+                }
             }
         }
         guard canUseHelper, PrivilegedHelper.status == .enabled else { return .needsHelper }

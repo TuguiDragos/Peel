@@ -239,6 +239,11 @@ extension RestoreFailure {
             "your exclusions keep Peel from putting anything there; take it off the list, or drag it out of the Trash in Finder"
         case .notAllowed(let refusal): "Peel protects that place now (\(refusal.summary)); drag it out of the Trash in Finder"
         case .notInATrash: "it isn't in the Trash where Peel put it"
+        case .locked: "it is locked; unlock it in Finder's Get Info"
+        case .folderLocked: "the folder it goes back to is locked; unlock it in Finder's Get Info"
+        case .needsAppManagement:
+            "macOS lets your terminal app put back another developer's app only with App Management; allow it in System Settings > Privacy & Security > App Management, or put it back with the Peel app"
+        case .notPermitted: "macOS didn't allow it"
         case .failed(let message): Output.plain(message)
         }
     }

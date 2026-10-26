@@ -170452,6 +170452,112 @@
         }
       }
     },
+    "The folder it goes back to is locked. In Finder, choose File > Get Info for that folder and deselect Locked, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složka, do které se to má vrátit, je zamčená. Ve Finderu pro tuto složku zvolte Soubor > Informace, zrušte zaškrtnutí políčka Zamčeno a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Ordner, in den es zurückgelegt wird, ist geschützt. Wähle im Finder für diesen Ordner „Ablage“ > „Informationen“, deaktiviere „Geschützt“ und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La carpeta a la que vuelve está bloqueada. En el Finder, elige Archivo > Obtener información para esa carpeta, anula la selección de “Bloquear” y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le dossier où il doit retourner est verrouillé. Dans le Finder, choisissez Fichier > Lire les informations pour ce dossier, désélectionnez « Verrouillé », puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La cartella in cui deve tornare è bloccata. Nel Finder, scegli File > Ottieni informazioni per quella cartella, deseleziona Bloccato e riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戻し先のフォルダがロックされています。Finderで、そのフォルダに対して“ファイル”＞“情報を見る”と選択し、“ロック”を選択解除してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "되돌아갈 폴더가 잠겨 있습니다. Finder에서 해당 폴더에 대해 파일 > 정보 가져오기를 선택하고, ‘잠김’을 선택 해제한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De map waarin het wordt teruggezet, is beveiligd. Kies in Finder Archief > Toon info voor die map, deselecteer 'Beveiligd' en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder, do którego ta rzecz ma wrócić, jest zablokowany. W Finderze wybierz dla tego folderu polecenie Plik > Informacje, usuń zaznaczenie pola Zablokowany i spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A pasta para onde ele volta está bloqueada. No Finder, selecione essa pasta, escolha Arquivo > Obter Informações, desmarque a opção “Bloqueado” e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul în care trebuie să revină este blocat. În Finder, alegeți Fișier > Obțineți informații pentru acel dosar și deselectați „Blocat”, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка, в которую возвращается объект, защищена. В Finder выберите «Файл» > «Свойства» для этой папки, снимите флажок «Защита», а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mappen som det ska tillbaka till är låst. Välj Arkiv > Visa info för den mappen i Finder, avmarkera Låst och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri döneceği klasör kilitli. Finder’da o klasör için Dosya > Bilgi Ver komutunu seçin, Kilitli onay kutusunun seçimini kaldırın ve yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папку, куди його треба повернути, замкнено. У Finder виберіть Файл > Досьє для цієї папки, зніміть прапорець «Замкнено» і спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它要放回的文件夹已被锁定。请在“访达”中为该文件夹选取“文件”>“显示简介”，取消选择“已锁定”，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它要還原到的檔案夾已鎖定。請在Finder中選取該檔案夾並選擇「檔案」>「取得資訊」，取消勾選「已鎖定」，然後再試一次。"
+          }
+        }
+      }
+    },
     "The folder it’s in couldn’t be found." : {
       "localizations" : {
         "cs" : {
@@ -220056,6 +220162,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會保留此App，因此它會留在原處。"
+          }
+        }
+      }
+    },
+    "macOS lets Peel put back another developer’s app only with App Management. Allow Peel in System Settings > Privacy & Security > App Management, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS dovolí Peelu vrátit zpět aplikaci jiného vývojáře jen s oprávněním Správa aplikací. Povolte Peel v Nastavení systému > Soukromí a zabezpečení > Správa aplikací a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lässt Peel die App eines anderen Entwicklers nur zurücklegen, wenn Peel unter „App-Verwaltung“ erlaubt ist. Erlaube Peel unter „Systemeinstellungen“ > „Datenschutz & Sicherheit“ > „App-Verwaltung“ und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS solo permite que Peel restaure la app de otro desarrollador con Gestión de las apps. Da permiso a Peel en Ajustes del Sistema > Privacidad y seguridad > Gestión de las apps y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne laisse Peel remettre en place l’app d’un autre développeur qu’avec l’autorisation Gestion des apps. Autorisez Peel dans Réglages Système > Confidentialité et sécurité > Gestion des apps, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS permette a Peel di ripristinare l’app di un’altra azienda di sviluppo solo se Peel è autorizzato in “Gestione app”. Autorizza Peel in Impostazioni di Sistema > Privacy e sicurezza > Gestione app, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSでは、Peelが“アプリ管理”で許可されている場合にのみ、ほかの開発元のアプリを戻すことができます。“システム設定”＞“プライバシーとセキュリティ”＞“アプリ管理”でPeelを許可してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 앱 관리에서 Peel이 허용된 경우에만 Peel이 다른 개발자의 앱을 되돌려 놓을 수 있게 합니다. 시스템 설정 > 개인정보 보호 및 보안 > 앱 관리에서 Peel을 허용한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laat Peel de app van een andere ontwikkelaar alleen terugzetten met toestemming voor 'Appbeheer'. Sta Peel toe in Systeeminstellingen > Privacy en beveiliging > Appbeheer en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS pozwala aplikacji Peel przywrócić aplikację innego dewelopera tylko wtedy, gdy Peel ma pozwolenie w sekcji Zarządzanie aplikacjami. Pozwól na to aplikacji Peel w Ustawieniach systemowych > Prywatność i ochrona > Zarządzanie aplikacjami, a następnie spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS só deixa o Peel colocar de volta o app de outro desenvolvedor se ele tiver permissão em Gerenciamento de Apps. Permita o Peel em Ajustes do Sistema > Privacidade e Segurança > Gerenciamento de Apps e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lasă Peel să pună înapoi aplicația altui dezvoltator doar cu permisiunea Gestionare aplicații. Permiteți Peel în Configurări sistem > Intimitate și securitate > Gestionare aplicații, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS позволяет Peel восстанавливать приложения других разработчиков, только если Peel разрешен в разделе «Управление приложениями». Разрешите Peel доступ в разделе «Системные настройки» > «Конфиденциальность и безопасность» > «Управление приложениями», а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS låter Peel lägga tillbaka en annan utvecklares app bara om Peel är tillåten under Apphantering. Tillåt Peel i Systeminställningar > Integritet och säkerhet > Apphantering och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, Peel’in başka bir geliştiricinin uygulamasını yerine koymasına yalnızca Uygulama Yönetimi izniyle izin verir. Sistem Ayarları > Gizlilik ve Güvenlik > Uygulama Yönetimi bölümünde Peel’e izin verin, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS дає Peel повертати програму іншого розробника, лише якщо Peel дозволено в розділі «Керування програмами». Дозвольте Peel у розділі Системні параметри > Приватність і безпека > Керування програмами та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有获得“App管理”权限，macOS才允许Peel放回另一开发者的App。请在“系统设置”>“隐私与安全性”>“App管理”中允许Peel，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只有在Peel獲得「App管理」權限時，才允許它還原其他開發者的App。請在「系統設定」>「隱私權與安全性」>「App管理」中允許Peel，然後再試一次。"
           }
         }
       }

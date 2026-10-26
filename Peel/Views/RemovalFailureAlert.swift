@@ -172,7 +172,7 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     private static func appManagementLines(_ outcome: RemovalOutcome) -> [String] {
-        guard needsAppManagement(outcome) else { return [] }
+        guard movesNeedAppManagement(outcome) else { return [] }
         return [String(localized: "If Peel isn’t allowed under App Management, macOS won’t let it move another developer’s app to the Trash.")]
     }
 
@@ -224,6 +224,10 @@ struct RemovalFailureAlert: ViewModifier {
     /// True when macOS refused to move an app although the user can write to its folder and nothing locks it.
     /// That refusal comes from App Management, which the user can allow in System Settings.
     private static func needsAppManagement(_ outcome: RemovalOutcome) -> Bool {
+        movesNeedAppManagement(outcome) || outcome.putBackFailures.contains { $0.failure == .needsAppManagement }
+    }
+
+    private static func movesNeedAppManagement(_ outcome: RemovalOutcome) -> Bool {
         outcome.failures.contains { failure in
             failure.reason == .notPermitted && failure.url.pathExtension.lowercased() == "app"
                 && AppManagement.isRefusedForWantOfPermission(failure.url)

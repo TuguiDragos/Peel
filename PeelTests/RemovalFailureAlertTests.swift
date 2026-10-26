@@ -26,6 +26,18 @@ struct RemovalFailureAlertTests {
         #expect(details.filter { $0.contains("Example 30") }.count == 3)
     }
 
+    @Test func anUndoThatMacOSRefusedNamesAppManagementAndNotTheMove() {
+        let outcome = RemovalOutcome()
+        outcome.reportPutBack([
+            .init(url: URL(filePath: "/Applications/Example.app"), failure: .needsAppManagement),
+        ])
+
+        let message = RemovalFailureAlert.message(for: outcome)
+
+        #expect(message.contains(RestoreFailure.needsAppManagement.explanation))
+        #expect(!message.contains("to the Trash."), "\(message)")
+    }
+
     @Test func namesTheFirstFoldersAnAlertRefusesAndCountsTheOthers() {
         let most = RemovalFailureAlert.mostListed
         let paths = (1...30).map { "/Users/someone/Folder \($0)" }
