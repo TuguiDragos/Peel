@@ -89,7 +89,8 @@ struct PeelApp: App {
         _helper = State(initialValue: helper)
         _home = State(initialValue: HomeModel(helper: helper))
 
-        let (library, history, outcome) = (AppLibrary(), RemovalHistoryStore(), RemovalOutcome())
+        let outcome = RemovalOutcome()
+        let (library, history) = (AppLibrary(), RemovalHistoryStore(outcome: outcome))
         let (orphans, space, developer, projects) = (
             OrphanLibrary(), SpaceLibrary(), DeveloperLibrary(), ProjectLibrary()
         )

@@ -74,6 +74,9 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     private var title: Text {
+        if outcome.historyCouldNotRecord {
+            return Text("History couldn’t record this removal.")
+        }
         if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty,
            outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
             return outcome.driversAwaitingARestart.isEmpty
@@ -99,7 +102,9 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     static func message(for outcome: RemovalOutcome) -> String {
-        var lines = shortened(quitLines(outcome))
+        var lines = outcome.historyCouldNotRecord
+            ? [String(localized: "What moved is in the Trash: drag it back out in Finder if you need it.")] : []
+        lines += shortened(quitLines(outcome))
             + firstItems(outcome.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }

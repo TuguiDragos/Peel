@@ -91,6 +91,8 @@ struct RemovalInProgress {
     /// never shares the removal's.
     let refusals = UUID()
     fileprivate(set) var records: [RemovalRecord] = []
+    /// True once History couldn't record a part of it, so Put Back has nothing to go on for what moved.
+    fileprivate(set) var wasNotRecorded = false
 }
 
 /// What Peel was asked to move in one removal and did not.
@@ -111,8 +113,10 @@ nonisolated struct RefusalBatch: Identifiable, Hashable {
 
 @Observable
 final class RemovalHistoryStore {
-    private let log = RemovalLog()
-    private let refusals = RefusalLog()
+    private let log: RemovalLog
+    private let refusals: RefusalLog
+    /// Where a removal History couldn't record is told, with whatever else the removal left to tell.
+    private let outcome: RemovalOutcome?
     /// Read again here once History has counted a removal, rather than by each tool.
     var stats: LifetimeStats?
     /// The last batch moved, for Undo. `@Environment(\.undoManager)` is nil in an app with no documents,
@@ -162,6 +166,12 @@ final class RemovalHistoryStore {
 
     var selectedRefusals: RefusalBatch? {
         refusalBatches.first { $0.id == selection }
+    }
+
+    init(log: RemovalLog = RemovalLog(), refusals: RefusalLog = RefusalLog(), outcome: RemovalOutcome? = nil) {
+        self.log = log
+        self.refusals = refusals
+        self.outcome = outcome
     }
 
     func load() async {
@@ -243,7 +253,9 @@ final class RemovalHistoryStore {
         if !result.trashed.isEmpty {
             let new = part.records(of: result, sizes: sizes, sharingStorage: sharingStorage, batch: removal.batch)
             removal.records += new
-            await apply(await log.add(new))
+            let added = await log.add(new)
+            if added.records == nil { removal.wasNotRecorded = true }
+            await apply(added)
         }
         // Refusals are logged whether or not anything moved: a removal where nothing moved is the one most worth a
         // record.
@@ -263,6 +275,7 @@ final class RemovalHistoryStore {
     /// totals, and Undo.
     func finish(_ removal: RemovalInProgress) {
         guard !removal.records.isEmpty else { return }
+        if removal.wasNotRecorded { outcome?.noteHistoryCouldNotRecord() }
         let parts = RemovalPart.of(removal.records.map { ($0.date, $0.part) })
         let moved = RemovalBatch(id: removal.batch, parts: parts, date: .now, records: removal.records)
         justMoved = moved

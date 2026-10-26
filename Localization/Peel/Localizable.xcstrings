@@ -49432,6 +49432,112 @@
         }
       }
     },
+    "History couldn’t record this removal." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie nemohla zaznamenat toto odstranění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Verlauf konnte nicht aufzeichnen, was gerade entfernt wurde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial no ha podido registrar esta eliminación."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’Historique n’a pas pu enregistrer cette suppression."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Cronologia non è riuscita a registrare questa rimozione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今回ゴミ箱に入れた項目を履歴に記録できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 제거 내역을 기록에 저장할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschiedenis kon deze verwijdering niet registreren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historia nie mogła zapisać tego przeniesienia do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Histórico não conseguiu registrar esta remoção."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Istoricul nu a putut înregistra această eliminare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось записать это удаление в Историю."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här borttagningen kunde inte föras in i Historik."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş, bu kaldırma işlemini kaydedemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Історії не вдалося записати це вилучення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“历史记录”未能记录此次移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「歷史記錄」無法記錄這次移除。"
+          }
+        }
+      }
+    },
     "History keeps what it can’t see until Peel can look again." : {
       "localizations" : {
         "cs" : {
@@ -187310,6 +187416,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選取的項目會丟到「垃圾桶」，「歷史記錄」可以將它還原。它所在的檔案夾會保留，因為macOS預期這些檔案夾存在。"
+          }
+        }
+      }
+    },
+    "What moved is in the Trash: drag it back out in Finder if you need it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co se přesunulo, je v koši: pokud to potřebujete, přetáhněte to ve Finderu zpět ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was verschoben wurde, liegt im Papierkorb: Ziehe es im Finder wieder heraus, wenn du es brauchst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que se ha trasladado está en la papelera: si lo necesitas, sácalo arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui a été déplacé se trouve dans la corbeille : faites-le glisser hors de la corbeille dans le Finder si vous en avez besoin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che è stato spostato è nel Cestino: se ti serve, trascinalo fuori nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動した項目はゴミ箱にあります。必要な場合は、Finderでドラッグして取り出してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동한 항목은 휴지통에 있습니다. 필요하면 Finder에서 휴지통 밖으로 드래그하여 꺼내십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat is verplaatst, staat in de prullenmand: sleep het in Finder er weer uit als je het nodig hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co przeniesiono, jest w Koszu: wyciągnij to z Kosza w Finderze, jeśli tego potrzebujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que foi movido está no Lixo: arraste-o para fora no Finder se precisar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce s‑a mutat se află în Coș: în Finder, îl puteți trage afară de acolo dacă aveți nevoie de el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что было перемещено, находится в Корзине: если оно Вам нужно, в Finder перетащите его из Корзины обратно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som flyttades ligger i papperskorgen: dra ut det igen i Finder om du behöver det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınanlar Çöp Sepeti’nde: ihtiyacınız varsa onları Finder’da dışarı sürükleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що переміщено, лежить у Смітнику: якщо воно вам потрібне, у Finder перетягніть його зі Смітника назад."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移走的内容在废纸篓中：如果你需要，请在“访达”中将它拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移動的項目在「垃圾桶」中：如有需要，請在Finder中將它們拖出來。"
           }
         }
       }

@@ -27,11 +27,18 @@ final class RemovalOutcome {
     private(set) var leftForAnAdministrator = 0
     /// The lines of the shell startup files that still name what moved, which the person edits.
     private(set) var shellReferences: [ShellReferences.Reference] = []
+    /// True when History couldn't record the removal, so Put Back has nothing to go on for what moved.
+    private(set) var historyCouldNotRecord = false
     private(set) var movedCount = 0
 
     var isEmpty: Bool {
         failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
             && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0 && shellReferences.isEmpty
+            && !historyCouldNotRecord
+    }
+
+    func noteHistoryCouldNotRecord() {
+        historyCouldNotRecord = true
     }
 
     /// Keeps what the removal could not do, what a restart or an emptied Trash finishes, and what stays for an
@@ -77,5 +84,6 @@ final class RemovalOutcome {
         appsStartingFromTheTrash = []
         leftForAnAdministrator = 0
         shellReferences = []
+        historyCouldNotRecord = false
     }
 }
