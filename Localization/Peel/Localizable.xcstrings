@@ -118088,108 +118088,108 @@
         }
       }
     },
-    "Peel found no installers or firmware big enough to mention, and no device backups." : {
+    "Peel found no installers, device firmware, unfinished downloads, or downloaded updates of %@ or more, and no iPhone or iPad backups." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nenašel žádné instalátory ani firmware tak velké, aby stály za zmínku, ani žádné zálohy zařízení."
+            "value" : "Peel nenašel žádné instalátory, firmware zařízení, nedokončená stahování ani stažené aktualizace o velikosti alespoň %@ a nenašel ani žádné zálohy iPhonu nebo iPadu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat keine Installer oder Firmware gefunden, die groß genug sind, um sie zu erwähnen, und keine Geräte-Backups."
+            "value" : "Peel hat keine Installer, Geräte-Firmware, unvollständigen Downloads oder geladenen Updates ab %@ gefunden und keine iPhone- oder iPad-Backups."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no ha encontrado instaladores ni firmware lo bastante grandes como para mencionarlos, ni copias de seguridad de dispositivos."
+            "value" : "Peel no ha encontrado instaladores, firmware de dispositivos, descargas sin terminar ni actualizaciones descargadas de %@ o más, ni copias de seguridad de iPhone o iPad."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’a trouvé aucun programme d’installation ni aucun programme interne assez volumineux pour être signalé, ni aucune sauvegarde d’appareil."
+            "value" : "Peel n’a trouvé aucun programme d’installation, programme interne d’appareil, téléchargement inachevé ni mise à jour téléchargée de %@ ou plus, ni aucune sauvegarde d’iPhone ou d’iPad."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non ha trovato installer o firmware abbastanza grandi da segnalare, né backup di dispositivi."
+            "value" : "Peel non ha trovato installer, firmware dei dispositivi, download non completati o aggiornamenti scaricati di almeno %@, né backup di iPhone o iPad."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "取り上げるほど大きなインストーラやファームウェアも、デバイスのバックアップも、Peelには見つかりませんでした。"
+            "value" : "サイズが%@以上のインストーラ、デバイスのファームウェア、未完了のダウンロード、ダウンロード済みのアップデートも、iPhoneやiPadのバックアップも、Peelには見つかりませんでした。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 언급할 만큼 큰 설치 프로그램이나 펌웨어를 찾지 못했으며, 기기 백업도 찾지 못했습니다."
+            "value" : "Peel이 %@ 이상의 설치 프로그램, 기기 펌웨어, 완료되지 않은 다운로드 또는 다운로드된 업데이트를 찾지 못했으며, iPhone 또는 iPad 백업도 찾지 못했습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft geen installatieprogramma's of firmware gevonden die groot genoeg zijn om te vermelden, en geen back-ups van apparaten."
+            "value" : "Peel heeft geen installatieprogramma's, apparaatfirmware, onvoltooide downloads of gedownloade updates van %@ of meer gevonden, en geen back-ups van iPhone of iPad."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie znalazł instalatorów ani oprogramowania sprzętowego na tyle dużych, by warto je było wymienić, ani backupów urządzeń."
+            "value" : "Peel nie znalazł instalatorów, oprogramowania sprzętowego urządzeń, niedokończonych pobierań ani pobranych uaktualnień o wielkości co najmniej %@. Nie znalazł też backupów iPhone’a ani iPada."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não encontrou instaladores nem firmware grandes o bastante para mencionar, nem backups de dispositivos."
+            "value" : "O Peel não encontrou instaladores, firmware de dispositivos, downloads incompletos nem atualizações baixadas de %@ ou mais, nem backups de iPhone ou iPad."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu a găsit programe de instalare sau firmware destul de mari cât să merite menționate și niciun backup de dispozitiv."
+            "value" : "Peel nu a găsit programe de instalare, firmware pentru dispozitive, descărcări neterminate sau actualizări descărcate de cel puțin %@ și niciun backup de iPhone sau iPad."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не нашел ни установщиков и прошивок такого размера, чтобы о них стоило говорить, ни резервных копий устройств."
+            "value" : "Peel не нашел установщиков, прошивок устройств, незавершенных загрузок или загруженных обновлений размером %@ и более, а также резервных копий iPhone или iPad."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hittade inga installerare eller någon fast programvara som är stor nog att nämna, och inga säkerhetskopior av enheter."
+            "value" : "Peel hittade inga installerare, ingen fast programvara för enheter, inga ofullständiga hämtningar och inga hämtade uppdateringar på %@ eller mer, och inga säkerhetskopior av iPhone eller iPad."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel söz etmeye değecek büyüklükte bir yükleyici veya firmware bulmadı, aygıt yedeklemesi de bulmadı."
+            "value" : "Peel, %@ veya daha büyük bir yükleyici, aygıt firmware’i, tamamlanmamış indirme veya indirilen güncelleme bulmadı; iPhone veya iPad yedeklemesi de bulmadı."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не знайшла ні інсталяторів чи прошивок, достатньо великих, щоб про них згадувати, ні резервних копій пристроїв."
+            "value" : "Peel не знайшла ні інсталяторів, прошивок пристроїв, незавершених викачувань чи викачаних оновлень розміром від %@, ні резервних копій iPhone чи iPad."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel没有找到大到值得一提的安装器或固件，也没有找到设备备份。"
+            "value" : "Peel没有找到大小在%@或以上的安装器、设备固件、未完成的下载或已下载的更新，也没有找到iPhone或iPad备份。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel沒有找到大到值得一提的安裝程式或韌體，也沒有找到裝置備份。"
+            "value" : "Peel沒有找到大小達%@或以上的安裝程式、裝置韌體、未完成的下載項目或已下載的更新項目，也沒有找到iPhone或iPad備份。"
           }
         }
       }

@@ -49,7 +49,7 @@ struct InstallerList: View {
                 ContentUnavailableView(
                     "Nothing Left Over",
                     systemImage: "checkmark.seal",
-                    description: Text("Peel found no installers or firmware big enough to mention, and no device backups.")
+                    description: Text("Peel found no installers, device firmware, unfinished downloads, or downloaded updates of \(Installers.minimumSize.byteCount) or more, and no iPhone or iPad backups.")
                 )
             } else if filtered.isEmpty {
                 ContentUnavailableView.search(text: searchText)
