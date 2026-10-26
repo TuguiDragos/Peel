@@ -226,6 +226,12 @@ extension BackgroundItem {
     func stateLook(withProcess: Bool = false) -> (title: Text, symbol: String, tint: Color) {
         switch state {
         case .unknown: (Text(.unknownBackgroundItemState), "questionmark.circle.dashed", .secondary)
+        // Disabling a job keeps launchd from loading it again, and leaves what runs now running.
+        case .running(let pid) where isDisabled:
+            (
+                withProcess ? Text("Disabled, still running · PID \(String(pid))") : Text("Disabled, still running"),
+                "minus.circle.fill", .orange
+            )
         case _ where isDisabled: (Text("Disabled"), "minus.circle.fill", .orange)
         case .running(let pid):
             (withProcess ? Text("Running · PID \(String(pid))") : Text("Running"), "circle.fill", .green)

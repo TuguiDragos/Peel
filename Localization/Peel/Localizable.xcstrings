@@ -36297,6 +36297,218 @@
         }
       }
     },
+    "Disabled, still running" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnuto, stále běží"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deaktiviert, läuft noch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivado, aún en ejecución"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé, toujours en cours d’exécution"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabilitato, ancora in esecuzione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無効、まだ実行中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비활성화됨, 아직 실행 중"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitgeschakeld, nog actief"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłączony, nadal uruchomiony"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativado, ainda em execução"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezactivat, încă rulează"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключено, но выполняется"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaktiverat, fortfarande igång"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkin değil, hâlâ çalışıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкнено, але досі виконується"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已停用，但仍在运行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已停用，仍在執行"
+          }
+        }
+      }
+    },
+    "Disabled, still running · PID %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnuto, stále běží · PID %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deaktiviert, läuft noch · PID %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivado, aún en ejecución · PID %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé, toujours en cours d’exécution · PID %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabilitato, ancora in esecuzione · PID %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無効、まだ実行中 · PID %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비활성화됨, 아직 실행 중 · PID %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitgeschakeld, nog actief · PID %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłączony, nadal uruchomiony · PID %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativado, ainda em execução · PID %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezactivat, încă rulează · PID %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключено, но выполняется · PID %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaktiverat, fortfarande igång · PID %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkin değil, hâlâ çalışıyor · PID %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкнено, але досі виконується · PID %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已停用，但仍在运行 · PID %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已停用，仍在執行 · PID %@"
+          }
+        }
+      }
+    },
     "Disk images" : {
       "localizations" : {
         "cs" : {
@@ -226261,6 +226473,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會稍等片刻才滑出Dock。此設定會取消這段等待。"
+          }
+        }
+      }
+    },
+    "macOS won’t load it again from the next login or restart. If it’s running now, it may keep running until then." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ji od příštího přihlášení nebo restartu znovu nenačte. Pokud teď běží, může běžet až do té doby."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lädt es ab der nächsten Anmeldung oder dem nächsten Neustart nicht mehr. Wenn es gerade läuft, läuft es möglicherweise bis dahin weiter."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no volverá a cargarlo a partir del próximo inicio de sesión o reinicio. Si ahora se está ejecutando, puede que siga haciéndolo hasta entonces."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne le chargera plus à partir de la prochaine ouverture de session ou du prochain redémarrage. S’il est en cours d’exécution, il pourrait continuer de s’exécuter jusque-là."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dal prossimo login o riavvio, macOS non lo caricherà più. Se ora è in esecuzione, potrebbe continuare a funzionare fino ad allora."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次回のログインまたは再起動以降、macOSはこれを再び読み込みません。現在実行中の場合は、それまで実行され続けることがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 로그인 또는 재시동부터 macOS가 이 항목을 다시 로드하지 않습니다. 지금 실행 중이라면 그때까지 계속 실행될 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laadt het niet meer vanaf de volgende keer dat je inlogt of de Mac opnieuw opstart. Als het nu actief is, kan het tot dan actief blijven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie będzie jej wczytywać od następnego logowania lub ponownego uruchomienia. Jeśli jest teraz uruchomiona, może działać do tego czasu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não vai carregá-lo novamente a partir do próximo início de sessão ou da próxima reinicialização. Se ele estiver em execução agora, pode continuar em execução até lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu îl va mai încărca începând cu următorul login sau cu următoarea repornire. Dacă rulează acum, poate continua să ruleze până atunci."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не будет загружать его снова, начиная со следующего входа в систему или перезагрузки. Если он сейчас выполняется, то может выполняться до этого момента."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS läser inte in det igen från och med nästa inloggning eller omstart. Om det körs nu kan det fortsätta att köras tills dess."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, bir sonraki oturum açılışından veya yeniden başlatmadan itibaren onu yeniden yüklemez. Şu anda çalışıyorsa o zamana kadar çalışmaya devam edebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS більше не завантажуватиме його, починаючи з наступного входу в систему чи перезапуску. Якщо він виконується зараз, то може виконуватися й далі до того часу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从下次登录或重新启动起，macOS将不再载入它。如果它现在正在运行，可能会一直运行到那时。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從下次登入或重新開機起，macOS將不會再載入它。如果它現在正在執行，可能會持續執行到那時。"
           }
         }
       }

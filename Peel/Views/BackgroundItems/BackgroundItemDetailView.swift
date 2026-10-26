@@ -385,6 +385,7 @@ struct BackgroundItemDetailView: View {
                     Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
                         Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
                     }
+                    .help(item.isDisabled ? Text(verbatim: "") : Text("macOS won’t load it again from the next login or restart. If it’s running now, it may keep running until then."))
                 }
             }
         }
