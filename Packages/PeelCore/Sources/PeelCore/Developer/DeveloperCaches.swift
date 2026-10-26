@@ -780,6 +780,7 @@ public enum DeveloperCaches {
         Definition(id: "hex", name: "Hex", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".hex/packages", .downloads, source: "https://github.com/hexpm/hex/blob/8ce21f32a72de3995ae142d57ca3dffb0d46e645/lib/hex/scm.ex#L8"),
             Folder(".hex/cache.ets", .cache, source: "https://github.com/hexpm/hex/blob/8ce21f32a72de3995ae142d57ca3dffb0d46e645/lib/hex/registry/server.ex#L8"),
+            Folder(".hex/cache.bin", .cache, source: "https://github.com/hexpm/hex/blob/edec2dda0968d5a6babd202bad17fcea2d1640bb/lib/hex/registry/server.ex#L8"),
         ]),
         Definition(id: "rebar3", name: "rebar3", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
             Folder(".cache/rebar3/hex", .downloads, source: "https://github.com/erlang/rebar3/blob/f23f21b5166613b555cead1fc43135a411e90451/apps/rebar/src/rebar_packages.erl#L159-L160"),

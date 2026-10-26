@@ -997,6 +997,15 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .deviceSupport && !$0.isRecommended })
     }
 
+    @Test func findsTheRegistryCacheHexKeepsSinceItsVersion26() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".hex/cache.bin", bytes: 4_000)
+
+        let locations = await scanned(directory.url).filter { $0.id == "hex" }.flatMap(\.locations)
+
+        #expect(locations.map(\.url.lastPathComponent) == ["cache.bin"])
+    }
+
     @Test func listsEachJetBrainsProductsLogsOnTheirOwn() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Logs/JetBrains/IntelliJIdea2026.2/idea.log", bytes: 4_000)
