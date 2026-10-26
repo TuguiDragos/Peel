@@ -386,6 +386,19 @@ struct CloudStorageTests {
         #expect(folders.sorted() == ["A", "B", "C", "D", "E"])
     }
 
+    @Test func namesAFileAsFinderShowsIt() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Buget 3:4.bin", bytes: 16)
+        let collector = CloudStorage.Collector()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+
+        #expect(collector.collected.files.map(\.name) == ["Buget 3/4.bin"])
+    }
+
     @Test func anExcludedFolderIsNotWalked() throws {
         let directory = try TemporaryDirectory()
         let drive = "Library/Mobile Documents/com~apple~CloudDocs"

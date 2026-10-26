@@ -301,7 +301,7 @@ public enum CloudStorage {
 
             let file = CloudFile(
                 url: url,
-                name: url.lastPathComponent,
+                name: shownName(of: url),
                 container: container,
                 size: measured.size,
                 modified: measured.modified,
@@ -357,6 +357,14 @@ public enum CloudStorage {
             }
         }
         return done
+    }
+
+    /// The name Finder shows. An app is named as `AppInspector` names it, since asking the system for the name of
+    /// an app Launch Services doesn't know there registers it.
+    static func shownName(of url: URL) -> String {
+        url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
+            ? AppInspector.displayName(of: url)
+            : FileManager.default.displayName(atPath: url.path(percentEncoded: false))
     }
 
     /// Why freeing a file failed: `NSFileLockingError` when a program holds it, and macOS's own message otherwise.
