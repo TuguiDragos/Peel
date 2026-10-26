@@ -39,12 +39,42 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
     }
 }
 
+/// Fails every request as macOS does when this Mac isn't online.
+private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func stopLoading() {}
+
+    override func startLoading() {
+        client?.urlProtocol(self, didFailWithError: URLError(.notConnectedToInternet))
+    }
+}
+
 /// The part of the update check that talks to the network, against replies written here.
 @Suite(.serialized) struct UpdateCheckerTests {
     private var checker: UpdateChecker {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [CannedProtocol.self]
         return UpdateChecker(session: URLSession(configuration: configuration), appStoreWindow: .forTheAppStore())
+    }
+
+    @Test func aCheckFromAMacThatIsntOnlineLearnsNothing() async {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [OfflineProtocol.self]
+        let offline = UpdateChecker(
+            session: URLSession(configuration: configuration), appStoreWindow: .forTheAppStore()
+        )
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Fed.app"), bundleIdentifier: "org.example.fed", name: "Fed",
+            version: "1.0", updateFeed: .sparkle(URL(string: "https://feed.example.com/appcast.xml")!)
+        )
+
+        let away = await offline.answer(for: app)
+        let down = await checker.answer(for: app)
+
+        #expect(away.status == .failed && away.wasOffline)
+        #expect(down.status == .failed && !down.wasOffline)
+        #expect(UpdateChecker.configuration.waitsForConnectivity)
     }
 
     /// Apple's lookup answers HTTP 400 for a region with no store, such as `150` (Europe), `001` (the world), or

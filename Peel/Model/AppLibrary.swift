@@ -580,8 +580,9 @@ final class AppLibrary {
                     }
                 }
                 // In a canceled round every pending request ends as a failure. Recording those would erase
-                // what was known and put off the next check for hours.
-                guard !Task.isCancelled else { continue }
+                // what was known and put off the next check for hours, and so would recording a check made while
+                // this Mac wasn't online, which leaves the app due at the next round.
+                guard !Task.isCancelled, !answer.wasOffline else { continue }
                 // The answer describes the build that was asked about, which may have been replaced since.
                 guard let app = asked[id], apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) else {
                     continue

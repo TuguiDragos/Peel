@@ -42,6 +42,27 @@ private nonisolated final class HeldProtocol: URLProtocol, @unchecked Sendable {
     }
 }
 
+private nonisolated final class SometimesOfflineProtocol: URLProtocol, @unchecked Sendable {
+    static let isOffline = Mutex(false)
+    static let body = Mutex(Data())
+
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func stopLoading() {}
+
+    override func startLoading() {
+        guard !Self.isOffline.withLock({ $0 }), let url = request.url,
+              let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)
+        else {
+            client?.urlProtocol(self, didFailWithError: URLError(.notConnectedToInternet))
+            return
+        }
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: Self.body.withLock { $0 })
+        client?.urlProtocolDidFinishLoading(self)
+    }
+}
+
 private nonisolated final class TestClock: Sendable {
     private let moment: Mutex<Date>
 
@@ -403,6 +424,31 @@ private nonisolated final class TestClock: Sendable {
         let last = try #require(asked.last)
         #expect(asked.count == 8 && last.name == "App8")
         #expect(library.hasUpdate(last), "the eighth app was asked once the first seven left the list")
+    }
+
+    @Test func aRoundWhileThisMacIsntOnlineKeepsWhatWasKnown() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        SometimesOfflineProtocol.body.withLock {
+            $0 = Data(#"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><enclosure url="https://feed.example.com/u.zip" sparkle:version="100" sparkle:shortVersionString="1.0" /></item></channel></rss>"#.utf8)
+        }
+        SometimesOfflineProtocol.isOffline.withLock { $0 = false }
+        defer { SometimesOfflineProtocol.isOffline.withLock { $0 = false } }
+        let library = library(with: made.defaults, notesIn: folder, answeredBy: SometimesOfflineProtocol.self)
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        await library.checkForUpdates([app], force: true)
+        let known = made.defaults.data(forKey: SettingsKey.updateMemory)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+
+        SometimesOfflineProtocol.isOffline.withLock { $0 = true }
+        await library.checkForUpdates([app], force: true)
+
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+        #expect(made.defaults.data(forKey: SettingsKey.updateMemory) == known, "nothing learned, nothing put off")
     }
 
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {

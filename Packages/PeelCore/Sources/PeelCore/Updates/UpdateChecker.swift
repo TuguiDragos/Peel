@@ -1,4 +1,5 @@
 public import Foundation
+import Synchronization
 
 public struct UpdateChecker: Sendable {
     /// Raised whenever the checker answers some apps differently: an app an earlier revision couldn't check is asked
@@ -17,6 +18,8 @@ public struct UpdateChecker: Sendable {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.timeoutIntervalForRequest = 15
         configuration.timeoutIntervalForResource = 30
+        // A Mac just awake from sleep has no network for a few seconds, and a check made then would fail at once.
+        configuration.waitsForConnectivity = true
         configuration.httpCookieStorage = nil
         configuration.httpShouldSetCookies = false
         configuration.httpCookieAcceptPolicy = .never
@@ -88,6 +91,7 @@ public struct UpdateChecker: Sendable {
         // checked through its own feed, or not at all.
         let own = preference == .appStore && app.isFromAppStore
             ? await appStoreAnswer(for: app, earlier: earlier) : await feedAnswer(for: app, earlier: earlier)
+        guard !own.wasOffline else { return own }
         // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
         if let homebrew, own.status == .unsupported || own.status == .failed {
             return UpdateAnswer(status: homebrew, developer: own.developer, standsInFor: own.status)
@@ -177,7 +181,8 @@ public struct UpdateChecker: Sendable {
     }
 
     private func sparkleAnswer(for app: InstalledApp, installed: String, at url: URL) async -> UpdateAnswer {
-        guard let data = await fetch(url) else { return UpdateAnswer(status: .failed) }
+        let reply = await fetchReply(url)
+        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
         let item: AppcastItem
         switch Appcast.read(data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon) {
         case .unreadable: return UpdateAnswer(status: .failed)
@@ -199,7 +204,8 @@ public struct UpdateChecker: Sendable {
     }
 
     private func electronAnswer(installed: String, at url: URL) async -> UpdateAnswer {
-        guard let data = await fetch(url) else { return UpdateAnswer(status: .failed) }
+        let reply = await fetchReply(url)
+        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
         let feed = String(decoding: data, as: UTF8.self)
         guard let latest = ElectronUpdater.version(fromFeed: feed) else { return UpdateAnswer(status: .failed) }
         guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
@@ -222,7 +228,7 @@ public struct UpdateChecker: Sendable {
         if reply.status == 400, store != "us" {
             reply = await lookup(identifier, in: "us", for: listing)
         }
-        guard let data = reply.data else { return UpdateAnswer(status: .failed) }
+        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
         switch AppStoreLookup.answer(in: data, for: listing) {
         case .unreadable:
             return UpdateAnswer(status: .failed)
@@ -257,6 +263,13 @@ public struct UpdateChecker: Sendable {
 
     private func fetch(_ url: URL) async -> Data? {
         await fetchReply(url).data
+    }
+
+    /// The errors that mean this Mac isn't online rather than that the server failed.
+    static func meansOffline(_ error: any Error) -> Bool {
+        guard let error = error as? URLError else { return false }
+        return [.notConnectedToInternet, .networkConnectionLost, .dataNotAllowed, .internationalRoamingOff]
+            .contains(error.code)
     }
 
     /// What is new in the update `answer` found, asked of the app's own addresses when the answer does not say: the
@@ -326,12 +339,20 @@ public struct UpdateChecker: Sendable {
         var status: Int?
         var mimeType: String?
         var textEncodingName: String?
+        /// True when this Mac wasn't online, so no server was asked.
+        var wasOffline = false
     }
 
     private func fetchReply(_ url: URL) async -> Reply {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
-        let reply = try? await session.bytes(for: request, delegate: SecureRedirects())
-        guard let (stream, response) = reply else { return Reply() }
+        let delegate = SecureRedirects()
+        let stream: URLSession.AsyncBytes
+        let response: URLResponse
+        do {
+            (stream, response) = try await session.bytes(for: request, delegate: delegate)
+        } catch {
+            return Reply(wasOffline: delegate.waitedForConnectivity || Self.meansOffline(error))
+        }
         let status = (response as? HTTPURLResponse)?.statusCode
         var answer = Reply(status: status, mimeType: response.mimeType, textEncodingName: response.textEncodingName)
         guard status == 200, response.expectedContentLength <= Self.maximumFeedBytes else { return answer }
@@ -357,12 +378,21 @@ public struct UpdateChecker: Sendable {
 /// Follows a redirect only to another https address. Every address an update check asks is https, while App
 /// Transport Security still lets plain http reach this Mac and its local network, so a feed server could otherwise
 /// send the check to a service there.
-private final class SecureRedirects: NSObject, URLSessionTaskDelegate {
+private final class SecureRedirects: NSObject, URLSessionTaskDelegate, Sendable {
+    private let waited = Mutex(false)
+
+    /// True once the request waited for this Mac to go online.
+    var waitedForConnectivity: Bool { waited.withLock { $0 } }
+
     func urlSession(
         _ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse,
         newRequest request: URLRequest, completionHandler: @escaping @Sendable (URLRequest?) -> Void
     ) {
         completionHandler(request.url?.scheme == "https" ? request : nil)
+    }
+
+    func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
+        waited.withLock { $0 = true }
     }
 }
 
@@ -377,19 +407,23 @@ public struct UpdateAnswer: Sendable, Hashable {
     /// What the app's own feed or the App Store answered, `.failed` or `.unsupported`, when `status` is Homebrew's
     /// answer in its place.
     public let standsInFor: UpdateStatus?
+    /// True when this Mac wasn't online, so the check learned nothing about the app.
+    public let wasOffline: Bool
 
     public init(
         status: UpdateStatus,
         developer: String? = nil,
         notes: ReleaseNotes? = nil,
         notesPage: URL? = nil,
-        standsInFor: UpdateStatus? = nil
+        standsInFor: UpdateStatus? = nil,
+        wasOffline: Bool = false
     ) {
         self.status = status
         self.developer = developer
         self.notes = notes
         self.notesPage = notesPage
         self.standsInFor = standsInFor
+        self.wasOffline = wasOffline
     }
 
     /// The status to keep after `previous`: a check whose own source failed keeps an update that source found earlier,
