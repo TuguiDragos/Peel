@@ -748,6 +748,22 @@ struct OrphanScannerTests {
         #expect(given.groups.isEmpty)
     }
 
+    @Test func listsWhatAGoneAppNamedWithAnIdentifierOfAnyShape() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Preferences/example.notes.plist")
+        try directory.file("home/Library/Caches/exampleco.browser.app/cache.db")
+        try directory.file("home/Library/Caches/example.other/cache.db")
+        let gone = [("example.notes", "Notes Example"), ("exampleco.browser.app", "Browser Example")].map {
+            RememberedApp(
+                bundleIdentifier: $0.0, name: $0.1, teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/\($0.1).app"
+            )
+        }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: gone)
+
+        #expect(Set(scan.groups.map(\.identifier)) == ["example.notes", "exampleco.browser.app"])
+    }
+
     @Test func remembersWhichAppAGroupBelongsToUntilToldOtherwise() throws {
         let directory = try TemporaryDirectory()
         let owners = OrphanOwners(url: directory.url.appending(path: "orphan-owners.json"))

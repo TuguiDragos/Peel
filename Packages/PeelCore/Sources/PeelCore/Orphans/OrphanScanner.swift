@@ -457,7 +457,11 @@ public struct OrphanScanner: Sendable {
         return ["steam", "steamlibrary", "epic games", "epicgameslauncher", "battle.net"].contains { name == $0 || name.hasPrefix($0 + ".") }
     }
 
-    static func orphanIdentifier(forKey key: String, kind: SearchLocation.Kind) -> String? {
+    static func orphanIdentifier(
+        forKey key: String,
+        kind: SearchLocation.Kind,
+        isDeclared: (String) -> Bool = { _ in false }
+    ) -> String? {
         var identifier = key
         if kind == .groupContainers || kind == .applicationScripts, identifier.hasPrefix("group.") {
             identifier.removeFirst("group.".count)
@@ -470,6 +474,9 @@ public struct OrphanScanner: Sendable {
             return identifier
         }
         if kind == .groupContainers, Identifier.teamScoped(identifier) != nil {
+            return identifier
+        }
+        if Identifier.isValid(identifier), isDeclared(identifier) {
             return identifier
         }
         return nil
@@ -536,7 +543,8 @@ public struct OrphanScanner: Sendable {
         guard let names = await SlowRead.names(in: url) else { return nil }
         return names.contains { name in
             let key = LeftoverMatcher.key(from: name, kind: kind)
-            guard let identifier = orphanIdentifier(forKey: key, kind: kind) else { return false }
+            guard let identifier = orphanIdentifier(forKey: key, kind: kind, isDeclared: ownership.isDeclared)
+            else { return false }
             return ownership.isClaimed(fileName: name, kind: kind, identifier: identifier)
         }
     }
@@ -606,8 +614,12 @@ public struct OrphanScanner: Sendable {
         guard
             !isSensitive(fileName: name),
             let identifier = (DeclaredIdentifier.nameSaysNothing(of: url, kind: kind)
-                ? nil : orphanIdentifier(forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind))
-                ?? DeclaredIdentifier.of(url, kind: kind).flatMap({ orphanIdentifier(forKey: $0, kind: kind) }),
+                ? nil : orphanIdentifier(
+                    forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind, isDeclared: ownership.isDeclared
+                ))
+                ?? DeclaredIdentifier.of(url, kind: kind).flatMap({
+                    orphanIdentifier(forKey: $0, kind: kind, isDeclared: ownership.isDeclared)
+                }),
             goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),
             !jobs.ownsItem(named: identifier),

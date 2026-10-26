@@ -4,6 +4,8 @@ struct AppOwnership: Sendable {
     private let profiles: [LeftoverMatcher.Profile]
     private let goneApps: [String]
     private let isRegisteredApp: @Sendable (String) -> Bool
+    /// The identifiers the installed apps and the gone ones declared, lowercased.
+    private let declared: Set<String>
 
     /// `goneApps` are the identifiers of the apps Peel saw installed that are gone.
     init(
@@ -14,6 +16,19 @@ struct AppOwnership: Sendable {
         profiles = installedApps.map(LeftoverMatcher.Profile.init)
         self.goneApps = goneApps.map { $0.lowercased() }
         self.isRegisteredApp = isRegisteredApp
+        declared = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() } + self.goneApps)
+    }
+
+    /// Whether `name` is an identifier an app declared, or one with three parts or more followed by a dot, as
+    /// `AppMemory.app(for:in:)` reads it: then it names that app's files whatever its shape.
+    func isDeclared(_ name: String) -> Bool {
+        var components = name.lowercased().split(separator: ".", omittingEmptySubsequences: false)
+        if declared.contains(components.joined(separator: ".")) { return true }
+        while components.count > 3 {
+            components.removeLast()
+            if declared.contains(components.joined(separator: ".")) { return true }
+        }
+        return false
     }
 
     /// Returns whether an installed app has any claim on the item, even a weak one, or macOS knows an app by the
