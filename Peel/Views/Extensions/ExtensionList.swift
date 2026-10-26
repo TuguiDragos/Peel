@@ -28,8 +28,11 @@ struct ExtensionList: View {
                     .padding(.vertical, 6)
                     .listRowSeparator(.hidden)
             }
+            let versioned = Set(Dictionary(grouping: extensions.extensions ?? [], by: \.identifier).filter {
+                $0.value.count > 1
+            }.keys)
             ForEach(filtered) { item in
-                ExtensionRow(item: item)
+                ExtensionRow(item: item, showsVersion: versioned.contains(item.identifier))
             }
         }
         .accessibilityLabel(Text(Tool.extensions.title))
@@ -98,13 +101,18 @@ struct ExtensionList: View {
 
 private struct ExtensionRow: View {
     let item: AppExtension
+    /// True when another row has the same identifier, as the old and the new version during an update.
+    let showsVersion: Bool
 
     var body: some View {
         ToolRow(systemImage: item.kind.systemImage) {
             Text(verbatim: item.name)
                 .lineLimit(1)
         } details: {
-            if item.goneApp != nil, let name = item.appName {
+            if showsVersion, let version = item.shownVersion {
+                Text("Version \(version)")
+                    .lineLimit(1)
+            } else if item.goneApp != nil, let name = item.appName {
                 Text("\(name), no longer installed")
                     .lineLimit(1)
             } else if let owner = item.owner {

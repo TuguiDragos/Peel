@@ -194407,6 +194407,112 @@
         }
       }
     },
+    "Version %@ replaced this one, which macOS is removing. Some removals finish only when the Mac restarts." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto rozšíření nahradila verze %@ a systém macOS ho odstraňuje. Některá odstranění se dokončí až po restartu Macu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ hat diese Version ersetzt, die macOS gerade entfernt. Manches wird erst vollständig entfernt, wenn der Mac neu startet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versión %@ ha reemplazado a esta, que macOS está eliminando. Algunas eliminaciones solo terminan cuando el Mac se reinicia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La version %@ a remplacé celle-ci, que macOS est en train de supprimer. Certaines suppressions ne s’achèvent qu’au redémarrage du Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versione %@ ha sostituito questa, che macOS sta rimuovendo. Alcune rimozioni si completano solo al riavvio del Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このバージョンはバージョン%@に置き換えられ、macOSが削除しています。Macを再起動しないと完了しない削除もあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 버전이 이 버전을 대체했으며, macOS가 이 버전을 제거하고 있습니다. 일부 제거 작업은 Mac을 재시동해야만 완료됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie %@ heeft deze versie vervangen, en macOS is die aan het verwijderen. Sommige verwijderingen worden pas voltooid als de Mac opnieuw opstart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tę wersję zastąpiła wersja %@, a macOS ją usuwa. Czasem usuwanie kończy się dopiero po ponownym uruchomieniu Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A versão %@ substituiu esta, que o macOS está removendo. Algumas remoções só terminam quando o Mac reinicia."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versiunea %@ a înlocuit‑o pe aceasta, pe care macOS o elimină în acest moment. Unele eliminări se încheie doar când Mac‑ul repornește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия %@ заменила это расширение, и macOS его удаляет. Некоторые удаления завершаются только после перезагрузки Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ har ersatt den här versionen, som macOS håller på att ta bort. Vissa borttagningar slutförs först när datorn startas om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunun yerini %@ sürümü aldı ve macOS bunu kaldırıyor. Bazı kaldırma işlemleri ancak Mac yeniden başladığında tamamlanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю версію замінила версія %@, і macOS зараз її вилучає. Деякі вилучення завершуються лише після перезапуску Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此版本已被版本%@取代，macOS正在移除它。有些移除要等Mac重新启动后才能完成。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本%@已取代此版本，macOS正在移除此版本。有些移除作業要等到Mac重新開機後才會完成。"
+          }
+        }
+      }
+    },
     "Version %@ skipped" : {
       "localizations" : {
         "cs" : {

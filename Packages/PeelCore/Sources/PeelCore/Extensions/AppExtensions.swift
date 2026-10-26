@@ -27,7 +27,8 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         reportedState: String?,
         installedFor: String? = nil,
         goneApp: String? = nil,
-        category: String? = nil
+        category: String? = nil,
+        version: String? = nil
     ) {
         self.id = id ?? identifier
         self.identifier = identifier
@@ -42,6 +43,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         self.installedFor = installedFor
         self.goneApp = goneApp
         self.category = category
+        self.version = version
     }
 
     public enum Kind: String, Sendable, Hashable, CaseIterable {
@@ -96,6 +98,10 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     public let goneApp: String?
     /// The category `systemextensionsctl` lists a system extension under; nil for an app extension.
     public let category: String?
+    /// The version `systemextensionsctl` lists, `<short>/<build>`; nil for an app extension.
+    public let version: String?
+    /// For a version macOS is removing while it keeps another version of it, that version, as shown.
+    public internal(set) var replacedBy: String?
     /// Tells rows apart in a list. The identifier alone can't: while an app updates a system extension, macOS
     /// lists the old and the new version under the same identifier.
     public let id: String
@@ -144,6 +150,14 @@ extension AppExtension {
             return URL(filePath: String(path[..<end.lowerBound]) + ".app", directoryHint: .isDirectory)
         case .systemExtension:
             return goneApp == nil ? installedFor.map { URL(filePath: $0, directoryHint: .isDirectory) } : nil
+        }
+    }
+
+    /// The version as macOS shows one with its build, `2.0 (200)`.
+    public var shownVersion: String? {
+        version.map { listed in
+            let parts = listed.split(separator: "/", maxSplits: 1)
+            return parts.count == 2 ? "\(parts[0]) (\(parts[1]))" : listed
         }
     }
 
@@ -405,7 +419,7 @@ public enum AppExtensions {
         }
         guard count(in: lines, /^(\d+) extension\(s\)$/) == rows.count else { return nil }
         let records = records()
-        return rows.map { row, category in
+        return notingReplacements(rows.map { row, category in
             let record = record(for: row.identifier, version: row.version, among: records)
             let installedFor = record.flatMap(installedFor)
             return AppExtension(
@@ -422,8 +436,21 @@ public enum AppExtensions {
                 reportedState: row.state,
                 installedFor: installedFor,
                 goneApp: goneApp(installedFor: installedFor),
-                category: category
+                category: category,
+                version: row.version
             )
+        })
+    }
+
+    /// Each system extension macOS is removing while it keeps another version of it, with the version that stays.
+    static func notingReplacements(_ found: [AppExtension]) -> [AppExtension] {
+        found.map { item in
+            guard item.election == .beingRemoved else { return item }
+            var noted = item
+            noted.replacedBy = found.first {
+                $0.identifier == item.identifier && $0.election != .beingRemoved && $0.version != item.version
+            }?.shownVersion
+            return noted
         }
     }
 

@@ -405,6 +405,26 @@ struct AppExtensionsTests {
         #expect(categories["org.example.camera"] == "com.apple.system_extension.cmio")
     }
 
+    @Test func saysWhichVersionReplacesASystemExtensionBeingRemoved() async throws {
+        let listing = """
+        3 extension(s)
+        --- com.apple.system_extension.network_extension (Go to 'System Settings > General > Login Items & Extensions > Network Extensions' to modify these system extension(s))
+        enabled\tactive\tteamID\tbundleID (version)\tname\t[state]
+        \t\tABCDE12345\torg.example.filter (2.20/2626)\tExample Filter\t[terminated waiting to uninstall on reboot]
+        *\t*\tABCDE12345\torg.example.filter (2.20.2/2629)\tExample Filter\t[activated enabled]
+        \t\tABCDE12345\torg.example.proxy (1.0)\tExample Proxy\t[terminated waiting to uninstall on reboot]
+        """
+
+        let found = try #require(await AppExtensions.systemExtensions { _, _ in listing })
+
+        let old = try #require(found.first { $0.version == "2.20/2626" })
+        let new = try #require(found.first { $0.version == "2.20.2/2629" })
+        let alone = try #require(found.first { $0.identifier == "org.example.proxy" })
+        #expect(old.replacedBy == "2.20.2 (2629)")
+        #expect(new.replacedBy == nil && new.shownVersion == "2.20.2 (2629)")
+        #expect(alone.replacedBy == nil && alone.shownVersion == "1.0")
+    }
+
     @Test func systemSettingsDeletesOnlyANetworkExtensionAndOnlyOnMacOS27() {
         func item(_ category: String?, kind: AppExtension.Kind = .systemExtension) -> AppExtension {
             AppExtension(
