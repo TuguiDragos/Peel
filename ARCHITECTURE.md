@@ -120,8 +120,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      shell completions left in `/usr/local` go last, once the app they lead into has moved. A browser's manifest in
      `/Library` goes through the helper too, which takes it only once the program it names is gone.
    - An item stays where it is while a program holds it (`OpenFiles`): a file one of the user's programs holds
-     open, or the program any process runs from it. When only an app's own background programs hold it, the move
-     stops their launch jobs, moves the app, and starts each job again unless its file went to the Trash too.
+     open, the program any process runs from it, or a script in it a program such as Node.js was given to run.
+     When only an app's own background programs hold it, the move stops their launch jobs, moves the app, and
+     starts each job again unless its file went to the Trash too.
      Inside an app, which is code and loses nothing when it moves, a file open only for reading holds nothing, and
      neither does the program running from an app that uninstalls itself once it has moved (`UninstallsItself`:
      Mullvad VPN's daemon, and Citrix Workspace's agent and TeamViewer's daemon, each known by the `WatchPaths` of

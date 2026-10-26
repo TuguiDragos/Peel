@@ -31,12 +31,13 @@ struct OpenFiles {
         var programs: [pid_t: String] = [:]
         for pid in pids.prefix(max(count, 0)) where pid > 0 && pid != excluded && !Self.isACopyOfThisProcess(pid) {
             let path = RunningProgram.path(of: pid)
-            let program = path.flatMap(Self.program(at:)).map { [(path: $0, hold: Hold.runs)] } ?? []
-            let paths = Self.paths(openBy: pid) + program
+            let owner = kill(pid, 0) != 0 && errno == EPERM ? Self.owner(ofAccount: Self.uid(of: pid)) : .thisAccount
+            let runs = (path.flatMap(Self.program(at:)).map { [$0] } ?? [])
+                + (owner == .thisAccount ? Self.scripts(runBy: pid, program: path) : [])
+            let paths = Self.paths(openBy: pid) + runs.map { (path: $0, hold: Hold.runs) }
             guard !paths.isEmpty else { continue }
             programs[pid] = path
             let process = Self.name(of: pid, program: path)
-            let owner = kill(pid, 0) != 0 && errno == EPERM ? Self.owner(ofAccount: Self.uid(of: pid)) : .thisAccount
             let isJava = path.map { URL(filePath: $0).lastPathComponent == "java" } == true
             let daemon = owner == .thisAccount && isJava
                 ? Self.arguments(of: pid).flatMap(BuildDaemon.running(with:)) : nil
@@ -104,6 +105,17 @@ struct OpenFiles {
         let daemons = named.compactMap(\.daemon)
         if daemons.count == named.count { return .heldByABuildTool(by: Set(daemons.map(\.rawValue)).sorted()) }
         return .heldOpen(by: Set(named.map(\.process)).sorted())
+    }
+
+    /// The scripts a process runs when its program is one that runs a script named as an argument (Node.js, Deno,
+    /// Bun, Python, Ruby or Perl): it loads from beside each as long as it runs, as a program runs from its own file.
+    private static func scripts(runBy pid: pid_t, program: String?) -> [String] {
+        guard let name = program.map({ URL(filePath: $0).lastPathComponent }),
+              ["node", "deno", "bun", "ruby", "perl"].contains(name) || name.hasPrefix("python")
+        else { return [] }
+        return (arguments(of: pid) ?? []).dropFirst().filter { $0.hasPrefix("/") }.map {
+            PathPattern.canonical(URL(filePath: $0)).path(percentEncoded: false)
+        }
     }
 
     /// The arguments a process of this account was started with, as `sysctl` gives them (`KERN_PROCARGS2`): their

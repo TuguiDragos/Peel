@@ -177,6 +177,21 @@ struct OpenFilesTests {
         #expect(refusal == .heldByABuildTool(by: ["Gradle"]))
     }
 
+    @Test func aScriptAProgramRunsHoldsTheFolderItRunsFrom() throws {
+        let directory = try TemporaryDirectory()
+        let script = try directory.file("home/.npm/_npx/0123abcd/node_modules/.bin/server")
+        let errors = try directory.file("errors.log")
+        let arguments = ["-", script.path(percentEncoded: false)]
+        let node = try Self.program("bin/node", in: directory, arguments: arguments, writingTo: errors)
+        defer { node.terminate() }
+        let viewer = try Self.program("bin/viewer", in: directory, arguments: arguments, writingTo: errors)
+        defer { viewer.terminate() }
+
+        let refusal = OpenFiles().refusal(of: directory.url.appending(path: "home/.npm/_npx"), lettingItsProgramsRun: false)
+
+        #expect(refusal == .heldOpen(by: ["node"]))
+    }
+
     @Test func knowsEachBuildToolsDaemonByHowTheToolStartsIt() {
         let gradle = ["/jdk/bin/java", "-Xmx512m", "-cp", "/x/gradle-launcher-9.2.jar",
                       "org.gradle.launcher.daemon.bootstrap.GradleDaemon", "9.2"]

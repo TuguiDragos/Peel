@@ -160,9 +160,10 @@ short by a crash or Force Quit still reaches History, as an interrupted removal,
 it.
 
 Right before anything moves, and again once a second while a removal of many items goes on, Peel looks at the files
-other programs of yours hold open and at the program each process runs, and leaves where it is any file or folder
-with one of them inside, naming the program and how to free the item: quit it, or stop it in Background Items when it
-has no window, since launchd starts such a program again. A build tool's daemon, which stays after a build and keeps
+other programs of yours hold open, at the program each process runs, and at the script a program such as Node.js or
+Python was given to run, and leaves where it is any file or folder with one of them inside, naming the program and
+how to free the item: quit it, or stop it in Background Items when it has no window, since launchd starts such a
+program again. A build tool's daemon, which stays after a build and keeps
 the tool's caches open, is named by its tool with the command that tool documents for stopping it: Gradle's and
 Kotlin's stop with `gradle --stop`, Bazel's with `bazel shutdown`, and mvnd's with `mvnd --stop`.
 Moving a database or a cache from under an agent, a daemon, or a server that is using it would break it. A program
