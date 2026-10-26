@@ -24,6 +24,29 @@ struct PluginsTests {
         #expect(stop.askedAfter == 0)
     }
 
+    @Test(.permissionsHold) func readsAFolderOfPlugInsThatIsALinkAndNamesOneItCannotRead() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Elsewhere/VST3/Reverb.vst3/Contents")
+        try directory.directory("home/Library/Audio/Plug-Ins")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "home/Library/Audio/Plug-Ins/VST3"),
+            withDestinationURL: directory.url.appending(path: "Elsewhere/VST3")
+        )
+        let closed = try directory.directory("root/Library/Audio/Plug-Ins/Components/Vendor")
+        try directory.directory("root/Library/Audio/Plug-Ins/Components/Vendor/Synth.component")
+        try directory.setPermissions(0o000, of: closed)
+        defer { try? directory.setPermissions(0o755, of: closed) }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let scan = await Plugins.scan(environment: environment)
+
+        #expect(scan.plugins.map(\.name) == ["Reverb"])
+        #expect(scan.unreadable.map(\.lastPathComponent) == ["Vendor"])
+    }
+
     @Test func findsPluginBundlesInUserAndSystemLibraries() async throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(
@@ -41,7 +64,7 @@ struct PluginsTests {
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
-        let plugins = await Plugins.scan(environment: environment)
+        let plugins = await Plugins.scan(environment: environment).plugins
 
         #expect(plugins.map(\.name) == ["Ask", "Parrot", "Reverb"])
         let reverb = try #require(plugins.last)
@@ -70,7 +93,7 @@ struct PluginsTests {
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
-        let plugins = await Plugins.scan(environment: environment)
+        let plugins = await Plugins.scan(environment: environment).plugins
         let found = Dictionary(uniqueKeysWithValues: plugins.map { ($0.name, $0.category) })
 
         #expect(found == [
@@ -88,7 +111,7 @@ struct PluginsTests {
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
 
-        let plugins = await Plugins.scan(environment: environment)
+        let plugins = await Plugins.scan(environment: environment).plugins
 
         #expect(try #require(plugins.first { $0.category == .mailBundles }).refusal == nil)
         #expect(try #require(plugins.first { $0.category == .vst3 }).refusal == nil)
@@ -107,7 +130,7 @@ struct PluginsTests {
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
 
-        let plugins = await Plugins.scan(environment: environment)
+        let plugins = await Plugins.scan(environment: environment).plugins
 
         #expect(plugins.map(\.name) == ["Delay", "Loose", "Reverb"])
         #expect(!plugins.contains { $0.name.hasPrefix("Waves") }, "the vendor's folder was taken for a plug-in")
@@ -124,7 +147,7 @@ struct PluginsTests {
 
         let plugins = await Plugins.scan(environment: environment, exclusions: .none) { url in
             url.lastPathComponent == "Slow.vst3" ? nil : await FileSize.reclaimableSize(of: url, within: FileSize.budget)
-        }
+        }.plugins
 
         #expect(plugins.map(\.name) == ["Quick", "Slow"])
         #expect(try #require(plugins.first?.size) >= 400_000)
@@ -165,7 +188,7 @@ struct PluginsTests {
     /// `/Library/Audio/Plug-Ins/HAL`. The test checks names, since asking the scan's own signature question
     /// again would test nothing.
     @Test func leavesApplesOwnComponentsOutOfTheList() async {
-        let listed = await Plugins.scan().map(\.name)
+        let listed = await Plugins.scan().plugins.map(\.name)
         #expect(!listed.contains("ParrotAudioPlugin"))
         #expect(!listed.contains { $0.hasPrefix("AU") && $0 != "AULab" }, "Apple's own audio units were listed: \(listed)")
     }

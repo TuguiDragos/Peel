@@ -5,6 +5,9 @@ import PeelCore
 @Observable
 final class PluginLibrary {
     private(set) var plugins: [Plugin]?
+    /// The folders the last scan couldn't read, which may hold plug-ins it didn't list.
+    private(set) var unreadable: [URL] = []
+    private(set) var needsFullDiskAccess = false
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -18,8 +21,10 @@ final class PluginLibrary {
     func refresh() async {
         guard let result = await scanRun.run({ await Plugins.scan(exclusions: ExclusionsStore.shared.exclusions) })
         else { return }
-        plugins = result
-        if let selection, !result.contains(where: { $0.id == selection }) {
+        plugins = result.plugins
+        unreadable = result.unreadable
+        needsFullDiskAccess = result.needsFullDiskAccess
+        if let selection, !result.plugins.contains(where: { $0.id == selection }) {
             self.selection = nil
         }
     }

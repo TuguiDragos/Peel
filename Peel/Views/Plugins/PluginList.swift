@@ -3,6 +3,7 @@ import SwiftUI
 
 struct PluginList: View {
     @Environment(PluginLibrary.self) private var plugins
+    @Environment(HomeModel.self) private var home
     @State private var searchText = ""
     @State private var isRescanning = false
 
@@ -12,6 +13,13 @@ struct PluginList: View {
         let byCategory = Dictionary(grouping: filtered, by: \.category)
 
         List(selection: $plugins.selection) {
+            if plugins.plugins?.isEmpty == false {
+                if plugins.needsFullDiskAccess {
+                    FullDiskAccessBanner()
+                } else if !plugins.unreadable.isEmpty {
+                    UnreadableFoldersNotice(folders: plugins.unreadable)
+                }
+            }
             ForEach(Plugin.Category.allCases, id: \.self) { category in
                 if let items = byCategory[category] {
                     Section {
@@ -47,7 +55,21 @@ struct PluginList: View {
         .accessibilityLabel(Text(Tool.plugins.title))
         .scrollBarBelowSectionHeaders(!byCategory.isEmpty)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: plugins.scanRun) {
-            if plugins.plugins?.isEmpty == true {
+            if plugins.plugins?.isEmpty == true, !plugins.unreadable.isEmpty {
+                ContentUnavailableView {
+                    Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
+                } description: {
+                    if plugins.needsFullDiskAccess {
+                        Text("No plug-ins were found, but Peel couldn’t look in ^[\(plugins.unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
+                    } else {
+                        Text("No plug-ins were found, but Peel couldn’t look inside \(plugins.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so there may be some there.")
+                    }
+                } actions: {
+                    if plugins.needsFullDiskAccess {
+                        Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    }
+                }
+            } else if plugins.plugins?.isEmpty == true {
                 ContentUnavailableView(
                     "No Plug-ins",
                     systemImage: "powerplug",
@@ -60,7 +82,13 @@ struct PluginList: View {
         .columnSearch(text: $searchText, prompt: "Search Plug-ins", when: plugins.plugins?.isEmpty == false)
         .fadesInColumn(whenRowsChange: plugins.plugins?.map(\.id))
         .navigationTitle(Text(Tool.plugins.title))
-        .announcesScan(plugins.isScanning, found: plugins.summary, wasStopped: plugins.scanRun.wasStopped)
+        .announcesScan(
+            plugins.isScanning,
+            found: plugins.summary,
+            couldNotLook: plugins.plugins?.isEmpty == true && !plugins.unreadable.isEmpty
+                ? "Not Everything Could Be Read" : nil,
+            wasStopped: plugins.scanRun.wasStopped
+        )
         .toolbar {
             ToolbarItem {
                 RescanButton(isRunning: $isRescanning, isDisabled: plugins.isRemoving, scan: plugins.scanRun) {

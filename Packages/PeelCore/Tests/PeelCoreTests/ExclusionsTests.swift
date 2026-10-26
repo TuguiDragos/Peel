@@ -617,8 +617,10 @@ struct ExclusionsReachEveryScannerTests {
         try directory.file("home/Library/QuickLook/Keep.qlgenerator/Contents/Info.plist", contents: Data("<plist/>".utf8))
         let plugin = directory.url.appending(path: "home/Library/QuickLook/Keep.qlgenerator")
 
-        let listed = await Plugins.scan(environment: environment(in: directory))
-        let kept = await Plugins.scan(environment: environment(in: directory), exclusions: Exclusions(paths: [plugin]))
+        let listed = await Plugins.scan(environment: environment(in: directory)).plugins
+        let kept = await Plugins.scan(
+            environment: environment(in: directory), exclusions: Exclusions(paths: [plugin])
+        ).plugins
 
         #expect(listed.contains { $0.url.lastPathComponent == "Keep.qlgenerator" })
         #expect(!kept.contains { $0.url.lastPathComponent == "Keep.qlgenerator" }, "the scanner spells the path with /private and the exclusion does not")

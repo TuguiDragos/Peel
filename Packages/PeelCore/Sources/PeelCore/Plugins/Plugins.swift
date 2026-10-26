@@ -76,6 +76,14 @@ extension Plugin.Category {
     }
 }
 
+/// The plug-ins one scan found, and the folders it couldn't read, which may hold more.
+public struct PluginScan: Sendable {
+    public var plugins: [Plugin] = []
+    public var unreadable: [URL] = []
+    /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
+    public var needsFullDiskAccess = false
+}
+
 /// Finds the plug-ins that apps have installed in the folders macOS loads plug-ins from. Apple's own
 /// components sit in the same folders and are left out, because macOS relies on them.
 public enum Plugins {
@@ -96,7 +104,7 @@ public enum Plugins {
     public static func scan(
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none
-    ) async -> [Plugin] {
+    ) async -> PluginScan {
         await scan(environment: environment, exclusions: exclusions, measure: FileSize.measure)
     }
 
@@ -105,16 +113,17 @@ public enum Plugins {
         environment: SearchEnvironment,
         exclusions: Exclusions,
         measure: @escaping FileSize.Measure
-    ) async -> [Plugin] {
+    ) async -> PluginScan {
         let libraries = [
             (environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory), false),
             (environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory), true),
         ]
         var found: [(url: URL, category: Plugin.Category, isForAllUsers: Bool)] = []
+        var unreadable: [URL] = []
         for (library, isForAllUsers) in libraries {
             for (folder, category) in folders {
                 let directory = library.appending(path: folder, directoryHint: .isDirectory)
-                for url in bundles(in: directory, category: category)
+                for url in bundles(in: directory, category: category, unreadable: &unreadable)
                 where !Task.isCancelled && !exclusions.excludes(url) && !exclusions.holds(url) {
                     found.append((url, category, isForAllUsers))
                 }
@@ -139,7 +148,14 @@ public enum Plugins {
                 refusal: removalGuard.refusal(of: item.url)
             )
         }
-        return plugins.compactMap(\.self).sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        let sorted = plugins.compactMap(\.self).sorted {
+            $0.name.localizedStandardCompare($1.name) == .orderedAscending
+        }
+        return PluginScan(
+            plugins: sorted,
+            unreadable: unreadable,
+            needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing }
+        )
     }
 
     /// The file extensions each kind of plug-in uses.
@@ -169,21 +185,31 @@ public enum Plugins {
     ]
 
     /// Returns the plug-ins in `directory`, looking one level down inside folders that are not plug-ins
-    /// themselves. A vendor can keep its plug-ins in a folder of its own, such as `VST3/<Company>/<Name>.vst3`.
-    static func bundles(in directory: URL, category: Plugin.Category) -> [URL] {
-        entries(of: directory).flatMap { url -> [URL] in
+    /// themselves. A vendor can keep its plug-ins in a folder of its own, such as `VST3/<Company>/<Name>.vst3`. A
+    /// folder that is there and can't be listed joins `unreadable`.
+    static func bundles(in directory: URL, category: Plugin.Category, unreadable: inout [URL]) -> [URL] {
+        entries(of: directory, unreadable: &unreadable).flatMap { url -> [URL] in
             if isPluginBundle(url, category: category) { return [url] }
-            return isFolder(url) ? entries(of: url).filter { isPluginBundle($0, category: category) } : []
+            guard isFolder(url) else { return [] }
+            return entries(of: url, unreadable: &unreadable).filter { isPluginBundle($0, category: category) }
         }
     }
 
-    private static func entries(of directory: URL) -> [URL] {
-        (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.isDirectoryKey]))
-            ?? []
+    /// The entries of `directory`, through a link to a folder as the apps that load plug-ins go through one.
+    private static func entries(of directory: URL, unreadable: inout [URL]) -> [URL] {
+        guard isFolder(directory) else { return [] }
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: directory.path(percentEncoded: false))
+        else {
+            unreadable.append(directory)
+            return []
+        }
+        return names.map { directory.appending(path: $0) }
     }
 
+    /// Whether `url` is a folder, or a link to one.
     private static func isFolder(_ url: URL) -> Bool {
-        (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true
+        var info = stat()
+        return stat(url.path(percentEncoded: false), &info) == 0 && info.st_mode & S_IFMT == S_IFDIR
     }
 
     /// Whether `url` is a plug-in for `category`: a folder with one of the category's extensions, or any other

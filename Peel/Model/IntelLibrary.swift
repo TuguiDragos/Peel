@@ -26,7 +26,7 @@ final class IntelLibrary {
         guard let result = await scanRun.run({
             let exclusions = ExclusionsStore.shared.exclusions
             async let backgroundItems = BackgroundItems.scan(exclusions: exclusions)
-            let plugins = if let known { known } else { await Plugins.scan(exclusions: exclusions) }
+            let plugins = if let known { known } else { await Plugins.scan(exclusions: exclusions).plugins }
             return await IntelInspector.scan(
                 installedApps: installedApps,
                 plugins: plugins,
