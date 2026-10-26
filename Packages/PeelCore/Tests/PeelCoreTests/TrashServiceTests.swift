@@ -1274,16 +1274,18 @@ struct TrashServiceTests {
         let file = try directory.file("home/Library/Caches/org.example.agent/store.db")
         let folder = file.deletingLastPathComponent()
         let holder = Process()
-        holder.executableURL = URL(filePath: "/bin/sleep")
-        holder.arguments = ["30"]
-        holder.standardInput = try FileHandle(forReadingFrom: file)
+        holder.executableURL = URL(filePath: "/bin/cat")
+        holder.standardInput = Pipe()
+        let output = try FileHandle(forWritingTo: file)
+        holder.standardOutput = output
         try holder.run()
+        try output.close()
         defer { holder.terminate() }
 
         let held = await service.trash([folder])
 
         #expect(held.trashed.isEmpty)
-        #expect(held.failures.map(\.reason) == [.heldOpen(by: ["sleep"])])
+        #expect(held.failures.map(\.reason) == [.heldOpen(by: ["cat"])])
         #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)))
 
         holder.terminate()
