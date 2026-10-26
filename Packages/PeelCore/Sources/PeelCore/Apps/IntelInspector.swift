@@ -199,7 +199,13 @@ public enum IntelInspector {
         // A job or a command that runs what is listed already, or something inside it, is that code's, and a job is
         // named on its row.
         var listed = findings.map { PathPattern.comparablePath(of: $0.url) }
+        unreadable += backgroundItems.unreadableFolders
         for item in backgroundItems.items where !Task.isCancelled {
+            // Peel can't tell what a job file it can't read runs, which may be Intel only.
+            if item.isClosedToPeel, item.program == nil, let plist = item.plistURL {
+                unreadable.append(plist)
+                continue
+            }
             guard let program = item.program.map({ URL(filePath: $0) }), !exclusions.excludes(program) else { continue }
             let path = PathPattern.comparablePath(of: program)
             if let index = listed.firstIndex(where: { PathComponents.isPath(path, atOrInside: $0) }) {

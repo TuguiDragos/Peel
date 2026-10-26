@@ -605,4 +605,35 @@ struct IntelInspectorTests {
         #expect(!scan.needsFullDiskAccess)
         #expect(scan.unansweredJobs == [.daemon])
     }
+
+    @Test func namesTheJobFilesItCouldNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let daemons = directory.url.appending(path: "root/Library/LaunchDaemons", directoryHint: .isDirectory)
+        let agents = directory.url.appending(path: "home/Library/LaunchAgents", directoryHint: .isDirectory)
+        func job(_ label: String) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: .daemon, source: .systemLibrary, plistURL: daemons.appending(path: "\(label).plist"),
+                program: nil, runsAtLoad: nil, keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil,
+                ownerURL: nil, isOrphan: false, state: .notLoaded, isDisabled: false
+            )
+        }
+        var closed = job("org.example.closed")
+        closed.isClosedToPeel = true
+        closed.isNamedByItsFile = true
+        var broken = job("org.example.broken")
+        broken.isUnreadable = true
+        broken.isNamedByItsFile = true
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            backgroundItems: BackgroundItems.Scan(items: [closed, broken], unreadableFolders: [agents]),
+            exclusions: .none,
+            environment: environment(in: directory),
+            measure: { _ in 1 }
+        )
+
+        let named = scan.unreadable.map(PathPattern.comparablePath(of:)).sorted()
+        let expected = [daemons.appending(path: "org.example.closed.plist"), agents]
+        #expect(named == expected.map(PathPattern.comparablePath(of:)).sorted(), "what launchd can't load runs nothing")
+    }
 }
