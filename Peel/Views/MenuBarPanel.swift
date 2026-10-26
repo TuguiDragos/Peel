@@ -8,6 +8,7 @@ struct MenuBarPanel: View {
     @Environment(AppLibrary.self) private var library
     @Environment(LifetimeStats.self) private var stats
     @State private var isPointingAtUpdates = false
+    @State private var room = Self.room
 
     static let rowPadding: CGFloat = 18
     static let iconWidth: CGFloat = 20
@@ -15,9 +16,35 @@ struct MenuBarPanel: View {
     /// Where a row's words start, so a divider between rows begins under them.
     static let wordsInset = rowPadding + iconWidth + iconSpacing
 
+    private static var room: CGFloat {
+        MenuBarPanelRoom.height(within: NSScreen.screens.map(\.visibleFrame.height)) ?? .infinity
+    }
+
     var body: some View {
+        UpToHeight(maximum: room) {
+            VStack(spacing: 0) {
+                header
+                // Scrolls only when the panel is taller than its room, so Open Peel stays in view.
+                ViewThatFits(in: .vertical) {
+                    middle
+                    ScrollView { middle }
+                        .scrollBounceBehavior(.basedOnSize)
+                }
+                Divider()
+                footer
+            }
+            .frame(width: 320)
+            .background(Album.sheet)
+        }
+        .onReceive(
+            NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+        ) { _ in
+            room = Self.room
+        }
+    }
+
+    private var middle: some View {
         VStack(spacing: 0) {
-            header
             hero
             Text("Since \(stats.installedOn, format: .dateTime.day().month(.wide).year())")
                 .font(.callout.weight(.semibold))
@@ -27,11 +54,7 @@ struct MenuBarPanel: View {
             Divider()
             rows
             MenuBarFound { open(at: $0) }
-            Divider()
-            footer
         }
-        .frame(width: 320)
-        .background(Album.sheet)
     }
 
     private var header: some View {
