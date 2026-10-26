@@ -26,7 +26,8 @@ struct FolderDuplicates: Sendable {
         self.isDataless = isDataless
     }
 
-    private final class Folder {
+    /// Built by one walk, then read and filled in by the comparison that waited for it, never by two at once.
+    private final class Folder: @unchecked Sendable {
         let url: URL
         let identity: FileIdentity
         /// A package, such as an app, a hidden folder, or a folder inside one of them: compared as part of the
@@ -65,23 +66,9 @@ struct FolderDuplicates: Sendable {
         known: KnownDigests? = nil,
         progress: @escaping @Sendable (DuplicateScanProgress) -> Void
     ) async throws(CancellationError) -> [DuplicateFolderGroup] {
-        var listed: [Folder] = []
-        var visited = Set<String>()
-        var found = 0
-        let listing = ReportThrottle()
-        for root in roots.map({ $0.resolvingSymlinksInPath() })
-        where visited.insert(DuplicateFinder.path(of: root)).inserted {
-            var info = stat()
-            guard lstat(root.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else {
-                continue
-            }
-            let folder = try list(root, identity: FileIdentity(info), depth: 0, isNeverOffered: false) {
-                found += 1
-                if listing.allows(isLast: false) { progress(.listing(foldersFound: found)) }
-            }
-            listed.append(folder)
+        var listed = try await DuplicateFinder.walk { isGivenUp throws(CancellationError) in
+            try self.listed(roots, isGivenUp: isGivenUp, progress: progress)
         }
-        progress(.listing(foldersFound: found))
 
         let candidates = self.candidates(in: listed, minimumSize: minimumSize)
         // Only the candidates are needed from here, and each holds the folders inside it.
@@ -127,7 +114,9 @@ struct FolderDuplicates: Sendable {
     private func contents(of url: URL) -> String? {
         var info = stat()
         guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return nil }
-        guard let folder = try? list(url, identity: FileIdentity(info), depth: 0, isNeverOffered: false, onListing: {})
+        guard let folder = try? list(
+            url, identity: FileIdentity(info), depth: 0, isNeverOffered: false, isGivenUp: { false }, onListing: {}
+        )
         else { return nil }
         return identity(of: folder).map(\.hexadecimal)
     }
@@ -145,15 +134,43 @@ struct FolderDuplicates: Sendable {
         return hasher.finalize()
     }
 
+    private func listed(
+        _ roots: [URL],
+        isGivenUp: () -> Bool,
+        progress: (DuplicateScanProgress) -> Void
+    ) throws(CancellationError) -> [Folder] {
+        var listed: [Folder] = []
+        var visited = Set<String>()
+        var found = 0
+        let listing = ReportThrottle()
+        for root in roots.map({ $0.resolvingSymlinksInPath() })
+        where visited.insert(DuplicateFinder.path(of: root)).inserted {
+            var info = stat()
+            guard lstat(root.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else {
+                continue
+            }
+            let folder = try list(
+                root, identity: FileIdentity(info), depth: 0, isNeverOffered: false, isGivenUp: isGivenUp
+            ) {
+                found += 1
+                if listing.allows(isLast: false) { progress(.listing(foldersFound: found)) }
+            }
+            listed.append(folder)
+        }
+        progress(.listing(foldersFound: found))
+        return listed
+    }
+
     private func list(
         _ url: URL,
         identity: FileIdentity,
         depth: Int,
         isNeverOffered: Bool,
+        isGivenUp: () -> Bool,
         onListing: () -> Void
     ) throws(CancellationError) -> Folder {
         let folder = Folder(url: url, identity: identity, isNeverOffered: isNeverOffered)
-        guard !Task.isCancelled else { throw CancellationError() }
+        guard !isGivenUp() else { throw CancellationError() }
         onListing()
         // The listing and each entry get an autorelease pool of their own, or what Foundation reads for every entry
         // would pile up in memory until the walk ends.
@@ -180,6 +197,7 @@ struct FolderDuplicates: Sendable {
                     identity: identity,
                     depth: depth + 1,
                     isNeverOffered: isNeverOffered,
+                    isGivenUp: isGivenUp,
                     onListing: onListing
                 )
                 guard !child.isProject else {

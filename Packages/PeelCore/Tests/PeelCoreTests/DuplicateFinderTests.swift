@@ -16,6 +16,74 @@ struct DuplicateFinderTests {
 
     /// Verifying reads a mebibyte at a time, and each report is a transaction on the main actor. So reports are
     /// let through at most once every 50 ms, and the last one is always let through.
+    @Test func aReadThatNeverAnswersHoldsNeitherAStoppedScanNorItsThreads() async throws {
+        let stuck = Stuck()
+        let reading = Task {
+            await FileDigest.many(Array(0..<8)) { _ -> ContentDigest? in
+                stuck.hold()
+                return nil
+            }
+        }
+        await stuck.untilHeld()
+
+        reading.cancel()
+        _ = await reading.value
+
+        #expect(stuck.isStillHeld, "the stopped scan waited for its reads to answer")
+        stuck.letGo()
+    }
+
+    @Test func aWalkThatNeverAnswersHoldsNeitherAStoppedScanNorItsThreads() async throws {
+        let stuck = Stuck()
+        let walking = Task {
+            try await DuplicateFinder.walk { _ throws(CancellationError) in
+                stuck.hold()
+                return 0
+            }
+        }
+        await stuck.untilHeld()
+
+        walking.cancel()
+        let result = await walking.result
+
+        #expect(stuck.isStillHeld, "the stopped scan waited for its walk to answer")
+        #expect(throws: CancellationError.self) { try result.get() }
+        stuck.letGo()
+    }
+
+    /// A read or a walk that never answers, as on a network volume that stopped answering. A test that would otherwise
+    /// wait forever is let go after two minutes, so it fails rather than hangs.
+    private final class Stuck: Sendable {
+        private let gate = DispatchSemaphore(value: 0)
+        private let isLetGo = Mutex(false)
+        private let (holding, isHolding) = AsyncStream.makeStream(of: Void.self)
+
+        var isStillHeld: Bool { isLetGo.withLock { !$0 } }
+
+        func hold() {
+            isHolding.yield()
+            gate.wait()
+        }
+
+        func untilHeld() async {
+            for await _ in holding { break }
+            Task.detached { [self] in
+                try? await Task.sleep(for: .seconds(120))
+                letGo()
+            }
+        }
+
+        /// Lets every read and walk held so far go, and any that comes after.
+        func letGo() {
+            let wasLetGo = isLetGo.withLock { isLetGo in
+                defer { isLetGo = true }
+                return isLetGo
+            }
+            guard !wasLetGo else { return }
+            for _ in 0..<64 { gate.signal() }
+        }
+    }
+
     @Test func reportsReadingAtARateTheScreenCanTake() {
         let reports = Mutex<[DuplicateScanProgress]>([])
         let reading = ReadProgress(bytesToRead: 1_000) { update in reports.withLock { $0.append(update) } }

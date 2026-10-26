@@ -111,6 +111,18 @@ public struct DuplicateFinder: Sendable {
             && isDirectory.boolValue
     }
 
+    /// Runs a walk as `BlockingWork`, so a folder that never answers holds no thread of the scan's task: it throws
+    /// once the task is canceled, and the walk, asking `isGivenUp`, stops.
+    static func walk<T: Sendable>(
+        _ walk: @escaping @Sendable (_ isGivenUp: @escaping @Sendable () -> Bool) throws(CancellationError) -> T
+    ) async throws(CancellationError) -> T {
+        let answer: Result<T, CancellationError>? = await BlockingWork.run { isGivenUp in
+            do throws(CancellationError) { return .success(try walk(isGivenUp)) } catch { return .failure(error) }
+        }
+        guard case .success(let value)? = answer else { throw CancellationError() }
+        return value
+    }
+
     /// Whether `url` is a photo, music, or video library. Its files belong to the library's app, so none of them
     /// is offered as a copy, whatever its bytes.
     static func isAUserLibrary(_ url: URL) -> Bool {
@@ -180,13 +192,16 @@ public struct DuplicateFinder: Sendable {
             : []
         let spokenFor = Set(folderGroups.flatMap { $0.folders.map { Self.path(of: $0.url) } })
 
-        let collected = try collect(
-            options,
-            in: scannable,
-            spokenFor: spokenFor,
-            neverProjects: neverProjects,
-            progress: progress
-        )
+        let collected = try await Self.walk { isGivenUp throws(CancellationError) in
+            try collect(
+                options,
+                in: scannable,
+                spokenFor: spokenFor,
+                neverProjects: neverProjects,
+                isGivenUp: isGivenUp,
+                progress: progress
+            )
+        }
         // Each file is read once, under the first of its names, and an excluded name is never read.
         var names: [FileIdentity.Link: [Candidate]] = [:]
         var files: [Candidate] = []
@@ -262,6 +277,7 @@ public struct DuplicateFinder: Sendable {
         in folders: [URL],
         spokenFor: Set<String>,
         neverProjects: Set<String>,
+        isGivenUp: () -> Bool,
         progress: (DuplicateScanProgress) -> Void
     ) throws(CancellationError) -> (candidates: [Candidate], unreadableLocations: [URL]) {
         // The kind of a file is asked for only when a kind was chosen: working it out costs a lookup per
@@ -275,7 +291,7 @@ public struct DuplicateFinder: Sendable {
         var visited = 0
 
         for folder in folders {
-            guard !Task.isCancelled else { throw CancellationError() }
+            guard !isGivenUp() else { throw CancellationError() }
             let root = folder.resolvingSymlinksInPath()
             // A chosen folder is never an entry of its own walk, so one offered whole, or inside one, is skipped here.
             guard !spokenFor.contains(Self.path(of: root)), !Self.isInside(spokenFor, root) else { continue }
@@ -294,7 +310,7 @@ public struct DuplicateFinder: Sendable {
             while let url = autoreleasepool(invoking: { enumerator.nextObject() as? URL }) {
                 visited += 1
                 if visited.isMultiple(of: 256) {
-                    guard !Task.isCancelled else { throw CancellationError() }
+                    guard !isGivenUp() else { throw CancellationError() }
                     progress(.collecting(filesFound: walked.count))
                 }
                 autoreleasepool {
@@ -329,7 +345,7 @@ public struct DuplicateFinder: Sendable {
                 }
             }
         }
-        guard !Task.isCancelled else { throw CancellationError() }
+        guard !isGivenUp() else { throw CancellationError() }
         let outsideProjects = projects.isEmpty ? walked : walked.filter { !Self.isInside(projects, $0.url) }
         progress(.collecting(filesFound: outsideProjects.count))
         return (outsideProjects, unreadable.urls)

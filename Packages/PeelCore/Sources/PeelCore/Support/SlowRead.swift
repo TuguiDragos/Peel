@@ -44,7 +44,7 @@ enum SlowRead {
     }
 
     /// Its one waiter is woken once: by the answer, by the end of the budget, or by its own cancellation.
-    private final class Answer<T: Sendable>: Sendable {
+    final class Answer<T: Sendable>: Sendable {
         private struct State {
             var value: T?
             var waiter: CheckedContinuation<Void, Never>?
@@ -69,7 +69,11 @@ enum SlowRead {
             waiter?.resume()
         }
 
-        func wait(_ budget: TimeInterval, while isAsked: @escaping @Sendable () -> Bool) async -> T? {
+        /// With no `budget`, only the answer or the task's cancellation wakes the waiter.
+        func wait(
+            _ budget: TimeInterval?,
+            while isAsked: @escaping @Sendable () -> Bool = AppDataQuestion.isOnScreen
+        ) async -> T? {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
                     let goesOnWaiting = state.withLock { state in
@@ -78,6 +82,7 @@ enum SlowRead {
                         return true
                     }
                     guard goesOnWaiting else { return continuation.resume() }
+                    guard let budget else { return }
                     ReadBudget.end(
                         after: budget, while: isAsked,
                         isWaiting: { self.state.withLock { $0.value == nil && !$0.isWoken } }

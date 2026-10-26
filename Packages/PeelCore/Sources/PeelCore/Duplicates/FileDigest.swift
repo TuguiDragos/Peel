@@ -16,8 +16,9 @@ enum FileDigest {
         identities.filter { known?.full(of: $0) == nil }.reduce(0) { $0 + $1.size }
     }
 
-    /// Digests `items`, `concurrentReads` at a time, leaving out any that cannot be read. Once the task is
-    /// canceled, no new read starts.
+    /// Digests `items`, `concurrentReads` at a time, leaving out any that cannot be read. Each read runs as
+    /// `BlockingWork`, so one that never answers holds no thread of the task's: once the task is canceled, the
+    /// reads still under way are given up and no new read starts.
     static func many<Item: Sendable>(
         _ items: [Item],
         digest: @escaping @Sendable (Item) -> ContentDigest?,
@@ -29,7 +30,7 @@ enum FileDigest {
             var completed = 0
             for _ in 0..<concurrentReads {
                 guard let item = pending.next() else { break }
-                group.addTask { digest(item).map { (item: item, digest: $0) } }
+                group.addTask { await read(item, digest) }
             }
             while let result = await group.next() {
                 if let result {
@@ -38,11 +39,18 @@ enum FileDigest {
                 completed += 1
                 onCompletion(completed)
                 if !Task.isCancelled, let item = pending.next() {
-                    group.addTask { digest(item).map { (item: item, digest: $0) } }
+                    group.addTask { await read(item, digest) }
                 }
             }
             return results
         }
+    }
+
+    private static func read<Item: Sendable>(
+        _ item: Item,
+        _ digest: @escaping @Sendable (Item) -> ContentDigest?
+    ) async -> (item: Item, digest: ContentDigest)? {
+        (await BlockingWork.run { _ in digest(item) } ?? nil).map { (item: item, digest: $0) }
     }
 
     /// SHA-256 of the first and last `sampleLength` bytes, or of the whole file when it isn't longer than both.
