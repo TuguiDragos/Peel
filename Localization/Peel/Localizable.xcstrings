@@ -67095,6 +67095,218 @@
         }
       }
     },
+    "It isn’t loaded now, so it leaves this list until macOS loads it again, usually the next time you log in." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teď není načtená, takže z tohoto seznamu zmizí, dokud ji systém macOS znovu nenačte, obvykle při příštím přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es ist gerade nicht geladen, daher verschwindet es aus dieser Liste, bis macOS es wieder lädt, in der Regel bei deiner nächsten Anmeldung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora no está cargado, así que desaparece de esta lista hasta que macOS vuelva a cargarlo, normalmente la próxima vez que inicies sesión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il n’est pas chargé pour le moment : il disparaît donc de cette liste jusqu’à ce que macOS le charge à nouveau, généralement à votre prochaine ouverture de session."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al momento non è caricato, quindi scompare da questo elenco finché macOS non lo carica di nuovo, di solito al prossimo login."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在は読み込まれていないため、macOSが再び読み込むまで、このリストには表示されません。通常は次回のログイン時に読み込まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금은 로드되어 있지 않으므로, macOS가 다시 로드할 때까지 이 목록에서 사라집니다. 보통 다음에 로그인할 때 다시 로드됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is nu niet geladen, dus verdwijnt het uit deze lijst totdat macOS het weer laadt, meestal de volgende keer dat je inlogt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz nie jest teraz wczytana, więc znika z tej listy, dopóki macOS nie wczyta jej ponownie, zwykle przy następnym logowaniu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele não está carregado agora, então sai desta lista até que o macOS o carregue novamente, geralmente na próxima vez que você iniciar a sessão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu este încărcat acum, așa că dispare din această listă până când macOS îl încarcă din nou, de obicei data viitoare când faceți login."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сейчас он не загружен, поэтому не будет показываться в этом списке, пока macOS снова его не загрузит, обычно при следующем входе в систему."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är inte inläst nu, så det försvinner från den här listan tills macOS läser in det igen, oftast nästa gång du loggar in."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şu anda yüklü değil, bu yüzden macOS onu yeniden yükleyene kadar bu listeden çıkar; bu genellikle bir sonraki oturum açışınızda olur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зараз його не завантажено, тож у цьому списку його не буде, доки macOS не завантажить його знову, зазвичай під час вашого наступного входу в систему."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它目前未载入，因此在macOS再次载入它之前（通常是你下次登录时），它不会显示在此列表中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它目前未載入，因此在macOS再次載入它之前，它不會出現在此列表中；macOS通常會在你下次登入時載入它。"
+          }
+        }
+      }
+    },
+    "It isn’t loaded now, so it leaves this list until macOS loads it again, usually when the Mac restarts." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teď není načtená, takže z tohoto seznamu zmizí, dokud ji systém macOS znovu nenačte, obvykle po restartu Macu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es ist gerade nicht geladen, daher verschwindet es aus dieser Liste, bis macOS es wieder lädt, in der Regel beim nächsten Neustart des Mac."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora no está cargado, así que desaparece de esta lista hasta que macOS vuelva a cargarlo, normalmente cuando el Mac se reinicie."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il n’est pas chargé pour le moment : il disparaît donc de cette liste jusqu’à ce que macOS le charge à nouveau, généralement au redémarrage du Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al momento non è caricato, quindi scompare da questo elenco finché macOS non lo carica di nuovo, di solito al riavvio del Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在は読み込まれていないため、macOSが再び読み込むまで、このリストには表示されません。通常はMacの再起動時に読み込まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금은 로드되어 있지 않으므로, macOS가 다시 로드할 때까지 이 목록에서 사라집니다. 보통 Mac을 재시동할 때 다시 로드됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is nu niet geladen, dus verdwijnt het uit deze lijst totdat macOS het weer laadt, meestal als de Mac opnieuw opstart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz nie jest teraz wczytana, więc znika z tej listy, dopóki macOS nie wczyta jej ponownie, zwykle po ponownym uruchomieniu Maca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele não está carregado agora, então sai desta lista até que o macOS o carregue novamente, geralmente quando o Mac for reiniciado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu este încărcat acum, așa că dispare din această listă până când macOS îl încarcă din nou, de obicei când Mac‑ul repornește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сейчас он не загружен, поэтому не будет показываться в этом списке, пока macOS снова его не загрузит, обычно при перезагрузке Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är inte inläst nu, så det försvinner från den här listan tills macOS läser in det igen, oftast när datorn startas om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şu anda yüklü değil, bu yüzden macOS onu yeniden yükleyene kadar bu listeden çıkar; bu genellikle Mac yeniden başladığında olur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зараз його не завантажено, тож у цьому списку його не буде, доки macOS не завантажить його знову, зазвичай після перезапуску Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它目前未载入，因此在macOS再次载入它之前（通常是Mac重新启动时），它不会显示在此列表中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它目前未載入，因此在macOS再次載入它之前，它不會出現在此列表中；macOS通常會在Mac重新開機時載入它。"
+          }
+        }
+      }
+    },
     "It isn’t there anymore." : {
       "localizations" : {
         "cs" : {
@@ -230505,6 +230717,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法停止「%@」。"
+          }
+        }
+      }
+    },
+    "“%@” is enabled." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka „%@“ je zapnutá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ ist aktiviert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha activado “%@”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » est activé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” è abilitato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”を有効にしました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 활성화되었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' is ingeschakeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Włączono „%@”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” está ativado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@” este activat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект «%@» включен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”%@” har aktiverats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” etkinleştirildi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«%@» увімкнено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已启用“%@”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」已啟用。"
           }
         }
       }

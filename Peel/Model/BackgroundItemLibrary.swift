@@ -16,8 +16,8 @@ final class BackgroundItemLibrary {
     /// clears another row's busy state.
     private(set) var runningActionItemIDs: Set<BackgroundItem.ID> = []
     var selection: BackgroundItem.ID?
-    /// Actions run on several items at once, so their failures wait their turn rather than replace each other.
-    private(set) var failures = AlertQueue<ActionFailure>()
+    /// Actions run on several items at once, so what each has to say waits its turn rather than replace another.
+    private(set) var alerts = AlertQueue<ActionAlert>()
 
     var selectedItem: BackgroundItem? {
         items?.first { $0.id == selection }
@@ -58,8 +58,20 @@ final class BackgroundItemLibrary {
         var fileMoved = false
     }
 
-    func dismissFailure() {
-        failures.dismissCurrent()
+    /// What the list says after an action: why it failed, or that an enabled job left the list until macOS loads it.
+    enum ActionAlert {
+        case failed(ActionFailure)
+        case enabledUntilLoaded(label: String, kind: BackgroundItem.Kind)
+    }
+
+    func dismissAlert() {
+        alerts.dismissCurrent()
+    }
+
+    /// A job enabled while launchd doesn't have it leaves the list, since it is listed only while disabled or loaded.
+    static func alertAfterEnabling(_ item: BackgroundItem, listed: [BackgroundItem]?) -> ActionAlert? {
+        guard let listed, !listed.contains(where: { $0.id == item.id }) else { return nil }
+        return .enabledUntilLoaded(label: item.label, kind: item.kind)
     }
 
     /// Runs `action` on `item`, then scans again. What a move to the Trash moved and refused goes to `record` before
@@ -69,11 +81,14 @@ final class BackgroundItemLibrary {
     ) async {
         runningActionItemIDs.insert(item.id)
         defer { runningActionItemIDs.remove(item.id) }
+        var isEnabled = false
         do {
             switch action {
             case .start: try await BackgroundItemActions.start(item)
             case .stop: try await BackgroundItemActions.stop(item)
-            case .enable: try await BackgroundItemActions.setEnabled(true, for: item)
+            case .enable:
+                try await BackgroundItemActions.setEnabled(true, for: item)
+                isEnabled = true
             case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
             case .moveToTrash:
                 let exclusions = ExclusionsStore.shared.exclusions
@@ -84,16 +99,21 @@ final class BackgroundItemLibrary {
                     return moved
                 }
                 if let refusal = moved.result.failures.first {
-                    failures.add(ActionFailure(label: item.label, action: action, reason: .trash(refusal.reason)))
+                    let failure = ActionFailure(label: item.label, action: action, reason: .trash(refusal.reason))
+                    alerts.add(.failed(failure))
                 }
                 if let reason = moved.stillRunning {
-                    failures.add(ActionFailure(label: item.label, action: action, reason: reason, fileMoved: true))
+                    let failure = ActionFailure(label: item.label, action: action, reason: reason, fileMoved: true)
+                    alerts.add(.failed(failure))
                 }
             }
         } catch {
-            failures.add(ActionFailure(label: item.label, action: action, reason: error))
+            alerts.add(.failed(ActionFailure(label: item.label, action: action, reason: error)))
         }
         await refresh(installedApps: installedApps)
+        if isEnabled, let alert = Self.alertAfterEnabling(item, listed: items) {
+            alerts.add(alert)
+        }
     }
 }
 

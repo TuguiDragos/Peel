@@ -70,10 +70,10 @@ struct BackgroundItemList: View {
         .rescanAfterPutBack(.backgroundItems) { await backgroundItems.refresh(installedApps: library.apps) }
         // Shown from the list, which stays on screen. An alert on the item's page would vanish with the page if
         // the rescan after the action removed the item, and then show up on the next item the user opens.
-        .alert(failureTitle, isPresented: isShowingFailure) {
+        .alert(alertTitle, isPresented: isShowingAlert) {
             Button("OK", role: .cancel) {}
         } message: {
-            failureMessage
+            alertMessage
         }
     }
 
@@ -84,15 +84,33 @@ struct BackgroundItemList: View {
         return .content
     }
 
-    private var isShowingFailure: Binding<Bool> {
+    private var isShowingAlert: Binding<Bool> {
         Binding(
-            get: { backgroundItems.failures.current != nil },
-            set: { if !$0 { backgroundItems.dismissFailure() } }
+            get: { backgroundItems.alerts.current != nil },
+            set: { if !$0 { backgroundItems.dismissAlert() } }
         )
     }
 
-    private var failureTitle: Text {
-        guard let failure = backgroundItems.failures.current else { return Text(verbatim: "") }
+    private var alertTitle: Text {
+        switch backgroundItems.alerts.current {
+        case .failed(let failure)?: failureTitle(failure)
+        case .enabledUntilLoaded(let label, _)?: Text("“\(label)” is enabled.")
+        case nil: Text(verbatim: "")
+        }
+    }
+
+    private var alertMessage: Text {
+        switch backgroundItems.alerts.current {
+        case .failed(let failure)?: failureMessage(failure)
+        case .enabledUntilLoaded(_, .daemon)?:
+            Text("It isn’t loaded now, so it leaves this list until macOS loads it again, usually when the Mac restarts.")
+        case .enabledUntilLoaded?:
+            Text("It isn’t loaded now, so it leaves this list until macOS loads it again, usually the next time you log in.")
+        case nil: Text(verbatim: "")
+        }
+    }
+
+    private func failureTitle(_ failure: BackgroundItemLibrary.ActionFailure) -> Text {
         let label = failure.label
         return switch failure.action {
         case .start: Text("“\(label)” couldn’t be started.")
@@ -104,21 +122,20 @@ struct BackgroundItemList: View {
         }
     }
 
-    private var failureMessage: Text {
-        let reason = reasonMessage
-        guard backgroundItems.failures.current?.fileMoved == true else { return reason }
+    private func failureMessage(_ failure: BackgroundItemLibrary.ActionFailure) -> Text {
+        let reason = reasonMessage(failure.reason)
+        guard failure.fileMoved else { return reason }
         return Text("\(reason)\n\n\(Text("macOS won’t start it again: it stops for good when the Mac restarts."))")
     }
 
-    private var reasonMessage: Text {
-        switch backgroundItems.failures.current?.reason {
+    private func reasonMessage(_ reason: BackgroundItemActions.Failure) -> Text {
+        switch reason {
         case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides.")
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")
         case .launchctl(let output): Text(verbatim: FixedSentence.translated(output))
         case .trash(let reason): Text(verbatim: reason.explanation)
         case .disabled: Text("macOS won’t load this while it is disabled. Enable it first, then start it.")
         case .quarantinedPlist: Text("macOS won’t load this: its configuration file carries the mark macOS puts on downloads. Reinstalling the app that put it there may write it again without the mark.")
-        case nil: Text(verbatim: "")
         }
     }
 
