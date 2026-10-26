@@ -831,4 +831,19 @@ struct SpaceRemovalTests {
         #expect(plan.selection(keeping: [vendor, system], canUseHelper: false) == [vendor])
         #expect(plan.selection(keeping: [vendor, system], canUseHelper: true) == [vendor, system])
     }
+
+    @Test func countsOnlyWhatCanBeMovedNow() {
+        let caches = URL(filePath: "/Library/Caches", directoryHint: .isDirectory)
+        let (open, system, beyond) = (caches.appending(path: "a"), caches.appending(path: "b"), caches.appending(path: "c"))
+        let plan = SpaceRemoval.Plan(
+            removable: [open, system, beyond], inUse: [], leftToDeveloper: [],
+            sizes: [open: 20, system: 10, beyond: 5], heldBack: [beyond: .beyondTheHelper], needsTheHelper: [system]
+        )
+
+        #expect(plan.movable(canUseHelper: false) == SizeTotal(known: 20, isComplete: true))
+        #expect(plan.movable(canUseHelper: true) == SizeTotal(known: 30, isComplete: true))
+        var unread = plan
+        unread.unreadable = [caches.appending(path: "d")]
+        #expect(unread.movable(canUseHelper: true) == SizeTotal(known: 30, isComplete: false))
+    }
 }

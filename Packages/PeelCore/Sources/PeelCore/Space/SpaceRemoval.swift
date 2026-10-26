@@ -55,6 +55,13 @@ public enum SpaceRemoval {
             selected.intersection(selectableRows(canUseHelper: canUseHelper).selectable)
         }
 
+        /// What the page can move now, which its total says: the rows a checkbox can select, and as unknown each
+        /// folder Peel couldn't look into, since it may hold more.
+        public func movable(canUseHelper: Bool) -> SizeTotal {
+            let rows = selectableRows(canUseHelper: canUseHelper).selectable
+            return SizeTotal(rows.map { sizes[$0] } + unreadable.map { _ -> Int64? in nil })
+        }
+
         public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
             let unlocked = removable.filter { !isLocked($0, canUseHelper: canUseHelper) }
             return SelectableRows(

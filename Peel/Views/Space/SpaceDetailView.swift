@@ -217,8 +217,7 @@ struct SpaceDetailView: View {
 
     /// The size of the item's folders until the plan is ready, then the size of what can be moved to the Trash.
     private var total: SizeTotal {
-        guard let plan else { return item.size }
-        return SizeTotal(plan.removable.map { plan.sizes[$0] } + plan.unreadable.map { _ -> Int64? in nil })
+        plan?.movable(canUseHelper: helper.canAct) ?? item.size
     }
 
     private var caption: Text {
