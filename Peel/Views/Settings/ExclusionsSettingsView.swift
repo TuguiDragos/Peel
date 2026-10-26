@@ -20,6 +20,19 @@ struct ExclusionsSettingsView: View {
         exclusions.exclusions.bundleIdentifiers.sorted()
     }
 
+    /// What an empty list says once the list is known: nothing while it can't be read, since the file holds what the
+    /// person chose, and Checking… until it has been read.
+    @ViewBuilder
+    private func emptyList(_ words: LocalizedStringResource) -> some View {
+        if exclusions.exclusions.isKnown {
+            Text(words)
+                .foregroundStyle(.secondary)
+        } else if !exclusions.exclusions.isUnreadable {
+            Text("Checking…")
+                .foregroundStyle(.secondary)
+        }
+    }
+
     private var isShowingRefusal: Binding<Bool> {
         Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
     }
@@ -44,8 +57,7 @@ struct ExclusionsSettingsView: View {
             }
             Section {
                 if paths.isEmpty {
-                    Text("No file or folder is on this list yet.")
-                        .foregroundStyle(.secondary)
+                    emptyList("No file or folder is on this list yet.")
                 } else {
                     List(selection: $selectedPaths) {
                         ForEach(paths, id: \.self) { path in
@@ -87,8 +99,7 @@ struct ExclusionsSettingsView: View {
 
             Section {
                 if apps.isEmpty {
-                    Text("No app is on this list yet.")
-                        .foregroundStyle(.secondary)
+                    emptyList("No app is on this list yet.")
                 } else {
                     List(selection: $selectedApps) {
                         ForEach(apps, id: \.self) { identifier in
