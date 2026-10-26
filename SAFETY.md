@@ -642,7 +642,8 @@ and it fails closed.
   there. An item moves only once its record is on the drive itself, so a power cut can't keep the move and lose
   the record. While the ledger can't be read, the helper moves nothing and puts nothing back; one it can't make
   sense of is kept under another name, never written over, and a new one begins. A folder that code is loaded from
-  takes back only what is still owned by root and writable by nobody else.
+  takes back only what is still owned by root and writable by nobody else. Peel says so before it moves a plug-in
+  that isn't, and Put Back says so too, since Finder can still drag it back out.
 
 If you never install the helper, Peel still works; it just cannot touch what needs administrator rights.
 Home lists the helper as required for that reason, and keeps a reminder there until it is installed. What needs an

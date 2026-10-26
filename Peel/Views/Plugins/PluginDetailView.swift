@@ -120,7 +120,11 @@ struct PluginDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Apps that use it may stop working.")
+            if plugin.staysInTheTrash {
+                Text("Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder.")
+            } else {
+                Text("Apps that use it may stop working.")
+            }
         }
     }
 

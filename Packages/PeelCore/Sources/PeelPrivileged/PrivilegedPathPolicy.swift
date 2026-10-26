@@ -34,7 +34,7 @@ public struct PrivilegedPathPolicy: Sendable {
             case .alreadyExists: "Something is there already."
             case .protectedByFlags: "macOS marks it as protected."
             case .irreplaceable: "It holds something nothing could bring back, so Peel never moves it."
-            case .loadsCode: "Code is loaded from that folder, so only what Peel’s helper took from it can go back."
+            case .loadsCode: "It could have changed while it was in the Trash, and code is loaded from that folder, so Peel’s helper puts back only what is root’s alone. You can drag it back out in Finder."
             case .notALink: "Peel removes only links from that folder."
             case .leadsSomewhere: "It still leads to something on this Mac."
             case .startsAProgram: "From that folder, Peel removes only what starts a program that is no longer there."
@@ -270,9 +270,18 @@ public struct PrivilegedPathPolicy: Sendable {
         return NativeMessagingManifest.isGone(program)
     }
 
-    /// Like `open`, for a path where nothing exists yet. A folder that code is loaded from takes back only an
-    /// item owned by root that nobody else can write to, which is how anything the helper took from there
-    /// looks. Anything else could have been rewritten while it sat in the user's Trash.
+    /// Whether a folder that code is loaded from keeps out an item `owner` owns with `mode`, going back to `path` in
+    /// `parent`: such a folder takes back only what root owns and nobody else can write to, which is how anything the
+    /// helper took from there looks. Anything else could have been rewritten while it sat in the user's Trash. A
+    /// browser starts the program a manifest names, so a manifests folder is one that code is loaded from.
+    public func keepsOut(owner: uid_t?, mode: mode_t?, at path: String, in parent: String) -> Bool {
+        let takesAnything = restorable.contains { PathComponents.isPath(path, inside: $0) }
+        guard !takesAnything || manifests.contains(parent) else { return false }
+        return owner != trustedOwner || mode.map { $0 & 0o022 != 0 } ?? true
+    }
+
+    /// Like `open`, for a path where nothing exists yet. A folder that code is loaded from keeps out what `keepsOut`
+    /// says.
     public func openDestination(_ path: String, for trashed: OpenItem) -> Result<OpenItem, Rejection> {
         let aFolder = trashed.mode.map { $0 & S_IFMT == S_IFDIR } ?? false
         return openFolder(of: path, beforeOpening: {}, puttingBackAFolder: aFolder).flatMap { name, parent in
@@ -280,12 +289,8 @@ public struct PrivilegedPathPolicy: Sendable {
                 if links.contains(item.parent) {
                     guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
                 }
-                // A browser starts the program a manifest names, so its folder is one that code is loaded from.
-                if !restorable.contains(where: { PathComponents.isPath(item.path, inside: $0) })
-                    || manifests.contains(item.parent) {
-                    guard trashed.owner == trustedOwner, let mode = trashed.mode, mode & 0o022 == 0 else {
-                        return .failure(.loadsCode)
-                    }
+                if keepsOut(owner: trashed.owner, mode: trashed.mode, at: item.path, in: item.parent) {
+                    return .failure(.loadsCode)
                 }
                 var info = stat()
                 guard item.name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) != 0 else {

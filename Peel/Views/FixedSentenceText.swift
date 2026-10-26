@@ -16,7 +16,7 @@ extension FixedSentence {
         case .alreadyThere: "Something is there already."
         case .protectedByMacOS: "macOS marks it as protected."
         case .irreplaceable: "It holds something nothing could bring back, so Peel never moves it."
-        case .codeFolder: "Code is loaded from that folder, so only what Peel’s helper took from it can go back."
+        case .codeFolder: "It could have changed while it was in the Trash, and code is loaded from that folder, so Peel’s helper puts back only what is root’s alone. You can drag it back out in Finder."
         case .onlyLinksThere: "Peel removes only links from that folder."
         case .leadsSomewhere: "It still leads to something on this Mac."
         case .onlyGoneProgramsThere: "From that folder, Peel removes only what starts a program that is no longer there."

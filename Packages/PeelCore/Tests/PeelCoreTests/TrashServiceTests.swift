@@ -576,6 +576,27 @@ struct TrashServiceTests {
         #expect(await service.restore(planted) == .notAllowed)
     }
 
+    @Test(.permissionsHold) func saysAtOnceWhatTheHelperKeepsOutOfAFolderCodeIsLoadedFrom() throws {
+        let directory = try TemporaryDirectory()
+        let components = try directory.directory("root/Library/Audio/Plug-Ins/Components")
+        let trashed = try directory.directory("home/.Trash/Synth.component")
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            )
+        ) { $0 }
+        let item = TrashedItem(originalURL: components.appending(path: "Synth.component"), trashedURL: trashed, date: .now)
+
+        let byThePerson = service.refusal(ofPuttingBack: item)
+        try directory.setPermissions(0o555, of: components)
+        defer { try? directory.setPermissions(0o755, of: components) }
+        let throughTheHelper = service.refusal(ofPuttingBack: item)
+
+        #expect(byThePerson == nil)
+        #expect(throughTheHelper == .failed(PrivilegedPathPolicy.Rejection.loadsCode.explanation))
+    }
+
     @Test func aMoveRefusedForAnItemLockedInFinderSaysItIsLocked() async throws {
         let directory = try TemporaryDirectory()
         let locked = try directory.file("home/Library/Preferences/org.example.locked.plist")

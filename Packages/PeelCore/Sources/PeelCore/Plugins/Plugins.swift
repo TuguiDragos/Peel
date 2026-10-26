@@ -39,6 +39,9 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     /// Why Peel would refuse to move it, such as a Mail bundle in the user's own Library, where all of Mail is
     /// protected. Such a plug-in is listed and never offered.
     public let refusal: GuardRefusal?
+    /// True when, moved through Peel's helper, it could not come back from History: code is loaded from its folder,
+    /// and it isn't root's alone (`PrivilegedPathPolicy.keepsOut`).
+    public var staysInTheTrash = false
 
     public var id: URL { url }
 }
@@ -132,10 +135,13 @@ public enum Plugins {
         // A few at a time, as the other scans measure: the guard's answer and the size each take a while, and a Mac
         // used for music can hold more than a thousand plug-ins.
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
+        let reach = HelperReach(environment: environment)
         let plugins = await found.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { item -> Plugin? in
             guard !AppleCode.isApples(item.url) else { return nil }
             let info = AppInspector.infoDictionary(in: item.url.appending(path: "Contents", directoryHint: .isDirectory))
-            return Plugin(
+            let folder = ParentAccess(item.url.deletingLastPathComponent())
+            let requiresPrivileges = folder.requiresPrivileges(toRemove: item.url)
+            var plugin = Plugin(
                 url: item.url,
                 name: (info?["CFBundleName"] as? String) ?? item.url.deletingPathExtension().lastPathComponent,
                 bundleIdentifier: info?["CFBundleIdentifier"] as? String,
@@ -143,10 +149,11 @@ public enum Plugins {
                 category: item.category,
                 isInstalledForAllUsers: item.isForAllUsers,
                 size: await measure(item.url),
-                requiresPrivileges: ParentAccess(item.url.deletingLastPathComponent())
-                    .requiresPrivileges(toRemove: item.url),
+                requiresPrivileges: requiresPrivileges,
                 refusal: removalGuard.refusal(of: item.url)
             )
+            plugin.staysInTheTrash = requiresPrivileges && reach.keepsOut(item.url, at: item.url)
+            return plugin
         }
         let sorted = plugins.compactMap(\.self).sorted {
             $0.name.localizedStandardCompare($1.name) == .orderedAscending

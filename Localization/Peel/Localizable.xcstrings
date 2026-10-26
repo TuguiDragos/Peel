@@ -18648,6 +18648,112 @@
         }
       }
     },
+    "Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace, které ho používají, mohou přestat fungovat. Historie ho nemůže vrátit zpět, protože se z jeho složky načítá kód a sám nepatří výhradně uživateli root, ale ve Finderu ho můžete přetáhnout zpět ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps, die es verwenden, funktionieren möglicherweise nicht mehr. Im Verlauf lässt es sich nicht zurücklegen, da aus seinem Ordner Code geladen wird und es nicht ausschließlich root gehört, du kannst es aber im Finder wieder herausziehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que las apps que lo usan dejen de funcionar. Historial no puede restaurarlo, ya que no pertenece solo a root y desde su carpeta se carga código, pero puedes sacarlo arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les apps qui l’utilisent peuvent cesser de fonctionner. L’Historique ne peut pas le remettre en place, car du code est chargé depuis son dossier et cet élément n’appartient pas uniquement à root, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le app che lo usano potrebbero smettere di funzionare. La Cronologia non può ripristinarlo, perché dalla sua cartella viene caricato del codice e l’elemento non appartiene esclusivamente a root, ma puoi trascinarlo fuori nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これを使用しているアプリが動作しなくなる場合があります。これがあるフォルダからはコードが読み込まれ、rootだけが所有するものでもないため、履歴から戻すことはできません。ただし、Finderでドラッグして取り出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목을 사용하는 앱이 작동을 멈출 수 있습니다. 이 항목이 들어 있는 폴더에서 코드가 로드되고 이 항목은 Root 사용자 전용이 아니므로 기록에서 되돌려 놓을 수 없지만, Finder에서 드래그하여 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps die het gebruiken, werken misschien niet meer. Geschiedenis kan het niet terugzetten, omdat er vanuit de map ervan code wordt geladen en het niet uitsluitend van root is, maar je kunt het in Finder er weer uit slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacje, które jej używają, mogą przestać działać. Historia nie może jej przywrócić, ponieważ z jej folderu wczytywany jest kod, a ona sama nie należy wyłącznie do użytkownika root, ale możesz przeciągnąć ją z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os apps que o usam podem parar de funcionar. O Histórico não pode colocá-lo de volta, porque a pasta em que ele está é usada para carregar código e ele não pertence só ao usuário root, mas você pode arrastá-lo para fora no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicațiile care îl folosesc pot înceta să funcționeze. Nu îl puteți pune înapoi din Istoric, deoarece din dosarul său se încarcă cod și articolul nu aparține doar utilizatorului Root, însă, în Finder, îl puteți trage afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения, которые его используют, могут перестать работать. История не сможет его восстановить, поскольку из его папки загружается код, а он принадлежит не только пользователю root, но в Finder его можно перетащить из Корзины обратно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appar som använder den kan sluta fungera. Historik kan inte lägga tillbaka den, eftersom kod läses in från dess mapp och den inte enbart tillhör rotanvändaren, men du kan dra ut den igen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu kullanan uygulamalar çalışmayı durdurabilir. Geçmiş onu yerine koyamaz, çünkü klasöründen kod yüklenir ve tek sahibi root değildir; ancak onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програми, які ним користуються, можуть перестати працювати. Історія не зможе його повернути, бо з його папки завантажується код, а він належить не лише користувачу root, але у Finder його можна перетягнути зі Смітника назад."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用它的App可能会停止工作。“历史记录”无法将它放回原处，因为系统会从它所在的文件夹载入代码，而且它并非仅归root所有，不过你可以在“访达”中将它拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用它的App可能會停止運作。由於系統會從它所在的檔案夾載入程式碼，且它並非只屬於root，「歷史記錄」無法將它還原，但你可以在Finder中將它拖出來。"
+          }
+        }
+      }
+    },
     "Apps you keep in the Dock are remembered, and come back when you turn this off." : {
       "localizations" : {
         "cs" : {
@@ -28629,112 +28735,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "雲端儲存空間"
-          }
-        }
-      }
-    },
-    "Code is loaded from that folder, so only what Peel’s helper took from it can go back." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Z této složky se načítá kód, takže se do ní smí vrátit jen to, co z ní vzal pomocník Peelu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aus diesem Ordner wird Code geladen, daher darf nur zurückgelegt werden, was das Hilfsprogramm von Peel daraus entnommen hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desde esa carpeta se carga código, así que solo puede volver lo que el asistente de Peel sacó de allí."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du code est chargé depuis ce dossier : seul ce que l’utilitaire de Peel en a retiré peut donc y retourner."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Da quella cartella viene caricato del codice, quindi può tornarci solo ciò che l’assistente di Peel ne ha tolto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "そのフォルダからはコードが読み込まれるため、戻せるのはPeelのヘルパーがそこから移動したものだけです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그 폴더에서 코드가 로드되므로, Peel 보조 프로그램이 그 폴더에서 가져온 항목만 되돌려 놓을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vanuit die map wordt code geladen, dus alleen wat het hulpprogramma van Peel eruit heeft gehaald, kan terug."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Z tego folderu wczytywany jest kod, więc wrócić do niego może tylko to, co zabrał z niego pomocnik Peel."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Essa pasta é usada para carregar código, então só pode voltar para ela o que o auxiliar do Peel tirou de lá."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Din acel dosar se încarcă cod, așa că poate fi pus înapoi în el doar ce a luat de acolo instrumentul de ajutor Peel."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Из этой папки загружается код, поэтому вернуть туда можно только то, что оттуда забрал помощник Peel."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kod läses in från den mappen, så bara det som Peels hjälpprogram har tagit därifrån kan läggas tillbaka."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O klasörden kod yüklenir, bu yüzden oraya yalnızca Peel’in yardımcısının oradan aldıkları geri dönebilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "З цієї папки завантажується код, тож повернути туди можна лише те, що з неї забрав помічник Peel."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "系统会从该文件夹载入代码，因此只有Peel的帮助程序从那里移走的内容才能放回去。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "系統會從該檔案夾載入程式碼，因此只有Peel的輔助程式從中取出的項目才能放回去。"
           }
         }
       }
@@ -62393,6 +62393,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它在Peel查看後有所變更。請重新掃描以檢查。"
+          }
+        }
+      }
+    },
+    "It could have changed while it was in the Trash, and code is loaded from that folder, so Peel’s helper puts back only what is root’s alone. You can drag it back out in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mohlo se to změnit, zatímco to bylo v koši, a z této složky se načítá kód, takže pomocník Peelu vrací zpět jen to, co patří výhradně uživateli root. Ve Finderu to můžete přetáhnout zpět ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es könnte sich verändert haben, während es im Papierkorb lag, und aus diesem Ordner wird Code geladen, daher legt das Hilfsprogramm von Peel nur zurück, was ausschließlich root gehört. Du kannst es im Finder wieder herausziehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podría haber cambiado mientras estaba en la papelera, y desde esa carpeta se carga código, así que el asistente de Peel solo restaura lo que pertenece únicamente a root. Puedes sacarlo arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a pu être modifié pendant qu’il était dans la corbeille, et du code est chargé depuis ce dossier : l’utilitaire de Peel ne remet donc en place que ce qui appartient uniquement à root. Vous pouvez l’en sortir dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potrebbe essere cambiato mentre era nel Cestino, e da quella cartella viene caricato del codice, quindi l’assistente di Peel ripristina soltanto ciò che appartiene esclusivamente a root. Puoi trascinarlo fuori nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴミ箱にある間に変更された可能性があり、そのフォルダからはコードが読み込まれるため、Peelのヘルパーはrootだけが所有するものしか戻しません。Finderでドラッグして取り出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통에 있는 동안 변경되었을 수 있고 그 폴더에서 코드가 로드되므로, Peel 보조 프로그램은 Root 사용자 전용인 항목만 되돌려 놓습니다. Finder에서 드래그하여 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het kan zijn gewijzigd terwijl het in de prullenmand stond, en vanuit die map wordt code geladen, dus het hulpprogramma van Peel zet alleen terug wat uitsluitend van root is. Je kunt het in Finder er weer uit slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mogło się to zmienić, gdy było w Koszu, a z tego folderu wczytywany jest kod, więc pomocnik Peel przywraca tylko to, co należy wyłącznie do użytkownika root. Możesz przeciągnąć to z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele pode ter sido alterado enquanto estava no Lixo, e essa pasta é usada para carregar código, então o auxiliar do Peel só coloca de volta o que pertence apenas ao usuário root. Você pode arrastá-lo para fora no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este posibil să se fi modificat cât timp a stat în Coș, iar din acel dosar se încarcă cod, așa că instrumentul de ajutor Peel pune înapoi doar ce aparține exclusiv utilizatorului Root. În Finder, îl puteți trage afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект мог измениться, пока находился в Корзине, а из этой папки загружается код, поэтому помощник Peel восстанавливает только то, что принадлежит исключительно пользователю root. В Finder его можно перетащить из Корзины обратно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det kan ha ändrats medan det låg i papperskorgen, och kod läses in från den mappen, så Peels hjälpprogram lägger bara tillbaka det som tillhör rotanvändaren och ingen annan. Du kan dra ut det igen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çöp Sepeti’ndeyken değişmiş olabilir ve o klasörden kod yüklenir, bu yüzden Peel’in yardımcısı yalnızca tek sahibi root olan öğeleri yerine koyar. Onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поки елемент був у Смітнику, його могли змінити, а з тієї папки завантажується код, тож помічник Peel повертає туди лише те, що належить тільки користувачу root. У Finder його можна перетягнути зі Смітника назад."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在废纸篓中时可能已被更改，而且系统会从该文件夹载入代码，因此Peel的帮助程序只会放回仅归root所有的内容。你可以在“访达”中将它拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在「垃圾桶」中時可能已被更改，而且系統會從該檔案夾載入程式碼，因此Peel的輔助程式只會還原只屬於root的項目。你可以在Finder中將它拖出來。"
           }
         }
       }

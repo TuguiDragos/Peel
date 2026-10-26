@@ -47,6 +47,24 @@ struct PluginsTests {
         #expect(scan.unreadable.map(\.lastPathComponent) == ["Vendor"])
     }
 
+    @Test(.permissionsHold) func knowsAPlugInHistoryCouldNotPutBack() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Audio/Plug-Ins/Components/Synth.component/Contents")
+        try directory.directory("home/Library/Audio/Plug-Ins/Components/Own.component/Contents")
+        let components = directory.url.appending(path: "root/Library/Audio/Plug-Ins/Components", directoryHint: .isDirectory)
+        try directory.setPermissions(0o555, of: components)
+        defer { try? directory.setPermissions(0o755, of: components) }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins
+
+        #expect(plugins.first { $0.name == "Synth" }?.staysInTheTrash == true)
+        #expect(plugins.first { $0.name == "Own" }?.staysInTheTrash == false)
+    }
+
     @Test func findsPluginBundlesInUserAndSystemLibraries() async throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(

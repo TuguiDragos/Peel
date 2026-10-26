@@ -746,21 +746,27 @@ public struct TrashService: Sendable {
         }
         guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
+        if Self.needsTheHelper(toPutBack: item),
+           HelperReach(environment: environment).keepsOut(item.trashedURL, at: item.originalURL) {
+            return .failed(PrivilegedPathPolicy.Rejection.loadsCode.explanation)
+        }
         return nil
+    }
+
+    /// Whether putting `item` back is the helper's to do: the nearest folder on its way that exists is one the person
+    /// can't write to. Missing folders are made again, so that is the folder that decides.
+    static func needsTheHelper(toPutBack item: TrashedItem) -> Bool {
+        var ancestor = item.originalURL.deletingLastPathComponent().path(percentEncoded: false)
+        while !FileManager.default.fileExists(atPath: ancestor), ancestor != "/" {
+            ancestor = (ancestor as NSString).deletingLastPathComponent
+        }
+        return !FileManager.default.isWritableFile(atPath: ancestor)
     }
 
     private func moveBack(_ item: TrashedItem, canUseHelper: Bool) async -> RestoreFailure? {
         if let refusal = refusal(ofPuttingBack: item) { return refusal }
 
-        let fileManager = FileManager.default
-
-        let parent = item.originalURL.deletingLastPathComponent()
-        // Missing folders are created again, so write access is checked on the nearest folder that exists.
-        var ancestor = parent.path(percentEncoded: false)
-        while !fileManager.fileExists(atPath: ancestor), ancestor != "/" {
-            ancestor = (ancestor as NSString).deletingLastPathComponent
-        }
-        if fileManager.isWritableFile(atPath: ancestor) {
+        if !Self.needsTheHelper(toPutBack: item) {
             do {
                 try Self.putBack(item) { removalGuard.refusal(ofPuttingBack: item.trashedURL, at: $0) }
                 return nil

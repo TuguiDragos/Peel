@@ -25,6 +25,16 @@ struct HelperReach: Sendable {
         policy.takesOnlyALink(at: url.path(percentEncoded: false))
     }
 
+    /// True when the helper would keep `trashed` out of the place `original` names, a folder code is loaded from.
+    func keepsOut(_ trashed: URL, at original: URL) -> Bool {
+        var info = stat()
+        guard lstat(trashed.path(percentEncoded: false), &info) == 0,
+              let located = PathPattern.located(original.path(percentEncoded: false))
+        else { return false }
+        let parent = (located as NSString).deletingLastPathComponent
+        return policy.keepsOut(owner: info.st_uid, mode: info.st_mode, at: located, in: parent)
+    }
+
     /// True when the helper would refuse `url` for where it is: outside the folders it serves, in `/Applications`
     /// without being an app, or in a folder command-line tools or their completions are linked into as anything but
     /// a link that leads nowhere, or into `leaving`, which moves first. `RemovalGuard` judges what the item itself is.
