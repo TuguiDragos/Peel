@@ -41,6 +41,12 @@ public enum FullDiskAccess {
         return .granted
     }
 
+    /// Whether Peel offers to reopen itself: Full Disk Access is still missing, and System Settings, where it is turned
+    /// on, has been in front since Peel started. Access given there reaches only a process started after it.
+    public static func offersReopen(_ state: AccessState, systemSettingsWasInFront: Bool) -> Bool {
+        state == .missing && systemSettingsWasInFront
+    }
+
     public static let settingsURL = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles")!
 }
 

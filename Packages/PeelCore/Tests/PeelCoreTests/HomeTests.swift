@@ -135,6 +135,13 @@ struct AccessTests {
     }
 
     /// Uses a folder of its own rather than `/Applications`, where write access depends on the account.
+    @Test func offersToReopenOnceSystemSettingsWasInFront() {
+        #expect(FullDiskAccess.offersReopen(.missing, systemSettingsWasInFront: true))
+        #expect(!FullDiskAccess.offersReopen(.missing, systemSettingsWasInFront: false))
+        #expect(!FullDiskAccess.offersReopen(.granted, systemSettingsWasInFront: true))
+        #expect(!FullDiskAccess.offersReopen(.unknown, systemSettingsWasInFront: true))
+    }
+
     @Test func readsAppManagementFromARemoval() throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Applications/Example.app")

@@ -100,7 +100,7 @@ final class HomeModel {
     /// False until the first check finishes. Until then no state is shown, so the panel never flashes a wrong one. The
     /// helper's row is checked apart and says so until its own answer.
     private(set) var hasChecked = false
-    private var hasOpenedFullDiskAccessSettings = false
+    private let frontmost = FrontmostApp.shared
 
     init(helper: HelperModel) {
         self.helper = helper
@@ -167,7 +167,9 @@ final class HomeModel {
             isFinderExtensionEnabled ? false : await Self.finderExtensionRunsFromAnotherCopy()
 
         let fullDisk = await access
-        needsRelaunchForFullDiskAccess = fullDisk == .missing && hasOpenedFullDiskAccessSettings
+        needsRelaunchForFullDiskAccess = FullDiskAccess.offersReopen(
+            fullDisk, systemSettingsWasInFront: frontmost.hasShownSystemSettings
+        )
         let opensAtLogin = await LoginItem.status() == .enabled
         found = [
             .fullDiskAccess: state(for: fullDisk),
@@ -219,7 +221,6 @@ final class HomeModel {
     }
 
     func openFullDiskAccessSettings() {
-        hasOpenedFullDiskAccessSettings = true
         NSWorkspace.shared.open(FullDiskAccess.settingsURL)
     }
 
