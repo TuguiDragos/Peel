@@ -832,6 +832,21 @@ struct SpaceRemovalTests {
         #expect(plan.selection(keeping: [vendor, system], canUseHelper: true) == [vendor, system])
     }
 
+    @Test(.permissionsHold) func listsAFolderItCannotLookIntoAsLeftAlone() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.app/closed/blob")
+        try directory.setPermissions(0, of: "home/Library/Caches/org.example.app/closed")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Caches/org.example.app/closed") }
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["org.example.app"])
+        #expect(plan.heldBack.map { [$0.key.lastPathComponent: $0.value] } == [["org.example.app": .couldNotLookInside]])
+        #expect(plan.refused.isEmpty)
+        #expect(plan.selectableRows(canUseHelper: true).selectable.isEmpty)
+        #expect(plan.movable(canUseHelper: true).reading == .exactly(0))
+    }
+
     @Test func countsOnlyWhatCanBeMovedNow() {
         let caches = URL(filePath: "/Library/Caches", directoryHint: .isDirectory)
         let (open, system, beyond) = (caches.appending(path: "a"), caches.appending(path: "b"), caches.appending(path: "c"))

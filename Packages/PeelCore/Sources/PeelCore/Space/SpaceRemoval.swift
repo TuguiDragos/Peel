@@ -100,6 +100,9 @@ public enum SpaceRemoval {
         let measured = await children.removable.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { child in
             (child, await measure(child))
         }
+        for child in children.closed {
+            heldBack[child] = .couldNotLookInside
+        }
         for (child, contents) in measured {
             sizes[child] = contents.flatMap { $0.couldNotBeRead ? nil : $0.size }
             let needsAnAdministrator = FileAccess.requiresPrivilegesToRemove(child)
@@ -111,7 +114,7 @@ public enum SpaceRemoval {
                     ? .writtenRecently : nil)
         }
         return Plan(
-            removable: children.removable,
+            removable: children.removable + children.closed,
             inUse: children.inUse,
             leftToDeveloper: children.leftToDeveloper,
             sizes: sizes,
@@ -169,16 +172,17 @@ public enum SpaceRemoval {
         running: [String: String]
     ) -> (
         removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal],
-        unreadable: [URL]
+        unreadable: [URL], closed: [URL]
     ) {
         // An area only its own app or tool should empty, such as a virtual machine's disks, offers nothing.
-        guard item.handling == .trash else { return ([], [], [], [:], []) }
+        guard item.handling == .trash else { return ([], [], [], [:], [], []) }
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         var removable: [URL] = []
         var inUse: [(url: URL, name: String)] = []
         var leftToDeveloper: [URL] = []
         var refused: [URL: GuardRefusal] = [:]
         var unreadable: [URL] = []
+        var closed: [URL] = []
         let macOSsOwn = MacOSsOwnItems(environment: environment)
         let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?, onlyFiles inside: Bool = false) {
@@ -213,6 +217,10 @@ public enum SpaceRemoval {
                 // A folder that stays itself is one Space empties on its own page, or one macOS expects to find.
                 case .staysItself:
                     continue
+                // Listed and left alone with its reason, as on every page: it may hold what Peel never moves.
+                case .couldNotLookInside:
+                    closed.append(child)
+                    continue
                 case let refusal?:
                     refused[child] = refusal
                     continue
@@ -236,7 +244,7 @@ public enum SpaceRemoval {
             let owner = macOSsOwn.container(holding: url).flatMap { running[Naming.normalized($0)] }
             sort(url, leaving: developerFolders.inside(url), owner: owner)
         }
-        return (removable, inUse, leftToDeveloper, refused, unreadable)
+        return (removable, inUse, leftToDeveloper, refused, unreadable, closed)
     }
 
     /// Maps each name an open app answers to, normalized, to the app's display name. The names are the bundle
