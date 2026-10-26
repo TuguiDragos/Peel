@@ -35,6 +35,9 @@ public actor RemovalLog {
 
     public nonisolated let url: URL
     public private(set) var problem: RemovalLogProblem?
+    /// The records last read from the file or written to it, and the file they are in. A read of the same file,
+    /// unchanged, takes them instead of decoding it again; a write by any other process changes the file.
+    private var kept: (file: FileIdentity, records: [RemovalRecord])?
     /// What removals moved and have not recorded yet, item by item.
     private let journal: RemovalJournal
     private let totals: URL
@@ -183,14 +186,20 @@ public actor RemovalLog {
             note(nil)
             return []
         }
-        guard let data = BoundedRead.data(at: url, maximum: Self.maximumBytes) else {
+        if let kept, FileIdentity.of(url) == kept.file {
+            note(nil)
+            return kept.records
+        }
+        guard let read = BoundedRead.contents(at: url, maximum: Self.maximumBytes) else {
             note(.unreadable)
             return nil
         }
+        let data = read.data
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = LogTime.decoding
         if let records = try? decoder.decode([RemovalRecord].self, from: data) {
             note(nil)
+            kept = (read.file, records)
             return records
         }
         // A row this version cannot read (written by a later version, or broken by hand) must not cost the rest.
@@ -225,6 +234,8 @@ public actor RemovalLog {
             )
             // `.atomic` writes a temporary file and renames it, so a crash leaves either the old log or the new one.
             try data.write(to: url, options: .atomic)
+            // Every writer takes the lock, so the file here is the one just written.
+            kept = FileIdentity.of(url).map { ($0, records) }
             return true
         } catch {
             // An unrecorded removal is the most serious problem, so a later failure never replaces it.

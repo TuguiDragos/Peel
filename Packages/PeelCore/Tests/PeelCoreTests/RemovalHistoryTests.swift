@@ -436,6 +436,24 @@ struct RemovalHistoryTests {
         #expect(await RemovalLog(url: url).load().records?.count == 80)
     }
 
+    @Test func readsAnUnchangedHistoryWithoutDecodingItAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "removals.json")
+        let batch = UUID()
+        let records = (0..<(RemovalLog.maximumRecords - 1)).map { Self.record(batch: batch, name: "Item\($0)") }
+        _ = await RemovalLog(url: url).add(records)
+        let app = RemovalLog(url: url)
+
+        let first = await app.processorTimeToLoad()
+        let again = await app.processorTimeToLoad()
+        _ = await RemovalLog(url: url).add([Self.record(batch: UUID(), name: "Tool")])
+        let afterAnotherWriter = await app.load().records
+
+        #expect(again < first / 10, "read in \(first), then in \(again)")
+        #expect(afterAnotherWriter?.count == RemovalLog.maximumRecords)
+        #expect(afterAnotherWriter?.contains { $0.source == "Tool" } == true)
+    }
+
     @Test func keepsEveryRecordWhenAddsOverlap() async throws {
         let directory = try TemporaryDirectory()
         let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
@@ -448,5 +466,12 @@ struct RemovalHistoryTests {
 
         let outcome = await log.load()
         #expect(outcome.records?.count == 50, "kept \(outcome.records?.count ?? -1) of 50")
+    }
+}
+
+extension RemovalLog {
+    /// Measured on the actor's own thread, where the read runs.
+    fileprivate func processorTimeToLoad() -> Duration {
+        processorTime { _ = load() }
     }
 }
