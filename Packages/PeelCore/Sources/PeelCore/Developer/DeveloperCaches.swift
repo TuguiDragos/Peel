@@ -839,7 +839,8 @@ public enum DeveloperCaches {
             Folder("Library/Caches/JetBrains/*/caches", .cache, source: "https://github.com/JetBrains/intellij-community/blob/0e6f75c33cccdcf8097ef9f0a9ca4a2af8c68cd2/platform/vfs-impl/src/com/intellij/openapi/vfs/newvfs/persistent/FSRecords.java#L80"),
             Folder("Library/Caches/JetBrains/*/index", .cache, source: "https://github.com/JetBrains/intellij-community/blob/0e6f75c33cccdcf8097ef9f0a9ca4a2af8c68cd2/platform/util/src/com/intellij/openapi/application/PathManager.java#L648-L651"),
             Folder("Library/Caches/JetBrains/*/tmp", .cache, source: "https://github.com/JetBrains/intellij-community/blob/0e6f75c33cccdcf8097ef9f0a9ca4a2af8c68cd2/platform/util/src/com/intellij/openapi/application/PathManager.java#L634-L636"),
-            Folder("Library/Logs/JetBrains", .logs, source: "https://www.jetbrains.com/help/idea/directories-used-by-the-ide-to-store-settings-caches-plugins-and-logs.html"),
+            // A row for each product: JetBrains Toolbox runs from login and keeps its open log in `Toolbox` here.
+            Folder("Library/Logs/JetBrains", .logs, source: "https://www.jetbrains.com/help/idea/directories-used-by-the-ide-to-store-settings-caches-plugins-and-logs.html", rowsDepth: 1),
         ]),
         Definition(id: "vscode", name: "Visual Studio Code", systemImage: "curlybraces", appBundleIdentifiers: ["com.microsoft.VSCode"], folders: [
             Folder("Library/Application Support/Code/Cache", .cache, source: "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/net/network_context_service.cc#L94-L95"),

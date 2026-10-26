@@ -997,6 +997,16 @@ struct DeveloperCachesTests {
         #expect(locations.allSatisfy { $0.kind == .deviceSupport && !$0.isRecommended })
     }
 
+    @Test func listsEachJetBrainsProductsLogsOnTheirOwn() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Logs/JetBrains/IntelliJIdea2026.2/idea.log", bytes: 4_000)
+        try directory.file("Library/Logs/JetBrains/Toolbox/toolbox.log", bytes: 4_000)
+
+        let locations = await scanned(directory.url).filter { $0.id == "jetbrains" }.flatMap(\.locations)
+
+        #expect(Set(locations.map(\.url.lastPathComponent)) == ["IntelliJIdea2026.2", "Toolbox"])
+    }
+
     @Test func listsEachArchiveWithTheVersionItHoldsAndSelectsNone() async throws {
         let directory = try TemporaryDirectory()
         let archives = "Library/Developer/Xcode/Archives"
