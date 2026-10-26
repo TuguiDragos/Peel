@@ -386,6 +386,26 @@ struct CloudStorageTests {
         #expect(folders.sorted() == ["A", "B", "C", "D", "E"])
     }
 
+    @Test func anExcludedFolderIsNotWalked() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        for index in 0..<20 {
+            try directory.file("\(drive)/Archive/old\(index).bin", bytes: 16)
+        }
+        try directory.file("\(drive)/kept.bin", bytes: 16)
+        let archive = directory.url.appending(path: "\(drive)/Archive", directoryHint: .isDirectory)
+        let collector = CloudStorage.Collector()
+        let count = ScanCount()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: Exclusions(paths: [archive]), into: collector,
+            deadline: .now + .seconds(20), countingFor: count, isSafe: { _ in true }, unless: { false }
+        )
+
+        #expect(collector.collected.files.map(\.name) == ["kept.bin"])
+        #expect(count.value == 3, "iCloud Drive, the archive and kept.bin, nothing inside the archive")
+    }
+
     /// iCloud Drive keeps a document saved as a package as one item, and Finder removes its download whole.
     @Test func aDocumentSavedAsAPackageIsOneItem() throws {
         let directory = try TemporaryDirectory()

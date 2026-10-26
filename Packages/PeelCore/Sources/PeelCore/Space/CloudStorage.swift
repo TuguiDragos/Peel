@@ -269,7 +269,7 @@ public enum CloudStorage {
             // Of an app's container Finder shows only `Documents`; the rest is the app's own data.
             let isAppsOwnData = enumerator.level == 2 && !isICloudDrive
                 && url.lastPathComponent.caseInsensitiveCompare("Documents") != .orderedSame
-            if isAppsOwnData || isDataless(url) {
+            if isAppsOwnData || exclusions.excludes(url) || isDataless(url) {
                 // `skipDescendants()` after a file would skip the next folder.
                 if (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
                     enumerator.skipDescendants()
@@ -279,7 +279,6 @@ public enum CloudStorage {
             guard
                 let values = try? url.resourceValues(forKeys: keys),
                 values.isRegularFile == true || values.isPackage == true,
-                !exclusions.excludes(url),
                 isSafe(values)
             else { continue }
             let measured = values.isRegularFile == true
