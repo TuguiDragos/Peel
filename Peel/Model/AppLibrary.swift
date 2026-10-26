@@ -87,7 +87,7 @@ final class AppLibrary {
             if updateRounds.checking.isEmpty {
                 heldUpdates = nil
             } else if oldValue.checking.isEmpty {
-                heldUpdates = Set(appsWithUpdates.map(\.id))
+                heldUpdates = Set(apps.filter(hasUpdate).map(\.id))
             }
         }
     }
@@ -703,13 +703,21 @@ final class AppLibrary {
         app.isPeelItself ? nil : updatePreferences.shownStatus(updateStatuses[app.id], for: app)
     }
 
-    var appsWithUpdates: [InstalledApp] { apps.filter(hasUpdate) }
+    /// The apps the reading of the folders found, without those shown on the list from elsewhere: what is installed,
+    /// as `peel inventory` lists it.
+    var installedApps: [InstalledApp] {
+        apps.filter { app in !revealed.contains { $0.id == app.id } }
+    }
+
+    /// The installed apps with an update waiting, which the menu bar, its notification and the list's summary count.
+    /// An app shown from elsewhere keeps its update on its row and its page.
+    var appsWithUpdates: [InstalledApp] { installedApps.filter(hasUpdate) }
 
     /// The apps the menu bar item and its panel count. They follow `hasUpdate(_:)`, but while a round of checks runs
     /// they are the ones from when the round began.
     var menuBarUpdates: [InstalledApp] {
         guard let heldUpdates else { return appsWithUpdates }
-        return apps.filter { heldUpdates.contains($0.id) }
+        return installedApps.filter { heldUpdates.contains($0.id) }
     }
 
     var menuBarUpdateCount: Int { menuBarUpdates.count }

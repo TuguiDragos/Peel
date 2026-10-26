@@ -13,6 +13,14 @@ enum InventoryExport {
         library.hasLoaded && !(homebrew.isInstalled && homebrew.packages == nil)
     }
 
+    /// The packages the list marks apps with, and whether Homebrew, installed, gave none: then no app is marked as
+    /// installed by it, as `peel inventory` does, rather than by a list from before.
+    static func casks(
+        isInstalled: Bool, hasAnswered: Bool, packages: [HomebrewPackage]?
+    ) -> (casks: [HomebrewPackage], didNotAnswer: Bool) {
+        isInstalled && !hasAnswered ? ([], true) : (packages ?? [], false)
+    }
+
     /// Asks the user where to save the list, writes it there, and says in an alert when it could not.
     @MainActor
     static func save(_ format: Inventory.Format, apps: [InstalledApp], homebrew: HomebrewLibrary) async {
@@ -40,8 +48,11 @@ enum InventoryExport {
                 return error.output
             }
         }
+        let marking = casks(
+            isInstalled: homebrew.isInstalled, hasAnswered: homebrew.hasAnswered, packages: homebrew.packages
+        )
         do {
-            contents = try await written(format, apps: apps, casks: homebrew.packages ?? [], brewfile: brewfile)
+            contents = try await written(format, apps: apps, casks: marking.casks, brewfile: brewfile)
         } catch is Inventory.HomebrewDidNotAnswer {
             return String(localized: "Homebrew didn’t answer, so Peel has nothing to write a Brewfile from. Open Homebrew in Peel to see why.")
         } catch {
@@ -54,6 +65,9 @@ enum InventoryExport {
         panel.canCreateDirectories = true
         panel.isExtensionHidden = false
         panel.message = String(localized: "Where should Peel save the list?")
+        if marking.didNotAnswer, format != .brewfile {
+            panel.message += "\n" + String(localized: "Homebrew didn’t answer, so no app in the list is marked as installed by it. Open Homebrew in Peel to see why.")
+        }
         if let type = contentType(for: format) {
             panel.allowedContentTypes = [type]
         }
@@ -93,7 +107,7 @@ struct ExportListMenuContent: View {
     var body: some View {
         ForEach(Inventory.Format.offered(by: homebrew), id: \.self) { format in
             Button(String(localized: format.title)) {
-                Task { await InventoryExport.save(format, apps: library.apps, homebrew: homebrew) }
+                Task { await InventoryExport.save(format, apps: library.installedApps, homebrew: homebrew) }
             }
         }
     }

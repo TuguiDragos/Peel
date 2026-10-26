@@ -596,6 +596,43 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
     }
 
+    @Test func anAppShownFromElsewhereIsNeitherCountedNorExported() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock {
+            $0 = Data("""
+            <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>\
+            <enclosure url="https://feed.example.com/u.zip" sparkle:version="101" sparkle:shortVersionString="1.1" />\
+            </item></channel></rss>
+            """.utf8)
+        }
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.fed" })
+
+        await library.checkForUpdates([app], force: true)
+
+        #expect(library.hasUpdate(app))
+        #expect(library.visibleApps(matching: "").waiting.map(\.id) == [app.id])
+        #expect(library.installedApps.isEmpty)
+        #expect(library.appsWithUpdates.isEmpty)
+        #expect(library.menuBarUpdateCount == 0)
+    }
+
+    @Test func anExportMarksNoAppAsHomebrewsWhenHomebrewDidNotAnswer() {
+        let earlier = [HomebrewPackage(name: "fed", kind: .cask, installedVersion: "1.0", appNames: ["Fed.app"])]
+
+        let silent = InventoryExport.casks(isInstalled: true, hasAnswered: false, packages: earlier)
+        let answered = InventoryExport.casks(isInstalled: true, hasAnswered: true, packages: earlier)
+        let none = InventoryExport.casks(isInstalled: false, hasAnswered: false, packages: nil)
+        #expect(silent.casks.isEmpty && silent.didNotAnswer)
+        #expect(answered.casks == earlier && !answered.didNotAnswer)
+        #expect(none.casks.isEmpty && !none.didNotAnswer)
+    }
+
     @Test func twoCopiesOfAnAppAtTwoBuildsKeepAnAnswerEach() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
