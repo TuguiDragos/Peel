@@ -1198,7 +1198,7 @@ public enum ProjectArtifacts {
             sawAnything = true
             let name = url.lastPathComponent
             let relative = String(key(of: url).dropFirst(base.count + 1))
-            if artifacts.contains(name) || artifacts.contains(relative) || passedByForActivity.contains(name) {
+            if artifacts.contains(relative) || passedByForActivity.contains(name) {
                 // `skipDescendants()` after a file, such as a submodule's `.git`, would skip the next folder.
                 if (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
                     enumerator.skipDescendants()

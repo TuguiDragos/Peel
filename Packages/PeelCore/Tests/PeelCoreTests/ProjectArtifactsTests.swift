@@ -1436,6 +1436,21 @@ struct ProjectArtifactsTests {
         #expect(cache.isRecommended)
     }
 
+    @Test func countsWorkInAFolderNamedLikeAnArtifactOfTheProject() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("app/build.gradle", bytes: 16)
+        try directory.file("app/.gradle/8.10/fileHashes/fileHashes.bin", bytes: 400_000)
+        try directory.file("app/build/classes/Tool.class", bytes: 400_000)
+        try directory.file("app/src/main/java/com/acme/build/Tool.java", bytes: 16)
+        try age(directory.url, days: 60)
+        let work = directory.url.appending(path: "app/src/main/java/com/acme/build/Tool.java").path(percentEncoded: false)
+        try FileManager.default.setAttributes([.modificationDate: Date.now], ofItemAtPath: work)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(try #require(found.first { $0.name == ".gradle" }).isRecentlyActive)
+    }
+
     /// Work in a hidden file, in `.github`, or in a folder of the person's own that a tool's table also names is
     /// work: only the artifacts found and what installed packages bring along are passed by.
     @Test func countsWorkInHiddenFilesAndFoldersNamedLikeArtifacts() async throws {
