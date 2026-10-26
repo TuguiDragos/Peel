@@ -38,10 +38,17 @@ final class CloudLibrary {
         didSet { updateSelectedSize() }
     }
     private(set) var selectedSize: Int64 = 0
+    private let home: URL
 
-    /// What the listed files take on this Mac, only the least it can be when there is more than the list shows.
-    var total: SizeTotal {
-        SizeTotal(known: (files ?? []).map(\.size).cappedSum, isComplete: !wasCutShort)
+    init(home: URL = .homeDirectory) {
+        self.home = home
+    }
+
+    /// What the listed files take on this Mac, only the least it can be when there is more than the list shows, and
+    /// nil until iCloud Drive has been read.
+    var total: SizeTotal? {
+        guard let files, !couldNotRead else { return nil }
+        return SizeTotal(known: files.map(\.size).cappedSum, isComplete: !wasCutShort)
     }
 
     /// The files whose folder or path holds `query`, every file for an empty one.
@@ -70,9 +77,12 @@ final class CloudLibrary {
     func refresh() async {
         refusals = []
         let pictures = Set(NSScreen.screens.compactMap { NSWorkspace.shared.desktopImageURL(for: $0) })
+        let home = home
         guard
             let scan = await scanRun.run({
-                await CloudStorage.downloaded(exclusions: ExclusionsStore.shared.exclusions, desktopPictures: pictures)
+                await CloudStorage.downloaded(
+                    home: home, exclusions: ExclusionsStore.shared.exclusions, desktopPictures: pictures
+                )
             })
         else { return }
         folders = scan.folders

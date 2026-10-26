@@ -101,6 +101,7 @@ extension DuplicateLibrary {
 
 extension CloudLibrary {
     var looked: Looked? {
-        files.map { Looked(count: $0.count, size: total) }
+        guard let files, let total else { return nil }
+        return Looked(count: files.count, size: total)
     }
 }
