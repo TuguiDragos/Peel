@@ -29,7 +29,7 @@ struct ProjectDetailView: View {
                 SectionHeaderLine {
                     heading(
                         "What the Build Left",
-                        "What a build makes again, and what it installed. What Peel isn’t sure about, such as a folder whose name could be anyone’s, is here unselected, with the reason beside it."
+                        "What a build makes again, and what it installed. Nothing is selected for you: Select Recommended selects what Peel is sure about, and every other row says why."
                     )
                 } actions: {
                     SelectMenu(
@@ -79,7 +79,7 @@ struct ProjectDetailView: View {
             get: { projects.isExcludedFromBackups(group) },
             set: { projects.setExcludedFromBackups($0, in: group) }
         )
-        let explanation = String(localized: "Backups keep the project and skip the folders listed here, installed packages included. Environments such as .venv and .terraform stay in backups, as do folders whose name could mean anything and folders Peel doesn’t select because of what is inside. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
+        let explanation = String(localized: "Backups keep the project and skip the folders listed here, node_modules and Pods included. Installed packages such as .venv, and the .terraform folder, stay in backups, as do folders whose name could mean anything and folders Peel doesn’t select because of what is inside. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
         let others = projects.markedByOthers(in: group).map(\.lastPathComponent)
         let othersNote = others.isEmpty ? nil : String(localized: "Time Machine already leaves out \(others.formatted(.list(type: .and))), which something other than Peel marked.")
         return HStack(alignment: .checkboxTitleLine, spacing: 5) {
