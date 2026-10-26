@@ -19,6 +19,17 @@ struct AppList: View {
             if let problem = library.teamRecordProblem {
                 TeamRecordNotice(problem: problem)
             }
+            if library.listOfFoldersUnreadable {
+                Notice(
+                    title: Text("App Folders"),
+                    detail: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."),
+                    kind: .note
+                ) {
+                    Button("Start Over") { library.startFoldersOver() }
+                }
+                .padding(.vertical, 6)
+                .listRowSeparator(.hidden)
+            }
             if library.unreadableNeedsFullDiskAccess {
                 FullDiskAccessBanner()
             } else if !library.unreadable.isEmpty {

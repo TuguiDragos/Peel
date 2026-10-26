@@ -5,11 +5,24 @@ import Synchronization
 /// One reading of the folders apps are kept in.
 public struct AppScan: Sendable, Equatable {
     public let apps: [InstalledApp]
-    /// What is there and could not be read: a folder of apps, an app, or the list of folders the person chose. The
-    /// apps in it are missing from `apps`, so nothing can be called orphaned while this is not empty.
+    /// What is there and could not be read: a folder of apps or an app, whose apps are missing from `apps`.
     public let unreadable: [URL]
     /// Whether Full Disk Access would open what could not be read.
     public let needsFullDiskAccess: Bool
+    /// Whether the list of folders the person chose is there and could not be read, so the apps in those folders are
+    /// missing from `apps` too. Settings > General > App Folders starts it over.
+    public let listOfFoldersUnreadable: Bool
+
+    init(apps: [InstalledApp], unreadable: [URL], needsFullDiskAccess: Bool, listOfFoldersUnreadable: Bool = false) {
+        self.apps = apps
+        self.unreadable = unreadable
+        self.needsFullDiskAccess = needsFullDiskAccess
+        self.listOfFoldersUnreadable = listOfFoldersUnreadable
+    }
+
+    /// Whether every app could be read. Until then nothing can be called orphaned, since the files of an app Peel
+    /// can't see would look so.
+    public var readEverything: Bool { unreadable.isEmpty && !listOfFoldersUnreadable }
 }
 
 public enum AppCatalog {
@@ -74,15 +87,16 @@ public enum AppCatalog {
     }
 
     /// Reads the apps in the Applications folders and in the folders the person chose. When the list of chosen
-    /// folders cannot be read, the list itself is among what could not be read.
+    /// folders cannot be read, the reading says so (`listOfFoldersUnreadable`).
     @concurrent
     public static func scan(choices: AppFolders = AppFolders()) async -> AppScan {
         guard let chosen = choices.load() else {
             let standard = await scan(in: standardDirectories)
             return AppScan(
                 apps: standard.apps,
-                unreadable: standard.unreadable + [choices.url],
-                needsFullDiskAccess: standard.needsFullDiskAccess
+                unreadable: standard.unreadable,
+                needsFullDiskAccess: standard.needsFullDiskAccess,
+                listOfFoldersUnreadable: true
             )
         }
         return await scan(in: directories(adding: chosen))

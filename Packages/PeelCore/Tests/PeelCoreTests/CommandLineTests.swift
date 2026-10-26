@@ -31,6 +31,8 @@ struct CommandLineTests {
             Output.unreadableNote(for: AppScan(apps: [], unreadable: [studio], needsFullDiskAccess: false))
                 == "Peel couldn't look inside /Volumes/Studio/Apps, so something may be there that isn't listed."
         )
+        let listUnread = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, listOfFoldersUnreadable: true)
+        #expect(Output.unreadableNote(for: listUnread) == "Peel can't read its list of app folders, so the apps in them aren't listed. Start it over in Settings > General > App Folders.")
     }
 
     /// An app the terminal can't move for want of App Management needs no administrator, so the command names the

@@ -247,13 +247,14 @@ struct AppInspectorTests {
         #expect(scan.unreadable.map(\.lastPathComponent) == ["Closed", "Sealed.app"])
     }
 
-    @Test func aListOfFoldersThatCannotBeReadIsAmongWhatWasNotRead() async throws {
+    @Test func aListOfFoldersThatCannotBeReadIsSaidApart() async throws {
         let directory = try TemporaryDirectory()
         let list = try directory.file("app-folders.json", contents: Data("not a list".utf8))
 
         let scan = await AppCatalog.scan(choices: AppFolders(url: list))
 
-        #expect(scan.unreadable.contains(list))
+        #expect(scan.listOfFoldersUnreadable && !scan.readEverything)
+        #expect(!scan.unreadable.contains(list))
     }
 
     /// Launch Services would answer Loud Name, and asking it registers the bundle.

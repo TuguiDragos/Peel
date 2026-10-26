@@ -76,6 +76,11 @@ final class AppLibrary {
     private(set) var unreadable: [URL] = []
     /// Whether Full Disk Access would open what the last reading could not read.
     private(set) var unreadableNeedsFullDiskAccess = false
+    /// Whether the last reading could not read the list of chosen folders (`AppScan.listOfFoldersUnreadable`).
+    private(set) var listOfFoldersUnreadable = false
+
+    /// Whether the last reading read every app, which Orphaned Files waits for.
+    var readEverything: Bool { listing.readEverything }
     private(set) var updateStatuses: [InstalledApp.ID: UpdateStatus] = [:] {
         didSet { updatesRevision += 1 }
     }
@@ -197,10 +202,13 @@ final class AppLibrary {
     struct Listing: Equatable {
         let revision: Int
         let unreadable: [URL]
+        let listOfFoldersUnreadable: Bool
+
+        var readEverything: Bool { unreadable.isEmpty && !listOfFoldersUnreadable }
     }
 
     var listing: Listing {
-        Listing(revision: revision, unreadable: unreadable)
+        Listing(revision: revision, unreadable: unreadable, listOfFoldersUnreadable: listOfFoldersUnreadable)
     }
 
     /// The first reading of the folders, at launch. A reading the folder watch starts meanwhile takes its place
@@ -310,6 +318,9 @@ final class AppLibrary {
 
     private func keepUnreadable(of scan: AppScan) {
         if unreadable != scan.unreadable { unreadable = scan.unreadable }
+        if listOfFoldersUnreadable != scan.listOfFoldersUnreadable {
+            listOfFoldersUnreadable = scan.listOfFoldersUnreadable
+        }
         if unreadableNeedsFullDiskAccess != scan.needsFullDiskAccess {
             unreadableNeedsFullDiskAccess = scan.needsFullDiskAccess
         }

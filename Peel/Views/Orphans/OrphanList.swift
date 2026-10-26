@@ -39,18 +39,21 @@ struct OrphanList: View {
             }
         }
         .scanState(phase(filtered, forAnAdministrator), isRescanning: isRescanning, scan: orphans.scanRun) {
-            if !library.unreadable.isEmpty {
+            if !library.readEverything {
                 ContentUnavailableView {
                     Label("Not Every App Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
+                    let list = Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one.")
                     let unread = Text("Peel couldn’t read \(library.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned.")
-                    if library.unreadableNeedsFullDiskAccess {
-                        let access = Text("Give Peel Full Disk Access so it can read the folders macOS protects.")
-                        Text("\(unread)\n\n\(access)")
-                    } else {
-                        unread
-                    }
+                    let access = Text("Give Peel Full Disk Access so it can read the folders macOS protects.")
+                    let parts = (library.listOfFoldersUnreadable ? [list] : [])
+                        + (library.unreadable.isEmpty ? [] : [unread])
+                        + (library.unreadableNeedsFullDiskAccess ? [access] : [])
+                    parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
                 } actions: {
+                    if library.listOfFoldersUnreadable {
+                        Button("Start Over") { library.startFoldersOver() }
+                    }
                     if library.unreadableNeedsFullDiskAccess {
                         Button("Open System Settings") { home.openFullDiskAccessSettings() }
                     }
@@ -98,7 +101,7 @@ struct OrphanList: View {
         .announcesScan(
             orphans.isScanning,
             found: orphans.summary,
-            couldNotLook: !library.unreadable.isEmpty ? "Not Every App Could Be Read"
+            couldNotLook: !library.readEverything ? "Not Every App Could Be Read"
                 : orphans.scan?.unreadableLocations.isEmpty == false ? "Not Everything Could Be Read" : nil,
             wasStopped: orphans.scanRun.wasStopped
         )
@@ -122,7 +125,7 @@ struct OrphanList: View {
                     scan: orphans.scanRun
                 ) {
                     // What could not be read may be readable now, so the apps are read again first.
-                    if !library.unreadable.isEmpty {
+                    if !library.readEverything {
                         await library.checkAgain(await library.refresh())
                     }
                     await orphans.refresh(from: library)
@@ -142,7 +145,7 @@ struct OrphanList: View {
     }
 
     private func phase(_ filtered: [OrphanGroup], _ forAnAdministrator: [AdministratorItem]) -> ScanPhase {
-        if !library.unreadable.isEmpty { return .message }
+        if !library.readEverything { return .message }
         if orphans.scan == nil { return orphans.scanRun.wasStopped ? .stopped : .scanning(.walk) }
         if listsNothing { return .message }
         if filtered.isEmpty, forAnAdministrator.isEmpty, !searchText.isEmpty { return .message }

@@ -43,7 +43,7 @@ final class OrphanLibrary {
         // An app that could not be read is missing from the list, and its files would look orphaned, so nothing is
         // listed until every app can be read.
         let listing = library.listing
-        guard listing.unreadable.isEmpty else {
+        guard listing.readEverything else {
             scan = nil
             selection = nil
             selectedURLs = []
@@ -72,7 +72,7 @@ final class OrphanLibrary {
                 await AppMemory().remember(scan.appsOnOtherDisks)
             }
             return scan
-        }), library.unreadable.isEmpty else { return }
+        }), library.readEverything else { return }
         let remainingURLs = Set(result.groups.flatMap(\.items).filter { $0.leftAlone == nil }.map(\.url))
         scan = result
         scannedAgainst = listing

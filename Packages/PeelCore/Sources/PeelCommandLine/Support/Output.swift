@@ -196,8 +196,14 @@ enum Output {
     /// What a reading of the apps could not read, so the apps in it are missing from what is written, or nil when it
     /// read everything.
     static func unreadableNote(for catalog: AppScan) -> String? {
-        guard !catalog.unreadable.isEmpty else { return nil }
-        return unreadableNote(for: catalog.unreadable, needsFullDiskAccess: catalog.needsFullDiskAccess)
+        var notes: [String] = []
+        if catalog.listOfFoldersUnreadable {
+            notes.append("Peel can't read its list of app folders, so the apps in them aren't listed. Start it over in Settings > General > App Folders.")
+        }
+        if !catalog.unreadable.isEmpty {
+            notes.append(unreadableNote(for: catalog.unreadable, needsFullDiskAccess: catalog.needsFullDiskAccess))
+        }
+        return notes.isEmpty ? nil : notes.joined(separator: "\n")
     }
 
     /// Whether the user can answer a question about the plan printed above it: standard input, standard output and
