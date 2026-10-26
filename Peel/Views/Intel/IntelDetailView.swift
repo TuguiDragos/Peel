@@ -49,6 +49,12 @@ struct IntelDetailView: View {
                         Text("Rosetta isn’t installed on this Mac, so this doesn’t run at all. macOS offers to install it the first time you open an Intel app, and macOS 27 is the last release that runs most Intel software through it.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
+                        if !finding.kind.offersRosettaWhenOpened {
+                            CopyableLines(
+                                caption: Text("Run this in Terminal to install Rosetta, then follow its instructions."),
+                                lines: [Rosetta.installCommand]
+                            )
+                        }
                     }
                     // The list also names Intel apps that are only installed, so it matters without Rosetta too.
                     if #available(macOS 27, *) {

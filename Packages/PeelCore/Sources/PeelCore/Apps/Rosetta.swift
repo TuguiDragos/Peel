@@ -26,6 +26,10 @@ public enum Rosetta {
         "/Library/Apple/usr/libexec/oah/libRosettaRuntime",
     ]
 
+    /// The command Apple gives for installing Rosetta in Terminal (`man softwareupdate`), which then asks the person to
+    /// agree to its license.
+    public static let installCommand = "softwareupdate --install-rosetta"
+
     public static var isInstalled: Bool {
         installed(among: paths)
     }

@@ -46,6 +46,9 @@ extension IntelFinding.Kind {
         }
     }
 
+    /// Whether opening it is a way to install Rosetta: macOS offers to the first time an Intel app opens.
+    var offersRosettaWhenOpened: Bool { self == .app }
+
     var systemImage: String {
         switch self {
         case .app: "app.badge"

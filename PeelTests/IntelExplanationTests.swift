@@ -21,4 +21,9 @@ struct IntelExplanationTests {
         #expect(!plugin(.screenSavers).loadsThroughAnApp)
         #expect(String(localized: plugin(.vst3).explanation(onAppleSilicon: false)) == String(localized: "This plug-in is Intel only. On this Intel Mac it loads natively."))
     }
+
+    @Test func givesApplesCommandWhereNothingOpensToOfferRosetta() {
+        #expect(IntelFinding.Kind.allCases.filter(\.offersRosettaWhenOpened) == [.app])
+        #expect(Rosetta.installCommand == "softwareupdate --install-rosetta")
+    }
 }

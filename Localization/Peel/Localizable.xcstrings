@@ -142407,6 +142407,112 @@
         }
       }
     },
+    "Run this in Terminal to install Rosetta, then follow its instructions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spusťte tento příkaz v Terminálu, abyste nainstalovali prostředí Rosetta, a pak postupujte podle jeho pokynů."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führe diesen Befehl im Terminal aus, um Rosetta zu installieren, und folge dann den Anweisungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta esto en Terminal para instalar Rosetta y, después, sigue sus instrucciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécutez cette commande dans Terminal pour installer Rosetta, puis suivez ses instructions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui questo comando in Terminale per installare Rosetta, poi segui le sue istruzioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosettaをインストールするには、ターミナルで以下のコマンドを実行し、表示される指示に従ってください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta를 설치하려면 터미널에서 이 명령을 실행한 다음 안내를 따르십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer dit uit in Terminal om Rosetta te installeren en volg daarna de instructies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchom to polecenie w Terminalu, aby zainstalować Rosettę, a następnie postępuj zgodnie z jego instrukcjami."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute este comando no Terminal para instalar o Rosetta e depois siga as instruções dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulați această comandă în Terminal pentru a instala Rosetta, apoi urmați instrucțiunile ei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выполните эту команду в Терминале, чтобы установить Rosetta, а затем следуйте ее инструкциям."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör det här i Terminal för att installera Rosetta och följ sedan instruktionerna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta’yı yüklemek için bunu Terminal’de çalıştırın, ardından verdiği yönergeleri izleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виконайте цю команду в Терміналі, щоб інсталювати Rosetta, а потім дотримуйтеся її вказівок."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“终端”中运行此命令以安装Rosetta，然后按照其说明操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「終端機」中執行此指令以安裝Rosetta，然後依照它的指示操作。"
+          }
+        }
+      }
+    },
     "Run this in Terminal. It deletes for good, without the Trash." : {
       "localizations" : {
         "cs" : {
