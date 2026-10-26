@@ -19,3 +19,14 @@ struct UnreadableFoldersTests {
         #expect(RemovalFailureAlert.first([1, 2]) == ([1, 2], 0))
     }
 }
+
+struct CleanUpWarningTests {
+    @Test func namesTheFirstFourFormulaeItUninstalls() {
+        let formulae = (1...30).map { "formula\($0)x" }
+
+        let sentence = HomebrewList.uninstalls(formulae)
+
+        #expect(sentence.contains("formula4x") && !sentence.contains("formula5x") && !sentence.contains("formula30x"))
+        #expect(sentence.contains("26"))
+    }
+}

@@ -137,9 +137,23 @@ struct HomebrewList: View {
         }
         let formulae = homebrew.autoremovable
         if !formulae.isEmpty {
-            sentences.append(String(inflecting: "It uninstalls ^[\(formulae.count) formula](inflect: true) that nothing needs anymore: \(formulae.formatted(.list(type: .and)))."))
+            sentences.append(Self.uninstalls(formulae))
         }
         return sentences.joined(separator: "\n\n")
+    }
+
+    /// The formulae Clean Up uninstalls, the first ones named as an alert names them. The row's note has them all.
+    static func uninstalls(_ formulae: [String]) -> String {
+        String(inflecting: "It uninstalls ^[\(formulae.count) formula](inflect: true) that nothing needs anymore: \(RemovalFailureAlert.listedFormulae(formulae)).")
+    }
+
+    /// What the Clean Up row's note says: what Clean Up removes, and every formula it would uninstall now.
+    private var cleanUpDetail: Text {
+        let removes = Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays.")
+        let formulae = homebrew.autoremovable
+        guard !formulae.isEmpty else { return removes }
+        let listed = Text("Formulae it would uninstall now: \(formulae.formatted(.list(type: .and))).")
+        return Text("\(removes)\n\n\(listed)")
     }
 
     // MARK: - Homebrew itself
@@ -205,7 +219,7 @@ struct HomebrewList: View {
         Section {
             row(
                 title: "Update Homebrew",
-                detail: "Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, or reinstall pkgconf after a macOS update.",
+                detail: Text("Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, or reinstall pkgconf after a macOS update."),
                 systemImage: "arrow.triangle.2.circlepath",
                 command: .update
             ) {
@@ -213,7 +227,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Clean Up",
-                detail: "Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays.",
+                detail: cleanUpDetail,
                 systemImage: "sparkles",
                 command: .cleanup
             ) {
@@ -227,7 +241,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Clear Older Downloads",
-                detail: "Removes every file in Homebrew’s cache older than 30 days, as well as what Clean Up removes.",
+                detail: Text("Removes every file in Homebrew’s cache older than 30 days, as well as what Clean Up removes."),
                 systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90",
                 command: .clearOlderDownloads
             ) {
@@ -235,7 +249,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Clear Every Download",
-                detail: "Removes every download Homebrew keeps, even for the latest versions, as well as what Clean Up removes. The downloads of what is installed now stay.",
+                detail: Text("Removes every download Homebrew keeps, even for the latest versions, as well as what Clean Up removes. The downloads of what is installed now stay."),
                 systemImage: "tray.full",
                 command: .clearEveryDownload
             ) {
@@ -243,7 +257,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Repair Taps",
-                detail: "Adds the links missing from your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing.",
+                detail: Text("Adds the links missing from your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing."),
                 systemImage: "wrench.adjustable",
                 command: .repairTaps
             ) {
@@ -251,7 +265,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Check Health",
-                detail: "Asks Homebrew to check itself and report anything out of place, such as a broken link. It only looks and changes nothing. It can’t see the PATH your Terminal uses, so problems there don’t show up here.",
+                detail: Text("Asks Homebrew to check itself and report anything out of place, such as a broken link. It only looks and changes nothing. It can’t see the PATH your Terminal uses, so problems there don’t show up here."),
                 systemImage: "stethoscope",
                 command: .health
             ) {
@@ -259,7 +273,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Scan for Vulnerabilities",
-                detail: "Checks the installed formulae against the OSV.dev list of known vulnerabilities. Homebrew sends the source and version of each one to api.osv.dev, and only when you click Scan. Casks aren’t covered.",
+                detail: Text("Checks the installed formulae against the OSV.dev list of known vulnerabilities. Homebrew sends the source and version of each one to api.osv.dev, and only when you click Scan. Casks aren’t covered."),
                 systemImage: "shield",
                 command: .vulnerabilities
             ) {
@@ -541,14 +555,14 @@ struct HomebrewList: View {
 
     private func row(
         title: LocalizedStringResource,
-        detail: LocalizedStringResource,
+        detail: Text,
         systemImage: String,
         command: HomebrewLibrary.Command,
         @ViewBuilder trailing: () -> some View
     ) -> some View {
         HStack(spacing: 6) {
             Label { Text(title) } icon: { Image(systemName: systemImage) }
-            InfoNote(name: String(localized: title), detail: Text(detail))
+            InfoNote(name: String(localized: title), detail: detail)
             Spacer(minLength: 8)
             BusyShown(isBusy: homebrew.runningCommand == command) { isShown in
                 if isShown {

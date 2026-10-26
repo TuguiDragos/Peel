@@ -38,6 +38,11 @@ struct RemovalFailureAlert: ViewModifier {
         listed(paths) { String(inflecting: "^[\($0) more folder](inflect: true)") }
     }
 
+    /// Homebrew formulae named in one sentence, the same way.
+    static func listedFormulae(_ names: [String]) -> String {
+        listed(names) { String(inflecting: "^[\($0) more formula](inflect: true)") }
+    }
+
     /// Folders and files named in one sentence, the same way.
     static func listedItems(_ paths: [String]) -> String {
         listed(paths) { String(inflecting: "^[\($0) more item](inflect: true)") }
