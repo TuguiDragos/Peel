@@ -4,19 +4,20 @@ internal import PeelPrivileged
 public enum PackageReceipts {
     static let concurrentReceipts = 4
 
-    /// Directories many packages install into; they never belong to a single package.
-    static let sharedDirectories: Set<String> = [
-        "/", "/Applications", "/Applications/Utilities", "/Library", "/Library/Application Support", "/Library/Audio",
-        "/Library/Audio/Plug-Ins", "/Library/Audio/Plug-Ins/Components", "/Library/Audio/Plug-Ins/HAL",
-        "/Library/Audio/Plug-Ins/VST", "/Library/Audio/Plug-Ins/VST3", "/Library/Caches", "/Library/ColorSync",
-        "/Library/ColorSync/Profiles", "/Library/Extensions", "/Library/Fonts", "/Library/Frameworks",
-        "/Library/Input Methods", "/Library/Internet Plug-Ins", "/Library/LaunchAgents", "/Library/LaunchDaemons",
-        "/Library/Logs", "/Library/PreferencePanes", "/Library/Preferences", "/Library/Printers",
-        "/Library/PrivilegedHelperTools", "/Library/QuickLook", "/Library/Screen Savers", "/Library/Services",
-        "/Library/Spotlight", "/Library/SystemExtensions", "/System", "/Users", "/Users/Shared", "/etc", "/opt",
-        "/private", "/private/etc", "/private/tmp", "/private/var", "/tmp", "/usr", "/usr/local", "/usr/local/bin",
-        "/usr/local/etc", "/usr/local/include", "/usr/local/lib", "/usr/local/libexec", "/usr/local/sbin",
-        "/usr/local/share", "/usr/local/share/doc", "/usr/local/share/man", "/usr/local/share/man/man1", "/var",
+    /// Directories many packages install into; they never belong to a single package. The folders Peel searches in
+    /// `/Library` come from `LibraryFolder`, so the two can't drift apart, with every folder on the way to one.
+    static let sharedDirectories: Set<String> = {
+        let searched = (LibraryFolder.local + LibraryFolder.plugIns).map { "/Library/" + $0.rawValue }
+        return Set(searched + searched.flatMap(ProtectedObjects.ancestors(of:))).union(otherSharedDirectories)
+    }()
+
+    private static let otherSharedDirectories: Set<String> = [
+        "/", "/Applications", "/Applications/Utilities", "/Library/ColorSync", "/Library/ColorSync/Profiles",
+        "/Library/Extensions", "/Library/Fonts", "/Library/Frameworks", "/Library/Printers",
+        "/Library/SystemExtensions", "/System", "/Users", "/Users/Shared", "/etc", "/opt", "/private", "/private/etc",
+        "/private/tmp", "/private/var", "/tmp", "/usr", "/usr/local", "/usr/local/bin", "/usr/local/etc",
+        "/usr/local/include", "/usr/local/lib", "/usr/local/libexec", "/usr/local/sbin", "/usr/local/share",
+        "/usr/local/share/doc", "/usr/local/share/man", "/usr/local/share/man/man1", "/var",
     ]
 
     /// Returns whether `receipt` is the installer receipt of the app whose bundle identifier is `identifier`:

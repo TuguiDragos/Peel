@@ -1,9 +1,26 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Synchronization
 import Testing
 
 struct PackageReceiptsTests {
+    @Test func everyFolderPeelSearchesInTheLibraryIsShared() {
+        for folder in LibraryFolder.local + LibraryFolder.plugIns {
+            #expect(PackageReceipts.sharedDirectories.contains("/Library/" + folder.rawValue), "\(folder)")
+        }
+        let plugIns = "Library/Application Support/Avid/Audio/Plug-Ins"
+        let files = ["Library", "Library/Application Support", "Library/Application Support/Avid",
+                     "Library/Application Support/Avid/Audio", plugIns, "\(plugIns)/SonoBus.aaxplugin",
+                     "\(plugIns)/SonoBus.aaxplugin/Contents"]
+
+        let found = PackageReceipts.topLevel(
+            files: files, installLocation: "/", namesInside: { _ in [] }, exists: { _ in true }
+        )
+
+        #expect(found.offered == ["/\(plugIns)/SonoBus.aaxplugin"])
+    }
+
     @Test func keepsOnlyOutermostPackageItems() {
         let files = [
             "Adguard.app", "Adguard.app/Contents", "Adguard.app/Contents/Info.plist",
