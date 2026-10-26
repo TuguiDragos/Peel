@@ -52,9 +52,6 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
 
 public struct SpaceReport: Sendable {
     public let items: [SpaceItem]
-    public let storage: DeviceInfo.Storage
-    /// Space macOS can reclaim by itself, mostly local snapshots and caches. Nil when the volume did not say.
-    public let purgeable: Int64?
     /// Local snapshots: copies of the disk kept on the disk itself. Peel explains them but never removes one,
     /// because deleting a snapshot cannot be undone. Nil when `diskutil` did not say.
     public let snapshots: [LocalSnapshot]?
@@ -558,8 +555,6 @@ public enum SpaceInventory {
         return SpaceReport(
             // An unknown size sorts first: an area that ran out of time is most likely one of the biggest.
             items: items.sorted { ($0.size ?? .max) > ($1.size ?? .max) },
-            storage: DeviceInfo.storage(of: home),
-            purgeable: purgeableSpace(of: home),
             snapshots: await LocalSnapshots.list(),
             needsFullDiskAccess: items.contains {
                 $0.size == nil && $0.urls.contains { FullDiskAccess.canList($0) == .missing }
@@ -589,14 +584,5 @@ public enum SpaceInventory {
             commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line),
             managingAppIsMissing: definition.managedBy.map { !$0.oneIsOnThisMac } ?? false
         )
-    }
-
-    static func purgeableSpace(of url: URL) -> Int64? {
-        let values = try? url.resourceValues(forKeys: [
-            .volumeAvailableCapacityForImportantUsageKey, .volumeAvailableCapacityKey,
-        ])
-        guard let important = values?.volumeAvailableCapacityForImportantUsage,
-              let free = values?.volumeAvailableCapacity else { return nil }
-        return max(0, important - Int64(free))
     }
 }

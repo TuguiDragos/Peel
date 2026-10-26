@@ -95,8 +95,12 @@ struct SpaceList: View {
             }
         }
         .task {
+            if space.report != nil { await space.readDisk() }
             guard space.report == nil, !space.isScanning, !space.scanRun.wasStopped else { return }
             await space.refresh()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            Task { await space.readDisk() }
         }
         .rescanOnExclusionChange("SpaceList") { await space.refresh() }
         .rescanAfterPutBack(.space) { await space.refresh() }
@@ -104,14 +108,16 @@ struct SpaceList: View {
 
     private func storage(_ report: SpaceReport) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            StorageStrip(storage: report.storage)
-            if let purgeable = report.purgeable, purgeable > 0 {
+            if let disk = space.disk {
+                StorageStrip(storage: disk.storage)
+            }
+            if let purgeable = space.disk?.purgeable, purgeable > 0 {
                 // The strip's available figure already includes these bytes, so the note ties them to it, not
                 // to the used figure.
                 Text("The available space includes \(purgeable.byteCount) that macOS clears when something needs the room.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-            } else if report.purgeable == nil {
+            } else if space.disk != nil, space.disk?.purgeable == nil {
                 Text("Peel couldn’t find out how much of the available space macOS clears by itself.")
                     .font(.caption)
                     .foregroundStyle(.secondary)

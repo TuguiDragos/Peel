@@ -551,8 +551,8 @@ struct SpaceInventoryTests {
     }
 
     @Test func knowsNoPurgeableSpaceForAVolumeItCannotRead() {
-        #expect(SpaceInventory.purgeableSpace(of: URL(filePath: "/Volumes/org.example.missing")) == nil)
-        #expect(SpaceInventory.purgeableSpace(of: .homeDirectory) != nil)
+        #expect(DiskSpace.purgeable(of: URL(filePath: "/Volumes/org.example.missing")) == nil)
+        #expect(DiskSpace.purgeable(of: .homeDirectory) != nil)
     }
 
     /// Scanning the real Mac must work and change nothing. It walks the real home folder, so it runs only when
@@ -560,9 +560,10 @@ struct SpaceInventoryTests {
     @Test(.enabled(if: ProcessInfo.processInfo.environment["PEEL_TEST_THIS_MAC"] != nil))
     func measuresThisMacWithoutComplaining() async {
         let report = await SpaceInventory.scan()
-        #expect(report.storage.total > 0)
-        #expect(report.storage.free <= report.storage.total)
-        #expect((report.purgeable ?? 0) <= report.storage.total)
+        let disk = await DiskSpace.read()
+        #expect(disk.storage.total > 0)
+        #expect(disk.storage.free <= disk.storage.total)
+        #expect((disk.purgeable ?? 0) <= disk.storage.total)
         #expect(report.snapshots?.allSatisfy { !$0.name.isEmpty } == true)
         #expect(report.items.allSatisfy { !$0.urls.isEmpty })
     }

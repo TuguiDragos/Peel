@@ -5,6 +5,8 @@ import PeelCore
 @Observable
 final class SpaceLibrary: RowSelection {
     private(set) var report: SpaceReport?
+    /// The disk the band shows, read on its own: after each scan, when the page appears, and when Peel comes forward.
+    private(set) var disk: DiskSpace?
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -28,6 +30,10 @@ final class SpaceLibrary: RowSelection {
 
     func refresh() async {
         await refresh(replanning: [])
+    }
+
+    func readDisk() async {
+        disk = await DiskSpace.read()
     }
 
     /// Scans again and makes every area's plan again, as Rescan asks: a plan also depends on which apps are open,
@@ -124,10 +130,12 @@ final class SpaceLibrary: RowSelection {
                 let new = await self.newPlan(for: item)
                 made.append((item, new.plan, new.exclusions))
             }
-            return (result, made)
+            return (result, made, await DiskSpace.read())
         }
-        guard let (result, made) = answer else { return }
+        guard let (result, made, disk) = answer else { return }
+        // Together, so the page never shows the areas without the disk's band.
         report = result
+        self.disk = disk
         for id in plans.keys.filter({ id in !result.items.contains { $0.id == id } }) {
             selectedURLs.subtract(plans[id]?.removable ?? [])
             plans[id] = nil
