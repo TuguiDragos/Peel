@@ -81,15 +81,20 @@ struct IntelList: View {
                 }
             }
         }
-        // What the page lists can change from other pages and other apps, and a scan costs little, so it looks again
-        // each time it is shown and each time Peel comes forward.
+        // What the page lists can change from other pages and other apps, and a scan costs little, so once read it
+        // looks again, quietly, each time it is shown and each time Peel comes forward.
         .task(id: library.revision) {
-            guard library.hasLoaded, !(intel.scan == nil && intel.scanRun.wasStopped) else { return }
+            guard library.hasLoaded else { return }
+            guard intel.scan == nil else {
+                await intel.readAgain(installedApps: library.apps)
+                return
+            }
+            guard !intel.scanRun.wasStopped else { return }
             await scan()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            guard library.hasLoaded, !(intel.scan == nil && intel.scanRun.wasStopped) else { return }
-            Task { await scan() }
+            guard library.hasLoaded else { return }
+            Task { await intel.readAgain(installedApps: library.apps) }
         }
         .rescanOnExclusionChange("IntelList") { await scan() }
     }

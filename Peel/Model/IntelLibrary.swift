@@ -16,17 +16,40 @@ final class IntelLibrary {
 
     var findings: [IntelFinding] { scan?.findings ?? [] }
 
-    /// Scans everything the report covers, so it is complete even when the other pages were never opened.
-    func refresh(installedApps: [InstalledApp]) async {
-        guard let result = await scanRun.run({
-            let exclusions = ExclusionsStore.shared.exclusions
+    private let read: @MainActor ([InstalledApp], Exclusions) async -> IntelScan
+
+    /// `read` scans everything the report covers, so it is complete even when the other pages were never opened.
+    init(
+        read: @escaping @MainActor ([InstalledApp], Exclusions) async -> IntelScan = { installedApps, exclusions in
             async let backgroundItems = BackgroundItems.scan(exclusions: exclusions)
             return await IntelInspector.scan(
                 installedApps: installedApps,
                 backgroundItems: backgroundItems,
                 exclusions: exclusions
             )
-        }) else { return }
+        }
+    ) {
+        self.read = read
+    }
+
+    func refresh(installedApps: [InstalledApp]) async {
+        let read = read
+        guard let result = await scanRun.run({ await read(installedApps, ExclusionsStore.shared.exclusions) }) else {
+            return
+        }
+        show(result)
+    }
+
+    /// Reads the page again without showing a scan, once it has been read.
+    func readAgain(installedApps: [InstalledApp]) async {
+        guard scan != nil else { return }
+        let read = read
+        guard let result = await scanRun.runQuietly({ await read(installedApps, ExclusionsStore.shared.exclusions) })
+        else { return }
+        show(result)
+    }
+
+    private func show(_ result: IntelScan) {
         scan = result
         if let selection, !result.findings.contains(where: { $0.id == selection }) {
             self.selection = nil
