@@ -384,19 +384,34 @@ public struct Uninstallation: Sendable {
             && (match.confidence == .certain || isInItsNamespace)
     }
 
-    /// How many items could move once selected, and their total size: what a section header shows and the
-    /// page's total adds up. Rows Peel leaves alone are not counted.
-    public func movable(among leftovers: [Leftover], withApp: Bool) -> (count: Int, size: SizeTotal) {
-        guard removedElsewhere == nil else { return (0, SizeTotal([])) }
-        let movable = leftovers.filter { $0.match.heldBack?.cannotBeMoved != true }
+    /// How many items a checkbox can select now, and their total size: what a section header shows and the page's
+    /// total adds up. Rows Peel leaves alone, and those waiting for the helper, are not counted.
+    public func movable(
+        among leftovers: [Leftover],
+        withApp: Bool,
+        canUseHelper: Bool
+    ) -> (count: Int, size: SizeTotal) {
+        let selectable = selectable(canUseHelper: canUseHelper)
+        let movable = leftovers.filter { selectable.contains($0.url) }
         var sizes = Dictionary(movable.map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first }
         var count = movable.count
-        if withApp, !app.isSystemProtected, app.enclosingPackage == nil, !isExcluded, !isAppBeyondTheHelper,
-           !isAppInTheTrash {
+        if withApp, selectable.contains(app.url) {
             sizes.updateValue(isAppMeasured ? appSize : nil, forKey: app.url)
             count += 1
         }
         return (count, SizeTotal(movingItemsAt: sizes))
+    }
+
+    /// A list of `rows` on the app's page, for its Select menu: what a checkbox can select now, and what Peel
+    /// selects for the person, which is nothing while the app stays.
+    public func selectableRows(_ rows: [URL], canUseHelper: Bool) -> SelectableRows<URL> {
+        let selectable = selectable(canUseHelper: canUseHelper)
+        let suggested = suggestedSelection(canUseHelper: canUseHelper)
+        return SelectableRows(
+            rows: rows,
+            selectable: rows.filter(selectable.contains),
+            recommended: rows.filter(suggested.contains)
+        )
     }
 
     public var privilegedURLs: Set<URL> {

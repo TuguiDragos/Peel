@@ -114,6 +114,15 @@ final class RemovalPlan {
     /// What a checkbox can select now.
     var selectable: Set<URL> { choices.selectable }
 
+    var appStays: Bool {
+        uninstallation?.appStays(canUseHelper: canUseHelper) ?? false
+    }
+
+    func selectableRows(_ rows: [URL]) -> SelectableRows<URL> {
+        uninstallation?.selectableRows(rows, canUseHelper: canUseHelper)
+            ?? SelectableRows(rows: rows, selectable: [], recommended: [])
+    }
+
     /// The revision of the exclusions the last scan read, nil before the first.
     private(set) var exclusionsRevision: Int?
 
@@ -147,9 +156,7 @@ final class RemovalPlan {
         let leftovers = result.scan.leftovers
         recommended = leftovers.filter(\.match.isRecommended)
         needsReview = leftovers.filter { !$0.match.isRecommended }
-        recommendedMovable = result.movable(among: recommended, withApp: true)
-        reviewMovable = result.movable(among: needsReview, withApp: false)
-        total = result.movable(among: leftovers, withApp: true).size
+        countMovable(in: result)
         leftoverSizes = Dictionary(
             leftovers.map { ($0.url, ($0.size, $0.isMeasured)) },
             uniquingKeysWith: { first, _ in first }
@@ -167,6 +174,13 @@ final class RemovalPlan {
         self.canUseHelper = canUseHelper
         guard let uninstallation else { return }
         selectedURLs = choices.update(selectedURLs, in: uninstallation, canUseHelper: canUseHelper)
+        countMovable(in: uninstallation)
+    }
+
+    private func countMovable(in result: Uninstallation) {
+        recommendedMovable = result.movable(among: recommended, withApp: true, canUseHelper: canUseHelper)
+        reviewMovable = result.movable(among: needsReview, withApp: false, canUseHelper: canUseHelper)
+        total = result.movable(among: result.scan.leftovers, withApp: true, canUseHelper: canUseHelper).size
     }
 
     /// What each package put outside the app is worked out here, off the main actor, because it takes an `lstat` per

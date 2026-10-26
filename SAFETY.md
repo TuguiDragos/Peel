@@ -326,11 +326,11 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   keep anyone from logging in. No public tool lists every rule, so Peel shows it, on the app's page, in Orphaned
   Files, and in Package Receipts, and leaves it to its maker's uninstaller.
 - **An app that stays keeps its files.** Nothing at all is selected for an app that would stay: one macOS keeps, one
-  that is part of another app, one the helper may not move, or one that needs the helper while it cannot act. An app
-  that is part of another, such as a helper app inside the app it serves, is never moved on its own, from the app or
-  from `peel`: it would be cut out of the app it belongs to. When you remove several apps at once and deselect one of
-  them, it stays too: its files leave the selection, those it shares with the other apps included, and selecting it
-  again brings them back.
+  that is part of another app, one the helper may not move, or one that needs the helper while it cannot act. Its files
+  say why they aren't selected, and Select All asks before it takes them. An app that is part of another, such as a
+  helper app inside the app it serves, is never moved on its own, from the app or from `peel`: it would be cut out of
+  the app it belongs to. When you remove several apps at once and deselect one of them, it stays too: its files leave
+  the selection, those it shares with the other apps included, and selecting it again brings them back.
 - **What macOS installed stays macOS's.** Something one of Apple's own installer packages put on the Mac, as its
   receipt shows, is never listed with an app, whatever it is named, nor among what an uninstall leaves for an
   administrator, such as a folder Xcode installed that is named for Chrome.

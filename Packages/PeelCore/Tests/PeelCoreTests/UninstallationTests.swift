@@ -52,7 +52,7 @@ struct UninstallationTests {
         #expect(plan.appStays(canUseHelper: true))
         #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
         #expect(plan.selectable(canUseHelper: true).isEmpty)
-        #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == 0)
+        #expect(plan.movable(among: plan.scan.leftovers, withApp: true, canUseHelper: true).count == 0)
         #expect(plan.privilegedURLs.isEmpty)
         #expect(plan.removalOrder(of: [agent.url, daemon.url, support.url]).isEmpty)
     }
@@ -443,7 +443,7 @@ struct UninstallationTests {
         #expect(plan.removedElsewhere == .byRemovePeel)
         #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
         #expect(plan.removalOrder(of: [peel.url, own.url]).isEmpty)
-        #expect(plan.movable(among: [own], withApp: true).count == 0)
+        #expect(plan.movable(among: [own], withApp: true, canUseHelper: true).count == 0)
         #expect(plan.privilegedURLs.isEmpty)
         #expect(plan.unreviewedSelection == [peel.url, own.url], "Remove Peel no longer takes what is Peel's")
 
@@ -491,7 +491,7 @@ struct UninstallationTests {
                 #expect(plan.isAppBeyondTheHelper == (isBeyond && !isKept))
                 #expect(plan.suggestedSelection(canUseHelper: true).contains(app.url) == isOffered)
                 #expect(plan.privilegedURLs.contains(app.url) == isOffered)
-                #expect(plan.movable(among: [], withApp: true).count == (isOffered ? 1 : 0))
+                #expect(plan.movable(among: [], withApp: true, canUseHelper: true).count == (isOffered ? 1 : 0))
                 #expect(item.isBeyondTheHelper == (isBeyond && !isKept))
                 #expect(bulk.suggestedSelection(canUseHelper: true).contains(app.url) == isOffered)
                 #expect(bulk.privilegedURLs.contains(app.url) == isOffered)
@@ -519,9 +519,11 @@ struct UninstallationTests {
         let documents = leftover("container").heldBack(.holdsDocuments)
         let plan = uninstallation(leftovers: [own, named, slow, beyond, excluded, documents])
 
-        let recommended = plan.movable(among: plan.scan.leftovers.filter(\.match.isRecommended), withApp: true)
-        let review = plan.movable(among: plan.scan.leftovers.filter { !$0.match.isRecommended }, withApp: false)
-        let total = plan.movable(among: plan.scan.leftovers, withApp: true)
+        let picked = plan.scan.leftovers.filter(\.match.isRecommended)
+        let others = plan.scan.leftovers.filter { !$0.match.isRecommended }
+        let recommended = plan.movable(among: picked, withApp: true, canUseHelper: true)
+        let review = plan.movable(among: others, withApp: false, canUseHelper: true)
+        let total = plan.movable(among: plan.scan.leftovers, withApp: true, canUseHelper: true)
 
         #expect(recommended.count == 2)
         #expect(recommended.size == SizeTotal(known: 11_000, isComplete: true))
@@ -531,12 +533,28 @@ struct UninstallationTests {
         #expect(total.size == SizeTotal(known: recommended.size.known + review.size.known, isComplete: false))
     }
 
+    @Test func anAppThatStaysRecommendsNothingAndCountsOnlyWhatCanGo() {
+        let own = leftover("com.example.app")
+        let daemon = leftover("com.example.app.daemon.plist", requiresPrivileges: true)
+        let plan = uninstallation(appRequiresPrivileges: true, leftovers: [own, daemon])
+        let rows = [plan.app.url, own.url, daemon.url]
+
+        let withoutHelper = plan.selectableRows(rows, canUseHelper: false)
+        #expect(withoutHelper.recommended.isEmpty)
+        #expect(withoutHelper.notRecommendedAdded(by: []) == [own.url])
+        #expect(plan.movable(among: [own, daemon], withApp: true, canUseHelper: false).count == 1)
+
+        let withHelper = plan.selectableRows(rows, canUseHelper: true)
+        #expect(Set(withHelper.recommended) == Set(rows))
+        #expect(plan.movable(among: [own, daemon], withApp: true, canUseHelper: true).count == 3)
+    }
+
     /// A Homebrew cask can name a folder inside one the scan found, such as Steam's bundle inside its Application
     /// Support folder: both are listed, and the bytes they share are counted once.
     @Test func theTotalCountsARowInsideAnotherRowOnce() {
         let plan = uninstallation(leftovers: [leftover("Steam"), leftover("Steam/Steam.AppBundle")])
 
-        let total = plan.movable(among: plan.scan.leftovers, withApp: false)
+        let total = plan.movable(among: plan.scan.leftovers, withApp: false, canUseHelper: true)
         #expect(total.size == SizeTotal(known: 1_000, isComplete: true))
     }
 
@@ -598,7 +616,7 @@ struct UninstallationTests {
         #expect(plan.isAppInTheTrash)
         #expect(plan.suggestedSelection(canUseHelper: true).map(\.lastPathComponent) == ["org.example.app.plist"])
         #expect(!plan.selectable(canUseHelper: true).contains(bundle))
-        #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == 1)
+        #expect(plan.movable(among: plan.scan.leftovers, withApp: true, canUseHelper: true).count == 1)
         #expect(!plan.privilegedURLs.contains(bundle))
 
         let several = await BulkUninstallation.prepare(
@@ -631,7 +649,8 @@ struct UninstallationTests {
         #expect(plan.appStays(canUseHelper: true))
         #expect(plan.suggestedSelection(canUseHelper: true).isEmpty)
         #expect(!plan.selectable(canUseHelper: true).contains(bundle))
-        #expect(plan.movable(among: plan.scan.leftovers, withApp: true).count == plan.scan.leftovers.count)
+        let leftovers = plan.scan.leftovers
+        #expect(plan.movable(among: leftovers, withApp: true, canUseHelper: true).count == leftovers.count)
 
         let several = await BulkUninstallation.prepare(
             [installed],

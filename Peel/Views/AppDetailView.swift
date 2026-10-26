@@ -285,17 +285,10 @@ struct AppDetailView: View {
                     "Everything selected here goes to the Trash together when you click Move to Trash. Nothing is deleted outright: History can put it back while it’s in the Trash."
                 ),
                 movable: plan.recommendedMovable,
-                list: SelectableRows(
-                    rows: recommendedRows, selectable: recommendedSelectable, recommended: recommendedSelectable
-                ),
+                list: plan.selectableRows(recommendedRows),
                 place: Text("Recommended")
             )
         }
-    }
-
-    /// The Recommended rows a checkbox can select, all of them recommended.
-    private var recommendedSelectable: [URL] {
-        recommendedRows.filter(plan.selectable.contains)
     }
 
     private var recommendedRows: [URL] {
@@ -318,11 +311,7 @@ struct AppDetailView: View {
                         "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
                     ),
                     movable: plan.reviewMovable,
-                    list: SelectableRows(
-                        rows: plan.needsReview.map(\.url),
-                        selectable: plan.needsReview.map(\.url).filter(plan.selectable.contains),
-                        recommended: []
-                    ),
+                    list: plan.selectableRows(plan.needsReview.map(\.url)),
                     place: Text("Review Before Removing")
                 )
             }
@@ -395,6 +384,10 @@ struct AppDetailView: View {
     /// What the row has to say for itself beyond the match: who else uses it, and why Peel left the checkmark off.
     private func warning(for leftover: Leftover) -> String? {
         var lines: [String] = []
+        if plan.appStays, !plan.app.isSystemProtected, plan.removedElsewhere == nil,
+           leftover.match.heldBack != .holdsAnExclusion {
+            lines.append(String(localized: "Not selected: it stays with \(plan.app.name)."))
+        }
         if leftover.match.isShared {
             let users = leftover.match.sharedWith.map(library.name(forReference:))
                 + leftover.match.otherCopies.map(\.abbreviatedPath)
