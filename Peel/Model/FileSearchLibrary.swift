@@ -7,6 +7,8 @@ final class FileSearchLibrary {
     var criteria = FileSearchCriteria()
     private(set) var results: FileSearchResults?
     private(set) var searchedCriteria: FileSearchCriteria?
+    /// The criteria `results` answer.
+    private var answered: FileSearchCriteria?
     let scanRun = ScanRun()
     /// True while a search runs, and while one is due because the words changed since the last was asked, so the
     /// page stays busy between two searches while someone types.
@@ -24,6 +26,15 @@ final class FileSearchLibrary {
     private var generation = 0
     /// The exclusions the list is filtered by: those the search ran under, or those it was narrowed to since.
     private var filteredBy = Exclusions.none
+    private let run: @Sendable (FileSearchCriteria, Exclusions) async -> FileSearchResults
+
+    init(
+        run: @escaping @Sendable (FileSearchCriteria, Exclusions) async -> FileSearchResults = {
+            await FileSearch.run($0, exclusions: $1)
+        }
+    ) {
+        self.run = run
+    }
 
     var chosenFile: FoundFile? {
         results?.files.first { $0.url == chosen }
@@ -36,26 +47,35 @@ final class FileSearchLibrary {
         searchedCriteria = criteria
         guard criteria.isSearchable else {
             scanRun.stop()
-            results = nil
-            selectedURLs = []
-            recommendedURLs = []
-            sizes = [:]
+            forgetResults()
             return
         }
         let exclusions = ExclusionsStore.shared.exclusions
-        guard let found = await scanRun.run({ await FileSearch.run(criteria, exclusions: exclusions) }) else {
+        let run = run
+        guard let found = await scanRun.run({ await run(criteria, exclusions) }) else {
             // Canceled with the task that asked for it, as when the page goes away, the search answered nothing,
             // so the page asks again when it comes back. Stopped or replaced by a newer search, it counts as asked.
             if !scanRun.wasStopped, current == generation { searchedCriteria = nil }
+            // Stopped, it leaves no list that answers other words than those now asked.
+            if scanRun.wasStopped, current == generation, criteria != answered { forgetResults() }
             return
         }
         results = found
+        answered = criteria
         filteredBy = exclusions
         recommendedURLs = Set(found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp }.map(\.url))
         sizes = Dictionary(found.files.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
         selectedURLs.formIntersection(found.files.filter { !$0.requiresPrivileges }.map(\.url))
         // The search ran under the exclusions as they were when it started, so leave out anything excluded since.
         await leaveOut(ExclusionsStore.shared.exclusions)
+    }
+
+    private func forgetResults() {
+        results = nil
+        answered = nil
+        selectedURLs = []
+        recommendedURLs = []
+        sizes = [:]
     }
 
     /// Narrows the list to what `exclusions` leave. File Search runs only when asked, so without this a file
