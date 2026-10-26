@@ -650,15 +650,16 @@ struct ProjectsCommand: AsyncParsableCommand {
         artifacts.map { [Output.size($0.size), Output.path($0.url), $0.tool ?? "tagged as a cache", note(for: $0)] }
     }
 
-    /// Returns why `artifact` is kept, or "suggested". It checks the same conditions as `isRecommended`, and
-    /// the two must never disagree.
+    /// Says in words why `artifact` is kept, or "suggested".
     static func note(for artifact: ProjectArtifact) -> String {
-        if let heldBack = artifact.heldBack { return "\(heldBack.summary), kept" }
-        if artifact.isRecentlyActive { return "changed in the last 7 days, kept" }
-        if !artifact.lastActivityIsCertain { return "too large to tell when it last changed, kept" }
-        if artifact.isEnvironment { return "installed packages, kept" }
-        if artifact.hasGenericName { return "name could mean anything, kept" }
-        return "suggested"
+        switch artifact.keptBecause {
+        case .heldBack(let heldBack): "\(heldBack.summary), kept"
+        case .installedPackages: "installed packages, kept"
+        case .genericName: "name could mean anything, kept"
+        case .changedRecently: "changed in the last 7 days, kept"
+        case .lastChangeNotKnown: "too large to tell when it last changed, kept"
+        case nil: "suggested"
+        }
     }
 }
 

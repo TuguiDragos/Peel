@@ -27,9 +27,26 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
         return lastActivity > Date.now.addingTimeInterval(-ProjectArtifacts.recentlyActive)
     }
 
-    public var isRecommended: Bool {
-        !hasGenericName && !isEnvironment && !isRecentlyActive && lastActivityIsCertain && heldBack == nil
+    public enum Kept: Sendable, Equatable {
+        case heldBack(HoldBack)
+        case installedPackages
+        case genericName
+        case changedRecently
+        case lastChangeNotKnown
     }
+
+    /// Why Peel doesn't suggest it, or nil when it does. What time doesn't change comes first, so a folder that will
+    /// never be suggested on its own doesn't read as one that only has to wait.
+    public var keptBecause: Kept? {
+        if let heldBack { return .heldBack(heldBack) }
+        if isEnvironment { return .installedPackages }
+        if hasGenericName { return .genericName }
+        if isRecentlyActive { return .changedRecently }
+        if !lastActivityIsCertain { return .lastChangeNotKnown }
+        return nil
+    }
+
+    public var isRecommended: Bool { keptBecause == nil }
 }
 
 extension Collection where Element == ProjectArtifact {

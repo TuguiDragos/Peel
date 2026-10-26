@@ -141,23 +141,21 @@ struct ProjectDetailView: View {
     }
 
     private func warning(for artifact: ProjectArtifact) -> String? {
-        if let heldBack = artifact.heldBack {
-            return String(localized: heldBack.explanation)
-        }
-        if artifact.isRecentlyActive {
-            return String(localized: "Not selected: something in this project changed in the last 7 days.")
-        }
-        if artifact.isEnvironment {
-            return artifact.name == ".terraform"
+        switch artifact.keptBecause {
+        case .heldBack(let heldBack):
+            String(localized: heldBack.explanation)
+        case .installedPackages:
+            artifact.name == ".terraform"
                 ? String(localized: "Not selected: it holds your current workspace and the last backend configuration, which `terraform init` doesn’t bring back.")
                 : String(localized: "Not selected: these are installed packages, not build output.")
+        case .genericName:
+            String(localized: "Not selected: a folder called \(artifact.name) could be anyone’s.")
+        case .changedRecently:
+            String(localized: "Not selected: something in this project changed in the last 7 days.")
+        case .lastChangeNotKnown:
+            String(localized: "Not selected: this project is too large for Peel to tell when it last changed.")
+        case nil:
+            nil
         }
-        if artifact.hasGenericName {
-            return String(localized: "Not selected: a folder called \(artifact.name) could be anyone’s.")
-        }
-        if !artifact.lastActivityIsCertain {
-            return String(localized: "Not selected: this project is too large for Peel to tell when it last changed.")
-        }
-        return nil
     }
 }

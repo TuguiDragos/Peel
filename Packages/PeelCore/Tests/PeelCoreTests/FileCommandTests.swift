@@ -461,6 +461,8 @@ struct FileCommandTests {
             (artifact("build", generic: true), "name could mean anything, kept"),
             (artifact("slow", size: nil, heldBack: .notMeasured), "not measured in time, kept"),
             (artifact("Carthage", heldBack: .holdsRepository), "holds a repository, kept"),
+            (artifact(".venv", certain: false, environment: true), "installed packages, kept"),
+            (artifact("target", lastActivity: .now, generic: true), "name could mean anything, kept"),
         ]
 
         for (artifact, note) in cases {

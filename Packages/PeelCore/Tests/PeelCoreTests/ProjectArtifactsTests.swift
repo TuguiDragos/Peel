@@ -317,6 +317,30 @@ struct ProjectArtifactsTests {
         ])
     }
 
+    @Test func saysFirstTheReasonThatTimeDoesNotChange() {
+        let project = URL(filePath: "/Users/me/Developer/App", directoryHint: .isDirectory)
+        func artifact(
+            _ name: String, recent: Bool = false, certain: Bool = true, generic: Bool = false,
+            environment: Bool = false, heldBack: HoldBack? = nil
+        ) -> ProjectArtifact {
+            var artifact = ProjectArtifact(
+                url: project.appending(path: name), project: project, name: name, tool: "Xcode", size: 20,
+                lastActivity: .now.addingTimeInterval(recent ? -60 : -ProjectArtifacts.recentlyActive * 2),
+                hasGenericName: generic, isEnvironment: environment, heldBack: heldBack
+            )
+            artifact.lastActivityIsCertain = certain
+            return artifact
+        }
+
+        #expect(artifact(".venv", certain: false, environment: true).keptBecause == .installedPackages)
+        #expect(artifact("target", recent: true, generic: true).keptBecause == .genericName)
+        #expect(artifact("vendor", generic: true, environment: true, heldBack: .holdsRepository).keptBecause
+            == .heldBack(.holdsRepository))
+        #expect(artifact("build", recent: true).keptBecause == .changedRecently)
+        #expect(artifact("build", certain: false).keptBecause == .lastChangeNotKnown)
+        #expect(artifact("DerivedData").keptBecause == nil && artifact("DerivedData").isRecommended)
+    }
+
     @Test func findsWhatJavaScriptToolsBuild() async throws {
         try await expectFound([
             Kind(artifact: ".nuxt", marker: "nuxt.config.ts", tool: "Nuxt", isGeneric: false),
