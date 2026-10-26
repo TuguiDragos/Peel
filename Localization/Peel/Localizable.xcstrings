@@ -8597,6 +8597,112 @@
         }
       }
     },
+    "A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder from a connected device’s General > Manage Backups. Peel doesn’t touch them: what is inside came off a device and may be the only copy." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Záloha se maže v Nastavení systému > Obecné > Úložiště > iOS soubory nebo ve Finderu u připojeného zařízení v části Obecné > Správa záloh. Peel se záloh nedotýká: jejich obsah pochází ze zařízení a může být jedinou kopií."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Backup wird unter „Systemeinstellungen“ > „Allgemein“ > „Speicher“ > „iOS-Dateien“ oder im Finder bei einem verbundenen Gerät unter „Allgemein“ > „Backups verwalten“ gelöscht. Peel rührt sie nicht an: Was sie enthalten, stammt von einem Gerät und ist möglicherweise die einzige Kopie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una copia de seguridad se elimina en Ajustes del Sistema > General > Almacenamiento > Archivos de iOS, o en el Finder, en General > Administrar copias de seguridad de un dispositivo conectado. Peel no las toca: lo que contienen viene de un dispositivo y puede ser la única copia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une sauvegarde se supprime dans Réglages Système > Général > Stockage > Fichiers iOS, ou dans le Finder, depuis Général > Gérer les sauvegardes d’un appareil connecté. Peel n’y touche pas : leur contenu provient d’un appareil et peut en être l’unique copie."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un backup si elimina in Impostazioni di Sistema > Generali > Spazio > File iOS, oppure nel Finder, da Generali > Gestisci backup di un dispositivo collegato. Peel non li tocca: ciò che contengono proviene da un dispositivo e potrebbe esserne l’unica copia."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックアップの削除は、“システム設定”＞“一般”＞“ストレージ”＞“iOSファイル”で行うか、Finderで接続中のデバイスの“一般”＞“バックアップを管理”から行います。中身はデバイスから取り込んだもので、唯一のコピーかもしれないため、Peelはバックアップに手を付けません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업은 시스템 설정 > 일반 > 저장 공간 > iOS 파일에서 삭제하거나, Finder에서 연결된 기기의 일반 > 백업 관리에서 삭제합니다. Peel은 백업을 건드리지 않습니다. 백업에 들어 있는 데이터는 기기에서 가져온 것으로, 유일한 복사본일 수 있기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een back-up verwijder je in Systeeminstellingen > Algemeen > Opslag > iOS-bestanden, of in Finder bij een aangesloten apparaat via Algemeen > Beheer back-ups. Peel komt er niet aan: wat erin zit, komt van een apparaat en is misschien de enige kopie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup usuwa się w Ustawieniach systemowych > Ogólne > Miejsce > Pliki iOS albo w Finderze, wybierając dla podłączonego urządzenia Ogólne > Zarządzaj backupami. Peel ich nie dotyka: ich zawartość pochodzi z urządzenia i może być jedyną kopią."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para apagar um backup, use Ajustes do Sistema > Geral > Armazenamento > Arquivos do iOS ou, no Finder, Geral > Gerenciar Backups de um dispositivo conectado. O Peel não mexe neles: o que há dentro veio de um dispositivo e pode ser a única cópia."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un backup se șterge din Configurări sistem > General > Stocare > Fișiere iOS sau din Finder, unde selectați un dispozitiv conectat, apoi General > Gestionați backupurile. Peel nu le atinge: ce conțin provine de pe un dispozitiv și poate fi singura copie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервные копии удаляют в разделе «Системные настройки» > «Основные» > «Хранилище» > «Файлы iOS» или в Finder, выбрав подключенное устройство, а затем «Основные» > «Управлять резервными копиями». Peel их не трогает: их содержимое получено с устройства и может оказаться единственной копией."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En säkerhetskopia raderas i Systeminställningar > Allmänt > Lagring > iOS-filer, eller i Finder under Allmänt > Hantera säkerhetskopior för en ansluten enhet. Peel rör dem inte: innehållet kommer från en enhet och kan vara den enda kopian."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir yedekleme, Sistem Ayarları > Genel > Saklama Alanı > iOS Dosyaları bölümünde veya Finder’da bağlı bir aygıtın Genel > Yedeklemeleri Yönet bölümünde silinir. Peel yedeklemelere dokunmaz: içindekiler bir aygıttan geldi ve tek kopya olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервну копію видаляють у розділі Системні параметри > Загальні > Сховище > Файли iOS або у Finder у розділі Загальні > Керувати резервними копіями підʼєднаного пристрою. Peel їх не чіпає: те, що всередині, скопійовано з пристрою і може бути єдиною копією."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份可以在“系统设置”>“通用”>“储存空间”>“iOS文件”中删除，也可以在“访达”中通过已连接设备的“通用”>“管理备份”删除。Peel不会触碰它们：其中的内容来自设备，可能是唯一的副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "備份要在「系統設定」>「一般」>「儲存空間」>「iOS檔案」中刪除，或在Finder中從已連接裝置的「一般」>「管理備份」刪除。Peel不會動這些備份：其中的內容來自裝置，可能是唯一的副本。"
+          }
+        }
+      }
+    },
     "A brew.env file sets this, in /etc/homebrew, in %@, or in ~/.homebrew." : {
       "localizations" : {
         "cs" : {
@@ -59668,112 +59774,6 @@
         }
       }
     },
-    "In Finder, select a connected device, then General > Manage Backups: that is where a backup is removed. Peel doesn’t touch them: what is inside came off a device and may be the only copy." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ve Finderu vyberte připojené zařízení a pak Obecné > Správa záloh: tam se záloha odstraňuje. Peel se záloh nedotýká: jejich obsah pochází ze zařízení a může být jedinou kopií."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle im Finder ein verbundenes Gerät aus und dann „Allgemein“ > „Backups verwalten“: Dort wird ein Backup entfernt. Peel rührt sie nicht an: Was sie enthalten, stammt von einem Gerät und ist möglicherweise die einzige Kopie."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En el Finder, selecciona un dispositivo conectado y luego General > Administrar copias de seguridad: ahí es donde se elimina una copia de seguridad. Peel no las toca: lo que contienen viene de un dispositivo y puede ser la única copia."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans le Finder, sélectionnez un appareil connecté, puis Général > Gérer les sauvegardes : c’est là qu’une sauvegarde se supprime. Peel n’y touche pas : leur contenu provient d’un appareil et peut en être l’unique copie."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nel Finder, seleziona un dispositivo collegato, poi Generali > Gestisci backup: è lì che si rimuove un backup. Peel non li tocca: ciò che contengono proviene da un dispositivo e potrebbe esserne l’unica copia."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バックアップの削除は、Finderで接続中のデバイスを選択し、“一般”＞“バックアップを管理”から行います。中身はデバイスから取り込んだもので、唯一のコピーかもしれないため、Peelはバックアップに手を付けません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "백업은 Finder에서 연결된 기기를 선택한 다음 일반 > 백업 관리에서 제거합니다. Peel은 백업을 건드리지 않습니다. 백업에 들어 있는 데이터는 기기에서 가져온 것으로, 유일한 복사본일 수 있기 때문입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selecteer in Finder een aangesloten apparaat en kies Algemeen > Beheer back-ups: daar verwijder je een back-up. Peel komt er niet aan: wat erin zit, komt van een apparaat en is misschien de enige kopie."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "W Finderze zaznacz podłączone urządzenie, a następnie wybierz Ogólne > Zarządzaj backupami: tam usuwa się backup. Peel ich nie dotyka: ich zawartość pochodzi z urządzenia i może być jedyną kopią."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Finder, selecione um dispositivo conectado e depois Geral > Gerenciar Backups: é lá que um backup é removido. O Peel não mexe neles: o que há dentro veio de um dispositivo e pode ser a única cópia."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "În Finder, selectați un dispozitiv conectat, apoi General > Gestionați backupurile: acolo se elimină un backup. Peel nu le atinge: ce conțin provine de pe un dispozitiv și poate fi singura copie."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В Finder выберите подключенное устройство, затем «Основные» > «Управлять резервными копиями»: именно там удаляют резервные копии. Peel их не трогает: их содержимое получено с устройства и может оказаться единственной копией."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Markera en ansluten enhet i Finder och välj sedan Allmänt > Hantera säkerhetskopior: det är där en säkerhetskopia tas bort. Peel rör dem inte: innehållet kommer från en enhet och kan vara den enda kopian."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finder’da bağlı bir aygıtı seçin, ardından Genel > Yedeklemeleri Yönet: bir yedekleme orada silinir. Peel yedeklemelere dokunmaz: içindekiler bir aygıttan geldi ve tek kopya olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У Finder виберіть підʼєднаний пристрій, а потім Загальні > Керувати резервними копіями: саме там вилучають резервні копії. Peel їх не чіпає: те, що всередині, скопійовано з пристрою і може бути єдиною копією."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在“访达”中选择已连接的设备，然后前往“通用”>“管理备份”：备份要在那里移除。Peel不会触碰它们：其中的内容来自设备，可能是唯一的副本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在Finder中選取已連接的裝置，然後選擇「一般」>「管理備份」：備份要在那裡移除。Peel不會動這些備份：其中的內容來自裝置，可能是唯一的副本。"
-          }
-        }
-      }
-    },
     "In Use" : {
       "localizations" : {
         "cs" : {
@@ -106897,112 +106897,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開延伸功能"
-          }
-        }
-      }
-    },
-    "Open Finder" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Otevřít Finder"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finder öffnen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir el Finder"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir le Finder"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri il Finder"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finderを開く"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finder 열기"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Finder"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Otwórz Findera"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir o Finder"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deschideți Finder"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Открыть Finder"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öppna Finder"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finder’ı Aç"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Відкрити Finder"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开访达"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打開Finder"
           }
         }
       }

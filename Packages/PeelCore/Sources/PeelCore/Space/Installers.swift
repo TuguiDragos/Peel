@@ -87,6 +87,9 @@ public struct InstallerScan: Sendable {
 public enum Installers {
     /// Anything smaller than this isn't worth a row in a list about big downloads.
     public static let minimumSize: Int64 = 20 * 1_000_000
+    /// The Storage pane of System Settings (General > Storage), where iOS Files deletes a device backup without the
+    /// device.
+    public static let storageSettingsURL = URL(string: "x-apple.systempreferences:com.apple.settings.Storage")!
 
     /// `xip` is Apple's own archive format, which Xcode ships in. `zip` is not listed, since a zip file can hold
     /// anything: `installerInside(zip:)` decides about each one.

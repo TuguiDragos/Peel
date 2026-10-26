@@ -59,13 +59,13 @@ struct InstallerDetailView: View {
                     HStack(spacing: 8) {
                         heading(
                             "Device Backups",
-                            "In Finder, select a connected device, then General > Manage Backups: that is where a backup is removed. Peel doesn’t touch them: what is inside came off a device and may be the only copy."
+                            "A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder from a connected device’s General > Manage Backups. Peel doesn’t touch them: what is inside came off a device and may be the only copy."
                         )
                         Spacer(minLength: 8)
                         Button {
-                            NSWorkspace.shared.open(URL(filePath: NSHomeDirectory()))
+                            NSWorkspace.shared.open(Installers.storageSettingsURL)
                         } label: {
-                            Text("Open Finder")
+                            Text("Open System Settings")
                                 .minimumTarget()
                         }
                         .buttonStyle(.borderless)
