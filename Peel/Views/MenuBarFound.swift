@@ -57,7 +57,14 @@ struct MenuBarFound: View {
         }
     }
 
+    /// Drawn again each minute while the panel shows, so when each tool looked, as macOS words it, stays true.
     private func row(_ line: Line) -> some View {
+        TimelineView(.everyMinute) { _ in
+            rowContent(line)
+        }
+    }
+
+    private func rowContent(_ line: Line) -> some View {
         let isPointedAt = pointingAt == line.tool
         return Button { open(line.tool) } label: {
             HStack(spacing: MenuBarPanel.iconSpacing) {
