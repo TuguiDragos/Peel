@@ -129,6 +129,7 @@ struct PeelApp: App {
             space.follow(canUseHelper: canAct)
             orphans.follow(canUseHelper: canAct)
             packages.follow(canUseHelper: canAct)
+            installers.follow(canUseHelper: canAct)
         }
     }
 

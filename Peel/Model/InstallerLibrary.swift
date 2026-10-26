@@ -28,6 +28,15 @@ final class InstallerLibrary {
         scan?.unreadableLocations ?? []
     }
 
+    func follow(canUseHelper: Bool) {
+        let kept = Self.selection(selectedURLs, in: scan?.items ?? [], canUseHelper: canUseHelper)
+        if kept != selectedURLs { selectedURLs = kept }
+    }
+
+    static func selection(_ selected: Set<URL>, in items: [InstallerItem], canUseHelper: Bool) -> Set<URL> {
+        selected.subtracting(items.filter { $0.isLocked(canUseHelper: canUseHelper) }.map(\.url))
+    }
+
     func refresh(installedApps: [InstalledApp]) async {
         guard
             let result = await scanRun.run({
