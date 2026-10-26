@@ -22,6 +22,12 @@ struct HomebrewTests {
         #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/p\n", cellarAnswer: "c\n") == nil)
     }
 
+    @Test func asksForEachLineAsItGoesExceptOfTheHealthCheck() {
+        #expect(Homebrew.environment(autoUpdate: false)["CI"] == "1")
+        // `brew doctor` reads `CI` as a CI run and skips its check of the taps' branches (`diagnostic.rb`).
+        #expect(Homebrew.environment(autoUpdate: false, writesLinesAsTheyGo: false)["CI"] == nil)
+    }
+
     @Test(.permissionsHold) func knowsWhetherThisAccountMayChangeHomebrew() throws {
         let directory = try TemporaryDirectory()
         let repository = try directory.directory("homebrew")

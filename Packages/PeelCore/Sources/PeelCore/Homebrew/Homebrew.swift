@@ -876,7 +876,9 @@ public enum Homebrew {
     /// it; an older one is asked for `healthReport()` instead.
     @concurrent
     public static func health() async throws(CommandFailure) -> [HomebrewFinding] {
-        let attempt = try await execute(["doctor", "--json"], autoUpdate: false, timeout: longestCommand)
+        let attempt = try await execute(
+            ["doctor", "--json"], autoUpdate: false, timeout: longestCommand, writesLinesAsTheyGo: false
+        )
         guard let report = try? JSONDecoder().decode(DoctorReport.self, from: Data(attempt.standardOutput.utf8)) else {
             throw CommandFailure(output: attempt.output)
         }
@@ -898,7 +900,9 @@ public enum Homebrew {
     /// Returns what `brew doctor` prints, for a Homebrew that cannot be asked for JSON.
     @concurrent
     public static func healthReport() async -> String {
-        let attempt = try? await execute(["doctor"], autoUpdate: false, timeout: longestCommand, inWritingOrder: true)
+        let attempt = try? await execute(
+            ["doctor"], autoUpdate: false, timeout: longestCommand, inWritingOrder: true, writesLinesAsTheyGo: false
+        )
         return attempt?.output ?? ""
     }
 
@@ -1084,14 +1088,16 @@ public enum Homebrew {
         onOutput: (@Sendable (Data) -> Void)? = nil,
         executable: URL? = executableURL,
         readsTheAPI: Bool = true,
-        home: URL = .homeDirectory
+        home: URL = .homeDirectory,
+        writesLinesAsTheyGo: Bool = true
     ) async throws(CommandFailure) -> Attempt {
         guard let executable else {
             throw CommandFailure(output: Self.notInstalled)
         }
         let path = executable.path(percentEncoded: false)
         let environment = environment(
-            autoUpdate: autoUpdate, keeping: kept, executable: executable, readsTheAPI: readsTheAPI, home: home
+            autoUpdate: autoUpdate, keeping: kept, executable: executable, readsTheAPI: readsTheAPI, home: home,
+            writesLinesAsTheyGo: writesLinesAsTheyGo
         )
         switch await Subprocess.run(
             path, arguments, environment: environment, timeout: timeout, errorsIntoOutput: inWritingOrder,
@@ -1152,7 +1158,7 @@ public enum Homebrew {
     /// `brew.env` files are read after it and can still undo a setting here, which `overrides()` reports.
     static func environment(
         autoUpdate: Bool, keeping kept: [String] = [], executable: URL? = nil, readsTheAPI: Bool = true,
-        home: URL = .homeDirectory
+        home: URL = .homeDirectory, writesLinesAsTheyGo: Bool = true
     ) -> [String: String] {
         var path = "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
         // A Homebrew in a prefix of its own finds its own programs first, as the default ones do.
@@ -1176,10 +1182,13 @@ public enum Homebrew {
             // `brew upgrade` asks before it goes on unless this is set, and nobody is there to answer. It skips
             // the question only because no terminal is attached (`ask.rb`). A version without it ignores it.
             "HOMEBREW_NO_ASK": "1",
-            // `brew.rb` writes each line as it goes only under `CI`. Otherwise Ruby holds what goes to standard
-            // output back in a pipe, and an error printed after a step shows before it.
-            "CI": "1",
         ]
+        // `brew.rb` writes each line as it goes only under `CI`. Otherwise Ruby holds what goes to standard output back
+        // in a pipe, and an error printed after a step shows before it. `brew doctor` reads `CI` as a CI run, though,
+        // and leaves out its check of the taps' branches, so it is asked without it.
+        if writesLinesAsTheyGo {
+            values["CI"] = "1"
+        }
         if !autoUpdate {
             values["HOMEBREW_NO_AUTO_UPDATE"] = "1"
         }
