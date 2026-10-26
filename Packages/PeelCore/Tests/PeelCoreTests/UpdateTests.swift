@@ -654,6 +654,29 @@ struct UpdateSourceTests {
         #expect(UpdateChecker().homebrewStatus(for: app, casks: []) == nil)
     }
 
+    @Test func anAppThatUpdatedItselfPastHomebrewsRecordHasNoUpdateFromHomebrew() {
+        let checked = Date(timeIntervalSince1970: 1_792_315_250)
+        let cask = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", latestVersion: "2.0,201", isOutdated: true,
+            appNames: ["Example.app"]
+        ).noting(lastUpdateCheck: checked)
+        let status = { (version: String) in
+            UpdateChecker(clock: { checked + 60 }).homebrewStatus(
+                for: InstalledApp(
+                    url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app",
+                    name: "Example", version: version
+                ),
+                casks: [cask]
+            )
+        }
+        let update = UpdateStatus.updateAvailable(version: "2.0,201", source: .homebrew, releaseNotes: nil)
+
+        #expect(status("2.0") == .upToDate)
+        #expect(status("2.1") == .upToDate)
+        #expect(status("1.5") == update)
+        #expect(status("2.0.0") == update, "versions of other lengths compare as Homebrew's don't")
+    }
+
     /// `firefox`, `firefox@beta`, and `firefox@esr` all install `Firefox.app`. With `firefox@esr` installed, the
     /// base cask, which Homebrew only knows of, matches the app too and sorts first, but has no installed
     /// version. The installed cask is the one to ask, or the waiting update is missed.
@@ -687,7 +710,9 @@ struct UpdateSourceTests {
             name: "example", kind: .cask, installedVersion: "1.0", latestVersion: "2.0", isOutdated: true
         )
         let update = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew, releaseNotes: nil)
-        let status = { (cask: HomebrewPackage, now: Date) in UpdateChecker.homebrewStatus(of: cask, at: now) }
+        let status = { (cask: HomebrewPackage, now: Date) in
+            UpdateChecker.homebrewStatus(of: cask, appVersion: nil, at: now)
+        }
 
         #expect(day == 86_400)
         #expect(status(current, checked + 60) == .upToDate)

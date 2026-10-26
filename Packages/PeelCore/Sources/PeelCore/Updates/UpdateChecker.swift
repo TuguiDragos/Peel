@@ -140,16 +140,19 @@ public struct UpdateChecker: Sendable {
     }
 
     /// Homebrew's answer for `app`, found without a network request, or nil when Homebrew did not install this copy
-    /// or can't tell (`homebrewStatus(of:at:)`). For a cask it did not install, Homebrew has a definition but no
-    /// installed version to compare.
+    /// or can't tell (`homebrewStatus(of:appVersion:at:)`). For a cask it did not install, Homebrew has a definition
+    /// but no installed version to compare.
     public func homebrewStatus(for app: InstalledApp, casks: [HomebrewPackage]) -> UpdateStatus? {
-        CaskEvidence.installedCask(for: app, in: casks).flatMap { Self.homebrewStatus(of: $0, at: clock()) }
+        CaskEvidence.installedCask(for: app, in: casks).flatMap {
+            Self.homebrewStatus(of: $0, appVersion: app.version, at: clock())
+        }
     }
 
-    /// The status Homebrew reports at `now` for `cask`, known to be the app's, or nil when it can't tell: a cask
-    /// not outdated is up to date only within `Homebrew.autoUpdateInterval` of Homebrew's last check for new versions.
-    static func homebrewStatus(of cask: HomebrewPackage, at now: Date) -> UpdateStatus? {
-        if cask.isOutdated, let latest = cask.latestVersion {
+    /// The status Homebrew reports at `now` for `cask`, known to be the app's at `appVersion`, or nil when it can't
+    /// tell: a cask not outdated is up to date only within `Homebrew.autoUpdateInterval` of Homebrew's last check for
+    /// new versions.
+    static func homebrewStatus(of cask: HomebrewPackage, appVersion: String?, at now: Date) -> UpdateStatus? {
+        if cask.isOutdated, let latest = cask.latestVersion, !isAlready(appVersion, at: latest) {
             return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
         }
         guard let checked = cask.lastUpdateCheck, now.timeIntervalSince(checked) < Homebrew.autoUpdateInterval else {
@@ -158,15 +161,25 @@ public struct UpdateChecker: Sendable {
         return .upToDate
     }
 
+    /// Whether the app's own `version` is already the cask's `latest`, or past it. Homebrew counts a cask outdated by
+    /// the version it installed, which an app that updated itself leaves behind, so the app is compared as Homebrew
+    /// compares one that updates itself: with the part before a comma, and only a version of as many parts.
+    static func isAlready(_ version: String?, at latest: String) -> Bool {
+        guard let version else { return false }
+        let tap = String(latest.prefix { $0 != "," })
+        guard tap.split(separator: ".").count == version.split(separator: ".").count else { return false }
+        return !VersionComparison.isNewer(tap, than: version)
+    }
+
     /// The cask `app` came from when only Homebrew could say whether it is up to date and Homebrew's last check for
-    /// new versions is too old to tell (`homebrewStatus(of:at:)`), which is why a check has no answer for it.
+    /// new versions is too old to tell (`homebrewStatus(of:appVersion:at:)`), so a check has no answer for it.
     public func caskNotCheckedRecently(
         for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
     ) -> HomebrewPackage? {
         guard Self.asksNobody(about: app, preference: preference),
               let cask = CaskEvidence.installedCask(for: app, in: casks)
         else { return nil }
-        return Self.homebrewStatus(of: cask, at: clock()) == nil ? cask : nil
+        return Self.homebrewStatus(of: cask, appVersion: app.version, at: clock()) == nil ? cask : nil
     }
 
     private func feedAnswer(for app: InstalledApp, earlier: UpdateStatus?) async -> UpdateAnswer {
