@@ -137,8 +137,10 @@ Space shows what fills your disk, area by area, and what each area is.
   needs Full Disk Access to see what is kept on this Mac.
 - **Space:** what fills your disk, area by area, and which app or tool each area belongs to.
 - **File Search:** files by name, kind, or size, and by age along with one of them, in your home folder or across
-  this Mac, found through Spotlight, up to 2,000 at a time. A file in a Library folder, an app's working data, is
-  listed last and never recommended, and one that needs an administrator stays where it is.
+  this Mac, found through Spotlight, up to 2,000 at a time, so a folder in System Settings > Spotlight > Search
+  Privacy isn't searched; when nothing is found, the page names any disk Spotlight isn't indexing. A file in a
+  Library folder, an app's working data, is listed last and never recommended, and one that needs an administrator
+  stays where it is.
 
 <details>
 <summary>Developer, Build Artifacts, and Space, in detail</summary>

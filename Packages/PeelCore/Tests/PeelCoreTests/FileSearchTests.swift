@@ -31,6 +31,33 @@ struct FileSearchTests {
         #expect(stop.askedAfter == 0)
     }
 
+    @Test func anEmptySearchNamesTheDisksSpotlightDoesNotIndex() async throws {
+        var criteria = FileSearchCriteria()
+        criteria.name = "report"
+        let disks = [
+            SpotlightIndex.Disk(volume: URL(filePath: "/System/Volumes/Data"), name: "Macintosh HD"),
+            SpotlightIndex.Disk(volume: URL(filePath: "/Volumes/Backup"), name: "Backup"),
+        ]
+        func search(indexing: Set<String>, finding paths: [String] = []) async -> FileSearchResults {
+            await FileSearch.run(
+                criteria, gather: { _ in paths }, disks: { _ in disks },
+                isIndexing: { indexing.contains($0.path) }
+            )
+        }
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("report.txt")
+
+        let some = await search(indexing: ["/System/Volumes/Data"])
+        let none = await search(indexing: [])
+        let every = await search(indexing: ["/System/Volumes/Data", "/Volumes/Backup"])
+        let found = await search(indexing: [], finding: [file.path(percentEncoded: false)])
+
+        #expect(some.unindexedDisks == ["Backup"] && !some.isNothingIndexed)
+        #expect(none.unindexedDisks == ["Macintosh HD", "Backup"] && none.isNothingIndexed)
+        #expect(every.unindexedDisks.isEmpty && !every.isNothingIndexed)
+        #expect(found.files.count == 1 && found.unindexedDisks.isEmpty)
+    }
+
     @Test func buildsQueryFromCriteria() {
         var criteria = FileSearchCriteria()
         criteria.name = " Budget "

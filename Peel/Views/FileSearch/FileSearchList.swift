@@ -69,10 +69,29 @@ struct FileSearchList: View {
                 ContentUnavailableView(
                     "Spotlight Didn’t Answer",
                     systemImage: "exclamationmark.magnifyingglass",
-                    description: Text("Peel asked Spotlight and got no answer, so it can’t say what is on this Mac. Check that Spotlight indexing is on.")
+                    description: Text("Peel asked Spotlight and got no answer, so it can’t say what is on this Mac. Try the search again.")
                 )
-            } else if search.results?.files.isEmpty == true {
-                ContentUnavailableView.search
+            } else if let results = search.results, results.files.isEmpty {
+                let disks = results.unindexedDisks.formatted(.list(type: .and))
+                if results.isNothingIndexed {
+                    ContentUnavailableView(
+                        "Not Indexed by Spotlight",
+                        systemImage: "magnifyingglass",
+                        description: Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there.")
+                    )
+                } else if !results.unindexedDisks.isEmpty {
+                    ContentUnavailableView(
+                        "No Results",
+                        systemImage: "magnifyingglass",
+                        description: Text("Check the spelling or try a new search. Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
+                    )
+                } else {
+                    ContentUnavailableView(
+                        "No Results",
+                        systemImage: "magnifyingglass",
+                        description: Text("Check the spelling or try a new search. File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched.")
+                    )
+                }
             }
         }
         .edgeBar(.bottom) {
@@ -85,7 +104,8 @@ struct FileSearchList: View {
         .announcesScan(
             search.isSearching,
             found: search.summary,
-            couldNotLook: search.results?.didRun == false ? "Spotlight Didn’t Answer" : nil,
+            couldNotLook: search.results?.didRun == false ? "Spotlight Didn’t Answer"
+                : search.results?.isNothingIndexed == true ? "Not Indexed by Spotlight" : nil,
             wasStopped: search.scanRun.wasStopped || !search.criteria.isSearchable
         )
         // Here the column's search field is part of the search, so it is always shown.

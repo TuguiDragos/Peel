@@ -51,6 +51,10 @@ public struct FileSearchResults: Sendable {
     public var isTruncated = false
     /// False when the query itself could not be made or run, which is not the same as finding nothing.
     public var didRun = true
+    /// The disks Spotlight doesn't index, named as Finder names them, asked only when nothing was found.
+    public var unindexedDisks: [String] = []
+    /// True when Spotlight indexes none of the disks searched.
+    public var isNothingIndexed = false
 }
 
 public enum FileSearch {
@@ -84,12 +88,15 @@ public enum FileSearch {
         await run(criteria, environment: environment, exclusions: exclusions) { await SpotlightGathering($0).paths() }
     }
 
-    /// The same, with the query run by `gather`, so a test can stand in for one that never finishes.
+    /// The same, with the query, the disks and their index asked of `gather`, `disks` and `isIndexing`, so a test can
+    /// stand in for them.
     static func run(
         _ criteria: FileSearchCriteria,
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
-        gather: Gather
+        gather: Gather,
+        disks: (FileSearchCriteria.Scope) -> [SpotlightIndex.Disk]? = { _ in nil },
+        isIndexing: @Sendable (URL) async -> Bool? = SpotlightIndex.isIndexing
     ) async -> FileSearchResults {
         guard criteria.isSearchable, let query = makeQuery(for: criteria) else {
             return FileSearchResults(didRun: false)
@@ -97,7 +104,16 @@ public enum FileSearch {
         let scope = criteria.scope == .home ? kMDQueryScopeHome : kMDQueryScopeComputer
         MDQuerySetSearchScope(query, [scope] as CFArray, 0)
         guard let paths = await gather(query), !Task.isCancelled else { return FileSearchResults(didRun: false) }
-        return results(from: paths, kind: criteria.kind, environment: environment, exclusions: exclusions)
+        var results = results(from: paths, kind: criteria.kind, environment: environment, exclusions: exclusions)
+        guard results.didRun, results.files.isEmpty else { return results }
+        let searched = disks(criteria.scope)
+            ?? SpotlightIndex.disks(in: criteria.scope, home: environment.homeDirectory)
+        for disk in searched where await isIndexing(disk.volume) == false {
+            results.unindexedDisks.append(disk.name)
+        }
+        guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
+        results.isNothingIndexed = !searched.isEmpty && results.unindexedDisks.count == searched.count
+        return results
     }
 
     /// Turns the paths Spotlight found into results: checked on disk, sorted, and cut to `maximumResults`. It is

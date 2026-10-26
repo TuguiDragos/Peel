@@ -852,7 +852,11 @@ struct SearchCommand: AsyncParsableCommand {
     func run() async throws {
         let results = await FileSearch.run(criteria, exclusions: UnreadableExclusions.load())
         guard results.didRun else {
-            throw CommandFailure("Spotlight didn't answer, so Peel can't say what is on this Mac. Check that Spotlight indexing is on.")
+            throw CommandFailure("Spotlight didn't answer, so Peel can't say what is on this Mac. Try the search again.")
+        }
+        let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")
+        guard !results.isNothingIndexed else {
+            throw CommandFailure("Spotlight isn't indexing \(unindexed), so Peel can't find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there.")
         }
 
         if output.json {
@@ -870,6 +874,9 @@ struct SearchCommand: AsyncParsableCommand {
         }
         if results.isTruncated {
             Output.note("Only the first \(Output.number(FileSearch.maximumResults)) files are shown. Narrow the search to see the rest.")
+        }
+        if !results.unindexedDisks.isEmpty {
+            Output.note("Spotlight isn't indexing \(unindexed), so nothing there was searched.")
         }
     }
 }

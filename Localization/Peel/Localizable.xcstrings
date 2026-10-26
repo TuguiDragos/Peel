@@ -23651,6 +23651,218 @@
         }
       }
     },
+    "Check the spelling or try a new search. File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkontrolujte pravopis nebo zadejte jiný dotaz. Stránka Hledání souborů najde jen to, co indexuje Spotlight, takže složku uvedenou v Nastavení systému > Spotlight > Soukromí při hledání neprohledává."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überprüfe die Schreibweise oder starte eine neue Suche. Die Seite „Dateisuche“ findet nur, was Spotlight indiziert, daher wird ein Ordner, der unter „Systemeinstellungen“ > „Spotlight“ > „Datenschutz der Suchfunktion“ aufgeführt ist, nicht durchsucht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprueba la ortografía o prueba con una nueva búsqueda. La página Búsqueda de archivos solo encuentra lo que indexa Spotlight, así que no busca en ninguna carpeta que aparezca en Ajustes del Sistema > Spotlight > Privacidad de la búsqueda."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifiez l’orthographe ou lancez une nouvelle recherche. La page Recherche de fichiers ne trouve que ce que Spotlight indexe : un dossier listé dans Réglages Système > Spotlight > Recherche et confidentialité n’est donc pas inclus dans la recherche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica che non ci siano errori di battitura o esegui una nuova ricerca. “Ricerca file” trova solo ciò che Spotlight indicizza, quindi non cerca nelle cartelle elencate in Impostazioni di Sistema > Spotlight > Privacy della ricerca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スペルをチェックするか、新規検索をしてみてください。“ファイル検索”ではSpotlightの索引にあるものしか見つけられないため、“システム設定”＞“Spotlight”＞“検索のプライバシー”に追加されているフォルダは検索されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "맞춤법을 확인하거나 새로운 검색을 시도하십시오. 파일 검색 페이지는 Spotlight가 인덱싱하는 항목만 찾으므로, 시스템 설정 > Spotlight > 검색 개인정보 보호에 나열된 폴더는 검색되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer de spelling of probeer een nieuwe zoekopdracht. De pagina 'Bestanden zoeken' vindt alleen wat Spotlight indexeert, dus een map die in Systeeminstellingen > Spotlight > Zoeken en privacy staat, wordt niet doorzocht."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdź pisownię frazy lub użyj innej. Strona Wyszukiwanie plików znajduje tylko to, co indeksuje Spotlight, więc folder wymieniony w Ustawieniach systemowych > Spotlight > Wyszukiwanie i prywatność nie jest przeszukiwany."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifique a ortografia ou tente uma nova busca. A página Busca de Arquivos só encontra o que o Spotlight indexa, então não busca em uma pasta listada em Ajustes do Sistema > Spotlight > Privacidade na Busca."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificați ortografia sau încercați altă căutare. Pagina Căutare fișiere găsește doar ce indexează Spotlight, așa că un dosar listat în Configurări sistem > Spotlight > Intimitatea căutărilor nu este inclus în căutare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверьте написание или попробуйте изменить запрос. Раздел «Поиск файлов» находит только то, что индексирует Spotlight, поэтому поиск не выполняется в папках из списка в разделе «Системные настройки» > «Spotlight» > «Конфиденциальность Поиска»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrollera stavningen eller försök med en ny sökning. Sidan Filsökning hittar bara det som Spotlight indexerar, så en mapp som listas i Systeminställningar > Spotlight > Sökningsintegritet genomsöks inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazım denetimi yapın veya yeni bir arama deneyin. Dosya Arama yalnızca Spotlight’ın dizinlediklerini bulur, bu yüzden Sistem Ayarları > Spotlight > Arama Gizliliği bölümünde listelenen bir klasörde arama yapılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірте правопис або спробуйте новий запит. Розділ «Пошук файлів» знаходить лише те, що індексує Spotlight, тож не шукає в папках, доданих до списку в розділі Системні параметри > Spotlight > Приватність пошуку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查拼写或尝试新搜索词。“文件搜索”只会找到“聚焦”已索引的内容，因此不会搜索列在“系统设置”>“聚焦”>“搜索隐私”中的文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查拼字或嘗試新的搜尋項目。「檔案搜尋」只會找到Spotlight已建立索引的項目，因此不會搜尋列在「系統設定」>「Spotlight」>「搜尋隱私權」中的檔案夾。"
+          }
+        }
+      }
+    },
+    "Check the spelling or try a new search. Spotlight isn’t indexing %@, so File Search can’t find anything there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkontrolujte pravopis nebo zadejte jiný dotaz. Spotlight neindexuje %@, takže stránka Hledání souborů tam nemůže nic najít."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überprüfe die Schreibweise oder starte eine neue Suche. Spotlight indiziert %@ nicht, daher kann die Seite „Dateisuche“ dort nichts finden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprueba la ortografía o prueba con una nueva búsqueda. Spotlight no indexa %@, así que la página Búsqueda de archivos no puede encontrar nada ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifiez l’orthographe ou lancez une nouvelle recherche. Spotlight n’indexe pas %@ : la page Recherche de fichiers ne peut donc rien y trouver."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica che non ci siano errori di battitura o esegui una nuova ricerca. Spotlight non indicizza %@, quindi “Ricerca file” non può trovare nulla lì."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スペルをチェックするか、新規検索をしてみてください。Spotlightが%@の索引を作成していないため、“ファイル検索”ではそこにあるものを見つけられません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "맞춤법을 확인하거나 새로운 검색을 시도하십시오. Spotlight가 %@을(를) 인덱싱하지 않으므로 파일 검색 페이지는 그곳에서 아무것도 찾을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer de spelling of probeer een nieuwe zoekopdracht. Spotlight indexeert %@ niet, dus kan de pagina 'Bestanden zoeken' daar niets vinden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdź pisownię frazy lub użyj innej. Spotlight nie indeksuje: %@, więc strona Wyszukiwanie plików nie może niczego tam znaleźć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifique a ortografia ou tente uma nova busca. O Spotlight não está indexando %@, então a página Busca de Arquivos não consegue encontrar nada lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificați ortografia sau încercați altă căutare. Spotlight nu indexează %@, așa că pagina Căutare fișiere nu poate găsi nimic acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверьте написание или попробуйте изменить запрос. Spotlight не индексирует %@, поэтому раздел «Поиск файлов» не может там ничего найти."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrollera stavningen eller försök med en ny sökning. Spotlight indexerar inte %@, så sidan Filsökning kan inte hitta något där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazım denetimi yapın veya yeni bir arama deneyin. Spotlight, %@ içeriğini dizinlemiyor, bu yüzden Dosya Arama orada hiçbir şey bulamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірте правопис або спробуйте новий запит. Spotlight не індексує %@, тож розділ «Пошук файлів» не може там нічого знайти."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查拼写或尝试新搜索词。“聚焦”没有索引“%@”，因此“文件搜索”无法在其中找到任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檢查拼字或嘗試新的搜尋項目。Spotlight沒有為%@建立索引，因此「檔案搜尋」無法在那裡找到任何項目。"
+          }
+        }
+      }
+    },
     "Checked at first removal" : {
       "localizations" : {
         "cs" : {
@@ -84893,6 +85105,112 @@
         }
       }
     },
+    "No Results" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žádné výsledky"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Ergebnisse"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ningún resultado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun résultat"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun risultato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果なし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "결과 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niets gevonden"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brak wyników"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum Resultado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niciun rezultat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не найдено"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inga träffar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonuç Yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає збігів"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无结果"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有結果"
+          }
+        }
+      }
+    },
     "No alert sound" : {
       "localizations" : {
         "cs" : {
@@ -90233,6 +90551,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "部分內容無法搜尋"
+          }
+        }
+      }
+    },
+    "Not Indexed by Spotlight" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neindexováno Spotlightem"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht von Spotlight indiziert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin indexar en Spotlight"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non indexé par Spotlight"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non indicizzato da Spotlight"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlightの索引が作成されていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight에서 인덱스되지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geïndexeerd door Spotlight"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieindeksowane przez Spotlight"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não Indexado pelo Spotlight"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neindexat de Spotlight"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не индексировано Spotlight"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte indexerat av Spotlight"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight Tarafından Dizinlenmemiş"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не проіндексовано в Spotlight"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未被“聚焦”索引"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight未建立索引"
           }
         }
       }
@@ -106178,108 +106602,108 @@
         }
       }
     },
-    "Peel asked Spotlight and got no answer, so it can’t say what is on this Mac. Check that Spotlight indexing is on." : {
+    "Peel asked Spotlight and got no answer, so it can’t say what is on this Mac. Try the search again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se zeptal Spotlightu a nedostal žádnou odpověď, takže nemůže říct, co v tomto Macu je. Zkontrolujte, zda je indexování Spotlightu zapnuté."
+            "value" : "Peel se zeptal Spotlightu a nedostal žádnou odpověď, takže nemůže říct, co v tomto Macu je. Zkuste hledat znovu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat Spotlight gefragt und keine Antwort erhalten, daher lässt sich nicht sagen, was sich auf diesem Mac befindet. Prüfe, ob die Spotlight-Indizierung aktiviert ist."
+            "value" : "Peel hat Spotlight gefragt und keine Antwort erhalten, daher lässt sich nicht sagen, was sich auf diesem Mac befindet. Starte die Suche erneut."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha preguntado a Spotlight y no ha obtenido respuesta, así que no puede decir qué hay en este Mac. Comprueba que la indexación de Spotlight esté activada."
+            "value" : "Peel ha preguntado a Spotlight y no ha obtenido respuesta, así que no puede decir qué hay en este Mac. Vuelve a intentar la búsqueda."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a interrogé Spotlight sans obtenir de réponse : il ne peut donc pas dire ce qui se trouve sur ce Mac. Vérifiez que l’indexation Spotlight est activée."
+            "value" : "Peel a interrogé Spotlight sans obtenir de réponse : il ne peut donc pas dire ce qui se trouve sur ce Mac. Relancez la recherche."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha interpellato Spotlight e non ha ricevuto risposta, quindi non può dire cosa c’è su questo Mac. Controlla che l’indicizzazione di Spotlight sia attiva."
+            "value" : "Peel ha interpellato Spotlight e non ha ricevuto risposta, quindi non può dire cosa c’è su questo Mac. Esegui di nuovo la ricerca."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PeelはSpotlightに問い合わせましたが、応答がなかったため、このMacに何があるかはわかりません。Spotlightの索引作成がオンになっているか確認してください。"
+            "value" : "PeelはSpotlightに問い合わせましたが、応答がなかったため、このMacに何があるかはわかりません。もう一度検索してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 Spotlight에 물었으나 응답을 받지 못했으므로 이 Mac에 무엇이 있는지 알 수 없습니다. Spotlight 인덱싱이 켜져 있는지 확인하십시오."
+            "value" : "Peel이 Spotlight에 물었으나 응답을 받지 못했으므로 이 Mac에 무엇이 있는지 알 수 없습니다. 검색을 다시 시도하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft Spotlight een vraag gesteld, maar kreeg geen antwoord, dus Peel kan niet zeggen wat er op deze Mac staat. Controleer of indexering door Spotlight is ingeschakeld."
+            "value" : "Peel heeft Spotlight een vraag gesteld, maar kreeg geen antwoord, dus Peel kan niet zeggen wat er op deze Mac staat. Probeer opnieuw te zoeken."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał Spotlight i nie dostał odpowiedzi, więc nie może powiedzieć, co jest na tym Macu. Sprawdź, czy indeksowanie Spotlight jest włączone."
+            "value" : "Peel zapytał Spotlight i nie dostał odpowiedzi, więc nie może powiedzieć, co jest na tym Macu. Spróbuj wyszukać ponownie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel perguntou ao Spotlight e não obteve resposta, então não pode dizer o que há neste Mac. Verifique se a indexação do Spotlight está ativada."
+            "value" : "O Peel perguntou ao Spotlight e não obteve resposta, então não pode dizer o que há neste Mac. Tente buscar novamente."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a întrebat Spotlight și nu a primit niciun răspuns, așa că nu poate spune ce se află pe acest Mac. Verificați dacă indexarea Spotlight este activată."
+            "value" : "Peel a întrebat Spotlight și nu a primit niciun răspuns, așa că nu poate spune ce se află pe acest Mac. Încercați din nou căutarea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel обратился к Spotlight и не получил ответа, поэтому не может сказать, что есть на этом Mac. Проверьте, включено ли индексирование Spotlight."
+            "value" : "Peel обратился к Spotlight и не получил ответа, поэтому не может сказать, что есть на этом Mac. Повторите поиск."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågade Spotlight och fick inget svar, så Peel kan inte säga vad som finns på den här datorn. Kontrollera att Spotlight-indexeringen är på."
+            "value" : "Peel frågade Spotlight och fick inget svar, så Peel kan inte säga vad som finns på den här datorn. Försök söka igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel Spotlight’a sordu ve yanıt alamadı, bu yüzden bu Mac’te ne olduğunu söyleyemiyor. Spotlight dizinlemesinin açık olduğunu denetleyin."
+            "value" : "Peel Spotlight’a sordu ve yanıt alamadı, bu yüzden bu Mac’te ne olduğunu söyleyemiyor. Aramayı yeniden deneyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel звернулася до Spotlight, але не отримала відповіді, тож не може сказати, що є на цьому Mac. Перевірте, чи ввімкнено індексування Spotlight."
+            "value" : "Peel звернулася до Spotlight, але не отримала відповіді, тож не може сказати, що є на цьому Mac. Спробуйте виконати пошук ще раз."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel询问了“聚焦”，但没有得到回应，因此无法判断这台Mac上有什么。请检查“聚焦”索引是否已打开。"
+            "value" : "Peel询问了“聚焦”，但没有得到回应，因此无法判断这台Mac上有什么。请重新搜索。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel詢問了Spotlight但沒有得到回應，因此無法得知這部Mac上有什麼。請確認Spotlight索引功能已開啟。"
+            "value" : "Peel詢問了Spotlight但沒有得到回應，因此無法得知這部Mac上有什麼。請再搜尋一次。"
           }
         }
       }
@@ -152607,6 +153031,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spotlight輸入程式"
+          }
+        }
+      }
+    },
+    "Spotlight isn’t indexing %@, so File Search can’t find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight neindexuje %@, takže stránka Hledání souborů tam nemůže nic najít. Disk uvedený v Nastavení systému > Spotlight > Soukromí při hledání zůstává vynechán, dokud ho odtamtud neodstraníte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight indiziert %@ nicht, daher kann die Seite „Dateisuche“ dort nichts finden. Ein Volume, das unter „Systemeinstellungen“ > „Spotlight“ > „Datenschutz der Suchfunktion“ aufgeführt ist, bleibt ausgeschlossen, bis du es dort entfernst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight no indexa %@, así que la página Búsqueda de archivos no puede encontrar nada ahí. Un disco que aparezca en Ajustes del Sistema > Spotlight > Privacidad de la búsqueda queda fuera hasta que lo elimines de ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight n’indexe pas %@ : la page Recherche de fichiers ne peut donc rien y trouver. Un disque listé dans Réglages Système > Spotlight > Recherche et confidentialité est laissé de côté jusqu’à ce que vous l’en retiriez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight non indicizza %@, quindi “Ricerca file” non può trovare nulla lì. Un disco elencato in Impostazioni di Sistema > Spotlight > Privacy della ricerca resta escluso finché non lo rimuovi dall’elenco."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlightが%@の索引を作成していないため、“ファイル検索”ではそこにあるものを見つけられません。“システム設定”＞“Spotlight”＞“検索のプライバシー”に追加されているディスクは、そこから削除するまで索引から除外されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight가 %@을(를) 인덱싱하지 않으므로 파일 검색 페이지는 그곳에서 아무것도 찾을 수 없습니다. 시스템 설정 > Spotlight > 검색 개인정보 보호에 나열된 디스크는 그곳에서 제거하기 전까지 인덱싱에서 제외됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight indexeert %@ niet, dus kan de pagina 'Bestanden zoeken' daar niets vinden. Een schijf die in Systeeminstellingen > Spotlight > Zoeken en privacy staat, wordt overgeslagen totdat je die daar uit de lijst verwijdert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight nie indeksuje: %@, więc strona Wyszukiwanie plików nie może niczego tam znaleźć. Dysk wymieniony w Ustawieniach systemowych > Spotlight > Wyszukiwanie i prywatność jest pomijany, dopóki go stamtąd nie usuniesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Spotlight não está indexando %@, então a página Busca de Arquivos não consegue encontrar nada lá. Um disco listado em Ajustes do Sistema > Spotlight > Privacidade na Busca fica de fora até você removê-lo de lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight nu indexează %@, așa că pagina Căutare fișiere nu poate găsi nimic acolo. Un disc listat în Configurări sistem > Spotlight > Intimitatea căutărilor rămâne neindexat până când îl eliminați de acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight не индексирует %@, поэтому раздел «Поиск файлов» не может там ничего найти. Диск из списка в разделе «Системные настройки» > «Spotlight» > «Конфиденциальность Поиска» не индексируется, пока Вы не удалите его оттуда."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight indexerar inte %@, så sidan Filsökning kan inte hitta något där. En skiva som listas i Systeminställningar > Spotlight > Sökningsintegritet utesluts tills du tar bort den därifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight, %@ içeriğini dizinlemiyor, bu yüzden Dosya Arama orada hiçbir şey bulamaz. Sistem Ayarları > Spotlight > Arama Gizliliği bölümünde listelenen bir disk, siz onu oradan kaldırana kadar dizinleme dışında bırakılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight не індексує %@, тож розділ «Пошук файлів» не може там нічого знайти. Диск, доданий до списку в розділі Системні параметри > Spotlight > Приватність пошуку, лишається поза індексом, доки ви не вилучите його звідти."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“聚焦”没有索引“%@”，因此“文件搜索”无法在其中找到任何内容。列在“系统设置”>“聚焦”>“搜索隐私”中的磁盘会被排除在外，直到你在那里将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight沒有為%@建立索引，因此「檔案搜尋」無法在那裡找到任何項目。列在「系統設定」>「Spotlight」>「搜尋隱私權」中的磁碟會被略過，直到你在那裡將它移除為止。"
           }
         }
       }
