@@ -331,7 +331,8 @@ public enum PackageReceipts {
                 // Judged from the disk: `items` leaves out what is excluded or protected, even while it is there.
                 nothingLeftOnDisk: listing != nil && !throughScripts && found.onDisk.isEmpty,
                 isFileListKnown: listing != nil,
-                installedThroughItsScripts: throughScripts
+                installedThroughItsScripts: throughScripts,
+                installedApps: apps.map(\.name).sorted()
             ),
             paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) }
         )

@@ -155,6 +155,12 @@ struct PackageDetailView: View {
                         name: String(localized: "Receipt only"),
                         detail: Text("macOS still counts this package as installed, but nothing it put on disk is left.")
                     )
+                } else if !receipt.installedApps.isEmpty {
+                    NoteBadge(
+                        title: Text("Still installed"), systemImage: "app.badge.checkmark",
+                        name: String(localized: "Still installed"),
+                        detail: Text("What this package installed is still on this Mac: \(receipt.installedApps.formatted(.list(type: .and))).")
+                    )
                 }
             }
         } trailing: {

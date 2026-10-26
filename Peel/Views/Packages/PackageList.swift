@@ -19,6 +19,8 @@ struct PackageList: View {
                     HStack(spacing: 6) {
                         if receipt.nothingLeftOnDisk {
                             Text("Receipt only")
+                        } else if !receipt.installedApps.isEmpty {
+                            Text("Still installed")
                         } else if receipt.holdsNothingToRemove {
                             Text("Nothing Peel moves")
                         }

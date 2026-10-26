@@ -48,6 +48,8 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// True when the package's scripts put its files in place: it installed into a temporary folder, or listed
     /// nothing. Its receipt then doesn't say where they are, so nothing is judged left or gone from it.
     public var installedThroughItsScripts = false
+    /// The names of the apps the package put on this Mac that are still where it put them.
+    public var installedApps: [String] = []
 
     public var id: String { identifier }
 

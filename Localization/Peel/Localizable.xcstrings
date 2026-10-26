@@ -157303,6 +157303,112 @@
         }
       }
     },
+    "Still installed" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stále nainstalováno"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch installiert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigue instalado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toujours installé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancora installato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストールされたまま"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 설치되어 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog geïnstalleerd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nadal zainstalowane"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda instalado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Încă instalat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все еще установлено"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortfarande installerat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hâlâ yüklü"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Досі інстальовано"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仍已安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仍已安裝"
+          }
+        }
+      }
+    },
     "Stop" : {
       "localizations" : {
         "cs" : {
@@ -169173,6 +169279,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收據會丟到「垃圾桶」。檔案會保留在原處。"
+          }
+        }
+      }
+    },
+    "The receipt goes to the Trash. What the package installed stays and keeps working, but macOS, installers that check the receipt, and Peel stop knowing the package installed it, so Peel can no longer list what it put on this Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Záznam o instalaci se přesune do koše. Co balíček nainstaloval, zůstane a bude dál fungovat, ale systém macOS, instalátory, které záznam kontrolují, a Peel už nebudou vědět, že to nainstaloval tento balíček, takže Peel už nebude moci zobrazit, co balíček do tohoto Macu umístil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Quittung wird in den Papierkorb gelegt. Was das Paket installiert hat, bleibt und funktioniert weiter, aber macOS, Installer, die die Quittung prüfen, und Peel wissen dann nicht mehr, dass das Paket es installiert hat, daher kann Peel nicht mehr anzeigen, was das Paket auf diesem Mac abgelegt hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El recibo va a la papelera. Lo que instaló el paquete se queda y sigue funcionando, pero macOS, los instaladores que comprueban el recibo y Peel dejan de saber que lo instaló el paquete, así que Peel ya no puede mostrar lo que puso en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le reçu est placé dans la corbeille. Ce que le paquet a installé reste en place et continue de fonctionner, mais macOS, les programmes d’installation qui vérifient le reçu et Peel ne savent plus que ce paquet l’a installé : Peel ne peut donc plus lister ce qu’il a placé sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La ricevuta va nel Cestino. Ciò che il pacchetto ha installato resta e continua a funzionare, ma macOS, gli installer che controllano la ricevuta e Peel non sapranno più che l’ha installato il pacchetto, quindi Peel non potrà più elencare ciò che ha messo su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レシートはゴミ箱に入ります。パッケージがインストールしたものはそのまま残り、引き続き動作しますが、macOS、レシートを確認するインストーラ、およびPeelは、それがこのパッケージによってインストールされたことを認識できなくなります。そのため、PeelはこのパッケージがこのMacに置いたものを一覧に表示できなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수신 정보는 휴지통으로 이동합니다. 패키지가 설치한 항목은 그대로 남아 계속 작동하지만, macOS와 수신 정보를 확인하는 설치 프로그램, Peel은 더 이상 이 패키지가 해당 항목을 설치했다는 것을 알 수 없게 됩니다. 따라서 Peel은 이 패키지가 이 Mac에 설치한 항목을 더 이상 나열할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het installatiebewijs gaat naar de prullenmand. Wat het pakket heeft geïnstalleerd, blijft staan en blijft werken, maar macOS, installatieprogramma's die het installatiebewijs controleren, en Peel weten dan niet meer dat het pakket het heeft geïnstalleerd, dus Peel kan niet meer tonen wat het pakket op deze Mac heeft gezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potwierdzenie trafi do Kosza. To, co zainstalował pakiet, pozostanie i nadal będzie działać, ale macOS, instalatory sprawdzające potwierdzenia i Peel przestaną wiedzieć, że zainstalował to ten pakiet, więc Peel nie będzie już mógł wyświetlić tego, co pakiet umieścił na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O recibo vai para o Lixo. O que o pacote instalou permanece e continua funcionando, mas o macOS, os instaladores que verificam o recibo e o Peel deixam de saber que o pacote instalou esses itens, então o Peel não pode mais listar o que ele colocou neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipisa este mutată în Coș. Ce a instalat pachetul rămâne și funcționează în continuare, dar macOS, programele de instalare care verifică recipisa și Peel nu vor mai ști că pachetul l‑a instalat, așa că Peel nu va mai putea lista ce a pus acesta pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанция перемещается в Корзину. То, что установил пакет, остается на месте и продолжает работать, но macOS, установщики, которые проверяют квитанцию, и сам Peel перестают знать, что это установил пакет, поэтому Peel больше не сможет показать, что пакет поместил на этот Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kvittot flyttas till papperskorgen. Det som paketet installerade finns kvar och fortsätter att fungera, men macOS, installerare som kontrollerar kvittot och Peel vet inte längre att paketet installerade det, så Peel kan inte längre lista det som paketet placerade på den här datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Makbuz Çöp Sepeti’ne gider. Paketin yüklediği şeyler olduğu yerde kalır ve çalışmaya devam eder, ancak macOS, makbuzu denetleyen yükleyiciler ve Peel bunları o paketin yüklediğini artık bilmez; bu yüzden Peel, paketin bu Mac’e koyduklarını artık listeleyemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанцію буде переміщено в Смітник. Те, що інсталював пакет, залишиться й працюватиме далі, але macOS, інсталятори, які перевіряють квитанцію, і Peel більше не знатимуть, що це інсталював цей пакет, тож Peel більше не зможе показати, що пакет записав на цей Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "回执会移到废纸篓。该软件包安装的内容会保留并继续正常工作，但macOS、会检查回执的安装器以及Peel都将不再知道这些内容是由该软件包安装的，因此Peel将无法再列出它在这台Mac上放置的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收據會丟到「垃圾桶」。此套件安裝的內容會保留並繼續運作，但macOS、會檢查收據的安裝程式以及Peel都將不再知道這些內容是由此套件安裝的，因此Peel將無法再列出它在這部Mac上放置的內容。"
           }
         }
       }
@@ -189452,6 +189664,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此套件安裝的內容若不是已在「設定」中排除，就是位於Peel絕不會動的檔案夾中。"
+          }
+        }
+      }
+    },
+    "What this package installed is still on this Mac: %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co tento balíček nainstaloval, je stále v tomto Macu: %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was dieses Paket installiert hat, ist noch auf diesem Mac: %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que instaló este paquete sigue en este Mac: %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que ce paquet a installé se trouve toujours sur ce Mac : %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che questo pacchetto ha installato è ancora su questo Mac: %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このパッケージがインストールしたものは、まだこのMacにあります: %@。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 패키지가 설치한 항목이 아직 이 Mac에 있습니다: %@."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat dit pakket heeft geïnstalleerd, staat nog op deze Mac: %@."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co zainstalował ten pakiet, nadal jest na tym Macu: %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que este pacote instalou ainda está neste Mac: %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce a instalat acest pachet se află încă pe acest Mac: %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что установил этот пакет, все еще находится на этом Mac: %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som det här paketet installerade finns fortfarande på den här datorn: %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu paketin yükledikleri hâlâ bu Mac’te: %@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що інсталював цей пакет, досі є на цьому Mac: %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此软件包安装的内容仍在这台Mac上：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此套件安裝的內容仍在這部Mac上：%@。"
           }
         }
       }

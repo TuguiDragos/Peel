@@ -249,6 +249,36 @@ struct PackageReceiptsTests {
         #expect(gone.nothingLeftOnDisk && !gone.installedThroughItsScripts)
     }
 
+    @Test func aPackageWhoseAppIsStillThereNamesIt() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.mixer", "CFBundleName": "Mixer"], format: .xml, options: 0
+        )
+        try directory.file("Applications/Mixer.app/Contents/Info.plist", contents: info)
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.gone.pkg", "org.example.mixer.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "Applications"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return arguments[1] == "org.example.mixer.pkg"
+                    ? "Mixer.app\nMixer.app/Contents\nMixer.app/Contents/Info.plist" : "Gone.app"
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+
+        #expect(scan.receipts.first { $0.identifier == "org.example.mixer.pkg" }?.installedApps == ["Mixer"])
+        #expect(scan.receipts.first { $0.identifier == "org.example.gone.pkg" }?.installedApps == [])
+    }
+
     @Test func leavesAnAppToFinderWhenMacOSInstalledItsSystemExtension() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)

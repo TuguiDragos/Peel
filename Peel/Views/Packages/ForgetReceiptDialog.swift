@@ -27,9 +27,19 @@ struct ForgetReceiptDialog: ViewModifier {
                         outcome.report(result)
                     }
                 }
-                Button("Cancel", role: .cancel) {}
-            } message: { _ in
-                Text("The receipt goes to the Trash, so macOS no longer counts the package as installed. What it installed stays where it is.")
+                // While what the package installed is still here, Return keeps the receipt, so the message is read.
+                if receipt.installedApps.isEmpty {
+                    Button("Cancel", role: .cancel) {}
+                } else {
+                    Button("Cancel", role: .cancel) {}
+                        .keyboardShortcut(.defaultAction)
+                }
+            } message: { receipt in
+                if receipt.installedApps.isEmpty {
+                    Text("The receipt goes to the Trash, so macOS no longer counts the package as installed. What it installed stays where it is.")
+                } else {
+                    Text("The receipt goes to the Trash. What the package installed stays and keeps working, but macOS, installers that check the receipt, and Peel stop knowing the package installed it, so Peel can no longer list what it put on this Mac.")
+                }
             }
     }
 
