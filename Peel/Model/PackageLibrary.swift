@@ -18,6 +18,17 @@ final class PackageLibrary {
         receipts?.first { $0.id == selection }
     }
 
+    /// Takes out of the selection what waits for the helper while the helper can't act: its checkbox is off then, and
+    /// a move would only refuse it, so it would stay selected, and counted, for every move after.
+    func follow(canUseHelper: Bool) {
+        let kept = Self.selection(selectedURLs, in: receipts ?? [], canUseHelper: canUseHelper)
+        if kept != selectedURLs { selectedURLs = kept }
+    }
+
+    static func selection(_ selected: Set<URL>, in receipts: [PackageReceipt], canUseHelper: Bool) -> Set<URL> {
+        selected.subtracting(receipts.flatMap(\.items).filter { $0.isLocked(canUseHelper: canUseHelper) }.map(\.url))
+    }
+
     func refresh() async {
         guard
             let scan = await scanRun.run({ await PackageReceipts.list(exclusions: ExclusionsStore.shared.exclusions) })

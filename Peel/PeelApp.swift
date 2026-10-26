@@ -128,6 +128,7 @@ struct PeelApp: App {
         for await canAct in Observations({ helper.canAct }) {
             space.follow(canUseHelper: canAct)
             orphans.follow(canUseHelper: canAct)
+            packages.follow(canUseHelper: canAct)
         }
     }
 

@@ -193,7 +193,7 @@ struct PackageDetailView: View {
     }
 
     private func isLocked(_ item: PackageReceipt.Item) -> Bool {
-        item.requiresPrivileges && !helper.canAct
+        item.isLocked(canUseHelper: helper.canAct)
     }
 
     private func note(for item: PackageReceipt.Item) -> String? {

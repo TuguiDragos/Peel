@@ -31,6 +31,11 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         }
 
         public var id: URL { url }
+
+        /// True while only the helper can move the item and the helper can't act: its checkbox is off then.
+        public func isLocked(canUseHelper: Bool) -> Bool {
+            requiresPrivileges && !canUseHelper
+        }
     }
 
     public let identifier: String
