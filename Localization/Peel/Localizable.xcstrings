@@ -167445,6 +167445,112 @@
         }
       }
     },
+    "Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebere úlohu z launchd. Její soubor zůstane, kde je, a úloha znovu poběží, jen pokud ji něco znovu načte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt es aus launchd. Seine Datei bleibt, wo sie ist, und es läuft erst wieder, wenn etwas es erneut lädt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo quita de launchd. Su archivo se queda donde está, y solo vuelve a ejecutarse si algo lo vuelve a cargar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retire cet élément de launchd. Son fichier reste là où il est, et l’élément ne s’exécute de nouveau que si quelque chose le recharge."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo toglie da launchd. Il suo file resta dov’è, e torna in esecuzione solo se qualcosa lo carica di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchdから取り除きます。ファイルはそのまま残り、何かが再び読み込んだ場合にのみ、再び実行されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd에서 이 항목을 제거합니다. 파일은 그대로 남으며, 무언가가 다시 로드해야만 다시 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haalt het uit launchd. Het bestand ervan blijft staan waar het staat, en het wordt pas weer uitgevoerd als iets het opnieuw laadt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa tę rzecz z launchd. Jej plik pozostaje na miejscu, a ona sama uruchomi się ponownie tylko wtedy, gdy coś znowu ją wczyta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retira o item do launchd. O arquivo dele fica onde está, e ele só volta a ser executado se algo o carregar novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl scoate din launchd. Fișierul său rămâne unde se află și rulează din nou doar dacă ceva îl încarcă din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убирает его из launchd. Его файл остается на месте, и он снова запустится, только если что-то снова его загрузит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort det ur launchd. Filen ligger kvar där den är, och det körs igen bara om något läser in det igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu launchd’den çıkarır. Dosyası olduğu yerde kalır ve ancak bir şey onu yeniden yüklerse yeniden çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучає його з launchd. Його файл лишається на місці, і елемент знову запуститься, лише якщо щось знову його завантажить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将此任务从launchd中移除。它的文件会留在原处，只有当某个程序再次载入它时，它才会再次运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將它從launchd中移除。它的檔案會留在原處，只有在有東西再次載入它時，它才會再次執行。"
+          }
+        }
+      }
+    },
     "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
       "localizations" : {
         "cs" : {

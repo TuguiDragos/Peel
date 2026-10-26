@@ -114,6 +114,10 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
             && (requiresPrivileges ? !PrivilegedPathPolicy.isValidLabel(label) : !isReadWholeByLaunchctl)
     }
 
+    /// True for a job Peel can only take out of launchd, which nothing loads again by itself: one loaded from a file
+    /// elsewhere, still there or gone. Disabled, it would leave the list with nothing to enable it from.
+    public var canOnlyBeStopped: Bool { canBeControlled && source == .otherFile }
+
     /// True when Peel may disable the job: not one ServiceManagement manages, and one whose row Enable stays on.
     public var mayBeDisabled: Bool { canBeControlled && !isManagedByServiceManagement && staysListedWhenDisabled }
 

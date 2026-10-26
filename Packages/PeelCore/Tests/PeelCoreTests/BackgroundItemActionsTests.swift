@@ -171,6 +171,20 @@ struct BackgroundItemActionsTests {
         #expect(!daemon("com.apple.example").hasAnUnusableLabel)
     }
 
+    @Test func aJobLoadedFromAFileElsewhereCanOnlyBeStopped() {
+        func agent(_ label: String, _ source: BackgroundItem.Source) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: .agent, source: source, plistURL: nil, program: "/usr/local/bin/agent",
+                runsAtLoad: true, keepsAlive: true, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil,
+                isOrphan: false, state: .running(pid: 4_242), isDisabled: false
+            )
+        }
+
+        #expect(agent("org.example.elsewhere", .otherFile).canOnlyBeStopped)
+        #expect(!agent("org.example.declared", .userLibrary).canOnlyBeStopped)
+        #expect(!agent("org.example.elsewhere/x", .otherFile).canOnlyBeStopped)
+    }
+
     @Test func anAgentWhoseNameReachesAnotherJobIsLeftAlone() {
         func agent(_ label: String) -> BackgroundItem {
             BackgroundItem(

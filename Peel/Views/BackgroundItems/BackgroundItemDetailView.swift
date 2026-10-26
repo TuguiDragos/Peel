@@ -354,17 +354,14 @@ struct BackgroundItemDetailView: View {
             .contentTransition(.opacity)
     }
 
-    /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
-    /// file macOS can't load, and a job loaded from a file elsewhere don't have. Disabled, that last one would leave
-    /// the list at the next logout or restart with nothing left to Enable it from. A job whose file is gone has only
-    /// Stop. A job Peel may not disable has only Enable, while launchd keeps it disabled.
+    /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, and a
+    /// file macOS can't load don't have. A job loaded from a file elsewhere has only Stop. A job Peel may not disable
+    /// has only Enable, while launchd keeps it disabled.
     private var hasOwnControls: Bool {
-        guard item.canBeControlled, item.state != .unknown, item.source != .otherFile || item.isFileGone,
-              !item.isUnreadable
-        else {
+        guard item.canBeControlled, item.state != .unknown, !item.isUnreadable else {
             return false
         }
-        if item.isFileGone { return true }
+        if item.canOnlyBeStopped { return true }
         if #available(macOS 27, *), item.isLeftByAGoneApp { return true }
         return !item.isSeenOnlyWhileLoaded || item.isDisabled || item.mayBeDisabled
     }
@@ -390,10 +387,11 @@ struct BackgroundItemDetailView: View {
     private var ownControls: some View {
         Group {
             // Stopping takes the job out of launchd, and nothing else removes one whose file or app is gone.
-            if item.isFileGone {
+            if item.canOnlyBeStopped {
                 Button("Stop", systemImage: "stop.fill") {
                     Task { await backgroundItems.perform(.stop, on: item) }
                 }
+                .help(item.isFileGone ? Text(verbatim: "") : Text("Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again."))
             } else if #available(macOS 27, *), item.isLeftByAGoneApp {
                 Button("Remove", systemImage: "xmark.circle") {
                     Task { await backgroundItems.perform(.stop, on: item) }
