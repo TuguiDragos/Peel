@@ -257,16 +257,19 @@ public struct Exclusions: Sendable, Codable, Hashable {
     }
 
     /// Whether `brew uninstall` would delete something excluded: an app the package installs (`apps` are the
-    /// installed apps known to be its), an app identifier it quits, or its own folder under `prefix`. Nil when one of
-    /// these can't be looked into for an excluded app. An unreadable list, or one not read yet, counts as excluding
-    /// every package, since `brew uninstall` cannot be undone.
-    public func excludes(_ package: HomebrewPackage, apps: [InstalledApp], prefix: URL?) -> Bool? {
+    /// installed apps known to be its), an app identifier it quits, or its own folder in the installation's Caskroom
+    /// or Cellar. Nil when one of these can't be looked into for an excluded app. An unreadable list, or one not read
+    /// yet, counts as excluding every package, since `brew uninstall` cannot be undone.
+    public func excludes(
+        _ package: HomebrewPackage,
+        apps: [InstalledApp],
+        installation: HomebrewInstallation?
+    ) -> Bool? {
         guard isKnown else { return true }
         if apps.contains(where: { $0.bundleIdentifier.map(excludes(bundleIdentifier:)) == true }) { return true }
         if package.quitIdentifiers.contains(where: { excludes(bundleIdentifier: $0) }) { return true }
-        let own = prefix.map {
-            $0.appending(path: package.kind == .cask ? "Caskroom" : "Cellar", directoryHint: .isDirectory)
-                .appending(path: package.name, directoryHint: .isDirectory)
+        let own = installation.map {
+            (package.kind == .cask ? $0.caskroom : $0.cellar).appending(path: package.name, directoryHint: .isDirectory)
         }
         let folders = package.appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) } + apps.map(\.url)
             + [own].compactMap(\.self)
@@ -282,12 +285,11 @@ public struct Exclusions: Sendable, Codable, Hashable {
         return isKnownToHoldNothing ? false : nil
     }
 
-    /// The installed formulae whose own folder under `prefix` is excluded or holds something excluded, which
-    /// Homebrew is told to keep: `brew cleanup`, and the autoremove `brew uninstall` runs, delete formulae and their
-    /// old versions for good. An unreadable list, or one not read yet, keeps every formula. Nil when the Cellar, or a
+    /// The installed formulae whose own folder in `cellar` is excluded or holds something excluded, which Homebrew
+    /// is told to keep: `brew cleanup`, and the autoremove `brew uninstall` runs, delete formulae and their old
+    /// versions for good. An unreadable list, or one not read yet, keeps every formula. Nil when the Cellar, or a
     /// formula's folder in it, can't be looked into.
-    public func keptFormulae(inCellarOf prefix: URL) -> [String]? {
-        let cellar = prefix.appending(path: "Cellar", directoryHint: .isDirectory)
+    public func keptFormulae(inCellar cellar: URL) -> [String]? {
         guard let names = ProtectedData.names(in: cellar.path(percentEncoded: false), followingLinks: true) else {
             return nil
         }

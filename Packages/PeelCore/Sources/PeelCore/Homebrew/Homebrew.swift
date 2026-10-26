@@ -208,6 +208,12 @@ extension [HomebrewPackage] {
 public struct HomebrewInstallation: Sendable, Hashable {
     public let version: String
     public let prefix: URL
+    /// Where Homebrew keeps its formulae, as it says: in its repository when it has one there, else under the prefix.
+    public let cellar: URL
+
+    public var caskroom: URL {
+        prefix.appending(path: "Caskroom", directoryHint: .isDirectory)
+    }
 
     private let numbers: [Int]
 
@@ -221,9 +227,10 @@ public struct HomebrewInstallation: Sendable, Hashable {
     /// `brew bundle` is part of Homebrew since 4.4.25; before, it lived in a tap that asking for it would download.
     public var writesABrewfile: Bool { isAtLeast(4, 4, 25) }
 
-    public init(version: String, prefix: URL) {
+    public init(version: String, prefix: URL, cellar: URL? = nil) {
         self.version = version
         self.prefix = prefix
+        self.cellar = cellar ?? prefix.appending(path: "Cellar", directoryHint: .isDirectory)
         numbers = version
             .prefix { $0.isNumber || $0 == "." }
             .split(separator: ".")
@@ -699,19 +706,34 @@ public enum Homebrew {
     /// `bin` that `brew` was found in, never one the environment names.
     @concurrent
     public static func installation() async -> HomebrewInstallation? {
-        guard let executable = executableURL else { return nil }
-        guard let output = try? await answer(["--version"]) else { return nil }
+        guard executableURL != nil, let version = try? await answer(["--version"]) else { return nil }
+        return installation(
+            versionAnswer: version,
+            prefixAnswer: try? await answer(["--prefix"]),
+            cellarAnswer: try? await answer(["--cellar"])
+        )
+    }
+
+    /// The installation as Homebrew describes it. Its prefix and Cellar are asked, never worked out from where `brew`
+    /// is: run from its repository, `bin/brew` moves the prefix to /usr/local when /usr/local/bin/brew leads there, and
+    /// the Cellar is in the repository when there is one.
+    static func installation(
+        versionAnswer: String,
+        prefixAnswer: String?,
+        cellarAnswer: String?
+    ) -> HomebrewInstallation? {
         // The first line is `Homebrew <version>`; anything under it names a tap.
-        guard let first = output.split(whereSeparator: \.isNewline).first else { return nil }
+        guard let first = versionAnswer.split(whereSeparator: \.isNewline).first else { return nil }
         let line = first.trimmingCharacters(in: .whitespaces)
         let label = "Homebrew "
         let version = line.hasPrefix(label) ? String(line.dropFirst(label.count)) : line
-        guard !version.isEmpty else { return nil }
-        // Dropping `bin/brew` leaves a folder URL whose path ends in a slash; the prefix is rebuilt without it.
-        let folder = executable.deletingLastPathComponent().deletingLastPathComponent()
+        guard !version.isEmpty, let prefix = prefixAnswer.flatMap(folder(answering:)),
+              let cellar = cellarAnswer.flatMap(folder(answering:))
+        else { return nil }
         return HomebrewInstallation(
             version: version,
-            prefix: URL(filePath: folder.path(percentEncoded: false), directoryHint: .notDirectory)
+            prefix: URL(filePath: PathPattern.comparablePath(of: prefix), directoryHint: .notDirectory),
+            cellar: cellar
         )
     }
 

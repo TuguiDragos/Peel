@@ -536,11 +536,12 @@ there: that holds even for what only the helper could move, as the helper knows 
 files, such as plug-ins, receipts, or a folder named after the app, are excluded only by their own paths, so to keep
 them, exclude them too.
 
-Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` for a
-package whose app, or whose own folder, you excluded, nor for one with a folder Peel can't look into for an app you
-excluded, nor for any package while your list isn't read or can't be, and Homebrew's cleanup keeps every formula whose
-folder you excluded. While Peel can't read Homebrew's Cellar, or can't look into a formula's folder in it for an app
-you excluded, nothing that deletes formulae runs at all.
+Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` for a package
+whose app, or whose own folder, you excluded, nor for one with a folder Peel can't look into for an app you excluded,
+nor for any package while your list isn't read or can't be, and Homebrew's cleanup keeps every formula whose folder you
+excluded. While Peel can't read Homebrew's Cellar, or can't look into a formula's folder in it for an app you excluded,
+nothing that deletes formulae runs at all. The Cellar and the prefix are the ones Homebrew names (`brew --cellar`, `brew
+--prefix`), never worked out from where `brew` sits.
 
 If the saved list is there and cannot be read, Peel does not treat it as empty. It moves nothing until you
 start over in Settings, `peel` refuses, and the file it could not read is kept beside the new one.

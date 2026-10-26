@@ -4,6 +4,18 @@ import Synchronization
 import Testing
 
 struct HomebrewTests {
+    @Test func takesThePrefixAndTheCellarHomebrewAnswers() {
+        let installation = Homebrew.installation(
+            versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/usr/local\n", cellarAnswer: "/usr/local/Homebrew/Cellar\n"
+        )
+        #expect(installation?.version == "7.0.9")
+        #expect(installation?.prefix.path(percentEncoded: false) == "/usr/local")
+        #expect(installation?.cellar.path(percentEncoded: false) == "/usr/local/Homebrew/Cellar/")
+        #expect(installation?.caskroom.path(percentEncoded: false) == "/usr/local/Caskroom/")
+        #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: nil, cellarAnswer: "/c\n") == nil)
+        #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/p\n", cellarAnswer: "c\n") == nil)
+    }
+
     /// `man brew`: unless `HOMEBREW_NO_INSTALL_CLEANUP` is set, `brew upgrade` runs `brew cleanup` by itself, for
     /// the upgraded packages and every 30 days for all of them, which deletes old versions and downloads for good.
     /// Peel deletes those only through Clean Up, which asks first, so no call it makes may clean up on its own.
@@ -110,11 +122,11 @@ struct HomebrewTests {
         }
 
         try directory.setPermissions(0, of: "Cellar")
-        #expect(excludingWget.keptFormulae(inCellarOf: directory.url) == nil)
+        #expect(excludingWget.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == nil)
         try directory.setPermissions(0o755, of: "Cellar")
         try directory.setPermissions(0, of: "Cellar/jq/1.8.1")
-        #expect(excludingAnApp.keptFormulae(inCellarOf: directory.url) == nil)
-        #expect(excludingWget.keptFormulae(inCellarOf: directory.url.appending(path: "Missing")) == [])
+        #expect(excludingAnApp.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == nil)
+        #expect(excludingWget.keptFormulae(inCellar: directory.url.appending(path: "Missing/Cellar")) == [])
     }
 
     /// `brew cleanup` and the autoremove that `brew uninstall` runs delete formulae and their old versions for good,
@@ -129,9 +141,9 @@ struct HomebrewTests {
             directory.url.appending(path: "Cellar/jq"), directory.url.appending(path: "Cellar/python@3.13/3.13.7"),
         ])
 
-        let kept = try #require(exclusions.keptFormulae(inCellarOf: directory.url))
+        let kept = try #require(exclusions.keptFormulae(inCellar: directory.url.appending(path: "Cellar")))
         #expect(kept == ["jq", "python@3.13"])
-        #expect(Exclusions.unreadable.keptFormulae(inCellarOf: directory.url) == ["jq", "python@3.13", "wget"])
+        #expect(Exclusions.unreadable.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == ["jq", "python@3.13", "wget"])
 
         let attempt = try await Homebrew.execute(
             ["-c", "printf %s \"$HOMEBREW_NO_CLEANUP_FORMULAE\""], autoUpdate: false, keeping: kept, timeout: 10,

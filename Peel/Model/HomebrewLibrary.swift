@@ -268,7 +268,7 @@ final class HomebrewLibrary {
         // The installation is read first, since it says how to read the figures that follow. The other questions
         // take about as long as each other, so they run at the same time. Only the page shows the last two.
         let found = await Homebrew.installation()
-        let kept = found.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: $0.prefix) } ?? []
+        let kept = found.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar) } ?? []
         async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
         async let overridden = includingReclaimable ? Homebrew.overrides() : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
@@ -422,8 +422,8 @@ final class HomebrewLibrary {
     /// The formulae the exclusions cover, which Homebrew is told to keep, asked again right before a command that
     /// deletes for good. Nothing runs when Peel can't tell which they are or Homebrew's own settings replace the list.
     private func keptFormulae() async -> Keeping {
-        guard let prefix = installation?.prefix else { return .nothingRuns(keepsNothing) }
-        guard let kept = ExclusionsStore.shared.exclusions.keptFormulae(inCellarOf: prefix) else {
+        guard let cellar = installation?.cellar else { return .nothingRuns(keepsNothing) }
+        guard let kept = ExclusionsStore.shared.exclusions.keptFormulae(inCellar: cellar) else {
             return .nothingRuns(CommandResult(succeeded: false, output: String(localized: "Peel couldn’t read Homebrew’s Cellar to tell which formulae your exclusions cover, so it ran nothing.")))
         }
         return await Homebrew.keepsEvery(kept) ? .formulae(kept) : .nothingRuns(keepsNothing)

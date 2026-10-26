@@ -87,24 +87,24 @@ struct ExclusionsTests {
     /// `brew uninstall` deletes for good, so the Homebrew page never runs it on a package that would take
     /// something the user excluded.
     @Test func keepsWhatBrewUninstallWouldDeleteForGood() {
-        let prefix = URL(filePath: "/opt/homebrew", directoryHint: .isDirectory)
+        let installation = HomebrewInstallation(version: "7.0.9", prefix: URL(filePath: "/opt/homebrew"))
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
         let cask = HomebrewPackage(name: "example", kind: .cask, appTargets: ["/Applications/Example.app"], quitIdentifiers: ["com.example.app"])
         let formula = HomebrewPackage(name: "wget", kind: .formula)
 
-        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app")]).excludes(cask, apps: [], prefix: prefix) == true)
-        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app/Contents/Resources/keep")]).excludes(cask, apps: [], prefix: prefix) == true)
-        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [app], prefix: prefix) == true)
-        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [], prefix: prefix) == true, "the identifier it quits names it too")
-        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Caskroom/example")]).excludes(cask, apps: [], prefix: prefix) == true)
-        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew")]).excludes(formula, apps: [], prefix: prefix) == true)
-        #expect(Exclusions.unreadable.excludes(formula, apps: [], prefix: prefix) == true, "a list that cannot be read keeps everything")
-        #expect(Exclusions.notYetRead.excludes(formula, apps: [], prefix: prefix) == true, "a list not read yet keeps everything")
+        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app")]).excludes(cask, apps: [], installation: installation) == true)
+        #expect(Exclusions(paths: [URL(filePath: "/Applications/Example.app/Contents/Resources/keep")]).excludes(cask, apps: [], installation: installation) == true)
+        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [app], installation: installation) == true)
+        #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [], installation: installation) == true, "the identifier it quits names it too")
+        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Caskroom/example")]).excludes(cask, apps: [], installation: installation) == true)
+        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew")]).excludes(formula, apps: [], installation: installation) == true)
+        #expect(Exclusions.unreadable.excludes(formula, apps: [], installation: installation) == true, "a list that cannot be read keeps everything")
+        #expect(Exclusions.notYetRead.excludes(formula, apps: [], installation: installation) == true, "a list not read yet keeps everything")
 
         let unrelated = Exclusions(paths: [URL(filePath: "/Applications/Other.app")], bundleIdentifiers: ["com.other.app"])
-        #expect(unrelated.excludes(cask, apps: [app], prefix: prefix) == false)
-        #expect(unrelated.excludes(formula, apps: [], prefix: prefix) == false)
-        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], prefix: prefix) == false)
+        #expect(unrelated.excludes(cask, apps: [app], installation: installation) == false)
+        #expect(unrelated.excludes(formula, apps: [], installation: installation) == false)
+        #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], installation: installation) == false)
     }
 
     @Test(.permissionsHold) func keepsAPackageItCannotSearchForAnExclusion() throws {
@@ -112,10 +112,10 @@ struct ExclusionsTests {
         try directory.file("prefix/Caskroom/example/1.0/kept/org.example.excluded/state.db")
         try directory.setPermissions(0, of: "prefix/Caskroom/example/1.0")
         defer { try? directory.setPermissions(0o755, of: "prefix/Caskroom/example/1.0") }
-        let prefix = directory.url.appending(path: "prefix", directoryHint: .isDirectory)
+        let installation = HomebrewInstallation(version: "7.0.9", prefix: directory.url.appending(path: "prefix"))
         let cask = HomebrewPackage(name: "example", kind: .cask)
 
-        #expect(Exclusions(bundleIdentifiers: ["org.example.excluded"]).excludes(cask, apps: [], prefix: prefix) == nil)
+        #expect(Exclusions(bundleIdentifiers: ["org.example.excluded"]).excludes(cask, apps: [], installation: installation) == nil)
     }
 
     @Test func matchesAppsByBundleIdentifierOrPlace() {
