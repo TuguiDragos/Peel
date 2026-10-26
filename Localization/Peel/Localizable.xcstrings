@@ -124187,6 +124187,112 @@
         }
       }
     },
+    "Peel waits for Homebrew to say whether it installed this copy, since a copy Homebrew installed is removed with Homebrew." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel čeká, až Homebrew řekne, zda tuto kopii nainstaloval, protože kopie nainstalovaná přes Homebrew se odstraňuje pomocí Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wartet darauf, dass Homebrew mitteilt, ob es diese Kopie installiert hat, da eine von Homebrew installierte Kopie mit Homebrew entfernt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel espera a que Homebrew diga si instaló esta copia, ya que una copia instalada con Homebrew se elimina con Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel attend que Homebrew indique s’il a installé cette copie, car une copie installée par Homebrew se supprime avec Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel attende che Homebrew dica se ha installato questa copia, perché una copia installata da Homebrew si rimuove con Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewでインストールされたコピーは、Homebrewでアンインストールします。そのため、PeelはこのコピーがHomebrewでインストールされたものかどうか、Homebrewからの応答を待っています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 설치한 복사본은 Homebrew로 제거하므로, Peel은 Homebrew가 이 복사본을 설치했는지 알려 줄 때까지 기다립니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wacht tot Homebrew meldt of het deze kopie heeft geïnstalleerd, omdat een kopie die Homebrew heeft geïnstalleerd, met Homebrew wordt verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel czeka, aż Homebrew poda, czy to on zainstalował tę kopię, ponieważ kopię zainstalowaną przez Homebrew odinstalowuje się za pomocą Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel espera o Homebrew dizer se instalou esta cópia, já que uma cópia instalada pelo Homebrew é removida com o Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel așteaptă ca Homebrew să spună dacă a instalat această copie, deoarece o copie instalată de Homebrew se elimină cu Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ждет, пока Homebrew сообщит, устанавливал ли он эту копию, поскольку копию, установленную Homebrew, удаляют с помощью Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel väntar på att Homebrew ska svara om det har installerat den här kopian, eftersom en kopia som Homebrew har installerat tas bort med Homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Homebrew’un bu kopyayı yükleyip yüklemediğini söylemesini bekliyor, çünkü Homebrew’un yüklediği bir kopya Homebrew ile kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel чекає, доки Homebrew повідомить, чи інсталював він цю копію, бо копію, яку інсталював Homebrew, вилучають через Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正在等待Homebrew说明此副本是否由它安装，因为由Homebrew安装的副本需要使用Homebrew移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正在等待Homebrew說明這份副本是否由它安裝，因為由Homebrew安裝的副本要使用Homebrew移除。"
+          }
+        }
+      }
+    },
     "Peel won’t move itself from here: its folder needs an administrator. Drag it to the Trash in Finder, which asks for an administrator." : {
       "localizations" : {
         "cs" : {

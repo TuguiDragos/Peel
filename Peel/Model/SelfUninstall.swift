@@ -15,6 +15,20 @@ final class SelfUninstall {
     /// main bundle still names the place Peel left. Nil reads them from the main bundle.
     private(set) var words: Bundle?
 
+    /// How this copy of Peel is removed: with Homebrew's command when Homebrew installed it, which it goes on listing
+    /// otherwise, or with Remove Peel.
+    enum Way: Equatable {
+        case homebrew(String)
+        case removePeel
+        /// Homebrew hasn't said yet whether it installed this copy, which would then look like any other.
+        case waitingForHomebrew
+    }
+
+    static func way(cask: HomebrewPackage?, homebrewKnowsItsApps: Bool) -> Way {
+        if let cask { return .homebrew("brew uninstall --zap --cask \(cask.name)") }
+        return homebrewKnowsItsApps ? .removePeel : .waitingForHomebrew
+    }
+
     static var removeCommand: String {
         "sudo rm -f /usr/local/bin/peel"
     }

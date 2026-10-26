@@ -388,9 +388,8 @@ private struct GeneralSettingsView: View {
             SavedSettingsSection()
 
             Section {
-                // Homebrew lists the copy it installed until `brew uninstall` removes it.
-                if let cask = ownCask {
-                    let command = "brew uninstall --zap --cask \(cask.name)"
+                let way = SelfUninstall.way(cask: ownCask, homebrewKnowsItsApps: homebrew.knowsItsOwnApps)
+                if case .homebrew(let command) = way {
                     LabeledContent {
                         CopyButton(text: command)
                     } label: {
@@ -413,12 +412,10 @@ private struct GeneralSettingsView: View {
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.red)
-                        // Disabled until the app list and Homebrew's have loaded: without the first, a file Peel
-                        // shares with another app would look like Peel's alone, and without the second, a copy
-                        // Homebrew installed would look like one it didn't.
+                        // Disabled until the app list has loaded: a file Peel shares with another app would look like
+                        // Peel's alone.
                         .disabled(
-                            selfUninstall.isRunning || !library.hasLoaded
-                                || (homebrew.isInstalled && homebrew.packages == nil)
+                            selfUninstall.isRunning || !library.hasLoaded || way == .waitingForHomebrew
                                 || !history.mayMove || Self.runsFromAReadOnlyCopy
                         )
                     }
@@ -436,6 +433,10 @@ private struct GeneralSettingsView: View {
                             .foregroundStyle(.secondary)
                     } else if Self.runsFromAReadOnlyCopy {
                         Text(SelfUninstall.explanation(of: .readOnlyCopy))
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    } else if way == .waitingForHomebrew {
+                        Text("Peel waits for Homebrew to say whether it installed this copy, since a copy Homebrew installed is removed with Homebrew.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
