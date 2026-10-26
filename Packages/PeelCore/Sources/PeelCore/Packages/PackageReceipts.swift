@@ -415,6 +415,11 @@ public enum PackageReceipts {
         // A Mac disk is case-insensitive unless formatted otherwise, so `library/...` in a receipt is `/Library`.
         let shared = Set(sharedDirectories.map { $0.lowercased() })
         let isShared = { (path: String) in shared.contains(path.lowercased()) }
+        // A package can be built with a bundle as its install location, an app's own folder, and lists only what is
+        // inside it. The bundle is still one item.
+        if !isShared(root), isBundle(root, exists: exists) {
+            return ([root], ProtectedData.refuses(root, home: home) ? [] : [root], [])
+        }
 
         let outermost = Set(paths.filter { path in
             guard !isShared(path), path != root else { return false }

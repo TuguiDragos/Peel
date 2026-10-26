@@ -21,6 +21,20 @@ struct PackageReceiptsTests {
         #expect(found.offered == ["/\(plugIns)/SonoBus.aaxplugin"])
     }
 
+    @Test func aPackageInstalledIntoAnAppOffersTheApp() {
+        let files = ["Contents", "Contents/Info.plist", "Contents/MacOS", "Contents/MacOS/Example"]
+
+        let found = PackageReceipts.topLevel(
+            files: files, installLocation: "/Applications/Example.app", namesInside: { _ in nil }, exists: { _ in true }
+        )
+        let gone = PackageReceipts.topLevel(
+            files: files, installLocation: "/Applications/Example.app", namesInside: { _ in nil }, exists: { _ in false }
+        )
+
+        #expect(found.offered == ["/Applications/Example.app"])
+        #expect(gone.onDisk.isEmpty)
+    }
+
     @Test func keepsOnlyOutermostPackageItems() {
         let files = [
             "Adguard.app", "Adguard.app/Contents", "Adguard.app/Contents/Info.plist",
