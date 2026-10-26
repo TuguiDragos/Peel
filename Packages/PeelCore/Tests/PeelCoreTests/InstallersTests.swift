@@ -449,8 +449,9 @@ struct InstallersTests {
         #expect(Set(items.keys) == [
             "org.example.studio.ShipIt", "org.sparkle-project.Sparkle", "com.apple.finder.ShipIt",
         ])
-        #expect(items["org.example.studio.ShipIt"]?.installedApp == "Studio")
-        #expect(items["org.sparkle-project.Sparkle"]?.installedApp == "Notes")
+        #expect(items["org.example.studio.ShipIt"]?.installedApp == .some(nil))
+        #expect(items["org.example.studio.ShipIt"]?.notes == [.downloadedBy("Studio")])
+        #expect(items["org.sparkle-project.Sparkle"]?.notes == [.downloadedBy("Notes")])
         #expect(items["org.example.studio.ShipIt"]?.heldBack == .some(nil))
         #expect(items["com.apple.finder.ShipIt"]?.heldBack == .appIsRunning)
     }
@@ -485,10 +486,11 @@ struct InstallersTests {
 
         let items = Dictionary(uniqueKeysWithValues: scan.items(in: .updateDownload).map { ($0.name, $0) })
         #expect(Set(items.keys) == ["notes-updater", "studio-updater", "finder-updater", "gone-updater", "tide"])
-        #expect(items["notes-updater"]?.installedApp == "Notes")
-        #expect(items["studio-updater"]?.installedApp == "Studio")
-        #expect(items["tide"]?.installedApp == "Tide")
-        #expect(items["gone-updater"]?.installedApp == nil)
+        #expect(items["notes-updater"]?.notes == [.downloadedBy("Notes")])
+        #expect(items["studio-updater"]?.notes == [.downloadedBy("Studio")])
+        #expect(items["tide"]?.notes == [.downloadedBy("Tide")])
+        #expect(items["gone-updater"]?.notes == [])
+        #expect(items.values.allSatisfy { $0.installedApp == nil })
         #expect(items["notes-updater"]?.heldBack == .some(nil))
         #expect(items["finder-updater"]?.heldBack == .appIsRunning)
     }

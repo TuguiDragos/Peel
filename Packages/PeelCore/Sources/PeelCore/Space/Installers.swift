@@ -48,6 +48,8 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
         /// A name a backup gives for its device or system, such as "iPhone" or "iOS 17.2", shown as is.
         case name(String)
         case encrypted
+        /// The installed app that downloaded an update, which it keeps until it installs it.
+        case downloadedBy(String)
     }
 }
 
@@ -529,9 +531,9 @@ public enum Installers {
                 name: url.lastPathComponent,
                 size: size,
                 date: (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate,
-                installedApp: app?.name,
+                installedApp: nil,
                 isReadOnly: false,
-                notes: [],
+                notes: app.map { [.downloadedBy($0.name)] } ?? [],
                 requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                 heldBack: heldBack(
                     url, seen: seen, in: place, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
