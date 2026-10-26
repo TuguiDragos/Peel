@@ -258,6 +258,22 @@ struct SpaceInventoryTests {
         #expect(!paths.contains("Caches"), "the caches Developer selects are counted here as well")
     }
 
+    @Test func countsTheRuntimesCoreSimulatorKeepsAsCryptexes() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/Library/Developer/CoreSimulator/Cryptex/Images/bundle/runtime.dmg", bytes: 400_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 100_000,
+            measure: LeftoverScanner.walk
+        )
+
+        let simulators = try #require(report.items.first { $0.id == "simulators" })
+        #expect(simulators.urls.map { $0.path(percentEncoded: false) }.contains { $0.hasSuffix("Cryptex/Images/") })
+        #expect(simulators.size.known >= 400_000)
+    }
+
     @Test func findsTheCachesAndLogsInEveryAppsContainer() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Containers/org.example.chat/Data/Library/Caches/blob", bytes: 8_000)

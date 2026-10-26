@@ -166,10 +166,15 @@ public enum SpaceInventory {
     public static var managedAreaIdentifiers: [String] { definitions.filter { $0.managedBy != nil }.map(\.id) }
 
     static let definitions: [Definition] = [
+        // CoreSimulator's daemon, simdiskimaged, keeps runtime images in both stores its sandbox lets it write to, the
+        // second for runtimes mounted as cryptexes. Their mounted volumes are elsewhere and would count twice.
         Definition(
             id: "simulators",
             category: .development,
-            paths: ["Library/Developer/CoreSimulator/Devices", "/Library/Developer/CoreSimulator/Images"],
+            paths: [
+                "Library/Developer/CoreSimulator/Devices", "/Library/Developer/CoreSimulator/Images",
+                "/Library/Developer/CoreSimulator/Cryptex/Images",
+            ],
             handling: .readOnly,
             commands: [
                 Command("xcrun simctl runtime delete --outdated", needs: .simctlRuntimeOption("--outdated")),
