@@ -119,10 +119,8 @@ struct SpaceDetailView: View {
 
     @ViewBuilder
     private func contents(of plan: SpaceRemoval.Plan) -> some View {
-        if plan.needsFullDiskAccess {
-            FullDiskAccessBanner()
-        } else if !plan.unreadable.isEmpty {
-            UnreadableFoldersNotice(folders: plan.unreadable)
+        if plan.needsFullDiskAccess || !plan.unreadable.isEmpty {
+            UnreadableFoldersNotice(folders: plan.unreadable, needsFullDiskAccess: plan.needsFullDiskAccess)
         }
         Section {
             if plan.removable.isEmpty, plan.unreadable.isEmpty {

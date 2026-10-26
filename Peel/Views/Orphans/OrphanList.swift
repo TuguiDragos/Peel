@@ -5,7 +5,6 @@ struct OrphanList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(OrphanLibrary.self) private var orphans
     @Environment(HelperModel.self) private var helper
-    @Environment(HomeModel.self) private var home
     @State private var searchText = ""
     @State private var isRescanning = false
 
@@ -54,27 +53,26 @@ struct OrphanList: View {
                     if library.listOfFoldersUnreadable {
                         Button("Start Over") { library.startFoldersOver() }
                     }
-                    if library.unreadableNeedsFullDiskAccess {
-                        Button("Open System Settings") { home.openFullDiskAccessSettings() }
-                    } else if library.unreadable.count > RemovalFailureAlert.mostListed {
-                        CopyButton(text: library.unreadable.map(\.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
-                    }
+                    UnreadableFoldersActions(
+                        folders: library.unreadable,
+                        needsFullDiskAccess: library.unreadableNeedsFullDiskAccess
+                    )
                 }
             } else if listsNothing, let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
+                    let named = Text("No orphaned files were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(unreadable.map(\.url.abbreviatedPath))), so there may be some there.")
                     if orphans.scan?.needsFullDiskAccess == true {
-                        Text("No orphaned files were found, but Peel couldn’t look in ^[\(unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
+                        Text("\(named)\n\n\(Text("Give Peel Full Disk Access so it can read the folders macOS protects."))")
                     } else {
-                        Text("No orphaned files were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(unreadable.map(\.url.abbreviatedPath))), so there may be some there.")
+                        named
                     }
                 } actions: {
-                    if orphans.scan?.needsFullDiskAccess == true {
-                        Button("Open System Settings") { home.openFullDiskAccessSettings() }
-                    } else if unreadable.count > RemovalFailureAlert.mostListed {
-                        CopyButton(text: unreadable.map(\.url.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
-                    }
+                    UnreadableFoldersActions(
+                        folders: unreadable.map(\.url),
+                        needsFullDiskAccess: orphans.scan?.needsFullDiskAccess == true
+                    )
                 }
             } else if listsNothing {
                 ContentUnavailableView(

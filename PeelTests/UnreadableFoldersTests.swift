@@ -12,6 +12,18 @@ struct UnreadableFoldersTests {
         #expect(RemovalFailureAlert.listedFolders(["/a", "/b"]).contains("/b"))
     }
 
+    @Test func namesTheFoldersAndAddsTheAdviceOnlyWhenFullDiskAccessWouldHelp() {
+        let paths = ["/Users/me/Documents/app", "/Users/me/work/pgdata"]
+        let advice = UnreadableFoldersNotice.detail(naming: [], needsFullDiskAccess: true)
+
+        let both = UnreadableFoldersNotice.detail(naming: paths, needsFullDiskAccess: true)
+        let named = UnreadableFoldersNotice.detail(naming: paths, needsFullDiskAccess: false)
+
+        #expect(!advice.isEmpty)
+        #expect(both.contains("pgdata") && both.hasSuffix(advice))
+        #expect(named.contains("pgdata") && !named.contains(advice))
+    }
+
     @Test func anAlertsFirstItemsAndHowManyMore() {
         let (shown, more) = RemovalFailureAlert.first(Array(1...60))
 

@@ -159,8 +159,8 @@ struct OrphansCommand: AsyncParsableCommand {
     static func refusal(for catalog: AppScan) -> CommandFailure? {
         guard !catalog.readEverything else { return nil }
         let list = catalog.listOfFoldersUnreadable ? ["its list of app folders"] : []
-        let listed = Output.list(list + catalog.unreadable.map { Output.plain(Output.path($0)) })
-        let access = catalog.needsFullDiskAccess ? " Give your terminal app Full Disk Access in System Settings." : ""
+        let listed = Output.list(list + Output.named(catalog.unreadable))
+        let access = catalog.needsFullDiskAccess ? " " + Output.fullDiskAccessAdvice : ""
         let startOver = list.isEmpty ? "" : " Start the list over in Settings > General > App Folders."
         return CommandFailure("Peel couldn't read \(listed), so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned.\(access)\(startOver)")
     }

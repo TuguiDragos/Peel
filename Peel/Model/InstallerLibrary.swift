@@ -24,6 +24,10 @@ final class InstallerLibrary {
         scan?.needsFullDiskAccess ?? false
     }
 
+    var unreadable: [URL] {
+        scan?.unreadableLocations ?? []
+    }
+
     func refresh(installedApps: [InstalledApp]) async {
         guard
             let result = await scanRun.run({

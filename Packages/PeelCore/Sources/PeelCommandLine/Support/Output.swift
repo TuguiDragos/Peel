@@ -183,14 +183,22 @@ enum Output {
         "\(number(value)) \(value == 1 ? singular : plural)"
     }
 
-    static let fullDiskAccessNote = "Some folders couldn't be read. Give your terminal app Full Disk Access in System Settings to see everything."
+    static let fullDiskAccessAdvice = "Give your terminal app Full Disk Access in System Settings to read the folders macOS protects."
 
-    /// What a scan couldn't look into: Full Disk Access when it would open them, otherwise the folders themselves,
-    /// since it does not open a folder closed by ordinary permissions.
+    /// What a scan couldn't look into: the folders, and then Full Disk Access when it would open one of them.
     static func unreadableNote(for folders: [URL], needsFullDiskAccess: Bool) -> String {
-        guard !needsFullDiskAccess else { return fullDiskAccessNote }
-        let listed = folders.map { plain(path($0)) }.joined(separator: ", ")
-        return "Peel couldn't look inside \(listed), so something may be there that isn't listed."
+        let note = "Peel couldn't look inside \(list(named(folders))), so something may be there that isn't listed."
+        return needsFullDiskAccess ? note + " " + fullDiskAccessAdvice : note
+    }
+
+    private static let mostNamedFolders = 4
+
+    /// The folders to name in a list: the first four, and then how many more, as the Peel app names them.
+    static func named(_ folders: [URL]) -> [String] {
+        let paths = folders.map { plain(path($0)) }
+        guard paths.count > mostNamedFolders else { return paths }
+        let more = count(paths.count - mostNamedFolders, "more folder", "more folders")
+        return Array(paths.prefix(mostNamedFolders)) + [more]
     }
 
     /// What a reading of the apps could not read, so the apps in it are missing from what is written, or nil when it

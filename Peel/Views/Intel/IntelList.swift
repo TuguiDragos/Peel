@@ -4,7 +4,6 @@ import SwiftUI
 struct IntelList: View {
     @Environment(IntelLibrary.self) private var intel
     @Environment(AppLibrary.self) private var library
-    @Environment(HomeModel.self) private var home
     @State private var isRescanning = false
     @State private var searchText = ""
 
@@ -133,14 +132,7 @@ struct IntelList: View {
         if library.listOfFoldersUnreadable {
             Button("Start Over") { library.startFoldersOver() }
         }
-        if needsFullDiskAccess {
-            if home.needsRelaunchForFullDiskAccess {
-                Button("Reopen Peel") { home.relaunch() }
-            }
-            Button("Open System Settings") { home.openFullDiskAccessSettings() }
-        } else if unread.count > RemovalFailureAlert.mostListed {
-            CopyButton(text: unread.map(\.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
-        }
+        UnreadableFoldersActions(folders: unread, needsFullDiskAccess: needsFullDiskAccess)
     }
 }
 

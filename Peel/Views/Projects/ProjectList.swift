@@ -3,7 +3,6 @@ import SwiftUI
 
 struct ProjectList: View {
     @Environment(ProjectLibrary.self) private var projects
-    @Environment(HomeModel.self) private var home
     @State private var isRescanning = false
     @State private var searchText = ""
 
@@ -28,10 +27,8 @@ struct ProjectList: View {
         let filtered = listed
 
         List(selection: $projects.selection) {
-            if projects.needsFullDiskAccess, !filtered.isEmpty {
-                FullDiskAccessBanner()
-            } else if !projects.unreadable.isEmpty, !filtered.isEmpty {
-                UnreadableFoldersNotice(folders: projects.unreadable)
+            if projects.needsFullDiskAccess || !projects.unreadable.isEmpty, !filtered.isEmpty {
+                UnreadableFoldersNotice(folders: projects.unreadable, needsFullDiskAccess: projects.needsFullDiskAccess)
             }
             if !projects.unsearchable.isEmpty, !filtered.isEmpty {
                 Notice(
@@ -67,21 +64,20 @@ struct ProjectList: View {
                 }
             } else if !searchText.isEmpty, projects.groups?.isEmpty == false, filtered.isEmpty {
                 ContentUnavailableView.search(text: searchText)
-            } else if projects.groups?.isEmpty == true, projects.needsFullDiskAccess {
+            } else if projects.groups?.isEmpty == true, projects.needsFullDiskAccess || !projects.unreadable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    Text("No build output was found, but macOS kept Peel out of a folder you chose. Give Peel Full Disk Access to look there too.")
+                    Text(verbatim: UnreadableFoldersNotice.detail(
+                        naming: projects.unreadable.map(\.abbreviatedPath),
+                        needsFullDiskAccess: projects.needsFullDiskAccess
+                    ))
                     unsearchableReasons
                 } actions: {
-                    Button("Open System Settings") { home.openFullDiskAccessSettings() }
-                }
-            } else if projects.groups?.isEmpty == true, !projects.unreadable.isEmpty {
-                ContentUnavailableView {
-                    Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
-                } description: {
-                    Text("Peel couldn’t look inside \(projects.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so something may be there that isn’t listed here.")
-                    unsearchableReasons
+                    UnreadableFoldersActions(
+                        folders: projects.unreadable,
+                        needsFullDiskAccess: projects.needsFullDiskAccess
+                    )
                 }
             } else if projects.groups?.isEmpty == true, !projects.unsearchable.isEmpty {
                 ContentUnavailableView {

@@ -107,7 +107,7 @@ struct ResetSheet: View {
             RemovalsHeldBanner()
 
             if plan.needsFullDiskAccess {
-                FullDiskAccessBanner()
+                UnreadableFoldersNotice(folders: [], needsFullDiskAccess: true)
             }
 
             if plan.couldNotSaveSettings {

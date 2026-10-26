@@ -602,18 +602,23 @@ struct CommandLineTests {
         )
     }
 
-    /// The notes shown before the user agrees to a removal. Each one names something that will still be on
-    /// the disk afterwards, so leaving one out would promise more than the removal does.
-    /// Full Disk Access does not open a folder closed by ordinary permissions, so then the folders are named instead.
-    @Test func namesTheFoldersFullDiskAccessWouldNotOpen() {
+    @Test func namesTheFoldersItCouldNotReadAndWhenFullDiskAccessHelps() {
         let locked = URL(filePath: "/Library/Application Support/Vendor")
-
         let said = "Peel couldn't look inside /Library/Application Support/Vendor, so something may be there"
             + " that isn't listed."
+
         #expect(Output.unreadableNote(for: [locked], needsFullDiskAccess: false) == said)
-        #expect(Output.unreadableNote(for: [locked], needsFullDiskAccess: true) == Output.fullDiskAccessNote)
+        #expect(
+            Output.unreadableNote(for: [locked], needsFullDiskAccess: true)
+                == said + " Give your terminal app Full Disk Access in System Settings to read the folders macOS protects."
+        )
+        let many = (1...60).map { URL(filePath: "/Volumes/Old/f\($0)x") }
+        let note = Output.unreadableNote(for: many, needsFullDiskAccess: false)
+        #expect(note.contains("/Volumes/Old/f4x, and 56 more folders, so") && !note.contains("f5x"))
     }
 
+    /// The notes shown before the user agrees to a removal. Each one names something that will still be on
+    /// the disk afterwards, so leaving one out would promise more than the removal does.
     @Test func saysWhatWillStayBeforeItAsks() {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let cache = URL(filePath: "/Users/me/Library/Caches/com.example.editor")
@@ -634,7 +639,7 @@ struct CommandLineTests {
 
         #expect(notes.count == 5)
         #expect(notes[0].hasPrefix("Homebrew didn't answer, so what only its casks know is missing."))
-        #expect(notes[1] == Output.fullDiskAccessNote)
+        #expect(notes[1] == "Peel couldn't look inside /Users/me/Library/Caches, so something may be there that isn't listed. Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.")
         #expect(notes[2].hasPrefix("There are more folders in /Users/me/Library/Caches than Peel looks inside"))
         #expect(notes[3] == "1 item needs administrator access and will stay. Remove it with the Peel app.")
         #expect(notes[4] == "1 file needs review and will stay. See it with `peel leftovers --all Editor`.")

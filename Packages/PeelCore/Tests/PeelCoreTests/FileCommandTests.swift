@@ -624,7 +624,7 @@ struct FileCommandTests {
         let notes = OrphansCommand.notes(for: scan)
 
         #expect(notes == [
-            Output.fullDiskAccessNote,
+            "Peel couldn't look inside /Users/me/Library/Caches, so something may be there that isn't listed. Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.",
             "There are more folders in /Users/me/Library/Caches than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach.",
         ])
     }
@@ -636,7 +636,11 @@ struct FileCommandTests {
         let refusal = OrphansCommand.refusal(for: AppScan(apps: [], unreadable: [studio], needsFullDiskAccess: false))
         #expect(refusal?.description == "Peel couldn't read /Volumes/Studio/Apps, so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned.")
         let locked = OrphansCommand.refusal(for: AppScan(apps: [], unreadable: [studio], needsFullDiskAccess: true))
-        #expect(locked?.description.hasSuffix(" Give your terminal app Full Disk Access in System Settings.") == true)
+        #expect(locked?.description.hasSuffix(" Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.") == true)
+        let many = (1...60).map { URL(filePath: "/Volumes/Old/f\($0)x", directoryHint: .isDirectory) }
+        let said = OrphansCommand.refusal(for: AppScan(apps: [], unreadable: many, needsFullDiskAccess: false))?
+            .description
+        #expect(said?.hasPrefix("Peel couldn't read /Volumes/Old/f1x, /Volumes/Old/f2x, /Volumes/Old/f3x, /Volumes/Old/f4x, and 56 more folders, so") == true)
         let list = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, listOfFoldersUnreadable: true)
         #expect(OrphansCommand.refusal(for: list)?.description == "Peel couldn't read its list of app folders, so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned. Start the list over in Settings > General > App Folders.")
     }
@@ -678,7 +682,7 @@ struct FileCommandTests {
         )
 
         #expect(ProjectsCommand.notes(for: scan) == [
-            Output.fullDiskAccessNote,
+            "Peel couldn't look inside /Users/me/Library/Safari, so something may be there that isn't listed. Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.",
             "There were more folders than Peel looks at in one go, so this list isn't all of them.",
         ])
         let app = URL(filePath: "/Users/me/Code/app", directoryHint: .isDirectory)

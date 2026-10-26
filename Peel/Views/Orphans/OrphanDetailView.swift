@@ -12,10 +12,11 @@ struct OrphanDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            if orphans.scan?.needsFullDiskAccess == true {
-                FullDiskAccessBanner()
-            } else if let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
-                UnreadableFoldersNotice(folders: unreadable.map(\.url))
+            if let scan = orphans.scan, scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
+                UnreadableFoldersNotice(
+                    folders: scan.unreadableLocations.map(\.url),
+                    needsFullDiskAccess: scan.needsFullDiskAccess
+                )
             }
             if group.items.contains(where: { $0.isLocked(canUseHelper: helper.canAct) }) {
                 HelperRequiredBanner()

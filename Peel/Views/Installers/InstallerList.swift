@@ -5,7 +5,6 @@ struct InstallerList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(InstallerLibrary.self) private var installers
     @Environment(HelperModel.self) private var helper
-    @Environment(HomeModel.self) private var home
     @State private var isRescanning = false
     @State private var searchText = ""
 
@@ -24,7 +23,7 @@ struct InstallerList: View {
 
         List(selection: $installers.selection) {
             if installers.needsFullDiskAccess {
-                FullDiskAccessBanner()
+                UnreadableFoldersNotice(folders: installers.unreadable, needsFullDiskAccess: true)
             }
             ForEach(filtered, id: \.self) { kind in
                 let items = installers.items(in: kind)
@@ -35,13 +34,16 @@ struct InstallerList: View {
         .accessibilityLabel(Text(Tool.installers.title))
         .columnSearch(text: $searchText, prompt: "Search Installers and Backups", when: !installers.sections.isEmpty)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: installers.scanRun) {
-            if installers.sections.isEmpty, let unreadable = installers.scan?.unreadableLocations, !unreadable.isEmpty {
+            if installers.sections.isEmpty, installers.needsFullDiskAccess {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    Text("No installers were found, but Peel couldn’t look in ^[\(unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
+                    Text(verbatim: UnreadableFoldersNotice.detail(
+                        naming: installers.unreadable.map(\.abbreviatedPath),
+                        needsFullDiskAccess: true
+                    ))
                 } actions: {
-                    Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    UnreadableFoldersActions(folders: installers.unreadable, needsFullDiskAccess: true)
                 }
             } else if installers.sections.isEmpty {
                 ContentUnavailableView(

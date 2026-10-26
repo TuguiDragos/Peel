@@ -3,7 +3,6 @@ import SwiftUI
 
 struct PluginList: View {
     @Environment(PluginLibrary.self) private var plugins
-    @Environment(HomeModel.self) private var home
     @State private var searchText = ""
     @State private var isRescanning = false
 
@@ -14,10 +13,11 @@ struct PluginList: View {
 
         List(selection: $plugins.selection) {
             if plugins.plugins?.isEmpty == false {
-                if plugins.needsFullDiskAccess {
-                    FullDiskAccessBanner()
-                } else if !plugins.unreadable.isEmpty {
-                    UnreadableFoldersNotice(folders: plugins.unreadable)
+                if plugins.needsFullDiskAccess || !plugins.unreadable.isEmpty {
+                    UnreadableFoldersNotice(
+                        folders: plugins.unreadable,
+                        needsFullDiskAccess: plugins.needsFullDiskAccess
+                    )
                 }
             }
             ForEach(Plugin.Category.allCases, id: \.self) { category in
@@ -59,15 +59,17 @@ struct PluginList: View {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
+                    let named = Text("No plug-ins were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(plugins.unreadable.map(\.abbreviatedPath))), so there may be some there.")
                     if plugins.needsFullDiskAccess {
-                        Text("No plug-ins were found, but Peel couldn’t look in ^[\(plugins.unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
+                        Text("\(named)\n\n\(Text("Give Peel Full Disk Access so it can read the folders macOS protects."))")
                     } else {
-                        Text("No plug-ins were found, but Peel couldn’t look inside \(plugins.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so there may be some there.")
+                        named
                     }
                 } actions: {
-                    if plugins.needsFullDiskAccess {
-                        Button("Open System Settings") { home.openFullDiskAccessSettings() }
-                    }
+                    UnreadableFoldersActions(
+                        folders: plugins.unreadable,
+                        needsFullDiskAccess: plugins.needsFullDiskAccess
+                    )
                 }
             } else if plugins.plugins?.isEmpty == true {
                 ContentUnavailableView(

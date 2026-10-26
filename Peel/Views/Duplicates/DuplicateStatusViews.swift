@@ -69,16 +69,13 @@ struct DuplicateSummaryView: View {
             RemovalsHeldBanner()
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
-            // The banner only when Full Disk Access would help; a folder locked by ordinary permissions is named
-            // instead, and so is each chosen folder the scan set aside, with why.
-            if scan.needsFullDiskAccess {
-                FullDiskAccessBanner()
-                    .padding(.horizontal, 20)
-                    .padding(.top, 12)
-            } else if !scan.unreadableLocations.isEmpty {
-                UnreadableFoldersNotice(folders: scan.unreadableLocations)
-                    .padding(.horizontal, 20)
-                    .padding(.top, 12)
+            if scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
+                UnreadableFoldersNotice(
+                    folders: scan.unreadableLocations,
+                    needsFullDiskAccess: scan.needsFullDiskAccess
+                )
+                .padding(.horizontal, 20)
+                .padding(.top, 12)
             }
             if !scan.skippedLocations.isEmpty {
                 Notice(

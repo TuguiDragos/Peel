@@ -162,10 +162,11 @@ struct AppDetailView: View {
                 .listRowSeparator(.hidden)
             }
             if let scan = plan.scan {
-                if scan.needsFullDiskAccess {
-                    FullDiskAccessBanner()
-                } else if !scan.unreadableLocations.isEmpty {
-                    UnreadableFoldersNotice(folders: scan.unreadableLocations.map(\.url))
+                if scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
+                    UnreadableFoldersNotice(
+                        folders: scan.unreadableLocations.map(\.url),
+                        needsFullDiskAccess: scan.needsFullDiskAccess
+                    )
                 }
                 if !scan.cutShortLocations.isEmpty {
                     Notice(

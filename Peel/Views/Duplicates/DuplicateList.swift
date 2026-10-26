@@ -3,7 +3,6 @@ import SwiftUI
 
 struct DuplicateList: View {
     @Environment(DuplicateLibrary.self) private var duplicates
-    @Environment(HomeModel.self) private var home
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var searchText = ""
     @State private var isConfirmingNewScan = false
@@ -65,23 +64,20 @@ struct DuplicateList: View {
                                 Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                             }
                         } description: {
-                            if scan.needsFullDiskAccess {
-                                Text("No duplicates were found, but macOS kept Peel out of a folder you chose. Give Peel Full Disk Access to look there too.")
-                            } else if !scan.unreadableLocations.isEmpty {
-                                Text("Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(scan.unreadableLocations.map(\.abbreviatedPath))), so something may be there that isn’t listed here.")
+                            if scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
+                                Text(verbatim: UnreadableFoldersNotice.detail(
+                                    naming: scan.unreadableLocations.map(\.abbreviatedPath),
+                                    needsFullDiskAccess: scan.needsFullDiskAccess
+                                ))
                             }
                             if !scan.skippedLocations.isEmpty {
                                 Text(verbatim: Self.reasons(scan.skippedLocations))
                             }
                         } actions: {
-                            if scan.needsFullDiskAccess {
-                                Button("Open System Settings") { home.openFullDiskAccessSettings() }
-                            } else if scan.unreadableLocations.count > RemovalFailureAlert.mostListed {
-                                CopyButton(
-                                    text: scan.unreadableLocations.map(\.abbreviatedPath).joined(separator: "\n"),
-                                    title: "Copy Details"
-                                )
-                            }
+                            UnreadableFoldersActions(
+                                folders: scan.unreadableLocations,
+                                needsFullDiskAccess: scan.needsFullDiskAccess
+                            )
                         }
                     } else if scan.groups.isEmpty, scan.folderGroups.isEmpty {
                         ContentUnavailableView(
