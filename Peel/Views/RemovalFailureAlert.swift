@@ -28,6 +28,11 @@ struct RemovalFailureAlert: ViewModifier {
         listed(names) { String(inflecting: "^[\($0) more app](inflect: true)") }
     }
 
+    /// Folders named in one sentence, the same way.
+    static func listedFolders(_ paths: [String]) -> String {
+        listed(paths) { String(inflecting: "^[\($0) more folder](inflect: true)") }
+    }
+
     private static func listed(_ names: [String], others: (Int) -> String) -> String {
         guard names.count > mostListed else { return names.formatted(.list(type: .and)) }
         return (names.prefix(mostListed) + [others(names.count - mostListed)]).formatted(.list(type: .and))

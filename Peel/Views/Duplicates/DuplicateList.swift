@@ -68,7 +68,7 @@ struct DuplicateList: View {
                             if scan.needsFullDiskAccess {
                                 Text("No duplicates were found, but macOS kept Peel out of a folder you chose. Give Peel Full Disk Access to look there too.")
                             } else if !scan.unreadableLocations.isEmpty {
-                                Text("Peel couldn’t look inside \(scan.unreadableLocations.map(\.abbreviatedPath).formatted(.list(type: .and))), so something may be there that isn’t listed here.")
+                                Text("Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(scan.unreadableLocations.map(\.abbreviatedPath))), so something may be there that isn’t listed here.")
                             }
                             if !scan.skippedLocations.isEmpty {
                                 Text(verbatim: Self.reasons(scan.skippedLocations))
@@ -76,6 +76,11 @@ struct DuplicateList: View {
                         } actions: {
                             if scan.needsFullDiskAccess {
                                 Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                            } else if scan.unreadableLocations.count > RemovalFailureAlert.mostListed {
+                                CopyButton(
+                                    text: scan.unreadableLocations.map(\.abbreviatedPath).joined(separator: "\n"),
+                                    title: "Copy Details"
+                                )
                             }
                         }
                     } else if scan.groups.isEmpty, scan.folderGroups.isEmpty {

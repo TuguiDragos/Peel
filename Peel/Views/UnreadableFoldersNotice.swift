@@ -6,11 +6,16 @@ struct UnreadableFoldersNotice: View {
     let folders: [URL]
 
     var body: some View {
+        let paths = folders.map(\.abbreviatedPath)
         Notice(
             title: Text("Some folders couldn’t be read"),
-            detail: Text("Peel couldn’t look inside \(folders.map(\.abbreviatedPath).formatted(.list(type: .and))), so something may be there that isn’t listed here."),
+            detail: Text("Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(paths)), so something may be there that isn’t listed here."),
             kind: .note
-        ) {}
+        ) {
+            if paths.count > RemovalFailureAlert.mostListed {
+                CopyButton(text: paths.joined(separator: "\n"), title: "Copy Details")
+            }
+        }
         .padding(.vertical, 6)
         .listRowSeparator(.hidden)
     }
