@@ -24,6 +24,23 @@ struct RunningCopiesTests {
             .compactMap(\.bundleIdentifier)
     }
 
+    @Test func aCasksAppsAndWhatItNamesToQuitAreQuitFirst() {
+        let cask = HomebrewPackage(name: "google-chrome", kind: .cask, quitIdentifiers: ["org.example.Updater"])
+        let running = [
+            process("com.google.Chrome", at: "/Applications/Google Chrome.app", pid: 1),
+            process("com.google.Chrome.helper", at: "/Applications/Google Chrome.app/Contents/Frameworks/Helper.app", pid: 2),
+            process("org.example.updater", at: "/Library/Example/Updater.app", pid: 3),
+            process("com.google.Chrome.canary", at: "/Applications/Google Chrome Canary.app", pid: 4),
+            RunningCopies.Process(identifier: 5, bundleIdentifier: "org.example.Updater", bundleURL: nil, mayBeQuit: false),
+        ]
+
+        let quit = RunningCopies.belonging(
+            toCask: cask, apps: [chrome], among: running, installedApps: [chrome, canary]
+        )
+
+        #expect(quit.map(\.identifier) == [1, 2, 3])
+    }
+
     /// What runs from inside the app counts whatever its name begins with. A slash and a combining mark after it
     /// are one `Character`, so to a comparison of characters a helper named that way ran from nowhere, and the
     /// app's files could move while it ran.

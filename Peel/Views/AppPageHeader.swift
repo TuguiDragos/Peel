@@ -13,6 +13,7 @@ struct AppPageHeader: View {
     @Binding var isShowingReset: Bool
     @Binding var isConfirmingPrivacyReset: Bool
     @Binding var upgradeOutput: HomebrewLibrary.CommandResult?
+    @State private var quitting = QuitBeforeRemoving()
 
     var body: some View {
         AppHeader(
@@ -27,6 +28,7 @@ struct AppPageHeader: View {
         ) {
             appActions
         }
+        .quitBeforeHomebrew(quitting, upgrading: true)
     }
 
     /// The version an update would bring. Nil when there is no update, or when the user muted this app or
@@ -163,7 +165,7 @@ struct AppPageHeader: View {
             }
         case .homebrew:
             Button {
-                Task { await upgradeWithHomebrew() }
+                upgradeWithHomebrew()
             } label: {
                 if isUpgrading {
                     HStack(spacing: 6) {
@@ -176,7 +178,7 @@ struct AppPageHeader: View {
                 }
             }
             .buttonStyle(.borderedProminent)
-            .disabled(homebrew.runningCommand != nil)
+            .disabled(homebrew.runningCommand != nil || quitting.isWaiting)
         case .developer, .automatic:
             Button("Open \(plan.app.name)", systemImage: "arrow.up.forward.app") {
                 NSWorkspace.shared.open(plan.app.url)
@@ -190,10 +192,20 @@ struct AppPageHeader: View {
         return homebrew.runningCommand == .upgrade(cask.id)
     }
 
+    private func upgradeWithHomebrew() {
+        guard let cask = library.cask(for: plan.app) else { return }
+        let quit = QuitBeforeHomebrew([cask], library: library)
+        quitting.check(quit.processes) {
+            Task {
+                await upgrade(cask)
+                quit.reopen()
+            }
+        }
+    }
+
     /// Upgrades the app with Homebrew, which can take a while. The button shows progress while it runs, the
     /// line under it shows the result, and a notification reports it too, in case the user has moved on.
-    private func upgradeWithHomebrew() async {
-        guard let cask = library.cask(for: plan.app) else { return }
+    private func upgrade(_ cask: HomebrewPackage) async {
         let app = plan.app
         library.record(nil, of: app)
         // Nil when Homebrew is already running a command. The button is disabled then, so this is only a safeguard.

@@ -2,9 +2,10 @@ import AppKit
 import Observation
 import PeelCore
 
-/// The processes a removal waits for, since files never move out from under a running app. It asks them to quit,
-/// follows them until none runs, and then goes on with the removal. One still open after a while may be waiting for
-/// the person, to save their work for example, so forcing it is offered, never done unasked.
+/// The processes a removal, or a Homebrew command that replaces or deletes an app, waits for, since nothing leaves
+/// from under a running app. It asks them to quit, follows them until none runs, and then goes on. One still open
+/// after a while may be waiting for the person, to save their work for example, so forcing it is offered, never done
+/// unasked.
 @Observable
 final class QuitBeforeRemoving {
     /// The processes the alerts name.

@@ -8,6 +8,8 @@ struct HomebrewDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @State private var isConfirmingUninstall = false
     @State private var isConfirmingUpgrade = false
+    @State private var quittingToUpgrade = QuitBeforeRemoving()
+    @State private var quittingToUninstall = QuitBeforeRemoving()
     @State private var casksToForget: [HomebrewPackage]?
     /// What macOS said of the system extensions the cask's apps carry, with the apps it was asked about.
     @State private var extensionsAnswer: (apps: [URL], removedElsewhere: RemovedElsewhere?)?
@@ -145,7 +147,10 @@ struct HomebrewDetailView: View {
                         .disabled(uninstallRefusal != nil)
                     }
                 }
-                .disabled(homebrew.runningCommand != nil || homebrew.isForgetting)
+                .disabled(
+                    homebrew.runningCommand != nil || homebrew.isForgetting || quittingToUpgrade.isWaiting
+                        || quittingToUninstall.isWaiting
+                )
                 if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp) {
                     Text(HomebrewLibrary.cleansUp)
                         .font(.callout)
@@ -175,7 +180,7 @@ struct HomebrewDetailView: View {
         .toolbar(removing: .title)
         // Asked first, as Upgrade All is: an upgrade can run for a long time while Homebrew builds on this Mac.
         .confirmationDialog("Upgrade \(package.name)?", isPresented: $isConfirmingUpgrade) {
-            Button("Upgrade") { Task { await homebrew.run(.upgrade(package.id)) } }
+            Button("Upgrade") { upgrade() }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
@@ -191,11 +196,32 @@ struct HomebrewDetailView: View {
             Button("Uninstall", role: .destructive) {
                 // Checks again, since the exclusions can change while the dialog is open.
                 guard uninstallRefusal == nil else { return }
-                Task { await homebrew.run(.uninstall(package.id)) }
+                uninstall()
             }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
+        }
+        .quitBeforeHomebrew(quittingToUpgrade, upgrading: true)
+        .quitBeforeHomebrew(quittingToUninstall, upgrading: false)
+    }
+
+    private func upgrade() {
+        let quit = QuitBeforeHomebrew([package], library: library)
+        quittingToUpgrade.check(quit.processes) {
+            Task {
+                await homebrew.run(.upgrade(package.id))
+                quit.reopen()
+            }
+        }
+    }
+
+    private func uninstall() {
+        let quit = QuitBeforeHomebrew([package], library: library)
+        quittingToUninstall.check(quit.processes) {
+            // Asked again once its apps have quit, since the exclusions can change meanwhile.
+            guard uninstallRefusal == nil else { return }
+            Task { await homebrew.run(.uninstall(package.id)) }
         }
     }
 

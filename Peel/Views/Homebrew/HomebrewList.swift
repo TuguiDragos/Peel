@@ -3,6 +3,7 @@ import SwiftUI
 
 struct HomebrewList: View {
     @Environment(HomebrewLibrary.self) private var homebrew
+    @Environment(AppLibrary.self) private var library
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.openSettings) private var openSettings
     @State private var searchText = ""
@@ -11,6 +12,7 @@ struct HomebrewList: View {
     /// One of the deeper clean ups, or the repair, waiting for its confirmation.
     @State private var confirming: HomebrewLibrary.Command?
     @State private var isConfirmingUpgradeAll = false
+    @State private var quittingToUpgrade = QuitBeforeRemoving()
     @State private var casksToForget: [HomebrewPackage]?
 
     var body: some View {
@@ -69,12 +71,13 @@ struct HomebrewList: View {
             Text(verbatim: String(inflecting: "Upgrade ^[\(homebrew.upgradable.count) package](inflect: true)?")),
             isPresented: $isConfirmingUpgradeAll
         ) {
-            Button("Upgrade All") { start(.upgradeAll) }
+            Button("Upgrade All") { upgradeAll() }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
         }
         .forgetCasksDialog(for: $casksToForget)
+        .quitBeforeHomebrew(quittingToUpgrade, upgrading: true)
         // Clean Up is confirmed first, like Uninstall on a package's page, because Homebrew deletes these files
         // permanently and History can't put them back.
         .confirmationDialog("Clean up Homebrew?", isPresented: $isConfirmingCleanUp) {
@@ -422,7 +425,7 @@ struct HomebrewList: View {
                             .minimumTarget()
                     }
                         .buttonStyle(.borderless)
-                        .disabled(homebrew.upgradable.isEmpty || isBusy)
+                        .disabled(homebrew.upgradable.isEmpty || isBusy || quittingToUpgrade.isWaiting)
                 }
             }
         }
@@ -560,6 +563,16 @@ struct HomebrewList: View {
 
     private func start(_ command: HomebrewLibrary.Command) {
         Task { await homebrew.run(command) }
+    }
+
+    private func upgradeAll() {
+        let quit = QuitBeforeHomebrew(homebrew.upgradable, library: library)
+        quittingToUpgrade.check(quit.processes) {
+            Task {
+                await homebrew.run(.upgradeAll)
+                quit.reopen()
+            }
+        }
     }
 
     private var isBusy: Bool {

@@ -51874,6 +51874,112 @@
         }
       }
     },
+    "Homebrew deletes what it uninstalls, even while it runs, so Peel quits it first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew smaže, co odinstaluje, i když aplikace běží, a proto ji Peel nejprve ukončí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew löscht, was es deinstalliert, auch während die App läuft, daher beendet Peel sie zuerst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew borra lo que desinstala aunque esté en ejecución, así que Peel cierra la app primero."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew supprime définitivement ce qu’il désinstalle, même si l’app est en cours d’exécution : Peel la quitte donc d’abord."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew elimina ciò che disinstalla, anche mentre l’app è in esecuzione, quindi Peel prima la chiude."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、アンインストールするものを実行中であっても削除するため、Peelは先にそのアプリを終了します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 앱이 실행 중이더라도 제거하는 항목을 삭제하므로, Peel이 먼저 앱을 종료합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew verwijdert definitief wat het deïnstalleert, zelfs terwijl de app actief is, dus Peel stopt de app eerst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew trwale usuwa to, co odinstalowuje, nawet gdy aplikacja działa, więc Peel najpierw ją zakończy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew apaga o que desinstala, mesmo com o app em execução, então o Peel encerra o app primeiro."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew șterge aplicațiile pe care le dezinstalează, chiar dacă rulează, așa că Peel le închide mai întâi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew удаляет приложение безвозвратно, даже если оно запущено, поэтому Peel сначала завершает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew raderar det som avinstalleras, även medan appen är igång, så Peel avslutar den först."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, yüklemesini kaldırdığı şeyi uygulama çalışırken bile siler, bu yüzden Peel önce uygulamadan çıkar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew видаляє те, що деінсталює, навіть якщо програма працює, тож Peel спершу її завершує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会删除它卸载的内容，即使该App正在运行也是如此，因此Peel会先退出该App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew會刪除它解除安裝的項目，即使App正在執行也一樣，因此Peel會先結束該App。"
+          }
+        }
+      }
+    },
     "Homebrew deprecates a package it means to stop offering, and disables it when it stops. A disabled package can’t be installed again and gets no more upgrades. What is installed stays until you uninstall it." : {
       "localizations" : {
         "cs" : {
@@ -54414,6 +54520,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew遇到問題。如果Peel中該App的頁面仍開著，你可以在那裡看到它的訊息。"
+          }
+        }
+      }
+    },
+    "Homebrew replaces what it upgrades, even while it runs, so Peel quits it first and opens it again once Homebrew is done." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nahradí, co upgraduje, i když aplikace běží, a proto ji Peel nejprve ukončí a znovu ji otevře, až Homebrew skončí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ersetzt, wofür es ein Upgrade ausführt, auch während die App läuft, daher beendet Peel sie zuerst und öffnet sie wieder, sobald Homebrew fertig ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew reemplaza lo que actualiza aunque esté en ejecución, así que Peel cierra la app primero y vuelve a abrirla cuando Homebrew termine."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew remplace ce qu’il met à niveau, même si l’app est en cours d’exécution : Peel la quitte donc d’abord, puis la rouvre une fois que Homebrew a terminé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew sostituisce ciò che aggiorna, anche mentre l’app è in esecuzione, quindi Peel prima la chiude e poi la riapre quando Homebrew ha finito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、アップグレードするものを実行中であっても置き換えるため、Peelは先にそのアプリを終了し、Homebrewの処理が終わったらもう一度開きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 앱이 실행 중이더라도 업그레이드하는 항목을 대치하므로, Peel이 먼저 앱을 종료하고 Homebrew가 작업을 마치면 다시 엽니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew vervangt wat het upgradet, zelfs terwijl de app actief is, dus Peel stopt de app eerst en opent die weer zodra Homebrew klaar is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew zastępuje to, co uaktualnia, nawet gdy aplikacja działa, więc Peel najpierw ją zakończy, a gdy Homebrew skończy, otworzy ją ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao fazer upgrade, o Homebrew substitui o que está instalado, mesmo com o app em execução, então o Peel encerra o app primeiro e o abre novamente quando o Homebrew terminar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew înlocuiește aplicațiile cărora le face upgrade, chiar dacă rulează, așa că Peel le închide mai întâi și le deschide din nou după ce Homebrew termină."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew заменяет обновляемое приложение, даже если оно запущено, поэтому Peel сначала завершает его, а когда Homebrew закончит, снова открывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ersätter det som uppgraderas, även medan appen är igång, så Peel avslutar den först och öppnar den igen när Homebrew är klart."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, yükselttiği şeyi uygulama çalışırken bile yenisiyle değiştirir, bu yüzden Peel önce uygulamadan çıkar ve Homebrew işini bitirdiğinde onu yeniden açar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew замінює те, що оновлює, навіть якщо програма працює, тож Peel спершу її завершує, а коли Homebrew закінчить, відкриває знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会替换它升级的内容，即使该App正在运行也是如此，因此Peel会先退出该App，并在Homebrew完成后再次打开它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew會取代它升級的項目，即使App正在執行也一樣，因此Peel會先結束該App，並在Homebrew完成後再次打開它。"
           }
         }
       }
@@ -129784,6 +129996,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除「%@」的檔案前，請先結束它。"
+          }
+        }
+      }
+    },
+    "Quit %@ before uninstalling." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Před odinstalací aplikaci %@ ukončete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beende „%@“ vor dem Deinstallieren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sal de %@ antes de la desinstalación."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quittez %@ avant la désinstallation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esci da %@ prima della disinstallazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アンインストールする前に、%@を終了してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제거하기 전에 ‘%@’을(를) 종료하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %@ vóór het deïnstalleren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zakończ %@ przed odinstalowaniem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encerre %@ antes de desinstalar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Închideți %@ înainte de dezinstalare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершите %@ перед удалением."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avsluta %@ före avinstallationen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüklemeyi kaldırmadan önce çıkın: %@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершіть програму «%@», перш ніж деінсталювати її."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请先退出“%@”，再进行卸载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解除安裝前，請先結束%@。"
+          }
+        }
+      }
+    },
+    "Quit %@ before upgrading." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Před upgradem aplikaci %@ ukončete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beende „%@“ vor dem Upgrade."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sal de %@ antes de la actualización."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quittez %@ avant la mise à niveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esci da %@ prima dell’aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップグレードする前に、%@を終了してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업그레이드하기 전에 ‘%@’을(를) 종료하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %@ vóór het upgraden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zakończ %@ przed uaktualnieniem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encerre %@ antes de fazer upgrade."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Închideți %@ înainte de upgrade."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершите %@ перед обновлением."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avsluta %@ före uppgraderingen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükseltmeden önce çıkın: %@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершіть програму «%@», перш ніж оновлювати її."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请先退出“%@”，再进行升级。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升級前，請先結束%@。"
           }
         }
       }

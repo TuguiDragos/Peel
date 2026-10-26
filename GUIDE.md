@@ -242,12 +242,13 @@ and how many items the others hold.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:
   apps, the Intel-only parts inside other apps, plug-ins, drivers, background items, and the commands in
   `/usr/local`.
-- **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days,
-  or every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to
-  run in Terminal for a cask that asks for an administrator's password. Uninstall and the cleanups delete for good,
-  as Homebrew does, and Peel says so before you confirm them. For a cask whose app Peel leaves alone on the app's own
-  page, such as one with a system extension, and for a package you excluded, Uninstall stays off, with the reason
-  beside it. A cask Homebrew still lists though what it installed is gone, its app or, for a cask with no app, its
+- **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days, or
+  every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to run in
+  Terminal for a cask that asks for an administrator's password. Uninstall and the cleanups delete for good, as Homebrew
+  does, and Peel says so before you confirm them. For a cask whose app Peel leaves alone on the app's own page, such as
+  one with a system extension, and for a package you excluded, Uninstall stays off, with the reason beside it. Homebrew
+  replaces or deletes a cask's app even while it runs, so Peel asks the app to quit first, and opens it again after an
+  upgrade. A cask Homebrew still lists though what it installed is gone, its app or, for a cask with no app, its
   packages, can't be upgraded. It is listed apart under Apps Already Gone, where Forget Cask, or Forget All for every
   one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it, so Homebrew stops
   listing it, and History can put it back.

@@ -73,4 +73,20 @@ public enum RunningCopies {
             }
         }
     }
+
+    /// Returns the processes in `running` that a Homebrew command on `cask` would replace or delete from under them:
+    /// those of its apps, as `belonging(to:)` finds them, and those its definition names to quit.
+    public static func belonging(
+        toCask cask: HomebrewPackage,
+        apps: [InstalledApp],
+        among running: [Process],
+        installedApps: [InstalledApp]
+    ) -> [Process] {
+        let named = Set(cask.quitIdentifiers.map { $0.lowercased() })
+        let own = Set(apps.flatMap { belonging(to: $0, among: running, installedApps: installedApps) })
+        return running.filter { process in
+            own.contains(process)
+                || (process.mayBeQuit && process.bundleIdentifier.map { named.contains($0.lowercased()) } == true)
+        }
+    }
 }
