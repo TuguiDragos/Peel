@@ -90,24 +90,48 @@ public enum AppCatalog {
 
     @concurrent
     public static func scan(in directories: [URL]) async -> AppScan {
-        let walks = directories.map { appBundles(in: $0) }
-        let bundles = Set(walks.flatMap(\.bundles))
+        await scan(in: directories, within: FileSize.budget) { appBundles(in: $0, unless: $1) }
+    }
+
+    /// Walks one folder for `scan(in:)`, until `isGivenUp` says nobody waits anymore. A parameter so a test can stand
+    /// in for a folder that never answers.
+    typealias Walk = @Sendable (_ folder: URL, _ isGivenUp: @escaping @Sendable () -> Bool) -> (
+        bundles: [URL], unreadable: [URL]
+    )
+
+    /// Each folder is walked on a thread of its own and waited for within `budget`: a folder on a disk that sleeps, or
+    /// one a file provider holds, can keep a directory read in the kernel for minutes. One that doesn't answer is
+    /// among what could not be read, and the others are listed meanwhile.
+    @concurrent
+    static func scan(
+        in directories: [URL], within budget: TimeInterval, walking walk: @escaping Walk
+    ) async -> AppScan {
+        let walks = await withTaskGroup(of: (index: Int, walk: (bundles: [URL], unreadable: [URL])?).self) { group in
+            for (index, directory) in directories.enumerated() {
+                group.addTask { (index, await SlowRead.answer(within: budget) { walk(directory, $0) }) }
+            }
+            return await group.reduce(into: Array(repeating: nil, count: directories.count)) { $0[$1.index] = $1.walk }
+        }
+        let answered = zip(directories, walks).compactMap { directory, walk in walk.map { (directory, $0) } }
+        let unanswered = zip(directories, walks).filter { $0.1 == nil }.map(\.0)
+        let bundles = Set(answered.flatMap(\.1.bundles))
 
         let read = await withTaskGroup(of: (bundle: URL, app: InstalledApp?).self) { group in
             for bundle in bundles {
-                group.addTask { (bundle, Reading.of(bundle)) }
+                group.addTask { (bundle, Task.isCancelled ? nil : Reading.of(bundle)) }
             }
             return await group.reduce(into: [(bundle: URL, app: InstalledApp?)]()) { $0.append($1) }
         }
+        guard !Task.isCancelled else { return AppScan(apps: [], unreadable: [], needsFullDiskAccess: false) }
 
-        Reading.forget(inside: directories, except: bundles)
+        Reading.forget(inside: answered.map(\.0), except: bundles)
         let closedApps = read.filter { $0.app == nil && AppInspector.isClosed($0.bundle) }.map(\.bundle)
-        let unreadable = (walks.flatMap(\.unreadable) + closedApps)
-            .sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
+        let refused = answered.flatMap(\.1.unreadable) + closedApps
         return AppScan(
             apps: sorted(read.compactMap(\.app)),
-            unreadable: unreadable,
-            needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing }
+            unreadable: (refused + unanswered)
+                .sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) },
+            needsFullDiskAccess: refused.contains { FullDiskAccess.canList($0) == .missing }
         )
     }
 
@@ -193,7 +217,9 @@ public enum AppCatalog {
 
     /// The apps in `directory`, three levels deep, and the folders in it that are there and could not be read. A
     /// folder that is not there, such as an Applications folder nobody made, holds no app.
-    static func appBundles(in directory: URL, maximumDepth: Int = 3) -> (bundles: [URL], unreadable: [URL]) {
+    static func appBundles(
+        in directory: URL, maximumDepth: Int = 3, unless isStopped: () -> Bool = { false }
+    ) -> (bundles: [URL], unreadable: [URL]) {
         var unreadable: [URL] = []
         guard let enumerator = FileManager.default.enumerator(
             at: directory,
@@ -207,6 +233,7 @@ public enum AppCatalog {
 
         var bundles: [URL] = []
         for case let url as URL in enumerator {
+            guard !isStopped() else { break }
             if url.pathExtension == "app" {
                 bundles.append(url.standardizedFileURL)
             } else if enumerator.level >= maximumDepth {

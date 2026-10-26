@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct AppCatalogTests {
@@ -17,6 +18,56 @@ struct AppCatalogTests {
             bundleIdentifier: "org.example.\(name)", name: name, version: version, lastUsedDate: lastUsed,
             isUseRecorded: isRecorded
         )
+    }
+
+    @Test func aFolderThatDoesNotAnswerIsNamedAndTheOthersAreListed() async throws {
+        let directory = try TemporaryDirectory()
+        let answering = try directory.directory("Apps")
+        try directory.file(
+            "Apps/Tunewell.app/Contents/Info.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.tunewell", "CFBundleName": "Tunewell"],
+                format: .xml, options: 0
+            )
+        )
+        let sleeping = directory.url.appending(path: "Sleeping", directoryHint: .isDirectory)
+        let released = DispatchSemaphore(value: 0)
+        defer { released.signal() }
+
+        let scan = await AppCatalog.scan(in: [answering, sleeping], within: 0.2) { folder, isGivenUp in
+            guard folder == sleeping else { return AppCatalog.appBundles(in: folder, unless: isGivenUp) }
+            _ = released.wait(timeout: .now() + 30)
+            return ([], [])
+        }
+
+        #expect(scan.apps.map(\.name) == ["Tunewell"])
+        #expect(scan.unreadable == [sleeping])
+        #expect(!scan.needsFullDiskAccess)
+    }
+
+    @Test func aReadingStoppedWhileAFolderDoesNotAnswerReturnsAtOnce() async throws {
+        let sleeping = URL(filePath: "/nowhere/Sleeping", directoryHint: .isDirectory)
+        let asked = Mutex(false)
+        let released = DispatchSemaphore(value: 0)
+        defer { released.signal() }
+        let clock = ContinuousClock()
+        let reading = Task(priority: .userInitiated) {
+            _ = await AppCatalog.scan(in: [sleeping], within: 3_600) { _, _ in
+                asked.withLock { $0 = true }
+                _ = released.wait(timeout: .now() + 30)
+                return ([], [])
+            }
+            return clock.now
+        }
+        while !asked.withLock({ $0 }) {
+            try await Task.sleep(for: .milliseconds(2))
+        }
+
+        let stopped = clock.now
+        reading.cancel()
+        let returned = await reading.value
+
+        #expect(returned - stopped < .seconds(1))
     }
 
     /// Opening an app changes when it was last opened and nothing about what is installed, so the pages that scan

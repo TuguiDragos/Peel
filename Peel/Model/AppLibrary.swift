@@ -223,8 +223,8 @@ final class AppLibrary {
         }
     }
 
-    /// Calls `refresh()` unless the folders were read in the last 30 seconds. For Peel coming forward:
-    /// the folder watcher sees every real change, so a recent read is enough.
+    /// Calls `refresh()` unless a reading of the folders started in the last 30 seconds, even one still running. For
+    /// Peel coming forward: the folder watcher sees every real change, so a recent read is enough.
     func refreshUnlessRecent() async -> [InstalledApp] {
         if let lastRead, ContinuousClock.now - lastRead < .seconds(30) { return [] }
         return await refresh()
@@ -257,8 +257,8 @@ final class AppLibrary {
     /// when it was last checked) is dropped rather than shown for a version it doesn't describe.
     @discardableResult
     func refresh() async -> [InstalledApp] {
-        guard let scan = await scanRun.run({ await AppCatalog.scan() }) else { return [] }
         lastRead = .now
+        guard let scan = await scanRun.run({ await AppCatalog.scan() }) else { return [] }
         keepUnreadable(of: scan)
         let found = scan.apps
         let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found))
