@@ -125,7 +125,7 @@ struct ProjectDetailView: View {
     }
 
     private func detail(for artifact: ProjectArtifact) -> LocalizedStringResource {
-        guard let tool = artifact.tool else { return "Marked as a cache by the tool that made it" }
+        guard let tool = artifact.tool else { return "Marked as a cache" }
         return "Made by \(tool)"
     }
 
