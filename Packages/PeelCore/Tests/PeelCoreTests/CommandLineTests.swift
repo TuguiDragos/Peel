@@ -1205,6 +1205,12 @@ struct CommandLineTests {
         #expect(message.contains("See 'peel inventory --help'"))
     }
 
+    @Test func putBackSaysWhyAnItemStays() {
+        #expect(RestoreFailure.notAllowed(.excluded).summary.contains("your exclusions"))
+        #expect(RestoreFailure.notAllowed(.protectedLocation).summary.contains("Finder"))
+        #expect(RestoreFailure.notInATrash.summary == "it isn't in the Trash where Peel put it")
+    }
+
     @Test func searchSaysWhatItLeftOutAndWhy() throws {
         var results = FileSearchResults()
         results.leftOut = [.syncs: 52, .excluded: 1]

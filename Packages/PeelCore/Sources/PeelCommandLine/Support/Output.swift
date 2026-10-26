@@ -235,7 +235,10 @@ extension RestoreFailure {
         case .missingFromTrash: "it isn't in the Trash anymore"
         case .alreadyThere: "something is there already"
         case .needsHelper: "it needs administrator access, so put it back with the Peel app"
-        case .notAllowed: "Peel won't write there"
+        case .notAllowed(.excluded):
+            "your exclusions keep Peel from putting anything there; take it off the list, or drag it out of the Trash in Finder"
+        case .notAllowed(let refusal): "Peel protects that place now (\(refusal.summary)); drag it out of the Trash in Finder"
+        case .notInATrash: "it isn't in the Trash where Peel put it"
         case .failed(let message): Output.plain(message)
         }
     }

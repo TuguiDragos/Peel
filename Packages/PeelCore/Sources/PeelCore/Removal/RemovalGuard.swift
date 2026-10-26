@@ -119,12 +119,8 @@ struct RemovalGuard: Sendable {
         refusal(of: url, typeOf: nil)
     }
 
-    /// Whether `trashed` may go back to `destination`, which is judged as a removal from there would be, for the
-    /// kind of item `trashed` is: nothing is there yet to tell.
-    func allowsPuttingBack(_ trashed: URL, at destination: URL) -> Bool {
-        refusal(ofPuttingBack: trashed, at: destination) == nil
-    }
-
+    /// Why `trashed` may not go back to `destination`, judged as a removal from there would be, for the kind of item
+    /// `trashed` is: nothing is there yet to tell.
     func refusal(ofPuttingBack trashed: URL, at destination: URL) -> GuardRefusal? {
         refusal(of: destination, typeOf: trashed)
     }

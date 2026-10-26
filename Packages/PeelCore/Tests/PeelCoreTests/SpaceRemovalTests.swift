@@ -391,8 +391,8 @@ struct SpaceRemovalTests {
         let reports = directory.url.appending(path: "home/Library/Logs/DiagnosticReports", directoryHint: .isDirectory)
         let removalGuard = RemovalGuard(environment: environment(directory), exclusions: .none)
 
-        #expect(removalGuard.allowsPuttingBack(trashedFolder, at: reports))
-        #expect(!removalGuard.allowsPuttingBack(trashedFile, at: reports))
+        #expect(removalGuard.refusal(ofPuttingBack: trashedFolder, at: reports) == nil)
+        #expect(removalGuard.refusal(ofPuttingBack: trashedFile, at: reports) != nil)
     }
 
     @Test(.permissionsHold) func whatOnlyAnAdministratorCanMoveGoesThroughTheHelper() async throws {

@@ -255,7 +255,7 @@ struct ExclusionsTests {
             originalURL: applications.appending(path: "Other.app"), trashedURL: other, date: .now
         ))
 
-        #expect(refusal == .notAllowed)
+        #expect(refusal == .notAllowed(.excluded))
         #expect(control == nil)
     }
 

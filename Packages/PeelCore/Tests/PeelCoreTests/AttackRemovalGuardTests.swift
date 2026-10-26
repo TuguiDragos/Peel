@@ -75,12 +75,12 @@ struct AttackRemovalGuardTests {
         ]
         for folder in ["/usr/local/bin", "/usr/local/sbin"] + completions {
             let destination = URL(filePath: "\(folder)/\(name)")
-            #expect(guardian.allowsPuttingBack(trashedLink, at: destination), "a link can't go back to \(folder)")
-            #expect(!guardian.allowsPuttingBack(trashedFile, at: destination), "ATTACK SUCCEEDED: a file can go to \(folder)")
+            #expect(guardian.refusal(ofPuttingBack: trashedLink, at: destination) == nil, "a link can't go back to \(folder)")
+            #expect(guardian.refusal(ofPuttingBack: trashedFile, at: destination) != nil, "ATTACK SUCCEEDED: a file can go to \(folder)")
             #expect(!guardian.allowsRemoval(of: destination), "a name with nothing there was allowed in \(folder)")
         }
         for path in ["/usr/bin/\(name)", "/usr/local/bin/deeper/\(name)", "/usr/local/\(name)", "/usr/local/share/zsh/\(name)"] {
-            #expect(!guardian.allowsPuttingBack(trashedLink, at: URL(filePath: path)), "ATTACK SUCCEEDED: a link can go to \(path)")
+            #expect(guardian.refusal(ofPuttingBack: trashedLink, at: URL(filePath: path)) != nil, "ATTACK SUCCEEDED: a link can go to \(path)")
         }
         #expect(!guardian.allowsRemoval(of: URL(filePath: "/usr/bin/true")))
     }
@@ -98,12 +98,12 @@ struct AttackRemovalGuardTests {
         let name = "peel-test-\(UUID().uuidString)"
         let record = URL(filePath: "/usr/local/Caskroom/\(name)")
 
-        #expect(guardian.allowsPuttingBack(trashedFolder, at: record), "Homebrew's record of a cask can't come back")
-        #expect(!guardian.allowsPuttingBack(trashedFile, at: record), "ATTACK SUCCEEDED: a file can go to the Caskroom")
-        #expect(!guardian.allowsPuttingBack(trashedLink, at: record), "ATTACK SUCCEEDED: a link can go to the Caskroom")
+        #expect(guardian.refusal(ofPuttingBack: trashedFolder, at: record) == nil, "Homebrew's record of a cask can't come back")
+        #expect(guardian.refusal(ofPuttingBack: trashedFile, at: record) != nil, "ATTACK SUCCEEDED: a file can go to the Caskroom")
+        #expect(guardian.refusal(ofPuttingBack: trashedLink, at: record) != nil, "ATTACK SUCCEEDED: a link can go to the Caskroom")
         #expect(!guardian.allowsRemoval(of: record), "a name with nothing there was allowed")
         for path in ["/usr/local/Caskroom", "/usr/local/Caskroom/\(name)/1.0", "/usr/local/\(name)", "/usr/Caskroom/\(name)"] {
-            #expect(!guardian.allowsPuttingBack(trashedFolder, at: URL(filePath: path)), "ATTACK SUCCEEDED: \(path)")
+            #expect(guardian.refusal(ofPuttingBack: trashedFolder, at: URL(filePath: path)) != nil, "ATTACK SUCCEEDED: \(path)")
         }
     }
 
@@ -365,10 +365,10 @@ struct AttackRemovalGuardTests {
         // A browser's own data goes with the browser, the folder it reads manifests from included.
         #expect(guardian.allowsRemoval(of: home.appending(path: "Library/Application Support/Google/Chrome")))
         let avid = home.appending(path: "Library/Application Support/Avid2")
-        #expect(guardian.allowsPuttingBack(trashedFolder, at: avid))
+        #expect(guardian.refusal(ofPuttingBack: trashedFolder, at: avid) == nil)
         try FileManager.default.moveItem(at: home.appending(path: "Library/Application Support/Avid"), to: avid)
-        #expect(guardian.allowsPuttingBack(trashedFolder, at: home.appending(path: "Library/Application Support/Avid")))
-        #expect(!guardian.allowsPuttingBack(trashedFile, at: home.appending(path: "Library/Application Support/Avid")))
+        #expect(guardian.refusal(ofPuttingBack: trashedFolder, at: home.appending(path: "Library/Application Support/Avid")) == nil)
+        #expect(guardian.refusal(ofPuttingBack: trashedFile, at: home.appending(path: "Library/Application Support/Avid")) != nil)
     }
 
     @Test func theFoldersTheWholeMacShares() throws {
@@ -654,7 +654,7 @@ struct AttackRemovalGuardTests {
                 #expect(ProtectedData.refuses(url.path(percentEncoded: false), home: homePath), "\(file) is not refused for the helper")
             }
         }
-        #expect(!guardian.allowsPuttingBack(trashed, at: home.appending(path: "Library/Caches/CloudKit")))
+        #expect(guardian.refusal(ofPuttingBack: trashed, at: home.appending(path: "Library/Caches/CloudKit")) != nil)
         for file in controls {
             #expect(guardian.allowsRemoval(of: home.appending(path: file).deletingLastPathComponent()), "\(file) is refused")
         }
@@ -678,7 +678,7 @@ struct AttackRemovalGuardTests {
         #expect(guardian.refusal(of: folder) == .inTheCloud)
         #expect(guardian.refusal(of: URL(filePath: "/.vol/\(device)/\(number)")) == .inTheCloud, "asked by its numbers")
         #expect(guardian.refusal(of: local) == nil)
-        #expect(guardian.allowsPuttingBack(trashed, at: home.appending(path: "Desktop/Notes.txt")))
+        #expect(guardian.refusal(ofPuttingBack: trashed, at: home.appending(path: "Desktop/Notes.txt")) == nil)
     }
 
 
@@ -697,7 +697,7 @@ struct AttackRemovalGuardTests {
         #expect(guardian.refusal(of: file.deletingLastPathComponent()) == .inTheCloud)
         #expect(guardian.refusal(of: home.appending(path: "Sync", directoryHint: .isDirectory)) == .inTheCloud)
         #expect(guardian.refusal(of: twin) == nil)
-        #expect(guardian.allowsPuttingBack(trashed, at: file.deletingLastPathComponent().appending(path: "Shells.jpg")))
+        #expect(guardian.refusal(ofPuttingBack: trashed, at: file.deletingLastPathComponent().appending(path: "Shells.jpg")) == nil)
     }
 
     /// The guard refuses what is inside a container's `Data/Documents`, where a sandboxed app keeps what its

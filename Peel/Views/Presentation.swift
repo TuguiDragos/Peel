@@ -249,7 +249,10 @@ extension RestoreFailure {
         case .missingFromTrash: String(localized: "It is no longer in the Trash, so there is nothing to put back.")
         case .alreadyThere: String(localized: "Something is already there, and Peel never replaces it.")
         case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides.")
-        case .notAllowed: String(localized: "Peel never puts anything back there.")
+        case .notAllowed(.excluded):
+            String(localized: "Your exclusions in Settings keep Peel from putting anything back there. Take it off the list to put this back, or drag it out of the Trash in Finder.")
+        case .notAllowed: String(localized: "Peel protects that place now, so it puts nothing back there. You can drag it out of the Trash in Finder.")
+        case .notInATrash: String(localized: "It isn’t in the Trash where Peel put it, so Peel leaves it where it is.")
         case .failed(let message): FixedSentence.translated(message)
         }
     }

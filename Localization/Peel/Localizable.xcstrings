@@ -65159,6 +65159,112 @@
         }
       }
     },
+    "It isn’t in the Trash where Peel put it, so Peel leaves it where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není to v koši tam, kam to Peel přesunul, takže to Peel nechává, kde to je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es liegt nicht an der Stelle im Papierkorb, an die Peel es gelegt hat, daher lässt Peel es, wo es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No está en la papelera en la que lo puso Peel, así que Peel lo deja donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il n’est plus à l’endroit de la corbeille où Peel l’a placé : Peel le laisse donc là où il est."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non si trova nel Cestino dove Peel l’aveva messo, quindi Peel lo lascia dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがゴミ箱に入れた場所にないため、Peelはそのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 넣어 둔 휴지통 안의 위치에 없으므로, Peel은 이 항목을 지금 있는 곳에 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het staat niet op de plek in de prullenmand waar Peel het heeft neergezet, dus Peel laat het staan waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz nie znajduje się w Koszu tam, gdzie umieścił ją Peel, więc Peel zostawia ją tam, gdzie jest."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele não está no Lixo, onde o Peel o colocou, então o Peel o deixa onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu se află în locul din Coș în care l‑a pus Peel, așa că Peel îl lasă unde este."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объекта нет в Корзине там, куда его поместил Peel, поэтому Peel оставляет его там, где он находится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det ligger inte i papperskorgen där Peel lade det, så Peel låter det vara där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in onu Çöp Sepeti’nde koyduğu yerde değil, bu yüzden Peel onu olduğu yerde bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його вже немає в тому місці Смітника, куди його поклала Peel, тож Peel лишає його там, де він є."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已不在Peel将其放入废纸篓时的位置，因此Peel不会移动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已不在Peel當初放入「垃圾桶」的位置，因此Peel會讓它留在原處。"
+          }
+        }
+      }
+    },
     "It isn’t in the Trash." : {
       "localizations" : {
         "cs" : {
@@ -121641,112 +121747,6 @@
         }
       }
     },
-    "Peel never puts anything back there." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tam nikdy nic nevrací."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel legt dorthin nie etwas zurück."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nunca restaura nada ahí."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne remet jamais rien à cet emplacement."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non ripristina mai nulla in quella posizione."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelがそこに何かを戻すことは決してありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 그곳에 절대 아무것도 되돌려 놓지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zet daar nooit iets terug."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nigdy niczego tam nie przywraca."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel nunca coloca nada de volta lá."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu pune niciodată nimic înapoi acolo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel никогда ничего туда не восстанавливает."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel lägger aldrig tillbaka något där."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel oraya asla hiçbir şey geri koymaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ніколи нічого туди не повертає."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel绝不会将任何内容放回那里。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel絕不會將任何項目還原到那裡。"
-          }
-        }
-      }
-    },
     "Peel never resets them for this app." : {
       "localizations" : {
         "cs" : {
@@ -122592,6 +122592,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel在此只負責回報。若要移除，請前往「外掛模組」。"
+          }
+        }
+      }
+    },
+    "Peel protects that place now, so it puts nothing back there. You can drag it out of the Trash in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel teď toto místo chrání, takže tam nic nevrací. Ve Finderu to můžete přetáhnout z koše ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel schützt diesen Ort jetzt, daher legt Peel dorthin nichts zurück. Du kannst es im Finder aus dem Papierkorb ziehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protege ahora ese lugar, así que no restaura nada ahí. Puedes sacarlo de la papelera arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protège désormais cet emplacement : il n’y remet donc rien. Vous pouvez sortir l’élément de la corbeille dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ora Peel protegge quella posizione, quindi non vi ripristina nulla. Puoi trascinarlo fuori dal Cestino nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは現在その場所を保護しているため、そこには何も戻しません。Finderでゴミ箱からドラッグして取り出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이제 Peel이 그 위치를 보호하므로 그곳에 아무것도 되돌려 놓지 않습니다. Finder에서 휴지통 밖으로 드래그하여 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel beschermt die plek nu, dus Peel zet daar niets terug. Je kunt het in Finder uit de prullenmand slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel chroni teraz to miejsce, więc niczego tam nie przywraca. Możesz przeciągnąć tę rzecz z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel agora protege esse local, então não coloca nada de volta lá. Você pode arrastá-lo para fora do Lixo no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protejează acum acel loc, așa că nu pune nimic înapoi acolo. În Finder, îl puteți trage afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теперь Peel защищает это место, поэтому ничего туда не восстанавливает. В Finder объект можно перетащить из Корзины."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel skyddar den platsen nu, så Peel lägger inte tillbaka något där. Du kan dra ut det ur papperskorgen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel artık o yeri koruyor, bu yüzden oraya hiçbir şey geri koymaz. Onu Finder’da sürükleyerek Çöp Sepeti’nden çıkarabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тепер Peel захищає це місце, тож нічого туди не повертає. У Finder його можна перетягнути зі Смітника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel现在会保护那个位置，因此不会将任何内容放回那里。你可以在“访达”中将它从废纸篓中拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel現在會保護該位置，因此不會將任何項目還原到那裡。你可以在Finder中將它從「垃圾桶」拖出來。"
           }
         }
       }
@@ -198476,6 +198582,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法儲存你的排除項目"
+          }
+        }
+      }
+    },
+    "Your exclusions in Settings keep Peel from putting anything back there. Take it off the list to put this back, or drag it out of the Trash in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaše výjimky v Nastavení brání Peelu, aby tam cokoli vracel. Chcete-li tuto položku vrátit zpět, odeberte toto místo ze seznamu, nebo ji ve Finderu přetáhněte z koše ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Ausschlüsse in den Einstellungen verhindern, dass Peel dorthin etwas zurücklegt. Entferne den Ort aus der Liste, um dies zurückzulegen, oder ziehe es im Finder aus dem Papierkorb."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus exclusiones en Ajustes impiden que Peel restaure nada ahí. Quita ese lugar de la lista para restaurar esto, o sácalo de la papelera arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos exclusions dans les Réglages empêchent Peel de remettre quoi que ce soit à cet emplacement. Retirez cet emplacement de la liste pour remettre cet élément en place, ou sortez-le de la corbeille dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le tue esclusioni nelle Impostazioni impediscono a Peel di ripristinare qualsiasi cosa in quella posizione. Toglila dall’elenco per ripristinare questo elemento, oppure trascinalo fuori dal Cestino nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“設定”の除外リストにより、Peelはそこに何も戻せません。これを戻すには、その場所をリストから削除するか、Finderでゴミ箱からドラッグして取り出してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정의 제외 항목 때문에 Peel은 그곳에 아무것도 되돌려 놓지 않습니다. 이 항목을 되돌려 놓으려면 목록에서 해당 위치를 제거하거나, Finder에서 휴지통 밖으로 드래그하여 꺼내십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je uitsluitingen in Instellingen voorkomen dat Peel daar iets terugzet. Haal die plek van de lijst om dit terug te zetten, of sleep het in Finder uit de prullenmand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twoje wykluczenia w Ustawieniach nie pozwalają aplikacji Peel niczego tam przywracać. Usuń to miejsce z listy, aby przywrócić tę rzecz, albo przeciągnij ją z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As suas exclusões nos Ajustes impedem o Peel de colocar qualquer coisa de volta lá. Tire esse local da lista para colocar isto de volta, ou arraste o item para fora do Lixo no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluderile dvs. din Configurări nu îi permit aplicației Peel să pună nimic înapoi acolo. Scoateți acel loc din listă pentru a pune înapoi acest articol sau, în Finder, trageți‑l afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваши исключения в Настройках не позволяют Peel ничего туда восстанавливать. Чтобы восстановить этот объект, уберите это место из списка исключений или перетащите объект из Корзины в Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dina undantag i Inställningar hindrar Peel från att lägga tillbaka något där. Ta bort platsen från listan om du vill lägga tillbaka det här, eller dra ut det ur papperskorgen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar’daki hariç tutulanlar listeniz, Peel’in oraya bir şey geri koymasını engelliyor. Bunu yerine koymak için o yeri listeden çıkarın veya Finder’da sürükleyerek Çöp Sepeti’nden çıkarın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Через ваші винятки в Параметрах Peel нічого туди не повертає. Приберіть це місце зі списку, щоб повернути цей елемент, або перетягніть його у Finder зі Смітника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在“设置”中的排除项使Peel无法将任何内容放回那里。将那个位置从列表中移除即可放回此项，或者在“访达”中将它从废纸篓中拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你在「設定」中的排除項目讓Peel無法將任何項目還原到那裡。若要還原此項目，請將該位置從列表中移除，或在Finder中將它從「垃圾桶」拖出來。"
           }
         }
       }

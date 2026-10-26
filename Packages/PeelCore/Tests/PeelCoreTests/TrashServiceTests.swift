@@ -573,7 +573,7 @@ struct TrashServiceTests {
 
         // Records come from a file on disk, so one naming something that was never in a Trash is refused outright.
         let planted = TrashedItem(originalURL: folder, trashedURL: directory.url.appending(path: "payload"), date: .now)
-        #expect(await service.restore(planted) == .notAllowed)
+        #expect(await service.restore(planted) == .notInATrash)
     }
 
     @Test(.permissionsHold) func saysAtOnceWhatTheHelperKeepsOutOfAFolderCodeIsLoadedFrom() throws {
@@ -700,7 +700,7 @@ struct TrashServiceTests {
         ]
         for source in planted {
             let record = TrashedItem(originalURL: directory.url.appending(path: "out/\(source.lastPathComponent)"), trashedURL: source, date: .now)
-            #expect(await service.restore(record) == .notAllowed, "\(source.path(percentEncoded: false)) was put back")
+            #expect(await service.restore(record) == .notInATrash, "\(source.path(percentEncoded: false)) was put back")
         }
         #expect(FileManager.default.fileExists(atPath: secret.path(percentEncoded: false)))
         #expect(FileManager.default.fileExists(atPath: thesis.path(percentEncoded: false)))
@@ -771,7 +771,7 @@ struct TrashServiceTests {
         let trashed = try directory.file("home/.Trash/x.pdf")
 
         let record = TrashedItem(originalURL: home.appending(path: "Library/Caches/Vendor/x.pdf"), trashedURL: trashed, date: .now)
-        #expect(await service.restore(record) == .notAllowed)
+        #expect(await service.restore(record) == .notAllowed(.protectedLocation))
         #expect(!FileManager.default.fileExists(atPath: cloud.appending(path: "x.pdf").path(percentEncoded: false)))
         #expect(FileManager.default.fileExists(atPath: trashed.path(percentEncoded: false)))
     }

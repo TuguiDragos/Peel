@@ -333,7 +333,7 @@ final class RemovalHistoryStore {
             RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
         })
         // What stayed for a reason that can pass, such as the helper or something in its place, can be asked again.
-        let again = stayed.filter { $0.failure != .missingFromTrash && $0.failure != .notAllowed }.map(\.record)
+        let again = stayed.filter { !$0.failure.isFinal }.map(\.record)
         if !again.isEmpty { self.undoable = (again, undoable.title) }
     }
 

@@ -200,8 +200,19 @@ public enum RestoreFailure: Sendable, Hashable {
     case missingFromTrash
     case alreadyThere
     case needsHelper
-    case notAllowed
+    /// The guard refuses the place it would go back to, for this reason.
+    case notAllowed(GuardRefusal)
+    /// The record names something that isn't in a Trash where Peel put it.
+    case notInATrash
     case failed(String)
+
+    /// True when asking again can't help: the item left the Trash, or Peel puts nothing back from or to there.
+    public var isFinal: Bool {
+        switch self {
+        case .missingFromTrash, .notAllowed, .notInATrash: true
+        case .alreadyThere, .needsHelper, .failed: false
+        }
+    }
 }
 
 public struct TrashResult: Sendable {
@@ -740,9 +751,10 @@ public struct TrashService: Sendable {
     /// Why `item` cannot go back as things stand, or nil when it can.
     public func refusal(ofPuttingBack item: TrashedItem) -> RestoreFailure? {
         // The record comes from a file any process of the user can rewrite, so it is a request, not a fact.
-        // Putting an item back must not write where removal is refused, or move a file that is not in a Trash.
-        guard removalGuard.allowsPuttingBack(item.trashedURL, at: item.originalURL), isInATrash(item.trashedURL) else {
-            return .notAllowed
+        // Putting an item back must not move a file that is not in a Trash, or write where removal is refused.
+        guard isInATrash(item.trashedURL) else { return .notInATrash }
+        if let refusal = removalGuard.refusal(ofPuttingBack: item.trashedURL, at: item.originalURL) {
+            return .notAllowed(refusal)
         }
         guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
@@ -770,8 +782,8 @@ public struct TrashService: Sendable {
             do {
                 try Self.putBack(item) { removalGuard.refusal(ofPuttingBack: item.trashedURL, at: $0) }
                 return nil
-            } catch is RefusedOnceHeld {
-                return .notAllowed
+            } catch let refused as RefusedOnceHeld {
+                return .notAllowed(refused.refusal)
             } catch is NotTheItemThatMoved {
                 return .missingFromTrash
             } catch POSIXError.EEXIST {
