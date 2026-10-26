@@ -94,8 +94,10 @@ final class AppLibrary {
     }
     var appsCheckingForUpdates: Set<InstalledApp.ID> { updateRounds.checking }
     /// The apps with an update when the current round of checks began. The menu bar shows them until the round
-    /// ends, rather than a count that climbs as answers arrive seconds apart.
-    private var heldUpdates: Set<InstalledApp.ID>?
+    /// ends, rather than a count that climbs as answers arrive seconds apart, and the list draws only them first.
+    private var heldUpdates: Set<InstalledApp.ID>? {
+        didSet { updatesRevision += 1 }
+    }
     private(set) var sizes: [InstalledApp.ID: Int64] = [:] {
         didSet { sizesRevision += 1 }
     }
@@ -501,7 +503,8 @@ final class AppLibrary {
         var waiting: [InstalledApp] = []
         var rest: [InstalledApp] = []
         for app in sorted(result) {
-            if hasUpdate(app) {
+            // An update found while a round runs moves its row up once the round ends, not under the pointer.
+            if hasUpdate(app), heldUpdates?.contains(app.id) ?? true {
                 waiting.append(app)
             } else {
                 rest.append(app)

@@ -1,4 +1,5 @@
 import Foundation
+import Observation
 @testable import Peel
 import PeelCore
 import Synchronization
@@ -85,6 +86,52 @@ private nonisolated final class NotesProtocol: URLProtocol, @unchecked Sendable 
         if isFeed {
             client?.urlProtocol(self, didLoad: Data(#"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><enclosure url="https://feed.example.com/u.zip" sparkle:version="101" sparkle:shortVersionString="1.1" /><sparkle:releaseNotesLink>https://notes.example.com/1.1.html</sparkle:releaseNotesLink></item></channel></rss>"#.utf8))
         }
+        client?.urlProtocolDidFinishLoading(self)
+    }
+}
+
+private nonisolated final class TwoFeedsProtocol: URLProtocol, @unchecked Sendable {
+    static let arrived = Mutex<AsyncStream<Void>.Continuation?>(nil)
+    /// A request to the held feed, with the thread it started on, where its answer has to be given.
+    private struct Held: @unchecked Sendable {
+        let load: TwoFeedsProtocol
+        let thread: Thread
+    }
+
+    private static let held = Mutex<[Held]>([])
+
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func stopLoading() {}
+
+    override func startLoading() {
+        guard request.url?.host() == "held.example.com" else { return answer() }
+        let request = Held(load: self, thread: .current)
+        Self.held.withLock { $0.append(request) }
+        _ = Self.arrived.withLock { $0?.yield() }
+    }
+
+    static func answerHeld() {
+        let loads = held.withLock { loads in
+            defer { loads = [] }
+            return loads
+        }
+        for request in loads {
+            request.load.perform(#selector(answer), on: request.thread, with: nil, waitUntilDone: false)
+        }
+    }
+
+    @objc private func answer() {
+        guard let url = request.url, let host = url.host(),
+              let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: nil)
+        else { return }
+        let (build, version) = host == "held.example.com" ? ("100", "1.0") : ("101", "1.1")
+        client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        client?.urlProtocol(self, didLoad: Data("""
+            <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>\
+            <enclosure url="https://\(host)/u.zip" sparkle:version="\(build)" \
+            sparkle:shortVersionString="\(version)" /></item></channel></rss>
+            """.utf8))
         client?.urlProtocolDidFinishLoading(self)
     }
 }
@@ -549,6 +596,31 @@ private nonisolated final class TestClock: Sendable {
 
         #expect(library.hasUpdate(app))
         #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
+    }
+
+    @Test func theListMovesAnUpdateFoundDuringARoundOnceTheRoundEnds() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let quick = try caskApp("Quick", in: folder, feed: "https://quick.example.com/appcast.xml")
+        let held = try caskApp("Held", in: folder, feed: "https://held.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let (arrivals, arrival) = AsyncStream.makeStream(of: Void.self)
+        TwoFeedsProtocol.arrived.withLock { $0 = arrival }
+        defer { TwoFeedsProtocol.arrived.withLock { $0 = nil } }
+        let library = library(with: made.defaults, notesIn: folder, answeredBy: TwoFeedsProtocol.self)
+        #expect(await library.reveal([quick, held]))
+        let apps = library.apps.filter { ["org.example.quick", "org.example.held"].contains($0.bundleIdentifier) }
+        let found = try #require(apps.first { $0.bundleIdentifier == "org.example.quick" })
+
+        let round = Task { await library.checkForUpdates(apps, force: true) }
+        for await _ in arrivals { break }
+        for await hasIt in Observations({ library.hasUpdate(found) }) where hasIt { break }
+        #expect(library.visibleApps(matching: "").waiting.isEmpty, "rows stay put while the round runs")
+
+        TwoFeedsProtocol.answerHeld()
+        await round.value
+        #expect(library.visibleApps(matching: "").waiting.map(\.id) == [found.id])
     }
 
     @Test func anAppFromACaskThatInstallsTheNewestCanNotBeChecked() async throws {
