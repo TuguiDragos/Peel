@@ -9,7 +9,8 @@ struct RemovalBar: View {
     /// What the question asks about: the parts as they were when Move to Trash was pressed.
     @State private var question: [CarriedSelection.Part] = []
     @State private var isAsking = false
-    @State private var appToQuit = ""
+    /// The open apps that keep part of the selection from moving, and those parts.
+    @State private var kept: (apps: [String], parts: [CarriedSelection.Part]) = ([], [])
     @State private var isAskingToQuit = false
     @State private var isShowingPages = false
     /// The page's own words under the question, worked out when Move to Trash was pressed.
@@ -249,7 +250,10 @@ struct RemovalBar: View {
         } message: {
             questionMessage
         }
-        .alert("Quit \(appToQuit) before removing its files.", isPresented: $isAskingToQuit) {
+        .alert(quitTitle, isPresented: $isAskingToQuit) {
+            Button("Deselect Them") {
+                for part in kept.parts { carrier.deselect(part) }
+            }
             Button("OK", role: .cancel) {}
         }
     }
@@ -263,11 +267,18 @@ struct RemovalBar: View {
             .id(total.textKind)
     }
 
-    /// Asks before moving anything, unless an open app keeps one of the parts: then nothing moves until it quits
-    /// or its part is deselected.
+    private var quitTitle: Text {
+        guard kept.apps.count > 1 else { return Text("Quit \(kept.apps.first ?? "") before removing its files.") }
+        return Text("Quit \(RemovalFailureAlert.listed(kept.apps)) before removing their files.")
+    }
+
+    /// Asks before moving anything, unless open apps keep some of the parts: then nothing moves until they quit or
+    /// their parts are deselected, which the alert offers.
     private func ask(about parts: [CarriedSelection.Part]) {
-        if let app = carrier.appToQuit(among: parts) {
-            appToQuit = app
+        let keptNow = carrier.kept(among: parts)
+        if !keptNow.isEmpty {
+            var named: Set<String> = []
+            kept = (keptNow.map(\.app).filter { named.insert($0).inserted }, keptNow.map(\.part))
             isAskingToQuit = true
         } else {
             question = parts

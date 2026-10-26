@@ -75,8 +75,9 @@ final class SelectionCarrier {
         )
     }
 
-    func appToQuit(among parts: [CarriedSelection.Part]) -> String? {
-        parts.lazy.compactMap { part in self.tool(of: part)?.appToQuit(for: part) }.first
+    /// The parts an open app keeps, each with that app, in the order of `parts`.
+    func kept(among parts: [CarriedSelection.Part]) -> [(part: CarriedSelection.Part, app: String)] {
+        parts.compactMap { part in self.tool(of: part)?.appToQuit(for: part).map { (part, $0) } }
     }
 
     func deselect(_ part: CarriedSelection.Part) {
