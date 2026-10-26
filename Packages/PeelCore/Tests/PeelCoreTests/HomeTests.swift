@@ -140,7 +140,6 @@ struct AccessTests {
         #expect(await FullDiskAccess.state() != .unknown)
     }
 
-    /// Uses a folder of its own rather than `/Applications`, where write access depends on the account.
     @Test func offersToReopenOnceSystemSettingsWasInFront() {
         #expect(FullDiskAccess.offersReopen(.missing, systemSettingsWasInFront: true))
         #expect(!FullDiskAccess.offersReopen(.missing, systemSettingsWasInFront: false))
@@ -148,6 +147,7 @@ struct AccessTests {
         #expect(!FullDiskAccess.offersReopen(.unknown, systemSettingsWasInFront: true))
     }
 
+    /// Uses a folder of its own rather than `/Applications`, where write access depends on the account.
     @Test func readsAppManagementFromARemoval() throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Applications/Example.app")

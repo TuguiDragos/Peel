@@ -16,9 +16,6 @@ struct HomebrewTests {
         #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/p\n", cellarAnswer: "c\n") == nil)
     }
 
-    /// `man brew`: unless `HOMEBREW_NO_INSTALL_CLEANUP` is set, `brew upgrade` runs `brew cleanup` by itself, for
-    /// the upgraded packages and every 30 days for all of them, which deletes old versions and downloads for good.
-    /// Peel deletes those only through Clean Up, which asks first, so no call it makes may clean up on its own.
     @Test func aDisabledPackageWaitsForNoUpgrade() {
         func package(_ stage: HomebrewRetirement.Stage?) -> HomebrewPackage {
             HomebrewPackage(
@@ -57,6 +54,9 @@ struct HomebrewTests {
         #expect(!Homebrew.askedForAPassword(in: build))
     }
 
+    /// `man brew`: unless `HOMEBREW_NO_INSTALL_CLEANUP` is set, `brew upgrade` runs `brew cleanup` by itself, for
+    /// the upgraded packages and every 30 days for all of them, which deletes old versions and downloads for good.
+    /// Peel deletes those only through Clean Up, which asks first, so no call it makes may clean up on its own.
     @Test func anUpgradeNeverCleansUpOnItsOwn() {
         for autoUpdate in [true, false] {
             #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_INSTALL_CLEANUP"] == "1")
