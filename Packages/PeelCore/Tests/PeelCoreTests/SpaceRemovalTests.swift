@@ -23,6 +23,32 @@ struct SpaceRemovalTests {
         )
     }
 
+    @Test(.permissionsHold) func namesTheFoldersItCannotLookIntoAndNeverReadsThemAsEmpty() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.example.open/cache.db")
+        try directory.file("home/Library/Logs/com.example.closed/log.txt")
+        let closed = directory.url.appending(path: "home/Library/Logs", directoryHint: .isDirectory)
+        let area = SpaceItem(
+            id: "caches-and-logs",
+            category: .library,
+            urls: [
+                directory.url.appending(path: "home/Library/Caches", directoryHint: .isDirectory),
+                closed,
+                directory.url.appending(path: "home/Library/Missing", directoryHint: .isDirectory),
+            ],
+            size: 0,
+            handling: .trash
+        )
+        try directory.setPermissions(0o000, of: "home/Library/Logs")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Logs") }
+
+        let plan = await SpaceRemoval.plan(for: area, environment: environment(directory))
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["com.example.open"])
+        #expect(plan.unreadable == [closed])
+        #expect(!plan.needsFullDiskAccess)
+    }
+
     /// An area only its own app or tool should empty, such as a virtual machine's disks, is never planned for the
     /// Trash, whoever asks.
     @Test func plansNothingInAnAreaItsOwnToolEmpties() async throws {

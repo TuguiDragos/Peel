@@ -114,8 +114,13 @@ struct SpaceDetailView: View {
 
     @ViewBuilder
     private func contents(of plan: SpaceRemoval.Plan) -> some View {
+        if plan.needsFullDiskAccess {
+            FullDiskAccessBanner()
+        } else if !plan.unreadable.isEmpty {
+            UnreadableFoldersNotice(folders: plan.unreadable)
+        }
         Section {
-            if plan.removable.isEmpty {
+            if plan.removable.isEmpty, plan.unreadable.isEmpty {
                 Text("Nothing in here can be moved now.")
                     .foregroundStyle(.secondary)
                     .listRowSeparator(.hidden)
@@ -213,7 +218,7 @@ struct SpaceDetailView: View {
     /// The size of the item's folders until the plan is ready, then the size of what can be moved to the Trash.
     private var total: SizeTotal {
         guard let plan else { return SizeTotal([item.size]) }
-        return SizeTotal(plan.removable.map { plan.sizes[$0] })
+        return SizeTotal(plan.removable.map { plan.sizes[$0] } + plan.unreadable.map { _ -> Int64? in nil })
     }
 
     private var caption: Text {

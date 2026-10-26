@@ -27,6 +27,10 @@ public enum SpaceRemoval {
         /// What the guard never moves from here, each with its reason, so the page can say why the area holds more
         /// than it offers. What the person excluded is left out, as it is everywhere.
         public var refused: [URL: GuardRefusal] = [:]
+        /// The folders Peel couldn't look into, so the area may hold more than the plan offers.
+        public var unreadable: [URL] = []
+        /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
+        public var needsFullDiskAccess = false
 
         /// The open apps whose folders are left alone, each named once and sorted, by the names the user knows, not
         /// the folder names. One app can write to several folders, by its name and by its identifier.
@@ -104,7 +108,9 @@ public enum SpaceRemoval {
             inUse: children.inUse,
             leftToDeveloper: children.leftToDeveloper,
             sizes: sizes,
-            heldBack: heldBack, needsTheHelper: needsTheHelper, refused: children.refused
+            heldBack: heldBack, needsTheHelper: needsTheHelper, refused: children.refused,
+            unreadable: children.unreadable,
+            needsFullDiskAccess: children.unreadable.contains { FullDiskAccess.canList($0) == .missing }
         )
     }
 
@@ -154,20 +160,29 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions,
         running: [String: String]
-    ) -> (removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal]) {
+    ) -> (
+        removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal],
+        unreadable: [URL]
+    ) {
         // An area only its own app or tool should empty, such as a virtual machine's disks, offers nothing.
-        guard item.handling == .trash else { return ([], [], [], [:]) }
+        guard item.handling == .trash else { return ([], [], [], [:], []) }
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         var removable: [URL] = []
         var inUse: [(url: URL, name: String)] = []
         var leftToDeveloper: [URL] = []
         var refused: [URL: GuardRefusal] = [:]
+        var unreadable: [URL] = []
         let macOSsOwn = MacOSsOwnItems(environment: environment)
         let filesOnly = Set(item.onlyFilesIn.map(PathPattern.comparablePath))
         func sort(_ folder: URL, leaving owned: [[String]], owner: String?, onlyFiles inside: Bool = false) {
-            let children = try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+            guard let children = try? FileManager.default.contentsOfDirectory(
+                at: folder, includingPropertiesForKeys: nil
+            ) else {
+                if !folder.isMissing { unreadable.append(folder) }
+                return
+            }
             let onlyFiles = inside || filesOnly.contains(PathPattern.comparablePath(of: folder))
-            for child in children ?? [] {
+            for child in children {
                 let name = child.lastPathComponent
                 if item.leavesMacOSsOwn, SpaceInventory.isMacOSsOwn(name) { continue }
                 if onlyFiles, child.isRealFolder { continue }
@@ -214,7 +229,7 @@ public enum SpaceRemoval {
             let owner = macOSsOwn.container(holding: url).flatMap { running[Naming.normalized($0)] }
             sort(url, leaving: developerFolders.inside(url), owner: owner)
         }
-        return (removable, inUse, leftToDeveloper, refused)
+        return (removable, inUse, leftToDeveloper, refused, unreadable)
     }
 
     /// Maps each name an open app answers to, normalized, to the app's display name. The names are the bundle
