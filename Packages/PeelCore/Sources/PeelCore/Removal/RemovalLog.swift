@@ -95,6 +95,26 @@ public actor RemovalLog {
         url.isMissing || BoundedRead.opens(url, maximum: maximumBytes)
     }
 
+    /// Whether a removal could be recorded in History at `url` now: the folder it is written into can be written, and
+    /// its disk has room for the copy a safe write makes of the whole file, with a megabyte to spare.
+    public static func canBeWritten(
+        at url: URL = RemovalHistory.defaultURL,
+        freeSpace: (URL) -> UInt64? = RemovalLog.freeSpace(at:)
+    ) -> Bool {
+        var folder = url.deletingLastPathComponent()
+        while folder.isMissing, folder.path(percentEncoded: false) != "/" { folder = folder.deletingLastPathComponent() }
+        guard access(folder.path(percentEncoded: false), W_OK) == 0, let free = freeSpace(folder) else { return false }
+        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map { UInt64($0) } ?? 0
+        return free >= size + 1_000_000
+    }
+
+    /// The space free on the disk holding `folder`, as `statfs(2)` gives it.
+    public static func freeSpace(at folder: URL) -> UInt64? {
+        var info = statfs()
+        guard statfs(folder.path(percentEncoded: false), &info) == 0 else { return nil }
+        return UInt64(info.f_bavail) * UInt64(info.f_bsize)
+    }
+
     /// Keeps a History that cannot be read beside the new one, under another name, and starts recording again.
     public func startOver() -> RemovalLogOutcome {
         whileNoOtherProcessWrites {

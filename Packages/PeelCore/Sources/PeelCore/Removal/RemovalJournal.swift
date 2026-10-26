@@ -70,6 +70,10 @@ struct RemovalJournal: Sendable {
         RemovalLog.canBeRead(at: history)
     }
 
+    var historyCanBeWritten: Bool {
+        RemovalLog.canBeWritten(at: history)
+    }
+
     /// Writes down `items`, which moved together in `batch`, one line each. An item the journal was in, Peel's own
     /// folder as Peel removes itself, is left out: History went with it, and writing the line would make the
     /// folder again.

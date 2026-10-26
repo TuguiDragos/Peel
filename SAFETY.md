@@ -227,7 +227,8 @@ Peel, since moving its helper's file would stop the uninstaller halfway.
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
 the only way back from a removal. If it can't be read at all, Peel moves nothing, since what it moved then couldn't
 be put back, until it can be read or until you start it over in History, which keeps the old file beside the new
-one. The `peel` command says so and moves nothing either.
+one. The same holds while it can't be written, on a full disk or when Peel's folder can't be written, until it can.
+The `peel` command says so and moves nothing either.
 
 The record is also a file any process running as you can rewrite, so Put Back reads it as a request, not as
 a fact. It only takes something that really sits in a Trash of yours (`~/.Trash`, or `.Trashes/<uid>` at the

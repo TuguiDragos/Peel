@@ -109258,6 +109258,112 @@
         }
       }
     },
+    "Peel can’t write History" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže zapisovat do Historie"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht in den Verlauf schreiben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede escribir en Historial"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas écrire dans l’Historique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non può scrivere nella Cronologia"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは履歴に書き込めません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 기록을 쓸 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet naar Geschiedenis schrijven"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może zapisać Historii"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue gravar o Histórico"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate scrie în Istoric"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается записать Историю"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte skriva till Historik"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Geçmiş’e yazamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдається записати Історію"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法写入“历史记录”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法寫入「歷史記錄」"
+          }
+        }
+      }
+    },
     "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or leaves it to Git." : {
       "localizations" : {
         "cs" : {
@@ -111820,6 +111926,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法儲存要執行的`brew`。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t write to History, because the disk is full or Peel’s folder can’t be written, and it moves nothing it can’t put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl zapsat do Historie, protože disk je plný nebo do složky Peelu nelze zapisovat, a nepřesouvá nic, co nemůže vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte nicht in den Verlauf schreiben, weil das Volume voll ist oder in den Peel-Ordner nicht geschrieben werden kann, und verschiebt nichts, was sich nicht zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido escribir en Historial, porque el disco está lleno o no se puede escribir en la carpeta de Peel, y no traslada nada que no pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu écrire dans l’Historique, car le disque est plein ou le dossier de Peel n’est pas accessible en écriture, et il ne déplace rien qu’il ne pourrait pas remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a scrivere nella Cronologia, perché il disco è pieno o non è possibile scrivere nella cartella di Peel, e non sposta nulla che non possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは履歴に書き込めませんでした。ディスクがいっぱいになっているか、Peelのフォルダに書き込めないためです。戻せないものは何も移動しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디스크가 가득 찼거나 Peel의 폴더에 쓸 수 없기 때문에 Peel이 기록을 쓸 수 없었으며, 되돌려 놓을 수 없는 것은 아무것도 이동하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet naar Geschiedenis schrijven, omdat de schijf vol is of er niet naar de map van Peel kan worden geschreven, en Peel verplaatst niets wat het niet kan terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zapisać Historii, ponieważ dysk jest pełny albo nie można zapisywać w folderze Peel, i nie przenosi niczego, czego nie może przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu gravar no Histórico, porque o disco está cheio ou não é possível gravar na pasta do Peel, e não move nada que não possa colocar de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut scrie în Istoric, deoarece discul este plin sau nu se poate scrie în dosarul Peel, și nu mută nimic din ce nu poate pune înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось записать Историю, так как диск заполнен или запись в папку Peel невозможна, а он не перемещает ничего, что не сможет восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte skriva till Historik, eftersom skivan är full eller det inte går att skriva till Peels mapp, och flyttar inget som den inte kan lägga tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, disk dolu olduğu veya Peel’in klasörüne yazılamadığı için Geçmiş’e yazamadı ve yerine koyamayacağı hiçbir şeyi taşımaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не змогла записати в Історію, бо диск переповнений або папка Peel недоступна для запису, і Peel не переміщує нічого, чого не може повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法写入“历史记录”，因为磁盘已满或Peel的文件夹无法写入，而它不会移动任何无法放回原处的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法寫入「歷史記錄」，因為磁碟已滿或Peel的檔案夾無法寫入，而它不會移動任何無法還原的項目。"
           }
         }
       }
@@ -164697,6 +164909,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法將副本丟到「垃圾桶」。"
+          }
+        }
+      }
+    },
+    "The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk je plný nebo do složky Peelu nelze zapisovat. Dokud nebude moci zapisovat, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Volume ist voll, oder in den Peel-Ordner kann nicht geschrieben werden. Peel entfernt nichts, solange das so ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El disco está lleno o no se puede escribir en la carpeta de Peel. Peel no elimina nada hasta que pueda escribir en Historial, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le disque est plein, ou le dossier de Peel n’est pas accessible en écriture. Peel ne supprime rien tant qu’il ne peut pas y écrire, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il disco è pieno, oppure non è possibile scrivere nella cartella di Peel. Peel non rimuove nulla finché non riesce a scrivere nella Cronologia, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ディスクがいっぱいになっているか、Peelのフォルダに書き込めない状態です。書き込めるようになるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디스크가 가득 찼거나 Peel의 폴더에 쓸 수 없습니다. 기록을 쓸 수 있게 되기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De schijf is vol of er kan niet naar de map van Peel worden geschreven. Peel verwijdert niets totdat het weer kan schrijven, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dysk jest pełny albo nie można zapisywać w folderze Peel. Peel niczego nie przeniesie do Kosza, dopóki nie będzie mógł zapisać Historii, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O disco está cheio, ou não é possível gravar na pasta do Peel. O Peel não remove nada até conseguir gravar, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discul este plin sau nu se poate scrie în dosarul Peel. Peel nu elimină nimic până când nu poate scrie, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск заполнен, или запись в папку Peel невозможна. Peel ничего не удаляет, пока запись не станет возможной, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skivan är full, eller så går det inte att skriva till Peels mapp. Peel tar inte bort något förrän det går, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk dolu veya Peel’in klasörüne yazılamıyor. Peel, Geçmiş’e yazabilene kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск переповнений, або папка Peel недоступна для запису. Peel нічого не вилучає, доки не зможе записувати в Історію, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磁盘已满，或者Peel的文件夹无法写入。在能够写入之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磁碟已滿，或Peel的檔案夾無法寫入。在能夠寫入之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
           }
         }
       }

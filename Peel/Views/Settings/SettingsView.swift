@@ -420,6 +420,10 @@ private struct GeneralSettingsView: View {
                         Text("Peel removes nothing until you start History over, so that everything it moves can be put back.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
+                    } else if history.cannotBeWritten {
+                        Text("The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
                     }
                 }
                 // Homebrew removes the links its cask made, and no other.

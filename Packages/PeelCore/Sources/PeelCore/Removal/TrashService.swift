@@ -82,6 +82,8 @@ public struct TrashFailure: Sendable, Hashable {
         case somethingElseMoved(named: String)
         /// History cannot be read, so nothing moves: what moved could not be listed for Put Back.
         case historyUnreadable
+        /// History cannot be written, as on a full disk, so nothing moves: what moved could not be listed for Put Back.
+        case historyCannotBeWritten
         /// These processes hold a file open in it, and moving it would pull it from under them.
         case heldOpen(by: [String])
         /// Peel itself runs from it or from inside it, and only Remove Peel moves Peel.
@@ -111,7 +113,7 @@ extension TrashFailure.Reason {
     /// state: History it cannot read, or the helper it needs.
     public var isAboutTheItem: Bool {
         switch self {
-        case .historyUnreadable, .needsHelper: false
+        case .historyUnreadable, .historyCannotBeWritten, .needsHelper: false
         case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser,
              .heldByABuildTool, .inUseByMacOS, .failed: true
@@ -139,6 +141,7 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: "moved-without-a-trace"
         case .somethingElseMoved: "something-else-moved"
         case .historyUnreadable: "history-unreadable"
+        case .historyCannotBeWritten: "history-cannot-be-written"
         case .heldOpen: "held-open"
         case .peelRunsFromIt: "peel-runs-from-it"
         case .heldByAnotherAccount: "held-by-another-account"
@@ -177,6 +180,7 @@ extension TrashFailure.Reason {
         case "moved-without-a-trace": self = .movedWithoutATrace
         case "something-else-moved": self = .somethingElseMoved(named: detail ?? "")
         case "history-unreadable": self = .historyUnreadable
+        case "history-cannot-be-written": self = .historyCannotBeWritten
         case "held-open": self = .heldOpen(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "peel-runs-from-it": self = .peelRunsFromIt
         case "held-by-another-account":
@@ -352,14 +356,14 @@ public struct TrashService: Sendable {
     /// Why every move would be refused now, whatever it is asked to move, or nil when a move may go ahead.
     public var refusalOfEveryMove: TrashFailure.Reason? {
         guard knowsTheExclusions else { return .guarded(.exclusionsNotKnown) }
-        return historyCanBeRead ? nil : .historyUnreadable
+        return historyRefusal
     }
 
     /// Why `url` would not move, or nil when it would. A plan can show this before anything moves, since the move
     /// asks the same guard.
     public func refusal(of url: URL) -> TrashFailure.Reason? {
         if let refusal = removalGuard.refusal(of: url) { return .guarded(refusal) }
-        return historyCanBeRead ? nil : .historyUnreadable
+        return historyRefusal
     }
 
     /// Why each of `apps` would not move now in an uninstall, by the checks its move makes: the guard, History, and
@@ -386,17 +390,19 @@ public struct TrashService: Sendable {
         return refusals
     }
 
-    /// Whether the History this service's moves are recorded in can be read. Nothing moves while it cannot, since
-    /// what moved could not be listed for Put Back.
-    private var historyCanBeRead: Bool {
-        journal?.historyCanBeRead ?? true
+    /// Why nothing moves while the History this service's moves are recorded in can't be read or written, since what
+    /// moved could not be listed for Put Back.
+    private var historyRefusal: TrashFailure.Reason? {
+        guard let journal else { return nil }
+        if !journal.historyCanBeRead { return .historyUnreadable }
+        return journal.historyCanBeWritten ? nil : .historyCannotBeWritten
     }
 
-    /// Every item of `urls` refused, while History cannot be read. An item the guard refuses keeps that reason,
-    /// which outlasts this one.
+    /// Every item of `urls` refused, while History can't be read or written. An item the guard refuses keeps that
+    /// reason, which outlasts this one.
     private func refusingAllWhileHistoryCannotBeRead(_ urls: [URL]) -> TrashResult? {
-        guard !historyCanBeRead else { return nil }
-        let refused = urls.map { TrashFailure(url: $0, reason: refusal(of: $0) ?? .historyUnreadable) }
+        guard let held = historyRefusal else { return nil }
+        let refused = urls.map { TrashFailure(url: $0, reason: refusal(of: $0) ?? held) }
         return TrashResult(failures: refused)
     }
 

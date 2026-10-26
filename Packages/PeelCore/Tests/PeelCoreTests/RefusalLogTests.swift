@@ -214,7 +214,7 @@ struct RefusalLogTests {
 
     private static let everyReason: [TrashFailure.Reason] = [
         .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
-        .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable,
+        .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable, .historyCannotBeWritten,
         .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt, .heldByAnotherAccount(by: ["CtxHelper"]),
         .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]),
         .inUseByMacOS(by: ["geod", "appleaccountd"]), .failed("x"),

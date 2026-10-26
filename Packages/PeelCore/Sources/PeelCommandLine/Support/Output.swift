@@ -439,6 +439,7 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: "in the Trash where macOS didn't say, so only Finder can put it back"
         case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(Output.plain(name))"
         case .historyUnreadable: "History can't be read"
+        case .historyCannotBeWritten: "History can't be written: the disk is full, or Peel's folder can't be written"
         case .heldOpen(let processes) where processes.count > 1:
             "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, or stop them in Background Items if they have no window, then try again"
         case .heldOpen(let processes):

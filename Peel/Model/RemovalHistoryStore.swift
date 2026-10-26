@@ -141,6 +141,8 @@ final class RemovalHistoryStore {
     /// Whether History cannot be read, which holds every removal back, as the Trash service does. Known without
     /// reading it: at launch, when Peel comes forward, and with every read or change of History.
     private(set) var isUnreadable = false
+    /// Whether History cannot be written, as on a full disk, which holds every removal back too. Known the same way.
+    private(set) var cannotBeWritten = false
     private(set) var isRestoring = false
     var selection: RemovalBatch.ID?
     /// By record, not by path: Space and Developer move the same cache folders again and again, so one path
@@ -182,9 +184,12 @@ final class RemovalHistoryStore {
         isUnreadable ? .unreadable : problem
     }
 
-    /// Looks again at whether History can be read, which costs no read of it.
+    /// Looks again at whether History can be read and written, which costs no read of it.
     func checkReadability() {
-        isUnreadable = !RemovalLog.canBeRead(at: log.url)
+        let unreadable = !RemovalLog.canBeRead(at: log.url)
+        let unwritable = !unreadable && !RemovalLog.canBeWritten(at: log.url)
+        if isUnreadable != unreadable { isUnreadable = unreadable }
+        if cannotBeWritten != unwritable { cannotBeWritten = unwritable }
     }
 
     /// Keeps a History that cannot be read beside a new one, and records again.
@@ -275,10 +280,12 @@ final class RemovalHistoryStore {
     /// What the Edit menu shows, and nil when there is nothing to undo.
     var undoTitle: String? { undoable?.title }
 
-    /// Why nothing may move to the Trash or back now: the exclusions are not known, or History can't be read.
+    /// Why nothing may move to the Trash or back now: the exclusions are not known, or History can't be read or
+    /// written.
     var holdingReason: TrashFailure.Reason? {
         guard ExclusionsStore.shared.exclusions.isKnown else { return .guarded(.exclusionsNotKnown) }
-        return isUnreadable ? .historyUnreadable : nil
+        if isUnreadable { return .historyUnreadable }
+        return cannotBeWritten ? .historyCannotBeWritten : nil
     }
 
     var mayMove: Bool { holdingReason == nil }

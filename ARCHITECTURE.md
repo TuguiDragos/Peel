@@ -167,7 +167,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      History the next time History is read, as an interrupted removal. Quitting the app waits for a removal until
      History has it (`QuitGuard`), as `peel` carries on through Control-C (`Uninterrupted`).
    - While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by `TrashService` before a removal)
-     until Start Over, on the History page, sets the unreadable file aside.
+     until Start Over, on the History page, sets the unreadable file aside, and while it cannot be written, its folder
+     closed or its disk without room for the copy a safe write makes, nothing moves either (`RemovalLog.canBeWritten`).
    - What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not Moved, one
      removal to an entry.
    - What only an administrator can move, from a place the helper doesn't serve, stays where it is, and once the

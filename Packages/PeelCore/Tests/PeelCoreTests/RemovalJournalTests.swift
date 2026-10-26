@@ -210,6 +210,34 @@ struct RemovalJournalTests {
         #expect(await service.trashOwnFiles([item]).trashed.count == 1, "Peel's own files waited for History")
     }
 
+    @Test(.permissionsHold) func nothingMovesWhileHistoryCannotBeWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("home/Library/Application Support/Peel/removals.json", contents: Data("[]".utf8))
+        try directory.setPermissions(0o555, of: "home/Library/Application Support/Peel")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Application Support/Peel") }
+        let item = try directory.file("home/Library/Caches/com.example.app/cache.db").deletingLastPathComponent()
+        let moved = Mutex<[URL]>([])
+        let service = service(in: directory, journal: RemovalJournal(beside: history)) { url in
+            moved.withLock { $0.append(url) }
+            return directory.url.appending(path: "home/.Trash/\(url.lastPathComponent)")
+        }
+
+        #expect(service.refusalOfEveryMove == .historyCannotBeWritten)
+        let result = await service.trash([item])
+
+        #expect(moved.withLock { $0 }.isEmpty)
+        #expect(result.failures.map(\.reason) == [.historyCannotBeWritten])
+    }
+
+    @Test func historyNeedsRoomForTheCopyItsWriteMakes() throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+
+        #expect(RemovalLog.canBeWritten(at: history))
+        #expect(RemovalLog.canBeWritten(at: directory.url.appending(path: "Missing/Peel/removals.json")))
+        #expect(!RemovalLog.canBeWritten(at: history, freeSpace: { _ in 1_000 }))
+    }
+
     /// Peel's folder holds the journal, and Peel moves it last as it removes itself: that move is not written
     /// down, since History went with the folder and writing the line would make the folder again.
     @Test func theMoveOfTheFolderThatHoldsTheJournalMakesNothingAgain() async throws {
