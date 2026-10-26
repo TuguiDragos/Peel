@@ -734,7 +734,45 @@ struct FileCommandTests {
         let rows = CachesCommand.rows(for: tool)
 
         #expect(rows.count == 2)
-        #expect(rows[0] == ["30 bytes", Output.path(tool.locations[0].url), "cache"])
-        #expect(rows[1][2] == "models, kept by default")
+        #expect(rows[0] == ["30 bytes", Output.path(tool.locations[0].url), "cache", "suggested"])
+        #expect(rows[1][2] == "models")
+        #expect(rows[1][3] == "kept by default")
+    }
+
+    @Test func saysWhyEachCacheStaysByTheRuleThatSuggestsIt() throws {
+        let directory = try TemporaryDirectory()
+        let tool = try environment("Rust", id: "rust", locations: [
+            ("Library/Caches/cargo", .cache), ("Library/Caches/wallet", .cache), ("Library/Caches/closed", .cache),
+            ("Library/Caches/other", .cache), ("Library/Caches/xcode", .buildData), ("Library/Models/llama", .models),
+        ], in: directory)
+        var locations = tool.locations
+        locations[1].heldBack = .holdsAWallet
+        locations[2] = DeveloperEnvironment.Location(
+            url: locations[2].url, kind: .cache, size: nil, source: locations[2].source, couldNotBeRead: true,
+            closedByPermissions: true
+        )
+        locations[3].isTheTools = false
+        locations[4].workspace = DeveloperEnvironment.Workspace(name: "App", lastUsed: .now)
+        let held = DeveloperEnvironment(
+            id: tool.id, name: tool.name, systemImage: tool.systemImage, appBundleIdentifiers: [], locations: locations
+        )
+
+        #expect(held.locations.map(CachesCommand.note(for:)) == [
+            "suggested", "holds a wallet or a signing key, kept", "its permissions keep Peel out, kept",
+            "nothing shows the tool made it, kept", "its workspace was opened in the last 7 days, kept",
+            "kept by default",
+        ])
+        #expect(held.locations.allSatisfy { ($0.isRecommended) == (CachesCommand.note(for: $0) == "suggested") })
+        let json = try Output.jsonText(CachesCommand.records(for: [held]))
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+        let written = try #require(records.first?["locations"] as? [[String: Any]])
+        #expect(written[0]["reason"] is NSNull && written[0]["heldBack"] is NSNull)
+        #expect(written[1]["heldBack"] as? String == "holdsAWallet")
+        #expect(written[1]["reason"] as? String == "holds a wallet or a signing key")
+        #expect(CachesCommand.staying(in: [held]).count == 5)
+        #expect(CachesCommand.staying(in: [held])[0].hasSuffix("wallet stays: holds a wallet or a signing key"))
+        #expect(CachesCommand.notes(for: [held]) == [
+            "Peel couldn't look inside \(Output.plain(Output.path(locations[2].url))), so something may be there that isn't listed.",
+        ])
     }
 }

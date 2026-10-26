@@ -302,6 +302,26 @@ struct CachesCommand: AsyncParsableCommand {
             let source: String
             /// Whether `--remove` would move it.
             let suggested: Bool
+            /// What held it back while it was measured, as `HoldBack` names it, or `null`.
+            let heldBack: String?
+            /// Why it stays, as the list says it, or `null` when it is suggested.
+            let reason: String?
+
+            private enum CodingKeys: String, CodingKey {
+                case path, size, kind, source, suggested, heldBack, reason
+            }
+
+            /// Encodes a missing `heldBack` and `reason` as `null`, for the reason `AppRecord` gives.
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(path, forKey: .path)
+                try container.encode(size, forKey: .size)
+                try container.encode(kind, forKey: .kind)
+                try container.encode(source, forKey: .source)
+                try container.encode(suggested, forKey: .suggested)
+                try container.encode(heldBack, forKey: .heldBack)
+                try container.encode(reason, forKey: .reason)
+            }
         }
     }
 
@@ -327,10 +347,58 @@ struct CachesCommand: AsyncParsableCommand {
                 Output.table(Self.rows(for: environment), indent: "  ")
             }
         }
+        Self.notes(for: environments).forEach(Output.note)
     }
 
     static func rows(for environment: DeveloperEnvironment) -> [[String]] {
-        environment.locations.map { [Output.size($0.size), Output.path($0.url), $0.kind.summary] }
+        environment.locations.map { [Output.size($0.size), Output.path($0.url), $0.kind.summary, note(for: $0)] }
+    }
+
+    /// Why `location` stays, or nil when `--remove` takes it. It checks the same conditions as `isRecommended`, and
+    /// the two must never disagree.
+    static func reason(for location: DeveloperEnvironment.Location) -> String? {
+        if isKeptByDefault(location.kind) { return "kept by default" }
+        if !location.isTheTools { return "nothing shows the tool made it" }
+        if let heldBack = location.heldBack { return heldBack.summary }
+        if let workspace = location.workspace, workspace.mayStillBeInUse {
+            return workspace.lastUsed == nil
+                ? "Xcode wrote no date for its workspace" : "its workspace was opened in the last 7 days"
+        }
+        guard location.size == nil else { return nil }
+        let unread: HoldBack = location.closedByPermissions ? .closedByPermissions
+            : location.couldNotBeRead ? .couldNotBeRead : .notMeasured
+        return unread.summary
+    }
+
+    /// The list's last column: "suggested", or why the folder stays.
+    static func note(for location: DeveloperEnvironment.Location) -> String {
+        guard let reason = reason(for: location) else { return "suggested" }
+        return isKeptByDefault(location.kind) ? reason : "\(reason), kept"
+    }
+
+    private static func isKeptByDefault(_ kind: DeveloperEnvironment.ContentKind) -> Bool {
+        switch kind {
+        case .buildData, .downloads, .cache, .logs: false
+        case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: true
+        }
+    }
+
+    /// What `--remove` leaves of the tools it moves from, each folder with why.
+    static func staying(in environments: [DeveloperEnvironment]) -> [String] {
+        environments.flatMap { environment in
+            environment.locations.compactMap { location in
+                reason(for: location).map { "\(Output.plain(Output.path(location.url))) stays: \($0)" }
+            }
+        }
+    }
+
+    /// The folders macOS kept Peel out of, said on standard error whatever the output, so that an unknown size is not
+    /// read as an empty folder.
+    static func notes(for environments: [DeveloperEnvironment]) -> [String] {
+        let unread = environments.flatMap(\.locations).filter(\.couldNotBeRead)
+        guard !unread.isEmpty else { return [] }
+        let isPrivacy = unread.contains { !$0.closedByPermissions }
+        return [Output.unreadableNote(for: unread.map(\.url), needsFullDiskAccess: isPrivacy)]
     }
 
     static func records(for environments: [DeveloperEnvironment]) -> [Record] {
@@ -341,7 +409,9 @@ struct CachesCommand: AsyncParsableCommand {
                     size: MeasuredSize($0.size),
                     kind: $0.kind.rawValue,
                     source: $0.source,
-                    suggested: $0.isRecommended
+                    suggested: $0.isRecommended,
+                    heldBack: $0.heldBack?.rawValue,
+                    reason: reason(for: $0)
                 )
             })
         }
@@ -379,11 +449,15 @@ struct CachesCommand: AsyncParsableCommand {
         }
         let closed = environments.filter { environment in !open.contains { $0.id == environment.id } }
         let locations = closed.flatMap { environment in environment.locations.filter(\.isRecommended) }
+        Self.notes(for: environments).forEach(Output.note)
+        // Nobody asked for a folder Peel doesn't suggest on its own, so it is said here and never recorded as refused.
+        let staying = Self.staying(in: closed)
         guard !locations.isEmpty else {
             if let first = open.first {
                 throw CommandFailure(Self.quitFirst(first))
             }
             Output.line("Nothing here is safe to suggest. See `peel caches`.")
+            staying.forEach(Output.note)
             return
         }
         let cleanup = Cleanup.of(
@@ -395,6 +469,7 @@ struct CachesCommand: AsyncParsableCommand {
         )
         try await cleanup.run(
             question: "Move \(Output.count(cleanup.moving.count, "item", "items")) to the Trash?",
+            notes: staying,
             dryRun: removal.dryRun,
             yes: removal.yes,
             using: service,

@@ -486,12 +486,12 @@ extension DeveloperEnvironment.ContentKind {
         case .downloads: "downloads"
         case .cache: "cache"
         case .logs: "logs"
-        case .deviceSupport: "device support, kept by default"
-        case .archives: "archives, kept by default"
-        case .models: "models, kept by default"
-        case .environments: "installed packages, kept by default"
-        case .keptDownloads: "downloads to install again, kept by default"
-        case .projectState: "an editor's state for a project that is gone, kept by default"
+        case .deviceSupport: "device support"
+        case .archives: "archives"
+        case .models: "models"
+        case .environments: "installed packages"
+        case .keptDownloads: "downloads to install again"
+        case .projectState: "an editor's state for a project that is gone"
         }
     }
 }
