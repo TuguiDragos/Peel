@@ -1119,7 +1119,8 @@ struct LeftoverScannerTests {
         )
         let found = try #require(scan.leftovers.first { $0.url.lastPathComponent == "net.example.client" })
 
-        #expect(found.match.heldBack == .couldNotBeRead, "a folder nothing could be read from was taken for an empty one")
+        // Closed here by its permissions; a privacy refusal, as macOS 27's for a container, reads `.couldNotBeRead`.
+        #expect(found.match.heldBack == .closedByPermissions, "a folder nothing could be read from was taken for an empty one")
         #expect(!found.match.isRecommended)
         #expect(!found.isMeasured)
     }

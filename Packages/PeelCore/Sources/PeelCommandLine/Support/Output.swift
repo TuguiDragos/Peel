@@ -349,6 +349,7 @@ extension HoldBack {
         case .holdsAnExclusion: "holds something you excluded"
         case .notMeasured: "not measured in time"
         case .couldNotBeRead: "macOS wouldn't let Peel read inside"
+        case .closedByPermissions: "its permissions keep Peel out"
         case .couldNotLookInside: "macOS wouldn't let Peel look inside to make sure nothing Peel protects is there"
         case .holdsDocuments: "holds the app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"

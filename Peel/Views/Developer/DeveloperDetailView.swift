@@ -86,7 +86,7 @@ struct DeveloperDetailView: View {
         if location.size == nil {
             return String(
                 localized: location.couldNotBeRead
-                    ? HoldBack.couldNotBeRead.explanation
+                    ? (location.closedByPermissions ? HoldBack.closedByPermissions : .couldNotBeRead).explanation
                     : HoldBack.notMeasured.explanation
             )
         }

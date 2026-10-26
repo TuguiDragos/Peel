@@ -97923,6 +97923,112 @@
         }
       }
     },
+    "Not selected: its permissions keep Peel out, so what is in there isn’t known. Full Disk Access doesn’t open it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: oprávnění této složky nepustí Peel dovnitř, takže není známo, co tam je. Plný přístup k disku ji neotevře."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Die Zugriffsrechte dieses Ordners sperren Peel aus, daher ist nicht bekannt, was darin liegt. Auch Festplattenvollzugriff öffnet ihn nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: sus permisos no dejan entrar a Peel, así que no se sabe qué hay dentro. Con acceso total al disco tampoco se puede abrir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ses permissions empêchent Peel d’y accéder, son contenu est donc inconnu. L’accès complet au disque ne permet pas de l’ouvrir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: i suoi permessi impediscono a Peel di accedervi, quindi non si sa cosa contiene. Nemmeno l’accesso completo al disco consente di aprirlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: アクセス権によってPeelが中に入れないため、中に何があるかわかりません。フルディスクアクセスがあっても開けません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 항목의 권한 때문에 Peel이 들어갈 수 없으므로 안에 무엇이 있는지 알 수 없습니다. 전체 디스크 접근 권한으로도 열 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: de bevoegdheden ervan houden Peel buiten, dus het is niet bekend wat erin zit. Ook met volledige schijftoegang kan Peel er niet in."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: uprawnienia tego folderu nie dają aplikacji Peel dostępu, więc nie wiadomo, co jest w środku. Pełny dostęp do dysku tego nie zmienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: as permissões deste item não deixam o Peel entrar, então não se sabe o que há ali. Nem o Acesso Total ao Disco permite abri-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: permisiunile sale nu permit accesul aplicației Peel, așa că nu se știe ce conține. Nici Acces complet la disc nu îl deschide."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: права доступа не пускают Peel внутрь, поэтому содержимое неизвестно. Полный доступ к диску его не открывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: dess behörigheter stänger ute Peel, så det är inte känt vad som finns där inne. Full skivtillgång ger inte åtkomst till den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: izinleri Peel’in içeri girmesini engelliyor, bu yüzden içinde ne olduğu bilinmiyor. Tam Disk Erişimi de onu açmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: привілеї цієї папки не пускають Peel усередину, тож невідомо, що в ній. Повний доступ до диска її не відкриває."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它的权限设置不允许Peel进入，因此无法知道里面有什么。完全磁盘访问权限也无法打开它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它的權限不允許Peel進入，因此無法得知其中有什麼。「完全取用磁碟」權限也無法讓Peel進入。"
+          }
+        }
+      }
+    },
     "Not selected: macOS keeps this for its own services, which may be using it right now." : {
       "localizations" : {
         "cs" : {

@@ -67,6 +67,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// macOS refused to let Peel read inside, so what the folder holds is not known, and zero would be a wrong
     /// size. From macOS 27, another team's container is refused outright rather than prompted for.
     case couldNotBeRead
+    /// Its permissions kept Peel from reading inside, as with a folder only root may open, so what it holds is not
+    /// known. Full Disk Access doesn't open such a folder.
+    case closedByPermissions
     /// macOS would not let Peel list a folder inside it, so `RemovalGuard` refuses to move it as the person: what it
     /// never moves may be in there (`GuardRefusal.couldNotLookInside`).
     case couldNotLookInside
@@ -163,8 +166,13 @@ public enum HoldBack: String, Sendable, Hashable {
     /// exist nowhere else, and a folder the walk could not see into is not known to be empty.
     static func seen(in contents: FolderContents?) -> HoldBack? {
         guard let contents else { return .notMeasured }
-        if contents.couldNotBeRead { return .couldNotBeRead }
+        if contents.couldNotBeRead { return unread(contents) }
         return secret(in: contents) ?? (contents.holdsRepository ? .holdsRepository : nil)
+    }
+
+    /// Why a folder the walk couldn't see all through is held back: closed by its permissions, or refused otherwise.
+    static func unread(_ contents: FolderContents) -> HoldBack {
+        contents.closedByPermissions ? .closedByPermissions : .couldNotBeRead
     }
 
     /// A wallet, a signing key, or a password database seen inside.

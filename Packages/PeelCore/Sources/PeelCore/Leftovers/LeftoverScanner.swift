@@ -410,8 +410,8 @@ public struct LeftoverScanner: Sendable {
             .inTheCloud
         } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home, root: root) {
             keptOnlyHere
-        } else if contents?.couldNotBeRead == true {
-            .couldNotBeRead
+        } else if let contents, contents.couldNotBeRead {
+            HoldBack.unread(contents)
         } else if let contents {
             heldBack(match, at: url, in: kind, contents: contents, foldersAbove: foldersAbove)
         } else {

@@ -59,6 +59,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         public let source: String
         /// True when macOS would not let Peel open the folder, rather than it not answering in time.
         public var couldNotBeRead = false
+        /// True when what couldn't be opened was closed by its permissions, which Full Disk Access doesn't open.
+        public var closedByPermissions = false
         public var archive: Archive?
         public var workspace: Workspace?
         /// The name of the project an editor kept this for, which is no longer on this Mac.
@@ -1596,6 +1598,7 @@ public enum DeveloperCaches {
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 source: folder.source,
                 couldNotBeRead: contents?.couldNotBeRead == true,
+                closedByPermissions: contents?.closedByPermissions == true,
                 archive: folder.kind == .archives ? Self.archive(at: url) : nil,
                 workspace: derived?.workspace,
                 project: project,

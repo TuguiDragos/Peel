@@ -24,6 +24,8 @@ public struct FolderContents: Sendable, Hashable {
     /// then counts only what was, which must never be read as the folder's size. From macOS 27, another team's
     /// container is refused outright.
     public let couldNotBeRead: Bool
+    /// True when all that couldn't be opened was closed by its permissions, which Full Disk Access doesn't open.
+    public let closedByPermissions: Bool
     /// The space the folder takes on disk, each file once whatever its names: more than `size` when files share
     /// their blocks with APFS clones elsewhere.
     public let taken: Int64
@@ -40,6 +42,7 @@ public struct FolderContents: Sendable, Hashable {
         holdsBackups: Bool = false,
         newestChange: Date? = nil,
         couldNotBeRead: Bool = false,
+        closedByPermissions: Bool = false,
         taken: Int64? = nil
     ) {
         self.size = size
@@ -50,6 +53,7 @@ public struct FolderContents: Sendable, Hashable {
         self.holdsBackups = holdsBackups
         self.newestChange = newestChange
         self.couldNotBeRead = couldNotBeRead
+        self.closedByPermissions = closedByPermissions
     }
 }
 
@@ -168,7 +172,9 @@ public enum FileSize {
             return FolderContents(size: 0, holdsRepository: false)
         } catch {
             // macOS would not say what the item is (a folder around it cannot be searched), so its size is not known.
-            return FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true)
+            return FolderContents(
+                size: 0, holdsRepository: false, couldNotBeRead: true, closedByPermissions: isClosedByPermissions(error)
+            )
         }
     }
 
@@ -197,7 +203,7 @@ public enum FileSize {
             includingPropertiesForKeys: Array(fileKeys),
             options: [],
             errorHandler: { _, error in
-                if (error as? CocoaError)?.code != .fileReadNoSuchFile { refused.note() }
+                if (error as? CocoaError)?.code != .fileReadNoSuchFile { refused.note(error) }
                 return true
             }
         ) else { return FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true) }
@@ -264,6 +270,7 @@ public enum FileSize {
             holdsBackups: holdsBackups,
             newestChange: newestChange,
             couldNotBeRead: refused.happened,
+            closedByPermissions: refused.closedByPermissions,
             taken: taken
         )
     }
@@ -281,13 +288,25 @@ public enum FileSize {
     /// Whether a folder of the walk refused to open. Set by the enumerator's error handler on the walking thread,
     /// and read once the walk ends.
     private final class Refused: Sendable {
-        private let state = Mutex(false)
+        private let state = Mutex((happened: false, otherThanByPermissions: false))
 
-        var happened: Bool { state.withLock { $0 } }
+        var happened: Bool { state.withLock { $0.happened } }
+        var closedByPermissions: Bool { state.withLock { $0.happened && !$0.otherThanByPermissions } }
 
-        func note() {
-            state.withLock { $0 = true }
+        func note(_ error: any Error) {
+            let byPermissions = isClosedByPermissions(error)
+            state.withLock {
+                $0.happened = true
+                if !byPermissions { $0.otherThanByPermissions = true }
+            }
         }
+    }
+
+    /// Whether a read failed on ordinary permissions (`EACCES`), which Full Disk Access doesn't lift, rather than on
+    /// macOS's privacy protection (`EPERM`) or for another reason.
+    static func isClosedByPermissions(_ error: any Error) -> Bool {
+        guard let cause = (error as NSError).userInfo[NSUnderlyingErrorKey] as? NSError else { return false }
+        return cause.domain == NSPOSIXErrorDomain && cause.code == Int(EACCES)
     }
 
     static let repositoryMarkers: Set<String> = [".git", ".hg", ".svn", ".jj", ".pijul", "_darcs"]

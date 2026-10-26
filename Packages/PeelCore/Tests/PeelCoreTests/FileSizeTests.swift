@@ -171,6 +171,23 @@ struct FileSizeTests {
         #expect(await FileSize.reclaimableSize(of: folder) == nil)
     }
 
+    @Test(.permissionsHold) func tellsAFolderClosedByItsPermissionsApart() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Vendor")
+        try directory.file("Vendor/settings.plist", bytes: 100)
+        try directory.file("Vendor/rootonly/state", bytes: 100)
+        try directory.setPermissions(0, of: "Vendor/rootonly")
+        defer { try? directory.setPermissions(0o755, of: "Vendor/rootonly") }
+
+        let contents = try #require(await FileSize.contents(of: folder))
+
+        #expect(contents.couldNotBeRead)
+        #expect(contents.closedByPermissions, "Full Disk Access doesn't open a folder its permissions close")
+        #expect(HoldBack.seen(in: contents) == .closedByPermissions)
+        let refusedOtherwise = FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true)
+        #expect(HoldBack.seen(in: refusedOtherwise) == .couldNotBeRead)
+    }
+
     /// A folder that goes away while the walk goes on holds nothing any more, which is no reason to doubt the rest:
     /// an app that makes and removes folders in its cache as it runs would otherwise leave that cache never known.
     @Test func aFolderThatGoesAwayDuringTheWalkLeavesTheRestKnown() throws {
