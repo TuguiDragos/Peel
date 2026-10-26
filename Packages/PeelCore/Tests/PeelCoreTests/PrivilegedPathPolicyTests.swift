@@ -275,8 +275,12 @@ struct PrivilegedPathPolicyTests {
 
     @Test(arguments: [
         ("com.example.helper", true),
+        ("sh.brew.postgresql@16", true),
+        ("sh.brew.gtk+3", true),
         ("com.apple.securityd", false),
         ("com.example.helper; rm -rf /", false),
+        ("com.example.helper/other", false),
+        ("com.example.my helper", false),
         ("../../etc", false),
         ("-rf", false),
         ("", false),

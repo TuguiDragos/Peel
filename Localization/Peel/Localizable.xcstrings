@@ -70197,6 +70197,112 @@
         }
       }
     },
+    "Its name has characters Peel never passes to launchctl, so Peel doesn’t start, stop, enable, or disable it here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její název obsahuje znaky, které Peel nikdy nepředává příkazu launchctl, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sein Name enthält Zeichen, die Peel nie an launchctl übergibt, daher startet, stoppt, aktiviert oder deaktiviert Peel es hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su nombre tiene caracteres que Peel nunca pasa a launchctl, así que aquí Peel no lo inicia, no lo detiene, no lo activa ni lo desactiva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son nom contient des caractères que Peel ne transmet jamais à launchctl : Peel ne le démarre donc pas, ne l’arrête pas, ne l’active pas et ne le désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo nome contiene caratteri che Peel non passa mai a launchctl, quindi qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前に、Peelがlaunchctlに決して渡さない文字が含まれているため、Peelはここで開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름에 Peel이 launchctl에 절대 전달하지 않는 문자가 들어 있으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De naam bevat tekens die Peel nooit aan launchctl doorgeeft, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nazwa tej rzeczy zawiera znaki, których Peel nigdy nie przekazuje do launchctl, więc Peel jej tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome dele tem caracteres que o Peel nunca passa para o launchctl, por isso o Peel não o inicia, não o interrompe, não o ativa nem o desativa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numele său conține caractere pe care Peel nu le transmite niciodată către launchctl, așa că Peel nu îl pornește, nu îl oprește, nu îl activează și nu îl dezactivează de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В его имени есть символы, которые Peel никогда не передает launchctl, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namnet innehåller tecken som Peel aldrig skickar till launchctl, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adında Peel’in launchctl komutuna hiçbir zaman aktarmadığı karakterler var, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його назва містить символи, яких Peel ніколи не передає launchctl, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的名称中含有Peel绝不会传递给launchctl的字符，因此Peel不会在此处启动、停止、启用或停用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的名稱含有Peel絕不會傳遞給launchctl的字元，因此Peel不會在這裡啟動、停止、啟用或停用它。"
+          }
+        }
+      }
+    },
     "Its name starts with com.apple, but macOS didn’t install it, so Peel doesn’t start, stop, or remove it here. Look at the file to see what put it there." : {
       "localizations" : {
         "cs" : {
@@ -114648,6 +114754,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法判斷它是否正在執行"
+          }
+        }
+      }
+    },
+    "Peel can’t use its name" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže použít její název"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann den Namen dieses Objekts nicht verwenden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede usar su nombre"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas utiliser son nom"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non può usare il suo nome"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこの項目の名前を使用できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목의 이름을 사용할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan de naam niet gebruiken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może użyć nazwy tej rzeczy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não pode usar o nome dele"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu îi poate folosi numele"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может использовать его имя"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte använda namnet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu öğenin adını kullanamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може використати його назву"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法使用它的名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法使用它的名稱"
           }
         }
       }

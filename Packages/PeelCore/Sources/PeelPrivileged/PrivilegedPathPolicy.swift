@@ -366,13 +366,14 @@ public struct PrivilegedPathPolicy: Sendable {
         !path.utf8.contains { $0 < 0x20 || $0 == 0x7F }
     }
 
-    /// True for a launchd label the helper may pass to `launchctl`: no shell or path characters, no leading
-    /// dot or hyphen, and no `com.apple.` prefix.
+    /// True for a launchd label the helper may pass to `launchctl`: letters, digits, `.`, `-`, `_`, and the `@` and
+    /// `+` of Homebrew's services named after a formula (`sh.brew.postgresql@16`); no shell or path characters, no
+    /// leading dot or hyphen, and no `com.apple.` prefix.
     public static func isValidLabel(_ label: String) -> Bool {
         guard (1...255).contains(label.utf8.count), !label.hasPrefix("com.apple.") else { return false }
         return label.utf8.allSatisfy { byte in
             (byte >= 0x30 && byte <= 0x39) || (byte >= 0x41 && byte <= 0x5A) || (byte >= 0x61 && byte <= 0x7A)
-                || byte == 0x2E || byte == 0x2D || byte == 0x5F
+                || byte == 0x2E || byte == 0x2D || byte == 0x5F || byte == 0x40 || byte == 0x2B
         } && label.first != "." && label.first != "-"
     }
 

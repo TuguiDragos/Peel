@@ -124,6 +124,16 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.hasAnUnusableLabel, !item.canBeControlled {
+                Section {
+                    Notice(
+                        title: Text("Peel can’t use its name"),
+                        detail: Text("Its name has characters Peel never passes to launchctl, so Peel doesn’t start, stop, enable, or disable it here."),
+                        kind: .note
+                    ) {}
+                }
+            }
+
             if item.isSystemExtension {
                 Section {
                     Notice(

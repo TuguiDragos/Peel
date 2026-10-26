@@ -146,6 +146,31 @@ struct BackgroundItemActionsTests {
         #expect(disabled.first { $0.label == "org.example.tide.other" }.map { $0.runsAtLoad == nil && $0.keepsAlive == nil } == true)
     }
 
+    @Test func aDaemonHomebrewNamesAfterAVersionedFormulaCanBeControlled() {
+        let daemon = BackgroundItem(
+            label: "sh.brew.postgresql@16", kind: .daemon, source: .systemLibrary, plistURL: nil,
+            program: "/opt/homebrew/opt/postgresql@16/bin/postgres", runsAtLoad: true, keepsAlive: true,
+            ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false, state: .loaded,
+            isDisabled: false
+        )
+        #expect(daemon.canBeControlled)
+    }
+
+    @Test func aDaemonWithANamePeelWontPassSaysSo() {
+        func daemon(_ label: String) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: .daemon, source: .systemLibrary, plistURL: nil, program: "/usr/local/bin/helper",
+                runsAtLoad: true, keepsAlive: true, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil,
+                isOrphan: false, state: .loaded, isDisabled: false
+            )
+        }
+
+        #expect(daemon("org.example.my helper").hasAnUnusableLabel)
+        #expect(!daemon("org.example.my helper").canBeControlled)
+        #expect(!daemon("sh.brew.postgresql@16").hasAnUnusableLabel)
+        #expect(!daemon("com.apple.example").hasAnUnusableLabel)
+    }
+
     @Test func aJobInTheUserDomainIsAskedAboutThere() throws {
         let directory = try TemporaryDirectory()
         let job = try PropertyListSerialization.data(

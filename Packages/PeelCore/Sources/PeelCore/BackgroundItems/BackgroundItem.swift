@@ -100,6 +100,10 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         !usesALabelOfMacOS && !isSystemExtension && (!requiresPrivileges || PrivilegedPathPolicy.allowsDaemon(label))
     }
 
+    /// True for a name Peel never passes to `launchctl` (`PrivilegedPathPolicy.isValidLabel`). Apple's names have notes
+    /// of their own.
+    public var hasAnUnusableLabel: Bool { !label.hasPrefix("com.apple.") && !PrivilegedPathPolicy.isValidLabel(label) }
+
     /// True when Peel may disable the job: not one ServiceManagement manages, and one whose row Enable stays on.
     public var mayBeDisabled: Bool { canBeControlled && !isManagedByServiceManagement && staysListedWhenDisabled }
 
