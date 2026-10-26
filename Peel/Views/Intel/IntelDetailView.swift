@@ -99,12 +99,17 @@ struct IntelDetailView: View {
                     }
                     Spacer()
                     if let app {
-                        Button("Review in Applications", systemImage: "square.grid.2x2") {
+                        let review = Button("Review in Applications", systemImage: "square.grid.2x2") {
                             library.selection = [app.id]
                             // Selecting the app does not switch tools by itself, so Applications is requested too.
                             Navigator.shared.requestedTool = .applications
                         }
-                        .buttonStyle(.borderedProminent)
+                        // A part inside the app never goes alone, so removing the app isn't the step to lead with.
+                        if finding.kind == .insideApp {
+                            review
+                        } else {
+                            review.buttonStyle(.borderedProminent)
+                        }
                     }
                 }
             } header: {
@@ -122,8 +127,10 @@ struct IntelDetailView: View {
         switch finding.kind {
         case .driver, .commandLineTool:
             "Peel only reports here. The software that installed it may have an uninstaller of its own."
-        case .app, .insideApp:
+        case .app:
             "Peel only reports here. To remove it, go to Applications, where you see everything that goes with the app."
+        case .insideApp:
+            "Peel only reports here. This part comes with the app and can’t be removed on its own. An update of the app may replace it."
         case .plugin:
             "Peel only reports here. To remove it, go to Plug-ins."
         case .backgroundItem:

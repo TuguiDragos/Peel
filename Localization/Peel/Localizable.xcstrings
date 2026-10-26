@@ -118988,6 +118988,112 @@
         }
       }
     },
+    "Peel only reports here. This part comes with the app and can’t be removed on its own. An update of the app may replace it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zde jen informuje. Tato součást patří k aplikaci a nelze ji odstranit samostatně. Aktualizace aplikace ji může nahradit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier informiert Peel nur. Dieser Teil gehört zur App und kann nicht für sich allein entfernt werden. Ein Update der App ersetzt ihn möglicherweise."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí Peel solo informa. Esta parte viene con la app y no se puede eliminar por separado. Una actualización de la app puede reemplazarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ici, Peel se contente de signaler. Ce composant est fourni avec l’app et ne peut pas être supprimé séparément. Une mise à jour de l’app peut le remplacer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui Peel si limita a segnalare. Questa parte è fornita con l’app e non si può rimuovere separatamente. Un aggiornamento dell’app potrebbe sostituirla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここでは報告するだけです。この部分はアプリに付属しているため、単独では取り除けません。アプリをアップデートすると、置き換えられる場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기에서 Peel은 보고만 합니다. 이 구성 요소는 앱과 함께 제공되며 단독으로 제거할 수 없습니다. 앱 업데이트로 이 구성 요소가 대체될 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel geeft hier alleen informatie. Dit onderdeel hoort bij de app en kan niet apart worden verwijderd. Een update van de app kan het vervangen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tylko to tutaj zgłasza. Ta część jest dostarczana razem z aplikacją i nie można się jej pozbyć osobno. Uaktualnienie aplikacji może ją zastąpić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui o Peel apenas informa. Esta parte vem com o app e não pode ser removida separadamente. Uma atualização do app pode substituí-la."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aici Peel doar raportează. Această componentă vine odată cu aplicația și nu poate fi eliminată separat. O actualizare a aplicației o poate înlocui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь Peel только сообщает. Эта часть поставляется вместе с приложением, и ее нельзя удалить отдельно. Обновление приложения может ее заменить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Här rapporterar Peel bara. Den här delen följer med appen och kan inte tas bort separat. En uppdatering av appen kan ersätta den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel burada yalnızca bilgi verir. Bu parça uygulamayla birlikte gelir ve tek başına kaldırılamaz. Uygulamanın bir güncellemesi onu yenisiyle değiştirebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут Peel лише повідомляє. Ця частина постачається разом із програмою, і її не можна вилучити окремо. Оновлення програми може її замінити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此仅作报告。这一部分随App附带，无法单独移除。更新App时可能会替换它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此只負責回報。這個部分隨附於該App，無法單獨移除。該App的更新可能會取代它。"
+          }
+        }
+      }
+    },
     "Peel only reports here. To remove it, go to Applications, where you see everything that goes with the app." : {
       "localizations" : {
         "cs" : {
