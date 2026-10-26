@@ -948,7 +948,11 @@ public enum DeveloperCaches {
         Definition(id: "nova", name: "Nova", systemImage: "curlybraces", appBundleIdentifiers: ["com.panic.Nova"], folders: [
             Folder("Library/Caches/com.panic.Nova", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
         ]),
-        Definition(id: "zed", name: "Zed", systemImage: "curlybraces", appBundleIdentifiers: ["dev.zed.Zed"], folders: [
+        // Every channel of Zed keeps the same folders (`APP_NAME` in paths.rs) under an identifier of its own, the
+        // `bundle-*` entries of crates/zed/Cargo.toml at the same commit.
+        Definition(id: "zed", name: "Zed", systemImage: "curlybraces", appBundleIdentifiers: [
+            "dev.zed.Zed", "dev.zed.Zed-Preview", "dev.zed.Zed-Nightly", "dev.zed.Zed-Dev",
+        ], folders: [
             Folder("Library/Caches/Zed", .cache, source: "https://github.com/zed-industries/zed/blob/a84689073d296dfd39987bc7dd478e43ef76d83a/crates/paths/src/paths.rs#L192-L199"),
             Folder("Library/Logs/Zed", .logs, source: "https://github.com/zed-industries/zed/blob/a84689073d296dfd39987bc7dd478e43ef76d83a/crates/paths/src/paths.rs#L228-L235"),
             Folder("Library/Application Support/Zed/node/node-*/cache", .cache, source: "https://github.com/zed-industries/zed/blob/a84689073d296dfd39987bc7dd478e43ef76d83a/crates/node_runtime/src/node_runtime.rs#L721-L724"),

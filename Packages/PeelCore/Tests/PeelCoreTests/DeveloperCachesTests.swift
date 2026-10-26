@@ -101,6 +101,12 @@ struct DeveloperCachesTests {
         #expect(androidStudio.appBundleIdentifiers.contains("com.google.android.studio-EAP"))
     }
 
+    @Test func everyChannelOfZedKeepsItsFoldersWhileItRuns() throws {
+        let zed = try #require(DeveloperCaches.definitions.first { $0.id == "zed" })
+
+        #expect(zed.appBundleIdentifiers == ["dev.zed.Zed", "dev.zed.Zed-Preview", "dev.zed.Zed-Nightly", "dev.zed.Zed-Dev"])
+    }
+
     /// Space asks about a folder however it was spelled, so another spelling of the same folder (another case, or
     /// the home folder through a link) must still find what the table lists inside it. Finding nothing, Space
     /// would move Coursier's folder whole, the JVMs beside its cache included.
