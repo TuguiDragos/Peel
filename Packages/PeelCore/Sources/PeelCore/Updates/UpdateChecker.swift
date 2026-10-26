@@ -157,16 +157,22 @@ public struct UpdateChecker: Sendable {
     }
 
     /// The status Homebrew reports at `now` for `cask`, known to be the app's at `appVersion`, or nil when it can't
-    /// tell: a cask not outdated is up to date only within `Homebrew.autoUpdateInterval` of Homebrew's last check for
-    /// new versions.
+    /// tell (`whyHomebrewCannotTell(about:at:)`).
     static func homebrewStatus(of cask: HomebrewPackage, appVersion: String?, at now: Date) -> UpdateStatus? {
         if cask.isOutdated, let latest = cask.latestVersion, !isAlready(appVersion, at: latest) {
             return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
         }
+        return whyHomebrewCannotTell(about: cask, at: now) == nil ? .upToDate : nil
+    }
+
+    /// Why a cask Homebrew doesn't count outdated may still be behind at `now`: Homebrew compares no version for it, or
+    /// it last checked for new versions longer ago than `Homebrew.autoUpdateInterval`, or when isn't known.
+    static func whyHomebrewCannotTell(about cask: HomebrewPackage, at now: Date) -> HomebrewCannotTell.Reason? {
+        if let reason = cask.whyHomebrewCannotCompare { return reason }
         guard let checked = cask.lastUpdateCheck, now.timeIntervalSince(checked) < Homebrew.autoUpdateInterval else {
-            return nil
+            return .notCheckedRecently
         }
-        return .upToDate
+        return nil
     }
 
     /// Whether the app's own `version` is already the cask's `latest`, or past it. Homebrew counts a cask outdated by
@@ -179,15 +185,18 @@ public struct UpdateChecker: Sendable {
         return !VersionComparison.isNewer(tap, than: version)
     }
 
-    /// The cask `app` came from when only Homebrew could say whether it is up to date and Homebrew's last check for
-    /// new versions is too old to tell (`homebrewStatus(of:appVersion:at:)`), so a check has no answer for it.
-    public func caskNotCheckedRecently(
-        for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
-    ) -> HomebrewPackage? {
+    /// The cask `app` came from, and why Homebrew can't tell, when only Homebrew could say whether the app is up to
+    /// date and it has no answer (`homebrewStatus(of:appVersion:at:)`), so a check has none for the app.
+    public func homebrewCannotTell(
+        about app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
+    ) -> HomebrewCannotTell? {
+        let now = clock()
         guard Self.asksNobody(about: app, preference: preference),
-              let cask = CaskEvidence.installedCask(for: app, in: casks)
+              let cask = CaskEvidence.installedCask(for: app, in: casks),
+              Self.homebrewStatus(of: cask, appVersion: app.version, at: now) == nil,
+              let reason = Self.whyHomebrewCannotTell(about: cask, at: now)
         else { return nil }
-        return Self.homebrewStatus(of: cask, appVersion: app.version, at: clock()) == nil ? cask : nil
+        return HomebrewCannotTell(cask: cask, reason: reason)
     }
 
     private func feedAnswer(
@@ -478,6 +487,22 @@ public struct UpdateAnswer: Sendable, Hashable {
         }
         return status
     }
+}
+
+/// Why Homebrew, which installed an app nobody else can answer for, can't say whether the app is up to date.
+public struct HomebrewCannotTell: Sendable, Hashable {
+    public enum Reason: Sendable, Hashable {
+        /// Homebrew last checked for new versions over a day ago, or when isn't known.
+        case notCheckedRecently
+        /// The cask installs whatever is newest each time (`version :latest`), so there is no version to compare.
+        case installsTheNewest
+        /// The app updates itself, and Homebrew's settings leave such casks to their apps
+        /// (`HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS`).
+        case leftToTheApp
+    }
+
+    public let cask: HomebrewPackage
+    public let reason: Reason
 }
 
 /// What asking for an update's notes came to.

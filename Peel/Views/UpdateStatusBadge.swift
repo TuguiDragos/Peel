@@ -7,7 +7,7 @@ struct UpdateStatusBadge: View {
     let isChecking: Bool
     /// When a check last got an answer, which is what the note for a failed check tells the user.
     var lastCheck: Date?
-    var caskNotCheckedRecently: HomebrewPackage?
+    var homebrewCannotTell: HomebrewCannotTell?
 
     var body: some View {
         BusyShown(isBusy: isChecking) { isShown in
@@ -60,11 +60,18 @@ struct UpdateStatusBadge: View {
     /// preferred update source is never the reason: an app not sold by the App Store is checked through its
     /// own feed whatever that setting says.
     private var unsupportedReason: Text {
-        if let cask = caskNotCheckedRecently {
-            if let checked = cask.lastUpdateCheck {
-                Text("Only Homebrew can say whether \(app.name) is up to date, and Homebrew last checked for new versions \(checked, format: .relative(presentation: .named)). Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again.")
-            } else {
-                Text("Only Homebrew can say whether \(app.name) is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says.")
+        if let homebrewCannotTell {
+            switch homebrewCannotTell.reason {
+            case .notCheckedRecently:
+                if let checked = homebrewCannotTell.cask.lastUpdateCheck {
+                    Text("Only Homebrew can say whether \(app.name) is up to date, and Homebrew last checked for new versions \(checked, format: .relative(presentation: .named)). Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again.")
+                } else {
+                    Text("Only Homebrew can say whether \(app.name) is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says.")
+                }
+            case .installsTheNewest:
+                Text("Only Homebrew could say whether \(app.name) is up to date, but it installs whatever is newest each time, so it has no version to compare this copy with. Look for an update inside the app.")
+            case .leftToTheApp:
+                Text("Only Homebrew could say whether \(app.name) is up to date, but Homebrew’s settings leave apps that update themselves to their own updates, so it doesn’t compare their versions. Look for an update inside the app.")
             }
         } else if app.isSystemProtected {
             Text("\(app.name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask.")

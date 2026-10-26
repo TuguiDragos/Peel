@@ -340,19 +340,46 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
         let unknown = [cask(checked: nil)]
         let outdated = [cask(latest: "2.0", checked: homebrewChecked)]
 
-        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: current)?.name == "example")
-        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .homebrew, casks: current)?.name == "example")
-        #expect(recent.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: unknown)?.name == "example")
-        #expect(recent.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: current) == nil)
+        #expect(later.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: current)?.cask.name == "example")
+        #expect(later.homebrewCannotTell(about: feedlessApp, preference: .homebrew, casks: current)?.cask.name == "example")
+        #expect(recent.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: unknown)?.cask.name == "example")
+        #expect(recent.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: current) == nil)
         #expect(
-            later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: outdated) == nil,
+            later.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: outdated) == nil,
             "an update Homebrew knows of is an answer"
         )
-        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .developer, casks: current)?.name == "example")
-        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .appStore, casks: current)?.name == "example")
-        #expect(later.caskNotCheckedRecently(for: soldApp, preference: .appStore, casks: current) == nil, "Apple asked")
-        #expect(later.caskNotCheckedRecently(for: fedApp, preference: .automatic, casks: current) == nil, "its feed")
-        #expect(later.caskNotCheckedRecently(for: feedlessApp, preference: .automatic, casks: []) == nil)
+        #expect(later.homebrewCannotTell(about: feedlessApp, preference: .developer, casks: current)?.cask.name == "example")
+        #expect(later.homebrewCannotTell(about: feedlessApp, preference: .appStore, casks: current)?.cask.name == "example")
+        #expect(later.homebrewCannotTell(about: soldApp, preference: .appStore, casks: current) == nil, "Apple asked")
+        #expect(later.homebrewCannotTell(about: fedApp, preference: .automatic, casks: current) == nil, "its feed")
+        #expect(later.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: []) == nil)
+        let notChecked = later.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: current)
+        #expect(notChecked?.reason == .notCheckedRecently)
+    }
+
+    @Test func takesNoUpToDateFromHomebrewWhereItComparesNoVersion() {
+        let recent = checking(at: homebrewChecked + 60 * 60)
+        let newest = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "latest", latestVersion: "latest", appNames: ["Example.app"]
+        ).noting(lastUpdateCheck: homebrewChecked)
+        let updatesItself = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", latestVersion: "1.0", appNames: ["Example.app"],
+            appUpdatesItself: true
+        ).noting(lastUpdateCheck: homebrewChecked)
+        let leftToTheApp = updatesItself.noting([.leavesAppsThatUpdateThemselves])
+        let compared = updatesItself.noting([])
+
+        #expect(recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: [newest]) == .unsupported)
+        #expect(
+            recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: [leftToTheApp]) == .unsupported
+        )
+        #expect(recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: [compared]) == .upToDate)
+        #expect(recent.statusWithoutAsking(for: fedApp, preference: .homebrew, casks: [newest]) == nil, "its feed answers")
+        let installsTheNewest = recent.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: [newest])
+        let leftToItsApp = recent.homebrewCannotTell(about: feedlessApp, preference: .homebrew, casks: [leftToTheApp])
+        #expect(installsTheNewest?.reason == .installsTheNewest)
+        #expect(leftToItsApp?.reason == .leftToTheApp)
+        #expect(recent.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: [compared]) == nil)
     }
 
     private var soldApp: InstalledApp {

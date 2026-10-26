@@ -80,7 +80,7 @@ struct IntelDetailView: View {
                             app: app,
                             status: status,
                             isChecking: library.appsCheckingForUpdates.contains(app.id),
-                            caskNotCheckedRecently: library.caskNotCheckedRecently(for: app)
+                            homebrewCannotTell: library.homebrewCannotTell(about: app)
                         )
                     }
                 }

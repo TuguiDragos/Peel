@@ -1037,9 +1037,17 @@ struct CommandLineTests {
         let checked = cask.noting(lastUpdateCheck: Date(timeIntervalSince1970: 1_792_315_250))
         let utc = TimeZone(identifier: "UTC")!
 
-        #expect(UpdatesCommand.note(aboutCasksNotCheckedRecently: [], timeZone: utc) == nil)
-        #expect(UpdatesCommand.note(aboutCasksNotCheckedRecently: [checked], timeZone: utc) == "Homebrew last checked for new versions on 2026-10-18, so whether 1 app it installed is up to date isn't known. Run `brew update`, then check again.")
-        #expect(UpdatesCommand.note(aboutCasksNotCheckedRecently: [cask, cask], timeZone: utc) == "Homebrew doesn't say when it last checked for new versions, so whether 2 apps it installed are up to date isn't known.")
+        let notChecked = { (cask: HomebrewPackage) in HomebrewCannotTell(cask: cask, reason: .notCheckedRecently) }
+
+        #expect(UpdatesCommand.notes(about: [], timeZone: utc).isEmpty)
+        #expect(UpdatesCommand.notes(about: [notChecked(checked)], timeZone: utc) == ["Homebrew last checked for new versions on 2026-10-18, so whether 1 app it installed is up to date isn't known. Run `brew update`, then check again."])
+        #expect(UpdatesCommand.notes(about: [notChecked(cask), notChecked(cask)], timeZone: utc) == ["Homebrew doesn't say when it last checked for new versions, so whether 2 apps it installed are up to date isn't known."])
+        let reasons: [HomebrewCannotTell.Reason] = [.installsTheNewest, .leftToTheApp, .leftToTheApp]
+        let others = reasons.map { HomebrewCannotTell(cask: cask, reason: $0) }
+        #expect(UpdatesCommand.notes(about: others, timeZone: utc) == [
+            "1 app Homebrew installed gets whatever is newest each time, so Homebrew has no version to compare, and whether it is up to date isn't known.",
+            "Homebrew's settings leave 2 apps to update themselves (HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS), so Homebrew doesn't compare their versions, and whether they are up to date isn't known.",
+        ])
     }
 
     /// `--all` lists an app Peel can't check as the app does. "No update feed" was wrong for an app that came with

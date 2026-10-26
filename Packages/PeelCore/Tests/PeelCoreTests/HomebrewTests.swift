@@ -287,6 +287,33 @@ struct HomebrewTests {
         #expect(packages.last?.installedVersion == "2.1.0")
     }
 
+    @Test func readsACaskWhoseAppUpdatesItselfAndWhetherHomebrewLeavesItToTheApp() throws {
+        let json = """
+        {
+          "formulae": [],
+          "casks": [
+            {"token": "editor", "installed": "1.142.0", "version": "1.143.1", "outdated": false, "auto_updates": true},
+            {"token": "viewer", "installed": "2.0", "version": "2.0", "outdated": false, "auto_updates": null}
+          ]
+        }
+        """
+        let packages = try #require(Homebrew.parseInstalled(Data(json.utf8)))
+        let config = """
+        HOMEBREW_VERSION: 7.0.9-159-g3073d6a8c3
+        HOMEBREW_PREFIX: /opt/homebrew
+        HOMEBREW_NO_ANALYTICS: set
+        HOMEBREW_NO_AUTO_UPDATE: set
+        HOMEBREW_NO_INSTALL_CLEANUP: set
+        HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS: set
+        """
+        let settings = Homebrew.Overrides(config: config)
+
+        #expect(packages.map(\.appUpdatesItself) == [true, false])
+        #expect(settings == [.leavesAppsThatUpdateThemselves])
+        #expect(packages.map { $0.noting(settings).whyHomebrewCannotCompare } == [.leftToTheApp, nil])
+        #expect(packages.map { $0.noting([]).whyHomebrewCannotCompare } == [nil, nil])
+    }
+
     /// Homebrew pins a cask as it pins a formula (`brew pin --cask`, since 6.0.0), and says so in the cask's JSON, as
     /// 7.0.4 writes it. A pinned cask is left out of Upgrade All, since `brew upgrade` refuses to upgrade it.
     @Test func readsAPinnedCask() throws {

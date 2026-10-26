@@ -551,6 +551,25 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
     }
 
+    @Test func anAppFromACaskThatInstallsTheNewestCanNotBeChecked() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Tool", in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder, clock: TestClock(homebrewChecked + 60 * 60))
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.tool" })
+        let newest = HomebrewPackage(
+            name: "tool", kind: .cask, installedVersion: "latest", latestVersion: "latest", appNames: ["Tool.app"]
+        ).noting(lastUpdateCheck: homebrewChecked)
+        library.loadHomebrewCasks([newest], knowsItsOwnApps: true)
+
+        #expect(library.shownUpdateStatus(of: app) == .unsupported)
+        #expect(library.homebrewCannotTell(about: app)?.reason == .installsTheNewest)
+    }
+
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Tool", in: folder)

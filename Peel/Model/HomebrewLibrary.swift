@@ -266,18 +266,20 @@ final class HomebrewLibrary {
         guard await Homebrew.hasLocalDefinitions() else { return nil }
         needsDefinitions = false
         // The installation is read first, since it says how to read the figures that follow. The other questions
-        // take about as long as each other, so they run at the same time. Only the page shows the last two.
+        // take about as long as each other, so they run at the same time. Only the page shows the cleanup's figure.
         let found = await Homebrew.installation()
         let kept = found.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar) } ?? []
         async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
-        async let overridden = includingReclaimable ? Homebrew.overrides() : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
+        var overridden: Homebrew.Overrides?
         do {
-            installed = .success(try await Homebrew.installedPackages())
+            let reading = try await Homebrew.installed()
+            installed = .success(reading.packages)
+            overridden = reading.overrides
         } catch {
             installed = .failure(error)
         }
-        return (found, installed, await preview, await overridden)
+        return (found, installed, await preview, overridden)
     }
 
     /// Runs `command` and returns its result to the caller. Only one command runs at a time: while one runs,

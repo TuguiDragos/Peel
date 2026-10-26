@@ -105031,6 +105031,218 @@
         }
       }
     },
+    "Only Homebrew could say whether %@ is up to date, but Homebrew’s settings leave apps that update themselves to their own updates, so it doesn’t compare their versions. Look for an update inside the app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen Homebrew by mohl říct, zda je aplikace %@ aktuální, ale nastavení Homebrew přenechává aplikace, které se aktualizují samy, jejich vlastním aktualizacím, takže Homebrew jejich verze neporovnává. Aktualizaci hledejte přímo v aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Homebrew könnte sagen, ob „%@“ auf dem neuesten Stand ist, aber die Einstellungen von Homebrew überlassen Apps, die sich selbst aktualisieren, ihren eigenen Updates, daher vergleicht Homebrew ihre Versionen nicht. Suche in der App selbst nach einem Update."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew podría decir si %@ está actualizada, pero los ajustes de Homebrew dejan que las apps que se actualizan solas se ocupen de sus propias actualizaciones, así que no compara sus versiones. Busca actualizaciones dentro de la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul Homebrew pourrait dire si %@ est à jour, mais les réglages de Homebrew laissent les apps qui se mettent à jour elles-mêmes gérer leurs propres mises à jour : il ne compare donc pas leurs versions. Recherchez une mise à jour dans l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew potrebbe dire se %@ è aggiornata, ma le impostazioni di Homebrew lasciano che le app che si aggiornano da sole gestiscano i propri aggiornamenti, quindi Homebrew non ne confronta le versioni. Cerca un aggiornamento dall’interno dell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Homebrewの設定により、自身でアップデートするアプリはアプリ自体のアップデートに任されるため、Homebrewはそれらのバージョンを比較しません。アプリ内でアップデートを探してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Homebrew 설정에 따라 스스로 업데이트하는 앱은 앱 자체의 업데이트에 맡겨지므로 Homebrew가 이러한 앱의 버전을 비교하지 않습니다. 앱 안에서 업데이트를 찾아보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen Homebrew zou kunnen zeggen of %@ up-to-date is, maar de instellingen van Homebrew laten apps die zichzelf bijwerken over aan hun eigen updates, dus Homebrew vergelijkt hun versies niet. Zoek in de app zelf naar een update."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko Homebrew mógłby określić, czy aplikacja %@ jest aktualna, ale ustawienia Homebrew pozostawiają aplikacje, które same się uaktualniają, ich własnym uaktualnieniom, więc Homebrew nie porównuje ich wersji. Poszukaj uaktualnienia w samej aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só o Homebrew poderia dizer se %@ está atualizado, mas os ajustes do Homebrew deixam que os apps que se atualizam sozinhos cuidem das próprias atualizações, então ele não compara as versões deles. Procure uma atualização dentro do app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar Homebrew ar putea spune dacă aplicația %@ este actualizată, dar configurările Homebrew lasă aplicațiile care se actualizează singure în seama propriilor actualizări, așa că acesta nu le compară versiunile. Căutați actualizări chiar în aplicație."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только Homebrew мог бы сообщить, установлена ли новейшая версия приложения «%@», но по настройкам Homebrew приложения, которые обновляются сами, получают обновления своими средствами, поэтому Homebrew не сравнивает их версии. Поищите обновление в самом приложении."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara Homebrew skulle kunna avgöra om %@ är uppdaterad, men Homebrews inställningar låter appar som uppdaterar sig själva sköta sina egna uppdateringar, så Homebrew jämför inte deras versioner. Leta efter en uppdatering i appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilirdi, ancak Homebrew’un ayarları kendini güncelleyen uygulamaları kendi güncellemelerine bırakıyor, bu yüzden Homebrew onların sürümlerini karşılaştırmıyor. Uygulamanın içinde bir güncelleme olup olmadığına bakın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сказати, чи потребує програма «%@» оновлення, міг би лише Homebrew, але його налаштування залишають програми, які оновлюються самі, їхнім власним оновленням, тож він не порівнює їхніх версій. Пошукайте оновлення в самій програмі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能判断“%@”是否为最新版本，但Homebrew的设置将会自行更新的App交由它们自己更新，因此Homebrew不会比较它们的版本。请在App内查找更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但依照Homebrew的設定，會自行更新的App由它們自己負責更新，因此Homebrew不會比對它們的版本。請在該App內檢查更新。"
+          }
+        }
+      }
+    },
+    "Only Homebrew could say whether %@ is up to date, but it installs whatever is newest each time, so it has no version to compare this copy with. Look for an update inside the app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen Homebrew by mohl říct, zda je aplikace %@ aktuální, ale Homebrew pokaždé instaluje to, co je právě nejnovější, takže nemá žádnou verzi, se kterou by tuto kopii porovnal. Aktualizaci hledejte přímo v aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Homebrew könnte sagen, ob „%@“ auf dem neuesten Stand ist, aber der Cask installiert jedes Mal die neueste Version, daher hat Homebrew keine Versionsnummer, mit der es diese Kopie vergleichen kann. Suche in der App selbst nach einem Update."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew podría decir si %@ está actualizada, pero instala lo más reciente cada vez, así que no tiene ninguna versión con la que comparar esta copia. Busca actualizaciones dentro de la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul Homebrew pourrait dire si %@ est à jour, mais il installe à chaque fois la version la plus récente : il n’a donc aucune version à laquelle comparer cette copie. Recherchez une mise à jour dans l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Homebrew potrebbe dire se %@ è aggiornata, ma ogni volta Homebrew installa la versione più recente, quindi non ha una versione con cui confrontare questa copia. Cerca un aggiornamento dall’interno dell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Homebrewは毎回その時点の最新版をインストールするため、このコピーと比較するバージョンがありません。アプリ内でアップデートを探してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Homebrew는 매번 가장 최신 버전을 설치하므로 이 복사본과 비교할 버전이 없습니다. 앱 안에서 업데이트를 찾아보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen Homebrew zou kunnen zeggen of %@ up-to-date is, maar Homebrew installeert er telkens de nieuwste versie van, dus heeft het geen versie om deze kopie mee te vergelijken. Zoek in de app zelf naar een update."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko Homebrew mógłby określić, czy aplikacja %@ jest aktualna, ale Homebrew za każdym razem instaluje jej najnowszą wersję, więc nie ma wersji, z którą mógłby porównać tę kopię. Poszukaj uaktualnienia w samej aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só o Homebrew poderia dizer se %@ está atualizado, mas ele instala o que houver de mais recente a cada vez, então não tem uma versão com a qual comparar esta cópia. Procure uma atualização dentro do app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar Homebrew ar putea spune dacă aplicația %@ este actualizată, dar acesta instalează de fiecare dată cea mai nouă versiune, așa că nu are nicio versiune cu care să compare această copie. Căutați actualizări chiar în aplicație."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только Homebrew мог бы сообщить, установлена ли новейшая версия приложения «%@», но Homebrew каждый раз устанавливает самую новую версию, поэтому ему не с чем сравнить эту копию. Поищите обновление в самом приложении."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara Homebrew skulle kunna avgöra om %@ är uppdaterad, men Homebrew installerar det som är nyast varje gång, så Homebrew har ingen version att jämföra den här kopian med. Leta efter en uppdatering i appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilirdi, ancak Homebrew bu uygulamanın her seferinde en yeni hâlini yüklüyor, bu yüzden bu kopyayı karşılaştırabileceği bir sürümü yok. Uygulamanın içinde bir güncelleme olup olmadığına bakın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сказати, чи потребує програма «%@» оновлення, міг би лише Homebrew, але він щоразу інсталює найновішу версію, тож не має версії, з якою можна порівняти цю копію. Пошукайте оновлення в самій програмі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能判断“%@”是否为最新版本，但Homebrew每次都会安装当时最新的版本，因此它没有可与此副本比较的版本。请在App内查找更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但它每次都會安裝最新的版本，因此沒有可與此副本比對的版本。請在該App內檢查更新。"
+          }
+        }
+      }
+    },
     "Only Preview and ColorSync Utility read this setting." : {
       "localizations" : {
         "cs" : {
@@ -195074,6 +195286,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "版本%@的新功能"
+          }
+        }
+      }
+    },
+    "When Peel runs it, Homebrew doesn’t compare the versions of apps that update themselves, so it can’t say whether they’re behind." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když ho spouští Peel, Homebrew neporovnává verze aplikací, které se aktualizují samy, takže nedokáže říct, zda jsou aktuální."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn Peel Homebrew ausführt, vergleicht Homebrew die Versionen von Apps, die sich selbst aktualisieren, nicht und kann daher nicht sagen, ob sie auf dem neuesten Stand sind."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando Peel lo ejecuta, Homebrew no compara las versiones de las apps que se actualizan solas, así que no puede saber si están desactualizadas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque Peel l’exécute, Homebrew ne compare pas les versions des apps qui se mettent à jour elles-mêmes : il ne peut donc pas dire si elles sont à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando è Peel a eseguirlo, Homebrew non confronta le versioni delle app che si aggiornano da sole, quindi non può dire se sono rimaste indietro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが実行するとき、Homebrewは自身でアップデートするアプリのバージョンを比較しないため、それらが古くなっているかどうかを判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 Homebrew를 실행할 때 Homebrew는 스스로 업데이트하는 앱의 버전을 비교하지 않으므로, 이러한 앱이 최신 버전보다 뒤처져 있는지 알려 줄 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Peel Homebrew uitvoert, vergelijkt Homebrew de versies van apps die zichzelf bijwerken niet, dus kan het niet zeggen of ze achterlopen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy uruchamia go Peel, Homebrew nie porównuje wersji aplikacji, które same się uaktualniają, więc nie może określić, czy są nieaktualne."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando o Peel o executa, o Homebrew não compara as versões dos apps que se atualizam sozinhos, então não pode dizer se eles estão desatualizados."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când este rulat de Peel, Homebrew nu compară versiunile aplicațiilor care se actualizează singure, așa că nu poate spune dacă acestea sunt actualizate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда Peel запускает Homebrew, тот не сравнивает версии приложений, которые обновляются сами, поэтому не может сказать, устарели ли они."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När Peel kör Homebrew jämför Homebrew inte versionerna av appar som uppdaterar sig själva, så Homebrew kan inte avgöra om de ligger efter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tarafından çalıştırıldığında Homebrew, kendini güncelleyen uygulamaların sürümlerini karşılaştırmaz, bu yüzden bunların güncel olup olmadığını söyleyemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли його запускає Peel, Homebrew не порівнює версій програм, які оновлюються самі, тож не може сказати, чи потребують вони оновлення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由Peel运行时，Homebrew不会比较会自行更新的App的版本，因此无法判断它们是否已过时。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由Peel執行時，Homebrew不會比對會自行更新之App的版本，因此無法判斷它們是否已過時。"
           }
         }
       }

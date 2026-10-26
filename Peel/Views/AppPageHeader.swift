@@ -22,7 +22,7 @@ struct AppPageHeader: View {
             isCheckingForUpdates: library.appsCheckingForUpdates.contains(plan.app.id),
             waitingVersion: waitingVersion == nil ? nil : library.updateStatuses[plan.app.id]?.displayVersion,
             lastCheck: library.lastUpdateChecks[plan.app.id],
-            caskNotCheckedRecently: library.caskNotCheckedRecently(for: plan.app),
+            homebrewCannotTell: library.homebrewCannotTell(about: plan.app),
             total: plan.total,
             sharesStorage: plan.appSharesStorage
         ) {

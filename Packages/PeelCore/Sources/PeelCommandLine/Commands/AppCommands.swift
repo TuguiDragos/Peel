@@ -833,10 +833,10 @@ struct UpdatesCommand: AsyncParsableCommand {
         if let note = homebrew.note {
             Output.note(note)
         }
-        let notCheckedRecently = toCheck.filter { statuses[$0.id] == .unsupported }.compactMap { app in
-            checker.caskNotCheckedRecently(for: app, preference: preferences.source, casks: homebrew.casks)
+        let cannotTell = toCheck.filter { statuses[$0.id] == .unsupported }.compactMap { app in
+            checker.homebrewCannotTell(about: app, preference: preferences.source, casks: homebrew.casks)
         }
-        if let note = Self.note(aboutCasksNotCheckedRecently: notCheckedRecently) {
+        for note in Self.notes(about: cannotTell) {
             Output.note(note)
         }
         if report.ignored > 0 {
@@ -851,7 +851,21 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
     }
 
-    static func note(aboutCasksNotCheckedRecently casks: [HomebrewPackage], timeZone: TimeZone = .current) -> String? {
+    static func notes(about cannotTell: [HomebrewCannotTell], timeZone: TimeZone = .current) -> [String] {
+        let casks = { (reason: HomebrewCannotTell.Reason) in cannotTell.filter { $0.reason == reason }.map(\.cask) }
+        var notes = [note(aboutCasksNotCheckedRecently: casks(.notCheckedRecently), timeZone: timeZone)]
+        let newest = casks(.installsTheNewest).count
+        if newest > 0 {
+            notes.append("\(Output.count(newest, "app", "apps")) Homebrew installed \(newest == 1 ? "gets" : "get") whatever is newest each time, so Homebrew has no version to compare, and whether \(newest == 1 ? "it is" : "they are") up to date isn't known.")
+        }
+        let left = casks(.leftToTheApp).count
+        if left > 0 {
+            notes.append("Homebrew's settings leave \(Output.count(left, "app", "apps")) to update \(left == 1 ? "itself" : "themselves") (HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS), so Homebrew doesn't compare \(left == 1 ? "its version" : "their versions"), and whether \(left == 1 ? "it is" : "they are") up to date isn't known.")
+        }
+        return notes.compactMap(\.self)
+    }
+
+    private static func note(aboutCasksNotCheckedRecently casks: [HomebrewPackage], timeZone: TimeZone) -> String? {
         guard !casks.isEmpty else { return nil }
         let apps = "\(Output.count(casks.count, "app", "apps")) it installed \(casks.count == 1 ? "is" : "are")"
         guard let checked = casks.compactMap(\.lastUpdateCheck).max() else {

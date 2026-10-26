@@ -74,13 +74,16 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names, the App
   Store for apps bought there, iPhone and iPad apps on the Mac included, or Homebrew for apps it installed, in the order
   Prefer updates from in Settings > General sets, and shows what is new in the version that waits, as the app's own
-  notes say it, even with no connection. Apps that came with macOS are left to Software Update, and apps from Setapp
-  to Setapp, which keep them current. What Homebrew says counts for a day after it last checked for new versions, the
-  time Homebrew itself waits before it checks again. Past that, an app only Homebrew can answer for reads Can't check
-  for updates until Homebrew checks again, with Update Homebrew on the Homebrew page or `brew update` in Terminal, and
-  Peel reads Homebrew again once it has. Rescan in Applications asks about every app again at once. Skip This Version
-  and Never Check This App keep it quiet about the ones you want left alone, and Settings > General lists them under
-  Muted Updates, where Check Again brings their updates back. Turning off Check for app updates there stops the checks.
+  notes say it, even with no connection. Apps that came with macOS are left to Software Update, and apps from Setapp to
+  Setapp, which keep them current. What Homebrew says counts for a day after it last checked for new versions, the time
+  Homebrew itself waits before it checks again. Past that, an app only Homebrew can answer for reads Can't check for
+  updates until Homebrew checks again, with Update Homebrew on the Homebrew page or `brew update` in Terminal, and Peel
+  reads Homebrew again once it has. Homebrew can't say at all for a cask that installs whatever is newest each time,
+  nor, when its settings leave apps that update themselves to their own updates, for such an app, so those read Can't
+  check for updates too, unless the app names a feed. Rescan in Applications asks about every app again at once. Skip
+  This Version and Never Check This App keep it quiet about the ones you want left alone, and Settings > General lists
+  them under Muted Updates, where Check Again brings their updates back. Turning off Check for app updates there stops
+  the checks.
 
 ## Free up disk space
 

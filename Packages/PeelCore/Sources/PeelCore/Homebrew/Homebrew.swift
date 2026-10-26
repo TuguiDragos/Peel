@@ -44,6 +44,12 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// True for a cask whose `uninstall` stanza runs a step with `sudo`: `pkgutil`, `delete`, `kext`, or a script
     /// run with `sudo`.
     public let uninstallNeedsAnAdministrator: Bool
+    /// True for a cask whose app updates itself (`auto_updates`). Homebrew counts such a cask outdated only while its
+    /// settings let it upgrade one, and then by the version in the app's own bundle.
+    public let appUpdatesItself: Bool
+    /// True for a cask whose app updates itself while Homebrew's settings leave such casks to their apps, so that
+    /// Homebrew never counts it outdated. Set by `noting(_:)`.
+    public private(set) var isLeftToItsApp = false
     /// The entries of `packageIdentifiers` whose receipts are installed, lowercased. `noting(receipts:)` sets
     /// them, so the cask carries this proof to every place that checks it.
     public private(set) var receiptsOnThisMac: [String] = []
@@ -65,6 +71,20 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public private(set) var lastUpdateCheck: Date?
 
     public var id: String { "\(kind.rawValue)/\(name)" }
+
+    /// Why Homebrew's `outdated` says nothing of whether this cask's app is behind, or nil when Homebrew compares its
+    /// version: a cask written `version :latest` installs whatever is newest each time.
+    public var whyHomebrewCannotCompare: HomebrewCannotTell.Reason? {
+        if latestVersion == "latest" { return .installsTheNewest }
+        return isLeftToItsApp ? .leftToTheApp : nil
+    }
+
+    /// Returns a copy that notes what Homebrew's own settings, when it said them, make of this cask.
+    public func noting(_ settings: Homebrew.Overrides?) -> HomebrewPackage {
+        var noted = self
+        noted.isLeftToItsApp = appUpdatesItself && settings?.contains(.leavesAppsThatUpdateThemselves) == true
+        return noted
+    }
 
     /// Whether Upgrade All takes it along when it is out of date: a pinned package is held at its version on purpose,
     /// and a cask whose upgrade needs an administrator is upgraded in Terminal.
@@ -167,7 +187,8 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         packageIdentifiers: [String] = [],
         retirement: HomebrewRetirement? = nil,
         upgradeNeedsAnAdministrator: Bool = false,
-        uninstallNeedsAnAdministrator: Bool = false
+        uninstallNeedsAnAdministrator: Bool = false,
+        appUpdatesItself: Bool = false
     ) {
         self.name = name
         self.kind = kind
@@ -190,6 +211,7 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         self.retirement = retirement
         self.upgradeNeedsAnAdministrator = upgradeNeedsAnAdministrator
         self.uninstallNeedsAnAdministrator = uninstallNeedsAnAdministrator
+        self.appUpdatesItself = appUpdatesItself
     }
 }
 
@@ -581,15 +603,24 @@ public enum Homebrew {
 
     @concurrent
     public static func installedPackages() async throws(CommandFailure) -> [HomebrewPackage] {
+        try await installed().packages
+    }
+
+    /// The installed packages, each with what Homebrew's own settings make of it, and those settings, or nil when
+    /// Homebrew would not say them.
+    public static func installed() async throws(CommandFailure)
+        -> (packages: [HomebrewPackage], overrides: Overrides?) {
         // Read first, so a check made while the packages are read leaves them dated older than they are, never newer.
         let checked = await lastUpdateCheck()
+        async let settings = overrides()
         let output = try await answer(["info", "--json=v2", "--installed"])
         let caskroom = (try? await answer(["--caskroom"])).flatMap(folder(answering:))
         guard let packages = parseInstalled(Data(output.utf8), caskroom: caskroom) else {
             throw CommandFailure(output: output)
         }
-        let dated = packages.map { $0.noting(lastUpdateCheck: checked) }
-        return await checkedOnThisMac(dated, pkgutil: PackageReceipts.pkgutil)
+        let overrides = await settings
+        let noted = packages.map { $0.noting(lastUpdateCheck: checked).noting(overrides) }
+        return (await checkedOnThisMac(noted, pkgutil: PackageReceipts.pkgutil), overrides)
     }
 
     /// The installed packages with what this Mac says of them: the receipts their casks name, where those packages
@@ -952,7 +983,9 @@ public enum Homebrew {
                 upgradeNeedsAnAdministrator: cask.artifacts?.contains {
                     $0.installNeedsAnAdministrator || $0.uninstallNeedsAnAdministrator
                 } ?? false,
-                uninstallNeedsAnAdministrator: cask.artifacts?.contains(where: \.uninstallNeedsAnAdministrator) ?? false
+                uninstallNeedsAnAdministrator: cask.artifacts?.contains(where: \.uninstallNeedsAnAdministrator)
+                    ?? false,
+                appUpdatesItself: cask.autoUpdates ?? false
             )
             guard let caskroom, cask.installed != nil else { return package }
             return package.kept(inCaskroom: caskroom)
@@ -1032,9 +1065,9 @@ public enum Homebrew {
         }
     }
 
-    /// What Homebrew's own settings undo of the environment Peel runs it in. `bin/brew` reads `brew.env` files after
-    /// that environment (`/etc/homebrew`, the prefix's `etc/homebrew`, and `~/.homebrew`), and a line there with no
-    /// value turns one of Peel's settings off.
+    /// What Homebrew's own settings undo of the environment Peel runs it in, or change of what it tells Peel.
+    /// `bin/brew` reads `brew.env` files after that environment (`/etc/homebrew`, the prefix's `etc/homebrew`, and
+    /// `~/.homebrew`), and a line there with no value turns one of Peel's settings off.
     public struct Overrides: OptionSet, Sendable, Hashable {
         public let rawValue: Int
 
@@ -1048,6 +1081,8 @@ public enum Homebrew {
         public static let sendsAnalytics = Overrides(rawValue: 1 << 1)
         /// Homebrew may update its package lists, over the network, when Peel only asks about them.
         public static let updatesItself = Overrides(rawValue: 1 << 2)
+        /// Homebrew leaves casks whose apps update themselves to those apps, and never counts one outdated.
+        public static let leavesAppsThatUpdateThemselves = Overrides(rawValue: 1 << 3)
 
         /// Reads `brew config`'s answer, which lists each setting in effect as `NAME: set`.
         init(config: String) {
@@ -1059,6 +1094,7 @@ public enum Homebrew {
             if !set.contains("HOMEBREW_NO_INSTALL_CLEANUP") { insert(.cleansUp) }
             if !set.contains("HOMEBREW_NO_ANALYTICS") { insert(.sendsAnalytics) }
             if !set.contains("HOMEBREW_NO_AUTO_UPDATE") || set.contains("HOMEBREW_FORCE_API_AUTO_UPDATE") { insert(.updatesItself) }
+            if set.contains("HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS") { insert(.leavesAppsThatUpdateThemselves) }
         }
     }
 
@@ -1282,6 +1318,7 @@ public enum Homebrew {
             enum CodingKeys: String, CodingKey {
                 case token, desc, homepage, installed, version, outdated, pinned, artifacts
                 case fullToken = "full_token"
+                case autoUpdates = "auto_updates"
             }
 
             let token: String
@@ -1292,6 +1329,7 @@ public enum Homebrew {
             let version: String?
             let outdated: Bool?
             let pinned: Bool?
+            let autoUpdates: Bool?
             /// Free-form stanzas such as `app`, `uninstall`, and `zap`. Only what `CaskArtifact` understands is read.
             let artifacts: [CaskArtifact]?
         }

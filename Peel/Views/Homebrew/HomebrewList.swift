@@ -160,6 +160,7 @@ struct HomebrewList: View {
         if overrides.contains(.cleansUp) { sentences.append(String(localized: HomebrewLibrary.cleansUp)) }
         if overrides.contains(.sendsAnalytics) { sentences.append(String(localized: "Homebrew sends its makers analytics whenever Peel runs it.")) }
         if overrides.contains(.updatesItself) { sentences.append(String(localized: "Homebrew may download its list of packages when Peel only asks about them.")) }
+        if overrides.contains(.leavesAppsThatUpdateThemselves) { sentences.append(String(localized: "When Peel runs it, Homebrew doesn’t compare the versions of apps that update themselves, so it can’t say whether they’re behind.")) }
         let prefix =
             homebrew.installation?.prefix
             ?? Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
