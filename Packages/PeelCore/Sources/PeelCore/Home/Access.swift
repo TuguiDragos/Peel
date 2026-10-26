@@ -13,6 +13,11 @@ public enum FullDiskAccess {
     /// Full Disk Access opens, one after another, and the first clear answer decides.
     @concurrent
     public static func state(home: URL = .homeDirectory) async -> AccessState {
+        currentState(home: home)
+    }
+
+    /// The same, read on the caller's thread.
+    static func currentState(home: URL = .homeDirectory) -> AccessState {
         let probes = [
             home.appending(path: ".Trash", directoryHint: .isDirectory),
             home.appending(path: "Library/Containers/com.apple.Safari", directoryHint: .isDirectory),

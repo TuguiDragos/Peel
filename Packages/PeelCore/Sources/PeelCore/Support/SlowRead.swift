@@ -32,6 +32,7 @@ enum SlowRead {
     /// or the task is canceled. A read that works in steps can check `isGivenUp` and stop once nobody waits.
     static func answer<T: Sendable>(
         within budget: TimeInterval,
+        while isAsked: @escaping @Sendable () -> Bool = AppDataQuestion.isOnScreen,
         _ read: @escaping @Sendable (_ isGivenUp: @escaping @Sendable () -> Bool) -> T
     ) async -> T? {
         guard !Task.isCancelled else { return nil }
@@ -39,7 +40,7 @@ enum SlowRead {
         let thread = Thread { answer.give(read { answer.isGivenUp }) }
         thread.stackSize = 512 * 1_024
         thread.start()
-        return await answer.wait(budget)
+        return await answer.wait(budget, while: isAsked)
     }
 
     /// Its one waiter is woken once: by the answer, by the end of the budget, or by its own cancellation.
@@ -68,7 +69,7 @@ enum SlowRead {
             waiter?.resume()
         }
 
-        func wait(_ budget: TimeInterval) async -> T? {
+        func wait(_ budget: TimeInterval, while isAsked: @escaping @Sendable () -> Bool) async -> T? {
             await withTaskCancellationHandler {
                 await withCheckedContinuation { continuation in
                     let goesOnWaiting = state.withLock { state in
@@ -77,7 +78,10 @@ enum SlowRead {
                         return true
                     }
                     guard goesOnWaiting else { return continuation.resume() }
-                    DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + budget) { self.wake() }
+                    ReadBudget.end(
+                        after: budget, while: isAsked,
+                        isWaiting: { self.state.withLock { $0.value == nil && !$0.isWoken } }
+                    ) { self.wake() }
                 }
             } onCancel: {
                 wake()

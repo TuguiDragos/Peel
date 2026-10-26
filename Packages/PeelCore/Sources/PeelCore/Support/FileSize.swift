@@ -499,11 +499,15 @@ private final class Answer: Sendable {
                     return true
                 }
                 guard goesOnWaiting else { return continuation.resume() }
-                DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + budget) { self.wake(waiter) }
+                ReadBudget.end(after: budget, isWaiting: { self.isWaiting(waiter) }) { self.wake(waiter) }
             }
         } onCancel: {
             wake(waiter)
         }
+    }
+
+    private func isWaiting(_ waiter: Int) -> Bool {
+        state.withLock { $0.contents == nil && !$0.woken.contains(waiter) }
     }
 
     /// Each waiter is woken once, by whichever comes first.
