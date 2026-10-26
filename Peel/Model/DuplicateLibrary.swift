@@ -163,6 +163,11 @@ final class DuplicateLibrary {
         var options = DuplicateScanOptions(folders: folders)
         options.kind = kind
         options.minimumSize = minimumSize
+        // Read at launch, so only a scan asked for in its first moments waits for them.
+        if !ExclusionsStore.shared.exclusions.isKnown, !ExclusionsStore.shared.exclusions.isUnreadable {
+            await ExclusionsStore.shared.load()
+            guard current == generation else { return }
+        }
         let exclusions = ExclusionsStore.shared.exclusions
 
         let (updates, continuation) = AsyncStream.makeStream(

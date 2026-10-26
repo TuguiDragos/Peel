@@ -114228,6 +114228,112 @@
         }
       }
     },
+    "Peel compares nothing until you start the list over in Settings, since it would read what you asked it to leave alone." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud v Nastavení nezačnete seznam znovu, Peel nic neporovná, protože by četl to, co jste mu řekli, aby nechal nedotčené."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel vergleicht nichts, bis du die Liste in den Einstellungen neu beginnst, da Peel sonst lesen würde, was es auf deinen Wunsch unangetastet lassen soll."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no compara nada hasta que vuelvas a empezar la lista en Ajustes, ya que leería lo que le has pedido que no toque."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne compare rien tant que vous n’avez pas recommencé la liste dans les Réglages, car il lirait ce à quoi vous lui avez demandé de ne pas toucher."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non confronta nulla finché non ricominci l’elenco da capo nelle Impostazioni, perché leggerebbe ciò che gli hai chiesto di non toccare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“設定”でリストを最初からやり直すまで、Peelは何も比較しません。比較すると、手を付けないよう指定されたものまで読み取ってしまうためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정에서 목록을 처음부터 다시 시작하기 전까지 Peel은 아무것도 비교하지 않습니다. 비교하면 그대로 두라고 요청한 항목을 읽게 되기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel vergelijkt niets totdat je in Instellingen opnieuw begint met de lijst, omdat Peel anders zou lezen wat je Peel hebt gevraagd met rust te laten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel niczego nie porównuje, dopóki nie zaczniesz listy od nowa w Ustawieniach, ponieważ odczytałby to, co według Ciebie ma zostawić w spokoju."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não compara nada até você recomeçar a lista nos Ajustes, já que leria aquilo em que você pediu para ele não mexer."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu compară nimic până când nu reîncepeți lista în Configurări, deoarece ar citi ce i‑ați cerut să lase neatins."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ничего не сравнивает, пока Вы не начнете список заново в Настройках, поскольку иначе он прочитал бы то, что Вы просили не трогать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel jämför ingenting förrän du börjar om listan i Inställningar, eftersom Peel annars skulle läsa det som du har bett den att lämna orört."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siz listeyi Ayarlar’da baştan başlatana kadar Peel hiçbir şeyi karşılaştırmaz, çünkü aksi hâlde dokunmamasını istediğiniz şeyleri okurdu."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel нічого не порівнює, доки ви не почнете список наново в Параметрах, бо інакше прочитала б те, що ви просили не чіпати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你于“设置”中重新开始建立列表之前，Peel不会比较任何内容，因为否则它会读取你要求它不去触碰的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你於「設定」中重新開始此列表之前，Peel不會比對任何項目，否則它會讀取你要求它不要動的項目。"
+          }
+        }
+      }
+    },
     "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it." : {
       "localizations" : {
         "cs" : {

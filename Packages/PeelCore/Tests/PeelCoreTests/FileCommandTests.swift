@@ -659,6 +659,17 @@ struct FileCommandTests {
         #expect(notes.contains { $0.hasPrefix("Peel didn't look in /Users/me/Projects/app, so there may be duplicates there.") })
     }
 
+    @Test func duplicatesComparesNothingWhileTheExclusionsCantBeRead() {
+        let saved = URL(filePath: "/Users/me/Library/Application Support/Peel/exclusions.json")
+
+        let refusal = DuplicatesCommand.refusal(for: .unreadable, savedAt: saved)
+
+        #expect(refusal?.description.hasPrefix(
+            "Peel couldn't read your exclusions at /Users/me/Library/Application Support/Peel/exclusions.json, so it compares nothing"
+        ) == true)
+        #expect(DuplicatesCommand.refusal(for: .none, savedAt: saved) == nil)
+    }
+
     /// `peel duplicates --json` names the folders it couldn't read and the chosen folders it didn't look in.
     @Test func theDuplicatesReportSaysWhereItCouldNotLook() throws {
         let scan = DuplicateScan(

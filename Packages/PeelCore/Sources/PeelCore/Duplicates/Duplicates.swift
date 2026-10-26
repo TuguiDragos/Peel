@@ -134,6 +134,8 @@ public struct DuplicateScan: Sendable {
     /// True when macOS privacy protection refused one of the unreadable folders, which Full Disk Access would
     /// allow. It stays false for a folder locked by ordinary permissions, or one that is missing.
     public var needsFullDiskAccess = false
+    /// True when the exclusions couldn't be read, so the scan compared nothing.
+    public var exclusionsNotKnown = false
 
     /// A chosen folder the scan did not look in, and why.
     public struct FolderSetAside: Sendable, Hashable {

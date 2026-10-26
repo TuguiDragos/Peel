@@ -79,6 +79,22 @@ struct DigestMemoryTests {
         #expect(memory.load().sample(of: try #require(FileIdentity.of(first))) == nil, "a file was read")
     }
 
+    @Test func comparesNoFoldersWhileTheExclusionsCantBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
+        let contents = randomData(count: FileDigest.sampleLength * 4)
+        let first = try directory.file("home/Documents/Taxes/2025.bin", contents: contents)
+        try directory.file("home/Documents/Taxes copy/2025.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+
+        let result = try await DuplicateFinder(homeDirectory: home, exclusions: .unreadable, digestMemory: memory)
+            .scan(.everySize(in: [home]))
+
+        #expect(result.exclusionsNotKnown)
+        #expect(result.groups.isEmpty && result.folderGroups.isEmpty)
+        #expect(memory.load().sample(of: try #require(FileIdentity.of(first))) == nil, "a file was read")
+    }
+
     @Test func aScanRemembersWhatItRead() async throws {
         let directory = try TemporaryDirectory()
         let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))

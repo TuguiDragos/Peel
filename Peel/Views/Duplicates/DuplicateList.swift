@@ -4,6 +4,7 @@ import SwiftUI
 struct DuplicateList: View {
     @Environment(DuplicateLibrary.self) private var duplicates
     @Environment(ExclusionsStore.self) private var exclusions
+    @Environment(\.openSettings) private var openSettings
     @State private var searchText = ""
     @State private var isConfirmingNewScan = false
     @State private var isShowingSettings = false
@@ -54,6 +55,14 @@ struct DuplicateList: View {
                 .overlay {
                     if !(scan.groups.isEmpty && scan.folderGroups.isEmpty), groups.isEmpty, folderGroups.isEmpty {
                         ContentUnavailableView.search(text: searchText)
+                    } else if scan.exclusionsNotKnown {
+                        ContentUnavailableView {
+                            Label("Peel couldn’t read your exclusions", systemImage: "exclamationmark.triangle")
+                        } description: {
+                            Text("Peel compares nothing until you start the list over in Settings, since it would read what you asked it to leave alone.")
+                        } actions: {
+                            Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
+                        }
                     } else if scan.readNothing {
                         // Shown instead of "No Duplicates": copies may be in folders Peel couldn't read, which are
                         // named, or in the chosen folders it set aside, each named with why.
@@ -140,7 +149,8 @@ struct DuplicateList: View {
         .announcesScan(
             duplicates.isScanning,
             found: summary,
-            couldNotLook: duplicates.scan?.readNothing != true ? nil
+            couldNotLook: duplicates.scan?.exclusionsNotKnown == true ? "Peel couldn’t read your exclusions"
+                : duplicates.scan?.readNothing != true ? nil
                 : duplicates.scan?.unreadableLocations.isEmpty == true ? "Not Everything Could Be Searched"
                 : "Not Everything Could Be Read",
             wasStopped: duplicates.scan == nil

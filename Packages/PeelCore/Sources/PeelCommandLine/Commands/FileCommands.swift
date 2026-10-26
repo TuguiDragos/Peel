@@ -732,8 +732,16 @@ struct DuplicatesCommand: AsyncParsableCommand {
         }
     }
 
+    /// Comparing reads files, so nothing is compared while the exclusions can't be read.
+    static func refusal(for exclusions: Exclusions, savedAt url: URL) -> CommandFailure? {
+        guard exclusions.isUnreadable else { return nil }
+        return CommandFailure("Peel couldn't read your exclusions at \(Output.plain(url.path(percentEncoded: false))), so it compares nothing, since it would read what you asked it to leave alone. Open Peel and click Start Over in Settings > Exclusions.")
+    }
+
     func run() async throws {
-        let exclusions = await UnreadableExclusions.load()
+        let store = ExclusionStore()
+        let exclusions = await store.load()
+        if let refusal = Self.refusal(for: exclusions, savedAt: store.url) { throw refusal }
         let finder = DuplicateFinder(exclusions: exclusions, digestMemory: DigestMemory())
         let urls = folders.isEmpty ? finder.defaultFolders : folders.map(URL.init(argument:))
         let scan = try await ProgressLine.reporting { show in

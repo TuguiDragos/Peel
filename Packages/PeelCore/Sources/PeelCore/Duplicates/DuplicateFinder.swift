@@ -124,6 +124,10 @@ public struct DuplicateFinder: Sendable {
         _ options: DuplicateScanOptions,
         progress: @escaping @Sendable (DuplicateScanProgress) -> Void = { _ in }
     ) async throws(CancellationError) -> DuplicateScan {
+        // Nothing is read before the exclusions are known, or what the person excluded would be read with the rest.
+        guard exclusions.isKnown else {
+            return DuplicateScan(groups: [], unreadableLocations: [], exclusionsNotKnown: true)
+        }
         let environment = SearchEnvironment(homeDirectory: homeDirectory, rootDirectory: URL(filePath: "/"))
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         let skipped = options.folders.compactMap { folder in
