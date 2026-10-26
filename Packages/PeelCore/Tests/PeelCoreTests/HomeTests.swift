@@ -281,6 +281,9 @@ struct AppManagementTests {
         )
         #expect(isOnThePath(), "Homebrew's link was not counted")
         #expect(CommandLineTool.paths == ["/usr/local/bin/peel", "/opt/homebrew/bin/peel"])
+        let standing = CommandLineTool.standingOnThePath(embedded: embedded, at: [peels, homebrews])
+        #expect(standing == .installed)
+        #expect(CommandLineTool.installCommand(embedded: embedded, standing: standing) == nil)
     }
 
     /// The install command points to where Peel is, so it is only worth offering where Peel stays. The copy macOS

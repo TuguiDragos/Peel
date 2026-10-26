@@ -59,6 +59,12 @@ public enum CommandLineTool {
         paths.contains { standing(at: $0, embedded: embedded) == .installed }
     }
 
+    /// The link's standing as Settings and Home show it: installed once any of `paths` leads to this copy's tool, as
+    /// Homebrew's does on a Mac with Apple silicon, and otherwise the standing of the link Peel offers to make.
+    public static func standingOnThePath(embedded: URL, at paths: [String] = paths) -> Standing {
+        isOnThePath(embedded: embedded, at: paths) ? .installed : standing(at: paths[0], embedded: embedded)
+    }
+
     public enum Standing: Sendable, Hashable {
         case installed
         case missing

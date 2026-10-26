@@ -310,7 +310,7 @@ final class HomeModel {
     }
 
     static var commandLineStanding: CommandLineTool.Standing {
-        CommandLineTool.standing(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"))
+        CommandLineTool.standingOnThePath(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel"))
     }
 }
 
