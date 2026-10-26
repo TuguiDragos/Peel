@@ -29,8 +29,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public let source: Source
     public let plistURL: URL?
     public let program: String?
-    public let runsAtLoad: Bool
-    public let keepsAlive: Bool
+    /// Whether launchd starts the job as it loads it, and again after it exits; nil when nothing Peel can read says.
+    public let runsAtLoad: Bool?
+    public let keepsAlive: Bool?
     public let ownerBundleIdentifier: String?
     public let ownerName: String?
     /// Where the app that owns the job is, or nil when no app does or it is gone.

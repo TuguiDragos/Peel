@@ -124,16 +124,17 @@ public enum BackgroundItems {
         return overrides.compactMap { label, isDisabled, kind in
             guard isDisabled, !label.hasPrefix("com.apple."), !label.hasPrefix("application."),
                   !known.contains("\(kind.rawValue)/\(label)"), loaded.state(of: label, kind) == .notLoaded,
-                  let owner = ownership.owner(label: label, associated: [], program: nil), owner.isInstalled
+                  let owner = ownership.owner(label: label, associated: [], program: nil), let app = owner.url
             else { return nil }
+            let schedule = StartsAtLogin.schedule(of: label, kind: kind, in: app)
             return BackgroundItem(
                 label: label,
                 kind: kind,
                 source: .app,
                 plistURL: nil,
                 program: nil,
-                runsAtLoad: false,
-                keepsAlive: false,
+                runsAtLoad: schedule.runsAtLoad,
+                keepsAlive: schedule.keepsAlive,
                 ownerBundleIdentifier: owner.bundleIdentifier,
                 ownerName: owner.name,
                 ownerURL: owner.url,
@@ -302,6 +303,8 @@ public enum BackgroundItems {
             program: program
         )
         let state = loaded.state(of: candidate.label, candidate.kind)
+        let registered = details.managedBy == serviceManagement
+            ? owner?.url.map { StartsAtLogin.schedule(of: candidate.label, kind: candidate.kind, in: $0) } : nil
         // launchctl names no program for an app's login item or agent: macOS finds it in the app as it starts it.
         let programIsUnnamed = isAnApps && program == nil
         let running = if case .running(let pid) = state { RunningProgram.path(of: pid) } else { String?.none }
@@ -312,8 +315,8 @@ public enum BackgroundItems {
             source: isAnApps ? .app : .otherFile,
             plistURL: path,
             program: program,
-            runsAtLoad: job?.runsAtLoad ?? false,
-            keepsAlive: job?.keepsAlive ?? false,
+            runsAtLoad: job?.runsAtLoad ?? registered?.runsAtLoad,
+            keepsAlive: job?.keepsAlive ?? registered?.keepsAlive,
             ownerBundleIdentifier: owner?.bundleIdentifier,
             ownerName: owner?.name,
             ownerURL: owner?.url,

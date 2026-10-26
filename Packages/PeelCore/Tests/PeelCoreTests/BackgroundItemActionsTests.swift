@@ -97,6 +97,55 @@ struct BackgroundItemActionsTests {
         #expect(!present.isLeftByAGoneApp)
     }
 
+    @Test func aRegisteredJobStartsAsItsAppSaysAndOtherwiseItIsNotKnown() throws {
+        let directory = try TemporaryDirectory()
+        func write(_ plist: [String: Any], at path: String) throws {
+            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+            try directory.file(path, contents: data)
+        }
+        try write(["CFBundleIdentifier": "org.example.tide"], at: "Applications/Tide.app/Contents/Info.plist")
+        try write(
+            ["CFBundleIdentifier": "org.example.tide.loginhelper"],
+            at: "Applications/Tide.app/Contents/Library/LoginItems/Tide Helper.app/Contents/Info.plist"
+        )
+        try write(
+            ["Label": "org.example.tide.agent", "BundleProgram": "Contents/MacOS/Agent", "KeepAlive": true],
+            at: "Applications/Tide.app/Contents/Library/LaunchAgents/org.example.tide.agent.plist"
+        )
+        let app = InstalledApp(
+            url: directory.url.appending(path: "Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+        let ownership = BackgroundItemOwnership(installedApps: [app])
+        func item(_ label: String, _ details: Launchctl.JobDetails) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                (label, .agent, "gui/501/\(label)"), answer: .details(details), ownership: ownership,
+                loaded: .init(), exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+        let registered = Launchctl.JobDetails(
+            path: "(submitted by smd.251)", managedBy: "com.apple.xpc.ServiceManagement",
+            parentBundleIdentifier: "org.example.tide"
+        )
+
+        let loginItem = try item("org.example.tide.loginhelper", registered)
+        let agent = try item("org.example.tide.agent", registered)
+        let theApp = try item("org.example.tide", registered)
+        let submitted = try item("org.example.tide.ShipIt", .init(path: "(submitted by Tide.42)", program: "/bin/sh"))
+        let disabled = BackgroundItems.disabledJobs(
+            in: .init(user: [:], system: [:], userDisabled: ["org.example.tide.loginhelper": true, "org.example.tide.other": true]),
+            listed: [], ownership: ownership
+        )
+
+        #expect(loginItem.runsAtLoad == true && loginItem.keepsAlive == true)
+        #expect(agent.runsAtLoad == true && agent.keepsAlive == true)
+        #expect(theApp.runsAtLoad == true && theApp.keepsAlive == nil)
+        #expect(submitted.runsAtLoad == nil && submitted.keepsAlive == nil)
+        #expect(disabled.first { $0.label == "org.example.tide.loginhelper" }?.runsAtLoad == true)
+        #expect(disabled.first { $0.label == "org.example.tide.other" }.map { $0.runsAtLoad == nil && $0.keepsAlive == nil } == true)
+    }
+
     @Test func aDisabledJobLaunchdDoesNotHaveIsEnabledFirst() {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
         let disabled = BackgroundItem(

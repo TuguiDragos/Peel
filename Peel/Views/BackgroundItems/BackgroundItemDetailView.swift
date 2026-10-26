@@ -65,13 +65,13 @@ struct BackgroundItemDetailView: View {
                     }
                 }
                 LabeledContent {
-                    Text(item.runsAtLoad ? "Yes" : "No")
+                    answer(item.runsAtLoad)
                 } label: {
                     // A daemon is loaded when the Mac starts up, and an agent when the user logs in.
                     item.kind == .daemon ? Text("Starts at boot") : Text("Starts at login")
                 }
                 LabeledContent("Restarts itself") {
-                    Text(item.keepsAlive ? "Yes" : "No")
+                    answer(item.keepsAlive)
                 }
                 if let program = item.program {
                     LabeledContent("Program") {
@@ -205,6 +205,14 @@ struct BackgroundItemDetailView: View {
     private var needsHelper: Bool {
         !item.isPeelsHelper && !item.usesALabelOfMacOS && (item.requiresPrivileges || item.removalRequiresPrivileges)
             && !helper.canAct
+    }
+
+    private func answer(_ fact: Bool?) -> Text {
+        switch fact {
+        case true?: Text("Yes")
+        case false?: Text("No")
+        case nil: Text("Unknown")
+        }
     }
 
     private var finderURL: URL? {

@@ -28,6 +28,25 @@ enum StartsAtLogin {
             .prefix(mostAsked))
     }
 
+    /// Whether the job `label` that `app` registered starts as it loads and again after it exits, as far as the app's
+    /// bundle says: a login item does both and the app itself starts at login (`SMAppService.h`), while an agent or a
+    /// daemon says it in its plist.
+    static func schedule(
+        of label: String, kind: BackgroundItem.Kind, in app: URL
+    ) -> (runsAtLoad: Bool?, keepsAlive: Bool?) {
+        let library = app.appending(path: "Contents/Library", directoryHint: .isDirectory)
+        if kind == .agent {
+            if identifier(of: app) == label { return (true, nil) }
+            let loginItems = entries(of: library.appending(path: "LoginItems", directoryHint: .isDirectory))
+                .lazy.filter { $0.pathExtension == "app" }.prefix(mostAsked)
+            if loginItems.contains(where: { identifier(of: $0) == label }) { return (true, true) }
+        }
+        let folder = library.appending(path: kind == .agent ? "LaunchAgents" : "LaunchDaemons", directoryHint: .isDirectory)
+        let job = entries(of: folder).lazy.filter { $0.pathExtension == "plist" }.prefix(mostAsked)
+            .compactMap(JobDefinition.init(contentsOf:)).first { $0.label == label }
+        return (job?.runsAtLoad, job?.keepsAlive)
+    }
+
     /// What launchd holds now of what `app` registered, or nil when it holds nothing.
     @concurrent
     static func registration(of app: URL) async -> Registration? {
