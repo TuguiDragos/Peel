@@ -140,6 +140,10 @@ final class ProjectLibrary {
         backupMarks(group).canChange
     }
 
+    func markedByOthers(in group: ProjectGroup) -> [URL] {
+        backupMarks(group).markedByOthers
+    }
+
     /// Excludes the group's artifacts from Time Machine backups, or includes them again, so a backup holds the
     /// project and not what a build can make again.
     func setExcludedFromBackups(_ isExcluded: Bool, in group: ProjectGroup) {

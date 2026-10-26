@@ -178761,6 +178761,112 @@
         }
       }
     },
+    "Time Machine already leaves out %@, which something other than Peel marked." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine už vynechává %@, protože značku přidalo něco jiného než Peel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine schließt %@ bereits aus. Diese Markierung stammt nicht von Peel."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine ya deja fuera %@, por una marca que no ha puesto Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine exclut déjà %@, en raison d’une marque posée par autre chose que Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine lascia già fuori %@, con un contrassegno messo da qualcosa di diverso da Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@は、Peel以外の何かが印を付けたため、すでにTime Machineのバックアップ対象から外されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine이 이미 %@을(를) 제외하고 있습니다. 해당 폴더에는 Peel이 아닌 다른 무언가가 표시를 붙였습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine slaat %@ al over: iets anders dan Peel heeft die gemarkeerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine już pomija to, co oznaczyło coś innego niż Peel: %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Time Machine já deixa %@ de fora, por uma marca que não foi feita pelo Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine lasă deja în afară %@: marcajul nu a fost pus de Peel, ci de altceva."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine уже исключает %@ по отметке, которую поставил не Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine utesluter redan %@, som något annat än Peel har märkt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine, Peel dışında bir şeyin işaretlediklerini zaten dışarıda bırakıyor: %@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Machine уже не долучає %@: позначку поставила не Peel, а щось інше."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间机器已经跳过%@，这些文件夹由Peel以外的程序标记。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「時光機」已經略過%@，這是由Peel以外的程式所標記的。"
+          }
+        }
+      }
+    },
     "Time Machine already leaves out some of these, through a folder above them or a rule of its own, so that part isn’t Peel’s to change." : {
       "localizations" : {
         "cs" : {

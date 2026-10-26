@@ -68,6 +68,9 @@ public enum ProjectArtifacts {
         public let markable: [URL]
         /// The folders carrying Peel's own mark, which turning the switch off takes away.
         public let marked: [URL]
+        /// The folders whose own mark is another's: Peel never marks a folder with a generic name, so a mark on one is
+        /// its tool's, as Cargo marks `target`, or the person's. The switch neither shows it nor takes it away.
+        public let markedByOthers: [URL]
         private let shown: [URL]
         private let excluded: Set<URL>
 
@@ -75,8 +78,12 @@ public enum ProjectArtifacts {
         public init(_ artifacts: [ProjectArtifact], excluded: Set<URL>, excludedFromAbove: Set<URL>) {
             let considered = artifacts.filter { !$0.hasGenericName && !$0.isEnvironment && $0.heldBack == nil }
                 .map(\.url)
+            let markedItself = { (artifact: ProjectArtifact) in
+                excluded.contains(artifact.url) && !excludedFromAbove.contains(artifact.url)
+            }
             markable = considered.filter { !excludedFromAbove.contains($0) }
-            marked = artifacts.map(\.url).filter { excluded.contains($0) && !excludedFromAbove.contains($0) }
+            marked = artifacts.filter { markedItself($0) && !$0.hasGenericName }.map(\.url)
+            markedByOthers = artifacts.filter { markedItself($0) && $0.hasGenericName }.map(\.url)
             shown = considered + marked.filter { !considered.contains($0) }
             self.excluded = excluded
         }

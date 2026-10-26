@@ -133,6 +133,26 @@ struct ProjectArtifactsTests {
         #expect(!marks(excluded: [modules.url], excludedFromAbove: [modules.url], of: [modules]).canChange)
     }
 
+    @Test func theBackupSwitchLeavesAToolsOwnMarkAlone() {
+        func artifact(_ name: String, isGeneric: Bool = false) -> ProjectArtifact {
+            ProjectArtifact(
+                url: URL(filePath: "/Users/x/Code/App/\(name)"), project: URL(filePath: "/Users/x/Code/App"), name: name,
+                tool: "tool", size: 10, lastActivity: nil, hasGenericName: isGeneric, isEnvironment: false
+            )
+        }
+        let target = artifact("target", isGeneric: true)
+        let modules = artifact("node_modules")
+
+        let cargo = ProjectArtifacts.BackupMarks([target], excluded: [target.url], excludedFromAbove: [])
+        #expect(!cargo.isOn && !cargo.canChange)
+        #expect(cargo.markedByOthers == [target.url])
+        let mixed = ProjectArtifacts.BackupMarks(
+            [modules, target], excluded: [modules.url, target.url], excludedFromAbove: []
+        )
+        #expect(mixed.isOn)
+        #expect(mixed.folders(turning: false) == [modules.url])
+    }
+
     @Test func saysWhenAProjectLastChangedOnlyWhenItKnows() {
         func artifact(_ name: String, changed: Date?, certain: Bool) -> ProjectArtifact {
             let project = URL(filePath: "/Users/x/Code/App")
