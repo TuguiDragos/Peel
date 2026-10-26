@@ -73,7 +73,7 @@ struct HistoryList: View {
         .overlay {
             if !history.hasLoaded {
                 ProgressView()
-            } else if history.batches.isEmpty, history.refusalBatches.isEmpty {
+            } else if history.isKnownEmpty {
                 ContentUnavailableView(
                     "Nothing Removed Yet",
                     systemImage: "clock.arrow.circlepath",
@@ -131,7 +131,7 @@ private struct HistoryProblemNotice: View {
         case .unreadable:
             Notice(
                 title: Text("The record of past removals can’t be read"),
-                detail: Text("Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one.")
+                detail: Text("Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder.")
             ) {
                 Button("Start Over") {
                     Task { await history.startOver() }

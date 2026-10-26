@@ -232,6 +232,11 @@ final class RemovalHistoryStore {
         rereads += 1
     }
 
+    /// Whether History was read and lists nothing. One that can't be read now isn't known to be empty.
+    var isKnownEmpty: Bool {
+        hasLoaded && batches.isEmpty && refusalBatches.isEmpty && shownProblem != .unreadable
+    }
+
     /// The problem History's page shows: that History cannot be read, as soon as that is known, otherwise what the
     /// last read or change of it met.
     var shownProblem: RemovalLogProblem? {

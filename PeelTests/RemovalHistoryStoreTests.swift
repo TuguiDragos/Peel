@@ -43,6 +43,24 @@ struct RemovalHistoryStoreTests {
         #expect(history.undoTitle == nil, "Undo still offered what peel put back")
     }
 
+    @Test func aHistoryThatCannotBeReadIsNotCalledEmpty() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let url = folder.appending(path: "removals.json")
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: url),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true }
+        )
+
+        await history.load()
+
+        #expect(history.hasLoaded && history.batches.isEmpty)
+        #expect(history.shownProblem == .unreadable)
+        #expect(!history.isKnownEmpty)
+    }
+
     @Test func aReadThatFindsNothingNewChangesNothing() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
