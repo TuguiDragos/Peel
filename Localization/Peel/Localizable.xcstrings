@@ -167483,6 +167483,112 @@
         }
       }
     },
+    "The App Store %@ came from gives Peel no version of it to compare, as for an app that store doesn’t sell anymore. The App Store app itself knows when there is an update." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store, ze kterého aplikace %@ pochází, neudává žádnou její verzi, kterou by Peel dokázal porovnat, jako u aplikace, kterou tento obchod už neprodává. Kdy je k dispozici aktualizace, ví sama aplikace App Store."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der App Store, aus dem „%@“ stammt, gibt keine Version an, mit der Peel vergleichen kann, etwa bei einer App, die dieser Store nicht mehr verkauft. Die App „App Store“ selbst weiß, wann es ein Update gibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tienda de App Store de la que viene %@ no indica ninguna versión de la app que Peel pueda comparar, como en el caso de una app que esa tienda ya no vende. La propia app App Store sabe cuándo hay una actualización."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’App Store dont provient %@ n’en indique aucune version que Peel puisse comparer, comme c’est le cas pour une app que cette boutique ne vend plus. L’app App Store elle-même sait quand une mise à jour est disponible."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo Store da cui proviene %@ non riporta nessuna versione che Peel possa confrontare, come accade per un’app che quello Store non vende più. È l’app App Store a sapere quando c’è un aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”の入手元のApp Storeは、Peelが比較できるバージョンを示していません。そのストアで販売を終了したアプリの場合と同様です。アップデートがあるかどうかは、App Storeアプリ自体が把握しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’을(를) 받은 App Store는 Peel이 비교할 수 있는 버전을 알려 주지 않습니다. 해당 스토어에서 더 이상 판매하지 않는 앱의 경우가 그렇습니다. 업데이트가 있는지는 App Store 앱이 알고 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De App Store waar %@ vandaan komt, vermeldt geen versie die Peel kan vergelijken, zoals bij een app die niet meer in die store wordt verkocht. De App Store-app zelf weet wanneer er een update is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store, z którego pochodzi aplikacja %@, nie podaje jej wersji, którą Peel mógłby porównać z zainstalowaną, jak w przypadku aplikacji, której ten sklep już nie sprzedaje. Sama aplikacja App Store wie, kiedy jest dostępne uaktualnienie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A App Store de onde %@ veio não informa nenhuma versão dele para o Peel comparar, como no caso de um app que essa loja não vende mais. O próprio app App Store sabe quando há uma atualização."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store din care provine %@ nu indică nicio versiune a acesteia pe care Peel să o poată compara, ca în cazul unei aplicații pe care magazinul respectiv nu o mai vinde. Aplicația App Store însăși știe când există o actualizare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store, из которого получено приложение «%@», не сообщает его версию, которую Peel мог бы сравнить с установленной, как бывает с приложением, которое этот магазин больше не продает. Само приложение App Store знает, когда выходит обновление."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store-affären som %@ kom från anger ingen version av appen som Peel kan jämföra med, till exempel för en app som den affären inte längre säljer. Appen App Store vet själv när det finns en uppdatering."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasının geldiği App Store, o mağazanın artık satmadığı bir uygulama için olduğu gibi, bu uygulama için de Peel’in karşılaştırabileceği bir sürüm vermiyor. Ne zaman güncelleme olduğunu App Store uygulamasının kendisi bilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store, з якого отримано програму «%@», не повідомляє версії, яку Peel може порівняти, як буває з програмою, якої цей магазин більше не продає. Про наявність оновлення знає сама програма App Store."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”所来自的App Store没有给出它的版本号供Peel比较，例如该商店已不再销售的App就是如此。App Store App本身知道何时有更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」的來源App Store沒有提供Peel能比對的版本，就像對於該商店已不再販售的App一樣。App Store App本身才知道何時有更新。"
+          }
+        }
+      }
+    },
     "The App Store gives Peel no version of %@ to compare, as for an app it doesn’t sell in your Mac’s region or doesn’t sell anymore. The App Store app itself knows when there is an update." : {
       "localizations" : {
         "cs" : {

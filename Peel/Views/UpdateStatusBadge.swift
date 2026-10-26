@@ -7,7 +7,7 @@ struct UpdateStatusBadge: View {
     let isChecking: Bool
     /// When a check last got an answer, which is what the note for a failed check tells the user.
     var lastCheck: Date?
-    var homebrewCannotTell: HomebrewCannotTell?
+    let cannotCheck: CannotCheck
 
     var body: some View {
         BusyShown(isBusy: isChecking) { isShown in
@@ -68,10 +68,11 @@ struct UpdateStatusBadge: View {
     /// preferred update source is never the reason: an app not sold by the App Store is checked through its
     /// own feed whatever that setting says.
     private var unsupportedReason: Text {
-        if let homebrewCannotTell {
-            switch homebrewCannotTell.reason {
+        switch cannotCheck {
+        case .homebrewCannotTell(let silence):
+            switch silence.reason {
             case .notCheckedRecently:
-                if let checked = homebrewCannotTell.cask.lastUpdateCheck {
+                if let checked = silence.cask.lastUpdateCheck {
                     Text("Only Homebrew can say whether \(app.name) is up to date, and Homebrew last checked for new versions \(checked, format: .relative(presentation: .named)). Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again.")
                 } else {
                     Text("Only Homebrew can say whether \(app.name) is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says.")
@@ -81,15 +82,17 @@ struct UpdateStatusBadge: View {
             case .leftToTheApp:
                 Text("Only Homebrew could say whether \(app.name) is up to date, but Homebrew’s settings leave apps that update themselves to their own updates, so it doesn’t compare their versions. Look for an update inside the app.")
             }
-        } else if app.isSystemProtected {
+        case .cameWithMacOS:
             Text("\(app.name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask.")
-        } else if app.isFromSetapp {
+        case .cameFromSetapp:
             Text("\(app.name) came from Setapp. Setapp is what keeps it current, so Peel has nothing to ask.")
-        } else if app.version == nil {
+        case .namesNoVersion:
             Text("\(app.name) doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app.")
-        } else if app.isFromAppStore {
+        case .notInTheAppStore(store: nil):
             Text("The App Store gives Peel no version of \(app.name) to compare, as for an app it doesn’t sell in your Mac’s region or doesn’t sell anymore. The App Store app itself knows when there is an update.")
-        } else {
+        case .notInTheAppStore:
+            Text("The App Store \(app.name) came from gives Peel no version of it to compare, as for an app that store doesn’t sell anymore. The App Store app itself knows when there is an update.")
+        case .namesNoFeed:
             Text("\(app.name) doesn’t say where it updates from in a way Peel can read. Peel reads an app’s update feed from the app’s own files, and asking Apple about every app instead would send Apple a list of what is installed on this Mac. Look for an update inside the app.")
         }
     }

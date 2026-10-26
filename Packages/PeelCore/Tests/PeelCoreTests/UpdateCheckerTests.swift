@@ -357,6 +357,30 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
         #expect(notChecked?.reason == .notCheckedRecently)
     }
 
+    @Test func saysWhyItCanNotCheckAnApp() {
+        let checker = checking(at: homebrewChecked)
+        let iPad = InstalledApp(
+            url: URL(filePath: "/Applications/Board.app"), bundleIdentifier: "org.example.board", name: "Board",
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.iPhoneAndiPad(item: 1, store: "de"))
+        )
+        let mac = InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "org.example.notes", name: "Notes Pro",
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.mac)
+        )
+        let unversioned = InstalledApp(
+            url: URL(filePath: "/Applications/Tool.app"), bundleIdentifier: "org.example.tool", name: "Tool"
+        )
+
+        #expect(checker.whyItCannotCheck(iPad, preference: .automatic, casks: []) == .notInTheAppStore(store: "de"))
+        #expect(checker.whyItCannotCheck(mac, preference: .automatic, casks: []) == .notInTheAppStore(store: nil))
+        #expect(checker.whyItCannotCheck(feedlessApp, preference: .automatic, casks: []) == .namesNoFeed)
+        #expect(checker.whyItCannotCheck(unversioned, preference: .automatic, casks: []) == .namesNoVersion)
+        let stale = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        let current = cask(checked: homebrewChecked)
+        let reason = stale.whyItCannotCheck(feedlessApp, preference: .automatic, casks: [current])
+        #expect(reason == .homebrewCannotTell(HomebrewCannotTell(cask: current, reason: .notCheckedRecently)))
+    }
+
     @Test func anAnswerHoldsForTheLongestWaitBetweenTwoChecks() {
         let day: TimeInterval = 24 * 60 * 60
         #expect(checking(at: homebrewChecked + 6 * day).stillHolds(answeredAt: homebrewChecked))

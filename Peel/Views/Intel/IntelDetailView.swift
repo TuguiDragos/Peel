@@ -80,7 +80,7 @@ struct IntelDetailView: View {
                             app: app,
                             status: status,
                             isChecking: library.appsCheckingForUpdates.contains(app.id),
-                            homebrewCannotTell: library.homebrewCannotTell(about: app)
+                            cannotCheck: library.whyItCannotCheck(app)
                         )
                     }
                 }

@@ -12,7 +12,7 @@ struct AppHeader<Actions: View>: View {
     /// The version a waiting update would bring. The caller passes it only when `AppLibrary.hasUpdate` is true.
     var waitingVersion: String?
     var lastCheck: Date?
-    var homebrewCannotTell: HomebrewCannotTell?
+    let cannotCheck: CannotCheck
     var total: SizeTotal?
     /// True when the app frees much less than its size, because most of it is shared with another copy.
     var sharesStorage = false
@@ -103,7 +103,7 @@ struct AppHeader<Actions: View>: View {
                     status: updateStatus,
                     isChecking: isCheckingForUpdates,
                     lastCheck: lastCheck,
-                    homebrewCannotTell: homebrewCannotTell
+                    cannotCheck: cannotCheck
                 )
             }
         }

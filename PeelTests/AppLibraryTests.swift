@@ -765,7 +765,38 @@ private nonisolated final class TestClock: Sendable {
         library.loadHomebrewCasks([newest], knowsItsOwnApps: true)
 
         #expect(library.shownUpdateStatus(of: app) == .unsupported)
-        #expect(library.homebrewCannotTell(about: app)?.reason == .installsTheNewest)
+        guard case .homebrewCannotTell(let silence) = library.whyItCannotCheck(app) else {
+            Issue.record("Homebrew is the reason")
+            return
+        }
+        #expect(silence.reason == .installsTheNewest)
+    }
+
+    @Test func aWebAppIsNotCheckedForUpdates() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = folder.appending(path: "Wiki.app", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(
+            at: bundle.appending(path: "Contents"), withIntermediateDirectories: true
+        )
+        let info: [String: Any] = [
+            "CFBundleIdentifier": "org.example.Browser.app.wiki", "CFBundleName": "Wiki",
+            "CFBundlePackageType": "APPL", "CFBundleShortVersionString": "1.0", "CFBundleVersion": "1",
+            "CrBundleIdentifier": "org.example.Browser", "CrAppModeShortcutID": "wiki",
+        ]
+        try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            .write(to: bundle.appending(path: "Contents/Info.plist"))
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.Browser.app.wiki" })
+        #expect(app.webApp == .browser(identifier: "org.example.Browser"))
+
+        await library.checkForUpdates([app], force: true)
+
+        #expect(library.updateStatuses[app.id] == nil)
+        #expect(library.shownUpdateStatus(of: app) == nil)
     }
 
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {

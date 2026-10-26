@@ -438,8 +438,8 @@ final class AppLibrary {
         homebrewApps[app.id]
     }
 
-    func homebrewCannotTell(about app: InstalledApp) -> HomebrewCannotTell? {
-        updateChecker.homebrewCannotTell(about: app, preference: updateSource, casks: casks)
+    func whyItCannotCheck(_ app: InstalledApp) -> CannotCheck {
+        updateChecker.whyItCannotCheck(app, preference: updateSource, casks: casks)
     }
 
     func isUnused(_ app: InstalledApp) -> Bool {
@@ -709,7 +709,8 @@ final class AppLibrary {
 
     /// The answer about `app`'s updates that its page shows: an update the user muted is not announced again.
     func shownUpdateStatus(of app: InstalledApp) -> UpdateStatus? {
-        guard !app.isPeelItself else { return nil }
+        // A web app updates with its website, so there is nothing to check, and nothing is said.
+        guard !app.isPeelItself, app.webApp == nil else { return nil }
         let shown = updatePreferences.shownStatus(updateStatuses[app.id], for: app)
         // With the checks off, an "up to date" ages unasked: past the longest wait it says nothing, unless Homebrew
         // says it now, which counts only for a day after its own check.
@@ -863,9 +864,9 @@ final class AppLibrary {
     }
 
     /// Whether update checks ask about `app`. Never about Peel's own copies, which Sparkle keeps current, checking
-    /// the one running, nor about an app the user told Peel never to check or a copy in a Trash.
+    /// the one running, nor about a web app, nor an app the user told Peel never to check or a copy in a Trash.
     private func isAskedAboutUpdates(_ app: InstalledApp) -> Bool {
-        !app.isPeelItself && !isIgnored(app) && !appsInATrash.contains(app.id)
+        !app.isPeelItself && app.webApp == nil && !isIgnored(app) && !appsInATrash.contains(app.id)
     }
 
     private func matchHomebrewApps() {

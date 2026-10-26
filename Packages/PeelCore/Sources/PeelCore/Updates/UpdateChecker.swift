@@ -185,6 +185,25 @@ public struct UpdateChecker: Sendable {
         return !VersionComparison.isNewer(tap, than: version)
     }
 
+    /// Why Peel can't check `app`, for an app a check answered `.unsupported`.
+    public func whyItCannotCheck(
+        _ app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
+    ) -> CannotCheck {
+        if let silence = homebrewCannotTell(about: app, preference: preference, casks: casks) {
+            return .homebrewCannotTell(silence)
+        }
+        if app.isSystemProtected { return .cameWithMacOS }
+        if app.isFromSetapp { return .cameFromSetapp }
+        if app.version == nil { return .namesNoVersion }
+        if app.isFromAppStore {
+            guard case .appStore(.iPhoneAndiPad(_, let store?)) = app.updateFeed else {
+                return .notInTheAppStore(store: nil)
+            }
+            return .notInTheAppStore(store: store)
+        }
+        return .namesNoFeed
+    }
+
     /// Whether an answer that came at `checked` may still be shown as true while nothing asks again: for
     /// `UpdateSchedule.longest`, the longest wait between two checks. An answer of unknown date doesn't hold.
     public func stillHolds(answeredAt checked: Date?) -> Bool {
@@ -493,6 +512,20 @@ public struct UpdateAnswer: Sendable, Hashable {
         }
         return status
     }
+}
+
+/// Why Peel can't check an app for updates, which the note behind Can't check for updates says in words.
+public enum CannotCheck: Sendable, Hashable {
+    case homebrewCannotTell(HomebrewCannotTell)
+    /// It came with macOS, which Software Update keeps current.
+    case cameWithMacOS
+    /// It came from Setapp, which keeps it current.
+    case cameFromSetapp
+    case namesNoVersion
+    /// The App Store gave no version to compare: it doesn't sell the app in `store`, the country of the store an
+    /// iPhone or iPad app came from, or, when nil, in this Mac's region.
+    case notInTheAppStore(store: String?)
+    case namesNoFeed
 }
 
 /// Why Homebrew, which installed an app nobody else can answer for, can't say whether the app is up to date.
