@@ -212,9 +212,9 @@ struct RemovalHistoryTests {
             tool: "applications"
         )
         #expect(present.isStillInTrash)
-        #expect(present.isOnAConnectedDisk)
+        #expect(present.isOnAConnectedDisk(.now()))
         #expect(!record("Gone.app").isStillInTrash)
-        #expect(record("Gone.app").isOnAConnectedDisk)
+        #expect(record("Gone.app").isOnAConnectedDisk(.now()))
     }
 
     /// An item in the Trash of a disk that is not connected may still be there, so its record is kept.
@@ -231,7 +231,7 @@ struct RemovalHistoryTests {
             tool: "projects"
         )
         #expect(!away.isStillInTrash)
-        #expect(!away.isOnAConnectedDisk)
+        #expect(!away.isOnAConnectedDisk(.now()))
     }
 
     private static func record(batch: UUID, date: Date = .now, name: String = "Item") -> RemovalRecord {

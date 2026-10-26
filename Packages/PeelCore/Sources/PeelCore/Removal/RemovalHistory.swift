@@ -6,7 +6,9 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     /// Everything removed in one go shares a batch, so History can show it as one entry.
     public let batch: UUID
     public let originalURL: URL
-    public let trashedURL: URL
+    public private(set) var trashedURL: URL
+    /// The disk the item moved on, when it isn't the startup disk. Nil in a record written before Peel kept it.
+    public let disk: TrashedDisk?
     public let date: Date
     /// Which item went to the Trash, so one that lands in the same place later is never taken for it. Nil in a record
     /// written before Peel kept it.
@@ -37,6 +39,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         self.batch = batch
         originalURL = item.originalURL
         trashedURL = item.trashedURL
+        disk = TrashedDisk(of: item.trashedURL)
         date = item.date
         identity = item.identity
         self.size = size
@@ -54,6 +57,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         batch = try container.decode(UUID.self, forKey: .batch)
         originalURL = try container.decode(URL.self, forKey: .originalURL)
         trashedURL = try container.decode(URL.self, forKey: .trashedURL)
+        disk = try? container.decodeIfPresent(TrashedDisk.self, forKey: .disk)
         date = try container.decode(Date.self, forKey: .date)
         identity = try container.decodeIfPresent(TrashedItem.Identity.self, forKey: .identity)
         size = try container.decodeIfPresent(Int64.self, forKey: .size).map { max(0, $0) }
@@ -80,11 +84,69 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     }
 
     /// False while the disk whose Trash holds the item is not connected. The item may still be there, so the
-    /// record is not treated as missing.
-    public var isOnAConnectedDisk: Bool {
+    /// record is not treated as missing. A disk is known by its volume, which stays with it when it is renamed, while
+    /// its name and place can be another disk's; a record written before Peel kept it goes by the name in its path.
+    public func isOnAConnectedDisk(_ disks: MountedDisks) -> Bool {
+        if let disk { return disks.place(of: disk.volume) != nil }
         let components = trashedURL.pathComponents
         guard components.count > 2, components[1] == "Volumes" else { return true }
         return URL(filePath: "/Volumes/" + components[2]).isThere
+    }
+
+    /// The record with its place in the Trash where its disk is mounted now.
+    public func located(on disks: MountedDisks) -> RemovalRecord {
+        guard let disk, let place = disks.place(of: disk.volume) else { return self }
+        var located = self
+        located.trashedURL = URL(filePath: place == "/" ? "/" + disk.path : place + "/" + disk.path)
+        return located
+    }
+}
+
+/// The disk an item moved on: its volume's UUID, and where the item was on that disk.
+public struct TrashedDisk: Sendable, Codable, Hashable {
+    public let volume: String
+    /// The item's path from the top of the disk, without the place the disk was mounted at.
+    public let path: String
+
+    /// The disk `url` is on, or nil for the startup disk, which is always there, or when macOS doesn't say. The home's
+    /// Trash is on the home's disk, which is there while anyone uses it, so nothing is asked for what is in the home.
+    init?(of url: URL) {
+        let home = URL.homeDirectory.path(percentEncoded: false)
+        guard !PathComponents.isPath(url.path(percentEncoded: false), inside: home) else { return nil }
+        let keys: Set<URLResourceKey> = [.volumeURLKey, .volumeUUIDStringKey, .volumeIsRootFileSystemKey]
+        guard let values = try? url.resourceValues(forKeys: keys), values.volumeIsRootFileSystem != true,
+              let volume = values.volumeUUIDString, let mount = values.volume
+        else { return nil }
+        // The kernel's spelling, as the mount point is spelled: `resolvingSymlinksInPath` drops `/private`.
+        let place = MountedDisks.path(of: mount)
+        guard let item = PathPattern.located(url.path(percentEncoded: false)),
+              PathComponents.isPath(item, inside: place)
+        else { return nil }
+        self.volume = volume
+        path = String(item.dropFirst(place.count).drop { $0 == "/" })
+    }
+}
+
+/// The disks mounted now, each by its volume's UUID, read once for whatever asks about many records.
+public struct MountedDisks: Sendable {
+    private let places: [String: String]
+
+    public static func now() -> MountedDisks {
+        let key = URLResourceKey.volumeUUIDStringKey
+        let volumes = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: [key], options: []) ?? []
+        let places = volumes.compactMap { url in
+            (try? url.resourceValues(forKeys: [key]).volumeUUIDString).flatMap(\.self).map { ($0, path(of: url)) }
+        }
+        return MountedDisks(places: Dictionary(places, uniquingKeysWith: { first, _ in first }))
+    }
+
+    func place(of volume: String) -> String? {
+        places[volume]
+    }
+
+    static func path(of url: URL) -> String {
+        let path = url.path(percentEncoded: false)
+        return path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path
     }
 }
 

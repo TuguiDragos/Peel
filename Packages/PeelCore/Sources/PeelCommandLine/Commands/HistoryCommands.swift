@@ -10,6 +10,7 @@ extension RemovalPart {
 /// One removal, as History shows it: everything that went in one go, grouped and dated as the app does.
 struct Batch {
     let group: RemovalGroup
+    let disks: MountedDisks
 
     var id: UUID { group.id }
     var records: [RemovalRecord] { group.records }
@@ -20,19 +21,23 @@ struct Batch {
     /// The tool the removal moved from, or nil for one that moved from several or was interrupted.
     var tool: String? { parts.count == 1 ? parts[0].namedTool : nil }
     var size: SizeTotal { group.size }
-    /// The records whose items are still in the Trash. An item emptied from the Trash can't be put back.
-    var restorable: [RemovalRecord] { records.filter(\.isStillInTrash) }
+    /// The records whose items are still in the Trash of a disk that is connected. An item emptied from the Trash
+    /// can't be put back.
+    var restorable: [RemovalRecord] { records.filter { $0.isOnAConnectedDisk(disks) && $0.isStillInTrash } }
+    /// The records on a disk that isn't connected: their items may still be in its Trash.
+    var waiting: [RemovalRecord] { records.filter { !$0.isOnAConnectedDisk(disks) } }
 
-    static func all(in records: [RemovalRecord]) -> [Batch] {
-        RemovalRecord.grouped(records).map(Batch.init)
+    /// Each record where its disk is mounted now.
+    static func all(in records: [RemovalRecord], disks: MountedDisks = .now()) -> [Batch] {
+        RemovalRecord.grouped(records.map { $0.located(on: disks) }).map { Batch(group: $0, disks: disks) }
     }
 
     /// The first eight characters of the batch ID, which `peel history` shows and `peel restore` accepts.
     var shortID: String { String(id.uuidString.prefix(8)).lowercased() }
 
     var state: String {
+        if !waiting.isEmpty { return "on a disk that isn't connected" }
         if records.allSatisfy(\.isStillInTrash) { return "in the Trash" }
-        if records.contains(where: { !$0.isOnAConnectedDisk }) { return "on a disk that isn't connected" }
         if records.contains(where: { $0.standing == .notKnown }) { return "can't look in the Trash" }
         return restorable.isEmpty ? "gone from the Trash" : "partly gone from the Trash"
     }
@@ -332,7 +337,7 @@ struct RestoreCommand: AsyncParsableCommand {
         }
         let going = inTheTrash.filter { record in !refused.contains { $0.record.id == record.id } }
         // An item in the Trash of a disk that isn't connected is still there, once the disk is.
-        let waiting = batch.records.filter { !$0.isStillInTrash && !$0.isOnAConnectedDisk }
+        let waiting = batch.waiting
         let items = Output.count(waiting.count, "item is", "items are")
         let elsewhere = waiting.isEmpty
             ? nil

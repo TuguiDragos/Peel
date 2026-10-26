@@ -39,6 +39,29 @@ struct RemovalStandingTests {
         #expect(standing.missing(among: records).map(\.id) == [gone.id])
     }
 
+    @Test func knowsAnItemsDiskByItsVolumeRatherThanItsName() throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        var disk: ScratchVolume? = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
+        let trashed = place.appending(path: ".Trashes/\(getuid())/report.txt")
+        let trash = trashed.deletingLastPathComponent()
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        try Data("report".utf8).write(to: trashed)
+        let moved = record(trashed, size: 6)
+
+        try disk?.remount(at: directory.url.appending(path: "Renamed", directoryHint: .isDirectory))
+        let elsewhere = RemovalStanding([moved])
+        disk = nil
+        let other = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        try Data("other".utf8).write(to: trashed)
+        let sameName = RemovalStanding([moved])
+
+        #expect(elsewhere.inTrash == [moved.id])
+        #expect(sameName.away == [moved.id] && sameName.inTrash.isEmpty)
+        withExtendedLifetime(other) {}
+    }
+
     @Test func countsAndListsOnlyWhatIsSelectedAndCanBePutBack() throws {
         let directory = try TemporaryDirectory()
         let first = record(try directory.file(".Trash/first.txt"), size: 1)

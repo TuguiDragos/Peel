@@ -411,7 +411,8 @@ final class RemovalHistoryStore {
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
             var stayed: [(record: RemovalRecord, failure: RestoreFailure)] = []
             let ordered = records.inPutBackOrder
-            let answers = await restoring(ordered.map(\.trashedItem), canUseHelper)
+            let disks = MountedDisks.now()
+            let answers = await restoring(ordered.map { $0.located(on: disks).trashedItem }, canUseHelper)
             for (record, answer) in zip(ordered, answers) {
                 if let failure = answer {
                     problems[record.id] = failure

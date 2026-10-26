@@ -22,18 +22,22 @@ public struct RemovalStanding: Sendable {
     /// The records among `records` that have left the Trash, looked at again.
     @concurrent
     public static func stillGone(_ records: [RemovalRecord]) async -> [RemovalRecord] {
-        records.filter { $0.standing == .gone && $0.isOnAConnectedDisk }
+        let disks = MountedDisks.now()
+        return records.filter { $0.isOnAConnectedDisk(disks) && $0.located(on: disks).standing == .gone }
     }
 
-    init(_ records: [RemovalRecord]) {
+    init(_ records: [RemovalRecord], disks: MountedDisks = .now()) {
         var restorableRecords: [RemovalRecord] = []
         for record in records {
-            let place = record.standing
+            // Another disk can have this one's name and place, so a disk that isn't connected is asked about first.
+            guard record.isOnAConnectedDisk(disks) else {
+                away.insert(record.id)
+                continue
+            }
+            let place = record.located(on: disks).standing
             if place == .inTheTrash {
                 inTrash.insert(record.id)
                 restorableRecords.append(record)
-            } else if !record.isOnAConnectedDisk {
-                away.insert(record.id)
             } else if place == .notKnown {
                 notKnown.insert(record.id)
             } else {
