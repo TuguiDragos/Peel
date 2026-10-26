@@ -110,7 +110,7 @@ public enum AppInspector {
             developer: signing.developer,
             applicationGroups: signing.applicationGroups,
             embeddedBundleIdentifiers: embeddedBundleIdentifiers(in: contents, isWrapped: layout.isWrapped),
-            architectures: executable.map(MachOHeader.architectures(ofExecutableAt:)) ?? [],
+            architectures: executable.flatMap(MachOHeader.architectures(ofExecutableAt:)) ?? [],
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
             enclosingPackage: url.enclosingPackage,
@@ -262,7 +262,9 @@ public enum AppInspector {
         }
 
         if !isWrapped {
-            for bundle in IntelInspector.frameworkProcesses(inside: contents.deletingLastPathComponent()) {
+            var unread: [URL] = []
+            let app = contents.deletingLastPathComponent()
+            for bundle in IntelInspector.frameworkProcesses(inside: app, unreadable: &unread) {
                 let info = infoDictionary(in: bundle.appending(path: "Contents", directoryHint: .isDirectory))
                 if let identifier = info?["CFBundleIdentifier"] as? String { identifiers.append(identifier) }
             }

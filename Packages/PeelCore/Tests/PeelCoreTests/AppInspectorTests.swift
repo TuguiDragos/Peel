@@ -102,7 +102,7 @@ struct AppInspectorTests {
 
     /// Reads `/usr/bin/true`, the real binary the `universal` fixture above is modeled on.
     @Test func readsARealBinaryTheSameWay() {
-        #expect(MachOHeader.architectures(ofExecutableAt: URL(filePath: "/usr/bin/true")).contains(.arm64))
+        #expect(MachOHeader.architectures(ofExecutableAt: URL(filePath: "/usr/bin/true"))?.contains(.arm64) == true)
     }
 
     @Test func inspectsBundleOnDisk() throws {

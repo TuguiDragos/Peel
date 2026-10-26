@@ -10,6 +10,11 @@ public enum BackgroundItems {
         public let items: [BackgroundItem]
         /// The kinds that may be missing jobs, because `launchctl` answered about them in a form Peel cannot read.
         public let unanswered: Set<BackgroundItem.Kind>
+
+        public init(items: [BackgroundItem] = [], unanswered: Set<BackgroundItem.Kind> = []) {
+            self.items = items
+            self.unanswered = unanswered
+        }
     }
 
     /// A loaded job no file in the three folders declares, as `launchctl` described it.

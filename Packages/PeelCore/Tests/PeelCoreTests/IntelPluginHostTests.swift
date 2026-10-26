@@ -17,7 +17,7 @@ struct IntelPluginHostTests {
         #expect(Set(Plugin.Category.intelHostPrograms.keys) == Set(ownProcess))
         for (category, program) in Plugin.Category.intelHostPrograms {
             let architectures = MachOHeader.architectures(ofExecutableAt: URL(filePath: program))
-            #expect(architectures.contains(.x86_64), "\(category): \(program)")
+            #expect(architectures?.contains(.x86_64) == true, "\(category): \(program)")
         }
     }
 }

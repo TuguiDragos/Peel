@@ -99,8 +99,13 @@ final class BackgroundItemLibrary {
 
 extension BackgroundItemLibrary {
     /// What the page says when some jobs may be missing, or nil when macOS answered about every kind.
-    var unansweredNote: LocalizedStringResource? {
-        switch (unanswered.contains(.agent), unanswered.contains(.daemon)) {
+    var unansweredNote: LocalizedStringResource? { unanswered.missingJobsNote }
+}
+
+extension Set<BackgroundItem.Kind> {
+    /// What a page says when jobs of these kinds may be missing from it, or nil when there are none.
+    var missingJobsNote: LocalizedStringResource? {
+        switch (contains(.agent), contains(.daemon)) {
         case (true, true): "macOS didn’t list the agents and daemons that apps added, so some may be missing here."
         case (true, false): "macOS didn’t list the agents that apps added, so some may be missing here."
         case (false, true): "macOS didn’t list the daemons that apps added, so some may be missing here."

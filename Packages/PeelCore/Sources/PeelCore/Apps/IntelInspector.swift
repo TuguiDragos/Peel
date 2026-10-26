@@ -28,6 +28,13 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
 
 public struct IntelScan: Sendable {
     public let findings: [IntelFinding]
+    /// What the scan couldn't read, each named once: folders it couldn't look into and programs it couldn't open, the
+    /// plug-in scan's included. Something there may need Rosetta.
+    public var unreadable: [URL] = []
+    /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
+    public var needsFullDiskAccess = false
+    /// The kinds of launchd jobs `launchctl` didn't describe in a form Peel can read, whose programs it never saw.
+    public var unansweredJobs: Set<BackgroundItem.Kind> = []
 
     public func findings(of kind: IntelFinding.Kind) -> [IntelFinding] {
         findings.filter { $0.kind == kind }
@@ -87,8 +94,8 @@ public enum IntelInspector {
     @concurrent
     public static func scan(
         installedApps: [InstalledApp],
-        plugins: [Plugin] = [],
-        backgroundItems: [BackgroundItem] = [],
+        plugins: PluginScan = PluginScan(),
+        backgroundItems: BackgroundItems.Scan = BackgroundItems.Scan(),
         exclusions: Exclusions = .none,
         environment: SearchEnvironment = .current
     ) async -> IntelScan {
@@ -105,8 +112,8 @@ public enum IntelInspector {
     @concurrent
     static func scan(
         installedApps: [InstalledApp],
-        plugins: [Plugin],
-        backgroundItems: [BackgroundItem],
+        plugins: PluginScan = PluginScan(),
+        backgroundItems: BackgroundItems.Scan = BackgroundItems.Scan(),
         exclusions: Exclusions,
         environment: SearchEnvironment = .current,
         measure: FileSize.Measure
@@ -116,10 +123,16 @@ public enum IntelInspector {
         var findings: [IntelFinding] = []
         var seen: Set<String> = []
         func isNew(_ url: URL) -> Bool { seen.insert(PathPattern.comparablePath(of: url)).inserted }
+        var unreadable: [URL] = []
 
         for app in installedApps where !exclusions.excludes(app) {
             guard !Task.isCancelled else { break }
-            if app.isIntelOnly, isNew(app.url) {
+            // An app whose own program Peel couldn't read may be Intel only, so what it carries can't be told apart.
+            let refusedBefore = unreadable.count
+            let intelOnly = app.isIntelOnly
+                || app.architectures.isEmpty && isIntelOnly(bundle: app.url, unreadable: &unreadable)
+            guard unreadable.count == refusedBefore else { continue }
+            if intelOnly, isNew(app.url) {
                 findings.append(IntelFinding(
                     url: app.url,
                     kind: .app,
@@ -129,7 +142,7 @@ public enum IntelInspector {
                 ))
                 continue
             }
-            for url in intelOnlyBundles(inside: app.url)
+            for url in intelOnlyBundles(inside: app.url, unreadable: &unreadable)
             where !Task.isCancelled && !exclusions.excludes(url) && isNew(url) {
                 findings.append(IntelFinding(
                     url: url,
@@ -141,9 +154,9 @@ public enum IntelInspector {
             }
         }
 
-        for plugin in plugins
-        where !Task.isCancelled && !exclusions.excludes(plugin.url) && isIntelOnly(bundle: plugin.url)
-            && isNew(plugin.url) {
+        unreadable += plugins.unreadable
+        for plugin in plugins.plugins where !Task.isCancelled && !exclusions.excludes(plugin.url) {
+            guard isIntelOnly(bundle: plugin.url, unreadable: &unreadable), isNew(plugin.url) else { continue }
             findings.append(IntelFinding(
                 url: plugin.url,
                 kind: .plugin,
@@ -154,8 +167,9 @@ public enum IntelInspector {
             ))
         }
 
-        for url in bundles(in: driverDirectories(environment))
-        where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(bundle: url) && isNew(url) {
+        for url in bundles(in: driverDirectories(environment), unreadable: &unreadable)
+        where !Task.isCancelled && !exclusions.excludes(url) {
+            guard isIntelOnly(bundle: url, unreadable: &unreadable), isNew(url) else { continue }
             findings.append(IntelFinding(
                 url: url,
                 kind: .driver,
@@ -166,8 +180,9 @@ public enum IntelInspector {
         }
 
         let printerDirectories = driverDirectories(environment, folders: [printers])
-        for url in programs(in: printerDirectories)
-        where !Task.isCancelled && !exclusions.excludes(url) && isIntelOnly(executable: url) && isNew(url) {
+        for url in programs(in: printerDirectories, unreadable: &unreadable)
+        where !Task.isCancelled && !exclusions.excludes(url) {
+            guard isIntelOnly(executable: url, unreadable: &unreadable), isNew(url) else { continue }
             findings.append(IntelFinding(
                 url: url,
                 kind: .driver,
@@ -177,9 +192,9 @@ public enum IntelInspector {
             ))
         }
 
-        for item in backgroundItems where !Task.isCancelled {
+        for item in backgroundItems.items where !Task.isCancelled {
             guard let program = item.program.map({ URL(filePath: $0) }), !exclusions.excludes(program) else { continue }
-            guard isIntelOnly(executable: program), isNew(program) else { continue }
+            guard isIntelOnly(executable: program, unreadable: &unreadable), isNew(program) else { continue }
             findings.append(IntelFinding(
                 url: program,
                 kind: .backgroundItem,
@@ -191,10 +206,11 @@ public enum IntelInspector {
 
         // A command that leads into an app listed already is that app's.
         let apps = findings.filter { $0.kind == .app }.map { PathPattern.comparablePath(of: $0.url) }
-        for tool in tools(in: toolDirectories(environment)) where !Task.isCancelled && !exclusions.excludes(tool.url) {
+        for tool in tools(in: toolDirectories(environment), unreadable: &unreadable)
+        where !Task.isCancelled && !exclusions.excludes(tool.url) {
             let path = PathPattern.comparablePath(of: tool.url)
             guard !apps.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
-            guard isIntelOnly(executable: tool.url), isNew(tool.url) else { continue }
+            guard isIntelOnly(executable: tool.url, unreadable: &unreadable), isNew(tool.url) else { continue }
             findings.append(IntelFinding(
                 url: tool.url,
                 kind: .commandLineTool,
@@ -204,65 +220,84 @@ public enum IntelInspector {
             ))
         }
 
+        var named: Set<String> = []
+        let unread = unreadable.filter {
+            !exclusions.excludes($0) && named.insert(PathPattern.comparablePath(of: $0)).inserted
+        }
         return IntelScan(
             findings: findings.sorted {
                 $0.size != $1.size ? SizeTotal([$0.size]) > SizeTotal([$1.size]) : $0.name < $1.name
-            }
+            },
+            unreadable: unread,
+            needsFullDiskAccess: unread.contains { FullDiskAccess.canList($0) == .missing },
+            unansweredJobs: backgroundItems.unanswered
         )
     }
 
     /// Helpers, plug-ins, and plain binaries inside an app that only have Intel code.
-    static func intelOnlyBundles(inside bundle: URL) -> [URL] {
-        let resources = resourceDirectories.flatMap { directory in
-            processes(in: bundle.appending(path: directory, directoryHint: .isDirectory))
+    static func intelOnlyBundles(inside bundle: URL, unreadable: inout [URL]) -> [URL] {
+        var candidates = frameworkProcesses(inside: bundle, unreadable: &unreadable)
+        for directory in resourceDirectories {
+            let folder = bundle.appending(path: directory, directoryHint: .isDirectory)
+            candidates += processes(in: folder, unreadable: &unreadable)
         }
-        return (frameworkProcesses(inside: bundle) + resources).filter(isIntelOnlyProcess)
-            + embeddedDirectories.flatMap { directory -> [URL] in
-                let folder = bundle.appending(path: directory, directoryHint: .isDirectory)
-                let names =
-                    (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-                return names.map { folder.appending(path: $0) }.filter { url in
-                    var info = stat()
-                    guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
-                    if info.st_mode & S_IFMT == S_IFDIR {
-                        return !url.pathExtension.isEmpty && isIntelOnly(bundle: url)
+        var found = candidates.filter { isIntelOnlyProcess($0, unreadable: &unreadable) }
+        for directory in embeddedDirectories {
+            let folder = bundle.appending(path: directory, directoryHint: .isDirectory)
+            for url in entries(of: folder, unreadable: &unreadable) {
+                var info = stat()
+                guard lstat(url.path(percentEncoded: false), &info) == 0 else { continue }
+                if info.st_mode & S_IFMT == S_IFDIR {
+                    if !url.pathExtension.isEmpty, isIntelOnly(bundle: url, unreadable: &unreadable) {
+                        found.append(url)
                     }
+                } else if isRunnable(info), isIntelOnly(executable: url, unreadable: &unreadable),
+                          MachOHeader.isProgram(at: url) == true {
                     // A library or a bundle kept beside the programs runs in the process that loads it.
-                    return info.st_mode & S_IFMT == S_IFREG && isIntelOnly(executable: url)
-                        && MachOHeader.isProgram(at: url)
+                    found.append(url)
                 }
             }
+        }
+        return found
     }
 
     /// Returns the processes under `Contents/Frameworks`: apps and XPC services kept there directly, as every
     /// Electron app keeps its helpers, and those in each framework's `XPCServices` and `Helpers` folders, at the top
     /// of each version, as Sparkle keeps its updater, and in its `Resources`, as Squirrel does. `Versions/Current` is
     /// skipped: it is a link to one of the versions beside it, so following it would report the same bundle twice.
-    static func frameworkProcesses(inside bundle: URL) -> [URL] {
+    static func frameworkProcesses(inside bundle: URL, unreadable: inout [URL]) -> [URL] {
         let frameworks = bundle.appending(path: "Contents/Frameworks", directoryHint: .isDirectory)
-        return entries(of: frameworks).flatMap { url -> [URL] in
-            if processExtensions.contains(url.pathExtension.lowercased()) { return [url] }
-            guard url.pathExtension.lowercased() == "framework" else { return [] }
-            let versions = entries(of: url.appending(path: "Versions", directoryHint: .isDirectory))
+        var found: [URL] = []
+        for url in entries(of: frameworks, unreadable: &unreadable) {
+            if processExtensions.contains(url.pathExtension.lowercased()) {
+                found.append(url)
+                continue
+            }
+            guard url.pathExtension.lowercased() == "framework" else { continue }
+            let versions = entries(of: url.appending(path: "Versions", directoryHint: .isDirectory), unreadable: &unreadable)
                 .filter { $0.lastPathComponent != "Current" }
-            return (versions + [url]).flatMap { version in
-                let bundles = ["XPCServices", "Helpers"].flatMap { name in
+            for version in versions + [url] {
+                for name in ["XPCServices", "Helpers"] {
                     // At the top of a versioned framework these are links into `Versions/Current`, already read.
                     let folder = version.appending(path: name, directoryHint: .isDirectory)
-                    guard version != url || folder.isRealFolder else { return [URL]() }
-                    return entries(of: folder).filter { processExtensions.contains($0.pathExtension.lowercased()) }
+                    guard version != url || folder.isRealFolder else { continue }
+                    found += entries(of: folder, unreadable: &unreadable)
+                        .filter { processExtensions.contains($0.pathExtension.lowercased()) }
                 }
+                found += processes(in: version, unreadable: &unreadable)
                 let resources = version.appending(path: "Resources", directoryHint: .isDirectory)
-                let kept = version != url || resources.isRealFolder ? processes(in: resources) : []
-                return bundles + processes(in: version) + kept
+                if version != url || resources.isRealFolder {
+                    found += processes(in: resources, unreadable: &unreadable)
+                }
             }
         }
+        return found
     }
 
     /// What in `folder` can run as a process of its own: a bundle that runs as one, or a file that can be run. Links
     /// are passed over, since at the top of a framework they lead into a version read on its own.
-    private static func processes(in folder: URL) -> [URL] {
-        entries(of: folder).filter { url in
+    private static func processes(in folder: URL, unreadable: inout [URL]) -> [URL] {
+        entries(of: folder, unreadable: &unreadable).filter { url in
             var info = stat()
             guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
             switch info.st_mode & S_IFMT {
@@ -275,66 +310,122 @@ public enum IntelInspector {
 
     /// Whether `url`, a bundle that runs as a process or a file that can be run, has only Intel code, and a file is a
     /// program rather than a library another program loads.
-    private static func isIntelOnlyProcess(_ url: URL) -> Bool {
+    private static func isIntelOnlyProcess(_ url: URL, unreadable: inout [URL]) -> Bool {
         url.hasDirectoryPath || url.isRealFolder
-            ? isIntelOnly(bundle: url) : isIntelOnly(executable: url) && MachOHeader.isProgram(at: url)
+            ? isIntelOnly(bundle: url, unreadable: &unreadable)
+            : isIntelOnly(executable: url, unreadable: &unreadable) && MachOHeader.isProgram(at: url) == true
     }
 
-    private static func entries(of directory: URL) -> [URL] {
-        let names = (try? FileManager.default.contentsOfDirectory(atPath: directory.path(percentEncoded: false))) ?? []
+    /// The entries of `directory`. One Peel can't list adds the folder that kept it out to `unreadable`.
+    private static func entries(of directory: URL, unreadable: inout [URL]) -> [URL] {
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: directory.path(percentEncoded: false))
+        else {
+            if let folder = refusedFolder(directory) { unreadable.append(folder) }
+            return []
+        }
         return names.map { directory.appending(path: $0) }
     }
 
-    static func isIntelOnly(bundle url: URL) -> Bool {
-        guard let executable = executable(of: url) else { return false }
-        return isIntelOnly(executable: executable)
+    /// The folder that kept Peel out of `folder`: `folder` itself when Peel can see it but not list it, or the folder
+    /// around it Peel can't look into. Nil when nothing is there, or a file is, which hides nothing.
+    static func refusedFolder(_ folder: URL) -> URL? {
+        var info = stat()
+        if stat(folder.path(percentEncoded: false), &info) == 0 {
+            return info.st_mode & S_IFMT == S_IFDIR ? folder : nil
+        }
+        guard ![ENOENT, ENOTDIR, ELOOP].contains(errno) else { return nil }
+        let around = folder.deletingLastPathComponent()
+        return around.path(percentEncoded: false) == folder.path(percentEncoded: false) ? nil : refusedFolder(around)
     }
 
-    static func isIntelOnly(executable url: URL) -> Bool {
-        MachOHeader.architectures(ofExecutableAt: url) == [.x86_64]
+    /// Notes `program`, which macOS wouldn't let Peel read, or the folder around it Peel can't look into.
+    private static func noteRefused(_ program: URL, in unreadable: inout [URL]) {
+        unreadable.append(program.isThere ? program : refusedFolder(program.deletingLastPathComponent()) ?? program)
+    }
+
+    /// Whether a file can be run by anyone: one that only root may run still runs, though Peel can't read it.
+    private static func isRunnable(_ info: stat) -> Bool {
+        info.st_mode & S_IFMT == S_IFREG && info.st_mode & 0o111 != 0
+    }
+
+    static func isIntelOnly(bundle url: URL, unreadable: inout [URL]) -> Bool {
+        guard let executable = executable(of: url, unreadable: &unreadable) else { return false }
+        return isIntelOnly(executable: executable, unreadable: &unreadable)
+    }
+
+    static func isIntelOnly(executable url: URL, unreadable: inout [URL]) -> Bool {
+        guard let architectures = MachOHeader.architectures(ofExecutableAt: url) else {
+            noteRefused(url, in: &unreadable)
+            return false
+        }
+        return architectures == [.x86_64]
     }
 
     /// The binary a bundle runs, from its Info.plist or, failing that, the name of the bundle.
-    static func executable(of bundle: URL) -> URL? {
+    static func executable(of bundle: URL, unreadable: inout [URL]) -> URL? {
         let contents = bundle.appending(path: "Contents", directoryHint: .isDirectory)
         let info = BoundedRead.propertyList(at: contents.appending(path: "Info.plist"))
         let name = (info?["CFBundleExecutable"] as? String) ?? bundle.deletingPathExtension().lastPathComponent
         // The second place is for a flat bundle, which keeps its binary at its top level.
-        let candidates = [contents.appending(path: "MacOS/\(name)"), bundle.appending(path: name)]
-        return candidates.first { FileManager.default.isExecutableFile(atPath: $0.path(percentEncoded: false)) }
+        for candidate in [contents.appending(path: "MacOS/\(name)"), bundle.appending(path: name)] {
+            var status = stat()
+            if stat(candidate.path(percentEncoded: false), &status) == 0 {
+                if isRunnable(status) { return candidate }
+            } else if ![ENOENT, ENOTDIR, ELOOP].contains(errno) {
+                if let folder = refusedFolder(candidate.deletingLastPathComponent()) { unreadable.append(folder) }
+                return nil
+            }
+        }
+        return nil
     }
 
     /// `ds` is a TWAIN data source, which Apple's Technical Note TN2088 puts in `Image Capture/TWAIN Data Sources`.
     static let driverExtensions: Set<String> = ["app", "plugin", "bundle", "driver", "qlgenerator", "mdimporter", "ds"]
 
-    static func bundles(in directories: [String]) -> [URL] {
-        directories.flatMap { directory -> [URL] in
+    static func bundles(in directories: [String], unreadable: inout [URL]) -> [URL] {
+        var bundles: [URL] = []
+        for directory in directories {
             let url = URL(filePath: directory, directoryHint: .isDirectory)
+            var refused: [URL] = []
             guard let enumerator = FileManager.default.enumerator(
                 at: url,
                 includingPropertiesForKeys: [.isDirectoryKey],
-                options: [.skipsHiddenFiles, .skipsPackageDescendants]
-            ) else { return [] }
-            var bundles: [URL] = []
+                options: [.skipsHiddenFiles, .skipsPackageDescendants],
+                errorHandler: { folder, _ in
+                    refused.append(folder)
+                    return true
+                }
+            ) else {
+                if let folder = refusedFolder(url) { unreadable.append(folder) }
+                continue
+            }
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
                 if driverExtensions.contains(item.pathExtension) { bundles.append(item) }
             }
-            return bundles
+            unreadable += refused.compactMap(refusedFolder)
         }
+        return bundles
     }
 
     /// The programs in `directories` that sit outside every bundle: one inside a bundle is the bundle's.
-    static func programs(in directories: [String]) -> [URL] {
-        let keys: Set<URLResourceKey> = [.isRegularFileKey, .isExecutableKey]
-        return directories.flatMap { directory -> [URL] in
+    static func programs(in directories: [String], unreadable: inout [URL]) -> [URL] {
+        var programs: [URL] = []
+        for directory in directories {
             let url = URL(filePath: directory, directoryHint: .isDirectory)
+            var refused: [URL] = []
             guard let enumerator = FileManager.default.enumerator(
                 at: url,
-                includingPropertiesForKeys: Array(keys),
-                options: [.skipsHiddenFiles, .skipsPackageDescendants]
-            ) else { return [] }
-            var programs: [URL] = []
+                includingPropertiesForKeys: [.isDirectoryKey],
+                options: [.skipsHiddenFiles, .skipsPackageDescendants],
+                errorHandler: { folder, _ in
+                    refused.append(folder)
+                    return true
+                }
+            ) else {
+                if let folder = refusedFolder(url) { unreadable.append(folder) }
+                continue
+            }
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
                 if driverExtensions.contains(item.pathExtension) {
@@ -344,31 +435,37 @@ public enum IntelInspector {
                     }
                     continue
                 }
-                let values = try? item.resourceValues(forKeys: keys)
-                if values?.isRegularFile == true, values?.isExecutable == true, MachOHeader.isProgram(at: item) {
-                    programs.append(item)
+                var info = stat()
+                guard lstat(item.path(percentEncoded: false), &info) == 0, isRunnable(info) else { continue }
+                switch MachOHeader.isProgram(at: item) {
+                case true?: programs.append(item)
+                case nil: noteRefused(item, in: &unreadable)
+                case false?: break
                 }
             }
-            return programs
+            unreadable += refused.compactMap(refusedFolder)
         }
+        return programs
     }
 
     /// The programs the commands in `directories` run, each under the command's name. A command is often a link,
     /// as every one a Homebrew in `/usr/local` makes into its `Cellar`, and the program it leads to is what runs.
-    static func tools(in directories: [String]) -> [(name: String, url: URL)] {
-        directories.flatMap { directory -> [(name: String, url: URL)] in
+    static func tools(in directories: [String], unreadable: inout [URL]) -> [(name: String, url: URL)] {
+        var tools: [(name: String, url: URL)] = []
+        for directory in directories {
             let folder = URL(filePath: directory, directoryHint: .isDirectory)
-            let names = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []
-            return names.compactMap { name in
-                let program = folder.appending(path: name).resolvingSymlinksInPath()
+            for command in entries(of: folder, unreadable: &unreadable) {
+                let program = command.resolvingSymlinksInPath()
                 var info = stat()
-                let path = program.path(percentEncoded: false)
-                guard stat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
-                      FileManager.default.isExecutableFile(atPath: path)
-                else { return nil }
-                return (name, program)
+                if stat(program.path(percentEncoded: false), &info) == 0 {
+                    if isRunnable(info) { tools.append((command.lastPathComponent, program)) }
+                } else if ![ENOENT, ENOTDIR, ELOOP].contains(errno),
+                          let place = refusedFolder(program.deletingLastPathComponent()) {
+                    unreadable.append(place)
+                }
             }
         }
+        return tools
     }
 }
 

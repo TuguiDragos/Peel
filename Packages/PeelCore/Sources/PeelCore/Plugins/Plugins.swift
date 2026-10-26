@@ -85,6 +85,12 @@ public struct PluginScan: Sendable {
     public var unreadable: [URL] = []
     /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
     public var needsFullDiskAccess = false
+
+    public init(plugins: [Plugin] = [], unreadable: [URL] = [], needsFullDiskAccess: Bool = false) {
+        self.plugins = plugins
+        self.unreadable = unreadable
+        self.needsFullDiskAccess = needsFullDiskAccess
+    }
 }
 
 /// Finds the plug-ins that apps have installed in the folders macOS loads plug-ins from. Apple's own

@@ -22,15 +22,15 @@ final class IntelLibrary {
     /// Scans everything the report covers, so it is complete even when the other pages were never opened.
     /// Plug-ins the Plug-ins page already found are reused, because that scan checks every plug-in's signature
     /// and a Mac used for music can hold hundreds of them.
-    func refresh(installedApps: [InstalledApp], revision: Int, plugins known: [Plugin]? = nil) async {
+    func refresh(installedApps: [InstalledApp], revision: Int, plugins known: PluginScan? = nil) async {
         guard let result = await scanRun.run({
             let exclusions = ExclusionsStore.shared.exclusions
             async let backgroundItems = BackgroundItems.scan(exclusions: exclusions)
-            let plugins = if let known { known } else { await Plugins.scan(exclusions: exclusions).plugins }
+            let plugins = if let known { known } else { await Plugins.scan(exclusions: exclusions) }
             return await IntelInspector.scan(
                 installedApps: installedApps,
                 plugins: plugins,
-                backgroundItems: backgroundItems.items,
+                backgroundItems: backgroundItems,
                 exclusions: exclusions
             )
         }) else { return }

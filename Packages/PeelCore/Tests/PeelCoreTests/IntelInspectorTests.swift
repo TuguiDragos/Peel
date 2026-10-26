@@ -50,8 +50,8 @@ struct IntelInspectorTests {
         )
         let printers = directory.url.appending(path: "Printers").path(percentEncoded: false)
 
-        #expect(MachOHeader.isProgram(at: filter))
-        #expect(IntelInspector.programs(in: [printers]).map(\.lastPathComponent) == ["filter"])
+        #expect(MachOHeader.isProgram(at: filter) == true)
+        #expect(readable { IntelInspector.programs(in: [printers], unreadable: &$0) }.map(\.lastPathComponent) == ["filter"])
     }
 
     /// The drivers, the background items, and the tools are scanned after the apps, and those later steps must
@@ -77,8 +77,6 @@ struct IntelInspectorTests {
         let stop = try await unanswered.stop {
             _ = await IntelInspector.scan(
                 installedApps: installed,
-                plugins: [],
-                backgroundItems: [],
                 exclusions: .none,
                 environment: environment,
                 measure: unanswered.measure
@@ -104,11 +102,12 @@ struct IntelInspectorTests {
 
         let walked = await Task {
             withUnsafeCurrentTask { $0?.cancel() }
-            return (IntelInspector.bundles(in: [printers]), IntelInspector.programs(in: [printers]))
+            let bundles = readable { IntelInspector.bundles(in: [printers], unreadable: &$0) }
+            return (bundles, readable { IntelInspector.programs(in: [printers], unreadable: &$0) })
         }.value
 
-        #expect(IntelInspector.bundles(in: [printers]).count == 3)
-        #expect(IntelInspector.programs(in: [printers]).count == 3)
+        #expect(readable { IntelInspector.bundles(in: [printers], unreadable: &$0) }.count == 3)
+        #expect(readable { IntelInspector.programs(in: [printers], unreadable: &$0) }.count == 3)
         #expect(walked.0.isEmpty)
         #expect(walked.1.isEmpty)
     }
@@ -124,7 +123,8 @@ struct IntelInspectorTests {
         }
         let printers = directory.url.appending(path: "Printers").path(percentEncoded: false)
 
-        let folders = IntelInspector.programs(in: [printers]).map { $0.deletingLastPathComponent().lastPathComponent }
+        let folders = readable { IntelInspector.programs(in: [printers], unreadable: &$0) }
+            .map { $0.deletingLastPathComponent().lastPathComponent }
 
         #expect(folders.sorted() == ["Filters", "Helpers", "Scripts", "Tools", "Utilities"])
     }
@@ -141,6 +141,13 @@ struct IntelInspectorTests {
         return directory.url.appending(path: path, directoryHint: .isDirectory)
     }
 
+    /// Runs one of the scan's walks over fixtures that can all be read, so it names nothing it couldn't read.
+    private func readable<T>(_ walk: (inout [URL]) -> T) -> T {
+        var unread: [URL] = []
+        defer { #expect(unread.isEmpty, "named \(unread)") }
+        return walk(&unread)
+    }
+
     private func environment(in directory: borrowing TemporaryDirectory) -> SearchEnvironment {
         SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -154,9 +161,9 @@ struct IntelInspectorTests {
         let universalApp = try bundle(directory, "Universal.app", cpuTypes: [intel, appleSilicon])
         let appleApp = try bundle(directory, "Apple.app", cpuTypes: [appleSilicon])
 
-        #expect(IntelInspector.isIntelOnly(bundle: intelApp))
-        #expect(!IntelInspector.isIntelOnly(bundle: universalApp))
-        #expect(!IntelInspector.isIntelOnly(bundle: appleApp))
+        #expect(readable { IntelInspector.isIntelOnly(bundle: intelApp, unreadable: &$0) })
+        #expect(!readable { IntelInspector.isIntelOnly(bundle: universalApp, unreadable: &$0) })
+        #expect(!readable { IntelInspector.isIntelOnly(bundle: appleApp, unreadable: &$0) })
     }
 
     /// Apple's macOS 27 note names the folders its own Intel list may miss: "~/Library/Audio/Plug-Ins/*,
@@ -172,8 +179,6 @@ struct IntelInspectorTests {
 
         let scan = await IntelInspector.scan(
             installedApps: [],
-            plugins: [],
-            backgroundItems: [],
             exclusions: .none,
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: root),
             measure: { _ in 1 }
@@ -189,8 +194,6 @@ struct IntelInspectorTests {
 
         let scan = await IntelInspector.scan(
             installedApps: [],
-            plugins: [],
-            backgroundItems: [],
             exclusions: .none,
             environment: SearchEnvironment(
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -220,8 +223,6 @@ struct IntelInspectorTests {
 
         let scan = await IntelInspector.scan(
             installedApps: [],
-            plugins: [],
-            backgroundItems: [],
             exclusions: .none,
             environment: SearchEnvironment(
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -249,9 +250,11 @@ struct IntelInspectorTests {
             ofItemAtPath: plainHelper.path(percentEncoded: false)
         )
 
-        let found = IntelInspector.intelOnlyBundles(
-            inside: directory.url.appending(path: "Universal.app", directoryHint: .isDirectory)
-        )
+        let found = readable {
+            IntelInspector.intelOnlyBundles(
+                inside: directory.url.appending(path: "Universal.app", directoryHint: .isDirectory), unreadable: &$0
+            )
+        }
         #expect(Set(found.map(\.lastPathComponent)) == ["Launcher.app", "Old.appex", "updater"])
     }
 
@@ -271,7 +274,7 @@ struct IntelInspectorTests {
         _ = try bundle(directory, "\(appLibrary)/SystemExtensions/Filter.systemextension", cpuTypes: [intel])
 
         let app = directory.url.appending(path: "Universal.app", directoryHint: .isDirectory)
-        let found = IntelInspector.intelOnlyBundles(inside: app)
+        let found = readable { IntelInspector.intelOnlyBundles(inside: app, unreadable: &$0) }
 
         #expect(Set(found.map(\.lastPathComponent)) == [
             "ffmpeg", "Preview.qlgenerator", "Importer.mdimporter", "Filter.systemextension",
@@ -305,7 +308,7 @@ struct IntelInspectorTests {
         _ = try bundle(directory, "Universal.app/Contents/SharedSupport/Installer.app", cpuTypes: [intel])
 
         let app = directory.url.appending(path: "Universal.app", directoryHint: .isDirectory)
-        let found = IntelInspector.intelOnlyBundles(inside: app)
+        let found = readable { IntelInspector.intelOnlyBundles(inside: app, unreadable: &$0) }
 
         #expect(found.map(\.lastPathComponent).sorted() == ["Autoupdate", "Installer.app", "ShipIt", "Updater.app", "helper"])
     }
@@ -322,7 +325,7 @@ struct IntelInspectorTests {
             withDestinationPath: "../Cellar/tool/1.0/bin/tool"
         )
 
-        let tools = IntelInspector.tools(in: [bin.path(percentEncoded: false)])
+        let tools = readable { IntelInspector.tools(in: [bin.path(percentEncoded: false)], unreadable: &$0) }
 
         #expect(tools.map(\.name) == ["tool"])
         #expect(tools.map { PathPattern.comparablePath(of: $0.url) } == [PathPattern.comparablePath(of: program)])
@@ -335,8 +338,6 @@ struct IntelInspectorTests {
 
         let scan = await IntelInspector.scan(
             installedApps: [],
-            plugins: [],
-            backgroundItems: [],
             exclusions: .none,
             environment: SearchEnvironment(
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -364,9 +365,11 @@ struct IntelInspectorTests {
             ofItemAtPath: library.path(percentEncoded: false)
         )
 
-        let found = IntelInspector.intelOnlyBundles(
-            inside: directory.url.appending(path: "Electron.app", directoryHint: .isDirectory)
-        )
+        let found = readable {
+            IntelInspector.intelOnlyBundles(
+                inside: directory.url.appending(path: "Electron.app", directoryHint: .isDirectory), unreadable: &$0
+            )
+        }
 
         #expect(Set(found.map(\.lastPathComponent)) == ["Electron Helper (GPU).app", "Installer.xpc", "com.example.helper.app"])
     }
@@ -388,9 +391,11 @@ struct IntelInspectorTests {
             withDestinationPath: "Versions/Current/XPCServices"
         )
 
-        let found = IntelInspector.intelOnlyBundles(
-            inside: directory.url.appending(path: "Updater.app", directoryHint: .isDirectory)
-        )
+        let found = readable {
+            IntelInspector.intelOnlyBundles(
+                inside: directory.url.appending(path: "Updater.app", directoryHint: .isDirectory), unreadable: &$0
+            )
+        }
 
         #expect(found.filter { $0.lastPathComponent == "Installer.xpc" }.count == 1, "listed under \(found.map { $0.path(percentEncoded: false) })")
     }
@@ -414,8 +419,7 @@ struct IntelInspectorTests {
 
         let scan = await IntelInspector.scan(
             installedApps: [],
-            plugins: [],
-            backgroundItems: [job("com.example.one"), job("com.example.two")],
+            backgroundItems: BackgroundItems.Scan(items: [job("com.example.one"), job("com.example.two")]),
             exclusions: .none,
             environment: environment(in: directory),
             measure: { _ in 1 }
@@ -433,15 +437,15 @@ struct IntelInspectorTests {
         let pipe = folder.appending(path: "Pipe")
         try #require(mkfifo(pipe.path(percentEncoded: false), 0o755) == 0)
 
-        #expect(MachOHeader.architectures(ofExecutableAt: pipe).isEmpty)
+        #expect(MachOHeader.architectures(ofExecutableAt: pipe) == [])
     }
 
     @Test func readsTheExecutableNamedInTheBundle() throws {
         let directory = try TemporaryDirectory()
         let app = try bundle(directory, "Intel.app", cpuTypes: [intel])
-        let executable = try #require(IntelInspector.executable(of: app))
+        let executable = try #require(readable { IntelInspector.executable(of: app, unreadable: &$0) })
         #expect(executable.lastPathComponent == "Intel")
-        #expect(IntelInspector.executable(of: directory.url.appending(path: "Missing.app")) == nil)
+        #expect(readable { IntelInspector.executable(of: directory.url.appending(path: "Missing.app"), unreadable: &$0) } == nil)
     }
 
     @Test func reportsIntelAppsWithTheirSize() async throws {
@@ -463,8 +467,6 @@ struct IntelInspectorTests {
         // An app that did not answer in time is still Intel only: it is listed, with a size nobody knows.
         let slow = await IntelInspector.scan(
             installedApps: [app],
-            plugins: [],
-            backgroundItems: [],
             exclusions: .none,
             environment: environment(in: directory)
         ) { _ in nil }
@@ -494,9 +496,54 @@ struct IntelInspectorTests {
             )
         }
 
-        let found = IntelInspector.intelOnlyBundles(inside: app)
+        let found = readable { IntelInspector.intelOnlyBundles(inside: app, unreadable: &$0) }
 
         #expect(found.isEmpty, "a library inside an app was reported: \(found.map(\.lastPathComponent))")
         #expect(!IntelInspector.embeddedDirectories.contains("Contents/Frameworks"))
+    }
+
+    @Test(.permissionsHold) func namesWhatItCouldNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let closedDrivers = try directory.directory("root/Library/Printers/Closed")
+        let hiddenFilter = try directory.file("root/Library/Printers/Closed/filter", contents: intelHeader(fileType: 2))
+        try directory.setPermissions(0o755, of: hiddenFilter)
+        let groupsFilter = try directory.file("root/Library/Printers/Vendor/filter", contents: intelHeader(fileType: 2))
+        let tool = try directory.file("root/usr/local/bin/tool", contents: fatHeader([intel]))
+        let agent = try directory.file("Agents/agent", contents: fatHeader([intel]))
+        let universal = try bundle(directory, "Universal.app", cpuTypes: [intel, appleSilicon])
+        _ = try bundle(directory, "Universal.app/Contents/Library/LoginItems/Launcher.app", cpuTypes: [intel])
+        let closedLibrary = universal.appending(path: "Contents/Library", directoryHint: .isDirectory)
+        let closedApp = try bundle(directory, "Closed.app", cpuTypes: [intel])
+        let closedProgram = closedApp.appending(path: "Contents/MacOS/Closed")
+        try directory.setPermissions(0o010, of: groupsFilter)
+        for program in [tool, agent, closedProgram] { try directory.setPermissions(0o311, of: program) }
+        for folder in [closedDrivers, closedLibrary] { try directory.setPermissions(0o000, of: folder) }
+        defer { for folder in [closedDrivers, closedLibrary] { try? directory.setPermissions(0o755, of: folder) } }
+        let plugInFolder = directory.url.appending(path: "home/Library/Audio/Plug-Ins/VST3/Vendor", directoryHint: .isDirectory)
+        let job = BackgroundItem(
+            label: "org.example.agent", kind: .agent, source: .userLibrary, plistURL: nil,
+            program: agent.path(percentEncoded: false), runsAtLoad: false, keepsAlive: false,
+            ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false, state: .loaded,
+            isDisabled: false
+        )
+
+        let scan = await IntelInspector.scan(
+            installedApps: [
+                InstalledApp(url: universal, bundleIdentifier: "org.example.universal", name: "Universal", architectures: [.x86_64, .arm64]),
+                InstalledApp(url: closedApp, bundleIdentifier: "org.example.closed", name: "Closed", architectures: []),
+            ],
+            plugins: PluginScan(unreadable: [plugInFolder]),
+            backgroundItems: BackgroundItems.Scan(items: [job], unanswered: [.daemon]),
+            exclusions: .none,
+            environment: environment(in: directory),
+            measure: { _ in 1 }
+        )
+
+        #expect(scan.findings.isEmpty, "found \(scan.findings.map(\.name))")
+        let expected = [closedDrivers, groupsFilter, tool, agent, closedLibrary, closedProgram, plugInFolder]
+        let named = scan.unreadable.map(PathPattern.comparablePath(of:)).sorted()
+        #expect(named == expected.map(PathPattern.comparablePath(of:)).sorted())
+        #expect(!scan.needsFullDiskAccess)
+        #expect(scan.unansweredJobs == [.daemon])
     }
 }
