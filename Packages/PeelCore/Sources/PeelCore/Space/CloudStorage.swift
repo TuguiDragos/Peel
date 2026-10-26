@@ -24,14 +24,21 @@ public struct CloudFile: Sendable, Hashable, Identifiable {
 /// What one scan of iCloud Drive found, and whether the scan stopped early or could not read the folder.
 public struct CloudScan: Sendable {
     public var files: [CloudFile] = []
-    /// The walk stopped early (it ran out of time, was stopped, or filled the list), so the list may be incomplete.
-    public var wasCutShort = false
+    /// Why the list isn't all there is, and nil when it is.
+    public var cutShort: CutShort?
     /// iCloud Drive could not be read at all, which is what happens without Full Disk Access.
     public var couldNotRead = false
     /// How many downloads were left out because another copy on this Mac shares their space: each takes at least
     /// `CloudStorage.minimumSize` on disk, yet removing it would free less.
     public var sharedDownloads = 0
     public var folders: [CloudFolder] = []
+
+    public enum CutShort: Sendable, Equatable {
+        /// The walk ran out of time or was stopped before it read everything.
+        case ranOutOfTime
+        /// The walk read everything and kept the biggest files, `CloudStorage.maximumFiles` of them.
+        case listIsFull
+    }
 }
 
 /// A file that was not freed, and why.
@@ -65,7 +72,7 @@ public enum CloudStorage {
     public static let minimumSize: Int64 = 1_000_000
     /// The most files listed. The walk goes on past it, keeping the biggest files it finds, so a big file read late
     /// is not left out for smaller ones read first.
-    static let maximumFiles = 5_000
+    public static let maximumFiles = 5_000
     /// How long the walk may take, in seconds. A folder iCloud manages can stall a directory read for minutes,
     /// and this walk also reads the sync state of every file.
     public static let budget: TimeInterval = 20
@@ -128,7 +135,7 @@ public enum CloudStorage {
         let collected = collector.collected
         return CloudScan(
             files: collected.files.sorted { $0.size > $1.size },
-            wasCutShort: finished == nil || collected.wasCutShort,
+            cutShort: finished == nil ? .ranOutOfTime : collected.cutShort,
             couldNotRead: collected.couldNotRead,
             sharedDownloads: collected.sharedDownloads,
             folders: folders(of: collected.files, home: home)
@@ -140,7 +147,7 @@ public enum CloudStorage {
     final class Collector: Sendable {
         struct Collected {
             var files: [CloudFile] = []
-            var wasCutShort = false
+            var cutShort: CloudScan.CutShort?
             var couldNotRead = false
             var sharedDownloads = 0
         }
@@ -164,7 +171,7 @@ public enum CloudStorage {
                     Self.siftUp(&collected.files, from: collected.files.count - 1)
                     return
                 }
-                collected.wasCutShort = true
+                if collected.cutShort == nil { collected.cutShort = .listIsFull }
                 guard let smallest = collected.files.first, file.size > smallest.size else { return }
                 collected.files[0] = file
                 Self.siftDown(&collected.files, from: 0)
@@ -194,8 +201,8 @@ public enum CloudStorage {
             }
         }
 
-        func cutShort() {
-            state.withLock { $0.wasCutShort = true }
+        func ranOutOfTime() {
+            state.withLock { $0.cutShort = .ranOutOfTime }
         }
 
         func unreadable() {
@@ -250,7 +257,7 @@ public enum CloudStorage {
         var isICloudDrive = false
         for case let url as URL in enumerator {
             guard !stopped() else {
-                collector.cutShort()
+                collector.ranOutOfTime()
                 return
             }
             scan?.add(1)
@@ -283,7 +290,7 @@ public enum CloudStorage {
                 : package(url, values, exclusions: exclusions, countingFor: scan, unless: stopped)
             guard let measured else {
                 if stopped() {
-                    collector.cutShort()
+                    collector.ranOutOfTime()
                     return
                 }
                 continue

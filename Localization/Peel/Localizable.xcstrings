@@ -121546,6 +121546,112 @@
         }
       }
     },
+    "Peel lists the biggest downloads, up to %@. The next ones show once you remove some of these." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zobrazuje největší stažené kopie, nejvýše %@. Další se zobrazí, až některé z nich odstraníte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zeigt die größten Downloads an, bis zu %@. Die nächsten erscheinen, sobald du einige davon entfernst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel muestra las descargas más grandes, hasta un máximo de %@. Las siguientes aparecerán cuando elimines algunas de estas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel liste les plus gros téléchargements, jusqu’à %@. Les suivants apparaissent une fois que vous en avez retiré certains."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel elenca i download più grandi, fino a %@. I successivi compaiono quando ne rimuovi alcuni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、ダウンロードしたもののうちサイズの大きいものから順に、最大%@個を表示します。これらの一部を削除すると、次のものが表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 가장 큰 다운로드를 최대 %@개까지 나열합니다. 이 중 일부를 제거하면 그다음 다운로드가 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel toont de grootste downloads, maximaal %@. De volgende verschijnen zodra je een deel hiervan verwijdert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wyświetla największe pobrane kopie, maksymalnie %@. Kolejne pojawią się, gdy usuniesz niektóre z nich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel lista os maiores downloads, até %@. Os próximos aparecem quando você remover alguns destes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel listează cele mai mari descărcări, până la %@. Următoarele apar după ce eliminați unele dintre acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel показывает самые большие загрузки, но не больше %@. Следующие появятся, когда Вы удалите некоторые из этих загрузок."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel listar de största hämtningarna, upp till %@. Fler visas när du har tagit bort några av dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel en büyük indirilenlerden en fazla %@ tanesini listeler. Bunların bir kısmını kaldırdığınızda sonrakiler görünür."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel показує найбільші викачування, не більше %@. Наступні зʼявляться, щойно ви вилучите деякі з них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel最多列出%@个最大的下载。移除其中一些后，才会显示接下来的下载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會列出最大的下載項目，最多%@個。移除其中一些後，就會顯示接下來的項目。"
+          }
+        }
+      }
+    },
     "Peel looks for apps in the Applications folders and in the folders on this list, such as one on another disk. While that disk isn’t connected, its apps still count as installed, so their files aren’t listed as orphaned." : {
       "localizations" : {
         "cs" : {
@@ -178047,214 +178153,214 @@
         }
       }
     },
-    "There is more in iCloud Drive than Peel could look at in one go, and nothing in the part it read is big enough to be worth freeing." : {
+    "There is more in iCloud Drive than Peel can read in the time it gives a scan, and nothing in the part it read is big enough to be worth freeing." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na iCloud Drivu je toho víc, než Peel dokázal projít najednou, a v části, kterou přečetl, není nic tak velkého, aby stálo za uvolnění."
+            "value" : "Na iCloud Drivu je toho víc, než Peel dokáže přečíst v čase, který na prohledávání vyhrazuje, a v části, kterou přečetl, není nic tak velkého, aby stálo za uvolnění."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In iCloud Drive gibt es mehr, als Peel auf einmal durchsehen konnte, und im gelesenen Teil ist nichts so groß, dass sich das Freigeben lohnt."
+            "value" : "In iCloud Drive gibt es mehr, als Peel in der für einen Scan vorgesehenen Zeit lesen kann, und im gelesenen Teil ist nichts so groß, dass sich das Freigeben lohnt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En iCloud Drive hay más de lo que Peel ha podido revisar de una vez, y en la parte que ha leído no hay nada lo bastante grande como para que valga la pena liberarlo."
+            "value" : "En iCloud Drive hay más de lo que Peel puede leer en el tiempo que dedica a un análisis, y en la parte que ha leído no hay nada lo bastante grande como para que valga la pena liberarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive contient plus que ce que Peel a pu examiner en une seule fois, et rien dans la partie examinée n’est assez volumineux pour valoir la peine d’être libéré."
+            "value" : "iCloud Drive contient plus que ce que Peel peut lire dans le temps qu’il accorde à une analyse, et rien dans la partie lue n’est assez volumineux pour valoir la peine d’être libéré."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive contiene più di quanto Peel possa esaminare in una volta sola, e nella parte che ha letto non c’è nulla di abbastanza grande da valere la pena di liberarlo."
+            "value" : "iCloud Drive contiene più di quanto Peel riesca a leggere nel tempo che concede a un’analisi, e nella parte che ha letto non c’è nulla di abbastanza grande da valere la pena di liberarlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud DriveにはPeelが一度に調べきれないほどの項目があり、読み取った範囲には解放する価値があるほど大きなものはありませんでした。"
+            "value" : "iCloud Driveには、Peelが1回のスキャンにかける時間では読み取りきれないほどの項目があり、読み取った範囲には解放する価値があるほど大きなものはありませんでした。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive에는 Peel이 한 번에 살펴볼 수 있는 것보다 많은 항목이 있으며, 읽은 부분에는 공간을 확보할 만큼 큰 파일이 없습니다."
+            "value" : "iCloud Drive에는 Peel이 스캔에 허용하는 시간 안에 읽을 수 있는 것보다 많은 항목이 있으며, 읽은 부분에는 공간을 확보할 만큼 큰 파일이 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Er staat meer op iCloud Drive dan Peel in één keer kon bekijken, en in het deel dat Peel heeft gelezen, is niets groot genoeg om de moeite van het vrijmaken waard te zijn."
+            "value" : "Er staat meer op iCloud Drive dan Peel kan lezen in de tijd die het voor een scan uittrekt, en in het deel dat Peel heeft gelezen, is niets groot genoeg om de moeite van het vrijmaken waard te zijn."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na iCloud Drive jest więcej, niż Peel mógł przejrzeć za jednym razem, a w przejrzanej części nie ma nic na tyle dużego, by warto było to zwalniać."
+            "value" : "Na iCloud Drive jest więcej, niż Peel może odczytać w czasie przeznaczonym na skanowanie, a w przejrzanej części nie ma nic na tyle dużego, by warto było to zwalniać."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Há mais coisas no iCloud Drive do que o Peel conseguiu examinar de uma só vez, e nada na parte que ele leu é grande o bastante para valer a pena liberar."
+            "value" : "Há mais coisas no iCloud Drive do que o Peel consegue ler no tempo que ele reserva para uma análise, e nada na parte que ele leu é grande o bastante para valer a pena liberar."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pe iCloud Drive există mai mult conținut decât a putut examina Peel într‑o singură trecere, iar în partea pe care a citit‑o nimic nu este destul de mare cât să merite eliberat."
+            "value" : "Pe iCloud Drive există mai mult conținut decât poate citi Peel în timpul pe care îl acordă unei scanări, iar în partea pe care a citit‑o nimic nu este destul de mare cât să merite eliberat."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В iCloud Drive больше файлов, чем Peel может просмотреть за один раз, а в просмотренной части нет ничего настолько большого, чтобы его стоило освобождать."
+            "value" : "В iCloud Drive больше файлов, чем Peel может прочитать за время, которое он отводит на сканирование, а в просмотренной части нет ничего настолько большого, чтобы его стоило освобождать."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det finns mer i iCloud Drive än Peel kunde gå igenom på en gång, och inget i den del som Peel läste är tillräckligt stort för att vara värt att frigöra."
+            "value" : "Det finns mer i iCloud Drive än Peel hinner läsa under den tid som Peel ger en skanning, och inget i den del som Peel läste är tillräckligt stort för att vara värt att frigöra."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive’da, Peel’in tek seferde bakabileceğinden daha fazlası var ve okuduğu kısımda boşaltmaya değecek kadar büyük bir şey yok."
+            "value" : "iCloud Drive’da, Peel’in bir taramaya ayırdığı sürede okuyabileceğinden daha fazlası var ve okuduğu kısımda boşaltmaya değecek kadar büyük bir şey yok."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В iCloud Drive більше, ніж Peel може переглянути за один раз, а в прочитаній частині немає нічого настільки великого, щоб його варто було звільняти."
+            "value" : "В iCloud Drive більше, ніж Peel встигає прочитати за час, відведений на сканування, а в прочитаній частині немає нічого настільки великого, щоб його варто було звільняти."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud云盘中的内容多于Peel一次能查看的量，而在已读取的部分中，没有大到值得释放的文件。"
+            "value" : "iCloud云盘中的内容多于Peel在一次扫描的时限内能读取的量，而在已读取的部分中，没有大到值得释放的文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「iCloud雲碟」中的內容超出Peel一次能查看的範圍，而在它讀取的部分中，沒有任何檔案大到值得釋放。"
+            "value" : "「iCloud雲碟」中的內容超出Peel在一次掃描的時限內能讀取的範圍，而在它讀取的部分中，沒有任何檔案大到值得釋放。"
           }
         }
       }
     },
-    "There is more in iCloud Drive than Peel could look at in one go, so this list isn’t all of it." : {
+    "There is more in iCloud Drive than Peel can read in the time it gives a scan, so this list isn’t all of it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na iCloud Drivu je toho víc, než Peel dokázal projít najednou, takže tento seznam není úplný."
+            "value" : "Na iCloud Drivu je toho víc, než Peel dokáže přečíst v čase, který na prohledávání vyhrazuje, takže tento seznam není úplný."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In iCloud Drive gibt es mehr, als Peel auf einmal durchsehen konnte, daher ist diese Liste nicht vollständig."
+            "value" : "In iCloud Drive gibt es mehr, als Peel in der für einen Scan vorgesehenen Zeit lesen kann, daher ist diese Liste nicht vollständig."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En iCloud Drive hay más de lo que Peel ha podido revisar de una vez, así que esta lista no lo incluye todo."
+            "value" : "En iCloud Drive hay más de lo que Peel puede leer en el tiempo que dedica a un análisis, así que esta lista no lo incluye todo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive contient plus que ce que Peel a pu examiner en une seule fois : cette liste n’est donc pas complète."
+            "value" : "iCloud Drive contient plus que ce que Peel peut lire dans le temps qu’il accorde à une analyse : cette liste n’est donc pas complète."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive contiene più di quanto Peel possa esaminare in una volta sola, quindi questo elenco non è completo."
+            "value" : "iCloud Drive contiene più di quanto Peel riesca a leggere nel tempo che concede a un’analisi, quindi questo elenco non è completo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud DriveにはPeelが一度に調べきれないほどの項目があるため、このリストはすべてではありません。"
+            "value" : "iCloud Driveには、Peelが1回のスキャンにかける時間では読み取りきれないほどの項目があるため、このリストはすべてではありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive에는 Peel이 한 번에 살펴볼 수 있는 것보다 많은 항목이 있으므로 이 목록이 전부는 아닙니다."
+            "value" : "iCloud Drive에는 Peel이 스캔에 허용하는 시간 안에 읽을 수 있는 것보다 많은 항목이 있으므로 이 목록이 전부는 아닙니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Er staat meer op iCloud Drive dan Peel in één keer kon bekijken, dus deze lijst is niet volledig."
+            "value" : "Er staat meer op iCloud Drive dan Peel kan lezen in de tijd die het voor een scan uittrekt, dus deze lijst is niet volledig."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na iCloud Drive jest więcej, niż Peel mógł przejrzeć za jednym razem, więc ta lista nie jest pełna."
+            "value" : "Na iCloud Drive jest więcej, niż Peel może odczytać w czasie przeznaczonym na skanowanie, więc ta lista nie jest pełna."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Há mais coisas no iCloud Drive do que o Peel conseguiu examinar de uma só vez, então esta lista não mostra tudo."
+            "value" : "Há mais coisas no iCloud Drive do que o Peel consegue ler no tempo que ele reserva para uma análise, então esta lista não mostra tudo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pe iCloud Drive există mai mult conținut decât a putut examina Peel într‑o singură trecere, așa că această listă nu este completă."
+            "value" : "Pe iCloud Drive există mai mult conținut decât poate citi Peel în timpul pe care îl acordă unei scanări, așa că această listă nu este completă."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В iCloud Drive больше файлов, чем Peel может просмотреть за один раз, поэтому этот список неполный."
+            "value" : "В iCloud Drive больше файлов, чем Peel может прочитать за время, которое он отводит на сканирование, поэтому этот список неполный."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det finns mer i iCloud Drive än Peel kunde gå igenom på en gång, så listan visar inte allt."
+            "value" : "Det finns mer i iCloud Drive än Peel hinner läsa under den tid som Peel ger en skanning, så listan visar inte allt."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive’da, Peel’in tek seferde bakabileceğinden daha fazlası var, bu yüzden bu liste hepsini göstermiyor."
+            "value" : "iCloud Drive’da, Peel’in bir taramaya ayırdığı sürede okuyabileceğinden daha fazlası var, bu yüzden bu liste hepsini göstermiyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В iCloud Drive більше, ніж Peel може переглянути за один раз, тож цей список неповний."
+            "value" : "В iCloud Drive більше, ніж Peel встигає прочитати за час, відведений на сканування, тож цей список неповний."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud云盘中的内容多于Peel一次能查看的量，因此这份列表并不完整。"
+            "value" : "iCloud云盘中的内容多于Peel在一次扫描的时限内能读取的量，因此这份列表并不完整。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「iCloud雲碟」中的內容超出Peel一次能查看的範圍，因此這個列表並不完整。"
+            "value" : "「iCloud雲碟」中的內容超出Peel在一次掃描的時限內能讀取的範圍，因此這個列表並不完整。"
           }
         }
       }

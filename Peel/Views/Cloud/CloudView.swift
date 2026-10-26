@@ -99,10 +99,15 @@ struct CloudView: View {
                         SelectMenu(list: selectableRows(listed), place: Text(Tool.cloud.title), selection: cloud)
                     }
                 } footer: {
-                    if cloud.wasCutShort || cloud.sharedDownloads > 0 {
+                    if cloud.cutShort != nil || cloud.sharedDownloads > 0 {
                         VStack(alignment: .leading, spacing: 6) {
-                            if cloud.wasCutShort {
-                                Text("There is more in iCloud Drive than Peel could look at in one go, so this list isn’t all of it.")
+                            switch cloud.cutShort {
+                            case .listIsFull:
+                                Text("Peel lists the biggest downloads, up to \(CloudStorage.maximumFiles.formatted()). The next ones show once you remove some of these.")
+                            case .ranOutOfTime:
+                                Text("There is more in iCloud Drive than Peel can read in the time it gives a scan, so this list isn’t all of it.")
+                            case nil:
+                                EmptyView()
                             }
                             sharedDownloadsNote
                         }
@@ -127,13 +132,13 @@ struct CloudView: View {
                 } actions: {
                     Button("Open System Settings") { home.openFullDiskAccessSettings() }
                 }
-            } else if cloud.files?.isEmpty == true, cloud.wasCutShort {
+            } else if cloud.files?.isEmpty == true, cloud.cutShort != nil {
                 // The scan stopped early, so an empty list does not mean there is nothing to free.
                 ContentUnavailableView {
                     Label("Nothing Found So Far", systemImage: "icloud")
                 } description: {
                     VStack(spacing: 8) {
-                        Text("There is more in iCloud Drive than Peel could look at in one go, and nothing in the part it read is big enough to be worth freeing.")
+                        Text("There is more in iCloud Drive than Peel can read in the time it gives a scan, and nothing in the part it read is big enough to be worth freeing.")
                         sharedDownloadsNote
                     }
                 }
@@ -184,7 +189,7 @@ struct CloudView: View {
         .announcesScan(
             cloud.isScanning,
             found: cloud.summary,
-            couldNotLook: cloud.couldNotRead ? "iCloud Drive Couldn’t Be Read" : nil,
+            couldNotLook: couldNotLook,
             wasStopped: cloud.scanRun.wasStopped
         )
         .navigationTitle(Text(Tool.cloud.title))
@@ -258,6 +263,12 @@ struct CloudView: View {
         } else {
             closedInSearch.formSymmetricDifference([folder.url])
         }
+    }
+
+    private var couldNotLook: LocalizedStringResource? {
+        if cloud.couldNotRead { return "iCloud Drive Couldn’t Be Read" }
+        if cloud.files?.isEmpty == true, cloud.cutShort != nil { return "Nothing Found So Far" }
+        return nil
     }
 
     private func phase(listed: [CloudFile]) -> ScanPhase {

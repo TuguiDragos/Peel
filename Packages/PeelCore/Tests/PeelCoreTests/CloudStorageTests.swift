@@ -243,7 +243,7 @@ struct CloudStorageTests {
         let scan = await CloudStorage.downloaded(home: directory.url)
         #expect(scan.files.isEmpty, "an ordinary file was offered as an iCloud one")
         #expect(!scan.couldNotRead)
-        #expect(!scan.wasCutShort)
+        #expect(scan.cutShort == nil)
     }
 
     /// Without Full Disk Access, iCloud Drive cannot be read. The scan then says so, rather than reporting
@@ -287,7 +287,7 @@ struct CloudStorageTests {
 
         let scan = await CloudStorage.downloaded(home: directory.url, within: 0)
 
-        #expect(scan.wasCutShort)
+        #expect(scan.cutShort == .ranOutOfTime)
     }
 
     /// A full list keeps the biggest files the walk finds, wherever they are, and still says it is not all of it.
@@ -304,7 +304,25 @@ struct CloudStorageTests {
         )
 
         #expect(Set(collector.collected.files.map(\.name)) == ["last.bin", "second.bin"])
-        #expect(collector.collected.wasCutShort)
+        #expect(collector.collected.cutShort == .listIsFull)
+    }
+
+    @Test func aListThatFilledBeforeTheTimeRanOutSaysTheTimeRanOut() {
+        let collector = CloudStorage.Collector(maximum: 1)
+        for name in ["a.bin", "b.bin"] {
+            collector.add(CloudFile(
+                url: URL(filePath: "/org.example/\(name)"), name: name, container: "iCloud Drive", size: 2_000_000,
+                modified: nil
+            ))
+        }
+        #expect(collector.collected.cutShort == .listIsFull)
+
+        collector.ranOutOfTime()
+        collector.add(CloudFile(
+            url: URL(filePath: "/org.example/c.bin"), name: "c.bin", container: "iCloud Drive", size: 3_000_000,
+            modified: nil
+        ))
+        #expect(collector.collected.cutShort == .ranOutOfTime)
     }
 
     /// A walk past its deadline stops on its own, without waiting for the timer that gives up on it. That timer
@@ -327,7 +345,7 @@ struct CloudStorageTests {
             unless: { false }
         )
 
-        #expect(collector.collected.wasCutShort)
+        #expect(collector.collected.cutShort == .ranOutOfTime)
         #expect(collector.collected.files.isEmpty)
     }
 

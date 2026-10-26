@@ -29,8 +29,8 @@ final class CloudLibrary {
     let freeing = MoveProgress()
     @ObservationIgnored private var freeingTask: Task<CloudFreeing, Never>?
     private(set) var refusals: [CloudRefusal] = []
-    /// `wasCutShort`: there is more than the list shows. `couldNotRead`: iCloud Drive couldn't be read at all.
-    private(set) var wasCutShort = false
+    /// `cutShort`: why there is more than the list shows. `couldNotRead`: iCloud Drive couldn't be read at all.
+    private(set) var cutShort: CloudScan.CutShort?
     private(set) var couldNotRead = false
     /// The downloads left out because another copy on this Mac shares their space, so removing them frees nothing.
     private(set) var sharedDownloads = 0
@@ -48,7 +48,7 @@ final class CloudLibrary {
     /// nil until iCloud Drive has been read.
     var total: SizeTotal? {
         guard let files, !couldNotRead else { return nil }
-        return SizeTotal(known: files.map(\.size).cappedSum, isComplete: !wasCutShort)
+        return SizeTotal(known: files.map(\.size).cappedSum, isComplete: cutShort == nil)
     }
 
     /// The files whose folder or path holds `query`, every file for an empty one.
@@ -87,7 +87,7 @@ final class CloudLibrary {
         else { return }
         folders = scan.folders
         files = scan.files
-        wasCutShort = scan.wasCutShort
+        cutShort = scan.cutShort
         couldNotRead = scan.couldNotRead
         sharedDownloads = scan.sharedDownloads
         selectedURLs.formIntersection(Set(scan.files.map(\.url)))
