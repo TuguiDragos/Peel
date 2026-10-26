@@ -686,6 +686,39 @@ struct HomebrewTests {
         #expect(findings[1].commands.isEmpty)
     }
 
+    @Test func knowsWhichFormulaeWereCheckedAtTheCurrentFormula() throws {
+        let json = """
+        {
+          "findings": [
+            {
+              "formula": "libfoo", "version": "1.0", "tag": "v2.0", "repo_url": "https://example.org/libfoo",
+              "vulnerabilities": [
+                {"id": "CVE-2026-1", "severity": "HIGH", "summary": "Overflow", "aliases": [], "fixed_versions": []}
+              ],
+              "patched": []
+            },
+            {
+              "formula": "libbar", "version": "3.1", "tag": "v3.1", "repo_url": "https://example.org/libbar",
+              "vulnerabilities": [
+                {"id": "CVE-2026-2", "severity": "LOW", "summary": "Leak", "aliases": [], "fixed_versions": []}
+              ],
+              "patched": []
+            }
+          ],
+          "skipped_formulae": [],
+          "checked": 3,
+          "complete": false,
+          "outdated_without_sbom": ["libfoo", "libquiet"],
+          "unscanned_formulae": {}
+        }
+        """
+        let report = try JSONDecoder().decode(Homebrew.VulnsReport.self, from: Data(json.utf8)).report
+
+        #expect(report.checkedTheCurrentFormula == ["libfoo", "libquiet"])
+        #expect(report.advisories.first { $0.formula == "libfoo" }?.checkedTheCurrentFormula == true)
+        #expect(report.advisories.first { $0.formula == "libbar" }?.checkedTheCurrentFormula == false)
+    }
+
     @Test func readsWhatAVulnerabilityScanFound() throws {
         let json = """
         {

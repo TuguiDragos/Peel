@@ -10,7 +10,9 @@ struct HomebrewVulnerabilitySections: View {
     var body: some View {
         Section {
             Group {
-                if package.waitsForAnUpgrade, let latest = package.latestVersion {
+                if advisory.checkedTheCurrentFormula {
+                    Text("Homebrew checked the current version of this formula, not the one installed on this Mac, since it can’t tell what that one was built from. Upgrade it and scan again for an answer about yours.")
+                } else if package.waitsForAnUpgrade, let latest = package.latestVersion {
                     Text("Homebrew’s scan found these in version \(advisory.version), installed on this Mac. Homebrew offers \(latest): once it is installed, scan again to see which of these it fixes.")
                 } else {
                     Text("Homebrew’s scan found these in version \(advisory.version), installed on this Mac. They leave this list once the formula is upgraded to a version with the fix and the scan runs again.")

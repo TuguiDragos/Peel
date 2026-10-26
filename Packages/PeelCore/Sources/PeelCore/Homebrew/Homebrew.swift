@@ -363,6 +363,9 @@ public struct HomebrewAdvisory: Sendable, Hashable, Identifiable {
     public let formula: String
     public let version: String
     public let vulnerabilities: [HomebrewVulnerability]
+    /// True when Homebrew couldn't tell what the installed version was built from, so it checked the formula as it is
+    /// now: `version` is then not the version these were found in.
+    public var checkedTheCurrentFormula = false
 
     public var id: String { formula }
 
@@ -380,6 +383,9 @@ public struct HomebrewAdvisory: Sendable, Hashable, Identifiable {
 public struct HomebrewVulnerabilityReport: Sendable, Hashable {
     public let advisories: [HomebrewAdvisory]
     public let skipped: [String]
+    /// The formulae checked as they are now rather than as installed (`outdated_without_sbom`): older than the
+    /// formula, and installed before Homebrew recorded what it built from.
+    public var checkedTheCurrentFormula: [String] = []
     /// What `brew vulns` wrote to standard error beside the result, in Homebrew's words: that an untrusted tap
     /// was not scanned, for example, or that the result is about the current formula, not the installed version.
     public var caveats = ""
@@ -1224,26 +1230,30 @@ public enum Homebrew {
         enum CodingKeys: String, CodingKey {
             case findings
             case skippedFormulae = "skipped_formulae"
+            case outdatedWithoutSBOM = "outdated_without_sbom"
         }
 
         let findings: [Finding]
         let skippedFormulae: [String]?
+        let outdatedWithoutSBOM: [String]?
 
         /// 6.0.11 to 6.0.18 write the findings as a list on its own, 6.0.19 and later inside an object.
         init(from decoder: any Decoder) throws {
             if let list = try? [Finding](from: decoder) {
-                (findings, skippedFormulae) = (list, nil)
+                (findings, skippedFormulae, outdatedWithoutSBOM) = (list, nil, nil)
                 return
             }
             let container = try decoder.container(keyedBy: CodingKeys.self)
             findings = try container.decode([Finding].self, forKey: .findings)
             skippedFormulae = try container.decodeIfPresent([String].self, forKey: .skippedFormulae)
+            outdatedWithoutSBOM = try container.decodeIfPresent([String].self, forKey: .outdatedWithoutSBOM)
         }
 
         var report: HomebrewVulnerabilityReport {
+            let current = Set(outdatedWithoutSBOM ?? [])
             // Leaves out a formula whose vulnerabilities are all patched, which `brew vulns` lists with none open.
             let advisories = findings.filter { !$0.vulnerabilities.isEmpty }.map { finding in
-                HomebrewAdvisory(
+                var advisory = HomebrewAdvisory(
                     formula: finding.formula,
                     version: finding.version ?? "",
                     vulnerabilities: finding.vulnerabilities
@@ -1262,8 +1272,10 @@ public enum Homebrew {
                                 : $0.severity > $1.severity
                         }
                 )
+                advisory.checkedTheCurrentFormula = current.contains(finding.formula)
+                return advisory
             }
-            return HomebrewVulnerabilityReport(
+            var report = HomebrewVulnerabilityReport(
                 advisories: advisories.sorted {
                     $0.highestSeverity == $1.highestSeverity
                         ? $0.formula.localizedStandardCompare($1.formula) == .orderedAscending
@@ -1271,6 +1283,8 @@ public enum Homebrew {
                 },
                 skipped: (skippedFormulae ?? []).sorted { $0.localizedStandardCompare($1) == .orderedAscending }
             )
+            report.checkedTheCurrentFormula = current.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+            return report
         }
     }
 

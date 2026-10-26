@@ -339,9 +339,15 @@ struct HomebrewList: View {
                             VStack(alignment: .leading, spacing: 1) {
                                 Text(verbatim: advisory.formula)
                                     .lineLimit(1)
-                                Text("\(advisory.version) · ^[\(advisory.vulnerabilities.count) vulnerability](inflect: true)")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                Group {
+                                    if advisory.checkedTheCurrentFormula {
+                                        Text("^[\(advisory.vulnerabilities.count) vulnerability](inflect: true)")
+                                    } else {
+                                        Text("\(advisory.version) · ^[\(advisory.vulnerabilities.count) vulnerability](inflect: true)")
+                                    }
+                                }
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                             }
                             Spacer(minLength: 4)
                             Badge(
@@ -356,6 +362,11 @@ struct HomebrewList: View {
                 }
                 if !report.skipped.isEmpty {
                     Text("Homebrew skipped ^[\(report.skipped.count) installed package](inflect: true) with no source to check against.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                if !report.checkedTheCurrentFormula.isEmpty {
+                    Text("For ^[\(report.checkedTheCurrentFormula.count) formula](inflect: true), Homebrew can’t tell which source the installed version came from, so it checked the current formula instead: \(RemovalFailureAlert.listedFormulae(report.checkedTheCurrentFormula)).")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

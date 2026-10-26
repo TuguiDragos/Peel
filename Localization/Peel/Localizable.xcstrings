@@ -43947,6 +43947,352 @@
         }
       }
     },
+    "For ^[%lld formula](inflect: true), Homebrew can’t tell which source the installed version came from, so it checked the current formula instead: %@." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "U %1$lld formulae nedokáže Homebrew určit, z jakého zdroje pocházejí nainstalované verze, a proto místo nich zkontroloval aktuální formulae: %2$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "U %1$lld formulae nedokáže Homebrew určit, z jakého zdroje pocházejí nainstalované verze, a proto místo nich zkontroloval aktuální formulae: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "U %1$lld formula nedokáže Homebrew určit, z jakého zdroje pochází nainstalovaná verze, a proto místo ní zkontroloval aktuální formula: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "U %1$lld formulae nedokáže Homebrew určit, z jakého zdroje pocházejí nainstalované verze, a proto místo nich zkontroloval aktuální formulae: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bei %1$lld Formula kann Homebrew nicht erkennen, aus welcher Quelle die installierte Version stammt, und hat daher stattdessen die aktuelle Formula geprüft: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bei %1$lld Formulae kann Homebrew nicht erkennen, aus welcher Quelle die installierten Versionen stammen, und hat daher stattdessen die aktuellen Formulae geprüft: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "For ^[%1$lld formula](inflect: true), Homebrew can’t tell which source the installed version came from, so it checked the current formula instead: %2$@."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "En el caso de %1$lld de formulae, Homebrew no puede saber de qué origen proceden las versiones instaladas, así que ha comprobado en su lugar las formulae actuales: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "En el caso de %1$lld formula, Homebrew no puede saber de qué origen procede la versión instalada, así que ha comprobado en su lugar la formula actual: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "En el caso de %1$lld formulae, Homebrew no puede saber de qué origen proceden las versiones instaladas, así que ha comprobado en su lugar las formulae actuales: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pour %1$lld de formulae, Homebrew ne peut pas savoir de quelle source proviennent les versions installées, si bien qu’il a vérifié les formulae actuelles à la place : %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pour %1$lld formula, Homebrew ne peut pas savoir de quelle source provient la version installée, si bien qu’il a vérifié la formula actuelle à la place : %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pour %1$lld formulae, Homebrew ne peut pas savoir de quelle source proviennent les versions installées, si bien qu’il a vérifié les formulae actuelles à la place : %2$@."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Per %1$lld di formulae, Homebrew non può sapere da quale sorgente provengono le versioni installate, quindi ha controllato invece le formulae attuali: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Per %1$lld formula, Homebrew non può sapere da quale sorgente proviene la versione installata, quindi ha controllato invece la formula attuale: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Per %1$lld formulae, Homebrew non può sapere da quale sorgente provengono le versioni installate, quindi ha controllato invece le formulae attuali: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld個のformulaについては、インストール済みのバージョンの元になったソースをHomebrewが判断できないため、代わりに現在のformulaを確認しました: %2$@。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "formula %1$lld개의 경우, 설치된 버전이 어떤 소스에서 왔는지 Homebrew가 알 수 없어 대신 현재 formula를 검사했습니다: %2$@."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Voor %1$lld formula kan Homebrew niet nagaan van welke bron de geïnstalleerde versie afkomstig is, dus heeft het in plaats daarvan de huidige formula gecontroleerd: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Voor %1$lld formulae kan Homebrew niet nagaan van welke bron de geïnstalleerde versies afkomstig zijn, dus heeft het in plaats daarvan de huidige formulae gecontroleerd: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "W przypadku %1$lld formulae Homebrew nie może ustalić, z jakich źródeł pochodzą zainstalowane wersje, więc zamiast tego sprawdził bieżące formulae: %2$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "W przypadku %1$lld formulae Homebrew nie może ustalić, z jakich źródeł pochodzą zainstalowane wersje, więc zamiast tego sprawdził bieżące formulae: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "W przypadku %1$lld formula Homebrew nie może ustalić, z jakiego źródła pochodzi zainstalowana wersja, więc zamiast tego sprawdził bieżącą formula: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "W przypadku %1$lld formulae Homebrew nie może ustalić, z jakich źródeł pochodzą zainstalowane wersje, więc zamiast tego sprawdził bieżące formulae: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Para %1$lld de formulae, o Homebrew não consegue saber de que código-fonte vieram as versões instaladas, então verificou as formulae atuais em vez disso: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Para %1$lld formula, o Homebrew não consegue saber de que código-fonte veio a versão instalada, então verificou a formula atual em vez disso: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Para %1$lld formulae, o Homebrew não consegue saber de que código-fonte vieram as versões instaladas, então verificou as formulae atuais em vez disso: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pentru %1$lld formule, Homebrew nu poate ști din ce sursă provin versiunile instalate, așa că a verificat în schimb formulele actuale: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pentru %1$lld formulă, Homebrew nu poate ști din ce sursă provine versiunea instalată, așa că a verificat în schimb formula actuală: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pentru %1$lld de formule, Homebrew nu poate ști din ce sursă provin versiunile instalate, așa că a verificat în schimb formulele actuale: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formulae Homebrew не может определить, из какого источника получены установленные версии, поэтому проверил вместо них текущие formulae: %2$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formulae Homebrew не может определить, из какого источника получены установленные версии, поэтому проверил вместо них текущие formulae: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formula Homebrew не может определить, из какого источника получена установленная версия, поэтому проверил вместо нее текущую formula: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formulae Homebrew не может определить, из какого источника получены установленные версии, поэтому проверил вместо них текущие formulae: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "För %1$lld formula kan Homebrew inte avgöra vilken källa den installerade versionen kom från, så Homebrew kontrollerade den aktuella formulan i stället: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "För %1$lld formulae kan Homebrew inte avgöra vilken källa de installerade versionerna kom från, så Homebrew kontrollerade de aktuella formulae i stället: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew, %1$lld formula için yüklü sürümün hangi kaynaktan geldiğini anlayamıyor, bu yüzden bunun yerine güncel formula tanımını denetledi: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Homebrew, %1$lld formula için yüklü sürümlerin hangi kaynaktan geldiğini anlayamıyor, bu yüzden bunun yerine güncel formula tanımlarını denetledi: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formulae Homebrew не може визначити, з яких джерел походять інстальовані версії, тож натомість перевірив поточні formulae: %2$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formulae Homebrew не може визначити, з яких джерел походять інстальовані версії, тож натомість перевірив поточні formulae: %2$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formula Homebrew не може визначити, з якого джерела походить інстальована версія, тож натомість перевірив поточну formula: %2$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Для %1$lld formulae Homebrew не може визначити, з яких джерел походять інстальовані версії, тож натомість перевірив поточні formulae: %2$@."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对于%1$lld个formula，Homebrew无法判断已安装版本来自哪个来源，因此改为检查了当前的formula：%2$@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對於%1$lld個formula，Homebrew無法判斷已安裝的版本來自哪個來源，因此改為檢查目前的formula：%2$@。"
+          }
+        }
+      }
+    },
     "For the Shell" : {
       "localizations" : {
         "cs" : {
@@ -51446,6 +51792,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew已無法穩定地下載此套件。"
+          }
+        }
+      }
+    },
+    "Homebrew checked the current version of this formula, not the one installed on this Mac, since it can’t tell what that one was built from. Upgrade it and scan again for an answer about yours." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew zkontroloval aktuální verzi této formula, ne tu, která je nainstalovaná v tomto Macu, protože nedokáže určit, z čeho byla sestavena. Upgradujte ji a spusťte kontrolu znovu, aby se odpověď týkala vaší verze."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat die aktuelle Version dieser Formula geprüft, nicht die auf diesem Mac installierte, da es nicht erkennen kann, woraus diese erstellt wurde. Führe ein Upgrade aus und scanne erneut, um eine Antwort zu deiner Version zu erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ha comprobado la versión actual de esta formula, no la que está instalada en este Mac, ya que no puede saber a partir de qué se compiló esa. Actualízala y vuelve a ejecutar el análisis para obtener una respuesta sobre la tuya."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a vérifié la version actuelle de cette formula, et non celle installée sur ce Mac, car il ne peut pas savoir à partir de quoi cette dernière a été compilée. Mettez-la à niveau, puis relancez l’analyse pour obtenir une réponse concernant la vôtre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ha controllato la versione attuale di questa formula, non quella installata su questo Mac, perché non può sapere da quale sorgente è stata compilata quest’ultima. Aggiornala ed esegui di nuovo l’analisi per avere una risposta sulla tua versione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、このMacにインストールされているバージョンではなく、このformulaの現在のバージョンを確認しました。インストールされているバージョンが何からビルドされたかを判断できないためです。アップグレードしてからもう一度スキャンすると、お使いのバージョンについての結果が得られます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 이 Mac에 설치된 버전이 무엇으로 빌드되었는지 알 수 없으므로, 설치된 버전이 아니라 이 formula의 현재 버전을 검사했습니다. 설치된 버전에 대한 결과를 얻으려면 업그레이드한 다음 다시 스캔하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft de huidige versie van deze formula gecontroleerd, niet de versie die op deze Mac is geïnstalleerd, omdat Homebrew niet kan nagaan uit welke bron die is gebouwd. Upgrade de formula en scan opnieuw om een antwoord over jouw versie te krijgen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew sprawdził bieżącą wersję tej formula, a nie wersję zainstalowaną na tym Macu, ponieważ nie może ustalić, z czego ją skompilowano. Uaktualnij tę formula i przeskanuj ponownie, aby uzyskać odpowiedź dotyczącą Twojej wersji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew verificou a versão atual desta formula, não a que está instalada neste Mac, porque não consegue saber a partir de que código-fonte ela foi compilada. Faça upgrade dela e analise novamente para ter uma resposta sobre a sua."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a verificat versiunea actuală a acestei formule, nu pe cea instalată pe acest Mac, deoarece nu poate ști din ce a fost compilată aceasta. Faceți‑i upgrade și scanați din nou pentru un răspuns despre versiunea dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew проверил текущую версию этой formula, а не ту, что установлена на этом Mac, поскольку не может определить, из чего была собрана установленная версия. Обновите эту formula и снова запустите сканирование, чтобы получить ответ о Вашей версии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew kontrollerade den aktuella versionen av den här formulan, inte den som är installerad på den här datorn, eftersom Homebrew inte kan avgöra vad den installerade versionen byggdes från. Uppgradera den och skanna igen för att få ett svar som gäller din version."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, bu formula için bu Mac’te yüklü olan sürümü değil, güncel sürümü denetledi, çünkü yüklü olanın neyden derlendiğini anlayamıyor. Kendi sürümünüz hakkında bir yanıt almak için onu yükseltin ve yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew перевірив поточну версію цієї formula, а не ту, що інстальована на цьому Mac, бо не може визначити, з чого її зібрано. Оновіть formula й проскануйте ще раз, щоб отримати відповідь щодо вашої версії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew检查的是此formula的当前版本，而不是这台Mac上安装的版本，因为它无法判断已安装的版本是从什么构建的。请升级它并重新扫描，即可获得针对你所安装版本的结果。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew檢查的是此formula的目前版本，而不是這部Mac上安裝的版本，因為它無法判斷已安裝的版本是由什麼建置而成。請升級它並重新掃描，以取得針對你的版本的結果。"
           }
         }
       }
