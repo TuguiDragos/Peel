@@ -251,9 +251,9 @@ final class HomeModel {
             openNotificationSettings()
             return
         }
-        _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert])
-        notificationStatus = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
-        found[.notifications] = notificationStatus == .authorized ? .on : .off
+        await PeelNotifications.requestAuthorization()
+        // Through `refresh`, so a read already running reads again rather than showing what it found before.
+        await refresh()
     }
 
     func openFinderExtensionSettings() {

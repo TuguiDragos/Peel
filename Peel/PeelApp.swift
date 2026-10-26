@@ -267,6 +267,13 @@ struct PeelApp: App {
         }
     }
 
+    /// Asks for notifications, the only way Watch the Trash and the disk warning reach the person, and reads the
+    /// answer again, since Home and Settings say when they are off.
+    private func askForNotifications() async {
+        await PeelNotifications.requestAuthorization()
+        await home.refresh()
+    }
+
     private func checkFreeSpace() async {
         let storage = await LowDiskSpace.storage()
         let defaults = UserDefaults.standard
@@ -429,7 +436,7 @@ struct PeelApp: App {
         .onChange(of: watchesTrash) { _, isWatching in
             if isWatching {
                 trashMonitor.start()
-                Task { await notifications.requestAuthorization() }
+                Task { await askForNotifications() }
             } else {
                 trashMonitor.stop()
             }
@@ -444,7 +451,7 @@ struct PeelApp: App {
             UserDefaults.standard.removeObject(forKey: SettingsKey.toldDiskIsNearlyFull)
             guard warns else { return }
             Task {
-                await notifications.requestAuthorization()
+                await askForNotifications()
                 await checkFreeSpace()
             }
         }

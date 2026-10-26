@@ -114836,6 +114836,218 @@
         }
       }
     },
+    "Peel isn’t allowed to send notifications, so it can’t offer to remove the files an app left behind." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemá povoleno posílat oznámení, takže nemůže nabídnout odstranění souborů, které po aplikaci zůstaly."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel darf keine Mitteilungen senden und kann daher nicht anbieten, die Dateien zu entfernen, die eine App hinterlassen hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no tiene permiso para enviar notificaciones, así que no puede ofrecerte eliminar los archivos que ha dejado una app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’est pas autorisé à envoyer des notifications : il ne peut donc pas proposer de supprimer les fichiers qu’une app a laissés derrière elle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è autorizzato a inviare notifiche, quindi non può proporti di rimuovere i file che un’app si è lasciata dietro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは通知の送信を許可されていないため、アプリが残したファイルを取り除くよう提案できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 알림을 보내도록 허용되어 있지 않으므로 앱이 남긴 파일의 제거를 제안할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mag geen meldingen sturen, dus Peel kan niet aanbieden om de bestanden te verwijderen die een app heeft achtergelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie ma pozwolenia na wysyłanie powiadomień, więc nie może zaproponować przeniesienia do Kosza plików pozostawionych przez aplikację."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não tem permissão para enviar notificações, então não pode oferecer a remoção dos arquivos que um app deixou para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu are permisiunea să trimită notificări, așa că nu se poate oferi să elimine fișierele lăsate în urmă de o aplicație."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не разрешено отправлять уведомления, поэтому он не может предложить удалить файлы, оставшиеся после приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel får inte skicka notiser, så Peel kan inte erbjuda sig att ta bort filerna som en app har lämnat kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in bildirim göndermesine izin verilmiyor, bu yüzden bir uygulamanın geride bıraktığı dosyaları kaldırmayı öneremez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не дозволено надсилати сповіщення, тож вона не може запропонувати вилучити файли, які програма залишила по собі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未获准发送通知，因此无法在App留下文件时提示你移除它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未獲允許傳送通知，因此無法提議移除App留下的檔案。"
+          }
+        }
+      }
+    },
+    "Peel isn’t allowed to send notifications, so it can’t warn you when the disk is almost full." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemá povoleno posílat oznámení, takže vás nemůže upozornit, když je disk téměř plný."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel darf keine Mitteilungen senden und kann dich daher nicht warnen, wenn das Volume fast voll ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no tiene permiso para enviar notificaciones, así que no puede avisarte cuando el disco esté casi lleno."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’est pas autorisé à envoyer des notifications : il ne peut donc pas vous avertir lorsque le disque est presque plein."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è autorizzato a inviare notifiche, quindi non può avvisarti quando il disco è quasi pieno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは通知の送信を許可されていないため、ディスクの空きが少なくなっても警告できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 알림을 보내도록 허용되어 있지 않으므로 디스크가 거의 가득 찼을 때 경고할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel mag geen meldingen sturen, dus Peel kan je niet waarschuwen als de schijf bijna vol is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie ma pozwolenia na wysyłanie powiadomień, więc nie może Cię ostrzec, gdy dysk będzie prawie pełny."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não tem permissão para enviar notificações, então não pode avisar você quando o disco estiver quase cheio."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu are permisiunea să trimită notificări, așa că nu vă poate avertiza când discul este aproape plin."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не разрешено отправлять уведомления, поэтому он не может предупредить Вас, когда диск почти заполнен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel får inte skicka notiser, så Peel kan inte varna dig när skivan nästan är full."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in bildirim göndermesine izin verilmiyor, bu yüzden disk neredeyse dolduğunda sizi uyaramaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не дозволено надсилати сповіщення, тож вона не може попередити вас, коли диск майже заповнений."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未获准发送通知，因此无法在磁盘快满时提醒你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未獲允許傳送通知，因此無法在磁碟快滿時提醒你。"
+          }
+        }
+      }
+    },
     "Peel isn’t sure only %@ used this. Check it before you remove it." : {
       "localizations" : {
         "cs" : {

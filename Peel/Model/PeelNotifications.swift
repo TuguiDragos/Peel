@@ -13,8 +13,15 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().delegate = self
     }
 
-    func requestAuthorization() async {
+    /// Asks macOS to let Peel send notifications. macOS asks the person only the first time, and keeps the answer.
+    static func requestAuthorization() async {
         _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert])
+    }
+
+    /// Whether the person refused Peel's notifications. An answer not given yet is no refusal: Peel asks when a
+    /// switch that needs them is turned on.
+    nonisolated static func areTurnedOff(_ status: UNAuthorizationStatus) -> Bool {
+        status == .denied
     }
 
     func notify(applicationTrashed url: URL) {

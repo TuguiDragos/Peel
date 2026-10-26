@@ -285,8 +285,14 @@ private struct GeneralSettingsView: View {
                 } else if watchesTrash, trashMonitor.status == .unavailable {
                     StatusLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
                 }
+                if watchesTrash, PeelNotifications.areTurnedOff(home.notificationStatus) {
+                    notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t offer to remove the files an app left behind."))
+                }
                 toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
                        "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running.")
+                if warnsWhenDiskIsNearlyFull, PeelNotifications.areTurnedOff(home.notificationStatus) {
+                    notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t warn you when the disk is almost full."))
+                }
                 // A binding, not `onChange`: macOS's own answer landing in the model must not register again.
                 toggle("Open Peel at login", isOn: Binding(get: { loginItem.isOn }, set: { loginItem.set(on: $0) }),
                        "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.")
@@ -567,6 +573,16 @@ extension GeneralSettingsView {
                 .accessibilityLabel(Text(title))
         } label: {
             titled(title, detail)
+        }
+    }
+
+    fileprivate func notificationsOff(_ title: Text) -> some View {
+        HStack {
+            StatusLabel(title: title, systemImage: "bell.slash")
+            Spacer()
+            Button("Open System Settings") {
+                home.openNotificationSettings()
+            }
         }
     }
 }
