@@ -748,8 +748,9 @@ public struct TrashService: Sendable {
         return failure
     }
 
-    /// Why `item` cannot go back as things stand, or nil when it can.
-    public func refusal(ofPuttingBack item: TrashedItem) -> RestoreFailure? {
+    /// Why `item` cannot go back as things stand, or nil when it can. A way back only the helper can take stays when
+    /// the helper can't be used.
+    public func refusal(ofPuttingBack item: TrashedItem, canUseHelper: Bool) -> RestoreFailure? {
         // The record comes from a file any process of the user can rewrite, so it is a request, not a fact.
         // Putting an item back must not move a file that is not in a Trash, or write where removal is refused.
         guard isInATrash(item.trashedURL) else { return .notInATrash }
@@ -758,10 +759,12 @@ public struct TrashService: Sendable {
         }
         guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
-        if Self.needsTheHelper(toPutBack: item),
-           let rejection = HelperReach(environment: environment)
-               .refusal(ofPuttingBack: item.trashedURL, at: item.originalURL) {
-            return .failed(rejection.explanation)
+        if Self.needsTheHelper(toPutBack: item) {
+            let reach = HelperReach(environment: environment)
+            if let rejection = reach.refusal(ofPuttingBack: item.trashedURL, at: item.originalURL) {
+                return .failed(rejection.explanation)
+            }
+            if !canUseHelper { return .needsHelper }
         }
         return nil
     }
@@ -777,7 +780,7 @@ public struct TrashService: Sendable {
     }
 
     private func moveBack(_ item: TrashedItem, canUseHelper: Bool) async -> RestoreFailure? {
-        if let refusal = refusal(ofPuttingBack: item) { return refusal }
+        if let refusal = refusal(ofPuttingBack: item, canUseHelper: canUseHelper) { return refusal }
 
         if !Self.needsTheHelper(toPutBack: item) {
             do {

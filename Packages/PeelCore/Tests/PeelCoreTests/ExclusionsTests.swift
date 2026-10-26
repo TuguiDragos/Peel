@@ -250,10 +250,10 @@ struct ExclusionsTests {
 
         let refusal = service.refusal(ofPuttingBack: TrashedItem(
             originalURL: applications.appending(path: "Notes.app"), trashedURL: trashed, date: .now
-        ))
+        ), canUseHelper: true)
         let control = service.refusal(ofPuttingBack: TrashedItem(
             originalURL: applications.appending(path: "Other.app"), trashedURL: other, date: .now
-        ))
+        ), canUseHelper: true)
 
         #expect(refusal == .notAllowed(.excluded))
         #expect(control == nil)

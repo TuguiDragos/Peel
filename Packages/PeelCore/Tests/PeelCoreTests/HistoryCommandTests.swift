@@ -516,6 +516,36 @@ struct HistoryCommandTests {
         #expect(collected.notes.contains("1 item is no longer in the Trash and can't be put back."))
     }
 
+    @Test(.permissionsHold) func aDryRunLeavesWhatNeedsAnAdministratorOutOfThePlan() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let taken = try removal(in: directory)
+        try directory.directory("home/Library/Caches/Locked")
+        try directory.file("home/.Trash/daemon.plist", bytes: 10)
+        let locked = RemovalRecord(
+            batch: taken.record.batch,
+            item: TrashedItem(
+                originalURL: directory.url.appending(path: "home/Library/Caches/Locked/daemon.plist"),
+                trashedURL: directory.url.appending(path: "home/.Trash/daemon.plist"),
+                date: .now
+            ),
+            size: 10, source: "Editor", tool: "applications"
+        )
+        _ = await logs.removals.add([taken.record, locked])
+        try directory.setPermissions(0o500, of: "home/Library/Caches/Locked")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Caches/Locked") }
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await (command(["restore", String(taken.record.batch.uuidString.prefix(8)), "--dry-run"]) as RestoreCommand)
+                .run(in: logs.removals, using: service(in: directory))
+        }
+
+        #expect(collected.output.contains("report.pdf"))
+        #expect(!collected.output.contains("daemon.plist"))
+        #expect(collected.notes.contains("daemon.plist stays: it needs administrator access, so put it back with the Peel app"))
+    }
+
     /// A file already sits where the item would go back, so the restore cannot finish. It exits 1 and keeps the
     /// record.
     @Test func aRestoreThatCouldNotFinishExitsOne() async throws {

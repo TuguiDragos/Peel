@@ -338,7 +338,8 @@ struct RestoreCommand: AsyncParsableCommand {
         let batch = try Self.batch(matching: id, in: Batch.all(in: records))
         let inTheTrash = batch.restorable
         let refused = inTheTrash.compactMap { record in
-            service.refusal(ofPuttingBack: record.trashedItem).map { (record: record, failure: $0) }
+            service.refusal(ofPuttingBack: record.trashedItem, canUseHelper: false)
+                .map { (record: record, failure: $0) }
         }
         let going = inTheTrash.filter { record in !refused.contains { $0.record.id == record.id } }
         // An item in the Trash of a disk that isn't connected is still there, once the disk is.

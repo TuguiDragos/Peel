@@ -588,10 +588,10 @@ struct TrashServiceTests {
         ) { $0 }
         let item = TrashedItem(originalURL: components.appending(path: "Synth.component"), trashedURL: trashed, date: .now)
 
-        let byThePerson = service.refusal(ofPuttingBack: item)
+        let byThePerson = service.refusal(ofPuttingBack: item, canUseHelper: true)
         try directory.setPermissions(0o555, of: components)
         defer { try? directory.setPermissions(0o755, of: components) }
-        let throughTheHelper = service.refusal(ofPuttingBack: item)
+        let throughTheHelper = service.refusal(ofPuttingBack: item, canUseHelper: true)
 
         #expect(byThePerson == nil)
         #expect(throughTheHelper == .failed(PrivilegedPathPolicy.Rejection.loadsCode.explanation))
@@ -612,7 +612,7 @@ struct TrashServiceTests {
         defer { try? directory.setPermissions(0o755, of: locked) }
 
         let outside = PrivilegedPathPolicy.Rejection.outsideAllowedLocations.explanation
-        #expect(service.refusal(ofPuttingBack: item) == .failed(outside))
+        #expect(service.refusal(ofPuttingBack: item, canUseHelper: true) == .failed(outside))
     }
 
     @Test func aMoveRefusedForAnItemLockedInFinderSaysItIsLocked() async throws {
