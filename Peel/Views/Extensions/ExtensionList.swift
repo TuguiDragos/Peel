@@ -95,7 +95,10 @@ private struct ExtensionRow: View {
             Text(verbatim: item.name)
                 .lineLimit(1)
         } details: {
-            if let owner = item.owner {
+            if item.goneApp != nil, let name = item.appName {
+                Text("\(name), no longer installed")
+                    .lineLimit(1)
+            } else if let owner = item.owner {
                 Text(verbatim: owner)
                     .lineLimit(1)
             } else if let point = item.pointName {

@@ -192,6 +192,41 @@ struct AppExtensionsTests {
         #expect(records.last?.staged == nil)
     }
 
+    @Test func saysWhenASystemExtensionsAppIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let installed = try directory.directory("Applications/Example.app").path(percentEncoded: false)
+        let gone = directory.url.appending(path: "Applications/Gone.app").path(percentEncoded: false)
+        let listing = """
+            2 extension(s)
+            --- com.apple.system_extension.network_extension (Go to 'System Settings > General > Login Items & Extensions > Network Extensions' to modify these system extension(s))
+            enabled\tactive\tteamID\tbundleID (version)\tname\t[state]
+            *\t*\tTC3Q7MAJXF\torg.example.filter (1.0/1)\tExample Filter\t[activated enabled]
+            \t\tTC3Q7MAJXF\torg.example.gone (1.0/1)\tGone Filter\t[activated waiting for user]
+            """
+        let records = [
+            AppExtensions.SystemExtensionRecord(
+                identifier: "org.example.filter", version: "1.0/1", staged: nil, container: installed, origin: nil
+            ),
+            AppExtensions.SystemExtensionRecord(
+                identifier: "org.example.gone", version: "1.0/1", staged: nil, container: gone, origin: nil
+            ),
+        ]
+        let leaving = AppExtension(
+            identifier: "org.example.leaving", name: "Leaving", kind: .systemExtension, point: nil, owner: nil, url: nil,
+            election: .beingRemoved, teamIdentifier: nil, reportedState: nil
+        )
+
+        let found = try #require(await AppExtensions.systemExtensions(run: { _, _ in listing }, records: records))
+        let filter = try #require(found.first { $0.identifier == "org.example.filter" })
+        let left = try #require(found.first { $0.identifier == "org.example.gone" })
+
+        #expect(filter.goneApp == nil)
+        #expect(left.goneApp == gone)
+        #expect(left.appName == "Gone")
+        #expect(left.leftAlone == .systemExtension)
+        #expect(leaving.leftAlone == .systemExtensionGoingAtRestart)
+    }
+
     @Test func knowsTheAppAnExtensionWasInstalledForOnceFinderMovedIt() {
         let record = { (container: String?, origin: String?) in
             AppExtensions.SystemExtensionRecord(

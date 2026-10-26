@@ -147,11 +147,11 @@ public struct OrphanScanner: Sendable {
             PathComponents.isPath(PathPattern.comparablePath(of: item.url), inside: staged)
         }
         let extensions = found.contains { isStaged($0.item) } ? await systemExtensions() ?? [] : []
-        let goingAtRestart = Set(
-            extensions.filter { $0.election == .beingRemoved }.compactMap(\.url).map(PathPattern.comparablePath(of:))
-        )
-        let deletable = Set(
-            extensions.filter(\.systemSettingsDeletesIt).compactMap(\.url).map(PathPattern.comparablePath(of:))
+        let leftAlone = Dictionary(
+            extensions.compactMap { copy in
+                copy.url.flatMap { url in copy.leftAlone.map { (PathPattern.comparablePath(of: url), $0) } }
+            },
+            uniquingKeysWith: { first, _ in first }
         )
         let installedFor = Dictionary(
             extensions.compactMap { copy in
@@ -173,9 +173,8 @@ public struct OrphanScanner: Sendable {
             var item = entry.item
             if isStaged(item) {
                 let path = PathPattern.comparablePath(of: item.url)
-                item.heldBack = goingAtRestart.contains(path) ? .systemExtensionGoingAtRestart
-                    : deletable.contains(path) ? .deletableSystemExtension : .systemExtension
-                item.installedFor = installedFor[path].flatMap { URL(filePath: $0).isMissing ? $0 : nil }
+                item.heldBack = leftAlone[path] ?? .systemExtension
+                item.installedFor = AppExtensions.goneApp(installedFor: installedFor[path])
                 return (entry.identifier, item)
             }
             if SignInPlugIns.isOne(item.url, root: environment.rootDirectory) {

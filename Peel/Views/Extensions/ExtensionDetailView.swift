@@ -25,8 +25,16 @@ struct ExtensionDetailView: View {
                             .help(Text(verbatim: point))
                     }
                 }
-                if let owner = item.owner {
-                    LabeledContent("Comes with") { Text(verbatim: owner) }
+                if let owner = item.appName {
+                    LabeledContent("Comes with") {
+                        VStack(alignment: .trailing, spacing: 1) {
+                            Text(verbatim: owner)
+                            if item.goneApp != nil {
+                                Text("No longer installed")
+                                    .font(.caption)
+                            }
+                        }
+                    }
                 }
                 if let team = item.teamIdentifier {
                     LabeledContent("Signed by") {
@@ -162,6 +170,8 @@ struct ExtensionDetailView: View {
     }
 
     private var systemExtensionExplanation: LocalizedStringResource {
+        // With its app gone, the advice for an installed app leads nowhere: Orphaned Files' words say what does.
+        if item.goneApp != nil, let reason = item.leftAlone { return reason.explanation }
         if #available(macOS 27, *) {
             return item.systemSettingsDeletesIt
                 ? "macOS keeps its own copy of this, apart from the app. Moving the app to the Trash in Finder asks macOS to remove it, and so does choosing Delete Extension from the More button beside it in System Settings > General > Login Items & Extensions > Network Extensions. So Peel leaves that app to Finder."

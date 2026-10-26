@@ -26,6 +26,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         teamIdentifier: String?,
         reportedState: String?,
         installedFor: String? = nil,
+        goneApp: String? = nil,
         category: String? = nil
     ) {
         self.id = id ?? identifier
@@ -39,6 +40,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         self.teamIdentifier = teamIdentifier
         self.reportedState = reportedState
         self.installedFor = installedFor
+        self.goneApp = goneApp
         self.category = category
     }
 
@@ -90,6 +92,8 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     /// For a system extension, the path of the app macOS's record says it was installed for: the app it is held
     /// for, or once that app has moved, the app it was installed from.
     public let installedFor: String?
+    /// `installedFor`, when nothing is at that place anymore (`AppExtensions.goneApp(installedFor:)`).
+    public let goneApp: String?
     /// The category `systemextensionsctl` lists a system extension under; nil for an app extension.
     public let category: String?
     /// Tells rows apart in a list. The identifier alone can't: while an app updates a system extension, macOS
@@ -129,6 +133,19 @@ extension AppExtension {
     public var systemSettingsDeletesIt: Bool {
         guard #available(macOS 27, *) else { return false }
         return kind == .systemExtension && category == "com.apple.system_extension.network_extension"
+    }
+
+    /// The name of the app it came with, also once that app is gone.
+    public var appName: String? {
+        owner ?? goneApp.map { URL(filePath: $0).deletingPathExtension().lastPathComponent }
+    }
+
+    /// Why Peel leaves a system extension where it is, as Orphaned Files says it: macOS removes it at the next
+    /// restart, System Settings deletes it, or only moving its app removes it. Nil for an app extension.
+    public var leftAlone: HoldBack? {
+        guard kind == .systemExtension else { return nil }
+        if election == .beingRemoved { return .systemExtensionGoingAtRestart }
+        return systemSettingsDeletesIt ? .deletableSystemExtension : .systemExtension
     }
 }
 
@@ -360,7 +377,9 @@ public enum AppExtensions {
 
     /// Returns the system extensions, or nil when `systemextensionsctl` gave no answer Peel can read: its first
     /// line counts the rows that follow, and a listing read short of it is not understood.
-    static func systemExtensions(run: Runner) async -> [AppExtension]? {
+    static func systemExtensions(
+        run: Runner, records: @autoclosure () -> [SystemExtensionRecord] = systemExtensionRecords()
+    ) async -> [AppExtension]? {
         guard let output = await run("/usr/bin/systemextensionsctl", ["list"]) else { return nil }
         let lines = output.split(whereSeparator: \.isNewline)
         // Each category is a line of its own, `--- <category> (...)`, above the rows macOS lists under it.
@@ -373,9 +392,10 @@ public enum AppExtensions {
             return parseSystemExtension(String(line)).map { ($0, category) }
         }
         guard count(in: lines, /^(\d+) extension\(s\)$/) == rows.count else { return nil }
-        let records = systemExtensionRecords()
+        let records = records()
         return rows.map { row, category in
             let record = record(for: row.identifier, version: row.version, among: records)
+            let installedFor = record.flatMap(installedFor)
             return AppExtension(
                 // During an update, one identifier is listed twice, once for the old version and once for the new.
                 id: [row.identifier, row.version].compactMap(\.self).joined(separator: " "),
@@ -388,7 +408,8 @@ public enum AppExtensions {
                 election: election(forSystemExtensionState: row.state),
                 teamIdentifier: row.teamIdentifier,
                 reportedState: row.state,
-                installedFor: record.flatMap(installedFor),
+                installedFor: installedFor,
+                goneApp: goneApp(installedFor: installedFor),
                 category: category
             )
         }
@@ -461,6 +482,10 @@ public enum AppExtensions {
         let names = PathComponents.of(record.origin ?? "")
         guard let app = names.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
         return "/" + names[...app].joined(separator: "/")
+    }
+
+    static func goneApp(installedFor: String?) -> String? {
+        installedFor.flatMap { URL(filePath: $0).isMissing ? $0 : nil }
     }
 
     /// The record of the extension `systemextensionsctl` listed: the one of its version, or the only one of its
