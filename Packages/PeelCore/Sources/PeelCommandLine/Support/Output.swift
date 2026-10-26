@@ -382,7 +382,7 @@ extension HoldBack {
             "a system extension macOS installed; moving its app to the Trash in Finder asks macOS to remove it"
         case .systemExtensionGoingAtRestart: "a system extension macOS removes at the next restart"
         case .deletableSystemExtension:
-            "a network extension macOS installed, which System Settings > General > Login Items & Extensions > Network Extensions deletes"
+            "a network extension macOS installed; System Settings deletes it: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension"
         case .signInPlugIn: "a plug-in macOS may load at login, left to its maker's uninstaller"
         case .keptByMacOS: "macOS keeps it for its own services"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"

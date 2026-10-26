@@ -306,9 +306,12 @@ extension RemovedElsewhere {
         }
         let names = carried.names.formatted(.list(type: .and))
         if #available(macOS 27, *) {
-            return carried.systemSettingsDeletesThem
-                ? "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder, and delete what stays in System Settings > General > Login Items & Extensions > Network Extensions."
-                : "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder, which asks macOS to do it."
+            guard carried.systemSettingsDeletesThem else {
+                return "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder, which asks macOS to do it."
+            }
+            return carried.names.count == 1
+                ? "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder. If it stays, in System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
+                : "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder. If they stay, in System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension."
         }
         return "Left alone: macOS removes \(names) only when the app goes to the Trash in Finder."
     }

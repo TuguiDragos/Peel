@@ -933,10 +933,10 @@ struct CommandLineTests {
         #expect(failure?.description.contains("System Settings") == false, "a step System Settings isn't proved to take")
         #expect(deletable?.description.contains("Trash in Finder") == true)
         #expect(deletable?.description.contains(
-            "System Settings > General > Login Items & Extensions > Network Extensions"
+            "System Settings > General > Login Items & Extensions, choose By Category"
         ) == true)
-        #expect(deletable?.description.contains("Delete Extension, from the More button beside it.") == true)
-        #expect(several?.description.contains("Delete Extension, from the More button beside each.") == true)
+        #expect(deletable?.description.contains("the More button beside it and choose Delete Extension.") == true)
+        #expect(several?.description.contains("the More button beside each and choose Delete Extension.") == true)
         try UninstallCommand.refuseIfRemovedElsewhere(app)
     }
 

@@ -503,7 +503,7 @@ struct UninstallCommand: AsyncParsableCommand {
             let (what, them, stays, beside) = names.count == 1
                 ? ("a system extension", "it", "it stays", "it") : ("system extensions", "them", "they stay", "each")
             let settings = carried.systemSettingsDeletesThem
-                ? " If \(stays), delete \(them) in System Settings > General > Login Items & Extensions > Network Extensions: Delete Extension, from the More button beside \(beside)."
+                ? " If \(stays), in System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside \(beside) and choose Delete Extension."
                 : ""
             throw CommandFailure("macOS installed \(what) that came with \(Output.plain(target.name)) (\(extensions)), and only macOS can remove \(them). Move the app to the Trash in Finder, which asks macOS to remove \(them).\(settings)")
         }

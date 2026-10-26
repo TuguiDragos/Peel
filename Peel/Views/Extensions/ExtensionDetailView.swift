@@ -190,7 +190,7 @@ struct ExtensionDetailView: View {
         }
         if #available(macOS 27, *) {
             return item.systemSettingsDeletesIt
-                ? "macOS keeps its own copy of this, apart from the app. Moving the app to the Trash in Finder asks macOS to remove it, and so does choosing Delete Extension from the More button beside it in System Settings > General > Login Items & Extensions > Network Extensions. So Peel leaves that app to Finder."
+                ? "macOS keeps its own copy of this, apart from the app, so Peel leaves that app to Finder. Moving the app to the Trash in Finder asks macOS to remove it. So does System Settings: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
                 : "macOS keeps its own copy of this, apart from the app, and moving the app to the Trash in Finder asks macOS to remove it, sometimes at the next restart. So Peel leaves that app to Finder."
         }
         return "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder."
