@@ -33,11 +33,15 @@ struct RemovalJournal: Sendable {
         /// The move it was part of, so an interrupted one comes back as one entry of History.
         let batch: UUID
         let item: TrashedItem
+        /// The record History couldn't take, kept here so the item comes back as what it was.
+        var record: RemovalRecord? = nil
 
-        /// History's record of the item, when the removal stopped before it recorded the item in its own words.
-        /// It names no tool, since which tool moved the item is not known.
-        var interruptedRecord: RemovalRecord {
-            RemovalRecord(batch: batch, item: item, size: nil, source: "Interrupted removal", sourceKey: "interrupted", tool: "")
+        /// History's record of the item: the one kept here, or else that of an interrupted removal, which names no
+        /// tool, since which tool moved the item is not known.
+        var recordToTakeIn: RemovalRecord {
+            record ?? RemovalRecord(
+                batch: batch, item: item, size: nil, source: "Interrupted removal", sourceKey: "interrupted", tool: ""
+            )
         }
     }
 
@@ -127,15 +131,36 @@ struct RemovalJournal: Sendable {
         forget { entries.contains($0) }
     }
 
+    /// Keeps with each item's line the record History couldn't write.
+    func keep(_ records: [RemovalRecord]) {
+        let byItem = Dictionary(records.map { (Key($0.trashedItem), $0) }, uniquingKeysWith: { first, _ in first })
+        guard !url.isMissing else { return }
+        FileLock.whileHeld(beside: url) {
+            var entries = read()
+            var changed = false
+            for index in entries.indices {
+                guard let record = byItem[Key(entries[index].item)] else { continue }
+                entries[index].record = record
+                changed = true
+            }
+            guard changed else { return }
+            write(entries)
+        }
+    }
+
     private func forget(where isForgotten: (Entry) -> Bool) {
         guard !url.isMissing else { return }
         FileLock.whileHeld(beside: url) {
             let entries = read()
             let kept = entries.filter { !isForgotten($0) }
             guard kept.count != entries.count else { return }
-            let data = kept.compactMap { try? Self.encoder.encode($0) }.reduce(into: Data()) { $0 += $1 + Data("\n".utf8) }
-            try? data.write(to: url, options: .atomic)
+            write(kept)
         }
+    }
+
+    private func write(_ entries: [Entry]) {
+        let data = entries.compactMap { try? Self.encoder.encode($0) }.reduce(into: Data()) { $0 += $1 + Data("\n".utf8) }
+        try? data.write(to: url, options: .atomic)
     }
 
     private func read() -> [Entry] {

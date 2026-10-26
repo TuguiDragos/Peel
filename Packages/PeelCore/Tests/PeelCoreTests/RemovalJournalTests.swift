@@ -210,6 +210,24 @@ struct RemovalJournalTests {
         #expect(await service.trashOwnFiles([item]).trashed.count == 1, "Peel's own files waited for History")
     }
 
+    @Test func aRemovalHistoryCouldNotRecordComesBackAsWhatItWas() async throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("home/Library/Application Support/Peel/removals.json", contents: Data("[]".utf8))
+        let journal = RemovalJournal(beside: history)
+        let moved = item("com.example.app", in: directory)
+        journal.note([moved], batch: UUID(), by: try endedProcess())
+        let record = RemovalRecord(batch: UUID(), item: moved, size: 512, source: "Xcode", tool: "developer")
+        let path = history.path(percentEncoded: false)
+        #expect(chflags(path, UInt32(UF_IMMUTABLE)) == 0)
+        defer { chflags(path, 0) }
+
+        #expect(await RemovalLog(url: history).add([record]).records == nil)
+        chflags(path, 0)
+        let taken = try #require(await RemovalLog(url: history).load().records?.first)
+
+        #expect(taken.source == "Xcode" && taken.tool == "developer" && taken.size == 512)
+    }
+
     @Test(.permissionsHold) func nothingMovesWhileHistoryCannotBeWritten() async throws {
         let directory = try TemporaryDirectory()
         let history = try directory.file("home/Library/Application Support/Peel/removals.json", contents: Data("[]".utf8))

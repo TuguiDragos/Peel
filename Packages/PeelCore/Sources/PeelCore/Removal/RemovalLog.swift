@@ -70,6 +70,7 @@ public actor RemovalLog {
             guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
             let updated = Self.trimmed(existing + records, keeping: Set(records.map(\.batch)))
             guard write(updated, orNote: .couldNotRecord) else {
+                journal.keep(records)
                 return RemovalLogOutcome(records: nil, problem: problem)
             }
             RemovalTotals.change(at: totals) { $0.add(records) }
@@ -165,7 +166,7 @@ public actor RemovalLog {
         let left = journal.left()
         guard !left.isEmpty else { return records }
         let recorded = Set(records.map { RemovalJournal.Key($0.trashedItem) })
-        let interrupted = left.filter { !recorded.contains(RemovalJournal.Key($0.item)) }.map(\.interruptedRecord)
+        let interrupted = left.filter { !recorded.contains(RemovalJournal.Key($0.item)) }.map(\.recordToTakeIn)
         var updated = records
         if !interrupted.isEmpty {
             updated = Self.trimmed(records + interrupted, keeping: Set(interrupted.map(\.batch)))

@@ -158,7 +158,7 @@ struct HistoryCommandTests {
             date: .now
         )
         let writer = RemovalJournal.Writer(pid: 0, started: 0)
-        _ = await logs.removals.add([RemovalJournal.Entry(writer: writer, batch: UUID(), item: item).interruptedRecord])
+        _ = await logs.removals.add([RemovalJournal.Entry(writer: writer, batch: UUID(), item: item).recordToTakeIn])
 
         let removal = try #require(try listed(try await printed(["history", "--json"], from: logs)).first as? [String: Any])
 
