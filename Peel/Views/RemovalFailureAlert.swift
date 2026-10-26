@@ -28,6 +28,11 @@ struct RemovalFailureAlert: ViewModifier {
         listed(names) { String(inflecting: "^[\($0) more app](inflect: true)") }
     }
 
+    /// The first of `items`, as many as an alert lists, and how many more there are.
+    static func first<T>(_ items: [T]) -> (shown: [T], more: Int) {
+        (Array(items.prefix(mostListed)), max(0, items.count - mostListed))
+    }
+
     /// Folders named in one sentence, the same way.
     static func listedFolders(_ paths: [String]) -> String {
         listed(paths) { String(inflecting: "^[\($0) more folder](inflect: true)") }

@@ -11,4 +11,11 @@ struct UnreadableFoldersTests {
         #expect(sentence.contains("56"))
         #expect(RemovalFailureAlert.listedFolders(["/a", "/b"]).contains("/b"))
     }
+
+    @Test func anAlertsFirstItemsAndHowManyMore() {
+        let (shown, more) = RemovalFailureAlert.first(Array(1...60))
+
+        #expect(shown == [1, 2, 3, 4] && more == 56)
+        #expect(RemovalFailureAlert.first([1, 2]) == ([1, 2], 0))
+    }
 }

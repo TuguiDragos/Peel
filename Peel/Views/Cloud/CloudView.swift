@@ -28,7 +28,8 @@ struct CloudView: View {
 
             if !cloud.refusals.isEmpty {
                 Section {
-                    ForEach(cloud.refusals) { refusal in
+                    let (shown, more) = RemovalFailureAlert.first(cloud.refusals)
+                    ForEach(shown) { refusal in
                         VStack(alignment: .leading, spacing: 2) {
                             Text(refusal.url.abbreviatedPath)
                                 .font(.callout)
@@ -37,6 +38,19 @@ struct CloudView: View {
                             Text(refusal.explanation)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
+                        }
+                    }
+                    if more > 0 {
+                        HStack {
+                            Text(verbatim: String(inflecting: "And ^[\(more) more item](inflect: true)."))
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                            CopyButton(
+                                text: cloud.refusals.map { "\($0.url.abbreviatedPath)\n\($0.explanation)" }
+                                    .joined(separator: "\n\n"),
+                                title: "Copy Details"
+                            )
                         }
                     }
                 } header: {
