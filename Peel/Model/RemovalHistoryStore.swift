@@ -167,8 +167,9 @@ final class RemovalHistoryStore {
     /// sits in many batches.
     var selectedIDs: Set<RemovalRecord.ID> = []
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
-    /// Counts the reloads asked for, so a removal's page looks in the Trash again with each.
-    private(set) var reloads = 0
+    /// Counts the times History was read again, by Reload or as Peel came forward, so a removal's page then looks in
+    /// the Trash again with the records as they are now.
+    private(set) var rereads = 0
     /// Counts, for each tool, the Put Backs that brought back what it had moved, so its page lists them again.
     private(set) var putBack: [Tool: Int] = [:]
     /// The count each page last listed under, kept here so a page off screen at a Put Back lists it when it returns.
@@ -215,8 +216,20 @@ final class RemovalHistoryStore {
     /// the Trash looked at again.
     func reload() async {
         failures = [:]
-        reloads += 1
+        await readAgain()
+    }
+
+    /// Reads History again as Peel comes forward, since `peel` may have moved or put back something meanwhile, once
+    /// History is in use: its page was opened, or Undo can put back a removal of this session.
+    func readAgainIfInUse() async {
+        guard hasLoaded || undoable != nil else { return }
+        await readAgain()
+    }
+
+    /// Reads History before a removal's page looks in the Trash, so the page never looks with records `peel` changed.
+    private func readAgain() async {
         await load()
+        rereads += 1
     }
 
     /// The problem History's page shows: that History cannot be read, as soon as that is known, otherwise what the

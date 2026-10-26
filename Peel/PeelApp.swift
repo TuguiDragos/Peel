@@ -192,6 +192,7 @@ struct PeelApp: App {
             // History may have become readable again meanwhile, or stopped being, and `peel` may have moved something.
             history.checkReadability()
             stats.reload()
+            Task { await history.readAgainIfInUse() }
             homebrew.checkInstalled()
             Task { await followHomebrewsChecks() }
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the

@@ -5,7 +5,6 @@ import SwiftUI
 struct HistoryDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(HelperModel.self) private var helper
-    @Environment(\.controlActiveState) private var controlActiveState
     @Environment(\.openSettings) private var openSettings
     /// Nil until the disk has answered. An empty value would show every record as gone from the Trash for a
     /// moment, and offer to forget records that are still there.
@@ -17,12 +16,11 @@ struct HistoryDetailView: View {
     @State private var failures: [(record: RemovalRecord, failure: RestoreFailure)] = []
     let batch: RemovalBatch
 
-    /// The id of the page's task: the batch, whether the window is key, and the reloads asked for. When any changes,
-    /// the page reads the disk again, since the Trash may have been emptied in the meantime.
+    /// The id of the page's task: the batch, and each time History was read again. When either changes, the page
+    /// reads the disk again, since the Trash may have been emptied in the meantime.
     private struct Look: Hashable {
         let batch: RemovalBatch
-        let isActive: Bool
-        let reloads: Int
+        let rereads: Int
     }
 
     /// The size of what can still be put back. Until the disk has answered, it is the batch's own total.
@@ -56,8 +54,11 @@ struct HistoryDetailView: View {
         }
         .navigationTitle(Text(verbatim: batch.title))
         .toolbar(removing: .title)
-        .task(id: Look(batch: batch, isActive: controlActiveState == .key, reloads: history.reloads)) {
-            standing = await RemovalStanding.of(batch.records)
+        .task(id: Look(batch: batch, rereads: history.rereads)) {
+            let standing = await RemovalStanding.of(batch.records)
+            // A look that a newer one replaced leaves its answer.
+            guard !Task.isCancelled else { return }
+            self.standing = standing
         }
         .task(id: batch.id) {
             // Failures belong to the batch they happened in, so another batch's page starts without them. Keyed to
