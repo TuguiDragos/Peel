@@ -44,7 +44,7 @@ struct OrphanList: View {
                     Label("Not Every App Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
                     let list = Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one.")
-                    let unread = Text("Peel couldn’t read \(library.unreadable.map(\.abbreviatedPath).formatted(.list(type: .and))), so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned.")
+                    let unread = Text("Peel couldn’t read \(RemovalFailureAlert.listedFolders(library.unreadable.map(\.abbreviatedPath))), so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned.")
                     let access = Text("Give Peel Full Disk Access so it can read the folders macOS protects.")
                     let parts = (library.listOfFoldersUnreadable ? [list] : [])
                         + (library.unreadable.isEmpty ? [] : [unread])
@@ -56,6 +56,8 @@ struct OrphanList: View {
                     }
                     if library.unreadableNeedsFullDiskAccess {
                         Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    } else if library.unreadable.count > RemovalFailureAlert.mostListed {
+                        CopyButton(text: library.unreadable.map(\.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
                     }
                 }
             } else if listsNothing, let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
@@ -65,11 +67,13 @@ struct OrphanList: View {
                     if orphans.scan?.needsFullDiskAccess == true {
                         Text("No orphaned files were found, but Peel couldn’t look in ^[\(unreadable.count) folder](inflect: true), so there may be some there. Give Peel Full Disk Access to look there too.")
                     } else {
-                        Text("No orphaned files were found, but Peel couldn’t look inside \(unreadable.map(\.url.abbreviatedPath).formatted(.list(type: .and))), so there may be some there.")
+                        Text("No orphaned files were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(unreadable.map(\.url.abbreviatedPath))), so there may be some there.")
                     }
                 } actions: {
                     if orphans.scan?.needsFullDiskAccess == true {
                         Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    } else if unreadable.count > RemovalFailureAlert.mostListed {
+                        CopyButton(text: unreadable.map(\.url.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
                     }
                 }
             } else if listsNothing {
