@@ -135,6 +135,18 @@ extension AppExtension {
         return kind == .systemExtension && category == "com.apple.system_extension.network_extension"
     }
 
+    /// The app it came with while that app is there: the outermost app around an app extension, as for its name, or
+    /// the app macOS's record names for a system extension. Nil when Peel can't tell, or the app is gone.
+    public var appURL: URL? {
+        switch kind {
+        case .appExtension:
+            guard let path = url?.path(percentEncoded: false), let end = path.range(of: ".app/") else { return nil }
+            return URL(filePath: String(path[..<end.lowerBound]) + ".app", directoryHint: .isDirectory)
+        case .systemExtension:
+            return goneApp == nil ? installedFor.map { URL(filePath: $0, directoryHint: .isDirectory) } : nil
+        }
+    }
+
     /// The name of the app it came with, also once that app is gone.
     public var appName: String? {
         owner ?? goneApp.map { URL(filePath: $0).deletingPathExtension().lastPathComponent }

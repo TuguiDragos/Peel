@@ -24,6 +24,30 @@ struct AppExtensionsTests {
         #expect(extensionOf("com.apple.FinderSync").showsItsState)
     }
 
+    @Test func knowsTheAppAnExtensionCameWith() {
+        func part(_ path: String) -> AppExtension {
+            AppExtension(
+                identifier: "org.example.app.part", name: "Part", kind: .appExtension, point: "com.apple.FinderSync",
+                owner: "Example", url: URL(filePath: path), election: .on, teamIdentifier: nil, reportedState: nil
+            )
+        }
+        func systemExtension(gone: Bool) -> AppExtension {
+            AppExtension(
+                identifier: "org.example.filter", name: "Filter", kind: .systemExtension, point: nil, owner: "Example",
+                url: URL(filePath: "/Library/SystemExtensions/1/org.example.filter.systemextension"), election: .on,
+                teamIdentifier: nil, reportedState: "activated enabled", installedFor: "/Applications/Example.app",
+                goneApp: gone ? "/Applications/Example.app" : nil
+            )
+        }
+        let example = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
+
+        #expect(part("/Applications/Example.app/Contents/PlugIns/Part.appex").appURL == example)
+        #expect(part("/Applications/Example.app/Contents/Library/LoginItems/Helper.app/Contents/PlugIns/Part.appex").appURL == example)
+        #expect(part("/Library/Application Support/Part.appex").appURL == nil)
+        #expect(systemExtension(gone: false).appURL == example)
+        #expect(systemExtension(gone: true).appURL == nil, "an app that is gone has no page to open")
+    }
+
     @Test func readsWhatPluginkitSaysAboutEachExtension() {
         let line = "     net.whatsapp.WhatsApp.Intents(26.37.22)\t99D7BB9C-5DFD\t2026-09-17 18:44:09 +0000\t/Applications/WhatsApp.app/Contents/PlugIns/Intents.appex"
         let parsed = AppExtensions.parse(line)

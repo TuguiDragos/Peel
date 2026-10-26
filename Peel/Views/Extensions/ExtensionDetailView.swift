@@ -27,11 +27,25 @@ struct ExtensionDetailView: View {
                 }
                 if let owner = item.appName {
                     LabeledContent("Comes with") {
-                        VStack(alignment: .trailing, spacing: 1) {
-                            Text(verbatim: owner)
-                            if item.goneApp != nil {
-                                Text("No longer installed")
-                                    .font(.caption)
+                        HStack(spacing: 8) {
+                            VStack(alignment: .trailing, spacing: 1) {
+                                Text(verbatim: owner)
+                                if item.goneApp != nil {
+                                    Text("No longer installed")
+                                        .font(.caption)
+                                }
+                            }
+                            if let app = item.appURL {
+                                Button {
+                                    Navigator.shared.requestedApp = app
+                                    Navigator.shared.requestedTool = .applications
+                                } label: {
+                                    Label("Review in Applications", systemImage: "square.grid.2x2")
+                                        .minimumTarget()
+                                }
+                                .labelStyle(.iconOnly)
+                                .buttonStyle(.borderless)
+                                .help(Text("Review in Applications"))
                             }
                         }
                     }
@@ -65,21 +79,12 @@ struct ExtensionDetailView: View {
 
             if let url = item.url {
                 Section {
-                    HStack(spacing: 8) {
-                        Text(url.abbreviatedPath)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                        Spacer(minLength: 8)
-                        Button {
-                            NSWorkspace.shared.activateFileViewerSelecting([url])
-                        } label: {
-                            Label("Show in Finder", systemImage: "arrow.up.forward.app")
-                                .minimumTarget()
-                        }
-                        .labelStyle(.iconOnly)
-                        .buttonStyle(.borderless)
-                        .help(Text("Show in Finder"))
-                    }
+                    // Not in Finder: moved alone, an extension breaks its app, or leaves macOS a record with no copy.
+                    Text(url.abbreviatedPath)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .textSelection(.enabled)
+                        .help(Text(verbatim: url.path(percentEncoded: false)))
                 } header: {
                     Text("Where")
                 }
