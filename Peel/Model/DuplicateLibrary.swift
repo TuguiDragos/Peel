@@ -280,7 +280,8 @@ extension DuplicateLibrary: CarriesSelection {
             title: String(localized: Tool.duplicates.title),
             source: Tool.duplicates.title.inEnglish,
             sourceKey: "tool",
-            sizes: selectedSizes
+            sizes: selectedSizes,
+            movesLast: true
         )]
     }
 

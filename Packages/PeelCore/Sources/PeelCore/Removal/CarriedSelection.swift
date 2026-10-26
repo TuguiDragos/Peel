@@ -24,13 +24,19 @@ public struct CarriedSelection: Sendable {
         public let source: String
         public let sourceKey: String?
         public let sizes: [URL: Int64?]
+        /// The tool checks right before its move what the parts before it left, as Duplicates does for the copy it
+        /// keeps, so it moves after every other part.
+        public let movesLast: Bool
 
-        public init(page: Page, title: String, source: String, sourceKey: String?, sizes: [URL: Int64?]) {
+        public init(
+            page: Page, title: String, source: String, sourceKey: String?, sizes: [URL: Int64?], movesLast: Bool = false
+        ) {
             self.page = page
             self.title = title
             self.source = source
             self.sourceKey = sourceKey
             self.sizes = sizes
+            self.movesLast = movesLast
         }
 
         public var id: Page { page }
@@ -38,7 +44,7 @@ public struct CarriedSelection: Sendable {
         public var total: SizeTotal { SizeTotal(sizes.values) }
 
         func keeping(_ sizes: [URL: Int64?]) -> Part {
-            Part(page: page, title: title, source: source, sourceKey: sourceKey, sizes: sizes)
+            Part(page: page, title: title, source: source, sourceKey: sourceKey, sizes: sizes, movesLast: movesLast)
         }
 
         public var removalPart: RemovalPart {
@@ -68,9 +74,7 @@ public struct CarriedSelection: Sendable {
                 let urls = Set(result.failures.filter(\.reason.isAboutTheItem).map(\.url))
                 let sizes = part.sizes.filter { urls.contains($0.key) }
                 guard !sizes.isEmpty else { return nil }
-                return Part(
-                    page: part.page, title: part.title, source: part.source, sourceKey: part.sourceKey, sizes: sizes
-                )
+                return part.keeping(sizes)
             }
         }
     }
@@ -100,10 +104,12 @@ public struct CarriedSelection: Sendable {
     }
 
     /// The parts that move: those of `candidates` whose page was seen and has something selected, in the order of
-    /// `tools`, which is the sidebar's, and within a tool in the order its pages were seen.
+    /// `tools`, which is the sidebar's, and within a tool in the order its pages were seen, a part that moves last
+    /// after all of them.
     public func parts(from candidates: [Part], order tools: [String], asking page: Page? = nil) -> [Part] {
-        func place(_ part: Part) -> (Int, Int) {
-            (tools.firstIndex(of: part.page.tool) ?? tools.count, seen.firstIndex(of: part.page) ?? seen.count)
+        func place(_ part: Part) -> (Int, Int, Int) {
+            (part.movesLast ? 1 : 0, tools.firstIndex(of: part.page.tool) ?? tools.count,
+             seen.firstIndex(of: part.page) ?? seen.count)
         }
         let parts = candidates.filter { !$0.sizes.isEmpty && seen.contains($0.page) }.sorted { place($0) < place($1) }
         return Self.eachItemOnce(in: parts, asking: page)

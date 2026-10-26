@@ -62,6 +62,23 @@ struct CarriedSelectionTests {
         ])
     }
 
+    @Test func aPartWhoseToolChecksWhatTheOthersLeftMovesLast() {
+        var selection = CarriedSelection()
+        for tool in ["duplicates", "fileSearch", "developer"] {
+            selection.saw(Page(tool: tool, scope: ""))
+        }
+        let duplicates = part("duplicates", "", ["Downloads/Film.mov": 900])
+
+        let parts = selection.parts(from: [
+            Part(page: duplicates.page, title: duplicates.title, source: duplicates.source, sourceKey: nil,
+                 sizes: duplicates.sizes, movesLast: true),
+            part("fileSearch", "", ["Movies/Film.mov": 900]),
+            part("developer", "", ["Library/Caches/pip": 300]),
+        ], order: tools)
+
+        #expect(parts.map(\.page.tool) == ["developer", "fileSearch", "duplicates"])
+    }
+
     /// A page with nothing selected carries nothing.
     @Test func aPageWithNothingSelectedIsLeftOut() {
         var selection = CarriedSelection()

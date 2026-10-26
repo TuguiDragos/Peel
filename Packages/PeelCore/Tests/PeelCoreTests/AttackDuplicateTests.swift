@@ -89,6 +89,43 @@ struct AttackDuplicateTests {
         }
     }
 
+    @Test func aCopyAnotherPageMovesFirstLeavesTheOtherInPlace() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = bytes(4_000)
+        try directory.file("home/Downloads/film.mov", contents: contents)
+        try directory.file("home/Movies/film.mov", contents: contents)
+        let found = try await scan(directory, folders: ["home"])
+        let group = try #require(found.groups.first)
+        let selected = try #require(found.suggestedSelection.first)
+        let kept = try #require(group.files.map(\.url).first { $0 != selected })
+        var carried = CarriedSelection()
+        for tool in ["duplicates", "fileSearch"] {
+            carried.saw(CarriedSelection.Page(tool: tool, scope: ""))
+        }
+        let parts = carried.parts(from: [
+            CarriedSelection.Part(
+                page: CarriedSelection.Page(tool: "duplicates", scope: ""), title: "Duplicates", source: "Duplicates",
+                sourceKey: nil, sizes: [selected: 4_000], movesLast: true
+            ),
+            CarriedSelection.Part(
+                page: CarriedSelection.Page(tool: "fileSearch", scope: ""), title: "File Search", source: "File Search",
+                sourceKey: nil, sizes: [kept: 4_000]
+            ),
+        ], order: ["duplicates", "fileSearch"])
+        let trashService = try service(directory)
+
+        _ = await CarriedSelection.pass(parts) { part in
+            part.page.tool == "duplicates"
+                ? await DuplicateRemoval.trash(Set(part.sizes.keys), from: found, using: trashService)
+                : await trashService.trash(Array(part.sizes.keys))
+        }
+
+        let left = group.files.map(\.url).filter {
+            FileManager.default.fileExists(atPath: $0.path(percentEncoded: false))
+        }
+        #expect(left == [selected], "ATTACK SUCCEEDED: a pass over two pages took every copy")
+    }
+
     /// Something else (a sync client, Finder, another window) can take the kept copy away while the removal runs.
     /// The kept copy is checked again before every move, so the group never loses its last copy.
     @Test func theKeptCopyIsOnlyCheckedBeforeTheFirstMove() async throws {
