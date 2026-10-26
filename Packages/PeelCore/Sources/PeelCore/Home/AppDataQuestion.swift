@@ -1,8 +1,8 @@
 import AppKit
 
-/// Tells when macOS is asking the user whether Peel may read another app's data. On macOS 26 the question comes
-/// in a dialog shown by UserNotificationCenter, and the scan that caused it waits for the answer. With Full Disk
-/// Access, macOS doesn't ask.
+/// Tells when macOS is asking the user whether Peel may read files it protects: another app's data, or a folder such
+/// as Documents or a removable volume. On macOS 26 the question comes in a dialog shown by UserNotificationCenter,
+/// and the scan that caused it waits for the answer. With Full Disk Access, macOS doesn't ask.
 public enum AppDataQuestion {
     public static let asker = "com.apple.UserNotificationCenter"
 

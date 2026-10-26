@@ -98,8 +98,8 @@ private struct ScanStateModifier<Message: View>: ViewModifier {
     }
 }
 
-/// The spinner's label for a walk of the disk: how many items it has read or, while macOS asks the user about
-/// other apps' data, that the scan waits for the answer.
+/// The spinner's label for a walk of the disk: how many items it has read or, while macOS asks the user whether Peel
+/// may access files, such as other apps' data or a folder macOS protects, that the scan waits for the answer.
 private struct WalkLabel: View {
     @Environment(HomeModel.self) private var home
     let scan: ScanRun?
@@ -109,7 +109,7 @@ private struct WalkLabel: View {
             frontmost: FrontmostApp.shared.bundleIdentifier,
             hasFullDiskAccess: home.states[.fullDiskAccess] == .on
         ) {
-            Text("macOS is asking whether Peel may access data from other apps. The scan continues once you answer.")
+            Text("macOS is asking whether Peel may access some of your files. The scan continues once you answer.")
         } else {
             ReadSoFar(scan: scan)
         }

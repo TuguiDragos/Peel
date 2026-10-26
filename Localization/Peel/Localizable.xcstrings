@@ -223341,108 +223341,108 @@
         }
       }
     },
-    "macOS is asking whether Peel may access data from other apps. The scan continues once you answer." : {
+    "macOS is asking whether Peel may access some of your files. The scan continues once you answer." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS se ptá, zda Peel smí mít přístup k datům z jiných aplikací. Prohledávání bude pokračovat, jakmile odpovíte."
+            "value" : "Systém macOS se ptá, zda Peel smí mít přístup k některým vašim souborům. Prohledávání bude pokračovat, jakmile odpovíte."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS fragt, ob Peel auf Daten aus anderen Apps zugreifen darf. Der Scan wird fortgesetzt, sobald du antwortest."
+            "value" : "macOS fragt, ob Peel auf einige deiner Dateien zugreifen darf. Der Scan wird fortgesetzt, sobald du antwortest."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS te está preguntando si Peel puede acceder a datos de otras apps. El análisis continuará en cuanto respondas."
+            "value" : "macOS te está preguntando si Peel puede acceder a algunos de tus archivos. El análisis continuará en cuanto respondas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS vous demande si Peel peut accéder aux données d’autres apps. L’analyse se poursuivra dès que vous aurez répondu."
+            "value" : "macOS vous demande si Peel peut accéder à certains de vos fichiers. L’analyse se poursuivra dès que vous aurez répondu."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ti sta chiedendo se Peel può accedere ai dati di altre app. L’analisi continua appena rispondi."
+            "value" : "macOS ti sta chiedendo se Peel può accedere ad alcuni dei tuoi file. L’analisi continua appena rispondi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSから、Peelにほかのアプリからのデータへのアクセスを許可するかどうかを尋ねられています。応答すると、スキャンが続行されます。"
+            "value" : "macOSから、Peelに一部のファイルへのアクセスを許可するかどうかを尋ねられています。応答すると、スキャンが続行されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 Peel이 다른 앱의 데이터에 접근하도록 허용할지 묻고 있습니다. 응답하면 스캔이 계속됩니다."
+            "value" : "macOS가 Peel이 사용자의 일부 파일에 접근하도록 허용할지 묻고 있습니다. 응답하면 스캔이 계속됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS vraagt of Peel toegang mag hebben tot gegevens uit andere apps. De scan gaat door zodra je antwoordt."
+            "value" : "macOS vraagt of Peel toegang mag hebben tot een aantal van je bestanden. De scan gaat door zodra je antwoordt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS pyta, czy Peel może uzyskać dostęp do danych z innych aplikacji. Skanowanie będzie kontynuowane, gdy odpowiesz."
+            "value" : "macOS pyta, czy Peel może uzyskać dostęp do niektórych Twoich plików. Skanowanie będzie kontynuowane, gdy odpowiesz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS está perguntando se o Peel pode acessar dados de outros apps. A análise continua assim que você responder."
+            "value" : "O macOS está perguntando se o Peel pode acessar alguns dos seus arquivos. A análise continua assim que você responder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS vă întreabă dacă Peel poate accesa date care aparțin altor aplicații. Scanarea va continua după ce răspundeți."
+            "value" : "macOS vă întreabă dacă Peel poate accesa unele dintre fișierele dvs. Scanarea va continua după ce răspundeți."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS спрашивает, разрешить ли Peel доступ к данным других приложений. Сканирование продолжится, как только Вы ответите."
+            "value" : "macOS спрашивает, разрешить ли Peel доступ к некоторым Вашим файлам. Сканирование продолжится, как только Вы ответите."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS frågar om Peel får komma åt data från andra appar. Skanningen fortsätter när du har svarat."
+            "value" : "macOS frågar om Peel får komma åt vissa av dina filer. Skanningen fortsätter när du har svarat."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS, Peel’in diğer uygulamalardaki verilere erişmesine izin verip vermeyeceğinizi soruyor. Yanıt verdiğinizde tarama devam eder."
+            "value" : "macOS, Peel’in bazı dosyalarınıza erişmesine izin verip vermeyeceğinizi soruyor. Yanıt verdiğinizde tarama devam eder."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS запитує, чи дозволити Peel отримати доступ до даних з інших програм. Сканування продовжиться, щойно ви відповісте."
+            "value" : "macOS запитує, чи дозволити Peel отримати доступ до деяких ваших файлів. Сканування продовжиться, щойно ви відповісте."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS正在询问你是否允许Peel访问其他App的数据。你回应后，扫描将继续。"
+            "value" : "macOS正在询问你是否允许Peel访问你的某些文件。你回应后，扫描将继续。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS正在詢問你是否允許Peel取用其他App的資料。你回答後，掃描就會繼續。"
+            "value" : "macOS正在詢問你是否允許Peel取用你的部分檔案。你回答後，掃描就會繼續。"
           }
         }
       }
