@@ -102,9 +102,7 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     static func message(for outcome: RemovalOutcome) -> String {
-        var lines = outcome.historyCouldNotRecord
-            ? [String(localized: "What moved is in the Trash: drag it back out in Finder if you need it.")] : []
-        lines += shortened(quitLines(outcome))
+        var lines = historyLines(outcome) + shortened(quitLines(outcome))
             + firstItems(outcome.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
@@ -113,6 +111,11 @@ struct RemovalFailureAlert: ViewModifier {
             lines += trashLines(outcome, naming: Self.listed)
         }
         return lines.joined(separator: "\n\n")
+    }
+
+    private static func historyLines(_ outcome: RemovalOutcome) -> [String] {
+        guard outcome.historyCouldNotRecord else { return [] }
+        return [String(localized: "What moved is in the Trash: drag it back out in Finder if you need it.")]
     }
 
     private static func administratorLines(_ outcome: RemovalOutcome) -> [String] {
@@ -172,7 +175,8 @@ struct RemovalFailureAlert: ViewModifier {
     }
 
     static func details(for outcome: RemovalOutcome) -> String {
-        var lines = quitLines(outcome) + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
+        var lines = historyLines(outcome) + quitLines(outcome)
+            + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
             + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
             + privacyLines(outcome)

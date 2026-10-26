@@ -44,5 +44,6 @@ struct RemovalOutcomeTests {
 
         #expect(outcome.historyCouldNotRecord && !outcome.isEmpty)
         #expect(RemovalFailureAlert.message(for: outcome).hasPrefix("What moved is in the Trash"))
+        #expect(RemovalFailureAlert.details(for: outcome).hasPrefix("What moved is in the Trash"))
     }
 }
