@@ -146,7 +146,9 @@ struct AccessTests {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Applications/Example.app")
         let trashed = TrashResult(trashed: [TrashedItem(originalURL: bundle, trashedURL: URL(filePath: "/Users/x/.Trash/Example.app"), date: .now)])
-        #expect(AppManagement.state(after: trashed, appBundles: [bundle]) == .granted)
+        #expect(AppManagement.state(after: trashed, appBundles: [bundle]) == nil, "an unsigned app moves without it")
+        #expect(AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: { _ in "OTHERTEAM1" }) == .granted)
+        #expect(AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: { _ in "PEELTEAM01" }) == nil)
 
         let refused = TrashResult(failures: [TrashFailure(url: bundle, reason: .notPermitted)])
         #expect(AppManagement.state(after: refused, appBundles: [bundle]) == .missing)
@@ -202,8 +204,13 @@ struct AppManagementTests {
         let bundle = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
         let trashed = TrashResult(trashed: [TrashedItem(originalURL: bundle, trashedURL: bundle, date: .now)])
 
-        #expect(AppManagement.state(after: trashed, appBundles: [bundle]) == .granted)
-        #expect(AppManagement.state(after: trashed, appBundles: [bundle], movedByTheHelper: [bundle]) == nil)
+        let otherTeam = { (_: URL) in "OTHERTEAM1" }
+        #expect(AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: otherTeam) == .granted)
+        #expect(
+            AppManagement.state(
+                after: trashed, appBundles: [bundle], movedByTheHelper: [bundle], ownTeam: "PEELTEAM01", teamOf: otherTeam
+            ) == nil
+        )
     }
 
     /// A link left by a Peel that is gone, or somebody else's `peel`, is not Peel's tool. It is never counted as

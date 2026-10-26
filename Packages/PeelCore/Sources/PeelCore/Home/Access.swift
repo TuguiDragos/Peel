@@ -144,16 +144,34 @@ public enum CommandLineTool {
 public enum AppManagement {
     public static let settingsURL = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AppBundles")!
 
-    /// What a removal shows about App Management, or nil when it shows nothing. An app bundle Peel moved means
-    /// granted. A bundle macOS refused to move from a folder the user can write to, when nothing locks it, means
-    /// missing. Bundles the root helper moved don't count, since the helper doesn't need Peel's permission.
+    /// What a removal shows about App Management, or nil when it shows nothing. A bundle Peel moved means granted
+    /// only when it is signed by another team than Peel's: App Management keeps apps of one team from changing
+    /// another's (WWDC 2022, "What's new in privacy"), so an unsigned app, or one of Peel's own team, moves without
+    /// it. A bundle macOS refused to move from a folder the user can write to, when nothing locks it, means missing.
+    /// Bundles the root helper moved don't count, since the helper doesn't need Peel's permission.
     public static func state(
         after result: TrashResult,
         appBundles: Set<URL>,
         movedByTheHelper: Set<URL> = []
     ) -> AccessState? {
+        state(
+            after: result, appBundles: appBundles, movedByTheHelper: movedByTheHelper,
+            ownTeam: CodeSignature.teamIdentifier(at: Bundle.main.bundleURL), teamOf: CodeSignature.teamIdentifier(at:)
+        )
+    }
+
+    static func state(
+        after result: TrashResult,
+        appBundles: Set<URL>,
+        movedByTheHelper: Set<URL> = [],
+        ownTeam: String?,
+        teamOf: (URL) -> String? = CodeSignature.teamIdentifier(at:)
+    ) -> AccessState? {
         let asked = appBundles.subtracting(movedByTheHelper)
-        if result.trashed.contains(where: { asked.contains($0.originalURL) }) {
+        let guarded = result.trashed.contains { item in
+            asked.contains(item.originalURL) && teamOf(item.trashedURL).map { $0 != ownTeam } == true
+        }
+        if guarded {
             return .granted
         }
         for failure in result.failures where asked.contains(failure.url) && failure.reason == .notPermitted {
