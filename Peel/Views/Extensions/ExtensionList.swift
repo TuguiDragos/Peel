@@ -66,11 +66,18 @@ struct ExtensionList: View {
                 }
             }
         }
+        // What macOS runs changes in System Settings and with every app installed or removed, so once read the page
+        // looks again, quietly, each time it is shown and each time Peel comes forward.
         .task {
-            guard extensions.extensions == nil, !extensions.scanRun.isWaitedFor, !extensions.scanRun.wasStopped else {
+            guard extensions.extensions == nil else {
+                await extensions.readAgain()
                 return
             }
+            guard !extensions.scanRun.isWaitedFor, !extensions.scanRun.wasStopped else { return }
             await extensions.refresh()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            Task { await extensions.readAgain() }
         }
         .rescanOnExclusionChange("ExtensionList") { await extensions.refresh() }
     }

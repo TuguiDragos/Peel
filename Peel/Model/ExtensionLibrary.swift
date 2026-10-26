@@ -16,9 +16,29 @@ final class ExtensionLibrary {
         extensions?.first { $0.id == selection }
     }
 
+    private let scan: @MainActor (Exclusions) async -> ExtensionScan
+
+    init(
+        scan: @escaping @MainActor (Exclusions) async -> ExtensionScan = { await AppExtensions.scan(exclusions: $0) }
+    ) {
+        self.scan = scan
+    }
+
     func refresh() async {
-        guard let scan = await scanRun.run({ await AppExtensions.scan(exclusions: ExclusionsStore.shared.exclusions) })
-        else { return }
+        let scan = scan
+        guard let result = await scanRun.run({ await scan(ExclusionsStore.shared.exclusions) }) else { return }
+        show(result)
+    }
+
+    /// Reads the page again without showing a scan, once it has been read.
+    func readAgain() async {
+        guard extensions != nil else { return }
+        let scan = scan
+        guard let result = await scanRun.runQuietly({ await scan(ExclusionsStore.shared.exclusions) }) else { return }
+        show(result)
+    }
+
+    private func show(_ scan: ExtensionScan) {
         let result = scan.extensions
         extensions = result
         unanswered = scan.unanswered
