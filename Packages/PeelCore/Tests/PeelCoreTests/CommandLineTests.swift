@@ -261,6 +261,14 @@ struct CommandLineTests {
         #expect(note.contains("/tmp/exclusions.json"))
     }
 
+    @Test func aSearchDoesNotSayItListsWhatItLeavesOut() throws {
+        let saved = URL(filePath: "/tmp/exclusions.json")
+        let note = try #require(UnreadableExclusions.note(for: .unreadable, savedAt: saved, listsEverything: false))
+        #expect(note.contains("/tmp/exclusions.json"))
+        #expect(note.contains("Start Over"))
+        #expect(!note.contains("may list"))
+    }
+
     @Test func findsAppsByTheirBundleName() throws {
         let notes = InstalledApp(url: URL(filePath: "/Applications/Notes Pro.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.NotesPro", name: "Notes Pro")
         let code = InstalledApp(url: URL(filePath: "/Applications/Visual Studio Code.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.code", name: "Code")

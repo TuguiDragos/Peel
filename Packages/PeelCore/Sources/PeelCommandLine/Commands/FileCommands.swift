@@ -948,7 +948,7 @@ struct SearchCommand: AsyncParsableCommand {
     }
 
     func run() async throws {
-        let results = await FileSearch.run(criteria, exclusions: UnreadableExclusions.load())
+        let results = await FileSearch.run(criteria, exclusions: UnreadableExclusions.load(listsEverything: false))
         guard results.didRun else {
             throw CommandFailure("Spotlight didn't answer, so Peel can't say what is on this Mac. Try the search again.")
         }
