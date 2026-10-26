@@ -98,6 +98,12 @@ extension IntelFinding {
         }
     }
 
+    /// What the row says under the name: what the finding belongs to, or a plug-in's format, since one plug-in is
+    /// often installed in several formats under one name.
+    var subtitle: LocalizedStringResource? {
+        owner.map { "in \($0)" } ?? pluginCategory?.title
+    }
+
     /// Whether an app that loads the plug-in decides whether it loads, as for a plug-in loaded inside the app.
     var loadsThroughAnApp: Bool {
         kind == .plugin && [.insideTheApp, .outsideTheAppWhenAsked].contains(pluginCategory?.intelHost)

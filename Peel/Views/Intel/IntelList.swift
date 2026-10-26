@@ -155,8 +155,8 @@ private struct IntelRow: View {
                 Text(verbatim: finding.name)
                     .lineLimit(1)
                     .truncationMode(.middle)
-                if let owner = finding.owner {
-                    Text("in \(owner)")
+                if let subtitle = finding.subtitle {
+                    Text(subtitle)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)

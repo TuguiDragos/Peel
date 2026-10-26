@@ -22,6 +22,13 @@ struct IntelExplanationTests {
         #expect(String(localized: plugin(.vst3).explanation(onAppleSilicon: false)) == String(localized: "This plug-in is Intel only. On this Intel Mac it loads natively."))
     }
 
+    @Test func tellsAPlugInsFormatsApart() {
+        let words = { (finding: IntelFinding) in finding.subtitle.map { String(localized: $0) } }
+
+        #expect(words(plugin(.vst3)) == String(localized: "VST3 Plug-ins"))
+        #expect(words(plugin(.audioUnits)) == String(localized: "Audio Units"))
+    }
+
     @Test func givesApplesCommandWhereNothingOpensToOfferRosetta() {
         #expect(IntelFinding.Kind.allCases.filter(\.offersRosettaWhenOpened) == [.app])
         #expect(Rosetta.installCommand == "softwareupdate --install-rosetta")

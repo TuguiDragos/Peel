@@ -174,7 +174,10 @@ struct IntelDetailView: View {
                         name: String(localized: "Intel only"),
                         detail: Text("Built for Intel processors only. On Apple silicon it needs Rosetta.")
                     )
-                    Badge(title: Text(finding.kind.title), systemImage: finding.kind.systemImage)
+                    Badge(
+                        title: Text(finding.pluginCategory?.title ?? finding.kind.title),
+                        systemImage: finding.kind.systemImage
+                    )
                 }
                 .padding(.top, 2)
             }
