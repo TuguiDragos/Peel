@@ -25,8 +25,13 @@ struct IntelDetailView: View {
             }
 
             Section {
-                Text(finding.kind.explanation(onAppleSilicon: HostArchitecture.isAppleSilicon))
+                Text(finding.explanation(onAppleSilicon: HostArchitecture.isAppleSilicon))
                     .font(.callout)
+                if #available(macOS 27, *), HostArchitecture.isAppleSilicon, finding.loadsThroughAnApp {
+                    Text("macOS 27 opens an app natively even if you set it to open using Rosetta.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
                 if !HostArchitecture.isAppleSilicon {
                     Text("On an Apple silicon Mac it would need Rosetta.")
                         .font(.callout)

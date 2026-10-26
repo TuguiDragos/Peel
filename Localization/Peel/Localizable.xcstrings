@@ -181923,6 +181923,218 @@
         }
       }
     },
+    "This plug-in is Intel only. It loads only in an app that runs through Rosetta, or that asks macOS to load it in a process of its own." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento plug-in je jen pro procesory Intel. Načte se jen v aplikaci, která běží v prostředí Rosetta, nebo která systém macOS požádá, aby ho načetl v samostatném procesu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Plug-in ist nur für Intel. Es wird nur in einer App geladen, die über Rosetta läuft oder macOS auffordert, es in einem eigenen Prozess zu laden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este módulo es solo para Intel. Solo se carga en una app que se ejecute mediante Rosetta, o que pida a macOS que lo cargue en un proceso propio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce module n’existe qu’en version Intel. Il ne se charge que dans une app qui s’exécute grâce à Rosetta, ou qui demande à macOS de le charger dans un processus distinct."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo plugin è solo per Intel. Si carica solo in un’app che funziona tramite Rosetta, o che chiede a macOS di caricarlo in un processo separato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このプラグインはIntel専用です。Rosetta経由で動作するアプリか、独立したプロセスで読み込むようmacOSに要求するアプリでのみ読み込まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 플러그인은 Intel 전용입니다. Rosetta를 통해 실행되는 앱이나, macOS에 이 플러그인을 별도의 프로세스에서 로드하도록 요청하는 앱에서만 로드됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze plug-in is alleen voor Intel. Die wordt alleen geladen in een app die via Rosetta werkt, of in een app die macOS vraagt om de plug-in in een apart proces te laden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta wtyczka jest tylko dla procesorów Intel. Wczytuje się tylko w aplikacji działającej za pomocą Rosetty albo w takiej, która prosi macOS o wczytanie jej w osobnym procesie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este plug-in é só para Intel. Ele só é carregado em um app executado pelo Rosetta, ou que peça ao macOS para carregá-lo em um processo próprio."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest plug-in este doar pentru Intel. Se încarcă doar într‑o aplicație care rulează prin Rosetta sau care îi cere sistemului macOS să îl încarce într‑un proces propriu."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот плагин собран только для Intel. Он загружается только в приложении, которое работает через Rosetta или просит macOS загрузить плагин в отдельном процессе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här insticksfilen är bara för Intel. Den läses bara in i en app som körs via Rosetta, eller som ber macOS att läsa in den i en egen process."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu yazılım eki yalnızca Intel içindir. Yalnızca Rosetta ile çalışan bir uygulamada veya onu kendi ayrı işleminde yüklemesini macOS’ten isteyen bir uygulamada yüklenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей плагін призначений лише для Intel. Він завантажується лише в програмі, яка працює через Rosetta або просить macOS завантажити його в окремому процесі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此插件仅支持Intel。它只能在通过Rosetta运行的App中载入，或者在要求macOS于独立进程中载入它的App中载入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此外掛模組僅支援Intel。它只能在透過Rosetta執行的App中載入，或是由App要求macOS在獨立程序中載入它。"
+          }
+        }
+      }
+    },
+    "This plug-in is Intel only. It loads only inside an app that itself runs through Rosetta." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento plug-in je jen pro procesory Intel. Načte se jen v aplikaci, která sama běží v prostředí Rosetta."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Plug-in ist nur für Intel. Es wird nur in einer App geladen, die selbst über Rosetta läuft."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este módulo es solo para Intel. Solo se carga dentro de una app que a su vez se ejecute mediante Rosetta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce module n’existe qu’en version Intel. Il ne se charge que dans une app qui s’exécute elle-même grâce à Rosetta."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo plugin è solo per Intel. Si carica solo all’interno di un’app che a sua volta funziona tramite Rosetta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このプラグインはIntel専用です。それ自体がRosetta経由で動作するアプリの中でのみ読み込まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 플러그인은 Intel 전용입니다. 앱 자체가 Rosetta를 통해 실행되는 경우에만 그 앱 안에서 로드됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze plug-in is alleen voor Intel. Die wordt alleen geladen in een app die zelf via Rosetta werkt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta wtyczka jest tylko dla procesorów Intel. Wczytuje się tylko w aplikacji, która sama działa za pomocą Rosetty."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este plug-in é só para Intel. Ele só é carregado dentro de um app que seja, ele próprio, executado pelo Rosetta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest plug-in este doar pentru Intel. Se încarcă doar într‑o aplicație care rulează ea însăși prin Rosetta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот плагин собран только для Intel. Он загружается только внутри приложения, которое само работает через Rosetta."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här insticksfilen är bara för Intel. Den läses bara in i en app som själv körs via Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu yazılım eki yalnızca Intel içindir. Yalnızca kendisi de Rosetta ile çalışan bir uygulamanın içinde yüklenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей плагін призначений лише для Intel. Він завантажується лише всередині програми, яка сама працює через Rosetta."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此插件仅支持Intel。它只能在本身通过Rosetta运行的App内载入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此外掛模組僅支援Intel。它只會在本身透過Rosetta執行的App中載入。"
+          }
+        }
+      }
+    },
     "This plug-in is Intel only. On this Intel Mac it loads natively." : {
       "localizations" : {
         "cs" : {
@@ -217828,6 +218040,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS 27是最後一個透過Rosetta執行大部分Intel軟體的版本。Apple會為較舊的遊戲保留Rosetta。"
+          }
+        }
+      }
+    },
+    "macOS 27 opens an app natively even if you set it to open using Rosetta." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS 27 otevře aplikaci nativně, i když jste u ní zaškrtli políčko Otevřít pomocí Rosetty."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 öffnet eine App nativ, auch wenn du „Mit Rosetta öffnen“ für sie aktiviert hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 abre una app de forma nativa aunque la hayas configurado para abrirse con Rosetta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 ouvre une app en natif, même si vous avez coché « Ouvrir avec Rosetta » pour celle-ci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 apre un’app in modo nativo anche se hai selezionato “Apri con Rosetta”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Rosettaを使用して開く”を選択していても、macOS 27はアプリをネイティブで開きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27은 ‘Rosetta를 사용하여 열기’를 선택한 앱도 네이티브로 엽니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 opent een app native, ook als je voor die app 'Open met Rosetta' hebt geselecteerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 otwiera aplikację natywnie, nawet jeśli zaznaczysz dla niej opcję „Otwórz, używając Rosetty”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS 27 abre um app nativamente mesmo que você tenha marcado “Abrir com Rosetta” para ele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 deschide nativ o aplicație chiar dacă ați setat‑o să se deschidă utilizând Rosetta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 открывает приложение нативно, даже если Вы установили для него флажок «Открыть с помощью Rosetta»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 öppnar en app utan Rosetta även om du har markerat Öppna med Rosetta för appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27, bir uygulama için “Rosetta’yı kullanarak aç” seçeneğini seçmiş olsanız bile uygulamayı yerel olarak açar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 27 відкриває програму нативно, навіть якщо ви вибрали для неї «Відкрити за допомогою Rosetta»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使你将App设为“使用Rosetta打开”，macOS 27也会以原生方式打开它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使你已將App設為「使用Rosetta打開」，macOS 27仍會以原生方式打開它。"
           }
         }
       }

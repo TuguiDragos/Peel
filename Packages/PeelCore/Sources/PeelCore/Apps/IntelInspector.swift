@@ -20,6 +20,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public let owner: String?
     /// Nil when the size is not known because measuring it timed out or was refused. Unknown is not zero.
     public let size: Int64?
+    /// For a plug-in, its kind, which says where its Intel code can load (`Plugin.Category.intelHost`).
+    public var pluginCategory: Plugin.Category?
 
     public var id: URL { url }
 }
@@ -148,6 +150,7 @@ public enum IntelInspector {
                 name: plugin.name,
                 owner: nil,
                 size: plugin.size,
+                pluginCategory: plugin.category,
             ))
         }
 

@@ -88,3 +88,23 @@ extension IntelFinding.Kind {
         }
     }
 }
+
+extension IntelFinding {
+    /// Explains the finding, a plug-in by where its Intel code can load (`Plugin.Category.intelHost`).
+    func explanation(onAppleSilicon: Bool) -> LocalizedStringResource {
+        guard onAppleSilicon, kind == .plugin else { return kind.explanation(onAppleSilicon: onAppleSilicon) }
+        return switch pluginCategory?.intelHost {
+        case .insideTheApp:
+            "This plug-in is Intel only. It loads only inside an app that itself runs through Rosetta."
+        case .outsideTheAppWhenAsked:
+            "This plug-in is Intel only. It loads only in an app that runs through Rosetta, or that asks macOS to load it in a process of its own."
+        default:
+            kind.explanation(onAppleSilicon: onAppleSilicon)
+        }
+    }
+
+    /// Whether an app that loads the plug-in decides whether it loads, as for a plug-in loaded inside the app.
+    var loadsThroughAnApp: Bool {
+        kind == .plugin && [.insideTheApp, .outsideTheAppWhenAsked].contains(pluginCategory?.intelHost)
+    }
+}
