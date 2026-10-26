@@ -572,6 +572,13 @@ final class AppLibrary {
                     group.cancelAll()
                     continue
                 }
+                // Whatever comes of this answer, the next app is asked, so one that left the list costs no place.
+                if let app = pending.next() {
+                    let earlier = updateStatuses[app.id]
+                    _ = group.addTaskUnlessCancelled {
+                        (app.id, await checker.answer(for: app, preference: preference, casks: casks, earlier: earlier))
+                    }
+                }
                 // In a canceled round every pending request ends as a failure. Recording those would erase
                 // what was known and put off the next check for hours.
                 guard !Task.isCancelled else { continue }
@@ -613,12 +620,6 @@ final class AppLibrary {
                         releaseNotes.record(.found(notes), of: identifier, version: version)
                     } else if releaseNotes.asks(about: kept, of: app, with: updatePreferences) {
                         notesToAsk.append(ReleaseNotesQuestion(app: app, answer: answer, version: version))
-                    }
-                }
-                if let app = pending.next() {
-                    let earlier = updateStatuses[app.id]
-                    _ = group.addTaskUnlessCancelled {
-                        (app.id, await checker.answer(for: app, preference: preference, casks: casks, earlier: earlier))
                     }
                 }
             }

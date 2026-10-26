@@ -383,6 +383,28 @@ private nonisolated final class TestClock: Sendable {
         #expect(memory["org.example.fed"] == nil, "its feed answers at the next round")
     }
 
+    @Test func aRoundAsksEveryAppEvenWhenAppsLeaveTheListBeforeTheirAnswers() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let bundles = try (1...9).map { try caskApp("App\($0)", in: folder, feed: "https://feed.example.com/appcast.xml") }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock {
+            $0 = Data(#"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><enclosure url="https://feed.example.com/u.zip" sparkle:version="101" sparkle:shortVersionString="1.1" /></item></channel></rss>"#.utf8)
+        }
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal(Array(bundles.prefix(8))))
+        let asked = library.apps.filter { $0.name.hasPrefix("App") }.sorted { $0.name < $1.name }
+        for bundle in bundles.prefix(7) { try FileManager.default.removeItem(at: bundle) }
+        #expect(await library.reveal([bundles[8]]))
+
+        await library.checkForUpdates(asked, force: true)
+
+        let last = try #require(asked.last)
+        #expect(asked.count == 8 && last.name == "App8")
+        #expect(library.hasUpdate(last), "the eighth app was asked once the first seven left the list")
+    }
+
     @Test func anAppPeelNeverChecksGetsNothingFromHomebrew() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Tool", in: folder)
