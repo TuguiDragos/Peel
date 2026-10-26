@@ -348,6 +348,8 @@ private struct GeneralSettingsView: View {
                 LabeledContent {
                     if commandLine == .installed {
                         state("Installed", "checkmark.circle", .green)
+                    } else if home.state(of: .commandLine) == .notThisAccount {
+                        state("Needs an administrator", "person.crop.circle.badge.exclamationmark", .orange)
                     } else if let installCommand {
                         CopyButton(text: installCommand)
                     }

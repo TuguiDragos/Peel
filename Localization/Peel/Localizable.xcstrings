@@ -75707,6 +75707,112 @@
         }
       }
     },
+    "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Installing it takes an administrator: the install command in Peel’s Settings runs from an administrator’s account." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umožňuje v Terminálu odinstalovávat aplikace a odstraňovat zbytky, mezipaměti a duplikáty. K instalaci je potřeba správce: instalační příkaz z Nastavení Peelu je nutné spustit z účtu správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Damit kannst du im Terminal Apps deinstallieren und Überreste, Caches und Duplikate entfernen. Für die Installation wird ein Administrator benötigt: Der Installationsbefehl in den Peel-Einstellungen funktioniert nur über den Benutzeraccount eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te permite desinstalar apps y eliminar restos, cachés y duplicados desde Terminal. Para instalarla hace falta un administrador: el comando de instalación de los ajustes de Peel se ejecuta desde la cuenta de un administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous permet de désinstaller des apps et de supprimer les fichiers résiduels, les caches et les doublons depuis Terminal. Son installation nécessite un administrateur : la commande d’installation des Réglages de Peel s’exécute depuis le compte d’un administrateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ti permette di disinstallare app e rimuovere residui, cache e duplicati da Terminale. Per installarlo serve un amministratore: il comando di installazione nelle Impostazioni di Peel va eseguito da un account di amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルからアプリをアンインストールしたり、残存ファイル、キャッシュ、重複項目を取り除いたりできるようにします。インストールには管理者が必要です。Peelの“設定”にあるインストールコマンドは、管理者のアカウントで実行する必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널에서 앱을 제거하고 잔여 파일, 캐시, 중복된 항목을 정리할 수 있습니다. 설치하려면 관리자가 필요합니다. Peel 설정에 있는 설치 명령은 관리자 계정에서 실행할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiermee kun je vanuit Terminal apps deïnstalleren en restbestanden, caches en dubbele onderdelen opruimen. Voor de installatie is een beheerder nodig: het installatiecommando in Peel-instellingen werkt vanuit de account van een beheerder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pozwala odinstalowywać aplikacje i przenosić do Kosza pozostałości, pamięci podręczne i duplikaty z poziomu Terminala. Instalacja wymaga administratora: polecenie instalacji z Ustawień Peel należy uruchomić z konta administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite desinstalar apps e limpar sobras, caches e duplicatas pelo Terminal. A instalação requer um administrador: o comando de instalação dos Ajustes do Peel precisa ser executado em uma conta de administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vă permite să dezinstalați aplicații și să eliminați fișiere rămase, memorii tampon și duplicate din Terminal. Pentru instalare este nevoie de un administrator: comanda de instalare din configurările Peel se rulează dintr‑un cont de administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Позволяет удалять приложения, остатки, кэши и дубликаты из Терминала. Для установки нужен администратор: команда установки из Настроек Peel выполняется из учетной записи администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Låter dig avinstallera appar och rensa bort kvarlämnade filer, cachar och dubbletter från Terminal. Det krävs en administratör för att installera det: installationskommandot i Peels inställningar körs från ett administratörskonto."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal’den uygulamaların yüklemesini kaldırmanızı ve kalıntıları, önbellekleri ve yinelenenleri temizlemenizi sağlar. Yüklemek için bir yönetici gerekir: Peel Ayarları’ndaki yükleme komutu bir yönetici hesabından çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дає змогу деінсталювати програми та вилучати залишки, кеші й дублікати в Терміналі. Для інсталювання потрібен адміністратор: команда інсталювання з Параметрів Peel виконується з облікового запису адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让你能在“终端”中卸载App，并清除残留文件、缓存和重复项。安装它需要管理员：Peel的“设置”中的安装命令须在管理员账户中运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "讓你可以從「終端機」解除安裝App，並清除殘留檔案、快取和重複項目。安裝它需要管理者：Peel「設定」中的安裝指令需在管理者帳號中執行。"
+          }
+        }
+      }
+    },
     "Library Folder" : {
       "localizations" : {
         "cs" : {

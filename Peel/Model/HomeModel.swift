@@ -87,6 +87,11 @@ final class HomeModel {
         var isMissing: Bool { self == .missing }
     }
 
+    /// The install command runs `sudo`, which only an administrator can use, so a standard account has nothing to run.
+    static func commandLineState(isOnThePath: Bool, isAdministrator: Bool) -> State {
+        isOnThePath ? .on : isAdministrator ? .off : .notThisAccount
+    }
+
     private static let appManagementKey = "appManagementState"
     private static let modelNameKey = "modelName."
 
@@ -188,7 +193,12 @@ final class HomeModel {
             .notifications: notificationStatus == .authorized ? .on : .off,
             .finderExtension: isFinderExtensionEnabled ? .on : .off,
             .openAtLogin: opensAtLogin ? .on : .off,
-            .commandLine: CommandLineTool.isOnThePath(embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")) ? .on : .off,
+            .commandLine: Self.commandLineState(
+                isOnThePath: CommandLineTool.isOnThePath(
+                    embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
+                ),
+                isAdministrator: helper.isAvailableToThisAccount
+            ),
         ]
         hasChecked = true
 

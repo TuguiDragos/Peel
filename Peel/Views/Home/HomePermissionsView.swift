@@ -101,7 +101,7 @@ struct HomePermissionsContent: View {
                         name(permission, state: state)
                         InfoNote(
                             name: String(localized: permission.title),
-                            detail: Text(permission.detail),
+                            detail: Text(home.detail(of: permission)),
                             symbol: permission.symbol,
                             isAlbum: true
                         )
@@ -351,6 +351,11 @@ fileprivate extension HomeModel {
         }
     }
 
+    func detail(of permission: Permission) -> LocalizedStringResource {
+        guard permission == .commandLine, state(of: permission) == .notThisAccount else { return permission.detail }
+        return "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Installing it takes an administrator: the install command in Peel’s Settings runs from an administrator’s account."
+    }
+
     func action(for permission: Permission) -> LocalizedStringResource? {
         guard hasChecked else { return nil }
         let state = state(of: permission)
@@ -369,7 +374,9 @@ fileprivate extension HomeModel {
         case .finderExtension, .openAtLogin: return nil
         // Short on purpose: every row shares the grid's button column, so a wide label here would narrow
         // every row's name. The row's name says what is copied, and the note beside it explains.
-        case .commandLine: return state == .on || SettingsKey.commandLineInstallCommand() == nil ? nil : "Copy"
+        case .commandLine:
+            return state == .on || state == .notThisAccount || SettingsKey.commandLineInstallCommand() == nil
+                ? nil : "Copy"
         }
     }
 }
