@@ -86,6 +86,13 @@ public struct BackgroundItemOwnership: Sendable {
         return gone.map { Owner(bundleIdentifier: $0, name: nil, url: nil, isConfirmed: false) }
     }
 
+    /// The installed app whose own bundle declares the job `label`: a label launchd still keeps after a restart, when
+    /// the job is no longer loaded and nothing else points to its app.
+    func owner(declaring label: String, kind: BackgroundItem.Kind) -> Owner? {
+        apps.first { StartsAtLogin.declaration(of: label, kind: kind, in: $0.url) != nil }
+            .map { Owner(bundleIdentifier: $0.bundleIdentifier, name: $0.name, url: $0.url) }
+    }
+
     /// Whether a job is orphaned: no installed app claims it, and its program is gone from disk or it names
     /// none of its own. Labels that start with `com.apple.` or `application.` are never orphaned.
     public func isOrphan(label: String, program: String?, owner: Owner?) -> Bool {

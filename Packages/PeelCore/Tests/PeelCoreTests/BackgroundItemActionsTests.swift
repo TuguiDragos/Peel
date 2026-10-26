@@ -185,10 +185,11 @@ struct BackgroundItemActionsTests {
 
     @Test func aJobServiceManagementManagesIsTurnedOffInSystemSettings() throws {
         let label = "org.example.tide.loginhelper"
+        let tide = InstalledApp(url: URL(filePath: "/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide")
         func item(_ details: Launchctl.JobDetails, disabled: Bool = false) throws -> BackgroundItem {
             let found = BackgroundItems.undeclaredItem(
                 (label, .agent, "gui/501/\(label)"), answer: .details(details),
-                ownership: BackgroundItemOwnership(installedApps: []),
+                ownership: BackgroundItemOwnership(installedApps: [tide]),
                 loaded: .init(user: [label: nil], userDisabled: [label: disabled]), exclusions: .none
             )
             guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
@@ -209,6 +210,60 @@ struct BackgroundItemActionsTests {
         #expect(BackgroundItemActions.refusal(toSwitch: managedAndDisabled, on: true) == nil)
         #expect(!other.isManagedByServiceManagement)
         #expect(BackgroundItemActions.refusal(toSwitch: other, on: false) == nil)
+    }
+
+    @Test func aDisabledJobComesBackWhenItsAppDeclaresIt() throws {
+        let directory = try TemporaryDirectory()
+        func write(_ plist: [String: Any], at path: String) throws {
+            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+            try directory.file(path, contents: data)
+        }
+        try write(["CFBundleIdentifier": "org.example.postgres2"], at: "Applications/Postgres.app/Contents/Info.plist")
+        try write(
+            ["CFBundleIdentifier": "org.example.postgres2LoginHelper"],
+            at: "Applications/Postgres.app/Contents/Library/LoginItems/PostgresLoginHelper.app/Contents/Info.plist"
+        )
+        let app = InstalledApp(
+            url: directory.url.appending(path: "Applications/Postgres.app"), bundleIdentifier: "org.example.postgres2",
+            name: "Postgres"
+        )
+
+        let items = BackgroundItems.disabledJobs(
+            in: .init(user: [:], system: [:], userDisabled: ["org.example.postgres2LoginHelper": true, "org.example.unknown": true]),
+            listed: [], ownership: BackgroundItemOwnership(installedApps: [app])
+        )
+
+        #expect(items.map(\.label) == ["org.example.postgres2LoginHelper"])
+        #expect(items.first?.ownerURL == app.url)
+        #expect(items.first?.runsAtLoad == true)
+    }
+
+    @Test func aJobWhoseLabelLeadsNowhereIsNotDisabled() throws {
+        let directory = try TemporaryDirectory()
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.tide"], format: .xml, options: 0
+        )
+        try directory.file("Applications/Tide.app/Contents/Info.plist", contents: info)
+        let app = InstalledApp(
+            url: directory.url.appending(path: "Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+        let program = app.url.appending(path: "Contents/MacOS/helperd").path(percentEncoded: false)
+        func item(_ label: String) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                (label, .agent, "gui/501/\(label)"), answer: .details(.init(path: "(submitted by Tide.42)", program: program)),
+                ownership: BackgroundItemOwnership(installedApps: [app]), loaded: .init(user: [label: nil]),
+                exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+
+        let byLabel = try item("org.example.tide.ShipIt")
+        let elsewhere = try item("org.example.helperd")
+
+        #expect(byLabel.ownerBundleIdentifier == "org.example.tide" && byLabel.mayBeDisabled)
+        #expect(elsewhere.ownerBundleIdentifier == "org.example.tide" && !elsewhere.mayBeDisabled)
+        #expect(BackgroundItemActions.refusal(toSwitch: elsewhere, on: false) != nil)
     }
 
     @Test func aDisabledJobLaunchdDoesNotHaveIsEnabledFirst() {

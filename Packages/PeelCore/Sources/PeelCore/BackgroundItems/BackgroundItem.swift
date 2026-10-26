@@ -60,6 +60,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True for a job ServiceManagement manages: the person turns it on and off in System Settings > General > Login
     /// Items & Extensions, so Peel never disables it.
     public var isManagedByServiceManagement = false
+    /// False for an app's job that, once disabled, would leave the list at the next restart: launchd keeps only its
+    /// label, which neither starts with its app's identifier nor is declared in its app's bundle.
+    public var staysListedWhenDisabled = true
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
@@ -93,6 +96,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var canBeControlled: Bool {
         !usesALabelOfMacOS && !isSystemExtension && (!requiresPrivileges || PrivilegedPathPolicy.allowsDaemon(label))
     }
+
+    /// True when Peel may disable the job: not one ServiceManagement manages, and one whose row Enable stays on.
+    public var mayBeDisabled: Bool { canBeControlled && !isManagedByServiceManagement && staysListedWhenDisabled }
 
     public var removalRequiresPrivileges: Bool { source == .systemLibrary }
 

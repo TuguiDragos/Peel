@@ -77,10 +77,10 @@ public enum BackgroundItemActions {
     }
 
     /// Why Peel will not switch `item` on or off, or nil. Only System Settings turns off a job ServiceManagement
-    /// manages: an override of launchd's alone would leave the two saying different things.
+    /// manages, and a job whose row would leave the list once disabled is never disabled from here.
     static func refusal(toSwitch item: BackgroundItem, on isEnabled: Bool) -> Failure? {
         if let refusal = refusal(for: item) { return refusal }
-        return !isEnabled && item.isManagedByServiceManagement ? .launchctl(HelperRefusal.invalidRequest.rawValue) : nil
+        return !isEnabled && !item.mayBeDisabled ? .launchctl(HelperRefusal.invalidRequest.rawValue) : nil
     }
 
     @concurrent

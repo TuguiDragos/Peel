@@ -123,18 +123,23 @@ public enum BackgroundItems {
             + (loaded.systemDisabled ?? [:]).map { ($0.key, $0.value, BackgroundItem.Kind.daemon) }
         return overrides.compactMap { label, isDisabled, kind in
             guard isDisabled, !label.hasPrefix("com.apple."), !label.hasPrefix("application."),
-                  !known.contains("\(kind.rawValue)/\(label)"), loaded.state(of: label, kind) == .notLoaded,
-                  let owner = ownership.owner(label: label, associated: [], program: nil), let app = owner.url
+                  !known.contains("\(kind.rawValue)/\(label)"), loaded.state(of: label, kind) == .notLoaded
             else { return nil }
-            let schedule = StartsAtLogin.schedule(of: label, kind: kind, in: app)
+            let byLabel = ownership.owner(label: label, associated: [], program: nil)
+            guard let owner = byLabel?.isInstalled == true ? byLabel : ownership.owner(declaring: label, kind: kind),
+                  let app = owner.url
+            else {
+                return nil
+            }
+            let declared = StartsAtLogin.declaration(of: label, kind: kind, in: app)
             return BackgroundItem(
                 label: label,
                 kind: kind,
                 source: .app,
                 plistURL: nil,
                 program: nil,
-                runsAtLoad: schedule.runsAtLoad,
-                keepsAlive: schedule.keepsAlive,
+                runsAtLoad: declared?.runsAtLoad,
+                keepsAlive: declared?.keepsAlive ?? nil,
                 ownerBundleIdentifier: owner.bundleIdentifier,
                 ownerName: owner.name,
                 ownerURL: owner.url,
@@ -304,7 +309,7 @@ public enum BackgroundItems {
         )
         let state = loaded.state(of: candidate.label, candidate.kind)
         let registered = details.managedBy == serviceManagement
-            ? owner?.url.map { StartsAtLogin.schedule(of: candidate.label, kind: candidate.kind, in: $0) } : nil
+            ? owner?.url.flatMap { StartsAtLogin.declaration(of: candidate.label, kind: candidate.kind, in: $0) } : nil
         // launchctl names no program for an app's login item or agent: macOS finds it in the app as it starts it.
         let programIsUnnamed = isAnApps && program == nil
         let running = if case .running(let pid) = state { RunningProgram.path(of: pid) } else { String?.none }
@@ -316,7 +321,7 @@ public enum BackgroundItems {
             plistURL: path,
             program: program,
             runsAtLoad: job?.runsAtLoad ?? registered?.runsAtLoad,
-            keepsAlive: job?.keepsAlive ?? registered?.keepsAlive,
+            keepsAlive: job?.keepsAlive ?? registered?.keepsAlive ?? nil,
             ownerBundleIdentifier: owner?.bundleIdentifier,
             ownerName: owner?.name,
             ownerURL: owner?.url,
@@ -329,6 +334,11 @@ public enum BackgroundItems {
         item.runsFromTheTrash = programIsUnnamed && running.map { AppInspector.isInATrash(URL(filePath: $0)) } == true
         item.isSystemExtension = program.map { PathComponents.isPath($0, inside: "/Library/SystemExtensions") } == true
         item.isManagedByServiceManagement = details.managedBy == serviceManagement
+        if isAnApps, item.canBeControlled, !item.isManagedByServiceManagement {
+            item.staysListedWhenDisabled =
+                ownership.owner(label: candidate.label, associated: [], program: nil)?.isInstalled == true
+                    || ownership.owner(declaring: candidate.label, kind: candidate.kind) != nil
+        }
         return .item(item)
     }
 
