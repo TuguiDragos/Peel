@@ -733,6 +733,21 @@ struct OrphanScannerTests {
         #expect(Set(ownerGone.groups.map(\.identifier)) == ["org.example.helper", "org.example.other"])
     }
 
+    @Test func aGroupGivenToAnInstalledAppStaysOutWithEveryIdentifierInIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Preferences/org.example.helper.plist")
+        try directory.file("home/Library/Caches/org.example.helper.ShipIt/update.zip")
+        try directory.file("home/Library/Group Containers/ABCDE12345.org.example.helper/data.db")
+        let scanner = scanner(in: directory)
+
+        let listed = await scanner.scan(installedApps: installed)
+        #expect(listed.groups.map(\.identifier) == ["org.example.helper"])
+        #expect(listed.groups.first?.items.count == 3)
+
+        let given = await scanner.scan(installedApps: installed, owners: ["org.example.helper": "com.installed.app"])
+        #expect(given.groups.isEmpty)
+    }
+
     @Test func remembersWhichAppAGroupBelongsToUntilToldOtherwise() throws {
         let directory = try TemporaryDirectory()
         let owners = OrphanOwners(url: directory.url.appending(path: "orphan-owners.json"))

@@ -160,9 +160,10 @@ public struct OrphanScanner: Sendable {
             uniquingKeysWith: { first, _ in first }
         )
         let folders = manifestFolders
+        let given = Set(owners.filter { here.contains($0.value.lowercased()) }.keys.map { $0.lowercased() })
         let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: Bool?)? in
             guard !exclusions.excludes(entry.item.url), !exclusions.excludes(bundleIdentifier: entry.identifier),
-                  !(owners[entry.identifier.lowercased()].map { here.contains($0.lowercased()) } ?? false),
+                  !Self.isInAGroup(entry.identifier, among: given),
                   !Self.servesAProgram(entry.item.url, in: folders)
             else { return nil }
             let holds = exclusions.holdsSomething(entry.item.url)
@@ -505,6 +506,13 @@ public struct OrphanScanner: Sendable {
             if $0.total != $1.total { return $0.total > $1.total }
             return $0.identifier < $1.identifier
         }
+    }
+
+    /// Whether `identifier` falls in one of `groups`, as `group` gathers them: by its grouping key, the group's own or
+    /// one inside it.
+    static func isInAGroup(_ identifier: String, among groups: Set<String>) -> Bool {
+        let key = groupingKey(for: identifier).lowercased()
+        return groups.contains { key == $0 || key.hasPrefix($0 + ".") }
     }
 
     /// The identifier without a team ID or `group.` in front, when what is left is reverse DNS. For example,
