@@ -219,10 +219,14 @@ struct BackgroundItemDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            if item.canBeControlled || item.state == .notLoaded {
-                Text("Once the file is in the Trash, the item is stopped.")
+            let stops: LocalizedStringResource = item.canBeControlled || item.state == .notLoaded
+                ? "Once the file is in the Trash, the item is stopped."
+                : "macOS won’t start it again: it stops for good when the Mac restarts."
+            if let owner = item.ownerBundleIdentifier,
+               let warning = item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner)) {
+                Text(verbatim: "\(String(localized: warning))\n\n\(String(localized: stops))")
             } else {
-                Text("macOS won’t start it again: it stops for good when the Mac restarts.")
+                Text(stops)
             }
         }
     }
@@ -429,5 +433,14 @@ extension UnusualCommand {
         case .runsCodeFromItsSettings:
             "It runs a script written into its own file rather than a program on disk. Software installed on purpose can do this too."
         }
+    }
+}
+
+extension BackgroundItem {
+    /// What moving the job's file may cost the app that added it, said only of an installed app the job is known to be
+    /// part of. "May": Peel can't tell what the app uses the job for.
+    func trashWarning(ownerName: String) -> LocalizedStringResource? {
+        guard isOwnerInstalled, isOwnerConfirmed else { return nil }
+        return "\(ownerName) uses it to run in the background, and may stop working until you put it back."
     }
 }

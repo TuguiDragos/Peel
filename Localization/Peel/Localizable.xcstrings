@@ -4818,6 +4818,112 @@
         }
       }
     },
+    "%@ uses it to run in the background, and may stop working until you put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ ji používá k běhu na pozadí a může přestat fungovat, dokud ji nevrátíte zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ verwendet es, um im Hintergrund zu laufen, und funktioniert möglicherweise nicht mehr, bis du es zurücklegst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ lo usa para ejecutarse en segundo plano, y puede que deje de funcionar hasta que lo restaures."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ l’utilise pour s’exécuter en arrière-plan, et pourrait cesser de fonctionner jusqu’à ce que vous le remettiez en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ lo usa per l’esecuzione in background, e potrebbe smettere di funzionare finché non lo ripristini."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”はバックグラウンドで実行するためにこれを使用しており、戻すまで動作しなくなる場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) 이 항목을 사용하여 백그라운드에서 실행되므로, 이 항목을 되돌려 놓을 때까지 작동을 멈출 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ gebruikt dit om op de achtergrond te werken, en werkt misschien niet meer totdat je het terugzet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ używa jej do działania w tle i może przestać działać, dopóki jej nie przywrócisz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ o usa para ser executado em segundo plano e pode parar de funcionar até que você o coloque de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ îl folosește pentru a rula în fundal și poate înceta să funcționeze până când îl puneți înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» использует этот объект для работы в фоновом режиме и может перестать работать, пока Вы его не восстановите."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ använder det för att köras i bakgrunden och kan sluta fungera tills du lägger tillbaka det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması arka planda çalışmak için bunu kullanır ve siz bunu yerine koyana kadar çalışmayı durdurabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» використовує його для роботи у фоновому режимі й може перестати працювати, доки ви його не повернете."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”借助它在后台运行，在你将它放回原处之前，该App可能会停止工作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」會使用它在背景中執行，在你將它還原之前，該App可能會停止運作。"
+          }
+        }
+      }
+    },
     "%@ was partly reset." : {
       "localizations" : {
         "cs" : {
