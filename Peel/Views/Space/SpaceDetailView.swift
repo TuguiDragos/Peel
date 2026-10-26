@@ -24,8 +24,8 @@ struct SpaceDetailView: View {
             if let plan, plan.removable.contains(where: { plan.isLocked($0, canUseHelper: helper.canAct) }) {
                 HelperRequiredBanner()
             }
-            if !item.isReadOnly, let plan, !plan.leftToDeveloper.isEmpty, let sizes = plan.developerSizes {
-                developerNotice(plan, sizes: sizes)
+            if !item.isReadOnly, let plan, Self.showsDeveloperNotice(for: plan) {
+                developerNotice(plan, sizes: plan.developerSizes ?? [:])
                     .listRowSeparator(.hidden)
             }
 
@@ -174,6 +174,11 @@ struct SpaceDetailView: View {
                 .foregroundStyle(.secondary)
             }
         }
+    }
+
+    /// The notice comes with the plan, without its figures until they are measured, so it never pushes the rows down.
+    static func showsDeveloperNotice(for plan: SpaceRemoval.Plan) -> Bool {
+        !plan.leftToDeveloper.isEmpty
     }
 
     /// Why the area's size in the list is more than this page can move, and where the rest is freed.
