@@ -57,6 +57,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True for a job launchd runs for a system extension, whose program sits in `/Library/SystemExtensions`: macOS
     /// runs it, and only System Settings changes it.
     public var isSystemExtension = false
+    /// True for a job ServiceManagement manages: the person turns it on and off in System Settings > General > Login
+    /// Items & Extensions, so Peel never disables it.
+    public var isManagedByServiceManagement = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 

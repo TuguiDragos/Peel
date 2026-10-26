@@ -138,6 +138,19 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.isManagedByServiceManagement, !item.isPeelsHelper {
+                Section {
+                    Notice(
+                        title: Text("Its switch is in System Settings"),
+                        detail: Text("Its app registered it with macOS, so it is turned on or off in System Settings > General > Login Items & Extensions."),
+                        kind: .note
+                    ) {
+                        Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
+                    }
+                    .padding(.vertical, 6)
+                }
+            }
+
             if item.source == .otherFile {
                 Section {
                     Notice(
@@ -319,9 +332,14 @@ struct BackgroundItemDetailView: View {
 
     /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
     /// file macOS can't load, and a job loaded from a file elsewhere don't have. Disabled, that last one would leave
-    /// the list at the next logout or restart with nothing left to Enable it from.
+    /// the list at the next logout or restart with nothing left to Enable it from. A job ServiceManagement manages has
+    /// only Enable, while launchd keeps it disabled.
     private var hasOwnControls: Bool {
-        item.canBeControlled && item.state != .unknown && item.source != .otherFile && !item.isUnreadable
+        guard item.canBeControlled, item.state != .unknown, item.source != .otherFile, !item.isUnreadable else {
+            return false
+        }
+        if #available(macOS 27, *), item.isLeftByAGoneApp { return true }
+        return !item.isSeenOnlyWhileLoaded || item.isDisabled || !item.isManagedByServiceManagement
     }
 
     private var controls: some View {
@@ -359,8 +377,10 @@ struct BackgroundItemDetailView: View {
                         Task { await backgroundItems.perform(isRunning ? .stop : .start, on: item) }
                     }
                 }
-                Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
-                    Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
+                if item.isDisabled || !item.isManagedByServiceManagement {
+                    Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
+                        Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
+                    }
                 }
             }
         }

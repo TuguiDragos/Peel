@@ -183,6 +183,34 @@ struct BackgroundItemActionsTests {
         #expect(helpersJob.canBeControlled)
     }
 
+    @Test func aJobServiceManagementManagesIsTurnedOffInSystemSettings() throws {
+        let label = "org.example.tide.loginhelper"
+        func item(_ details: Launchctl.JobDetails, disabled: Bool = false) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                (label, .agent, "gui/501/\(label)"), answer: .details(details),
+                ownership: BackgroundItemOwnership(installedApps: []),
+                loaded: .init(user: [label: nil], userDisabled: [label: disabled]), exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+        let registered = Launchctl.JobDetails(
+            path: "(submitted by smd.251)", managedBy: "com.apple.xpc.ServiceManagement",
+            parentBundleIdentifier: "org.example.tide"
+        )
+        let submitted = Launchctl.JobDetails(path: "(submitted by Tide.42)", program: "/bin/sh")
+
+        let managed = try item(registered)
+        let managedAndDisabled = try item(registered, disabled: true)
+        let other = try item(submitted)
+
+        #expect(managed.isManagedByServiceManagement)
+        #expect(BackgroundItemActions.refusal(toSwitch: managed, on: false) != nil)
+        #expect(BackgroundItemActions.refusal(toSwitch: managedAndDisabled, on: true) == nil)
+        #expect(!other.isManagedByServiceManagement)
+        #expect(BackgroundItemActions.refusal(toSwitch: other, on: false) == nil)
+    }
+
     @Test func aDisabledJobLaunchdDoesNotHaveIsEnabledFirst() {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")
         let disabled = BackgroundItem(

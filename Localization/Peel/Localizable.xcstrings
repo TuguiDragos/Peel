@@ -66989,6 +66989,112 @@
         }
       }
     },
+    "Its app registered it with macOS, so it is turned on or off in System Settings > General > Login Items & Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její aplikace ji zaregistrovala v systému macOS, takže se zapíná a vypíná v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die zugehörige App hat es bei macOS registriert, daher wird es unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ aktiviert oder deaktiviert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su app lo registró en macOS, así que se activa o se desactiva en Ajustes del Sistema > General > Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son app l’a enregistré auprès de macOS : il s’active ou se désactive donc dans Réglages Système > Général > Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua app l’ha registrato presso macOS, quindi si attiva o si disattiva in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この項目はアプリによってmacOSに登録されたため、“システム設定”＞“一般”＞“ログイン項目と機能拡張”でオン/オフを切り替えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 앱이 macOS에 등록했으므로 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 켜거나 끕니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bijbehorende app heeft het bij macOS geregistreerd, dus het wordt in- of uitgeschakeld in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jej aplikacja zarejestrowała ją w macOS, więc włącza się ją i wyłącza w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app dele o registrou no macOS, então ele é ativado ou desativado em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația sa l‑a înregistrat la macOS, așa că se activează sau se dezactivează din Configurări sistem > General > Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот объект зарегистрировало в macOS его приложение, поэтому он включается и выключается в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen som det hör till har registrerat det hos macOS, så det slås på och stängs av i Systeminställningar > Allmänt > Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulaması onu macOS’e kaydetti, bu yüzden Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden açılıp kapatılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма зареєструвала цей елемент у macOS, тож вмикають і вимикають його в розділі Системні параметри > Загальні > Автозапуск і розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已将它注册到macOS，因此要在“系统设置”>“通用”>“登录项与扩展”中打开或关闭它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已向macOS註冊它，因此要在「系統設定」>「一般」>「登入項目與延伸功能」中開啟或關閉它。"
+          }
+        }
+      }
+    },
     "Its command decodes base64, which keeps what it runs from being read at a glance. Software installed on purpose can do this too." : {
       "localizations" : {
         "cs" : {
@@ -68575,6 +68681,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此套件的原始碼儲存庫已移除。"
+          }
+        }
+      }
+    },
+    "Its switch is in System Settings" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její přepínač je v Nastavení systému"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Schalter dafür ist in den Systemeinstellungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su interruptor está en Ajustes del Sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son commutateur se trouve dans Réglages Système"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo interruttore è in Impostazioni di Sistema"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スイッチはシステム設定にあります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스위치가 시스템 설정에 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De schakelaar staat in Systeeminstellingen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jej przełącznik jest w Ustawieniach systemowych"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O botão dele fica nos Ajustes do Sistema"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comutatorul său se află în Configurări sistem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его переключатель находится в Системных настройках"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reglaget finns i Systeminställningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düğmesi Sistem Ayarları’nda"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його перемикач у Системних параметрах"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的开关在“系统设置”中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的開關位於「系統設定」中"
           }
         }
       }
