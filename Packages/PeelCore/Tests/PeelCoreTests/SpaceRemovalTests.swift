@@ -530,6 +530,14 @@ struct SpaceRemovalTests {
         #expect(plan.appsToQuit == ["Chat Example"])
     }
 
+    @Test func knowsWhichOfTheAppsANoteNamesHaveQuit() async {
+        let running = [RunningCopies.Process(identifier: 1, bundleIdentifier: "org.example.editor", bundleURL: nil)]
+
+        let quit = await SpaceRemoval.quit(of: ["org.example.editor", "org.example.player"], running: running)
+
+        #expect(quit == ["org.example.player"])
+    }
+
     @Test func anOpenAppAnswersToTheGroupsItsSignatureClaims() {
         let notes = RunningCopies.Process(
             identifier: 1, bundleIdentifier: "com.apple.Notes",

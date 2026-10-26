@@ -107,6 +107,11 @@ struct SpaceDetailView: View {
             guard !item.isReadOnly else { return }
             await space.plan(item)
         }
+        // The note asks to quit an app to include its folders. The workspace reports every change to the apps that
+        // run through key-value observing, while it posts no notice for a menu bar or background app.
+        .onReceive(NSWorkspace.shared.publisher(for: \.runningApplications)) { _ in
+            space.followQuits(in: item)
+        }
         .fadesInColumn(whenRowsChange: rows)
         .navigationTitle(Text(item.words.title))
         .toolbar(removing: .title)

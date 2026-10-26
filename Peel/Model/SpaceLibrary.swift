@@ -23,6 +23,7 @@ final class SpaceLibrary: RowSelection {
     /// are none, and before the first measurement.
     private(set) var models: SizeTotal?
     @ObservationIgnored private var modelsMeasurement = 0
+    @ObservationIgnored private var quitCheck: Task<Void, Never>?
 
     var selectedItem: SpaceItem? {
         report?.items.first { $0.id == selection }
@@ -49,6 +50,17 @@ final class SpaceLibrary: RowSelection {
         guard !Task.isCancelled else { return }
         keep(made.plan, for: item, madeWith: made.exclusions)
         await measureWhatIsLeftToDeveloper(in: item)
+    }
+
+    /// Makes the area's plan again once an app it leaves alone has quit, as its page asks the person to do.
+    func followQuits(in item: SpaceItem) {
+        guard let apps = plans[item.id]?.appsToQuit, !apps.isEmpty else { return }
+        let running = RunningCopies.current
+        quitCheck?.cancel()
+        quitCheck = Task {
+            guard await !SpaceRemoval.quit(of: apps, running: running).isEmpty, !Task.isCancelled else { return }
+            await plan(item)
+        }
     }
 
     /// Measures the folders the area's plan leaves to Developer once its list is shown, since only the page's notice

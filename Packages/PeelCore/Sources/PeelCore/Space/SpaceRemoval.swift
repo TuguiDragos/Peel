@@ -274,10 +274,7 @@ public enum SpaceRemoval {
         var names: [String: String] = [:]
         for process in running {
             let bundle = process.bundleURL?.deletingPathExtension().lastPathComponent
-            // Folders on disk carry the bundle's file name. The user sees the app's name as Finder shows it.
-            guard let displayed = process.bundleURL.map(AppInspector.displayName) ?? process.bundleIdentifier else {
-                continue
-            }
+            guard let displayed = name(of: process) else { continue }
             let spellings = [
                 process.bundleIdentifier,
                 process.bundleIdentifier?.split(separator: ".").last.map(String.init),
@@ -289,6 +286,18 @@ public enum SpaceRemoval {
             }
         }
         return names
+    }
+
+    /// The name a plan gives an open app, the one the person knows: Finder's, else its identifier.
+    static func name(of process: RunningCopies.Process) -> String? {
+        process.bundleURL.map(AppInspector.displayName) ?? process.bundleIdentifier
+    }
+
+    /// Those of `apps`, named as a plan names them (`Plan.appsToQuit`), that `running` no longer holds.
+    @concurrent
+    public static func quit(of apps: [String], running: [RunningCopies.Process]) async -> [String] {
+        let open = Set(running.compactMap(name(of:)))
+        return apps.filter { !open.contains($0) }
     }
 
     /// Squirrel's folder, named for the app's identifier, and electron-updater's, named in its `app-update.yml`.
