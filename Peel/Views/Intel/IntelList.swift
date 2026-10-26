@@ -3,7 +3,6 @@ import SwiftUI
 
 struct IntelList: View {
     @Environment(IntelLibrary.self) private var intel
-    @Environment(PluginLibrary.self) private var plugins
     @Environment(AppLibrary.self) private var library
     @Environment(HomeModel.self) private var home
     @State private var isRescanning = false
@@ -83,11 +82,15 @@ struct IntelList: View {
                 }
             }
         }
+        // What the page lists can change from other pages and other apps, and a scan costs little, so it looks again
+        // each time it is shown and each time Peel comes forward.
         .task(id: library.revision) {
-            guard library.hasLoaded, intel.scannedRevision != library.revision,
-                  !(intel.scan == nil && intel.scanRun.wasStopped)
-            else { return }
+            guard library.hasLoaded, !(intel.scan == nil && intel.scanRun.wasStopped) else { return }
             await scan()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            guard library.hasLoaded, !(intel.scan == nil && intel.scanRun.wasStopped) else { return }
+            Task { await scan() }
         }
         .rescanOnExclusionChange("IntelList") { await scan() }
     }
@@ -100,7 +103,7 @@ struct IntelList: View {
     }
 
     private func scan() async {
-        await intel.refresh(installedApps: library.apps, revision: library.revision, plugins: plugins.scan)
+        await intel.refresh(installedApps: library.apps)
     }
 
     /// What Peel couldn't read for this page: the apps the Applications list couldn't, and what the scan couldn't.

@@ -85,12 +85,6 @@ public struct PluginScan: Sendable {
     public var unreadable: [URL] = []
     /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
     public var needsFullDiskAccess = false
-
-    public init(plugins: [Plugin] = [], unreadable: [URL] = [], needsFullDiskAccess: Bool = false) {
-        self.plugins = plugins
-        self.unreadable = unreadable
-        self.needsFullDiskAccess = needsFullDiskAccess
-    }
 }
 
 /// Finds the plug-ins that apps have installed in the folders macOS loads plug-ins from. Apple's own
@@ -123,21 +117,9 @@ public enum Plugins {
         exclusions: Exclusions,
         measure: @escaping FileSize.Measure
     ) async -> PluginScan {
-        let libraries = [
-            (environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory), false),
-            (environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory), true),
-        ]
-        var found: [(url: URL, category: Plugin.Category, isForAllUsers: Bool)] = []
         var unreadable: [URL] = []
-        for (library, isForAllUsers) in libraries {
-            for (folder, category) in folders {
-                let directory = library.appending(path: folder, directoryHint: .isDirectory)
-                for url in bundles(in: directory, category: category, unreadable: &unreadable)
-                where !Task.isCancelled && !exclusions.excludes(url) && !exclusions.holds(url) {
-                    found.append((url, category, isForAllUsers))
-                }
-            }
-        }
+        let found = installed(in: environment, unreadable: &unreadable)
+            .filter { !exclusions.excludes($0.url) && !exclusions.holds($0.url) }
         // A few at a time, as the other scans measure: the guard's answer and the size each take a while, and a Mac
         // used for music can hold more than a thousand plug-ins.
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
@@ -149,7 +131,7 @@ public enum Plugins {
             let requiresPrivileges = folder.requiresPrivileges(toRemove: item.url)
             var plugin = Plugin(
                 url: item.url,
-                name: (info?["CFBundleName"] as? String) ?? item.url.deletingPathExtension().lastPathComponent,
+                name: name(of: item.url, info: info),
                 bundleIdentifier: info?["CFBundleIdentifier"] as? String,
                 version: (info?["CFBundleShortVersionString"] ?? info?["CFBundleVersion"]) as? String,
                 category: item.category,
@@ -170,6 +152,32 @@ public enum Plugins {
             unreadable: unreadable,
             needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing }
         )
+    }
+
+    /// The plug-ins in the user's Library and the Mac's, each with its kind and whether it is there for every account.
+    /// A folder that is there and can't be listed joins `unreadable`.
+    static func installed(
+        in environment: SearchEnvironment, unreadable: inout [URL]
+    ) -> [(url: URL, category: Plugin.Category, isForAllUsers: Bool)] {
+        let libraries = [
+            (environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory), false),
+            (environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory), true),
+        ]
+        var found: [(url: URL, category: Plugin.Category, isForAllUsers: Bool)] = []
+        for (library, isForAllUsers) in libraries {
+            for (folder, category) in folders {
+                let directory = library.appending(path: folder, directoryHint: .isDirectory)
+                for url in bundles(in: directory, category: category, unreadable: &unreadable) where !Task.isCancelled {
+                    found.append((url, category, isForAllUsers))
+                }
+            }
+        }
+        return found
+    }
+
+    /// The name a plug-in shows: the one its bundle declares, or its file's without the extension that says its kind.
+    static func name(of url: URL, info: [String: Any]?) -> String {
+        (info?["CFBundleName"] as? String) ?? url.deletingPathExtension().lastPathComponent
     }
 
     /// The file extensions each kind of plug-in uses.

@@ -231,8 +231,9 @@ struct IntelInspectorTests {
             measure: { _ in 1 }
         )
 
-        #expect(Set(scan.findings.map(\.name)) == ["rastertovendor", "Port.driver", "Device.driver"])
-        #expect(scan.findings.allSatisfy { $0.kind == .driver })
+        // A HAL driver sits in a folder of plug-ins too, and is listed as the Plug-ins page lists it.
+        let kinds = Dictionary(uniqueKeysWithValues: scan.findings.map { ($0.name, $0.kind) })
+        #expect(kinds == ["rastertovendor": .driver, "Port.driver": .driver, "Device": .plugin])
     }
 
     @Test func findsIntelHelpersInsideAUniversalApp() throws {
@@ -502,6 +503,20 @@ struct IntelInspectorTests {
         #expect(!IntelInspector.embeddedDirectories.contains("Contents/Frameworks"))
     }
 
+    @Test func readsThePlugInFoldersItself() async throws {
+        let directory = try TemporaryDirectory()
+        _ = try bundle(directory, "home/Library/Audio/Plug-Ins/VST3/Old.vst3", cpuTypes: [intel])
+        _ = try bundle(directory, "root/Library/Audio/Plug-Ins/Components/New.component", cpuTypes: [intel, appleSilicon])
+
+        let scan = await IntelInspector.scan(
+            installedApps: [], exclusions: .none, environment: environment(in: directory), measure: { _ in 1 }
+        )
+
+        #expect(scan.findings.map(\.name) == ["Old"])
+        #expect(scan.findings.map(\.kind) == [.plugin])
+        #expect(scan.findings.map(\.pluginCategory) == [.vst3])
+    }
+
     @Test(.permissionsHold) func namesWhatItCouldNotRead() async throws {
         let directory = try TemporaryDirectory()
         let closedDrivers = try directory.directory("root/Library/Printers/Closed")
@@ -517,9 +532,11 @@ struct IntelInspectorTests {
         let closedProgram = closedApp.appending(path: "Contents/MacOS/Closed")
         try directory.setPermissions(0o010, of: groupsFilter)
         for program in [tool, agent, closedProgram] { try directory.setPermissions(0o311, of: program) }
-        for folder in [closedDrivers, closedLibrary] { try directory.setPermissions(0o000, of: folder) }
-        defer { for folder in [closedDrivers, closedLibrary] { try? directory.setPermissions(0o755, of: folder) } }
-        let plugInFolder = directory.url.appending(path: "home/Library/Audio/Plug-Ins/VST3/Vendor", directoryHint: .isDirectory)
+        let plugInFolder = try directory.directory("home/Library/Audio/Plug-Ins/VST3/Vendor")
+        _ = try bundle(directory, "home/Library/Audio/Plug-Ins/VST3/Vendor/Old.vst3", cpuTypes: [intel])
+        let closed = [closedDrivers, closedLibrary, plugInFolder]
+        for folder in closed { try directory.setPermissions(0o000, of: folder) }
+        defer { for folder in closed { try? directory.setPermissions(0o755, of: folder) } }
         let job = BackgroundItem(
             label: "org.example.agent", kind: .agent, source: .userLibrary, plistURL: nil,
             program: agent.path(percentEncoded: false), runsAtLoad: false, keepsAlive: false,
@@ -532,7 +549,6 @@ struct IntelInspectorTests {
                 InstalledApp(url: universal, bundleIdentifier: "org.example.universal", name: "Universal", architectures: [.x86_64, .arm64]),
                 InstalledApp(url: closedApp, bundleIdentifier: "org.example.closed", name: "Closed", architectures: []),
             ],
-            plugins: PluginScan(unreadable: [plugInFolder]),
             backgroundItems: BackgroundItems.Scan(items: [job], unanswered: [.daemon]),
             exclusions: .none,
             environment: environment(in: directory),

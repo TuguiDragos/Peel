@@ -8,9 +8,6 @@ final class IntelLibrary {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
-    /// The revision of the apps list the scan was made from. The page scans again when the list changes, so an
-    /// app removed since does not stay listed.
-    private(set) var scannedRevision: Int?
     var selection: IntelFinding.ID?
 
     var selectedFinding: IntelFinding? {
@@ -20,22 +17,17 @@ final class IntelLibrary {
     var findings: [IntelFinding] { scan?.findings ?? [] }
 
     /// Scans everything the report covers, so it is complete even when the other pages were never opened.
-    /// Plug-ins the Plug-ins page already found are reused, because that scan checks every plug-in's signature
-    /// and a Mac used for music can hold hundreds of them.
-    func refresh(installedApps: [InstalledApp], revision: Int, plugins known: PluginScan? = nil) async {
+    func refresh(installedApps: [InstalledApp]) async {
         guard let result = await scanRun.run({
             let exclusions = ExclusionsStore.shared.exclusions
             async let backgroundItems = BackgroundItems.scan(exclusions: exclusions)
-            let plugins = if let known { known } else { await Plugins.scan(exclusions: exclusions) }
             return await IntelInspector.scan(
                 installedApps: installedApps,
-                plugins: plugins,
                 backgroundItems: backgroundItems,
                 exclusions: exclusions
             )
         }) else { return }
         scan = result
-        scannedRevision = revision
         if let selection, !result.findings.contains(where: { $0.id == selection }) {
             self.selection = nil
         }

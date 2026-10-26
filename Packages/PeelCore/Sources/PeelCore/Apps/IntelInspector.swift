@@ -28,8 +28,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
 
 public struct IntelScan: Sendable {
     public let findings: [IntelFinding]
-    /// What the scan couldn't read, each named once: folders it couldn't look into and programs it couldn't open, the
-    /// plug-in scan's included. Something there may need Rosetta.
+    /// What the scan couldn't read, each named once: folders it couldn't look into and programs it couldn't open.
+    /// Something there may need Rosetta.
     public var unreadable: [URL] = []
     /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
     public var needsFullDiskAccess = false
@@ -94,14 +94,12 @@ public enum IntelInspector {
     @concurrent
     public static func scan(
         installedApps: [InstalledApp],
-        plugins: PluginScan = PluginScan(),
         backgroundItems: BackgroundItems.Scan = BackgroundItems.Scan(),
         exclusions: Exclusions = .none,
         environment: SearchEnvironment = .current
     ) async -> IntelScan {
         await scan(
             installedApps: installedApps,
-            plugins: plugins,
             backgroundItems: backgroundItems,
             exclusions: exclusions,
             environment: environment,
@@ -112,7 +110,6 @@ public enum IntelInspector {
     @concurrent
     static func scan(
         installedApps: [InstalledApp],
-        plugins: PluginScan = PluginScan(),
         backgroundItems: BackgroundItems.Scan = BackgroundItems.Scan(),
         exclusions: Exclusions,
         environment: SearchEnvironment = .current,
@@ -154,15 +151,20 @@ public enum IntelInspector {
             }
         }
 
-        unreadable += plugins.unreadable
-        for plugin in plugins.plugins where !Task.isCancelled && !exclusions.excludes(plugin.url) {
-            guard isIntelOnly(bundle: plugin.url, unreadable: &unreadable), isNew(plugin.url) else { continue }
+        // Read here rather than taken from the Plug-ins page, whose list is as old as its last scan. Apple's own are
+        // left out, as that page leaves them out.
+        for plugin in Plugins.installed(in: environment, unreadable: &unreadable)
+        where !Task.isCancelled && !exclusions.excludes(plugin.url) {
+            guard isIntelOnly(bundle: plugin.url, unreadable: &unreadable), !AppleCode.isApples(plugin.url),
+                  isNew(plugin.url)
+            else { continue }
+            let info = AppInspector.infoDictionary(in: plugin.url.appending(path: "Contents", directoryHint: .isDirectory))
             findings.append(IntelFinding(
                 url: plugin.url,
                 kind: .plugin,
-                name: plugin.name,
+                name: Plugins.name(of: plugin.url, info: info),
                 owner: nil,
-                size: plugin.size,
+                size: await measure(plugin.url),
                 pluginCategory: plugin.category,
             ))
         }
