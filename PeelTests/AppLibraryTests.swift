@@ -596,6 +596,26 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
     }
 
+    @Test func theRoundRescanStartsSaysWhenItEnds() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock { $0 = Data() }
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal([bundle]))
+
+        library.checkEveryAppAgain()
+        #expect(library.isCheckingEveryApp)
+        let replaced = library.recheck
+        library.checkEveryAppAgain()
+        await replaced?.value
+        #expect(library.isCheckingEveryApp, "the end of a round a newer one replaced says nothing")
+        await library.recheck?.value
+        #expect(!library.isCheckingEveryApp)
+    }
+
     @Test func anAppShownFromElsewhereIsNeitherCountedNorExported() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")

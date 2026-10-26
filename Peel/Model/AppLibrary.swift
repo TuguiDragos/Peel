@@ -293,10 +293,19 @@ final class AppLibrary {
 
     /// The round of checks Rescan started, which the next Rescan stops before it starts its own.
     @ObservationIgnored private(set) var recheck: Task<Void, Never>?
+    @ObservationIgnored private var rechecks = 0
+    /// True while the round Rescan started runs, so the list can tell VoiceOver what that round found.
+    private(set) var isCheckingEveryApp = false
 
     func checkEveryAppAgain() {
         recheck?.cancel()
-        recheck = Task { await checkForUpdates(apps, force: true) }
+        rechecks += 1
+        let round = rechecks
+        isCheckingEveryApp = true
+        recheck = Task {
+            await checkForUpdates(apps, force: true)
+            if round == rechecks { isCheckingEveryApp = false }
+        }
     }
 
     private func keepUnreadable(of scan: AppScan) {

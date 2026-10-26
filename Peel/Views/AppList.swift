@@ -70,7 +70,11 @@ struct AppList: View {
         }
         .fadesInColumn(whenRowsChange: library.apps.map(\.id))
         .navigationTitle(Text(Tool.applications.title))
-        .announcesScan(library.isLoading, found: library.summary)
+        .announcesScan(library.scanRun.isRunning, found: library.summary, wasStopped: library.scanRun.wasStopped)
+        .announcesScan(
+            library.isCheckingEveryApp,
+            found: Tool.applications.sentence(for: Looked(count: library.appsWithUpdates.count, size: nil))
+        )
         .toolbar {
             ToolbarItem {
                 ExportMenu()
