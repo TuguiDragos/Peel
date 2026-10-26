@@ -80,6 +80,12 @@ struct IntelDetailView: View {
                 LabeledContent("Size") {
                     Text(finding.size.byteCount).monospacedDigit()
                 }
+                if !finding.backgroundItems.isEmpty {
+                    LabeledContent("Background Items") {
+                        Text(verbatim: finding.backgroundItems.formatted(.list(type: .and)))
+                            .textSelection(.enabled)
+                    }
+                }
                 if let lastOpened = lastOpened(of: app) {
                     LabeledContent("Last opened") {
                         Text(lastOpened, format: .relative(presentation: .named))

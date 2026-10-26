@@ -503,6 +503,49 @@ struct IntelInspectorTests {
         #expect(!IntelInspector.embeddedDirectories.contains("Contents/Frameworks"))
     }
 
+    @Test func countsCodeOnceThoughAJobOrACommandRunsIt() async throws {
+        let directory = try TemporaryDirectory()
+        let intelApp = try bundle(directory, "Apps/Intel.app", cpuTypes: [intel])
+        let agent = try directory.file("Apps/Intel.app/Contents/MacOS/Agent", contents: intelHeader(fileType: 2))
+        try directory.setPermissions(0o755, of: agent)
+        let universal = try bundle(directory, "Apps/Universal.app", cpuTypes: [intel, appleSilicon])
+        let helper = try bundle(directory, "Apps/Universal.app/Contents/Library/LoginItems/Helper.app", cpuTypes: [intel])
+        func job(_ label: String, running program: URL) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: .agent, source: .userLibrary, plistURL: nil,
+                program: program.path(percentEncoded: false), runsAtLoad: true, keepsAlive: false,
+                ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false, state: .loaded,
+                isDisabled: false
+            )
+        }
+        let bin = try directory.directory("root/usr/local/bin")
+        try FileManager.default.createSymbolicLink(
+            at: bin.appending(path: "helper"), withDestinationURL: helper.appending(path: "Contents/MacOS/Helper")
+        )
+
+        let scan = await IntelInspector.scan(
+            installedApps: [
+                InstalledApp(url: intelApp, bundleIdentifier: "org.example.intel", name: "Intel", architectures: [.x86_64]),
+                InstalledApp(url: universal, bundleIdentifier: "org.example.universal", name: "Universal", architectures: [.x86_64, .arm64]),
+            ],
+            backgroundItems: BackgroundItems.Scan(items: [
+                job("org.example.intel.agent", running: agent),
+                job("org.example.universal.helper", running: helper.appending(path: "Contents/MacOS/Helper")),
+            ]),
+            exclusions: .none,
+            environment: environment(in: directory),
+            measure: { _ in 1 }
+        )
+
+        let rows = Dictionary(uniqueKeysWithValues: scan.findings.map { ($0.name, ($0.kind, $0.backgroundItems)) })
+        #expect(rows.count == 2, "listed \(scan.findings.map(\.name))")
+        #expect(rows["Intel"]?.0 == .app)
+        #expect(rows["Intel"]?.1 == ["org.example.intel.agent"])
+        #expect(rows["Helper.app"]?.0 == .insideApp)
+        #expect(rows["Helper.app"]?.1 == ["org.example.universal.helper"])
+        #expect(scan.findings.filter { $0.matches("intel.agent") }.map(\.name) == ["Intel"])
+    }
+
     @Test func readsThePlugInFoldersItself() async throws {
         let directory = try TemporaryDirectory()
         _ = try bundle(directory, "home/Library/Audio/Plug-Ins/VST3/Old.vst3", cpuTypes: [intel])

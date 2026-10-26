@@ -22,6 +22,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public let size: Int64?
     /// For a plug-in, its kind, which says where its Intel code can load (`Plugin.Category.intelHost`).
     public var pluginCategory: Plugin.Category?
+    /// The labels of the launchd jobs that run a program at it or inside it.
+    public var backgroundItems: [String] = []
 
     public var id: URL { url }
 }
@@ -194,8 +196,16 @@ public enum IntelInspector {
             ))
         }
 
+        // A job or a command that runs what is listed already, or something inside it, is that code's, and a job is
+        // named on its row.
+        var listed = findings.map { PathPattern.comparablePath(of: $0.url) }
         for item in backgroundItems.items where !Task.isCancelled {
             guard let program = item.program.map({ URL(filePath: $0) }), !exclusions.excludes(program) else { continue }
+            let path = PathPattern.comparablePath(of: program)
+            if let index = listed.firstIndex(where: { PathComponents.isPath(path, atOrInside: $0) }) {
+                findings[index].backgroundItems.append(item.label)
+                continue
+            }
             guard isIntelOnly(executable: program, unreadable: &unreadable), isNew(program) else { continue }
             findings.append(IntelFinding(
                 url: program,
@@ -204,14 +214,13 @@ public enum IntelInspector {
                 owner: item.plistURL?.lastPathComponent,
                 size: await measure(program),
             ))
+            listed.append(path)
         }
 
-        // A command that leads into an app listed already is that app's.
-        let apps = findings.filter { $0.kind == .app }.map { PathPattern.comparablePath(of: $0.url) }
         for tool in tools(in: toolDirectories(environment), unreadable: &unreadable)
         where !Task.isCancelled && !exclusions.excludes(tool.url) {
             let path = PathPattern.comparablePath(of: tool.url)
-            guard !apps.contains(where: { PathComponents.isPath(path, inside: $0) }) else { continue }
+            guard !listed.contains(where: { PathComponents.isPath(path, atOrInside: $0) }) else { continue }
             guard isIntelOnly(executable: tool.url, unreadable: &unreadable), isNew(tool.url) else { continue }
             findings.append(IntelFinding(
                 url: tool.url,
@@ -472,9 +481,10 @@ public enum IntelInspector {
 }
 
 extension IntelFinding {
-    /// Whether `query` matches what the row shows: the name, or what the finding belongs to.
+    /// Whether `query` matches what the row shows, the name or what the finding belongs to, or a job that runs it.
     public func matches(_ query: String) -> Bool {
         guard !query.isEmpty else { return true }
         return SearchText.matches(name, query) || owner.map { SearchText.matches($0, query) } == true
+            || backgroundItems.contains { SearchText.matches($0, query) }
     }
 }
