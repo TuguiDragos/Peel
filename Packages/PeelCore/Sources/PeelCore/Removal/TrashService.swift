@@ -387,9 +387,9 @@ public struct TrashService: Sendable {
         return historyRefusal
     }
 
-    /// Why each of `apps` would not move now in an uninstall, by the checks its move makes: the guard, History, and
-    /// the programs holding it, unless only the app's own background programs do, which the move stops first. An app
-    /// missing from the answer would move.
+    /// Why each of `apps` would not move now in an uninstall, by the checks its move makes: the guard, History, a lock
+    /// on the bundle, which nobody can rename, root included, and the programs holding it, unless only the app's own
+    /// background programs do, which the move stops first. An app missing from the answer would move.
     func refusalsNow(
         ofApps apps: [URL],
         lettingTheirProgramsRun running: Set<URL>
@@ -399,6 +399,10 @@ public struct TrashService: Sendable {
         for app in apps {
             if let refusal = refusal(of: app) {
                 refusals[app] = refusal
+                continue
+            }
+            if FileAccess.isLocked(app) {
+                refusals[app] = FileAccess.isLockedInFinder(app) ? .locked : .notPermitted
                 continue
             }
             let mayRun = running.contains(app)

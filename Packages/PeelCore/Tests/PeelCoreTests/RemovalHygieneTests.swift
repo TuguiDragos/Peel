@@ -747,6 +747,17 @@ struct PrivacyResetTests {
         #expect(await PrivacyReset.goingNow([held, free], with: service(in: directory)).map(\.bundleIdentifier) == ["org.example.free"])
     }
 
+    @Test func resetsNoAppALockKeepsInPlace() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.directory("Applications/Locked.app")
+        let locked = InstalledApp(url: url, bundleIdentifier: "org.example.locked", name: "Locked")
+        #expect(chflags(url.path(percentEncoded: false), UInt32(UF_IMMUTABLE)) == 0)
+        defer { chflags(url.path(percentEncoded: false), 0) }
+
+        #expect(await PrivacyReset.goingNow([locked], with: service(in: directory)).isEmpty)
+        #expect(await service(in: directory).refusalsNow(ofApps: [url], lettingTheirProgramsRun: []) == [url: .locked])
+    }
+
     private func service(in directory: borrowing TemporaryDirectory) -> TrashService {
         TrashService(environment: SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
