@@ -278,6 +278,38 @@ struct IntelInspectorTests {
         ])
     }
 
+    @Test func findsTheUpdatersAnAppKeepsBesideItsFrameworksAndResources() throws {
+        let directory = try TemporaryDirectory()
+        _ = try bundle(directory, "Universal.app", cpuTypes: [intel, appleSilicon])
+        let sparkle = "Universal.app/Contents/Frameworks/Sparkle.framework"
+        let squirrel = "Universal.app/Contents/Frameworks/Squirrel.framework"
+        _ = try bundle(directory, "\(sparkle)/Versions/B/Updater.app", cpuTypes: [intel])
+        try directory.setPermissions(0o755, of: try directory.file("\(sparkle)/Versions/B/Autoupdate", contents: intelHeader(fileType: 2)))
+        // The framework's own library loads into the app's process.
+        try directory.setPermissions(0o755, of: try directory.file("\(sparkle)/Versions/B/Sparkle", contents: intelHeader(fileType: 6)))
+        try directory.setPermissions(0o755, of: try directory.file("\(squirrel)/Versions/A/Resources/ShipIt", contents: intelHeader(fileType: 2)))
+        try directory.file("\(squirrel)/Versions/A/Resources/Info.plist", bytes: 16)
+        for (link, destination) in [
+            ("\(sparkle)/Versions/Current", "B"), ("\(sparkle)/Autoupdate", "Versions/Current/Autoupdate"),
+            ("\(sparkle)/Updater.app", "Versions/Current/Updater.app"), ("\(squirrel)/Versions/Current", "A"),
+            ("\(squirrel)/Resources", "Versions/Current/Resources"),
+        ] {
+            try FileManager.default.createSymbolicLink(
+                atPath: directory.url.appending(path: link).path(percentEncoded: false),
+                withDestinationPath: destination
+            )
+        }
+        try directory.setPermissions(0o755, of: try directory.file("Universal.app/Contents/Resources/helper", contents: intelHeader(fileType: 2)))
+        try directory.file("Universal.app/Contents/Resources/strings.pak", bytes: 16)
+        _ = try bundle(directory, "Universal.app/Contents/Resources/Loaded.bundle", cpuTypes: [intel])
+        _ = try bundle(directory, "Universal.app/Contents/SharedSupport/Installer.app", cpuTypes: [intel])
+
+        let app = directory.url.appending(path: "Universal.app", directoryHint: .isDirectory)
+        let found = IntelInspector.intelOnlyBundles(inside: app)
+
+        #expect(found.map(\.lastPathComponent).sorted() == ["Autoupdate", "Installer.app", "ShipIt", "Updater.app", "helper"])
+    }
+
     /// A Homebrew installed for Intel keeps every command in `/usr/local/bin` as a link into its `Cellar`. The
     /// program the link leads to is what needs Rosetta, listed under the command's name.
     @Test func findsTheIntelProgramACommandLinkLeadsTo() throws {

@@ -79,6 +79,9 @@ public enum IntelInspector {
     /// The extensions of bundles that run as a process of their own.
     static let processExtensions: Set<String> = ["app", "xpc"]
 
+    /// Folders of an app made for resources, where some apps still keep a process of their own, an updater above all.
+    static let resourceDirectories = ["Contents/Resources", "Contents/SharedSupport"]
+
     @concurrent
     public static func scan(
         installedApps: [InstalledApp],
@@ -207,7 +210,10 @@ public enum IntelInspector {
 
     /// Helpers, plug-ins, and plain binaries inside an app that only have Intel code.
     static func intelOnlyBundles(inside bundle: URL) -> [URL] {
-        frameworkProcesses(inside: bundle).filter(isIntelOnly(bundle:))
+        let resources = resourceDirectories.flatMap { directory in
+            processes(in: bundle.appending(path: directory, directoryHint: .isDirectory))
+        }
+        return (frameworkProcesses(inside: bundle) + resources).filter(isIntelOnlyProcess)
             + embeddedDirectories.flatMap { directory -> [URL] in
                 let folder = bundle.appending(path: directory, directoryHint: .isDirectory)
                 let names =
@@ -226,9 +232,9 @@ public enum IntelInspector {
     }
 
     /// Returns the processes under `Contents/Frameworks`: apps and XPC services kept there directly, as every
-    /// Electron app keeps its helpers, and those in each framework's `XPCServices` and `Helpers` folders.
-    /// `Versions/Current` is skipped: it is a link to one of the versions beside it, so following it would
-    /// report the same bundle twice.
+    /// Electron app keeps its helpers, and those in each framework's `XPCServices` and `Helpers` folders, at the top
+    /// of each version, as Sparkle keeps its updater, and in its `Resources`, as Squirrel does. `Versions/Current` is
+    /// skipped: it is a link to one of the versions beside it, so following it would report the same bundle twice.
     static func frameworkProcesses(inside bundle: URL) -> [URL] {
         let frameworks = bundle.appending(path: "Contents/Frameworks", directoryHint: .isDirectory)
         return entries(of: frameworks).flatMap { url -> [URL] in
@@ -237,14 +243,38 @@ public enum IntelInspector {
             let versions = entries(of: url.appending(path: "Versions", directoryHint: .isDirectory))
                 .filter { $0.lastPathComponent != "Current" }
             return (versions + [url]).flatMap { version in
-                ["XPCServices", "Helpers"].flatMap { name in
+                let bundles = ["XPCServices", "Helpers"].flatMap { name in
                     // At the top of a versioned framework these are links into `Versions/Current`, already read.
                     let folder = version.appending(path: name, directoryHint: .isDirectory)
                     guard version != url || folder.isRealFolder else { return [URL]() }
                     return entries(of: folder).filter { processExtensions.contains($0.pathExtension.lowercased()) }
                 }
+                let resources = version.appending(path: "Resources", directoryHint: .isDirectory)
+                let kept = version != url || resources.isRealFolder ? processes(in: resources) : []
+                return bundles + processes(in: version) + kept
             }
         }
+    }
+
+    /// What in `folder` can run as a process of its own: a bundle that runs as one, or a file that can be run. Links
+    /// are passed over, since at the top of a framework they lead into a version read on its own.
+    private static func processes(in folder: URL) -> [URL] {
+        entries(of: folder).filter { url in
+            var info = stat()
+            guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
+            switch info.st_mode & S_IFMT {
+            case S_IFDIR: return processExtensions.contains(url.pathExtension.lowercased())
+            case S_IFREG: return info.st_mode & 0o111 != 0
+            default: return false
+            }
+        }
+    }
+
+    /// Whether `url`, a bundle that runs as a process or a file that can be run, has only Intel code, and a file is a
+    /// program rather than a library another program loads.
+    private static func isIntelOnlyProcess(_ url: URL) -> Bool {
+        url.hasDirectoryPath || url.isRealFolder
+            ? isIntelOnly(bundle: url) : isIntelOnly(executable: url) && MachOHeader.isProgram(at: url)
     }
 
     private static func entries(of directory: URL) -> [URL] {
