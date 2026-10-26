@@ -98,6 +98,33 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
 }
 
 extension AppExtension {
+    /// Where the person turns an extension on and off, which the point it plugs into decides.
+    public enum Switch: Sendable, Hashable {
+        /// System Settings > General > Login Items & Extensions.
+        case systemSettings
+        /// Safari > Settings > Extensions, where Safari keeps the choice itself (Apple's Safari User Guide).
+        case safari
+        /// The widget gallery, which adds and removes widgets; macOS turns none on or off (Apple's Mac User Guide).
+        case widgetGallery
+        /// Nowhere: Shortcuts and Siri use it whenever someone asks for the app's actions.
+        case nowhere
+    }
+
+    public var turnedOnAndOffIn: Switch {
+        switch point {
+        case "com.apple.Safari.extension", "com.apple.Safari.web-extension", "com.apple.Safari.content-blocker":
+            .safari
+        case "com.apple.widgetkit-extension": .widgetGallery
+        case "com.apple.intents-service", "com.apple.appintents-extension": .nowhere
+        default: .systemSettings
+        }
+    }
+
+    /// Whether `election` says if it is on. Safari keeps its own choice, which `pluginkit` doesn't show.
+    public var showsItsState: Bool {
+        turnedOnAndOffIn != .safari
+    }
+
     /// On macOS 27, System Settings deletes a network extension, even once its app is gone.
     public var systemSettingsDeletesIt: Bool {
         guard #available(macOS 27, *) else { return false }

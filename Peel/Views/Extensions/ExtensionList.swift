@@ -103,7 +103,7 @@ private struct ExtensionRow: View {
                     .lineLimit(1)
             }
         } trailing: {
-            if item.election != .asItCame {
+            if item.showsItsState, item.election != .asItCame {
                 Group {
                     if let mark = item.election.mark {
                         StatusLabel(title: Text(item.election.title), systemImage: mark, tint: .accentColor)

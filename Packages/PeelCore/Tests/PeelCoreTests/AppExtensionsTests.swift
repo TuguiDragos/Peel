@@ -4,6 +4,26 @@ import PeelPrivileged
 import Testing
 
 struct AppExtensionsTests {
+    @Test func eachExtensionIsTurnedOnAndOffWhereItsPointSays() {
+        func extensionOf(_ point: String?, kind: AppExtension.Kind = .appExtension) -> AppExtension {
+            AppExtension(
+                identifier: "org.example.app.part", name: "Part", kind: kind, point: point, owner: "App", url: nil,
+                election: .asItCame, teamIdentifier: nil, reportedState: nil
+            )
+        }
+
+        #expect(extensionOf("com.apple.FinderSync").turnedOnAndOffIn == .systemSettings)
+        #expect(extensionOf(nil, kind: .systemExtension).turnedOnAndOffIn == .systemSettings)
+        #expect(extensionOf("com.apple.Safari.extension").turnedOnAndOffIn == .safari)
+        #expect(extensionOf("com.apple.Safari.web-extension").turnedOnAndOffIn == .safari)
+        #expect(extensionOf("com.apple.Safari.content-blocker").turnedOnAndOffIn == .safari)
+        #expect(extensionOf("com.apple.widgetkit-extension").turnedOnAndOffIn == .widgetGallery)
+        #expect(extensionOf("com.apple.intents-service").turnedOnAndOffIn == .nowhere)
+        #expect(extensionOf("com.apple.appintents-extension").turnedOnAndOffIn == .nowhere)
+        #expect(!extensionOf("com.apple.Safari.web-extension").showsItsState)
+        #expect(extensionOf("com.apple.FinderSync").showsItsState)
+    }
+
     @Test func readsWhatPluginkitSaysAboutEachExtension() {
         let line = "     net.whatsapp.WhatsApp.Intents(26.37.22)\t99D7BB9C-5DFD\t2026-09-17 18:44:09 +0000\t/Applications/WhatsApp.app/Contents/PlugIns/Intents.appex"
         let parsed = AppExtensions.parse(line)

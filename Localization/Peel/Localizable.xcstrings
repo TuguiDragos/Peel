@@ -98427,6 +98427,112 @@
         }
       }
     },
+    "Nothing turns this on or off: Shortcuts and Siri use it whenever someone asks for the app’s actions. Removing it means removing the app it came with." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto rozšíření nelze zapnout ani vypnout: Zkratky a Siri ho používají, kdykoli někdo požádá o akce aplikace. Odstranit ho znamená odstranit aplikaci, se kterou přišlo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts aktiviert oder deaktiviert diese Erweiterung: „Kurzbefehle“ und Siri verwenden sie, wann immer jemand die Aktionen der App aufruft. Um sie zu entfernen, entfernst du die App, zu der sie gehört."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta extensión no se activa ni se desactiva: Atajos y Siri la usan cada vez que alguien pide las acciones de la app. Para eliminarla, hay que eliminar la app con la que vino."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien n’active ni ne désactive cette extension : Raccourcis et Siri l’utilisent chaque fois que quelqu’un fait appel aux actions de l’app. Pour la supprimer, il faut supprimer l’app avec laquelle elle est arrivée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa estensione non si attiva né si disattiva: Comandi Rapidi e Siri la usano ogni volta che qualcuno richiede le azioni dell’app. Rimuoverla significa rimuovere l’app con cui è arrivata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この機能拡張は、どこからもオン/オフにできません。ショートカットとSiriは、アプリのアクションが求められるたびにこれを使用します。機能拡張を取り除くには、提供元のアプリを取り除く必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 확장 프로그램은 어디에서도 켜거나 끌 수 없습니다. 누군가 앱의 동작을 요청할 때마다 단축어 및 Siri가 이 확장 프로그램을 사용합니다. 이 확장 프로그램을 제거하려면 함께 설치된 앱을 제거해야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niets schakelt deze extensie in of uit: Opdrachten en Siri gebruiken die telkens als iemand om de taken van de app vraagt. Deze extensie verwijderen betekent de app verwijderen waarmee die is meegekomen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nic nie włącza ani nie wyłącza tego rozszerzenia: Skróty i Siri używają go zawsze, gdy ktoś prosi o wykonanie czynności aplikacji. Aby pozbyć się tego rozszerzenia, trzeba odinstalować aplikację, z którą je dostarczono."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não há como ativar ou desativar esta extensão: o app Atalhos e a Siri a usam sempre que alguém pede as ações do app. Removê-la significa remover o app com que ela veio."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimic nu activează și nu dezactivează această extensie: Scurtături și Siri o folosesc ori de câte ori cineva cere acțiunile aplicației. A elimina extensia înseamnă a elimina aplicația cu care a venit."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ничто не включает и не выключает это расширение: его используют «Команды» и Siri каждый раз, когда кто-то обращается к действиям приложения. Чтобы удалить его, нужно удалить приложение, с которым оно поставлялось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget slår på eller stänger av det här tillägget: Genvägar och Siri använder det varje gång någon ber om appens åtgärder. För att ta bort det tar du bort appen som det följde med."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu hiçbir şey açmaz veya kapatmaz: Kestirmeler ve Siri, biri uygulamanın eylemlerini her istediğinde onu kullanır. Onu kaldırmak, onunla birlikte gelen uygulamayı kaldırmak demektir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ніщо не вмикає і не вимикає це розширення: Швидкі команди і Siri використовують його щоразу, коли хтось звертається до дій програми. Щоб вилучити розширення, треба вилучити програму, з якою воно прийшло."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有任何地方可以打开或关闭此项：每当有人请求该App的操作时，“快捷指令”和Siri就会使用它。要移除它，就需要移除它所属的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此延伸功能無法開啟或關閉：每當有人要求使用該App的動作時，「捷徑」和Siri就會使用它。若要移除它，就得移除它所屬的App。"
+          }
+        }
+      }
+    },
     "Nothing was moved to the Trash." : {
       "localizations" : {
         "cs" : {
@@ -103093,6 +103199,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "登入時打開Peel"
+          }
+        }
+      }
+    },
+    "Open Safari" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Safari"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safari öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Safari"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir Safari"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Safari"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safariを開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safari 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Safari"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Safari"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir o Safari"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți Safari"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть Safari"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Safari"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safari’yi Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити Safari"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开Safari浏览器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開Safari"
           }
         }
       }
@@ -112584,6 +112796,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會開啟或關閉延伸功能：這由macOS負責。若要移除延伸功能，就得移除它所屬的App。"
+          }
+        }
+      }
+    },
+    "Peel doesn’t turn this on or off: Safari does, in Safari > Settings > Extensions, which also shows whether it is on. Removing it means removing the app it came with." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel toto rozšíření nezapíná ani nevypíná: to dělá Safari, v Safari > Nastavení > Rozšíření, kde je také vidět, zda je zapnuté. Odstranit ho znamená odstranit aplikaci, se kterou přišlo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel aktiviert oder deaktiviert diese Erweiterung nicht: Das macht Safari unter „Safari“ > „Einstellungen“ > „Erweiterungen“, wo du auch siehst, ob sie aktiviert ist. Um sie zu entfernen, entfernst du die App, zu der sie gehört."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no activa ni desactiva esta extensión: eso lo hace Safari, en Safari > Ajustes > Extensiones, que también muestra si está activada. Para eliminarla, hay que eliminar la app con la que vino."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’active ni ne désactive cette extension : c’est Safari qui s’en charge, dans Safari > Réglages > Extensions, où vous pouvez aussi voir si elle est activée. Pour la supprimer, il faut supprimer l’app avec laquelle elle est arrivée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non attiva né disattiva questa estensione: lo fa Safari, in Safari > Impostazioni > Estensioni, che mostra anche se è attiva. Rimuoverla significa rimuovere l’app con cui è arrivata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この機能拡張をオン/オフにするのはSafariで、Peelは行いません。“Safari”＞“設定”＞“機能拡張”で切り替えることができ、オンになっているかどうかもそこに表示されます。機能拡張を取り除くには、提供元のアプリを取り除く必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 확장 프로그램을 켜거나 끄는 것은 Peel이 아니라 Safari입니다. Safari > 설정 > 확장 프로그램에서 켜거나 끌 수 있으며, 켜져 있는지도 그곳에 표시됩니다. 이 확장 프로그램을 제거하려면 함께 설치된 앱을 제거해야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel schakelt deze extensie niet in of uit: dat doet Safari, in Safari > Instellingen > Extensies, waar je ook ziet of die is ingeschakeld. Deze extensie verwijderen betekent de app verwijderen waarmee die is meegekomen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie włącza ani nie wyłącza tego rozszerzenia: robi to Safari, w Safari > Ustawienia > Rozszerzenia, gdzie widać też, czy jest włączone. Aby pozbyć się tego rozszerzenia, trzeba odinstalować aplikację, z którą je dostarczono."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não ativa nem desativa esta extensão: quem faz isso é o Safari, em Safari > Ajustes > Extensões, que também mostra se ela está ativada. Removê-la significa remover o app com que ela veio."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu activează și nu dezactivează această extensie: Safari face asta, în Safari > Configurări > Extensii, unde puteți vedea și dacă este activată. A elimina extensia înseamnă a elimina aplicația cu care a venit."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не включает и не выключает это расширение: это делает Safari в разделе «Safari» > «Настройки» > «Расширения», где также видно, включено ли оно. Чтобы удалить его, нужно удалить приложение, с которым оно поставлялось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel varken slår på eller stänger av det här tillägget: det gör Safari, i Safari > Inställningar > Tillägg, som också visar om det är på. För att ta bort det tar du bort appen som det följde med."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu genişletmeyi açmaz veya kapatmaz: bunu Safari, Safari > Ayarlar > Genişletmeler bölümünde yapar; bu bölüm onun açık olup olmadığını da gösterir. Onu kaldırmak, onunla birlikte gelen uygulamayı kaldırmak demektir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вмикає і не вимикає це розширення: це робить Safari в розділі Safari > Параметри > Розширення, де також видно, чи його ввімкнено. Щоб вилучити розширення, треба вилучити програму, з якою воно прийшло."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会打开或关闭此项：这由Safari浏览器负责，可在“Safari浏览器”>“设置”>“扩展”中进行，那里也会显示它是否已打开。要移除它，就需要移除它所属的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會開啟或關閉此延伸功能：這由Safari在「Safari」>「設定」>「延伸功能」中處理，那裡也會顯示它是否已開啟。若要移除它，就得移除它所屬的App。"
           }
         }
       }
@@ -210082,6 +210400,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS不知道此延伸功能的狀態，或回報了Peel無法辨識的狀態。"
+          }
+        }
+      }
+    },
+    "macOS doesn’t turn widgets on or off: they are added and removed with Edit Widgets, at the bottom of Notification Center or when you Control-click the wallpaper. Removing one for good means removing the app it came with." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS widgety nezapíná ani nevypíná: přidávají se a odstraňují pomocí volby Upravit widgety, kterou najdete v dolní části Oznamovacího centra nebo po kliknutí na tapetu se stisknutou klávesou Control. Trvale odstranit widget znamená odstranit aplikaci, se kterou přišel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS aktiviert oder deaktiviert keine Widgets: Hinzugefügt und entfernt werden sie mit „Widgets bearbeiten“, unten in der Mitteilungszentrale oder wenn du bei gedrückter Control-Taste auf das Hintergrundbild klickst. Um ein Widget endgültig zu entfernen, entfernst du die App, zu der es gehört."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no activa ni desactiva los widgets: se añaden y se eliminan con “Editar widgets”, en la parte inferior del centro de notificaciones o al hacer clic con la tecla Control pulsada en el fondo de pantalla. Para eliminar uno definitivamente, hay que eliminar la app con la que vino."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’active ni ne désactive les widgets : ils s’ajoutent et se suppriment avec « Modifier les widgets », en bas du centre de notifications ou lorsque vous cliquez sur le fond d’écran en maintenant la touche Contrôle enfoncée. Pour en supprimer un définitivement, il faut supprimer l’app avec laquelle il est arrivé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non attiva né disattiva i widget: si aggiungono e si rimuovono con “Modifica widget”, nella parte inferiore di Centro Notifiche o quando fai clic sullo sfondo tenendo premuto il tasto Ctrl. Rimuoverne uno definitivamente significa rimuovere l’app con cui è arrivato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSでは、ウィジェットはオン/オフにするのではなく、“ウィジェットを編集”で追加したり削除したりします。“ウィジェットを編集”は、通知センターの下部にあるほか、壁紙をControlキーを押しながらクリックしたときにも表示されます。ウィジェットを完全に取り除くには、提供元のアプリを取り除く必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위젯은 macOS에서 켜거나 끄는 것이 아니라, 알림 센터 하단에 있거나 배경화면을 Control-클릭하면 나타나는 ‘위젯 편집’으로 추가하거나 제거합니다. 위젯을 영구적으로 제거하려면 함께 설치된 앱을 제거해야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS schakelt widgets niet in of uit: ze worden toegevoegd en verwijderd met 'Wijzig widgets', onder in het meldingencentrum of als je met de Control-toets ingedrukt op de achtergrond klikt. Een widget definitief verwijderen betekent de app verwijderen waarmee die is meegekomen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie włącza ani nie wyłącza widżetów: dodaje się je i usuwa za pomocą polecenia Edytuj widżety, dostępnego na dole centrum powiadomień lub po kliknięciu w tapetę z klawiszem Control. Aby trwale pozbyć się widżetu, trzeba odinstalować aplikację, z którą go dostarczono."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não ativa nem desativa widgets: eles são adicionados e removidos com Editar Widgets, na parte inferior da Central de Notificações ou quando você clica na imagem de fundo com a tecla Control pressionada. Remover um widget definitivamente significa remover o app com que ele veio."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu activează și nu dezactivează widgeturi: acestea se adaugă și se elimină cu „Editați widgeturile”, în partea de jos a centrului de notificări sau când faceți Control‑clic pe fundal. A elimina definitiv un widget înseamnă a elimina aplicația cu care a venit."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не включает и не выключает виджеты: их добавляют и удаляют с помощью команды «Изменить виджеты» внизу Центра уведомлений или в меню, которое открывается, если нажать обои, удерживая клавишу Control. Чтобы полностью удалить виджет, нужно удалить приложение, с которым он поставлялся."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS varken slår på eller stänger av widgetar: de läggs till och tas bort med Redigera widgetar, längst ned i Notiscenter eller när du kontroll-klickar på bakgrundsbilden. För att ta bort en widget för gott tar du bort appen som den följde med."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS araç takımlarını açmaz veya kapatmaz: araç takımları, Bildirim Merkezi’nin en altındaki veya duvar kâğıdını Kontrol tuşuna basarak tıkladığınızda görünen “Araç Takımlarını Düzenle” ile eklenir ve kaldırılır. Birini kalıcı olarak kaldırmak, onunla birlikte gelen uygulamayı kaldırmak demektir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не вмикає і не вимикає віджети: їх додають і вилучають командою «Змінити віджети», яка є внизу Центру сповіщень і в меню, що зʼявляється, коли ви клацаєте шпалеру, утримуючи клавішу Control. Щоб вилучити віджет назавжди, треба вилучити програму, з якою він прийшов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不会打开或关闭小组件：小组件通过“编辑小组件”添加和移除，该选项位于“通知中心”底部，按住Control键点按墙纸时也会出现。要永久移除某个小组件，就需要移除它所属的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不會開啟或關閉小工具：小工具是透過「編輯小工具」來加入和移除的，這個選項位於「通知中心」底部，也會在你對背景圖片按下Control + 滑鼠鍵時出現。若要永久移除小工具，就得移除它所屬的App。"
           }
         }
       }

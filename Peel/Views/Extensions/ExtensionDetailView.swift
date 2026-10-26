@@ -35,10 +35,12 @@ struct ExtensionDetailView: View {
                             .textSelection(.enabled)
                     }
                 }
-                LabeledContent {
-                    Text(item.election.title)
-                } label: {
-                    heading("State", item.election.explanation)
+                if item.showsItsState {
+                    LabeledContent {
+                        Text(item.election.title)
+                    } label: {
+                        heading("State", item.election.explanation)
+                    }
                 }
                 if let reported = item.reportedState {
                     LabeledContent("macOS calls it") {
@@ -80,16 +82,11 @@ struct ExtensionDetailView: View {
                 HStack(spacing: 8) {
                     heading("Turning It On and Off", explanation)
                     Spacer(minLength: 8)
-                    Button {
-                        NSWorkspace.shared.open(AppExtensions.settingsURL)
-                    } label: {
-                        Text("Open System Settings")
-                            .minimumTarget()
-                    }
-                    .buttonStyle(.borderless)
-                    // In a form, a button in a section header is drawn lighter than the header's title (a list draws
-                    // them alike), so the button is set to the title's weight.
-                    .fontWeight(.semibold)
+                    switchButton
+                        .buttonStyle(.borderless)
+                        // In a form, a button in a section header is drawn lighter than the header's title (a list
+                        // draws them alike), so the button is set to the title's weight.
+                        .fontWeight(.semibold)
                 }
             }
         }
@@ -126,11 +123,41 @@ struct ExtensionDetailView: View {
         }
     }
 
+    @ViewBuilder
+    private var switchButton: some View {
+        switch item.turnedOnAndOffIn {
+        case .systemSettings:
+            Button {
+                NSWorkspace.shared.open(AppExtensions.settingsURL)
+            } label: {
+                Text("Open System Settings")
+                    .minimumTarget()
+            }
+        case .safari:
+            Button {
+                if let safari = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari") {
+                    NSWorkspace.shared.open(safari)
+                }
+            } label: {
+                Text("Open Safari")
+                    .minimumTarget()
+            }
+        case .widgetGallery, .nowhere:
+            EmptyView()
+        }
+    }
+
     private var explanation: LocalizedStringResource {
-        switch item.kind {
-        case .appExtension:
+        switch (item.kind, item.turnedOnAndOffIn) {
+        case (.systemExtension, _): systemExtensionExplanation
+        case (.appExtension, .systemSettings):
             "Peel doesn’t turn extensions on or off: macOS does. Removing one means removing the app it came with."
-        case .systemExtension: systemExtensionExplanation
+        case (.appExtension, .safari):
+            "Peel doesn’t turn this on or off: Safari does, in Safari > Settings > Extensions, which also shows whether it is on. Removing it means removing the app it came with."
+        case (.appExtension, .widgetGallery):
+            "macOS doesn’t turn widgets on or off: they are added and removed with Edit Widgets, at the bottom of Notification Center or when you Control-click the wallpaper. Removing one for good means removing the app it came with."
+        case (.appExtension, .nowhere):
+            "Nothing turns this on or off: Shortcuts and Siri use it whenever someone asks for the app’s actions. Removing it means removing the app it came with."
         }
     }
 

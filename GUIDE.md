@@ -229,7 +229,8 @@ and how many items the others hold.
   and an item whose app is in the Trash says that macOS starts it from there each time you log in, until you empty
   the Trash.
 - **Extensions:** app extensions and system extensions, and the app each one came with, with whether it is on and
-  the place in System Settings that turns it on or off.
+  where it is turned on or off: System Settings for most, Safari > Settings > Extensions for a Safari extension, which
+  Safari alone shows the state of, Edit Widgets for a widget, and nowhere for what Shortcuts and Siri use.
 - **Plug-ins:** plug-ins of every kind, from audio units to Quick Look, each of which you can move to the Trash,
   after Peel warns that apps using it may stop working.
 - **Package Receipts:** what installer packages other than Apple's put on your Mac, item by item, to move to the Trash.
