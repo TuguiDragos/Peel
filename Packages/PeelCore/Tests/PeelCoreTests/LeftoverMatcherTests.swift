@@ -723,4 +723,18 @@ struct LeftoverMatcherTests {
         #expect(match("Cookies.binarycookies", in: .cookies, for: cookies) == nil)
         #expect(match("Databases", in: .caches, for: databases)?.isRecommended == true)
     }
+
+    @Test func anAppNamedByItsIdentifiersBeginningKeepsWhatDeveloperNamesForIt() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Library/Application Support/Adobe/Common/Media Cache Files")
+        let effects = app("com.adobe.AfterEffects", name: "After Effects")
+        let premiere = InstalledApp(
+            url: URL(filePath: "/Applications/Premiere.app"), bundleIdentifier: "com.adobe.PremierePro.25", name: "Premiere"
+        )
+        let matcher = LeftoverMatcher(app: effects, installedApps: [effects, premiere])
+
+        let places = matcher.placesOthersKeep(home: directory.url)
+
+        #expect(places.contains { $0.place.hasSuffix("Adobe/Common/Media Cache Files") && $0.app == "com.adobe.PremierePro.25" })
+    }
 }

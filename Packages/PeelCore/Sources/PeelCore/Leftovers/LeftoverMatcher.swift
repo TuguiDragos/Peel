@@ -43,7 +43,10 @@ struct LeftoverMatcher: Sendable {
         let owners = others.filter { !$0.isACopy(of: target) }
         return DeveloperCaches.definitions.flatMap { definition -> [(place: String, app: String)] in
             let apps = Set(definition.appBundleIdentifiers.map { $0.lowercased() })
-            guard let owner = owners.first(where: { $0.identifier.map(apps.contains) ?? false }) else { return [] }
+            let prefixes = definition.appIdentifierPrefixes.map { $0.lowercased() }
+            guard let owner = owners.first(where: { owner in
+                owner.identifier.map { apps.contains($0) || prefixes.contains(where: $0.hasPrefix) } ?? false
+            }) else { return [] }
             return definition.folders.filter { $0.base == .home }.flatMap { folder in
                 PathPattern.expand(folder.path, home: home, from: .peel).map {
                     (PathPattern.comparablePath(of: $0), owner.reference)

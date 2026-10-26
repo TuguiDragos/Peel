@@ -91,6 +91,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
     /// The apps that use these locations. The Developer page moves nothing while one of them is running.
     public let appBundleIdentifiers: [String]
     public let locations: [Location]
+    /// The beginnings of the identifiers of more apps that use these locations, each carrying its version after them.
+    public var appIdentifierPrefixes: [String] = []
 
     public var total: SizeTotal {
         SizeTotal(locations.map(\.size))
@@ -108,10 +110,15 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
     /// when none runs. Nothing of the environment moves while one runs, from the app or `peel`: it writes in these
     /// folders. Asked each time, since an app can be opened at any moment.
     public var runningApp: String? {
-        appBundleIdentifiers.lazy.compactMap { identifier in
+        let named = appBundleIdentifiers.lazy.compactMap { identifier in
             NSRunningApplication.runningApplications(withBundleIdentifier: identifier)
                 .lazy.compactMap(\.localizedName).first
         }.first
+        guard named == nil, !appIdentifierPrefixes.isEmpty else { return named }
+        return NSWorkspace.shared.runningApplications.first { running in
+            running.bundleIdentifier.map { identifier in appIdentifierPrefixes.contains(where: identifier.hasPrefix) }
+                ?? false
+        }?.localizedName
     }
 }
 
@@ -125,6 +132,8 @@ public enum DeveloperCaches {
         /// The tool's own folder inside a folder its vendor shares with other products, such as
         /// `Library/Caches/Google/AndroidStudio*`. Space leaves only that part of the vendor's folder to Developer.
         var ownFolders: [String] = []
+        /// The beginnings of the identifiers of apps that carry their version in it (`com.adobe.PremierePro.25`).
+        var appIdentifierPrefixes: [String] = []
     }
 
     /// A folder a tool keeps, relative to the home folder or to the user's cache folder, and what it holds.
@@ -1127,10 +1136,13 @@ public enum DeveloperCaches {
         Definition(id: "blender", name: "Blender", systemImage: "cube.transparent", appBundleIdentifiers: ["org.blenderfoundation.blender"], folders: [
             Folder("Library/Caches/Blender", .cache, source: "https://projects.blender.org/blender/blender/src/commit/703834468bfa0464da39634f3cf346a078d5236c/source/blender/blenkernel/intern/appdir.cc#L228"),
         ]),
-        Definition(id: "adobe", name: "Adobe Media Cache", systemImage: "play.rectangle", appBundleIdentifiers: [], folders: [
+        // Adobe's page asks to quit Premiere first, and Premiere, After Effects and Media Encoder share the cache. Two
+        // of them carry their version in their identifier, as their Info.plists give it (`com.adobe.PremierePro.25`,
+        // `com.adobe.ame.application.22`), so they are named by its beginning.
+        Definition(id: "adobe", name: "Adobe Media Cache", systemImage: "play.rectangle", appBundleIdentifiers: ["com.adobe.AfterEffects"], folders: [
             Folder("Library/Application Support/Adobe/Common/Media Cache Files", .cache, source: "https://helpx.adobe.com/premiere/desktop/troubleshooting/media-issues/delete-media-cache-files-manually.html"),
             Folder("Library/Application Support/Adobe/Common/Media Cache", .cache, source: "https://helpx.adobe.com/premiere/desktop/troubleshooting/media-issues/delete-media-cache-files-manually.html"),
-        ]),
+        ], appIdentifierPrefixes: ["com.adobe.PremierePro.", "com.adobe.ame.application."]),
         // Quantum computing. Everything else these SDKs write in the home folder is settings or an account
         // token, so only these three folders are listed.
         Definition(id: "dwave", name: "D-Wave Ocean", systemImage: "atom", appBundleIdentifiers: [], folders: [
@@ -1426,7 +1438,8 @@ public enum DeveloperCaches {
             guard !folders.isEmpty else { return nil }
             return Definition(
                 id: definition.id, name: definition.name, systemImage: definition.systemImage,
-                appBundleIdentifiers: definition.appBundleIdentifiers, folders: folders
+                appBundleIdentifiers: definition.appBundleIdentifiers, folders: folders,
+                appIdentifierPrefixes: definition.appIdentifierPrefixes
             )
         }
         return await scan(
@@ -1615,7 +1628,8 @@ public enum DeveloperCaches {
             name: definition.name,
             systemImage: definition.systemImage,
             appBundleIdentifiers: definition.appBundleIdentifiers,
-            locations: locations.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) }
+            locations: locations.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
+            appIdentifierPrefixes: definition.appIdentifierPrefixes
         )
     }
 }

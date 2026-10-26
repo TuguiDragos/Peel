@@ -78,6 +78,16 @@ struct DeveloperCachesTests {
         #expect(environment(["org.example.closed"]).runningApp == nil)
     }
 
+    @Test func namesAnAppThatCarriesItsVersionInItsIdentifier() throws {
+        var tools = DeveloperEnvironment(id: "tools", name: "Tools", systemImage: "hammer", appBundleIdentifiers: [], locations: [])
+        tools.appIdentifierPrefixes = ["com.apple.find"]
+        #expect(tools.runningApp == "Finder")
+        tools.appIdentifierPrefixes = ["org.example."]
+        #expect(tools.runningApp == nil)
+        let adobe = try #require(DeveloperCaches.definitions.first { $0.id == "adobe" })
+        #expect(adobe.appIdentifierPrefixes == ["com.adobe.PremierePro.", "com.adobe.ame.application."])
+    }
+
     @Test func everyIntelliJIDEKeepsItsCachesWhileItRuns() throws {
         let jetbrains = try #require(DeveloperCaches.definitions.first { $0.id == "jetbrains" })
         let androidStudio = try #require(DeveloperCaches.definitions.first { $0.id == "androidstudio" })
