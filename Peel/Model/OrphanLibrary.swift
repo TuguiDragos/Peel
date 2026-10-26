@@ -35,6 +35,18 @@ final class OrphanLibrary {
         return (scan.forAnAdministrator.isEmpty ? [] : [.forAnAdministrator]) + scan.groups.map { .group($0.id) }
     }
 
+    /// Takes out of the selection what waits for the helper while the helper can't act: its checkbox is off then, and
+    /// a move would only refuse it, so it would stay selected, and counted, for every move after.
+    func follow(canUseHelper: Bool) {
+        let kept = Self.selection(selectedURLs, in: scan?.groups ?? [], canUseHelper: canUseHelper)
+        if kept != selectedURLs { selectedURLs = kept }
+    }
+
+    static func selection(_ selected: Set<URL>, in groups: [OrphanGroup], canUseHelper: Bool) -> Set<URL> {
+        guard !canUseHelper else { return selected }
+        return selected.subtracting(groups.flatMap(\.items).filter { $0.isLocked(canUseHelper: false) }.map(\.url))
+    }
+
     func selected(in group: OrphanGroup) -> [OrphanItem] {
         group.items.filter { selectedURLs.contains($0.url) }
     }

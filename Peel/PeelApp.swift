@@ -122,11 +122,12 @@ struct PeelApp: App {
         ))
     }
 
-    /// Keeps what Space selects in step with the helper whichever page is open, since its selection travels to the
-    /// other storage pages.
+    /// Keeps what Space and Orphaned Files select in step with the helper whichever page is open, since their
+    /// selections travel to the other storage pages.
     private func followHelper() async {
         for await canAct in Observations({ helper.canAct }) {
             space.follow(canUseHelper: canAct)
+            orphans.follow(canUseHelper: canAct)
         }
     }
 
