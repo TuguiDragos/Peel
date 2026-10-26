@@ -443,6 +443,54 @@ struct SelfRemovalTests {
         #expect(Set(try FileManager.default.contentsOfDirectory(atPath: trashed)) == [".hidden", "exclusions.json", "removals.json"])
     }
 
+    @Test func leavesWhatTheGuardKeepsInPeelsFolderWhereItIs() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        try directory.file("home/Library/Application Support/Peel/Terminal/zshrc")
+        try directory.file("home/Library/Application Support/Peel/exclusions.json")
+        let copies = try directory.directory("home/Library/Application Support/Peel/Preference Backups")
+        try directory.file("home/Library/Application Support/Peel/Preference Backups/org.example.app.plist")
+        let service = try service(in: directory, exclusions: Exclusions(paths: [copies]))
+
+        let result = await SelfRemoval.move([app], app: app, folder: folder, using: service) { _ in }
+
+        #expect(!copies.appending(path: "org.example.app.plist").isMissing)
+        #expect(result.failures.map(\.url.lastPathComponent) == ["Preference Backups"])
+        #expect(result.failures.first?.reason == .guarded(.excluded))
+        #expect(Set(try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)))
+            == ["Terminal", "Preference Backups"])
+    }
+
+    @Test func putsBackWhatItGatheredWhenTheGatheredFolderStays() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        try directory.file("home/Library/Application Support/Peel/Terminal/zshrc")
+        try directory.file("home/Library/Application Support/Peel/exclusions.json")
+        let gathered = folder.appending(path: "Peel", directoryHint: .isDirectory)
+        let trash = try directory.directory("Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let service = TrashService(environment: environment) { url in
+            guard url.standardizedFileURL != gathered.standardizedFileURL else {
+                throw CocoaError(.fileWriteNoPermission)
+            }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await SelfRemoval.move([app], app: app, folder: folder, using: service) { _ in }
+
+        #expect(!folder.appending(path: "exclusions.json").isMissing)
+        #expect(Set(try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)))
+            == ["Terminal", "exclusions.json"])
+        #expect(result.failures.map(\.url.lastPathComponent) == ["exclusions.json"])
+    }
+
     @Test func movesEachFileOnItsOwnWhenTheFolderCannotBeGathered() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("home/Applications/Peel.app")

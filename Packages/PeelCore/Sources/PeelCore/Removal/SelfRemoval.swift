@@ -166,17 +166,8 @@ public enum SelfRemoval {
             FileManager.default.fileExists(atPath: folder.path(percentEncoded: false))
         else { return result }
         let terminal = ShellFile.url(in: folder).deletingLastPathComponent()
-        let moved: TrashResult
-        if terminal.isMissing {
-            moved = await service.trash([folder])
-        } else {
-            do {
-                let rest = try gathered(in: folder, leaving: terminal)
-                moved = await service.trashOwnFiles(rest)
-            } catch {
-                moved = TrashResult(failures: [TrashFailure(url: folder, reason: .failed(error.localizedDescription))])
-            }
-        }
+        let moved = terminal.isMissing
+            ? await service.trash([folder]) : await movingTogether(folder, leaving: terminal, using: service)
         result.trashed += moved.trashed
         result.failures += moved.failures
         return result
@@ -227,19 +218,58 @@ public enum SelfRemoval {
         return (await service.trash(links, usingHelperFor: Set(links)), await moveLedger())
     }
 
-    /// Gathers everything in `folder` but `kept` into a folder named Peel inside it, so the Trash shows Peel's files
-    /// as one item. An entry that cannot be gathered is answered on its own.
-    private static func gathered(in folder: URL, leaving kept: URL) throws -> [URL] {
+    /// Moves everything in `folder` but `kept` to the Trash gathered in a folder named Peel, so the Trash shows Peel's
+    /// files as one item. The guard and the open files are asked about each entry where it is, before anything is
+    /// gathered, and what was gathered goes back to its name when the gathered folder stays.
+    private static func movingTogether(
+        _ folder: URL, leaving kept: URL, using service: TrashService
+    ) async -> TrashResult {
         let manager = FileManager.default
-        let entries = try manager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
-            .filter { $0.lastPathComponent != kept.lastPathComponent }
+        let entries: [URL]
+        do {
+            entries = try manager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+                .filter { $0.lastPathComponent != kept.lastPathComponent }
+        } catch {
+            return TrashResult(failures: [TrashFailure(url: folder, reason: .failed(error.localizedDescription))])
+        }
+        let openFiles = OpenFiles()
+        var stayed: [TrashFailure] = []
+        var going: [URL] = []
+        for entry in entries {
+            if let reason = service.refusal(of: entry) ?? openFiles.refusal(of: entry, lettingItsProgramsRun: false) {
+                stayed.append(TrashFailure(url: entry, reason: reason))
+            } else {
+                going.append(entry)
+            }
+        }
         let together = folder.appending(path: "Peel", directoryHint: .isDirectory)
-        guard (try? manager.createDirectory(at: together, withIntermediateDirectories: false)) != nil else {
-            return entries
+        guard !going.isEmpty, (try? manager.createDirectory(at: together, withIntermediateDirectories: false)) != nil
+        else {
+            var result = going.isEmpty ? TrashResult() : await service.trashOwnFiles(going)
+            result.failures += stayed
+            return result
         }
-        let left = entries.filter { entry in
-            (try? manager.moveItem(at: entry, to: together.appending(path: entry.lastPathComponent))) == nil
+        var gathered: [URL] = []
+        var left: [URL] = []
+        for entry in going {
+            let inside = together.appending(path: entry.lastPathComponent)
+            if (try? manager.moveItem(at: entry, to: inside)) != nil {
+                gathered.append(entry)
+            } else {
+                left.append(entry)
+            }
         }
-        return [together] + left
+        var result = await service.trashOwnFiles([together] + left)
+        if let refused = result.failures.first(where: { $0.url == together }) {
+            result.failures.removeAll { $0.url == together }
+            for entry in gathered {
+                let inside = together.appending(path: entry.lastPathComponent)
+                let back = (try? manager.moveItem(at: inside, to: entry)) != nil
+                result.failures.append(TrashFailure(url: back ? entry : inside, reason: refused.reason))
+            }
+            rmdir(together.path(percentEncoded: false))
+        }
+        result.failures += stayed
+        return result
     }
 }

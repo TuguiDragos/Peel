@@ -393,8 +393,8 @@ In Settings > General, choose Remove Peel. Peel then:
   helper when only an administrator can, and has the helper move its own record of what it moved;
 - removes its helper and its login item;
 - moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but
-  the Terminal settings zsh and ssh read. That folder holds History, your exclusions, and the settings Peel saved
-  when you reset an app;
+  the Terminal settings zsh and ssh read and anything in it you excluded in Settings. That folder holds History, your
+  exclusions, and the settings Peel saved when you reset an app;
 - ends its Finder extension, takes its icon out of the Dock, clears its settings, and quits.
 
 Remove Peel takes no step while Peel itself can't move, such as from a folder only an administrator can change, and
