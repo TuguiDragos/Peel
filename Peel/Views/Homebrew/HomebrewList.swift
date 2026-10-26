@@ -22,6 +22,11 @@ struct HomebrewList: View {
         let outdated = homebrew.outdated
 
         List(selection: $homebrew.selection) {
+            let needsDefinitions = homebrew.needsDefinitions
+            if searchText.isEmpty, homebrew.isInstalled,
+               Self.asksToUpdateAboveTheLists(needsDefinitions: needsDefinitions, packages: homebrew.packages) {
+                updateFirst
+            }
             // While searching, the page lists only the matching packages and hides every other section.
             if searchText.isEmpty, homebrew.isInstalled, !homebrew.needsDefinitions {
                 if let anotherAccount = homebrew.belongsToAnotherAccount {
@@ -396,6 +401,32 @@ struct HomebrewList: View {
                     }
                 } actions: {}
             }
+        }
+    }
+
+    /// Whether the page asks for Update Homebrew above lists it read before Homebrew's own definitions went: with no
+    /// list read, the page holds only that question.
+    static func asksToUpdateAboveTheLists(needsDefinitions: Bool, packages: [HomebrewPackage]?) -> Bool {
+        needsDefinitions && packages?.isEmpty == false
+    }
+
+    @ViewBuilder
+    private var updateFirst: some View {
+        if let anotherAccount = homebrew.belongsToAnotherAccount {
+            Notice(title: Text("Homebrew Belongs to Another Account"), detail: Text(anotherAccount), kind: .note) {}
+                .padding(.vertical, 6)
+                .listRowSeparator(.hidden)
+        } else {
+            Notice(
+                title: Text("Homebrew Has to Update First"),
+                detail: Text("Homebrew’s own list of packages isn’t on this Mac, so asking it about packages would download the list again. Peel doesn’t start that on its own."),
+                kind: .note
+            ) {
+                Button("Update Homebrew") { start(.update) }
+                    .disabled(isBusy)
+            }
+            .padding(.vertical, 6)
+            .listRowSeparator(.hidden)
         }
     }
 
