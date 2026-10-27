@@ -207,8 +207,9 @@ private struct SnapshotNote: View {
         .padding(.top, 4)
     }
 
-    /// One sentence for each kind of snapshot in the list, which can hold all three. `.other` covers any name
-    /// that is neither Time Machine's nor macOS's, and `tmutil deletelocalsnapshots` doesn't delete those.
+    /// One sentence for each kind of snapshot in the list, which can hold all three, and one more when macOS says it
+    /// can't delete some of them to make room. `.other` covers any name that is neither Time Machine's nor macOS's,
+    /// and `tmutil deletelocalsnapshots` doesn't delete those.
     private var explanations: [LocalizedStringResource] {
         let kinds = Set(snapshots.map(\.kind))
         var lines: [LocalizedStringResource] = []
@@ -216,10 +217,13 @@ private struct SnapshotNote: View {
             lines.append("Time Machine’s snapshots are made as it backs up, and kept for a while. macOS deletes them itself when something needs the room.")
         }
         if kinds.contains(.systemUpdate) {
-            lines.append("macOS makes a snapshot before it updates, so the update can be undone. It goes away by itself.")
+            lines.append("macOS saves a snapshot before it installs an update.")
         }
         if kinds.contains(.other) {
             lines.append("Snapshots another app made, such as a backup app, are that app’s to remove, not Peel’s.")
+        }
+        if snapshots.contains(where: { $0.isPurgeable == false }) {
+            lines.append("macOS says it can’t delete some of these to make room, so their space isn’t available until they are gone.")
         }
         return lines
     }

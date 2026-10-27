@@ -229361,112 +229361,6 @@
         }
       }
     },
-    "macOS makes a snapshot before it updates, so the update can be undone. It goes away by itself." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systém macOS před aktualizací vytváří snímek, aby bylo možné aktualizaci vrátit. Snímek pak sám zmizí."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS erstellt vor einem Update einen Snapshot, damit sich das Update rückgängig machen lässt. Er verschwindet von selbst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS crea una instantánea antes de actualizarse, para que la actualización se pueda deshacer. Desaparece por sí sola."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS crée un instantané avant une mise à jour, afin qu’elle puisse être annulée. Il disparaît de lui-même."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS crea un’istantanea prima di aggiornarsi, così l’aggiornamento si può annullare. Poi sparisce da sola."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSはアップデートの前にスナップショットを作成し、アップデートを取り消せるようにします。このスナップショットは自動的になくなります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS는 업데이트를 되돌릴 수 있도록 업데이트하기 전에 스냅샷을 만듭니다. 이 스냅샷은 저절로 사라집니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS maakt vóór een update een momentopname, zodat de update ongedaan kan worden gemaakt. Die verdwijnt vanzelf."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS tworzy migawkę przed uaktualnieniem, aby można je było cofnąć. Migawka sama znika."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS cria uma captura antes de se atualizar, para que a atualização possa ser desfeita. Ela desaparece sozinha."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS creează un instantaneu înainte de a se actualiza, ca actualizarea să poată fi anulată. Acesta dispare de la sine."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS создает снимок перед обновлением, чтобы обновление можно было отменить. Он исчезает сам."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS skapar en ögonblicksbild innan systemet uppdateras, så att uppdateringen kan ångras. Den försvinner av sig själv."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS güncellemeden önce bir anlık görüntü alır, böylece güncelleme geri alınabilir. Bu görüntü kendiliğinden kaybolur."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS створює знімок перед оновленням, щоб оновлення можна було відмінити. Він зникає сам."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS会在更新前创建快照，以便撤销更新。该快照会自行消失。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS會在更新前建立快照，以便恢復到更新前的狀態。這個快照會自行消失。"
-          }
-        }
-      }
-    },
     "macOS marks it as protected." : {
       "localizations" : {
         "cs" : {
@@ -230311,6 +230205,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會執行它，而且只有「系統設定」>「一般」>「登入項目與延伸功能」能更改它，因此Peel不會在這裡啟動、停止、啟用或停用它。"
+          }
+        }
+      }
+    },
+    "macOS saves a snapshot before it installs an update." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS před instalací aktualizace uloží snímek."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS sichert vor der Installation eines Updates einen Snapshot."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS guarda una instantánea antes de instalar una actualización."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS enregistre un instantané avant d’installer une mise à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS salva un’istantanea prima di installare un aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、アップデートをインストールする前にスナップショットを保存します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 업데이트를 설치하기 전에 스냅샷을 저장합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bewaart een momentopname voordat het een update installeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS tworzy migawkę przed zainstalowaniem uaktualnienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS salva uma captura antes de instalar uma atualização."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS salvează un instantaneu înainte de a instala o actualizare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS сохраняет снимок перед установкой обновления."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS sparar en ögonblicksbild innan en uppdatering installeras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bir güncellemeyi yüklemeden önce bir anlık görüntü kaydeder."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS зберігає знімок, перш ніж інсталювати оновлення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS会在安装更新前保存快照。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會在安裝更新前建立快照。"
+          }
+        }
+      }
+    },
+    "macOS says it can’t delete some of these to make room, so their space isn’t available until they are gone." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS uvádí, že některé z nich nemůže smazat, aby uvolnil místo, takže prostor, který zabírají, nebude k dispozici, dokud nezmizí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laut macOS lassen sich einige davon nicht löschen, um Platz zu schaffen, daher ist ihr Speicherplatz erst verfügbar, wenn sie verschwunden sind."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indica que no puede eliminar algunas de estas instantáneas para hacer sitio, así que el espacio que ocupan no está disponible hasta que desaparezcan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indique qu’il ne peut pas supprimer certains de ces instantanés pour faire de la place : leur espace n’est donc pas disponible tant qu’ils n’ont pas disparu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indica che non può eliminare alcune di queste istantanee per fare spazio, quindi il loro spazio non è disponibile finché non spariscono."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、これらの一部は領域を空けるために削除できないと報告しています。そのため、それらがなくなるまで、その領域は使用できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS에 따르면 공간을 확보하기 위해 이 중 일부를 삭제할 수 없으므로, 해당 스냅샷이 사라지기 전까지는 그 공간을 사용할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS meldt dat het sommige hiervan niet kan verwijderen om ruimte te maken, dus de ruimte die ze innemen, is pas beschikbaar als ze weg zijn."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS podaje, że nie może usunąć niektórych z tych migawek, aby zwolnić miejsce, więc zajmowane przez nie miejsce nie będzie dostępne, dopóki nie znikną."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS diz que não pode apagar algumas destas capturas para abrir espaço, então o espaço que elas ocupam não fica disponível até que desapareçam."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS spune că nu poate șterge unele dintre acestea pentru a face loc, așa că spațiul lor nu este disponibil până când nu dispar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS сообщает, что не может удалить некоторые из этих снимков, чтобы освободить место, поэтому занятое ими место недоступно, пока они не исчезнут."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS anger att vissa av de här inte kan raderas för att frigöra utrymme, så deras utrymme är inte tillgängligt förrän de är borta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, yer açmak için bunlardan bazılarını silemeyeceğini söylüyor, bu yüzden bunlar gidene kadar kapladıkları alan kullanılamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS повідомляє, що не може видалити деякі з цих знімків, щоб звільнити місце, тож займане ними місце буде недоступне, доки вони не зникнуть."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS表示它无法为腾出空间而删除其中一些快照，因此在这些快照消失之前，它们占用的空间不可用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS表示它無法刪除其中部分快照來騰出空間，因此在這些快照消失之前，它們佔用的空間無法使用。"
           }
         }
       }

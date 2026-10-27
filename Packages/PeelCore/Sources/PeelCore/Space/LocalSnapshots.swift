@@ -2,8 +2,8 @@ public import Foundation
 internal import PeelPrivileged
 
 /// A local snapshot: a copy of the whole disk as it was at one moment, kept on the disk itself. Time Machine
-/// makes them, and macOS makes one before it updates. They are most of what macOS counts as purgeable space:
-/// macOS deletes them by itself when it needs the room.
+/// makes them, and macOS saves one before it installs an update. They are most of what macOS counts as purgeable
+/// space: macOS deletes the purgeable ones by itself when it needs the room.
 ///
 /// Deleting one is permanent, so Peel only explains them.
 public struct LocalSnapshot: Sendable, Hashable, Identifiable {
