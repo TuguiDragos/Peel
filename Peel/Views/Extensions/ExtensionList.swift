@@ -9,12 +9,7 @@ struct ExtensionList: View {
     private var listed: [AppExtension] {
         let all = extensions.extensions ?? []
         guard !searchText.isEmpty else { return all }
-        return all.filter {
-            SearchText.matches($0.name, searchText)
-                || $0.owner.map { owner in SearchText.matches(owner, searchText) } == true
-                || $0.point.map { point in SearchText.matches(point, searchText) } == true
-                || SearchText.matches($0.identifier, searchText)
-        }
+        return all.filter { $0.matches(searchText) }
     }
 
     var body: some View {
@@ -105,21 +100,15 @@ private struct ExtensionRow: View {
     let showsVersion: Bool
 
     var body: some View {
-        ToolRow(systemImage: item.kind.systemImage) {
+        ToolRow(systemImage: item.kind.systemImage, symbolName: item.kind.title) {
             Text(verbatim: item.name)
                 .lineLimit(1)
         } details: {
             if showsVersion, let version = item.shownVersion {
                 Text("Version \(version)")
                     .lineLimit(1)
-            } else if item.goneApp != nil, let name = item.appName {
-                Text("\(name), no longer installed")
-                    .lineLimit(1)
-            } else if let owner = item.owner {
-                Text(verbatim: owner)
-                    .lineLimit(1)
-            } else if let point = item.pointName {
-                Text(verbatim: point)
+            } else if let detail = item.rowDetail {
+                Text(verbatim: detail)
                     .lineLimit(1)
             }
         } trailing: {

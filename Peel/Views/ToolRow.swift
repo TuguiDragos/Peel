@@ -4,6 +4,8 @@ import SwiftUI
 /// mark at the trailing edge.
 struct ToolRow<Title: View, Details: View, Trailing: View>: View {
     let systemImage: String
+    /// What VoiceOver says of the symbol when it tells something the row's words don't, such as an item's kind.
+    var symbolName: LocalizedStringResource?
     @ViewBuilder let title: Title
     @ViewBuilder let details: Details
     @ViewBuilder let trailing: Trailing
@@ -15,7 +17,8 @@ struct ToolRow<Title: View, Details: View, Trailing: View>: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 28, height: 28)
                 .background(.quaternary, in: .circle)
-                .accessibilityHidden(true)
+                .accessibilityLabel(symbolName.map { Text($0) } ?? Text(verbatim: ""))
+                .accessibilityHidden(symbolName == nil)
             VStack(alignment: .leading, spacing: 1) {
                 title
                 details
@@ -30,8 +33,15 @@ struct ToolRow<Title: View, Details: View, Trailing: View>: View {
 }
 
 extension ToolRow where Trailing == EmptyView {
-    init(systemImage: String, @ViewBuilder title: () -> Title, @ViewBuilder details: () -> Details) {
-        self.init(systemImage: systemImage, title: title, details: details, trailing: { EmptyView() })
+    init(
+        systemImage: String,
+        symbolName: LocalizedStringResource? = nil,
+        @ViewBuilder title: () -> Title,
+        @ViewBuilder details: () -> Details
+    ) {
+        self.init(
+            systemImage: systemImage, symbolName: symbolName, title: title, details: details, trailing: { EmptyView() }
+        )
     }
 }
 

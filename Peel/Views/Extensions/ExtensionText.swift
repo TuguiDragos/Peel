@@ -9,6 +9,20 @@ extension AppExtension {
         guard let point else { return nil }
         return ExtensionPoint(point).map { String(localized: $0.word) } ?? point
     }
+
+    /// What a row says under the name: the app it came with, or what it plugs into when it carries the app's own
+    /// name, so that the parts of one app named after it read apart.
+    var rowDetail: String? {
+        if goneApp != nil, let name = appName { return String(localized: "\(name), no longer installed") }
+        guard let owner else { return pointName }
+        guard let pointName, name.localizedCaseInsensitiveCompare(owner) == .orderedSame else { return owner }
+        return pointName
+    }
+
+    /// Whether a search for `text` finds it, by what its row and page say as well as by its identifiers.
+    func matches(_ text: String) -> Bool {
+        [name, owner, pointName, point, identifier].contains { $0.map { SearchText.matches($0, text) } == true }
+    }
 }
 
 /// An extension point Peel has a word for. Its identifiers come from Apple's App Extension Keys documentation
