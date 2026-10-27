@@ -173,7 +173,7 @@ struct DuplicateList: View {
             words = words + " " + AttributedString(localized: "Peel couldn’t look in ^[\(count) folder](inflect: true).")
         }
         if !scan.skippedLocations.isEmpty {
-            words = words + " " + AttributedString(localized: "Some folders couldn’t be searched")
+            words = words + " " + AttributedString(localized: "Some folders couldn’t be searched.")
         }
         return words
     }

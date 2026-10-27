@@ -48077,6 +48077,346 @@
         }
       }
     },
+    "From ^[%lld group](inflect: true)." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Týká se %lld skupin."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Týká se %lld skupiny."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Týká se %lld skupiny."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Týká se %lld skupin."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aus %lld Gruppe."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aus %lld Gruppen."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld de grupos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld grupo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld grupos."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cela concerne %lld de groupes."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cela concerne %lld groupe."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cela concerne %lld groupes."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Da %lld di gruppi."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Da un gruppo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Da %lld gruppi."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld個のグループが対象です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그룹 %lld개에서 선택한 항목입니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uit %lld groep."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uit %lld groepen."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Z %lld grup."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Z %lld grup."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Z %lld grupy."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Z %lld grupy."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld de grupos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld grupo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "De %lld grupos."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Din %lld grupuri."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Din %lld grup."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Din %lld de grupuri."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из %lld групп."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из %lld групп."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из %lld группы."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из %lld группы."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Från %lld grupp."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Från %lld grupper."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld gruptan."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld gruptan."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "З %lld груп."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "З %lld груп."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "З %lld групи."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "З %lld групи."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自%lld组。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自%lld個群組。"
+          }
+        }
+      }
+    },
     "From ^[%lld group](inflect: true). A selected folder goes with everything in it." : {
       "localizations" : {
         "cs" : {
@@ -117536,108 +117876,108 @@
         }
       }
     },
-    "Peel compares files by their full contents. A folder is a copy only when every file in it matches, hidden ones included. Repositories (Git, Mercurial, Subversion), projects with a build file such as package.json or Cargo.toml, node_modules, and libraries such as Photos and Music are left alone, and an app is never offered on its own. A build file at the top of a folder you chose doesn’t make it a project." : {
+    "Peel compares files by their full contents. A folder is a copy only when every file in it matches, hidden ones included. Repositories (Git, Mercurial, Subversion), projects with a build file such as package.json or Cargo.toml, node_modules, and libraries such as Photos and Music are left alone, and an app is never offered on its own. A build file at the top of a folder you chose doesn’t make it a project. Copies whose Finder tags, Finder comment, or resource fork differ aren’t listed together, a hidden file counts only toward the folder around it, and a copy in a folder that syncs to your other devices is listed and never moved." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel porovnává soubory podle celého obsahu. Složka je kopií, jen když se shoduje každý soubor v ní, včetně skrytých. Repozitáře (Git, Mercurial, Subversion), projekty se souborem sestavení, jako je package.json nebo Cargo.toml, složky node_modules a knihovny aplikací, jako jsou Fotky a Hudba, zůstávají nedotčené a samotná aplikace se nikdy nenabízí. Soubor sestavení přímo ve složce, kterou jste zvolili, z ní projekt nedělá."
+            "value" : "Peel porovnává soubory podle celého obsahu. Složka je kopií, jen když se shoduje každý soubor v ní, včetně skrytých. Repozitáře (Git, Mercurial, Subversion), projekty se souborem sestavení, jako je package.json nebo Cargo.toml, složky node_modules a knihovny aplikací, jako jsou Fotky a Hudba, zůstávají nedotčené a samotná aplikace se nikdy nenabízí. Soubor sestavení přímo ve složce, kterou jste zvolili, z ní projekt nedělá. Kopie, které se liší značkami Finderu, poznámkou Finderu nebo prostředkovou částí, se neuvádějí společně, skrytý soubor se počítá jen jako součást složky, ve které je, a kopie ve složce, která se synchronizuje s vašimi ostatními zařízeními, se zobrazuje, ale nikdy se nepřesune."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel vergleicht Dateien anhand ihres vollständigen Inhalts. Ein Ordner gilt nur dann als Kopie, wenn jede Datei darin übereinstimmt, auch die ausgeblendeten. Repositorys (Git, Mercurial, Subversion), Projekte mit einer Build-Datei wie package.json oder Cargo.toml, node_modules und Mediatheken wie die von Fotos und Musik bleiben unangetastet, und eine App wird nie für sich allein angeboten. Eine Build-Datei auf der obersten Ebene eines Ordners, den du gewählt hast, macht ihn nicht zu einem Projekt."
+            "value" : "Peel vergleicht Dateien anhand ihres vollständigen Inhalts. Ein Ordner gilt nur dann als Kopie, wenn jede Datei darin übereinstimmt, auch die ausgeblendeten. Repositorys (Git, Mercurial, Subversion), Projekte mit einer Build-Datei wie package.json oder Cargo.toml, node_modules und Mediatheken wie die von Fotos und Musik bleiben unangetastet, und eine App wird nie für sich allein angeboten. Eine Build-Datei auf der obersten Ebene eines Ordners, den du gewählt hast, macht ihn nicht zu einem Projekt. Kopien, deren Finder-Tags, Finder-Kommentar oder Resource-Fork sich unterscheiden, werden nicht zusammen aufgeführt, eine ausgeblendete Datei zählt nur für den Ordner, in dem sie liegt, und eine Kopie in einem Ordner, der mit deinen anderen Geräten synchronisiert wird, wird aufgeführt, aber nie verschoben."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel compara los archivos por todo su contenido. Una carpeta es una copia solo cuando coinciden todos sus archivos, incluidos los ocultos. Los repositorios (Git, Mercurial, Subversion), los proyectos con un archivo de compilación como package.json o Cargo.toml, node_modules y las bibliotecas como las de Fotos y Música no se tocan, y una app nunca se ofrece por sí sola. Un archivo de compilación en el primer nivel de una carpeta que hayas elegido no la convierte en un proyecto."
+            "value" : "Peel compara los archivos por todo su contenido. Una carpeta es una copia solo cuando coinciden todos sus archivos, incluidos los ocultos. Los repositorios (Git, Mercurial, Subversion), los proyectos con un archivo de compilación como package.json o Cargo.toml, node_modules y las bibliotecas como las de Fotos y Música no se tocan, y una app nunca se ofrece por sí sola. Un archivo de compilación en el primer nivel de una carpeta que hayas elegido no la convierte en un proyecto. Las copias cuyas etiquetas del Finder, comentario del Finder o bifurcación de recursos difieren no aparecen juntas, un archivo oculto solo cuenta para la carpeta que lo contiene, y una copia en una carpeta que se sincroniza con tus otros dispositivos aparece en la lista, pero nunca se traslada."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel compare les fichiers sur l’intégralité de leur contenu. Un dossier n’est une copie que si chacun de ses fichiers correspond, fichiers masqués compris. Les dépôts (Git, Mercurial, Subversion), les projets contenant un fichier de compilation comme package.json ou Cargo.toml, les dossiers node_modules et les bibliothèques comme celles de Photos et de Musique sont laissés de côté, et une app n’est jamais proposée seule. Un fichier de compilation placé à la racine d’un dossier que vous avez choisi n’en fait pas un projet."
+            "value" : "Peel compare les fichiers sur l’intégralité de leur contenu. Un dossier n’est une copie que si chacun de ses fichiers correspond, fichiers masqués compris. Les dépôts (Git, Mercurial, Subversion), les projets contenant un fichier de compilation comme package.json ou Cargo.toml, les dossiers node_modules et les bibliothèques comme celles de Photos et de Musique sont laissés de côté, et une app n’est jamais proposée seule. Un fichier de compilation placé à la racine d’un dossier que vous avez choisi n’en fait pas un projet. Les copies dont les tags du Finder, le commentaire du Finder ou la branche de ressources diffèrent ne sont pas listées ensemble, un fichier masqué ne compte que pour le dossier qui le contient, et une copie située dans un dossier synchronisé avec vos autres appareils est listée, mais jamais déplacée."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel confronta i file in base al loro intero contenuto. Una cartella è una copia solo se ogni file al suo interno corrisponde, compresi quelli nascosti. I repository (Git, Mercurial, Subversion), i progetti con un file di build come package.json o Cargo.toml, node_modules e le librerie come quelle di Foto e Musica non vengono toccati, e un’app non viene mai proposta da sola. Un file di build al primo livello di una cartella che hai scelto non la rende un progetto."
+            "value" : "Peel confronta i file in base al loro intero contenuto. Una cartella è una copia solo se ogni file al suo interno corrisponde, compresi quelli nascosti. I repository (Git, Mercurial, Subversion), i progetti con un file di build come package.json o Cargo.toml, node_modules e le librerie come quelle di Foto e Musica non vengono toccati, e un’app non viene mai proposta da sola. Un file di build al primo livello di una cartella che hai scelto non la rende un progetto. Le copie con tag del Finder, commento del Finder o resource fork diversi non vengono elencate insieme, un file nascosto conta solo per la cartella che lo contiene, e una copia in una cartella che si sincronizza con gli altri tuoi dispositivi viene elencata ma mai spostata."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはファイルを内容全体で比較します。フォルダがコピーと見なされるのは、中にあるすべてのファイル（隠しファイルを含む）が一致する場合だけです。リポジトリ（Git、Mercurial、Subversion）、package.jsonやCargo.tomlなどのビルドファイルがあるプロジェクト、node_modules、“写真”や“ミュージック”などのライブラリには手を付けず、アプリが単独で候補になることも決してありません。選択したフォルダの最上位にビルドファイルがあっても、そのフォルダがプロジェクトと見なされることはありません。"
+            "value" : "Peelはファイルを内容全体で比較します。フォルダがコピーと見なされるのは、中にあるすべてのファイル（隠しファイルを含む）が一致する場合だけです。リポジトリ（Git、Mercurial、Subversion）、package.jsonやCargo.tomlなどのビルドファイルがあるプロジェクト、node_modules、“写真”や“ミュージック”などのライブラリには手を付けず、アプリが単独で候補になることも決してありません。選択したフォルダの最上位にビルドファイルがあっても、そのフォルダがプロジェクトと見なされることはありません。Finderのタグ、Finderのコメント、またはリソースフォークが異なるコピーは、同じグループには表示されません。隠しファイルは、それを含むフォルダの一部としてのみ扱われます。また、ほかのデバイスに同期されるフォルダにあるコピーは、一覧には表示されますが、移動されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 파일의 전체 내용을 비교합니다. 폴더는 숨김 파일을 포함하여 안에 있는 모든 파일이 일치할 때만 복사본으로 간주됩니다. 저장소(Git, Mercurial, Subversion), package.json이나 Cargo.toml 같은 빌드 파일이 있는 프로젝트, node_modules, 사진 보관함이나 음악 보관함 같은 보관함은 그대로 두며, 앱은 절대 단독으로 제안되지 않습니다. 선택한 폴더의 최상위에 빌드 파일이 있다고 해서 그 폴더가 프로젝트가 되지는 않습니다."
+            "value" : "Peel은 파일의 전체 내용을 비교합니다. 폴더는 숨김 파일을 포함하여 안에 있는 모든 파일이 일치할 때만 복사본으로 간주됩니다. 저장소(Git, Mercurial, Subversion), package.json이나 Cargo.toml 같은 빌드 파일이 있는 프로젝트, node_modules, 사진 보관함이나 음악 보관함 같은 보관함은 그대로 두며, 앱은 절대 단독으로 제안되지 않습니다. 선택한 폴더의 최상위에 빌드 파일이 있다고 해서 그 폴더가 프로젝트가 되지는 않습니다. Finder 태그, Finder 설명 또는 자원 포크가 다른 복사본은 함께 나열되지 않으며, 숨김 파일은 그 파일이 들어 있는 폴더를 비교할 때만 반영되고, 다른 기기와 동기화되는 폴더에 있는 복사본은 목록에 표시되지만 절대 이동되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel vergelijkt bestanden op hun volledige inhoud. Een map is alleen een kopie als elk bestand erin overeenkomt, verborgen bestanden inbegrepen. Repository's (Git, Mercurial, Subversion), projecten met een buildbestand zoals package.json of Cargo.toml, node_modules en bibliotheken zoals die van Foto's en Muziek worden met rust gelaten, en een app wordt nooit apart aangeboden. Een buildbestand bovenin een map die je hebt gekozen, maakt er geen project van."
+            "value" : "Peel vergelijkt bestanden op hun volledige inhoud. Een map is alleen een kopie als elk bestand erin overeenkomt, verborgen bestanden inbegrepen. Repository's (Git, Mercurial, Subversion), projecten met een buildbestand zoals package.json of Cargo.toml, node_modules en bibliotheken zoals die van Foto's en Muziek worden met rust gelaten, en een app wordt nooit apart aangeboden. Een buildbestand bovenin een map die je hebt gekozen, maakt er geen project van. Kopieën waarvan de Finder-tags, de Finder-opmerking of de resourcefork verschillen, worden niet samen getoond, een verborgen bestand telt alleen mee voor de map eromheen, en een kopie in een map die met je andere apparaten wordt gesynchroniseerd, wordt getoond en nooit verplaatst."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel porównuje pliki na podstawie całej ich zawartości. Folder jest kopią tylko wtedy, gdy zgadza się każdy plik w nim, łącznie z ukrytymi. Repozytoria (Git, Mercurial, Subversion), projekty z plikiem kompilacji, takim jak package.json lub Cargo.toml, foldery node_modules oraz biblioteki, na przykład aplikacji Zdjęcia i Muzyka, pozostają nietknięte, a aplikacja nigdy nie jest proponowana osobno. Plik kompilacji na najwyższym poziomie wybranego przez Ciebie folderu nie czyni z niego projektu."
+            "value" : "Peel porównuje pliki na podstawie całej ich zawartości. Folder jest kopią tylko wtedy, gdy zgadza się każdy plik w nim, łącznie z ukrytymi. Repozytoria (Git, Mercurial, Subversion), projekty z plikiem kompilacji, takim jak package.json lub Cargo.toml, foldery node_modules oraz biblioteki, na przykład aplikacji Zdjęcia i Muzyka, pozostają nietknięte, a aplikacja nigdy nie jest proponowana osobno. Plik kompilacji na najwyższym poziomie wybranego przez Ciebie folderu nie czyni z niego projektu. Kopie, które różnią się tagami Findera, komentarzem Findera lub częścią zawierającą zasoby, nie są wyświetlane razem, ukryty plik jest brany pod uwagę tylko przy porównywaniu folderu, w którym się znajduje, a kopia w folderze synchronizowanym z Twoimi pozostałymi urządzeniami jest na liście, ale nigdy nie jest przenoszona."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel compara os arquivos pelo conteúdo completo. Uma pasta só é uma cópia quando todos os arquivos dela coincidem, inclusive os ocultos. Repositórios (Git, Mercurial, Subversion), projetos com um arquivo de compilação como package.json ou Cargo.toml, node_modules e bibliotecas como as dos apps Fotos e Música ficam de fora, e um app nunca é oferecido sozinho. Um arquivo de compilação na raiz de uma pasta que você escolheu não faz dela um projeto."
+            "value" : "O Peel compara os arquivos pelo conteúdo completo. Uma pasta só é uma cópia quando todos os arquivos dela coincidem, inclusive os ocultos. Repositórios (Git, Mercurial, Subversion), projetos com um arquivo de compilação como package.json ou Cargo.toml, node_modules e bibliotecas como as dos apps Fotos e Música ficam de fora, e um app nunca é oferecido sozinho. Um arquivo de compilação na raiz de uma pasta que você escolheu não faz dela um projeto. Cópias com etiquetas do Finder, comentário do Finder ou bifurcação de recursos diferentes não são listadas juntas, um arquivo oculto só conta para a pasta que o contém, e uma cópia em uma pasta sincronizada com os seus outros dispositivos aparece na lista, mas nunca é movida."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel compară fișierele după întregul lor conținut. Un dosar este o copie doar dacă toate fișierele din el coincid, inclusiv cele ascunse. Depozitele (Git, Mercurial, Subversion), proiectele cu un fișier de compilare precum package.json sau Cargo.toml, node_modules și bibliotecile precum cele din Poze și Muzică sunt lăsate neatinse, iar o aplicație nu este niciodată propusă singură. Un fișier de compilare aflat chiar în dosarul ales de dvs. nu face din acesta un proiect."
+            "value" : "Peel compară fișierele după întregul lor conținut. Un dosar este o copie doar dacă toate fișierele din el coincid, inclusiv cele ascunse. Depozitele (Git, Mercurial, Subversion), proiectele cu un fișier de compilare precum package.json sau Cargo.toml, node_modules și bibliotecile precum cele din Poze și Muzică sunt lăsate neatinse, iar o aplicație nu este niciodată propusă singură. Un fișier de compilare aflat chiar în dosarul ales de dvs. nu face din acesta un proiect. Copiile ale căror etichete Finder, comentariu Finder sau ramură de resurse diferă nu sunt listate împreună, un fișier ascuns contează doar pentru dosarul în care se află, iar o copie dintr‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. este listată, dar nu este mutată niciodată."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel сравнивает файлы по всему их содержимому. Папка считается копией, только если в ней совпадает каждый файл, включая скрытые. Репозитории (Git, Mercurial, Subversion), проекты с файлом сборки, например package.json или Cargo.toml, папки node_modules и медиатеки таких приложений, как «Фото» и «Музыка», не затрагиваются, а приложение никогда не предлагается само по себе. Файл сборки в корне выбранной Вами папки не делает ее проектом."
+            "value" : "Peel сравнивает файлы по всему их содержимому. Папка считается копией, только если в ней совпадает каждый файл, включая скрытые. Репозитории (Git, Mercurial, Subversion), проекты с файлом сборки, например package.json или Cargo.toml, папки node_modules и медиатеки таких приложений, как «Фото» и «Музыка», не затрагиваются, а приложение никогда не предлагается само по себе. Файл сборки в корне выбранной Вами папки не делает ее проектом. Копии, у которых различаются теги Finder, комментарий Finder или ветвь ресурсов, не показываются вместе, скрытый файл учитывается только при сравнении папки, в которой он находится, а копия в папке, которая синхронизируется с другими Вашими устройствами, показывается в списке, но никогда не перемещается."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel jämför filer utifrån hela innehållet. En mapp räknas som en kopia bara när varje fil i den stämmer överens, gömda filer inräknade. Kodförråd (Git, Mercurial, Subversion), projekt med en byggfil som package.json eller Cargo.toml, node_modules och bibliotek från appar som Bilder och Musik lämnas orörda, och en app erbjuds aldrig ensam. En byggfil högst upp i en mapp som du har valt gör inte mappen till ett projekt."
+            "value" : "Peel jämför filer utifrån hela innehållet. En mapp räknas som en kopia bara när varje fil i den stämmer överens, gömda filer inräknade. Kodförråd (Git, Mercurial, Subversion), projekt med en byggfil som package.json eller Cargo.toml, node_modules och bibliotek från appar som Bilder och Musik lämnas orörda, och en app erbjuds aldrig ensam. En byggfil högst upp i en mapp som du har valt gör inte mappen till ett projekt. Kopior vars Finder-taggar, Finder-kommentar eller resursdel skiljer sig åt listas inte tillsammans, en gömd fil räknas bara som en del av mappen som den ligger i, och en kopia i en mapp som synkroniseras till dina andra enheter listas men flyttas aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel dosyaları içeriklerinin tamamıyla karşılaştırır. Bir klasör, yalnızca gizli olanlar dahil içindeki her dosya eşleştiğinde kopya sayılır. Depolara (Git, Mercurial, Subversion), package.json veya Cargo.toml gibi bir derleme dosyası olan projelere, node_modules klasörlerine ve Fotoğraflar ve Müzik gibi uygulamaların arşivlerine dokunulmaz; bir uygulama da hiçbir zaman tek başına önerilmez. Seçtiğiniz bir klasörün en üst düzeyindeki bir derleme dosyası, o klasörü proje yapmaz."
+            "value" : "Peel dosyaları içeriklerinin tamamıyla karşılaştırır. Bir klasör, yalnızca gizli olanlar dahil içindeki her dosya eşleştiğinde kopya sayılır. Depolara (Git, Mercurial, Subversion), package.json veya Cargo.toml gibi bir derleme dosyası olan projelere, node_modules klasörlerine ve Fotoğraflar ve Müzik gibi uygulamaların arşivlerine dokunulmaz; bir uygulama da hiçbir zaman tek başına önerilmez. Seçtiğiniz bir klasörün en üst düzeyindeki bir derleme dosyası, o klasörü proje yapmaz. Finder etiketleri, Finder açıklaması veya kaynak yazılım çatalı farklı olan kopyalar birlikte listelenmez; gizli bir dosya yalnızca içinde bulunduğu klasör için hesaba katılır ve diğer aygıtlarınızla eşzamanlanan bir klasördeki bir kopya listelenir ama hiçbir zaman taşınmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel порівнює файли за їхнім повним умістом. Папка вважається копією, лише коли збігаються всі файли в ній, зокрема приховані. Репозиторії (Git, Mercurial, Subversion), проєкти з файлом збірки, як-от package.json чи Cargo.toml, node_modules і медіатеки таких програм, як «Фотографії» і «Музика», лишаються на місці, а програма ніколи не пропонується окремо. Файл збірки на верхньому рівні вибраної вами папки не робить її проєктом."
+            "value" : "Peel порівнює файли за їхнім повним умістом. Папка вважається копією, лише коли збігаються всі файли в ній, зокрема приховані. Репозиторії (Git, Mercurial, Subversion), проєкти з файлом збірки, як-от package.json чи Cargo.toml, node_modules і медіатеки таких програм, як «Фотографії» і «Музика», лишаються на місці, а програма ніколи не пропонується окремо. Файл збірки на верхньому рівні вибраної вами папки не робить її проєктом. Копії, у яких відрізняються теги Finder, коментар Finder або гілка ресурсів, не потрапляють до однієї групи, прихований файл враховується лише як частина папки, у якій лежить, а копія в папці, що синхронізується з іншими вашими пристроями, показується, але ніколи не переміщується."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel按完整内容比较文件。只有当文件夹中的每个文件（包括隐藏文件）都相同时，该文件夹才算作副本。代码仓库（Git、Mercurial、Subversion）、带有package.json或Cargo.toml等构建文件的项目、node_modules，以及“照片”和“音乐”等资料库，Peel都不会触碰；App也绝不会被单独列出以供移除。你所选文件夹顶层的构建文件不会使该文件夹成为项目。"
+            "value" : "Peel按完整内容比较文件。只有当文件夹中的每个文件（包括隐藏文件）都相同时，该文件夹才算作副本。代码仓库（Git、Mercurial、Subversion）、带有package.json或Cargo.toml等构建文件的项目、node_modules，以及“照片”和“音乐”等资料库，Peel都不会触碰；App也绝不会被单独列出以供移除。你所选文件夹顶层的构建文件不会使该文件夹成为项目。访达标签、访达注释或资源分支不同的副本不会列在一起；隐藏文件只在比较其所在文件夹时计入；位于会同步到你的其他设备的文件夹中的副本会列出，但绝不会被移动。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會比對檔案的完整內容。只有當檔案夾中的每個檔案（包括隱藏檔案）都相符時，該檔案夾才算是副本。儲存庫（Git、Mercurial、Subversion）、含有package.json或Cargo.toml等建置檔案的計畫案、node_modules，以及「照片」和「音樂」等App的資料庫都會原地保留，而App絕不會被單獨列出供你移除。你所選擇的檔案夾最上層的建置檔案，並不會讓該檔案夾成為計畫案。"
+            "value" : "Peel會比對檔案的完整內容。只有當檔案夾中的每個檔案（包括隱藏檔案）都相符時，該檔案夾才算是副本。儲存庫（Git、Mercurial、Subversion）、含有package.json或Cargo.toml等建置檔案的計畫案、node_modules，以及「照片」和「音樂」等App的資料庫都會原地保留，而App絕不會被單獨列出供你移除。你所選擇的檔案夾最上層的建置檔案，並不會讓該檔案夾成為計畫案。Finder標籤、Finder註解或resource fork不同的副本不會列在一起，隱藏檔案只會計入包含它的檔案夾，而位於與你的其他裝置同步之檔案夾中的副本會列出，但絕不會移動。"
           }
         }
       }
@@ -161415,6 +161755,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "部分檔案夾無法搜尋"
+          }
+        }
+      }
+    },
+    "Some folders couldn’t be searched." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Některé složky nelze prohledat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einige Ordner konnten nicht durchsucht werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido buscar en algunas carpetas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certains dossiers n’ont pas pu être parcourus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile cercare in alcune cartelle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一部のフォルダを検索できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일부 폴더를 검색할 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sommige mappen konden niet worden doorzocht."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się przeszukać niektórych folderów."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível buscar em algumas pastas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În unele dosare nu s‑a putut căuta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В некоторых папках не удалось выполнить поиск."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vissa mappar kunde inte genomsökas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bazı klasörlerde arama yapılamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У деяких папках не вдалося виконати пошук."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能搜索部分文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分檔案夾無法搜尋。"
           }
         }
       }
