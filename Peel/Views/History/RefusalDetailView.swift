@@ -49,6 +49,7 @@ private struct RefusalRecordRow: View {
             Image(systemName: "nosign")
                 .foregroundStyle(.secondary)
                 .frame(width: 20)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(record.url.abbreviatedPath)
                     .lineLimit(1)
@@ -60,6 +61,7 @@ private struct RefusalRecordRow: View {
             }
             Spacer(minLength: 0)
         }
+        .accessibilityElement(children: .combine)
         .tableRow(isFirst: isFirst)
         .contextMenu {
             ItemMenu(url: record.url, isExcluded: isExcluded)
