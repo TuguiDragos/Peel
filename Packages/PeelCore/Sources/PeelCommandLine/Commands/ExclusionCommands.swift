@@ -6,7 +6,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "exclusions",
         abstract: "Show and change what Peel leaves alone.",
-        discussion: "The same list the Peel app keeps. Nothing excluded is scanned, offered, or moved by either. Without a subcommand, it shows the list.",
+        discussion: "The same list the Peel app keeps. Nothing excluded is offered or moved by either, though an excluded app is still listed. Without a subcommand, it shows the list.",
         subcommands: [ListCommand.self, AddCommand.self, RemoveCommand.self],
         defaultSubcommand: ListCommand.self
     )
@@ -78,7 +78,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
         static let configuration = CommandConfiguration(
             commandName: "add",
             abstract: "Leave a file, a folder, or an app alone.",
-            discussion: "A whole disk, a home folder, or a Library is refused: excluding one would leave every tool with nothing to show."
+            discussion: "The startup disk, a folder at its top, your home folder, or its Library is refused: excluding one would leave every tool with nothing to show."
         )
 
         @Argument(help: "Files or folders to leave alone.", completion: .file())

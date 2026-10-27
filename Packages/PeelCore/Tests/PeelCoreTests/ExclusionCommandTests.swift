@@ -99,6 +99,15 @@ struct ExclusionCommandTests {
         #expect(await saved(store).isEmpty)
     }
 
+    @Test func saysWhatItKeepsOutAsTheRulesDo() {
+        let list = ExclusionsCommand.configuration.discussion
+        let add = ExclusionsCommand.AddCommand.configuration.discussion
+        #expect(list.contains("an excluded app is still listed"), "an excluded app shows in peel apps")
+        #expect(add.hasPrefix("The startup disk, a folder at its top, your home folder, or its Library is refused"))
+        #expect(Exclusions.isTooBroad(URL(filePath: "/")) && Exclusions.isTooBroad(URL(filePath: "/Users")))
+        #expect(!Exclusions.isTooBroad(URL(filePath: "/Volumes/Backup")), "a disk other than the startup disk was called refused")
+    }
+
     /// One place is one exclusion however it is written: a file the app saved, the same path in capitals, never
     /// added twice and taken off by any of its spellings.
     @Test func treatsEverySpellingOfAPathAsOne() async throws {

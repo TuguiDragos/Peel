@@ -125441,108 +125441,108 @@
         }
       }
     },
-    "Peel never moves anything inside these to the Trash, nor a folder that holds one of them, though some pages may still list them. Homebrew’s own Clean Up doesn’t read this list." : {
+    "Peel never moves anything inside these to the Trash, nor a folder that holds one of them, and its tools never list them, though History still shows what moved before. Homebrew’s Clean Up keeps the formulae whose folder you exclude here, but this list doesn’t cover what else it deletes, such as its downloads." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel do koše nikdy nepřesune nic uvnitř těchto položek ani složku, která některou z nich obsahuje, přestože je některé stránky mohou dál zobrazovat. Homebrew při vlastním čištění (Vyčistit) tento seznam nečte."
+            "value" : "Peel do koše nikdy nepřesune nic uvnitř těchto položek ani složku, která některou z nich obsahuje, a jeho nástroje je nikdy nezobrazují, i když Historie dál ukazuje, co se přesunulo dříve. Homebrew při čištění (Vyčistit) ponechá formulae, jejichž složku zde vyloučíte, ale tento seznam se nevztahuje na nic dalšího, co maže, například na jeho stažené soubory."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel legt nie etwas, das sich darin befindet, in den Papierkorb und auch nie einen Ordner, der eines davon enthält, selbst wenn manche Seiten sie weiterhin anzeigen. Das eigene „Bereinigen“ von Homebrew liest diese Liste nicht."
+            "value" : "Peel legt nie etwas, das sich darin befindet, in den Papierkorb und auch nie einen Ordner, der eines davon enthält, und seine Tools zeigen sie nie an, auch wenn der Verlauf weiterhin aufführt, was zuvor verschoben wurde. Das „Bereinigen“ von Homebrew behält die Formulae, deren Ordner du hier ausschließt, aber diese Liste gilt nicht für das, was es sonst noch löscht, etwa seine Downloads."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nunca traslada a la papelera nada de lo que hay dentro de estos, ni una carpeta que contenga alguno de ellos, aunque algunas páginas puedan seguir mostrándolos. La opción Limpiar del propio Homebrew no lee esta lista."
+            "value" : "Peel nunca traslada a la papelera nada de lo que hay dentro de estos, ni una carpeta que contenga alguno de ellos, y sus herramientas nunca los muestran, aunque Historial sigue mostrando lo que se trasladó antes. La opción Limpiar de Homebrew conserva las formulae cuya carpeta excluyas aquí, pero esta lista no cubre lo demás que borra, como sus descargas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ne place jamais dans la corbeille ce qui se trouve dans ces éléments, ni un dossier qui en contient un, même si certaines pages peuvent encore les lister. La commande Nettoyer de Homebrew ne lit pas cette liste."
+            "value" : "Peel ne place jamais dans la corbeille ce qui se trouve dans ces éléments, ni un dossier qui en contient un, et ses outils ne les listent jamais, même si l’Historique affiche encore ce qui a été déplacé auparavant. La commande Nettoyer de Homebrew conserve les formulae dont vous excluez le dossier ici, mais cette liste ne couvre pas ce qu’elle supprime d’autre, comme les téléchargements de Homebrew."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non sposta mai nel Cestino nulla di ciò che si trova al loro interno, né una cartella che ne contiene uno, anche se alcune pagine potrebbero comunque elencarli. “Ripulisci” di Homebrew non legge questo elenco."
+            "value" : "Peel non sposta mai nel Cestino nulla di ciò che si trova al loro interno, né una cartella che ne contiene uno, e i suoi strumenti non li elencano mai, anche se la Cronologia mostra ancora ciò che è stato spostato prima. “Ripulisci” di Homebrew conserva le formulae di cui escludi qui la cartella, ma questo elenco non copre le altre cose che elimina, come i suoi download."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、これらの中にあるものも、これらのいずれかを含むフォルダも、決してゴミ箱に入れません。ただし、一部のページには表示される場合があります。Homebrew自身の“クリーンアップ”はこのリストを読み取りません。"
+            "value" : "Peelは、これらの中にあるものも、これらのいずれかを含むフォルダも、決してゴミ箱に入れません。また、Peelのツールに表示されることもありませんが、以前に移動したものは引き続き履歴に表示されます。Homebrewの“クリーンアップ”は、ここでフォルダを除外したformulaeを残しますが、ダウンロードなど、それ以外に削除するものにはこのリストは適用されません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 항목들과 그 안에 있는 어떤 것도, 이 중 하나를 포함하는 폴더도 절대 휴지통으로 이동하지 않습니다. 다만 일부 페이지에는 계속 표시될 수 있습니다. Homebrew 자체의 ‘정리’는 이 목록을 참조하지 않습니다."
+            "value" : "Peel은 이 항목들과 그 안에 있는 어떤 것도, 이 중 하나를 포함하는 폴더도 절대 휴지통으로 이동하지 않으며, Peel의 도구는 이 항목들을 절대 나열하지 않습니다. 다만 이전에 이동한 항목은 기록에 계속 표시됩니다. Homebrew의 ‘정리’는 여기에서 폴더를 제외한 formulae를 유지하지만, 다운로드 파일 등 ‘정리’가 삭제하는 그 밖의 항목에는 이 목록이 적용되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verplaatst nooit iets hierin naar de prullenmand, en ook geen map waarin een van deze staat, al kunnen sommige pagina's ze nog wel tonen. 'Ruim op' van Homebrew zelf leest deze lijst niet."
+            "value" : "Peel verplaatst nooit iets hierin naar de prullenmand, en ook geen map waarin een van deze staat, en de tools van Peel tonen ze nooit, al toont Geschiedenis nog wel wat eerder is verplaatst. 'Ruim op' van Homebrew behoudt de formulae waarvan je de map hier uitsluit, maar deze lijst geldt niet voor wat 'Ruim op' verder definitief verwijdert, zoals de downloads van Homebrew."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nigdy nie przenosi do Kosza niczego, co jest w ich wnętrzu, ani folderu, który zawiera któryś z nich, choć niektóre strony mogą je nadal wyświetlać. Polecenie Wyczyść samego Homebrew nie odczytuje tej listy."
+            "value" : "Peel nigdy nie przenosi do Kosza niczego, co jest w ich wnętrzu, ani folderu, który zawiera któryś z nich, a jego narzędzia nigdy ich nie wyświetlają, choć Historia nadal pokazuje to, co przeniesiono wcześniej. Polecenie Wyczyść samego Homebrew zachowuje formulae, których folder tu wykluczasz, ale ta lista nie obejmuje innych rzeczy, które to polecenie trwale usuwa, takich jak pobrane pliki."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel nunca move para o Lixo nada do que está dentro destes itens, nem uma pasta que contenha algum deles, embora algumas páginas ainda possam mostrá-los. O comando Limpar do próprio Homebrew não lê esta lista."
+            "value" : "O Peel nunca move para o Lixo nada do que está dentro destes itens, nem uma pasta que contenha algum deles, e as ferramentas do Peel nunca os listam, embora o Histórico ainda mostre o que foi movido antes. O comando Limpar do Homebrew mantém as formulae cuja pasta você adicionar aqui, mas esta lista não cobre o que mais ele apaga, como os downloads dele."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu mută niciodată în Coș nimic din interiorul acestora și nici un dosar care conține unul dintre ele, deși unele pagini le pot lista în continuare. Curățarea proprie a Homebrew nu citește această listă."
+            "value" : "Peel nu mută niciodată în Coș nimic din interiorul acestora și nici un dosar care conține unul dintre ele, iar instrumentele sale nu le listează niciodată, deși Istoricul arată în continuare ce a fost mutat înainte. „Curățați” din pagina Homebrew păstrează formulele ale căror dosare le excludeți aici, dar această listă nu acoperă ce altceva șterge comanda, cum ar fi descărcările Homebrew."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel никогда не перемещает в Корзину ни то, что находится внутри них, ни папку, в которой лежит один из них, хотя некоторые страницы могут по-прежнему их показывать. Собственная команда Homebrew «Очистить» этот список не читает."
+            "value" : "Peel никогда не перемещает в Корзину ни то, что находится внутри них, ни папку, в которой лежит один из них, и инструменты Peel никогда их не показывают, хотя История по-прежнему показывает то, что было перемещено раньше. Команда Homebrew «Очистить» сохраняет formulae, папки которых Вы здесь исключили, но этот список не распространяется на остальное, что она удаляет, например на загрузки Homebrew."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel flyttar aldrig något som ligger i dessa till papperskorgen, och inte heller en mapp som innehåller någon av dem, även om vissa sidor fortfarande kan visa dem. Homebrews egen upprensning läser inte den här listan."
+            "value" : "Peel flyttar aldrig något som ligger i dessa till papperskorgen, och inte heller en mapp som innehåller någon av dem. Peels verktyg listar dem aldrig, även om Historik fortfarande visar det som flyttades tidigare. Homebrews upprensning behåller de formulae vars mapp du undantar här, men den här listan omfattar inte det övriga som upprensningen raderar, till exempel Homebrews hämtningar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bunların içindeki hiçbir şeyi ve bunlardan birini içeren hiçbir klasörü asla Çöp Sepeti’ne taşımaz; yine de bazı sayfalar bunları listelemeye devam edebilir. Homebrew’un kendi Temizle işlemi bu listeyi okumaz."
+            "value" : "Peel bunların içindeki hiçbir şeyi ve bunlardan birini içeren hiçbir klasörü asla Çöp Sepeti’ne taşımaz ve araçları bunları hiçbir zaman listelemez; yine de Geçmiş, daha önce taşınanları göstermeye devam eder. Klasörünü burada hariç tuttuğunuz her formula, Homebrew’un Temizle işleminde korunur; ancak bu liste, Temizle işleminin sildiği indirmeler gibi diğer şeyleri kapsamaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ніколи не переміщує в Смітник ні їх, ні того, що в них, ні папки, яка містить щось із них, хоча деякі сторінки можуть і далі їх показувати. Власна команда Homebrew «Очистити» цього списку не враховує."
+            "value" : "Peel ніколи не переміщує в Смітник ні їх, ні того, що в них, ні папки, яка містить щось із них, і жоден із її розділів їх не показує, хоча Історія й далі показує те, що було переміщено раніше. Команда Homebrew «Очистити» зберігає formulae, папки яких ви тут додали до винятків, але цей список не поширюється на інше, що вона видаляє, як-от викачані файли Homebrew."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel绝不会将这些项目中的任何内容移到废纸篓，也绝不会移动包含其中任一项目的文件夹，不过有些页面可能仍会列出它们。Homebrew自己的“清理”不会读取此列表。"
+            "value" : "Peel绝不会将这些项目中的任何内容移到废纸篓，也绝不会移动包含其中任一项目的文件夹，它的工具也绝不会列出它们，不过“历史记录”仍会显示之前移走的内容。Homebrew的“清理”会保留你在此处排除其文件夹的formulae，但此列表不涵盖它删除的其他内容，例如它的下载文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel絕不會將這些項目及其中的任何內容丟到「垃圾桶」，也絕不會移動包含其中任何一項的檔案夾，但某些頁面仍可能列出它們。Homebrew自己的「清理」不會讀取此列表。"
+            "value" : "Peel絕不會將這些項目及其中的任何內容丟到「垃圾桶」，也絕不會移動包含其中任何一項的檔案夾，它的工具也絕不會列出它們，但「歷史記錄」仍會顯示先前移動的項目。Homebrew的「清理」會保留你在此排除其檔案夾的formulae，但此列表不涵蓋它刪除的其他內容，例如它的下載檔案。"
           }
         }
       }

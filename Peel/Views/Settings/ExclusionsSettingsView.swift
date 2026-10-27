@@ -94,7 +94,7 @@ struct ExclusionsSettingsView: View {
                 }
                 .editingControls()
             } header: {
-                heading("Files and Folders", "Peel never moves anything inside these to the Trash, nor a folder that holds one of them, though some pages may still list them. Homebrew’s own Clean Up doesn’t read this list.")
+                heading("Files and Folders", "Peel never moves anything inside these to the Trash, nor a folder that holds one of them, and its tools never list them, though History still shows what moved before. Homebrew’s Clean Up keeps the formulae whose folder you exclude here, but this list doesn’t cover what else it deletes, such as its downloads.")
             }
 
             Section {
