@@ -101228,6 +101228,113 @@
         }
       }
     },
+    "Not selected: a server on this Mac still listens on the port this folder is named for, and keeps its uploads here." : {
+      "comment" : "Under a folder a Spring Boot server makes in the temporary folder, named for its port, such as tomcat.8080.12345, while a process still listens on that port.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: server v tomto Macu stále naslouchá na portu, podle kterého je tato složka pojmenovaná, a ukládá sem nahrané soubory."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Ein Server auf diesem Mac lauscht noch auf dem Port, nach dem dieser Ordner benannt ist, und legt hier seine Uploads ab."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: un servidor de este Mac sigue escuchando en el puerto que da nombre a esta carpeta, y guarda aquí los archivos que se le suben."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : un serveur de ce Mac écoute encore sur le port qui donne son nom à ce dossier, et y conserve les fichiers qu’on lui envoie."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: un server su questo Mac è ancora in ascolto sulla porta da cui questa cartella prende il nome, e qui conserva i file caricati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このフォルダ名が示すポートで、このMac上のサーバがまだ待ち受けていて、アップロードされたファイルをここに保管しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 Mac의 서버가 이 폴더 이름에 들어 있는 포트에서 아직 수신 대기 중이며, 업로드된 파일을 이곳에 보관합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: een server op deze Mac luistert nog op de poort waarnaar deze map is genoemd, en bewaart zijn uploads hier."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: serwer na tym Macu nadal nasłuchuje na porcie, którego numer jest w nazwie tego folderu, i przechowuje tu przesłane do niego pliki."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: um servidor deste Mac ainda escuta na porta que dá nome a esta pasta e guarda aqui os uploads que recebe."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: un server de pe acest Mac ascultă încă pe portul după care este denumit acest dosar și își păstrează aici fișierele încărcate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: сервер на этом Mac все еще прослушивает порт, по номеру которого названа эта папка, и хранит здесь загруженные на него файлы."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: en server på den här datorn lyssnar fortfarande på porten som den här mappens namn anger, och sparar sina uppladdningar här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu Mac’teki bir sunucu, bu klasörün adındaki kapıyı hâlâ dinliyor ve kendisine yüklenen dosyaları burada tutuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: сервер на цьому Mac досі прослуховує порт, за яким названо цю папку, і зберігає тут передані на нього файли."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：这台Mac上有服务器仍在监听此文件夹名称所指的端口，并在这里存放上传的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：這部Mac上仍有伺服器在監聽此檔案夾名稱所指的連接埠，並將上傳的檔案存放在這裡。"
+          }
+        }
+      }
+    },
     "Not selected: a wallet or a signing key is inside. Once the Trash is emptied, what it opens is gone for good unless you have a backup." : {
       "localizations" : {
         "cs" : {

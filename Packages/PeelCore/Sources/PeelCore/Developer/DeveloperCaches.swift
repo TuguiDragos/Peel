@@ -194,12 +194,16 @@ public enum DeveloperCaches {
         /// True for a folder a running program may use without holding it open, which is listed and not selected
         /// while something wrote to it within `HoldBack.stillInUse`.
         let holdsBackRecentWrites: Bool
+        /// True for a server's folder named `<kind>.<port>.<number>` at each start: the newest of its kind on a port a
+        /// process of this account listens on is the running server's.
+        let namesItsPort: Bool
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
             rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
             rowsAreProjectState: Bool = false, movedBy: Relocation? = nil, base: Base = .home,
-            launchers: [String] = [], clonedFrom: String? = nil, holdsBackRecentWrites: Bool = false
+            launchers: [String] = [], clonedFrom: String? = nil, holdsBackRecentWrites: Bool = false,
+            namesItsPort: Bool = false
         ) {
             self.path = path
             self.kind = kind
@@ -214,6 +218,7 @@ public enum DeveloperCaches {
             self.launchers = launchers
             self.clonedFrom = clonedFrom
             self.holdsBackRecentWrites = holdsBackRecentWrites
+            self.namesItsPort = namesItsPort
         }
 
         /// Whether what is at `url` is the tool's own, as far as where it was cloned from says.
@@ -730,17 +735,17 @@ public enum DeveloperCaches {
             Folder(
                 "tomcat.*.*/", .cache,
                 source: "https://github.com/spring-projects/spring-boot/blob/e5e959e3b66bba353aa87f49d9b8036ebb63f0dc/module/spring-boot-tomcat/src/main/java/org/springframework/boot/tomcat/TomcatWebServerFactory.java#L412",
-                base: .userTemporary, holdsBackRecentWrites: true
+                base: .userTemporary, holdsBackRecentWrites: true, namesItsPort: true
             ),
             Folder(
                 "tomcat-docbase.*.*/", .cache,
                 source: "https://github.com/spring-projects/spring-boot/blob/e5e959e3b66bba353aa87f49d9b8036ebb63f0dc/module/spring-boot-tomcat/src/main/java/org/springframework/boot/tomcat/servlet/TomcatServletWebServerFactory.java#L191",
-                base: .userTemporary, holdsBackRecentWrites: true
+                base: .userTemporary, holdsBackRecentWrites: true, namesItsPort: true
             ),
             Folder(
                 "jetty-docbase.*.*/", .cache,
                 source: "https://github.com/spring-projects/spring-boot/blob/e5e959e3b66bba353aa87f49d9b8036ebb63f0dc/module/spring-boot-jetty/src/main/java/org/springframework/boot/jetty/servlet/JettyServletWebServerFactory.java#L305",
-                base: .userTemporary, holdsBackRecentWrites: true
+                base: .userTemporary, holdsBackRecentWrites: true, namesItsPort: true
             ),
         ]),
         // Java Web Start keeps the applications a person installed in its cache, beside the ones it only cached.
@@ -1582,17 +1587,34 @@ public enum DeveloperCaches {
         openFiles: OpenFiles = OpenFiles()
     ) async -> [DeveloperEnvironment] {
         let settings = ToolSettings(home: homeDirectory)
+        let listening = definitions.contains { $0.folders.contains(where: \.namesItsPort) }
+            ? ListeningPorts.ofThisAccount() : []
         // Four tools at a time: measured all at once, their big folders would share the disk and each run out of
         // the time `FileSize` gives a walk, where alone they would finish.
         return await definitions.concurrentMap(width: 4) { definition in
             await environment(
                 for: definition, homeDirectory: homeDirectory, userCacheDirectory: userCacheDirectory,
                 userTemporaryDirectory: userTemporaryDirectory, exclusions: exclusions, measure: measure,
-                preference: preference, settings: settings, openFiles: openFiles
+                preference: preference, settings: settings, openFiles: openFiles, listening: listening
             )
         }
         .compactMap(\.self)
         .sorted { $0.total != $1.total ? $0.total > $1.total : $0.name < $1.name }
+    }
+
+    /// Among folders named `<kind>.<port>.<number>`, the newest of each kind on a port in `listening`.
+    static func runningServersFolders(_ urls: [URL], listening: Set<Int>) -> Set<String> {
+        var newest: [String: (url: URL, made: Date)] = [:]
+        for url in urls {
+            let parts = url.lastPathComponent.split(separator: ".")
+            guard parts.count >= 3, let port = Int(parts[1]), listening.contains(port) else { continue }
+            let key = "\(parts[0]).\(port)"
+            let made = (try? url.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
+            if made >= newest[key]?.made ?? .distantPast {
+                newest[key] = (url, made)
+            }
+        }
+        return Set(newest.values.map { PathPattern.comparablePath(of: $0.url) })
     }
 
     private static func environment(
@@ -1604,7 +1626,8 @@ public enum DeveloperCaches {
         measure: @escaping LeftoverScanner.Measure,
         preference: @escaping @Sendable (String) -> String?,
         settings: ToolSettings,
-        openFiles: OpenFiles
+        openFiles: OpenFiles,
+        listening: Set<Int>
     ) async -> DeveloperEnvironment? {
         var found: [(url: URL, folder: Folder, project: String?)] = []
         for folder in definition.folders {
@@ -1633,6 +1656,7 @@ public enum DeveloperCaches {
         // A pattern can reach inside a folder another pattern lists, as `*/GPUCache` reaches
         // `GPUPersistentCache/GPUCache`, and that folder goes with the one around it.
         let paths = found.map { PathPattern.comparablePath(of: $0.url) }
+        let serving = runningServersFolders(found.filter(\.folder.namesItsPort).map(\.url), listening: listening)
         var locations: [DeveloperEnvironment.Location] = []
         for (url, folder, project) in found {
             guard !Task.isCancelled else { return nil }
@@ -1658,6 +1682,7 @@ public enum DeveloperCaches {
                 lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange },
                 heldBack: contents.flatMap(HoldBack.secret(in:))
                     ?? (holdsAnotherRepository ? .holdsRepository : nil)
+                    ?? (serving.contains(path) ? .serverStillListens : nil)
                     ?? (folder.holdsBackRecentWrites && HoldBack.wasWrittenRecently(url, contents: contents)
                         ? .writtenRecently : nil)
             ))

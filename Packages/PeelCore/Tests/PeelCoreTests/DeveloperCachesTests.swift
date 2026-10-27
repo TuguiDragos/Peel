@@ -1862,6 +1862,37 @@ struct DeveloperCachesTests {
         #expect(locations.filter { $0.url != running.url }.allSatisfy { $0.kind == .cache && $0.isRecommended })
     }
 
+    @Test func holdsBackTheNewestFolderOfAServerThatStillListensOnItsPort() async throws {
+        let (socket, port) = try ListeningPortsTests.listeningSocket()
+        defer { close(socket) }
+        let directory = try TemporaryDirectory()
+        let temporary = try directory.directory("var/T")
+        let anHourAgo = Date.now.addingTimeInterval(-3600)
+        let names = ["tomcat.\(port).1", "tomcat.\(port).2", "tomcat-docbase.\(port).3", "tomcat.1.4"]
+        for (index, name) in names.enumerated() {
+            let file = try directory.file("var/T/\(name)/work/SESSIONS.ser", bytes: 400_000)
+            let work = file.deletingLastPathComponent()
+            // macOS keeps a birth date no later than the last change, so both are set to when the server started.
+            let made = anHourAgo.addingTimeInterval(TimeInterval(index * 60))
+            for url in [file, work, work.deletingLastPathComponent()] {
+                try FileManager.default.setAttributes(
+                    [.creationDate: made, .modificationDate: made], ofItemAtPath: url.path(percentEncoded: false)
+                )
+            }
+        }
+
+        let locations = await DeveloperCaches.scan(
+            DeveloperCaches.definitions.filter { $0.id == "springboot" },
+            homeDirectory: directory.url.appending(path: "home"), userTemporaryDirectory: temporary,
+            openFiles: OpenFiles(excluding: nil)
+        ).flatMap(\.locations)
+
+        let held = locations.filter { $0.heldBack == .serverStillListens }.map(\.url.lastPathComponent).sorted()
+        #expect(held == ["tomcat-docbase.\(port).3", "tomcat.\(port).2"])
+        let recommended = Set(locations.filter(\.isRecommended).map(\.url.lastPathComponent))
+        #expect(recommended == ["tomcat.\(port).1", "tomcat.1.4"])
+    }
+
     @Test func offersMetrosCachesInTheTemporaryFolderAndNothingInUse() async throws {
         let directory = try TemporaryDirectory()
         let temporary = try directory.directory("var/T")

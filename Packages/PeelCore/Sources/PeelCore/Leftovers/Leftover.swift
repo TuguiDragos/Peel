@@ -143,6 +143,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case mayStillBeResumed
     /// A cache something wrote to in the last few minutes, which a program may still be using.
     case writtenRecently
+    /// The folder of a server that still listens on the port it is named for, which keeps its uploads there.
+    case serverStillListens
     /// An installer package in a folder an app keeps in Application Support, which the app may still need.
     case keptByAnApp
     /// A receipt whose package also left items outside the app, which Package Receipts lists only while it stays.
