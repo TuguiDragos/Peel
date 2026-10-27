@@ -159,7 +159,6 @@ enum SettingsKey {
 }
 
 extension SettingsKey {
-    /// With no value yet, Peel shows in the menu bar exactly when it watches the Trash.
     /// Carries the tools a person left out before each tool had a default into their choices, once. An empty list
     /// carries no choice, so every tool starts at its default.
     static func keepSidebarChoicesAsBefore() {
@@ -171,6 +170,7 @@ extension SettingsKey {
         defaults.removeObject(forKey: hiddenToolsBefore)
     }
 
+    /// With no value yet, Peel shows in the menu bar exactly when it watches the Trash.
     static func showInMenuBarAsBefore() {
         let defaults = UserDefaults.standard
         guard defaults.object(forKey: showsInMenuBar) == nil else { return }
