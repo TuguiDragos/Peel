@@ -237,9 +237,9 @@ extension SpaceItem.Category {
         switch self {
         case .development: "Development"
         case .virtualMachines: "Virtual Machines"
-        case .media: "Media and Backups"
+        case .media: "Media"
         case .cloud: "Cloud Storage"
-        case .library: "Your Library"
+        case .library: "Library"
         }
     }
 
