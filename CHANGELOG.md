@@ -11,11 +11,16 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - An item's row shows its whole path on hover, and its Control-click menu copies it, for an item in the Trash or gone.
 - The Not Moved list has Start Over when it can't be read, as History has.
+- History says once, above its list, how many older removals it no longer lists, and that what they moved is still in
+  the Trash.
 
 #### Settings
 
 - Under Watch the Trash and the disk warning, Settings says when macOS doesn't let Peel send notifications, with Open
   System Settings.
+- On a standard account, Settings gives a line to add to `~/.zshrc` that runs Peel's own `peel`, with Copy.
+- Uninstall Helper is offered while the helper waits for approval too, and asks first, since the helper serves every
+  account.
 
 #### Intel Software
 
@@ -23,6 +28,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   app opening asks for it.
 - A plug-in's page has Review in Plug-ins, and a background item's Review in Background Items, which open that page
   on the item, even when the page is off in the sidebar.
+- On Apple silicon, a universal app that asks macOS to open it as Intel is listed, and says so. On macOS 27 the empty
+  page points to System Settings' list of Intel-based apps.
+
+#### Package Receipts
+
+- Each package shows the name macOS gave it, and the search finds it by that name and by where its files are.
+- Receipt Only lists the receipts whose package left nothing, with Forget All: one question, one removal, one entry in
+  History.
 
 #### Homebrew
 
@@ -35,6 +48,17 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When Homebrew belongs to another account of the Mac, the page says so and Peel doesn't run its `brew`, which that
   account could change. One this account can only read, such as one root owns, keeps the lists, Check Health, and
   the vulnerability scan.
+- The page says when Homebrew run from Peel doesn't read the `brew.env` your shell has it read, and where to put what
+  it should follow.
+
+#### Build Artifacts
+
+- Any folder holding the `pyvenv.cfg` of a Python environment beside a Python project is listed as an environment, and
+  never selected.
+
+#### Duplicates
+
+- The toolbar has a Select menu, with Select Recommended and Deselect All.
 
 #### File Search
 
@@ -42,21 +66,35 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - What a search found and left out is counted by reason, above the list, or in place of No Results: what syncs to
   your other devices, what you excluded, what sits where Peel moves nothing, and what macOS kept Peel from.
 - The Filters button fills while a filter narrows the search, and No Results offers Clear Filters.
+- A selected file a newer search leaves out stays selected, and a line above the list counts them, with Keep Selected
+  and Deselect.
+- On macOS 27, a row shows the day its file was modified.
 
 #### Background Items
 
 - A job whose file is gone, and one loaded from a file outside the folders launchd reads, can be stopped.
 - A disabled job that still runs reads "Disabled, still running".
+- A job its app gave launchd itself, such as an update's installer, says so, and the empty list says where apps set to
+  open at login are.
 
 #### Extensions
 
 - An extension's page has Review in Applications, which opens its app's page, and a system extension shows its
   version, with the version that replaces it while macOS updates it.
 
+#### Plug-ins
+
+- A plug-in's page says which app it came with, installed or gone, and the question before a move names that app.
+
 #### Moving to the Trash from several pages
 
 - When open apps keep part of what is selected, the alert names them all and offers Deselect Them, which deselects
   only the parts they keep, and Move the Rest, which moves the other parts after the usual question.
+
+#### `peel`
+
+- `peel history` says, where its list reaches History's oldest removal, how many older removals History no longer
+  lists, and how many removals of its time left items behind.
 
 ### Changed
 
@@ -65,6 +103,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - While the helper waits for approval, Home says to allow Peel in System Settings under Login Items & Extensions, as
   it is listed there.
 - On a standard account, Command Line says Needs an administrator, without the command, in Settings too.
+- The totals read Items moved and Apps moved, which is what they count, and the Mac's picture says it shows About in
+  System Settings.
+- About says that Homebrew's own uninstall and Clean Up delete what they remove.
+
+#### Menu bar
+
+- Before anything moved, the panel says Nothing moved to the Trash yet in place of zeros, its dates are in the
+  secondary gray, and Space's line counts its areas without adding them up.
 
 #### History
 
@@ -80,11 +126,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   cloud, each with its reason.
 - The Helper tab names every order the helper takes, and Remove Peel's notes name everything Peel's folder holds and
   what Homebrew's zap also does.
+- App Folders gives each reason it refuses a folder a sentence of its own.
 
 #### Applications
 
 - A row moves up to Updates Available once a round of checks ends, rather than while you read the list.
 - Up to date says in its help when Peel last checked, and while the checks are off an old Up to date isn't shown.
+- Forget Receipt is in the More menu of an app's page.
+- An uninstall lists an app's audio plug-ins unselected, since music apps load them on their own.
+
+#### Orphaned Files
+
+- A group holding an audio plug-in reads unsure, since music apps load it on their own.
 
 #### Intel Software
 
@@ -93,6 +146,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - It says where an Intel plug-in can still load, and on macOS 27 that an app set to open using Rosetta opens natively.
 - A part inside an app says it comes with the app and that an update of the app may replace it.
 - A plug-in installed in several formats says its format on each row.
+- Nothing Needs Rosetta names the folders Peel read.
+
+#### Homebrew
+
+- Clean Up's and Update's notes say what else Homebrew deletes, and when Homebrew goes online on its own.
+- Forget's question names the folders whose links go with a cask's Homebrew receipt.
 
 #### Space
 
@@ -102,18 +161,56 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Local snapshots are explained in Apple's words, and the page says when macOS can't delete some of them to make room.
 - Podcast Downloads says its figure holds all the Podcasts app keeps.
 
+#### Developer
+
+- The page says it lists browsers' and Electron apps' caches too, and how much of what it found Peel recommends, and a
+  tool's list is headed Folders.
+
 #### Build Artifacts
 
 - A project's page says that nothing is selected for you, and names Select Recommended.
 - Two projects in folders of the same name are told apart by the folders above them, everywhere they are named.
+- A Git index that took too long to read says so, apart from one Peel couldn't read.
+
+#### Installers and Backups
+
+- An installer is judged by the address it says it came from: one that names none and is no installed app's is held
+  back wherever it is, and so is one that arrived in the last hour.
 
 #### Duplicates
 
 - Scan Settings' Folders note says what a folder comparison leaves out, and why.
+- Copies are grouped by their bytes: the copy whose tags, comment, or resource fork the others lack stays, marked
+  Stays, and every other copy is suggested.
+- The copy on the home folder's disk is kept before an older one elsewhere, and the cloud shows only beside a copy
+  that syncs through one.
+
+#### iCloud Drive
+
+- The page starts on only where iCloud Drive is set up, and says when it isn't.
+- A download in an app's own iCloud folder is listed and not recommended, and the page says that iCloud keeps a copy
+  of what it uploaded and that files open again only online.
+
+#### File Search
+
+- Files are sized by what moving them frees, and one that frees less than its length says so; `peel search --json`
+  gives both.
+- A file in a repository or in `/Users/Shared` is listed and not recommended, and the Filters note says what a kind
+  is.
+
+#### Background Items
+
+- An excluded app's jobs stay listed, marked Excluded in Settings, and Peel acts on none of them.
+- A job macOS hasn't listed yet reads Not listed in System Settings yet.
 
 #### Extensions
 
 - The points an extension plugs into are named as System Settings names them.
+
+#### Every page
+
+- The helper's banner says what the page needs it for, moving how many items, forgetting the receipt, or changing the
+  job.
 
 #### `peel`
 
@@ -132,6 +229,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The greeting follows the hour whenever Home appears, Open at Login follows Settings at once, and VoiceOver hears each
   permission's state with its name.
 - No command that links `peel` is offered from a temporary copy of Peel or a read-only disk.
+- A copy of Peel that didn't install the helper offers no Install, and the Helper row's note no longer says a second
+  copy needs its own.
 
 #### Menu bar
 
@@ -152,6 +251,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - History is read again when Peel comes forward, never says Nothing Removed Yet while it can't be read, and keeps
   fewer removals rather than growing past what it reads back.
 - What macOS reported is worded in your language in the app, and in English by `peel`.
+- An emptied History says No Removals, and `peel history` that History lists no removals, once Peel has moved
+  something.
+- A removal from several pages cut short by a crash stays one entry, the part cut short named as its page.
+- A removal's notes about a put-back audio driver and an app that shared its storage show on macOS 26 too.
 
 #### Settings
 
@@ -164,6 +267,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   of Peel installed the helper.
 - Check for app updates checks at once whichever tab turns it on.
 - `peel exclusions` notes a path that isn't there yet and counts only what went on the list.
+- A `brew` chosen in Settings that can't be run is never replaced by another, and a `brew` where Homebrew installs
+  itself is run only by the chosen one's rule.
+- Remove Peel says why it waits when Homebrew can't answer, with Open Homebrew, and nothing else moves while Peel
+  removes itself.
 
 #### Applications
 
@@ -184,6 +291,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Folders where an app keeps what you made are listed and never selected, at an uninstall and in Orphaned Files: an
   app's backups, a code editor's unsaved files and local history, Sublime Text's data, Minecraft's saved worlds, a
   browser's saved passwords, and Things 3's to-dos.
+- An app's receipt stays, unselected, while its package left more outside the app.
 
 #### Orphaned Files
 
@@ -193,6 +301,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   it couldn't read.
 - Rows that wait for the helper leave the selection when it stops answering.
 - A kernel extension removed by an administrator says to restart once it is in the Trash.
+- A gone app's files are judged from when Peel saw it go, not from when it last read the list.
 
 #### Intel Software
 
@@ -207,6 +316,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A package placed by its own scripts is never called a receipt only, a package installed into an app offers the app
   itself, and one whose app is installed says Still installed and what forgetting it costs.
 - The list is read again when a receipt changed elsewhere, and a receipt already forgotten says so.
+- An excluded app's receipt is left alone here too.
 
 #### Homebrew
 
@@ -217,6 +327,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Clean Up's question names the first four formulae, the password advice shows only when `sudo` asked for one, and the
   page's spinners end with Homebrew's work.
 - Update Homebrew is offered above lists read before Homebrew's own definitions went.
+- Homebrew's last check is dated by its definitions file too, so a Homebrew that read its API today isn't said to have
+  checked a week ago.
 
 #### Space
 
@@ -228,6 +340,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Caches holds back what was written in the last 15 minutes.
 - Simulators counts the runtimes CoreSimulator keeps as cryptexes, and an area open on its page stays listed after a
   move leaves it small.
+- Caches for All Users and Logs for All Users keep what a service wrote in the last 15 minutes, and a service's log
+  folder, offering only its files.
+- An area macOS refused in part is sorted and judged by what Peel saw, and one refused whole is listed last.
 
 #### Developer
 
@@ -235,6 +350,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   one row per product.
 - One tool per Electron app however many copies, Hex 2.6's cache, search by a folder's name, and rows counted as items.
 - A CocoaPods clone of another repository and an Xcode workspace with no recorded opening are kept with their reason.
+- A running Spring Boot server's folder stays while something listens on its port, and Homebrew's cache is found where
+  `HOMEBREW_CACHE` moves it.
 
 #### Build Artifacts
 
@@ -250,6 +367,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   image that is open right now is never suggested or moved.
 - The figures count only what can move, device backups point to System Settings > General > Storage first, and a
   macOS installer leaves the selection when the helper can't move it.
+- An excluded app's downloaded update is left out, and macOS installers are found in every app folder and under the
+  name Install OS X.
 
 #### Duplicates
 
@@ -263,6 +382,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Remove Downloads works while History can't be read or written, and no total shows before iCloud Drive is read.
 - The list says why it isn't all of it, an excluded folder is skipped whole, files are named as Finder names them, and
   a search reads only what the rows show.
+- A download Keep Downloaded keeps, a password database, and a wallet's keys are held back, and a download's note is
+  drawn beside its row.
+- Remove Downloads counts and offers Stop on macOS 26 too.
 
 #### File Search
 
@@ -275,6 +397,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   buttons, and two files that declare one job are told apart.
 - An enabled job that leaves the list says why, the list is read again when shown and when Peel comes forward, and
   VoiceOver hears what an action left an item as.
+- Unusual command looks at `/Users/Shared` and the account's temporary folder, and reads base64 only when the command
+  decodes it.
 
 #### Extensions
 
@@ -302,6 +426,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The folders Peel couldn't read are named, the first four and how many more, with Copy Details, and Full Disk Access
   is suggested only when macOS's privacy protection kept Peel out.
 - A scan waits for macOS's question about your files, and a page shown again starts its own scan.
+- Each page's to remove counts only what can be selected now, the helper's state included.
+- A removal bigger than History can keep is refused before anything moves, naming how many it keeps at once.
+- What moving a file frees is one rule everywhere, so Time Machine's local snapshots no longer make duplicates read
+  Zero kB to free.
 
 ## 1.2.1 (2026-10-25)
 
