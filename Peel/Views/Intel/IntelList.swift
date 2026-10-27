@@ -86,7 +86,7 @@ struct IntelList: View {
         .task(id: library.revision) {
             guard library.hasLoaded else { return }
             guard intel.scan == nil else {
-                await intel.readAgain(installedApps: library.apps)
+                await intel.readAgain(installedApps: library.apps, knownSizes: library.sizes)
                 return
             }
             guard !intel.scanRun.wasStopped else { return }
@@ -94,7 +94,7 @@ struct IntelList: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             guard library.hasLoaded else { return }
-            Task { await intel.readAgain(installedApps: library.apps) }
+            Task { await intel.readAgain(installedApps: library.apps, knownSizes: library.sizes) }
         }
         .rescanOnExclusionChange("IntelList") { await scan() }
     }
@@ -107,7 +107,7 @@ struct IntelList: View {
     }
 
     private func scan() async {
-        await intel.refresh(installedApps: library.apps)
+        await intel.refresh(installedApps: library.apps, knownSizes: library.sizes)
     }
 
     /// What Peel couldn't read for this page: the apps the Applications list couldn't, and what the scan couldn't.

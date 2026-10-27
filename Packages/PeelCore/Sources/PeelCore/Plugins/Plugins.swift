@@ -242,6 +242,7 @@ public enum Plugins {
             unreadable.append(directory)
             return []
         }
+        ScanCount.current?.add(names.count)
         return names.map { directory.appending(path: $0) }
     }
 

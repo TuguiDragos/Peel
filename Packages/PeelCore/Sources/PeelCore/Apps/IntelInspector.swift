@@ -19,7 +19,7 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     /// What it belongs to: the app it sits inside, or the launchd property list that starts it.
     public let owner: String?
     /// Nil when the size is not known because measuring it timed out or was refused. Unknown is not zero.
-    public let size: Int64?
+    public var size: Int64?
     /// For a plug-in, its kind, which says where its Intel code can load (`Plugin.Category.intelHost`).
     public var pluginCategory: Plugin.Category?
     /// The labels of the launchd jobs that run a program at it or inside it.
@@ -95,12 +95,14 @@ public enum IntelInspector {
     @concurrent
     public static func scan(
         installedApps: [InstalledApp],
+        knownSizes: [URL: Int64] = [:],
         backgroundItems: BackgroundItems.Scan = BackgroundItems.Scan(),
         exclusions: Exclusions = .none,
         environment: SearchEnvironment = .current
     ) async -> IntelScan {
         await scan(
             installedApps: installedApps,
+            knownSizes: knownSizes,
             backgroundItems: backgroundItems,
             exclusions: exclusions,
             environment: environment,
@@ -111,10 +113,11 @@ public enum IntelInspector {
     @concurrent
     static func scan(
         installedApps: [InstalledApp],
+        knownSizes: [URL: Int64] = [:],
         backgroundItems: BackgroundItems.Scan = BackgroundItems.Scan(),
         exclusions: Exclusions,
         environment: SearchEnvironment = .current,
-        measure: FileSize.Measure
+        measure: @escaping FileSize.Measure
     ) async -> IntelScan {
         // A path can be found twice: `/Library/Audio/Plug-Ins/HAL` is a plug-in folder and sits inside a driver
         // folder, and two launchd jobs often run the same program. The first kind to find a path keeps it.
@@ -136,7 +139,7 @@ public enum IntelInspector {
                     kind: .app,
                     name: app.name,
                     owner: nil,
-                    size: await measure(app.url),
+                    size: nil,
                 ))
                 continue
             }
@@ -147,7 +150,7 @@ public enum IntelInspector {
                     kind: .insideApp,
                     name: url.lastPathComponent,
                     owner: app.name,
-                    size: await measure(url),
+                    size: nil,
                 ))
             }
         }
@@ -165,7 +168,7 @@ public enum IntelInspector {
                 kind: .plugin,
                 name: Plugins.name(of: plugin.url, info: info),
                 owner: nil,
-                size: await measure(plugin.url),
+                size: nil,
                 pluginCategory: plugin.category,
             ))
         }
@@ -179,7 +182,7 @@ public enum IntelInspector {
                     kind: kind,
                     name: url.lastPathComponent,
                     owner: nil,
-                    size: await measure(url),
+                    size: nil,
                 ))
             }
         }
@@ -193,7 +196,7 @@ public enum IntelInspector {
                 kind: .driver,
                 name: url.lastPathComponent,
                 owner: nil,
-                size: await measure(url),
+                size: nil,
             ))
         }
 
@@ -219,7 +222,7 @@ public enum IntelInspector {
                 kind: .backgroundItem,
                 name: item.label,
                 owner: item.plistURL?.lastPathComponent,
-                size: await measure(program),
+                size: nil,
             )
             finding.job = item.id
             findings.append(finding)
@@ -236,8 +239,20 @@ public enum IntelInspector {
                 kind: .commandLineTool,
                 name: tool.name,
                 owner: nil,
-                size: await measure(tool.url),
+                size: nil,
             ))
+        }
+
+        // Measured once everything is found, a few at a time, as the other scans measure. The Applications list has
+        // measured the apps already, the same way.
+        let measured = await findings.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { finding in
+            var finding = finding
+            if let known = knownSizes[finding.url] {
+                finding.size = known
+            } else {
+                finding.size = await measure(finding.url)
+            }
+            return finding
         }
 
         var named: Set<String> = []
@@ -245,7 +260,7 @@ public enum IntelInspector {
             !exclusions.excludes($0) && named.insert(PathPattern.comparablePath(of: $0)).inserted
         }
         return IntelScan(
-            findings: findings.sorted {
+            findings: measured.sorted {
                 $0.size != $1.size ? SizeTotal([$0.size]) > SizeTotal([$1.size]) : $0.name < $1.name
             },
             unreadable: unread,
@@ -343,6 +358,7 @@ public enum IntelInspector {
             if let folder = FileAccess.refusedFolder(directory) { unreadable.append(folder) }
             return []
         }
+        ScanCount.current?.add(names.count)
         return names.map { directory.appending(path: $0) }
     }
 
@@ -414,6 +430,7 @@ public enum IntelInspector {
             }
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
+                ScanCount.current?.add(1)
                 if driverExtensions.contains(item.pathExtension) { bundles.append(item) }
             }
             unreadable += refused.compactMap(FileAccess.refusedFolder)
@@ -441,6 +458,7 @@ public enum IntelInspector {
             }
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
+                ScanCount.current?.add(1)
                 if driverExtensions.contains(item.pathExtension) {
                     // `skipDescendants()` after a file would skip the next folder.
                     if (try? item.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {

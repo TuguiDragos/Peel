@@ -14,18 +14,18 @@ struct IntelLibraryTests {
     @Test func readsAgainWithoutShowingAScan() async {
         let reads = Reads()
         let unread = URL(filePath: "/org.example/Vendor")
-        let library = IntelLibrary { _, _ in
+        let library = IntelLibrary { _, _, _ in
             reads.count += 1
             reads.wereShownAsAScan.append(reads.library?.isScanning == true)
             return IntelScan(findings: [], unreadable: reads.count > 1 ? [unread] : [])
         }
         reads.library = library
 
-        await library.readAgain(installedApps: [])
+        await library.readAgain(installedApps: [], knownSizes: [:])
         #expect(reads.count == 0, "nothing is read again before the page was read once")
 
-        await library.refresh(installedApps: [])
-        await library.readAgain(installedApps: [])
+        await library.refresh(installedApps: [], knownSizes: [:])
+        await library.readAgain(installedApps: [], knownSizes: [:])
 
         #expect(library.scan?.unreadable == [unread])
         #expect(reads.wereShownAsAScan == [true, false], "a read again is announced to nobody")

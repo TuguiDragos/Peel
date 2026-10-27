@@ -16,14 +16,18 @@ final class IntelLibrary {
 
     var findings: [IntelFinding] { scan?.findings ?? [] }
 
-    private let read: @MainActor ([InstalledApp], Exclusions) async -> IntelScan
+    /// Reads the page from the installed apps, the sizes the Applications list measured, and the exclusions.
+    typealias Read = @MainActor ([InstalledApp], [URL: Int64], Exclusions) async -> IntelScan
+
+    private let read: Read
 
     /// `read` scans everything the report covers, so it is complete even when the other pages were never opened.
     init(
-        read: @escaping @MainActor ([InstalledApp], Exclusions) async -> IntelScan = { installedApps, exclusions in
+        read: @escaping Read = { installedApps, sizes, exclusions in
             async let backgroundItems = BackgroundItems.scan(exclusions: exclusions)
             return await IntelInspector.scan(
                 installedApps: installedApps,
+                knownSizes: sizes,
                 backgroundItems: backgroundItems,
                 exclusions: exclusions
             )
@@ -32,20 +36,21 @@ final class IntelLibrary {
         self.read = read
     }
 
-    func refresh(installedApps: [InstalledApp]) async {
+    func refresh(installedApps: [InstalledApp], knownSizes: [URL: Int64]) async {
         let read = read
-        guard let result = await scanRun.run({ await read(installedApps, ExclusionsStore.shared.exclusions) }) else {
-            return
-        }
+        guard let result = await scanRun.run({
+            await read(installedApps, knownSizes, ExclusionsStore.shared.exclusions)
+        }) else { return }
         show(result)
     }
 
     /// Reads the page again without showing a scan, once it has been read.
-    func readAgain(installedApps: [InstalledApp]) async {
+    func readAgain(installedApps: [InstalledApp], knownSizes: [URL: Int64]) async {
         guard scan != nil else { return }
         let read = read
-        guard let result = await scanRun.runQuietly({ await read(installedApps, ExclusionsStore.shared.exclusions) })
-        else { return }
+        guard let result = await scanRun.runQuietly({
+            await read(installedApps, knownSizes, ExclusionsStore.shared.exclusions)
+        }) else { return }
         show(result)
     }
 

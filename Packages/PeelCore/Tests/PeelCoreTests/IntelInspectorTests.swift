@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct IntelInspectorTests {
@@ -153,6 +154,62 @@ struct IntelInspectorTests {
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
+    }
+
+    @Test func countsWhatItReadsForThePagesFigure() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 1...3 {
+            _ = try bundle(directory, "root/Library/Printers/Vendor/Driver \(index).plugin", cpuTypes: [appleSilicon])
+        }
+        let count = ScanCount()
+
+        _ = await ScanCount.$current.withValue(count) {
+            await IntelInspector.scan(
+                installedApps: [], exclusions: .none, environment: environment(in: directory), measure: { _ in 1 }
+            )
+        }
+
+        #expect(count.value > 0, "the page's figure stood still while Intel Software read")
+    }
+
+    @Test func measuresSeveralFindingsAtOnce() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 1...6 {
+            _ = try bundle(directory, "root/Library/Printers/Driver \(index).plugin", cpuTypes: [intel])
+        }
+        let inFlight = Mutex((now: 0, most: 0))
+
+        let scan = await IntelInspector.scan(
+            installedApps: [], exclusions: .none, environment: environment(in: directory)
+        ) { _ in
+            inFlight.withLock {
+                $0.now += 1
+                $0.most = max($0.most, $0.now)
+            }
+            await Task.yield()
+            inFlight.withLock { $0.now -= 1 }
+            return 1
+        }
+
+        #expect(scan.findings.count == 6)
+        #expect(inFlight.withLock { $0.most } > 1, "each measurement waited for the one before")
+    }
+
+    @Test func takesAnAppsSizeFromTheApplicationsList() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try bundle(directory, "Apps/Old.app", cpuTypes: [intel])
+        let app = InstalledApp(url: url, bundleIdentifier: "org.example.old", name: "Old", architectures: [.x86_64])
+        let measured = Mutex<[URL]>([])
+
+        let scan = await IntelInspector.scan(
+            installedApps: [app], knownSizes: [url: 42], exclusions: .none, environment: environment(in: directory)
+        ) { url in
+            measured.withLock { $0.append(url) }
+            return 1
+        }
+
+        #expect(scan.findings.map(\.size) == [42])
+        #expect(measured.withLock { $0 }.isEmpty, "Applications had measured it already")
     }
 
     @Test func tellsIntelOnlyBundlesFromUniversalOnes() throws {
