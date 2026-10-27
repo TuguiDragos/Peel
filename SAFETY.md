@@ -394,7 +394,7 @@ Never selected for you, even when found:
   container, that something wrote to in the last 15 minutes: Peel knows an open app's caches only by the app's names,
   and a program may still be using one under a name of its own, such as an extension that runs without its app. On
   the Developer page, the same holds for the folders a Spring Boot server makes in the temporary folder each time it
-  starts.
+  starts, and for the newest one while something still listens on its port, however long ago it was written.
 - A log in `/opt/homebrew/var/log` that something wrote to in the last 15 minutes: a running service may hold it
   open, and moving it would free nothing.
 - `/Users/Shared`: it belongs to every account, not just yours.

@@ -167,9 +167,9 @@ copied from your devices, model weights, installed packages and the stores your 
 pnpm's and Dart's, what a tool keeps for you to install again (Vagrant boxes, Asset Store packages, Godot's export
 templates), an editor's saved state for a project that no longer exists, the build data of an Xcode project opened in
 the last week or whose last opening Xcode didn't record, a folder in DerivedData that is neither a cache Xcode names
-nor one it made for a workspace, a Spring Boot server's folder written to in the last 15 minutes, a folder Peel
-couldn't measure, a copy of CocoaPods' specs that didn't come from CocoaPods, and a cache with a wallet, a signing key,
-or a password database inside. Nothing is selected for you.
+nor one it made for a workspace, a Spring Boot server's folder written to in the last 15 minutes, or the newest one
+while something still listens on its port, a folder Peel couldn't measure, a copy of CocoaPods' specs that didn't come
+from CocoaPods, and a cache with a wallet, a signing key, or a password database inside. Nothing is selected for you.
 
 **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`, `.nuxt`,
 `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only when a file of

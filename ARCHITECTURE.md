@@ -406,9 +406,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   entry: each workspace Xcode built in DerivedData, each archive, an editor's state for a project that is gone, and
   the versions an installer keeps beside the one it runs. `Location.isRecommended` is what Peel suggests: build data,
   downloads, caches, and logs, once measured and not held back (a secret inside, a clone of another repository, a
-  recent write where a server may still use it, a workspace that may still be in use), and `peel caches` gives each
-  other row's reason by the same rule. Nothing moves while one of the tool's apps runs (`runningApp`), and a folder in
-  the temporary folder that a program holds open isn't listed.
+  recent write or a listening port where a server may still use it, a workspace that may still be in use), and
+  `peel caches` gives each other row's reason by the same rule. Nothing moves while one of the tool's apps runs
+  (`runningApp`), and a folder in the temporary folder that a program holds open isn't listed.
 - **Background Items.** `BackgroundItems.scan` reads the job files in `~/Library/LaunchAgents`,
   `/Library/LaunchAgents`, and `/Library/LaunchDaemons`, and asks launchd which jobs are loaded, in the GUI domain, the
   user's own, and the system's, and which it keeps disabled (`launchctl print-disabled`). A loaded job no file there
