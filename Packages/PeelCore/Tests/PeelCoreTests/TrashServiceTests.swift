@@ -643,6 +643,31 @@ struct TrashServiceTests {
         #expect(lockedFolder == .folderLocked)
     }
 
+    @Test func aFolderLockedBehindALinkOnTheWayBackIsSaidSo() async throws {
+        let directory = try TemporaryDirectory()
+        let documents = try directory.directory("home/Documents")
+        let link = directory.url.appending(path: "home/Linked")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: documents)
+        let trashed = try directory.file("home/.Trash/letter.txt", bytes: 1)
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            )
+        ) { $0 }
+        let item = TrashedItem(originalURL: link.appending(path: "letter.txt"), trashedURL: trashed, date: .now)
+        let deeper = TrashedItem(originalURL: link.appending(path: "Gone/letter.txt"), trashedURL: trashed, date: .now)
+        let path = documents.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.immutable: true], ofItemAtPath: path)
+        defer { try? FileManager.default.setAttributes([.immutable: false], ofItemAtPath: path) }
+
+        let intoTheFolder = await service.restore(item)
+        let belowIt = await service.restore(deeper)
+
+        #expect(intoTheFolder == .folderLocked)
+        #expect(belowIt == .folderLocked)
+    }
+
     @Test(.permissionsHold) func saysWhenTheFolderAnItemGoesBackToIsGoneAndOnlyTheHelperCouldMakeIt() throws {
         let directory = try TemporaryDirectory()
         let support = try directory.directory("root/Library/Application Support")

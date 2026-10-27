@@ -803,14 +803,15 @@ public struct TrashService: Sendable {
         return nil
     }
 
-    /// The nearest folder on `item`'s way back that exists, which its Put Back writes into: missing folders are made
-    /// again.
+    /// The nearest folder on `item`'s way back that exists, as the kernel names it, which its Put Back writes into:
+    /// missing folders are made again.
     static func folder(puttingBack item: TrashedItem) -> String {
-        var ancestor = item.originalURL.deletingLastPathComponent().path(percentEncoded: false)
-        while !FileManager.default.fileExists(atPath: ancestor), ancestor != "/" {
-            ancestor = (ancestor as NSString).deletingLastPathComponent
+        var nearest = item.originalURL.deletingLastPathComponent().path(percentEncoded: false)
+        while nearest != "/", !nearest.isEmpty {
+            if let resolved = PrivilegedPathPolicy.resolvedPath(nearest) { return resolved }
+            nearest = (nearest as NSString).deletingLastPathComponent
         }
-        return ancestor
+        return "/"
     }
 
     /// Whether the folder `item` goes back into is gone, which the helper doesn't make again. A folder this process
