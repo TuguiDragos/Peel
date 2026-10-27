@@ -2,7 +2,7 @@ import Foundation
 @testable import PeelCore
 import Testing
 
-/// Home lists what each tool found the last time it looked, from what Peel kept in its preferences.
+/// The menu bar panel lists what each tool found the last time it looked, from what Peel kept in its preferences.
 struct FoundLastTimeTests {
     private let monday = Date(timeIntervalSinceReferenceDate: 800_000_000)
     private let tuesday = Date(timeIntervalSinceReferenceDate: 800_086_400)

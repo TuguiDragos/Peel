@@ -1,7 +1,7 @@
 public import Foundation
 
-/// What each tool found the last time it looked, kept so Home can say it after Peel is opened again. The app names
-/// the tools.
+/// What each tool found the last time it looked, kept so the menu bar panel can say it after Peel is opened again.
+/// The app names the tools.
 public struct FoundLastTime: Sendable, Equatable {
     public struct Finding: Sendable, Equatable {
         public let count: Int

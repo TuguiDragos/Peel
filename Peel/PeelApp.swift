@@ -231,8 +231,8 @@ struct PeelApp: App {
         }
     }
 
-    /// Records what each tool finds, its page open or not, so Home can list it. Each tool is followed on its own, so
-    /// one that looks again leaves the others' dates as they were.
+    /// Records what each tool finds, its page open or not, so the menu bar panel can list it. Each tool is followed on
+    /// its own, so one that looks again leaves the others' dates as they were.
     private func followFindings() async {
         let tools: [(Tool, @MainActor @Sendable () -> Looked?)] = [
             (.applications, { [library] in library.looked }),

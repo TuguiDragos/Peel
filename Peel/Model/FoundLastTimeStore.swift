@@ -2,7 +2,7 @@ import Foundation
 import Observation
 import PeelCore
 
-/// What each tool found the last time it looked, kept in the app's user defaults so Home can list it.
+/// What each tool found the last time it looked, kept in the app's user defaults so the menu bar panel can list it.
 @Observable
 final class FoundLastTimeStore {
     private static let key = "home.foundLastTime"

@@ -9,7 +9,8 @@ import SwiftUI
 // total comes first because `SizeTotal.text` ("Over X") is written to stand on its own.
 
 extension Tool {
-    /// What the tool found, as its pane says it and Home repeats it, or nil for a tool with no such sentence.
+    /// What the tool found, as its page says it and the menu bar panel repeats it, or nil for a tool with no such
+    /// sentence.
     func sentence(for looked: Looked) -> AttributedString? {
         let count = looked.count
         let total = looked.size.flatMap { $0.known > 0 ? $0.text : nil }
