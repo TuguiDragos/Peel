@@ -105,7 +105,7 @@ struct ExclusionCommandTests {
         let directory = try TemporaryDirectory()
         let store = store(in: directory)
         let note = try directory.file("home/Documents/note.txt")
-        #expect(await store.save(Exclusions(paths: [note])))
+        #expect(await store.change { $0 = Exclusions(paths: [note]) } == .saved(Exclusions(paths: [note])))
 
         try await add([note.path(percentEncoded: false).uppercased()], in: store)
         #expect(await saved(store).paths.count == 1)

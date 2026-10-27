@@ -7,7 +7,7 @@ import PeelCore
 final class ExclusionsStore {
     static let shared = ExclusionsStore()
 
-    private let store = ExclusionStore()
+    private let store: ExclusionStore
     private(set) var exclusions = Exclusions.notYetRead
     /// Incremented whenever the list changes. Pages scan again, or narrow their list, when it does, because
     /// what they show was filtered by the exclusions as they stood when the scan ran.
@@ -22,6 +22,10 @@ final class ExclusionsStore {
     /// The revision each page last scanned under. Kept here rather than in the page, because while Settings
     /// takes the whole pane, no page is on screen to notice a change.
     @ObservationIgnored private var scanned = ScannedRevisions()
+
+    init(store: ExclusionStore = ExclusionStore()) {
+        self.store = store
+    }
 
     func needsRescan(_ page: String) -> Bool {
         scanned.needsRescan(page, at: revision)
@@ -54,13 +58,22 @@ final class ExclusionsStore {
         await change { $0.bundleIdentifiers.subtract(bundleIdentifiers) }
     }
 
-    /// Replaces a list that could not be read, which the store keeps under another name.
-    func startOver() async {
+    /// Replaces a list that could not be read, which the store keeps under another name, and reads the list again.
+    @discardableResult
+    func startOver() async -> StartOver {
         await inTurn { [self] in
-            couldNotSave = await !store.save(.none)
-            guard !couldNotSave else { return }
-            unsaved = []
-            show(.none)
+            let answer = await store.startOver()
+            switch answer {
+            case .started:
+                unsaved = []
+                couldNotSave = false
+            case .couldNotSetAside:
+                couldNotSave = true
+            case .notNeeded:
+                break
+            }
+            show(withUnsaved(await store.load()))
+            return answer
         }
     }
 
@@ -85,14 +98,14 @@ final class ExclusionsStore {
     }
 
     /// Runs `operation` once the read or change before it has landed.
-    private func inTurn(_ operation: @escaping () async -> Void) async {
+    private func inTurn<Answer: Sendable>(_ operation: @escaping () async -> Answer) async -> Answer {
         let previous = last
         let current = Task {
             await previous?.value
-            await operation()
+            return await operation()
         }
-        last = current
-        await current.value
+        last = Task { _ = await current.value }
+        return await current.value
     }
 
     /// `list` with the changes that could not be written laid over it. They started a new list if the saved one

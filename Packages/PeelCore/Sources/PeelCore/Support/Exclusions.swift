@@ -354,12 +354,13 @@ public struct ExclusionStore: Sendable {
         read()
     }
 
-    /// Saves `exclusions` in place of the list, and returns false when they could not be written. A saved file that
-    /// cannot be read is first renamed with `DamagedFile`, never overwritten.
-    @concurrent
-    @discardableResult
-    public func save(_ exclusions: Exclusions) async -> Bool {
-        FileLock.whileHeld(beside: url) { write(exclusions) }
+    /// Keeps a list that cannot be read beside a new, empty one. A list that reads stays as it is: starting it over
+    /// would throw away what the person chose.
+    public func startOver() async -> StartOver {
+        FileLock.whileHeld(beside: url) {
+            guard read().isUnreadable else { return .notNeeded }
+            return DamagedFile.setAside(url) == nil ? .couldNotSetAside : .started
+        }
     }
 
     /// Changes the saved list with `transform`. The list is read again and written under the file's lock, so what

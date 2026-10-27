@@ -299,7 +299,7 @@ struct ExclusionsTests {
         #expect(await store.load() == .none)
 
         let exclusions = Exclusions(paths: [URL(filePath: "/Users/x/Keep")], bundleIdentifiers: ["com.example.app"])
-        await store.save(exclusions)
+        _ = await store.change { $0 = exclusions }
         #expect(await store.load() == exclusions)
     }
 
@@ -311,7 +311,7 @@ struct ExclusionsTests {
         let (app, terminal) = (ExclusionStore(url: file), ExclusionStore(url: file))
         let (kept, added) = (URL(filePath: "/Users/x/Kept"), URL(filePath: "/Users/x/Added"))
         _ = await app.load()
-        await terminal.save(Exclusions(paths: [kept]))
+        _ = await terminal.change { $0 = Exclusions(paths: [kept]) }
 
         let outcome = await app.change { $0.paths.insert(added) }
 
@@ -331,6 +331,26 @@ struct ExclusionsTests {
         }
 
         #expect(await store.load().paths.count == 16)
+    }
+
+    @Test func startingOverLeavesAListItCanReadAsItIs() async throws {
+        let directory = try TemporaryDirectory()
+        let store = ExclusionStore(url: directory.url.appending(path: "exclusions.json"))
+        let chosen = Exclusions(paths: [URL(filePath: "/Users/x/Keep")], bundleIdentifiers: ["com.example.app"])
+        _ = await store.change { $0 = chosen }
+
+        #expect(await store.startOver() == .notNeeded)
+        #expect(await store.load() == chosen, "what the person excluded was thrown away")
+    }
+
+    @Test func startingOverKeepsAListItCannotReadAside() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("exclusions.json", contents: Data("not json".utf8))
+
+        #expect(await ExclusionStore(url: file).startOver() == .started)
+        #expect(await ExclusionStore(url: file).load() == .none)
+        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
+        #expect(kept.contains { $0.hasPrefix("exclusions-damaged-") })
     }
 
     /// A list that cannot be read is left as it is: changing it would throw away what the user chose.
@@ -367,7 +387,7 @@ struct ExclusionsTests {
         let folder = directory.url.appending(path: "Peel", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let store = ExclusionStore(url: folder.appending(path: "exclusions.json"))
-        await store.save(Exclusions(paths: [URL(filePath: "/Users/x/Kept")]))
+        _ = await store.change { $0 = Exclusions(paths: [URL(filePath: "/Users/x/Kept")]) }
         try directory.setPermissions(0o500, of: folder)
         defer {
             try? FileManager.default.setAttributes(
@@ -452,21 +472,6 @@ struct ExclusionsTests {
         #expect(result.failures.map(\.reason) == [.guarded(.exclusionsNotKnown)])
         #expect(!Exclusions.notYetRead.isKnown && !Exclusions.notYetRead.isUnreadable)
         #expect(Exclusions.none.isKnown && !Exclusions.unreadable.isKnown)
-    }
-
-    /// Saving over a list that could not be read keeps it under another name instead of erasing it.
-    @Test func keepsAListItCouldNotReadWhenANewOneIsSaved() async throws {
-        let directory = try TemporaryDirectory()
-        let file = try directory.file("exclusions.json", contents: Data("not json".utf8))
-        let store = ExclusionStore(url: file)
-
-        #expect(await store.save(Exclusions(bundleIdentifiers: ["com.example.app"])))
-
-        #expect(await store.load().bundleIdentifiers == ["com.example.app"])
-        let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false)).filter
-        { $0.contains("damaged") }
-        #expect(kept.count == 1)
-        #expect(try String(contentsOf: directory.url.appending(path: try #require(kept.first)), encoding: .utf8) == "not json")
     }
 
     @Test func refusesToRemoveAnExcludedItem() async throws {
