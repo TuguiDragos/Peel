@@ -355,12 +355,17 @@ final class HomebrewLibrary {
         return result
     }
 
-    /// How History names a removal of `casks`: up to three names, or a count in English that History shows in the
-    /// user's language through the key.
-    static func source(of casks: [HomebrewPackage]) -> (source: String, key: String?) {
-        guard casks.count > 3 else { return (casks.map(\.name).joined(separator: ", "), nil) }
-        let count = AttributedString(localized: "^[\(casks.count) cask](inflect: true)", locale: Locale(identifier: "en"))
-        return (String(count.characters), "casks.\(casks.count)")
+    /// How History names a removal of `casks`: by the casks whose record `result` moved, or all of them when none
+    /// moved, up to three names, or a count in English that History shows in the user's language through the key.
+    static func source(of casks: [HomebrewPackage], after result: TrashResult) -> (source: String, key: String?) {
+        let moved = Set(result.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
+        let forgotten = casks.filter { cask in
+            cask.caskroomFolder.map { moved.contains(PathPattern.comparablePath(of: $0)) } == true
+        }
+        let named = forgotten.isEmpty ? casks : forgotten
+        guard named.count > 3 else { return (named.map(\.name).joined(separator: ", "), nil) }
+        let count = AttributedString(localized: "^[\(named.count) cask](inflect: true)", locale: Locale(identifier: "en"))
+        return (String(count.characters), "casks.\(named.count)")
     }
 
     /// Stops the running upgrade: Homebrew is asked to stop, and killed if it does not.

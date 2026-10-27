@@ -1,10 +1,20 @@
 import Foundation
 import Observation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Testing
 
 @Suite(.serialized) struct HomebrewLibraryTests {
+    @Test func namesInHistoryOnlyTheCasksWhoseRecordMoved() throws {
+        let caskroom = URL(filePath: "/opt/homebrew/Caskroom", directoryHint: .isDirectory)
+        let casks = ["alpha", "beta", "gamma"].map { HomebrewPackage(name: $0, kind: .cask).kept(inCaskroom: caskroom) }
+        let folder = try #require(casks[0].caskroomFolder)
+        let trashed = TrashedItem(originalURL: folder, trashedURL: URL(filePath: "/Users/me/.Trash/alpha"), date: .now)
+
+        #expect(HomebrewLibrary.source(of: casks, after: TrashResult(trashed: [trashed])).source == "alpha")
+        #expect(HomebrewLibrary.source(of: casks, after: TrashResult()).source == "alpha, beta, gamma")
+    }
+
     @Test func readsHomebrewAgainOnceItCheckedForNewVersions() async {
         guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
         let homebrew = HomebrewLibrary()
