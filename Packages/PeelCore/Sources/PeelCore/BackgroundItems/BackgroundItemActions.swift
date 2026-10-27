@@ -133,8 +133,10 @@ public enum BackgroundItemActions {
         }
         let result = await trash.trash([plist], usingHelperFor: item.removalRequiresPrivileges ? [plist] : [])
         // `TrashService` stops a job only when `PrivilegedPathPolicy.isValidLabel` accepts its label. The user
-        // chose this job, so it is also stopped here by its own label.
-        guard !result.trashed.isEmpty, item.state != .notLoaded else { return Moved(result: result, stillRunning: nil) }
+        // chose this job, so it is also stopped here by its own label; a row named by its file has none Peel read.
+        guard !result.trashed.isEmpty, item.state != .notLoaded, !item.isNamedByItsFile else {
+            return Moved(result: result, stillRunning: nil)
+        }
         return Moved(result: result, stillRunning: await stop(item))
     }
 

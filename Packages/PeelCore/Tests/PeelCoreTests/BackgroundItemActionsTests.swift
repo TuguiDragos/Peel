@@ -546,6 +546,16 @@ struct BackgroundItemActionsTests {
             stop: stop
         )
         #expect(steps.withLock { $0 } == ["move"])
+
+        // A row named by its file has no label Peel read, and a job under that name may run from another file.
+        steps.withLock { $0 = [] }
+        var named = item(.userLibrary, state: .unknown, plist: plist)
+        named.isClosedToPeel = true
+        named.isNamedByItsFile = true
+        _ = try await BackgroundItemActions.moveToTrash(
+            named, isHelperEnabled: false, trash: service(refusing: false), stop: stop
+        )
+        #expect(steps.withLock { $0 } == ["move"])
     }
 
     /// Once its file is in the Trash nothing loads the job again, but one launchd could not stop runs until the Mac

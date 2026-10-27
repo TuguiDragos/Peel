@@ -494,9 +494,10 @@ extension BackgroundItem {
         return "\(ownerName) uses it to run in the background, and may stop working until you put it back."
     }
 
-    /// What the question before a move says becomes of the job once its file is in the Trash.
+    /// What the question before a move says becomes of the job once its file is in the Trash. A row named by its file
+    /// has no label Peel read, so nothing is stopped for it.
     var whenTrashed: LocalizedStringResource {
-        guard canBeControlled || state == .notLoaded else {
+        guard canBeControlled && !isNamedByItsFile || state == .notLoaded else {
             return "macOS won’t start it again: it stops for good when the Mac restarts."
         }
         // An agent in `/Library/LaunchAgents` runs in every account logged in, and Stop reaches only this one.
