@@ -386,6 +386,15 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   (`FoldersLeftToDeveloper`) kept out, and macOS's own held back or not listed at all; the move asks again which apps
   are open (`movableNow`). An area only its own app or tool should empty is explained, with that app's or tool's own
   step.
+- **Installers and Backups.** `Installers.scan` looks in Downloads, Desktop, Documents, Public, and `/Users/Shared`,
+  and in the folders directly inside them, for disk images, packages, archives that hold an app or an installer (a
+  zip is looked into), downloads a browser never finished, and device firmware, then at the macOS installers there and
+  in `/Applications`, the updates Sparkle, Squirrel, and electron-updater keep until they install them, the packages
+  apps keep in Application Support, and, with Full Disk Access, the device backups, which it only lists. What is smaller
+  than `minimumSize` isn't listed, a backup whatever its size. What it suggests can be downloaded again: an installed
+  app's installer, one in Downloads, a macOS installer, firmware, a browser's unfinished download a day after its last
+  change, and an update whose app is closed. The rest is held back, such as what changed in the last day, what a
+  program has open or is mounted, what syncs to other devices, and what is in `/Users/Shared`.
 - **Developer.** `DeveloperCaches.definitions` names each tool's folders, under the home folder, the account's cache
   folder, or its temporary folder, each with what it holds (`ContentKind`) and where the tool documents it, a page or
   a file in its repository at a commit, which the tests hold. Only what one tool owns outright is listed: no
