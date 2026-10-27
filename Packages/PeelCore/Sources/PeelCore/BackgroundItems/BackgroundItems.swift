@@ -6,16 +6,41 @@ public enum BackgroundItems {
     static let serviceManagement = "com.apple.xpc.ServiceManagement"
     private static let concurrentDetailQueries = 8
 
+    /// What `launchctl` answered about in a form Peel cannot read, kind by kind, so some jobs may be missing.
+    public struct Unanswered: Sendable, Hashable {
+        /// The kinds whose loaded jobs couldn't be listed: the jobs apps added, known only from that list, may be
+        /// missing.
+        public var lists: Set<BackgroundItem.Kind> = []
+        /// The kinds whose disabled jobs couldn't be read: the state of each job isn't known, and a disabled job that
+        /// isn't loaded may be missing.
+        public var overrides: Set<BackgroundItem.Kind> = []
+        /// The kinds of the jobs an app added whose own answer couldn't be read, so their rows may be missing.
+        public var jobs: Set<BackgroundItem.Kind> = []
+
+        public init(
+            lists: Set<BackgroundItem.Kind> = [], overrides: Set<BackgroundItem.Kind> = [],
+            jobs: Set<BackgroundItem.Kind> = []
+        ) {
+            self.lists = lists
+            self.overrides = overrides
+            self.jobs = jobs
+        }
+
+        public var isEmpty: Bool { kinds.isEmpty }
+
+        /// Every kind some of whose jobs may be missing, for whatever reason.
+        public var kinds: Set<BackgroundItem.Kind> { lists.union(overrides).union(jobs) }
+    }
+
     public struct Scan: Sendable {
         public let items: [BackgroundItem]
-        /// The kinds that may be missing jobs, because `launchctl` answered about them in a form Peel cannot read.
-        public let unanswered: Set<BackgroundItem.Kind>
+        public let unanswered: Unanswered
         /// The folders that kept Peel from listing a folder of job files, so a job whose file is there and which isn't
         /// loaded is missing.
         public let unreadableFolders: [URL]
 
         public init(
-            items: [BackgroundItem] = [], unanswered: Set<BackgroundItem.Kind> = [], unreadableFolders: [URL] = []
+            items: [BackgroundItem] = [], unanswered: Unanswered = Unanswered(), unreadableFolders: [URL] = []
         ) {
             self.items = items
             self.unanswered = unanswered
@@ -157,18 +182,16 @@ public enum BackgroundItems {
         return rows + others
     }
 
-    /// The items among what `launchctl` said of each undeclared job, and the kinds some of whose jobs may be missing:
-    /// those `loaded` could not read, and those of a job whose answer could not be read.
-    static func merged(
-        _ found: [Undeclared], loaded: Loaded
-    ) -> (items: [BackgroundItem], unanswered: Set<BackgroundItem.Kind>) {
+    /// The items among what `launchctl` said of each undeclared job, and what was not answered: what `loaded` could
+    /// not read, and the kind of each job whose answer could not be read.
+    static func merged(_ found: [Undeclared], loaded: Loaded) -> (items: [BackgroundItem], unanswered: Unanswered) {
         var items: [BackgroundItem] = []
         var unanswered = loaded.unanswered
         for result in found {
             switch result {
             case .item(let item): items.append(item)
             case .nothing: break
-            case .unreadable(let kind): unanswered.insert(kind)
+            case .unreadable(let kind): unanswered.jobs.insert(kind)
             }
         }
         return (items, unanswered)
@@ -264,13 +287,14 @@ public enum BackgroundItems {
             overrides(kind)?[label]
         }
 
-        /// The kinds whose loaded jobs or overrides could not be read, so that jobs an app registered, which are
-        /// known only from them, may be missing.
-        var unanswered: Set<BackgroundItem.Kind> {
-            var kinds: Set<BackgroundItem.Kind> = []
-            if user == nil || userDisabled == nil || inTheUserDomain == nil { kinds.insert(.agent) }
-            if system == nil || systemDisabled == nil { kinds.insert(.daemon) }
-            return kinds
+        /// What could not be read of the loaded jobs and of the disabled ones, kind by kind.
+        var unanswered: Unanswered {
+            var unanswered = Unanswered()
+            if user == nil || inTheUserDomain == nil { unanswered.lists.insert(.agent) }
+            if system == nil { unanswered.lists.insert(.daemon) }
+            if userDisabled == nil { unanswered.overrides.insert(.agent) }
+            if systemDisabled == nil { unanswered.overrides.insert(.daemon) }
+            return unanswered
         }
 
         private func overrides(_ kind: BackgroundItem.Kind) -> [String: Bool]? {

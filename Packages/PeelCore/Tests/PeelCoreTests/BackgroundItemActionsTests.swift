@@ -220,7 +220,7 @@ struct BackgroundItemActionsTests {
         #expect(undeclared.map(\.target) == ["user/501/org.example.background", "gui/501/org.example.window"])
         guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
         #expect(item.loadsInTheBackgroundSession)
-        #expect(BackgroundItems.Loaded(user: [:], inTheUserDomain: nil).unanswered == [.agent])
+        #expect(BackgroundItems.Loaded(user: [:], inTheUserDomain: nil).unanswered.lists == [.agent])
     }
 
     @Test func aJobWhoseFileIsGoneSaysSo() throws {
@@ -830,13 +830,17 @@ struct DeclaredBackgroundItemsTests {
         #expect(found(.unreadable, .daemon) == .unreadable(.daemon))
         #expect(found(.gone, .agent) == .nothing)
         #expect(BackgroundItems.Loaded().unanswered.isEmpty)
-        #expect(BackgroundItems.Loaded(user: nil).unanswered == [.agent])
-        #expect(BackgroundItems.Loaded(userDisabled: nil).unanswered == [.agent])
-        #expect(BackgroundItems.Loaded(system: nil, systemDisabled: nil).unanswered == [.daemon])
+        #expect(BackgroundItems.Loaded(user: nil).unanswered == .init(lists: [.agent]))
+        #expect(BackgroundItems.Loaded(userDisabled: nil).unanswered == .init(overrides: [.agent]))
+        #expect(
+            BackgroundItems.Loaded(system: nil, systemDisabled: nil).unanswered
+                == .init(lists: [.daemon], overrides: [.daemon])
+        )
         let merged = BackgroundItems.merged([found(.gone, .agent), found(.unreadable, .daemon)], loaded: .init())
         #expect(merged.items.isEmpty)
-        #expect(merged.unanswered == [.daemon])
-        #expect(BackgroundItems.merged([], loaded: .init(user: nil)).unanswered == [.agent])
+        #expect(merged.unanswered == .init(jobs: [.daemon]))
+        #expect(merged.unanswered.kinds == [.daemon])
+        #expect(BackgroundItems.merged([], loaded: .init(user: nil)).unanswered == .init(lists: [.agent]))
     }
 
     /// A job an app registered is known only while it is loaded, so after Disable and a restart it would leave the

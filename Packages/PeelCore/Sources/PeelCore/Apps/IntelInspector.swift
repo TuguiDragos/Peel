@@ -266,7 +266,7 @@ public enum IntelInspector {
             },
             unreadable: unread,
             needsFullDiskAccess: unread.contains { FullDiskAccess.canList($0) == .missing },
-            unansweredJobs: backgroundItems.unanswered
+            unansweredJobs: backgroundItems.unanswered.kinds
         )
     }
 

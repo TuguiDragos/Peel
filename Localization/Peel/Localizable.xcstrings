@@ -227050,6 +227050,112 @@
         }
       }
     },
+    "macOS didn’t answer for some jobs that apps added, so they may be missing here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS neodpověděl ohledně některých úloh, které aplikace přidaly, takže mohou v seznamu chybět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat zu einigen von Apps hinzugefügten Jobs keine Antwort gegeben, daher fehlen sie hier möglicherweise."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha respondido sobre algunas tareas que las apps han añadido, así que puede que aquí falten."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas répondu pour certaines tâches que les apps ont ajoutées : elles peuvent donc manquer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha dato risposte su alcuni elementi aggiunti dalle app, quindi qui potrebbero mancare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが追加した一部のジョブについてmacOSが応答しなかったため、ここではそれらが欠けている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 앱에서 추가한 일부 작업에 대해 응답하지 않았으므로 해당 작업이 여기에서 누락되었을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft geen antwoord gegeven over sommige taken die door apps zijn toegevoegd, dus die ontbreken hier mogelijk."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie odpowiedział w sprawie niektórych zadań dodanych przez aplikacje, więc może ich tu brakować."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não respondeu sobre algumas tarefas que os apps adicionaram, então elas podem estar faltando aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a răspuns pentru unele sarcini adăugate de aplicații, așa că acestea ar putea lipsi de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не ответила на запрос о некоторых заданиях, добавленных приложениями, поэтому они могут здесь отсутствовать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS svarade inte om vissa jobb som appar har lagt till, så de kan saknas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, uygulamaların eklediği bazı işler için yanıt vermedi, bu yüzden bunlar burada eksik olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не відповіла щодо деяких завдань, доданих програмами, тож їх тут може бракувати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对于App添加的某些任务，macOS没有给出回应，因此这里可能缺少这些任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對於App加入的部分工作，macOS沒有回應，因此這裡可能缺少它們。"
+          }
+        }
+      }
+    },
     "macOS didn’t list the agents and daemons that apps added, so some may be missing here." : {
       "localizations" : {
         "cs" : {
@@ -227576,6 +227682,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS沒有說明這部Mac上有哪些App延伸功能，因此這裡未列出任何App延伸功能。"
+          }
+        }
+      }
+    },
+    "macOS didn’t say which jobs are disabled, so Peel can’t tell whether they run, and a disabled one may be missing here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS neuvedl, které úlohy jsou vypnuté, takže Peel nemůže určit, zda běží, a vypnutá úloha může v seznamu chybět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat nicht mitgeteilt, welche Jobs deaktiviert sind, daher kann Peel nicht erkennen, ob sie laufen, und ein deaktivierter Job fehlt hier möglicherweise."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha dicho qué tareas están desactivadas, así que Peel no puede saber si se ejecutan, y puede que aquí falte alguna de las desactivadas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas indiqué quelles tâches sont désactivées : Peel ne peut donc pas savoir si elles s’exécutent, et une tâche désactivée peut manquer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha detto quali elementi sono disabilitati, quindi Peel non può sapere se sono in esecuzione, e qui potrebbe mancare un elemento disabilitato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "どのジョブが無効になっているかをmacOSが報告しなかったため、それらが実行されるかどうかPeelには判断できません。また、無効になっているジョブは、ここでは欠けている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 어떤 작업이 비활성화되어 있는지 알려 주지 않았으므로 Peel은 작업이 실행되는지 알 수 없으며, 비활성화된 작업이 여기에서 누락되었을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft niet gemeld welke taken zijn uitgeschakeld, dus Peel kan niet zeggen of ze actief zijn, en een uitgeschakelde taak ontbreekt hier mogelijk."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie podał, które zadania są wyłączone, więc Peel nie może określić, czy są uruchomione, a wyłączonego zadania może tu brakować."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não disse quais tarefas estão desativadas, então o Peel não sabe dizer se elas são executadas, e uma tarefa desativada pode estar faltando aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a spus ce sarcini sunt dezactivate, așa că Peel nu poate ști dacă acestea rulează, iar una dezactivată ar putea lipsi de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не сообщила, какие задания выключены, поэтому Peel не может сказать, выполняются ли они, а выключенное задание может здесь отсутствовать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS sa inte vilka jobb som är avaktiverade, så Peel kan inte avgöra om de körs, och ett avaktiverat jobb kan saknas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hangi işlerin etkin olmadığını söylemedi, bu yüzden Peel bunların çalışıp çalışmadığını bilemiyor ve etkin olmayan bir iş burada eksik olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не повідомила, які завдання вимкнено, тож Peel не може визначити, чи вони виконуються, а вимкнених завдань тут може бракувати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有说明哪些任务已停用，因此Peel无法判断它们是否在运行，而且这里可能缺少已停用的任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有說明哪些工作已停用，因此Peel無法判斷它們是否會執行，而且這裡可能缺少已停用的工作。"
           }
         }
       }

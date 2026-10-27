@@ -7,7 +7,7 @@ import SwiftUI
 final class BackgroundItemLibrary {
     private(set) var items: [BackgroundItem]?
     /// The kinds of job some of which may be missing, because macOS answered about them in a form Peel cannot read.
-    private(set) var unanswered: Set<BackgroundItem.Kind> = []
+    private(set) var unanswered = BackgroundItems.Unanswered()
     /// The folders that kept Peel from listing a folder of job files.
     private(set) var unreadableFolders: [URL] = []
     /// The scan this page runs, which a newer one or the Stop button ends.
@@ -179,7 +179,13 @@ final class BackgroundItemLibrary {
 extension BackgroundItemLibrary {
     /// What the page says when some jobs may be missing, a paragraph for each reason, or nil when none is.
     var missingNote: String? {
-        let parts = (unanswered.missingJobsNote.map { [String(localized: $0)] } ?? [])
+        let parts = (unanswered.lists.missingJobsNote.map { [String(localized: $0)] } ?? [])
+            + (unanswered.overrides.isEmpty ? [] : [
+                String(localized: "macOS didn’t say which jobs are disabled, so Peel can’t tell whether they run, and a disabled one may be missing here."),
+            ])
+            + (unanswered.jobs.isEmpty ? [] : [
+                String(localized: "macOS didn’t answer for some jobs that apps added, so they may be missing here."),
+            ])
             + unreadableFolders.map {
                 String(localized: "Peel can’t look in \($0.abbreviatedPath), so a job whose file is there shows here only while macOS has it loaded.")
             }

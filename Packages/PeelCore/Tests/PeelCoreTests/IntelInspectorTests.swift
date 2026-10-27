@@ -651,7 +651,7 @@ struct IntelInspectorTests {
                 InstalledApp(url: universal, bundleIdentifier: "org.example.universal", name: "Universal", architectures: [.x86_64, .arm64]),
                 InstalledApp(url: closedApp, bundleIdentifier: "org.example.closed", name: "Closed", architectures: []),
             ],
-            backgroundItems: BackgroundItems.Scan(items: [job], unanswered: [.daemon]),
+            backgroundItems: BackgroundItems.Scan(items: [job], unanswered: .init(lists: [.daemon])),
             exclusions: .none,
             environment: environment(in: directory),
             measure: { _ in 1 }
