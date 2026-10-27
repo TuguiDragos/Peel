@@ -6,16 +6,18 @@ struct AppFoldersSection: View {
     @Environment(AppLibrary.self) private var library
     @State private var isChoosing = false
     @State private var selected: Set<URL> = []
-    @State private var refused: [String] = []
+    @State private var refusedAsTooBroad: [String] = []
+    @State private var refusedAsLookedIn: [String] = []
     @State private var refusedInATrash: [String] = []
     @State private var refusedInTheCloud: [String] = []
 
     private var isShowingRefusal: Binding<Bool> {
         Binding(
-            get: { !refused.isEmpty || !refusedInATrash.isEmpty || !refusedInTheCloud.isEmpty },
+            get: { !(refusedAsTooBroad + refusedAsLookedIn + refusedInATrash + refusedInTheCloud).isEmpty },
             set: {
                 guard !$0 else { return }
-                refused = []
+                refusedAsTooBroad = []
+                refusedAsLookedIn = []
                 refusedInATrash = []
                 refusedInTheCloud = []
             }
@@ -72,7 +74,8 @@ struct AppFoldersSection: View {
         ) { result in
             guard let urls = try? result.get() else { return }
             let refusals = urls.compactMap { url in AppFolders.refusal(of: url).map { (url: url, refusal: $0) } }
-            refused = refusals.filter { [.tooBroad, .alreadyLookedIn].contains($0.refusal) }.map(\.url.abbreviatedPath)
+            refusedAsTooBroad = refusals.filter { $0.refusal == .tooBroad }.map(\.url.abbreviatedPath)
+            refusedAsLookedIn = refusals.filter { $0.refusal == .alreadyLookedIn }.map(\.url.abbreviatedPath)
             refusedInATrash = refusals.filter { $0.refusal == .inATrash }.map(\.url.abbreviatedPath)
             refusedInTheCloud = refusals.filter { $0.refusal == .inTheCloud }.map(\.url.abbreviatedPath)
             let adding = urls.filter { url in !refusals.contains { $0.url == url } }
@@ -80,7 +83,7 @@ struct AppFoldersSection: View {
             library.addFolders(adding)
         }
         .alert(
-            refused.count + refusedInATrash.count + refusedInTheCloud.count == 1
+            (refusedAsTooBroad + refusedAsLookedIn + refusedInATrash + refusedInTheCloud).count == 1
                 ? "That folder can’t be added." : "These folders can’t be added.",
             isPresented: isShowingRefusal
         ) {
@@ -91,10 +94,14 @@ struct AppFoldersSection: View {
     }
 
     private var refusalMessage: Text {
-        let others = Text("Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, a Library, or one of macOS’s own would slow down every look for apps. Choose the folder that holds the apps.\n\n\(RemovalFailureAlert.firstItems(refused).joined(separator: "\n"))")
+        let tooBroad = Text("A folder as wide as a whole disk, your home folder, a Library, or one of macOS’s own would slow down every look for apps. Choose the folder that holds the apps.\n\n\(RemovalFailureAlert.firstItems(refusedAsTooBroad).joined(separator: "\n"))")
+        let lookedIn = Text("Peel already looks in the Applications folders and in the folders inside them, three levels deep.\n\n\(RemovalFailureAlert.firstItems(refusedAsLookedIn).joined(separator: "\n"))")
         let inATrash = Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(RemovalFailureAlert.firstItems(refusedInATrash).joined(separator: "\n"))")
         let inTheCloud = Text("Reading a folder that iCloud or another cloud keeps can download what it holds, so Peel doesn’t look for apps there.\n\n\(RemovalFailureAlert.firstItems(refusedInTheCloud).joined(separator: "\n"))")
-        let parts = [(refused, others), (refusedInATrash, inATrash), (refusedInTheCloud, inTheCloud)]
+        let parts = [
+            (refusedAsTooBroad, tooBroad), (refusedAsLookedIn, lookedIn), (refusedInATrash, inATrash),
+            (refusedInTheCloud, inTheCloud),
+        ]
             .filter { !$0.0.isEmpty }.map(\.1)
         return parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
     }
