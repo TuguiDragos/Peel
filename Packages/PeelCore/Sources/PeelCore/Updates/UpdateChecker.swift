@@ -159,10 +159,11 @@ public struct UpdateChecker: Sendable {
     }
 
     /// The status Homebrew reports at `now` for `cask`, known to be the app's at `appVersion`, or nil when it can't
-    /// tell (`whyHomebrewCannotTell(about:at:)`).
+    /// tell (`whyHomebrewCannotTell(about:at:)`), or when the app is behind and Homebrew can't upgrade it.
     static func homebrewStatus(of cask: HomebrewPackage, appVersion: String?, at now: Date) -> UpdateStatus? {
-        if cask.waitsForAnUpgrade, let latest = cask.latestVersion, !isAlready(appVersion, at: latest) {
-            return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
+        if cask.isOutdated, let latest = cask.latestVersion, !isAlready(appVersion, at: latest) {
+            return cask.waitsForAnUpgrade
+                ? .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage) : nil
         }
         return whyHomebrewCannotTell(about: cask, at: now) == nil ? .upToDate : nil
     }

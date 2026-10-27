@@ -697,6 +697,27 @@ struct UpdateSourceTests {
         #expect(status("2.0.0") == update, "versions of other lengths compare as Homebrew's don't")
     }
 
+    @Test func anAppWhoseCaskHomebrewCanNotUpgradeGetsNoAnswerFromHomebrew() throws {
+        let directory = try TemporaryDirectory()
+        let checked = Date(timeIntervalSince1970: 1_792_315_250)
+        // Installed from a package whose receipts are gone, so Homebrew counts what the cask installed as gone.
+        let cask = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", latestVersion: "2.0", isOutdated: true,
+            quitIdentifiers: ["com.example.app"], packageIdentifiers: ["org.example.pkg"]
+        ).kept(inCaskroom: try directory.directory("Caskroom"))
+            .checkingWhatItInstalled(receipts: try directory.directory("receipts"))
+            .noting(lastUpdateCheck: checked)
+        let app = InstalledApp(
+            url: try directory.directory("Applications/Example.app"), bundleIdentifier: "com.example.app",
+            name: "Example", version: "1.0"
+        )
+
+        let status = UpdateChecker(clock: { checked + 60 }).homebrewStatus(for: app, casks: [cask])
+
+        #expect(cask.isMissingWhatItInstalled && !cask.waitsForAnUpgrade)
+        #expect(status == nil, "Homebrew can't upgrade it, and the app isn't up to date")
+    }
+
     /// `firefox`, `firefox@beta`, and `firefox@esr` all install `Firefox.app`. With `firefox@esr` installed, the
     /// base cask, which Homebrew only knows of, matches the app too and sorts first, but has no installed
     /// version. The installed cask is the one to ask, or the waiting update is missed.
