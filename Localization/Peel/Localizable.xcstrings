@@ -121608,6 +121608,112 @@
         }
       }
     },
+    "Peel is running from a read-only disk, such as the disk image it came on. Move Peel to the Applications folder and open it from there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel běží z disku jen pro čtení, například z obrazu disku, na kterém byl dodán. Přesuňte Peel do složky Aplikace a otevřete ho odtamtud."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wird von einem schreibgeschützten Volume ausgeführt, etwa von der Image-Datei, mit der Peel geliefert wurde. Bewege Peel in den Ordner „Programme“ und öffne es von dort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se está ejecutando desde un disco de solo lectura, como la imagen de disco en la que venía. Mueve Peel a la carpeta Aplicaciones y ábrelo desde ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel s’exécute depuis un disque en lecture seule, comme l’image disque sur laquelle il a été distribué. Déplacez Peel dans le dossier Applications et ouvrez-le depuis cet emplacement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel è in esecuzione da un disco di sola lettura, come l’immagine disco da cui proviene. Sposta Peel nella cartella Applicazioni e aprilo da lì."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、配布用のディスクイメージなど、読み出し専用のディスクから実行されています。Peelを“アプリケーション”フォルダに移動し、そこから開いてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 읽기 전용 디스크(예: Peel의 디스크 이미지)에서 실행되고 있습니다. Peel을 응용 프로그램 폴더로 옮긴 다음 그곳에서 여십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wordt uitgevoerd vanaf een alleen-lezenschijf, zoals de schijfkopie waarop het is geleverd. Verplaats Peel naar de map 'Apps' en open het daarvandaan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel działa z dysku tylko do odczytu, na przykład z obrazu dysku, na którym został dostarczony. Przenieś Peel do folderu Aplikacje i otwórz go stamtąd."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel está sendo executado a partir de um disco somente leitura, como a imagem de disco em que ele veio. Mova o Peel para a pasta Aplicativos e abra-o de lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rulează de pe un disc doar pentru citire, cum ar fi imaginea sa de disc. Mutați Peel în dosarul Aplicații și deschideți‑l de acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запущен с диска только для чтения, например с образа диска, в котором он поставлялся. Переместите Peel в папку «Программы» и откройте его оттуда."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel körs från en skrivskyddad skiva, till exempel den skivavbild som Peel levererades på. Flytta Peel till mappen Appar och öppna appen därifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, içinde geldiği disk görüntüsü gibi salt okunur bir diskten çalışıyor. Peel’i Uygulamalar klasörüne taşıyın ve oradan açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel працює з диска, доступного лише для читання, як-от з образу диска, у якому вона постачається. Перемістіть Peel у папку «Програми» й відкрийте звідти."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正在从只读磁盘运行，例如它所在的磁盘映像。请将Peel移到“应用程序”文件夹，然后从那里打开它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正從唯讀磁碟執行，例如它原本所在的磁碟映像檔。請將Peel移到「應用程式」檔案夾，然後從那裡打開。"
+          }
+        }
+      }
+    },
     "Peel is still moving something, putting something back, or running Homebrew. Try again once it’s done." : {
       "localizations" : {
         "cs" : {

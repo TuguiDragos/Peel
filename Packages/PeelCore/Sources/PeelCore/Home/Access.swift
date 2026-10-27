@@ -89,25 +89,31 @@ public enum CommandLineTool {
         /// The temporary copy macOS runs an app from while it is still marked as downloaded (App Translocation).
         /// Its path changes every time and it is gone when the app quits, so no link may point into it.
         case temporaryCopy
+        /// A disk Peel can't write to, such as the disk image it came on, which is ejected sooner or later.
+        case readOnlyVolume
         /// Anywhere else, such as Downloads, a disk image, or a build folder. An app there may still be moved.
         case elsewhere
     }
 
-    public static func place(of bundle: URL = Bundle.main.bundleURL, home: URL = .homeDirectory) -> Place {
+    public static func place(
+        of bundle: URL = Bundle.main.bundleURL, home: URL = .homeDirectory,
+        isReadOnly: (URL) -> Bool = SelfRemoval.isOnAReadOnlyVolume
+    ) -> Place {
         let path = PathPattern.comparablePath(of: bundle)
         guard !path.contains("/AppTranslocation/") else { return .temporaryCopy }
         let applications = ["/Applications", PathPattern.comparablePath(of: home) + "/Applications"]
-        return applications.contains { PathComponents.isPath(path, inside: $0) } ? .applications : .elsewhere
+        guard !applications.contains(where: { PathComponents.isPath(path, inside: $0) }) else { return .applications }
+        return isReadOnly(bundle) ? .readOnlyVolume : .elsewhere
     }
 
     /// The shell command that links the tool, built from where Peel really is rather than a fixed path, or nil once the
     /// link leads to this copy's tool, where something that may not be Peel's is in the link's place, and from a
-    /// temporary copy, whose link would lead nowhere once Peel quits. `ln -f` deletes what is there, so only a link to
-    /// another Peel's tool is replaced. A single quote in the path is closed, escaped, and reopened, so the shell reads
-    /// the path as written.
+    /// temporary copy or a read-only disk, whose link would lead nowhere once Peel quits or the disk is ejected.
+    /// `ln -f` deletes what is there, so only a link to another Peel's tool is replaced. A single quote in the path is
+    /// closed, escaped, and reopened, so the shell reads the path as written.
     public static func installCommand(embedded: URL, standing: Standing) -> String? {
         let bundle = embedded.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
-        guard place(of: bundle) != .temporaryCopy else { return nil }
+        guard ![.temporaryCopy, .readOnlyVolume].contains(place(of: bundle)) else { return nil }
         let path = embedded.path(percentEncoded: false).replacingOccurrences(of: "'", with: "'\\''")
         let link = switch standing {
         case .missing: "ln -s"

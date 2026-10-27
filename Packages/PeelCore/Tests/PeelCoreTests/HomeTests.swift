@@ -320,6 +320,8 @@ struct AppManagementTests {
         #expect(place("/Users/me/Downloads/Peel.app") == .elsewhere)
         #expect(place("/Volumes/Peel 1.0/Peel.app") == .elsewhere)
         #expect(place("/private/var/folders/x2/abc/d/AppTranslocation/41B9A/d/Peel.app") == .temporaryCopy)
+        let onItsDiskImage = URL(filePath: "/Volumes/Peel/Peel.app", directoryHint: .isDirectory)
+        #expect(CommandLineTool.place(of: onItsDiskImage, home: home, isReadOnly: { _ in true }) == .readOnlyVolume)
 
         let command = CommandLineTool.installCommand(embedded: URL(filePath: "/Users/me/Sam's Apps/Peel.app/Contents/Helpers/peel"), standing: .missing)
         #expect(command?.hasSuffix("sudo ln -s '/Users/me/Sam'\\''s Apps/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel") == true)

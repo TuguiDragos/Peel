@@ -372,12 +372,18 @@ private struct GeneralSettingsView: View {
                     Text("Peel is running from a copy macOS made because it is still marked as downloaded. Move Peel to the Applications folder and open it from there.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                case .elsewhere:
-                    Text("The link points at Peel where it is now, \(Text(verbatim: Bundle.main.bundleURL.abbreviatedPath)), so it breaks if Peel moves. Apps live in the Applications folder.")
+                case .readOnlyVolume:
+                    Text("Peel is running from a read-only disk, such as the disk image it came on. Move Peel to the Applications folder and open it from there.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                case .elsewhere:
+                    if commandLine == .installed || installCommand != nil {
+                        Text("The link points at Peel where it is now, \(Text(verbatim: Bundle.main.bundleURL.abbreviatedPath)), so it breaks if Peel moves. Apps live in the Applications folder.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
-                if Self.place != .temporaryCopy, commandLine != .installed {
+                if [.applications, .elsewhere].contains(Self.place), commandLine != .installed {
                     if let installCommand {
                         Text(verbatim: installCommand)
                             .font(.caption.monospaced())
