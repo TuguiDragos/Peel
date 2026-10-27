@@ -65,6 +65,7 @@ struct HomeContent: View {
                     .foregroundStyle(Album.ink)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
+                    .accessibilityAddTraits(.isHeader)
             }
             if let device = home.device {
                 deviceCard(device).padding(.top, 38)

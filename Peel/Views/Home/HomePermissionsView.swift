@@ -98,8 +98,11 @@ struct HomePermissionsContent: View {
                 .onHover { pointingAt = $0 ? permission : nil }
                 .help(help(for: permission))
                 VStack(alignment: .leading, spacing: 1) {
+                    let status = changing?.progress ?? home.status(of: permission)
                     HStack(spacing: 5) {
                         name(permission, state: state)
+                            // VoiceOver hears the state with the name it belongs to, so the line under it is left out.
+                            .accessibilityValue(Text(status))
                         InfoNote(
                             name: String(localized: permission.title),
                             detail: Text(home.detail(of: permission)),
@@ -107,10 +110,11 @@ struct HomePermissionsContent: View {
                             isAlbum: true
                         )
                     }
-                    Text(changing?.progress ?? home.status(of: permission))
+                    Text(status)
                         .font(.system(size: 11.5, weight: .medium))
                         .foregroundStyle(state.isMissing && changing == nil ? Album.red : .secondary)
                         .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityHidden(true)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
