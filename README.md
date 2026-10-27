@@ -137,7 +137,7 @@ anything, and `peel help <command>` lists every option. With a Homebrew install,
 | `peel orphans` | Lists files left by apps that are no longer installed. `--remove <group>` moves one group. |
 | `peel caches` | Lists the caches of developer tools. `--remove` moves the ones Peel suggests. |
 | `peel projects <folders>` | Lists what builds left in your projects. `--remove` moves the ones Peel suggests. |
-| `peel duplicates [folders]` | Finds files and folders with identical contents. `--remove` keeps one copy of each and moves the rest. |
+| `peel duplicates [folders]` | Finds files and folders with identical contents. `--remove` keeps one copy of each and moves the rest, but never a copy that syncs to your other devices. |
 | `peel search` | Searches Spotlight by name, kind, or size, and by age along with one of them. |
 | `peel updates` | Checks your apps for updates. |
 | `peel history` | Lists what Peel moved to the Trash, from the app and from Terminal alike. `--refused` lists what it was asked to move and wouldn't, and why. |
