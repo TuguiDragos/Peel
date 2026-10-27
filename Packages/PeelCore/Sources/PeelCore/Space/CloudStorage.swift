@@ -39,6 +39,8 @@ public struct CloudScan: Sendable {
     /// `CloudStorage.minimumSize` on disk, yet removing it would free less.
     public var sharedDownloads = 0
     public var folders: [CloudFolder] = []
+    /// iCloud Drive was never set up for this account: the folder iCloud keeps in the home isn't there.
+    public var isNotSetUp = false
 
     public enum CutShort: Sendable, Equatable {
         /// The walk ran out of time or was stopped before it read everything.
@@ -161,7 +163,8 @@ public enum CloudStorage {
             cutShort: finished == nil ? .ranOutOfTime : collected.cutShort,
             couldNotRead: collected.couldNotRead,
             sharedDownloads: collected.sharedDownloads,
-            folders: folders(of: collected.files, home: home)
+            folders: folders(of: collected.files, home: home),
+            isNotSetUp: !isSetUp(home: home)
         )
     }
 
@@ -344,6 +347,11 @@ public enum CloudStorage {
             )
             collector.add(file)
         }
+    }
+
+    /// Whether iCloud Drive was ever set up for the account of `home`: iCloud makes `~/Library/Mobile Documents` then.
+    public static func isSetUp(home: URL = .homeDirectory) -> Bool {
+        home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory).isRealFolder
     }
 
     /// Whether `url`, or a folder it sits in below `root`, is named as a password database or a wallet's keys are.

@@ -109,27 +109,31 @@ extension Tool {
     }
 
     /// Whether the sidebar shows this tool to a person who never chose: what someone who uninstalls and frees space
-    /// rarely needs starts off, and Homebrew shows while Homebrew is installed.
-    func isShownByDefault(homebrewIsInstalled: Bool) -> Bool {
+    /// rarely needs starts off, Homebrew shows while Homebrew is installed, and iCloud Drive while it is set up.
+    func isShownByDefault(homebrewIsInstalled: Bool, hasICloudDrive: Bool) -> Bool {
         switch self {
         case .backgroundItems, .extensions, .plugins, .projects, .intel, .terminal: false
         case .homebrew: homebrewIsInstalled
+        case .cloud: hasICloudDrive
         default: true
         }
     }
 
     /// The tools the sidebar leaves out: those the person chose to, and those never chosen that start off.
-    static func hidden(by choices: SidebarChoices, homebrewIsInstalled: Bool) -> Set<Tool> {
+    static func hidden(by choices: SidebarChoices, homebrewIsInstalled: Bool, hasICloudDrive: Bool) -> Set<Tool> {
         Set(allCases.filter { tool in
-            let byDefault = tool.isShownByDefault(homebrewIsInstalled: homebrewIsInstalled)
+            let byDefault = tool.isShownByDefault(
+                homebrewIsInstalled: homebrewIsInstalled, hasICloudDrive: hasICloudDrive
+            )
             return tool.canBeHidden && !choices.shows(tool.rawValue, byDefault: byDefault)
         })
     }
 
-    /// `hidden(by:homebrewIsInstalled:)` as the sidebar, Settings, and the menu bar panel all ask it, so they agree:
-    /// Homebrew's page shows while Homebrew is on this Mac, even when Peel won't run it, so the page can say why.
+    /// `hidden(by:homebrewIsInstalled:hasICloudDrive:)` as the sidebar, Settings, and the menu bar panel all ask it,
+    /// so they agree: Homebrew's page shows while Homebrew is on this Mac, even when Peel won't run it, so the page
+    /// can say why.
     static func hidden(by choices: SidebarChoices, homebrew: HomebrewLibrary) -> Set<Tool> {
-        hidden(by: choices, homebrewIsInstalled: homebrew.isOnThisMac)
+        hidden(by: choices, homebrewIsInstalled: homebrew.isOnThisMac, hasICloudDrive: CloudStorage.isSetUp())
     }
 }
 

@@ -33,6 +33,8 @@ final class CloudLibrary {
     private(set) var couldNotRead = false
     /// The downloads left out because another copy on this Mac shares their space, so removing them frees nothing.
     private(set) var sharedDownloads = 0
+    /// iCloud Drive was never set up for this account.
+    private(set) var isNotSetUp = false
     var selectedURLs: Set<URL> = [] {
         didSet { updateSelectedSize() }
     }
@@ -98,6 +100,7 @@ final class CloudLibrary {
         cutShort = found.cutShort
         couldNotRead = found.couldNotRead
         sharedDownloads = found.sharedDownloads
+        isNotSetUp = found.isNotSetUp
         selectedURLs.formIntersection(Set(found.files.map(\.url)))
     }
 

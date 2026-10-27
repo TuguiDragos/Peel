@@ -351,8 +351,8 @@ Privacy, which says what Peel sends and every place it may contact, and Helper.
 - **Shortcuts:** actions that open a page in Peel for you to look at. None of them removes anything.
 - **Sidebar:** turn off the tools you don't use in Settings, and they leave the sidebar. The View menu and
   Shortcuts still open them. Home, Applications, and History always stay. Background Items, Extensions, Plug-ins,
-  Build Artifacts, Intel Software, and Terminal start turned off, and Homebrew starts on only when Homebrew is
-  installed; what you turn on or off stays so.
+  Build Artifacts, Intel Software, and Terminal start turned off, Homebrew starts on only when Homebrew is installed,
+  and iCloud Drive only when it is set up on this Mac; what you turn on or off stays so.
 - **The `peel` command:** most of what Peel does, from Terminal, as [The `peel` command](#the-peel-command) says.
 
 With Show in Menu Bar on, Peel's menu bar item lists what each tool found the last time it looked, a line per tool

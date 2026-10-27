@@ -261,6 +261,19 @@ struct CloudStorageTests {
         #expect(held["prices.csv"] == .some(nil))
     }
 
+    /// Without the folder iCloud keeps in the home, iCloud Drive was never set up for this account, which the page
+    /// says rather than that nothing was found.
+    @Test func saysWhenICloudDriveIsNotSetUp() async throws {
+        let directory = try TemporaryDirectory()
+
+        #expect(!CloudStorage.isSetUp(home: directory.url))
+        #expect(await CloudStorage.downloaded(home: directory.url).isNotSetUp)
+
+        try directory.directory("Library/Mobile Documents/com~apple~CloudDocs")
+        #expect(CloudStorage.isSetUp(home: directory.url))
+        #expect(await CloudStorage.downloaded(home: directory.url).isNotSetUp == false)
+    }
+
     /// A folder kept only in the cloud, which no test can make, is named to the walk.
     @Test func neverLooksIntoAFolderThatLivesOnlyInTheCloud() throws {
         let directory = try TemporaryDirectory()

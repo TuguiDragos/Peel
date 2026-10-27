@@ -150,7 +150,11 @@ struct CloudView: View {
                     Label("Nothing to Free", systemImage: "checkmark.seal")
                 } description: {
                     VStack(spacing: 8) {
-                        Text("Peel found no file here that is safely in iCloud and big enough to be worth freeing.")
+                        if cloud.isNotSetUp {
+                            Text("iCloud Drive isn’t set up for this account on this Mac.")
+                        } else {
+                            Text("Peel found no file here that is safely in iCloud and big enough to be worth freeing.")
+                        }
                         sharedDownloadsNote
                     }
                 }

@@ -231345,6 +231345,113 @@
         }
       }
     },
+    "iCloud Drive isn’t set up for this account on this Mac." : {
+      "comment" : "On the iCloud Drive page, under Nothing to Free, when the person has never turned on iCloud Drive on this Mac.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive není pro tento účet v tomto Macu nastavený."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive ist für diesen Benutzeraccount auf diesem Mac nicht eingerichtet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive no está configurado para esta cuenta en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive n’est pas configuré pour ce compte sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive non è configurato per questo account su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacのこのアカウントでは、iCloud Driveが設定されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 이 계정에는 iCloud Drive가 설정되어 있지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive is niet ingesteld voor deze account op deze Mac."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usługa iCloud Drive nie jest skonfigurowana dla tego konta na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O iCloud Drive não está configurado para esta conta neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive nu este configurat pentru acest cont pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive не настроен для этой учетной записи на этом Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive har inte ställts in för det här kontot på den här datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive bu Mac’te bu hesap için ayarlanmamış."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive не налаштовано для цього облікового запису на цьому Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac上的此账户尚未设置iCloud云盘。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號尚未在這部Mac上設定「iCloud雲碟」。"
+          }
+        }
+      }
+    },
     "iPhone and iPad Backups" : {
       "localizations" : {
         "cs" : {
