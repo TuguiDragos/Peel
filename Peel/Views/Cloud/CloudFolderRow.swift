@@ -6,6 +6,8 @@ struct CloudFolderRow: View {
     let folder: CloudFolder
     let rows: SelectableRows<URL>
     let isOpen: Bool
+    /// True while the files' rows have a note column, whose place the folder's row keeps, so the sizes line up.
+    var hasNoteColumn = false
     let isFirst: Bool
     let selection: any RowSelection
     let toggleOpen: () -> Void
@@ -58,6 +60,7 @@ struct CloudFolderRow: View {
                         .foregroundStyle(.secondary)
                         .frame(width: RowColumns.size, alignment: .trailing)
                 }
+                .padding(.trailing, hasNoteColumn ? RemovalRow.controlWidth + 6 : 0)
                 .contentShape(.rect)
             }
             .buttonStyle(RowButtonStyle())

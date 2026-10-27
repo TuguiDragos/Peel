@@ -59,6 +59,7 @@ struct CloudView: View {
             }
 
             if !listed.isEmpty {
+                let hasNoteColumn = Self.hasNoteColumn(listed)
                 Section {
                     ForEach(Array(folders.enumerated()), id: \.element.id) { index, folder in
                         let open = isOpen(folder)
@@ -66,6 +67,7 @@ struct CloudView: View {
                             folder: folder,
                             rows: selectableRows(folder.files),
                             isOpen: open,
+                            hasNoteColumn: hasNoteColumn,
                             isFirst: index == 0,
                             selection: cloud,
                             toggleOpen: { toggle(folder) }
@@ -76,11 +78,9 @@ struct CloudView: View {
                                     url: file.url,
                                     name: file.name,
                                     icon: .file(file.url),
-                                    detail: file.isDesktopPicture
-                                        ? "Not selected: it is the wallpaper, which macOS keeps open while it is shown, so its download can’t be removed now."
-                                        : nil,
+                                    detail: file.note,
                                     size: file.size,
-                                    hasNoteColumn: false,
+                                    hasNoteColumn: hasNoteColumn,
                                     selection: cloud, isSelected: cloud.isSelected(file.url)
                                 )
                                 .padding(.leading, CloudFolderRow.indent)
@@ -248,6 +248,11 @@ struct CloudView: View {
         }
     }
 
+    /// Whether the note column is on: while a listed download has a note, so the note is drawn beside it.
+    static func hasNoteColumn(_ files: [CloudFile]) -> Bool {
+        files.contains { $0.note != nil }
+    }
+
     private func selectableRows(_ files: [CloudFile]) -> SelectableRows<URL> {
         SelectableRows(
             rows: files.map(\.url),
@@ -312,5 +317,14 @@ private struct LeftAlone {
             lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
         }
         return lines.joined(separator: "\n\n")
+    }
+}
+
+extension CloudFile {
+    /// Why Peel doesn't recommend removing this download, said beside its row, or nil.
+    var note: LocalizedStringResource? {
+        isDesktopPicture
+            ? "Not selected: it is the wallpaper, which macOS keeps open while it is shown, so its download can’t be removed now."
+            : nil
     }
 }
