@@ -74,7 +74,7 @@ private struct DeveloperRow: View {
             Text(verbatim: environment.name)
                 .lineLimit(1)
         } details: {
-            Text("^[\(environment.locations.count) folder](inflect: true)")
+            Text("^[\(environment.locations.count) item](inflect: true)")
         } trailing: {
             Text(environment.total.text)
                 .rowFigure()

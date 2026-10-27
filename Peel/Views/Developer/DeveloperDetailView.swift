@@ -59,7 +59,7 @@ struct DeveloperDetailView: View {
         } details: {
             FlowLayout {
                 Badge(
-                    title: Text("^[\(environment.locations.count) folder](inflect: true)"),
+                    title: Text("^[\(environment.locations.count) item](inflect: true)"),
                     systemImage: "folder"
                 )
                 if keptByDefault > 0 {
