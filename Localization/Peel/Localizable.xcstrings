@@ -19390,108 +19390,108 @@
         }
       }
     },
-    "Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, an editor’s state for a project that is gone, folders nothing shows the tool made, a clone of a repository other than the tool’s, a Spring Boot server’s folder written to in the last 15 minutes, anything Peel couldn’t measure, and any cache with a wallet, a signing key, or a password database inside are listed but never selected for you." : {
+    "Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week or whose last opening Xcode didn’t record, an editor’s state for a project that is gone, folders nothing shows the tool made, a clone of a repository other than the tool’s, a Spring Boot server’s folder written to in the last 15 minutes, anything Peel couldn’t measure, and any cache with a wallet, a signing key, or a password database inside are listed but never selected for you." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivy, symboly z vašich zařízení, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci, data sestavení projektu otevřeného během posledního týdne, stav editoru pro již neexistující projekt, složky, u kterých nic nenasvědčuje, že je nástroj vytvořil, klon jiného repozitáře, než je repozitář nástroje, složka serveru Spring Boot, do které se během posledních 15 minut zapisovalo, vše, co Peel nedokázal změřit, a každá mezipaměť, ve které je peněženka, podpisový klíč nebo databáze hesel, jsou v seznamu, ale Peel je za vás nikdy nevybere."
+            "value" : "Archivy, symboly z vašich zařízení, váhy modelů, nainstalovaná prostředí, stažené soubory uchované pro opětovnou instalaci, data sestavení projektu otevřeného během posledního týdne nebo projektu, u kterého Xcode nezaznamenal, kdy byl naposledy otevřen, stav editoru pro již neexistující projekt, složky, u kterých nic nenasvědčuje, že je nástroj vytvořil, klon jiného repozitáře, než je repozitář nástroje, složka serveru Spring Boot, do které se během posledních 15 minut zapisovalo, vše, co Peel nedokázal změřit, a každá mezipaměť, ve které je peněženka, podpisový klíč nebo databáze hesel, jsou v seznamu, ale Peel je za vás nikdy nevybere."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archive, Debug-Symbole von deinen Geräten, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren, die Build-Daten eines in der letzten Woche geöffneten Projekts, der Editorzustand eines nicht mehr vorhandenen Projekts, Ordner ohne Hinweis darauf, dass das Tool sie erstellt hat, ein Klon eines Repositorys, das nicht das des Tools ist, der Ordner eines Spring Boot-Servers, in den in den letzten 15 Minuten geschrieben wurde, alles, was Peel nicht messen konnte, und jeder Cache, in dem eine Wallet, ein Signaturschlüssel oder eine Passwortdatenbank liegt, werden angezeigt, aber nie für dich ausgewählt."
+            "value" : "Archive, Debug-Symbole von deinen Geräten, Modellgewichte, installierte Umgebungen, aufbewahrte Downloads zum erneuten Installieren, die Build-Daten eines in der letzten Woche geöffneten Projekts oder eines Projekts, bei dem Xcode nicht erfasst hat, wann es zuletzt geöffnet wurde, der Editorzustand eines nicht mehr vorhandenen Projekts, Ordner ohne Hinweis darauf, dass das Tool sie erstellt hat, ein Klon eines Repositorys, das nicht das des Tools ist, der Ordner eines Spring Boot-Servers, in den in den letzten 15 Minuten geschrieben wurde, alles, was Peel nicht messen konnte, und jeder Cache, in dem eine Wallet, ein Signaturschlüssel oder eine Passwortdatenbank liegt, werden angezeigt, aber nie für dich ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas, los datos de compilación de un proyecto abierto en la última semana, el estado de un editor para un proyecto que ya no está, las carpetas que nada indica que haya creado la herramienta, un clon de un repositorio distinto del de la herramienta, la carpeta de un servidor de Spring Boot en la que se ha escrito en los últimos 15 minutos, todo lo que Peel no ha podido medir y cualquier caché que tenga dentro un monedero digital, una clave de firma o una base de datos de contraseñas se muestran, pero Peel nunca los selecciona por ti."
+            "value" : "Las copias archivadas, los símbolos de tus dispositivos, los pesos de modelos, los entornos instalados, las descargas que se conservan para volver a instalarlas, los datos de compilación de un proyecto abierto en la última semana o cuya última apertura no registró Xcode, el estado de un editor para un proyecto que ya no está, las carpetas que nada indica que haya creado la herramienta, un clon de un repositorio distinto del de la herramienta, la carpeta de un servidor de Spring Boot en la que se ha escrito en los últimos 15 minutos, todo lo que Peel no ha podido medir y cualquier caché que tenga dentro un monedero digital, una clave de firma o una base de datos de contraseñas se muestran, pero Peel nunca los selecciona por ti."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les archives, les symboles de débogage provenant de vos appareils, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés, les données de compilation d’un projet ouvert au cours de la dernière semaine, l’état d’un éditeur pour un projet disparu, les dossiers que rien ne rattache à l’outil, le clone d’un dépôt autre que celui de l’outil, le dossier d’un serveur Spring Boot dans lequel quelque chose a écrit au cours des 15 dernières minutes, tout ce que Peel n’a pas pu mesurer et les caches contenant un portefeuille, une clé de signature ou une base de données de mots de passe sont listés, mais jamais sélectionnés à votre place."
+            "value" : "Les archives, les symboles de débogage provenant de vos appareils, les poids de modèles, les environnements installés, les téléchargements conservés pour être réinstallés, les données de compilation d’un projet ouvert au cours de la dernière semaine ou dont Xcode n’a pas enregistré la dernière ouverture, l’état d’un éditeur pour un projet disparu, les dossiers que rien ne rattache à l’outil, le clone d’un dépôt autre que celui de l’outil, le dossier d’un serveur Spring Boot dans lequel quelque chose a écrit au cours des 15 dernières minutes, tout ce que Peel n’a pas pu mesurer et les caches contenant un portefeuille, une clé de signature ou une base de données de mots de passe sont listés, mais jamais sélectionnés à votre place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivi, simboli dai tuoi dispositivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli, dati di build di un progetto aperto nell’ultima settimana, stato di un editor per un progetto che non c’è più, cartelle per cui nulla indica che le abbia create lo strumento, clone di un repository diverso da quello dello strumento, cartella di un server Spring Boot in cui è stato scritto qualcosa negli ultimi 15 minuti, tutto ciò che Peel non è riuscito a misurare e qualsiasi cache con all’interno un wallet, una chiave di firma o un database di password sono elencati, ma non vengono mai selezionati al posto tuo."
+            "value" : "Archivi, simboli dai tuoi dispositivi, pesi dei modelli, ambienti installati, download conservati per reinstallarli, dati di build di un progetto aperto nell’ultima settimana o di cui Xcode non ha registrato l’ultima apertura, stato di un editor per un progetto che non c’è più, cartelle per cui nulla indica che le abbia create lo strumento, clone di un repository diverso da quello dello strumento, cartella di un server Spring Boot in cui è stato scritto qualcosa negli ultimi 15 minuti, tutto ciò che Peel non è riuscito a misurare e qualsiasi cache con all’interno un wallet, una chiave di firma o un database di password sono elencati, ma non vengono mai selezionati al posto tuo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アーカイブ、デバイスから取り込んだシンボル、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、過去1週間以内に開かれたプロジェクトのビルドデータ、すでになくなったプロジェクトのエディタの状態、ツールが作成したことを示すものがないフォルダ、ツールのものではないリポジトリのクローン、過去15分以内に書き込みがあったSpring Bootサーバのフォルダ、Peelが計測できなかったもの、中にウォレット、署名鍵、またはパスワードデータベースがあるキャッシュは、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "アーカイブ、デバイスから取り込んだシンボル、モデルの重み、インストール済みの環境、再インストール用に保管されているダウンロード、過去1週間以内に開かれたプロジェクトや、最後に開かれた日時をXcodeが記録していないプロジェクトのビルドデータ、すでになくなったプロジェクトのエディタの状態、ツールが作成したことを示すものがないフォルダ、ツールのものではないリポジトリのクローン、過去15分以内に書き込みがあったSpring Bootサーバのフォルダ、Peelが計測できなかったもの、中にウォレット、署名鍵、またはパスワードデータベースがあるキャッシュは、一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아카이브, 기기에서 가져온 심볼, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일, 최근 일주일 이내에 연 프로젝트의 빌드 데이터, 사라진 프로젝트의 편집기 상태, 도구가 만들었음을 보여 주는 항목이 없는 폴더, 도구의 저장소가 아닌 다른 저장소의 복제본, 최근 15분 이내에 무언가가 기록된 Spring Boot 서버의 폴더, Peel이 측정할 수 없었던 모든 항목 및 지갑, 서명 키 또는 암호 데이터베이스가 들어 있는 모든 캐시는 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "아카이브, 기기에서 가져온 심볼, 모델 가중치, 설치된 환경, 다시 설치할 수 있도록 보관된 다운로드 파일, 최근 일주일 이내에 열었거나 마지막으로 연 시점을 Xcode가 기록하지 않은 프로젝트의 빌드 데이터, 사라진 프로젝트의 편집기 상태, 도구가 만들었음을 보여 주는 항목이 없는 폴더, 도구의 저장소가 아닌 다른 저장소의 복제본, 최근 15분 이내에 무언가가 기록된 Spring Boot 서버의 폴더, Peel이 측정할 수 없었던 모든 항목 및 지갑, 서명 키 또는 암호 데이터베이스가 들어 있는 모든 캐시는 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archieven, foutopsporingssymbolen van je apparaten, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren, de buildgegevens van een project dat de afgelopen week is geopend, de editorstatus voor een project dat er niet meer is, mappen waarvan niets erop wijst dat de tool ze heeft gemaakt, een kloon van een andere repository dan die van de tool, een map van een Spring Boot-server waarin in de afgelopen 15 minuten is geschreven, alles wat Peel niet kon meten en elke cache waarin een wallet, een ondertekeningssleutel of een wachtwoorddatabase zit, worden getoond maar nooit voor je geselecteerd."
+            "value" : "Archieven, foutopsporingssymbolen van je apparaten, modelgewichten, geïnstalleerde omgevingen, bewaarde downloads om opnieuw te installeren, de buildgegevens van een project dat de afgelopen week is geopend of waarvan Xcode niet heeft vastgelegd wanneer het voor het laatst is geopend, de editorstatus voor een project dat er niet meer is, mappen waarvan niets erop wijst dat de tool ze heeft gemaakt, een kloon van een andere repository dan die van de tool, een map van een Spring Boot-server waarin in de afgelopen 15 minuten is geschreven, alles wat Peel niet kon meten en elke cache waarin een wallet, een ondertekeningssleutel of een wachtwoorddatabase zit, worden getoond maar nooit voor je geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archiwa, symbole z Twoich urządzeń, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji, dane kompilacji projektu otwartego w ciągu ostatniego tygodnia, stan edytora dla nieistniejącego już projektu, foldery, których nic nie łączy z tym narzędziem, klon repozytorium innego niż repozytorium tego narzędzia, folder serwera Spring Boot, w którym coś zapisano w ciągu ostatnich 15 minut, wszystko, czego Peel nie mógł zmierzyć, i każda pamięć podręczna, w której jest portfel, klucz podpisu lub baza haseł, są na liście, ale nigdy nie są zaznaczane za Ciebie."
+            "value" : "Archiwa, symbole z Twoich urządzeń, wagi modeli, zainstalowane środowiska, pobrane pliki zachowane do ponownej instalacji, dane kompilacji projektu otwartego w ciągu ostatniego tygodnia lub takiego, którego ostatniego otwarcia Xcode nie zapisał, stan edytora dla nieistniejącego już projektu, foldery, których nic nie łączy z tym narzędziem, klon repozytorium innego niż repozytorium tego narzędzia, folder serwera Spring Boot, w którym coś zapisano w ciągu ostatnich 15 minut, wszystko, czego Peel nie mógł zmierzyć, i każda pamięć podręczna, w której jest portfel, klucz podpisu lub baza haseł, są na liście, ale nigdy nie są zaznaczane za Ciebie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivos comprimidos, símbolos dos seus dispositivos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo, os dados de compilação de um projeto aberto na última semana, o estado de um editor para um projeto que não existe mais, pastas que nada indica terem sido criadas pela ferramenta, um clone de um repositório que não é o da ferramenta, a pasta de um servidor Spring Boot em que algo foi gravado nos últimos 15 minutos, tudo o que o Peel não conseguiu medir e qualquer cache com uma carteira, uma chave de assinatura ou um banco de dados de senhas dentro aparecem na lista, mas o Peel nunca os seleciona por você."
+            "value" : "Arquivos comprimidos, símbolos dos seus dispositivos, pesos de modelos, ambientes instalados, downloads guardados para instalar de novo, os dados de compilação de um projeto aberto na última semana ou cuja última abertura o Xcode não registrou, o estado de um editor para um projeto que não existe mais, pastas que nada indica terem sido criadas pela ferramenta, um clone de um repositório que não é o da ferramenta, a pasta de um servidor Spring Boot em que algo foi gravado nos últimos 15 minutos, tudo o que o Peel não conseguiu medir e qualquer cache com uma carteira, uma chave de assinatura ou um banco de dados de senhas dentro aparecem na lista, mas o Peel nunca os seleciona por você."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arhivele, simbolurile de pe dispozitivele dvs., ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou, datele de compilare ale unui proiect deschis în ultima săptămână, starea unui editor pentru un proiect care nu mai există, dosarele despre care nimic nu arată că au fost create de instrument, o clonă a unui alt depozit decât cel al instrumentului, dosarul unui server Spring Boot în care s‑a scris în ultimele 15 minute, tot ce Peel nu a putut măsura și orice memorie tampon în care se află un portofel, o cheie de semnare sau o bază de date cu parole sunt listate, dar nu sunt niciodată selectate pentru dvs."
+            "value" : "Arhivele, simbolurile de pe dispozitivele dvs., ponderile modelelor, mediile instalate, descărcările păstrate pentru a fi instalate din nou, datele de compilare ale unui proiect deschis în ultima săptămână sau pentru care Xcode nu a înregistrat ultima deschidere, starea unui editor pentru un proiect care nu mai există, dosarele despre care nimic nu arată că au fost create de instrument, o clonă a unui alt depozit decât cel al instrumentului, dosarul unui server Spring Boot în care s‑a scris în ultimele 15 minute, tot ce Peel nu a putut măsura și orice memorie tampon în care se află un portofel, o cheie de semnare sau o bază de date cu parole sunt listate, dar nu sunt niciodată selectate pentru dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архивы, символы с Ваших устройств, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, данные сборки проектов, открывавшихся за последнюю неделю, состояние редактора для проектов, которых больше нет, папки без признаков того, что их создал этот инструмент, клоны репозиториев, отличных от репозитория самого инструмента, папки серверов Spring Boot, в которые что-то записывалось за последние 15 минут, все, что Peel не смог измерить, и любые кэши, внутри которых есть кошелек, ключ подписи или база данных паролей, показываются в списке, но никогда не выбираются за Вас."
+            "value" : "Архивы, символы с Ваших устройств, веса моделей, установленные окружения, загрузки, которые хранятся для повторной установки, данные сборки проектов, открывавшихся за последнюю неделю или таких, для которых Xcode не записал время последнего открытия, состояние редактора для проектов, которых больше нет, папки без признаков того, что их создал этот инструмент, клоны репозиториев, отличных от репозитория самого инструмента, папки серверов Spring Boot, в которые что-то записывалось за последние 15 минут, все, что Peel не смог измерить, и любые кэши, внутри которых есть кошелек, ключ подписи или база данных паролей, показываются в списке, но никогда не выбираются за Вас."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arkiv, symboler från dina enheter, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen, byggdata för ett projekt som öppnats under den senaste veckan, en kodredigerares tillstånd för ett projekt som är borta, mappar som inget visar att verktyget skapat, en klon av ett annat kodförråd än verktygets, en Spring Boot-servers mapp som skrivits till under de senaste 15 minuterna, allt som Peel inte kunde mäta och alla cachar som innehåller en plånbok, en signeringsnyckel eller en lösenordsdatabas listas men markeras aldrig åt dig."
+            "value" : "Arkiv, symboler från dina enheter, modellvikter, installerade miljöer, hämtningar som sparas för att installeras igen, byggdata för ett projekt som öppnats under den senaste veckan eller där Xcode inte har registrerat när det senast öppnades, en kodredigerares tillstånd för ett projekt som är borta, mappar som inget visar att verktyget skapat, en klon av ett annat kodförråd än verktygets, en Spring Boot-servers mapp som skrivits till under de senaste 15 minuterna, allt som Peel inte kunde mäta och alla cachar som innehåller en plånbok, en signeringsnyckel eller en lösenordsdatabas listas men markeras aldrig åt dig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arşivler, aygıtlarınızdan alınan semboller, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler, son bir hafta içinde açılan bir projenin derleme verileri, artık var olmayan bir proje için bir düzenleyicinin durumu, aracın oluşturduğunu hiçbir şeyin göstermediği klasörler, aracın kendi deposu dışındaki bir deponun klonu, son 15 dakikada içine yazılmış bir Spring Boot sunucu klasörü, Peel’in ölçemediği her şey ve içinde bir cüzdan, imzalama anahtarı veya parola veritabanı olan her önbellek listelenir ama hiçbir zaman sizin yerinize seçilmez."
+            "value" : "Arşivler, aygıtlarınızdan alınan semboller, model ağırlıkları, yüklü ortamlar, yeniden yüklemek için saklanan indirmeler, son bir hafta içinde açılan veya en son ne zaman açıldığını Xcode’un kaydetmediği bir projenin derleme verileri, artık var olmayan bir proje için bir düzenleyicinin durumu, aracın oluşturduğunu hiçbir şeyin göstermediği klasörler, aracın kendi deposu dışındaki bir deponun klonu, son 15 dakikada içine yazılmış bir Spring Boot sunucu klasörü, Peel’in ölçemediği her şey ve içinde bir cüzdan, imzalama anahtarı veya parola veritabanı olan her önbellek listelenir ama hiçbir zaman sizin yerinize seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Архіви, символи налагодження з ваших пристроїв, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, дані збірки проєктів, відкритих за останній тиждень, стан редактора для проєктів, яких уже немає, папки, щодо яких ніщо не вказує, що їх створив інструмент, клон репозиторію, відмінного від репозиторію самого інструмента, папка сервера Spring Boot, у яку щось записувалося за останні 15 хвилин, усе, що Peel не змогла виміряти, і будь-який кеш, усередині якого є гаманець, ключ підпису або база даних паролів, є в списку, але Peel ніколи не вибирає їх за вас."
+            "value" : "Архіви, символи налагодження з ваших пристроїв, ваги моделей, інстальовані середовища, викачані файли, збережені для повторного інсталювання, дані збірки проєктів, відкритих за останній тиждень або таких, про останнє відкриття яких Xcode не має запису, стан редактора для проєктів, яких уже немає, папки, щодо яких ніщо не вказує, що їх створив інструмент, клон репозиторію, відмінного від репозиторію самого інструмента, папка сервера Spring Boot, у яку щось записувалося за останні 15 хвилин, усе, що Peel не змогла виміряти, і будь-який кеш, усередині якого є гаманець, ключ підпису або база даних паролів, є в списку, але Peel ніколи не вибирає їх за вас."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "归档、来自你设备的符号、模型权重、已安装的环境、为重新安装而保留的下载文件、过去一周内打开过的项目的构建数据、已不存在的项目的编辑器状态、没有迹象表明由该工具生成的文件夹、并非该工具自身代码仓库的克隆、过去15分钟内被写入过的Spring Boot服务器文件夹、Peel无法测量的任何内容，以及内含钱包、签名密钥或密码数据库的任何缓存都会列出，但绝不会替你选择。"
+            "value" : "归档、来自你设备的符号、模型权重、已安装的环境、为重新安装而保留的下载文件、过去一周内打开过或Xcode没有记录其上次打开时间的项目的构建数据、已不存在的项目的编辑器状态、没有迹象表明由该工具生成的文件夹、并非该工具自身代码仓库的克隆、过去15分钟内被写入过的Spring Boot服务器文件夹、Peel无法测量的任何内容，以及内含钱包、签名密钥或密码数据库的任何缓存都会列出，但绝不会替你选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "封存檔、來自你裝置的符號、模型權重、已安裝的環境、保留供重新安裝的下載檔案、過去一週內打開過的計畫案建置資料、已不存在之計畫案的編輯器狀態、沒有跡象顯示由該工具產生的檔案夾、複製自其他儲存庫（而非該工具的儲存庫）的副本、過去15分鐘內有資料寫入的Spring Boot伺服器檔案夾、Peel無法測量的任何項目，以及其中有錢包、簽署密鑰或密碼資料庫的任何快取都會列出，但絕不會替你選取。"
+            "value" : "封存檔、來自你裝置的符號、模型權重、已安裝的環境、保留供重新安裝的下載檔案、過去一週內打開過或Xcode未記錄上次打開時間的計畫案建置資料、已不存在之計畫案的編輯器狀態、沒有跡象顯示由該工具產生的檔案夾、複製自其他儲存庫（而非該工具的儲存庫）的副本、過去15分鐘內有資料寫入的Spring Boot伺服器檔案夾、Peel無法測量的任何項目，以及其中有錢包、簽署密鑰或密碼資料庫的任何快取都會列出，但絕不會替你選取。"
           }
         }
       }
@@ -99069,6 +99069,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：「郵件」會在此處保留你打開的每個附件的副本，而你編輯過的副本可能不存在於其他任何地方。"
+          }
+        }
+      }
+    },
+    "Not selected: Xcode didn’t record when %@ was last opened, so its build data may still be needed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: Xcode nezaznamenal, kdy byl projekt %@ naposledy otevřen, takže jeho data sestavení mohou být ještě potřeba."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Xcode hat nicht erfasst, wann %@ zuletzt geöffnet wurde, daher werden die Build-Daten möglicherweise noch gebraucht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: Xcode no registró cuándo se abrió %@ por última vez, así que puede que sus datos de compilación aún se necesiten."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : Xcode n’a pas enregistré la dernière ouverture de %@, ses données de compilation pourraient donc encore servir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: Xcode non ha registrato quando hai aperto %@ l’ultima volta, quindi i suoi dati di build potrebbero servire ancora."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: %@が最後に開かれた日時をXcodeが記録していないため、そのビルドデータがまだ必要な可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: ‘%@’이(가) 마지막으로 열린 시점을 Xcode가 기록하지 않았으므로 빌드 데이터가 아직 필요할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: Xcode heeft niet vastgelegd wanneer %@ voor het laatst is geopend, dus de buildgegevens zijn misschien nog nodig."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: Xcode nie zapisał, kiedy ostatnio otwarto projekt %@, więc jego dane kompilacji mogą być jeszcze potrzebne."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o Xcode não registrou quando %@ foi aberto pela última vez, então os dados de compilação dele ainda podem ser necessários."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: Xcode nu a înregistrat când a fost deschis ultima dată proiectul %@, deci datele sale de compilare ar putea fi încă necesare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: Xcode не записал, когда проект «%@» открывался в последний раз, поэтому его данные сборки могут еще понадобиться."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: Xcode har inte registrerat när %@ senast öppnades, så dess byggdata kan fortfarande behövas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: Xcode, %@ projesinin en son ne zaman açıldığını kaydetmedi, bu nedenle derleme verilerine hâlâ gerek duyulabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: Xcode не має запису про те, коли востаннє відкривали проєкт «%@», тож його дані збірки ще можуть знадобитися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：Xcode没有记录%@上次打开的时间，因此可能仍需要其构建数据。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：Xcode沒有記錄「%@」上次打開的時間，因此可能仍需要它的建置資料。"
           }
         }
       }
