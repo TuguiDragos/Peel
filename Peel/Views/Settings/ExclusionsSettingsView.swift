@@ -164,7 +164,7 @@ struct ExclusionsSettingsView: View {
                 }
                 .editingControls()
             } header: {
-                heading("Apps", "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. A folder named with an excluded app’s identifier, such as its caches or its container, is left out of every page and never moved. The app’s other files, such as plug-ins or a folder named after it, go by files and folders only, so to protect them, exclude them above as well.")
+                heading("Apps", "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. A folder named exactly with an excluded app’s identifier, such as its caches or its container, and an update it downloaded are left out of every page and never moved. The app’s other files, such as plug-ins or a folder named after it, go by files and folders only, so to protect them, exclude them above as well.")
             }
 
             Section {

@@ -579,6 +579,33 @@ struct InstallersTests {
         #expect(items["com.apple.finder.ShipIt"]?.heldBack == .appIsRunning)
     }
 
+    /// An excluded app's downloaded update stays with the app, as its caches do, whatever the updater named its folder.
+    @Test func leavesOutWhatAnExcludedAppDownloaded() async throws {
+        let directory = try TemporaryDirectory()
+        let caches = "Library/Caches"
+        try directory.file("\(caches)/org.example.studio.ShipIt/update.a1/Studio.app/Contents/Studio", bytes: 400_000)
+        try directory.file(
+            "\(caches)/org.example.notes/org.sparkle-project.Sparkle/PersistentDownloads/b2/Notes.zip", bytes: 400_000
+        )
+        try directory.file("\(caches)/chat-updater/pending/update-info.json", bytes: 100)
+        try directory.file("\(caches)/chat-updater/pending/Chat-2.0-mac.zip", bytes: 400_000)
+        try directory.file("\(caches)/org.example.other.ShipIt/update.c3/Other.zip", bytes: 400_000)
+        try directory.directory("Applications")
+        let chat = InstalledApp(
+            url: URL(filePath: "/Applications/Chat.app"), bundleIdentifier: "org.example.chat", name: "Chat",
+            updaterFolder: "chat-updater"
+        )
+        let excluded: Set<String> = ["org.example.studio", "org.example.notes", "org.example.chat"]
+
+        let scan = await Installers.scan(
+            installedApps: [app("Studio", bundleIdentifier: "org.example.studio"), chat], home: directory.url,
+            root: directory.url, exclusions: Exclusions(bundleIdentifiers: excluded), minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        #expect(scan.items(in: .updateDownload).map(\.name) == ["org.example.other.ShipIt"])
+    }
+
     @Test func findsWhatElectronUpdaterDownloadedInEitherPlace() async throws {
         let directory = try TemporaryDirectory()
         let old = "Library/Application Support/Caches"

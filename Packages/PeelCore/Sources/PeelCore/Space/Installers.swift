@@ -561,6 +561,10 @@ public enum Installers {
         for (url, identifier, app) in found {
             guard !Task.isCancelled else { return items }
             guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
+            // An excluded app's update stays with the app, whatever the updater named its folder.
+            let isAnExcludedApps = app.map(exclusions.excludes)
+                ?? identifier.map(exclusions.excludes(bundleIdentifier:))
+            guard isAnExcludedApps != true else { continue }
             let (size, seen, _) = await measured(url, by: measure)
             guard isWorthARow(size, minimumSize) else { continue }
             let isRunning = identifier.map {
