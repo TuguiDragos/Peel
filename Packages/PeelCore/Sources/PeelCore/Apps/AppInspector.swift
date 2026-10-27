@@ -264,7 +264,7 @@ public enum AppInspector {
         if !isWrapped {
             var unread: [URL] = []
             let app = contents.deletingLastPathComponent()
-            for bundle in IntelInspector.frameworkProcesses(inside: app, unreadable: &unread) {
+            for bundle in IntelInspector.frameworkProcesses(inside: app, bundlesOnly: true, unreadable: &unread) {
                 let info = infoDictionary(in: bundle.appending(path: "Contents", directoryHint: .isDirectory))
                 if let identifier = info?["CFBundleIdentifier"] as? String { identifiers.append(identifier) }
             }

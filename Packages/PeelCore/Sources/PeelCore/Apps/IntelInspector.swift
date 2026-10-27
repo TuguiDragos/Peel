@@ -301,7 +301,8 @@ public enum IntelInspector {
     /// Electron app keeps its helpers, and those in each framework's `XPCServices` and `Helpers` folders, at the top
     /// of each version, as Sparkle keeps its updater, and in its `Resources`, as Squirrel does. `Versions/Current` is
     /// skipped: it is a link to one of the versions beside it, so following it would report the same bundle twice.
-    static func frameworkProcesses(inside bundle: URL, unreadable: inout [URL]) -> [URL] {
+    /// `bundlesOnly` leaves out the files that run, which carry no identifier, and looks at no file to tell.
+    static func frameworkProcesses(inside bundle: URL, bundlesOnly: Bool = false, unreadable: inout [URL]) -> [URL] {
         let frameworks = bundle.appending(path: "Contents/Frameworks", directoryHint: .isDirectory)
         var found: [URL] = []
         for url in entries(of: frameworks, unreadable: &unreadable) {
@@ -320,25 +321,28 @@ public enum IntelInspector {
                     found += entries(of: folder, unreadable: &unreadable)
                         .filter { processExtensions.contains($0.pathExtension.lowercased()) }
                 }
-                found += processes(in: version, unreadable: &unreadable)
+                found += processes(in: version, bundlesOnly: bundlesOnly, unreadable: &unreadable)
                 let resources = version.appending(path: "Resources", directoryHint: .isDirectory)
                 if version != url || resources.isRealFolder {
-                    found += processes(in: resources, unreadable: &unreadable)
+                    found += processes(in: resources, bundlesOnly: bundlesOnly, unreadable: &unreadable)
                 }
             }
         }
         return found
     }
 
-    /// What in `folder` can run as a process of its own: a bundle that runs as one, or a file that can be run. Links
-    /// are passed over, since at the top of a framework they lead into a version read on its own.
-    private static func processes(in folder: URL, unreadable: inout [URL]) -> [URL] {
+    /// What in `folder` can run as a process of its own: a bundle that runs as one, or, unless `bundlesOnly`, a file
+    /// that can be run. Links are passed over, since at the top of a framework they lead into a version read on its
+    /// own.
+    private static func processes(in folder: URL, bundlesOnly: Bool = false, unreadable: inout [URL]) -> [URL] {
         entries(of: folder, unreadable: &unreadable).filter { url in
+            let isABundle = processExtensions.contains(url.pathExtension.lowercased())
+            guard isABundle || !bundlesOnly else { return false }
             var info = stat()
             guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
             switch info.st_mode & S_IFMT {
-            case S_IFDIR: return processExtensions.contains(url.pathExtension.lowercased())
-            case S_IFREG: return info.st_mode & 0o111 != 0
+            case S_IFDIR: return isABundle
+            case S_IFREG: return !bundlesOnly && info.st_mode & 0o111 != 0
             default: return false
             }
         }

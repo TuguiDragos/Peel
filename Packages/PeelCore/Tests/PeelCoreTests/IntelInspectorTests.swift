@@ -372,6 +372,20 @@ struct IntelInspectorTests {
         #expect(found.map(\.lastPathComponent).sorted() == ["Autoupdate", "Installer.app", "ShipIt", "Updater.app", "helper"])
     }
 
+    @Test func readsOnlyTheBundlesAFrameworkKeepsWhenOnlyBundlesAreAsked() throws {
+        let directory = try TemporaryDirectory()
+        let version = "Universal.app/Contents/Frameworks/Sparkle.framework/Versions/B"
+        _ = try bundle(directory, "\(version)/Updater.app", cpuTypes: [intel])
+        try directory.setPermissions(0o755, of: try directory.file("\(version)/Autoupdate", contents: intelHeader(fileType: 2)))
+        let app = directory.url.appending(path: "Universal.app", directoryHint: .isDirectory)
+
+        let bundles = readable { IntelInspector.frameworkProcesses(inside: app, bundlesOnly: true, unreadable: &$0) }
+        let everything = readable { IntelInspector.frameworkProcesses(inside: app, unreadable: &$0) }
+
+        #expect(bundles.map(\.lastPathComponent) == ["Updater.app"])
+        #expect(everything.map(\.lastPathComponent).sorted() == ["Autoupdate", "Updater.app"])
+    }
+
     /// A Homebrew installed for Intel keeps every command in `/usr/local/bin` as a link into its `Cellar`. The
     /// program the link leads to is what needs Rosetta, listed under the command's name.
     @Test func findsTheIntelProgramACommandLinkLeadsTo() throws {
