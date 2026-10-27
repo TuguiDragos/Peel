@@ -158906,108 +158906,109 @@
         }
       }
     },
-    "Show About This Mac" : {
+    "Show About in System Settings" : {
+      "comment" : "The help tag of the Mac's picture and name on Home, which open System Settings > General > About. Use the name your macOS gives that pane and System Settings.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zobrazit okno O tomto Macu"
+            "value" : "Zobrazit část Informace v Nastavení systému"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„Über diesen Mac“ anzeigen"
+            "value" : "„Info“ in den Systemeinstellungen anzeigen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar Acerca de este Mac"
+            "value" : "Mostrar Información en Ajustes del Sistema"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher « À propos de ce Mac »"
+            "value" : "Afficher Informations dans Réglages Système"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra “Informazioni su questo Mac”"
+            "value" : "Mostra “Informazioni” in Impostazioni di Sistema"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“このMacについて”を表示"
+            "value" : "システム設定で“情報”を表示"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 Mac에 관하여 보기"
+            "value" : "시스템 설정에서 ‘정보’ 보기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon 'Over deze Mac'"
+            "value" : "Toon 'Info' in Systeeminstellingen"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pokaż okno „Ten Mac”"
+            "value" : "Pokaż „Informacje” w Ustawieniach systemowych"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar Sobre Este Mac"
+            "value" : "Mostrar “Sobre” nos Ajustes do Sistema"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afișați Despre acest Mac"
+            "value" : "Afișați Detalii în Configurări sistem"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показать окно «Об этом Mac»"
+            "value" : "Показать «Описание» в Системных настройках"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Visa Om den här datorn"
+            "value" : "Visa Om i Systeminställningar"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu Mac Hakkında penceresini göster"
+            "value" : "Sistem Ayarları’nda Hakkında bölümünü göster"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показати «Про цей компʼютер»"
+            "value" : "Показати «Інформація» у Системних параметрах"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示“关于本机”"
+            "value" : "在“系统设置”中显示“关于本机”"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "顯示「關於這台Mac」"
+            "value" : "在「系統設定」中顯示「關於」"
           }
         }
       }
