@@ -341,7 +341,7 @@ public enum BackgroundItems {
                     isOwnerConfirmed: owner?.isConfirmed ?? false,
                     unusualCommand: UnusualCommand(arguments: job.arguments)
                 )
-                item.loadsInTheBackgroundSession = kind == .agent && job.loadsOnlyInTheBackground
+                item.loadsInTheBackgroundSession = kind == .agent && job.loadsInTheBackground
                 items.append(item)
             }
         }
@@ -529,8 +529,9 @@ struct JobDefinition {
     let isDisabled: Bool
     /// The plist's `AssociatedBundleIdentifiers`. Whoever wrote the plist chose them, so they are a claim, not proof.
     let associated: [String]
-    /// True when `LimitLoadToSessionType`, a string or an array (`man launchd.plist`), names only Background.
-    let loadsOnlyInTheBackground: Bool
+    /// True when `LimitLoadToSessionType`, a string or an array (`man launchd.plist`), names Background: launchd
+    /// keeps such an agent in the user's own domain, whatever other sessions it names.
+    let loadsInTheBackground: Bool
     let watchPaths: [String]
 
     init?(contentsOf url: URL) {
@@ -555,7 +556,7 @@ struct JobDefinition {
         associated = (named as? String).map { [$0] } ?? (named as? [Any])?.compactMap { $0 as? String } ?? []
         let sessions = plist["LimitLoadToSessionType"]
         let types = (sessions as? String).map { [$0] } ?? (sessions as? [Any])?.compactMap { $0 as? String } ?? []
-        loadsOnlyInTheBackground = types == ["Background"]
+        loadsInTheBackground = types.contains("Background")
         watchPaths = (plist["WatchPaths"] as? [Any])?.compactMap { $0 as? String } ?? []
     }
 }

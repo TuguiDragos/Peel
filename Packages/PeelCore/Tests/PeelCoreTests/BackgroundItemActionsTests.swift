@@ -20,10 +20,11 @@ struct BackgroundItemActionsTests {
 
         #expect(BackgroundItemActions.target(of: item(state: .loaded, plist: nil)) == "gui/\(uid)/com.example.agent")
         #expect(BackgroundItemActions.target(of: background) == "user/\(uid)/com.example.agent")
-        #expect(try #require(JobDefinition(["Label": "a", "LimitLoadToSessionType": "Background"])).loadsOnlyInTheBackground)
-        #expect(try #require(JobDefinition(["Label": "a", "LimitLoadToSessionType": ["Background"]])).loadsOnlyInTheBackground)
-        #expect(try !#require(JobDefinition(["Label": "a", "LimitLoadToSessionType": ["Aqua", "Background"]])).loadsOnlyInTheBackground)
-        #expect(try !#require(JobDefinition(["Label": "a"])).loadsOnlyInTheBackground)
+        #expect(try #require(JobDefinition(["Label": "a", "LimitLoadToSessionType": "Background"])).loadsInTheBackground)
+        #expect(try #require(JobDefinition(["Label": "a", "LimitLoadToSessionType": ["Background"]])).loadsInTheBackground)
+        #expect(try #require(JobDefinition(["Label": "a", "LimitLoadToSessionType": ["Aqua", "Background"]])).loadsInTheBackground)
+        #expect(try !#require(JobDefinition(["Label": "a", "LimitLoadToSessionType": ["Aqua", "LoginWindow"]])).loadsInTheBackground)
+        #expect(try !#require(JobDefinition(["Label": "a"])).loadsInTheBackground)
     }
 
     @Test func knowsAJobItsGoneAppLeftLoaded() {

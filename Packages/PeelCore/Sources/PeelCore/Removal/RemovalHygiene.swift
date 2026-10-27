@@ -33,7 +33,7 @@ enum LaunchdCleanup {
         }
     }
 
-    /// A daemon's domain is the system's; an agent's is the GUI one, or the user's own for one that loads only in the
+    /// A daemon's domain is the system's; an agent's is the GUI one, or the user's own for one that loads in the
     /// Background session (`man launchctl`: the two "still have discrete sets of services").
     static func domain(isDaemon: Bool, background: Bool) -> String {
         isDaemon ? "system" : background ? "user/\(getuid())" : "gui/\(getuid())"
@@ -147,7 +147,7 @@ enum LaunchdCleanup {
             else { return nil }
             return Job(
                 label: label, isDaemon: daemons.contains(parent), plist: url,
-                loadsInTheBackgroundSession: JobDefinition(plist)?.loadsOnlyInTheBackground == true
+                loadsInTheBackgroundSession: JobDefinition(plist)?.loadsInTheBackground == true
             )
         }
     }

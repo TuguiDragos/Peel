@@ -72,13 +72,20 @@ struct RemovalHygieneTests {
             format: .xml, options: 0
         )
         let background = try directory.file("home/Library/LaunchAgents/org.example.background.plist", contents: contents)
+        let both = try directory.file(
+            "home/Library/LaunchAgents/org.example.both.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["Label": "org.example.both", "LimitLoadToSessionType": ["Aqua", "Background"]],
+                format: .xml, options: 0
+            )
+        )
         let window = try launchdPlist(
             "home/Library/LaunchAgents/org.example.window.plist", label: "org.example.window", in: directory
         )
 
-        let jobs = LaunchdCleanup.jobs(for: [background, window], environment: environment)
+        let jobs = LaunchdCleanup.jobs(for: [background, both, window], environment: environment)
 
-        #expect(jobs.map(\.domain) == ["user/\(getuid())", "gui/\(getuid())"])
+        #expect(jobs.map(\.domain) == ["user/\(getuid())", "user/\(getuid())", "gui/\(getuid())"])
     }
 
     @Test func stopsAMovedFilesJobOnlyWhenLaunchdLoadedItFromThatFile() throws {

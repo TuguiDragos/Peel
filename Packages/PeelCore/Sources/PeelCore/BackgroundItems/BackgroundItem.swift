@@ -52,8 +52,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isNamedByItsFile = false
     /// What in the job's command is worth a second look, if anything.
     public var unusualCommand: UnusualCommand?
-    /// True for an agent its file limits to the Background session, which launchd keeps in the user domain rather
-    /// than the GUI one: started, stopped and asked about there.
+    /// True for an agent that loads in the Background session, which launchd keeps in the user domain rather than
+    /// the GUI one: started, stopped and asked about there.
     public var loadsInTheBackgroundSession = false
     /// True while an app's job runs from inside a Trash: its app was moved there, and macOS starts it from there at
     /// each login until the Trash is emptied.
