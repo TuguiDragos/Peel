@@ -102257,6 +102257,113 @@
         }
       }
     },
+    "Not selected: the package also left items outside the app. Package Receipts lists them only while this receipt is here." : {
+      "comment" : "Under an installer receipt in the list of what an uninstall would move. Package Receipts is the name of a page in Peel's sidebar.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: balíček zanechal položky i mimo aplikaci. Stránka Záznamy o instalaci je uvádí, jen dokud tu tento záznam je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Das Paket hat auch Objekte außerhalb der App hinterlassen. Die Seite „Paketquittungen“ führt sie nur auf, solange diese Quittung vorhanden ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: el paquete también dejó ítems fuera de la app. La página Recibos de paquetes solo los muestra mientras este recibo siga aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : le paquet a aussi laissé des éléments hors de l’app. La page Reçus de paquets ne les liste que tant que ce reçu est présent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: il pacchetto ha lasciato elementi anche fuori dall’app. “Ricevute dei pacchetti” li elenca solo finché questa ricevuta è qui."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このパッケージは、アプリの外にも項目を残しています。“パッケージレシート”にそれらが表示されるのは、このレシートがここにある間だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 패키지는 앱 밖에도 항목을 남겼습니다. 패키지 수신 정보 페이지는 이 수신 정보가 있는 동안에만 해당 항목을 나열합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: het pakket heeft ook onderdelen buiten de app achtergelaten. De pagina 'Installatiebewijzen' toont ze alleen zolang dit installatiebewijs er is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: pakiet pozostawił też rzeczy poza aplikacją. Strona Potwierdzenia instalacji wyświetla je tylko wtedy, gdy to potwierdzenie pozostaje na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o pacote também deixou itens fora do app. A página Recibos de Pacotes só os lista enquanto este recibo estiver aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: pachetul a lăsat articole și în afara aplicației. Pagina Recipise de pachete le listează doar cât timp această recipisă se află aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: пакет также оставил объекты вне приложения. Раздел «Квитанции пакетов» показывает их, только пока эта квитанция на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: paketet har även lämnat objekt utanför appen. Sidan Paketkvitton listar dem bara så länge det här kvittot finns kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: paket, uygulamanın dışında da öğeler bıraktı. Paket Makbuzları bunları yalnızca bu makbuz burada olduğu sürece listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: пакет також залишив елементи поза програмою. Розділ «Квитанції пакетів» показує їх, лише поки ця квитанція на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：该软件包还在App之外留下了项目。只有此回执还在时，“软件包回执”才会列出它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此套件也在App以外留下了項目。只有在此收據還在時，「套件收據」才會列出它們。"
+          }
+        }
+      }
+    },
     "Not selected: the package made this folder, but something else put files in it, which may be another program’s or yours." : {
       "localizations" : {
         "cs" : {

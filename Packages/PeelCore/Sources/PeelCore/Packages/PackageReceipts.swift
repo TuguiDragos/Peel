@@ -190,6 +190,17 @@ public enum PackageReceipts {
         return found
     }
 
+    /// Whether the package left anything outside `app` that is still on the disk, of which the receipt is the only
+    /// record. A package `pkgutil` doesn't describe counts as having left something, so its receipt stays.
+    static func leftSomethingOutside(_ identifier: String, app: URL, pkgutil: Pkgutil) async -> Bool {
+        guard let (_, _, installLocation) = await description(of: identifier, pkgutil: pkgutil),
+              let listing = await pkgutil(["--files", identifier])
+        else { return true }
+        let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app))
+        return topLevel(files: lines(of: listing), installLocation: installLocation.path(percentEncoded: false)).onDisk
+            .contains { !PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: $0)), atOrInside: bundle) }
+    }
+
     /// The packages whose receipts list the bundle at `path`, as `pkgutil` names them: it matches a path literally
     /// against each receipt's file list, which is relative to the package's install location.
     private static func packages(listing path: String, pkgutil: Pkgutil) async -> Set<String> {

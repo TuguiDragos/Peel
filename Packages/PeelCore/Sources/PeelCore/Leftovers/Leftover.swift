@@ -145,6 +145,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case writtenRecently
     /// An installer package in a folder an app keeps in Application Support, which the app may still need.
     case keptByAnApp
+    /// A receipt whose package also left items outside the app, which Package Receipts lists only while it stays.
+    case packageLeftMore
     /// An update whose app is running, which may install it when it quits.
     case appIsRunning
     /// An installer outside Downloads that is no installed app's, which may be the person's own rather than a download.

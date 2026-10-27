@@ -1122,13 +1122,21 @@ struct UninstallationTests {
             try directory.file("root/private/var/db/receipts/\(name).bom", bytes: 32)
             try directory.file("root/private/var/db/receipts/\(name).plist", bytes: 32)
         }
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkg-info-plist": PkgutilAnswer.packageInfo(arguments[1], location: "/")
+            case "--files": "Applications/Example.app\nApplications/Example.app/Contents\n"
+            default: nil
+            }
+        }
 
         let found = await Uninstallation.receiptLeftovers(
             for: app,
             receipts: ["com.example.app.pkg", "com.example.app2.pkg", "com.other.thing"],
             installedApps: [app],
             exclusions: .none,
-            environment: environment
+            environment: environment,
+            pkgutil: pkgutil
         )
 
         #expect(found.map(\.url.lastPathComponent) == ["com.example.app.pkg.bom", "com.example.app.pkg.plist"])
@@ -1136,6 +1144,39 @@ struct UninstallationTests {
         #expect(found.map(\.match.confidence) == [.certain, .certain])
         #expect(found.map(\.match.isRecommended) == [true, true])
         #expect(found.map(\.kind) == [.receipts, .receipts])
+    }
+
+    @Test func keepsAReceiptWhosePackageLeftMoreOutsideTheApp() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let bundle = try directory.directory("root/Applications/Example.app")
+        try directory.file("root/Library/LaunchDaemons/com.example.helper.plist", bytes: 32)
+        try directory.file("root/private/var/db/receipts/com.example.app.pkg.bom", bytes: 32)
+        let example = InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example")
+        let root = String(PathPattern.comparablePath(of: PathPattern.canonical(environment.rootDirectory)).dropFirst())
+        let asking = { (daemon: Bool) -> PackageReceipts.Pkgutil in
+            { arguments in
+                switch arguments.first {
+                case "--pkg-info-plist": PkgutilAnswer.packageInfo(arguments[1], location: root)
+                case "--files":
+                    "Applications/Example.app\nApplications/Example.app/Contents\n"
+                        + (daemon ? "Library/LaunchDaemons/com.example.helper.plist\n" : "")
+                default: nil
+                }
+            }
+        }
+        let found = { (daemon: Bool) in
+            await Uninstallation.receiptLeftovers(
+                for: example, receipts: ["com.example.app.pkg"], installedApps: [example], exclusions: .none,
+                environment: environment, pkgutil: asking(daemon)
+            )
+        }
+
+        #expect(await found(true).map(\.match.heldBack) == [.packageLeftMore])
+        #expect(await found(false).map(\.match.heldBack) == [nil])
     }
 
     /// A receipt whose name begins with this app's identifier can still be another installed app's, one whose

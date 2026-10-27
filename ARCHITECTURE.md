@@ -73,7 +73,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    top of the home folder, and more. It adds the paths the app's Homebrew cask names in its `uninstall` and `zap`
    stanzas, whether or not Homebrew installed the app (`CaskEvidence`); the installer receipt that proves the app,
    its two files in `/private/var/db/receipts`, while what the package installed stays with the Package Receipts
-   page; the cask's own folder in Homebrew's Caskroom when Homebrew installed it (`HomebrewPackage.caskroomFolder`);
+   page, which lists it only while the receipt is there, so a receipt whose package left more outside the app is
+   held back; the cask's own folder in Homebrew's Caskroom when Homebrew installed it (`HomebrewPackage.caskroomFolder`);
    and what an area the app manages keeps in the home folder, such as Xcode's simulators. A page's scan runs
    through its `ScanRun`, so a newer scan or the Stop button ends an older one, and it counts what it reads so the
    page can show progress.

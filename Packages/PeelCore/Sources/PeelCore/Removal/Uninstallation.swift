@@ -141,7 +141,8 @@ public struct Uninstallation: Sendable {
 
     /// The installer receipt files that belong to `app`. The receipt is the only reason macOS still counts the
     /// package as installed once the app is gone, and it is two small files the Trash can give back. What the
-    /// package installed elsewhere is left to the Package Receipts page, which weighs each item on its own.
+    /// package installed elsewhere is left to the Package Receipts page, which weighs each item on its own and lists
+    /// it only while the receipt is there, so a receipt whose package left more outside the app is held back.
     static func receiptLeftovers(
         for app: InstalledApp,
         receipts: Set<String>,
@@ -159,16 +160,20 @@ public struct Uninstallation: Sendable {
             .filter { !named.contains($0.lowercased()) }
         var leftovers: [Leftover] = []
         for receipt in (Array(named) + wroteOnlyTheApp).sorted() {
+            let leftMore = named.contains(receipt)
+                ? await PackageReceipts.leftSomethingOutside(receipt, app: app.url, pkgutil: pkgutil) : false
             for url in PackageActions.receiptFiles(of: receipt, onVolume: environment.rootDirectory)
             where !exclusions.excludes(url) {
-                leftovers.append(await LeftoverScanner.leftover(
+                let leftover = await LeftoverScanner.leftover(
                     at: url,
                     kind: .receipts,
                     match: LeftoverMatch(reason: .installerReceipt, confidence: .certain, sharedWith: []),
                     parent: ParentAccess(url.deletingLastPathComponent()),
                     home: environment.homeDirectory.path(percentEncoded: false),
                     root: environment.rootDirectory.path(percentEncoded: false)
-                ))
+                )
+                let heldForThePackage = leftMore && leftover.match.heldBack == nil
+                leftovers.append(heldForThePackage ? leftover.heldBack(.packageLeftMore) : leftover)
             }
         }
         return leftovers

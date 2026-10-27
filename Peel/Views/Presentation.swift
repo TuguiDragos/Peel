@@ -370,6 +370,8 @@ extension HoldBack {
             "Not selected: this holds a sign-in to a service, such as a token a tool saved when you logged in. Once the Trash is emptied, you’d sign in again."
         case .holdsTorrents:
             "Not selected: this holds your list of torrents and how far each one got, which may exist only on this Mac. Once the Trash is emptied, you’d have to add each torrent again."
+        case .packageLeftMore:
+            "Not selected: the package also left items outside the app. Package Receipts lists them only while this receipt is here."
         case .holdsWorkMadeWithTheApp:
             "Not selected: this holds what you made with the app, such as saved games, databases, or the app’s own backups, which may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have another copy."
         case .holdsSimulators:
