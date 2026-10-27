@@ -17,8 +17,15 @@ public struct CloudFile: Sendable, Hashable, Identifiable {
     /// The picture on one of the displays' desktop, which macOS keeps open while it is shown, so its download cannot be
     /// removed then.
     public var isDesktopPicture = false
+    /// Why Peel doesn't recommend removing this download, or nil.
+    public var heldBack: HoldBack?
 
     public var id: URL { url }
+
+    /// Whether Select Recommended takes it.
+    public var isRecommended: Bool {
+        !isDesktopPicture && heldBack == nil
+    }
 }
 
 /// What one scan of iCloud Drive found, and whether the scan stopped early or could not read the folder.
@@ -242,6 +249,7 @@ public enum CloudStorage {
         deadline: ContinuousClock.Instant,
         countingFor scan: ScanCount?,
         isSafe: (URLResourceValues) -> Bool = isSafeToFree(_:),
+        isPinned: (URL) -> Bool = isPinned(_:),
         isDataless: (URL) -> Bool = FileSize.isDataless(_:),
         unless isGivenUp: () -> Bool
     ) {
@@ -269,8 +277,14 @@ public enum CloudStorage {
 
         // The budget is spent, or the page that asked was left or stopped.
         func stopped() -> Bool { ContinuousClock.now >= deadline || isGivenUp() }
+        func key(_ url: URL) -> String {
+            let path = url.path(percentEncoded: false)
+            return path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path
+        }
         var container = ""
         var isICloudDrive = false
+        // The folders Keep Downloaded is on for, itself or through a folder above.
+        var pinnedFolders: Set<String> = []
         for case let url as URL in enumerator {
             guard !stopped() else {
                 collector.ranOutOfTime()
@@ -292,11 +306,13 @@ public enum CloudStorage {
                 }
                 continue
             }
-            guard
-                let values = try? url.resourceValues(forKeys: keys),
-                values.isRegularFile == true || values.isPackage == true,
-                isSafe(values)
-            else { continue }
+            guard let values = try? url.resourceValues(forKeys: keys) else { continue }
+            let isInAPinnedFolder = pinnedFolders.contains(key(url.deletingLastPathComponent()))
+            guard values.isRegularFile == true || values.isPackage == true else {
+                if isInAPinnedFolder || isPinned(url) { pinnedFolders.insert(key(url)) }
+                continue
+            }
+            guard isSafe(values) else { continue }
             let measured = values.isRegularFile == true
                 ? (
                     size: ReclaimableSpace.of(url), taken: ReclaimableSpace.allocated(url),
@@ -321,9 +337,25 @@ public enum CloudStorage {
                 container: container,
                 size: measured.size,
                 modified: measured.modified,
-                isDesktopPicture: pictures.contains(PathPattern.comparablePath(of: url))
+                isDesktopPicture: pictures.contains(PathPattern.comparablePath(of: url)),
+                heldBack: isInAPinnedFolder || isPinned(url) ? .keptDownloaded : nil
             )
             collector.add(file)
+        }
+    }
+
+    /// Whether Keep Downloaded is on for `url` in Finder: FileProvider keeps it as the extended attribute
+    /// `com.apple.fileprovider.pinned`, whose stored name carries flags after a `#` (`xattr_name_with_flags(3)`).
+    static func isPinned(_ url: URL) -> Bool {
+        let path = url.path(percentEncoded: false)
+        let size = listxattr(path, nil, 0, XATTR_NOFOLLOW)
+        guard size > 0 else { return false }
+        var names = [CChar](repeating: 0, count: size)
+        guard listxattr(path, &names, size, XATTR_NOFOLLOW) == size else { return false }
+        let pinned = "com.apple.fileprovider.pinned"
+        return names.split(separator: 0).contains { name in
+            let text = String(decoding: name.map { UInt8(bitPattern: $0) }, as: UTF8.self)
+            return text == pinned || text.hasPrefix(pinned + "#")
         }
     }
 

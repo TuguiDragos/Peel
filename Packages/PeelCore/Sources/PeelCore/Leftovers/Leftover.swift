@@ -162,6 +162,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// A duplicate with Finder tags, a Finder comment, or a resource fork the other copies lack, which moving it
     /// would lose.
     case keepsWhatTheOthersLack
+    /// A download in iCloud Drive that Keep Downloaded keeps on this Mac, which iCloud downloads again once it is
+    /// removed.
+    case keptDownloaded
 
     /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
     /// would refuse to move it.

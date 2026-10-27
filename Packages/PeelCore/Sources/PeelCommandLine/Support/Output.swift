@@ -394,6 +394,7 @@ extension HoldBack {
         case .crashReport: "a crash report, which the app's developer may still ask for"
         case .inTheCloud: "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
         case .keepsWhatTheOthersLack: "has Finder tags, a comment, or a resource fork the other copies don't"
+        case .keptDownloaded: "Keep Downloaded is on for it in Finder, so iCloud downloads it again"
         case .openInAProgram: "open in a program right now, which may still be using it"
         case .attachedDiskImage: "a disk image open right now; eject it first"
         case .changedRecently: "changed in the last day, so it may still be downloading"

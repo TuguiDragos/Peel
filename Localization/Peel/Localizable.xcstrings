@@ -101291,6 +101291,113 @@
         }
       }
     },
+    "Not selected: Keep Downloaded is on for it in Finder, so iCloud downloads it again." : {
+      "comment" : "The note beside a file in iCloud Drive. Keep Downloaded is the command in Finder's File menu and shortcut menu that keeps a file or folder downloaded on this Mac; use the name your macOS gives it.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: ve Finderu je u něj zapnutá volba „Zachovat stažené“, takže ho iCloud znovu stáhne."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: „Laden und behalten“ ist für diese Datei im Finder aktiviert, daher lädt iCloud sie erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: tiene activado “Conservar en dispositivo” en el Finder, así que iCloud lo vuelve a descargar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : « Conserver le téléchargement » est activé pour ce fichier dans le Finder, iCloud le télécharge donc à nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: nel Finder è attivo “Conserva scaricato” per questo file, quindi iCloud lo scarica di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: Finderで“ダウンロード済みを保持”がオンになっているため、iCloudが再びダウンロードします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: Finder에서 이 파일에 ‘다운로드 항목 유지’가 켜져 있으므로 iCloud가 다시 다운로드합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: 'Bewaar download' staat in Finder aan voor dit bestand, dus iCloud downloadt het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: w Finderze jest dla tego pliku włączona opcja „Zachowuj pobrane”, więc iCloud pobierze go ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: a opção “Manter Downloads” está ativada para ele no Finder, então o iCloud o baixa de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: în Finder, opțiunea „Păstrați descărcat” este activată pentru acest fișier, așa că iCloud îl descarcă din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: для этого файла в Finder включен параметр «Оставить в загрузках», поэтому iCloud снова его загрузит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: ”Behåll hämtningar” är aktiverat för den i Finder, så iCloud hämtar den igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: Finder’da bu dosya için “İndirileni Tut” açık, bu yüzden iCloud onu yeniden indirir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: для цього файлу у Finder увімкнено «Не передавати у хмару», тож iCloud знову його викачує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它在“访达”中已设为“保留下载”，因此iCloud会重新下载它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它已在Finder中設為「保留已下載項目」，因此iCloud會再次下載它。"
+          }
+        }
+      }
+    },
     "Not selected: Mail keeps a copy here of each attachment you open, and one you edited may exist nowhere else." : {
       "localizations" : {
         "cs" : {

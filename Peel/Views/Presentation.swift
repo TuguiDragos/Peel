@@ -408,6 +408,8 @@ extension HoldBack {
             "Left alone: this syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them."
         case .keepsWhatTheOthersLack:
             "Left alone: this copy has Finder tags, a Finder comment, or a resource fork the others don’t, which moving it would lose."
+        case .keptDownloaded:
+            "Not selected: Keep Downloaded is on for it in Finder, so iCloud downloads it again."
         case .openInAProgram:
             "Not selected: a program has this open right now, and may still be using it."
         case .attachedDiskImage:

@@ -19,5 +19,8 @@ struct CloudNotesTests {
         #expect(!CloudView.hasNoteColumn([Self.download("Notes.pdf")]))
         #expect(CloudView.hasNoteColumn([Self.download("Notes.pdf"), picture]))
         #expect(picture.note != nil)
+        var kept = Self.download("Trip.pdf")
+        kept.heldBack = .keptDownloaded
+        #expect(CloudView.hasNoteColumn([kept]))
     }
 }

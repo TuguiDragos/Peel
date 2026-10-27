@@ -195,6 +195,32 @@ struct CloudStorageTests {
         #expect(sizes["clone.bin"] == nil, "a clone frees nothing")
     }
 
+    /// Keep Downloaded keeps a file, or every file in a folder, on this Mac whatever happens, and iCloud downloads it
+    /// again once its download is removed: such a file is listed and held back. Only FileProvider sets the mark, so
+    /// the test says which items carry it.
+    @Test func holdsBackWhatKeepDownloadedKeepsOnThisMac() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        for path in ["Trip/Plans/route.pdf", "Trip/ticket.pdf", "Map.pdf", "Notes/a.pdf"] {
+            try directory.file("\(drive)/\(path)", bytes: 2_000)
+        }
+        let pinned: Set = ["Trip", "Map.pdf"]
+
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, isPinned: { pinned.contains($0.lastPathComponent) },
+            unless: { false }
+        )
+
+        let held = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0.heldBack) })
+        #expect(held["route.pdf"] == .keptDownloaded)
+        #expect(held["ticket.pdf"] == .keptDownloaded)
+        #expect(held["Map.pdf"] == .keptDownloaded)
+        #expect(held["a.pdf"] == .some(nil))
+        #expect(collector.collected.files.filter(\.isRecommended).map(\.name) == ["a.pdf"])
+    }
+
     /// A folder kept only in the cloud, which no test can make, is named to the walk.
     @Test func neverLooksIntoAFolderThatLivesOnlyInTheCloud() throws {
         let directory = try TemporaryDirectory()

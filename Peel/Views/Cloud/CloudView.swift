@@ -257,7 +257,7 @@ struct CloudView: View {
         SelectableRows(
             rows: files.map(\.url),
             selectable: files.map(\.url),
-            recommended: files.filter { !$0.isDesktopPicture }.map(\.url)
+            recommended: files.filter(\.isRecommended).map(\.url)
         )
     }
 
@@ -325,6 +325,6 @@ extension CloudFile {
     var note: LocalizedStringResource? {
         isDesktopPicture
             ? "Not selected: it is the wallpaper, which macOS keeps open while it is shown, so its download can’t be removed now."
-            : nil
+            : heldBack?.explanation
     }
 }
