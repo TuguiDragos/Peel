@@ -42,6 +42,8 @@ final class ProjectLibrary {
     private(set) var unsearchable: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
     /// Folders the last Add refused, with the reason, until the next one.
     private(set) var refused: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
+    /// The usual project folders that are in the home folder, read off the main actor (`readSuggestions()`).
+    private var suggestedRoots: [URL] = []
     var selection: URL?
     var selectedURLs: Set<URL> = []
 
@@ -55,6 +57,13 @@ final class ProjectLibrary {
         self.defaults = defaults
         folders = (defaults.array(forKey: Self.foldersKey) as? [String] ?? [])
             .map { URL(filePath: $0, directoryHint: .isDirectory) }
+        Task { await readSuggestions() }
+    }
+
+    /// Reads which of the usual project folders are in the home folder, so the page offers them without reading
+    /// the disk while it draws.
+    func readSuggestions() async {
+        suggestedRoots = await ProjectArtifacts.suggestedRoots()
     }
 
     /// Scans unless the last scan ended less than `age` ago, one or a removal runs, or the last scan was stopped: a
@@ -115,20 +124,24 @@ final class ProjectLibrary {
 
     /// The usual project folders in the home folder that are not on the list yet.
     var suggestedFolders: [URL] {
-        ProjectArtifacts.suggestedRoots().filter { url in
-            !folders.contains { $0.standardizedFileURL == url.standardizedFileURL }
-        }
+        suggestedRoots.filter { !isListed($0) }
     }
 
     func add(_ urls: [URL]) async {
-        let chosen = urls.filter { url in !folders.contains { $0.standardizedFileURL == url.standardizedFileURL } }
+        let chosen = urls.filter { !isListed($0) }
+        let reasons = await ProjectArtifacts.refusals(of: chosen)
         // A folder that cannot be scanned is refused here, rather than saved and then silently skipped.
-        refused = chosen.compactMap { url in ProjectArtifacts.refusal(for: url).map { (url, $0) } }
-        let keeping = chosen.filter { url in !refused.contains { $0.url == url } }
+        refused = zip(chosen, reasons).compactMap { url, reason in reason.map { (url, $0) } }
+        // Another Add may have listed one of them while these were judged.
+        let keeping = zip(chosen, reasons).filter { url, reason in reason == nil && !isListed(url) }.map(\.0)
         guard !keeping.isEmpty else { return }
         folders += keeping
         save()
         await refresh()
+    }
+
+    private func isListed(_ url: URL) -> Bool {
+        folders.contains { $0.standardizedFileURL == url.standardizedFileURL }
     }
 
     func clearRefusals() {

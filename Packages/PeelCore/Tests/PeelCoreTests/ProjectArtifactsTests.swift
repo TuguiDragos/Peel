@@ -49,7 +49,7 @@ struct ProjectArtifactsTests {
         #expect(returned - stopped < .seconds(1))
     }
 
-    @Test func suggestsTheProjectFoldersThatExistInTheHomeFolder() throws {
+    @Test func suggestsTheProjectFoldersThatExistInTheHomeFolder() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Developer")
         try directory.directory("Code")
@@ -60,9 +60,20 @@ struct ProjectArtifactsTests {
             withDestinationPath: directory.url.appending(path: "Elsewhere/src").path(percentEncoded: false)
         )
 
-        let suggested = ProjectArtifacts.suggestedRoots(home: directory.url)
+        let suggested = await ProjectArtifacts.suggestedRoots(home: directory.url)
 
         #expect(suggested.map(\.lastPathComponent) == ["Developer", "Code"])
+    }
+
+    @Test func judgesEachChosenFolderInItsOrder() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("Users/someone")
+        let code = try directory.directory("Users/someone/Code")
+        let roots = [home, URL(filePath: "/Applications"), code, directory.url.appending(path: "gone")]
+
+        let reasons = await ProjectArtifacts.refusals(of: roots, home: home)
+
+        #expect(reasons == [.tooBroad, .systemFolder, nil, .notAFolder])
     }
 
     /// Full Disk Access does not open a folder closed by ordinary file permissions, so the scan must not ask for it.

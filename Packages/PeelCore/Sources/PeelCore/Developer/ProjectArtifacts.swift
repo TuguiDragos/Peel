@@ -980,11 +980,25 @@ public enum ProjectArtifacts {
 
     /// The folders in the home folder where people usually keep projects, suggested until one is chosen: each is
     /// offered only when it is a real folder there, never a link, and the person still confirms it.
-    public static func suggestedRoots(home: URL = .homeDirectory) -> [URL] {
+    @concurrent
+    public static func suggestedRoots(home: URL = .homeDirectory) async -> [URL] {
         ["Developer", "Projects", "Code", "src"].compactMap { name in
             let url = home.appending(path: name, directoryHint: .isDirectory)
             return url.isRealFolder && refusal(for: url, home: home) == nil ? url : nil
         }
+    }
+
+    /// Why each of `roots` cannot be searched, in their order. Each is judged within `FileSize.budget`, since a
+    /// folder on a network volume that stopped answering would hold the thread, and one that doesn't answer in time
+    /// can't be reached.
+    @concurrent
+    public static func refusals(of roots: [URL], home: URL = .homeDirectory) async -> [Refusal?] {
+        var reasons: [Refusal?] = []
+        for root in roots {
+            let reason = await SlowRead.answer(within: FileSize.budget) { _ in refusal(for: root, home: home) }
+            reasons.append(reason ?? .notAFolder)
+        }
+        return reasons
     }
 
     /// Why `root` cannot be searched, or nil. Every spelling of the path is checked: `/users/me` and

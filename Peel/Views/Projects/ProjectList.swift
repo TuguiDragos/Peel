@@ -164,10 +164,14 @@ struct ProjectList: View {
             }
         }
         .task {
+            await projects.readSuggestions()
             await projects.refreshUnlessScanned(within: ProjectLibrary.scanAgainAfter)
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            Task { await projects.refreshUnlessScanned(within: ProjectLibrary.scanAgainAfter) }
+            Task {
+                await projects.readSuggestions()
+                await projects.refreshUnlessScanned(within: ProjectLibrary.scanAgainAfter)
+            }
         }
         .rescanOnExclusionChange("ProjectList") { await projects.refresh() }
         .rescanAfterPutBack(.projects) { await projects.refresh() }
