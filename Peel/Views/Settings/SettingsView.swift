@@ -140,11 +140,11 @@ enum SettingsKey {
     static let sidebarTools = "sidebar.tools"
     /// The tools left out before each tool had a default, carried into `sidebarTools` once.
     private static let hiddenToolsBefore = "sidebar.hiddenTools"
-    /// The `peel` tool reads these three keys too, so they are defined once, in PeelCore.
+    /// The `peel` tool reads these four keys too, so they are defined once, in PeelCore.
     static let updateSource = UpdatePreferences.Key.source
     static let ignoredUpdateApps = UpdatePreferences.Key.ignoredApps
     static let skippedUpdateVersions = UpdatePreferences.Key.skippedVersions
-    static let updateMemory = "updateMemory"
+    static let updateMemory = UpdateMemories.key
     static let announcedUpdates = "updates.announced"
 
     /// Nil once the link leads to this copy's tool, and while something that may not be Peel's is where it goes.

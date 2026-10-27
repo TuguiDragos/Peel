@@ -1373,3 +1373,43 @@ struct CommandLineTests {
         #expect(source.components(separatedBy: "ExclusionStore().load()").count == 1)
     }
 }
+
+/// Fails every request as a server that can't be reached does, and sends nothing anywhere.
+private final class Unreachable: URLProtocol, @unchecked Sendable {
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func stopLoading() {}
+
+    override func startLoading() {
+        client?.urlProtocol(self, didFailWithError: URLError(.cannotFindHost))
+    }
+}
+
+struct UpdatesCommandTests {
+    @Test func keepsAnUpdateThePeelAppFoundWhenItsCheckFails() async throws {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [Unreachable.self]
+        let checker = UpdateChecker(session: URLSession(configuration: configuration))
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Fed.app"), bundleIdentifier: "org.example.fed", name: "Fed",
+            version: "1.0", updateFeed: .sparkle(try #require(URL(string: "https://feed.example.com/appcast.xml")))
+        )
+        let found = UpdateStatus.updateAvailable(version: "2.0", source: .developer)
+        var memory = UpdateMemories()
+        memory.keep(
+            UpdateMemory(status: found, schedule: .next(after: found, following: nil), checked: .now, describing: app),
+            for: app
+        )
+
+        let statuses = await UpdatesCommand.statuses(
+            for: [app], checker: checker, preference: .automatic, casks: [], memory: memory
+        ) { _ in }
+
+        #expect(statuses[app.id] == found, "peel said the check failed where the app shows the update it found")
+    }
+
+    @Test func saysWhatItLeavesOutWithoutAll() {
+        let discussion = UpdatesCommand.configuration.discussion
+        #expect(discussion.contains("Only apps with an update or a check that failed are listed unless --all is given."))
+    }
+}

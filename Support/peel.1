@@ -11,7 +11,7 @@
 .Op Fl -version
 .Op Fl -help
 .Sh DESCRIPTION
-Peel only moves files to the Trash, so you can put them back. Items that need administrator access are left for the Peel app, which says how to remove in Finder those its helper may not move, and the tool refuses to run with sudo. History, the record of refusals, and the exclusions are in ~/Library/Application Support/Peel, shared with the Peel app, and in JSON a size Peel couldn't measure is null. The tool writes English whatever the Mac's language, since scripts read what it prints. Exit status: 0 when it did what was asked, 1 when something failed or stayed where it was, or History couldn't record what moved, 2 when you answered no, and 64 when the command or its options are wrong, or when Peel would have to ask and can't (add --yes).
+Peel only moves files to the Trash, so you can put them back. Items that need administrator access are left for the Peel app, which says how to remove in Finder those its helper may not move, and the tool refuses to run with sudo. History, the record of refusals, and the exclusions are in ~/Library/Application Support/Peel, shared with the Peel app, and in JSON a size Peel couldn't measure is null. The tool writes English whatever the Mac's language, since scripts read what it prints. Exit status: 0 when it did what was asked, 1 when something failed or stayed where it was (for `peel updates`, when no check got an answer), or History couldn't record what moved, 2 when you answered no, and 64 when the command or its options are wrong, or when Peel would have to ask and can't (add --yes).
 .Bl -tag -width 6n
 .It Fl -version
 Show the version.
@@ -311,7 +311,7 @@ Show help information.
 .It Em updates
 Check installed apps for updates.
 .Pp
-Peel reads the settings of the Peel app: which source it prefers, which apps it was told to leave alone, and which versions were skipped. Nothing is installed; apps with no feed are left out unless --all is given.
+Peel reads the settings of the Peel app: which source it prefers, which apps it was told to leave alone, which versions were skipped, and what its checks found before. Nothing is installed. Only apps with an update or a check that failed are listed unless --all is given.
 .Bl -tag -width 6n
 .It Fl -all
 Show every app, not only those with an update.

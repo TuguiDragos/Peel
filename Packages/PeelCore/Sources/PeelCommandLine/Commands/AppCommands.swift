@@ -722,8 +722,8 @@ struct UpdatesCommand: AsyncParsableCommand {
         abstract: "Check installed apps for updates.",
         discussion: """
             Peel reads the settings of the Peel app: which source it prefers, which apps it was told to leave alone, \
-            and which versions were skipped. Nothing is installed; apps with no feed are left out unless --all is \
-            given.
+            which versions were skipped, and what its checks found before. Nothing is installed. Only apps with an \
+            update or a check that failed are listed unless --all is given.
             """
     )
 
@@ -803,7 +803,8 @@ struct UpdatesCommand: AsyncParsableCommand {
     }
 
     func run() async throws {
-        let apps = await AppCatalog.installedApps()
+        let catalog = await AppCatalog.scan()
+        let apps = catalog.apps
         // The Peel app's own update settings, so `peel` and the app agree on which updates are waiting.
         let preferences = UpdatePreferences.asTheAppSeesThem()
         let homebrew = await CaskLookup.installed()
@@ -811,7 +812,8 @@ struct UpdatesCommand: AsyncParsableCommand {
         let checker = UpdateChecker()
         let statuses = await ProgressLine.reporting { show in
             await Self.statuses(
-                for: toCheck, checker: checker, preference: preferences.source, casks: homebrew.casks
+                for: toCheck, checker: checker, preference: preferences.source, casks: homebrew.casks,
+                memory: UpdateMemories.asTheAppSeesThem().recalled(for: apps)
             ) { answered in
                 show(Self.progress(checked: answered, of: toCheck.count))
             }
@@ -831,6 +833,9 @@ struct UpdatesCommand: AsyncParsableCommand {
             Output.line("Every app with an update feed is up to date.")
         }
         if let note = homebrew.note {
+            Output.note(note)
+        }
+        if let note = Output.unreadableNote(for: catalog) {
             Output.note(note)
         }
         let cannotTell = toCheck.filter { statuses[$0.id] == .unsupported }.compactMap { app in
@@ -893,25 +898,36 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
     }
 
-    private static func statuses(
+    static func statuses(
         for apps: [InstalledApp],
         checker: UpdateChecker,
         preference: UpdateSource,
         casks: [HomebrewPackage],
+        memory: UpdateMemories,
         answered: (Int) -> Void
     ) async -> [InstalledApp.ID: UpdateStatus] {
-        await withTaskGroup(of: (InstalledApp.ID, UpdateStatus).self) { group in
+        // As the app does: what a check found before is its earlier answer, and an update its own source found is
+        // kept through a check of that source that failed.
+        let check = { @Sendable (app: InstalledApp) async -> (InstalledApp.ID, UpdateStatus) in
+            let earlier = memory.entry(for: app)
+            let answer = await checker.answer(
+                for: app, preference: preference, casks: casks, earlier: earlier?.status,
+                notListedBefore: earlier?.isNotListed == true
+            )
+            return (app.id, answer.following(earlier?.status))
+        }
+        return await withTaskGroup(of: (InstalledApp.ID, UpdateStatus).self) { group in
             var pending = apps.makeIterator()
             var statuses: [InstalledApp.ID: UpdateStatus] = [:]
             for _ in 0..<concurrentChecks {
                 guard let app = pending.next() else { break }
-                group.addTask { (app.id, await checker.status(for: app, preference: preference, casks: casks)) }
+                group.addTask { await check(app) }
             }
             while case let (id, status)? = await group.next() {
                 statuses[id] = status
                 answered(statuses.count)
                 if let app = pending.next() {
-                    group.addTask { (app.id, await checker.status(for: app, preference: preference, casks: casks)) }
+                    group.addTask { await check(app) }
                 }
             }
             return statuses

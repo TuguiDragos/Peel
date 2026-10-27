@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// What Peel knows about one app's updates, kept by bundle identifier so it survives the app being moved.
 ///
@@ -84,6 +85,16 @@ public struct UpdateMemories: Equatable, Sendable {
 
     public var isEmpty: Bool {
         entries.isEmpty
+    }
+
+    /// The key the Peel app keeps them under in its preferences, which `peel` reads too.
+    public static let key = "updateMemory"
+
+    /// What the Peel app remembers, read and never written, so `peel updates` keeps what the app keeps.
+    public static func asTheAppSeesThem() -> UpdateMemories {
+        let defaults = Bundle.main.bundleIdentifier == HelperIdentity.appIdentifier
+            ? UserDefaults.standard : UserDefaults(suiteName: HelperIdentity.appIdentifier)
+        return defaults?.data(forKey: key).flatMap(UpdateMemories.init(data:)) ?? UpdateMemories()
     }
 
     /// The entry about the build `app` is at.
