@@ -406,7 +406,7 @@ In Settings > General, choose Remove Peel. Peel then:
 - removes its helper and its login item;
 - moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but
   the Terminal settings zsh and ssh read and anything in it you excluded in Settings. That folder holds History, your
-  exclusions, and the settings Peel saved when you reset an app;
+  exclusions, App Folders, and the settings Peel saved when you reset an app, among others;
 - ends its Finder extension, takes its icon out of the Dock, clears its settings, and quits.
 
 Remove Peel takes no step while Peel itself can't move, such as from a folder only an administrator can change, or
@@ -426,8 +426,8 @@ afterward delete those lines and that folder.
 
 If you installed Peel with Homebrew, Settings shows this command in its place, with a button that copies it. Run it
 in Terminal: Homebrew takes Peel off its list of what is installed, deletes the app rather than moving it to the
-Trash, deletes the helper's record of what it moved, and moves Peel's other files to the Trash, its whole folder in
-Application Support included. The Terminal settings zsh and ssh read go with that folder, so the line in `~/.zshrc`
+Trash, stops the helper, asking for an administrator's password, deletes the helper's record of what it moved, and
+moves Peel's other files to the Trash, its whole folder in Application Support included. The Terminal settings zsh and ssh read go with that folder, so the line in `~/.zshrc`
 and the two in `~/.ssh/config` then read nothing: turn those settings off in Peel first, or delete those lines
 afterward.
 
