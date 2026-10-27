@@ -19427,108 +19427,109 @@
         }
       }
     },
-    "Apps that run in the background will appear here." : {
+    "Apps that run in the background will appear here. Apps set to open at login are in System Settings > General > Login Items & Extensions." : {
+      "comment" : "Background Items when it lists nothing. The second sentence says where macOS keeps the apps a person set to open at login, which aren’t launchd jobs. Use macOS’s own words for the place.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zde se zobrazí aplikace, které běží na pozadí."
+            "value" : "Zde se zobrazí aplikace, které běží na pozadí. Aplikace nastavené tak, aby se otevíraly při přihlášení, najdete v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps, die im Hintergrund laufen, werden hier angezeigt."
+            "value" : "Apps, die im Hintergrund laufen, werden hier angezeigt. Apps, die bei der Anmeldung geöffnet werden sollen, findest du unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí aparecerán las apps que se ejecutan en segundo plano."
+            "value" : "Aquí aparecerán las apps que se ejecutan en segundo plano. Las apps configuradas para abrirse al iniciar sesión están en Ajustes del Sistema > General > Ítems de inicio y extensiones."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les apps qui s’exécutent en arrière-plan apparaîtront ici."
+            "value" : "Les apps qui s’exécutent en arrière-plan apparaîtront ici. Les apps configurées pour s’ouvrir avec la session se trouvent dans Réglages Système > Général > Ouverture et extensions."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qui appariranno le app che vengono eseguite in background."
+            "value" : "Qui appariranno le app che vengono eseguite in background. Le app impostate per aprirsi al login si trovano in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バックグラウンドで動作するアプリがここに表示されます。"
+            "value" : "バックグラウンドで動作するアプリがここに表示されます。ログイン時に開くように設定されたアプリは、“システム設定”＞“一般”＞“ログイン項目と機能拡張”にあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "백그라운드에서 실행되는 앱이 여기에 표시됩니다."
+            "value" : "백그라운드에서 실행되는 앱이 여기에 표시됩니다. 로그인 시 열리도록 설정된 앱은 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps die op de achtergrond worden uitgevoerd, verschijnen hier."
+            "value" : "Apps die op de achtergrond worden uitgevoerd, verschijnen hier. Apps die zo zijn ingesteld dat ze worden geopend als je inlogt, staan in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutaj pojawią się aplikacje działające w tle."
+            "value" : "Tutaj pojawią się aplikacje działające w tle. Aplikacje, które mają się otwierać podczas logowania, znajdziesz w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os apps executados em segundo plano aparecerão aqui."
+            "value" : "Os apps executados em segundo plano aparecerão aqui. Os apps configurados para abrir no início da sessão ficam em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici vor apărea aplicațiile care rulează în fundal."
+            "value" : "Aici vor apărea aplicațiile care rulează în fundal. Aplicațiile setate să se deschidă la login se află în Configurări sistem > General > Lansare la login și extensii."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Здесь появятся приложения, которые работают в фоновом режиме."
+            "value" : "Здесь появятся приложения, которые работают в фоновом режиме. Приложения, настроенные на открытие при входе, перечислены в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Appar som körs i bakgrunden visas här."
+            "value" : "Appar som körs i bakgrunden visas här. Appar som är inställda på att öppnas vid inloggning finns i Systeminställningar > Allmänt > Startobjekt och tillägg."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arka planda çalışan uygulamalar burada görünür."
+            "value" : "Arka planda çalışan uygulamalar burada görünür. Oturum açıldığında açılmaya ayarlı uygulamalar Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde yer alır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тут зʼявлятимуться програми, які працюють у фоновому режимі."
+            "value" : "Тут зʼявлятимуться програми, які працюють у фоновому режимі. Програми, налаштовані відкриватися під час входу в систему, перелічено в розділі Системні параметри > Загальні > Автозапуск і розширення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在后台运行的App将在此处显示。"
+            "value" : "在后台运行的App将在此处显示。设置为在登录时打开的App位于“系统设置”>“通用”>“登录项与扩展”中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在背景執行的App會顯示在此處。"
+            "value" : "在背景執行的App會顯示在此處。設定為在登入時打開的App位於「系統設定」>「一般」>「登入項目與延伸功能」中。"
           }
         }
       }
@@ -70650,6 +70651,113 @@
         }
       }
     },
+    "It isn’t listed in System Settings, and launchd forgets it at the next logout or restart. Apps do this for work such as installing an update." : {
+      "comment" : "Under that title. Squirrel’s ShipIt, which installs an app’s update, is such a job.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není uvedena v Nastavení systému a launchd na ni při příštím odhlášení nebo restartu zapomene. Aplikace to dělají při úkonech, jako je instalace aktualizace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es ist nicht in den Systemeinstellungen aufgeführt, und launchd vergisst es bei der nächsten Abmeldung oder beim nächsten Neustart. Apps tun das für Aufgaben wie das Installieren eines Updates."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No aparece en Ajustes del Sistema, y launchd lo olvida en el próximo cierre de sesión o reinicio. Las apps hacen esto para trabajos como instalar una actualización."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il n’est pas listé dans Réglages Système, et launchd l’oublie à la prochaine fermeture de session ou au prochain redémarrage. Les apps procèdent ainsi pour des opérations comme l’installation d’une mise à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è elencato in Impostazioni di Sistema, e launchd lo dimentica al prossimo logout o riavvio. Le app lo fanno per attività come l’installazione di un aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システム設定には表示されず、次回のログアウトまたは再起動でlaunchdから消えます。アプリは、アップデートのインストールなどの作業のためにこの方法を使います。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목은 시스템 설정에 표시되지 않으며, 다음 로그아웃 또는 재시동 시 launchd가 이 항목을 잊습니다. 앱은 업데이트 설치 등의 작업을 위해 이렇게 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt niet vermeld in Systeeminstellingen, en launchd vergeet het de volgende keer dat je uitlogt of de Mac opnieuw opstart. Apps doen dit voor werk zoals het installeren van een update."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie ma jej na liście w Ustawieniach systemowych, a launchd zapomni o niej przy następnym wylogowaniu lub ponownym uruchomieniu. Aplikacje robią tak na przykład przy instalowaniu uaktualnienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele não aparece nos Ajustes do Sistema, e o launchd o esquece na próxima vez que você finalizar a sessão ou reiniciar o Mac. Os apps fazem isso, por exemplo, para instalar uma atualização."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu apare în Configurări sistem, iar launchd îl uită la următorul logout sau la următoarea repornire. Aplicațiile fac acest lucru pentru operațiuni precum instalarea unei actualizări."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он не отображается в Системных настройках, и launchd забудет о нем при следующем выходе из системы или перезагрузке. Приложения делают так, например, чтобы установить обновление."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det visas inte i Systeminställningar, och launchd glömmer det vid nästa utloggning eller omstart. Appar gör så för uppgifter som att installera en uppdatering."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem Ayarları’nda listelenmez ve launchd onu bir sonraki oturum kapatma veya yeniden başlatma sırasında unutur. Uygulamalar bunu, bir güncellemeyi yüklemek gibi işler için yapar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його немає в Системних параметрах, і launchd забуде його під час наступного виходу із системи або перезапуску. Програми вдаються до цього для такої роботи, як інсталювання оновлення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它不会列在“系统设置”中，launchd会在下次退出登录或重新启动时忘记它。App会为安装更新等工作这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它不會列在「系統設定」中，而且launchd會在下次登出或重新開機時忘記它。App會為了安裝更新等工作而這樣做。"
+          }
+        }
+      }
+    },
     "It isn’t loaded now, so it leaves this list until macOS loads it again, usually the next time you log in." : {
       "localizations" : {
         "cs" : {
@@ -73221,6 +73329,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此cask的Homebrew收據會連同Homebrew在其指令與補齊檔案夾中建立、指向收據內的連結一起丟到「垃圾桶」，Homebrew就不再列出此cask。「歷史記錄」可以將它還原。"
+          }
+        }
+      }
+    },
+    "Its app gave it to launchd" : {
+      "comment" : "A note’s title on a background job’s page: the job’s app handed it to launchd itself (launchd’s term is “submitted”), rather than registering it with macOS.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její aplikace ji předala launchd"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die zugehörige App hat es an launchd übergeben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su app lo entregó a launchd"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son app l’a confié à launchd"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua app l’ha affidato a launchd"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがこれをlaunchdに直接渡しました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 앱이 launchd에 직접 전달함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bijbehorende app heeft het aan launchd doorgegeven"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jej aplikacja przekazała ją do launchd"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app dele o entregou ao launchd"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația sa l‑a transmis lui launchd"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот объект передало в launchd его приложение"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen som det hör till har lämnat över det till launchd"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulaması onu launchd’ye verdi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма передала цей елемент у launchd"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已将它交给launchd"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App將它交給了launchd"
           }
         }
       }

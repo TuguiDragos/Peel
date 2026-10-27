@@ -184,6 +184,16 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.isSubmittedByItsApp {
+                Section {
+                    Notice(
+                        title: Text("Its app gave it to launchd"),
+                        detail: Text("It isn’t listed in System Settings, and launchd forgets it at the next logout or restart. Apps do this for work such as installing an update."),
+                        kind: .note
+                    ) {}
+                }
+            }
+
             if item.isFileGone {
                 Section {
                     Notice(

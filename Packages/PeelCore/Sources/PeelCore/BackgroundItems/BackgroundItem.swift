@@ -72,6 +72,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isFileGone = false
     /// True for a job of an app the person excluded in Settings, which Peel lists and never acts on.
     public var isExcluded = false
+    /// True for a job its app gave launchd itself, as an update's installer is given, rather than registered with
+    /// ServiceManagement: System Settings doesn't list it, and launchd forgets it at the next logout or restart.
+    public var isSubmittedByItsApp = false
     public var anotherFileIsLoaded = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }

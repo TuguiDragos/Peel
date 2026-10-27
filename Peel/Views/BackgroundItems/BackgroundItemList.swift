@@ -38,7 +38,7 @@ struct BackgroundItemList: View {
                 ContentUnavailableView(
                     "No Background Items",
                     systemImage: "gearshape.2",
-                    description: Text("Apps that run in the background will appear here.")
+                    description: Text("Apps that run in the background will appear here. Apps set to open at login are in System Settings > General > Login Items & Extensions.")
                 )
             } else {
                 ContentUnavailableView.search(text: searchText)

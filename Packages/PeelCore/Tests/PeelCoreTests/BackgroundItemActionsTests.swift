@@ -120,6 +120,27 @@ struct BackgroundItemActionsTests {
         #expect(!present.isLeftByAGoneApp)
     }
 
+    /// A job its app gave launchd itself, as Squirrel's ShipIt is, is told apart from one the app registered with
+    /// ServiceManagement, whose switch is in System Settings.
+    @Test func knowsAJobItsAppGaveLaunchdItself() throws {
+        func item(_ details: Launchctl.JobDetails) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                ("org.example.tide.ShipIt", .agent, "gui/501/org.example.tide.ShipIt"), answer: .details(details),
+                ownership: BackgroundItemOwnership(installedApps: []), loaded: .init(), exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+        let submitted = try item(.init(path: "(submitted by Tide.42)", program: "/Users/me/Library/Caches/ShipIt"))
+        let registered = try item(.init(
+            path: "(submitted by smd.251)", managedBy: "com.apple.xpc.ServiceManagement",
+            parentBundleIdentifier: "org.example.tide"
+        ))
+
+        #expect(submitted.isSubmittedByItsApp)
+        #expect(!registered.isSubmittedByItsApp)
+    }
+
     @Test func aRegisteredJobStartsAsItsAppSaysAndOtherwiseItIsNotKnown() throws {
         let directory = try TemporaryDirectory()
         func write(_ plist: [String: Any], at path: String) throws {
