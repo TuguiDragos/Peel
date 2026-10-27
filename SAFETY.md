@@ -151,8 +151,8 @@ That includes what `pkgutil` and Homebrew would delete:
 - The folder Homebrew keeps for an app it installed (`brew --caskroom`), with the links Homebrew made into it, which
   `brew uninstall` would delete: they go after the app, Homebrew stops listing the app, and History puts them back.
   The Homebrew page forgets a cask the same way when Homebrew still lists it but can't upgrade it, because its apps
-  are gone or, for a cask that installs no app, its packages are: Forget Cask moves its folder, and the links into it
-  or into its gone apps, to the Trash.
+  aren't where Homebrew put them anymore or, for a cask that installs no app, its packages are gone: Forget Cask moves
+  its folder, and the links into it or into its apps' old places, to the Trash.
 
 A removal reaches History even when something cuts it short. Quitting Peel waits until History has it, `peel`
 carries on through Control-C or a closed terminal until it has written History, and each item Peel moves itself is

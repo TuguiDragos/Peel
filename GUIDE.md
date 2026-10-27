@@ -253,10 +253,10 @@ and how many items the others hold.
   does, and Peel says so before you confirm them. For a cask whose app Peel leaves alone on the app's own page, such as
   one with a system extension, and for a package you excluded, Uninstall stays off, with the reason beside it. Homebrew
   replaces or deletes a cask's app even while it runs, so Peel asks the app to quit first, and opens it again after an
-  upgrade. A cask Homebrew still lists though what it installed is gone, its app or, for a cask with no app, its
-  packages, can't be upgraded. It is listed apart under Apps Already Gone, where Forget Cask, or Forget All for every
-  one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it, so Homebrew stops
-  listing it, and History can put it back.
+  upgrade. A cask Homebrew still lists though its app isn't where Homebrew put it anymore, or, for a cask with no app,
+  its packages are gone, can't be upgraded. It is listed apart under Apps Already Gone, where Forget Cask, or Forget
+  All for every one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it, so
+  Homebrew stops listing it, and History can put it back.
 
 ## Fine-tune your Mac
 

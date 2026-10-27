@@ -538,7 +538,7 @@ struct HomebrewList: View {
                 SectionHeaderLine {
                     heading(
                         "Apps Already Gone",
-                        "Homebrew still lists these casks, but what they installed isn’t on this Mac anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it, so Homebrew stops listing it. History can put it back."
+                        "Homebrew still lists these casks, but what they installed isn’t where Homebrew put it anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it, so Homebrew stops listing it. History can put it back."
                     )
                 } count: {
                     Text("^[\(casks.count) cask](inflect: true)")
