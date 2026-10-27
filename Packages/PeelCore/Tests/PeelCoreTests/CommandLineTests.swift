@@ -1233,7 +1233,7 @@ struct CommandLineTests {
             == "bundle identifier, review: inside a folder that belongs to macOS or to another installed app")
     }
 
-    /// Nothing in Orphaned Files is ever suggested, so its `--remove` says what it moves instead: the group named.
+    /// Nothing in Orphaned Files is selected for you, so its `--remove` says what it moves instead: the group named.
     @Test func removeSaysWhatEachCommandMoves() {
         let orphans = OrphansCommand.helpMessage(columns: 200)
         #expect(orphans.contains("Move the named group to the Trash, leaving out what Peel holds back."))
@@ -1393,7 +1393,7 @@ struct CommandLineTests {
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["caches", "--remove", "--json"]) }
     }
 
-    /// Nothing in Orphaned Files is ever suggested, so `peel orphans --remove` has to name one group.
+    /// Nothing in Orphaned Files is selected for you, so `peel orphans --remove` has to name one group.
     @Test func removingOrphansNamesOneGroup() throws {
         let named = try #require(try PeelCommand.parseAsRoot(["orphans", "--remove", "com.example.app", "-y"]) as? OrphansCommand)
 

@@ -6,7 +6,7 @@ struct OrphansCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "orphans",
         abstract: "List files left by apps that are no longer installed, and move a group to the Trash.",
-        discussion: "Nothing here is ever suggested, so --remove takes the identifier of one group. What Peel refuses to move, what it leaves for you to choose in the app, and what needs administrator access, stays. What only an administrator can move is listed apart, with how to remove it in Finder."
+        discussion: "Nothing here is selected for you, so --remove takes the identifier of one group. What Peel refuses to move, what it leaves for you to choose in the app, and what needs administrator access, stays. What only an administrator can move is listed apart, with how to remove it in Finder."
     )
 
     @Argument(help: "The group to move, as `peel orphans` names it in its first column.")

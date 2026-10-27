@@ -481,10 +481,11 @@ Other Devices.
 What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and Backups,
 Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of them moves all of
 it. Only a page you have opened, or chosen through the toolbar's Select menu, counts, so nothing moves from a page you
-never saw. Before anything moves, the question lists every page with how much it holds, and each page's part is moved by
-its own tool, with that tool's checks at that moment: Developer waits for its app to quit, Space leaves out what an app
-opened since is writing to, and Duplicates refuses a copy that changed. What a tool refuses for the item itself, such as
-a folder a program still has open, leaves the selection, so the next Move to Trash on any page does not carry it again.
+never saw. Before anything moves, the question names the first few pages with how much each holds, and how many items
+the others hold, and each page's part is moved by its own tool, with that tool's checks at that moment: Developer waits
+for its app to quit, Space leaves out what an app opened since is writing to, and Duplicates refuses a copy that
+changed. What a tool refuses for the item itself, such as a folder a program still has open, leaves the selection, so
+the next Move to Trash on any page does not carry it again.
 
 Some things are shown and never removed at all, because the removal cannot be undone: local Time Machine
 snapshots are explained, never deleted, and what an app or a tool manages itself, such as simulators, Docker's disk,
