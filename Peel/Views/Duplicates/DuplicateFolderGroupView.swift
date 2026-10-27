@@ -12,13 +12,14 @@ struct DuplicateFolderGroupView: View {
             RemovalsHeldBanner()
 
             Section {
+                let staying = duplicates.staying(in: group)
                 ForEach(Array(group.folders.enumerated()), id: \.element.id) { index, folder in
                     DuplicateFolderRow(
                         duplicates: duplicates,
                         folder: folder,
                         group: group,
                         isSelected: duplicates.isSelected(folder),
-                        canChangeSelection: duplicates.canChange(folder, in: group),
+                        canChangeSelection: duplicates.canChange(folder, staying: staying),
                         isFirst: index == 0
                     )
                 }

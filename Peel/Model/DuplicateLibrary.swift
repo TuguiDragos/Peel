@@ -209,6 +209,15 @@ final class DuplicateLibrary {
         DuplicateScan.canChange(file, in: group, selected: selectedURLs)
     }
 
+    /// How many copies of `group` are not selected, which a page counts once and gives each copy's checkbox.
+    func staying(in group: DuplicateGroup) -> Int {
+        DuplicateScan.staying(in: group, selected: selectedURLs)
+    }
+
+    func canChange(_ file: DuplicateFile, staying: Int) -> Bool {
+        DuplicateScan.canChange(file, staying: staying, selected: selectedURLs)
+    }
+
     /// Changes nothing that would leave the group with no copy.
     func setSelected(_ isSelected: Bool, _ file: DuplicateFile, in group: DuplicateGroup) {
         guard canChange(file, in: group) else { return }
@@ -231,6 +240,15 @@ final class DuplicateLibrary {
 
     func canChange(_ folder: DuplicateFolder, in group: DuplicateFolderGroup) -> Bool {
         DuplicateScan.canChange(folder.url, among: group.folders.map(\.url), selected: selectedFolders)
+    }
+
+    /// How many copies of `group` are not selected, which a page counts once and gives each copy's checkbox.
+    func staying(in group: DuplicateFolderGroup) -> Int {
+        group.folders.count { !selectedFolders.contains($0.url) }
+    }
+
+    func canChange(_ folder: DuplicateFolder, staying: Int) -> Bool {
+        DuplicateScan.canChange(folder.url, staying: staying, selected: selectedFolders)
     }
 
     /// Changes nothing that would leave the group with no copy.

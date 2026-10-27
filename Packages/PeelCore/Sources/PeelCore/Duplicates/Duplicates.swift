@@ -194,13 +194,28 @@ public struct DuplicateScan: Sendable {
     /// Whether the copy at `url` may be selected or deselected, given the `selected` copies of its group: one copy of
     /// every group always stays, so the last one not selected cannot be.
     public static func canChange(_ url: URL, among copies: [URL], selected: Set<URL>) -> Bool {
-        selected.contains(url) || copies.count { !selected.contains($0) } > 1
+        canChange(url, staying: copies.count { !selected.contains($0) }, selected: selected)
+    }
+
+    /// `canChange(_:among:selected:)` with `staying`, the copies of the group not selected, counted once for the
+    /// whole group: counted again for each copy, a group of thousands costs millions of lookups each time its page is
+    /// drawn.
+    public static func canChange(_ url: URL, staying: Int, selected: Set<URL>) -> Bool {
+        selected.contains(url) || staying > 1
     }
 
     /// `canChange(_:among:selected:)` for a copy of `group`: one held back can never be selected, and it counts as a
     /// copy that stays for the others.
     public static func canChange(_ file: DuplicateFile, in group: DuplicateGroup, selected: Set<URL>) -> Bool {
-        file.heldBack == nil && canChange(file.url, among: group.files.map(\.url), selected: selected)
+        canChange(file, staying: staying(in: group, selected: selected), selected: selected)
+    }
+
+    public static func canChange(_ file: DuplicateFile, staying: Int, selected: Set<URL>) -> Bool {
+        file.heldBack == nil && canChange(file.url, staying: staying, selected: selected)
+    }
+
+    public static func staying(in group: DuplicateGroup, selected: Set<URL>) -> Int {
+        group.files.count { !selected.contains($0.url) }
     }
 
     private static func keepingOne(of groups: [[URL]], _ selection: Set<URL>) -> Set<URL> {

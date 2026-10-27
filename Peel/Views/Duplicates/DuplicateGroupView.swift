@@ -14,6 +14,7 @@ struct DuplicateGroupView: View {
             RemovalsHeldBanner()
 
             Section {
+                let staying = duplicates.staying(in: group)
                 ForEach(Array(group.files.enumerated()), id: \.element.id) { index, file in
                     DuplicateFileRow(
                         duplicates: duplicates,
@@ -21,7 +22,7 @@ struct DuplicateGroupView: View {
                         file: file,
                         group: group,
                         isSelected: duplicates.isSelected(file),
-                        canChangeSelection: duplicates.canChange(file, in: group),
+                        canChangeSelection: duplicates.canChange(file, staying: staying),
                         isFirst: index == 0
                     )
                 }
