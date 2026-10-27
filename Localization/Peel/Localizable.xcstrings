@@ -13374,6 +13374,112 @@
         }
       }
     },
+    "All that iCloud Drive keeps downloaded on this Mac, small files and files not yet uploaded included." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vše, co iCloud Drive uchovává stažené v tomto Macu, včetně malých souborů a souborů, které ještě nebyly nahrány."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles, was iCloud Drive auf diesem Mac geladen aufbewahrt, einschließlich kleiner und noch nicht hochgeladener Dateien."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo lo que iCloud Drive mantiene descargado en este Mac, incluidos los archivos pequeños y los que aún no se han subido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout ce qu’iCloud Drive garde téléchargé sur ce Mac, y compris les petits fichiers et ceux qui n’ont pas encore été chargés vers iCloud."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto ciò che iCloud Drive tiene scaricato su questo Mac, compresi i file piccoli e quelli non ancora caricati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud DriveがこのMacにダウンロードして保持しているすべてのファイルです。小さなファイルや、まだアップロードされていないファイルも含まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "작은 파일과 아직 업로드되지 않은 파일을 포함하여, iCloud Drive가 이 Mac에 다운로드해 보관하는 모든 항목입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles wat iCloud Drive gedownload op deze Mac bewaart, inclusief kleine bestanden en bestanden die nog niet zijn geüpload."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wszystko, co iCloud Drive przechowuje jako pobrane na tym Macu, łącznie z małymi plikami i plikami jeszcze nieprzesłanymi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tudo o que o iCloud Drive mantém baixado neste Mac, inclusive arquivos pequenos e arquivos que ainda não foram enviados."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tot ce păstrează iCloud Drive descărcat pe acest Mac, inclusiv fișierele mici și cele care nu au fost încă încărcate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все, что iCloud Drive хранит загруженным на этот Mac, включая небольшие файлы и файлы, которые еще не выгружены."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allt som iCloud Drive har hämtat till den här datorn, inklusive små filer och filer som ännu inte har överförts till iCloud."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive’ın bu Mac’te indirilmiş olarak tuttuğu her şey; küçük dosyalar ve henüz karşıya yüklenmemiş dosyalar da dahil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Усе, що iCloud Drive зберігає викачаним на цьому Mac, зокрема невеликі файли та файли, які ще не передано у хмару."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud云盘在这台Mac上保留的所有已下载内容，包括小文件和尚未上传的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「iCloud雲碟」在這部Mac上保留的所有已下載內容，包括小型檔案和尚未上傳的檔案。"
+          }
+        }
+      }
+    },
     "All users" : {
       "localizations" : {
         "cs" : {
@@ -133125,108 +133231,109 @@
         }
       }
     },
-    "Peel’s own iCloud Drive page frees these, one file at a time" : {
+    "Peel’s own iCloud Drive page frees the files of %@ or more already safe in iCloud, one file at a time" : {
+      "comment" : "%@ is a file size, such as 1 MB.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uvolní je vlastní stránka iCloud Drive v Peelu, soubor po souboru"
+            "value" : "Soubory o velikosti alespoň %@, které už jsou bezpečně na iCloudu, uvolní vlastní stránka iCloud Drive v Peelu, soubor po souboru"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Seite „iCloud Drive“ in Peel gibt den Platz frei, Datei für Datei"
+            "value" : "Die Seite „iCloud Drive“ in Peel gibt den Platz von Dateien ab %@ frei, die bereits sicher in iCloud liegen, Datei für Datei"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La propia página iCloud Drive de Peel los libera, archivo por archivo"
+            "value" : "La propia página iCloud Drive de Peel libera los archivos de %@ o más que ya están a salvo en iCloud, archivo por archivo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La page iCloud Drive de Peel les libère, un fichier à la fois"
+            "value" : "La page iCloud Drive de Peel libère les fichiers de %@ ou plus déjà en sécurité dans iCloud, un fichier à la fois"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La pagina iCloud Drive di Peel li libera, un file alla volta"
+            "value" : "La pagina iCloud Drive di Peel libera i file di almeno %@ già al sicuro su iCloud, un file alla volta"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelの“iCloud Drive”ページで、1ファイルずつ解放できます"
+            "value" : "Peelの“iCloud Drive”ページで、すでにiCloudに安全に保存されている%@以上のファイルを、1ファイルずつ解放できます"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel의 iCloud Drive 페이지에서 한 번에 한 파일씩 공간을 확보할 수 있음"
+            "value" : "Peel의 iCloud Drive 페이지에서 이미 iCloud에 안전하게 보관된 %@ 이상의 파일을 대상으로 한 번에 한 파일씩 공간을 확보할 수 있음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De pagina 'iCloud Drive' van Peel zelf maakt deze vrij, bestand voor bestand"
+            "value" : "De pagina 'iCloud Drive' van Peel zelf maakt de bestanden van %@ of meer vrij die al veilig in iCloud staan, bestand voor bestand"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Strona iCloud Drive w Peel zwalnia je plik po pliku"
+            "value" : "Strona iCloud Drive w Peel zwalnia pliki o wielkości co najmniej %@, już bezpieczne w iCloud, plik po pliku"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A própria página iCloud Drive do Peel libera estes arquivos, um de cada vez"
+            "value" : "A própria página iCloud Drive do Peel libera os arquivos de %@ ou mais que já estão seguros no iCloud, um de cada vez"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pagina iCloud Drive din Peel le eliberează, câte un fișier pe rând"
+            "value" : "Pagina iCloud Drive din Peel eliberează fișierele de cel puțin %@ aflate deja în siguranță pe iCloud, câte un fișier pe rând"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Их освобождает раздел «iCloud Drive» в самом Peel, по одному файлу"
+            "value" : "Файлы размером %@ и более, которые уже надежно сохранены в iCloud, освобождает раздел «iCloud Drive» в самом Peel, по одному файлу"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peels egen sida iCloud Drive frigör dem, en fil i taget"
+            "value" : "Peels egen sida iCloud Drive frigör filer på %@ eller mer som redan är säkert lagrade i iCloud, en fil i taget"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in kendi iCloud Drive sayfası bunları dosya dosya boşaltır"
+            "value" : "Peel’in kendi iCloud Drive sayfası, iCloud’da zaten güvende olan %@ veya daha büyük dosyaları dosya dosya boşaltır"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Їх звільняє власна сторінка Peel «iCloud Drive», по одному файлу"
+            "value" : "Файли розміром від %@, уже надійно збережені в iCloud, звільняє власна сторінка Peel «iCloud Drive», по одному файлу"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自己的“iCloud云盘”页面会逐个释放这些文件"
+            "value" : "Peel自己的“iCloud云盘”页面会逐个释放已安全储存在iCloud中、大小为%@或以上的文件"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自己的「iCloud雲碟」頁面可以逐一釋放這些檔案"
+            "value" : "Peel自己的「iCloud雲碟」頁面可以逐一釋放已安全存放在iCloud中、大小達%@或以上的檔案"
           }
         }
       }
@@ -225239,112 +225346,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法讀取「iCloud雲碟」"
-          }
-        }
-      }
-    },
-    "iCloud files downloaded to this Mac." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Soubory z iCloudu stažené do tohoto Macu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud-Dateien, die auf diesen Mac geladen wurden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivos de iCloud descargados en este Mac."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les fichiers iCloud téléchargés sur ce Mac."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File di iCloud scaricati su questo Mac."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacにダウンロードされたiCloudファイルです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 Mac에 다운로드된 iCloud 파일입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud-bestanden die naar deze Mac zijn gedownload."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pliki z iCloud pobrane na tego Maca."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arquivos do iCloud baixados para este Mac."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fișiere iCloud descărcate pe acest Mac."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файлы iCloud, загруженные на этот Mac."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud-filer som har hämtats till den här datorn."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu Mac’e indirilmiş iCloud dosyaları."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файли iCloud, викачані на цей Mac."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已下载到这台Mac上的iCloud文件。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已下載到這部Mac上的iCloud檔案。"
           }
         }
       }
