@@ -82379,108 +82379,109 @@
         }
       }
     },
-    "Logs that apps wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper." : {
+    "Logs that apps and services wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in. What an administrator owns goes through Peel’s helper." : {
+      "comment" : "The description of a Space area. The helper is Peel's small tool with administrator rights.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokoly, které aplikace zapsaly pro všechny účty v tomto Macu, a zprávy o haváriích, které uchovává systém macOS, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS zapisuje pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace, zůstává na místě. Co patří správci, se přesouvá přes pomocníka Peelu."
+            "value" : "Protokoly, které aplikace a služby zapsaly pro všechny účty v tomto Macu, a zprávy o haváriích, které uchovává systém macOS, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS zapisuje pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace nebo co služba zapsala za posledních 15 minut, zůstává na místě. Nabízejí se jen protokoly, nikdy složky, ve kterých jsou, protože služba očekává, že najde složku, do které zapisuje. Co patří správci, se přesouvá přes pomocníka Peelu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokolle, die Apps für jeden Benutzeraccount auf diesem Mac geschrieben haben, und die Absturzberichte, die macOS aufbewahrt, in der Library auf der obersten Ebene des Volumes. Was macOS dort für seine eigenen Dienste schreibt, wird nicht angezeigt, und was eine geöffnete App verwendet, bleibt erhalten. Was einem Administrator gehört, wird über das Hilfsprogramm von Peel verschoben."
+            "value" : "Protokolle, die Apps und Dienste für jeden Benutzeraccount auf diesem Mac geschrieben haben, und die Absturzberichte, die macOS aufbewahrt, in der Library auf der obersten Ebene des Volumes. Was macOS dort für seine eigenen Dienste schreibt, wird nicht angezeigt, und was eine geöffnete App verwendet oder ein Dienst in den letzten 15 Minuten geschrieben hat, bleibt erhalten. Angeboten werden nur die Protokolle, nie die Ordner, in denen sie liegen, da ein Dienst erwartet, den Ordner vorzufinden, in den er schreibt. Was einem Administrator gehört, wird über das Hilfsprogramm von Peel verschoben."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que las apps han escrito para todas las cuentas de este Mac, y los informes de errores que guarda macOS, en la carpeta Biblioteca de la raíz del disco. Lo que macOS escribe ahí para sus propios servicios no se muestra, y lo que usa una app abierta se queda donde está. Lo que pertenece a un administrador se traslada mediante el asistente de Peel."
+            "value" : "Registros que las apps y los servicios han escrito para todas las cuentas de este Mac, y los informes de errores que guarda macOS, en la carpeta Biblioteca de la raíz del disco. Lo que macOS escribe ahí para sus propios servicios no se muestra, y lo que usa una app abierta o lo que un servicio ha escrito en los últimos 15 minutos se queda donde está. Solo se ofrecen los registros, nunca las carpetas en las que están, ya que un servicio espera encontrar la carpeta en la que escribe. Lo que pertenece a un administrador se traslada mediante el asistente de Peel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les historiques que les apps ont écrits pour tous les comptes de ce Mac, et les rapports de blocage que macOS conserve, dans le dossier Bibliothèque à la racine du disque. Ce que macOS y écrit pour ses propres services n’est pas listé, et ce qu’une app ouverte utilise reste en place. Ce qui appartient à un administrateur passe par l’utilitaire de Peel."
+            "value" : "Les historiques que les apps et les services ont écrits pour tous les comptes de ce Mac, et les rapports de blocage que macOS conserve, dans le dossier Bibliothèque à la racine du disque. Ce que macOS y écrit pour ses propres services n’est pas listé, et ce qu’une app ouverte utilise ou ce qu’un service a écrit au cours des 15 dernières minutes reste en place. Seuls les historiques sont proposés, jamais les dossiers qui les contiennent, car un service s’attend à trouver le dossier dans lequel il écrit. Ce qui appartient à un administrateur passe par l’utilitaire de Peel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log che le app hanno scritto per tutti gli account di questo Mac, e i resoconti dei blocchi che macOS conserva, nella cartella Libreria al livello principale del disco. Ciò che macOS scrive lì per i propri servizi non è elencato, e ciò che usa un’app aperta resta al suo posto. Ciò che appartiene a un amministratore viene spostato tramite l’assistente di Peel."
+            "value" : "Log che le app e i servizi hanno scritto per tutti gli account di questo Mac, e i resoconti dei blocchi che macOS conserva, nella cartella Libreria al livello principale del disco. Ciò che macOS scrive lì per i propri servizi non è elencato, e ciò che un’app aperta usa o che un servizio ha scritto negli ultimi 15 minuti resta al suo posto. Vengono proposti solo i log, mai le cartelle che li contengono, perché un servizio si aspetta di trovare la cartella in cui scrive. Ciò che appartiene a un amministratore viene spostato tramite l’assistente di Peel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがこのMacのすべてのアカウントのために書き込んだログと、macOSが保管しているクラッシュレポートで、ディスクの最上位にある“ライブラリ”フォルダにあります。macOSが自身のサービスのためにそこに書き込んでいるものは一覧に表示されず、開いているアプリが使用しているものはそのまま残ります。管理者が所有するものは、Peelのヘルパーを通じてゴミ箱に入れます。"
+            "value" : "アプリやサービスがこのMacのすべてのアカウントのために書き込んだログと、macOSが保管しているクラッシュレポートで、ディスクの最上位にある“ライブラリ”フォルダにあります。macOSが自身のサービスのためにそこに書き込んでいるものは一覧に表示されず、開いているアプリが使用しているものや、過去15分以内にサービスが書き込んだものはそのまま残ります。ゴミ箱に入れる候補になるのはログだけで、ログが入っているフォルダは、サービスが書き込み先としてそこにあるものと想定しているため、決して候補になりません。管理者が所有するものは、Peelのヘルパーを通じてゴミ箱に入れます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 디스크 최상위에 있는 라이브러리에 이 Mac의 모든 계정을 위해 기록한 로그와 macOS가 보관하는 충돌 리포트입니다. macOS가 자체 서비스를 위해 그곳에 기록하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목은 그대로 유지됩니다. 관리자가 소유한 항목은 Peel 보조 프로그램을 통해 이동합니다."
+            "value" : "앱과 서비스가 디스크 최상위에 있는 라이브러리에 이 Mac의 모든 계정을 위해 기록한 로그와 macOS가 보관하는 충돌 리포트입니다. macOS가 자체 서비스를 위해 그곳에 기록하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목이나 최근 15분 이내에 서비스가 기록한 항목은 그대로 유지됩니다. 로그만 제안되며, 로그가 들어 있는 폴더는 절대 제안되지 않습니다. 서비스가 로그를 기록하는 폴더를 찾을 수 있어야 하기 때문입니다. 관리자가 소유한 항목은 Peel 보조 프로그램을 통해 이동합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logs die apps voor elke account op deze Mac hebben geschreven, en de crashrapporten die macOS bewaart, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten schrijft, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
+            "value" : "Logs die apps en diensten voor elke account op deze Mac hebben geschreven, en de crashrapporten die macOS bewaart, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten schrijft, wordt niet getoond, en wat een geopende app gebruikt of een dienst in de afgelopen 15 minuten heeft geschreven, blijft staan. Alleen de logs worden aangeboden, nooit de mappen waarin ze staan, want een dienst verwacht de map te vinden waarin hij schrijft. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dzienniki zapisane przez aplikacje dla wszystkich kont na tym Macu oraz raporty o awariach przechowywane przez macOS, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS zapisuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, zostaje na miejscu. To, co należy do administratora, przenosi pomocnik Peel."
+            "value" : "Dzienniki zapisane przez aplikacje i usługi dla wszystkich kont na tym Macu oraz raporty o awariach przechowywane przez macOS, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS zapisuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, lub to, co usługa zapisała w ciągu ostatnich 15 minut, zostaje na miejscu. Proponowane są tylko dzienniki, nigdy foldery nadrzędne, ponieważ usługa spodziewa się znaleźć folder, w którym zapisuje dziennik. To, co należy do administratora, przenosi pomocnik Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que os apps gravaram para todas as contas deste Mac, e os relatórios de falha que o macOS mantém, na Biblioteca que fica no nível superior do disco. O que o macOS grava ali para os próprios serviços não é listado, e o que um app aberto usa permanece. O que pertence a um administrador passa pelo auxiliar do Peel."
+            "value" : "Registros que os apps e os serviços gravaram para todas as contas deste Mac, e os relatórios de falha que o macOS mantém, na Biblioteca que fica no nível superior do disco. O que o macOS grava ali para os próprios serviços não é listado, e o que um app aberto usa ou o que um serviço gravou nos últimos 15 minutos permanece. Só os registros são oferecidos, nunca as pastas em que eles ficam, já que um serviço espera encontrar a pasta em que grava. O que pertence a um administrador passa pelo auxiliar do Peel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jurnale scrise de aplicații pentru toate conturile de pe acest Mac și rapoartele de oprire subită pe care le păstrează macOS, în dosarul Bibliotecă de la rădăcina discului. Ce scrie macOS acolo pentru propriile servicii nu este listat, iar ce folosește o aplicație deschisă rămâne pe loc. Ce deține un administrator este mutat prin instrumentul de ajutor Peel."
+            "value" : "Jurnale scrise de aplicații și servicii pentru toate conturile de pe acest Mac și rapoartele de oprire subită pe care le păstrează macOS, în dosarul Bibliotecă de la rădăcina discului. Ce scrie macOS acolo pentru propriile servicii nu este listat, iar ce folosește o aplicație deschisă sau ce a scris un serviciu în ultimele 15 minute rămâne pe loc. Sunt propuse doar jurnalele, niciodată dosarele în care se află, deoarece un serviciu se așteaptă să găsească dosarul în care scrie. Ce deține un administrator este mutat prin instrumentul de ajutor Peel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журналы, которые приложения записали для всех учетных записей на этом Mac, и отчеты о сбоях, которые хранит macOS, в папке «Библиотека» в корне диска. То, что macOS записывает там для своих служб, не показывается, а то, что использует открытое приложение, остается на месте. То, чем владеет администратор, перемещается через помощника Peel."
+            "value" : "Журналы, которые приложения и службы записали для всех учетных записей на этом Mac, и отчеты о сбоях, которые хранит macOS, в папке «Библиотека» в корне диска. То, что macOS записывает там для своих служб, не показывается, а то, что использует открытое приложение или что служба записала за последние 15 минут, остается на месте. Предлагаются только сами журналы и никогда не папки, в которых они лежат, поскольку служба рассчитывает найти папку, в которую пишет. То, чем владеет администратор, перемещается через помощника Peel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loggar som appar har skrivit för alla konton på den här datorn, och de kraschrapporter som macOS sparar, i mappen Bibliotek på skivans översta nivå. Det som macOS skriver där för sina egna tjänster visas inte, och det som en öppen app använder stannar kvar. Det som en administratör äger går via Peels hjälpprogram."
+            "value" : "Loggar som appar och tjänster har skrivit för alla konton på den här datorn, och de kraschrapporter som macOS sparar, i mappen Bibliotek på skivans översta nivå. Det som macOS skriver där för sina egna tjänster visas inte, och det som en öppen app använder eller som en tjänst har skrivit under de senaste 15 minuterna stannar kvar. Bara loggarna erbjuds, aldrig mapparna som de ligger i, eftersom en tjänst förväntar sig att hitta mappen som den skriver i. Det som en administratör äger går via Peels hjälpprogram."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaların bu Mac’teki her hesap için, diskin en üstündeki Kitaplık klasörüne yazdığı günlükler ve macOS’in orada tuttuğu çökme raporları. macOS’in orada kendi hizmetleri için yazdıkları listelenmez ve açık bir uygulamanın kullandıkları yerinde kalır. Bir yöneticinin sahip oldukları Peel’in yardımcısı aracılığıyla taşınır."
+            "value" : "Uygulamaların ve hizmetlerin bu Mac’teki her hesap için, diskin en üstündeki Kitaplık klasörüne yazdığı günlükler ve macOS’in orada tuttuğu çökme raporları. macOS’in orada kendi hizmetleri için yazdıkları listelenmez; açık bir uygulamanın kullandıkları veya bir hizmetin son 15 dakika içinde yazdıkları yerinde kalır. Yalnızca günlükler sunulur; içinde bulundukları klasörler ise hiçbir zaman sunulmaz, çünkü bir hizmet, yazdığı klasörü orada bulmayı bekler. Bir yöneticinin sahip oldukları Peel’in yardımcısı aracılığıyla taşınır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журнали, які програми записали для всіх облікових записів на цьому Mac, і звіти про аварії, які зберігає macOS, у Бібліотеці на верхньому рівні диска. Те, що macOS записує там для власних служб, не показується, а те, чим користується відкрита програма, лишається. Те, що належить адміністратору, переміщується через помічника Peel."
+            "value" : "Журнали, які програми та служби записали для всіх облікових записів на цьому Mac, і звіти про аварії, які зберігає macOS, у Бібліотеці на верхньому рівні диска. Те, що macOS записує там для власних служб, не показується, а те, чим користується відкрита програма, або те, що служба записала за останні 15 хвилин, лишається. Пропонуються лише самі журнали, ніколи не папки, у яких вони лежать, бо служба розраховує знайти папку, у яку записує. Те, що належить адміністратору, переміщується через помічника Peel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App在磁盘顶层的资源库中为这台Mac上的所有账户写入的日志，以及macOS在那里保留的崩溃报告。macOS为其自身服务在那里写入的内容不会列出，已打开的App正在使用的内容会保留。管理员拥有的内容会通过Peel的帮助程序移除。"
+            "value" : "App和服务在磁盘顶层的资源库中为这台Mac上的所有账户写入的日志，以及macOS在那里保留的崩溃报告。macOS为其自身服务在那里写入的内容不会列出，已打开的App正在使用的内容或服务在过去15分钟内写入的内容会保留。只会列出日志以供移除，绝不会列出它们所在的文件夹，因为服务需要它写入日志的文件夹存在。管理员拥有的内容会通过Peel的帮助程序移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App為這部Mac上的所有帳號寫入的記錄檔，以及macOS保留的當機報告，位於磁碟最上層的「資源庫」中。macOS為其自身服務寫入那裡的內容不會列出，打開中的App正在使用的內容會保留。管理者擁有的項目會透過Peel的輔助程式移動。"
+            "value" : "App和服務為這部Mac上的所有帳號寫入的記錄檔，以及macOS保留的當機報告，位於磁碟最上層的「資源庫」中。macOS為其自身服務寫入那裡的內容不會列出，打開中的App正在使用的內容，或服務在過去15分鐘內寫入的內容會保留。只會列出記錄檔供你移除，絕不會列出它們所在的檔案夾，因為服務預期它寫入的檔案夾存在。管理者擁有的項目會透過Peel的輔助程式移動。"
           }
         }
       }
@@ -204610,108 +204611,109 @@
         }
       }
     },
-    "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper." : {
+    "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. What an administrator owns goes through Peel’s helper." : {
+      "comment" : "The description of a Space area. The helper is Peel's small tool with administrator rights.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co aplikace uložily do mezipaměti pro všechny účty v tomto Macu, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS uchovává pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace, zůstává na místě. Co patří správci, se přesouvá přes pomocníka Peelu."
+            "value" : "Co aplikace uložily do mezipaměti pro všechny účty v tomto Macu, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS uchovává pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace nebo co služba zapsala za posledních 15 minut, zůstává na místě. Co patří správci, se přesouvá přes pomocníka Peelu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was Apps für jeden Benutzeraccount auf diesem Mac zwischengespeichert haben, in der Library auf der obersten Ebene des Volumes. Was macOS dort für seine eigenen Dienste aufbewahrt, wird nicht angezeigt, und was eine geöffnete App verwendet, bleibt erhalten. Was einem Administrator gehört, wird über das Hilfsprogramm von Peel verschoben."
+            "value" : "Was Apps für jeden Benutzeraccount auf diesem Mac zwischengespeichert haben, in der Library auf der obersten Ebene des Volumes. Was macOS dort für seine eigenen Dienste aufbewahrt, wird nicht angezeigt, und was eine geöffnete App verwendet oder ein Dienst in den letzten 15 Minuten geschrieben hat, bleibt erhalten. Was einem Administrator gehört, wird über das Hilfsprogramm von Peel verschoben."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que las apps han guardado en caché para todas las cuentas de este Mac, en la carpeta Biblioteca de la raíz del disco. Lo que macOS guarda ahí para sus propios servicios no se muestra, y lo que usa una app abierta se queda donde está. Lo que pertenece a un administrador se traslada mediante el asistente de Peel."
+            "value" : "Lo que las apps han guardado en caché para todas las cuentas de este Mac, en la carpeta Biblioteca de la raíz del disco. Lo que macOS guarda ahí para sus propios servicios no se muestra, y lo que usa una app abierta o lo que un servicio ha escrito en los últimos 15 minutos se queda donde está. Lo que pertenece a un administrador se traslada mediante el asistente de Peel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que les apps ont mis en cache pour tous les comptes de ce Mac, dans le dossier Bibliothèque à la racine du disque. Ce que macOS y conserve pour ses propres services n’est pas listé, et ce qu’une app ouverte utilise reste en place. Ce qui appartient à un administrateur passe par l’utilitaire de Peel."
+            "value" : "Ce que les apps ont mis en cache pour tous les comptes de ce Mac, dans le dossier Bibliothèque à la racine du disque. Ce que macOS y conserve pour ses propres services n’est pas listé, et ce qu’une app ouverte utilise ou ce qu’un service a écrit au cours des 15 dernières minutes reste en place. Ce qui appartient à un administrateur passe par l’utilitaire de Peel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciò che le app hanno messo in cache per tutti gli account di questo Mac, nella cartella Libreria al livello principale del disco. Ciò che macOS conserva lì per i propri servizi non è elencato, e ciò che usa un’app aperta resta al suo posto. Ciò che appartiene a un amministratore viene spostato tramite l’assistente di Peel."
+            "value" : "Ciò che le app hanno messo in cache per tutti gli account di questo Mac, nella cartella Libreria al livello principale del disco. Ciò che macOS conserva lì per i propri servizi non è elencato, e ciò che un’app aperta usa o che un servizio ha scritto negli ultimi 15 minuti resta al suo posto. Ciò che appartiene a un amministratore viene spostato tramite l’assistente di Peel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがこのMacのすべてのアカウントのためにキャッシュしたもので、ディスクの最上位にある“ライブラリ”フォルダにあります。macOSが自身のサービスのためにそこに保管しているものは一覧に表示されず、開いているアプリが使用しているものはそのまま残ります。管理者が所有するものは、Peelのヘルパーを通じてゴミ箱に入れます。"
+            "value" : "アプリがこのMacのすべてのアカウントのためにキャッシュしたもので、ディスクの最上位にある“ライブラリ”フォルダにあります。macOSが自身のサービスのためにそこに保管しているものは一覧に表示されず、開いているアプリが使用しているものや、過去15分以内にサービスが書き込んだものはそのまま残ります。管理者が所有するものは、Peelのヘルパーを通じてゴミ箱に入れます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 디스크 최상위에 있는 라이브러리에 이 Mac의 모든 계정을 위해 캐시한 항목입니다. macOS가 자체 서비스를 위해 그곳에 보관하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목은 그대로 유지됩니다. 관리자가 소유한 항목은 Peel 보조 프로그램을 통해 이동합니다."
+            "value" : "앱이 디스크 최상위에 있는 라이브러리에 이 Mac의 모든 계정을 위해 캐시한 항목입니다. macOS가 자체 서비스를 위해 그곳에 보관하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목이나 최근 15분 이내에 서비스가 기록한 항목은 그대로 유지됩니다. 관리자가 소유한 항목은 Peel 보조 프로그램을 통해 이동합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat apps voor elke account op deze Mac in de cache hebben gezet, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
+            "value" : "Wat apps voor elke account op deze Mac in de cache hebben gezet, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt of een dienst in de afgelopen 15 minuten heeft geschreven, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To, co aplikacje zapisały w pamięci podręcznej dla wszystkich kont na tym Macu, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS przechowuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, zostaje na miejscu. To, co należy do administratora, przenosi pomocnik Peel."
+            "value" : "To, co aplikacje zapisały w pamięci podręcznej dla wszystkich kont na tym Macu, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS przechowuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, lub to, co usługa zapisała w ciągu ostatnich 15 minut, zostaje na miejscu. To, co należy do administratora, przenosi pomocnik Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que os apps guardaram em cache para todas as contas deste Mac, na Biblioteca que fica no nível superior do disco. O que o macOS mantém ali para os próprios serviços não é listado, e o que um app aberto usa permanece. O que pertence a um administrador passa pelo auxiliar do Peel."
+            "value" : "O que os apps guardaram em cache para todas as contas deste Mac, na Biblioteca que fica no nível superior do disco. O que o macOS mantém ali para os próprios serviços não é listado, e o que um app aberto usa ou o que um serviço gravou nos últimos 15 minutos permanece. O que pertence a um administrador passa pelo auxiliar do Peel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tot ce au păstrat aplicațiile în memoria tampon pentru toate conturile de pe acest Mac, în dosarul Bibliotecă de la rădăcina discului. Ce păstrează macOS acolo pentru propriile servicii nu este listat, iar ce folosește o aplicație deschisă rămâne pe loc. Ce deține un administrator este mutat prin instrumentul de ajutor Peel."
+            "value" : "Tot ce au păstrat aplicațiile în memoria tampon pentru toate conturile de pe acest Mac, în dosarul Bibliotecă de la rădăcina discului. Ce păstrează macOS acolo pentru propriile servicii nu este listat, iar ce folosește o aplicație deschisă sau ce a scris un serviciu în ultimele 15 minute rămâne pe loc. Ce deține un administrator este mutat prin instrumentul de ajutor Peel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все, что приложения кэшировали для всех учетных записей на этом Mac, в папке «Библиотека» в корне диска. То, что macOS хранит там для своих служб, не показывается, а то, что использует открытое приложение, остается на месте. То, чем владеет администратор, перемещается через помощника Peel."
+            "value" : "Все, что приложения кэшировали для всех учетных записей на этом Mac, в папке «Библиотека» в корне диска. То, что macOS хранит там для своих служб, не показывается, а то, что использует открытое приложение или что служба записала за последние 15 минут, остается на месте. То, чем владеет администратор, перемещается через помощника Peel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som appar har cachat för alla konton på den här datorn, i mappen Bibliotek på skivans översta nivå. Det som macOS sparar där för sina egna tjänster visas inte, och det som en öppen app använder stannar kvar. Det som en administratör äger går via Peels hjälpprogram."
+            "value" : "Det som appar har cachat för alla konton på den här datorn, i mappen Bibliotek på skivans översta nivå. Det som macOS sparar där för sina egna tjänster visas inte, och det som en öppen app använder eller som en tjänst har skrivit under de senaste 15 minuterna stannar kvar. Det som en administratör äger går via Peels hjälpprogram."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaların bu Mac’teki her hesap için, diskin en üstündeki Kitaplık klasöründe önbelleğe aldıkları. macOS’in orada kendi hizmetleri için tuttukları listelenmez ve açık bir uygulamanın kullandıkları yerinde kalır. Bir yöneticinin sahip oldukları Peel’in yardımcısı aracılığıyla taşınır."
+            "value" : "Uygulamaların bu Mac’teki her hesap için, diskin en üstündeki Kitaplık klasöründe önbelleğe aldıkları. macOS’in orada kendi hizmetleri için tuttukları listelenmez; açık bir uygulamanın kullandıkları veya bir hizmetin son 15 dakika içinde yazdıkları yerinde kalır. Bir yöneticinin sahip oldukları Peel’in yardımcısı aracılığıyla taşınır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що програми кешували для всіх облікових записів на цьому Mac, у Бібліотеці на верхньому рівні диска. Те, що macOS зберігає там для власних служб, не показується, а те, чим користується відкрита програма, лишається. Те, що належить адміністратору, переміщується через помічника Peel."
+            "value" : "Те, що програми кешували для всіх облікових записів на цьому Mac, у Бібліотеці на верхньому рівні диска. Те, що macOS зберігає там для власних служб, не показується, а те, чим користується відкрита програма, або те, що служба записала за останні 15 хвилин, лишається. Те, що належить адміністратору, переміщується через помічника Peel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App在磁盘顶层的资源库中为这台Mac上的所有账户缓存的内容。macOS为其自身服务保留在那里的内容不会列出，已打开的App正在使用的内容会保留。管理员拥有的内容会通过Peel的帮助程序移除。"
+            "value" : "App在磁盘顶层的资源库中为这台Mac上的所有账户缓存的内容。macOS为其自身服务保留在那里的内容不会列出，已打开的App正在使用的内容或服务在过去15分钟内写入的内容会保留。管理员拥有的内容会通过Peel的帮助程序移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App為這部Mac上的所有帳號儲存的快取，位於磁碟最上層的「資源庫」中。macOS為其自身服務保留在那裡的內容不會列出，打開中的App正在使用的內容會保留。管理者擁有的項目會透過Peel的輔助程式移動。"
+            "value" : "App為這部Mac上的所有帳號儲存的快取，位於磁碟最上層的「資源庫」中。macOS為其自身服務保留在那裡的內容不會列出，打開中的App正在使用的內容，或服務在過去15分鐘內寫入的內容會保留。管理者擁有的項目會透過Peel的輔助程式移動。"
           }
         }
       }

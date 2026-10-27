@@ -379,12 +379,15 @@ public enum SpaceInventory {
             handling: .trash,
             heldBack: .sharedWithEveryone
         ),
+        // Services that run as root write here, and Peel can't see what they hold open, so what one wrote in the last
+        // minutes stays, and a log's folder, which launchd never makes again, is never offered whole.
         Definition(
             id: "system-caches",
             category: .library,
             paths: ["/Library/Caches"],
             handling: .trash,
-            leavesMacOSsOwn: true
+            leavesMacOSsOwn: true,
+            holdsBackRecentWrites: true
         ),
         Definition(
             id: "system-logs",
@@ -392,7 +395,9 @@ public enum SpaceInventory {
             paths: ["/Library/Logs", "/Library/Logs/DiagnosticReports"],
             handling: .trash,
             leavesMacOSsOwn: true,
-            onlyFilesIn: ["/Library/Logs/DiagnosticReports"]
+            holdsBackRecentWrites: true,
+            onlyFilesIn: ["/Library/Logs/DiagnosticReports"],
+            keepsItsFolders: true
         ),
         // Homebrew's services write their logs in its `var/log`, some in a folder of their own, such as nginx's.
         // `brew services start` makes such a folder, and launchd makes a missing log file again but never a folder

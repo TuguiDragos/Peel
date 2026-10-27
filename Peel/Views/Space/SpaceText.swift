@@ -175,11 +175,11 @@ nonisolated extension SpaceItem {
         ),
         "system-caches": Words(
             title: "Caches for All Users",
-            detail: "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper."
+            detail: "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. What an administrator owns goes through Peel’s helper."
         ),
         "system-logs": Words(
             title: "Logs for All Users",
-            detail: "Logs that apps wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses stays. What an administrator owns goes through Peel’s helper."
+            detail: "Logs that apps and services wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in. What an administrator owns goes through Peel’s helper."
         ),
         "homebrew-logs": Words(
             title: "Homebrew Service Logs",

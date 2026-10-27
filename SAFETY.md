@@ -187,9 +187,11 @@ disk image that is open right now, which macOS's disk image service holds under 
 The folder your account's crash reports are saved in, `~/Library/Logs/DiagnosticReports`, never moves: macOS's
 analytics helper can't make it again once it is gone, and crash reports would stop being saved. Space offers only
 the reports in it, as it does in `/Library/Logs/DiagnosticReports`. In `/opt/homebrew/var/log`, where Homebrew's
-services write their logs, Space offers files alone, those in the folders there included, and never a folder:
-`brew services start` makes the folder a service logs into, and launchd makes a missing log file again but never a
-missing folder, so a service whose folder had gone would not start at the next login.
+services write their logs, and in `/Library/Logs`, where services that run as root write theirs, Space offers files
+alone, those in the folders there included, and never a folder: a service's installer or `brew services start`
+makes the folder it logs into, and launchd makes a missing log file again but never a missing folder, so a service
+whose folder had gone would not start at the next login. Peel can't see what such a service holds open, so in
+those places and in `/Library/Caches` what was written in the last 15 minutes stays.
 
 A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a

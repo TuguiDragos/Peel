@@ -254,6 +254,37 @@ struct SpaceRemovalTests {
         }
     }
 
+    @Test func holdsBackWhatAServiceWroteForAllUsersAndKeepsItsLogFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let anHourAgo = Date.now.addingTimeInterval(-3600)
+        try directory.file("root/Library/Caches/org.example.busy/data.db")
+        try directory.file("root/Library/Logs/org.example.service/service.log")
+        for path in ["root/Library/Caches/org.example.idle/data.db", "root/Library/Logs/org.example.service/old.log"] {
+            let file = try directory.file(path)
+            for url in [file, file.deletingLastPathComponent()] where !url.lastPathComponent.hasPrefix("org.example.service") {
+                try FileManager.default.setAttributes(
+                    [.modificationDate: anHourAgo], ofItemAtPath: url.path(percentEncoded: false)
+                )
+            }
+        }
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: LeftoverScanner.walk
+        )
+
+        let caches = try #require(report.items.first { $0.id == "system-caches" })
+        let cachePlan = await SpaceRemoval.plan(for: caches, environment: environment(directory), running: [:])
+        let busy = try #require(cachePlan.removable.first { $0.lastPathComponent == "org.example.busy" })
+        #expect(cachePlan.heldBack[busy] == .writtenRecently)
+        #expect(cachePlan.suggested.contains { $0.lastPathComponent == "org.example.idle" })
+
+        let logs = try #require(report.items.first { $0.id == "system-logs" })
+        let logPlan = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
+        #expect(logPlan.removable.map(\.lastPathComponent).sorted() == ["old.log", "service.log"])
+        #expect(logPlan.heldBack.filter { $0.value == .writtenRecently }.map(\.key.lastPathComponent) == ["service.log"])
+    }
+
     @Test func leavesICloudsOwnStateInTheCachesAlone() async throws {
         let directory = try TemporaryDirectory()
         let state = ["CloudKit", "com.apple.bird", "com.apple.FileProviderDaemon.AppStoreService"]
