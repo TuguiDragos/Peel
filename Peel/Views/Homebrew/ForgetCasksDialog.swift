@@ -16,8 +16,8 @@ struct ForgetCasksDialog: ViewModifier {
                 Button("Cancel", role: .cancel) {}
             } message: { casks in
                 casks.count == 1
-                    ? Text("Its Homebrew receipt goes to the Trash with the links Homebrew made into it, so Homebrew stops listing it. History can put it back.")
-                    : Text("Their Homebrew receipts go to the Trash with the links Homebrew made into them, so Homebrew stops listing them. History can put them back.")
+                    ? Text("Its Homebrew receipt goes to the Trash with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back.")
+                    : Text("Their Homebrew receipts go to the Trash with the links Homebrew made into them in its command and completion folders, so Homebrew stops listing them. History can put them back.")
             }
     }
 

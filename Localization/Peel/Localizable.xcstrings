@@ -58543,108 +58543,109 @@
         }
       }
     },
-    "Homebrew still lists these casks, but what they installed isn’t where Homebrew put it anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it, so Homebrew stops listing it. History can put it back." : {
+    "Homebrew still lists these casks, but what they installed isn’t where Homebrew put it anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back." : {
+      "comment" : "On the Homebrew page, about forgetting a cask whose app is gone. Its command and completion folders are the folders Homebrew links a cask's commands and shell completions into.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tyto casks stále uvádí, ale to, co nainstalovaly, už není tam, kam to Homebrew umístil, takže je nemůže upgradovat. Když cask zapomenete, jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
+            "value" : "Homebrew tyto casks stále uvádí, ale to, co nainstalovaly, už není tam, kam to Homebrew umístil, takže je nemůže upgradovat. Když cask zapomenete, jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil ve svých složkách pro příkazy a doplňování, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew führt diese Casks weiterhin, aber was sie installiert haben, ist nicht mehr dort, wo Homebrew es abgelegt hat, daher kann Homebrew sie nicht upgraden. Beim Vergessen eines Casks wird seine Homebrew-Quittung zusammen mit den von Homebrew angelegten Links, die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
+            "value" : "Homebrew führt diese Casks weiterhin, aber was sie installiert haben, ist nicht mehr dort, wo Homebrew es abgelegt hat, daher kann Homebrew sie nicht upgraden. Beim Vergessen eines Casks wird seine Homebrew-Quittung zusammen mit den Links, die Homebrew in seinen Ordnern für Befehle und Shell-Vervollständigungen angelegt hat und die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew sigue mostrando estos casks, pero lo que instalaron ya no está donde Homebrew lo puso, así que no puede actualizarlos. Al olvidar un cask, su recibo de Homebrew se traslada a la papelera, junto con los enlaces que Homebrew creó hacia él, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
+            "value" : "Homebrew sigue mostrando estos casks, pero lo que instalaron ya no está donde Homebrew lo puso, así que no puede actualizarlos. Al olvidar un cask, su recibo de Homebrew se traslada a la papelera, junto con los enlaces que Homebrew creó hacia él en sus carpetas de comandos y de autocompletado, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew liste encore ces casks, mais ce qu’ils ont installé ne se trouve plus là où Homebrew l’a placé, si bien qu’il ne peut pas les mettre à niveau. Oublier un cask place son reçu Homebrew dans la corbeille, avec les liens que Homebrew a créés vers ce reçu : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
+            "value" : "Homebrew liste encore ces casks, mais ce qu’ils ont installé ne se trouve plus là où Homebrew l’a placé, si bien qu’il ne peut pas les mettre à niveau. Oublier un cask place son reçu Homebrew dans la corbeille, avec les liens que Homebrew a créés vers ce reçu dans ses dossiers de commandes et de complétions : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew elenca ancora questi casks, ma ciò che hanno installato non è più dove Homebrew l’aveva messo, quindi non può aggiornarli. Dimenticare un cask sposta la sua ricevuta Homebrew nel Cestino, insieme ai link che Homebrew ha creato verso di essa, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
+            "value" : "Homebrew elenca ancora questi casks, ma ciò che hanno installato non è più dove Homebrew l’aveva messo, quindi non può aggiornarli. Dimenticare un cask sposta la sua ricevuta Homebrew nel Cestino, insieme ai link che Homebrew ha creato verso di essa nelle sue cartelle dei comandi e dei completamenti, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewはこれらのcasksを引き続き一覧に表示していますが、インストールされたものはもうHomebrewがインストールした場所にないため、アップグレードできません。caskのHomebrewレシートをゴミ箱に入れると、Homebrewが作成した、レシート内へのリンクも一緒にゴミ箱に入り、Homebrewはそのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
+            "value" : "Homebrewはこれらのcasksを引き続き一覧に表示していますが、インストールされたものはもうHomebrewがインストールした場所にないため、アップグレードできません。caskのHomebrewレシートをゴミ箱に入れると、Homebrewがコマンド用とシェル補完用のフォルダに作成した、レシート内へのリンクも一緒にゴミ箱に入り、Homebrewはそのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask가 설치한 항목이 더 이상 Homebrew가 설치한 위치에 없으므로 업그레이드할 수 없습니다. cask의 Homebrew 수신 정보를 제거하면 수신 정보와 그 안으로 연결되도록 Homebrew가 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 해당 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask가 설치한 항목이 더 이상 Homebrew가 설치한 위치에 없으므로 업그레이드할 수 없습니다. cask의 Homebrew 수신 정보를 제거하면 수신 정보와, 그 안으로 연결되도록 Homebrew가 명령 폴더와 자동 완성 폴더에 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 해당 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew vermeldt deze casks nog, maar wat ze hebben geïnstalleerd, staat niet meer waar Homebrew het heeft neergezet, dus Homebrew kan ze niet upgraden. Als je een cask vergeet, gaat het Homebrew-bewijs naar de prullenmand, samen met de links die Homebrew ernaar heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
+            "value" : "Homebrew vermeldt deze casks nog, maar wat ze hebben geïnstalleerd, staat niet meer waar Homebrew het heeft neergezet, dus Homebrew kan ze niet upgraden. Als je een cask vergeet, gaat het Homebrew-bewijs naar de prullenmand, samen met de links ernaar die Homebrew in zijn mappen voor commando's en shell-aanvullingen heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew nadal wymienia te casks, ale tego, co zainstalowały, nie ma już tam, gdzie Homebrew to umieścił, więc nie może ich uaktualnić. Zapomnienie cask przenosi jego potwierdzenie Homebrew do Kosza razem z dowiązaniami, które Homebrew do niego utworzył, więc Homebrew przestaje go wymieniać. Historia może to przywrócić."
+            "value" : "Homebrew nadal wymienia te casks, ale tego, co zainstalowały, nie ma już tam, gdzie Homebrew to umieścił, więc nie może ich uaktualnić. Zapomnienie cask przenosi jego potwierdzenie Homebrew do Kosza razem z dowiązaniami, które Homebrew do niego utworzył w swoich folderach poleceń i uzupełnień powłoki, więc Homebrew przestaje go wymieniać. Historia może to przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew ainda lista estes casks, mas o que eles instalaram não está mais onde o Homebrew colocou, então ele não consegue fazer upgrade deles. Esquecer um cask move para o Lixo o recibo do Homebrew dele, junto com os links que o Homebrew criou apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
+            "value" : "O Homebrew ainda lista estes casks, mas o que eles instalaram não está mais onde o Homebrew colocou, então ele não consegue fazer upgrade deles. Esquecer um cask move para o Lixo o recibo do Homebrew dele, junto com os links que o Homebrew criou nas pastas de comandos e de autocompletar apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listează în continuare aceste cask‑uri, dar ceea ce au instalat nu mai este unde l‑a pus Homebrew, așa că nu le poate face upgrade. Dacă uitați un cask, recipisa Homebrew a acestuia este mutată în Coș, împreună cu linkurile create de Homebrew care duc în ea, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+            "value" : "Homebrew listează în continuare aceste cask‑uri, dar ceea ce au instalat nu mai este unde l‑a pus Homebrew, așa că nu le poate face upgrade. Dacă uitați un cask, recipisa Homebrew a acestuia este mutată în Coș, împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew по-прежнему считает эти casks установленными, но того, что они установили, больше нет там, куда это поместил Homebrew, поэтому он не может их обновить. Если забыть cask, его квитанция Homebrew переместится в Корзину вместе со ссылками на нее, которые создал Homebrew, и Homebrew перестанет считать его установленным. История может ее восстановить."
+            "value" : "Homebrew по-прежнему считает эти casks установленными, но того, что они установили, больше нет там, куда это поместил Homebrew, поэтому он не может их обновить. Если забыть cask, его квитанция Homebrew переместится в Корзину вместе со ссылками на нее, которые Homebrew создал в своих папках для команд и автодополнения, и Homebrew перестанет считать его установленным. История может ее восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listar fortfarande dessa casks, men det som de installerade finns inte längre där Homebrew placerade det, så Homebrew kan inte uppgradera dem. Om du glömmer en cask flyttas dess Homebrew-kvitto till papperskorgen, tillsammans med länkarna som Homebrew har skapat till det, så Homebrew listar inte längre casken. Historik kan lägga tillbaka det."
+            "value" : "Homebrew listar fortfarande dessa casks, men det som de installerade finns inte längre där Homebrew placerade det, så Homebrew kan inte uppgradera dem. Om du glömmer en cask flyttas dess Homebrew-kvitto till papperskorgen, tillsammans med länkarna som Homebrew har skapat till det i sina mappar för kommandon och kompletteringar, så Homebrew listar inte längre casken. Historik kan lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew bu cask paketlerini hâlâ listeliyor, ancak yükledikleri artık Homebrew’un koyduğu yerde değil, bu yüzden Homebrew onları yükseltemiyor. Bir cask unutulduğunda ona ait Homebrew makbuzu, Homebrew’un oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne taşınır; böylece Homebrew o cask paketini artık listelemez. Geçmiş onu yerine koyabilir."
+            "value" : "Homebrew bu cask paketlerini hâlâ listeliyor, ancak yükledikleri artık Homebrew’un koyduğu yerde değil, bu yüzden Homebrew onları yükseltemiyor. Bir cask unutulduğunda ona ait Homebrew makbuzu, Homebrew’un komut ve tamamlama klasörlerinde oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne taşınır; böylece Homebrew o cask paketini artık listelemez. Geçmiş onu yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew досі показує ці casks у своєму списку, але того, що вони інсталювали, уже немає там, куди це поклав Homebrew, тож він не може їх оновити. Якщо забути cask, його квитанцію Homebrew буде переміщено в Смітник разом із посиланнями на неї, які створив Homebrew, і Homebrew перестане показувати цей cask у своєму списку. Історія може це повернути."
+            "value" : "Homebrew досі показує ці casks у своєму списку, але того, що вони інсталювали, уже немає там, куди це поклав Homebrew, тож він не може їх оновити. Якщо забути cask, його квитанцію Homebrew буде переміщено в Смітник разом із посиланнями на неї, які Homebrew створив у своїх папках для команд і доповнень оболонки, і Homebrew перестане показувати цей cask у своєму списку. Історія може це повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍然列出这些casks，但它们安装的内容已不在Homebrew当初放置的位置，因此Homebrew无法升级它们。移除cask的记录会将其Homebrew回执连同Homebrew创建的指向其中的链接一起移到废纸篓，这样Homebrew就不再列出该cask。“历史记录”可以将其放回原处。"
+            "value" : "Homebrew仍然列出这些casks，但它们安装的内容已不在Homebrew当初放置的位置，因此Homebrew无法升级它们。移除cask的记录会将其Homebrew回执连同Homebrew在命令和补全文件夹中创建的、指向其中的链接一起移到废纸篓，这样Homebrew就不再列出该cask。“历史记录”可以将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍列出這些cask，但它們所安裝的內容已不在Homebrew當初放置的位置，因此Homebrew無法升級它們。移除cask會將它的Homebrew收據連同Homebrew建立、指向其中的連結一起丟到「垃圾桶」，Homebrew就不再列出它。「歷史記錄」可以將它還原。"
+            "value" : "Homebrew仍列出這些cask，但它們所安裝的內容已不在Homebrew當初放置的位置，因此Homebrew無法升級它們。移除cask會將它的Homebrew收據，連同Homebrew在其指令與補齊檔案夾中建立、指向收據內的連結，一起丟到「垃圾桶」，Homebrew就不再列出它。「歷史記錄」可以將它還原。"
           }
         }
       }
@@ -71308,108 +71309,109 @@
         }
       }
     },
-    "Its Homebrew receipt goes to the Trash with the links Homebrew made into it, so Homebrew stops listing it. History can put it back." : {
+    "Its Homebrew receipt goes to the Trash with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back." : {
+      "comment" : "On the Homebrew page, about forgetting a cask whose app is gone. Its command and completion folders are the folders Homebrew links a cask's commands and shell completions into.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
+            "value" : "Jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil ve svých složkách pro příkazy a doplňování, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Homebrew-Quittung des Casks wird zusammen mit den von Homebrew angelegten Links, die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
+            "value" : "Die Homebrew-Quittung des Casks wird zusammen mit den Links, die Homebrew in seinen Ordnern für Befehle und Shell-Vervollständigungen angelegt hat und die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su recibo de Homebrew va a la papelera con los enlaces que Homebrew creó hacia él, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
+            "value" : "Su recibo de Homebrew va a la papelera con los enlaces que Homebrew creó hacia él en sus carpetas de comandos y de autocompletado, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son reçu Homebrew est placé dans la corbeille avec les liens que Homebrew a créés vers ce reçu : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
+            "value" : "Son reçu Homebrew est placé dans la corbeille avec les liens que Homebrew a créés vers ce reçu dans ses dossiers de commandes et de complétions : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La sua ricevuta Homebrew va nel Cestino insieme ai link che Homebrew ha creato verso di essa, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
+            "value" : "La sua ricevuta Homebrew va nel Cestino insieme ai link che Homebrew ha creato verso di essa nelle sue cartelle dei comandi e dei completamenti, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このcaskのHomebrewレシートは、Homebrewが作成した、レシート内へのリンクと一緒にゴミ箱に入るため、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
+            "value" : "このcaskのHomebrewレシートは、Homebrewがコマンド用とシェル補完用のフォルダに作成した、レシート内へのリンクと一緒にゴミ箱に入るため、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 cask의 Homebrew 수신 정보와 그 안으로 연결되도록 Homebrew가 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "이 cask의 Homebrew 수신 정보와, 그 안으로 연결되도록 Homebrew가 명령 폴더와 자동 완성 폴더에 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het Homebrew-bewijs gaat naar de prullenmand, samen met de links die Homebrew ernaar heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
+            "value" : "Het Homebrew-bewijs gaat naar de prullenmand, samen met de links ernaar die Homebrew in zijn mappen voor commando's en shell-aanvullingen heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jego potwierdzenie Homebrew trafi do Kosza razem z dowiązaniami, które Homebrew do niego utworzył, więc Homebrew przestanie go wymieniać. Historia może to przywrócić."
+            "value" : "Jego potwierdzenie Homebrew trafi do Kosza razem z dowiązaniami, które Homebrew do niego utworzył w swoich folderach poleceń i uzupełnień powłoki, więc Homebrew przestanie go wymieniać. Historia może to przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O recibo do Homebrew deste cask vai para o Lixo junto com os links que o Homebrew criou apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
+            "value" : "O recibo do Homebrew deste cask vai para o Lixo junto com os links que o Homebrew criou nas pastas de comandos e de autocompletar apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa Homebrew a cask‑ului este mutată în Coș împreună cu linkurile create de Homebrew care duc în ea, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+            "value" : "Recipisa Homebrew a cask‑ului este mutată în Coș împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанция Homebrew для этого cask перемещается в Корзину вместе со ссылками на нее, которые создал Homebrew, и Homebrew перестает считать его установленным. История может ее восстановить."
+            "value" : "Квитанция Homebrew для этого cask перемещается в Корзину вместе со ссылками на нее, которые Homebrew создал в своих папках для команд и автодополнения, и Homebrew перестает считать его установленным. История может ее восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Caskens Homebrew-kvitto flyttas till papperskorgen tillsammans med länkarna som Homebrew har skapat till det, så Homebrew listar den inte längre. Historik kan lägga tillbaka det."
+            "value" : "Caskens Homebrew-kvitto flyttas till papperskorgen tillsammans med länkarna som Homebrew har skapat till det i sina mappar för kommandon och kompletteringar, så Homebrew listar den inte längre. Historik kan lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Paketin Homebrew makbuzu, Homebrew’un oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne gider; böylece Homebrew onu artık listelemez. Geçmiş onu yerine koyabilir."
+            "value" : "Paketin Homebrew makbuzu, Homebrew’un komut ve tamamlama klasörlerinde oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne gider; böylece Homebrew onu artık listelemez. Geçmiş onu yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанцію Homebrew для цього cask буде переміщено в Смітник разом із посиланнями на неї, які створив Homebrew, і Homebrew перестане показувати його у своєму списку. Історія може це повернути."
+            "value" : "Квитанцію Homebrew для цього cask буде переміщено в Смітник разом із посиланнями на неї, які Homebrew створив у своїх папках для команд і доповнень оболонки, і Homebrew перестане показувати його у своєму списку. Історія може це повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的Homebrew回执会连同Homebrew创建的指向其中的链接一起移到废纸篓，这样Homebrew就不再列出它。“历史记录”可以将其放回原处。"
+            "value" : "它的Homebrew回执会连同Homebrew在命令和补全文件夹中创建的、指向其中的链接一起移到废纸篓，这样Homebrew就不再列出它。“历史记录”可以将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此cask的Homebrew收據會連同Homebrew建立、指向其中的連結一起丟到「垃圾桶」，Homebrew就不再列出此cask。「歷史記錄」可以將它還原。"
+            "value" : "此cask的Homebrew收據會連同Homebrew在其指令與補齊檔案夾中建立、指向收據內的連結一起丟到「垃圾桶」，Homebrew就不再列出此cask。「歷史記錄」可以將它還原。"
           }
         }
       }
@@ -185544,108 +185546,109 @@
         }
       }
     },
-    "Their Homebrew receipts go to the Trash with the links Homebrew made into them, so Homebrew stops listing them. History can put them back." : {
+    "Their Homebrew receipts go to the Trash with the links Homebrew made into them in its command and completion folders, so Homebrew stops listing them. History can put them back." : {
+      "comment" : "On the Homebrew page, about forgetting a cask whose app is gone. Its command and completion folders are the folders Homebrew links a cask's commands and shell completions into.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jejich záznamy Homebrew se přesunou do koše spolu s odkazy, které do nich Homebrew vytvořil, takže Homebrew přestane tyto casks uvádět. Historie je může vrátit zpět."
+            "value" : "Jejich záznamy Homebrew se přesunou do koše spolu s odkazy, které do nich Homebrew vytvořil ve svých složkách pro příkazy a doplňování, takže Homebrew přestane tyto casks uvádět. Historie je může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Homebrew-Quittungen der Casks werden zusammen mit den von Homebrew angelegten Links, die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew die Casks nicht mehr führt. Im Verlauf kannst du sie zurücklegen."
+            "value" : "Die Homebrew-Quittungen der Casks werden zusammen mit den Links, die Homebrew in seinen Ordnern für Befehle und Shell-Vervollständigungen angelegt hat und die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew die Casks nicht mehr führt. Im Verlauf kannst du sie zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sus recibos de Homebrew van a la papelera con los enlaces que Homebrew creó hacia ellos, así que Homebrew deja de mostrarlos. Historial puede restaurarlos."
+            "value" : "Sus recibos de Homebrew van a la papelera con los enlaces que Homebrew creó hacia ellos en sus carpetas de comandos y de autocompletado, así que Homebrew deja de mostrarlos. Historial puede restaurarlos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leurs reçus Homebrew sont placés dans la corbeille avec les liens que Homebrew a créés vers ces reçus : Homebrew ne liste donc plus ces casks. L’Historique peut les remettre en place."
+            "value" : "Leurs reçus Homebrew sont placés dans la corbeille avec les liens que Homebrew a créés vers ces reçus dans ses dossiers de commandes et de complétions : Homebrew ne liste donc plus ces casks. L’Historique peut les remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le loro ricevute Homebrew vanno nel Cestino insieme ai link che Homebrew ha creato verso di esse, così Homebrew smette di elencarli. La Cronologia può ripristinarle."
+            "value" : "Le loro ricevute Homebrew vanno nel Cestino insieme ai link che Homebrew ha creato verso di esse nelle sue cartelle dei comandi e dei completamenti, così Homebrew smette di elencarli. La Cronologia può ripristinarle."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらのcasksのHomebrewレシートは、Homebrewが作成した、レシート内へのリンクと一緒にゴミ箱に入るため、Homebrewはそれらを一覧に表示しなくなります。履歴から戻すことができます。"
+            "value" : "これらのcasksのHomebrewレシートは、Homebrewがコマンド用とシェル補完用のフォルダに作成した、レシート内へのリンクと一緒にゴミ箱に入るため、Homebrewはそれらを一覧に表示しなくなります。履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "각 cask의 Homebrew 수신 정보와 그 안으로 연결되도록 Homebrew가 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "각 cask의 Homebrew 수신 정보와, 그 안으로 연결되도록 Homebrew가 명령 폴더와 자동 완성 폴더에 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De Homebrew-bewijzen gaan naar de prullenmand, samen met de links die Homebrew ernaar heeft gemaakt, zodat Homebrew de casks niet meer vermeldt. Geschiedenis kan ze terugzetten."
+            "value" : "De Homebrew-bewijzen gaan naar de prullenmand, samen met de links ernaar die Homebrew in zijn mappen voor commando's en shell-aanvullingen heeft gemaakt, zodat Homebrew de casks niet meer vermeldt. Geschiedenis kan ze terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ich potwierdzenia Homebrew trafią do Kosza razem z dowiązaniami, które Homebrew do nich utworzył, więc Homebrew przestanie je wymieniać. Historia może je przywrócić."
+            "value" : "Ich potwierdzenia Homebrew trafią do Kosza razem z dowiązaniami, które Homebrew do nich utworzył w swoich folderach poleceń i uzupełnień powłoki, więc Homebrew przestanie je wymieniać. Historia może je przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os recibos do Homebrew destes casks vão para o Lixo junto com os links que o Homebrew criou apontando para eles, e assim o Homebrew deixa de listar esses casks. O Histórico pode colocá-los de volta."
+            "value" : "Os recibos do Homebrew destes casks vão para o Lixo junto com os links que o Homebrew criou nas pastas de comandos e de autocompletar apontando para eles, e assim o Homebrew deixa de listar esses casks. O Histórico pode colocá-los de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisele Homebrew ale cask‑urilor sunt mutate în Coș împreună cu linkurile create de Homebrew care duc în ele, astfel încât Homebrew nu le mai listează. Le puteți pune înapoi din Istoric."
+            "value" : "Recipisele Homebrew ale cask‑urilor sunt mutate în Coș împreună cu linkurile care duc în ele, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu le mai listează. Le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанции Homebrew для этих casks перемещаются в Корзину вместе со ссылками на них, которые создал Homebrew, и Homebrew перестает считать их установленными. История может их восстановить."
+            "value" : "Квитанции Homebrew для этих casks перемещаются в Корзину вместе со ссылками на них, которые Homebrew создал в своих папках для команд и автодополнения, и Homebrew перестает считать их установленными. История может их восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deras Homebrew-kvitton flyttas till papperskorgen tillsammans med länkarna som Homebrew har skapat till dem, så Homebrew listar dem inte längre. Historik kan lägga tillbaka dem."
+            "value" : "Deras Homebrew-kvitton flyttas till papperskorgen tillsammans med länkarna som Homebrew har skapat till dem i sina mappar för kommandon och kompletteringar, så Homebrew listar dem inte längre. Historik kan lägga tillbaka dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Paketlerin Homebrew makbuzları, Homebrew’un oluşturduğu ve makbuzların içini gösteren bağlantılarla birlikte Çöp Sepeti’ne gider; böylece Homebrew onları artık listelemez. Geçmiş onları yerine koyabilir."
+            "value" : "Paketlerin Homebrew makbuzları, Homebrew’un komut ve tamamlama klasörlerinde oluşturduğu ve makbuzların içini gösteren bağlantılarla birlikte Çöp Sepeti’ne gider; böylece Homebrew onları artık listelemez. Geçmiş onları yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанції Homebrew для цих casks буде переміщено в Смітник разом із посиланнями на них, які створив Homebrew, і Homebrew перестане показувати ці casks у своєму списку. Історія може їх повернути."
+            "value" : "Квитанції Homebrew для цих casks буде переміщено в Смітник разом із посиланнями на них, які Homebrew створив у своїх папках для команд і доповнень оболонки, і Homebrew перестане показувати ці casks у своєму списку. Історія може їх повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它们的Homebrew回执会连同Homebrew创建的指向其中的链接一起移到废纸篓，这样Homebrew就不再列出它们。“历史记录”可以将它们放回原处。"
+            "value" : "它们的Homebrew回执会连同Homebrew在命令和补全文件夹中创建的、指向其中的链接一起移到废纸篓，这样Homebrew就不再列出它们。“历史记录”可以将它们放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這些cask的Homebrew收據會連同Homebrew建立、指向其中的連結一起丟到「垃圾桶」，Homebrew就不再列出這些cask。「歷史記錄」可以將它們還原。"
+            "value" : "這些cask的Homebrew收據會連同Homebrew在其指令與補齊檔案夾中建立、指向這些收據內的連結一起丟到「垃圾桶」，Homebrew就不再列出這些cask。「歷史記錄」可以將它們還原。"
           }
         }
       }

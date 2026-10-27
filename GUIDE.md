@@ -265,8 +265,8 @@ and how many items the others hold.
   replaces or deletes a cask's app even while it runs, so Peel asks the app to quit first, and opens it again after an
   upgrade. A cask Homebrew still lists though its app isn't where Homebrew put it anymore, or, for a cask with no app,
   its packages are gone, can't be upgraded. It is listed apart under Apps Already Gone, where Forget Cask, or Forget
-  All for every one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it, so
-  Homebrew stops listing it, and History can put it back.
+  All for every one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it in its
+  command and completion folders, so Homebrew stops listing it, and History can put it back.
 
 ## Fine-tune your Mac
 
