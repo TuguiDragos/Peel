@@ -56827,6 +56827,113 @@
         }
       }
     },
+    "Homebrew didn’t say what is installed, so Peel can’t tell whether it installed this copy, which would then be removed with Homebrew." : {
+      "comment" : "Settings, under Remove Peel, beside a button that opens the Homebrew page: Homebrew’s reading failed, so Remove Peel waits. A copy of Peel Homebrew installed is removed with Homebrew’s own command.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew neřekl, co je nainstalováno, takže Peel nemůže zjistit, zda tuto kopii nainstaloval Homebrew, a v tom případě by se odstraňovala pomocí Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat nicht mitgeteilt, was installiert ist, daher kann Peel nicht feststellen, ob Homebrew diese Kopie installiert hat, die dann mit Homebrew entfernt würde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew no ha indicado qué hay instalado, así que Peel no puede saber si instaló esta copia, que en ese caso se eliminaría con Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew n’a pas indiqué ce qui est installé : Peel ne peut donc pas savoir si Homebrew a installé cette copie, qui se supprimerait alors avec Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew non ha detto cosa è installato, quindi Peel non può sapere se Homebrew ha installato questa copia, che in quel caso andrebbe rimossa con Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewがインストール済みのものを報告しなかったため、PeelはこのコピーがHomebrewでインストールされたものかどうかを判断できません。Homebrewでインストールされたものであれば、Homebrewでアンインストールすることになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 설치된 항목을 알려 주지 않았으므로, Peel은 Homebrew가 이 복사본을 설치했는지 알 수 없습니다. Homebrew가 설치했다면 이 복사본은 Homebrew로 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft niet gemeld wat er is geïnstalleerd, dus Peel kan niet zien of Homebrew deze kopie heeft geïnstalleerd, die dan met Homebrew zou worden verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nie podał, co jest zainstalowane, więc Peel nie może ustalić, czy to Homebrew zainstalował tę kopię, którą należałoby wtedy odinstalować za pomocą Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew não informou o que está instalado, então o Peel não consegue saber se ele instalou esta cópia, que nesse caso seria removida com o Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nu a spus ce este instalat, așa că Peel nu poate ști dacă Homebrew a instalat această copie, caz în care s‑ar elimina cu Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не сообщил, что установлено, поэтому Peel не может определить, установил ли эту копию Homebrew, а такую копию удаляют с помощью Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew sa inte vad som är installerat, så Peel kan inte avgöra om det har installerat den här kopian, som i så fall skulle tas bort med Homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew neyin yüklü olduğunu söylemedi, bu yüzden Peel bu kopyayı Homebrew’un yükleyip yüklemediğini anlayamıyor; Homebrew yüklediyse bu kopya Homebrew ile kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew не повідомив, що інстальовано, тож Peel не може визначити, чи інсталював він цю копію, а таку копію вилучають через Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew没有说明安装了哪些内容，因此Peel无法判断此副本是否由它安装；如果是，就需要使用Homebrew移除此副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew沒有說明安裝了哪些項目，因此Peel無法判斷這份副本是否由它安裝；若是由它安裝，就要使用Homebrew移除。"
+          }
+        }
+      }
+    },
     "Homebrew finished" : {
       "localizations" : {
         "cs" : {
@@ -57777,6 +57884,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew有此更新。Peel可以替你執行升級。"
+          }
+        }
+      }
+    },
+    "Homebrew has to update before it can say whether it installed this copy, which would then be removed with Homebrew." : {
+      "comment" : "Settings, under Remove Peel, beside a button that opens the Homebrew page: Homebrew’s own list of packages isn’t on this Mac, so it can’t answer until it updates, and Remove Peel waits.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew se musí aktualizovat, než bude moci říct, zda tuto kopii nainstaloval, a v tom případě by se odstraňovala pomocí Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew muss aktualisiert werden, bevor es mitteilen kann, ob es diese Kopie installiert hat, die dann mit Homebrew entfernt würde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew tiene que actualizarse antes de poder decir si instaló esta copia, que en ese caso se eliminaría con Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew doit se mettre à jour avant de pouvoir indiquer s’il a installé cette copie, qui se supprimerait alors avec Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew deve aggiornarsi prima di poter dire se ha installato questa copia, che in quel caso andrebbe rimossa con Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは、このコピーをインストールしたかどうかを答える前に、アップデートする必要があります。Homebrewでインストールされたものであれば、Homebrewでアンインストールすることになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 이 복사본을 설치했는지 알려 주려면 먼저 Homebrew가 업데이트되어야 합니다. Homebrew가 설치했다면 이 복사본은 Homebrew로 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew moet eerst worden bijgewerkt voordat het kan melden of het deze kopie heeft geïnstalleerd, die dan met Homebrew zou worden verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew musi się odświeżyć, zanim będzie mógł podać, czy to on zainstalował tę kopię, którą należałoby wtedy odinstalować za pomocą Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew precisa se atualizar antes de poder dizer se instalou esta cópia, que nesse caso seria removida com o Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew trebuie să se actualizeze înainte de a putea spune dacă a instalat această copie, caz în care s‑ar elimina cu Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew должен обновиться, прежде чем сможет сообщить, устанавливал ли он эту копию, а такую копию удаляют с помощью Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew måste uppdateras innan det kan svara om det har installerat den här kopian, som i så fall skulle tas bort med Homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un bu kopyayı yükleyip yüklemediğini söyleyebilmesi için önce kendini güncellemesi gerekiyor; Homebrew yüklediyse bu kopya Homebrew ile kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew має оновитися, перш ніж зможе повідомити, чи інсталював він цю копію, а таку копію вилучають через Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew需要先更新，才能说明此副本是否由它安装；如果是，就需要使用Homebrew移除此副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew必須先更新，才能說明這份副本是否由它安裝；若是由它安裝，就要使用Homebrew移除。"
           }
         }
       }

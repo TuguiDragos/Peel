@@ -104,6 +104,21 @@ final class HomebrewLibrary {
 
     var knowsItsOwnApps: Bool { !isInstalled || hasAnswered }
 
+    /// Why Homebrew's last reading ended without saying what is installed, as its page says it.
+    enum Unanswered: Equatable {
+        /// Homebrew answered with an error.
+        case readingFailed
+        /// Homebrew has no local list of its packages, and asking would download it again.
+        case hasToUpdate
+    }
+
+    /// Nil while Homebrew hasn't answered yet, and once it has.
+    var unanswered: Unanswered? {
+        guard isInstalled, !hasAnswered else { return nil }
+        if couldNotRead != nil { return .readingFailed }
+        return needsDefinitions ? .hasToUpdate : nil
+    }
+
     /// Whether this account may change Homebrew, true until Homebrew has been read. On another account of the Mac its
     /// lists can be read, and what changes it is left to the account it belongs to.
     var mayChange: Bool { installation?.mayBeChangedByThisAccount ?? true }

@@ -62,11 +62,24 @@ final class SelfUninstall {
         case removePeel
         /// Homebrew hasn't said yet whether it installed this copy, which would then look like any other.
         case waitingForHomebrew
+        /// Homebrew's reading ended without saying, for the reason its page gives.
+        case homebrewDidNotAnswer(HomebrewLibrary.Unanswered)
+
+        /// Whether Remove Peel waits until Homebrew says whether it installed this copy.
+        var waitsForHomebrew: Bool {
+            switch self {
+            case .waitingForHomebrew, .homebrewDidNotAnswer: true
+            case .homebrew, .removePeel: false
+            }
+        }
     }
 
-    static func way(cask: HomebrewPackage?, homebrewKnowsItsApps: Bool) -> Way {
+    static func way(
+        cask: HomebrewPackage?, homebrewKnowsItsApps: Bool, unanswered: HomebrewLibrary.Unanswered? = nil
+    ) -> Way {
         if let cask { return .homebrew("brew uninstall --zap --cask \(cask.name)") }
-        return homebrewKnowsItsApps ? .removePeel : .waitingForHomebrew
+        if homebrewKnowsItsApps { return .removePeel }
+        return unanswered.map(Way.homebrewDidNotAnswer) ?? .waitingForHomebrew
     }
 
     /// Whether Peel can't remove itself from this account: its helper is registered, and only an administrator may

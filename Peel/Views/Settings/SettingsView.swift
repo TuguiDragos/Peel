@@ -413,7 +413,9 @@ private struct GeneralSettingsView: View {
             SavedSettingsSection()
 
             Section {
-                let way = SelfUninstall.way(cask: ownCask, homebrewKnowsItsApps: homebrew.knowsItsOwnApps)
+                let way = SelfUninstall.way(
+                    cask: ownCask, homebrewKnowsItsApps: homebrew.knowsItsOwnApps, unanswered: homebrew.unanswered
+                )
                 if case .homebrew(let command) = way {
                     LabeledContent {
                         CopyButton(text: command)
@@ -440,7 +442,7 @@ private struct GeneralSettingsView: View {
                         // Disabled until the app list has loaded: a file Peel shares with another app would look like
                         // Peel's alone.
                         .disabled(
-                            selfUninstall.isRunning || !library.hasLoaded || way == .waitingForHomebrew
+                            selfUninstall.isRunning || !library.hasLoaded || way.waitsForHomebrew
                                 || !history.mayMove || Self.runsFromAReadOnlyCopy || waitsForAnAdministrator
                         )
                     }
@@ -476,6 +478,20 @@ private struct GeneralSettingsView: View {
                         Text("Peel waits for Homebrew to say whether it installed this copy, since a copy Homebrew installed is removed with Homebrew.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
+                    } else if case .homebrewDidNotAnswer(let why) = way {
+                        HStack {
+                            Group {
+                                if why == .readingFailed {
+                                    Text("Homebrew didn’t say what is installed, so Peel can’t tell whether it installed this copy, which would then be removed with Homebrew.")
+                                } else {
+                                    Text("Homebrew has to update before it can say whether it installed this copy, which would then be removed with Homebrew.")
+                                }
+                            }
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                            Spacer()
+                            Button("Open \(String(localized: Tool.homebrew.title))") { Navigator.shared.show(.homebrew) }
+                        }
                     }
                 }
                 // Homebrew removes the links its cask made, and no other.
