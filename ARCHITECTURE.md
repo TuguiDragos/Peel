@@ -196,8 +196,9 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   settings, when saving fails while it is still empty; the folders Put Back makes on the way back
   (`DirectoryHandle.child(_:makingIfMissing:)`), when the item then stays in the Trash and each is still the empty
   folder it made; and the empty file cfprefsd writes back where a moved settings file was when `PreferenceCleanup`
-  forgets a domain it still holds, which would keep History from putting that file back. Peel's list of refusals goes
-  to the Trash when `peel history --refused --clear` asks. Four actions can't be undone by History, and each says so
+  forgets a domain it still holds, which would keep History from putting that file back. Peel's list of refusals, with
+  any copy of it set aside because it couldn't be read, goes to the Trash when `peel history --refused --clear` asks.
+  Four actions can't be undone by History, and each says so
   where it is confirmed: Homebrew's own uninstall and cleanups, resetting an app's privacy permissions, and Force Quit
   for an app that is still open 10 seconds after Peel asked it to quit (`QuitBeforeRemoving`). Moving Mullvad VPN,
   Citrix Workspace, or TeamViewer starts that app's own uninstaller, which deletes what History can't bring back, and

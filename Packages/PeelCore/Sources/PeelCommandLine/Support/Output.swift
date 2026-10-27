@@ -282,7 +282,9 @@ extension RefusalLogProblem {
         case .damaged(let setAside):
             "The list of refusals was damaged, so it was kept as \(Output.plain(Output.path(setAside)))"
                 + " and started again."
-        case .unreadable: "The list of refusals couldn't be read, so Peel keeps it as it is and writes nothing to it."
+        case .unreadable:
+            "The list of refusals couldn't be read, so Peel writes nothing to it until you clear it with"
+                + " `peel history --refused --clear` or start it over in the Peel app's History."
         case .couldNotRecord: "The list of refusals couldn't be saved, so what stayed this time isn't in it."
         }
     }

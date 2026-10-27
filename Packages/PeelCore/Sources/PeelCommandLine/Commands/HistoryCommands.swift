@@ -239,7 +239,7 @@ struct HistoryCommand: AsyncParsableCommand {
 
     private func listRefusals(in log: RefusalLog, trash: TrashService) async throws {
         guard !clear else {
-            guard await log.load().records?.isEmpty != true else {
+            guard await !log.holdsNothing() else {
                 Output.line("Peel hasn't refused anything it was asked to move.")
                 return
             }

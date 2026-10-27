@@ -61,6 +61,51 @@ struct RemovalHistoryStoreTests {
         #expect(!history.isKnownEmpty)
     }
 
+    @Test func startsOverANotMovedListItCannotRead() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let refusals = folder.appending(path: "refusals.json")
+        try FileManager.default.createDirectory(at: refusals, withIntermediateDirectories: true)
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: refusals),
+            knowsTheExclusions: { true }
+        )
+        await history.load()
+        #expect(history.refusalProblem == .unreadable)
+
+        await history.startOverRefusals()
+
+        #expect(history.refusalProblem == nil)
+        #expect(FileManager.default.fileExists(atPath: refusals.path(percentEncoded: false)) == false)
+    }
+
+    @Test func aRefusalThatCouldNotBeRecordedIsStillSaidWhenHistoryOpens() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let path = folder.path(percentEncoded: false)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: path)
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: path)
+            try? FileManager.default.removeItem(at: folder)
+        }
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true }
+        )
+        let refused = TrashResult(failures: [TrashFailure(url: URL(filePath: "/Users/me/kept"), reason: .lastCopy)])
+        var removal = RemovalInProgress()
+        await history.record(
+            refused, part: RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue), sizes: [:],
+            in: &removal
+        )
+
+        await history.load()
+
+        #expect(history.refusalProblem == .couldNotRecord)
+    }
+
     @Test func aReadThatFindsNothingNewChangesNothing() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

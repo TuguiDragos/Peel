@@ -157,6 +157,71 @@ struct RefusalLogTests {
         )
     }
 
+    @Test func aDamagedRecordIsSaidUntilPeelQuits() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.directory("Peel").appending(path: "refusals.json")
+        try Data("[{\"id\":\"not a uuid\"}]".utf8).write(to: url)
+        let log = RefusalLog(url: url)
+
+        let first = await log.load()
+        let second = await log.load()
+
+        guard case .damaged(let setAside) = first.problem else { Issue.record("no damage reported"); return }
+        #expect(second.problem == .damaged(setAside: setAside), "the copy set aside is the only trace of it")
+    }
+
+    @Test func forgetsTheDamageOnceItsCopyIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.directory("Peel").appending(path: "refusals.json")
+        try Data("[{\"id\":\"not a uuid\"}]".utf8).write(to: url)
+        let log = RefusalLog(url: url)
+        guard case .damaged(let setAside) = await log.load().problem else { Issue.record("no damage reported"); return }
+
+        try FileManager.default.removeItem(at: setAside)
+
+        #expect(await log.load().problem == nil, "Show in Finder would lead nowhere")
+    }
+
+    @Test(.permissionsHold) func saysARefusalItCouldNotWriteUntilOneIsWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RefusalLog(url: try directory.directory("Peel").appending(path: "refusals.json"))
+        try directory.setPermissions(0o500, of: "Peel")
+        defer { try? directory.setPermissions(0o700, of: "Peel") }
+
+        await log.add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
+        let opened = await log.load()
+        try directory.setPermissions(0o700, of: "Peel")
+        await log.add([failure("/Users/me/b", .lastCopy)], source: "Editor", tool: "applications")
+
+        #expect(opened.problem == .couldNotRecord, "opening History read the old file and cleared it unseen")
+        #expect(await log.load().problem == nil)
+    }
+
+    @Test(.permissionsHold) func startsOverARecordItCannotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.directory("Peel").appending(path: "refusals.json")
+        try Data("[]".utf8).write(to: url)
+        try directory.setPermissions(0, of: url)
+
+        let started = await RefusalLog(url: url).startOver()
+
+        #expect(started.records == [] && started.problem == nil)
+        let kept = try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path())
+        #expect(kept.contains { $0.hasPrefix("refusals-damaged-") }, "the file it could not read was not kept")
+    }
+
+    @Test func clearMovesTheCopiesItSetAsideToo() async throws {
+        let directory = try TemporaryDirectory()
+        let (service, folder) = try trash(in: directory)
+        let url = try directory.directory("Peel").appending(path: "refusals.json")
+        try Data("[]".utf8).write(to: url)
+        try Data("[]".utf8).write(to: url.deletingLastPathComponent().appending(path: "refusals-damaged-2026-10-01-090000.json"))
+
+        #expect(await RefusalLog(url: url).clear(through: service))
+
+        #expect(try FileManager.default.contentsOfDirectory(atPath: folder.path()).count == 2)
+    }
+
     /// The file is the only copy of what was refused, so when it cannot be read it is never written over.
     @Test(.permissionsHold) func whatCannotBeReadIsKept() async throws {
         let directory = try TemporaryDirectory()

@@ -198,7 +198,8 @@ What Peel deletes outright holds nothing of yours: such a placeholder, when the 
 it makes to save an app's settings before a reset, when saving fails before anything is written in it; the folders it
 makes again on the way back for a Put Back, when the item then stays in the Trash and each is still the empty folder it
 made; and the empty settings file macOS writes back when Peel forgets a preference domain, as described below. Its list
-of refusals goes to the Trash when `peel history --refused --clear` is asked to forget it, after a question.
+of refusals, with any copy of it set aside because it couldn't be read, goes to the Trash when
+`peel history --refused --clear` is asked to forget it, after a question.
 
 Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them:
 

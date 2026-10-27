@@ -256,8 +256,15 @@ final class RemovalHistoryStore {
         await apply(await log.startOver())
     }
 
+    func startOverRefusals() async {
+        await showRefusals(await refusals.startOver())
+    }
+
     private func loadRefusals() async {
-        let read = await refusals.load()
+        await showRefusals(await refusals.load())
+    }
+
+    private func showRefusals(_ read: (records: [RefusalRecord]?, problem: RefusalLogProblem?)) async {
         refusalProblem = read.problem
         refusalChange += 1
         let change = refusalChange
@@ -312,14 +319,11 @@ final class RemovalHistoryStore {
         }
         // Refusals are logged whether or not anything moved: a removal where nothing moved is the one most worth a
         // record.
-        let refusalProblem = await refusals.add(
+        await refusals.add(
             result.failures, source: part.source, sourceKey: part.sourceKey, tool: part.tool, batch: removal.refusals
         )
         if !result.failures.isEmpty {
             await loadRefusals()
-        }
-        if let refusalProblem {
-            self.refusalProblem = refusalProblem
         }
         checkReadability()
     }

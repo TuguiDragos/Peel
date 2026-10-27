@@ -353,6 +353,25 @@ struct HistoryCommandTests {
         #expect(FileManager.default.fileExists(atPath: trash.appending(path: "refusals.json").path(percentEncoded: false)))
     }
 
+    @Test func clearsACopySetAsideWhenNothingElseIsLeft() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        try directory.file("Peel/refusals-damaged-2026-10-01-090000.json", contents: Data("[".utf8))
+        let trash = try directory.directory("Trash")
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        try await (command(["history", "--refused", "--clear", "--yes"]) as HistoryCommand)
+            .run(in: logs.removals, refusals: logs.refusals, trash: service)
+
+        #expect(try FileManager.default.contentsOfDirectory(atPath: trash.path(percentEncoded: false)) == ["refusals-damaged-2026-10-01-090000.json"])
+    }
+
     @Test func movesNothingWhenNothingWasRefused() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
@@ -398,6 +417,7 @@ struct HistoryCommandTests {
 
         await #expect(throws: CommandFailure.self) { try await printed(["history", "--refused"], from: logs) }
         await #expect(throws: CommandFailure.self) { try await printed(["history", "--refused", "--json"], from: logs) }
+        #expect(RefusalLogProblem.unreadable.summary.contains("`peel history --refused --clear`"))
     }
 
     @Test func putsNothingBackWhileTheExclusionsCannotBeRead() async throws {

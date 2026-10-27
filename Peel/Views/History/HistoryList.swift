@@ -153,6 +153,7 @@ private struct HistoryProblemNotice: View {
 
 /// What kept the list under Not Moved from being read or saved.
 private struct RefusalProblemNotice: View {
+    @Environment(RemovalHistoryStore.self) private var history
     let problem: RefusalLogProblem
 
     var body: some View {
@@ -169,8 +170,12 @@ private struct RefusalProblemNotice: View {
         case .unreadable:
             Notice(
                 title: Text("The Not Moved list can’t be read"),
-                detail: Text("Peel leaves the file as it is and adds nothing to it, since it is the only record of what stayed.")
-            ) { EmptyView() }
+                detail: Text("Until you start the list over, Peel adds nothing to it, since it is the only record of what stayed. Starting over keeps the old file beside a new one.")
+            ) {
+                Button("Start Over") {
+                    Task { await history.startOverRefusals() }
+                }
+            }
         case .couldNotRecord:
             Notice(
                 title: Text("The Not Moved list couldn’t be saved"),

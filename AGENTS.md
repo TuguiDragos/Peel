@@ -77,8 +77,8 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   them the user's: the empty placeholder `TrashMover` makes to hold a name on a disk that can't rename without
   replacing (exFAT), once the move it was made for has failed; the folder `PreferenceBackup` makes for a reset's saved
   settings, when saving fails while it is still empty; and the empty file cfprefsd writes back where a moved settings
-  file was, when `PreferenceCleanup` forgets a domain cfprefsd still holds. Peel's list of refusals goes to the Trash
-  when `peel history --refused --clear` asks.
+  file was, when `PreferenceCleanup` forgets a domain cfprefsd still holds. Peel's list of refusals, with any copy of it
+  set aside because it couldn't be read, goes to the Trash when `peel history --refused --clear` asks.
 - **What History can't undo says so where the person confirms it**: Homebrew's own uninstall and its cleanups,
   resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked
   it to quit. `defaults delete` for an app's preferences runs only once their file is in the Trash, and a reset

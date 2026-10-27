@@ -123008,112 +123008,6 @@
         }
       }
     },
-    "Peel leaves the file as it is and adds nothing to it, since it is the only record of what stayed." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel soubor ponechává tak, jak je, a nic do něj nepřidává, protože je to jediný záznam o tom, co zůstalo."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel lässt die Datei, wie sie ist, und fügt ihr nichts hinzu, da sie die einzige Aufzeichnung dessen ist, was geblieben ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel deja el archivo tal como está y no le añade nada, ya que es el único registro de lo que se quedó sin trasladar."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel laisse le fichier tel quel et n’y ajoute rien, car c’est la seule trace de ce qui est resté en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel lascia il file com’è e non vi aggiunge nulla, perché è l’unico registro di ciò che è rimasto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このファイルは残った項目の唯一の記録であるため、Peelはファイルをそのままにし、何も書き加えません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 파일을 그대로 두고 아무것도 추가하지 않습니다. 이 파일이 그대로 남은 항목에 대한 유일한 기록이기 때문입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel laat het bestand zoals het is en voegt er niets aan toe, omdat het de enige registratie is van wat er is blijven staan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zostawia plik bez zmian i nic do niego nie dopisuje, bo to jedyny zapis tego, co zostało na miejscu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel deixa o arquivo como está e não acrescenta nada a ele, pois é o único registro do que permaneceu."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel lasă fișierul așa cum este și nu adaugă nimic în el, deoarece este singura evidență a ceea ce a rămas pe loc."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel оставляет файл как есть и ничего в него не добавляет, поскольку это единственная запись о том, что осталось на месте."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel lämnar filen som den är och lägger inte till något i den, eftersom den är den enda förteckningen över det som blev kvar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel dosyayı olduğu gibi bırakır ve ona hiçbir şey eklemez, çünkü yerinde kalanların tek kaydı odur."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel лишає файл без змін і нічого до нього не додає, бо лише в ньому записано те, що лишилося на місці."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel会保持该文件原样，不向其中添加任何内容，因为它是哪些项目留在原处的唯一记录。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel會保持檔案原樣，不會加入任何內容，因為這是留在原處之項目的唯一記錄。"
-          }
-        }
-      }
-    },
     "Peel lists at most ^[%lld file](inflect: true), yours first and largest first. Narrow the search to see the rest." : {
       "localizations" : {
         "cs" : {
@@ -191303,6 +191197,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在能儲存這份記錄之前，Peel可能無法在App的簽署者變更時提醒你。"
+          }
+        }
+      }
+    },
+    "Until you start the list over, Peel adds nothing to it, since it is the only record of what stayed. Starting over keeps the old file beside a new one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud nezačnete seznam znovu, Peel do něj nic nepřidá, protože je to jediný záznam o tom, co zůstalo. Když začnete znovu, starý soubor se ponechá vedle nového."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis du die Liste neu beginnst, fügt Peel ihr nichts hinzu, da sie die einzige Aufzeichnung dessen ist, was geblieben ist. Wenn du neu beginnst, bleibt die alte Datei neben einer neuen erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasta que vuelvas a empezar la lista, Peel no le añade nada, ya que es el único registro de lo que se quedó sin trasladar. Al volver a empezar, el archivo antiguo se conserva junto a uno nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que vous n’avez pas recommencé la liste, Peel n’y ajoute rien, car c’est la seule trace de ce qui est resté en place. Si vous recommencez, l’ancien fichier est conservé à côté d’un nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finché non ricominci l’elenco da capo, Peel non vi aggiunge nulla, perché è l’unico registro di ciò che è rimasto. Se ricominci da capo, il vecchio file viene conservato accanto a uno nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リストを最初からやり直すまで、Peelはリストに何も書き加えません。残った項目の唯一の記録であるためです。最初からやり直すと、古いファイルは新しいファイルの横に保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 목록을 처음부터 다시 시작하기 전까지, Peel은 이 목록에 아무것도 추가하지 않습니다. 이 목록이 그대로 남은 항목에 대한 유일한 기록이기 때문입니다. 처음부터 다시 시작하면 이전 파일은 새 파일 옆에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totdat je opnieuw begint met de lijst, voegt Peel er niets aan toe, omdat het de enige registratie is van wat er is blijven staan. Als je opnieuw begint, wordt het oude bestand naast een nieuw bestand bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopóki nie zaczniesz listy od nowa, Peel nic do niej nie dopisuje, bo to jedyny zapis tego, co zostało na miejscu. Gdy zaczniesz od nowa, stary plik zostanie zachowany obok nowego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Até você recomeçar a lista, o Peel não acrescenta nada a ela, pois ela é o único registro do que permaneceu. Ao recomeçar, o arquivo antigo é guardado ao lado de um novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Până când reîncepeți lista, Peel nu adaugă nimic în ea, deoarece este singura evidență a ceea ce a rămas pe loc. Dacă o reîncepeți, fișierul vechi este păstrat lângă unul nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Вы не начнете список заново, Peel ничего в него не добавляет, поскольку это единственная запись о том, что осталось на месте. Если начать заново, старый файл сохранится рядом с новым."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tills du börjar om listan lägger Peel inte till något i den, eftersom den är den enda förteckningen över det som blev kvar. När du börjar om sparas den gamla filen bredvid en ny."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siz listeyi baştan başlatana kadar Peel ona hiçbir şey eklemez, çünkü yerinde kalanların tek kaydı odur. Baştan başladığınızda eski dosya yeni bir dosyanın yanında saklanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доки ви не почнете список наново, Peel нічого до нього не додає, бо лише в ньому записано те, що лишилося на місці. Коли ви починаєте наново, старий файл зберігається поруч із новим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你重新开始建立该列表之前，Peel不会向其中添加任何内容，因为它是哪些项目留在原处的唯一记录。重新开始会将旧文件保留在新文件旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你重新開始此列表之前，Peel不會在其中加入任何內容，因為這是留在原處之項目的唯一記錄。重新開始時，舊檔案會保留在新檔案旁邊。"
           }
         }
       }

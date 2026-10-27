@@ -56,15 +56,19 @@ public actor RefusalLog {
     public let url: URL
     /// What was last read or written, kept while the file stays the same, as in `RemovalLog`.
     private var kept: (file: FileIdentity, records: [RefusalRecord])?
+    private var problem: RefusalLogProblem?
 
     public init(url: URL = RemovalHistory.refusalsURL) {
         self.url = url
     }
 
-    /// The records, with what went wrong reading them. Nil records when the file could not be read: what was refused
-    /// is then not known, which is not the same as nothing refused.
+    /// The records, with what is still to be said about the file (`note`). Nil records when the file could not be
+    /// read: what was refused is then not known, which is not the same as nothing refused.
     public func load() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?) {
-        FileLock.whileHeld(beside: url) { current() }
+        FileLock.whileHeld(beside: url) {
+            let records = current()
+            return (records, problem)
+        }
     }
 
     /// Writes down what one removal refused, and says what kept it from being written. The parts of one pass
@@ -80,49 +84,99 @@ public actor RefusalLog {
         }
         guard !records.isEmpty else { return nil }
         return FileLock.whileHeld(beside: url) {
-            let read = current()
-            guard let existing = read.records else { return read.problem }
+            guard let existing = current() else { return problem }
             let kept = Batches.trimmed(
                 existing + records, maximum: Self.maximumRecords, batch: { $0.batch ?? $0.id }, date: \.date,
                 keeping: [batch]
             )
-            return write(kept) ? read.problem : .couldNotRecord
+            guard write(kept) else {
+                note(.couldNotRecord)
+                return problem
+            }
+            if problem == .couldNotRecord { problem = nil }
+            return problem
         }
     }
 
-    /// Moves the file to the Trash, so every refusal is forgotten and the record can still be taken back from there.
-    /// Only the file moves, never a folder or a link put in its place, and a refusal written meanwhile waits for it.
+    /// Keeps a file that cannot be read beside a new one, under another name, and starts writing refusals down again.
+    public func startOver() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?) {
+        FileLock.whileHeld(beside: url) {
+            if let records = current() { return (records, problem) }
+            guard DamagedFile.setAside(url) != nil else { return (nil, problem) }
+            problem = nil
+            let records = current()
+            return (records, problem)
+        }
+    }
+
+    /// Whether nothing is left to forget: no refusal written down, no file that can't be read, and no copy set aside.
+    public func holdsNothing() -> Bool {
+        FileLock.whileHeld(beside: url) { current() == [] && DamagedFile.copies(of: url) == [] }
+    }
+
+    /// Moves the file and the copies set aside to the Trash, so every refusal is forgotten and can still be taken back
+    /// from there. Only files move, never a folder or a link put in their place, and a refusal written meanwhile waits.
     public func clear(through service: TrashService) async -> Bool {
         await FileLock.whileHeld(beside: url, waitingFor: {
-            guard !url.isMissing else { return true }
-            var info = stat()
-            guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFREG else {
-                return false
+            guard var files = DamagedFile.copies(of: url) else { return false }
+            if !url.isMissing {
+                var info = stat()
+                guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFREG else {
+                    return false
+                }
+                files.insert(url, at: 0)
             }
-            return await service.trashOwnFiles([url]).failures.isEmpty
+            guard !files.isEmpty else { return true }
+            guard await service.trashOwnFiles(files).failures.isEmpty else { return false }
+            problem = nil
+            return true
         })
     }
 
-    /// The records in the file. A file that fails to decode is set aside and its readable rows kept. Nil records
-    /// when the file could not be read or set aside, so it must not be written over.
-    private func current() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?) {
-        guard !url.isMissing else { return ([], nil) }
-        if let kept, FileIdentity.of(url) == kept.file { return (kept.records, nil) }
-        guard let read = BoundedRead.contents(at: url, maximum: 16 * 1_024 * 1_024) else { return (nil, .unreadable) }
+    /// The records in the file. A file that fails to decode is set aside and its readable rows kept. Nil when the
+    /// file could not be read or set aside, so it must not be written over.
+    private func current() -> [RefusalRecord]? {
+        guard !url.isMissing else {
+            note(nil)
+            return []
+        }
+        if let kept, FileIdentity.of(url) == kept.file {
+            note(nil)
+            return kept.records
+        }
+        guard let read = BoundedRead.contents(at: url, maximum: 16 * 1_024 * 1_024) else {
+            note(.unreadable)
+            return nil
+        }
         let data = read.data
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = LogTime.decoding
         if let records = try? decoder.decode([RefusalRecord].self, from: data) {
+            note(nil)
             kept = (read.file, records)
-            return (records, nil)
+            return records
         }
         // A row that a later version wrote, or that a hand edit broke, must not cost the other rows.
         let readable = (try? decoder.decode([Row].self, from: data))?.compactMap(\.record) ?? []
-        guard let setAside = DamagedFile.setAside(url) else { return (nil, .unreadable) }
+        guard let setAside = DamagedFile.setAside(url) else {
+            note(.unreadable)
+            return nil
+        }
+        note(.damaged(setAside: setAside))
         if !readable.isEmpty {
             write(readable)
         }
-        return (readable, .damaged(setAside: setAside))
+        return readable
+    }
+
+    /// Sets `problem`, or clears it after a good read (nil), as `RemovalLog` does: a damaged file stays reported while
+    /// the copy set aside is there, since it is the only trace of it, and `.couldNotRecord` until a refusal is written.
+    private func note(_ problem: RefusalLogProblem?) {
+        if problem == nil {
+            if case .damaged(let setAside) = self.problem, !setAside.isMissing { return }
+            if self.problem == .couldNotRecord { return }
+        }
+        self.problem = problem
     }
 
     /// One row of the file. A row with a missing or malformed field is dropped and the others are kept: any
