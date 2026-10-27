@@ -1289,7 +1289,7 @@ struct TrashServiceTests {
         #expect(FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)))
 
         holder.terminate()
-        holder.waitUntilExit()
+        #expect(await ProcessEnds.ends(holder.processIdentifier, within: 60))
         let free = await service.trash([folder])
         #expect(free.trashed.map(\.originalURL) == [folder])
     }
