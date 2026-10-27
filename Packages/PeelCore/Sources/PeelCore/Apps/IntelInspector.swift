@@ -2,7 +2,8 @@ import Darwin
 public import Foundation
 internal import PeelPrivileged
 
-/// Intel-only software, which needs Rosetta on Apple silicon. macOS 27 is the last release to offer Rosetta.
+/// Intel-only software, which needs Rosetta on Apple silicon. macOS 27 is the last release to offer Rosetta for most
+/// Intel software.
 public struct IntelFinding: Sendable, Hashable, Identifiable {
     public enum Kind: String, Sendable, Hashable, CaseIterable {
         case app
@@ -71,8 +72,8 @@ public enum IntelInspector {
         }
     }
 
-    /// Folders inside an app whose contents run as processes of their own, so an Intel-only one really does
-    /// need Rosetta.
+    /// Folders inside an app that hold code of its own, as processes or as plug-ins the app loads, so an Intel-only one
+    /// there needs Rosetta even when the app doesn't.
     ///
     /// `Contents/Frameworks` is not one of them: a library there is loaded into the app's own process, so an
     /// Intel-only one matters only when the app itself runs as Intel code. The bundles beside the libraries are

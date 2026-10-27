@@ -369,6 +369,14 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   name it (`AppMemory`), and selects nothing for the person. An app macOS knows on another disk that claims something
   is remembered too (`OrphanScan.appsOnOtherDisks`, `Disks`), so its files stay its own while that disk isn't
   connected, and a link into an app on such a disk is not one into an app that is gone.
+- **Intel Software.** `IntelInspector` judges by the code itself: what a bundle runs, or a file, is Intel only when
+  its Mach-O slices are x86_64 alone (`MachOHeader`), and a file found inside an app or beside a printer driver counts
+  only when it is a program (`MH_EXECUTE`), since a library runs in whatever loads it. It looks at the installed apps
+  and, inside each, at the folders that hold code of its own (`embeddedDirectories`, and in `Contents/Frameworks` only
+  the apps and services kept there), at the plug-ins the Plug-ins page lists, at the drivers in `Image Capture` and
+  `Printers` and what else sits in `Audio/Plug-Ins` and `ColorPickers`, at the programs launchd jobs run, and at the
+  tools in `/usr/local`. It only reports: an app goes from Applications, a plug-in the Plug-ins page lists from
+  there, and the rest with the software that installed it.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference
