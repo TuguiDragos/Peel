@@ -4,7 +4,6 @@ import Synchronization
 @testable import PeelCore
 import PeelPrivileged
 import Testing
-import UniformTypeIdentifiers
 
 /// Attempts to make Duplicates take the last copy of something, move what it did not compare, or offer what the
 /// removal guard refuses.
@@ -201,19 +200,27 @@ struct AttackDuplicateTests {
     /// be offered, because the guard refuses to move it. The library is of a kind no app on this Mac registers as
     /// a package: an installed app's package would be skipped whole, and the test would never reach Peel's rule.
     @Test func neverOffersWhatIsInsideAPhotoLibrary() async throws {
+        let directory = try TemporaryDirectory()
         let kind = try #require(
-            ProtectedData.extensions.first { UTType(filenameExtension: $0)?.conforms(to: .package) != true },
+            try ProtectedData.extensions.sorted().first { kind in
+                let folder = try directory.directory("kinds/Old.\(kind)")
+                return try folder.resourceValues(forKeys: [.isPackageKey]).isPackage != true
+            },
             "every library kind is a package on this Mac"
         )
-        let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
         try directory.file("home/Movies/Old.\(kind)/clip.mov", contents: contents)
         try directory.file("home/Movies/clip.mov", contents: contents)
 
-        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let found = Mutex(0)
+
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home])) { progress in
+            if case .collecting(let files) = progress { found.withLock { $0 = files } }
+        }
 
         #expect(scan.groups.isEmpty, "ATTACK SUCCEEDED: a file inside a media library was offered")
+        #expect(found.withLock { $0 } == 1, "the walk went into the library")
         // Two rules stop it, and each is checked: the walk does not go into a library, and the guard refuses what
         // is inside one.
         #expect(DuplicateFinder.isAUserLibrary(directory.url.appending(path: "home/Movies/Old.\(kind)")))
