@@ -562,6 +562,7 @@ struct FileCommandTests {
             ["10 bytes", Output.path(group.items[1].url), "stays: holds a wallet or a signing key"],
             ["10 bytes", Output.path(group.items[2].url), "stays: holds a photo, music, or video library"],
         ])
+        #expect(OrphansCommand.heading(for: group).hasPrefix("com.example.gone  10 bytes  "), "the files that stay counted")
     }
 
     /// `peel orphans --json` says why `--remove` leaves each file it leaves, and which folders macOS kept Peel out of.
@@ -573,15 +574,20 @@ struct FileCommandTests {
         ])
         let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
 
-        let json = try Output.jsonText(
-            OrphansCommand.report(for: OrphanScan(groups: [group], unreadableLocations: [unread]))
-        )
+        var scan = OrphanScan(groups: [group], unreadableLocations: [unread], needsFullDiskAccess: true)
+        scan.cutShortLocations = [unread]
+        let json = try Output.jsonText(OrphansCommand.report(for: scan))
 
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
-        let files = try #require((report["groups"] as? [[String: Any]])?.first?["files"] as? [[String: Any]])
+        let listed = try #require((report["groups"] as? [[String: Any]])?.first)
+        let files = try #require(listed["files"] as? [[String: Any]])
         #expect(files[0]["heldBack"] is NSNull)
         #expect(files[1]["heldBack"] as? String == "holdsAWallet")
+        #expect(listed["size"] as? Int == 20)
+        #expect(listed["movable"] as? Int == 10, "what --remove would move")
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
+        #expect(report["cutShortLocations"] as? [String] == ["/Users/me/Library/Containers"])
+        #expect(report["needsFullDiskAccess"] as? Bool == true)
     }
 
     @Test func listsApartWhatOnlyAnAdministratorCanMove() throws {

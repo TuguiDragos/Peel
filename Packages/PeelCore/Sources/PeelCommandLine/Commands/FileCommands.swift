@@ -24,6 +24,9 @@ struct OrphansCommand: AsyncParsableCommand {
         let groups: [Group]
         let forAnAdministrator: [ForAnAdministrator]
         let unreadableLocations: [String]
+        /// The places with more folders inside than Peel looks into, where an orphaned file may be that isn't listed.
+        let cutShortLocations: [String]
+        let needsFullDiskAccess: Bool
 
         struct ForAnAdministrator: Encodable {
             let path: String
@@ -56,6 +59,8 @@ struct OrphansCommand: AsyncParsableCommand {
         struct Group: Encodable {
             let identifier: String
             let size: MeasuredSize
+            /// What `--remove` would move of the group: its size without the files Peel holds back.
+            let movable: MeasuredSize
             let confidence: String
             let why: String
             let files: [File]
@@ -176,6 +181,7 @@ struct OrphansCommand: AsyncParsableCommand {
                 Report.Group(
                     identifier: group.identifier,
                     size: MeasuredSize(group.total),
+                    movable: MeasuredSize(SizeTotal(moving(group).map(\.size))),
                     confidence: group.confidence.levelName,
                     why: group.confidence.summary,
                     files: group.items.map { item in
@@ -193,7 +199,9 @@ struct OrphansCommand: AsyncParsableCommand {
                     confidence: entry.claim?.confidence.summary
                 )
             },
-            unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) }
+            unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) },
+            cutShortLocations: scan.cutShortLocations.map { Output.path($0.url) },
+            needsFullDiskAccess: scan.needsFullDiskAccess
         )
     }
 
@@ -217,8 +225,14 @@ struct OrphansCommand: AsyncParsableCommand {
         }
     }
 
+    /// What `--remove` moves of `group`: every file but those Peel holds back, which the list says stay.
+    static func moving(_ group: OrphanGroup) -> [OrphanItem] {
+        group.items.filter { $0.heldBack == nil }
+    }
+
     static func heading(for group: OrphanGroup) -> String {
-        "\(group.identifier)  \(Output.size(group.total))  \(group.confidence.levelName): \(group.confidence.summary)"
+        let moving = Output.size(SizeTotal(moving(group).map(\.size)))
+        return "\(group.identifier)  \(moving)  \(group.confidence.levelName): \(group.confidence.summary)"
     }
 
     static func rows(for group: OrphanGroup) -> [[String]] {
@@ -241,7 +255,7 @@ struct OrphansCommand: AsyncParsableCommand {
         guard let group = wanted.first else {
             throw CommandFailure("Nothing orphaned is called \(Output.quoted(identifier)). See `peel orphans`.")
         }
-        let items = group.items.filter { $0.heldBack == nil }
+        let items = Self.moving(group)
         // Nobody asked for a held back file on its own, so it is said here and never recorded as refused.
         let staying = group.items.compactMap { item in item.heldBack.map { "\(Output.plain(Output.path(item.url))) stays: \($0.summary)" } }
         guard !items.isEmpty else {
