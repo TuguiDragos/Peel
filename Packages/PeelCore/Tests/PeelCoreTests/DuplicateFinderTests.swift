@@ -693,6 +693,40 @@ struct DuplicateFinderTests {
         }
     }
 
+    /// The copy on the disk the home folder is on is kept before an older one on another disk, such as photos that
+    /// were on a card before they were on the Mac.
+    @Test func keepsTheCopyOnTheHomeDisk() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let volume = try ScratchVolume(
+            fileSystem: "APFS", mountedAt: home.appending(path: "Card", directoryHint: .isDirectory)
+        )
+        let contents = Data(repeating: 7, count: 200_000)
+        let onTheMac = try directory.file("home/Pictures/Holiday/photo.jpg", contents: contents)
+        let onTheCard = volume.url.appending(path: "Holiday/photo.jpg")
+        try FileManager.default.createDirectory(
+            at: onTheCard.deletingLastPathComponent(), withIntermediateDirectories: true
+        )
+        try contents.write(to: onTheCard)
+        let earlier = Date.now.addingTimeInterval(-2 * 24 * 3_600)
+        for url in [onTheCard, onTheCard.deletingLastPathComponent()] {
+            try FileManager.default.setAttributes(
+                [.creationDate: earlier, .modificationDate: earlier], ofItemAtPath: url.path(percentEncoded: false)
+            )
+        }
+
+        let pictures = home.appending(path: "Pictures", directoryHint: .isDirectory)
+        let finder = DuplicateFinder(homeDirectory: home)
+        let kept = { (url: URL?) in url.map { PathPattern.comparablePath(of: $0) } }
+
+        let folders = try await finder.scan(.everySize(in: [pictures, volume.url]))
+        #expect(kept(folders.folderGroups.first?.folders.first?.url) == kept(onTheMac.deletingLastPathComponent()))
+
+        try directory.file("home/Pictures/Holiday/notes.txt", contents: Data("only here".utf8))
+        let files = try await finder.scan(.everySize(in: [pictures, volume.url]))
+        #expect(kept(files.groups.first?.files.first?.url) == kept(onTheMac))
+    }
+
     @Test func stopsWhenCanceled() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Documents/a.txt", contents: Data("same".utf8))

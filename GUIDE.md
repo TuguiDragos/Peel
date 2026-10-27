@@ -111,16 +111,17 @@ Space shows what fills your disk, area by area, and what each area is.
 - **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only
   when its tool's own file proves it. Nothing is selected for you, and Select Recommended passes by a project
   changed in the last 7 days.
-- **Duplicates:** files and whole folders with identical contents, compared with SHA-256. Unless you choose folders, it
-  looks in Desktop, Documents, Downloads, Pictures, Movies, and Music. Files under 100 KB, and folders holding less, are
-  left out unless you choose a smaller size, in the app and in `peel duplicates` alike. Copies whose Finder tags, Finder
-  comment, or resource fork differ aren't listed together, since moving the copy that has them would lose them. After a
-  scan you start, Peel selects every copy in each group but the first, which it suggests keeping, so look before you
-  move them: one copy is always kept. A copy in a folder that syncs to your other devices, such as iCloud Drive or what
-  Desktop and Documents hold when they are in iCloud, is listed and never moved, since the Trash would take it from your
-  other devices too: beside a copy on this Mac it is marked Stays, and a group whose every copy syncs is listed under
-  Synced to Other Devices. A chosen folder Peel doesn't scan, such as a repository, is named with why, in Scan Settings
-  and with the result.
+- **Duplicates:** files and whole folders with identical contents, compared with SHA-256. Unless you choose folders,
+  it looks in Desktop, Documents, Downloads, Pictures, Movies, and Music. Files under 100 KB, and folders holding
+  less, are left out unless you choose a smaller size, in the app and in `peel duplicates` alike. Copies whose Finder
+  tags, Finder comment, or resource fork differ aren't listed together, since moving the copy that has them would lose
+  them. After a scan you start, Peel selects every copy in each group but the first, which it suggests keeping: one
+  outside Downloads, then one whose name doesn't end like a copy's, such as `photo copy.jpg` or `photo (1).jpg`, then
+  one on the disk your home folder is on, then the oldest. Look before you move them: one copy is always kept. A copy
+  in a folder that syncs to your other devices, such as iCloud Drive or what Desktop and Documents hold when they are
+  in iCloud, is listed and never moved, since the Trash would take it from your other devices too: beside a copy on
+  this Mac it is marked Stays, and a group whose every copy syncs is listed under Synced to Other Devices. A chosen
+  folder Peel doesn't scan, such as a repository, is named with why, in Scan Settings and with the result.
 - **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and in
   the folders directly inside them, where installers are usually left, with archives there that hold an app or an
   installer. It also lists packages an app keeps in Application Support, macOS installers there and in the folders

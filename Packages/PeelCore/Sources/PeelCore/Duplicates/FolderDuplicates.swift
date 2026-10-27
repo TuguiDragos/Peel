@@ -61,7 +61,7 @@ struct FolderDuplicates: Sendable {
     func groups(
         in roots: [URL],
         minimumSize: Int64,
-        downloads: String,
+        keepOrder: DuplicateFinder.KeepOrder,
         removalGuard: RemovalGuard,
         known: KnownDigests? = nil,
         progress: @escaping @Sendable (DuplicateScanProgress) -> Void
@@ -101,7 +101,7 @@ struct FolderDuplicates: Sendable {
         var contents = samples.filter { !FileDigest.isSampled(size: $0.key.size) }
         contents.merge(Self.table(read)) { _, verified in verified }
 
-        return build(grouped(alike, by: contents), downloads: downloads, removalGuard: removalGuard)
+        return build(grouped(alike, by: contents), keepOrder: keepOrder, removalGuard: removalGuard)
     }
 
     /// Whether `folder` still holds exactly what the scan compared, listed again the same way. The exclusions and
@@ -360,7 +360,7 @@ struct FolderDuplicates: Sendable {
     /// tree make one row, not a row for every folder in it.
     private func build(
         _ groups: [(digest: SHA256.Digest, folders: [Folder])],
-        downloads: String,
+        keepOrder: DuplicateFinder.KeepOrder,
         removalGuard: RemovalGuard
     ) -> [DuplicateFolderGroup] {
         // The shallowest groups go first. A group whose folders all sit inside offered ones can never be a row, nor
@@ -380,8 +380,7 @@ struct FolderDuplicates: Sendable {
             let topmost = group.folders.filter { !DuplicateFinder.isInside(offered, $0.url) }
             guard topmost.count > 1 else { return nil }
             let sorted = topmost.sorted {
-                DuplicateFinder.keepRank(of: $0.url, creationTime: $0.identity.creationTime, downloads: downloads)
-                    < DuplicateFinder.keepRank(of: $1.url, creationTime: $1.identity.creationTime, downloads: downloads)
+                keepOrder.rank(of: $0.url, identity: $0.identity) < keepOrder.rank(of: $1.url, identity: $1.identity)
             }
             let folders = sorted.compactMap(duplicate)
             guard folders.count > 1 else { return nil }

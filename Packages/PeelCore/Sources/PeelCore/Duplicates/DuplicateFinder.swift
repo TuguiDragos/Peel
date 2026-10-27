@@ -184,7 +184,7 @@ public struct DuplicateFinder: Sendable {
             ).groups(
                 in: scannable,
                 minimumSize: options.minimumSize,
-                downloads: Self.path(of: homeDirectory.appending(path: "Downloads")),
+                keepOrder: KeepOrder(home: homeDirectory),
                 removalGuard: removalGuard,
                 known: known,
                 progress: progress
@@ -413,14 +413,9 @@ public struct DuplicateFinder: Sendable {
     }
 
     private func makeGroup(_ members: [HashedCandidate]) -> DuplicateGroup {
-        let downloads = Self.path(of: homeDirectory.appending(path: "Downloads"))
+        let order = KeepOrder(home: homeDirectory)
         let files = members
-            .map {
-                (
-                    $0.item,
-                    Self.keepRank(of: $0.item.url, creationTime: $0.item.identity.creationTime, downloads: downloads)
-                )
-            }
+            .map { ($0.item, order.rank(of: $0.item.url, identity: $0.item.identity)) }
             .sorted { $0.1 < $1.1 }
             .map { candidate, _ in
                 DuplicateFile(
@@ -435,19 +430,35 @@ public struct DuplicateFinder: Sendable {
         return DuplicateGroup(id: members[0].digest.hexadecimal, files: files)
     }
 
-    /// Ranks a copy for keeping, lower being better: outside Downloads, without a copy suffix, created earlier,
-    /// less deeply nested, then with a shorter name. The path breaks any tie that is left.
-    static func keepRank(of url: URL, creationTime: Int, downloads: String) -> (Int, Int, Int, Int, Int, String) {
-        let path = path(of: url)
-        let name = url.deletingPathExtension().lastPathComponent
-        return (
-            path.isInside(downloads) ? 1 : 0,
-            hasCopySuffix(name) ? 1 : 0,
-            creationTime,
-            url.pathComponents.count,
-            name.count,
-            path
-        )
+    /// Which copy is kept, from the home folder: its Downloads, and the disk it is on.
+    struct KeepOrder: Sendable {
+        private let downloads: String
+        private let homeDevice: dev_t?
+
+        init(home: URL) {
+            downloads = DuplicateFinder.path(of: home.appending(path: "Downloads"))
+            var info = stat()
+            homeDevice = stat(home.path(percentEncoded: false), &info) == 0 ? info.st_dev : nil
+        }
+
+        /// Ranks a copy for keeping, lower being better: outside Downloads, without a copy suffix, on the disk the
+        /// home folder is on, created earlier, less deeply nested, then with a shorter name. The path breaks any tie
+        /// that is left.
+        func rank(of url: URL, identity: FileIdentity) -> (Int, Int, Int, Int, String) {
+            let path = DuplicateFinder.path(of: url)
+            let name = url.deletingPathExtension().lastPathComponent
+            let flags = [
+                path.isInside(downloads), DuplicateFinder.hasCopySuffix(name), identity.link.device != homeDevice,
+            ]
+            return (
+                // Each flag outweighs those after it.
+                flags.reduce(0) { $0 * 2 + ($1 ? 1 : 0) },
+                identity.creationTime,
+                url.pathComponents.count,
+                name.count,
+                path
+            )
+        }
     }
 
     /// Folders never treated as a project, even with a build file in them: the chosen folders, the home folder,
