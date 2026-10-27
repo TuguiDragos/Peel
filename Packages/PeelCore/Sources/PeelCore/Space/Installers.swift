@@ -3,7 +3,8 @@ public import Foundation
 internal import PeelPrivileged
 
 /// A large installer or backup that is easy to forget: an app's disk image, package, or archive, a macOS
-/// installer, device firmware, or a backup of an iPhone or iPad.
+/// installer, device firmware, a backup of an iPhone or iPad, a download a browser never finished, or an update an
+/// app downloaded.
 public struct InstallerItem: Sendable, Hashable, Identifiable {
     public enum Kind: String, Sendable, Hashable, CaseIterable {
         case appInstaller

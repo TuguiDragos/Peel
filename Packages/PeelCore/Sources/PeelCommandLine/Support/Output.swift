@@ -390,7 +390,7 @@ extension HoldBack {
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"
         case .inTheCloud: "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
-        case .openInAProgram: "open in a program right now, which may still be downloading it"
+        case .openInAProgram: "open in a program right now, which may still be using it"
         case .attachedDiskImage: "a disk image open right now; eject it first"
         case .changedRecently: "changed in the last day, so it may still be downloading"
         case .mayStillBeResumed: "a program that resumes downloads, such as a torrent client, may still finish it"

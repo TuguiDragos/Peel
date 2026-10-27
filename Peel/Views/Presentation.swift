@@ -334,7 +334,7 @@ extension HoldBack {
         case .keepsItsSetup:
             "Not selected: it also keeps the options this build was set up with, which nothing else in the project holds."
         case .sharedWithEveryone:
-            "Not selected: /Users/Shared belongs to every account on this Mac rather than to one app."
+            "Not selected: /Users/Shared belongs to every account on this Mac, so this may be another account’s."
         case .holdsWhatOthersPut:
             "Not selected: the package made this folder, but something else put files in it, which may be another program’s or yours."
         case .namedLikeTheApp:
@@ -342,7 +342,7 @@ extension HoldBack {
         case .holdsAnExclusion:
             "Left alone: something you excluded in Settings is inside, and moving this would take it along."
         case .notMeasured:
-            "Not selected: this folder took too long to measure, so Peel doesn’t know how big it is or what is inside."
+            "Not selected: this took too long to measure, so Peel doesn’t know how big it is or what is inside."
         case .couldNotBeRead:
             "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see."
         case .closedByPermissions:
@@ -402,7 +402,7 @@ extension HoldBack {
         case .inTheCloud:
             "Left alone: this syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them."
         case .openInAProgram:
-            "Not selected: a program has this open right now, and may still be downloading it."
+            "Not selected: a program has this open right now, and may still be using it."
         case .attachedDiskImage:
             "Not selected: this disk image is open right now. Eject it first."
         case .changedRecently:
