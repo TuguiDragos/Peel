@@ -49,7 +49,7 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
         /// Excluded in Settings since the scan, or the exclusions are not known, so it is left as a move to the
         /// Trash would be.
         case excluded
-        /// A program holds the file, as the desktop picture is held, so macOS could not lock it to free its copy.
+        /// A program holds the file, as the wallpaper is held, so macOS could not lock it to free its copy.
         case inUse
         /// macOS refused to free the file. The value is the error message it gave.
         case failed(String)

@@ -54,7 +54,7 @@ struct CloudView: View {
                         }
                     }
                 } header: {
-                    heading("Still Here", "These were left as they are, with the reason beside each one.")
+                    heading("Still Here", "These were left as they are, with the reason under each one.")
                 }
             }
 
@@ -77,7 +77,7 @@ struct CloudView: View {
                                     name: file.name,
                                     icon: .file(file.url),
                                     detail: file.isDesktopPicture
-                                        ? "Not selected: it is the desktop picture, which macOS keeps open while it is shown, so its download can’t be removed now."
+                                        ? "Not selected: it is the wallpaper, which macOS keeps open while it is shown, so its download can’t be removed now."
                                         : nil,
                                     size: file.size,
                                     hasNoteColumn: false,
@@ -96,7 +96,10 @@ struct CloudView: View {
                             "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here."
                         )
                     } actions: {
-                        SelectMenu(list: selectableRows(listed), place: Text(Tool.cloud.title), selection: cloud)
+                        SelectMenu(
+                            list: selectableRows(listed), place: Text(Tool.cloud.title), selection: cloud,
+                            removesDownloads: true
+                        )
                     }
                 } footer: {
                     if cloud.cutShort != nil || cloud.sharedDownloads > 0 {

@@ -10293,7 +10293,7 @@
         }
       }
     },
-    "A program is using it, as the desktop picture is used, so macOS couldn’t remove its download. Try again once nothing uses it." : {
+    "A program is using it, as the wallpaper is used, so macOS couldn’t remove its download. Try again once nothing uses it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -10322,25 +10322,25 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un programma lo sta usando, come succede con lo sfondo della scrivania, quindi macOS non è riuscito a rimuoverne il download. Riprova quando non lo usa più nulla."
+            "value" : "Un programma lo sta usando, come succede con lo sfondo, quindi macOS non è riuscito a rimuoverne il download. Riprova quando non lo usa più nulla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "デスクトップの壁紙と同じように、プログラムがこのファイルを使用中のため、macOSはダウンロードしたものを削除できませんでした。使用しているものがなくなったら、もう一度やり直してください。"
+            "value" : "壁紙として使われているときのように、プログラムがこのファイルを使用中のため、macOSはダウンロードしたものを削除できませんでした。使用しているものがなくなったら、もう一度やり直してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "배경화면으로 표시 중인 사진처럼 어떤 프로그램이 이 파일을 사용하고 있어 macOS가 다운로드를 제거할 수 없습니다. 이 파일을 사용하는 항목이 없을 때 다시 시도하십시오."
+            "value" : "배경화면으로 사용 중인 사진처럼 어떤 프로그램이 이 파일을 사용하고 있어 macOS가 다운로드를 제거할 수 없습니다. 이 파일을 사용하는 항목이 없을 때 다시 시도하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een programma gebruikt dit bestand, zoals de bureaubladachtergrond wordt gebruikt, dus macOS kon de download ervan niet verwijderen. Probeer het opnieuw zodra niets het meer gebruikt."
+            "value" : "Een programma gebruikt dit bestand, zoals de achtergrond wordt gebruikt, dus macOS kon de download ervan niet verwijderen. Probeer het opnieuw zodra niets het meer gebruikt."
           }
         },
         "pl" : {
@@ -10358,25 +10358,25 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un program îl folosește, de exemplu ca imagine desktop, așa că macOS nu i‑a putut elimina descărcarea. Încercați din nou când nimic nu îl mai folosește."
+            "value" : "Un program îl folosește, de exemplu ca fundal, așa că macOS nu i‑a putut elimina descărcarea. Încercați din nou când nimic nu îl mai folosește."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Этот файл использует какая-то программа, как это бывает с обоями рабочего стола, поэтому macOS не удалось удалить его загруженную копию. Повторите попытку, когда файл ничем не будет использоваться."
+            "value" : "Этот файл использует какая-то программа, как это бывает с обоями, поэтому macOS не удалось удалить его загруженную копию. Повторите попытку, когда файл ничем не будет использоваться."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ett program använder filen, på samma sätt som skrivbordsbilden används, så macOS kunde inte ta bort hämtningen. Försök igen när inget använder den."
+            "value" : "Ett program använder filen, på samma sätt som bakgrundsbilden används, så macOS kunde inte ta bort hämtningen. Försök igen när inget använder den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir program bu dosyayı, masaüstü resminin kullanıldığı gibi kullanıyor; bu yüzden macOS indirilen kopyasını kaldıramadı. Hiçbir şey onu kullanmadığında yeniden deneyin."
+            "value" : "Bir program bu dosyayı, duvar kâğıdının kullanıldığı gibi kullanıyor; bu yüzden macOS indirilen kopyasını kaldıramadı. Hiçbir şey onu kullanmadığında yeniden deneyin."
           }
         },
         "uk" : {
@@ -10388,13 +10388,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "某个程序正在使用此文件（例如将它用作桌面墙纸），因此macOS未能移除它的下载。请在没有程序使用它时再试一次。"
+            "value" : "某个程序正在使用此文件（例如将它用作墙纸），因此macOS未能移除它的下载。请在没有程序使用它时再试一次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "某個程式正在使用它，就像使用中的桌面背景圖片一樣，因此macOS無法移除它的下載項目。請在沒有任何程式使用它時再試一次。"
+            "value" : "某個程式正在使用它，就像使用中的背景圖片一樣，因此macOS無法移除它的下載項目。請在沒有任何程式使用它時再試一次。"
           }
         }
       }
@@ -100685,7 +100685,7 @@
         }
       }
     },
-    "Not selected: it is the desktop picture, which macOS keeps open while it is shown, so its download can’t be removed now." : {
+    "Not selected: it is the wallpaper, which macOS keeps open while it is shown, so its download can’t be removed now." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -100714,13 +100714,13 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non selezionato: è lo sfondo della scrivania, che macOS tiene aperto finché è visualizzato, quindi ora non è possibile rimuoverne il download."
+            "value" : "Non selezionato: è lo sfondo, che macOS tiene aperto finché è visualizzato, quindi ora non è possibile rimuoverne il download."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選択: これはデスクトップの壁紙で、表示中はmacOSが開いたままにしているため、現在はダウンロードしたものを削除できません。"
+            "value" : "未選択: これは壁紙で、表示中はmacOSが開いたままにしているため、現在はダウンロードしたものを削除できません。"
           }
         },
         "ko" : {
@@ -100732,7 +100732,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niet geselecteerd: dit is de bureaubladachtergrond, die macOS geopend houdt zolang die wordt getoond, dus de download ervan kan nu niet worden verwijderd."
+            "value" : "Niet geselecteerd: dit is de achtergrond, die macOS geopend houdt zolang die wordt getoond, dus de download ervan kan nu niet worden verwijderd."
           }
         },
         "pl" : {
@@ -100750,25 +100750,25 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: este imaginea desktop, pe care macOS o ține deschisă cât timp este afișată, așa că descărcarea sa nu poate fi eliminată acum."
+            "value" : "Neselectat: este fundalul, pe care macOS îl ține deschis cât timp este afișat, așa că descărcarea sa nu poate fi eliminată acum."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не выбрано: этот файл используется как обои рабочего стола, а macOS держит его открытым, пока он показывается, поэтому его загруженную копию сейчас нельзя удалить."
+            "value" : "Не выбрано: этот файл используется как обои, а macOS держит его открытым, пока он показывается, поэтому его загруженную копию сейчас нельзя удалить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inte markerad: det är skrivbordsbilden, som macOS håller öppen medan den visas, så hämtningen kan inte tas bort nu."
+            "value" : "Inte markerad: det är bakgrundsbilden, som macOS håller öppen medan den visas, så hämtningen kan inte tas bort nu."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçilmedi: bu, masaüstü resmidir ve macOS onu gösterildiği sürece açık tutar; bu yüzden indirilen kopyası şu anda kaldırılamaz."
+            "value" : "Seçilmedi: bu, duvar kâğıdıdır ve macOS onu gösterildiği sürece açık tutar; bu yüzden indirilen kopyası şu anda kaldırılamaz."
           }
         },
         "uk" : {
@@ -100780,13 +100780,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未选择：它是桌面墙纸，macOS在显示它时会一直将其打开，因此现在无法移除它的下载。"
+            "value" : "未选择：它是墙纸，macOS在显示它时会一直将其打开，因此现在无法移除它的下载。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選取：它是桌面背景圖片，macOS在顯示時會讓它保持打開，因此現在無法移除它的下載項目。"
+            "value" : "未選取：它是背景圖片，macOS在顯示時會讓它保持打開，因此現在無法移除它的下載項目。"
           }
         }
       }
@@ -185087,108 +185087,108 @@
         }
       }
     },
-    "These were left as they are, with the reason beside each one." : {
+    "These were left as they are, with the reason under each one." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tyto soubory zůstaly, jak byly, a u každého je uveden důvod."
+            "value" : "Tyto soubory zůstaly, jak byly, a pod každým je uveden důvod."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese blieben unverändert, jeweils mit dem Grund daneben."
+            "value" : "Diese blieben unverändert, jeweils mit dem Grund darunter."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se han dejado como estaban, con el motivo junto a cada uno."
+            "value" : "Se han dejado como estaban, con el motivo debajo de cada uno."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ces fichiers ont été laissés tels quels, avec la raison indiquée à côté de chacun."
+            "value" : "Ces fichiers ont été laissés tels quels, avec la raison indiquée sous chacun d’eux."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sono rimasti com’erano, ciascuno con il motivo accanto."
+            "value" : "Sono rimasti com’erano, ciascuno con il motivo indicato sotto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらはそのままにしました。それぞれの横に理由が表示されています。"
+            "value" : "これらはそのままにしました。それぞれの下に理由が表示されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목들은 그대로 두었으며, 각 항목 옆에 이유가 표시되어 있습니다."
+            "value" : "이 항목들은 그대로 두었으며, 각 항목 아래에 이유가 표시되어 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze zijn ongewijzigd gebleven, met bij elk de reden."
+            "value" : "Deze zijn ongewijzigd gebleven, met onder elk de reden."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Te pliki pozostawiono bez zmian, a obok każdego podano powód."
+            "value" : "Te pliki pozostawiono bez zmian, a pod każdym podano powód."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Estes foram deixados como estão, com o motivo ao lado de cada um."
+            "value" : "Estes foram deixados como estão, com o motivo abaixo de cada um."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acestea au fost lăsate așa cum sunt, cu motivul alături de fiecare."
+            "value" : "Acestea au fost lăsate așa cum sunt, cu motivul sub fiecare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Эти файлы оставлены как есть, причина указана рядом с каждым из них."
+            "value" : "Эти файлы оставлены как есть, причина указана под каждым из них."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De här lämnades som de är, och orsaken står bredvid var och en."
+            "value" : "De här lämnades som de är, och orsaken står under var och en."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunlar olduğu gibi bırakıldı; her birinin nedeni yanında yazıyor."
+            "value" : "Bunlar olduğu gibi bırakıldı; her birinin nedeni altında yazıyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Їх залишено як є, а причину вказано біля кожного."
+            "value" : "Їх залишено як є, а причину вказано під кожним."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这些文件保持原样，每个文件旁边都注明了原因。"
+            "value" : "这些文件保持原样，每个文件下方都注明了原因。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這些項目維持原狀，各項旁邊都列有原因。"
+            "value" : "這些項目維持原狀，各項下方都列有原因。"
           }
         }
       }
@@ -186271,6 +186271,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這也會選取%lld個Peel不建議移除的項目。移動前請逐一檢查，或只選取Peel建議的項目。"
+          }
+        }
+      }
+    },
+    "This also selects ^[%lld item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download, or select only what Peel recommends." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položky, které Peel nedoporučuje odstranit. Před odstraněním stažené kopie každou zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položky, které Peel nedoporučuje odstranit. Před odstraněním stažené kopie každou zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položku, kterou Peel nedoporučuje odstranit. Před odstraněním stažené kopie ji zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete také %lld položek, které Peel nedoporučuje odstranit. Před odstraněním stažené kopie každou zkontrolujte, nebo vyberte jen to, co Peel doporučuje."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch wird auch %lld Objekt ausgewählt, das Peel nicht zum Entfernen empfiehlt. Prüfe es, bevor du seinen Download entfernst, oder wähle nur aus, was Peel empfiehlt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch werden auch %lld Objekte ausgewählt, die Peel nicht zum Entfernen empfiehlt. Prüfe jedes einzelne, bevor du seinen Download entfernst, oder wähle nur aus, was Peel empfiehlt."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto también selecciona %lld de ítems que Peel no recomienda eliminar. Revisa cada uno antes de eliminar su descarga, o selecciona solo lo que Peel recomienda."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto también selecciona %lld ítem que Peel no recomienda eliminar. Revísalo antes de eliminar su descarga, o selecciona solo lo que Peel recomienda."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto también selecciona %lld ítems que Peel no recomienda eliminar. Revisa cada uno antes de eliminar su descarga, o selecciona solo lo que Peel recomienda."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne aussi %lld d’éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de retirer son téléchargement, ou ne sélectionnez que ce que Peel recommande."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne aussi %lld élément dont Peel ne recommande pas la suppression. Examinez-le avant de retirer son téléchargement, ou ne sélectionnez que ce que Peel recommande."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne aussi %lld éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de retirer son téléchargement, ou ne sélectionnez que ce que Peel recommande."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati anche %lld di elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di rimuoverne il download, oppure seleziona solo ciò che Peel consiglia."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verrà selezionato anche %lld elemento che Peel non consiglia di rimuovere. Controllalo prima di rimuoverne il download, oppure seleziona solo ciò che Peel consiglia."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati anche %lld elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di rimuoverne il download, oppure seleziona solo ciò che Peel consiglia."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロードしたものの削除をPeelがおすすめしない%lld項目も選択されます。ダウンロードしたものを削除する前に各項目を確認するか、Peelがおすすめする項目だけを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제거를 추천하지 않는 항목 %lld개도 선택됩니다. 각 항목의 다운로드를 제거하기 전에 확인하거나, Peel이 추천하는 항목만 선택하십시오."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je ook %lld onderdeel dat Peel niet voor verwijdering aanbeveelt. Controleer het voordat je de download ervan verwijdert, of selecteer alleen wat Peel aanbeveelt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je ook %lld onderdelen die Peel niet voor verwijdering aanbeveelt. Controleer elk onderdeel voordat je de download ervan verwijdert, of selecteer alleen wat Peel aanbeveelt."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzeczy, których pobranych kopii Peel nie zaleca usuwać. Sprawdź każdą z nich, zanim usuniesz jej pobraną kopię, albo zaznacz tylko to, co zaleca Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzeczy, których pobranych kopii Peel nie zaleca usuwać. Sprawdź każdą z nich, zanim usuniesz jej pobraną kopię, albo zaznacz tylko to, co zaleca Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzecz, której pobranej kopii Peel nie zaleca usuwać. Sprawdź ją, zanim usuniesz jej pobraną kopię, albo zaznacz tylko to, co zaleca Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to również %lld rzeczy, których pobranych kopii Peel nie zaleca usuwać. Sprawdź każdą z nich, zanim usuniesz jej pobraną kopię, albo zaznacz tylko to, co zaleca Peel."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso também seleciona %lld de itens que o Peel não recomenda remover. Verifique cada um antes de remover o download dele, ou selecione só o que o Peel recomenda."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso também seleciona %lld item que o Peel não recomenda remover. Verifique-o antes de remover o download dele, ou selecione só o que o Peel recomenda."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso também seleciona %lld itens que o Peel não recomenda remover. Verifique cada um antes de remover o download dele, ou selecione só o que o Peel recomenda."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta și %lld articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îi eliminați descărcarea sau selectați doar ce recomandă Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se va selecta și %lld articol pe care Peel nu recomandă să îl eliminați. Verificați‑l înainte să îi eliminați descărcarea sau selectați doar ce recomandă Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta și %lld de articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îi eliminați descărcarea sau selectați doar ce recomandă Peel."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут также выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем удалять его загруженную копию, или выберите только то, что рекомендует Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут также выбраны %lld объектов, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем удалять его загруженную копию, или выберите только то, что рекомендует Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будет также выбран %lld объект, который Peel не рекомендует удалять. Проверьте каждый такой объект, прежде чем удалять его загруженную копию, или выберите только то, что рекомендует Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут также выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем удалять его загруженную копию, или выберите только то, что рекомендует Peel."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras även %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera det innan du tar bort dess hämtning, eller markera bara det som Peel rekommenderar."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras även %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera vart och ett innan du tar bort dess hämtning, eller markera bara det som Peel rekommenderar."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi de seçer. Onu, indirilen kopyasını kaldırmadan önce gözden geçirin veya yalnızca Peel’in önerdiklerini seçin."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi de seçer. Her birini, indirilen kopyasını kaldırmadan önce gözden geçirin veya yalnızca Peel’in önerdiklerini seçin."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елементи, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування, або виберіть лише те, що рекомендує Peel."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елементів, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування, або виберіть лише те, що рекомендує Peel."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елемент, який Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування, або виберіть лише те, що рекомендує Peel."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це також вибере %lld елемента, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування, або виберіть лише те, що рекомендує Peel."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这还会选择%lld个Peel不推荐移除的项目。请在移除其下载前逐一检查，或者只选择Peel推荐的项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這也會選取%lld個Peel不建議移除的項目。移除其下載項目前請逐一檢查，或只選取Peel建議的項目。"
           }
         }
       }
@@ -188837,6 +189177,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這會選取%lld個Peel不建議移除的項目。移動前請逐一檢查。"
+          }
+        }
+      }
+    },
+    "This selects ^[%lld item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položky, které Peel nedoporučuje odstranit. Před odstraněním stažené kopie každou zkontrolujte."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položky, které Peel nedoporučuje odstranit. Před odstraněním stažené kopie každou zkontrolujte."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položku, kterou Peel nedoporučuje odstranit. Před odstraněním stažené kopie ji zkontrolujte."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tím vyberete %lld položek, které Peel nedoporučuje odstranit. Před odstraněním stažené kopie každou zkontrolujte."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch wird %lld Objekt ausgewählt, das Peel nicht zum Entfernen empfiehlt. Prüfe es, bevor du seinen Download entfernst."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dadurch werden %lld Objekte ausgewählt, die Peel nicht zum Entfernen empfiehlt. Prüfe jedes einzelne, bevor du seinen Download entfernst."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto selecciona %lld de ítems que Peel no recomienda eliminar. Revisa cada uno antes de eliminar su descarga."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto selecciona %lld ítem que Peel no recomienda eliminar. Revísalo antes de eliminar su descarga."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto selecciona %lld ítems que Peel no recomienda eliminar. Revisa cada uno antes de eliminar su descarga."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne %lld d’éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de retirer son téléchargement."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne %lld élément dont Peel ne recommande pas la suppression. Examinez-le avant de retirer son téléchargement."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette action sélectionne %lld éléments dont Peel ne recommande pas la suppression. Examinez chacun d’eux avant de retirer son téléchargement."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati %lld di elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di rimuoverne il download."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verrà selezionato %lld elemento che Peel non consiglia di rimuovere. Controllalo prima di rimuoverne il download."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Verranno selezionati %lld elementi che Peel non consiglia di rimuovere. Controlla ciascuno prima di rimuoverne il download."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロードしたものの削除をPeelがおすすめしない%lld項目が選択されます。ダウンロードしたものを削除する前に各項目を確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제거를 추천하지 않는 항목 %lld개가 선택됩니다. 각 항목의 다운로드를 제거하기 전에 확인하십시오."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je %lld onderdeel dat Peel niet voor verwijdering aanbeveelt. Controleer het voordat je de download ervan verwijdert."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hiermee selecteer je %lld onderdelen die Peel niet voor verwijdering aanbeveelt. Controleer elk onderdeel voordat je de download ervan verwijdert."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzeczy, których pobranych kopii Peel nie zaleca usuwać. Sprawdź każdą z nich, zanim usuniesz jej pobraną kopię."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzeczy, których pobranych kopii Peel nie zaleca usuwać. Sprawdź każdą z nich, zanim usuniesz jej pobraną kopię."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzecz, której pobranej kopii Peel nie zaleca usuwać. Sprawdź ją, zanim usuniesz jej pobraną kopię."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zaznaczy to %lld rzeczy, których pobranych kopii Peel nie zaleca usuwać. Sprawdź każdą z nich, zanim usuniesz jej pobraną kopię."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso seleciona %lld de itens que o Peel não recomenda remover. Verifique cada um antes de remover o download dele."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso seleciona %lld item que o Peel não recomenda remover. Verifique-o antes de remover o download dele."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Isso seleciona %lld itens que o Peel não recomenda remover. Verifique cada um antes de remover o download dele."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta %lld articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îi eliminați descărcarea."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se va selecta %lld articol pe care Peel nu recomandă să îl eliminați. Verificați‑l înainte să îi eliminați descărcarea."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se vor selecta %lld de articole pe care Peel nu recomandă să le eliminați. Verificați fiecare articol înainte să îi eliminați descărcarea."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем удалять его загруженную копию."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут выбраны %lld объектов, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем удалять его загруженную копию."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будет выбран %lld объект, который Peel не рекомендует удалять. Проверьте каждый такой объект, прежде чем удалять его загруженную копию."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Будут выбраны %lld объекта, которые Peel не рекомендует удалять. Проверьте каждый из них, прежде чем удалять его загруженную копию."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera det innan du tar bort dess hämtning."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Då markeras %lld objekt som Peel inte rekommenderar att du tar bort. Kontrollera vart och ett innan du tar bort dess hämtning."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi seçer. Onu, indirilen kopyasını kaldırmadan önce gözden geçirin."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu işlem, Peel’in kaldırılmasını önermediği %lld öğeyi seçer. Her birini, indirilen kopyasını kaldırmadan önce gözden geçirin."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елементи, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елементів, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елемент, який Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Це вибере %lld елемента, які Peel не рекомендує вилучати. Перевірте кожен, перш ніж вилучати його викачування."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这会选择%lld个Peel不推荐移除的项目。请在移除其下载前逐一检查。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這會選取%lld個Peel不建議移除的項目。移除其下載項目前請逐一檢查。"
           }
         }
       }

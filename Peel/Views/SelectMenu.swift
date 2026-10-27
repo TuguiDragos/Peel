@@ -11,6 +11,8 @@ struct SelectMenu: View {
     /// the list is whole. False when the reading was stopped, and the command is then dropped.
     private let reading: (() async -> Bool)?
     private let isDisabled: Bool
+    /// True where selecting means removing a download rather than moving to the Trash, as on iCloud Drive.
+    private var removesDownloads = false
     @State private var notRecommended: Int?
     /// A command chosen before the list was whole, which runs once it is.
     @State private var waiting: Command?
@@ -27,12 +29,13 @@ struct SelectMenu: View {
         case pages(Int)
     }
 
-    init(list: SelectableRows<URL>, place: Text, selection: any RowSelection) {
+    init(list: SelectableRows<URL>, place: Text, selection: any RowSelection, removesDownloads: Bool = false) {
         self.list = list
         self.selection = selection
         scope = .list(place)
         reading = nil
         isDisabled = false
+        self.removesDownloads = removesDownloads
     }
 
     init(
@@ -89,10 +92,16 @@ struct SelectMenu: View {
                 Button("Cancel", role: .cancel) {}
             }
         } message: {
-            if list.recommended.isEmpty {
-                Text("This selects ^[\(notRecommended ?? 0) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it.")
-            } else {
-                Text("This also selects ^[\(notRecommended ?? 0) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it, or select only what Peel recommends.")
+            let count = notRecommended ?? 0
+            switch (list.recommended.isEmpty, removesDownloads) {
+            case (true, false):
+                Text("This selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it.")
+            case (false, false):
+                Text("This also selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it, or select only what Peel recommends.")
+            case (true, true):
+                Text("This selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download.")
+            case (false, true):
+                Text("This also selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download, or select only what Peel recommends.")
             }
         }
         .onChange(of: waiting) { _, command in
