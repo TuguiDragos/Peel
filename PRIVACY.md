@@ -23,7 +23,8 @@ language, so the server that keeps those pages can tell which language you read.
 shows their text, and a link in them opens only when you click it.
 
 Homebrew goes online only when you ask it to: to update, to upgrade, to repair its taps, which asks each tap's
-repository whether its main branch was renamed, or to scan for vulnerabilities. That scan, which Homebrew runs as
+repository whether its main branch was renamed, or to scan for vulnerabilities. It also gets its own copy of Ruby again
+before it answers Peel when a failed update left that copy behind. That scan, which Homebrew runs as
 `brew vulns`, is the one time a list of what is installed leaves your Mac all at once: for each formula it checks,
 where its code comes from (the address of its source repository and the release tag, or a package's name) and its
 version, sent to `api.osv.dev`. Peel runs Homebrew with its analytics turned off. Your own Homebrew settings (a

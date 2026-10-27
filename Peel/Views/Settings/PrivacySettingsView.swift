@@ -38,7 +38,7 @@ struct PrivacySettingsView: View {
                         .labelsHidden()
                         .accessibilityLabel(Text("Check for app updates"))
                 } label: {
-                    titled("Check for app updates", "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change.")
+                    titled("Check for app updates", "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan, and to get its own copy of Ruby again when a failed update left it behind. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change.")
                 }
             } header: {
                 Text("Hosts Peel Can Contact")

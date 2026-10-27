@@ -49608,108 +49608,109 @@
         }
       }
     },
-    "Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, or reinstall pkgconf after a macOS update." : {
+    "Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, reinstall pkgconf after a macOS update, or delete an old copy of its core taps it no longer needs." : {
+      "comment" : "The note of the Update Homebrew row on the Homebrew page. pkgconf is a formula's name and stays as it is.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stáhne nejnovější Homebrew a jeho nejnovější seznam balíčků, proto to spusťte dřív, než začnete hledat aktualizace. Nic neupgraduje, i když Homebrew může přejmenovaný balíček přesunout pod nový název nebo po aktualizaci macOS znovu nainstalovat pkgconf."
+            "value" : "Stáhne nejnovější Homebrew a jeho nejnovější seznam balíčků, proto to spusťte dřív, než začnete hledat aktualizace. Nic neupgraduje, i když Homebrew může přejmenovaný balíček přesunout pod nový název, po aktualizaci macOS znovu nainstalovat pkgconf nebo smazat starou kopii svých základních taps, kterou už nepotřebuje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Holt die neueste Version von Homebrew und seine neueste Paketliste. Führe dies daher aus, bevor du nach Updates suchst. Dabei werden keine Upgrades ausgeführt, allerdings kann Homebrew ein umbenanntes Paket auf seinen neuen Namen umstellen oder pkgconf nach einem macOS-Update neu installieren."
+            "value" : "Holt die neueste Version von Homebrew und seine neueste Paketliste. Führe dies daher aus, bevor du nach Updates suchst. Dabei werden keine Upgrades ausgeführt, allerdings kann Homebrew ein umbenanntes Paket auf seinen neuen Namen umstellen, pkgconf nach einem macOS-Update neu installieren oder eine alte Kopie seiner Kern-Taps löschen, die es nicht mehr benötigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obtiene la versión más reciente de Homebrew y su lista de paquetes más reciente, así que ejecútalo antes de buscar actualizaciones. No actualiza ningún paquete, aunque Homebrew puede pasar un paquete renombrado a su nombre nuevo o reinstalar pkgconf tras una actualización de macOS."
+            "value" : "Obtiene la versión más reciente de Homebrew y su lista de paquetes más reciente, así que ejecútalo antes de buscar actualizaciones. No actualiza ningún paquete, aunque Homebrew puede pasar un paquete renombrado a su nombre nuevo, reinstalar pkgconf tras una actualización de macOS o borrar una copia antigua de sus taps principales que ya no necesita."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Récupère la dernière version de Homebrew et sa liste de paquets la plus récente : exécutez donc cette commande avant de rechercher des mises à jour. Elle ne met rien à niveau, mais Homebrew peut déplacer un paquet renommé vers son nouveau nom, ou réinstaller pkgconf après une mise à jour de macOS."
+            "value" : "Récupère la dernière version de Homebrew et sa liste de paquets la plus récente : exécutez donc cette commande avant de rechercher des mises à jour. Elle ne met rien à niveau, mais Homebrew peut déplacer un paquet renommé vers son nouveau nom, réinstaller pkgconf après une mise à jour de macOS, ou supprimer une ancienne copie de ses taps principaux dont il n’a plus besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scarica l’ultima versione di Homebrew e il suo elenco di pacchetti più recente, quindi eseguilo prima di cercare aggiornamenti. Non aggiorna nessun pacchetto, anche se Homebrew potrebbe spostare un pacchetto rinominato sotto il suo nuovo nome o reinstallare pkgconf dopo un aggiornamento di macOS."
+            "value" : "Scarica l’ultima versione di Homebrew e il suo elenco di pacchetti più recente, quindi eseguilo prima di cercare aggiornamenti. Non aggiorna nessun pacchetto, anche se Homebrew potrebbe spostare un pacchetto rinominato sotto il suo nuovo nome, reinstallare pkgconf dopo un aggiornamento di macOS o eliminare una vecchia copia dei suoi tap principali che non gli serve più."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最新のHomebrewと最新のパッケージリストを取得します。アップデートを確認する前に実行してください。何もアップグレードしませんが、名前が変わったパッケージをHomebrewが新しい名前に移したり、macOSのアップデート後にpkgconfを再インストールしたりすることがあります。"
+            "value" : "最新のHomebrewと最新のパッケージリストを取得します。アップデートを確認する前に実行してください。何もアップグレードしませんが、名前が変わったパッケージをHomebrewが新しい名前に移したり、macOSのアップデート後にpkgconfを再インストールしたり、不要になったコアtapsの古いコピーを削除したりすることがあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "최신 Homebrew와 최신 패키지 목록을 가져오므로, 업데이트를 확인하기 전에 실행하십시오. 아무것도 업그레이드하지 않지만, Homebrew가 이름이 바뀐 패키지를 새 이름으로 옮기거나 macOS 업데이트 후 pkgconf를 다시 설치할 수는 있습니다."
+            "value" : "최신 Homebrew와 최신 패키지 목록을 가져오므로, 업데이트를 확인하기 전에 실행하십시오. 아무것도 업그레이드하지 않지만, Homebrew가 이름이 바뀐 패키지를 새 이름으로 옮기거나, macOS 업데이트 후 pkgconf를 다시 설치하거나, 더 이상 필요 없는 핵심 tap의 오래된 복사본을 삭제할 수는 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Haalt de nieuwste versie van Homebrew en de nieuwste lijst met pakketten op, dus voer dit uit voordat je naar updates zoekt. Het upgradet niets, al kan Homebrew een hernoemd pakket naar de nieuwe naam verplaatsen of pkgconf opnieuw installeren na een macOS-update."
+            "value" : "Haalt de nieuwste versie van Homebrew en de nieuwste lijst met pakketten op, dus voer dit uit voordat je naar updates zoekt. Het upgradet niets, al kan Homebrew een hernoemd pakket naar de nieuwe naam verplaatsen, pkgconf opnieuw installeren na een macOS-update of een oude kopie van zijn core-taps die het niet meer nodig heeft, definitief verwijderen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pobiera najnowszą wersję Homebrew i najnowszą listę pakietów, więc uruchom to przed szukaniem uaktualnień. Niczego nie uaktualnia, choć Homebrew może przenieść pakiet o zmienionej nazwie pod nową nazwę albo ponownie zainstalować pkgconf po uaktualnieniu macOS."
+            "value" : "Pobiera najnowszą wersję Homebrew i najnowszą listę pakietów, więc uruchom to przed szukaniem uaktualnień. Niczego nie uaktualnia, choć Homebrew może przenieść pakiet o zmienionej nazwie pod nową nazwę, ponownie zainstalować pkgconf po uaktualnieniu macOS albo usunąć starą kopię swoich podstawowych tapów, której już nie potrzebuje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obtém a versão mais recente do Homebrew e a lista de pacotes mais recente dele, então execute isto antes de procurar atualizações. Não faz upgrade de nada, embora o Homebrew possa passar um pacote renomeado para o novo nome ou reinstalar o pkgconf depois de uma atualização do macOS."
+            "value" : "Obtém a versão mais recente do Homebrew e a lista de pacotes mais recente dele, então execute isto antes de procurar atualizações. Não faz upgrade de nada, embora o Homebrew possa passar um pacote renomeado para o novo nome, reinstalar o pkgconf depois de uma atualização do macOS ou apagar uma cópia antiga dos taps principais dele que não seja mais necessária."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obține cea mai nouă versiune Homebrew și cea mai nouă listă de pachete, așa că rulați această comandă înainte de a căuta actualizări. Nu face upgrade la nimic, deși Homebrew poate trece un pachet redenumit la noul său nume sau poate reinstala pkgconf după o actualizare macOS."
+            "value" : "Obține cea mai nouă versiune Homebrew și cea mai nouă listă de pachete, așa că rulați această comandă înainte de a căuta actualizări. Nu face upgrade la nimic, deși Homebrew poate trece un pachet redenumit la noul său nume, poate reinstala pkgconf după o actualizare macOS sau poate șterge o copie veche a tap‑urilor sale de bază, de care nu mai are nevoie."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Загружает новейшую версию Homebrew и новейший список пакетов, поэтому выполняйте эту команду перед поиском обновлений. Пакеты при этом не обновляются, хотя Homebrew может перенести переименованный пакет под новое имя или переустановить pkgconf после обновления macOS."
+            "value" : "Загружает новейшую версию Homebrew и новейший список пакетов, поэтому выполняйте эту команду перед поиском обновлений. Пакеты при этом не обновляются, хотя Homebrew может перенести переименованный пакет под новое имя, переустановить pkgconf после обновления macOS или удалить старую копию своих основных taps, которая ему больше не нужна."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hämtar den senaste versionen av Homebrew och dess senaste paketlista, så kör det innan du letar efter uppdateringar. Det uppgraderar ingenting, men Homebrew kan flytta ett paket som har bytt namn till det nya namnet, eller installera om pkgconf efter en macOS-uppdatering."
+            "value" : "Hämtar den senaste versionen av Homebrew och dess senaste paketlista, så kör det innan du letar efter uppdateringar. Det uppgraderar ingenting, men Homebrew kan flytta ett paket som har bytt namn till det nya namnet, installera om pkgconf efter en macOS-uppdatering eller radera en gammal kopia av sina centrala taps som Homebrew inte längre behöver."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un en yeni sürümünü ve en yeni paket listesini alır, bu yüzden güncellemelere bakmadan önce bunu çalıştırın. Hiçbir şeyi yükseltmez; yine de Homebrew adı değişmiş bir paketi yeni adına taşıyabilir veya bir macOS güncellemesinden sonra pkgconf paketini yeniden yükleyebilir."
+            "value" : "Homebrew’un en yeni sürümünü ve en yeni paket listesini alır, bu yüzden güncellemelere bakmadan önce bunu çalıştırın. Hiçbir şeyi yükseltmez; yine de Homebrew adı değişmiş bir paketi yeni adına taşıyabilir, bir macOS güncellemesinden sonra pkgconf paketini yeniden yükleyebilir veya çekirdek tap depolarının artık gerekmeyen eski bir kopyasını silebilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Викачує найновіший Homebrew і найновіший список його пакетів, тож запускайте це, перш ніж шукати оновлення. Самі пакети при цьому не оновлюються, хоча Homebrew може перенести перейменований пакет під нову назву або перевстановити pkgconf після оновлення macOS."
+            "value" : "Викачує найновіший Homebrew і найновіший список його пакетів, тож запускайте це, перш ніж шукати оновлення. Самі пакети при цьому не оновлюються, хоча Homebrew може перенести перейменований пакет під нову назву, перевстановити pkgconf після оновлення macOS або видалити стару копію своїх основних taps, яка йому більше не потрібна."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "获取最新的Homebrew及其最新的软件包列表，因此请在查找更新之前运行它。它不会升级任何内容，不过Homebrew可能会将已改名的软件包迁移到新名称下，或在macOS更新后重新安装pkgconf。"
+            "value" : "获取最新的Homebrew及其最新的软件包列表，因此请在查找更新之前运行它。它不会升级任何内容，不过Homebrew可能会将已改名的软件包迁移到新名称下、在macOS更新后重新安装pkgconf，或删除它不再需要的核心taps旧副本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "取得最新版的Homebrew及其最新的套件列表，因此請在尋找更新項目前先執行。它不會升級任何項目，但Homebrew可能會將已更名的套件移至新名稱，或在macOS更新後重新安裝pkgconf。"
+            "value" : "取得最新版的Homebrew及其最新的套件列表，因此請在尋找更新項目前先執行。它不會升級任何項目，但Homebrew可能會將已更名的套件移至新名稱、在macOS更新後重新安裝pkgconf，或刪除它不再需要的核心taps舊副本。"
           }
         }
       }
@@ -65012,6 +65013,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "中斷的移除作業"
+          }
+        }
+      }
+    },
+    "It also deletes the broken links and empty folders it finds in %@." : {
+      "comment" : "On the Homebrew page, about Clean Up and in its question. %@ is the folder Homebrew installs into, such as /opt/homebrew or /usr/local.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smaže také nefunkční odkazy a prázdné složky, které najde ve složce %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Außerdem löscht Homebrew die defekten Links und leeren Ordner, die es in %@ findet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "También borra los enlaces rotos y las carpetas vacías que encuentra en %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il supprime aussi les liens rompus et les dossiers vides qu’il trouve dans %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina anche i link interrotti e le cartelle vuote che trova in %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "また、%@内で見つかった壊れたリンクと空のフォルダも削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에서 찾은 깨진 링크와 빈 폴더도 삭제합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het verwijdert ook definitief de kapotte links en lege mappen die het in %@ vindt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa też uszkodzone dowiązania i puste foldery, które znajdzie w %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele também apaga os links quebrados e as pastas vazias que encontrar em %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De asemenea, șterge linkurile rupte și dosarele goale pe care le găsește în %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew также удаляет неработающие ссылки и пустые папки, которые находит в %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew raderar också de trasiga länkar och tomma mappar som det hittar i %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayrıca %@ içinde bulduğu bozuk bağlantıları ve boş klasörleri de siler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew також видаляє пошкоджені посилання й порожні папки, які знаходить у %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它还会删除在%@中找到的失效链接和空文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它也會刪除在%@中找到的損壞連結和空檔案夾。"
           }
         }
       }
@@ -209479,108 +209587,109 @@
         }
       }
     },
-    "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change." : {
+    "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan, and to get its own copy of Ruby again when a failed update left it behind. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change." : {
+      "comment" : "The note of Check for app updates in Settings > Privacy. Ruby is a programming language's name; brew.env is a file name.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když je tato volba vypnutá, Peel se sám od sebe nikam nepřipojuje. Homebrew se připojí k internetu, jen když ho o to požádáte: Aktualizovat, Upgradovat (tam nebo na vlastní stránce aplikace), Opravit taps a kontrola zranitelností. To mohou změnit vaše vlastní nastavení Homebrew v souboru brew.env a stránka Homebrew pak uvádí, co mění."
+            "value" : "Když je tato volba vypnutá, Peel se sám od sebe nikam nepřipojuje. Homebrew se připojí k internetu, jen když ho o to požádáte: Aktualizovat, Upgradovat (tam nebo na vlastní stránce aplikace), Opravit taps a kontrola zranitelností, a také proto, aby znovu stáhl vlastní kopii Ruby, když ji neúspěšná aktualizace nechala zastaralou. To mohou změnit vaše vlastní nastavení Homebrew v souboru brew.env a stránka Homebrew pak uvádí, co mění."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ist dies deaktiviert, kontaktiert Peel von sich aus nichts. Homebrew geht nur online, wenn du es darum bittest: „Aktualisieren“, „Upgraden“ (dort oder auf der Seite einer App), „Taps reparieren“ und der Sicherheitslücken-Scan. Deine eigenen Einstellungen für Homebrew in einer brew.env-Datei können das ändern, und die Seite „Homebrew“ gibt dann an, was sie ändern."
+            "value" : "Ist dies deaktiviert, kontaktiert Peel von sich aus nichts. Homebrew geht nur online, wenn du es darum bittest: „Aktualisieren“, „Upgraden“ (dort oder auf der Seite einer App), „Taps reparieren“ und der Sicherheitslücken-Scan, sowie um seine eigene Kopie von Ruby erneut zu laden, wenn ein fehlgeschlagenes Update sie nicht auf den aktuellen Stand gebracht hat. Deine eigenen Einstellungen für Homebrew in einer brew.env-Datei können das ändern, und die Seite „Homebrew“ gibt dann an, was sie ändern."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con esto desactivado, Peel no se conecta a nada por su cuenta. Homebrew solo se conecta a internet cuando se lo pides: al actualizar Homebrew, al actualizar paquetes (en la página de Homebrew o en la de una app), al reparar taps y con el análisis de vulnerabilidades. Tus propios ajustes de Homebrew, en un archivo brew.env, pueden cambiar esto, y entonces la página de Homebrew indica qué cambian."
+            "value" : "Con esto desactivado, Peel no se conecta a nada por su cuenta. Homebrew solo se conecta a internet cuando se lo pides: al actualizar Homebrew, al actualizar paquetes (en la página de Homebrew o en la de una app), al reparar taps y con el análisis de vulnerabilidades, y para volver a obtener su propia copia de Ruby cuando una actualización fallida la ha dejado desactualizada. Tus propios ajustes de Homebrew, en un archivo brew.env, pueden cambiar esto, y entonces la página de Homebrew indica qué cambian."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si cette option est désactivée, Peel ne contacte rien de lui-même. Homebrew ne se connecte à Internet que lorsque vous le lui demandez : « Mettre à jour », « Mettre à niveau » (sur la page Homebrew ou sur celle d’une app), « Réparer les taps » et la recherche de vulnérabilités. Vos propres réglages Homebrew, dans un fichier brew.env, peuvent modifier cela, et la page Homebrew indique alors ce qu’ils changent."
+            "value" : "Si cette option est désactivée, Peel ne contacte rien de lui-même. Homebrew ne se connecte à Internet que lorsque vous le lui demandez : « Mettre à jour », « Mettre à niveau » (sur la page Homebrew ou sur celle d’une app), « Réparer les taps » et la recherche de vulnérabilités, ainsi que pour récupérer à nouveau sa propre copie de Ruby lorsqu’une mise à jour qui a échoué l’a laissée dans une version dépassée. Vos propres réglages Homebrew, dans un fichier brew.env, peuvent modifier cela, et la page Homebrew indique alors ce qu’ils changent."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con questa opzione disattivata, Peel non contatta nulla di sua iniziativa. Homebrew va online solo quando glielo chiedi: con Aggiorna (per Homebrew stesso, o per i pacchetti lì o nella pagina di un’app), con “Ripara i tap” e con la ricerca di vulnerabilità. Le tue impostazioni di Homebrew, in un file brew.env, possono cambiare questo comportamento, e in quel caso la pagina Homebrew indica cosa cambiano."
+            "value" : "Con questa opzione disattivata, Peel non contatta nulla di sua iniziativa. Homebrew va online solo quando glielo chiedi: con Aggiorna (per Homebrew stesso, o per i pacchetti lì o nella pagina di un’app), con “Ripara i tap” e con la ricerca di vulnerabilità, e per scaricare di nuovo la propria copia di Ruby quando è rimasta indietro dopo un aggiornamento non riuscito. Le tue impostazioni di Homebrew, in un file brew.env, possono cambiare questo comportamento, e in quel caso la pagina Homebrew indica cosa cambiano."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これをオフにすると、Peelが自ら通信することはありません。Homebrewがインターネットに接続するのは、指示したときだけです。対象は、“アップデート”、“アップグレード”（Homebrewのページ、またはアプリのページ）、“tapsを修復”、脆弱性スキャンです。brew.envファイルで行ったHomebrewの設定によって、これが変わることがあります。その場合は、何が変わるかがHomebrewのページに表示されます。"
+            "value" : "これをオフにすると、Peelが自ら通信することはありません。Homebrewがインターネットに接続するのは、“アップデート”、“アップグレード”（Homebrewのページ、またはアプリのページ）、“tapsを修復”、脆弱性スキャンを指示したときと、アップデートが失敗してHomebrew独自のRubyが古いままになったときに、それを取得し直す場合だけです。brew.envファイルで行ったHomebrewの設定によって、これが変わることがあります。その場合は、何が変わるかがHomebrewのページに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 기능이 꺼져 있으면 Peel은 스스로 아무 곳에도 연결하지 않습니다. Homebrew는 사용자가 요청할 때만 온라인에 연결합니다. 업데이트, 업그레이드(Homebrew 페이지 또는 앱의 페이지에서), tap 복구, 취약점 스캔이 이에 해당합니다. brew.env 파일에 있는 사용자 자신의 Homebrew 설정이 이를 바꿀 수 있으며, 그런 경우 Homebrew 페이지에서 무엇이 바뀌는지 알려 줍니다."
+            "value" : "이 기능이 꺼져 있으면 Peel은 스스로 아무 곳에도 연결하지 않습니다. Homebrew는 사용자가 요청할 때만 온라인에 연결합니다. 업데이트, 업그레이드(Homebrew 페이지 또는 앱의 페이지에서), tap 복구, 취약점 스캔이 이에 해당합니다. 또한 업데이트가 실패하여 Homebrew 자체의 Ruby 복사본이 이전 버전으로 남아 있으면 이를 다시 받기 위해 온라인에 연결합니다. brew.env 파일에 있는 사용자 자신의 Homebrew 설정이 이를 바꿀 수 있으며, 그런 경우 Homebrew 페이지에서 무엇이 바뀌는지 알려 줍니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als dit uit staat, maakt Peel uit zichzelf nergens verbinding mee. Homebrew gaat alleen online als je het daarom vraagt: 'Werk bij', 'Upgrade' (daar of op de eigen pagina van een app), 'Herstel taps' en de kwetsbaarheidsscan. Je eigen Homebrew-instellingen in een brew.env-bestand kunnen dat wijzigen, en de pagina 'Homebrew' vermeldt dan wat ze wijzigen."
+            "value" : "Als dit uit staat, maakt Peel uit zichzelf nergens verbinding mee. Homebrew gaat alleen online als je het daarom vraagt: 'Werk bij', 'Upgrade' (daar of op de eigen pagina van een app), 'Herstel taps' en de kwetsbaarheidsscan, en om zijn eigen kopie van Ruby opnieuw op te halen als die na een mislukte update achterloopt. Je eigen Homebrew-instellingen in een brew.env-bestand kunnen dat wijzigen, en de pagina 'Homebrew' vermeldt dan wat ze wijzigen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy to jest wyłączone, Peel samodzielnie z niczym się nie łączy. Homebrew łączy się z Internetem tylko wtedy, gdy o to poprosisz: Odśwież, Uaktualnij (tam lub na stronie aplikacji), Napraw tapy i skanowanie luk w zabezpieczeniach. Twoje własne ustawienia Homebrew w pliku brew.env mogą to zmienić, a strona Homebrew podaje wtedy, co zmieniają."
+            "value" : "Gdy to jest wyłączone, Peel samodzielnie z niczym się nie łączy. Homebrew łączy się z Internetem tylko wtedy, gdy o to poprosisz: Odśwież, Uaktualnij (tam lub na stronie aplikacji), Napraw tapy i skanowanie luk w zabezpieczeniach, a także po to, by ponownie pobrać własną kopię Ruby, gdy nieudane odświeżenie pozostawiło ją nieaktualną. Twoje własne ustawienia Homebrew w pliku brew.env mogą to zmienić, a strona Homebrew podaje wtedy, co zmieniają."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Com esta opção desativada, o Peel não contata nada por conta própria. O Homebrew só se conecta à internet quando você pede: Atualizar, Fazer Upgrade (lá ou na página de um app), Reparar Taps e a análise de vulnerabilidades. Os seus próprios ajustes do Homebrew, em um arquivo brew.env, podem mudar isso, e então a página Homebrew informa o que eles mudam."
+            "value" : "Com esta opção desativada, o Peel não contata nada por conta própria. O Homebrew só se conecta à internet quando você pede: Atualizar, Fazer Upgrade (lá ou na página de um app), Reparar Taps e a análise de vulnerabilidades, e para obter de novo a própria cópia do Ruby quando uma atualização malsucedida a deixou desatualizada. Os seus próprios ajustes do Homebrew, em um arquivo brew.env, podem mudar isso, e então a página Homebrew informa o que eles mudam."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cu această opțiune dezactivată, Peel nu contactează nimic de la sine. Homebrew se conectează la internet doar când îi cereți: „Actualizați”, „Faceți upgrade” (pe pagina Homebrew sau pe pagina unei aplicații), „Reparați tap‑urile” și scanarea vulnerabilităților. Propriile dvs. configurări Homebrew, dintr‑un fișier brew.env, pot schimba acest lucru, iar pagina Homebrew arată atunci ce anume schimbă acestea."
+            "value" : "Cu această opțiune dezactivată, Peel nu contactează nimic de la sine. Homebrew se conectează la internet doar când îi cereți: „Actualizați”, „Faceți upgrade” (pe pagina Homebrew sau pe pagina unei aplicații), „Reparați tap‑urile” și scanarea vulnerabilităților, precum și pentru a‑și obține din nou propria copie de Ruby, atunci când aceasta a rămas în urmă după o actualizare eșuată. Propriile dvs. configurări Homebrew, dintr‑un fișier brew.env, pot schimba acest lucru, iar pagina Homebrew arată atunci ce anume schimbă acestea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Если этот параметр выключен, Peel сам ни к чему не обращается. Homebrew выходит в сеть, только когда Вы его об этом просите: «Обновить» для самого Homebrew, «Обновить» для пакетов (на странице Homebrew или на странице приложения), «Исправить taps» и поиск уязвимостей. Ваши собственные настройки Homebrew в файле brew.env могут это изменить, и тогда страница Homebrew сообщает, что именно они меняют."
+            "value" : "Если этот параметр выключен, Peel сам ни к чему не обращается. Homebrew выходит в сеть, только когда Вы его об этом просите: «Обновить» для самого Homebrew, «Обновить» для пакетов (на странице Homebrew или на странице приложения), «Исправить taps» и поиск уязвимостей, а также чтобы снова загрузить свою копию Ruby, если после неудачного обновления она оказалась устаревшей. Ваши собственные настройки Homebrew в файле brew.env могут это изменить, и тогда страница Homebrew сообщает, что именно они меняют."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När det här är avstängt kontaktar Peel ingenting på egen hand. Homebrew ansluter till internet bara när du ber om det: Uppdatera, Uppgradera (där eller på en apps egen sida), Reparera taps och sårbarhetsskanningen. Dina egna inställningar för Homebrew, i en brew.env-fil, kan ändra på det, och sidan Homebrew visar då vad de ändrar."
+            "value" : "När det här är avstängt kontaktar Peel ingenting på egen hand. Homebrew ansluter till internet bara när du ber om det: Uppdatera, Uppgradera (där eller på en apps egen sida), Reparera taps och sårbarhetsskanningen, och för att hämta sin egen kopia av Ruby igen när en misslyckad uppdatering har gjort den inaktuell. Dina egna inställningar för Homebrew, i en brew.env-fil, kan ändra på det, och sidan Homebrew visar då vad de ändrar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu kapalıyken Peel kendiliğinden hiçbir yere bağlanmaz. Homebrew yalnızca siz istediğinizde internete bağlanır: Güncelle, Yükselt (orada veya bir uygulamanın kendi sayfasında), Tap Depolarını Onar ve güvenlik açığı taraması. Bir brew.env dosyasındaki kendi Homebrew ayarlarınız bunu değiştirebilir; bu durumda Homebrew sayfası bu ayarların neyi değiştirdiğini söyler."
+            "value" : "Bu kapalıyken Peel kendiliğinden hiçbir yere bağlanmaz. Homebrew yalnızca siz istediğinizde internete bağlanır: Güncelle, Yükselt (orada veya bir uygulamanın kendi sayfasında), Tap Depolarını Onar ve güvenlik açığı taraması; ayrıca başarısız bir güncelleme Homebrew’un kendi Ruby kopyasını eski bir sürümde bıraktığında, bu kopyayı yeniden almak için de bağlanır. Bir brew.env dosyasındaki kendi Homebrew ayarlarınız bunu değiştirebilir; bu durumda Homebrew sayfası bu ayarların neyi değiştirdiğini söyler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли це вимкнено, Peel самостійно ні з чим не звʼязується. Homebrew виходить в інтернет лише на ваше прохання: «Оновити» для самого Homebrew, «Оновити» для пакетів (на сторінці Homebrew або на сторінці програми), «Полагодити taps» і сканування вразливостей. Ваші власні налаштування Homebrew у файлі brew.env можуть це змінити, і тоді сторінка «Homebrew» показує, що саме вони змінюють."
+            "value" : "Коли це вимкнено, Peel самостійно ні з чим не звʼязується. Homebrew виходить в інтернет лише на ваше прохання: «Оновити» для самого Homebrew, «Оновити» для пакетів (на сторінці Homebrew або на сторінці програми), «Полагодити taps» і сканування вразливостей, а також щоб знову отримати власну копію Ruby, якщо після невдалого оновлення вона лишилася застарілою. Ваші власні налаштування Homebrew у файлі brew.env можуть це змінити, і тоді сторінка «Homebrew» показує, що саме вони змінюють."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关闭此项后，Peel不会自行联系任何地址。Homebrew只在你要求时才会联网：“更新”、“升级”（在Homebrew页面或某个App自己的页面上）、“修复taps”以及漏洞扫描。你自己在brew.env文件中设定的Homebrew设置可能会改变这一点，此时Homebrew页面会说明它们改变了什么。"
+            "value" : "关闭此项后，Peel不会自行联系任何地址。Homebrew只在你要求时才会联网：“更新”、“升级”（在Homebrew页面或某个App自己的页面上）、“修复taps”以及漏洞扫描；此外，在某次更新失败而使它自带的Ruby副本落后时，它也会联网重新获取该副本。你自己在brew.env文件中设定的Homebrew设置可能会改变这一点，此时Homebrew页面会说明它们改变了什么。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關閉此選項後，Peel不會自行連線到任何地方。Homebrew只有在你要求時才會連上網路：「更新」、「升級」（在Homebrew頁面或App自己的頁面上）、「修復taps」，以及漏洞掃描。你自己的Homebrew設定（位於brew.env檔案中）可能會改變這一點，屆時「Homebrew」頁面會說明這些設定改變了什麼。"
+            "value" : "關閉此選項後，Peel不會自行連線到任何地方。Homebrew只有在你要求時才會連上網路：「更新」、「升級」（在Homebrew頁面或App自己的頁面上）、「修復taps」，以及漏洞掃描；另外，當更新失敗而未能更新它自己的Ruby副本時，它也會連上網路重新取得該副本。你自己的Homebrew設定（位於brew.env檔案中）可能會改變這一點，屆時「Homebrew」頁面會說明這些設定改變了什麼。"
           }
         }
       }

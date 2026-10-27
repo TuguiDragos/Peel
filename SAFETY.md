@@ -205,7 +205,8 @@ of refusals, with any copy of it set aside because it couldn't be read, goes to 
 Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them:
 
 - Homebrew's own uninstall, which deletes what it removes.
-- Homebrew's cleanups (Clean Up, and clearing older or every download), which delete what they remove. An upgrade
+- Homebrew's cleanups (Clean Up, and clearing older or every download), which delete what they remove, the broken
+  links and empty folders in Homebrew's prefix included (on a Mac with an Intel processor, `/usr/local`). An upgrade
   from the Homebrew page never cleans up on its own, although Homebrew would by default; if
   one of Homebrew's own settings files (`brew.env`) turns that cleanup back on, the Homebrew page says so and Peel
   leaves upgrades to Terminal.

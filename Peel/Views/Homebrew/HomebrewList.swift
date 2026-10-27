@@ -162,11 +162,19 @@ struct HomebrewList: View {
         } else {
             sentences.append(String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and any formulae that were only there for something now gone. Nothing goes to the Trash, and History can’t put it back."))
         }
+        if let prefix = homebrew.installation?.prefix {
+            sentences.append(Self.prunes(prefix))
+        }
         let formulae = homebrew.autoremovable
         if !formulae.isEmpty {
             sentences.append(Self.uninstalls(formulae))
         }
         return sentences.joined(separator: "\n\n")
+    }
+
+    /// What `brew cleanup` also deletes in the prefix, which on a Mac with an Intel processor other programs share.
+    static func prunes(_ prefix: URL) -> String {
+        String(localized: "It also deletes the broken links and empty folders it finds in \(prefix.abbreviatedPath).")
     }
 
     /// The formulae Clean Up uninstalls, the first ones named as an alert names them. The row's note has them all.
@@ -176,7 +184,10 @@ struct HomebrewList: View {
 
     /// What the Clean Up row's note says: what Clean Up removes, and every formula it would uninstall now.
     private var cleanUpDetail: Text {
-        let removes = Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays.")
+        var removes = Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays.")
+        if let prefix = homebrew.installation?.prefix {
+            removes = Text("\(removes)\n\n\(Self.prunes(prefix))")
+        }
         let formulae = homebrew.autoremovable
         guard !formulae.isEmpty else { return removes }
         let listed = Text("Formulae it would uninstall now: \(formulae.formatted(.list(type: .and))).")
@@ -246,7 +257,7 @@ struct HomebrewList: View {
         Section {
             row(
                 title: "Update Homebrew",
-                detail: Text("Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, or reinstall pkgconf after a macOS update."),
+                detail: Text("Gets the newest Homebrew and its newest list of packages, so run it before looking for updates. It upgrades nothing, though Homebrew may move a renamed package to its new name, reinstall pkgconf after a macOS update, or delete an old copy of its core taps it no longer needs."),
                 systemImage: "arrow.triangle.2.circlepath",
                 command: .update
             ) {
