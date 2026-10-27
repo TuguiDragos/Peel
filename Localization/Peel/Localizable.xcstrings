@@ -14328,108 +14328,108 @@
         }
       }
     },
-    "Also used by %@" : {
+    "Also used by %@." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Používá také: %@"
+            "value" : "Používá také: %@."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wird auch von %@ verwendet"
+            "value" : "Wird auch von %@ verwendet."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "También usado por %@"
+            "value" : "También usado por %@."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Également utilisé par %@"
+            "value" : "Également utilisé par %@."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In uso anche da %@"
+            "value" : "In uso anche da %@."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@でも使用されています"
+            "value" : "%@でも使用されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@에서도 사용함"
+            "value" : "%@에서도 사용합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ook gebruikt door %@"
+            "value" : "Ook gebruikt door %@."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Używane też przez: %@"
+            "value" : "Używane też przez: %@."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Também usado por %@"
+            "value" : "Também usado por %@."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Folosit și de %@"
+            "value" : "Folosit și de %@."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Также используется: %@"
+            "value" : "Также используется: %@."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Används också av %@"
+            "value" : "Används också av %@."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunu kullanan diğer uygulamalar: %@"
+            "value" : "Bunu kullanan diğer uygulamalar: %@."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Також використовують: %@"
+            "value" : "Також використовують: %@."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@也在使用"
+            "value" : "%@也在使用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@也在使用"
+            "value" : "%@也在使用。"
           }
         }
       }

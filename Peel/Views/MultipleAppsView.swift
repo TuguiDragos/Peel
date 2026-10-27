@@ -266,7 +266,7 @@ struct MultipleAppsView: View {
         let users =
             item.sharedWithOthers.map(library.name(forReference:)) + item.otherCopies.map(\.abbreviatedPath)
         if !users.isEmpty {
-            lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))"))
+            lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))."))
         }
         if let heldBack = item.match?.heldBack {
             lines.append(String(localized: heldBack.explanation))

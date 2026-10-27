@@ -395,7 +395,7 @@ struct AppDetailView: View {
         if leftover.match.isShared {
             let users = leftover.match.sharedWith.map(library.name(forReference:))
                 + leftover.match.otherCopies.map(\.abbreviatedPath)
-            lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))"))
+            lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))."))
         }
         if let heldBack = leftover.match.heldBack {
             lines.append(String(localized: heldBack.explanation))
