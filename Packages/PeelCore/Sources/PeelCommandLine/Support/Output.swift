@@ -253,6 +253,7 @@ extension RestoreFailure {
             "your exclusions keep Peel from putting anything there; take it off the list, or drag it out of the Trash in Finder"
         case .notAllowed(let refusal): "Peel protects that place now (\(refusal.summary)); drag it out of the Trash in Finder"
         case .notInATrash: "it isn't in the Trash where Peel put it"
+        case .notAllowedByTheHelper(let message): Output.plain(message)
         case .locked: "it is locked; unlock it in Finder's Get Info"
         case .folderLocked: "the folder it goes back to is locked; unlock it in Finder's Get Info"
         case .folderGone:

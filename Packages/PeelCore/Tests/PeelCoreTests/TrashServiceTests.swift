@@ -609,7 +609,8 @@ struct TrashServiceTests {
         let throughTheHelper = service.refusal(ofPuttingBack: item, canUseHelper: true)
 
         #expect(byThePerson == nil)
-        #expect(throughTheHelper == .failed(PrivilegedPathPolicy.Rejection.loadsCode.explanation))
+        #expect(throughTheHelper == .notAllowedByTheHelper(PrivilegedPathPolicy.Rejection.loadsCode.explanation))
+        #expect(throughTheHelper?.isFinal == true, "the helper's own rule doesn't pass by asking again")
     }
 
     @Test func anItemLockedInTheTrashOrAFolderLockedOnItsWayBackIsSaidSo() async throws {
@@ -694,7 +695,7 @@ struct TrashServiceTests {
         defer { try? directory.setPermissions(0o755, of: locked) }
 
         let outside = PrivilegedPathPolicy.Rejection.outsideAllowedLocations.explanation
-        #expect(service.refusal(ofPuttingBack: item, canUseHelper: true) == .failed(outside))
+        #expect(service.refusal(ofPuttingBack: item, canUseHelper: true) == .notAllowedByTheHelper(outside))
     }
 
     @Test func aMoveRefusedForAnItemLockedInFinderSaysItIsLocked() async throws {

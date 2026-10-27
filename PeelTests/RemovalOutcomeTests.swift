@@ -47,13 +47,15 @@ struct RemovalOutcomeTests {
         #expect(RemovalFailureAlert.details(for: outcome).hasPrefix("What moved is in the Trash"))
     }
 
-    private func history(in folder: URL, outcome: RemovalOutcome, staying: String? = nil) -> RemovalHistoryStore {
+    private func history(
+        in folder: URL, outcome: RemovalOutcome, staying: String? = nil, because failure: RestoreFailure = .needsHelper
+    ) -> RemovalHistoryStore {
         RemovalHistoryStore(
             log: RemovalLog(url: folder.appending(path: "removals.json")),
             refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
             outcome: outcome,
             knowsTheExclusions: { true },
-            restoring: { items, _ in items.map { $0.originalURL.lastPathComponent == staying ? .needsHelper : nil } }
+            restoring: { items, _ in items.map { $0.originalURL.lastPathComponent == staying ? failure : nil } }
         )
     }
 
@@ -77,6 +79,19 @@ struct RemovalOutcomeTests {
         #expect(outcome.putBackAsked == 2)
         #expect(outcome.putBackFailures.first?.failure == .needsHelper)
         #expect(history.undoTitle != nil, "what stayed can be put back once the helper can")
+    }
+
+    @Test func anUndoTheHelpersOwnRuleRefusedIsNotOfferedAgain() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let outcome = RemovalOutcome()
+        let history = history(in: folder, outcome: outcome, staying: "Synth", because: .notAllowedByTheHelper("x"))
+        await history.record(try moved(["Synth"]), tool: .plugins, source: "Plug-ins", sizes: [:])
+
+        await history.undoLastRemoval()
+
+        #expect(outcome.putBackFailures.map(\.url.lastPathComponent) == ["Synth"])
+        #expect(history.undoTitle == nil)
     }
 
     @Test func undoGoesOnceItsRemovalIsPutBackFromHistory() async throws {

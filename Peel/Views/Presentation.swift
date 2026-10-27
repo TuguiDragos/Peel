@@ -258,6 +258,7 @@ extension RestoreFailure {
             String(localized: "Your exclusions in Settings keep Peel from putting anything back there. Take it off the list to put this back, or drag it out of the Trash in Finder.")
         case .notAllowed: String(localized: "Peel protects that place now, so it puts nothing back there. You can drag it out of the Trash in Finder.")
         case .notInATrash: String(localized: "It isn’t in the Trash where Peel put it, so Peel leaves it where it is.")
+        case .notAllowedByTheHelper(let message): FixedSentence.translated(message)
         case .locked: String(localized: "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again.")
         case .folderLocked:
             String(localized: "The folder it goes back to is locked. In Finder, choose File > Get Info for that folder and deselect Locked, then try again.")

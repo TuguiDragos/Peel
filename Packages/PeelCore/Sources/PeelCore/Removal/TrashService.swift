@@ -212,6 +212,8 @@ public enum RestoreFailure: Sendable, Hashable {
     case needsHelper
     /// The guard refuses the place it would go back to, for this reason.
     case notAllowed(GuardRefusal)
+    /// The helper's own rule refuses the place it would go back to, in the helper's words.
+    case notAllowedByTheHelper(String)
     /// The record names something that isn't in a Trash where Peel put it.
     case notInATrash
     /// It is locked in the Trash, as Finder's Get Info locks it.
@@ -227,7 +229,7 @@ public enum RestoreFailure: Sendable, Hashable {
     /// True when asking again can't help: the item left the Trash, or Peel puts nothing back from or to there.
     public var isFinal: Bool {
         switch self {
-        case .missingFromTrash, .notAllowed, .notInATrash: true
+        case .missingFromTrash, .notAllowed, .notAllowedByTheHelper, .notInATrash: true
         case .alreadyThere, .needsHelper, .locked, .folderLocked, .folderGone, .needsAppManagement, .notPermitted,
              .failed:
             false
@@ -794,7 +796,7 @@ public struct TrashService: Sendable {
             if Self.isFolderGone(puttingBack: item) { return .folderGone }
             let reach = HelperReach(environment: environment)
             if let rejection = reach.refusal(ofPuttingBack: item.trashedURL, at: item.originalURL) {
-                return .failed(rejection.explanation)
+                return .notAllowedByTheHelper(rejection.explanation)
             }
             if !canUseHelper { return .needsHelper }
         }
