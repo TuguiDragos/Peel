@@ -410,6 +410,8 @@ extension HoldBack {
             "Left alone: this copy has Finder tags, a Finder comment, or a resource fork the others don’t, which moving it would lose."
         case .keptDownloaded:
             "Not selected: Keep Downloaded is on for it in Finder, so iCloud downloads it again."
+        case .inAnAppsICloudFolder:
+            "Not selected: it is in an app’s own iCloud folder, which Finder may not show, and the app may expect to find it on this Mac."
         case .openInAProgram:
             "Not selected: a program has this open right now, and may still be using it."
         case .attachedDiskImage:

@@ -102777,6 +102777,113 @@
         }
       }
     },
+    "Not selected: it is in an app’s own iCloud folder, which Finder may not show, and the app may expect to find it on this Mac." : {
+      "comment" : "The note beside a file in iCloud Drive that sits in an app's own folder in iCloud, such as the Documents folder of an app's iCloud container, rather than in iCloud Drive itself.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: je ve vlastní složce aplikace na iCloudu, kterou Finder nemusí zobrazovat, a aplikace může počítat s tím, že ho najde v tomto Macu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Diese Datei liegt im eigenen iCloud-Ordner einer App, den der Finder möglicherweise nicht anzeigt, und die App erwartet möglicherweise, sie auf diesem Mac vorzufinden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: está en la propia carpeta de iCloud de una app, que quizá el Finder no muestre, y puede que la app espere encontrarlo en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce fichier se trouve dans le dossier iCloud propre à une app, que le Finder n’affiche peut-être pas, et l’app peut s’attendre à le trouver sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: si trova nella cartella iCloud di un’app, che il Finder potrebbe non mostrare, e l’app potrebbe aspettarsi di trovarlo su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: アプリ専用のiCloudフォルダにあります。このフォルダはFinderに表示されないことがあり、アプリはこのファイルがこのMac上にあるものと想定している可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 파일은 Finder에 표시되지 않을 수 있는 앱 전용 iCloud 폴더에 있으며, 앱은 이 파일이 이 Mac에 있을 것으로 예상할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit staat in de eigen iCloud-map van een app, die Finder misschien niet toont, en de app verwacht het misschien op deze Mac te vinden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten plik jest we własnym folderze aplikacji w iCloud, którego Finder może nie pokazywać, a aplikacja może oczekiwać, że znajdzie go na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: ele está na pasta própria de um app no iCloud, que o Finder talvez não mostre, e o app pode esperar encontrá-lo neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest fișier se află în dosarul iCloud propriu al unei aplicații, pe care Finder s‑ar putea să nu îl afișeze, iar aplicația se poate aștepta să găsească fișierul pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл находится в собственной папке приложения в iCloud, которую Finder может не показывать, и приложение может рассчитывать найти его на этом Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den ligger i en apps egen iCloud-mapp, som Finder kanske inte visar, och appen kan förvänta sig att hitta den på den här datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bir uygulamanın kendi iCloud klasöründe bulunuyor; Finder bu klasörü göstermeyebilir ve uygulama bu dosyayı bu Mac’te bulmayı bekleyebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей файл міститься у власній папці програми в iCloud, яку Finder може не показувати, і програма може очікувати, що знайде його на цьому Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它位于某个App自己的iCloud文件夹中，“访达”可能不会显示该文件夹，而且该App可能会期望在这台Mac上找到它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它位於App自己的iCloud檔案夾中，Finder可能不會顯示該檔案夾，而且App可能預期在這部Mac上找到它。"
+          }
+        }
+      }
+    },
     "Not selected: it is the wallpaper, which macOS keeps open while it is shown, so its download can’t be removed now." : {
       "localizations" : {
         "cs" : {

@@ -165,6 +165,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// A download in iCloud Drive that Keep Downloaded keeps on this Mac, which iCloud downloads again once it is
     /// removed.
     case keptDownloaded
+    /// A download in an app's own folder in iCloud, which Finder may not show and the app may expect to find on
+    /// this Mac.
+    case inAnAppsICloudFolder
 
     /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
     /// would refuse to move it.

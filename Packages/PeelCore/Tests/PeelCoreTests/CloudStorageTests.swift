@@ -221,6 +221,24 @@ struct CloudStorageTests {
         #expect(collector.collected.files.filter(\.isRecommended).map(\.name) == ["a.pdf"])
     }
 
+    /// What an app keeps in its own iCloud folder is listed and not recommended: Finder may not show it, and the app
+    /// may expect to find it on this Mac. Only what is in iCloud Drive itself is.
+    @Test func recommendsOnlyWhatIsInICloudDriveItself() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Report.pdf", bytes: 2_000)
+        try directory.file("Library/Mobile Documents/iCloud~org~example~notes/Documents/notes.db", bytes: 2_000)
+
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, isPinned: { _ in false }, unless: { false }
+        )
+
+        let held = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0.heldBack) })
+        #expect(held["Report.pdf"] == .some(nil))
+        #expect(held["notes.db"] == .inAnAppsICloudFolder)
+    }
+
     /// A folder kept only in the cloud, which no test can make, is named to the walk.
     @Test func neverLooksIntoAFolderThatLivesOnlyInTheCloud() throws {
         let directory = try TemporaryDirectory()

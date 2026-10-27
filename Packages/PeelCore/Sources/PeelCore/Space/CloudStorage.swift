@@ -338,7 +338,8 @@ public enum CloudStorage {
                 size: measured.size,
                 modified: measured.modified,
                 isDesktopPicture: pictures.contains(PathPattern.comparablePath(of: url)),
-                heldBack: isInAPinnedFolder || isPinned(url) ? .keptDownloaded : nil
+                heldBack: isInAPinnedFolder || isPinned(url) ? .keptDownloaded
+                    : isICloudDrive ? nil : .inAnAppsICloudFolder
             )
             collector.add(file)
         }
