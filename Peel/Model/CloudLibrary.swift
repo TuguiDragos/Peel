@@ -38,9 +38,21 @@ final class CloudLibrary {
     }
     private(set) var selectedSize: Int64 = 0
     private let home: URL
+    private let scan: @MainActor (URL, Exclusions, Set<URL>) async -> CloudScan
+    private let removeDownloads: @MainActor ([CloudFile], Exclusions) async -> CloudFreeing
 
-    init(home: URL = .homeDirectory) {
+    init(
+        home: URL = .homeDirectory,
+        scan: @escaping @MainActor (URL, Exclusions, Set<URL>) async -> CloudScan = {
+            await CloudStorage.downloaded(home: $0, exclusions: $1, desktopPictures: $2)
+        },
+        removeDownloads: @escaping @MainActor ([CloudFile], Exclusions) async -> CloudFreeing = {
+            await CloudStorage.free($0, exclusions: $1)
+        }
+    ) {
         self.home = home
+        self.scan = scan
+        self.removeDownloads = removeDownloads
     }
 
     /// What the listed files take on this Mac, only the least it can be when there is more than the list shows, and
@@ -76,21 +88,17 @@ final class CloudLibrary {
     func refresh() async {
         refusals = []
         let pictures = Set(NSScreen.screens.compactMap { NSWorkspace.shared.desktopImageURL(for: $0) })
-        let home = home
+        let (home, scan) = (home, scan)
         guard
-            let scan = await scanRun.run({
-                await CloudStorage.downloaded(
-                    home: home, exclusions: ExclusionsStore.shared.exclusions, desktopPictures: pictures
-                )
-            })
+            let found = await scanRun.run({ await scan(home, ExclusionsStore.shared.exclusions, pictures) })
         else { return }
-        folders = scan.folders
-        searchable = CloudFolder.searchable(scan.files, in: scan.folders)
-        files = scan.files
-        cutShort = scan.cutShort
-        couldNotRead = scan.couldNotRead
-        sharedDownloads = scan.sharedDownloads
-        selectedURLs.formIntersection(Set(scan.files.map(\.url)))
+        folders = found.folders
+        searchable = CloudFolder.searchable(found.files, in: found.folders)
+        files = found.files
+        cutShort = found.cutShort
+        couldNotRead = found.couldNotRead
+        sharedDownloads = found.sharedDownloads
+        selectedURLs.formIntersection(Set(found.files.map(\.url)))
     }
 
     /// Frees the local copies of the selected files and returns the bytes freed. Nothing goes to the Trash, since
@@ -100,8 +108,9 @@ final class CloudLibrary {
         defer { isFreeing = false }
         let chosen = files?.filter { selectedURLs.contains($0.url) } ?? []
         let exclusions = ExclusionsStore.shared.exclusions
+        let removeDownloads = removeDownloads
         let task = Task { [freeing] in
-            await freeing.run(toMove: chosen.count) { await CloudStorage.free(chosen, exclusions: exclusions) }
+            await freeing.run(toMove: chosen.count) { await removeDownloads(chosen, exclusions) }
         }
         freeingTask = task
         let done = await task.value
