@@ -367,7 +367,6 @@ public enum IntelInspector {
         return names.map { directory.appending(path: $0) }
     }
 
-
     /// Notes `program`, which macOS wouldn't let Peel read, or the folder around it Peel can't look into.
     private static func noteRefused(_ program: URL, in unreadable: inout [URL]) {
         unreadable.append(

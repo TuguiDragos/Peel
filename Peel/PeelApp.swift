@@ -370,7 +370,6 @@ struct PeelApp: App {
         await homeChecked
     }
 
-
     /// Whether the menu bar item shows. `MenuBarExtra` writes it back at every scene update, and each write to an
     /// `AppStorage` makes every `AppStorage` in the app read again, so a write of the value it holds is left out.
     private var menuBarItemIsInserted: Binding<Bool> {

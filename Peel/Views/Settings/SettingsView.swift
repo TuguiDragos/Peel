@@ -638,7 +638,6 @@ extension GeneralSettingsView {
         )
     }
 
-
     private var waitsForAnAdministrator: Bool {
         SelfUninstall.waitsForAnAdministrator(standing: helper.standing, status: helper.status)
     }

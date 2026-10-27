@@ -334,7 +334,6 @@ public struct UpdateChecker: Sendable {
         return await fetchReply(url)
     }
 
-
     /// The errors only a Mac that isn't online gets. Any other, such as a connection lost, which a server that closes
     /// it without answering gives too, means so only while this Mac has no network path.
     static func meansOffline(_ error: any Error) -> Bool {
