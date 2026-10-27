@@ -75242,108 +75242,216 @@
         }
       }
     },
-    "Its program sits in a temporary folder, where any program on this Mac can write. Software installed on purpose can do this too." : {
+    "Its program sits in /Users/Shared, where every account on this Mac can write. Software installed on purpose can do this too." : {
+      "comment" : "On a background job’s page, why its command is worth a second look: its program is in the folder every account shares. Keep /Users/Shared as written.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Program, který položka spouští, je v dočasné složce, kam může zapisovat kterýkoli program v tomto Macu. Totéž může dělat i záměrně nainstalovaný software."
+            "value" : "Program, který položka spouští, je ve složce /Users/Shared, kam může zapisovat každý účet v tomto Macu. Totéž může dělat i záměrně nainstalovaný software."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sein Programm liegt in einem temporären Ordner, in den jedes Programm auf diesem Mac schreiben kann. Auch absichtlich installierte Software kann das tun."
+            "value" : "Sein Programm liegt in /Users/Shared, wo jeder Benutzeraccount auf diesem Mac schreiben kann. Auch absichtlich installierte Software kann das tun."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su programa está en una carpeta temporal, donde cualquier programa de este Mac puede escribir. El software instalado a propósito también puede hacerlo."
+            "value" : "Su programa está en /Users/Shared, donde todas las cuentas de este Mac pueden escribir. El software instalado a propósito también puede hacerlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son programme se trouve dans un dossier temporaire, où n’importe quel programme de ce Mac peut écrire. Un logiciel installé volontairement peut aussi le faire."
+            "value" : "Son programme se trouve dans /Users/Shared, où tous les comptes de ce Mac peuvent écrire. Un logiciel installé volontairement peut aussi le faire."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il suo programma si trova in una cartella temporanea, dove qualsiasi programma su questo Mac può scrivere. Anche un software installato di proposito può farlo."
+            "value" : "Il suo programma si trova in /Users/Shared, dove tutti gli account di questo Mac possono scrivere. Anche un software installato di proposito può farlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "プログラムが一時フォルダにあり、そこにはこのMac上のどのプログラムでも書き込めます。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+            "value" : "プログラムが/Users/Sharedにあり、そこにはこのMacのすべてのアカウントが書き込めます。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목의 프로그램은 이 Mac의 모든 프로그램이 쓸 수 있는 임시 폴더에 있습니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+            "value" : "이 항목의 프로그램은 이 Mac의 모든 계정이 쓸 수 있는 /Users/Shared에 있습니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het programma staat in een tijdelijke map, waarin elk programma op deze Mac kan schrijven. Software die bewust is geïnstalleerd, kan dit ook doen."
+            "value" : "Het programma staat in /Users/Shared, waarin elke account op deze Mac kan schrijven. Software die bewust is geïnstalleerd, kan dit ook doen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Program tej rzeczy znajduje się w folderze tymczasowym, w którym może zapisywać każdy program na tym Macu. Oprogramowanie zainstalowane celowo też może tak działać."
+            "value" : "Program tej rzeczy znajduje się w folderze /Users/Shared, w którym może zapisywać każde konto na tym Macu. Oprogramowanie zainstalowane celowo też może tak działać."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O programa que ele executa fica em uma pasta temporária, onde qualquer programa deste Mac pode gravar. Software instalado intencionalmente também pode fazer isso."
+            "value" : "O programa que ele executa fica em /Users/Shared, onde todas as contas deste Mac podem gravar. Software instalado intencionalmente também pode fazer isso."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programul său se află într‑un dosar temporar, în care poate scrie orice program de pe acest Mac. Și software‑ul instalat intenționat poate face acest lucru."
+            "value" : "Programul său se află în /Users/Shared, în care poate scrie orice cont de pe acest Mac. Și software‑ul instalat intenționat poate face acest lucru."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Его программа находится во временной папке, в которую может записывать любая программа на этом Mac. Так может делать и намеренно установленное ПО."
+            "value" : "Его программа находится в папке /Users/Shared, в которую может записывать любая учетная запись на этом Mac. Так может делать и намеренно установленное ПО."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programmet ligger i en tillfällig mapp, där alla program på den här datorn kan skriva. Programvara som installerats avsiktligt kan också göra så."
+            "value" : "Programmet ligger i /Users/Shared, där alla konton på den här datorn kan skriva. Programvara som installerats avsiktligt kan också göra så."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programı, bu Mac’teki her programın yazabildiği geçici bir klasörde duruyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+            "value" : "Programı, bu Mac’teki her hesabın yazabildiği /Users/Shared klasöründe duruyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його виконуваний файл лежить у тимчасовій папці, куди може записувати будь-яка програма на цьому Mac. Так може робити й ПЗ, інстальоване навмисно."
+            "value" : "Його виконуваний файл лежить у /Users/Shared, куди може записувати кожен обліковий запис на цьому Mac. Так може робити й ПЗ, інстальоване навмисно."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的程序位于临时文件夹中，这台Mac上的任何程序都可以在那里写入。有意安装的软件也可能这样做。"
+            "value" : "它的程序位于/Users/Shared中，这台Mac上的每个账户都可以在那里写入。有意安装的软件也可能这样做。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的程式位於暫存檔案夾中，這部Mac上的任何程式都能寫入該處。刻意安裝的軟體也可能這樣做。"
+            "value" : "它的程式位於/Users/Shared中，這部Mac上的每個帳號都能寫入該處。刻意安裝的軟體也可能這樣做。"
+          }
+        }
+      }
+    },
+    "Its program sits in a temporary folder, a place for files that aren’t meant to stay. Software installed on purpose can do this too." : {
+      "comment" : "On a background job’s page, why its command is worth a second look: its program is in a temporary folder, the Mac’s own (/tmp) or the account’s.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program, který položka spouští, je v dočasné složce, tedy na místě pro soubory, které tam nemají zůstat. Totéž může dělat i záměrně nainstalovaný software."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sein Programm liegt in einem temporären Ordner, einem Ort für Dateien, die nicht dauerhaft bleiben sollen. Auch absichtlich installierte Software kann das tun."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su programa está en una carpeta temporal, un lugar para archivos que no están pensados para quedarse. El software instalado a propósito también puede hacerlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son programme se trouve dans un dossier temporaire, un emplacement destiné aux fichiers qui ne sont pas censés rester. Un logiciel installé volontairement peut aussi le faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo programma si trova in una cartella temporanea, pensata per file non destinati a restare. Anche un software installato di proposito può farlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プログラムが一時フォルダにあります。一時フォルダは、残しておくことを想定していないファイルを置く場所です。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 프로그램은 계속 남겨 둘 목적이 아닌 파일을 두는 임시 폴더에 있습니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het programma staat in een tijdelijke map, een plek voor bestanden die niet bedoeld zijn om te blijven. Software die bewust is geïnstalleerd, kan dit ook doen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program tej rzeczy znajduje się w folderze tymczasowym, przeznaczonym na pliki, które nie mają zostawać na stałe. Oprogramowanie zainstalowane celowo też może tak działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O programa que ele executa fica em uma pasta temporária, um lugar para arquivos que não devem permanecer. Software instalado intencionalmente também pode fazer isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programul său se află într‑un dosar temporar, un loc pentru fișiere care nu sunt menite să rămână. Și software‑ul instalat intenționat poate face acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его программа находится во временной папке, предназначенной для файлов, которые не должны там оставаться. Так может делать и намеренно установленное ПО."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programmet ligger i en tillfällig mapp, en plats för filer som inte är tänkta att ligga kvar. Programvara som installerats avsiktligt kan också göra så."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programı, kalıcı olması amaçlanmayan dosyalara ayrılmış geçici bir klasörde duruyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його виконуваний файл лежить у тимчасовій папці, призначеній для файлів, які не мають там лишатися. Так може робити й ПЗ, інстальоване навмисно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的程序位于临时文件夹中，这类文件夹用来存放不打算长期保留的文件。有意安装的软件也可能这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的程式位於暫存檔案夾中，那是存放不打算長久保留之檔案的地方。刻意安裝的軟體也可能這樣做。"
           }
         }
       }

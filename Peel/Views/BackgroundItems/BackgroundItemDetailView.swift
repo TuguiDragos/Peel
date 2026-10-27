@@ -499,7 +499,9 @@ extension UnusualCommand {
     var explanation: LocalizedStringResource {
         switch self {
         case .runsFromATemporaryFolder:
-            "Its program sits in a temporary folder, where any program on this Mac can write. Software installed on purpose can do this too."
+            "Its program sits in a temporary folder, a place for files that aren’t meant to stay. Software installed on purpose can do this too."
+        case .runsFromTheSharedFolder:
+            "Its program sits in /Users/Shared, where every account on this Mac can write. Software installed on purpose can do this too."
         case .downloads:
             "Its command downloads from the internet each time it runs. Software installed on purpose can do this too."
         case .decodesBase64:
