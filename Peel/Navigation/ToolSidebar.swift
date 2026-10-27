@@ -178,7 +178,7 @@ struct ToolSidebar: View {
     }
 
     private func shown(_ tools: [Tool]) -> [Tool] {
-        let hidden = Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isInstalled)
+        let hidden = Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrew: homebrew)
         return tools.filter { !hidden.contains($0) }
     }
 

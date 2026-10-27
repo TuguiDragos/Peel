@@ -125,6 +125,12 @@ extension Tool {
             return tool.canBeHidden && !choices.shows(tool.rawValue, byDefault: byDefault)
         })
     }
+
+    /// `hidden(by:homebrewIsInstalled:)` as the sidebar, Settings, and the menu bar panel all ask it, so they agree:
+    /// Homebrew's page shows while Homebrew is on this Mac, even when Peel won't run it, so the page can say why.
+    static func hidden(by choices: SidebarChoices, homebrew: HomebrewLibrary) -> Set<Tool> {
+        hidden(by: choices, homebrewIsInstalled: homebrew.isOnThisMac)
+    }
 }
 
 extension Tool.Group {

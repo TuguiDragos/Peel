@@ -614,9 +614,7 @@ extension GeneralSettingsView {
 
 extension GeneralSettingsView {
     private var sidebarToolsSummary: String {
-        let hidden = Tool.hidden(
-            by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isOnThisMac
-        )
+        let hidden = Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrew: homebrew)
         let left = Tool.Group.allCases.flatMap(\.tools).filter(hidden.contains).map { String(localized: $0.title) }
         guard !left.isEmpty else { return String(localized: "Every tool is in the sidebar.") }
         return String(localized: "Left out: \(left.formatted(.list(type: .and))).")
@@ -638,9 +636,7 @@ extension GeneralSettingsView {
     fileprivate func showsInSidebar(_ tool: Tool) -> Binding<Bool> {
         Binding(
             get: {
-                !Tool.hidden(
-                    by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isOnThisMac
-                ).contains(tool)
+                !Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrew: homebrew).contains(tool)
             },
             set: { shows in
                 var choices = SidebarChoices(stored: sidebarTools)
