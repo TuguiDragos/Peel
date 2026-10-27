@@ -791,7 +791,9 @@ public struct TrashService: Sendable {
         guard item.isInTheTrash else { return .missingFromTrash }
         guard !item.originalURL.isThere else { return .alreadyThere }
         if FileAccess.isLockedInFinder(item.trashedURL) { return .locked }
-        if FileAccess.isLockedInFinder(URL(filePath: Self.folder(puttingBack: item))) { return .folderLocked }
+        let folder = URL(filePath: Self.folder(puttingBack: item))
+        let privacy = FileAccess.isProtectedByPrivacy(folder)
+        if let refusal = Self.refusal(ofPuttingBackInto: folder, isProtectedByPrivacy: privacy) { return refusal }
         if Self.needsTheHelper(toPutBack: item) {
             if Self.isFolderGone(puttingBack: item) { return .folderGone }
             let reach = HelperReach(environment: environment)
@@ -801,6 +803,13 @@ public struct TrashService: Sendable {
             if !canUseHelper { return .needsHelper }
         }
         return nil
+    }
+
+    /// What keeps an item out of `folder` whoever puts it back, the helper included: Finder's lock, or macOS's
+    /// privacy protection. Only the permissions are the helper's to pass.
+    static func refusal(ofPuttingBackInto folder: URL, isProtectedByPrivacy: Bool) -> RestoreFailure? {
+        if FileAccess.isLockedInFinder(folder) { return .folderLocked }
+        return isProtectedByPrivacy ? .notPermitted : nil
     }
 
     /// The nearest folder on `item`'s way back that exists, as the kernel names it, which its Put Back writes into:

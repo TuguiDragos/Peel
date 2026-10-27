@@ -643,6 +643,14 @@ struct TrashServiceTests {
         #expect(lockedFolder == .folderLocked)
     }
 
+    @Test func aWayBackMacOSsPrivacyProtectionClosesIsNoHelpersToOpen() throws {
+        let directory = try TemporaryDirectory()
+        let downloads = try directory.directory("home/Downloads")
+
+        #expect(TrashService.refusal(ofPuttingBackInto: downloads, isProtectedByPrivacy: true) == .notPermitted)
+        #expect(TrashService.refusal(ofPuttingBackInto: downloads, isProtectedByPrivacy: false) == nil)
+    }
+
     @Test func aFolderLockedBehindALinkOnTheWayBackIsSaidSo() async throws {
         let directory = try TemporaryDirectory()
         let documents = try directory.directory("home/Documents")
