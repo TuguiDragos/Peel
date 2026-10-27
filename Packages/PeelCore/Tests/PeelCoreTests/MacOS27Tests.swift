@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 /// Behavior that changes in macOS 27. The file marks and paths these checks rely on are the same on macOS 26,
@@ -39,14 +40,23 @@ struct MacOS27Tests {
     }
 
     /// macOS 27 does not reinstall Rosetta after an upgrade, so a Mac that ran Intel apps before may not anymore.
-    @Test func knowsWhetherIntelSoftwareCanRunAtAll() throws {
+    @Test func knowsWhetherIntelSoftwareCanRunAtAll() async throws {
         #expect(!Rosetta.installed(among: ["/nowhere/rosetta"]))
 
         let directory = try TemporaryDirectory()
         let present = try directory.file("rosetta", bytes: 1).path(percentEncoded: false)
         #expect(Rosetta.installed(among: ["/nowhere/rosetta", present]))
 
-        // Compared with the real disk, whether or not Rosetta is installed there.
-        #expect(Rosetta.isInstalled == Rosetta.paths.contains { FileManager.default.fileExists(atPath: $0) })
+        // Asked of macOS itself: on Apple silicon Intel code runs only through Rosetta, and an Intel Mac has none.
+        guard HostArchitecture.isAppleSilicon else {
+            #expect(!Rosetta.isInstalled)
+            return
+        }
+        let answer = await Subprocess.run("/usr/bin/arch", ["-x86_64", "/usr/bin/true"], timeout: 60)
+        guard case .success(let output) = answer else {
+            Issue.record("arch didn't answer: \(answer)")
+            return
+        }
+        #expect(Rosetta.isInstalled == (output.status == 0))
     }
 }
