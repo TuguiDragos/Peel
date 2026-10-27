@@ -10823,108 +10823,108 @@
         }
       }
     },
-    "A small tool with administrator rights. It moves items to the Trash, puts them back, starts or stops background items, and forgets installer receipts. It takes no other orders." : {
+    "A small tool with administrator rights. It moves items to the Trash and puts them back, starts, stops, enables, or disables background items, and forgets installer receipts. It takes no other orders." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Malý nástroj s oprávněními správce. Přesouvá položky do koše, vrací je zpět, spouští a zastavuje položky na pozadí a zapomíná záznamy o instalaci. Žádné jiné příkazy nepřijímá."
+            "value" : "Malý nástroj s oprávněními správce. Přesouvá položky do koše a vrací je zpět, spouští, zastavuje, zapíná a vypíná položky na pozadí a zapomíná záznamy o instalaci. Žádné jiné příkazy nepřijímá."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein kleines Tool mit Administratorrechten. Es legt Objekte in den Papierkorb, legt sie zurück, startet oder stoppt Hintergrundobjekte und vergisst Paketquittungen. Andere Befehle nimmt es nicht an."
+            "value" : "Ein kleines Tool mit Administratorrechten. Es legt Objekte in den Papierkorb und legt sie zurück, startet, stoppt, aktiviert oder deaktiviert Hintergrundobjekte und vergisst Paketquittungen. Andere Befehle nimmt es nicht an."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una pequeña herramienta con permisos de administrador. Traslada ítems a la papelera, los restaura, inicia o detiene ítems en segundo plano y olvida recibos de instalador. No acepta ninguna otra orden."
+            "value" : "Una pequeña herramienta con permisos de administrador. Traslada ítems a la papelera y los restaura, inicia, detiene, activa o desactiva ítems en segundo plano y olvida recibos de instalador. No acepta ninguna otra orden."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un petit outil doté des droits d’administrateur. Il place des éléments dans la corbeille, les remet en place, démarre ou arrête des éléments en arrière-plan, et oublie des reçus d’installation. Il n’accepte aucun autre ordre."
+            "value" : "Un petit outil doté des droits d’administrateur. Il place des éléments dans la corbeille et les remet en place, démarre, arrête, active ou désactive des éléments en arrière-plan, et oublie des reçus d’installation. Il n’accepte aucun autre ordre."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un piccolo strumento con privilegi di amministratore. Sposta elementi nel Cestino, li ripristina, avvia o interrompe elementi in background e dimentica le ricevute di installazione. Non accetta altri ordini."
+            "value" : "Un piccolo strumento con privilegi di amministratore. Sposta elementi nel Cestino e li ripristina, avvia, interrompe, abilita o disabilita elementi in background e dimentica le ricevute di installazione. Non accetta altri ordini."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理者権限を持つ小さなツールです。項目をゴミ箱に入れたり戻したりするほか、バックグラウンド項目の開始と停止、インストーラレシートのゴミ箱への移動を行います。それ以外の命令は受け付けません。"
+            "value" : "管理者権限を持つ小さなツールです。項目をゴミ箱に入れたり戻したりするほか、バックグラウンド項目の開始、停止、有効化、無効化と、インストーラレシートのゴミ箱への移動を行います。それ以外の命令は受け付けません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "관리자 권한을 가진 작은 도구입니다. 항목을 휴지통으로 이동하고, 되돌려 놓고, 백그라운드 항목을 시작하거나 중단하고, 설치 수신 정보를 제거합니다. 그 외의 명령은 받지 않습니다."
+            "value" : "관리자 권한을 가진 작은 도구입니다. 항목을 휴지통으로 이동하고 되돌려 놓으며, 백그라운드 항목을 시작, 중단, 활성화 또는 비활성화하고, 설치 수신 정보를 제거합니다. 그 외의 명령은 받지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een klein hulpprogramma met beheerdersrechten. Het verplaatst onderdelen naar de prullenmand, zet ze terug, start of stopt achtergrondonderdelen en vergeet installatiebewijzen. Andere opdrachten voert het niet uit."
+            "value" : "Een klein hulpprogramma met beheerdersrechten. Het verplaatst onderdelen naar de prullenmand en zet ze terug, start of stopt achtergrondonderdelen of schakelt ze in of uit, en vergeet installatiebewijzen. Andere opdrachten voert het niet uit."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Małe narzędzie z uprawnieniami administratora. Przenosi rzeczy do Kosza, przywraca je, uruchamia i zatrzymuje rzeczy działające w tle oraz zapomina potwierdzenia instalacji. Nie przyjmuje żadnych innych poleceń."
+            "value" : "Małe narzędzie z uprawnieniami administratora. Przenosi rzeczy do Kosza i przywraca je, uruchamia, zatrzymuje, włącza lub wyłącza rzeczy działające w tle oraz zapomina potwierdzenia instalacji. Nie przyjmuje żadnych innych poleceń."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uma pequena ferramenta com direitos de administrador. Ela move itens para o Lixo, coloca-os de volta, inicia ou para itens em segundo plano e esquece recibos de instalação. Ela não aceita nenhuma outra ordem."
+            "value" : "Uma pequena ferramenta com direitos de administrador. Ela move itens para o Lixo e os coloca de volta, inicia, para, ativa ou desativa itens em segundo plano e esquece recibos de instalação. Ela não aceita nenhuma outra ordem."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un mic instrument cu drepturi de administrator. Mută articole în Coș, le pune înapoi, pornește sau oprește articole de fundal și uită recipise de instalare. Nu primește alte comenzi."
+            "value" : "Un mic instrument cu drepturi de administrator. Mută articole în Coș și le pune înapoi, pornește, oprește, activează sau dezactivează articole de fundal și uită recipise de instalare. Nu primește alte comenzi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Небольшая программа с правами администратора. Она перемещает объекты в Корзину, восстанавливает их, запускает и останавливает фоновые объекты и забывает квитанции установщика. Других команд она не выполняет."
+            "value" : "Небольшая программа с правами администратора. Она перемещает объекты в Корзину и восстанавливает их, запускает, останавливает, включает и выключает фоновые объекты и забывает квитанции установщика. Других команд она не выполняет."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ett litet verktyg med administratörsbehörighet. Det flyttar objekt till papperskorgen, lägger tillbaka dem, startar eller stoppar bakgrundsobjekt och glömmer installationskvitton. Det tar inte emot några andra kommandon."
+            "value" : "Ett litet verktyg med administratörsbehörighet. Det flyttar objekt till papperskorgen och lägger tillbaka dem, startar, stoppar, aktiverar eller avaktiverar bakgrundsobjekt och glömmer installationskvitton. Det tar inte emot några andra kommandon."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yönetici haklarına sahip küçük bir araç. Öğeleri Çöp Sepeti’ne taşır, yerine koyar, arka plan öğelerini başlatır veya durdurur ve yükleyici makbuzlarını unutur. Başka hiçbir komut almaz."
+            "value" : "Yönetici haklarına sahip küçük bir araç. Öğeleri Çöp Sepeti’ne taşır ve yerine koyar, arka plan öğelerini başlatır, durdurur, etkinleştirir veya etkisizleştirir ve yükleyici makbuzlarını unutur. Başka hiçbir komut almaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Невеликий інструмент із правами адміністратора. Він переміщує елементи в Смітник, повертає їх назад, запускає чи зупиняє фонові елементи й забуває квитанції інсталяторів. Інших команд він не виконує."
+            "value" : "Невеликий інструмент із правами адміністратора. Він переміщує елементи в Смітник і повертає їх назад, запускає, зупиняє, вмикає чи вимикає фонові елементи й забуває квитанції інсталяторів. Інших команд він не виконує."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一个拥有管理员权限的小工具。它会将项目移到废纸篓、将其放回原处、启动或停止后台项目，以及移除安装器回执。它不接受任何其他指令。"
+            "value" : "一个拥有管理员权限的小工具。它会将项目移到废纸篓并将其放回原处，启动、停止、启用或停用后台项目，以及移除安装器回执。它不接受任何其他指令。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一個擁有管理者權限的小工具。它會將項目丟到「垃圾桶」、還原項目、啟動或停止背景項目，以及移除安裝收據。它不接受其他任何指令。"
+            "value" : "一個擁有管理者權限的小工具。它會將項目丟到「垃圾桶」及還原這些項目，啟動、停止、啟用或停用背景項目，以及移除安裝收據。它不接受其他任何指令。"
           }
         }
       }

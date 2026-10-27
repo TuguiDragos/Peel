@@ -185,6 +185,8 @@ private func state(_ title: LocalizedStringResource, _ symbol: String, _ tint: C
         Text(title)
         Image(systemName: symbol)
             .foregroundStyle(tint)
+            // The words are the whole state.
+            .accessibilityHidden(true)
     }
     .font(.caption)
     .foregroundStyle(.secondary)
@@ -661,7 +663,7 @@ private struct HelperSettingsView: View {
                         Text("Status")
                         InfoNote(
                             name: String(localized: "Helper"),
-                            detail: Text("A small tool with administrator rights. It moves items to the Trash, puts them back, starts or stops background items, and forgets installer receipts. It takes no other orders."),
+                            detail: Text("A small tool with administrator rights. It moves items to the Trash and puts them back, starts, stops, enables, or disables background items, and forgets installer receipts. It takes no other orders."),
                             symbol: "lock.shield"
                         )
                     }
