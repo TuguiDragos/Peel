@@ -133,8 +133,8 @@ private struct HistoryProblemNotice: View {
                 title: Text("The record of past removals can’t be read"),
                 detail: Text("Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder.")
             ) {
-                Button("Start Over") {
-                    Task { await history.startOver() }
+                StartOverButton(file: history.historyFile) {
+                    await history.startOver() || history.shownProblem != .unreadable
                 }
             }
         case .couldNotRecord:
@@ -172,8 +172,8 @@ private struct RefusalProblemNotice: View {
                 title: Text("The Not Moved list can’t be read"),
                 detail: Text("Until you start the list over, Peel adds nothing to it, since it is the only record of what stayed. Starting over keeps the old file beside a new one.")
             ) {
-                Button("Start Over") {
-                    Task { await history.startOverRefusals() }
+                StartOverButton(file: history.refusalsFile) {
+                    await history.startOverRefusals() || history.refusalProblem != .unreadable
                 }
             }
         case .couldNotRecord:
@@ -181,6 +181,27 @@ private struct RefusalProblemNotice: View {
                 title: Text("The Not Moved list couldn’t be saved"),
                 detail: Text("What stayed in the last removal is where it was, but it isn’t listed here.")
             ) { EmptyView() }
+        }
+    }
+}
+
+/// Starts a file that can't be read over, and says so when its old copy couldn't be set aside, which leaves
+/// everything as it was.
+private struct StartOverButton: View {
+    let file: URL
+    /// Starts over and answers whether the file can be used now.
+    let startOver: () async -> Bool
+    @State private var couldNotSetAside = false
+
+    var body: some View {
+        Button("Start Over") {
+            Task { couldNotSetAside = !(await startOver()) }
+        }
+        .alert("Peel couldn’t set the old file aside", isPresented: $couldNotSetAside) {
+            Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([file]) }
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Nothing changed. Check that Peel can write to its folder in Application Support, then try again.")
         }
     }
 }

@@ -103631,6 +103631,112 @@
         }
       }
     },
+    "Nothing changed. Check that Peel can write to its folder in Application Support, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nic se nezměnilo. Zkontrolujte, zda Peel může zapisovat do své složky v Application Support, a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wurde nichts geändert. Prüfe, ob Peel in seinen Ordner in Application Support schreiben kann, und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ha cambiado nada. Comprueba que Peel pueda escribir en su carpeta de Application Support y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien n’a changé. Vérifiez que Peel peut écrire dans son dossier situé dans Application Support, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è cambiato nulla. Verifica che Peel possa scrivere nella sua cartella in Application Support, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "何も変更されていません。Application SupportにあるPeelのフォルダにPeelが書き込めることを確認してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아무것도 변경되지 않았습니다. Peel이 Application Support에 있는 자신의 폴더에 쓸 수 있는지 확인한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is niets gewijzigd. Controleer of Peel naar de eigen map in Application Support kan schrijven en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nic się nie zmieniło. Sprawdź, czy Peel może zapisywać w swoim folderze w Application Support, a następnie spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada mudou. Verifique se o Peel consegue gravar na pasta dele em Application Support e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s‑a schimbat nimic. Verificați dacă Peel poate scrie în dosarul său din Application Support, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ничего не изменилось. Убедитесь, что Peel может записывать в свою папку в Application Support, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget ändrades. Kontrollera att Peel kan skriva till sin mapp i Application Support och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiçbir şey değişmedi. Peel’in Application Support içindeki klasörüne yazabildiğini denetleyin, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нічого не змінено. Перевірте, чи може Peel записувати у свою папку в Application Support, та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未做任何更改。请检查Peel能否写入它在Application Support中的文件夹，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有任何變更。請確認Peel可以寫入它在Application Support中的檔案夾，然後再試一次。"
+          }
+        }
+      }
+    },
     "Nothing else on this Mac opens these." : {
       "localizations" : {
         "cs" : {
@@ -119144,6 +119250,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法儲存要執行的`brew`。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t set the old file aside" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl odložit starý soubor stranou"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die alte Datei nicht beiseitelegen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido apartar el archivo antiguo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu mettre l’ancien fichier de côté"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a mettere da parte il vecchio file"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは古いファイルを別に保管できませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이전 파일을 따로 보관할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon het oude bestand niet apart zetten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odłożyć na bok starego pliku"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu guardar o arquivo antigo à parte"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut pune deoparte fișierul vechi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось сохранить старый файл отдельно"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte lägga undan den gamla filen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel eski dosyayı bir kenara ayıramadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося відкласти старий файл"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能将旧文件移到一旁"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法將舊檔案移到一旁"
           }
         }
       }

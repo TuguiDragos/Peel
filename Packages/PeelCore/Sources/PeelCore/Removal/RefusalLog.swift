@@ -65,7 +65,7 @@ public actor RefusalLog {
     static let maximumRecords = 5_000
     static let maximumBytes = 16 * 1_024 * 1_024
 
-    public let url: URL
+    public nonisolated let url: URL
     /// What was last read or written, kept while the file stays the same, as in `RemovalLog`.
     private var kept: (file: FileIdentity, records: [RefusalRecord])?
     private var problem: RefusalLogProblem?

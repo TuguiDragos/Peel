@@ -255,17 +255,24 @@ final class RemovalHistoryStore {
     }
 
     /// Keeps a History that cannot be read beside a new one, and records again.
-    func startOver() async {
+    @discardableResult
+    func startOver() async -> Bool {
         let startedOver = await log.startOver()
         await apply(await log.load())
         if startedOver { announcing(AttributedString(localized: "Started History over.")) }
+        return startedOver
     }
 
-    func startOverRefusals() async {
+    @discardableResult
+    func startOverRefusals() async -> Bool {
         let startedOver = await refusals.startOver()
         await loadRefusals()
         if startedOver { announcing(AttributedString(localized: "Started the Not Moved list over.")) }
+        return startedOver
     }
+
+    var historyFile: URL { log.url }
+    var refusalsFile: URL { refusals.url }
 
     private func loadRefusals() async {
         await showRefusals(await refusals.load())

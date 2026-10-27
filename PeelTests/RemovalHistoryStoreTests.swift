@@ -108,6 +108,30 @@ struct RemovalHistoryStoreTests {
         #expect(heard.words == ["Started History over.", "Started the Not Moved list over."])
     }
 
+    @Test func saysWhenStartingOverCouldNotSetTheOldFileAside() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let path = folder.path(percentEncoded: false)
+        try FileManager.default.createDirectory(at: folder.appending(path: "removals.json"), withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: folder.appending(path: "refusals.json"), withIntermediateDirectories: true)
+        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: path)
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: path)
+            try? FileManager.default.removeItem(at: folder)
+        }
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true }
+        )
+        await history.load()
+
+        let startedOver = await history.startOver()
+        let startedRefusalsOver = await history.startOverRefusals()
+
+        #expect(!startedOver && history.shownProblem == .unreadable)
+        #expect(!startedRefusalsOver && history.refusalProblem == .unreadable)
+    }
+
     @Test func startsOverANotMovedListItCannotRead() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
