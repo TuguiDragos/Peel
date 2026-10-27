@@ -910,8 +910,6 @@ public enum ProjectArtifacts {
         }
     }
 
-    /// Holds back each artifact Git tracks files in, which is part of the project rather than something a build makes
-    /// again, and each in a repository whose index can't be read. What the walk saw inside comes first.
     /// Holds back each artifact in `/Users/Shared`, which belongs to every account on the Mac, once nothing found
     /// inside it says more.
     static func holdingBackWhatIsShared(_ artifacts: [ProjectArtifact]) -> [ProjectArtifact] {
@@ -927,6 +925,8 @@ public enum ProjectArtifacts {
         }
     }
 
+    /// Holds back each artifact Git tracks files in, which is part of the project rather than something a build makes
+    /// again, and each in a repository whose index can't be read. What the walk saw inside comes first.
     static func holdingBackWhatGitTracks(_ artifacts: [ProjectArtifact]) async -> [ProjectArtifact] {
         var result = artifacts
         var indexes: [GitIndex.Repository: GitIndex?] = [:]
