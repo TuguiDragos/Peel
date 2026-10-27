@@ -66,7 +66,7 @@ struct DeveloperDetailView: View {
                     NoteBadge(
                         title: Text("\(keptByDefault) kept"), systemImage: "hand.raised",
                         name: String(localized: "\(keptByDefault) kept"),
-                        detail: Text("Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, an editor’s state for a project that is gone, folders nothing shows the tool made, anything Peel couldn’t measure, and any cache with a wallet, a signing key, or a password database inside are listed but never selected for you.")
+                        detail: Text("Archives, symbols from your devices, model weights, installed environments, downloads kept to install again, the build data of a project opened in the last week, an editor’s state for a project that is gone, folders nothing shows the tool made, a clone of a repository other than the tool’s, a Spring Boot server’s folder written to in the last 15 minutes, anything Peel couldn’t measure, and any cache with a wallet, a signing key, or a password database inside are listed but never selected for you.")
                     )
                 }
             }
