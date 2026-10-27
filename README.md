@@ -165,9 +165,10 @@ and choose Uninstall with Peel, once the Finder extension is on in System Settin
 <br>
 
 Peel moves files to the Trash instead of deleting them, and History can put them back while they are still there
-(it keeps the latest 20,000 items). What can't be undone, such as Homebrew's own uninstall, Peel names before you
-confirm it. Peel selects for you only what it is sure, or nearly sure, belongs to the app, never a file another app
-uses, and refuses to touch places like iCloud Drive, your keychains, Mail, Messages, and photo libraries.
+(it keeps the latest 20,000 items, fewer when their paths are very long). What can't be undone, such as Homebrew's
+own uninstall, Peel names before you confirm it. Peel selects for you only what it is sure, or nearly sure, belongs
+to the app, never a file another app uses, and refuses to touch places like iCloud Drive, your keychains, Mail,
+Messages, and photo libraries.
 
 </details>
 

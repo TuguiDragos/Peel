@@ -103,6 +103,24 @@ struct RefusalLogTests {
 
     /// Past its cap the log drops the oldest removals whole, as History does: an entry cut in part would read as
     /// all that was refused.
+    @Test func neverWritesMoreThanItReadsBack() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "Peel/refusals.json")
+        let log = RefusalLog(url: url, readLimit: 4_096)
+        let removals = [UUID(), UUID(), UUID()]
+        for (index, batch) in removals.enumerated() {
+            let failures = (0..<8).map { failure("/Users/me/書類書類書類/\(index)/\($0)", .lastCopy) }
+            let date = Date(timeIntervalSince1970: Double(index) * 60)
+            await log.add(failures, source: "Editor", tool: "duplicates", batch: batch, date: date)
+        }
+
+        let read = await RefusalLog(url: url, readLimit: 4_096).load()
+
+        let batches = try #require(read.records, "the list grew past what it reads back").map(\.batch)
+        #expect(batches.filter { $0 == removals[2] }.count == 8, "the newest removal was not kept whole")
+        #expect(!batches.contains(removals[0]), "the oldest removal was kept past the limit")
+    }
+
     @Test func dropsTheOldestRemovalsWhole() async throws {
         let directory = try TemporaryDirectory()
         let log = RefusalLog(url: directory.url.appending(path: "refusals.json"))

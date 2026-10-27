@@ -375,6 +375,23 @@ struct RemovalHistoryTests {
         #expect(await log.add([Self.record(batch: UUID())]).records?.count == 1)
     }
 
+    @Test func neverWritesMoreThanItReadsBack() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "Peel/removals.json")
+        let log = RemovalLog(url: url, flush: { _ in true }, readLimit: 4_096)
+        let removals = [UUID(), UUID(), UUID()]
+        for (index, batch) in removals.enumerated() {
+            let date = Date(timeIntervalSince1970: Double(index) * 60)
+            _ = await log.add((0..<4).map { Self.record(batch: batch, date: date, name: "書類書類書類 \(index) \($0)") })
+        }
+
+        let read = await RemovalLog(url: url, flush: { _ in true }, readLimit: 4_096).load()
+
+        let batches = try #require(read.records, "History grew past what it reads back").map(\.batch)
+        #expect(batches.filter { $0 == removals[2] }.count == 4, "the newest removal was not kept whole")
+        #expect(!batches.contains(removals[0]), "the oldest removal was kept past the limit")
+    }
+
     @Test func startsNothingOverWhileHistoryCanBeRead() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))

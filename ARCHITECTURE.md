@@ -159,8 +159,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    (`ShellReferences`, which reads the files zsh, bash, and fish start with and never changes them).
 7. **Record.**
    - Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came from and
-     where it went, so it can be put back; History keeps the most recent 20,000 items. A removal is one entry,
-     even when it moved what was selected on several pages.
+     where it went, so it can be put back; History keeps the most recent 20,000 items, fewer when their paths are
+     very long, since it never writes more than it reads back (`Batches.fitting`). A removal is one entry, even when
+     it moved what was selected on several pages.
    - As it records, History adds what moved to the totals Home and the menu bar panel show (`totals.json`, through
      `RemovalTotals`), so the app and `peel` count alike.
    - Each item is also written down the moment it moves, and what the helper moves as soon as it answers each

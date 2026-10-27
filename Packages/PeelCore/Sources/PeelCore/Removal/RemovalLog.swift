@@ -29,8 +29,8 @@ public struct RemovalLogOutcome: Sendable {
 public actor RemovalLog {
     /// The most records the file keeps. Past this, the oldest batches are dropped whole, never in part.
     static let maximumRecords = 20_000
-    /// The largest file read as History. The file is Peel's, but any process of the user can rewrite it, and
-    /// 20,000 records take about 6 MB.
+    /// The largest file read as History, since any process of the user can rewrite it. Peel never writes more:
+    /// records with long paths take several times what short ones do, and the oldest removals go first.
     static let maximumBytes = 64 * 1_024 * 1_024
 
     public nonisolated let url: URL
@@ -42,16 +42,18 @@ public actor RemovalLog {
     private let journal: RemovalJournal
     private let totals: URL
     private let flush: @Sendable (String) -> Bool
+    private let readLimit: Int
 
     public init(url: URL = RemovalHistory.defaultURL) {
         self.init(url: url, flush: DriveFlush.file(at:))
     }
 
-    init(url: URL, flush: @escaping @Sendable (String) -> Bool) {
+    init(url: URL, flush: @escaping @Sendable (String) -> Bool, readLimit: Int = maximumBytes) {
         self.url = url
         journal = RemovalJournal(beside: url)
         totals = RemovalTotals.url(beside: url)
         self.flush = flush
+        self.readLimit = readLimit
     }
 
     /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
@@ -71,8 +73,9 @@ public actor RemovalLog {
         whileNoOtherProcessWrites {
             guard !records.isEmpty else { return RemovalLogOutcome(records: current(), problem: problem) }
             guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
-            let updated = Self.trimmed(existing + records, keeping: Set(records.map(\.batch)))
-            guard write(updated, orNote: .couldNotRecord) else {
+            let new = Set(records.map(\.batch))
+            let trimmed = Self.trimmed(existing + records, keeping: new)
+            guard let updated = write(trimmed, keeping: new, orNote: .couldNotRecord) else {
                 journal.keep(records)
                 return RemovalLogOutcome(records: nil, problem: problem)
             }
@@ -133,7 +136,7 @@ public actor RemovalLog {
         whileNoOtherProcessWrites {
             guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
             let updated = existing.filter { !ids.contains($0.id) }
-            return RemovalLogOutcome(records: write(updated, orNote: .couldNotUpdate) ? updated : nil, problem: problem)
+            return RemovalLogOutcome(records: write(updated, orNote: .couldNotUpdate), problem: problem)
         }
     }
 
@@ -172,8 +175,10 @@ public actor RemovalLog {
         let interrupted = left.filter { !recorded.contains(RemovalJournal.Key($0.item)) }.map(\.recordToTakeIn)
         var updated = records
         if !interrupted.isEmpty {
-            updated = Self.trimmed(records + interrupted, keeping: Set(interrupted.map(\.batch)))
-            guard write(updated, orNote: .couldNotRecord) else { return records }
+            let taken = Set(interrupted.map(\.batch))
+            let trimmed = Self.trimmed(records + interrupted, keeping: taken)
+            guard let written = write(trimmed, keeping: taken, orNote: .couldNotRecord) else { return records }
+            updated = written
             RemovalTotals.change(at: totals) { $0.add(interrupted) }
         }
         journal.forget(Set(left))
@@ -190,7 +195,7 @@ public actor RemovalLog {
             note(nil)
             return kept.records
         }
-        guard let read = BoundedRead.contents(at: url, maximum: Self.maximumBytes) else {
+        guard let read = BoundedRead.contents(at: url, maximum: readLimit) else {
             note(.unreadable)
             return nil
         }
@@ -209,8 +214,8 @@ public actor RemovalLog {
             return nil
         }
         note(.damaged(setAside: setAside))
-        guard !readable.isEmpty, write(readable, orNote: .damaged(setAside: setAside)) else { return [] }
-        return readable
+        guard !readable.isEmpty, let written = write(readable, orNote: .damaged(setAside: setAside)) else { return [] }
+        return written
     }
 
     /// A row of the file. `record` is nil when the row does not decode.
@@ -222,25 +227,32 @@ public actor RemovalLog {
         }
     }
 
-    private func write(_ records: [RemovalRecord], orNote failure: RemovalLogProblem) -> Bool {
+    /// Writes `records`, less the oldest removals that wouldn't fit in what is read back, never one in `protected`,
+    /// and answers what it wrote, or nil when it couldn't.
+    private func write(
+        _ records: [RemovalRecord], keeping protected: Set<UUID> = [], orNote failure: RemovalLogProblem
+    ) -> [RemovalRecord]? {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = LogTime.encoding
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
-            let data = try encoder.encode(records)
+            let fitted = try Batches.fitting(
+                records, within: readLimit, batch: \.batch, date: \.date, keeping: protected,
+                encode: { try encoder.encode($0) }
+            )
             try FileManager.default.createDirectory(
                 at: url.deletingLastPathComponent(),
                 withIntermediateDirectories: true
             )
             // `.atomic` writes a temporary file and renames it, so a crash leaves either the old log or the new one.
-            try data.write(to: url, options: .atomic)
+            try fitted.data.write(to: url, options: .atomic)
             // Every writer takes the lock, so the file here is the one just written.
-            kept = FileIdentity.of(url).map { ($0, records) }
-            return true
+            kept = FileIdentity.of(url).map { ($0, fitted.records) }
+            return fitted.records
         } catch {
             // An unrecorded removal is the most serious problem, so a later failure never replaces it.
             if problem != .couldNotRecord { note(failure) }
-            return false
+            return nil
         }
     }
 

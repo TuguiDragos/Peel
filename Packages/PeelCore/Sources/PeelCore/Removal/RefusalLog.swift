@@ -63,14 +63,21 @@ public enum RefusalLogProblem: Sendable, Equatable {
 /// advisory lock on the file, as in `RemovalLog`, because the `peel` tool writes here too.
 public actor RefusalLog {
     static let maximumRecords = 5_000
+    static let maximumBytes = 16 * 1_024 * 1_024
 
     public let url: URL
     /// What was last read or written, kept while the file stays the same, as in `RemovalLog`.
     private var kept: (file: FileIdentity, records: [RefusalRecord])?
     private var problem: RefusalLogProblem?
+    private let readLimit: Int
 
     public init(url: URL = RemovalHistory.refusalsURL) {
+        self.init(url: url, readLimit: Self.maximumBytes)
+    }
+
+    init(url: URL, readLimit: Int) {
         self.url = url
+        self.readLimit = readLimit
     }
 
     /// The records, with what is still to be said about the file (`note`). Nil records when the file could not be
@@ -100,7 +107,7 @@ public actor RefusalLog {
                 existing + records, maximum: Self.maximumRecords, batch: { $0.batch ?? $0.id }, date: \.date,
                 keeping: [batch]
             )
-            guard write(kept) else {
+            guard write(kept, keeping: [batch]) else {
                 note(.couldNotRecord)
                 return problem
             }
@@ -154,7 +161,7 @@ public actor RefusalLog {
             note(nil)
             return kept.records
         }
-        guard let read = BoundedRead.contents(at: url, maximum: 16 * 1_024 * 1_024) else {
+        guard let read = BoundedRead.contents(at: url, maximum: readLimit) else {
             note(.unreadable)
             return nil
         }
@@ -199,16 +206,20 @@ public actor RefusalLog {
         }
     }
 
+    /// Writes `records`, less the oldest removals that wouldn't fit in what is read back, never one in `protected`.
     @discardableResult
-    private func write(_ records: [RefusalRecord]) -> Bool {
+    private func write(_ records: [RefusalRecord], keeping protected: Set<UUID> = []) -> Bool {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = LogTime.encoding
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        guard let data = try? encoder.encode(records) else { return false }
+        guard let fitted = try? Batches.fitting(
+            records, within: readLimit, batch: { $0.batch ?? $0.id }, date: \.date, keeping: protected,
+            encode: { try encoder.encode($0) }
+        ) else { return false }
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        guard (try? data.write(to: url, options: .atomic)) != nil else { return false }
+        guard (try? fitted.data.write(to: url, options: .atomic)) != nil else { return false }
         // Every writer takes the lock, so the file here is the one just written.
-        kept = FileIdentity.of(url).map { ($0, records) }
+        kept = FileIdentity.of(url).map { ($0, fitted.records) }
         return true
     }
 }
