@@ -34,6 +34,7 @@ struct DocumentationTests {
         let languages = try StringCatalogTests.declaredLanguages().count + 1
         let tweaks = TweakCatalog.all.filter { $0.group != .terminal }.count
         let records = RemovalLog.maximumRecords.formatted(.number.locale(Locale(identifier: "en_US")))
+        let ledgerItems = HelperLedger.entriesKept.formatted(.number.locale(Locale(identifier: "en_US")))
         let idle = Int(HelperLifetime.standardIdleTimeout)
         let results = FileSearch.maximumResults.formatted(.number.locale(Locale(identifier: "en_US")))
         let minutes = Int(HoldBack.stillInUse / 60)
@@ -48,6 +49,7 @@ struct DocumentationTests {
             ("GUIDE.md", "Tweaks gathers \(tweaks) settings"),
             ("README.md", "keeps the latest \(records) items"),
             ("SAFETY.md", "keeps the most recent \(records) items"),
+            ("SAFETY.md", "holds the last \(ledgerItems) items it moved"),
             ("ARCHITECTURE.md", "keeps the most recent \(records) items"),
             ("SAFETY.md", "at most \(HelperRequest.maximumItems) items in one request"),
             ("ARCHITECTURE.md", "at most \(HelperRequest.maximumItems) items"),

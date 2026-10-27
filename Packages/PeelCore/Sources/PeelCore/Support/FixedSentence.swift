@@ -11,7 +11,7 @@ public enum FixedSentence: CaseIterable, Sendable {
     case notThereAnymore, alreadyThere, protectedByMacOS, irreplaceable, codeFolder, onlyLinksThere, leadsSomewhere
     case onlyGoneProgramsThere
     case helperOutOfDate, accountNotAllowed, tooManyItems, noTrash, pathTooLong, cannotKeepRecord, cannotReadRecord
-    case notInTrash, notMovedByHelper, invalidRequest, configurationMissing, declaredTwice
+    case notInTrash, notInHelpersRecord, invalidRequest, configurationMissing, declaredTwice
     case toolTimedOut, toolStopped
     case receiptMisplaced, receiptForgotten, homebrewNotInstalled, helperUnavailable
 
@@ -46,7 +46,7 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .cannotKeepRecord: HelperRefusal.cannotKeepRecord.rawValue
         case .cannotReadRecord: HelperRefusal.cannotReadRecord.rawValue
         case .notInTrash: HelperRefusal.notInTrash.rawValue
-        case .notMovedByHelper: HelperRefusal.notMovedByHelper.rawValue
+        case .notInHelpersRecord: HelperRefusal.notInRecord.rawValue
         case .invalidRequest: HelperRefusal.invalidRequest.rawValue
         case .configurationMissing: HelperRefusal.missingConfiguration.rawValue
         case .declaredTwice: HelperRefusal.declaredTwice.rawValue

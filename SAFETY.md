@@ -647,7 +647,8 @@ and it fails closed.
   the helper took it from. Something dropped into your Trash by hand, or swapped in under a known name, stays
   there. An item moves only once its record is on the drive itself, so a power cut can't keep the move and lose
   the record. While the ledger can't be read, the helper moves nothing and puts nothing back; one it can't make
-  sense of is kept under another name, never written over, and a new one begins. A folder that code is loaded from
+  sense of is kept under another name, never written over, and a new one begins. It holds the last 20,000 items it
+  moved: an item it has no record of stays in the Trash, and Put Back says so. A folder that code is loaded from
   takes back only what is still owned by root and writable by nobody else. Peel says so before it moves a plug-in
   that isn't, and Put Back says so too, since Finder can still drag it back out.
 

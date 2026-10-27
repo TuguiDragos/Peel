@@ -10,7 +10,7 @@ public enum HelperRefusal: String, CaseIterable, Sendable {
     case cannotKeepRecord = "Peel’s helper can’t keep its record of what it moves, so nothing was moved."
     case cannotReadRecord = "Peel’s helper can’t read its record of what it moved, so nothing was put back."
     case notInTrash = "It isn’t in the Trash."
-    case notMovedByHelper = "Peel’s helper didn’t move this from there, so it stays in the Trash. You can drag it back out in Finder."
+    case notInRecord = "Peel’s helper has no record of moving this from there, so it stays in the Trash. You can drag it back out in Finder."
     case invalidRequest = "The request wasn’t valid."
     case missingConfiguration = "The configuration file is missing."
     case declaredTwice = "Two files declare this job."

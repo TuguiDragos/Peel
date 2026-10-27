@@ -129683,112 +129683,6 @@
         }
       }
     },
-    "Peel’s helper didn’t move this from there, so it stays in the Trash. You can drag it back out in Finder." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu to odtamtud nepřesunul, takže to zůstává v koši. Ve Finderu to můžete přetáhnout zpět ven."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel hat dies nicht von dort verschoben, daher bleibt es im Papierkorb. Du kannst es im Finder wieder herausziehen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel no trasladó esto desde ahí, así que se queda en la papelera. Puedes sacarlo arrastrándolo en el Finder."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce n’est pas l’utilitaire de Peel qui a déplacé cet élément depuis cet emplacement : il reste donc dans la corbeille. Vous pouvez l’en sortir dans le Finder, en le faisant glisser."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non è stato l’assistente di Peel a spostarlo da lì, quindi resta nel Cestino. Puoi trascinarlo fuori nel Finder."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "これはPeelのヘルパーがそこから移動したものではないため、ゴミ箱に残ります。Finderでドラッグして取り出せます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램이 그곳에서 이 항목을 이동한 것이 아니므로 휴지통에 그대로 남습니다. Finder에서 드래그하여 꺼낼 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel heeft dit niet daarvandaan verplaatst, dus het blijft in de prullenmand. Je kunt het in Finder er weer uit slepen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel nie przeniósł tego z tamtego miejsca, więc zostaje to w Koszu. Możesz przeciągnąć to z Kosza w Finderze."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel não moveu isto de lá, então fica no Lixo. Você pode arrastá-lo para fora no Finder."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel nu a mutat acest articol de acolo, așa că rămâne în Coș. În Finder, îl puteți trage afară de acolo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel не перемещал это оттуда, поэтому оно остается в Корзине. В Finder его можно перетащить из Корзины обратно."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram flyttade inte det här därifrån, så det ligger kvar i papperskorgen. Du kan dra ut det igen i Finder."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunu oradan Peel’in yardımcısı taşımadı, bu yüzden Çöp Sepeti’nde kalıyor. Onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічник Peel не переміщував цього звідти, тож воно лишається в Смітнику. У Finder його можна перетягнути зі Смітника назад."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此项不是由Peel的帮助程序从那里移走的，因此它会留在废纸篓中。你可以在“访达”中将它拖出来。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此項目不是由Peel的輔助程式從那裡移出的，因此它會留在「垃圾桶」中。你可以在Finder中將它拖出來。"
-          }
-        }
-      }
-    },
     "Peel’s helper had too many folders open at once. Try again." : {
       "localizations" : {
         "cs" : {
@@ -129891,6 +129785,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式同時打開的檔案夾過多。請再試一次。"
+          }
+        }
+      }
+    },
+    "Peel’s helper has no record of moving this from there, so it stays in the Trash. You can drag it back out in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu nemá záznam o tom, že by to odtamtud přesunul, takže to zůstává v koši. Ve Finderu to můžete přetáhnout zpět ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel hat keine Aufzeichnung darüber, dass es dies von dort verschoben hat, daher bleibt es im Papierkorb. Du kannst es im Finder wieder herausziehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no tiene ningún registro de haber trasladado esto desde ahí, así que se queda en la papelera. Puedes sacarlo arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel n’a aucune trace du déplacement de cet élément depuis cet emplacement : il reste donc dans la corbeille. Vous pouvez l’en sortir dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non ha traccia di averlo spostato da lì, quindi resta nel Cestino. Puoi trascinarlo fuori nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーには、これをそこから移動した記録がないため、ゴミ箱に残ります。Finderでドラッグして取り出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램에 그곳에서 이 항목을 이동한 내역이 없으므로 휴지통에 그대로 남습니다. Finder에서 드래그하여 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel heeft geen registratie waaruit blijkt dat het dit daarvandaan heeft verplaatst, dus het blijft in de prullenmand. Je kunt het in Finder er weer uit slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel nie ma zapisu o przeniesieniu tego z tamtego miejsca, więc zostaje to w Koszu. Możesz przeciągnąć to z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não tem registro de ter movido isto de lá, então fica no Lixo. Você pode arrastá-lo para fora no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu are nicio evidență că ar fi mutat acest articol de acolo, așa că rămâne în Coș. În Finder, îl puteți trage afară de acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У помощника Peel нет записи о том, что он перемещал это оттуда, поэтому оно остается в Корзине. В Finder его можно перетащить из Корзины обратно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram har ingen uppgift om att ha flyttat det här därifrån, så det ligger kvar i papperskorgen. Du kan dra ut det igen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısında, bunu oradan taşıdığına dair bir kayıt yok, bu yüzden Çöp Sepeti’nde kalıyor. Onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel не має запису про те, що переміщував це звідти, тож воно лишається в Смітнику. У Finder його можна перетягнути зі Смітника назад."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序没有从那里移走此项的记录，因此它会留在废纸篓中。你可以在“访达”中将它拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式沒有從那裡移出此項目的記錄，因此它會留在「垃圾桶」中。你可以在Finder中將它拖出來。"
           }
         }
       }

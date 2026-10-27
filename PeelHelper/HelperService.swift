@@ -118,7 +118,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
             else {
                 return reply(HelperRefusal.cannotReadRecord.rawValue)
             }
-            guard origin == target.path else { return reply(HelperRefusal.notMovedByHelper.rawValue) }
+            guard origin == target.path else { return reply(HelperRefusal.notInRecord.rawValue) }
             switch TrashMover.rename(trashed, to: target.name, in: target.parent) {
             case .success:
                 ledger.forget([trashed])

@@ -24,6 +24,8 @@ public final class HelperLedger: Sendable {
 
     public static let defaultFolder = "/private/var/db/\(HelperIdentity.helperIdentifier)"
     public static let defaultURL = URL(filePath: defaultFolder + "/moved.plist")
+    /// How many of the items it moved last the ledger keeps. An older one can no longer be put back by the helper.
+    public static let entriesKept = 20_000
 
     private let url: URL
     private let maximumEntries: Int
@@ -36,7 +38,7 @@ public final class HelperLedger: Sendable {
     /// because an item moved without a record cannot be put back.
     public init?(
         at url: URL = HelperLedger.defaultURL,
-        maximumEntries: Int = 20_000,
+        maximumEntries: Int = HelperLedger.entriesKept,
         flush: @escaping @Sendable (String) -> Bool = DriveFlush.file(at:)
     ) {
         let folder = url.deletingLastPathComponent().path(percentEncoded: false)
