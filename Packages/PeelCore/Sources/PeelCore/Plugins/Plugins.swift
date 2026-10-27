@@ -53,6 +53,11 @@ public struct Plugin: Sendable, Hashable, Identifiable {
 }
 
 extension Plugin.Category {
+    /// The formats music apps and other hosts load on their own.
+    var isLoadedByOtherApps: Bool {
+        [.audioUnits, .vst, .vst3, .clap, .aax, .mas].contains(self)
+    }
+
     init?(_ folder: LibraryFolder) {
         switch folder {
         case .audioUnits: self = .audioUnits
@@ -100,6 +105,18 @@ public enum Plugins {
     /// this table, so the uninstall and Orphaned Files search these folders.
     static let folders = LibraryFolder.plugIns.compactMap { folder in
         Plugin.Category(folder).map { (folder.rawValue, $0) }
+    }
+
+    /// Whether `url` is at or inside a folder of plug-ins music apps and other hosts load on their own, in the home's
+    /// Library or the Mac's.
+    static func isLoadedByOtherApps(_ url: URL, environment: SearchEnvironment) -> Bool {
+        let path = PathPattern.comparablePath(of: url)
+        return [environment.homeDirectory, environment.rootDirectory].contains { base in
+            folders.contains { folder, category in
+                let place = PathPattern.comparablePath(of: base.appending(path: "Library/\(folder)"))
+                return category.isLoadedByOtherApps && PathComponents.isPath(path, inside: place)
+            }
+        }
     }
 
     /// Returns the `CFBundleIdentifier` in the plug-in's `Info.plist`. A plug-in is named for what it does, not

@@ -126,6 +126,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case deletableSystemExtension
     /// An authorization plug-in macOS may load at login (`SignInPlugIns`), left to its maker's uninstaller.
     case signInPlugIn
+    /// An audio plug-in, which music apps and other hosts load on their own whatever became of its app.
+    case loadedByOtherApps
     /// What macOS keeps for its own services, which may be using it at any moment (`MacOSsOwnItems`).
     case keptByMacOS
     /// A copy Mail keeps of an attachment that was opened. One that was edited may exist nowhere else.
@@ -399,6 +401,19 @@ public struct LeftoverScan: Sendable {
     func holdingBack(signInPlugInsUnder root: URL) -> LeftoverScan {
         LeftoverScan(
             leftovers: leftovers.map { SignInPlugIns.isOne($0.url, root: root) ? $0.heldBack(.signInPlugIn) : $0 },
+            unreadableLocations: unreadableLocations,
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
+        )
+    }
+
+    /// Holds back each audio plug-in other apps load on their own, unless something else already holds it back.
+    func holdingBack(plugInsOtherAppsLoadIn environment: SearchEnvironment) -> LeftoverScan {
+        LeftoverScan(
+            leftovers: leftovers.map {
+                $0.match.heldBack == nil && Plugins.isLoadedByOtherApps($0.url, environment: environment)
+                    ? $0.heldBack(.loadedByOtherApps) : $0
+            },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
             needsFullDiskAccess: needsFullDiskAccess

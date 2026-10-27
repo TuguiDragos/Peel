@@ -389,6 +389,7 @@ extension HoldBack {
         case .deletableSystemExtension:
             "a network extension macOS installed; System Settings deletes it: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension"
         case .signInPlugIn: "a plug-in macOS may load at login, left to its maker's uninstaller"
+        case .loadedByOtherApps: "other apps can load it on their own, such as music apps"
         case .keptByMacOS: "macOS keeps it for its own services"
         case .openedFromMail: "an attachment opened from Mail, which may be the only copy"
         case .crashReport: "a crash report, which the app's developer may still ask for"
@@ -453,6 +454,7 @@ extension OrphanConfidence {
         case .nothingClaimsIt, nil: "nothing installed claims these"
         case .installedForAnAppThatIsGone(let name): "macOS installed these for \(Output.plain(name)), which is gone"
         case .startsAProgramThatIsGone: "these start a program that is no longer there"
+        case .loadedByOtherApps: "other apps can load these on their own, such as music apps"
         }
     }
 

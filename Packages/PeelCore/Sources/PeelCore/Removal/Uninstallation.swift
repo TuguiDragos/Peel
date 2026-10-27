@@ -88,6 +88,7 @@ public struct Uninstallation: Sendable {
             scan = scan.leavingToItsUninstaller(uninstallsItself)
         }
         scan = scan.holdingBack(signInPlugInsUnder: environment.rootDirectory)
+            .holdingBack(plugInsOtherAppsLoadIn: environment)
         let reach = HelperReach(environment: environment)
         scan = scan.holdingBack(beyond: reach, leaving: app.url)
         let appRequiresPrivileges = FileAccess.requiresPrivilegesToRemove(app.url)

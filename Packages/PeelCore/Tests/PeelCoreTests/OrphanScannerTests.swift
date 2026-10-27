@@ -1239,6 +1239,23 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
+    /// Music apps still load a gone app's audio plug-in on their own, so its group is unsure, and the item says why.
+    @Test func aGoneAppsAudioPlugInMakesItsGroupUnsure() async throws {
+        let directory = try TemporaryDirectory()
+        let info = #"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.gonevendor.gone.vst3</string></dict></plist>"#
+        try directory.file("home/Library/Audio/Plug-Ins/VST3/Gone.vst3/Contents/Info.plist", contents: Data(info.utf8))
+        let gone = RememberedApp(
+            bundleIdentifier: "com.gonevendor.gone", name: "Gone", teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/Gone.app"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [gone])
+
+        let group = try #require(scan.groups.first { $0.items.contains { $0.url.lastPathComponent == "Gone.vst3" } })
+        #expect(group.items.map(\.heldBack) == [.loadedByOtherApps])
+        #expect(group.confidence.level == .unsure)
+        #expect(group.confidence.reasons == [.loadedByOtherApps])
+    }
+
     @Test func listsAGoneAppsSignInPlugInAndNeverOffersIt() async throws {
         let directory = try TemporaryDirectory()
         let info = #"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.gonevendor.AuthorizationPlugin</string></dict></plist>"#

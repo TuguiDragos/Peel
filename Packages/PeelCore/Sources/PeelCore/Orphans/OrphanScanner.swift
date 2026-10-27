@@ -181,6 +181,9 @@ public struct OrphanScanner: Sendable {
                 item.heldBack = .signInPlugIn
                 return (entry.identifier, item)
             }
+            if item.heldBack == nil, Plugins.isLoadedByOtherApps(item.url, environment: environment) {
+                item.heldBack = .loadedByOtherApps
+            }
             if item.leftAlone == nil, entry.holds == nil {
                 item.heldBack = .couldNotLookInside
             }

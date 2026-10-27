@@ -105936,6 +105936,113 @@
         }
       }
     },
+    "Not selected: other apps can load it on their own, such as music apps." : {
+      "comment" : "Why an audio plug-in (Audio Unit, VST, VST3, CLAP, AAX or MAS) an app left is listed and not selected: music apps and other hosts load such plug-ins by themselves, whatever became of the app. A click still selects it.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: mohou ho samy načítat jiné aplikace, například hudební aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Andere Apps, etwa Musik-Apps, können es von sich aus laden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: otras apps, como las de música, pueden cargarlo por su cuenta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : d’autres apps peuvent le charger d’elles-mêmes, comme les apps de musique."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: altre app, come le app musicali, possono caricarlo da sole."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 音楽アプリなど、ほかのアプリがこれを独自に読み込む場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 음악 앱 등 다른 앱이 이 항목을 자체적으로 로드할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: andere apps, zoals muziekapps, kunnen het zelf laden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: inne aplikacje, na przykład aplikacje muzyczne, mogą wczytywać ją samodzielnie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: outros apps podem carregá-lo por conta própria, como os apps de música."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: alte aplicații, cum ar fi cele de muzică, îl pot încărca singure."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: другие приложения, например музыкальные, могут загружать его сами."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: andra appar, till exempel musikappar, kan läsa in den på egen hand."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: müzik uygulamaları gibi başka uygulamalar onu kendi başlarına yükleyebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: інші програми, як-от музичні, можуть завантажувати його самостійно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：其他App（例如音乐App）可以自行载入它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其他App（例如音樂App）可以自行載入它。"
+          }
+        }
+      }
+    },
     "Not selected: reading which files Git tracks here took too long, so this folder may be part of the project. Rescan to try again." : {
       "comment" : "The note beside a row in Build Artifacts. Peel reads Git's own list of the files it tracks, and that read ran out of time. Rescan is the toolbar button that scans the page again.",
       "localizations" : {
@@ -117821,6 +117928,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只要你指定它們所屬的App仍已安裝，「孤立檔案」就不會列出它們。這些檔案都沒有被移動。移除其中一項，即可再次列出它。"
+          }
+        }
+      }
+    },
+    "Other apps can load these on their own, such as music apps" : {
+      "comment" : "Why Peel is unsure a group of orphaned files is unused: it holds an audio plug-in, which music apps and other hosts load by themselves.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mohou je samy načítat jiné aplikace, například hudební aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere Apps, etwa Musik-Apps, können diese von sich aus laden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otras apps, como las de música, pueden cargarlos por su cuenta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’autres apps peuvent charger ces fichiers d’elles-mêmes, comme les apps de musique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altre app, come le app musicali, possono caricarli da sole"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音楽アプリなど、ほかのアプリがこれらを独自に読み込む場合があります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음악 앱 등 다른 앱이 이 항목들을 자체적으로 로드할 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere apps, zoals muziekapps, kunnen deze zelf laden"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inne aplikacje, na przykład aplikacje muzyczne, mogą wczytywać je samodzielnie"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outros apps podem carregá-los por conta própria, como os apps de música"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alte aplicații, cum ar fi cele de muzică, le pot încărca singure"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Другие приложения, например музыкальные, могут загружать их сами"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andra appar, till exempel musikappar, kan läsa in de här på egen hand"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Müzik uygulamaları gibi başka uygulamalar bunları kendi başlarına yükleyebilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інші програми, як-от музичні, можуть завантажувати їх самостійно"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他App（例如音乐App）可以自行载入这些项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他App（例如音樂App）可以自行載入這些項目"
           }
         }
       }

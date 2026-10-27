@@ -181,6 +181,32 @@ struct UninstallationTests {
         #expect(!plan.selectable(canUseHelper: true).contains(leftover.url))
     }
 
+    /// Music apps and other hosts load an audio plug-in on their own, so an uninstall lists it unselected, and a click
+    /// still selects it.
+    @Test func holdsBackAnAudioPlugInOtherAppsLoad() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Surge XT.app"), bundleIdentifier: "org.example.surgext",
+            name: "Surge XT"
+        )
+        let plugIn = try directory.file(
+            "root/Library/Audio/Plug-Ins/VST3/Surge XT.vst3/Contents/Info.plist",
+            contents: Data(#"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.surgext.vst3</string></dict></plist>"#.utf8)
+        ).deletingLastPathComponent().deletingLastPathComponent()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let place = PathPattern.comparablePath(of: plugIn)
+        let leftover = try #require(plan.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == place })
+        #expect(leftover.match.heldBack == .loadedByOtherApps)
+        #expect(!plan.suggestedSelection(canUseHelper: true).contains(leftover.url))
+        #expect(plan.selectable(canUseHelper: true).contains(leftover.url))
+    }
+
     @Test func leavesToFinderAnAppWhoseSystemExtensionMacOSInstalled() async throws {
         let directory = try TemporaryDirectory()
         let app = try appCarryingAFilter(in: directory)

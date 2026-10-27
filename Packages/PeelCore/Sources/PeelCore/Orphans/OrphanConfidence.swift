@@ -44,6 +44,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         case installedForAnAppThatIsGone(name: String)
         /// Browser manifests whose program is gone, so they start nothing.
         case startsAProgramThatIsGone
+        /// Music apps and other hosts load these plug-ins on their own, whatever became of the app they came with.
+        case loadedByOtherApps
     }
 
     /// A write this recent means something may still be running. A week covers a Mac left unused over a weekend.
@@ -69,6 +71,9 @@ public struct OrphanConfidence: Sendable, Hashable {
     ) -> OrphanConfidence {
         if running.contains(where: { isOneApp($0.lowercased(), group.identifier.lowercased()) }) {
             return OrphanConfidence(level: .unsure, reasons: [.running])
+        }
+        if group.items.contains(where: { $0.heldBack == .loadedByOtherApps }) {
+            return OrphanConfidence(level: .unsure, reasons: [.loadedByOtherApps])
         }
         // Links into an app that is gone lead nowhere, whatever their dates or the maker's other apps suggest.
         if group.items.allSatisfy(\.kind.isForLinks) {

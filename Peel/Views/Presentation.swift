@@ -399,6 +399,8 @@ extension HoldBack {
             "Left alone: macOS installed this system extension, and only macOS removes it. In System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
         case .signInPlugIn:
             "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it."
+        case .loadedByOtherApps:
+            "Not selected: other apps can load it on their own, such as music apps."
         case .keptByMacOS:
             "Not selected: macOS keeps this for its own services, which may be using it right now."
         case .openedFromMail:
@@ -487,6 +489,8 @@ extension OrphanConfidence {
             Text("macOS installed these for \(name), which is gone")
         case .startsAProgramThatIsGone:
             Text("These start a program that is no longer there")
+        case .loadedByOtherApps:
+            Text("Other apps can load these on their own, such as music apps")
         }
     }
 
