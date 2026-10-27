@@ -8,11 +8,18 @@ public struct AnnouncedUpdates: Equatable, Sendable {
     }
 
     /// The apps in `waiting` whose update `version` hasn't been told of, which then count as told. None while a round
-    /// of checks runs, so an update is told of once every round that may find it has ended.
+    /// of checks runs, so an update is told of once every round that may find it has ended, and none while the checks
+    /// are off, so what waits then is told once they are on again.
     public mutating func takeNew(
-        _ waiting: [InstalledApp], version: (InstalledApp) -> String?, whileChecking isChecking: Bool
+        _ waiting: [InstalledApp], version: (InstalledApp) -> String?, whileChecking isChecking: Bool, checksAreOn: Bool
     ) -> [InstalledApp] {
-        guard !isChecking else { return [] }
+        guard !isChecking, checksAreOn else { return [] }
+        return note(waiting, version: version)
+    }
+
+    /// Counts the updates in `waiting` as told of, and answers the apps whose update wasn't yet.
+    @discardableResult
+    public mutating func note(_ waiting: [InstalledApp], version: (InstalledApp) -> String?) -> [InstalledApp] {
         let new = waiting.compactMap { app in
             version(app).flatMap { versions[app.reference] == $0 ? nil : (app, $0) }
         }

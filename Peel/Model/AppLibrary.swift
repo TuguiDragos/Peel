@@ -388,8 +388,9 @@ final class AppLibrary {
             }
         }
         // Before Peel noted what it told of, the updates found earlier were told of as they were found.
-        if defaults.object(forKey: SettingsKey.announcedUpdates) == nil {
-            _ = updatesToAnnounce()
+        if !apps.isEmpty, defaults.object(forKey: SettingsKey.announcedUpdates) == nil {
+            announced.note(appsWithUpdates, version: { updateStatuses[$0.id]?.version })
+            defaults.set(announced.versions, forKey: SettingsKey.announcedUpdates)
         }
     }
 
@@ -765,12 +766,15 @@ final class AppLibrary {
     var menuBarUpdateCount: Int { menuBarUpdates.count }
 
     /// The installed apps whose waiting update no notification has named, which then count as named
-    /// (`AnnouncedUpdates`), kept across launches.
+    /// (`AnnouncedUpdates`), kept across launches. None while Check for app updates is off.
     func updatesToAnnounce() -> [InstalledApp] {
         let new = announced.takeNew(
-            appsWithUpdates, version: { updateStatuses[$0.id]?.version }, whileChecking: !appsCheckingForUpdates.isEmpty
+            appsWithUpdates,
+            version: { updateStatuses[$0.id]?.version },
+            whileChecking: !appsCheckingForUpdates.isEmpty,
+            checksAreOn: defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true)
         )
-        if !new.isEmpty || defaults.object(forKey: SettingsKey.announcedUpdates) == nil {
+        if !new.isEmpty {
             defaults.set(announced.versions, forKey: SettingsKey.announcedUpdates)
         }
         return new

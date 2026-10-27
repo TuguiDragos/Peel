@@ -13,15 +13,35 @@ struct AnnouncedUpdatesTests {
     @Test func tellsOfEachUpdateOnceWhoeverFoundIt() {
         var versions = ["org.example.editor": "2.0", "org.example.viewer": "5.0"]
         var told = AnnouncedUpdates()
+        func new(_ waiting: [InstalledApp], whileChecking: Bool = false) -> [InstalledApp] {
+            told.takeNew(waiting, version: { versions[$0.reference] }, whileChecking: whileChecking, checksAreOn: true)
+        }
 
-        #expect(told.takeNew([editor], version: { versions[$0.reference] }, whileChecking: true).isEmpty)
-        #expect(told.takeNew([editor], version: { versions[$0.reference] }, whileChecking: false) == [editor])
-        #expect(told.takeNew([editor, viewer], version: { versions[$0.reference] }, whileChecking: false) == [viewer])
-        #expect(told.takeNew([editor, viewer], version: { versions[$0.reference] }, whileChecking: false).isEmpty)
+        #expect(new([editor], whileChecking: true).isEmpty)
+        #expect(new([editor]) == [editor])
+        #expect(new([editor, viewer]) == [viewer])
+        #expect(new([editor, viewer]).isEmpty)
 
         versions["org.example.editor"] = "2.1"
-        let relaunched = AnnouncedUpdates(versions: told.versions)
-        var again = relaunched
-        #expect(again.takeNew([editor, viewer], version: { versions[$0.reference] }, whileChecking: false) == [editor])
+        var again = AnnouncedUpdates(versions: told.versions)
+        let relaunched = again.takeNew(
+            [editor, viewer], version: { versions[$0.reference] }, whileChecking: false, checksAreOn: true
+        )
+        #expect(relaunched == [editor])
+    }
+
+    @Test func tellsOfNothingWhileTheChecksAreOffAndOfWhatWaitsOnceTheyAreOn() {
+        let versions = ["org.example.editor": "2.0", "org.example.viewer": "5.0"]
+        let version = { (app: InstalledApp) in versions[app.reference] }
+        var told = AnnouncedUpdates()
+
+        let whileOff = told.takeNew([editor], version: version, whileChecking: false, checksAreOn: false)
+        let onceOn = told.takeNew([editor], version: version, whileChecking: false, checksAreOn: true)
+        told.note([viewer], version: version)
+        let noted = told.takeNew([viewer], version: version, whileChecking: false, checksAreOn: true)
+
+        #expect(whileOff.isEmpty)
+        #expect(onceOn == [editor])
+        #expect(noted.isEmpty, "an update noted as told is not told again")
     }
 }
