@@ -5,8 +5,10 @@ struct OrphanList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(OrphanLibrary.self) private var orphans
     @Environment(HelperModel.self) private var helper
+    @Environment(\.openSettings) private var openSettings
     @State private var searchText = ""
     @State private var isRescanning = false
+    @State private var notGivenTo: String?
 
     var body: some View {
         @Bindable var orphans = orphans
@@ -32,7 +34,9 @@ struct OrphanList: View {
                     let apps = library.apps.filter { $0.bundleIdentifier != nil }
                         .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
                     ForEach(apps) { app in
-                        Button(app.name) { orphans.give(group, to: app) }
+                        Button(app.name) {
+                            if !orphans.give(group, to: app) { notGivenTo = app.name }
+                        }
                     }
                 }
             }
@@ -146,6 +150,19 @@ struct OrphanList: View {
         }
         .rescanOnExclusionChange("OrphanList") { await orphans.refresh(from: library) }
         .rescanAfterPutBack(.orphans) { await orphans.refresh(from: library) }
+        .alert(
+            "Peel couldn’t save that these files belong to \(notGivenTo ?? "")",
+            isPresented: Binding(get: { notGivenTo != nil }, set: { if !$0 { notGivenTo = nil } })
+        ) {
+            if orphans.owners == nil {
+                Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
+            }
+            Button("OK", role: .cancel) {}
+        } message: {
+            orphans.owners == nil
+                ? Text("Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions.")
+                : Text("Nothing changed. Check that Peel can write to its folder in Application Support, then try again.")
+        }
     }
 
     private func phase(_ filtered: [OrphanGroup], _ forAnAdministrator: [AdministratorItem]) -> ScanPhase {

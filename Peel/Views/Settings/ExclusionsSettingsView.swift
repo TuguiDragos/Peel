@@ -11,6 +11,7 @@ struct ExclusionsSettingsView: View {
     @State private var selectedPaths: Set<URL> = []
     @State private var selectedApps: Set<String> = []
     @State private var selectedGroups: Set<String> = []
+    @State private var couldNotForget = false
 
     private var paths: [URL] {
         exclusions.exclusions.paths.sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
@@ -167,37 +168,52 @@ struct ExclusionsSettingsView: View {
             }
 
             Section {
-                let groups = orphans.owners.keys.sorted()
-                if groups.isEmpty {
-                    Text("No orphaned files are said to belong to an app.")
-                        .foregroundStyle(.secondary)
-                } else {
-                    List(selection: $selectedGroups) {
-                        ForEach(groups, id: \.self) { group in
-                            HStack(spacing: 8) {
-                                Text(verbatim: group)
-                                    .lineLimit(1)
-                                    .truncationMode(.middle)
-                                if let owner = orphans.owners[group] {
-                                    Text(verbatim: library.apps.first { $0.bundleIdentifier == owner }?.name ?? owner)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                if let owners = orphans.owners {
+                    let groups = owners.keys.sorted()
+                    if groups.isEmpty {
+                        Text("No orphaned files are said to belong to an app.")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        List(selection: $selectedGroups) {
+                            ForEach(groups, id: \.self) { group in
+                                HStack(spacing: 8) {
+                                    Text(verbatim: group)
                                         .lineLimit(1)
+                                        .truncationMode(.middle)
+                                    if let owner = owners[group] {
+                                        let name = library.apps.first { $0.bundleIdentifier == owner }?.name
+                                        Text(verbatim: name ?? owner)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                            .lineLimit(1)
+                                    }
                                 }
+                                .tag(group)
                             }
-                            .tag(group)
+                        }
+                        .frame(height: settingsListHeight(rows: groups.count))
+                        .scrollContentBackground(.hidden)
+                        .onDeleteCommand { forgetSelectedGroups() }
+                    }
+                    HStack {
+                        Spacer()
+                        Button("Remove", systemImage: "minus") { forgetSelectedGroups() }
+                            .disabled(selectedGroups.isEmpty)
+                    }
+                    .editingControls()
+                } else {
+                    Text("Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one.")
+                        .foregroundStyle(.secondary)
+                    HStack {
+                        Spacer()
+                        StartOverButton(
+                            file: OrphanOwners.defaultURL,
+                            startedOver: "Started the list of orphaned files that belong to an app over."
+                        ) {
+                            orphans.startOwnersOver()
                         }
                     }
-                    .frame(height: settingsListHeight(rows: groups.count))
-                    .scrollContentBackground(.hidden)
-                    .onDeleteCommand { forgetSelectedGroups() }
                 }
-                HStack {
-                    Spacer()
-                    Button("Remove", systemImage: "minus") { forgetSelectedGroups() }
-                        .disabled(selectedGroups.isEmpty)
-                }
-                .editingControls()
             } header: {
                 heading("Orphaned Files That Belong to an App", "Orphaned Files doesn’t list these while the app you said they belong to is installed. Nothing of them was moved. Remove one to list it again.")
             }
@@ -219,6 +235,13 @@ struct ExclusionsSettingsView: View {
             guard !keeping.isEmpty else { return }
             Task { await exclusions.add(paths: keeping) }
         }
+        .alert("Peel couldn’t list these files again", isPresented: $couldNotForget) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            orphans.owners == nil
+                ? Text("Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions.")
+                : Text("Nothing changed. Check that Peel can write to its folder in Application Support, then try again.")
+        }
         .alert(refused.count == 1 ? "That folder can’t be excluded." : "These folders can’t be excluded.", isPresented: isShowingRefusal) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -234,6 +257,6 @@ extension ExclusionsSettingsView {
     private func forgetSelectedGroups() {
         let forgotten = Array(selectedGroups)
         selectedGroups = []
-        Task { await orphans.forget(forgotten, from: library) }
+        Task { couldNotForget = await !orphans.forget(forgotten, from: library) }
     }
 }

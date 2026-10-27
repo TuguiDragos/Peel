@@ -605,7 +605,10 @@ struct FileCommandTests {
             ["10 bytes", Output.path(left.url), "found for Left, bundle identifier"],
             ["10 bytes", Output.path(hinted.url), "found for Synth, developer, review: possible match"],
         ])
-        #expect(OrphansCommand.notes(for: scan) == [OrphansCommand.byHand])
+        #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false) == [OrphansCommand.byHand])
+        #expect(OrphansCommand.notes(for: scan, ownersUnreadable: true).first?.hasPrefix(
+            "Peel can't read the list of orphaned files you said belong to an app, so it lists them too."
+        ) == true)
         let json = try Output.jsonText(OrphansCommand.report(for: scan))
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         let listed = try #require(report["forAnAdministrator"] as? [[String: Any]])
@@ -623,7 +626,7 @@ struct FileCommandTests {
         var scan = OrphanScan(groups: [], unreadableLocations: [caches], needsFullDiskAccess: true)
         scan.cutShortLocations = [caches]
 
-        let notes = OrphansCommand.notes(for: scan)
+        let notes = OrphansCommand.notes(for: scan, ownersUnreadable: false)
 
         #expect(notes == [
             "Peel couldn't look inside /Users/me/Library/Caches, so something may be there that isn't listed. Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.",

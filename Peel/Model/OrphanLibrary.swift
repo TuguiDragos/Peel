@@ -21,7 +21,8 @@ final class OrphanLibrary {
 
     /// The apps list the scan was checked against. The page scans again when the list changes.
     private(set) var scannedAgainst: AppLibrary.Listing?
-    /// The groups the person said belong to an app, by identifier, with that app's bundle identifier.
+    /// The groups the person said belong to an app, by identifier, with that app's bundle identifier, or nil when that
+    /// list can't be read.
     private(set) var owners = OrphanOwners().load()
 
     var selectedGroup: OrphanGroup? {
@@ -77,7 +78,7 @@ final class OrphanLibrary {
                 installedApps: installedApps,
                 remembered: remembered,
                 running: running,
-                owners: owners,
+                owners: owners ?? [:],
                 leftForAnAdministrator: await LeftForAnAdministrator().load()
             )
             if !scan.appsOnOtherDisks.isEmpty {
@@ -95,20 +96,33 @@ final class OrphanLibrary {
     }
 
     /// Takes `group` out of the list, as the person said it belongs to `app`. Nothing moves, and the group stays
-    /// listed when the choice could not be saved.
-    func give(_ group: OrphanGroup, to app: InstalledApp) {
-        guard let identifier = app.bundleIdentifier, OrphanOwners().give(group.identifier, to: identifier), let scan
-        else { return }
-        owners[group.identifier.lowercased()] = identifier
-        self.scan = scan.without(group.id)
+    /// listed when the choice could not be saved, which answers false.
+    func give(_ group: OrphanGroup, to app: InstalledApp) -> Bool {
+        let saved = app.bundleIdentifier.map { OrphanOwners().give(group.identifier, to: $0) } ?? false
+        owners = OrphanOwners().load()
+        guard saved else { return false }
+        if let scan {
+            self.scan = scan.without(group.id)
+        }
         selectedURLs.subtract(group.items.map(\.url))
         if selection == .group(group.id) { selection = nil }
+        return true
     }
 
-    /// Lists `groups` again, forgetting the app each was given to.
-    func forget(_ groups: [String], from library: AppLibrary) async {
-        guard OrphanOwners().take(groups) else { return }
+    /// Lists `groups` again, forgetting the app each was given to. False when that could not be saved.
+    func forget(_ groups: [String], from library: AppLibrary) async -> Bool {
+        guard OrphanOwners().take(groups) else {
+            owners = OrphanOwners().load()
+            return false
+        }
         await refresh(from: library)
+        return true
+    }
+
+    func startOwnersOver() -> StartOver {
+        let answer = OrphanOwners().startOver()
+        owners = OrphanOwners().load()
+        return answer
     }
 }
 

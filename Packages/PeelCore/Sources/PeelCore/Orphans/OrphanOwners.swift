@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// The orphaned files the person said belong to an installed app, by the identifier of their group, so Orphaned
 /// Files stops listing them while that app is installed. It only ever takes rows out of the list: nothing is moved.
@@ -13,10 +14,21 @@ public struct OrphanOwners: Sendable {
         PeelFolder.url.appending(path: "orphan-owners.json")
     }
 
-    /// Each group's identifier, lowercased, and the bundle identifier of the app it belongs to. A file that cannot be
-    /// read gives none, which only lists those groups again.
-    public func load() -> [String: String] {
-        FileLock.whileHeld(beside: url) { read() ?? [:] }
+    /// Each group's identifier, lowercased, and the bundle identifier of the app it belongs to: none while the file
+    /// isn't there, and nil when it is there and can't be read, which lists those groups again.
+    public func load() -> [String: String]? {
+        // Taking the lock makes its file and folder, and a read must leave a home as it found it.
+        guard !url.isMissing else { return [:] }
+        return FileLock.whileHeld(beside: url) { read() }
+    }
+
+    /// Sets a list that cannot be read aside, under another name, so the person can say again what belongs to what.
+    @discardableResult
+    public func startOver() -> StartOver {
+        FileLock.whileHeld(beside: url) {
+            guard !url.isMissing, read() == nil else { return .notNeeded }
+            return DamagedFile.setAside(url) == nil ? .couldNotSetAside : .started
+        }
     }
 
     /// Records that `group` belongs to the app `bundleIdentifier`. False when the choice could not be saved, or when

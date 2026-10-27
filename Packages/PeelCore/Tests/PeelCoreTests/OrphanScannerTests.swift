@@ -777,6 +777,23 @@ struct OrphanScannerTests {
         #expect(owners.load() == ["org.example.other": "com.microsoft.Word"])
     }
 
+    @Test func aListOfOwnersIsReadWithoutWritingAndADamagedOneIsStartedOver() throws {
+        let directory = try TemporaryDirectory()
+        let folder = directory.url.appending(path: "Peel", directoryHint: .isDirectory)
+        let owners = OrphanOwners(url: folder.appending(path: "orphan-owners.json"))
+
+        #expect(owners.load() == [:])
+        #expect(folder.isMissing, "a read made Peel's folder")
+
+        try directory.file("Peel/orphan-owners.json", bytes: 16)
+        #expect(owners.load() == nil, "a list that can't be read read as no choices")
+        #expect(!owners.give("org.example.helper", to: "com.installed.app"))
+        #expect(owners.startOver() == .started)
+        #expect(owners.load() == [:])
+        #expect(owners.startOver() == .notNeeded)
+        #expect(owners.give("org.example.helper", to: "com.installed.app"))
+    }
+
     /// An app installed since the scan owns what the list still calls orphaned.
     @Test func whatAnAppInstalledSinceClaimsIsNoLongerOrphaned() async throws {
         let directory = try TemporaryDirectory()

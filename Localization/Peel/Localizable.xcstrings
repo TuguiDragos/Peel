@@ -115840,6 +115840,112 @@
         }
       }
     },
+    "Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst svůj seznam osiřelých souborů, u kterých jste uvedli, že patří některé aplikaci, a proto je zobrazuje všechny. Začněte seznam znovu v Nastavení > Výjimky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann seine Liste der verwaisten Dateien, die laut deiner Angabe zu einer App gehören, nicht lesen, daher werden sie alle angezeigt. Beginne die Liste in den Einstellungen unter „Ausschlüsse“ neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer su lista de los archivos huérfanos que has indicado que pertenecen a una app, así que los muestra todos. Vuelve a empezar la lista en Ajustes > Exclusiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire sa liste des fichiers orphelins que vous avez attribués à une app : il les liste donc tous. Recommencez la liste dans Réglages > Exclusions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere il suo elenco dei file orfani che hai indicato come appartenenti a un’app, quindi li elenca tutti. Ricomincia l’elenco da capo in Impostazioni > Esclusioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、アプリに属すると指定した孤立ファイルのリストを読み取れないため、それらをすべて表示します。“設定”＞“除外”でリストを最初からやり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 앱의 소유로 지정한 주인 없는 파일 목록을 읽을 수 없으므로 해당 파일을 모두 나열합니다. 설정 > 제외 항목에서 목록을 처음부터 다시 시작하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan zijn lijst van verweesde bestanden die volgens jou bij een app horen, niet lezen, dus toont Peel ze allemaal. Begin in Instellingen > Uitsluitingen opnieuw met de lijst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać swojej listy osieroconych plików wskazanych przez Ciebie jako należące do aplikacji, więc wyświetla je wszystkie. Zacznij tę listę od nowa w Ustawieniach > Wykluczenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler a lista dos arquivos órfãos que você indicou como pertencentes a um app, então lista todos eles. Recomece a lista em Ajustes > Exclusões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu își poate citi lista fișierelor orfane pe care le‑ați atribuit unei aplicații, așa că le listează pe toate. Reîncepeți lista în Configurări > Excluderi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать свой список осиротевших файлов, которые Вы отметили как принадлежащие приложению, поэтому он показывает их все. Начните список заново в разделе «Настройки» > «Исключения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa sin lista över de övergivna filer som du har angett hör till en app, så Peel listar dem alla. Börja om listan i Inställningar > Undantag."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bir uygulamaya ait olduğunu söylediğiniz sahipsiz dosyalar listesini okuyamıyor, bu yüzden hepsini listeliyor. Listeyi Ayarlar > Hariç Tutulanlar’da baştan başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати свій список покинутих файлів, які, за вашими словами, належать програмі, тож показує їх усі. Почніть список наново в розділі Параметри > Винятки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取你标为属于某个App的孤立文件的列表，因此会将它们全部列出。请在“设置”>“排除项”中重新开始建立该列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取你指定屬於某個App的孤立檔案列表，因此會將它們全部列出。請在「設定」>「排除項目」中重新開始此列表。"
+          }
+        }
+      }
+    },
     "Peel can’t read its record of who signs your apps" : {
       "localizations" : {
         "cs" : {
@@ -116048,6 +116154,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取存放已儲存的設定副本的檔案夾，因此無法列出或還原任何副本。"
+          }
+        }
+      }
+    },
+    "Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst tento seznam, takže stránka Osiřelé soubory tyto soubory znovu zobrazuje. Když začnete znovu, starý seznam se ponechá vedle nového."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann diese Liste nicht lesen, daher zeigt die Seite „Verwaiste Dateien“ diese Dateien wieder an. Wenn du neu beginnst, bleibt die alte Liste neben einer neuen erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer esta lista, así que la página Archivos huérfanos vuelve a mostrar estos archivos. Al volver a empezar, la lista antigua se conserva junto a una nueva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire cette liste : la page Fichiers orphelins liste donc à nouveau ces fichiers. Si vous recommencez, l’ancienne liste est conservée à côté d’une nouvelle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere questo elenco, quindi “File orfani” elenca di nuovo questi file. Se ricominci da capo, il vecchio elenco viene conservato accanto a uno nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのリストを読み取れないため、“孤立ファイル”にはこれらのファイルが再び表示されます。最初からやり直すと、古いリストは新しいリストの横に保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 목록을 읽을 수 없으므로 주인 없는 파일 페이지에 이 파일들이 다시 나열됩니다. 처음부터 다시 시작하면 이전 목록은 새 목록 옆에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan deze lijst niet lezen, dus toont de pagina 'Verweesde bestanden' deze bestanden weer. Als je opnieuw begint, wordt de oude lijst naast een nieuwe lijst bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać tej listy, więc strona Osierocone pliki znowu wyświetla te pliki. Gdy zaczniesz od nowa, stara lista zostanie zachowana obok nowej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler esta lista, então a página Arquivos Órfãos volta a listar esses arquivos. Ao recomeçar, a lista antiga é guardada ao lado de uma nova."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi această listă, așa că pagina Fișiere orfane listează din nou aceste fișiere. Dacă reîncepeți lista, cea veche este păstrată lângă una nouă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать этот список, поэтому раздел «Осиротевшие файлы» снова показывает эти файлы. Если начать заново, старый список сохранится рядом с новым."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa den här listan, så sidan Övergivna filer listar de här filerna igen. När du börjar om sparas den gamla listan bredvid en ny."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu listeyi okuyamıyor, bu yüzden Sahipsiz Dosyalar bu dosyaları yeniden listeliyor. Baştan başladığınızda eski liste yeni bir listenin yanında saklanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати цей список, тож розділ «Покинуті файли» знову показує ці файли. Коли ви починаєте наново, старий список зберігається поруч із новим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取此列表，因此“孤立文件”会再次列出这些文件。重新开始会将旧列表保留在新列表旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取此列表，因此「孤立檔案」會再次列出這些檔案。重新開始時，舊列表會保留在新列表旁邊。"
           }
         }
       }
@@ -117214,6 +117426,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法列出保留在此磁碟上的快照，這些快照可能佔用此磁碟的部分空間。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t list these files again" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl tyto soubory znovu zobrazit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte diese Dateien nicht wieder anzeigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido volver a mostrar estos archivos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lister à nouveau ces fichiers"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a elencare di nuovo questi file"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれらのファイルを再び表示できませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 파일들을 다시 나열할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon deze bestanden niet opnieuw tonen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł ponownie wyświetlić tych plików"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu voltar a listar estes arquivos"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut lista din nou aceste fișiere"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось снова показать эти файлы в разделе «Осиротевшие файлы»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte lista de här filerna igen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu dosyaları yeniden listeleyemedi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося знову показати ці файли"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能再次列出这些文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法再次列出這些檔案"
           }
         }
       }
@@ -119144,6 +119462,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法儲存你的App簽署者記錄"
+          }
+        }
+      }
+    },
+    "Peel couldn’t save that these files belong to %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl uložit, že tyto soubory patří aplikaci %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte nicht sichern, dass diese Dateien zu „%@“ gehören"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido guardar que estos archivos pertenecen a %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu enregistrer l’attribution de ces fichiers à %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a registrare che questi file appartengono a %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、これらのファイルが“%@”に属することを保存できませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 파일들을 ‘%@’의 소유로 지정한 내용을 저장할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet bewaren dat deze bestanden bij %@ horen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zachować informacji, że te pliki należą do aplikacji %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu registrar que estes arquivos pertencem a %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut salva faptul că aceste fișiere aparțin aplicației %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось сохранить, что эти файлы принадлежат приложению «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte spara att de här filerna hör till %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu dosyaların %@ uygulamasına ait olduğunu kaydedemedi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зберегти запис про те, що ці файли належать програмі «%@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能保存这些文件属于“%@”的信息"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法記錄這些檔案屬於「%@」"
           }
         }
       }
@@ -164707,6 +165131,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已重新開始排除項目列表。"
+          }
+        }
+      }
+    },
+    "Started the list of orphaned files that belong to an app over." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam osiřelých souborů, které patří aplikaci, byl začat znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Liste der verwaisten Dateien, die zu einer App gehören, wurde neu begonnen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha vuelto a empezar la lista de archivos huérfanos que pertenecen a una app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La liste des fichiers orphelins appartenant à une app a été recommencée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricominciato da capo l’elenco dei file orfani che appartengono a un’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリに属する孤立ファイルのリストを最初からやり直しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱의 소유로 지정한 주인 없는 파일 목록을 처음부터 다시 시작했습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opnieuw begonnen met de lijst van verweesde bestanden die bij een app horen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaczęto od nowa listę osieroconych plików należących do aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista de arquivos órfãos que pertencem a um app recomeçada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista fișierelor orfane care aparțin unei aplicații a fost reîncepută."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список осиротевших файлов, принадлежащих приложению, начат заново."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Började om listan över övergivna filer som hör till en app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulamaya ait sahipsiz dosyalar listesi baştan başlatıldı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список покинутих файлів, що належать програмі, почато наново."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已重新开始建立属于某个App的孤立文件列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已重新開始屬於某個App的孤立檔案列表。"
           }
         }
       }
