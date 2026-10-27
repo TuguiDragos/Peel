@@ -132980,108 +132980,109 @@
         }
       }
     },
-    "Peel searches the Spotlight index for files on this Mac’s disks, not on network volumes. Folders, apps, and system files aren’t included. What an app keeps in a Library folder is listed last, and Select Recommended leaves it out." : {
+    "Peel searches the Spotlight index for files on this Mac’s disks, not on network volumes. Folders, apps, and system files aren’t included. Each kind is what macOS knows a file to be, so a file whose type no app on this Mac declares, such as some videos and archives, is found by its name or size. What an app keeps in a Library folder is listed last, and Select Recommended leaves it out, as it does what is in a repository or in Shared." : {
+      "comment" : "The note behind the circled i of Filters in File Search. Kind is the filter of kinds of file, such as Movies; Select Recommended is the command of the Select menu; Shared is the folder every account on the Mac shares.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hledá soubory v indexu Spotlightu, a to na discích tohoto Macu, ne na síťových svazcích. Složky, aplikace a systémové soubory se do hledání nezahrnují. Co si aplikace ukládá ve složce Knihovna, je v seznamu až na konci a příkaz Vybrat doporučené to vynechá."
+            "value" : "Peel hledá soubory v indexu Spotlightu, a to na discích tohoto Macu, ne na síťových svazcích. Složky, aplikace a systémové soubory se do hledání nezahrnují. Každý druh odpovídá tomu, za co soubor považuje systém macOS, takže soubor, jehož typ žádná aplikace v tomto Macu nedeklaruje, například některá videa a archivy, najdete podle názvu nebo velikosti. Co si aplikace ukládá ve složce Knihovna, je v seznamu až na konci a příkaz Vybrat doporučené to vynechá, stejně jako to, co je v repozitáři nebo ve složce Sdílené."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel durchsucht den Spotlight-Index nach Dateien auf den Volumes dieses Mac, nicht auf Netzwerkvolumes. Ordner, Apps und Systemdateien sind nicht enthalten. Was eine App in einem Library-Ordner aufbewahrt, wird zuletzt aufgeführt, und „Empfohlene auswählen“ lässt es aus."
+            "value" : "Peel durchsucht den Spotlight-Index nach Dateien auf den Volumes dieses Mac, nicht auf Netzwerkvolumes. Ordner, Apps und Systemdateien sind nicht enthalten. Jede Art umfasst die Dateien, die macOS als solche erkennt, daher wird eine Datei, deren Typ keine App auf diesem Mac deklariert, etwa manche Videos und Archive, über ihren Namen oder ihre Größe gefunden. Was eine App in einem Library-Ordner aufbewahrt, wird zuletzt aufgeführt, und „Empfohlene auswählen“ lässt es aus, ebenso wie das, was in einem Repository oder in „Geteilt“ liegt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel busca archivos en el índice de Spotlight, en los discos de este Mac y no en volúmenes de red. No incluye carpetas, apps ni archivos del sistema. Lo que una app guarda en una carpeta Biblioteca aparece al final, y “Seleccionar recomendados” lo deja fuera."
+            "value" : "Peel busca archivos en el índice de Spotlight, en los discos de este Mac y no en volúmenes de red. No incluye carpetas, apps ni archivos del sistema. Cada clase corresponde a lo que macOS sabe que es un archivo, así que un archivo de un tipo que no declara ninguna app de este Mac, como algunos vídeos y archivos comprimidos, se encuentra por su nombre o su tamaño. Lo que una app guarda en una carpeta Biblioteca aparece al final, y “Seleccionar recomendados” lo deja fuera, igual que lo que está en un repositorio o en Compartido."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel recherche les fichiers dans l’index de Spotlight, sur les disques de ce Mac et non sur les volumes réseau. Les dossiers, les apps et les fichiers système ne sont pas inclus. Ce qu’une app conserve dans un dossier Bibliothèque est listé en dernier, et « Sélectionner les éléments recommandés » le laisse de côté."
+            "value" : "Peel recherche les fichiers dans l’index de Spotlight, sur les disques de ce Mac et non sur les volumes réseau. Les dossiers, les apps et les fichiers système ne sont pas inclus. Le type d’un fichier est celui que macOS lui reconnaît : un fichier dont aucune app de ce Mac ne déclare le type, comme certaines vidéos et archives, ne se trouve donc que par son nom ou sa taille. Ce qu’une app conserve dans un dossier Bibliothèque est listé en dernier, et « Sélectionner les éléments recommandés » le laisse de côté, comme ce qui se trouve dans un dépôt ou dans le dossier Partagé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cerca i file nell’indice di Spotlight, sui dischi di questo Mac e non sui volumi di rete. Cartelle, app e file di sistema non sono inclusi. Ciò che un’app conserva in una cartella Libreria viene elencato per ultimo, e “Seleziona gli elementi consigliati” non lo include."
+            "value" : "Peel cerca i file nell’indice di Spotlight, sui dischi di questo Mac e non sui volumi di rete. Cartelle, app e file di sistema non sono inclusi. Ogni tipo è quello che macOS attribuisce a un file, quindi un file di un formato che nessuna app su questo Mac dichiara, come alcuni video e archivi, si trova in base al nome o alle dimensioni. Ciò che un’app conserva in una cartella Libreria viene elencato per ultimo, e “Seleziona gli elementi consigliati” non lo include, come non include ciò che si trova in un repository o nella cartella Condivisa."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PeelはSpotlightの索引を使って、ネットワークボリュームではなくこのMacのディスク上にあるファイルを検索します。フォルダ、アプリ、システムファイルは含まれません。アプリがライブラリフォルダに保存しているものはリストの最後に表示され、“おすすめを選択”では選択されません。"
+            "value" : "PeelはSpotlightの索引を使って、ネットワークボリュームではなくこのMacのディスク上にあるファイルを検索します。フォルダ、アプリ、システムファイルは含まれません。各種類は、macOSがそのファイルを何として認識しているかで決まるため、一部のムービーやアーカイブなど、このMac上のどのアプリも種類を宣言していないファイルは、名前やサイズで検索すると見つかります。アプリがライブラリフォルダに保存しているものはリストの最後に表示され、リポジトリや“共有”フォルダにあるものと同様に、“おすすめを選択”では選択されません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 Spotlight 인덱스에서 네트워크 볼륨이 아닌 이 Mac의 디스크에 있는 파일을 검색합니다. 폴더, 앱, 시스템 파일은 포함되지 않습니다. 앱이 라이브러리 폴더에 보관하는 항목은 목록의 마지막에 표시되며, ‘추천 항목 선택’은 이 항목을 선택하지 않습니다."
+            "value" : "Peel은 Spotlight 인덱스에서 네트워크 볼륨이 아닌 이 Mac의 디스크에 있는 파일을 검색합니다. 폴더, 앱, 시스템 파일은 포함되지 않습니다. 각 종류는 macOS가 파일을 무엇으로 인식하는지에 따라 정해지므로, 일부 동영상이나 아카이브처럼 이 Mac의 어떤 앱도 유형을 선언하지 않은 파일은 이름이나 크기로 찾을 수 있습니다. 앱이 라이브러리 폴더에 보관하는 항목은 목록의 마지막에 표시되며, ‘추천 항목 선택’은 저장소나 공유 폴더에 있는 항목과 마찬가지로 이 항목을 선택하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zoekt in de Spotlight-index naar bestanden op de schijven van deze Mac, niet op netwerkvolumes. Mappen, apps en systeembestanden worden niet meegenomen. Wat een app in een bibliotheekmap bewaart, wordt als laatste getoond, en 'Selecteer aanbevolen' slaat het over."
+            "value" : "Peel zoekt in de Spotlight-index naar bestanden op de schijven van deze Mac, niet op netwerkvolumes. Mappen, apps en systeembestanden worden niet meegenomen. Elke soort gaat uit van wat macOS over een bestand weet, dus een bestand waarvan het type door geen enkele app op deze Mac wordt opgegeven, zoals sommige video's en archieven, vind je op naam of grootte. Wat een app in een bibliotheekmap bewaart, wordt als laatste getoond, en 'Selecteer aanbevolen' slaat het over, net als wat in een repository of in de map 'Gedeeld' staat."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel szuka plików w indeksie Spotlight, na dyskach tego Maca, a nie na woluminach sieciowych. Foldery, aplikacje i pliki systemowe nie są uwzględniane. To, co aplikacja przechowuje w folderze Biblioteki, jest wyświetlane na końcu, a polecenie Zaznacz zalecane to pomija."
+            "value" : "Peel szuka plików w indeksie Spotlight, na dyskach tego Maca, a nie na woluminach sieciowych. Foldery, aplikacje i pliki systemowe nie są uwzględniane. Rodzaj pliku to ten, który przypisuje mu macOS, więc pliki, których typu nie deklaruje żadna aplikacja na tym Macu, na przykład niektóre filmy i archiwa, można znaleźć po nazwie lub wielkości. To, co aplikacja przechowuje w folderze Biblioteki, jest wyświetlane na końcu, a polecenie Zaznacz zalecane to pomija, podobnie jak to, co jest w repozytorium lub w folderze Wspólne."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel busca arquivos no índice do Spotlight, nos discos deste Mac e não em volumes de rede. Pastas, apps e arquivos do sistema não são incluídos. O que um app guarda em uma pasta Biblioteca aparece por último, e Selecionar Recomendados o deixa de fora."
+            "value" : "O Peel busca arquivos no índice do Spotlight, nos discos deste Mac e não em volumes de rede. Pastas, apps e arquivos do sistema não são incluídos. O tipo de cada arquivo é aquele que o macOS reconhece, então um arquivo cujo tipo nenhum app deste Mac declara, como alguns vídeos e arquivos comprimidos, é encontrado pelo nome ou pelo tamanho. O que um app guarda em uma pasta Biblioteca aparece por último, e Selecionar Recomendados o deixa de fora, assim como deixa o que está em um repositório ou na pasta Compartilhado."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel caută fișiere în indexul Spotlight, pe discurile acestui Mac, nu pe volumele de rețea. Dosarele, aplicațiile și fișierele de sistem nu sunt incluse. Ce păstrează o aplicație într‑un dosar Bibliotecă este listat la final, iar „Selectați articolele recomandate” îl omite."
+            "value" : "Peel caută fișiere în indexul Spotlight, pe discurile acestui Mac, nu pe volumele de rețea. Dosarele, aplicațiile și fișierele de sistem nu sunt incluse. Tipul unui fișier este cel pe care îl recunoaște macOS, așa că un fișier al cărui tip nu este declarat de nicio aplicație de pe acest Mac, cum ar fi unele videoclipuri și arhive, se găsește după nume sau după dimensiune. Ce păstrează o aplicație într‑un dosar Bibliotecă este listat la final, iar „Selectați articolele recomandate” îl omite, la fel cum omite ce se află într‑un depozit sau în dosarul Partajat."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ищет в индексе Spotlight файлы на дисках этого Mac, но не на сетевых томах. Папки, приложения и системные файлы не учитываются. То, что приложение хранит в папке «Библиотека», показывается в конце списка, и пункт «Выбрать рекомендованные» его не выбирает."
+            "value" : "Peel ищет в индексе Spotlight файлы на дисках этого Mac, но не на сетевых томах. Папки, приложения и системные файлы не учитываются. Тип файла определяется тем, чем его считает macOS, поэтому файл, тип которого не объявляет ни одно приложение на этом Mac, например некоторые видео и архивы, можно найти по имени или размеру. То, что приложение хранит в папке «Библиотека», показывается в конце списка, и пункт «Выбрать рекомендованные» его не выбирает, как и то, что находится в репозитории или в папке «Общий доступ»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel söker efter filer i Spotlight-indexet, på den här datorns skivor men inte på nätverksvolymer. Mappar, appar och systemfiler ingår inte. Det som en app har i en biblioteksmapp listas sist, och ”Markera rekommenderade” tar inte med det."
+            "value" : "Peel söker efter filer i Spotlight-indexet, på den här datorns skivor men inte på nätverksvolymer. Mappar, appar och systemfiler ingår inte. Typen är det som macOS vet att en fil är, så en fil vars typ ingen app på den här datorn deklarerar, till exempel vissa videor och arkiv, hittas på namn eller storlek. Det som en app har i en biblioteksmapp listas sist, och ”Markera rekommenderade” tar inte med det, precis som med det som ligger i ett kodförråd eller i mappen Delad."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, Spotlight dizininde ağ disk bölümlerindeki değil, bu Mac’in disklerindeki dosyaları arar. Klasörler, uygulamalar ve sistem dosyaları dahil edilmez. Bir uygulamanın bir Kitaplık klasöründe tuttukları en sonda listelenir ve Önerilenleri Seç bunları dışarıda bırakır."
+            "value" : "Peel, Spotlight dizininde ağ disk bölümlerindeki değil, bu Mac’in disklerindeki dosyaları arar. Klasörler, uygulamalar ve sistem dosyaları dahil edilmez. Türler, macOS’in bir dosyayı ne olarak tanıdığına göre belirlenir; bu yüzden bazı videolar ve arşivler gibi, türünü bu Mac’teki hiçbir uygulamanın tanımlamadığı bir dosya, adıyla veya büyüklüğüyle bulunur. Bir uygulamanın bir Kitaplık klasöründe tuttukları en sonda listelenir ve Önerilenleri Seç, bir depodakileri veya Paylaşılan klasöründekileri dışarıda bıraktığı gibi bunları da dışarıda bırakır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel шукає файли в індексі Spotlight, на дисках цього Mac, а не на мережевих томах. Папки, програми й системні файли не враховуються. Те, що програма зберігає в папці «Бібліотека», показано в кінці списку, і команда «Вибрати рекомендовані» цього не вибирає."
+            "value" : "Peel шукає файли в індексі Spotlight, на дисках цього Mac, а не на мережевих томах. Папки, програми й системні файли не враховуються. Тип файлу визначається тим, яким його знає macOS, тож файл, тип якого не оголошує жодна програма на цьому Mac, як-от деякі відео й архіви, можна знайти за назвою чи розміром. Те, що програма зберігає в папці «Бібліотека», показано в кінці списку, і команда «Вибрати рекомендовані» цього не вибирає, як і того, що міститься в репозиторії чи в папці «Спільний»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel在“聚焦”索引中搜索这台Mac的磁盘上的文件，而不是网络宗卷上的文件。搜索结果不包括文件夹、App和系统文件。App保存在“资源库”文件夹中的内容会列在最后，“选择推荐项目”不会选择它。"
+            "value" : "Peel在“聚焦”索引中搜索这台Mac的磁盘上的文件，而不是网络宗卷上的文件。搜索结果不包括文件夹、App和系统文件。种类以macOS对文件的识别为准，因此这台Mac上没有任何App声明其类型的文件（例如某些视频和归档）只能按名称或大小找到。App保存在“资源库”文件夹中的内容会列在最后，“选择推荐项目”不会选择它，同样也不会选择代码仓库或“共享”文件夹中的内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會在Spotlight索引中搜尋這部Mac磁碟上的檔案，不包括網路卷宗上的檔案。檔案夾、App和系統檔案不包含在內。App存放在「資源庫」檔案夾中的項目會列在最後，且「選取建議項目」不會選取它們。"
+            "value" : "Peel會在Spotlight索引中搜尋這部Mac磁碟上的檔案，不包括網路卷宗上的檔案。檔案夾、App和系統檔案不包含在內。「種類」中的每個選項都依macOS對檔案的認定而定，因此若這部Mac上沒有任何App宣告某個檔案的類型（例如某些影片和封存檔），就只能依名稱或大小找到它。App存放在「資源庫」檔案夾中的項目會列在最後，且「選取建議項目」不會選取它們，也不會選取儲存庫或「共享」中的項目。"
           }
         }
       }
