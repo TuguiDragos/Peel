@@ -104588,108 +104588,109 @@
         }
       }
     },
-    "Nothing Peel looked at needs Rosetta: the apps, what they carry inside, the plug-ins, the drivers, the background items, and the tools in /usr/local." : {
+    "Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, and the tools in /usr/local." : {
+      "comment" : "Under Nothing Needs Rosetta on the Intel Software page. The folders you added are those in Settings > General > App Folders. Rosetta is Apple's name and stays as it is.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z toho, co Peel prověřil, nevyžaduje prostředí Rosetta: aplikace, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí a nástroje v /usr/local."
+            "value" : "Nic z toho, co Peel prověřil, nevyžaduje prostředí Rosetta: aplikace ve složkách Aplikace a ve složkách, které jste přidali v Nastavení, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí a nástroje v /usr/local."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nichts, was Peel geprüft hat, benötigt Rosetta: die Apps, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte und die Tools in /usr/local."
+            "value" : "Nichts, was Peel geprüft hat, benötigt Rosetta: die Apps in den Ordnern „Programme“ und in den Ordnern, die du in den Einstellungen hinzugefügt hast, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte und die Tools in /usr/local."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada de lo que Peel ha revisado necesita Rosetta: las apps, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano y las herramientas de /usr/local."
+            "value" : "Nada de lo que Peel ha revisado necesita Rosetta: las apps de las carpetas Aplicaciones y de las carpetas que has añadido en Ajustes, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano y las herramientas de /usr/local."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rien de ce que Peel a examiné ne nécessite Rosetta : les apps, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan et les outils de /usr/local."
+            "value" : "Rien de ce que Peel a examiné ne nécessite Rosetta : les apps des dossiers Applications et des dossiers que vous avez ajoutés dans les Réglages, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan et les outils de /usr/local."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nulla di ciò che Peel ha esaminato richiede Rosetta: le app, ciò che contengono, i plugin, i driver, gli elementi in background e gli strumenti in /usr/local."
+            "value" : "Nulla di ciò che Peel ha esaminato richiede Rosetta: le app nelle cartelle Applicazioni e nelle cartelle che hai aggiunto nelle Impostazioni, ciò che contengono, i plugin, i driver, gli elementi in background e gli strumenti in /usr/local."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが調べたもの（アプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、/usr/localにあるツール）には、Rosettaが必要なものはありません。"
+            "value" : "Peelが調べたもの（“アプリケーション”フォルダと“設定”で追加したフォルダにあるアプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、/usr/localにあるツール）には、Rosettaが必要なものはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 살펴본 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, /usr/local의 도구 중 Rosetta가 필요한 항목은 없습니다."
+            "value" : "Peel이 살펴본 응용 프로그램 폴더와 설정에서 추가한 폴더의 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, /usr/local의 도구 중 Rosetta가 필요한 항목은 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niets van wat Peel heeft bekeken, heeft Rosetta nodig: de apps, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen en de tools in /usr/local."
+            "value" : "Niets van wat Peel heeft bekeken, heeft Rosetta nodig: de apps in de mappen 'Apps' en in de mappen die je in Instellingen hebt toegevoegd, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen en de tools in /usr/local."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z tego, co sprawdził Peel, nie wymaga Rosetty: aplikacje, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle i narzędzia w /usr/local."
+            "value" : "Nic z tego, co sprawdził Peel, nie wymaga Rosetty: aplikacje w folderach Aplikacje i w folderach dodanych przez Ciebie w Ustawieniach, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle i narzędzia w /usr/local."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada do que o Peel examinou precisa do Rosetta: os apps, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano e as ferramentas em /usr/local."
+            "value" : "Nada do que o Peel examinou precisa do Rosetta: os apps das pastas Aplicativos e das pastas que você adicionou nos Ajustes, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano e as ferramentas em /usr/local."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nimic din ce a examinat Peel nu are nevoie de Rosetta: aplicațiile, ce conțin acestea, plug-inurile, driverele, articolele de fundal și instrumentele din /usr/local."
+            "value" : "Nimic din ce a examinat Peel nu are nevoie de Rosetta: aplicațiile din dosarele Aplicații și din dosarele pe care le‑ați adăugat în Configurări, ce conțin aceste aplicații, plug-inurile, driverele, articolele de fundal și instrumentele din /usr/local."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ничему из того, что проверил Peel, не нужна Rosetta: ни приложениям, ни тому, что у них внутри, ни плагинам, ни драйверам, ни фоновым объектам, ни инструментам в /usr/local."
+            "value" : "Ничему из того, что проверил Peel, не нужна Rosetta: ни приложениям в папках «Программы» и в папках, добавленных Вами в Настройках, ни тому, что у них внутри, ни плагинам, ни драйверам, ни фоновым объектам, ни инструментам в /usr/local."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inget som Peel har tittat på behöver Rosetta: apparna, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten och verktygen i /usr/local."
+            "value" : "Inget som Peel har tittat på behöver Rosetta: apparna i mapparna Appar och i de mappar som du har lagt till i Inställningar, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten och verktygen i /usr/local."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in baktığı hiçbir şey Rosetta gerektirmiyor: uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri ve /usr/local içindeki araçlar."
+            "value" : "Peel’in baktığı hiçbir şey Rosetta gerektirmiyor: Uygulamalar klasörlerindeki ve Ayarlar’da eklediğiniz klasörlerdeki uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri ve /usr/local içindeki araçlar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ніщо з того, що переглянула Peel, не потребує Rosetta: програми, те, що вони містять усередині, плагіни, драйвери, фонові елементи та інструменти в /usr/local."
+            "value" : "Ніщо з того, що переглянула Peel, не потребує Rosetta: програми в папках «Програми» і в папках, які ви додали в Параметрах, те, що вони містять усередині, плагіни, драйвери, фонові елементи та інструменти в /usr/local."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查看过的内容都不需要Rosetta：包括App、App内部包含的内容、插件、驱动程序、后台项目，以及/usr/local中的工具。"
+            "value" : "Peel查看过的内容都不需要Rosetta：包括“应用程序”文件夹和你在“设置”中添加的文件夹里的App、这些App内部包含的内容、插件、驱动程序、后台项目，以及/usr/local中的工具。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel檢查過的項目都不需要Rosetta：包括App、App內含的項目、外掛模組、驅動程式、背景項目，以及/usr/local中的工具。"
+            "value" : "Peel檢查過的項目都不需要Rosetta：包括「應用程式」檔案夾和你在「設定」中加入的檔案夾裡的App、App內含的項目、外掛模組、驅動程式、背景項目，以及/usr/local中的工具。"
           }
         }
       }
