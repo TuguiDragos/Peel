@@ -357,6 +357,61 @@ struct CloudStorageTests {
         #expect(collector.collected.files.isEmpty)
     }
 
+    @Test func aStoppedScanReturnsWhileItsWalkIsHeld() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file.bin", bytes: 1_000)
+        let held = DispatchSemaphore(value: 0)
+        let (entered, enters) = AsyncStream.makeStream(of: Void.self)
+        let clock = ContinuousClock()
+        let running = Task(priority: .userInitiated) {
+            let scan = await CloudStorage.downloaded(
+                home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [],
+                within: CloudStorage.budget,
+                // The walk runs on a thread of its own, so holding it holds none of the task pool's.
+                isDataless: { _ in
+                    enters.yield()
+                    held.wait()
+                    return false
+                }
+            )
+            return (scan, clock.now)
+        }
+        var waiting = entered.makeAsyncIterator()
+        await waiting.next()
+
+        let stopped = clock.now
+        running.cancel()
+        let (scan, returned) = await running.value
+        held.signal()
+
+        #expect(returned - stopped < .seconds(1))
+        #expect(scan.cutShort == .ranOutOfTime)
+    }
+
+    @Test func aWalkGivenUpWhileItReadsAsksAboutNothingMore() throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<3 {
+            try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file\(index).bin", bytes: 1_000)
+        }
+        let collector = CloudStorage.Collector()
+        var asked = 0
+        var isGivenUp = false
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true },
+            isDataless: { _ in
+                asked += 1
+                isGivenUp = true
+                return false
+            },
+            unless: { isGivenUp }
+        )
+
+        #expect(asked == 1)
+        #expect(collector.collected.cutShort == .ranOutOfTime)
+    }
+
     @Test func listsOnlyWhatFinderShows() throws {
         let directory = try TemporaryDirectory()
         let cloud = "Library/Mobile Documents"

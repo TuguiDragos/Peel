@@ -117,6 +117,21 @@ public enum CloudStorage {
         desktopPictures: Set<URL> = [],
         within budget: TimeInterval = CloudStorage.budget
     ) async -> CloudScan {
+        await downloaded(
+            home: home, minimumSize: minimumSize, exclusions: exclusions, desktopPictures: desktopPictures,
+            within: budget, isDataless: FileSize.isDataless(_:)
+        )
+    }
+
+    @concurrent
+    static func downloaded(
+        home: URL,
+        minimumSize: Int64,
+        exclusions: Exclusions,
+        desktopPictures: Set<URL>,
+        within budget: TimeInterval,
+        isDataless: @escaping @Sendable (URL) -> Bool
+    ) async -> CloudScan {
         let collector = Collector()
         let scan = ScanCount.current
         let finished = await SlowRead.answer(within: budget) { isGivenUp in
@@ -128,6 +143,7 @@ public enum CloudStorage {
                 into: collector,
                 deadline: .now + .seconds(budget),
                 countingFor: scan,
+                isDataless: isDataless,
                 unless: isGivenUp
             )
             return true
