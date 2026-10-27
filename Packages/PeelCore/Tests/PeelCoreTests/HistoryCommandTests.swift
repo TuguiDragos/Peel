@@ -272,6 +272,16 @@ struct HistoryCommandTests {
         #expect(try await noted(["history", "--limit", "\(listed - 1)"], from: logs).isEmpty)
     }
 
+    /// A History emptied by Put Back or Forget is not called one Peel never wrote to.
+    @Test func anEmptiedHistoryIsNotCalledNeverUsed() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let added = await logs.removals.add([try removal(in: directory).record])
+        _ = await logs.removals.remove(Set(try #require(added.records).map(\.id)))
+
+        #expect(try await printed(["history"], from: logs) == "History lists no removals.\n")
+    }
+
     /// `--limit` is what the command prints, in the table and in `--json` alike, and 20 without it.
     @Test func showsAtMostWhatWasAskedFor() async throws {
         let directory = try TemporaryDirectory()

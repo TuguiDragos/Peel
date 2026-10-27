@@ -4,6 +4,7 @@ import SwiftUI
 
 struct HistoryList: View {
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(LifetimeStats.self) private var stats
     @State private var isReloading = false
     @State private var searchText = ""
     /// What the search found, worked out off the main actor, since a removal's key names every item in it. Kept while
@@ -89,8 +90,9 @@ struct HistoryList: View {
             if !history.hasLoaded {
                 ProgressView()
             } else if history.isKnownEmpty {
+                // Put Back and Forget can empty a History Peel did write to.
                 ContentUnavailableView(
-                    "Nothing Removed Yet",
+                    stats.hasCleaned || history.noLongerListed > 0 ? "No Removals" : "Nothing Removed Yet",
                     systemImage: "clock.arrow.circlepath",
                     description: Text("What you move to the Trash with Peel shows up here, and can be put back while it’s still in the Trash.")
                 )

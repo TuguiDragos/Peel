@@ -205,7 +205,9 @@ struct HistoryCommand: AsyncParsableCommand {
                 )
             })
         } else if batches.isEmpty {
-            Output.line("Peel hasn't moved anything to the Trash yet.")
+            // Put Back and Forget can empty a History Peel did write to.
+            let hasMoved = outcome.noLongerListed > 0 || RemovalTotals.read(beside: log.url).items > 0
+            Output.line(hasMoved ? "History lists no removals." : "Peel hasn't moved anything to the Trash yet.")
         } else {
             Output.table(Self.rows(for: batches))
         }
