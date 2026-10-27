@@ -165,7 +165,12 @@ struct AppPageHeader: View {
             .buttonStyle(.borderedProminent)
         case .homebrew where upgradeNeedsTerminal:
             if let cask = library.cask(for: plan.app) {
-                CopyButton(text: "brew upgrade --cask \(cask.fullName)", title: "Copy Upgrade Command")
+                CopyButton(
+                    text: Homebrew.terminalCommand(
+                        "brew upgrade --cask \(cask.fullName)", keeping: homebrew.keptFormulaeNow
+                    ),
+                    title: "Copy Upgrade Command"
+                )
             }
         case .homebrew:
             Button {

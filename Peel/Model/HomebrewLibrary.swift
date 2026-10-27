@@ -449,6 +449,12 @@ final class HomebrewLibrary {
         CommandResult(succeeded: false, output: String(localized: "Peel couldn’t make sure Homebrew keeps the formulae your exclusions cover, so it ran nothing. A brew.env file that sets HOMEBREW_NO_CLEANUP_FORMULAE replaces the list Peel gives it."))
     }
 
+    /// The formulae the exclusions cover, read now, for a command the person runs in Terminal, or none when Peel
+    /// can't tell which they are.
+    var keptFormulaeNow: [String] {
+        installation.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar) } ?? []
+    }
+
     /// The formulae Homebrew is told to keep, or what Peel says when it runs nothing.
     private enum Keeping {
         case formulae([String])

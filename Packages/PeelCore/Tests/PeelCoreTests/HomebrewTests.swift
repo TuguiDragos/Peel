@@ -22,6 +22,14 @@ struct HomebrewTests {
         #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/p\n", cellarAnswer: "c\n") == nil)
     }
 
+    @Test func aCommandForTerminalKeepsTheFormulaeTheExclusionsCover() {
+        #expect(Homebrew.terminalCommand("brew upgrade --cask example", keeping: []) == "brew upgrade --cask example")
+        #expect(
+            Homebrew.terminalCommand("brew uninstall --cask example", keeping: ["openssl@3", "o'dd"])
+                == "HOMEBREW_NO_CLEANUP_FORMULAE='openssl@3,o'\\''dd' brew uninstall --cask example"
+        )
+    }
+
     @Test func asksForEachLineAsItGoesExceptOfTheHealthCheck() {
         #expect(Homebrew.environment(autoUpdate: false)["CI"] == "1")
         // `brew doctor` reads `CI` as a CI run and skips its check of the taps' branches (`diagnostic.rb`).

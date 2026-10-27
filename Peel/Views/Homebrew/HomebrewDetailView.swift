@@ -135,7 +135,12 @@ struct HomebrewDetailView: View {
                         } else if package.waitsForAnUpgrade {
                             if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
                                 let kind = package.kind == .cask ? "--cask" : "--formula"
-                                CopyButton(text: "brew upgrade \(kind) \(package.fullName)", title: "Copy Upgrade Command")
+                                CopyButton(
+                                    text: Homebrew.terminalCommand(
+                                        "brew upgrade \(kind) \(package.fullName)", keeping: homebrew.keptFormulaeNow
+                                    ),
+                                    title: "Copy Upgrade Command"
+                                )
                             } else {
                                 Button("Upgrade", systemImage: "arrow.down.circle") {
                                     isConfirmingUpgrade = true
@@ -156,7 +161,12 @@ struct HomebrewDetailView: View {
                         }
                         Spacer()
                         if isUninstalledInTerminal {
-                            CopyButton(text: "brew uninstall --cask \(package.fullName)", title: "Copy Uninstall Command")
+                            CopyButton(
+                                text: Homebrew.terminalCommand(
+                                    "brew uninstall --cask \(package.fullName)", keeping: homebrew.keptFormulaeNow
+                                ),
+                                title: "Copy Uninstall Command"
+                            )
                         } else {
                             Button("Uninstall", systemImage: "trash", role: .destructive) {
                                 isConfirmingUninstall = true

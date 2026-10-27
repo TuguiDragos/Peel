@@ -5,8 +5,14 @@ import SwiftUI
 /// A button that says it worked. Copying to the pasteboard changes nothing on screen, so without an answer
 /// the only way to know it took is to paste somewhere and look.
 struct CopyButton: View {
-    let text: String
+    /// Read when the button is clicked, so it copies what holds then.
+    let text: () -> String
     var title: LocalizedStringResource = "Copy"
+
+    init(text: @autoclosure @escaping () -> String, title: LocalizedStringResource = "Copy") {
+        self.text = text
+        self.title = title
+    }
 
     /// Counted, so a second click while "Copied" shows starts its time again.
     @State private var copies = 0
@@ -17,7 +23,7 @@ struct CopyButton: View {
         Button {
             // The button exists to say the copy took, so it says so only when the pasteboard agrees.
             NSPasteboard.general.clearContents()
-            copies = NSPasteboard.general.setString(text, forType: .string) ? copies + 1 : 0
+            copies = NSPasteboard.general.setString(text(), forType: .string) ? copies + 1 : 0
             // VoiceOver does not read a title that changes under its cursor, so the copy is announced as well.
             if hasCopied {
                 AccessibilityNotification.Announcement(AttributedString(localized: "Copied")).post()

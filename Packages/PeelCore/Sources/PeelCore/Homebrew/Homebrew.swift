@@ -975,6 +975,15 @@ public enum Homebrew {
         return Set(kept).isSubset(of: keptFormulae(inConfig: config))
     }
 
+    /// `command` for the person to run in Terminal, telling Homebrew to keep `kept`, the formulae the exclusions
+    /// cover, as Peel's own runs do: an upgrade cleans up after itself and an uninstall removes what nothing needs,
+    /// both for good. The list is quoted, since a folder in the Cellar can be called anything.
+    public static func terminalCommand(_ command: String, keeping kept: [String]) -> String {
+        guard !kept.isEmpty else { return command }
+        let list = kept.joined(separator: ",").replacingOccurrences(of: "'", with: "'\\''")
+        return "HOMEBREW_NO_CLEANUP_FORMULAE='\(list)' \(command)"
+    }
+
     /// Reads the `HOMEBREW_NO_CLEANUP_FORMULAE: a,b` line of `brew config`'s answer.
     static func keptFormulae(inConfig config: String) -> Set<String> {
         let prefix = "HOMEBREW_NO_CLEANUP_FORMULAE: "
