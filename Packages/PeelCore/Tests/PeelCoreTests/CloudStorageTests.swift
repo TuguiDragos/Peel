@@ -67,13 +67,21 @@ struct CloudStorageTests {
     /// that changed since the scan is not freed.
     @Test func freesNothingThatChangedSinceTheScan() async throws {
         let directory = try TemporaryDirectory()
-        let url = try directory.file("file.bin", bytes: 2_000_000)
-        let scanned = CloudFile(url: url, name: "file.bin", container: "iCloud Drive", size: 2_000_000, modified: .distantPast)
+        let url = try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file.bin", bytes: 2_000_000)
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+        let scanned = try #require(collector.collected.files.first)
 
-        let refused = await CloudStorage.free([scanned], exclusions: .none).refused
+        let untouched = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
+        let later: [FileAttributeKey: Any] = [.modificationDate: Date.now.addingTimeInterval(60)]
+        try FileManager.default.setAttributes(later, ofItemAtPath: url.path(percentEncoded: false))
+        let changed = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
 
-        #expect(refused.map(\.url) == [url])
-        #expect(refused.first?.reason == .changedSinceScan)
+        #expect(untouched.map(\.reason) != [.changedSinceScan], "only iCloud can remove a download, so a test's fails")
+        #expect(changed.map(\.reason) == [.changedSinceScan])
         #expect(FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
     }
 
