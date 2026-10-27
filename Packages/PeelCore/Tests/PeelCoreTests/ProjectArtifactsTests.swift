@@ -1228,6 +1228,31 @@ struct ProjectArtifactsTests {
         #expect(!pods.isRecommended)
     }
 
+    /// An index that takes longer than its budget to read says so, rather than that it couldn't be read.
+    @Test func whatGitTracksIsNotKnownYetWhileItsIndexTakesTooLong() async throws {
+        let directory = try TemporaryDirectory()
+        let git = try await GitFixture(home: directory.url.appending(path: "home"))
+        try directory.file("Code/App/Podfile")
+        try directory.file("Code/App/Pods/Foo/Foo.m")
+        let project = directory.url.appending(path: "Code/App", directoryHint: .isDirectory)
+        try await git.run("init", "-q", in: project)
+        try await git.run("add", "Podfile", in: project)
+        try age(directory.url, days: 60)
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code")]).artifacts
+        let pods = try #require(found.first)
+        #expect(pods.heldBack == nil)
+        let unanswered = DispatchSemaphore(value: 0)
+        defer { unanswered.signal() }
+
+        let held = await ProjectArtifacts.holdingBackWhatGitTracks([pods], within: 0.05) { _ in
+            unanswered.wait()
+            return nil
+        }
+
+        #expect(held.first?.heldBack == .gitTrackingNotReadInTime)
+        #expect(held.first?.isRecommended == false)
+    }
+
     /// A large `node_modules` is the folder most likely to run out of time. Its size is then unknown, not zero,
     /// so it is listed first and never selected for the user.
     @Test func anArtifactThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {

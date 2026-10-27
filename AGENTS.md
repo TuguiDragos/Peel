@@ -125,7 +125,8 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   name a program for Git to run (`core.fsmonitor`), so whether a build folder holds files Git tracks is read from
   the index itself, as `gitformat-index(5)` describes it (`GitIndex`), never asked of Git. A folder that holds
   tracked files, such as `Pods` kept in the repository as CocoaPods suggests, is listed with that reason and never
-  recommended, and so is one in a repository whose index can't be read.
+  recommended, and so is one in a repository whose index can't be read, or can't be read in time, each with its own
+  reason.
 - **Resetting an app clears its settings, never the app.** It takes the app's own data only when the user selects
   it, needs the app to be quit, and inside a sandboxed app's container never touches `Documents`,
   `Application Support`, or `Autosave Information`.

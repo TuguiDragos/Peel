@@ -332,6 +332,8 @@ extension HoldBack {
             "Not selected: Git tracks files in this folder, so it is part of the project. Moving it would show them as deleted in Git."
         case .gitTrackingNotKnown:
             "Not selected: this folder is in a Git repository whose list of tracked files Peel couldn’t read, so it may be part of the project."
+        case .gitTrackingNotReadInTime:
+            "Not selected: reading which files Git tracks here took too long, so this folder may be part of the project. Rescan to try again."
         case .keepsItsSetup:
             "Not selected: it also keeps the options this build was set up with, which nothing else in the project holds."
         case .sharedWithEveryone:

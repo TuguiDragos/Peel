@@ -932,18 +932,23 @@ public enum ProjectArtifacts {
 
     /// Holds back each artifact Git tracks files in, which is part of the project rather than something a build makes
     /// again, and each in a repository whose index can't be read. What the walk saw inside comes first.
-    static func holdingBackWhatGitTracks(_ artifacts: [ProjectArtifact]) async -> [ProjectArtifact] {
+    static func holdingBackWhatGitTracks(
+        _ artifacts: [ProjectArtifact],
+        within budget: TimeInterval = FileSize.budget,
+        readingIndex readIndex: @escaping @Sendable (GitIndex.Repository) -> GitIndex? = GitIndex.read
+    ) async -> [ProjectArtifact] {
         var result = artifacts
         var indexes: [GitIndex.Repository: GitIndex?] = [:]
+        var outOfTime: Set<GitIndex.Repository> = []
         let projects = Dictionary(grouping: result.indices.filter { result[$0].heldBack == nil }) { result[$0].project }
         for (project, positions) in projects {
             guard !Task.isCancelled else { break }
             func hold(_ reason: HoldBack, _ held: [Int]) {
                 for position in held { result[position].heldBack = reason }
             }
-            let found = await SlowRead.answer(within: FileSize.budget) { _ in GitIndex.repository(containing: project) }
+            let found = await SlowRead.answer(within: budget) { _ in GitIndex.repository(containing: project) }
             guard let found else {
-                hold(.gitTrackingNotKnown, positions)
+                hold(.gitTrackingNotReadInTime, positions)
                 continue
             }
             guard let repository = found else { continue }
@@ -951,19 +956,21 @@ public enum ProjectArtifacts {
             if let read = indexes[repository] {
                 index = read
             } else {
-                index = await SlowRead.answer(within: FileSize.budget) { _ in GitIndex.read(repository) } ?? nil
+                let read = await SlowRead.answer(within: budget) { _ in readIndex(repository) }
+                if read == nil { outOfTime.insert(repository) }
+                index = read ?? nil
                 indexes.updateValue(index, forKey: repository)
             }
             guard let index else {
-                hold(.gitTrackingNotKnown, positions)
+                hold(outOfTime.contains(repository) ? .gitTrackingNotReadInTime : .gitTrackingNotKnown, positions)
                 continue
             }
             let folders = positions.map { result[$0].url }
-            let tracked = await SlowRead.answer(within: FileSize.budget) { _ in
+            let tracked = await SlowRead.answer(within: budget) { _ in
                 folders.map { index.tracksSomething(atOrInside: $0, of: repository) }
             }
             guard let tracked else {
-                hold(.gitTrackingNotKnown, positions)
+                hold(.gitTrackingNotReadInTime, positions)
                 continue
             }
             hold(.trackedByGit, zip(positions, tracked).filter(\.1).map(\.0))

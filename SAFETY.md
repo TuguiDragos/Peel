@@ -436,7 +436,8 @@ Build Artifacts recommends what a build or a package manager makes again from th
 includes `node_modules` and `Pods`, which `npm install` and `pod install` put back from the project's `package.json` and
 `Podfile`, unless Git tracks files in them: CocoaPods suggests keeping `Pods` in the repository, and a folder Git tracks
 is part of the project, so it is listed and never selected, and so is one in a repository whose list of tracked files
-Peel can't read. Peel reads that list from Git's own index, as Git documents it, and never runs Git in a project.
+Peel can't read, or can't read in time. Peel reads that list from Git's own index, as Git documents it, and never runs
+Git in a project.
 Installed packages are listed and never selected, since packages are often installed into them by hand: a Python
 environment (`.venv`, `venv`, `env`, PDM's `__pypackages__`, tox's `.tox`, Nox's `.nox`, and any folder that holds the
 `pyvenv.cfg` every environment has, beside a Python project's own file or tagged as a cache), Composer's `vendor`, Mix's

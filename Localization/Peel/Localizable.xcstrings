@@ -103303,6 +103303,113 @@
         }
       }
     },
+    "Not selected: reading which files Git tracks here took too long, so this folder may be part of the project. Rescan to try again." : {
+      "comment" : "The note beside a row in Build Artifacts. Peel reads Git's own list of the files it tracks, and that read ran out of time. Rescan is the toolbar button that scans the page again.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: čtení seznamu souborů, které tu Git sleduje, trvalo příliš dlouho, takže tato složka může být součástí projektu. Chcete-li to zkusit ještě jednou, klikněte na Prohledat znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Das Lesen der Liste der hier von Git versionierten Dateien hat zu lange gedauert, daher gehört dieser Ordner möglicherweise zum Projekt. Klicke auf „Erneut scannen“, um es noch einmal zu versuchen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: Peel ha tardado demasiado en leer qué archivos rastrea Git aquí, así que puede que esta carpeta forme parte del proyecto. Usa “Volver a analizar” para intentarlo otra vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : la lecture de la liste des fichiers que Git suit ici a pris trop de temps, et ce dossier peut donc faire partie du projet. Analysez à nouveau pour réessayer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: leggere l’elenco dei file tracciati da Git qui ha richiesto troppo tempo, quindi questa cartella potrebbe far parte del progetto. Per riprovare, fai clic su “Analizza di nuovo”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここでGitが追跡しているファイルのリストを読み取るのに時間がかかりすぎたため、このフォルダはプロジェクトの一部である可能性があります。やり直すには、再スキャンしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 여기에서 Git이 추적하는 파일을 읽는 데 시간이 너무 오래 걸렸으므로 이 폴더는 프로젝트의 일부일 수 있습니다. 다시 시도하려면 다시 스캔하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: het lezen van de lijst met bestanden die Git hier volgt, duurde te lang, dus deze map hoort misschien bij het project. Klik op 'Scan opnieuw' om het nog eens te proberen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: odczytywanie listy plików śledzonych tu przez Git trwało zbyt długo, więc ten folder może być częścią projektu. Kliknij w przycisk Skanuj ponownie, aby spróbować jeszcze raz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: a leitura da lista de arquivos que o Git rastreia aqui demorou demais, então esta pasta pode fazer parte do projeto. Clique em Analisar Novamente para tentar de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: citirea listei de fișiere pe care Git le urmărește aici a durat prea mult, așa că acest dosar ar putea face parte din proiect. Rescanați pentru a încerca din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: чтение списка файлов, которые здесь отслеживает Git, заняло слишком много времени, поэтому эта папка может быть частью проекта. Чтобы повторить попытку, нажмите «Сканировать заново»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: det tog för lång tid att läsa vilka filer Git spårar här, så den här mappen kan vara en del av projektet. Skanna igen för att försöka på nytt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: Git’in burada hangi dosyaları izlediğini okumak çok uzun sürdü, bu yüzden bu klasör projenin bir parçası olabilir. Yeniden denemek için Yeniden Tara’yı tıklayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: читання списку файлів, які тут відстежує Git, тривало надто довго, тож ця папка може бути частиною проєкту. Натисніть «Сканувати знову», щоб спробувати ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：读取Git在此处跟踪的文件列表耗时过长，因此此文件夹可能是项目的一部分。可通过“重新扫描”再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：讀取Git在此處追蹤了哪些檔案耗時過久，因此此檔案夾可能是計畫案的一部分。請按一下「重新掃描」再試一次。"
+          }
+        }
+      }
+    },
     "Not selected: something in this project changed in the last 7 days." : {
       "localizations" : {
         "cs" : {
