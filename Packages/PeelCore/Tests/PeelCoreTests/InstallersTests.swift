@@ -6,6 +6,25 @@ import Testing
 struct InstallersTests {
     /// The macOS installers and the firmware are scanned after the downloads, and those later steps must stop
     /// as well.
+    @Test func aSearchFindsAnItemByWhatItsRowShows() {
+        func item(
+            _ name: String, kind: InstallerItem.Kind, for app: String? = nil, notes: [InstallerItem.Note] = []
+        ) -> InstallerItem {
+            InstallerItem(
+                url: URL(filePath: "/Users/x/Downloads/\(name)"), kind: kind, name: name, size: 1, date: nil,
+                installedApp: app, isReadOnly: false, notes: notes
+            )
+        }
+        let update = item("org.sparkle-project.Sparkle", kind: .updateDownload, notes: [.downloadedBy("Firefox")])
+        let installer = item("Setup.dmg", kind: .appInstaller, for: "Slack")
+        let backup = item("00008030-001", kind: .deviceBackup, notes: [.name("Ana’s iPhone"), .encrypted])
+
+        #expect(update.matches("firefox"))
+        #expect(installer.matches("slack") && installer.matches("setup"))
+        #expect(backup.matches("ana’s"))
+        #expect(!update.matches("slack") && !installer.matches("firefox"))
+    }
+
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
         for index in 1...30 {

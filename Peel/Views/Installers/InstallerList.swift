@@ -8,12 +8,12 @@ struct InstallerList: View {
     @State private var isRescanning = false
     @State private var searchText = ""
 
-    /// The kinds to list. During a search, a kind is kept when its title or the name of any item in it matches.
+    /// The kinds to list. During a search, a kind is kept when its title or any of its items matches.
     private var listed: [InstallerItem.Kind] {
         guard !searchText.isEmpty else { return installers.sections }
         return installers.sections.filter { kind in
             SearchText.matches(String(localized: kind.title), searchText)
-                || installers.items(in: kind).contains { SearchText.matches($0.name, searchText) }
+                || installers.items(in: kind).contains { $0.matches(searchText) }
         }
     }
 

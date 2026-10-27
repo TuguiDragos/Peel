@@ -57,6 +57,21 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
     }
 }
 
+extension InstallerItem {
+    /// Whether `query` matches what the row shows: the name, the app it is for, and its notes, such as the app that
+    /// downloaded an update, whose own name is the updater's.
+    public func matches(_ query: String) -> Bool {
+        guard !query.isEmpty else { return true }
+        let shown = [name, installedApp].compactMap(\.self) + notes.compactMap { note -> String? in
+            switch note {
+            case .version(let text), .name(let text), .downloadedBy(let text): text
+            case .encrypted: nil
+            }
+        }
+        return shown.contains { SearchText.matches($0, query) }
+    }
+}
+
 extension Collection where Element == InstallerItem {
     public var movable: SizeTotal {
         SizeTotal(filter(\.canBeMoved).map(\.size))
