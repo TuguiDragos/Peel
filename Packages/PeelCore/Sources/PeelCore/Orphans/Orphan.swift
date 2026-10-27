@@ -31,6 +31,12 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
 
     public var id: URL { url }
 
+    /// True for a kernel extension, which macOS takes out of the kernel only when the Mac restarts: since macOS 11,
+    /// third-party kernel extensions load as one collection when the Mac starts up.
+    public var isKernelExtension: Bool {
+        url.pathExtension.caseInsensitiveCompare("kext") == .orderedSame
+    }
+
     public func isLocked(canUseHelper: Bool) -> Bool {
         requiresPrivileges && leftAlone == nil && !canUseHelper
     }

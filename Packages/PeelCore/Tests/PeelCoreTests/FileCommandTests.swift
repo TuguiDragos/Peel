@@ -590,6 +590,19 @@ struct FileCommandTests {
         #expect(report["needsFullDiskAccess"] as? Bool == true)
     }
 
+    @Test func saysAKernelExtensionLeavesTheKernelOnlyWhenTheMacRestarts() throws {
+        let directory = try TemporaryDirectory()
+        let driver = try orphan("Example.kext", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
+        let other = try orphan("com.example.gone", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
+        var scan = OrphanScan(groups: [], unreadableLocations: [])
+        scan.forAnAdministrator = [AdministratorItem(item: other, apps: ["Gone"])]
+
+        #expect(driver.isKernelExtension && !other.isKernelExtension)
+        #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false).contains(OrphansCommand.kernelExtensions))
+        scan.forAnAdministrator.append(AdministratorItem(item: driver, apps: ["Gone"]))
+        #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false).last == OrphansCommand.kernelExtensions)
+    }
+
     @Test func listsApartWhatOnlyAnAdministratorCanMove() throws {
         let directory = try TemporaryDirectory()
         let item = try orphan("com.example.gone", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)

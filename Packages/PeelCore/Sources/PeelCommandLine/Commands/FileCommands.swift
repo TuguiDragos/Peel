@@ -149,7 +149,7 @@ struct OrphansCommand: AsyncParsableCommand {
 
     /// What the list could not cover, the groups the person said belong to an app when that list can't be read, the
     /// folders Peel could not read and the places with more folders inside than Peel looks into, and how to remove
-    /// what only an administrator can move.
+    /// what only an administrator can move, with the restart a kernel extension needs.
     static func notes(for scan: OrphanScan, ownersUnreadable: Bool) -> [String] {
         var notes: [String] = []
         if ownersUnreadable {
@@ -162,7 +162,13 @@ struct OrphansCommand: AsyncParsableCommand {
         notes += scan.cutShortLocations.map {
             "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach."
         }
-        return notes + (scan.forAnAdministrator.isEmpty ? [] : [byHand])
+        if !scan.forAnAdministrator.isEmpty {
+            notes.append(byHand)
+        }
+        if scan.forAnAdministrator.contains(where: \.item.isKernelExtension) {
+            notes.append(kernelExtensions)
+        }
+        return notes
     }
 
     /// Why nothing is listed when some apps could not be read: their files would look orphaned.
@@ -204,6 +210,8 @@ struct OrphansCommand: AsyncParsableCommand {
             needsFullDiskAccess: scan.needsFullDiskAccess
         )
     }
+
+    static let kernelExtensions = "macOS changes the kernel extensions it loads only when the Mac restarts, so restart once a .kext you removed is in the Trash."
 
     /// How to remove what only an administrator can move, from a place Peel's helper may not move it from.
     static let byHand = "Only an administrator can move what Needs an administrator lists, and Peel's helper isn't allowed to move it from there. To remove one, reveal it in Finder with `open -R <path>`, drag it to the Trash, then enter an administrator name and password when macOS asks."

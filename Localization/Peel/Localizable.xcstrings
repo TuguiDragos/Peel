@@ -225097,6 +225097,112 @@
         }
       }
     },
+    "macOS changes the kernel extensions it loads only when the Mac restarts, so restart once this one is in the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS mění doplňky kernelu, které načítá, jen při restartu Macu, takže až bude tento doplněk v koši, Mac restartujte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ändert erst, wenn der Mac neu startet, welche Kernel-Erweiterungen es lädt. Starte den Mac daher neu, sobald diese Erweiterung im Papierkorb ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las extensiones del kernel que carga macOS solo cambian cuando el Mac se reinicia, así que reinicia el Mac cuando esta ya esté en la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les extensions du noyau que charge macOS ne changent qu’au redémarrage du Mac : redémarrez-le donc une fois que celle-ci est dans la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le estensioni di kernel che macOS carica cambiano solo al riavvio del Mac, quindi riavvialo quando questa sarà nel Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが読み込むカーネル機能拡張を変更するのは、Macの再起動時だけです。そのため、これがゴミ箱に入ったら、Macを再起動してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 Mac을 재시동할 때만 로드할 커널 확장 프로그램을 변경하므로, 이 커널 확장 프로그램을 휴지통으로 이동한 다음 Mac을 재시동하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS wijzigt pas welke kernelextensies het laadt als de Mac opnieuw opstart, dus start de Mac opnieuw op zodra deze kernelextensie in de prullenmand staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zmienia wczytywane rozszerzenia jądra dopiero po ponownym uruchomieniu Maca, więc uruchom Maca ponownie, gdy to rozszerzenie znajdzie się w Koszu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS só muda as extensões de kernel que carrega quando o Mac é reiniciado, então reinicie o Mac assim que esta estiver no Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS schimbă extensiile kernel pe care le încarcă doar când Mac‑ul repornește, așa că reporniți‑l după ce această extensie ajunge în Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS меняет набор загружаемых расширений ядра только при перезагрузке Mac, поэтому перезагрузите Mac, когда это расширение окажется в Корзине."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ändrar inte vilka kärntillägg som läses in förrän datorn startas om, så starta om datorn när det här tillägget ligger i papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, yüklediği çekirdek genişletmelerini yalnızca Mac yeniden başladığında değiştirir, bu yüzden bu genişletme Çöp Sepeti’ne taşındıktan sonra Mac’inizi yeniden başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS змінює набір розширень ядра, які завантажує, лише під час перезапуску Mac, тож перезапустіть Mac, щойно це розширення опиниться в Смітнику."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只在Mac重新启动时才会更改它所载入的内核功能扩展，因此在此项移到废纸篓后，请重新启动Mac。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只會在Mac重新開機時變更它所載入的核心延伸功能，因此請在此延伸功能丟到「垃圾桶」後重新開機。"
+          }
+        }
+      }
+    },
     "macOS couldn’t find the app, so what it was allowed to access is still on record." : {
       "localizations" : {
         "cs" : {
