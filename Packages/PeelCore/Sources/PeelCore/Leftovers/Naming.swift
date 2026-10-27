@@ -1,3 +1,5 @@
+internal import PeelPrivileged
+
 enum Naming {
     static let separators: Set<Character> = [" ", "-", "_", "."]
 
@@ -121,6 +123,12 @@ enum Identifier {
             !component.isEmpty
                 && component.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || $0 == "-" || $0 == "_") }
         }
+    }
+
+    /// True for Peel's identifier and those of its parts (`com.tuguidragos.Peel.Helper`), compared without case.
+    static func isPeels(_ identifier: String) -> Bool {
+        let identifier = identifier.lowercased(), own = HelperIdentity.appIdentifier.lowercased()
+        return identifier == own || identifier.hasPrefix(own + ".")
     }
 
     /// True for a group name in one of the forms macOS uses: a team identifier and a dot in front, or `group.`

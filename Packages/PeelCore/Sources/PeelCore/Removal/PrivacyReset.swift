@@ -93,9 +93,9 @@ public enum PrivacyReset {
     /// refused, and any other identifier must read as exactly one app's (`Identifier.isValid`). This matters
     /// because `tccutil reset All` with no identifier resets every app.
     public static func isAllowed(bundleIdentifier: String) -> Bool {
-        let identifier = bundleIdentifier.lowercased()
-        let own = HelperIdentity.appIdentifier.lowercased()
-        guard !identifier.hasPrefix("com.apple."), identifier != own, !identifier.hasPrefix(own + ".") else { return false }
+        guard !bundleIdentifier.lowercased().hasPrefix("com.apple."), !Identifier.isPeels(bundleIdentifier) else {
+            return false
+        }
         return Identifier.isValid(bundleIdentifier)
     }
 }

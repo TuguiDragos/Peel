@@ -163,11 +163,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     private static let runningBundle = PathPattern.comparablePath(of: Bundle.main.bundleURL)
 
     private static func isPeel(_ bundleIdentifier: String?, at path: String) -> Bool {
-        let own = HelperIdentity.appIdentifier.lowercased()
-        if let identifier = bundleIdentifier?.lowercased(), identifier == own || identifier.hasPrefix(own + ".") {
-            return true
-        }
-        return PathComponents.isPath(runningBundle, inside: path)
+        bundleIdentifier.map(Identifier.isPeels) == true || PathComponents.isPath(runningBundle, inside: path)
     }
 
     /// The name Finder shows, which follows the user's language when the app translates it, and the bundle's file
