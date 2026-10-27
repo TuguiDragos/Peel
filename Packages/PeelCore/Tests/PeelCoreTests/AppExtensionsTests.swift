@@ -247,7 +247,11 @@ struct AppExtensionsTests {
         #expect(filter.goneApp == nil)
         #expect(left.goneApp == gone)
         #expect(left.appName == "Gone")
-        #expect(left.leftAlone == .systemExtension)
+        if #available(macOS 27, *) {
+            #expect(left.leftAlone == .deletableSystemExtension)
+        } else {
+            #expect(left.leftAlone == .systemExtension)
+        }
         #expect(leaving.leftAlone == .systemExtensionGoingAtRestart)
     }
 
