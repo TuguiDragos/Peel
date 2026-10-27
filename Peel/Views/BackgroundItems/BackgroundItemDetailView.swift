@@ -295,12 +295,15 @@ struct BackgroundItemDetailView: View {
         backgroundItems.runningActionItemIDs.contains(item.id) || backgroundItems.isScanning
     }
 
-    /// Returns the job's status in System Settings (Login Items & Extensions), or nil when it has no plist file.
-    /// Per `SMAppService.h`, `.requiresApproval` also means the user turned the job off, so the text says both.
-    /// Off the main thread: `SMAppService` asks Background Task Management over XPC.
+    /// Returns the job's status in System Settings (Login Items & Extensions), or nil when it has no plist file in a
+    /// folder launchd reads, the only ones `SMAppService.h` gives a status for. Per that header, `.requiresApproval`
+    /// also means the user turned the job off, so the text says both. Off the main thread: `SMAppService` asks
+    /// Background Task Management over XPC.
     @concurrent
-    private static func legacyStatus(of item: BackgroundItem) async -> LocalizedStringResource? {
-        guard let plistURL = item.plistURL else { return nil }
+    static func legacyStatus(of item: BackgroundItem) async -> LocalizedStringResource? {
+        guard let plistURL = item.plistURL, item.source == .userLibrary || item.source == .systemLibrary else {
+            return nil
+        }
         return switch SMAppService.statusForLegacyPlist(at: plistURL) {
         case .enabled: "Allowed"
         case .requiresApproval: "Needs approval, or was turned off"
