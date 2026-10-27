@@ -233,7 +233,7 @@ struct RefusalLogTests {
         .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
         .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable, .historyCannotBeWritten,
         .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt, .heldByAnotherAccount(by: ["CtxHelper"]),
-        .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]),
+        .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]), .inUseAsAnInputSource,
         .inUseByMacOS(by: ["geod", "appleaccountd"]), .failed("x"),
     ] + GuardRefusal.allCases.map { .guarded($0) }
 

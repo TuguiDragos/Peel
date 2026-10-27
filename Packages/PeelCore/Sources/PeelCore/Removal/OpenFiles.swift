@@ -93,12 +93,26 @@ struct OpenFiles {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         if !lettingItsProgramsRun, let excludedProgram, excludedProgram.starts(with: names) { return .peelRunsFromIt }
         if attachedImages.contains(where: { $0.starts(with: names) }) { return .attachedDiskImage }
-        return Self.refusal(heldBy: holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map { file in
+        let holding = holding(url, lettingItsProgramsRun: lettingItsProgramsRun)
+        // An input method runs from its own bundle while it is one of the input sources, which System Settings removes.
+        if Self.isAnInputMethod(url), !holding.isEmpty,
+           holding.allSatisfy({ $0.hold == .runs && $0.owner == .thisAccount }) {
+            return .inUseAsAnInputSource
+        }
+        return Self.refusal(heldBy: holding.map { file in
             Holder(
                 process: file.process, owner: file.owner,
                 isMacOSsOwn: programs[file.pid].map(Self.isMacOSsOwn) ?? false, daemon: file.daemon
             )
         })
+    }
+
+    /// Whether `url` is an input method installed for the Mac or for this account: an item right in the Input Methods
+    /// folder of a Library.
+    static func isAnInputMethod(_ url: URL) -> Bool {
+        let folder = url.deletingLastPathComponent()
+        return folder.lastPathComponent == LibraryFolder.inputMethods.rawValue
+            && folder.deletingLastPathComponent().lastPathComponent == "Library"
     }
 
     struct Holder {

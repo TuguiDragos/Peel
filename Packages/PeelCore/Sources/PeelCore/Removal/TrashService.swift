@@ -94,6 +94,8 @@ public struct TrashFailure: Sendable, Hashable {
         case openForAnotherUser(by: [String])
         /// Only build tools' daemons hold it, which the tools' own commands stop (`BuildDaemon`).
         case heldByABuildTool(by: [String])
+        /// It is an input method running as one of this account's input sources, which System Settings removes.
+        case inUseAsAnInputSource
         /// Only macOS's own programs hold it, and nobody quits those.
         case inUseByMacOS(by: [String])
         /// It is a disk image attached right now, or a folder holding one, which macOS holds open until it is ejected.
@@ -118,13 +120,13 @@ extension TrashFailure.Reason {
         case .historyUnreadable, .historyCannotBeWritten, .needsHelper: false
         case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser,
-             .heldByABuildTool, .inUseByMacOS, .attachedDiskImage, .failed: true
+             .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .failed: true
         }
     }
 
     var isHeldByPrograms: Bool {
         switch self {
-        case .heldOpen, .heldByAnotherAccount, .openForAnotherUser, .heldByABuildTool: true
+        case .heldOpen, .heldByAnotherAccount, .openForAnotherUser, .heldByABuildTool, .inUseAsAnInputSource: true
         default: false
         }
     }
@@ -149,6 +151,7 @@ extension TrashFailure.Reason {
         case .heldByAnotherAccount: "held-by-another-account"
         case .openForAnotherUser: "open-for-another-user"
         case .heldByABuildTool: "held-by-a-build-tool"
+        case .inUseAsAnInputSource: "in-use-as-an-input-source"
         case .inUseByMacOS: "in-use-by-macos"
         case .attachedDiskImage: "attached-disk-image"
         case .failed: "failed"
@@ -192,6 +195,7 @@ extension TrashFailure.Reason {
             self = .openForAnotherUser(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "held-by-a-build-tool":
             self = .heldByABuildTool(by: (detail ?? "").split(separator: "\n").map(String.init))
+        case "in-use-as-an-input-source": self = .inUseAsAnInputSource
         case "in-use-by-macos": self = .inUseByMacOS(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "attached-disk-image": self = .attachedDiskImage
         case "failed": self = .failed(detail ?? "")

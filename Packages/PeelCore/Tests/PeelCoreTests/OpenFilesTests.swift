@@ -177,6 +177,21 @@ struct OpenFilesTests {
         #expect(refusal == .heldByABuildTool(by: ["Gradle"]))
     }
 
+    @Test func anInputSourceInUseIsRemovedInSystemSettings() throws {
+        let directory = try TemporaryDirectory()
+        let programs = try directory.runningPrograms([
+            "home/Library/Input Methods/Example.app/Contents/MacOS/example",
+            "home/Library/Application Support/Example.app/Contents/MacOS/example",
+        ])
+        defer { programs.forEach { $0.terminate() } }
+        let files = OpenFiles()
+
+        let inputSource = directory.url.appending(path: "home/Library/Input Methods/Example.app")
+        let elsewhere = directory.url.appending(path: "home/Library/Application Support/Example.app")
+        #expect(files.refusal(of: inputSource, lettingItsProgramsRun: false) == .inUseAsAnInputSource)
+        #expect(files.refusal(of: elsewhere, lettingItsProgramsRun: false) == .heldOpen(by: ["example"]))
+    }
+
     @Test func aScriptAProgramRunsHoldsTheFolderItRunsFrom() throws {
         let directory = try TemporaryDirectory()
         let script = try directory.file("home/.npm/_npx/0123abcd/node_modules/.bin/server")

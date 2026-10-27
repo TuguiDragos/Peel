@@ -482,6 +482,8 @@ extension TrashFailure.Reason {
             "in use by \(processes.map(Output.plain).joined(separator: ", ")) in another user's account on this Mac; quit it in that account, then try again"
         case .heldByABuildTool(let tools):
             "in use by \(tools.map(Output.plain).joined(separator: ", ")); run \(BuildDaemon.stopCommands(for: tools).map { "`\($0)`" }.joined(separator: " and ")), then try again"
+        case .inUseAsAnInputSource:
+            "in use as an input source; in System Settings > Keyboard > Text Input, click Edit beside Input Sources, select it and click Remove, then try again"
         case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
         case .attachedDiskImage: "a disk image open right now; eject it, then try again"
         case .failed(let message): Output.plain(message)

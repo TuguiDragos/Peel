@@ -65287,6 +65287,112 @@
         }
       }
     },
+    "It is in use as an input source. In System Settings > Keyboard > Text Input, click Edit beside Input Sources, select it and click Remove, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používá se jako vstupní zdroj. V Nastavení systému > Klávesnice > Zadání textu klikněte na tlačítko Upravit vedle položky Vstupní zdroje, vyberte ho, klikněte na Odebrat a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird als Eingabequelle verwendet. Klicke unter „Systemeinstellungen“ > „Tastatur“ > „Texteingabe“ neben „Eingabequellen“ auf „Bearbeiten“, wähle es aus und klicke auf „Entfernen“. Versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso como fuente de entrada. En Ajustes del Sistema > Teclado > Entrada de texto, haz clic en Editar junto a Fuentes de entrada, selecciónalo, haz clic en Eliminar y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé comme méthode de saisie. Dans Réglages Système > Clavier > Entrée de texte, cliquez sur Modifier à côté de « Méthodes de saisie », sélectionnez-le et cliquez sur Supprimer, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso come sorgente di input. In Impostazioni di Sistema > Tastiera > Immetti testo, fai clic su Modifica accanto a “Sorgenti di input”, selezionalo e fai clic su Rimuovi, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力ソースとして使用中です。“システム設定”＞“キーボード”＞“テキスト入力”で、“入力ソース”の横にある“編集”をクリックし、これを選択して“削除”をクリックしてから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 소스로 사용 중입니다. 시스템 설정 > 키보드 > 텍스트 입력에서 ‘입력 소스’ 옆의 ‘편집’을 클릭하고 이 입력 소스를 선택한 후 ‘제거’를 클릭한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt als invoerbron. Klik in Systeeminstellingen > Toetsenbord > Tekstinvoer op 'Wijzig' naast 'Invoerbronnen', selecteer het, klik op 'Verwijder' en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używana jako źródło wprowadzania. W Ustawieniach systemowych > Klawiatura > Wprowadzanie tekstu kliknij w przycisk Edycja obok pozycji Źródła wprowadzania, zaznacz ją, kliknij w Usuń i spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso como layout de teclado. Em Ajustes do Sistema > Teclado > Entrada de Texto, clique em Editar ao lado de Layouts de Teclado, selecione-o, clique em Remover e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat ca sursă de introducere. În Configurări sistem > Tastatură > Introducere text, faceți clic pe butonul Editare de lângă „Surse de introducere”, selectați‑l și faceți clic pe Eliminați, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект используется как источник ввода. В разделе «Системные настройки» > «Клавиатура» > «Ввод текста» нажмите кнопку «Изменить» рядом с пунктом «Источники ввода», выберите этот объект и нажмите «Удалить», а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den används som inmatningskälla. Klicka på Redigera bredvid Inmatningskällor i Systeminställningar > Tangentbord > Textinmatning, markera den, klicka på Ta bort och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir giriş kaynağı olarak kullanılıyor. Sistem Ayarları > Klavye > Metin Girişi bölümünde Giriş Kaynakları’nın yanındaki Düzenle’yi tıklayın, onu seçip Sil’i tıklayın, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Він використовується як джерело вводу. У розділі Системні параметри > Клавіатура > Введення тексту натисніть «Змінити» поруч із пунктом «Джерела вводу», виберіть його, натисніть «Вилучити» і спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正被用作输入法。请在“系统设置”>“键盘”>“文字输入”中，点按“输入法”旁边的“编辑”，选择它并点按“移除”，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正被用作輸入方式。請在「系統設定」>「鍵盤」>「文字輸入」中，按一下「輸入方式」旁邊的「編輯」，選取它並按一下「移除」，然後再試一次。"
+          }
+        }
+      }
+    },
     "It is in use by %@ in another user’s account on this Mac. Quit it in that account, then try again." : {
       "localizations" : {
         "cs" : {
