@@ -13056,6 +13056,112 @@
         }
       }
     },
+    "Agent, for every account" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent pro všechny účty"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent, für alle Benutzeraccounts"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agente, para todas las cuentas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent, pour tous les comptes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agente, per tutti gli account"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エージェント（すべてのアカウント用）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 계정용 에이전트"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent, voor elke account"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent, dla wszystkich kont"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agente, para todas as contas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent, pentru toate conturile"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Агент для всех учетных записей"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent, för alla konton"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aracı, her hesap için"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Агент, для всіх облікових записів"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代理，适用于所有账户"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代理程式，適用於所有帳號"
+          }
+        }
+      }
+    },
     "Agents" : {
       "localizations" : {
         "cs" : {
@@ -108001,6 +108107,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還原後，macOS要等到你將Mac重新開機後才會載入此音訊驅動程式。"
+          }
+        }
+      }
+    },
+    "Once the file is in the Trash, the item is stopped for you. Other accounts logged in now run it until they log out, and none starts it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile bude soubor v koši, položka se pro vás zastaví. Ostatní účty, které jsou teď přihlášené, ji nechají běžet, dokud se neodhlásí, a žádný ji znovu nespustí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald die Datei im Papierkorb ist, wird das Objekt für dich gestoppt. Bei anderen Benutzeraccounts, die gerade angemeldet sind, läuft es weiter, bis sie sich abmelden, und bei keinem wird es erneut gestartet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando el archivo esté en la papelera, el ítem se detendrá en tu cuenta. Las demás cuentas con la sesión iniciada en este momento lo seguirán ejecutando hasta que cierren sesión, y ninguna lo volverá a iniciar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois le fichier dans la corbeille, l’élément est arrêté pour vous. Les autres comptes dont la session est ouverte l’exécutent jusqu’à la fermeture de leur session, et aucun ne le relance."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una volta che il file è nel Cestino, l’elemento viene interrotto per te. Per gli altri account che hanno eseguito il login resta in esecuzione fino al loro logout, e nessuno lo avvierà di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルがゴミ箱に入ると、お使いのアカウントではこの項目は停止します。現在ログインしているほかのアカウントでは、ログアウトするまで実行され続けますが、どのアカウントでも再び起動されることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일이 휴지통으로 이동하면 사용자 계정에서는 이 항목이 중단됩니다. 지금 로그인되어 있는 다른 계정에서는 로그아웃할 때까지 이 항목이 실행되며, 이후 어느 계정에서도 다시 시작되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra het bestand in de prullenmand staat, wordt het onderdeel voor jou gestopt. Bij andere accounts die nu zijn ingelogd, blijft het actief totdat ze uitloggen, en daarna start geen enkele account het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy plik znajdzie się w Koszu, ta rzecz zostanie zatrzymana na Twoim koncie. Na innych kontach, które są teraz zalogowane, będzie działać do wylogowania, a potem żadne z nich nie uruchomi jej ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assim que o arquivo estiver no Lixo, o item é interrompido na sua conta. As outras contas com sessão iniciada agora o executam até finalizarem a sessão, e nenhuma o inicia novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce fișierul ajunge în Coș, articolul este oprit pentru dvs. Celelalte conturi conectate acum îl rulează până când fac logout și niciunul nu îl mai pornește după aceea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда файл окажется в Корзине, объект будет остановлен для Вас. В других учетных записях, где сейчас выполнен вход, он будет выполняться до выхода из системы, и ни в одной из них он больше не запустится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När filen ligger i papperskorgen stoppas objektet för dig. Andra konton som är inloggade nu kör det tills de loggar ut, och inget av dem startar det igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya Çöp Sepeti’ne taşındığında öğe sizin için durdurulur. Şu anda oturumu açık olan diğer hesaplar, oturumlarını kapatana kadar onu çalıştırır ve sonra hiçbiri onu yeniden başlatmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно файл опиниться в Смітнику, елемент буде зупинено для вас. В інших облікових записах, у які зараз виконано вхід, він працюватиме, доки з них не вийдуть, і жоден із них не запустить його знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件进入废纸篓后，此项会在你的账户中停止。当前已登录的其他账户会继续运行它，直到它们退出登录，之后任何账户都不会再启动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案丟到「垃圾桶」後，此項目就會為你停止。目前已登入的其他帳號會繼續執行它直到登出，之後也不會再有任何帳號啟動它。"
           }
         }
       }

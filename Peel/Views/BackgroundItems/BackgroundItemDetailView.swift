@@ -28,7 +28,7 @@ struct BackgroundItemDetailView: View {
 
             Section {
                 LabeledContent("Kind") {
-                    Text(item.kind == .agent ? "Agent" : "Daemon")
+                    Text(item.kind == .daemon ? "Daemon" : item.source == .systemLibrary ? "Agent, for every account" : "Agent")
                 }
                 if let owner = item.ownerBundleIdentifier {
                     LabeledContent("Added by") {
@@ -259,9 +259,7 @@ struct BackgroundItemDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            let stops: LocalizedStringResource = item.canBeControlled || item.state == .notLoaded
-                ? "Once the file is in the Trash, the item is stopped."
-                : "macOS won’t start it again: it stops for good when the Mac restarts."
+            let stops = item.whenTrashed
             if let owner = item.ownerBundleIdentifier,
                let warning = item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner)) {
                 Text(verbatim: "\(String(localized: warning))\n\n\(String(localized: stops))")
@@ -494,5 +492,16 @@ extension BackgroundItem {
     func trashWarning(ownerName: String) -> LocalizedStringResource? {
         guard isOwnerInstalled, isOwnerConfirmed else { return nil }
         return "\(ownerName) uses it to run in the background, and may stop working until you put it back."
+    }
+
+    /// What the question before a move says becomes of the job once its file is in the Trash.
+    var whenTrashed: LocalizedStringResource {
+        guard canBeControlled || state == .notLoaded else {
+            return "macOS won’t start it again: it stops for good when the Mac restarts."
+        }
+        // An agent in `/Library/LaunchAgents` runs in every account logged in, and Stop reaches only this one.
+        return kind == .agent && source == .systemLibrary
+            ? "Once the file is in the Trash, the item is stopped for you. Other accounts logged in now run it until they log out, and none starts it again."
+            : "Once the file is in the Trash, the item is stopped."
     }
 }
