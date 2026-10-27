@@ -192,9 +192,10 @@ struct PackageDetailView: View {
                 }
             }
         } trailing: {
-            if receipt.movable.known > 0 || !receipt.movable.isComplete {
-                TotalLabel(total: receipt.movable, caption: Text("to remove"))
-                    .accessibilityLabel(Text("\(receipt.movable.text) can be moved to the Trash"))
+            let movable = receipt.movable(canUseHelper: helper.canAct)
+            if movable.known > 0 || !movable.isComplete {
+                TotalLabel(total: movable, caption: Text("to remove"))
+                    .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
             }
         }
     }
@@ -206,11 +207,7 @@ struct PackageDetailView: View {
     }
 
     private var list: SelectableRows<URL> {
-        SelectableRows(
-            rows: receipt.items.map(\.url),
-            selectable: receipt.items.filter { !isLocked($0) && !$0.isLeftAlone }.map(\.url),
-            recommended: receipt.items.filter { !isLocked($0) && !$0.isLeftAlone && $0.heldBack == nil }.map(\.url)
-        )
+        receipt.selectableRows(canUseHelper: helper.canAct)
     }
 
     private func isLocked(_ item: PackageReceipt.Item) -> Bool {

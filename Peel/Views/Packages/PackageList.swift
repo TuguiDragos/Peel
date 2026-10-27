@@ -130,7 +130,7 @@ struct PackageList: View {
             }
             Spacer(minLength: 6)
             if !receipt.nothingLeftOnDisk, !receipt.holdsNothingToRemove {
-                Text(receipt.movable.text)
+                Text(receipt.movable(canUseHelper: helper.canAct).text)
                     .rowFigure()
             }
         }

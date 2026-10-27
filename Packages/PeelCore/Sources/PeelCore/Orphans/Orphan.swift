@@ -56,9 +56,11 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
         SizeTotal(items.map(\.size))
     }
 
-    /// What moving the group could free: items Peel leaves alone are listed but not counted, as on an app's page.
-    public var movable: SizeTotal {
-        SizeTotal(items.filter { $0.leftAlone == nil }.map(\.size))
+    /// What moving the group could free now, which its "to remove" says: the items a checkbox can select, as the bar
+    /// beside it counts them, so what Peel leaves alone, and what only the helper moves while it can't, aren't counted.
+    public func movable(canUseHelper: Bool) -> SizeTotal {
+        let selectable = Set(selectableRows(canUseHelper: canUseHelper).selectable)
+        return SizeTotal(items.filter { selectable.contains($0.url) }.map(\.size))
     }
 
     public var lastModified: Date? {

@@ -129,8 +129,9 @@ struct OrphanDetailView: View {
                 }
             }
         } trailing: {
-            TotalLabel(total: group.movable, caption: Text("to remove"))
-                .accessibilityLabel(Text("\(group.movable.text) can be moved to the Trash"))
+            let movable = group.movable(canUseHelper: helper.canAct)
+            TotalLabel(total: movable, caption: Text("to remove"))
+                .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
         }
     }
 }

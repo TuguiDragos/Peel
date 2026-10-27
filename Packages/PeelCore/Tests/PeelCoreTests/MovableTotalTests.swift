@@ -17,7 +17,41 @@ struct MovableTotalTests {
         let group = OrphanGroup(identifier: "org.example.gone", items: [library, cache])
 
         #expect(group.total == SizeTotal(known: 1_010, isComplete: true))
-        #expect(group.movable == SizeTotal(known: 10, isComplete: true))
+        #expect(group.movable(canUseHelper: true) == SizeTotal(known: 10, isComplete: true))
+    }
+
+    /// What only the helper can move counts while the helper can act, as the bar beside the total counts it.
+    @Test func whatOnlyTheHelperMovesCountsOnlyWhileItCanAct() {
+        let cache = OrphanItem(
+            url: URL(filePath: "/Users/x/Library/Caches/org.example.gone"), kind: .caches, size: 10,
+            modificationDate: nil, requiresPrivileges: false
+        )
+        let daemon = OrphanItem(
+            url: URL(filePath: "/Library/LaunchDaemons/org.example.gone.plist"), kind: .launchDaemons, size: 5,
+            modificationDate: nil, requiresPrivileges: true
+        )
+        let group = OrphanGroup(identifier: "org.example.gone", items: [cache, daemon])
+        let tool = PackageReceipt.Item(url: URL(filePath: "/usr/local/bin/org.example.tool"), size: 500, requiresPrivileges: true)
+        let app = PackageReceipt.Item(url: URL(filePath: "/Applications/Example.app"), size: 20, requiresPrivileges: false)
+        let receipt = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"), items: [tool, app]
+        )
+        var installer = InstallerItem(
+            url: URL(filePath: "/Library/Updates/Example.pkg"), kind: .appInstaller, name: "Example.pkg", size: 300, date: nil,
+            installedApp: nil, isReadOnly: false, notes: []
+        )
+        installer.requiresPrivileges = true
+        let download = InstallerItem(
+            url: URL(filePath: "/Users/x/Downloads/Example.dmg"), kind: .appInstaller, name: "Example.dmg", size: 40,
+            date: nil, installedApp: nil, isReadOnly: false, notes: []
+        )
+
+        #expect(group.movable(canUseHelper: false) == SizeTotal(known: 10, isComplete: true))
+        #expect(group.movable(canUseHelper: true) == SizeTotal(known: 15, isComplete: true))
+        #expect(receipt.movable(canUseHelper: false) == SizeTotal(known: 20, isComplete: true))
+        #expect(receipt.movable(canUseHelper: true) == SizeTotal(known: 520, isComplete: true))
+        #expect([installer, download].movable(canUseHelper: false) == SizeTotal(known: 40, isComplete: true))
+        #expect([installer, download].movable(canUseHelper: true) == SizeTotal(known: 340, isComplete: true))
     }
 
     @Test func anOrphanGroupKnowsWhyNothingInItCanMove() {
@@ -51,8 +85,8 @@ struct MovableTotalTests {
             identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"), items: [tool, app]
         )
 
-        #expect(receipt.movable == SizeTotal(known: 20, isComplete: true))
+        #expect(receipt.movable(canUseHelper: true) == SizeTotal(known: 20, isComplete: true))
         receipt.isFileListKnown = false
-        #expect(receipt.movable == SizeTotal(known: 0, isComplete: false))
+        #expect(receipt.movable(canUseHelper: true) == SizeTotal(known: 0, isComplete: false))
     }
 }

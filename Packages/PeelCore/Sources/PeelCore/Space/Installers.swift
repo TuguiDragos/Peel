@@ -73,8 +73,10 @@ extension InstallerItem {
 }
 
 extension Collection where Element == InstallerItem {
-    public var movable: SizeTotal {
-        SizeTotal(filter(\.canBeMoved).map(\.size))
+    /// What moving the items could free now, as an orphan group counts it.
+    public func movable(canUseHelper: Bool) -> SizeTotal {
+        let selectable = Set(selectableRows(canUseHelper: canUseHelper).selectable)
+        return SizeTotal(filter { selectable.contains($0.url) }.map(\.size))
     }
 
     public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {

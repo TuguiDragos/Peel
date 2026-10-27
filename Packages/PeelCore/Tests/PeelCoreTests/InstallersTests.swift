@@ -406,7 +406,7 @@ struct InstallersTests {
             item("iPhone", kind: .deviceBackup, isReadOnly: true), item("Old.iso", heldBack: .mayBeTheOnlyCopy),
         ]
 
-        #expect(items.movable == SizeTotal(known: 2_000, isComplete: true))
+        #expect(items.movable(canUseHelper: true) == SizeTotal(known: 2_000, isComplete: true))
         #expect(items.filter(\.canBeMoved).map(\.name) == ["Tool.dmg", "Old.iso"])
     }
 

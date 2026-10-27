@@ -42,9 +42,13 @@ extension AppLibrary {
 }
 
 extension OrphanLibrary {
-    /// The groups, sized by what Peel can move. What only an administrator can move is no group of Peel's to free.
+    /// The groups, sized by what Peel can move with its helper. What only an administrator can move is no group of
+    /// Peel's to free.
     var looked: Looked? {
-        scan.map { Looked(count: $0.groups.count, size: SizeTotal(combining: $0.groups.map(\.movable))) }
+        scan.map { scan in
+            let movable = scan.groups.map { $0.movable(canUseHelper: true) }
+            return Looked(count: scan.groups.count, size: SizeTotal(combining: movable))
+        }
     }
 }
 
@@ -84,7 +88,7 @@ extension ProjectLibrary {
 extension InstallerLibrary {
     /// The items, sized by what Peel can move: a device backup is the app's that made it, and stays off the size.
     var looked: Looked? {
-        scan.map { Looked(count: $0.items.count, size: $0.items.movable) }
+        scan.map { Looked(count: $0.items.count, size: $0.items.movable(canUseHelper: true)) }
     }
 }
 

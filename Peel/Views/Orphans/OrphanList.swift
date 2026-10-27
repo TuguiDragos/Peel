@@ -21,7 +21,7 @@ struct OrphanList: View {
                     .tag(OrphanPage.forAnAdministrator)
             }
             ForEach(filtered) { group in
-                OrphanGroupRow(group: group)
+                OrphanGroupRow(group: group, canUseHelper: helper.canAct)
                     .tag(OrphanPage.group(group.id))
             }
         }
@@ -224,6 +224,7 @@ private struct AdministratorRow: View {
 
 private struct OrphanGroupRow: View {
     let group: OrphanGroup
+    let canUseHelper: Bool
 
     var body: some View {
         HStack(spacing: 6) {
@@ -253,7 +254,7 @@ private struct OrphanGroupRow: View {
                 .foregroundStyle(.secondary)
             }
             Spacer(minLength: 6)
-            Text(group.movable.text)
+            Text(group.movable(canUseHelper: canUseHelper).text)
                 .rowFigure()
         }
         .padding(.vertical, 2)
