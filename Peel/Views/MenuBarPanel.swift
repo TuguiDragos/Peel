@@ -48,7 +48,7 @@ struct MenuBarPanel: View {
             hero
             Text("Since \(stats.installedOn, format: .dateTime.day().month(.wide).year())")
                 .font(.callout.weight(.semibold))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
                 .padding(.top, 30)
                 .padding(.bottom, 18)
             Divider()

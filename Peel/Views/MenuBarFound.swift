@@ -117,7 +117,7 @@ struct MenuBarFound: View {
                 .font(.system(size: 13, weight: .semibold, design: .rounded))
             Text(line.date, format: .relative(presentation: .named))
                 .font(.system(size: 10.5, weight: .medium, design: .rounded))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
         }
     }
 
