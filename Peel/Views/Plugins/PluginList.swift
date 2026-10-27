@@ -10,6 +10,7 @@ struct PluginList: View {
         @Bindable var plugins = plugins
         let filtered = filteredPlugins
         let byCategory = Dictionary(grouping: filtered, by: \.category)
+        let forAllUsers = Plugin.sayingForAllUsers(plugins.plugins ?? [])
 
         List(selection: $plugins.selection) {
             if plugins.plugins?.isEmpty == false {
@@ -30,8 +31,12 @@ struct PluginList: View {
                                 VStack(alignment: .leading, spacing: 1) {
                                     Text(verbatim: plugin.name)
                                         .lineLimit(1)
-                                    if let version = plugin.version {
-                                        Text(verbatim: version)
+                                    let details = [
+                                        plugin.version,
+                                        forAllUsers.contains(plugin.id) ? String(localized: "All users") : nil,
+                                    ].compactMap(\.self)
+                                    if !details.isEmpty {
+                                        Text(verbatim: details.joined(separator: " · "))
                                             .font(.caption)
                                             .foregroundStyle(.secondary)
                                     }
@@ -116,10 +121,23 @@ struct PluginList: View {
     private var filteredPlugins: [Plugin] {
         let all = plugins.plugins ?? []
         guard !searchText.isEmpty else { return all }
-        return all.filter {
-            SearchText.matches($0.name, searchText)
-                || $0.bundleIdentifier.map { identifier in SearchText.matches(identifier, searchText) } == true
+        return all.filter { $0.matches(searchText) }
+    }
+}
+
+extension Plugin {
+    /// Whether a search for `text` finds it: by its name, by its file's name, which Finder shows, or by its identifier.
+    func matches(_ text: String) -> Bool {
+        [name, url.deletingPathExtension().lastPathComponent, bundleIdentifier].contains {
+            $0.map { SearchText.matches($0, text) } == true
         }
+    }
+
+    /// The copies for all users of the plug-ins installed in both Libraries, whose rows would otherwise read alike.
+    static func sayingForAllUsers(_ plugins: [Plugin]) -> Set<Plugin.ID> {
+        let sameName = Dictionary(grouping: plugins) { "\($0.category.rawValue)/\($0.name)" }.values
+        return Set(sameName.filter { copies in copies.contains { !$0.isInstalledForAllUsers } }
+            .flatMap { copies in copies.filter(\.isInstalledForAllUsers).map(\.id) })
     }
 }
 

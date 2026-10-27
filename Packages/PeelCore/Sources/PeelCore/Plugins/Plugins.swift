@@ -181,15 +181,20 @@ public enum Plugins {
         return found
     }
 
-    /// The name a plug-in shows: the one its bundle declares, or its file's without the extension that says its kind.
-    /// A workflow shows the name it has in the Services menu (`NSServices`, `NSMenuItem`), as the person knows it.
+    /// The name a plug-in shows: the one its bundle declares, in the Mac's language when the bundle has it, or its
+    /// file's without the extension that says its kind. A workflow shows the name it has in the Services menu
+    /// (`NSServices`, `NSMenuItem`), as the person knows it.
     static func name(of url: URL, info: [String: Any]?) -> String {
         if url.pathExtension.caseInsensitiveCompare("workflow") == .orderedSame,
            let item = (info?["NSServices"] as? [[String: Any]])?.first?["NSMenuItem"] as? [String: Any],
            let menuName = item["default"] as? String, !menuName.isEmpty {
             return menuName
         }
-        return (info?["CFBundleName"] as? String) ?? url.deletingPathExtension().lastPathComponent
+        // `Bundle` reads a bundle without registering it with Launch Services, unlike asking for its display name.
+        let localized = Bundle(url: url)?.localizedInfoDictionary
+        let declared = [localized?["CFBundleDisplayName"], localized?["CFBundleName"], info?["CFBundleName"]]
+            .lazy.compactMap { ($0 as? String)?.trimmingCharacters(in: .whitespacesAndNewlines) }.first { !$0.isEmpty }
+        return declared ?? url.deletingPathExtension().lastPathComponent
     }
 
     /// The file extensions each kind of plug-in uses.

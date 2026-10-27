@@ -74,6 +74,27 @@ struct PluginsTests {
         #expect(Plugins.name(of: workflow, info: ["NSServices": [["NSMenuItem": ["default": ""]]]]) == "Example - ask")
     }
 
+    @Test func namesAPlugInAsItsLanguageDoesOrByItsFile() throws {
+        let directory = try TemporaryDirectory()
+        func bundle(_ name: String, info: [String: Any], strings: String? = nil) throws -> URL {
+            try directory.file(
+                "\(name)/Contents/Info.plist",
+                contents: PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            )
+            if let strings {
+                try directory.file("\(name)/Contents/Resources/en.lproj/InfoPlist.strings", contents: Data(strings.utf8))
+            }
+            return directory.url.appending(path: name, directoryHint: .isDirectory)
+        }
+        let unnamed = try bundle("Vendor Product.component", info: ["CFBundleName": " "])
+        let localized = try bundle(
+            "Input.app", info: ["CFBundleName": "Input"], strings: "\"CFBundleName\" = \"Kana Input\";\n"
+        )
+
+        #expect(Plugins.name(of: unnamed, info: ["CFBundleName": " "]) == "Vendor Product")
+        #expect(Plugins.name(of: localized, info: ["CFBundleName": "Input"]) == "Kana Input")
+    }
+
     @Test func findsPluginBundlesInUserAndSystemLibraries() async throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(
