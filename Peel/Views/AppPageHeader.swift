@@ -8,11 +8,15 @@ struct AppPageHeader: View {
     @Environment(AppLibrary.self) private var library
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(\.notifications) private var notifications
+    @Environment(HelperModel.self) private var helper
+    @Environment(RemovalHistoryStore.self) private var history
     let plan: RemovalPlan
     let privacyReset: PrivacyReset.Result?
     @Binding var isShowingReset: Bool
     @Binding var isConfirmingPrivacyReset: Bool
     @Binding var upgradeOutput: HomebrewLibrary.CommandResult?
+    @Binding var receiptToForget: PackageReceipt?
+    let isForgettingReceipt: Bool
     /// True while the page removes the app or waits for it to quit first, when nothing else is started from here.
     let isRemoving: Bool
     @State private var quitting = QuitBeforeRemoving()
@@ -125,6 +129,7 @@ struct AppPageHeader: View {
                 Button("Reset Privacy Permissions\u{2026}") { isConfirmingPrivacyReset = true }
                     .disabled(!plan.mayResetPrivacy)
             }
+            forgetReceiptItems
         } label: {
             Label("More", systemImage: "ellipsis")
         }
@@ -134,6 +139,28 @@ struct AppPageHeader: View {
         .fixedSize()
         .help(Text("More options for \(plan.app.name)"))
         .accessibilityLabel(Text("More options for \(plan.app.name)"))
+    }
+
+    /// Forgetting a receipt changes what macOS and installers know of the package, which is no common step for an app
+    /// the person keeps, so it waits in this menu rather than beside each receipt.
+    @ViewBuilder
+    private var forgetReceiptItems: some View {
+        let receipts = plan.packageReceipts
+        // The page promises that an excluded app's files are left alone, its receipt included.
+        let mayForget = !isForgettingReceipt && helper.canAct && !plan.isExcluded && history.mayMove
+        if let only = receipts.first, receipts.count == 1 {
+            Divider()
+            Button("Forget Receipt\u{2026}") { receiptToForget = only }
+                .disabled(!mayForget)
+        } else if !receipts.isEmpty {
+            Divider()
+            Menu("Forget Receipt") {
+                ForEach(receipts) { receipt in
+                    Button(receipt.identifier) { receiptToForget = receipt }
+                }
+            }
+            .disabled(!mayForget)
+        }
     }
 
     private func updateExplanation(for source: UpdateSource) -> LocalizedStringResource {

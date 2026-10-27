@@ -46,16 +46,15 @@ struct SystemExtensionNotice: View {
 
 /// What an installer put outside the app, according to the receipt macOS kept.
 struct PackageReceiptSection: View {
-    @Environment(HelperModel.self) private var helper
-    @Environment(RemovalHistoryStore.self) private var history
     /// How many files are listed per receipt. The rest are counted, and the Package Receipts page lists them all.
     private static let mostListed = 12
 
     let plan: RemovalPlan
     /// Scans the page again, which reads the receipts again: a receipt forgotten here also leaves its lists.
     let rescan: () async -> Void
-    @State private var receiptToForget: PackageReceipt?
-    @State private var isForgetting = false
+    /// Chosen from the page's More menu.
+    @Binding var receiptToForget: PackageReceipt?
+    @Binding var isForgetting: Bool
 
     var body: some View {
         Group {
@@ -67,7 +66,7 @@ struct PackageReceiptSection: View {
                 } header: {
                     heading(
                         "Installed by a Package",
-                        "macOS keeps a receipt of the files a package installed. The ones outside the app are listed here only to show them: other software may rely on them. If Peel also found one of them for this app, it appears in the lists above as well, and may be selected there. Forgetting a receipt moves it to the Trash: macOS stops counting the package as installed, and the files stay where they are."
+                        "macOS keeps a receipt of the files a package installed. The ones outside the app are listed here only to show them: other software may rely on them. If Peel also found one of them for this app, it appears in the lists above as well, and may be selected there. Forgetting a receipt, from the page’s More menu, moves it to the Trash: macOS stops counting the package as installed, and the files stay where they are."
                     )
                 }
             }
@@ -75,34 +74,14 @@ struct PackageReceiptSection: View {
         .forgetReceiptDialog(for: $receiptToForget, forget: forget)
     }
 
-    private var forgetHelp: Text {
-        if plan.isExcluded { return Text(.excludedApp) }
-        return helper.canAct
-            ? Text("The receipt goes to the Trash. Files stay where they are.")
-            : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
-    }
-
     @ViewBuilder
     private func rows(for receipt: PackageReceipt) -> some View {
         let files = plan.filesOutside[receipt.id] ?? []
         VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
-                Text(verbatim: receipt.identifier)
-                    .font(.callout.monospaced())
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                Spacer(minLength: 8)
-                Button {
-                    receiptToForget = receipt
-                } label: {
-                    Label("Forget Receipt", systemImage: "doc.badge.ellipsis")
-                        .minimumTarget()
-                }
-                .buttonStyle(.borderless)
-                // The page promises that an excluded app's files are left alone, its receipt included.
-                .disabled(isForgetting || !helper.canAct || plan.isExcluded || !history.mayMove)
-                .help(forgetHelp)
-            }
+            Text(verbatim: receipt.identifier)
+                .font(.callout.monospaced())
+                .lineLimit(1)
+                .truncationMode(.middle)
             if files.isEmpty {
                 Text("Outside the app, Peel found nothing that belongs to this package alone.")
                     .font(.caption)

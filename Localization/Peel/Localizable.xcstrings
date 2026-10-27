@@ -45860,6 +45860,113 @@
         }
       }
     },
+    "Forget Receipt…" : {
+      "comment" : "An item of the More menu at the top of an app's page, for an app a package installed. It asks before it moves the package's receipt to the Trash.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomenout záznam…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quittung vergessen …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olvidar recibo…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oublier le reçu…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dimentica ricevuta…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レシートをゴミ箱に入れる…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수신 정보 제거…"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergeet installatiebewijs…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomnij potwierdzenie…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esquecer Recibo…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitați recipisa…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забыть квитанцию…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glöm kvitto…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Makbuzu Unut…"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забути квитанцію…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除回执…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除收據⋯"
+          }
+        }
+      }
+    },
     "Forget ^[%lld cask](inflect: true)?" : {
       "localizations" : {
         "cs" : {
@@ -231954,108 +232061,109 @@
         }
       }
     },
-    "macOS keeps a receipt of the files a package installed. The ones outside the app are listed here only to show them: other software may rely on them. If Peel also found one of them for this app, it appears in the lists above as well, and may be selected there. Forgetting a receipt moves it to the Trash: macOS stops counting the package as installed, and the files stay where they are." : {
+    "macOS keeps a receipt of the files a package installed. The ones outside the app are listed here only to show them: other software may rely on them. If Peel also found one of them for this app, it appears in the lists above as well, and may be selected there. Forgetting a receipt, from the page’s More menu, moves it to the Trash: macOS stops counting the package as installed, and the files stay where they are." : {
+      "comment" : "The note behind the circled i of the Installed by a Package section on an app's page. More is the menu at the top of the page.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS uchovává záznam o souborech, které balíček nainstaloval. Ty mimo aplikaci jsou tu uvedeny jen pro přehled: může na nich záviset jiný software. Pokud Peel některý z nich našel i pro tuto aplikaci, objeví se také v seznamech výše a tam může být vybraný. Když záznam o instalaci zapomenete, přesune se do koše: macOS přestane balíček považovat za nainstalovaný a soubory zůstanou, kde jsou."
+            "value" : "Systém macOS uchovává záznam o souborech, které balíček nainstaloval. Ty mimo aplikaci jsou tu uvedeny jen pro přehled: může na nich záviset jiný software. Pokud Peel některý z nich našel i pro tuto aplikaci, objeví se také v seznamech výše a tam může být vybraný. Když záznam o instalaci zapomenete pomocí nabídky Více na této stránce, přesune se do koše: macOS přestane balíček považovat za nainstalovaný a soubory zůstanou, kde jsou."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewahrt eine Quittung über die Dateien auf, die ein Paket installiert hat. Die Dateien außerhalb der App werden hier nur zur Information aufgeführt: Andere Software ist möglicherweise auf sie angewiesen. Hat Peel eine davon auch für diese App gefunden, erscheint sie zusätzlich in den Listen oben und kann dort ausgewählt sein. Das Vergessen einer Quittung legt sie in den Papierkorb: macOS betrachtet das Paket dann nicht mehr als installiert, und die Dateien bleiben, wo sie sind."
+            "value" : "macOS bewahrt eine Quittung über die Dateien auf, die ein Paket installiert hat. Die Dateien außerhalb der App werden hier nur zur Information aufgeführt: Andere Software ist möglicherweise auf sie angewiesen. Hat Peel eine davon auch für diese App gefunden, erscheint sie zusätzlich in den Listen oben und kann dort ausgewählt sein. Das Vergessen einer Quittung über das Menü „Mehr“ der Seite legt sie in den Papierkorb: macOS betrachtet das Paket dann nicht mehr als installiert, und die Dateien bleiben, wo sie sind."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS guarda un recibo de los archivos que instaló un paquete. Los que están fuera de la app aparecen aquí solo para mostrarlos: puede que otro software dependa de ellos. Si Peel también ha encontrado alguno de ellos para esta app, aparece además en las listas de arriba, y puede estar seleccionado allí. Olvidar un recibo lo traslada a la papelera: macOS deja de contar el paquete como instalado y los archivos se quedan donde están."
+            "value" : "macOS guarda un recibo de los archivos que instaló un paquete. Los que están fuera de la app aparecen aquí solo para mostrarlos: puede que otro software dependa de ellos. Si Peel también ha encontrado alguno de ellos para esta app, aparece además en las listas de arriba, y puede estar seleccionado allí. Olvidar un recibo, desde el menú Más de la página, lo traslada a la papelera: macOS deja de contar el paquete como instalado y los archivos se quedan donde están."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS conserve un reçu des fichiers qu’un paquet a installés. Ceux qui se trouvent hors de l’app sont listés ici à titre indicatif seulement : d’autres logiciels peuvent en dépendre. Si Peel en a aussi trouvé un pour cette app, il apparaît également dans les listes ci-dessus, et peut y être sélectionné. Oublier un reçu le place dans la corbeille : macOS cesse de considérer le paquet comme installé, et les fichiers restent en place."
+            "value" : "macOS conserve un reçu des fichiers qu’un paquet a installés. Ceux qui se trouvent hors de l’app sont listés ici à titre indicatif seulement : d’autres logiciels peuvent en dépendre. Si Peel en a aussi trouvé un pour cette app, il apparaît également dans les listes ci-dessus, et peut y être sélectionné. Oublier un reçu, depuis le menu Plus de la page, le place dans la corbeille : macOS cesse de considérer le paquet comme installé, et les fichiers restent en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS conserva una ricevuta dei file installati da un pacchetto. Quelli al di fuori dell’app sono elencati qui solo per mostrarli: altro software potrebbe dipendere da loro. Se Peel ne ha trovato uno anche per questa app, compare anche negli elenchi qui sopra e lì potrebbe essere selezionato. Dimenticare una ricevuta la sposta nel Cestino: macOS smette di considerare installato il pacchetto e i file restano dove sono."
+            "value" : "macOS conserva una ricevuta dei file installati da un pacchetto. Quelli al di fuori dell’app sono elencati qui solo per mostrarli: altro software potrebbe dipendere da loro. Se Peel ne ha trovato uno anche per questa app, compare anche negli elenchi qui sopra e lì potrebbe essere selezionato. Dimenticare una ricevuta, dal menu Altro della pagina, la sposta nel Cestino: macOS smette di considerare installato il pacchetto e i file restano dove sono."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、パッケージがインストールしたファイルのレシートを保持しています。アプリの外にあるファイルは、確認のためにここに表示しているだけです。ほかのソフトウェアがそれらを使用している可能性があります。Peelがこのアプリについてもそのいずれかを見つけた場合は、上のリストにも表示され、そこで選択されていることがあります。レシートをゴミ箱に入れると、macOSはそのパッケージをインストール済みと見なさなくなりますが、ファイルはそのまま残ります。"
+            "value" : "macOSは、パッケージがインストールしたファイルのレシートを保持しています。アプリの外にあるファイルは、確認のためにここに表示しているだけです。ほかのソフトウェアがそれらを使用している可能性があります。Peelがこのアプリについてもそのいずれかを見つけた場合は、上のリストにも表示され、そこで選択されていることがあります。ページの“その他”メニューからレシートをゴミ箱に入れると、macOSはそのパッケージをインストール済みと見なさなくなりますが、ファイルはそのまま残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 패키지가 설치한 파일의 수신 정보를 보관합니다. 앱 밖에 있는 파일은 보여 주기 위해서만 여기에 나열되며, 다른 소프트웨어가 이 파일에 의존할 수 있습니다. Peel이 이 중 일부를 이 앱의 항목으로도 찾았다면 위 목록에도 표시되며, 그곳에서 선택되어 있을 수 있습니다. 수신 정보를 제거하면 휴지통으로 이동합니다. 그러면 macOS는 더 이상 이 패키지를 설치된 것으로 간주하지 않으며, 파일은 그대로 남습니다."
+            "value" : "macOS는 패키지가 설치한 파일의 수신 정보를 보관합니다. 앱 밖에 있는 파일은 보여 주기 위해서만 여기에 나열되며, 다른 소프트웨어가 이 파일에 의존할 수 있습니다. Peel이 이 중 일부를 이 앱의 항목으로도 찾았다면 위 목록에도 표시되며, 그곳에서 선택되어 있을 수 있습니다. 페이지의 더 보기 메뉴에서 수신 정보를 제거하면 휴지통으로 이동합니다. 그러면 macOS는 더 이상 이 패키지를 설치된 것으로 간주하지 않으며, 파일은 그대로 남습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewaart een installatiebewijs van de bestanden die een pakket heeft geïnstalleerd. De bestanden buiten de app staan hier alleen ter informatie: andere software kan ervan afhankelijk zijn. Als Peel er ook een voor deze app heeft gevonden, staat dat ook in de lijsten hierboven en kan het daar geselecteerd zijn. Als je een installatiebewijs vergeet, wordt het naar de prullenmand verplaatst: macOS beschouwt het pakket dan niet meer als geïnstalleerd, en de bestanden blijven waar ze zijn."
+            "value" : "macOS bewaart een installatiebewijs van de bestanden die een pakket heeft geïnstalleerd. De bestanden buiten de app staan hier alleen ter informatie: andere software kan ervan afhankelijk zijn. Als Peel er ook een voor deze app heeft gevonden, staat dat ook in de lijsten hierboven en kan het daar geselecteerd zijn. Als je via het menu 'Meer' van de pagina een installatiebewijs vergeet, wordt het naar de prullenmand verplaatst: macOS beschouwt het pakket dan niet meer als geïnstalleerd, en de bestanden blijven waar ze zijn."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS przechowuje potwierdzenie instalacji z listą plików zainstalowanych przez pakiet. Pliki spoza aplikacji są tu wyświetlane tylko poglądowo: może z nich korzystać inne oprogramowanie. Jeśli Peel znalazł któryś z nich także dla tej aplikacji, pojawia się on również na listach powyżej i może być tam zaznaczony. Zapomnienie potwierdzenia przenosi je do Kosza: macOS przestaje uznawać pakiet za zainstalowany, a pliki zostają na swoim miejscu."
+            "value" : "macOS przechowuje potwierdzenie instalacji z listą plików zainstalowanych przez pakiet. Pliki spoza aplikacji są tu wyświetlane tylko poglądowo: może z nich korzystać inne oprogramowanie. Jeśli Peel znalazł któryś z nich także dla tej aplikacji, pojawia się on również na listach powyżej i może być tam zaznaczony. Zapomnienie potwierdzenia, dostępne w menu Więcej tej strony, przenosi je do Kosza: macOS przestaje uznawać pakiet za zainstalowany, a pliki zostają na swoim miejscu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS guarda um recibo dos arquivos que um pacote instalou. Os que estão fora do app aparecem aqui só para você vê-los: outros programas podem depender deles. Se o Peel encontrou algum deles para este app, ele aparece também nas listas acima e pode estar selecionado lá. Esquecer um recibo o move para o Lixo: o macOS deixa de considerar o pacote como instalado, e os arquivos ficam onde estão."
+            "value" : "O macOS guarda um recibo dos arquivos que um pacote instalou. Os que estão fora do app aparecem aqui só para você vê-los: outros programas podem depender deles. Se o Peel encontrou algum deles para este app, ele aparece também nas listas acima e pode estar selecionado lá. Esquecer um recibo, pelo menu Mais da página, o move para o Lixo: o macOS deixa de considerar o pacote como instalado, e os arquivos ficam onde estão."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS păstrează o recipisă a fișierelor instalate de un pachet. Cele din afara aplicației sunt listate aici doar pentru a fi arătate: alt software se poate baza pe ele. Dacă Peel a găsit și el unul dintre ele pentru această aplicație, acesta apare și în listele de mai sus și poate fi selectat acolo. Dacă uitați o recipisă, aceasta este mutată în Coș: macOS nu mai consideră pachetul instalat, iar fișierele rămân unde se află."
+            "value" : "macOS păstrează o recipisă a fișierelor instalate de un pachet. Cele din afara aplicației sunt listate aici doar pentru a fi arătate: alt software se poate baza pe ele. Dacă Peel a găsit și el unul dintre ele pentru această aplicație, acesta apare și în listele de mai sus și poate fi selectat acolo. Dacă uitați o recipisă, din meniul Mai multe al paginii, aceasta este mutată în Coș: macOS nu mai consideră pachetul instalat, iar fișierele rămân unde se află."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS хранит квитанцию со списком файлов, которые установил пакет. Файлы вне приложения показаны здесь только для сведения: на них может полагаться другое ПО. Если Peel также нашел какой-то из них для этого приложения, он есть и в списках выше и может быть там выбран. Если забыть квитанцию, она переместится в Корзину: macOS перестанет считать пакет установленным, а файлы останутся на месте."
+            "value" : "macOS хранит квитанцию со списком файлов, которые установил пакет. Файлы вне приложения показаны здесь только для сведения: на них может полагаться другое ПО. Если Peel также нашел какой-то из них для этого приложения, он есть и в списках выше и может быть там выбран. Если забыть квитанцию в меню «Еще» вверху страницы, она переместится в Корзину: macOS перестанет считать пакет установленным, а файлы останутся на месте."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS sparar ett kvitto över filerna som ett paket installerade. De som ligger utanför appen visas här bara för att du ska se dem: annan programvara kan vara beroende av dem. Om Peel även har hittat någon av dem för den här appen visas den också i listorna ovan, och kan vara markerad där. Om du glömmer ett kvitto flyttas det till papperskorgen: macOS slutar räkna paketet som installerat, och filerna stannar där de är."
+            "value" : "macOS sparar ett kvitto över filerna som ett paket installerade. De som ligger utanför appen visas här bara för att du ska se dem: annan programvara kan vara beroende av dem. Om Peel även har hittat någon av dem för den här appen visas den också i listorna ovan, och kan vara markerad där. Om du glömmer ett kvitto via menyn Mer på sidan flyttas det till papperskorgen: macOS slutar räkna paketet som installerat, och filerna stannar där de är."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS, bir paketin yüklediği dosyaların makbuzunu tutar. Uygulamanın dışındakiler burada yalnızca göstermek için listelenir: başka yazılımlar onlara ihtiyaç duyuyor olabilir. Peel bunlardan birini bu uygulama için de bulduysa, o dosya yukarıdaki listelerde de görünür ve orada seçili olabilir. Bir makbuzu unutmak onu Çöp Sepeti’ne taşır: macOS paketi yüklü saymayı bırakır ve dosyalar olduğu yerde kalır."
+            "value" : "macOS, bir paketin yüklediği dosyaların makbuzunu tutar. Uygulamanın dışındakiler burada yalnızca göstermek için listelenir: başka yazılımlar onlara ihtiyaç duyuyor olabilir. Peel bunlardan birini bu uygulama için de bulduysa, o dosya yukarıdaki listelerde de görünür ve orada seçili olabilir. Sayfanın Daha Fazla menüsünden bir makbuzu unutmak onu Çöp Sepeti’ne taşır: macOS paketi yüklü saymayı bırakır ve dosyalar olduğu yerde kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS зберігає квитанцію з переліком файлів, які інсталював пакет. Ті, що поза програмою, показано тут лише для відома: на них може покладатися інше ПЗ. Якщо Peel також знайшла якийсь із них для цієї програми, він є і в списках вище, і там його може бути вибрано. Якщо забути квитанцію, її буде переміщено в Смітник: macOS перестане вважати пакет інстальованим, а файли лишаться на місці."
+            "value" : "macOS зберігає квитанцію з переліком файлів, які інсталював пакет. Ті, що поза програмою, показано тут лише для відома: на них може покладатися інше ПЗ. Якщо Peel також знайшла якийсь із них для цієї програми, він є і в списках вище, і там його може бути вибрано. Якщо забути квитанцію через меню «Більше» на цій сторінці, її буде переміщено в Смітник: macOS перестане вважати пакет інстальованим, а файли лишаться на місці."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS会为软件包安装的文件保留回执。位于App之外的文件在这里列出仅供查看：其他软件可能依赖它们。如果Peel也为此App找到了其中某个文件，它还会出现在上方的列表中，并可能在那里被选择。移除回执会将其移到废纸篓：macOS不再将该软件包视为已安装，文件会留在原处。"
+            "value" : "macOS会为软件包安装的文件保留回执。位于App之外的文件在这里列出仅供查看：其他软件可能依赖它们。如果Peel也为此App找到了其中某个文件，它还会出现在上方的列表中，并可能在那里被选择。从此页面的“更多”菜单中移除回执，会将其移到废纸篓：macOS不再将该软件包视为已安装，文件会留在原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會保留套件所安裝檔案的收據。App以外的檔案列在這裡僅供查看：其他軟體可能依賴它們。如果Peel也為此App找到了其中某個檔案，它也會出現在上方的列表中，並可能在那裡被選取。移除收據會將它丟到「垃圾桶」：macOS不再將此套件視為已安裝，而檔案會保留在原處。"
+            "value" : "macOS會保留套件所安裝檔案的收據。App以外的檔案列在這裡僅供查看：其他軟體可能依賴它們。如果Peel也為此App找到了其中某個檔案，它也會出現在上方的列表中，並可能在那裡被選取。從頁面的「更多」選單移除收據，會將它丟到「垃圾桶」：macOS不再將此套件視為已安裝，而檔案會保留在原處。"
           }
         }
       }

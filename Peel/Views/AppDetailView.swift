@@ -18,6 +18,8 @@ struct AppDetailView: View {
     @State private var upgradeOutput: HomebrewLibrary.CommandResult?
     @Environment(\.openSettings) private var openSettings
     @State private var isShowingReset = false
+    @State private var receiptToForget: PackageReceipt?
+    @State private var isForgettingReceipt = false
     @State private var resetChangedFiles = false
 
     init(app: InstalledApp) {
@@ -106,6 +108,8 @@ struct AppDetailView: View {
                 isShowingReset: $isShowingReset,
                 isConfirmingPrivacyReset: $isConfirmingPrivacyReset,
                 upgradeOutput: $upgradeOutput,
+                receiptToForget: $receiptToForget,
+                isForgettingReceipt: isForgettingReceipt,
                 isRemoving: plan.isRemoving || quitting.isWaiting
             )
             .listRowSeparator(.hidden)
@@ -186,7 +190,10 @@ struct AppDetailView: View {
                     reviewSection
                     AppRemovalOptions(plan: plan)
                     defaultsSection
-                    PackageReceiptSection(plan: plan, rescan: rescan)
+                    PackageReceiptSection(
+                        plan: plan, rescan: rescan,
+                        receiptToForget: $receiptToForget, isForgetting: $isForgettingReceipt
+                    )
                 }
                 .dimmedWhileBusy(isAtWork)
                 .disabled(plan.isRemoving)
