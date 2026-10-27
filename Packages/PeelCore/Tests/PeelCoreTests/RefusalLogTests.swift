@@ -101,8 +101,6 @@ struct RefusalLogTests {
         #expect(!FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
     }
 
-    /// Past its cap the log drops the oldest removals whole, as History does: an entry cut in part would read as
-    /// all that was refused.
     @Test func neverWritesMoreThanItReadsBack() async throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "Peel/refusals.json")
@@ -121,6 +119,8 @@ struct RefusalLogTests {
         #expect(!batches.contains(removals[0]), "the oldest removal was kept past the limit")
     }
 
+    /// Past its cap the log drops the oldest removals whole, as History does: an entry cut in part would read as
+    /// all that was refused.
     @Test func dropsTheOldestRemovalsWhole() async throws {
         let directory = try TemporaryDirectory()
         let log = RefusalLog(url: directory.url.appending(path: "refusals.json"))

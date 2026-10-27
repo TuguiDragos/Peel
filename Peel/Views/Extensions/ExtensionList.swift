@@ -80,7 +80,6 @@ struct ExtensionList: View {
         .rescanOnExclusionChange("ExtensionList") { await extensions.refresh() }
     }
 
-    /// Why an empty list says nothing: the one kind macOS gave no answer about, or both.
     /// What VoiceOver hears when a scan ends: what it found, and that part of the list is missing when it is.
     private var announcement: AttributedString? {
         guard let found = extensions.summary else { return nil }
@@ -88,6 +87,7 @@ struct ExtensionList: View {
         return found + " " + AttributedString(localized: "Part of this list is missing.")
     }
 
+    /// Why an empty list says nothing: the one kind macOS gave no answer about, or both.
     private var unansweredDescription: Text {
         if extensions.unanswered.count == 1, let missing = extensions.unanswered.first {
             return Text(missing.unansweredNote)

@@ -4,8 +4,6 @@ import Synchronization
 import Testing
 
 struct InstallersTests {
-    /// The macOS installers and the firmware are scanned after the downloads, and those later steps must stop
-    /// as well.
     @Test func aSearchFindsAnItemByWhatItsRowShows() {
         func item(
             _ name: String, kind: InstallerItem.Kind, for app: String? = nil, notes: [InstallerItem.Note] = []
@@ -25,6 +23,8 @@ struct InstallersTests {
         #expect(!update.matches("slack") && !installer.matches("firefox"))
     }
 
+    /// The macOS installers and the firmware are scanned after the downloads, and those later steps must stop
+    /// as well.
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
         for index in 1...30 {

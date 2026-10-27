@@ -14,8 +14,6 @@ struct DuplicateFinderTests {
         #expect(DuplicateScan.canChange(copies[1], among: copies, selected: [copies[0], copies[1]]), "a selected copy can always go back")
     }
 
-    /// Verifying reads a mebibyte at a time, and each report is a transaction on the main actor. So reports are
-    /// let through at most once every 50 ms, and the last one is always let through.
     @Test func aReadThatNeverAnswersHoldsNeitherAStoppedScanNorItsThreads() async throws {
         let stuck = Stuck()
         let reading = Task {
@@ -84,6 +82,8 @@ struct DuplicateFinderTests {
         }
     }
 
+    /// Verifying reads a mebibyte at a time, and each report is a transaction on the main actor. So reports are
+    /// let through at most once every 50 ms, and the last one is always let through.
     @Test func reportsReadingAtARateTheScreenCanTake() {
         let reports = Mutex<[DuplicateScanProgress]>([])
         let reading = ReadProgress(bytesToRead: 1_000) { update in reports.withLock { $0.append(update) } }
@@ -336,9 +336,6 @@ struct DuplicateFinderTests {
         #expect(inside.groups.isEmpty, "a folder inside a repository was scanned")
     }
 
-    /// A folder that syncs to other devices is scanned, and each copy found in it is listed and held back: a copy
-    /// moved there would be removed from every device. Nothing in such a group is suggested, since the one copy that
-    /// could move is the only one that stays on this Mac.
     @Test func countsOnlyTheGroupsWithSomethingToMove() async throws {
         let directory = try TemporaryDirectory()
         let synced = randomData(count: 3_000)
@@ -355,6 +352,9 @@ struct DuplicateFinderTests {
         #expect(scan.groupsWithSomethingToMove == 1)
     }
 
+    /// A folder that syncs to other devices is scanned, and each copy found in it is listed and held back: a copy
+    /// moved there would be removed from every device. Nothing in such a group is suggested, since the one copy that
+    /// could move is the only one that stays on this Mac.
     @Test func listsACopyThatSyncsApartAndNeverSelectsIt() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
