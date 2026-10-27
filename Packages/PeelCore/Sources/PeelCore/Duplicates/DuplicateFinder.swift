@@ -432,7 +432,9 @@ public struct DuplicateFinder: Sendable {
                     reclaimableSize: ReclaimableSpace.of(candidate.url),
                     allocatedSize: ReclaimableSpace.allocated(candidate.url),
                     identity: candidate.identity,
-                    heldBack: candidate.heldBack
+                    heldBack: candidate.heldBack,
+                    syncsThroughACloud: candidate.heldBack == .inTheCloud
+                        && (candidate.url.isInTheCloud || Self.isInACloudFolder(Self.path(of: candidate.url)))
                 )
             }
         let group = DuplicateGroup(id: members[0].digest.hexadecimal, files: files)

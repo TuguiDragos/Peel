@@ -129,10 +129,10 @@ private struct DuplicateFileRow: View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
             if let heldBack = file.heldBack {
                 // No checkbox: the copy can never be selected, and a disabled one would dim the very words the
-                // person reads here, where the copy is. The cloud, or the tag, stands where the other rows' checkbox
-                // stands, 16 points wide and 5 before the item, so the copies of a group line up.
+                // person reads here, where the copy is. The mark of why it stays stands where the other rows'
+                // checkbox stands, 16 points wide and 5 before the item, so the copies of a group line up.
                 HStack(alignment: .firstTextBaseline, spacing: 5) {
-                    Image(systemName: heldBack == .inTheCloud ? "icloud" : "tag")
+                    Image(systemName: heldBack != .inTheCloud ? "tag" : file.syncSymbol)
                         .foregroundStyle(heldBack == .inTheCloud ? AnyShapeStyle(.blue) : AnyShapeStyle(.secondary))
                         .frame(width: 16, height: 16)
                         .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 3 }
@@ -225,5 +225,17 @@ struct DuplicateSelectedTotal: View {
     var body: some View {
         TotalLabel(bytes: bytes, caption: Text("to free"))
             .accessibilityLabel(Text("\(bytes.byteCount) can be freed"))
+    }
+}
+
+extension DuplicateFile {
+    var syncSymbol: String {
+        Self.syncSymbol(throughACloud: syncsThroughACloud)
+    }
+
+    /// The cloud for copies that sync through iCloud Drive or a cloud's File Provider, and arrows for those an app
+    /// keeps in step, such as Syncthing, which go through no cloud.
+    static func syncSymbol(throughACloud: Bool) -> String {
+        throughACloud ? "icloud" : "arrow.triangle.2.circlepath"
     }
 }

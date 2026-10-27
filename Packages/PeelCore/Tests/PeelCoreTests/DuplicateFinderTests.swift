@@ -357,6 +357,30 @@ struct DuplicateFinderTests {
         #expect(inside.groups.isEmpty, "a folder inside a repository was scanned")
     }
 
+    /// A copy in iCloud Drive or a cloud's File Provider folder syncs through that cloud, and one a sync app keeps in
+    /// step, such as Syncthing, through that app: the row's symbol says which.
+    @Test func tellsACloudFromASyncApp() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.directory("home/Synced/.stfolder")
+        try directory.file("home/Synced/a.bin", contents: contents)
+        try directory.file("home/Library/CloudStorage/Provider/a.bin", contents: contents)
+        try directory.file("home/Documents/a.bin", contents: contents)
+
+        let folders = ["home/Synced", "home/Library/CloudStorage/Provider", "home/Documents"]
+        let scan = try await scan(directory, folders: folders)
+
+        let group = try #require(scan.groups.first)
+        let copies = Dictionary(
+            uniqueKeysWithValues: group.files.map { ($0.url.deletingLastPathComponent().lastPathComponent, $0) }
+        )
+        #expect(copies["Synced"]?.heldBack == .inTheCloud)
+        #expect(copies["Synced"]?.syncsThroughACloud == false)
+        #expect(copies["Provider"]?.heldBack == .inTheCloud)
+        #expect(copies["Provider"]?.syncsThroughACloud == true)
+        #expect(copies["Documents"]?.syncsThroughACloud == false)
+    }
+
     @Test func countsOnlyTheGroupsWithSomethingToMove() async throws {
         let directory = try TemporaryDirectory()
         let synced = randomData(count: 3_000)

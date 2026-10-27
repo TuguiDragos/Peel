@@ -293,11 +293,12 @@ private struct DuplicateGroupRow: View {
             Spacer(minLength: 6)
             if group.everyCopySyncs {
                 // Nothing here frees space on this Mac: the figure is the copies' size, with the symbol that says
-                // they sync.
+                // they sync, the cloud only when every copy syncs through one.
                 Label {
                     Text(group.size.byteCount)
                 } icon: {
-                    Image(systemName: "icloud")
+                    let throughACloud = group.files.allSatisfy(\.syncsThroughACloud)
+                    Image(systemName: DuplicateFile.syncSymbol(throughACloud: throughACloud))
                 }
                 .rowFigure()
             } else {

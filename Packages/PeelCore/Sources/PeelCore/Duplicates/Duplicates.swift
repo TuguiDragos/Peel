@@ -42,6 +42,9 @@ public struct DuplicateFile: Sendable, Hashable, Identifiable {
     /// Why the copy is listed but never moved: it syncs to the person's other devices, where a move to the Trash
     /// would remove it too. Nil for a copy that may move.
     public var heldBack: HoldBack? = nil
+    /// True for a copy that syncs through iCloud Drive or a cloud's File Provider, rather than through an app that
+    /// keeps folders in step between devices, such as Syncthing.
+    public var syncsThroughACloud = false
 
     public var id: URL { url }
 

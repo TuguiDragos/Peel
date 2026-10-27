@@ -172047,11 +172047,12 @@
       }
     },
     "Stays" : {
+      "comment" : "The badge on a copy in Duplicates that Peel never moves: it stays where it is, because it syncs to the person's other devices or has Finder tags, a Finder comment, or a resource fork the other copies lack. Say that it stays, not that it syncs, and keep it apart from Keep, the badge of the copy Peel suggests keeping.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Synchronizuje se"
+            "value" : "Zůstává"
           }
         },
         "de" : {
@@ -172063,7 +172064,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se sincroniza"
+            "value" : "Se queda"
           }
         },
         "fr" : {
@@ -172081,7 +172082,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同期済み"
+            "value" : "移動しない"
           }
         },
         "ko" : {
@@ -172093,61 +172094,61 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gesynchroniseerd"
+            "value" : "Blijft staan"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Synchronizowane"
+            "value" : "Zawsze zostaje"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sincronizada"
+            "value" : "Permanece"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se sincronizează"
+            "value" : "Rămâne pe loc"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Синхронизируется"
+            "value" : "Остается"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Synkroniseras"
+            "value" : "Stannar kvar"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eşzamanlanıyor"
+            "value" : "Kalıyor"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Синхронізується"
+            "value" : "Лишається на місці"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已同步"
+            "value" : "保持原位"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已同步"
+            "value" : "留在原處"
           }
         }
       }
