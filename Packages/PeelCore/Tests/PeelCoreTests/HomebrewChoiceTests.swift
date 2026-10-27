@@ -36,7 +36,7 @@ struct HomebrewChoiceTests {
         #expect(choice.load() == nil)
     }
 
-    @Test func forgetsABrewThatCanNoLongerBeRun() throws {
+    @Test func runsNoOtherBrewWhileTheChosenOneCannotRun() throws {
         let directory = try TemporaryDirectory()
         let brew = try program("opt/brew/bin/brew", in: directory)
         let choice = HomebrewChoice(url: directory.url.appending(path: "homebrew.json"))
@@ -44,7 +44,9 @@ struct HomebrewChoiceTests {
 
         chmod(brew.path(percentEncoded: false), 0o644)
 
-        #expect(choice.load() == nil)
+        #expect(choice.load()?.path(percentEncoded: false) == brew.path(percentEncoded: false))
+        #expect(choice.unrunnable()?.refusal == .notAProgram)
+        #expect(Homebrew.executable(chosen: choice.load()) == nil)
     }
 
     @Test func runsTheChosenBrewAndFindsItsOwnPrograms() throws {

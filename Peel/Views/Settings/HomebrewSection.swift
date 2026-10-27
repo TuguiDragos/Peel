@@ -13,13 +13,22 @@ struct HomebrewSection: View {
     @State private var couldNotSave = false
 
     var body: some View {
+        let unrunnable = HomebrewChoice().unrunnable()
         Section {
             LabeledContent {
-                Text(Homebrew.executableURL?.abbreviatedPath ?? String(localized: "Not found"))
+                Text((unrunnable?.brew ?? Homebrew.executableURL)?.abbreviatedPath ?? String(localized: "Not found"))
                     .lineLimit(1)
                     .truncationMode(.middle)
             } label: {
                 Text(verbatim: "brew")
+            }
+            if let unrunnable {
+                VStack(alignment: .leading, spacing: 4) {
+                    StatusLabel(title: Text("Peel runs only the `brew` you chose, and that one can’t be run now."))
+                    unrunnable.refusal.explanation
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
             }
             if couldNotSave {
                 StatusLabel(title: Text("Peel couldn’t save which `brew` to run."))
@@ -47,7 +56,7 @@ struct HomebrewSection: View {
         .alert("Peel can’t run this file.", isPresented: isShowingRefusal) {
             Button("OK", role: .cancel) {}
         } message: {
-            refusalMessage
+            refusal?.explanation ?? Text(verbatim: "")
         }
         .alert("Run this brew for Homebrew?", isPresented: isConfirming, presenting: confirming) { brew in
             Button("Use It") { use(brew) }
@@ -65,19 +74,20 @@ struct HomebrewSection: View {
         Binding(get: { confirming != nil }, set: { if !$0 { confirming = nil } })
     }
 
-    private var refusalMessage: Text {
-        switch refusal {
-        case .notBrew: Text("Choose the file called `brew`, in the bin folder of your Homebrew.")
-        case .notAProgram: Text("It isn’t a program Peel can run.")
-        case .ownedByAnotherAccount: Text("It belongs to another account, which could change what it runs.")
-        case .writableByEveryone: Text("Anyone on this Mac can change it, so Peel won’t run it.")
-        case nil: Text(verbatim: "")
-        }
-    }
-
     private func use(_ brew: URL?) {
         couldNotSave = !HomebrewChoice().save(brew)
         choice = HomebrewChoice().load()
         Task { await homebrew.refresh() }
+    }
+}
+
+extension HomebrewChoice.Refusal {
+    var explanation: Text {
+        switch self {
+        case .notBrew: Text("Choose the file called `brew`, in the bin folder of your Homebrew.")
+        case .notAProgram: Text("It isn’t a program Peel can run.")
+        case .ownedByAnotherAccount: Text("It belongs to another account, which could change what it runs.")
+        case .writableByEveryone: Text("Anyone on this Mac can change it, so Peel won’t run it.")
+        }
     }
 }

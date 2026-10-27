@@ -51,7 +51,7 @@ struct InventoryCommand: AsyncParsableCommand {
     private static func brewfile() async throws -> String {
         let why: String
         if !(await Homebrew.hasLocalDefinitions()) {
-            why = noDefinitions(isInstalled: Homebrew.executableURL != nil)
+            why = noDefinitions(isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable())
         } else if let installation = await Homebrew.installation() {
             do {
                 return try await Homebrew.brewfile(from: installation)
@@ -75,9 +75,10 @@ struct InventoryCommand: AsyncParsableCommand {
                 why = error.output
             }
         } else {
-            why = noDefinitions(isInstalled: Homebrew.executableURL != nil)
+            why = noDefinitions(isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable())
         }
-        if let note = homebrewNote(isInstalled: Homebrew.executableURL != nil, why: why) {
+        let isChosen = HomebrewChoice().load() != nil
+        if let note = homebrewNote(isInstalled: Homebrew.executableURL != nil || isChosen, why: why) {
             Output.note(note)
         }
         return []
@@ -91,8 +92,11 @@ struct InventoryCommand: AsyncParsableCommand {
 
     /// Why Homebrew was not asked: without its local copy of the definitions it would download them. The copy is
     /// missing because Homebrew isn't installed, or because it never fetched one.
-    static func noDefinitions(isInstalled: Bool) -> String {
-        isInstalled ? "Homebrew has no list of packages on this Mac. Run `brew update` first." : "Homebrew isn't installed."
+    static func noDefinitions(isInstalled: Bool, unrunnable: HomebrewChoice.Unrunnable? = nil) -> String {
+        if let unrunnable {
+            return "Peel runs only the brew chosen in its Settings, \(unrunnable.brew.path(percentEncoded: false)), and that one can't be run."
+        }
+        return isInstalled ? "Homebrew has no list of packages on this Mac. Run `brew update` first." : "Homebrew isn't installed."
     }
 }
 

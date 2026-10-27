@@ -7,7 +7,17 @@ struct ToolsTab: View {
     var body: some View {
         Form {
             if let state = tools.state {
-                if state.prefix == nil {
+                if let unrunnable = state.unrunnable {
+                    Section {
+                        VStack(alignment: .leading, spacing: 4) {
+                            StatusLabel(title: Text("Peel runs only the `brew` you chose, and that one can’t be run now."))
+                            unrunnable.refusal.explanation
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                } else if state.prefix == nil {
                     Section {
                         VStack(alignment: .leading, spacing: 4) {
                             HStack(spacing: 5) {

@@ -115310,6 +115310,113 @@
       "comment" : "The app's name, never translated.",
       "shouldTranslate" : false
     },
+    "Peel Can’t Run the `brew` You Chose" : {
+      "comment" : "The title of the Homebrew page when the brew program the person chose in Settings > General can no longer be run (moved, not a program, or not theirs). Keep `brew` as it is: it is Homebrew's command.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže spustit `brew`, který jste zvolili"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann das von dir gewählte `brew` nicht ausführen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede ejecutar el `brew` que has seleccionado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas exécuter le `brew` que vous avez choisi"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non può eseguire il `brew` che hai scelto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは選択した`brew`を実行できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 선택한 `brew`를 Peel이 실행할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan de gekozen `brew` niet uitvoeren"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może uruchomić wybranego przez Ciebie `brew`"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel Não Pode Executar o `brew` que Você Escolheu"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate rula programul `brew` pe care l‑ați ales"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может запустить выбранный Вами `brew`"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte köra den `brew` som du valde"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel Seçtiğiniz `brew` Programını Çalıştıramıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може запустити вибраний вами `brew`"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法运行你选取的`brew`"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法執行你選擇的`brew`"
+          }
+        }
+      }
+    },
     "Peel Inventory.%@" : {
       "comment" : "A suggested file name. Translate the words before the dot. %@ is the file extension, such as json.",
       "localizations" : {
@@ -129467,6 +129574,220 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel每次詢問Homebrew時都會執行「%@」，`peel`也是如此。只有在它屬於你的Homebrew時才選擇它。"
+          }
+        }
+      }
+    },
+    "Peel runs only the `brew` you chose in Settings, %@, and that one can’t be run now." : {
+      "comment" : "Under the title of the same name on the Homebrew page. %@ is the path of the brew program they chose, such as ~/brew/bin/brew. A second line under it says why it can't be run. Keep `brew` as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel spouští jen `brew`, který jste zvolili v Nastavení, %@, a ten teď nelze spustit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt nur das `brew` aus, das du in den Einstellungen gewählt hast (%@), und dieses lässt sich jetzt nicht ausführen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel solo ejecuta el `brew` que has seleccionado en Ajustes, %@, y ahora no se puede ejecutar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’exécute que le `brew` que vous avez choisi dans les Réglages, %@, et celui-ci ne peut pas être exécuté pour l’instant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel esegue solo il `brew` che hai scelto nelle Impostazioni, %@, e al momento non è possibile eseguirlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは“設定”で選択した`brew`（%@）だけを実行しますが、それは現在実行できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 사용자가 설정에서 선택한 `brew`인 %@만 실행하는데, 지금은 이를 실행할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert alleen de `brew` uit die je in Instellingen hebt gekozen, %@, en die kan nu niet worden uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uruchamia tylko `brew` wybrany przez Ciebie w Ustawieniach, %@, a tego nie można teraz uruchomić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel só executa o `brew` que você escolheu nos Ajustes, %@, e esse não pode ser executado agora."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rulează doar programul `brew` pe care l‑ați ales în Configurări, %@, iar acesta nu poate fi rulat acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускает только `brew`, выбранный Вами в Настройках (%@), но сейчас его нельзя запустить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör bara den `brew` som du valde i Inställningar, %@, och den kan inte köras just nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel yalnızca Ayarlar’da seçtiğiniz `brew` programını (%@) çalıştırır ve o program şu anda çalıştırılamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускає лише `brew`, вибраний вами в Параметрах (%@), а його зараз не вдається запустити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只运行你在“设置”中选取的`brew`（%@），而它现在无法运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只會執行你在「設定」中選擇的`brew`（%@），而目前無法執行它。"
+          }
+        }
+      }
+    },
+    "Peel runs only the `brew` you chose, and that one can’t be run now." : {
+      "comment" : "In Settings > General > Homebrew and on the Terminal page's Tools tab, when the brew program the person chose can no longer be run. A line under it says why. Keep `brew` as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel spouští jen `brew`, který jste zvolili, a ten teď nelze spustit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt nur das `brew` aus, das du gewählt hast, und dieses lässt sich jetzt nicht ausführen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel solo ejecuta el `brew` que has seleccionado, y ahora no se puede ejecutar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’exécute que le `brew` que vous avez choisi, et celui-ci ne peut pas être exécuté pour l’instant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel esegue solo il `brew` che hai scelto, e al momento non è possibile eseguirlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは選択した`brew`だけを実行しますが、それは現在実行できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 사용자가 선택한 `brew`만 실행하는데, 지금은 이를 실행할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert alleen de `brew` uit die je hebt gekozen, en die kan nu niet worden uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uruchamia tylko `brew` wybrany przez Ciebie, a tego nie można teraz uruchomić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel só executa o `brew` que você escolheu, e esse não pode ser executado agora."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rulează doar programul `brew` pe care l‑ați ales, iar acesta nu poate fi rulat acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускает только выбранный Вами `brew`, но сейчас его нельзя запустить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör bara den `brew` som du valde, och den kan inte köras just nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel yalnızca seçtiğiniz `brew` programını çalıştırır ve o program şu anda çalıştırılamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запускає лише вибраний вами `brew`, а його зараз не вдається запустити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只运行你选取的`brew`，而它现在无法运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只會執行你選擇的`brew`，而目前無法執行它。"
           }
         }
       }

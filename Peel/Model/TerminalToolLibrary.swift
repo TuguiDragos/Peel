@@ -7,6 +7,7 @@ final class TerminalToolLibrary {
     struct State: Equatable {
         var prefix: URL?
         var installed: Set<TerminalTool>
+        var unrunnable: HomebrewChoice.Unrunnable?
     }
 
     struct Catalog {
@@ -29,7 +30,7 @@ final class TerminalToolLibrary {
     func refresh() async {
         let prefix = Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
         let installed = prefix.map { prefix in TerminalTool.allCases.filter { $0.isInstalled(prefix: prefix) } } ?? []
-        state = State(prefix: prefix, installed: Set(installed))
+        state = State(prefix: prefix, installed: Set(installed), unrunnable: HomebrewChoice().unrunnable())
         guard prefix != nil else { return }
         if case .notAsked = asked {
             asked = .asking

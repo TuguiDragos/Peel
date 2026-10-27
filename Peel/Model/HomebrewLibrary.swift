@@ -61,6 +61,8 @@ final class HomebrewLibrary {
 
     /// Checked again on every refresh, so Homebrew installed while Peel is open is found without a relaunch.
     private(set) var isInstalled = Homebrew.executableURL != nil
+    /// The `brew` chosen in Settings when it can no longer be run, in which case Peel runs none.
+    private(set) var unrunnableChoice = HomebrewChoice().unrunnable()
     /// Homebrew's output when the last reading failed, which is not the same as nothing being installed.
     private(set) var couldNotRead: String?
     private(set) var packages: [HomebrewPackage]?
@@ -209,6 +211,13 @@ final class HomebrewLibrary {
     /// Reads again whether Homebrew is installed, which the sidebar's default for the Homebrew page follows.
     func checkInstalled() {
         isInstalled = Homebrew.executableURL != nil
+        unrunnableChoice = HomebrewChoice().unrunnable()
+    }
+
+    /// Whether the sidebar shows the Homebrew page by default: also while the `brew` chosen can't be run, so the page
+    /// can say so.
+    var isInstalledOrChosen: Bool {
+        isInstalled || unrunnableChoice != nil
     }
 
     /// Reads the packages again when Homebrew checked for new versions since they were read, as `brew update` in
@@ -225,6 +234,7 @@ final class HomebrewLibrary {
     /// `/Applications`.
     func refresh(includingReclaimable: Bool = false) async {
         isInstalled = Homebrew.executableURL != nil
+        unrunnableChoice = HomebrewChoice().unrunnable()
         guard isInstalled else {
             forgetHomebrew()
             return

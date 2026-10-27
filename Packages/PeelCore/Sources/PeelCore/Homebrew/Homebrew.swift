@@ -550,7 +550,8 @@ public enum Homebrew {
     }
 
     static func executable(chosen: URL?) -> URL? {
-        chosen ?? ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]
+        if let chosen { return HomebrewChoice.refusal(of: chosen) == nil ? chosen : nil }
+        return ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]
             .map { URL(filePath: $0) }
             .first { FileManager.default.isExecutableFile(atPath: $0.path(percentEncoded: false)) }
     }

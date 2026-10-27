@@ -14,6 +14,11 @@ public struct HomebrewChoice: Sendable {
         case writableByEveryone
     }
 
+    public struct Unrunnable: Sendable, Equatable {
+        public let brew: URL
+        public let refusal: Refusal
+    }
+
     public let url: URL
 
     public init(url: URL = HomebrewChoice.defaultURL) {
@@ -24,12 +29,17 @@ public struct HomebrewChoice: Sendable {
         PeelFolder.url.appending(path: "homebrew.json")
     }
 
-    /// The chosen `brew`, or nil when none was chosen or the one chosen can no longer be run.
+    /// The chosen `brew`, or nil when none was chosen. It stays chosen when it can no longer be run, so Peel runs
+    /// no other one in its place.
     public func load() -> URL? {
         guard let data = BoundedRead.data(at: url), let path = try? JSONDecoder().decode(String?.self, from: data)
         else { return nil }
-        let brew = URL(filePath: path)
-        return Self.refusal(of: brew) == nil ? brew : nil
+        return URL(filePath: path)
+    }
+
+    public func unrunnable() -> Unrunnable? {
+        guard let brew = load(), let refusal = Self.refusal(of: brew) else { return nil }
+        return Unrunnable(brew: brew, refusal: refusal)
     }
 
     /// Keeps `brew` as the one to run, or forgets the choice when it is nil. False when it could not be saved.

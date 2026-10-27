@@ -73,7 +73,8 @@ struct HomebrewList: View {
         .announcesScan(
             homebrew.isScanning,
             found: homebrew.summary,
-            couldNotLook: !homebrew.isInstalled ? "Homebrew Isn’t Installed"
+            couldNotLook: homebrew.unrunnableChoice != nil ? "Peel Can’t Run the `brew` You Chose"
+                : !homebrew.isInstalled ? "Homebrew Isn’t Installed"
                 : !homebrew.needsDefinitions ? nil
                 : homebrew.mayChange ? "Homebrew Has to Update First" : "Homebrew Belongs to Another Account",
             wasStopped: homebrew.scanRun.wasStopped
@@ -691,7 +692,18 @@ struct HomebrewList: View {
 
     @ViewBuilder
     private func placeholder(_ shown: [HomebrewPackage]) -> some View {
-        if !homebrew.isInstalled {
+        if let chosen = homebrew.unrunnableChoice {
+            ContentUnavailableView {
+                Label("Peel Can’t Run the `brew` You Chose", systemImage: "mug")
+            } description: {
+                VStack(spacing: 6) {
+                    Text("Peel runs only the `brew` you chose in Settings, \(chosen.brew.abbreviatedPath), and that one can’t be run now.")
+                    chosen.refusal.explanation
+                }
+            } actions: {
+                Button("Open Peel Settings") { SettingsPane.general.open(with: openSettings) }
+            }
+        } else if !homebrew.isInstalled {
             ContentUnavailableView {
                 Label("Homebrew Isn’t Installed", systemImage: "mug")
             } description: {

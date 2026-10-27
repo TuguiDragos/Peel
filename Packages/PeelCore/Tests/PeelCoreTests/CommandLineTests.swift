@@ -11,6 +11,8 @@ struct CommandLineTests {
     @Test func saysWhyHomebrewHasNoListInTheWayThatFits() {
         #expect(InventoryCommand.noDefinitions(isInstalled: false) == "Homebrew isn't installed.")
         #expect(InventoryCommand.noDefinitions(isInstalled: true) == "Homebrew has no list of packages on this Mac. Run `brew update` first.")
+        let chosen = HomebrewChoice.Unrunnable(brew: URL(filePath: "/opt/brew/bin/brew"), refusal: .notAProgram)
+        #expect(InventoryCommand.noDefinitions(isInstalled: false, unrunnable: chosen) == "Peel runs only the brew chosen in its Settings, /opt/brew/bin/brew, and that one can't be run.")
     }
 
     /// A list of apps says nothing of Homebrew on a Mac without it, and says why when Homebrew is there and did
