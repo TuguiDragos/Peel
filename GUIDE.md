@@ -436,9 +436,9 @@ afterward delete those lines and that folder.
 If you installed Peel with Homebrew, Settings shows this command in its place, with a button that copies it. Run it
 in Terminal: Homebrew takes Peel off its list of what is installed, deletes the app rather than moving it to the
 Trash, stops the helper, asking for an administrator's password, deletes the helper's record of what it moved, and
-moves Peel's other files to the Trash, its whole folder in Application Support included. The Terminal settings zsh and ssh read go with that folder, so the line in `~/.zshrc`
-and the two in `~/.ssh/config` then read nothing: turn those settings off in Peel first, or delete those lines
-afterward.
+moves Peel's other files to the Trash, its whole folder in Application Support included. The Terminal settings zsh and
+ssh read go with that folder, so the line in `~/.zshrc` and the two in `~/.ssh/config` then read nothing: turn those
+settings off in Peel first, or delete those lines afterward.
 
 ```bash
 brew uninstall --zap --cask peel

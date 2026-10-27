@@ -220,9 +220,9 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   never as text, since a slash and a combining mark after it are one Swift `Character`. The guard also refuses
   anything that syncs to other devices (`SyncedFolders`): what iCloud or a File Provider keeps, and what sits in a
   folder Syncthing, Resilio Sync, Synology Drive Client, MEGA, or Dropbox outside File Provider keeps in step, since
-  the Trash would take it from those devices too. It looks a level or two inside a folder for a library, a wallet, or work kept only in a cache,
-  and refuses a folder holding a folder macOS won't let Peel list, unless only the helper can move it, which looks
-  inside as root (`ProtectedData.Finding`).
+  the Trash would take it from those devices too. It looks a level or two inside a folder for a library, a wallet, or
+  work kept only in a cache, and refuses a folder holding a folder macOS won't let Peel list, unless only the helper can
+  move it, which looks inside as root (`ProtectedData.Finding`).
 - **Exclusions everywhere.** The user's exclusions reach every scanner, so an excluded item never appears, and
   a folder with something excluded inside is never moved, nor one Peel can't look into for an excluded app, since the
   helper knows nothing of the exclusions.
