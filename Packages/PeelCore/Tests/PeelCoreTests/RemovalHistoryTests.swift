@@ -458,6 +458,32 @@ struct RemovalHistoryTests {
         #expect(outcome.records?.count == records.count, "the batch lost its tail")
     }
 
+    /// One removal holds at most what History can keep and read back: `maximumRecords` items, fewer when their paths
+    /// are long. A record is never reckoned smaller than History writes it.
+    @Test func tellsHowManyItemsOneRemovalCanHold() throws {
+        let short = (0...RemovalLog.maximumRecords).map { URL(filePath: "/Users/me/Library/Caches/org.example.app\($0)") }
+        let deep = String(repeating: "書類フォルダ/", count: 50)
+        let long = (0..<RemovalLog.maximumRecords).map { URL(filePath: "/Users/me/\(deep)\($0)") }
+
+        #expect(RemovalLog.mostAtOnce(of: Array(short.prefix(10))) == 10)
+        #expect(RemovalLog.mostAtOnce(of: short) == RemovalLog.maximumRecords)
+        #expect(RemovalLog.mostAtOnce(of: long) < RemovalLog.maximumRecords)
+
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = LogTime.encoding
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        for url in [short[0], long[0]] {
+            let record = RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(
+                    originalURL: url, trashedURL: URL(filePath: "/Users/me/.Trash/\(url.lastPathComponent)"), date: .now
+                ),
+                size: .max, source: "Duplicates", sourceKey: "tool", tool: "duplicates", sharedStorage: true
+            )
+            #expect(RemovalLog.estimatedRecordSize(of: url) >= (try encoder.encode([record]).count))
+        }
+    }
+
     @Test func trimsWholeBatchesOnly() throws {
         let old = (0..<3).map { index -> [RemovalRecord] in
             let batch = UUID()

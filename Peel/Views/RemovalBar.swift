@@ -15,6 +15,8 @@ struct RemovalBar: View {
     @State private var rest: [CarriedSelection.Part] = []
     @State private var isAskingToQuit = false
     @State private var isShowingPages = false
+    /// A selection History couldn't keep in one removal, which is refused before Peel asks to move it.
+    @State private var tooMany: TooMany?
     /// The page's own words under the question, worked out when Move to Trash was pressed.
     @State private var pageMessage: Text?
     /// The apps last named in `waitingToQuit`, still named while the spinner stays up after the wait.
@@ -263,6 +265,15 @@ struct RemovalBar: View {
         } message: {
             questionMessage
         }
+        .alert(
+            Text("Peel can’t move ^[\(tooMany?.count ?? 0) item](inflect: true) at once"),
+            isPresented: Binding(get: { tooMany != nil }, set: { if !$0 { tooMany = nil } }),
+            presenting: tooMany
+        ) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { tooMany in
+            Text("History can keep at most ^[\(tooMany.most) item](inflect: true) in one removal, so it can put them back. Select fewer, and move the rest afterward.")
+        }
         .alert(quitTitle, isPresented: $isAskingToQuit) {
             Button("Deselect Them") {
                 for part in kept.parts { carrier.deselect(part) }
@@ -292,6 +303,10 @@ struct RemovalBar: View {
     /// Asks before moving anything, unless open apps keep some of the parts: then they wait until the apps quit or
     /// their parts are deselected, and the alert offers to move the rest meanwhile.
     private func ask(about parts: [CarriedSelection.Part]) {
+        if let tooMany = Self.tooMany(in: parts) {
+            self.tooMany = tooMany
+            return
+        }
         let keptNow = carrier.kept(among: parts)
         if !keptNow.isEmpty {
             var named: Set<String> = []
@@ -320,6 +335,18 @@ struct RemovalBar: View {
         } else {
             Text(verbatim: Self.lines(for: question).joined(separator: "\n"))
         }
+    }
+
+    /// How many items `parts` hold and how many History can keep in one removal, when they hold more.
+    static func tooMany(in parts: [CarriedSelection.Part]) -> TooMany? {
+        let urls = parts.flatMap(\.sizes.keys)
+        let most = RemovalLog.mostAtOnce(of: urls)
+        return most < urls.count ? TooMany(count: urls.count, most: most) : nil
+    }
+
+    struct TooMany: Equatable {
+        let count: Int
+        let most: Int
     }
 
     static func lines(for parts: [CarriedSelection.Part]) -> [String] {

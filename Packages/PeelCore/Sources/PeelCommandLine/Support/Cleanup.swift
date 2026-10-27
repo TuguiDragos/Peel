@@ -79,8 +79,10 @@ struct Cleanup {
         })
         Output.line("Total: \(Output.size(total))")
         notes.forEach(Output.note)
+        let tooMany = Self.tooMany(moving.map(\.url))
 
         guard !dryRun else {
+            if let tooMany { Output.note(tooMany) }
             Output.line(moving.isEmpty ? "Nothing here can be moved." : "Dry run: nothing was moved.")
             return
         }
@@ -98,6 +100,7 @@ struct Cleanup {
             if !refused.isEmpty { throw ExitCode.failure }
             return
         }
+        if let tooMany { throw CommandFailure(tooMany) }
         if !yes {
             try Output.confirm(question)
         }
@@ -126,6 +129,13 @@ struct Cleanup {
             Output.note("\(Output.plain(Output.path(failure.url))) stayed: \(failure.reason.summary)")
         }
         try Self.end(failed: !result.failures.isEmpty, recorded: recorded)
+    }
+
+    /// Why History couldn't keep a removal of `urls`, or nil when it can.
+    private static func tooMany(_ urls: [URL]) -> String? {
+        let most = RemovalLog.mostAtOnce(of: urls)
+        guard most < urls.count else { return nil }
+        return "Peel can't move \(Output.count(urls.count, "item", "items")) at once: History can keep at most \(Output.number(most)) in one removal, so it can put them back. Move fewer at a time."
     }
 
     /// Ends a removal that ran: exit 1 when something failed, or when History could not record it, since then only

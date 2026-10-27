@@ -52642,6 +52642,347 @@
         }
       }
     },
+    "History can keep at most ^[%lld item](inflect: true) in one removal, so it can put them back. Select fewer, and move the rest afterward." : {
+      "comment" : "Under that title. The number is how many of the selected items History can keep in one removal: 20,000, or fewer when their paths are very long. Moving them in several removals keeps the way back for each.",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie dokáže v rámci jednoho odstranění zaznamenat nejvýše %lld položky, aby je mohla vrátit zpět. Vyberte jich méně a zbývající přesuňte potom."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie dokáže v rámci jednoho odstranění zaznamenat nejvýše %lld položky, aby je mohla vrátit zpět. Vyberte jich méně a zbývající přesuňte potom."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie dokáže v rámci jednoho odstranění zaznamenat nejvýše %lld položku, aby ji mohla vrátit zpět. Vyberte jich méně a zbývající přesuňte potom."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie dokáže v rámci jednoho odstranění zaznamenat nejvýše %lld položek, aby je mohla vrátit zpět. Vyberte jich méně a zbývající přesuňte potom."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Der Verlauf kann pro Eintrag höchstens %lld Objekt festhalten, damit es sich zurücklegen lässt. Wähle weniger Objekte aus und verschiebe den Rest danach."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Der Verlauf kann pro Eintrag höchstens %lld Objekte festhalten, damit sie sich zurücklegen lassen. Wähle weniger Objekte aus und verschiebe den Rest danach."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historial puede guardar como máximo %lld de ítems en una sola eliminación, para poder restaurarlos. Selecciona menos y traslada el resto después."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historial puede guardar como máximo un ítem en una sola eliminación, para poder restaurarlo. Selecciona menos y traslada el resto después."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historial puede guardar como máximo %lld ítems en una sola eliminación, para poder restaurarlos. Selecciona menos y traslada el resto después."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique peut conserver au plus %lld d’éléments par suppression, afin de pouvoir les remettre en place. Sélectionnez-en moins, et déplacez le reste ensuite."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique peut conserver au plus %lld élément par suppression, afin de pouvoir le remettre en place. Sélectionnez-en moins, et déplacez le reste ensuite."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique peut conserver au plus %lld éléments par suppression, afin de pouvoir les remettre en place. Sélectionnez-en moins, et déplacez le reste ensuite."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "La Cronologia può conservare al massimo %lld di elementi in una sola rimozione, così da poterli ripristinare. Selezionane di meno e sposta il resto in seguito."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "La Cronologia può conservare al massimo %lld elemento in una sola rimozione, così da poterlo ripristinare. Selezionane di meno e sposta il resto in seguito."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "La Cronologia può conservare al massimo %lld elementi in una sola rimozione, così da poterli ripristinare. Selezionane di meno e sposta il resto in seguito."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴で戻せるように記録できるのは、1回の移動につき%lld項目までです。選択する項目を減らし、残りはあとで移動してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록은 항목을 되돌려 놓을 수 있도록 보관하는데, 한 번의 제거에 보관할 수 있는 항목은 최대 %lld개입니다. 선택 항목을 줄이고 나머지는 나중에 이동하십시오."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geschiedenis kan in één verwijdering maximaal %lld onderdeel bewaren om het te kunnen terugzetten. Selecteer er minder en verplaats de rest daarna."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geschiedenis kan in één verwijdering maximaal %lld onderdelen bewaren om ze te kunnen terugzetten. Selecteer er minder en verplaats de rest daarna."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia może zapisać w jednym przeniesieniu do Kosza najwyżej %lld rzeczy, aby móc je przywrócić. Zaznacz mniej rzeczy, a resztę przenieś później."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia może zapisać w jednym przeniesieniu do Kosza najwyżej %lld rzeczy, aby móc je przywrócić. Zaznacz mniej rzeczy, a resztę przenieś później."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia może zapisać w jednym przeniesieniu do Kosza najwyżej %lld rzecz, aby móc ją przywrócić. Zaznacz mniej rzeczy, a resztę przenieś później."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia może zapisać w jednym przeniesieniu do Kosza najwyżej %lld rzeczy, aby móc je przywrócić. Zaznacz mniej rzeczy, a resztę przenieś później."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Histórico pode registrar no máximo %lld de itens em uma única remoção, para poder colocá-los de volta. Selecione menos itens e mova o restante depois."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Histórico pode registrar no máximo %lld item em uma única remoção, para poder colocá-lo de volta. Selecione menos itens e mova o restante depois."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Histórico pode registrar no máximo %lld itens em uma única remoção, para poder colocá-los de volta. Selecione menos itens e mova o restante depois."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Istoricul poate păstra cel mult %lld articole într‑o singură eliminare, pentru a le putea pune înapoi. Selectați mai puține și mutați restul după aceea."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Istoricul poate păstra cel mult %lld articol într‑o singură eliminare, pentru a‑l putea pune înapoi. Selectați mai puține și mutați restul după aceea."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Istoricul poate păstra cel mult %lld de articole într‑o singură eliminare, pentru a le putea pune înapoi. Selectați mai puține și mutați restul după aceea."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История может сохранить в одном удалении не более %lld объектов, чтобы их можно было восстановить. Выберите меньше объектов, а остальные переместите потом."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История может сохранить в одном удалении не более %lld объектов, чтобы их можно было восстановить. Выберите меньше объектов, а остальные переместите потом."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История может сохранить в одном удалении не более %lld объекта, чтобы их можно было восстановить. Выберите меньше объектов, а остальные переместите потом."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История может сохранить в одном удалении не более %lld объекта, чтобы их можно было восстановить. Выберите меньше объектов, а остальные переместите потом."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historik kan hålla reda på högst %lld objekt i en enda borttagning för att kunna lägga tillbaka det. Markera färre och flytta resten efteråt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historik kan hålla reda på högst %lld objekt i en enda borttagning för att kunna lägga tillbaka dem. Markera färre och flytta resten efteråt."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geçmiş, yerine koyabilmek için tek bir kaldırma işleminde en fazla %lld öğenin kaydını tutabilir. Daha azını seçin, geri kalanını sonra taşıyın."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geçmiş, yerine koyabilmek için tek bir kaldırma işleminde en fazla %lld öğenin kaydını tutabilir. Daha azını seçin, geri kalanını sonra taşıyın."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія може зберегти щонайбільше %lld елементи в одному вилученні, щоб мати змогу їх повернути. Виберіть менше, а решту перемістіть згодом."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія може зберегти щонайбільше %lld елементів в одному вилученні, щоб мати змогу їх повернути. Виберіть менше, а решту перемістіть згодом."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія може зберегти щонайбільше %lld елемент в одному вилученні, щоб мати змогу їх повернути. Виберіть менше, а решту перемістіть згодом."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія може зберегти щонайбільше %lld елемента в одному вилученні, щоб мати змогу їх повернути. Виберіть менше, а решту перемістіть згодом."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“历史记录”每次移除最多只能记录%lld个项目，这样才能将它们放回原处。请少选一些，之后再移走其余项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「歷史記錄」在一次移除中最多可保留%lld個項目，以便將它們還原。請選取較少的項目，之後再移動其餘項目。"
+          }
+        }
+      }
+    },
     "History couldn’t be updated" : {
       "localizations" : {
         "cs" : {
@@ -120531,6 +120872,347 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法查看「%@」的內容以得知它內含哪些系統延伸功能，而且只有在Finder中將此App丟到「垃圾桶」時，macOS才會移除它們。因此Peel會將此App及其檔案原地保留：請在Finder中將它丟到「垃圾桶」，之後「孤立檔案」就會列出它留下的檔案。"
+          }
+        }
+      }
+    },
+    "Peel can’t move ^[%lld item](inflect: true) at once" : {
+      "comment" : "An alert’s title when a selection is bigger than History can keep in one removal. The number is how many items are selected, in the thousands.",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže přesunout %lld položky najednou"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže přesunout %lld položky najednou"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže přesunout %lld položku najednou"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemůže přesunout %lld položek najednou"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kann %lld Objekt nicht auf einmal verschieben"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kann %lld Objekte nicht auf einmal verschieben"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no puede trasladar %lld de ítems de una vez"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no puede trasladar %lld ítem de una vez"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no puede trasladar %lld ítems de una vez"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne peut pas déplacer %lld d’éléments à la fois"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne peut pas déplacer %lld élément à la fois"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ne peut pas déplacer %lld éléments à la fois"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non può spostare %lld di elementi in una volta sola"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non può spostare %lld elemento in una volta sola"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non può spostare %lld elementi in una volta sola"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%lld項目を一度に移動できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 항목 %lld개를 한 번에 이동할 수 없음"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan %lld onderdeel niet in één keer verplaatsen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan %lld onderdelen niet in één keer verplaatsen"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może przenieść naraz %lld rzeczy"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może przenieść naraz %lld rzeczy"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może przenieść naraz %lld rzeczy"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie może przenieść naraz %lld rzeczy"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não pode mover %lld de itens de uma vez"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não pode mover %lld item de uma vez"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não pode mover %lld itens de uma vez"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu poate muta %lld articole deodată"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu poate muta %lld articol deodată"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu poate muta %lld de articole deodată"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может переместить %lld объекта за один раз"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может переместить %lld объектов за один раз"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может переместить %lld объект за один раз"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не может переместить %lld объекта за один раз"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan inte flytta %lld objekt på en gång"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kan inte flytta %lld objekt på en gång"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel %lld öğeyi tek seferde taşıyamaz"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel %lld öğeyi tek seferde taşıyamaz"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перемістити %lld елементи за один раз"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перемістити %lld елементів за один раз"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перемістити %lld елемент за один раз"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не може перемістити %lld елемента за один раз"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法一次移动%lld个项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法一次移動%lld個項目"
           }
         }
       }

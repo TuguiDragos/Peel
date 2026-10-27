@@ -30,7 +30,7 @@ public struct RemovalLogOutcome: Sendable {
 /// actor reentrancy cannot interleave two of them.
 public actor RemovalLog {
     /// The most records the file keeps. Past this, the oldest batches are dropped whole, never in part.
-    static let maximumRecords = 20_000
+    public static let maximumRecords = 20_000
     /// The largest file read as History, since any process of the user can rewrite it. Peel never writes more:
     /// records with long paths take several times what short ones do, and the oldest removals go first.
     static let maximumBytes = 64 * 1_024 * 1_024
@@ -95,6 +95,28 @@ public actor RemovalLog {
     /// Adds totals the app kept before `peel` counted too. False when they could not be written.
     public func takeIn(_ earlier: RemovalTotals) -> Bool {
         whileNoOtherProcessWrites { RemovalTotals.change(at: totals) { $0.takeIn(earlier) } }
+    }
+
+    /// How many of `urls`, moved in one removal, History can keep and still read back: at most `maximumRecords`, and
+    /// fewer when their paths are long. A removal of more is refused before anything moves, since History would lose
+    /// it at the next removal, or could no longer read itself.
+    public static func mostAtOnce(of urls: [URL]) -> Int {
+        let room = maximumBytes / 10 * 9
+        var written = 0
+        var count = 0
+        for url in urls.prefix(maximumRecords) {
+            written += estimatedRecordSize(of: url)
+            guard written <= room else { break }
+            count += 1
+        }
+        return count
+    }
+
+    /// No less than History writes for an item that was at `url`: a kilobyte for the record's own fields, and the
+    /// path three times (where it was, where it went, its place on another disk), as JSON writes a URL, with every
+    /// slash escaped.
+    static func estimatedRecordSize(of url: URL) -> Int {
+        1_024 + 3 * url.absoluteString.utf8.reduce(0) { $0 + ($1 == UInt8(ascii: "/") ? 2 : 1) }
     }
 
     /// Whether History at `url` can be read, known without reading it: it is not there yet, or it opens as the file

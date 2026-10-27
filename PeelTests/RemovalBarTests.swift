@@ -26,6 +26,21 @@ struct RemovalBarTests {
         #expect(RemovalBar.lines(for: parts(most)).count == most)
     }
 
+    /// A selection History couldn't keep in one removal is refused before Peel asks to move it.
+    @Test func refusesASelectionHistoryCouldNotKeep() {
+        let many = (0...RemovalLog.maximumRecords).map { URL(filePath: "/Users/me/Library/Caches/org.example.app\($0)") }
+        let selection = CarriedSelection.Part(
+            page: Tool.duplicates.page(), title: "Duplicates", source: "Duplicates", sourceKey: "tool",
+            sizes: Dictionary(uniqueKeysWithValues: many.map { ($0, 1) })
+        )
+
+        let tooMany = RemovalBar.tooMany(in: [selection])
+
+        #expect(tooMany?.count == many.count)
+        #expect(tooMany?.most == RemovalLog.maximumRecords)
+        #expect(RemovalBar.tooMany(in: parts(3)) == nil)
+    }
+
     @Test func anActionHistoryDoesntRecordWaitsOnlyForTheExclusions() throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let unreadable = folder.appending(path: "removals.json")

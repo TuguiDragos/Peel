@@ -141,7 +141,8 @@ link moves the link.
 
 Peel never deletes anything of yours. Everything it removes goes to the Trash, and everything is recorded so
 History can put it back; History keeps the most recent 20,000 items, fewer when their paths are very long. What
-it forgets is still in the Trash, and History says once how many older removals it no longer lists.
+it forgets is still in the Trash, and History says once how many older removals it no longer lists. A removal of
+more than History can keep is refused before anything moves.
 The space is freed when *you* empty the Trash: Peel never does that for you.
 
 That includes what `pkgutil` and Homebrew would delete:

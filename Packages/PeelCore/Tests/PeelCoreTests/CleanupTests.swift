@@ -41,6 +41,43 @@ struct CleanupTests {
         #expect(plan.total.known == 20)
     }
 
+    /// A removal History couldn't keep is refused before anything moves, naming how many items it keeps at once, and
+    /// a dry run says so.
+    @Test func refusesARemovalHistoryCouldNotKeep() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let refusals = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+        let items = (0...RemovalLog.maximumRecords).map {
+            Cleanup.Item(url: URL(filePath: "/Users/me/Library/Caches/org.example.app\($0)"), size: 1, refusal: nil)
+        }
+        let plan = Cleanup(items: items, source: "Duplicates", tool: "duplicates")
+        let moved = Mutex(false)
+        let said = "Peel can't move 20001 items at once: History can keep at most 20000 in one removal, so it can put them back. Move fewer at a time."
+
+        let collected = Output.Collected()
+        try await Output.$collected.withValue(collected) {
+            try await plan.run(
+                question: "?", dryRun: true, yes: true, using: service, recordingIn: removals, refusals: refusals
+            )
+        }
+        let failure = await #expect(throws: CommandFailure.self) {
+            try await Output.$collected.withValue(Output.Collected()) {
+                try await plan.run(
+                    question: "?", dryRun: false, yes: true, using: service, recordingIn: removals, refusals: refusals,
+                    move: { _, _ in
+                        moved.withLock { $0 = true }
+                        return TrashResult()
+                    }
+                )
+            }
+        }
+
+        #expect(collected.notes == said + "\n")
+        #expect(failure?.description == said)
+        #expect(!moved.withLock { $0 })
+    }
+
     /// While the saved exclusions can't be read nothing moves, and no item is blamed on a protected location or
     /// recorded as refused: the cause is the list, which the command names.
     @Test func movesNothingAndBlamesNoItemWhileTheExclusionsCannotBeRead() async throws {
