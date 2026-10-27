@@ -65,6 +65,15 @@ struct PluginsTests {
         #expect(plugins.first { $0.name == "Own" }?.staysInTheTrash == false)
     }
 
+    @Test func namesAQuickActionAsTheServicesMenuDoes() {
+        let workflow = URL(filePath: "/org.example/Library/Services/Example - ask.workflow")
+        let menu: [String: Any] = ["NSServices": [["NSMenuItem": ["default": "Ask Example"]]]]
+
+        #expect(Plugins.name(of: workflow, info: menu) == "Ask Example")
+        #expect(Plugins.name(of: workflow, info: nil) == "Example - ask")
+        #expect(Plugins.name(of: workflow, info: ["NSServices": [["NSMenuItem": ["default": ""]]]]) == "Example - ask")
+    }
+
     @Test func findsPluginBundlesInUserAndSystemLibraries() async throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(

@@ -44,6 +44,12 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     public var staysInTheTrash = false
 
     public var id: URL { url }
+
+    /// Whether it is an Automator workflow in a Services folder: a Quick Action, which an app may have put there or
+    /// someone may have made on this Mac.
+    public var isAQuickAction: Bool {
+        category == .services && url.pathExtension.caseInsensitiveCompare("workflow") == .orderedSame
+    }
 }
 
 extension Plugin.Category {
@@ -176,8 +182,14 @@ public enum Plugins {
     }
 
     /// The name a plug-in shows: the one its bundle declares, or its file's without the extension that says its kind.
+    /// A workflow shows the name it has in the Services menu (`NSServices`, `NSMenuItem`), as the person knows it.
     static func name(of url: URL, info: [String: Any]?) -> String {
-        (info?["CFBundleName"] as? String) ?? url.deletingPathExtension().lastPathComponent
+        if url.pathExtension.caseInsensitiveCompare("workflow") == .orderedSame,
+           let item = (info?["NSServices"] as? [[String: Any]])?.first?["NSMenuItem"] as? [String: Any],
+           let menuName = item["default"] as? String, !menuName.isEmpty {
+            return menuName
+        }
+        return (info?["CFBundleName"] as? String) ?? url.deletingPathExtension().lastPathComponent
     }
 
     /// The file extensions each kind of plug-in uses.

@@ -120,9 +120,14 @@ struct PluginDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            if plugin.staysInTheTrash {
+            switch (plugin.isAQuickAction, plugin.staysInTheTrash) {
+            case (true, true):
+                Text("It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder.")
+            case (true, false):
+                Text("It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac.")
+            case (false, true):
                 Text("Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder.")
-            } else {
+            case (false, false):
                 Text("Apps that use it may stop working.")
             }
         }
