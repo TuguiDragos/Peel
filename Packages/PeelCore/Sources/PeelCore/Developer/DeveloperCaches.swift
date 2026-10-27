@@ -1651,3 +1651,10 @@ public enum DeveloperCaches {
         )
     }
 }
+
+extension DeveloperEnvironment {
+    /// What a search looks in: the tool's name and the last two names in the path of each folder it keeps.
+    public var searchKey: String {
+        ([name] + locations.flatMap { $0.url.pathComponents.suffix(2) }).joined(separator: "\n")
+    }
+}

@@ -63,6 +63,21 @@ struct DeveloperCachesTests {
         #expect(!refused.isRecommended && !slow.isRecommended)
     }
 
+    @Test func aSearchFindsAToolByTheNamesOfItsFolders() {
+        let hub = URL(filePath: "/Users/me/.cache/huggingface/hub", directoryHint: .isDirectory)
+        let tool = DeveloperEnvironment(
+            id: "huggingface", name: "Hugging Face", systemImage: "hammer", appBundleIdentifiers: [],
+            locations: [DeveloperEnvironment.Location(url: hub, kind: .models, size: 1, source: "https://example.com")]
+        )
+
+        let list = SearchableList([tool]) { $0.searchKey }
+
+        #expect(list.matching("").count == 1)
+        #expect(list.matching("hugging").count == 1)
+        #expect(list.matching("huggingface").count == 1, "the folder's own name found nothing")
+        #expect(list.matching("DerivedData").isEmpty)
+    }
+
     /// Xcode's caches wait on Simulator too, so the request to quit names whichever of an environment's apps is
     /// running: the environment's name would ask for Xcode while only Simulator runs, and the request would keep
     /// coming back. Finder runs on every Mac, and an identifier nobody uses stands for an app that is closed.

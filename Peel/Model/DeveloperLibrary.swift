@@ -5,6 +5,9 @@ import PeelCore
 @Observable
 final class DeveloperLibrary {
     private(set) var environments: [DeveloperEnvironment]?
+    @ObservationIgnored private var searchable = SearchableList<DeveloperEnvironment>([]) { $0.searchKey }
+    /// The last search and what it found. A view asks again whenever it is drawn.
+    @ObservationIgnored private var lastMatch: (query: String, environments: [DeveloperEnvironment])?
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -16,12 +19,23 @@ final class DeveloperLibrary {
         environments?.first { $0.id == selection }
     }
 
+    /// The tools whose name or folders hold `query`, every tool for an empty one.
+    func environments(matching query: String) -> [DeveloperEnvironment] {
+        guard environments != nil else { return [] }
+        if let lastMatch, lastMatch.query == query { return lastMatch.environments }
+        let found = searchable.matching(query)
+        lastMatch = (query, found)
+        return found
+    }
+
     func refresh() async {
         guard
             let result = await scanRun.run({
                 await DeveloperCaches.scan(exclusions: ExclusionsStore.shared.exclusions)
             })
         else { return }
+        searchable = SearchableList(result) { $0.searchKey }
+        lastMatch = nil
         environments = result
         selectedURLs.formIntersection(Set(result.flatMap(\.locations).map(\.url)))
         if let selection, !result.contains(where: { $0.id == selection }) {

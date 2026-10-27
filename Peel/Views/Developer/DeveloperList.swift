@@ -7,9 +7,7 @@ struct DeveloperList: View {
     @State private var searchText = ""
 
     private var listed: [DeveloperEnvironment] {
-        let all = developer.environments ?? []
-        guard !searchText.isEmpty else { return all }
-        return all.filter { SearchText.matches($0.name, searchText) }
+        developer.environments(matching: searchText)
     }
 
     var body: some View {
