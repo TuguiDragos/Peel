@@ -412,6 +412,8 @@ extension HoldBack {
             "Not selected: this disk image is open right now. Eject it first."
         case .changedRecently:
             "Not selected: this changed in the last day, so it may still be downloading."
+        case .arrivedRecently:
+            "Not selected: this arrived or changed in the last hour, so you may be installing from it now."
         case .mayStillBeResumed:
             "Not selected: a program that resumes downloads, such as a torrent client, may still finish this."
         case .writtenRecently:
@@ -423,7 +425,7 @@ extension HoldBack {
         case .appIsRunning:
             "Not selected: the app is running and may install this update when it quits."
         case .mayBeTheOnlyCopy:
-            "Not selected: this isn’t in Downloads and isn’t an installed app’s installer, so it may be yours rather than something you can download again."
+            "Not selected: this isn’t an installed app’s installer and nothing shows where it was downloaded from, so it may be your only copy."
         case .encryptedImage:
             "Not selected: an encrypted disk image holds what you put in it."
         }

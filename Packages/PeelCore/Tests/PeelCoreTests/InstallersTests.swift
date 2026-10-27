@@ -177,15 +177,21 @@ struct InstallersTests {
         #expect(installers.allSatisfy { !$0.isReadOnly })
     }
 
+    /// An installer can be downloaded again when it is an installed app's, or when it says where it was downloaded
+    /// from, wherever it is kept. One that says nothing may be the only copy, in Downloads too.
     @Test func recommendsOnlyAnInstallerThatCanBeDownloadedAgain() async throws {
         let directory = try TemporaryDirectory()
         let unknown = try directory.file("Downloads/Unknown-1.dmg", bytes: 400_000)
+        let fromTheWeb = try directory.file("Documents/FromTheWeb-2.dmg", bytes: 400_000)
+        let copied = try directory.file("Downloads/Copied-3.pkg", bytes: 400_000)
         let known = try directory.file("Documents/VisualStudioCode-1.99.0.dmg", bytes: 400_000)
         let photos = try directory.file("Documents/Photos 2019.dmg", bytes: 400_000)
         let backup = try directory.file("Desktop/Backup.iso", bytes: 400_000)
         let secrets = try directory.directory("Downloads").appending(path: "Secrets.dmg")
         try makeEncryptedImage(at: secrets)
         try directory.directory("Applications")
+        for url in [unknown, fromTheWeb] { try downloaded(url) }
+        for url in [copied, known, photos, backup, secrets] { try age(url, changedHoursAgo: 2, addedHoursAgo: 2) }
 
         let scan = await Installers.scan(
             installedApps: [app("Visual Studio Code", bundleIdentifier: "com.microsoft.VSCode")],
@@ -196,15 +202,69 @@ struct InstallersTests {
 
         let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
         #expect(heldBack["Unknown-1.dmg"] == .some(nil))
+        #expect(heldBack["FromTheWeb-2.dmg"] == .some(nil))
+        #expect(heldBack["Copied-3.pkg"] == .mayBeTheOnlyCopy)
         #expect(heldBack["VisualStudioCode-1.99.0.dmg"] == .some(nil))
         #expect(heldBack["Photos 2019.dmg"] == .mayBeTheOnlyCopy)
         #expect(heldBack["Backup.iso"] == .mayBeTheOnlyCopy)
         #expect(heldBack["Secrets.dmg"] == .encryptedImage)
         let rows = scan.items.selectableRows(canUseHelper: false)
         #expect(Set(rows.recommended.map { PathPattern.comparablePath(of: $0) })
-            == Set([unknown, known].map { PathPattern.comparablePath(of: $0) }))
+            == Set([unknown, fromTheWeb, known].map { PathPattern.comparablePath(of: $0) }))
         #expect(Set(rows.notRecommendedAdded(by: []).map { PathPattern.comparablePath(of: $0) })
-            == Set([photos, backup, secrets].map { PathPattern.comparablePath(of: $0) }))
+            == Set([copied, photos, backup, secrets].map { PathPattern.comparablePath(of: $0) }))
+    }
+
+    /// An installer that arrived in its folder or changed in the last hour may be the one being installed from now.
+    @Test func holdsBackAnInstallerThatJustArrived() async throws {
+        let directory = try TemporaryDirectory()
+        let fresh = try directory.file("Downloads/Fresh-1.dmg", bytes: 400_000)
+        let moved = try directory.file("Documents/Moved-2.dmg", bytes: 400_000)
+        let old = try directory.file("Downloads/Old-3.dmg", bytes: 400_000)
+        try directory.directory("Applications")
+        for url in [fresh, moved, old] {
+            try whereFrom(url, "https://example.com/\(url.lastPathComponent)")
+        }
+        try age(moved, changedHoursAgo: 2, addedHoursAgo: 0)
+        try age(old, changedHoursAgo: 2, addedHoursAgo: 2)
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(heldBack["Fresh-1.dmg"] == .arrivedRecently)
+        #expect(heldBack["Moved-2.dmg"] == .arrivedRecently)
+        #expect(heldBack["Old-3.dmg"] == .some(nil))
+    }
+
+    /// Marks `url` as downloaded from the web, as a browser does, two hours ago.
+    private func downloaded(_ url: URL) throws {
+        try whereFrom(url, "https://example.com/\(url.lastPathComponent)")
+        try age(url, changedHoursAgo: 2, addedHoursAgo: 2)
+    }
+
+    /// Writes the address a browser writes on a download, as a binary property list of addresses.
+    private func whereFrom(_ url: URL, _ address: String) throws {
+        let data = try PropertyListSerialization.data(fromPropertyList: [address], format: .binary, options: 0)
+        let result = data.withUnsafeBytes { bytes in
+            setxattr(url.path(percentEncoded: false), "com.apple.metadata:kMDItemWhereFroms", bytes.baseAddress,
+                     data.count, 0, 0)
+        }
+        try #require(result == 0)
+    }
+
+    /// Dates `url` as changed and as added to its folder so many hours ago (`setattrlist(2)` sets the second).
+    private func age(_ url: URL, changedHoursAgo changed: Double, addedHoursAgo added: Double) throws {
+        let path = url.path(percentEncoded: false)
+        try FileManager.default.setAttributes(
+            [.modificationDate: Date.now.addingTimeInterval(-changed * 3_600)], ofItemAtPath: path
+        )
+        var list = attrlist()
+        list.bitmapcount = u_short(ATTR_BIT_MAP_COUNT)
+        list.commonattr = attrgroup_t(ATTR_CMN_ADDEDTIME)
+        var time = timespec(tv_sec: Int(Date.now.addingTimeInterval(-added * 3_600).timeIntervalSince1970), tv_nsec: 0)
+        try #require(setattrlist(path, &list, &time, MemoryLayout<timespec>.size, 0) == 0)
     }
 
     private func makeEncryptedImage(at url: URL) throws {
@@ -239,7 +299,7 @@ struct InstallersTests {
     /// A repository, a project, a package, and a link are never looked into: what is in them is work or is theirs.
     @Test func looksOneFolderDownInEveryPlaceInstallersAreLeft() async throws {
         let directory = try TemporaryDirectory()
-        try directory.file("Downloads/Chat Desktop/Tool-1.dmg", bytes: 400_000)
+        try downloaded(try directory.file("Downloads/Chat Desktop/Tool-1.dmg", bytes: 400_000))
         try directory.file("Public/Drop Box/Other-2.pkg", bytes: 400_000)
         try directory.file("Users/Shared/Old-3.dmg", bytes: 400_000)
         try directory.file("Downloads/a/b/Deep-4.dmg", bytes: 400_000)
@@ -309,7 +369,7 @@ struct InstallersTests {
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
         try directory.directory("Documents/Install macOS Tahoe.app/Contents")
         try directory.file("Documents/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)
-        try directory.file("Downloads/Other-3.dmg", bytes: 400_000)
+        try downloaded(try directory.file("Downloads/Other-3.dmg", bytes: 400_000))
         let documents = PathPattern.comparablePath(of: directory.url.appending(path: "Documents"))
 
         let scan = await Installers.scan(
@@ -354,7 +414,7 @@ struct InstallersTests {
         let directory = try TemporaryDirectory()
         try directory.directory("Documents/.stfolder")
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
-        try directory.file("Downloads/Other-3.dmg", bytes: 400_000)
+        try downloaded(try directory.file("Downloads/Other-3.dmg", bytes: 400_000))
 
         let scan = await Installers.scan(
             installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
@@ -561,7 +621,7 @@ struct InstallersTests {
     @Test func aDownloadAProgramStillHasOpenIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         let downloading = try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)
-        try directory.file("Downloads/Other-2.dmg", bytes: 400_000)
+        try downloaded(try directory.file("Downloads/Other-2.dmg", bytes: 400_000))
         try directory.directory("Applications")
         let writer = try FileHandle(forWritingTo: downloading)
         defer { try? writer.close() }
@@ -644,7 +704,7 @@ struct InstallersTests {
         let directory = try TemporaryDirectory()
         try directory.directory("Applications")
         let image = try AttachedImage(at: directory.url.appending(path: "Downloads/Tool.dmg"))
-        try directory.file("Downloads/Other.dmg", bytes: 400_000)
+        try downloaded(try directory.file("Downloads/Other.dmg", bytes: 400_000))
 
         let scan = await Installers.scan(
             installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000

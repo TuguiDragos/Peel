@@ -140,6 +140,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case attachedDiskImage
     /// A download that changed within the last day, which may still be going.
     case changedRecently
+    /// An installer that arrived in its folder or changed in the last hour, which the person may be installing from.
+    case arrivedRecently
     /// A `.part` file no browser left, which a program that resumes downloads, such as a torrent client, may still
     /// finish.
     case mayStillBeResumed
@@ -153,7 +155,7 @@ public enum HoldBack: String, Sendable, Hashable {
     case packageLeftMore
     /// An update whose app is running, which may install it when it quits.
     case appIsRunning
-    /// An installer outside Downloads that is no installed app's, which may be the person's own rather than a download.
+    /// An installer that is no installed app's and says nowhere where it was downloaded from: it may be the only copy.
     case mayBeTheOnlyCopy
     /// An encrypted disk image, which holds what the person put in it.
     case encryptedImage

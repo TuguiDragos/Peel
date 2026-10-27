@@ -1,14 +1,18 @@
 public import Foundation
 import SQLite3
 
-/// Where an app was downloaded from, as macOS recorded it: the address a browser writes on the file itself
-/// (`com.apple.metadata:kMDItemWhereFroms`), or else the download that the app's quarantine record points to in
-/// Launch Services' quarantine database. An app copied out of a downloaded disk image carries such a record. The
+/// Where an app or a file was downloaded from, as macOS recorded it: the address a browser writes on the file itself
+/// (`com.apple.metadata:kMDItemWhereFroms`), or else the download that its quarantine record points to in Launch
+/// Services' quarantine database. An app copied out of a downloaded disk image carries such a record. The
 /// database belongs to the user, is outside TCC, and is opened read-only. Only a web address is kept, and only up
 /// to its path: a signed download link carries a token after it, and an inventory is meant to be read elsewhere.
 public struct DownloadOrigins: Sendable {
     public static var onThisMac: DownloadOrigins {
-        DownloadOrigins(events: URL.homeDirectory.appending(path: "Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"))
+        inHome(.homeDirectory)
+    }
+
+    static func inHome(_ home: URL) -> DownloadOrigins {
+        DownloadOrigins(events: home.appending(path: "Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"))
     }
 
     let events: URL

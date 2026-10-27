@@ -104153,6 +104153,113 @@
         }
       }
     },
+    "Not selected: this arrived or changed in the last hour, so you may be installing from it now." : {
+      "comment" : "The note beside an installer in Installers and Backups that was downloaded, copied, or moved into its folder, or changed, in the last hour.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tento soubor sem za poslední hodinu přibyl nebo se změnil, takže z něj možná právě instalujete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt ist innerhalb der letzten Stunde hinzugekommen oder wurde geändert, daher installierst du möglicherweise gerade etwas damit."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: ha llegado o ha cambiado en la última hora, así que puede que estés instalando desde él ahora mismo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : cet élément est arrivé ou a changé au cours de la dernière heure, et vous l’utilisez peut-être pour une installation en ce moment."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: è arrivato o è cambiato nell’ultima ora, quindi potresti starlo usando per un’installazione in corso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 過去1時間以内に追加または変更されたため、現在これを使ってインストールしている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 파일은 지난 1시간 사이에 추가되거나 변경되었으므로, 지금 이 파일로 설치하는 중일 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit is in het afgelopen uur binnengekomen of gewijzigd, dus misschien ben je er nu mee aan het installeren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten plik pojawił się lub został zmieniony w ciągu ostatniej godziny, więc być może właśnie z niego instalujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item chegou ou foi alterado na última hora, então talvez você esteja instalando algo a partir dele agora."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol a ajuns aici sau s‑a modificat în ultima oră, așa că este posibil să instalați din el chiar acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл появился или изменился за последний час, поэтому, возможно, Вы сейчас что-то из него устанавливаете."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den här filen har kommit hit eller ändrats under den senaste timmen, så du kanske installerar från den just nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu dosya son bir saat içinde geldi veya değişti, bu nedenle şu anda ondan yükleme yapıyor olabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей файл зʼявився або змінився за останню годину, тож, можливо, ви саме зараз із нього інсталюєте."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此文件是在过去一小时内添加或更改的，因此你可能正在使用它进行安装。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：此項目在過去一小時內出現或有變更，因此你可能正在用它進行安裝。"
+          }
+        }
+      }
+    },
     "Not selected: this changed in the last day, so it may still be downloading." : {
       "localizations" : {
         "cs" : {
@@ -105319,108 +105426,109 @@
         }
       }
     },
-    "Not selected: this isn’t in Downloads and isn’t an installed app’s installer, so it may be yours rather than something you can download again." : {
+    "Not selected: this isn’t an installed app’s installer and nothing shows where it was downloaded from, so it may be your only copy." : {
+      "comment" : "The note beside an installer in Installers and Backups that is no installed app's and carries no address it was downloaded from, as a browser writes on a download. Such a file may have been copied from a disk and exist nowhere else.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nevybráno: tento soubor není ve složce Stahování a není to instalátor nainstalované aplikace, takže může být váš vlastní, a ne něco, co si můžete znovu stáhnout."
+            "value" : "Nevybráno: tento soubor není instalátor nainstalované aplikace a nic neukazuje, odkud byl stažen, takže může být vaší jedinou kopií."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nicht ausgewählt: Dieses Objekt liegt nicht in „Downloads“ und ist nicht der Installer einer installierten App, daher ist es möglicherweise deines und nicht etwas, das du erneut laden kannst."
+            "value" : "Nicht ausgewählt: Dieses Objekt ist nicht der Installer einer installierten App, und nichts zeigt, woher es geladen wurde, daher ist es möglicherweise deine einzige Kopie."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin seleccionar: no está en Descargas ni es el instalador de una app instalada, así que puede que sea tuyo y no algo que puedas volver a descargar."
+            "value" : "Sin seleccionar: no es el instalador de una app instalada y nada indica de dónde se descargó, así que puede que sea tu única copia."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : ce fichier ne se trouve pas dans le dossier Téléchargements et n’est pas le programme d’installation d’une app installée ; il s’agit donc peut-être de l’un de vos fichiers, et non de quelque chose que vous pouvez télécharger à nouveau."
+            "value" : "Non sélectionné : ce fichier n’est pas le programme d’installation d’une app installée et rien n’indique d’où il a été téléchargé ; il s’agit donc peut-être de votre seule copie."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non selezionato: non si trova nella cartella Download e non è l’installer di un’app installata, quindi potrebbe essere un tuo file anziché qualcosa che puoi scaricare di nuovo."
+            "value" : "Non selezionato: non è l’installer di un’app installata e nulla indica da dove è stato scaricato, quindi potrebbe essere la tua unica copia."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選択: これは“ダウンロード”フォルダになく、インストール済みのアプリのインストーラでもないため、再ダウンロードできるものではなく、自分のファイルである可能性があります。"
+            "value" : "未選択: これはインストール済みのアプリのインストーラではなく、どこからダウンロードされたかを示す情報もないため、唯一のコピーである可能性があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "선택되지 않음: 이 파일은 다운로드 폴더에 있지 않고 설치된 앱의 설치 프로그램도 아니므로, 다시 다운로드할 수 있는 항목이 아니라 사용자의 파일일 수 있습니다."
+            "value" : "선택되지 않음: 이 파일은 설치된 앱의 설치 프로그램이 아니며 어디에서 다운로드되었는지 보여 주는 정보도 없으므로, 사용자의 유일한 복사본일 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niet geselecteerd: dit staat niet in de map Downloads en is geen installatieprogramma van een geïnstalleerde app, dus het is misschien van jou en niet iets wat je opnieuw kunt downloaden."
+            "value" : "Niet geselecteerd: dit is geen installatieprogramma van een geïnstalleerde app en niets geeft aan waar het vandaan is gedownload, dus het is misschien je enige kopie."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie zaznaczono: ten plik nie jest w folderze Pobrane rzeczy ani nie jest instalatorem zainstalowanej aplikacji, więc może to być Twój plik, a nie coś, co możesz pobrać ponownie."
+            "value" : "Nie zaznaczono: ten plik nie jest instalatorem zainstalowanej aplikacji i nic nie wskazuje, skąd został pobrany, więc może to być Twoja jedyna kopia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não selecionado: este item não está em Downloads e não é o instalador de um app instalado, então pode ser seu, e não algo que você possa baixar de novo."
+            "value" : "Não selecionado: este item não é o instalador de um app instalado e nada indica de onde ele foi baixado, então pode ser a sua única cópia."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: acest fișier nu se află în Descărcări și nu este programul de instalare al unei aplicații instalate, așa că ar putea fi al dvs., nu ceva ce puteți descărca din nou."
+            "value" : "Neselectat: acest fișier nu este programul de instalare al unei aplicații instalate și nimic nu arată de unde a fost descărcat, așa că ar putea fi singura dvs. copie."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не выбрано: этот файл находится не в папке «Загрузки» и не является установщиком ни одного из установленных приложений, поэтому он может быть Вашим собственным, а не тем, что можно загрузить снова."
+            "value" : "Не выбрано: этот файл не является установщиком ни одного из установленных приложений, и ничто не указывает, откуда он был загружен, поэтому, возможно, это Ваша единственная копия."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inte markerad: den här filen ligger inte i Hämtade filer och är inte installeraren för en installerad app, så den kan vara din egen snarare än något som du kan hämta igen."
+            "value" : "Inte markerad: den här filen är inte installeraren för en installerad app och inget visar var den hämtades från, så den kan vara din enda kopia."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçilmedi: bu dosya İndirilenler klasöründe değil ve yüklü bir uygulamanın yükleyicisi de değil, bu nedenle yeniden indirebileceğiniz bir şey yerine size ait bir dosya olabilir."
+            "value" : "Seçilmedi: bu dosya yüklü bir uygulamanın yükleyicisi değil ve nereden indirildiğini gösteren hiçbir şey yok, bu nedenle tek kopyanız olabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не вибрано: цей файл не міститься в папці «Викачане» й не є інсталятором інстальованої програми, тож, можливо, він ваш, а не з тих, що можна викачати знову."
+            "value" : "Не вибрано: цей файл не є інсталятором інстальованої програми, і ніщо не вказує, звідки його викачано, тож, можливо, це ваша єдина копія."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未选择：此文件不在“下载”文件夹中，也不是已安装App的安装器，因此可能是你自己的文件，而不是可以重新下载的内容。"
+            "value" : "未选择：此文件不是已安装App的安装器，也没有任何信息表明它是从哪里下载的，因此它可能是你仅有的副本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選取：此項目不在「下載項目」中，也不是已安裝App的安裝程式，因此可能是你自己的，而不是你可以重新下載的項目。"
+            "value" : "未選取：此項目不是已安裝App的安裝程式，也沒有任何資訊顯示它是從哪裡下載的，因此它可能是你僅有的副本。"
           }
         }
       }

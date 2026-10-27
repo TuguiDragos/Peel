@@ -118,6 +118,8 @@ public enum Installers {
     static let incompleteDownloadExtensions: Set<String> = ["crdownload", "part", "download"]
     /// A download that changed within this time may still be going, whatever holds it open.
     static let stillDownloading: TimeInterval = 24 * 60 * 60
+    /// An installer that arrived or changed within this time may be the one the person is installing from now.
+    static let justArrived: TimeInterval = 60 * 60
 
     @concurrent
     public static func scan(
@@ -154,19 +156,16 @@ public enum Installers {
         var items: [InstallerItem] = []
         var unreadable: [URL] = []
         let places = ["Downloads", "Desktop", "Documents", "Public"].map {
-            Folder(
-                url: home.appending(path: $0, directoryHint: .isDirectory),
-                isSharedWithEveryone: false,
-                holdsDownloads: $0 == "Downloads"
-            )
+            Folder(url: home.appending(path: $0, directoryHint: .isDirectory), isSharedWithEveryone: false)
         } + [Folder(url: root.appending(path: "Users/Shared", directoryHint: .isDirectory), isSharedWithEveryone: true)]
+        let origins = DownloadOrigins.inHome(home).reader()
         var folders: [Folder] = []
         // A scan its page left asks nothing more: reading a folder macOS guards puts up macOS's question again.
         for place in places {
             guard !Task.isCancelled else { break }
             if canList(place.url) == .missing { unreadable.append(place.url) }
             folders += [place] + subfolders(of: place.url).map {
-                Folder(url: $0, isSharedWithEveryone: place.isSharedWithEveryone, holdsDownloads: place.holdsDownloads)
+                Folder(url: $0, isSharedWithEveryone: place.isSharedWithEveryone)
             }
         }
 
@@ -194,10 +193,10 @@ public enum Installers {
                     let installer = appInstaller(
                         at: url, size: size, heldBack: heldBack, installedApps: installedApps, named: inside
                     )
-                    items.append(unlessItCanBeDownloadedAgain(installer, in: folder))
+                    items.append(unlessItMayStillBeNeeded(installer, origins: origins))
                 } else if isInstaller {
                     let installer = appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps)
-                    items.append(unlessItCanBeDownloadedAgain(installer, in: folder))
+                    items.append(unlessItMayStillBeNeeded(installer, origins: origins))
                 } else {
                     items.append(firmware(at: url, size: size, heldBack: heldBack))
                 }
@@ -257,12 +256,10 @@ public enum Installers {
         )
     }
 
-    /// A folder the scan looks in, whether it belongs to every account on this Mac rather than to this one, and
-    /// whether it is Downloads or a folder inside it.
+    /// A folder the scan looks in, and whether it belongs to every account on this Mac rather than to this one.
     struct Folder {
         let url: URL
         let isSharedWithEveryone: Bool
-        var holdsDownloads = false
     }
 
     /// The folders directly inside `place` that the scan looks in too, where a browser or a chat app keeps its
@@ -290,17 +287,29 @@ public enum Installers {
         return folder.isSharedWithEveryone ? .sharedWithEveryone : nil
     }
 
-    /// Holds back an app installer that may not be downloaded again: one outside Downloads that is no installed app's
-    /// may be the person's own image, and an encrypted disk image holds what they put in it.
-    private static func unlessItCanBeDownloadedAgain(_ installer: InstallerItem, in folder: Folder) -> InstallerItem {
+    /// Holds back an app installer the person may still need: an encrypted disk image holds what they put in it, one
+    /// that is no installed app's and says nowhere where it was downloaded from may be the only copy, and one that
+    /// arrived or changed within `justArrived` may be the one they are installing from.
+    private static func unlessItMayStillBeNeeded(
+        _ installer: InstallerItem, origins: DownloadOrigins.Reader
+    ) -> InstallerItem {
         guard installer.heldBack == nil else { return installer }
         var installer = installer
         if isEncryptedImage(installer.url) {
             installer.heldBack = .encryptedImage
-        } else if installer.installedApp == nil, !folder.holdsDownloads {
+        } else if installer.installedApp == nil, origins.address(of: installer.url) == nil {
             installer.heldBack = .mayBeTheOnlyCopy
+        } else if arrivedRecently(installer.url) {
+            installer.heldBack = .arrivedRecently
         }
         return installer
+    }
+
+    /// Whether `url` arrived in its folder or changed within `justArrived`, or when that can't be told.
+    private static func arrivedRecently(_ url: URL) -> Bool {
+        let values = try? url.resourceValues(forKeys: [.contentModificationDateKey, .addedToDirectoryDateKey])
+        let latest = [values?.contentModificationDate, values?.addedToDirectoryDate].compactMap(\.self).max()
+        return latest.map { Date.now.timeIntervalSince($0) < justArrived } ?? true
     }
 
     /// Whether `url` is an encrypted disk image: one that `hdiutil create -encryption` makes begins with `encrcdsa`.

@@ -413,8 +413,9 @@ Never selected for you, even when found:
 - A file a program has open right now, and a disk image that is open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
   running, which may install it when the app quits.
-- An encrypted disk image, and a disk image, package, or archive outside Downloads that isn't an installed app's
-  installer, which may be your own rather than something you can download again.
+- An encrypted disk image, a disk image, package, or archive that isn't an installed app's installer and doesn't say
+  where it was downloaded from, in Downloads too, which may be your only copy, and one that arrived or changed in the
+  last hour, which you may be installing from.
 - A build folder Git tracks files in, and a folder an installer package made that now holds what something else put
   there, which may be another program's files or yours.
 

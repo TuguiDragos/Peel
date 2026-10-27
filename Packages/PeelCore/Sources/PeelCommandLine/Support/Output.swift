@@ -396,12 +396,13 @@ extension HoldBack {
         case .openInAProgram: "open in a program right now, which may still be using it"
         case .attachedDiskImage: "a disk image open right now; eject it first"
         case .changedRecently: "changed in the last day, so it may still be downloading"
+        case .arrivedRecently: "arrived or changed in the last hour, so it may be in use"
         case .mayStillBeResumed: "a program that resumes downloads, such as a torrent client, may still finish it"
         case .writtenRecently: "written to in the last 15 minutes, so a program may still be using it"
         case .serverStillListens: "a server still listens on the port it is named for and keeps its uploads here"
         case .keptByAnApp: "in an app's folder in Application Support, and the app may still need it"
         case .appIsRunning: "its app is running and may install this update when it quits"
-        case .mayBeTheOnlyCopy: "outside Downloads and no installed app's installer, so it may be yours, not a download"
+        case .mayBeTheOnlyCopy: "no installed app's installer and no sign of where it was downloaded from"
         case .encryptedImage: "an encrypted disk image, which holds what you put in it"
         }
     }
