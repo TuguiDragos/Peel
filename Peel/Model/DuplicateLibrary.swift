@@ -34,6 +34,8 @@ final class DuplicateLibrary {
     /// reports, or from the start when a kind is chosen, since folders are then not compared.
     private(set) var isOnFiles = false
     private(set) var isScanning = false
+    /// True when the last scan was stopped before it ended, so the page says so rather than offer a first scan.
+    private(set) var wasStopped = false
     private(set) var isRemoving = false
     var selection: DuplicateRow?
     private(set) var selectedURLs: Set<URL> = []
@@ -129,6 +131,7 @@ final class DuplicateLibrary {
         scanTask?.cancel()
         generation += 1
         progress = nil
+        if isScanning { wasStopped = true }
         isScanning = false
     }
 
@@ -158,6 +161,7 @@ final class DuplicateLibrary {
     private func runScan(_ current: Int) async {
         clearResults()
         isScanning = true
+        wasStopped = false
         progress = nil
         isOnFiles = kind != .any
         var options = DuplicateScanOptions(folders: folders)

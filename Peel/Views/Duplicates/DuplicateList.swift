@@ -99,6 +99,9 @@ struct DuplicateList: View {
             } else if duplicates.isScanning {
                 DuplicateScanProgressView()
                     .centeredOnColumn()
+            } else if duplicates.wasStopped {
+                StoppedScan()
+                    .centeredOnColumn()
             } else {
                 ContentUnavailableView {
                     Label("Find Duplicate Files", systemImage: "doc.on.doc")

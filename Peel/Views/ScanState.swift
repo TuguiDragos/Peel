@@ -132,7 +132,7 @@ struct ReadSoFar: View {
 
 /// What a page shows when its first scan was stopped. Scan Again runs the toolbar's Rescan command, so the two
 /// always do the same thing.
-private struct StoppedScan: View {
+struct StoppedScan: View {
     var body: some View {
         ContentUnavailableView {
             Label("Scan Stopped", systemImage: "xmark.circle")
