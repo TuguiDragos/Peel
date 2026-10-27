@@ -386,7 +386,10 @@ fileprivate extension HomeModel {
             switch state {
             case .on, .notThisAccount, .checking: return nil
             case .pending: return "Open System Settings"
-            case .missing, .off: return helper.standing == .notAnswering ? "Repair" : "Install"
+            case .missing, .off:
+                if helper.standing == .notAnswering { return "Repair" }
+                return helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy)
+                    ? "Install" : nil
             }
         case .appManagement: return state == .on ? nil : "Open System Settings"
         // The optional rows open System Settings from their name, so they need no button. Notifications has

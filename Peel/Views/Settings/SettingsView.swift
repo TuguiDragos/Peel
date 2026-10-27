@@ -674,15 +674,16 @@ private struct HelperSettingsView: View {
             Section {
                 switch helper.standing {
                 case .notInstalled:
-                    if helper.isRegisteredByAnotherCopy {
-                        Text("Peel’s helper was installed by another copy of Peel, and this copy can’t use it.")
+                    if helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy) {
+                        Button("Install Helper", systemImage: "lock.shield") {
+                            Task { failure = await helper.install() }
+                        }
+                        .disabled(helper.isChanging)
+                        .centeredInRow()
+                    } else {
+                        Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
                             .font(.callout)
                     }
-                    Button("Install Helper", systemImage: "lock.shield") {
-                        Task { failure = await helper.install() }
-                    }
-                    .disabled(helper.isChanging)
-                    .centeredInRow()
                 case .waitingForApproval:
                     Text("Allow Peel in System Settings under Login Items & Extensions.")
                         .font(.callout)

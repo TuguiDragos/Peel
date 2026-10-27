@@ -133740,108 +133740,109 @@
         }
       }
     },
-    "Peel’s helper was installed by another copy of Peel, and this copy can’t use it." : {
+    "Peel’s helper was installed by another copy of Peel, and this copy can’t use it. Open the copy of Peel that installed it." : {
+      "comment" : "Shown in Settings > Helper and over pages that need the helper, when a copy of Peel in another folder installed it. That copy is the one to open; this one offers no Install.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocníka Peelu nainstalovala jiná kopie Peelu a tato kopie ho nemůže používat."
+            "value" : "Pomocníka Peelu nainstalovala jiná kopie Peelu a tato kopie ho nemůže používat. Otevřete tu kopii Peelu, která ho nainstalovala."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel wurde von einer anderen Peel-Kopie installiert, und diese Kopie kann es nicht verwenden."
+            "value" : "Das Hilfsprogramm von Peel wurde von einer anderen Peel-Kopie installiert, und diese Kopie kann es nicht verwenden. Öffne die Peel-Kopie, die es installiert hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El asistente de Peel lo instaló otra copia de Peel, y esta copia no puede usarlo."
+            "value" : "El asistente de Peel lo instaló otra copia de Peel, y esta copia no puede usarlo. Abre la copia de Peel que lo instaló."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’utilitaire de Peel a été installé par une autre copie de Peel, et cette copie ne peut pas l’utiliser."
+            "value" : "L’utilitaire de Peel a été installé par une autre copie de Peel, et cette copie ne peut pas l’utiliser. Ouvrez la copie de Peel qui l’a installé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’assistente di Peel è stato installato da un’altra copia di Peel, e questa copia non può usarlo."
+            "value" : "L’assistente di Peel è stato installato da un’altra copia di Peel, e questa copia non può usarlo. Apri la copia di Peel che l’ha installato."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelのヘルパーは、Peelの別のコピーによってインストールされたため、このコピーでは使用できません。"
+            "value" : "Peelのヘルパーは、Peelの別のコピーによってインストールされたため、このコピーでは使用できません。ヘルパーをインストールしたPeelのコピーを開いてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "다른 Peel 복사본이 Peel 보조 프로그램을 설치했으므로 이 복사본에서는 사용할 수 없습니다."
+            "value" : "다른 Peel 복사본이 Peel 보조 프로그램을 설치했으므로 이 복사본에서는 사용할 수 없습니다. 보조 프로그램을 설치한 Peel 복사본을 여십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het hulpprogramma van Peel is geïnstalleerd door een andere kopie van Peel, en deze kopie kan het niet gebruiken."
+            "value" : "Het hulpprogramma van Peel is geïnstalleerd door een andere kopie van Peel, en deze kopie kan het niet gebruiken. Open de kopie van Peel die het heeft geïnstalleerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocnik Peel został zainstalowany przez inną kopię Peel i ta kopia nie może z niego korzystać."
+            "value" : "Pomocnik Peel został zainstalowany przez inną kopię Peel i ta kopia nie może z niego korzystać. Otwórz kopię Peel, która go zainstalowała."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O auxiliar do Peel foi instalado por outra cópia do Peel, e esta cópia não pode usá-lo."
+            "value" : "O auxiliar do Peel foi instalado por outra cópia do Peel, e esta cópia não pode usá-lo. Abra a cópia do Peel que o instalou."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel a fost instalat de o altă copie Peel, iar această copie nu îl poate folosi."
+            "value" : "Instrumentul de ajutor Peel a fost instalat de o altă copie Peel, iar această copie nu îl poate folosi. Deschideți copia Peel care l‑a instalat."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Помощник Peel установлен другой копией Peel, и эта копия не может им пользоваться."
+            "value" : "Помощник Peel установлен другой копией Peel, и эта копия не может им пользоваться. Откройте копию Peel, которая его установила."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peels hjälpprogram installerades av en annan kopia av Peel, och den här kopian kan inte använda det."
+            "value" : "Peels hjälpprogram installerades av en annan kopia av Peel, och den här kopian kan inte använda det. Öppna den kopia av Peel som installerade det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in yardımcısını Peel’in başka bir kopyası yükledi ve bu kopya onu kullanamaz."
+            "value" : "Peel’in yardımcısını Peel’in başka bir kopyası yükledi ve bu kopya onu kullanamaz. Yardımcıyı yükleyen Peel kopyasını açın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Помічника Peel інстальовано іншою копією Peel, і ця копія не може ним користуватися."
+            "value" : "Помічника Peel інстальовано іншою копією Peel, і ця копія не може ним користуватися. Відкрийте копію Peel, яка його інсталювала."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel的帮助程序由另一个Peel副本安装，当前副本无法使用它。"
+            "value" : "Peel的帮助程序由另一个Peel副本安装，当前副本无法使用它。请打开安装它的那个Peel副本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel的輔助程式是由另一份Peel副本安裝的，此副本無法使用它。"
+            "value" : "Peel的輔助程式是由另一份Peel副本安裝的，此副本無法使用它。請打開安裝它的那份Peel副本。"
           }
         }
       }

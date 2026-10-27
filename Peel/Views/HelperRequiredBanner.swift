@@ -29,12 +29,18 @@ struct HelperRequiredBanner: View {
 }
 
 extension PrivilegedHelper.Standing {
+    /// Never while another copy's registration stands: every copy shares one helper label and one background item
+    /// record, and a second registration from another bundle is what keeps the helper from starting.
+    func offersInstall(registeredByAnotherCopy: Bool) -> Bool {
+        self == .notInstalled && !registeredByAnotherCopy
+    }
+
     /// Why Peel's helper can't act, for a page or a control that needs it.
     func whyItCannotAct(registeredByAnotherCopy: Bool) -> LocalizedStringResource {
         switch self {
         case .ready, .notInstalled:
             registeredByAnotherCopy
-                ? "Peel’s helper was installed by another copy of Peel, and this copy can’t use it."
+                ? "Peel’s helper was installed by another copy of Peel, and this copy can’t use it. Open the copy of Peel that installed it."
                 : "Install Peel’s helper to remove the items in the system folders it serves."
         case .waitingForApproval: "Peel’s helper is waiting to be allowed in System Settings, under Login Items & Extensions."
         case .notThisAccount: "Only an administrator can use Peel’s helper, so Peel can’t remove these from this account."

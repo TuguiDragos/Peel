@@ -62,7 +62,7 @@ final class HelperModel {
     /// `SMAppService.h`, registering a service that is already registered, or not approved by the user,
     /// throws an error. Neither is reported as a failure, since the status says what happened.
     func install() async -> Failure? {
-        guard !isChanging else { return nil }
+        guard !isChanging, !isRegisteredByAnotherCopy else { return nil }
         let (wasAllowed, error) = await change(.install) { try await PrivilegedHelper.register() }
         if wasAllowed, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
