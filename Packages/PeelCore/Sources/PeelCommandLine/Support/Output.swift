@@ -407,6 +407,7 @@ extension ProjectArtifacts.Refusal {
     var summary: String {
         switch self {
         case .tooBroad: "a whole home folder or disk is too much to search"
+        case .systemFolder: "it is a folder that macOS or every account uses, not a folder of projects"
         case .inTheCloud: "it is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app"
         case .notAFolder: "it isn't a folder Peel can reach"
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"

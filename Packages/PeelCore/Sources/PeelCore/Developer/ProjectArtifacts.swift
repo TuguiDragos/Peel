@@ -898,7 +898,8 @@ public enum ProjectArtifacts {
                 }
             }
             return Scan(
-                artifacts: await holdingBackWhatGitTracks(found).sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
+                artifacts: holdingBackWhatIsShared(await holdingBackWhatGitTracks(found))
+                    .sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
                 wasCutShort: wasCutShort,
                 unreadableLocations: unreadable.sorted {
                     PathPattern.comparablePath(of: $0) < PathPattern.comparablePath(of: $1)
@@ -911,6 +912,21 @@ public enum ProjectArtifacts {
 
     /// Holds back each artifact Git tracks files in, which is part of the project rather than something a build makes
     /// again, and each in a repository whose index can't be read. What the walk saw inside comes first.
+    /// Holds back each artifact in `/Users/Shared`, which belongs to every account on the Mac, once nothing found
+    /// inside it says more.
+    static func holdingBackWhatIsShared(_ artifacts: [ProjectArtifact]) -> [ProjectArtifact] {
+        artifacts.map { artifact in
+            let path = PathPattern.comparablePath(of: artifact.url).lowercased()
+            let isShared = ["/users/shared", "/system/volumes/data/users/shared"].contains {
+                PathComponents.isPath(path, atOrInside: $0)
+            }
+            guard artifact.heldBack == nil, isShared else { return artifact }
+            var held = artifact
+            held.heldBack = .sharedWithEveryone
+            return held
+        }
+    }
+
     static func holdingBackWhatGitTracks(_ artifacts: [ProjectArtifact]) async -> [ProjectArtifact] {
         var result = artifacts
         var indexes: [GitIndex.Repository: GitIndex?] = [:]
@@ -952,6 +968,8 @@ public enum ProjectArtifacts {
 
     public enum Refusal: Sendable, Hashable {
         case tooBroad
+        /// A folder macOS or every account uses, such as `/Applications`, `/opt`, or `/Users/Shared`.
+        case systemFolder
         case inTheCloud
         case notAFolder
         /// An app or another package, or a folder inside one: what is inside belongs to it.
@@ -991,11 +1009,14 @@ public enum ProjectArtifacts {
                 folder == "library" && ["mobile documents", "cloudstorage"].contains(inside)
             }
             if isInACloudFolder { return .inTheCloud }
+            if homes.contains(path) { return .tooBroad }
+            // The data volume's own path reaches the same folders as the path without it.
+            let names = components.starts(with: ["system", "volumes", "data"]) ? Array(components.dropFirst(3)) : components
+            if names.isEmpty { return .tooBroad }
+            if names.count == 1 { return .systemFolder }
             // A home folder and a volume root both have two components, so they are recognized by name.
-            if components.count < 2 || homes.contains(path) { return .tooBroad }
-            if components.count == 2, ["users", "volumes"].contains(components[0]) { return .tooBroad }
-            if path == "/system/volumes/data" { return .tooBroad }
-            if components.count == 5, components.starts(with: ["system", "volumes", "data", "users"]) { return .tooBroad }
+            if names.count == 2, names[0] == "volumes" { return .tooBroad }
+            if names.count == 2, names[0] == "users" { return names[1] == "shared" ? .systemFolder : .tooBroad }
         }
 
         var isDirectory: ObjCBool = false

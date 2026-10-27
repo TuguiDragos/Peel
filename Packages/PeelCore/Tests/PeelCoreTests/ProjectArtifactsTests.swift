@@ -1355,9 +1355,44 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.refusal(for: app.appending(path: "Contents/Resources/app"), home: home) == .inAPackage)
     }
 
+    @Test func namesAFolderThatMacOSOrEveryAccountUsesForWhatItIs() {
+        let home = URL(filePath: "/Users/x", directoryHint: .isDirectory)
+        let folders = [
+            "/Applications", "/Library", "/opt", "/Users", "/Users/Shared", "/users/shared",
+            "/System/Volumes/Data/Users/Shared", "/System/Volumes/Data/Applications",
+        ]
+
+        for folder in folders {
+            #expect(ProjectArtifacts.refusal(for: URL(filePath: folder), home: home) == .systemFolder, "\(folder)")
+        }
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/"), home: home) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/someone"), home: home) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/System/Volumes/Data/Users/x"), home: home) == .tooBroad)
+    }
+
+    @Test func holdsBackWhatIsInTheFolderEveryAccountShares() {
+        func artifact(_ path: String, heldBack: HoldBack? = nil) -> ProjectArtifact {
+            let url = URL(filePath: path, directoryHint: .isDirectory)
+            return ProjectArtifact(
+                url: url, project: url.deletingLastPathComponent(), name: url.lastPathComponent, tool: "npm", size: 20,
+                lastActivity: nil, hasGenericName: false, isEnvironment: false, heldBack: heldBack
+            )
+        }
+        let artifacts = [
+            artifact("/Users/Shared/Projects/app/node_modules"),
+            artifact("/System/Volumes/Data/Users/Shared/Projects/web/node_modules"),
+            artifact("/Users/x/Code/app/node_modules"),
+            artifact("/Users/Shared/Projects/kit/Pods", heldBack: .trackedByGit),
+        ]
+
+        let held = ProjectArtifacts.holdingBackWhatIsShared(artifacts).map(\.heldBack)
+
+        #expect(held == [.sharedWithEveryone, .sharedWithEveryone, nil, .trackedByGit])
+    }
+
     @Test func refusesRootsThatAreTooBroadOrNotOurs() {
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/")) == .tooBroad)
-        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users")) == .tooBroad)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users")) == .systemFolder)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/Mobile Documents/com~apple~Pages")) == .inTheCloud)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/CloudStorage/Dropbox")) == .inTheCloud)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/does-not-exist")) == .notAFolder)

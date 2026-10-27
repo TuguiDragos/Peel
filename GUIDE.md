@@ -176,7 +176,8 @@ package, belongs to the project above it: the nearest folder holding a repositor
 or whose last change Peel couldn't tell, installed packages (a Python environment, `vendor`, Terraform's
 `.terraform`), a folder like `target` whose name says nothing on its own, a Meson build folder, which also keeps the
 options its build was set up with, a folder Git tracks files in, such as a `Pods` folder kept in the repository, which
-is part of the project, a folder with a repository, a wallet, or a key inside, and one Peel couldn't measure or read.
+is part of the project, a folder with a repository, a wallet, or a key inside, one Peel couldn't measure or read, and
+one in `/Users/Shared`, which belongs to every account.
 Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`, or `~/src` when you have one, and adds
 it only when you say so. A chosen folder Peel can't search, such as one on a disk that isn't connected, is named at
 the top of the page with the reason, never taken for one with nothing built in it. Peel never searches a hidden

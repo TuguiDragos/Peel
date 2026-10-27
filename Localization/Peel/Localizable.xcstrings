@@ -65203,6 +65203,112 @@
         }
       }
     },
+    "It is a folder that macOS or every account uses, not a folder of projects. Choose the folder your projects are in." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to složka, kterou používá systém macOS nebo všechny účty, ne složka s projekty. Zvolte složku, ve které máte projekty."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein Ordner, den macOS oder jeder Benutzeraccount verwendet, kein Ordner mit Projekten. Wähle den Ordner, in dem deine Projekte liegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es una carpeta que usa macOS o que usan todas las cuentas, no una carpeta de proyectos. Elige la carpeta donde están tus proyectos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un dossier que macOS ou tous les comptes utilisent, et non un dossier de projets. Choisissez le dossier qui contient vos projets."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È una cartella usata da macOS o da tutti gli account, non una cartella di progetti. Scegli la cartella in cui si trovano i tuoi progetti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはmacOSまたはすべてのアカウントが使用するフォルダで、プロジェクトのフォルダではありません。プロジェクトが入っているフォルダを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS나 모든 계정이 사용하는 폴더이며, 프로젝트가 들어 있는 폴더가 아닙니다. 프로젝트가 있는 폴더를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een map die macOS of elke account gebruikt, geen map met projecten. Kies de map waarin je projecten staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To folder, którego używa macOS lub każde konto, a nie folder z projektami. Wybierz folder, w którym są Twoje projekty."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É uma pasta que o macOS ou todas as contas usam, não uma pasta de projetos. Escolha a pasta em que estão os seus projetos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un dosar folosit de macOS sau de toate conturile, nu un dosar de proiecte. Alegeți dosarul în care se află proiectele dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это папка, которую использует macOS или все учетные записи, а не папка с проектами. Выберите папку, где находятся Ваши проекты."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är en mapp som macOS eller alla konton använder, inte en mapp med projekt. Välj mappen som dina projekt ligger i."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, projelerin bulunduğu bir klasör değil; macOS’in veya her hesabın kullandığı bir klasör. Projelerinizin bulunduğu klasörü seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це папка, якою користуються macOS або всі облікові записи, а не папка з проєктами. Виберіть папку, у якій лежать ваші проєкти."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是macOS或所有账户都会使用的文件夹，而不是存放项目的文件夹。请选取你的项目所在的文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是macOS或所有帳號都會使用的檔案夾，而不是存放計畫案的檔案夾。請選擇你的計畫案所在的檔案夾。"
+          }
+        }
+      }
+    },
     "It is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one. Apps and tools keep what they install there, so Peel doesn’t look for projects in it." : {
       "localizations" : {
         "cs" : {
