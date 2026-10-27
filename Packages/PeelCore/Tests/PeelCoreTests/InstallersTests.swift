@@ -678,6 +678,27 @@ struct InstallersTests {
         #expect(scan.items(in: .firmware).map(\.name) == ["iPhone17,1_26.1.ipsw"])
     }
 
+    /// A macOS installer is found in every folder Peel reads apps from, and one from before macOS Sierra by the name
+    /// Apple gave it then.
+    @Test func findsMacOSInstallersWhereverThePersonKeepsApps() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("root/Applications/Install OS X El Capitan.app/Contents/MacOS/app", bytes: 400_000)
+        try directory.file("home/Applications/Install macOS Sequoia.app/Contents/MacOS/app", bytes: 400_000)
+        try directory.file("Apps/Install macOS Ventura.app/Contents/MacOS/app", bytes: 400_000)
+        try directory.file("Apps/Install Tool.app/Contents/MacOS/app", bytes: 400_000)
+        let chosen = home.appending(path: "Library/Application Support/Peel/app-folders.json")
+        try #require(AppFolders(url: chosen).add([directory.url.appending(path: "Apps", directoryHint: .isDirectory)]))
+
+        let scan = await Installers.scan(
+            installedApps: [], home: home, root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 100_000
+        )
+
+        #expect(Set(scan.items(in: .macOSInstaller).map(\.name))
+            == ["Install OS X El Capitan", "Install macOS Sequoia", "Install macOS Ventura"])
+    }
+
     /// A folder is measured by walking all of it. Only a name that ends like an installer can ever be kept, so
     /// the name is read first: a projects folder in Documents is never walked to find out it is not a disk image.
     @Test func measuresOnlyWhatIsNamedLikeAnInstaller() async throws {

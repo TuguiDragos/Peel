@@ -204,9 +204,15 @@ public enum Installers {
         }
 
         guard !Task.isCancelled else { return InstallerScan(items: items, unreadableLocations: unreadable) }
-        let applications = root.appending(path: "Applications", directoryHint: .isDirectory)
+        // The folders Peel reads apps from come first, and each folder is looked in once.
+        let shared = root.appending(path: "Users/Shared", directoryHint: .isDirectory).path(percentEncoded: false)
+        let appFolders = AppCatalog.directories(in: SearchEnvironment(homeDirectory: home, rootDirectory: root)).map {
+            let path = $0.path(percentEncoded: false)
+            return Folder(url: $0, isSharedWithEveryone: PathComponents.isPath(path, atOrInside: shared))
+        }
+        var lookedIn: Set<String> = []
         items += await macOSInstallers(
-            in: [Folder(url: applications, isSharedWithEveryone: false)] + folders,
+            in: (appFolders + folders).filter { lookedIn.insert(PathPattern.comparablePath(of: $0.url)).inserted },
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
@@ -457,8 +463,7 @@ public enum Installers {
     ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
         for folder in folders {
-            for url in files(in: folder.url)
-            where url.pathExtension.lowercased() == "app" && url.lastPathComponent.hasPrefix("Install macOS") {
+            for url in files(in: folder.url) where url.pathExtension.lowercased() == "app" && isMacOSInstaller(url) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, seen, _) = await measured(url, by: measure)
@@ -483,6 +488,12 @@ public enum Installers {
             }
         }
         return items
+    }
+
+    /// Apple names each macOS installer `Install macOS <name>`, and those before macOS Sierra `Install OS X <name>`
+    /// (support.apple.com/101578).
+    private static func isMacOSInstaller(_ url: URL) -> Bool {
+        ["Install macOS", "Install OS X"].contains { url.lastPathComponent.hasPrefix($0) }
     }
 
     static func firmwareFiles(

@@ -123,17 +123,18 @@ Space shows what fills your disk, area by area, and what each area is.
   and with the result.
 - **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and in
   the folders directly inside them, where installers are usually left, with archives there that hold an app or an
-  installer. It also lists packages an app keeps in Application Support, macOS installers, device firmware, downloads
-  never finished, and updates apps downloaded and keep until they install them. Your iPhone and iPad backups are
-  listed with their size once Peel has Full Disk Access, and never moved. Nothing is selected for you, and Select
-  Recommended takes only what you can download again, such as an installed app's installer, one that says where it was
-  downloaded from, a macOS installer, device firmware, a download a browser never finished once it hasn't changed for
-  a day, or an update whose app is closed. It passes by an encrypted disk image, an installer that is no installed
-  app's and doesn't say where it came from, one that arrived or changed in the last hour, a package an app keeps for
-  itself, a download that changed in the last day, a `.part` file no browser left, which a torrent client or another
-  program that resumes downloads may still finish, an update whose app is open, and anything in Shared, open in a
-  program, open as a disk image, or syncing to your other devices. A disk image can also be one you made to keep files
-  in, so look before you select it. An installer, download, or update smaller than 20 MB isn't listed.
+  installer. It also lists packages an app keeps in Application Support, macOS installers there and in the folders
+  Peel reads apps from, device firmware, downloads never finished, and updates apps downloaded and keep until they
+  install them. Your iPhone and iPad backups are listed with their size once Peel has Full Disk Access, and never
+  moved. Nothing is selected for you, and Select Recommended takes only what you can download again, such as an
+  installed app's installer, one that says where it was downloaded from, a macOS installer, device firmware, a
+  download a browser never finished once it hasn't changed for a day, or an update whose app is closed. It passes by
+  an encrypted disk image, an installer that is no installed app's and doesn't say where it came from, one that
+  arrived or changed in the last hour, a package an app keeps for itself, a download that changed in the last day, a
+  `.part` file no browser left, which a torrent client or another program that resumes downloads may still finish, an
+  update whose app is open, and anything in Shared, open in a program, open as a disk image, or syncing to your other
+  devices. A disk image can also be one you made to keep files in, so look before you select it. An installer,
+  download, or update smaller than 20 MB isn't listed.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac, as Finder shows them: what is in
   iCloud Drive and each app's documents, never an app's own data. Downloads are listed in the folders Finder shows
   them in, named as Finder names them, the biggest first, and a folder's checkbox selects every file in it; a file
