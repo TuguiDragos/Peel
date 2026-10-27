@@ -76,8 +76,8 @@ struct HistoryDetailView: View {
             // reports the rest must stay.
             history.failures = [:]
         }
-        .onChange(of: history.failures) { _, all in
-            failures = batch.records.compactMap { record in all[record.id].map { (record, $0) } }
+        .onChange(of: history.toldPutBacks) {
+            failures = batch.records.compactMap { record in history.failures[record.id].map { (record, $0) } }
             isShowingFailures = !failures.isEmpty
         }
         .alert(

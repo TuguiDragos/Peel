@@ -108,6 +108,28 @@ struct RemovalHistoryStoreTests {
         #expect(heard.words == ["Started History over.", "Started the Not Moved list over."])
     }
 
+    @Test func tellsAPutBackThatEndsAsTheOneBefore() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true },
+            restoring: { items, _ in items.map { _ in .needsHelper } }
+        )
+        var removal = RemovalInProgress()
+        let part = RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue)
+        await history.record(try moved("Driver"), part: part, sizes: [:], in: &removal)
+        history.finish(removal)
+
+        await history.restore(history.records, canUseHelper: false)
+        let first = history.failures
+        await history.restore(history.records, canUseHelper: false)
+
+        #expect(history.failures == first)
+        #expect(history.toldPutBacks == 2, "the second Put Back's alert never showed")
+    }
+
     @Test func saysWhenStartingOverCouldNotSetTheOldFileAside() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let path = folder.path(percentEncoded: false)

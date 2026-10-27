@@ -168,6 +168,8 @@ final class RemovalHistoryStore {
     /// sits in many batches.
     var selectedIDs: Set<RemovalRecord.ID> = []
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
+    /// Counts the Put Backs History's page tells, so one that ends as the one before is told again.
+    private(set) var toldPutBacks = 0
     /// Counts the times History was read again, by Reload or as Peel came forward, so a removal's page then looks in
     /// the Trash again with the records as they are now.
     private(set) var rereads = 0
@@ -473,7 +475,10 @@ final class RemovalHistoryStore {
                     restored.insert(record.id)
                 }
             }
-            if tellingThePage { failures = problems }
+            if tellingThePage {
+                failures = problems
+                toldPutBacks += 1
+            }
             selectedIDs.subtract(restored)
             if !restored.isEmpty {
                 keepUndoable(without: restored)
