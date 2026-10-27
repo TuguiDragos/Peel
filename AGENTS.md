@@ -217,8 +217,8 @@ If you are unsure whether something belongs in the helper, it doesn't.
     the compiler keeps, because XProtect takes a binary carrying a few wallet IDs for a program that steals them;
     `BrowserWalletTests` checks every fingerprint against the ID above it;
   - a developer cache in `DeveloperCaches.definitions`: a source showing the folder is a cache, a link into a
-    repository naming a commit and not a branch, and a `DeveloperCachesTests` run. Never a toolchain, an
-    installation, or a file holding an account or a token;
+    repository naming a commit and not a branch, and a `DeveloperCachesTests` run. Never a toolchain, the version
+    of a tool in use, or a file holding an account or a token;
   - anything a document names or counts: the document changes in the same change. `DocumentationTests` looks in the
     code for the type each code-font name in a document starts with (`RemovalLog` of `RemovalLog.canBeRead`), so a
     member, a name in lowercase or in capitals, and a call's labels are checked by hand, and it holds a few numbers

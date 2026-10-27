@@ -379,11 +379,12 @@ Never selected for you, even when found:
 
 - Xcode's archives of the apps you built and the symbols it copied from your devices, both needed to read crash reports,
   and the reports macOS wrote when an app crashed, which its developer may still ask for.
-- Model weights, the packages a tool keeps installed outside your projects, virtual environments, the installers and
-  boxes a tool keeps for you to install again, and an editor's saved state for a project that no longer exists. The
-  Developer page lists only what one tool owns outright: never a toolchain or an installation, never a file that
-  holds an account or a token, and never a folder that keeps your own work beside a cache, such as an editor's
-  unsaved files or a chat history, only the cache inside it.
+- Model weights, the packages a tool keeps installed outside your projects, virtual environments, the older versions
+  a tool keeps beside the one you run, the installers and boxes a tool keeps for you to install again, and an
+  editor's saved state for a project that no longer exists. The Developer page lists only what one tool owns
+  outright: never a toolchain or the version of a tool you run, never a file that holds an account or a token, and
+  never a folder that keeps your own work beside a cache, such as an editor's unsaved files or a chat history, only
+  the cache inside it.
 - A cache or a log macOS keeps for its own services in `~/Library/Caches` or `~/Library/Logs` (Spotlight's caches,
   Siri's logs) or in the container of one of Apple's apps.
 - On the Space page, a cache in `~/Library/Caches`, in the folder macOS gives your account for caches, or in an app's

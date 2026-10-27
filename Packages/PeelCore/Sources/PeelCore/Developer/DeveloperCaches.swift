@@ -370,7 +370,7 @@ public enum DeveloperCaches {
     }
 
     /// The folders the Developer page offers, relative to the home folder. Only folders one tool owns outright
-    /// belong here: no toolchain or installation, nothing holding an account or a token, no path inside another.
+    /// belong here: no toolchain or tool version in use, nothing holding an account or a token, no path inside another.
     static let definitions: [Definition] = [
         // Apple
         Definition(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: ["com.apple.dt.Xcode", "com.apple.iphonesimulator"], folders: [
