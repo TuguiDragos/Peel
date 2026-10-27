@@ -64076,7 +64076,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instaladores y copias"
+            "value" : "Instaladores y copias de seguridad"
           }
         },
         "fr" : {
@@ -152929,7 +152929,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buscar instaladores y copias"
+            "value" : "Buscar instaladores y copias de seguridad"
           }
         },
         "fr" : {
