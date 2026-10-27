@@ -12,7 +12,7 @@ Peel is four programs built from one Xcode project, and a Swift package that hol
 | Part | Folder | Runs as | What it does |
 |---|---|---|---|
 | Peel.app | `Peel/` | You | The SwiftUI app: every page, and a model for each. |
-| The helper | `PeelHelper/` | root | A launch daemon for the few things only an administrator can do: move items to the Trash and back, and start or stop another vendor's launch daemon. |
+| The helper | `PeelHelper/` | root | A launch daemon for the few things only an administrator can do: move items to the Trash and back, and start, stop, enable, or disable another vendor's launch daemon. |
 | The Finder extension | `PeelFinder/` | You, sandboxed | Adds Uninstall with Peel to the menu Finder shows when you Control-click an app, and opens Peel with `peel://open?path=`. |
 | The `peel` tool | `PeelCLI/` | You | The command-line tool, shipped inside `Peel.app/Contents/Helpers`. |
 
@@ -408,6 +408,15 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   where a server may still use it, a workspace that may still be in use), and `peel caches` gives each other row's
   reason by the same rule. Nothing moves while one of the tool's apps runs (`runningApp`), and a folder in the
   temporary folder that a program holds open isn't listed.
+- **Background Items.** `BackgroundItems.scan` reads the job files in `~/Library/LaunchAgents`,
+  `/Library/LaunchAgents`, and `/Library/LaunchDaemons`, and asks launchd which jobs are loaded, in the GUI domain, the
+  user's own, and the system's, and which it keeps disabled (`launchctl print-disabled`). A loaded job no file there
+  declares is one an app registered or submitted, asked about on its own and listed only while it is loaded, and a
+  disabled job that isn't loaded is listed from what launchd keeps disabled. Whose a job is comes from
+  `BackgroundItemOwnership`: an app it runs from inside, else the app its label names, a rule Orphaned Files reads too.
+  Start, Stop, Enable, and Disable go to `launchctl`, a daemon's through the helper, never under a label macOS uses for
+  its own jobs (`SystemDaemons`, `SystemAgents`), and a job ServiceManagement manages is turned off only in System
+  Settings. Move to Trash takes the job's file, and the job is stopped once the file has moved.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference
