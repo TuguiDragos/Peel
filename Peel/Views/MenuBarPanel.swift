@@ -45,14 +45,25 @@ struct MenuBarPanel: View {
 
     private var middle: some View {
         VStack(spacing: 0) {
-            hero
-            Text("Since \(stats.installedOn, format: .dateTime.day().month(.wide).year())")
-                .font(.callout.weight(.semibold))
-                .foregroundStyle(.secondary)
-                .padding(.top, 30)
-                .padding(.bottom, 18)
-            Divider()
-            rows
+            // Home's rule: no figures until Peel has moved something, so a new install shows no zeros.
+            if stats.hasCleaned {
+                hero
+                Text("Since \(stats.installedOn, format: .dateTime.day().month(.wide).year())")
+                    .font(.callout.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 30)
+                    .padding(.bottom, 18)
+                Divider()
+                totals
+            } else {
+                Text("Nothing moved to the Trash yet")
+                    .font(.system(.body, design: .rounded, weight: .semibold))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 34)
+            }
+            updates
             MenuBarFound { open(at: $0) }
         }
     }
@@ -108,7 +119,7 @@ struct MenuBarPanel: View {
     }
 
     @ViewBuilder
-    private var rows: some View {
+    private var totals: some View {
         // `app.dashed` is the empty slot a removed app leaves.
         row("app.dashed", stats.appsLabel, stats.appsRemoved.shortCount, amount: stats.appsRemoved)
         Divider().padding(.leading, Self.wordsInset)
@@ -117,7 +128,6 @@ struct MenuBarPanel: View {
             Divider().padding(.leading, Self.wordsInset)
             row("internaldrive", "Biggest removal", stats.biggestCleanUp.text, amount: stats.biggestCleanUp.known)
         }
-        updates
     }
 
     /// A check finishing while the panel is open adds a whole row to it. The row unfolds from the divider
