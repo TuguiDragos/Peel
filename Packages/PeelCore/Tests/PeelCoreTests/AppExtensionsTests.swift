@@ -353,6 +353,28 @@ struct AppExtensionsTests {
         #expect(AppExtensions.extensionPoint(in: nil) == nil)
     }
 
+    @Test func leavesOutTheExtensionsOfAnExcludedApp() async throws {
+        let directory = try TemporaryDirectory()
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.chat"], format: .xml, options: 0
+        )
+        try directory.file("Chat.app/Contents/Info.plist", contents: info)
+        let appex = try directory.directory("Chat.app/Contents/PlugIns/Share.appex")
+        let listing = """
+             org.example.chat.share(1.0)\t6299ACC7-6EDA-4A38-9BD4-89444C604682\t2026-09-20 17:23:02 +0000\t\
+        \(appex.path(percentEncoded: false))
+         (1 plug-in)
+        """
+        let run: AppExtensions.Runner = { tool, _ in tool.hasSuffix("/pluginkit") ? listing : "0 extension(s)" }
+        let byIdentifier = Exclusions(bundleIdentifiers: ["org.example.chat"])
+
+        let listed = await AppExtensions.scan(exclusions: .none, run: run).extensions
+        let excluded = await AppExtensions.scan(exclusions: byIdentifier, run: run).extensions
+
+        #expect(listed.map(\.identifier) == ["org.example.chat.share"])
+        #expect(excluded.isEmpty)
+    }
+
     /// Each kind comes from its own tool, so a tool that gives no answer leaves out its own kind and nothing
     /// else, and the scan says which kind is missing: what it lists is then only part of what is installed.
     @Test func saysWhichKindMacOSGaveNoAnswerAbout() async {

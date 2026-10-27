@@ -108,6 +108,14 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
 }
 
 extension AppExtension {
+    /// The app the extension came with: the app its bundle is inside, or, for a system extension, the app macOS's
+    /// record says it was installed for.
+    var app: URL? {
+        kind == .systemExtension
+            ? installedFor.map { URL(filePath: $0) }
+            : url.flatMap { AppExtensions.app(ofExtensionAt: $0.path(percentEncoded: false)) }
+    }
+
     /// Where the person turns an extension on and off, which the point it plugs into decides.
     public enum Switch: Sendable, Hashable {
         /// System Settings > General > Login Items & Extensions.
@@ -220,9 +228,16 @@ public enum AppExtensions {
         let apps = await appExtensions(run: run)
         let system = await systemExtensions(run: run)
         let found = (apps ?? []) + (system ?? [])
+        // An extension is its app's, so an app excluded by its identifier leaves its extensions out too.
+        var excludedApps: [URL: Bool] = [:]
         return ExtensionScan(extensions: found
             .filter { extensionItem in
                 guard !exclusions.excludes(bundleIdentifier: extensionItem.identifier) else { return false }
+                if let app = extensionItem.app {
+                    let isExcluded = excludedApps[app] ?? (exclusions.isAnExcludedApp(app) || exclusions.excludes(app))
+                    excludedApps[app] = isExcluded
+                    if isExcluded { return false }
+                }
                 return extensionItem.url.map { !exclusions.excludes($0) } ?? true
             }
             .sorted {
@@ -346,11 +361,16 @@ public enum AppExtensions {
     /// The name of the app the extension came with. This is the outermost app, so an extension inside
     /// Instruments inside Xcode belongs to Xcode.
     static func owner(ofExtensionAt path: String) -> String? {
+        app(ofExtensionAt: path).flatMap { AppInspector.displayName(of: $0) }
+    }
+
+    /// The app an extension at `path` is part of: the outermost app bundle it is inside, or the app itself.
+    static func app(ofExtensionAt path: String) -> URL? {
         guard
             let end = path.range(of: ".app/")
                 ?? (path.hasSuffix(".app") ? path.range(of: ".app", options: .backwards) : nil)
         else { return nil }
-        return AppInspector.displayName(of: URL(filePath: String(path[..<end.lowerBound]) + ".app"))
+        return URL(filePath: String(path[..<end.lowerBound]) + ".app")
     }
 
     /// Nil when macOS gave no answer Peel can read, which is not the same as none installed.
