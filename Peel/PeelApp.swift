@@ -431,10 +431,6 @@ struct PeelApp: App {
                 .environment(\.notifications, notifications)
                 .task {
                     #if DEBUG
-                    Tweak.checkWords()
-                    SpaceItem.checkWords()
-                    AppExtension.checkWords()
-                    FixedSentence.checkWords()
                     await HomeSnapshot.runIfRequested()
                     TerminalExport.runIfRequested()
                     #endif

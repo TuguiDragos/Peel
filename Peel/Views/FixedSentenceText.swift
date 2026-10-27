@@ -54,15 +54,3 @@ extension LocalizedStringResource {
         return String(localized: String.LocalizationValue(key), table: table, bundle: bundle, locale: locale)
     }
 }
-
-#if DEBUG
-extension FixedSentence {
-    /// A sentence is known by its English, so the words here have to read exactly as what is sent. The key is
-    /// compared rather than the text it resolves to, which a pseudolanguage rewrites.
-    static func checkWords() {
-        for sentence in allCases {
-            assert(sentence.words.key == sentence.english, "the words for \(sentence) no longer read as what is sent")
-        }
-    }
-}
-#endif

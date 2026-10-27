@@ -185,27 +185,3 @@ nonisolated extension SpaceItem {
         ),
     ]
 }
-
-#if DEBUG
-extension SpaceItem {
-    /// Checks that every area PeelCore defines has complete words here. The app has no test target, so a Debug
-    /// build runs this when its window opens. It reads the keys, not the text they resolve to, so a
-    /// pseudolanguage can't trip it. `StringCatalogTests` checks the translations.
-    static func checkWords() {
-        for id in SpaceInventory.definitionIdentifiers {
-            guard let found = words[id] else {
-                assertionFailure("no words for \(id)")
-                continue
-            }
-            assert(!found.title.key.isEmpty, "\(id) has no title")
-            assert(found.detail.key.hasSuffix("."), "\(id) doesn't explain itself")
-            if let hint = found.hint {
-                assert(!hint.key.isEmpty, "\(id) has an empty hint")
-            }
-        }
-        for id in SpaceInventory.managedAreaIdentifiers {
-            assert(words[id]?.hintWithoutItsApp != nil, "\(id) has no hint for when its app is gone")
-        }
-    }
-}
-#endif

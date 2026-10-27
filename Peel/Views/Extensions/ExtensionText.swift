@@ -72,22 +72,3 @@ private enum ExtensionPoint {
         }
     }
 }
-
-#if DEBUG
-extension AppExtension {
-    /// Checks `pointName`: a known point gets a word, an unknown point keeps its identifier, and an extension
-    /// with no point gets nil. The app has no test target, so Debug builds run this when the main window opens.
-    static func checkWords() {
-        func made(_ point: String?) -> AppExtension {
-            AppExtension(
-                identifier: "x", name: "x", kind: .appExtension, point: point, owner: nil,
-                url: URL(filePath: "/x"), election: .asItCame, teamIdentifier: nil, reportedState: nil
-            )
-        }
-        assert(made("com.apple.FinderSync").pointName?.isEmpty == false, "Finder has no word")
-        assert(made("com.apple.FinderSync").pointName != "com.apple.FinderSync", "Finder kept its identifier")
-        assert(made("com.example.unknown").pointName == "com.example.unknown", "an unknown point lost its identifier")
-        assert(made(nil).pointName == nil, "no point was given a name")
-    }
-}
-#endif

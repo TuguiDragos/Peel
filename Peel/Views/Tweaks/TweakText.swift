@@ -27,6 +27,10 @@ extension Tweak {
         return found
     }
 
+    static func words(for id: String) -> Words? {
+        words[id]
+    }
+
     private static let words: [String: Words] = [
         "dock-autohide": Words(
             title: "Automatically hide and show the Dock",
@@ -201,21 +205,3 @@ extension Tweak {
         ),
     ]
 }
-
-#if DEBUG
-extension Tweak {
-    /// Checks that every tweak has words: a title, and a detail that ends with a period. The app has no test
-    /// target, so Debug builds run this at launch. It reads the English keys rather than the resolved text, so
-    /// it also passes in a pseudolanguage. `StringCatalogTests` checks the translations.
-    static func checkWords() {
-        for id in TweakCatalog.all.map(\.id) {
-            guard let found = words[id] else {
-                assertionFailure("no words for \(id)")
-                continue
-            }
-            assert(!found.title.key.isEmpty, "\(id) has no title")
-            assert(found.detail.key.hasSuffix("."), "\(id) doesn't explain itself")
-        }
-    }
-}
-#endif
