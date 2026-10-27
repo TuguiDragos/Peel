@@ -127,7 +127,7 @@ private struct HistoryProblemNotice: View {
                 Button("Show in Finder", systemImage: "folder") {
                     NSWorkspace.shared.activateFileViewerSelecting([setAside])
                 }
-                }
+            }
         case .unreadable:
             Notice(
                 title: Text("The record of past removals can’t be read"),
