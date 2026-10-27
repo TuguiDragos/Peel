@@ -120,20 +120,33 @@ struct PluginDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            switch (plugin.isAQuickAction, plugin.staysInTheTrash) {
-            case (true, true):
-                Text("It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder.")
-            case (true, false):
-                Text("It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac.")
-            case (false, true):
-                Text("Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder.")
-            case (false, false):
-                Text("Apps that use it may stop working.")
-            }
+            Text(verbatim: plugin.whenMoved.map { String(localized: $0) }.joined(separator: "\n\n"))
         }
     }
 
     private var isLocked: Bool {
         plugin.requiresPrivileges && plugin.refusal == nil && !helper.canAct
+    }
+}
+
+extension Plugin {
+    /// What the question before a move says, a paragraph each.
+    var whenMoved: [LocalizedStringResource] {
+        let forAllUsers: [LocalizedStringResource] = isInstalledForAllUsers
+            ? ["Every account on this Mac has it, so moving it takes it from all of them."] : []
+        return whatGoes + forAllUsers
+    }
+
+    private var whatGoes: [LocalizedStringResource] {
+        switch (isAQuickAction, staysInTheTrash) {
+        case (true, true):
+            ["It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+        case (true, false):
+            ["It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac."]
+        case (false, true):
+            ["Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+        case (false, false):
+            ["Apps that use it may stop working."]
+        }
     }
 }

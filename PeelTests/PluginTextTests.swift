@@ -26,4 +26,13 @@ struct PluginTextTests {
 
         #expect(Plugin.sayingForAllUsers([mine, everyones, alone]) == [everyones.id])
     }
+
+    @Test func saysAMoveTakesAPlugInInLibraryFromEveryAccount() {
+        let mine = plugin("/Users/org.example/Library/Audio/Plug-Ins/Components/Echo.component", name: "Echo")
+        let everyones = plugin("/Library/Audio/Plug-Ins/Components/Echo.component", name: "Echo", forAllUsers: true)
+        let everyAccount = String(localized: "Every account on this Mac has it, so moving it takes it from all of them.")
+
+        #expect(mine.whenMoved.map { String(localized: $0) }.last != everyAccount)
+        #expect(everyones.whenMoved.map { String(localized: $0) }.last == everyAccount)
+    }
 }

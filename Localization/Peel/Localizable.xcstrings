@@ -39803,6 +39803,112 @@
         }
       }
     },
+    "Every account on this Mac has it, so moving it takes it from all of them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Má ho každý účet v tomto Macu, takže jeho přesunutím o něj přijdou všechny účty."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es ist für jeden Benutzeraccount auf diesem Mac vorhanden, daher wird es durch das Verschieben für alle entfernt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las cuentas de este Mac lo tienen, así que trasladarlo lo quita de todas ellas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les comptes de ce Mac en disposent : le déplacer le retire donc à chacun d’eux."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È disponibile per ogni account di questo Mac, quindi spostarlo lo toglie a tutti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacのすべてのアカウントで利用できるため、ゴミ箱に入れるとすべてのアカウントから取り除かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 모든 계정에 있는 항목이므로, 이동하면 모든 계정에서 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elke account op deze Mac heeft dit, dus als je het verplaatst, verdwijnt het bij al die accounts."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ma ją każde konto na tym Macu, więc po przeniesieniu do Kosza zniknie ze wszystkich kont."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas as contas deste Mac o têm, então movê-lo o remove de todas elas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toate conturile de pe acest Mac îl au, așa că mutarea lui îl elimină pentru toate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он есть у каждой учетной записи на этом Mac, поэтому при перемещении он пропадет у всех."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alla konton på den här datorn har den, så om den flyttas tas den bort från alla konton."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’teki her hesapta bulunur, bu yüzden onu taşımak tüm hesaplardan kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Він доступний для всіх облікових записів на цьому Mac, тож переміщення забере його в усіх них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac上的每个账户都有它，因此移动它会使所有账户都失去它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上的每個帳號都有它，因此移動它會讓所有帳號都失去它。"
+          }
+        }
+      }
+    },
     "Every commit is signed with your SSH key, and GitHub shows it as Verified once you add the key there as a signing key." : {
       "localizations" : {
         "cs" : {
