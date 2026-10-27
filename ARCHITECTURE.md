@@ -348,8 +348,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - **Updates of other apps.** `UpdateChecker` asks each app's own feed, or the App Store about an app from the App Store,
   and uses what Homebrew knows for an app a cask installed: first with Automatic or Homebrew preferred, and under any
   choice once the app's own source can't answer, an "up to date" only for a day after Homebrew last checked for new
-  versions (`Homebrew.lastUpdateCheck`, the time of `.git/FETCH_HEAD` in its repository, which Homebrew itself compares
-  before updating on its own). An answer Homebrew gives in place of the app's own source carries what that source
+  versions (`Homebrew.lastUpdateCheck`: the time of `.git/FETCH_HEAD` in its repository, which Homebrew itself compares
+  before updating on its own, or, while it reads its API, the later date of the definitions file it confirms). An answer Homebrew gives in place of the app's own source carries what that source
   answered (`UpdateAnswer.standsInFor`, kept in `UpdateMemory`): the source's answer stands again once Homebrew's no
   longer counts, the next check follows the source's own count, and an update the source found earlier stays. What
   Homebrew's casks and the app's own files decide without a server, and what Homebrew knows where the app's own source

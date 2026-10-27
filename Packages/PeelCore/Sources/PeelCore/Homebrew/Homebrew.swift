@@ -661,13 +661,37 @@ public enum Homebrew {
     }
 
     /// When Homebrew last checked for new versions: when `brew update` last touched `.git/FETCH_HEAD` in its
-    /// repository, which Homebrew compares with `HOMEBREW_AUTO_UPDATE_SECS`. Nil when that file can't be found.
+    /// repository, which Homebrew compares with `HOMEBREW_AUTO_UPDATE_SECS`, or, while it reads its definitions from
+    /// its API, when it last downloaded or confirmed them, whichever is later. Nil when neither can be found.
     @concurrent
     public static func lastUpdateCheck() async -> Date? {
         guard let answer = try? await answer(["--repository"]), let repository = folder(answering: answer) else {
             return nil
         }
-        return lastUpdateCheck(inRepository: repository)
+        guard let executable = executableURL, let cache = (try? await self.answer(["--cache"])).flatMap(folder(answering:))
+        else { return lastUpdateCheck(inRepository: repository) }
+        let files = settingsFiles(
+            system: URL(filePath: "/etc/homebrew/brew.env"),
+            prefix: executable.deletingLastPathComponent().deletingLastPathComponent(),
+            userConfiguration: URL.homeDirectory.appending(path: ".homebrew", directoryHint: .isDirectory)
+        )
+        return lastUpdateCheck(inRepository: repository, cache: cache, readsTheTaps: readsTheTaps(settingsIn: files))
+    }
+
+    static func lastUpdateCheck(inRepository repository: URL, cache: URL, readsTheTaps: Bool) -> Date? {
+        let fetched = lastUpdateCheck(inRepository: repository)
+        guard !readsTheTaps else { return fetched }
+        return ([fetched] + definitionsChecks(inCache: cache)).compactMap(\.self).max()
+    }
+
+    /// The dates of the packages files in Homebrew's API cache, which it sets at every download or revalidation
+    /// (`api.rb`). One it pins to 1970, after a download it couldn't verify, says nothing.
+    static func definitionsChecks(inCache cache: URL) -> [Date] {
+        let folder = cache.appending(path: "api/internal", directoryHint: .isDirectory)
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+        return names.filter { $0.hasPrefix("packages.") && $0.hasSuffix(".jws.json") }
+            .compactMap { FileIdentity.of(folder.appending(path: $0))?.modificationDate }
+            .filter { $0 > Date(timeIntervalSince1970: 2 * 24 * 60 * 60) }
     }
 
     /// Homebrew reads the file only as a regular file (`find -type f` in `utils/auto-update.sh`), never through a link.

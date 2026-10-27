@@ -175,6 +175,30 @@ struct HomebrewTests {
         #expect(Homebrew.lastUpdateCheck(inRepository: empty.url) == nil)
     }
 
+    @Test func takesTheLaterOfAnUpdateAndAConfirmationOfTheDefinitions() throws {
+        let repository = try TemporaryDirectory()
+        let fetchHead = try repository.file(".git/FETCH_HEAD", contents: Data("main\n".utf8))
+        let fetched = Date(timeIntervalSince1970: 1_792_315_250)
+        let date = { (when: Date, file: URL) in
+            let path = file.path(percentEncoded: false)
+            try FileManager.default.setAttributes([.modificationDate: when], ofItemAtPath: path)
+        }
+        try date(fetched, fetchHead)
+        let cache = try TemporaryDirectory()
+        let packages = try cache.file("api/internal/packages.arm64_tahoe.jws.json", bytes: 64)
+        let confirmed = fetched.addingTimeInterval(7 * 24 * 60 * 60)
+        try date(confirmed, packages)
+        let check = { (readsTheTaps: Bool) in
+            Homebrew.lastUpdateCheck(inRepository: repository.url, cache: cache.url, readsTheTaps: readsTheTaps)
+        }
+
+        #expect(check(false) == confirmed)
+        #expect(check(true) == fetched)
+        let pinned = Calendar(identifier: .gregorian).date(from: DateComponents(year: 1970, month: 1, day: 1))
+        try date(try #require(pinned), packages)
+        #expect(check(false) == fetched, "a download Homebrew couldn't verify")
+    }
+
     @Test func readsTheLastCheckOfTheHomebrewOnThisMac() async throws {
         guard Homebrew.executableURL != nil else {
             #expect(await Homebrew.lastUpdateCheck() == nil)
@@ -185,12 +209,15 @@ struct HomebrewTests {
         let fetchHead = repository.appending(path: ".git/FETCH_HEAD").path(percentEncoded: false)
         let attributes = try? FileManager.default.attributesOfItem(atPath: fetchHead)
         let isAFile = attributes?[.type] as? FileAttributeType == .typeRegular
-        let expected = isAFile ? attributes?[.modificationDate] as? Date : nil
+        let fetched = isAFile ? attributes?[.modificationDate] as? Date : nil
+        let cache = try await Homebrew.execute(["--cache"], autoUpdate: false, timeout: 30).answer()
+        let confirmed = Homebrew.folder(answering: cache).map(Homebrew.definitionsChecks(inCache:)) ?? []
         let read = await Homebrew.lastUpdateCheck()
 
-        #expect((read == nil) == (expected == nil))
-        if let read, let expected {
-            #expect(abs(read.timeIntervalSince(expected)) < 0.001)
+        #expect((read == nil) == (fetched == nil && confirmed.isEmpty))
+        if let read {
+            #expect(([fetched] + confirmed).compactMap(\.self).contains { abs(read.timeIntervalSince($0)) < 0.001 })
+            #expect(fetched.map { read >= $0.addingTimeInterval(-0.001) } ?? true)
         }
         guard await Homebrew.hasLocalDefinitions() else { return }
         #expect(try await Homebrew.installedPackages().allSatisfy { $0.lastUpdateCheck == read })

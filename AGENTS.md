@@ -297,8 +297,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **Never run `brew` by hand with `HOMEBREW_NO_INSTALL_FROM_API=1`**: Homebrew then clones its whole core tap, over
   a gigabyte. Peel sets it for one question only, whether Homebrew's copy of its definitions is on the Mac.
 - **What Homebrew says of versions is as new as its last check for them.** `brew update` touches `.git/FETCH_HEAD` in
-  Homebrew's repository, the mark Homebrew compares with its own day, so what it says counts for a day after that
-  check (`Homebrew.lastUpdateCheck()`, `Homebrew.autoUpdateInterval`), while an update it knows of always shows.
+  Homebrew's repository, the mark Homebrew compares with its own day, and while it reads its definitions from its API
+  it dates their file at every download or confirmation (`api.rb`), so what it says counts for a day after the later
+  of the two (`Homebrew.lastUpdateCheck()`, `Homebrew.autoUpdateInterval`), while an update it knows of always shows.
 - **Apple's lookup is limited and lags a release.** Apple limits `itunes.apple.com/lookup` to about 20 calls a
   minute, so a process asks no faster (`RequestWindow`), and a copy of its catalog can name an older version for
   hours after a release, so an answer older than an update already found counts as a check that failed.
