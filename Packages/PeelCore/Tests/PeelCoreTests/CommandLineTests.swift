@@ -1296,6 +1296,18 @@ struct CommandLineTests {
         let help = SearchCommand.helpMessage(columns: 300)
 
         #expect(help.contains("Search every disk on this Mac, not only your home folder. Network volumes aren't searched."))
+        #expect(help.contains("yours first, then those an app keeps in a Library folder, each largest first"))
+    }
+
+    @Test func searchSaysWhichFilesItShowsWhenItCutsTheList() throws {
+        var results = FileSearchResults()
+        results.isTruncated = true
+        let search = try #require(try PeelCommand.parseAsRoot(["search", "--name", "report"]) as? SearchCommand)
+        let collected = Output.Collected()
+
+        try Output.$collected.withValue(collected) { try search.report(results) }
+
+        #expect(collected.notes == "Only the first 2000 files are shown, yours before those an app keeps in a Library folder, each largest first. Narrow the search to see the rest.\n")
     }
 
     @Test func searchSaysWhatItLeftOutAndWhy() throws {

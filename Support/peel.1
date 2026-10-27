@@ -275,6 +275,8 @@ Show help information.
 .El
 .It Em search
 Search the Spotlight index for files.
+.Pp
+Peel asks Spotlight, so it finds only what Spotlight indexes, and network volumes aren't searched. It lists files alone, yours first, then those an app keeps in a Library folder, each largest first, at most 2000, and it says how many it left out and why.
 .Bl -tag -width 6n
 .It Fl -name Ar name
 Part of the file name.

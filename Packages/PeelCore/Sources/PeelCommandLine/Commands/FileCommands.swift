@@ -954,7 +954,11 @@ struct DuplicatesCommand: AsyncParsableCommand {
 }
 
 struct SearchCommand: AsyncParsableCommand {
-    static let configuration = CommandConfiguration(commandName: "search", abstract: "Search the Spotlight index for files.")
+    static let configuration = CommandConfiguration(
+        commandName: "search",
+        abstract: "Search the Spotlight index for files.",
+        discussion: "Peel asks Spotlight, so it finds only what Spotlight indexes, and network volumes aren't searched. It lists files alone, yours first, then those an app keeps in a Library folder, each largest first, at most \(Output.number(FileSearch.maximumResults)), and it says how many it left out and why."
+    )
 
     @Option(help: "Part of the file name.")
     var name: String?
@@ -1025,7 +1029,7 @@ struct SearchCommand: AsyncParsableCommand {
             )
         }
         if results.isTruncated {
-            Output.note("Only the first \(Output.number(FileSearch.maximumResults)) files are shown. Narrow the search to see the rest.")
+            Output.note("Only the first \(Output.number(FileSearch.maximumResults)) files are shown, yours before those an app keeps in a Library folder, each largest first. Narrow the search to see the rest.")
         }
         for reason in FileSearch.LeftOut.allCases {
             if let count = results.leftOut[reason] { Output.note(Self.note(for: reason, count: count)) }
