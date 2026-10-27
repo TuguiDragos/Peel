@@ -18394,7 +18394,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicațiile despre care Peel nu spune nimic, pentru că ați ales „Nu verificați niciodată această aplicație” sau ați omis o versiune. Dacă reactivați verificarea pentru una dintre ele, actualizările ei apar din nou."
+            "value" : "Aplicațiile despre care Peel nu spune nimic, pentru că ați ales „Nu verificați niciodată această aplicație” sau ați omis o versiune. Dacă faceți clic pe Verificați din nou lângă una dintre ele, actualizările ei apar din nou."
           }
         },
         "ru" : {
