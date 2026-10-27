@@ -178199,6 +178199,113 @@
         }
       }
     },
+    "The app this package installed is excluded in Settings, so Peel leaves its receipt alone too." : {
+      "comment" : "The help tag of the Forget Receipt button on a package's page in Package Receipts, while the app the package installed is excluded in Settings > Exclusions.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace, kterou tento balíček nainstaloval, je vyloučená v Nastavení, takže Peel nechává nedotčený i jeho záznam o instalaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App, die dieses Paket installiert hat, ist in den Einstellungen ausgeschlossen, daher lässt Peel auch seine Quittung unangetastet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app que instaló este paquete está excluida en Ajustes, así que Peel tampoco toca su recibo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app que ce paquet a installée est exclue dans les Réglages : Peel laisse donc aussi son reçu en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app installata da questo pacchetto è esclusa nelle Impostazioni, quindi Peel non tocca neanche la sua ricevuta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このパッケージがインストールしたアプリは“設定”で除外されているため、Peelはこのレシートにも手を付けません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 패키지가 설치한 앱이 설정에서 제외되었으므로 Peel은 이 패키지의 수신 정보도 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app die dit pakket heeft geïnstalleerd, is uitgesloten in Instellingen, dus Peel laat ook het installatiebewijs ervan met rust."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja zainstalowana przez ten pakiet jest wykluczona w Ustawieniach, więc Peel nie rusza też jego potwierdzenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app que este pacote instalou está excluído nos Ajustes, então o Peel também não mexe no recibo dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația instalată de acest pachet este exclusă în Configurări, așa că Peel lasă neatinsă și recipisa pachetului."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение, которое установил этот пакет, исключено в Настройках, поэтому Peel не трогает и его квитанцию."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen som det här paketet installerade är undantagen i Inställningar, så Peel lämnar även paketets kvitto orört."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu paketin yüklediği uygulama Ayarlar’da hariç tutulmuş, bu yüzden Peel paketin makbuzuna da dokunmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма, яку інсталював цей пакет, є у винятках у Параметрах, тож Peel не торкається також його квитанції."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此软件包安装的App已在“设置”中被排除，因此Peel也不会触碰它的回执。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此套件安裝的App已在「設定」中排除，因此Peel也會將它的收據原地保留。"
+          }
+        }
+      }
+    },
     "The app writes all of this again the next time it opens. An app may also keep what it remembers about you here, such as a license key or an account you stayed signed in to, and then those go too." : {
       "localizations" : {
         "cs" : {

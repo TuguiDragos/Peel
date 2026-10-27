@@ -80,7 +80,7 @@ struct PackageDetailView: View {
                             .minimumTarget()
                     }
                     .buttonStyle(.borderless)
-                    .disabled(!helper.canAct || !history.mayMove)
+                    .disabled(!helper.canAct || !history.mayMove || receipt.installedAppIsExcluded)
                     .help(forgetHelp)
                 }
             }
@@ -131,7 +131,10 @@ struct PackageDetailView: View {
     }
 
     private var forgetHelp: Text {
-        helper.canAct
+        if receipt.installedAppIsExcluded {
+            return Text("The app this package installed is excluded in Settings, so Peel leaves its receipt alone too.")
+        }
+        return helper.canAct
             ? Text("The receipt goes to the Trash. Files stay where they are.")
             : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
     }

@@ -55,6 +55,8 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     public var installedThroughItsScripts = false
     /// The names of the apps the package put on this Mac that are still where it put them.
     public var installedApps: [String] = []
+    /// Whether one of those apps is excluded in Settings, which leaves its receipt alone too.
+    public var installedAppIsExcluded = false
 
     public var id: String { identifier }
 

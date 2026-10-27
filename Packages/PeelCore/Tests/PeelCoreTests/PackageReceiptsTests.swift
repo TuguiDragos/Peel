@@ -332,6 +332,17 @@ struct PackageReceiptsTests {
 
         #expect(scan.receipts.first { $0.identifier == "org.example.mixer.pkg" }?.installedApps == ["Mixer"])
         #expect(scan.receipts.first { $0.identifier == "org.example.gone.pkg" }?.installedApps == [])
+        #expect(scan.receipts.allSatisfy { !$0.installedAppIsExcluded })
+
+        let excluding = Exclusions(bundleIdentifiers: ["org.example.mixer"])
+        let kept = await PackageReceipts.list(exclusions: excluding, pkgutil: pkgutil, environment: environment)
+        let mixer = try #require(kept.receipts.first { $0.identifier == "org.example.mixer.pkg" })
+        #expect(mixer.installedAppIsExcluded)
+        try directory.file("private/var/db/receipts/org.example.mixer.pkg.bom", bytes: 16)
+        try directory.file("private/var/db/receipts/org.example.mixer.pkg.plist", bytes: 16)
+        let forgotten = await PackageActions.forget(mixer, exclusions: excluding)
+        #expect(forgotten.trashed.isEmpty)
+        #expect(forgotten.failures.map(\.reason) == [.guarded(.excluded), .guarded(.excluded)])
     }
 
     @Test func leavesAnAppToFinderWhenMacOSInstalledItsSystemExtension() async throws {

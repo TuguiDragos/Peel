@@ -363,7 +363,8 @@ public enum PackageReceipts {
                 nothingLeftOnDisk: listing != nil && !throughScripts && found.onDisk.isEmpty,
                 isFileListKnown: listing != nil,
                 installedThroughItsScripts: throughScripts,
-                installedApps: apps.map(\.name).sorted()
+                installedApps: apps.map(\.name).sorted(),
+                installedAppIsExcluded: apps.contains(where: exclusions.excludes)
             ),
             paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) },
             installLocation: installLocation.path(percentEncoded: false)

@@ -47,6 +47,9 @@ public enum PackageActions {
 
     static func forget(_ receipt: PackageReceipt, through service: TrashService) async -> TrashResult {
         let files = receiptFiles(of: receipt.identifier, onVolume: receipt.volume)
+        guard !receipt.installedAppIsExcluded else {
+            return TrashResult(failures: files.map { TrashFailure(url: $0, reason: .guarded(.excluded)) })
+        }
         guard !files.isEmpty else {
             // Named by the file macOS would keep, so the failure says which receipt rather than which disk. With the
             // folder there, the receipt was forgotten some other way since Peel read it.
