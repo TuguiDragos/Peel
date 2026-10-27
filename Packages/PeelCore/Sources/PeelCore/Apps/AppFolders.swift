@@ -5,12 +5,15 @@ internal import PeelPrivileged
 /// folder of tools. Every reading of the installed apps looks in them, in the app and in `peel` alike.
 public struct AppFolders: Sendable {
     public enum Refusal: Sendable, Equatable {
-        /// The disk, the home folder, or a folder of the system, which would make every reading of the apps slow.
+        /// A whole disk, the home folder, a Library or its Application Support, or one of macOS's own folders, which
+        /// would make every reading of the apps slow.
         case tooBroad
         /// An Applications folder, or one inside it, which Peel already looks in.
         case alreadyLookedIn
         /// The Trash, or a folder in it, which holds what is on its way out.
         case inATrash
+        /// A folder iCloud or another cloud keeps, whose listing can download what it holds.
+        case inTheCloud
     }
 
     public let url: URL
@@ -68,10 +71,23 @@ public struct AppFolders: Sendable {
 
     /// Why `folder` is not taken, compared without case since the disk folds it.
     public static func refusal(of folder: URL, home: URL = .homeDirectory) -> Refusal? {
+        refusal(of: folder, home: home) { $0.isInTheCloud }
+    }
+
+    static func refusal(of folder: URL, home: URL, isInTheCloud: (URL) -> Bool) -> Refusal? {
         let path = folded(folder)
-        let broad = ["/", "/users", "/volumes", "/system", "/library", folded(home), folded(home) + "/library"]
+        let library = folded(home) + "/library"
+        let broad = [
+            "/", "/users", "/volumes", "/library", "/library/application support", folded(home), library,
+            library + "/application support",
+        ]
         if broad.contains(path) { return .tooBroad }
+        // A whole disk other than the startup disk, and macOS's own folders, which hold no app of anyone else's.
+        let names = PathComponents.of(path)
+        if names.count == 2 && names[0] == "volumes" || names.first == "system" { return .tooBroad }
         if TrashService.isAtOrInsideATrash(folder, home: home) { return .inATrash }
+        // Listing a folder a cloud keeps can download what it holds.
+        if isInTheCloud(folder) { return .inTheCloud }
         let lookedIn = AppCatalog.standardDirectories(home: home).contains {
             PathComponents.isPath(path, atOrInside: folded($0))
         }
@@ -94,11 +110,11 @@ public struct AppFolders: Sendable {
         }
     }
 
-    /// The folders saved, less any in a Trash, which a list saved before such a folder was refused can hold.
+    /// The folders saved, less any refused now, which a list saved before the folder was refused can hold.
     private func read() -> [URL]? {
         guard let data = BoundedRead.data(at: url), let paths = try? JSONDecoder().decode([String].self, from: data)
         else { return nil }
         return paths.map { URL(filePath: $0, directoryHint: .isDirectory) }
-            .filter { !TrashService.isAtOrInsideATrash($0, home: home) }
+            .filter { Self.refusal(of: $0, home: home) == nil }
     }
 }

@@ -18,6 +18,19 @@ struct AppFoldersTests {
         }
     }
 
+    @Test func refusesAWholeDiskMacOSsOwnFoldersAndTheCloud() {
+        let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
+        func refusal(_ path: String, inTheCloud: Bool = false) -> AppFolders.Refusal? {
+            AppFolders.refusal(of: URL(filePath: path, directoryHint: .isDirectory), home: home) { _ in inTheCloud }
+        }
+        for path in ["/Volumes/Backup", "/System/Applications", "/System/Library/CoreServices",
+                     "/Library/Application Support", "/Users/someone/Library/Application Support"] {
+            #expect(refusal(path) == .tooBroad, "\(path)")
+        }
+        #expect(refusal("/Users/someone/Library/Application Support/Steam/steamapps/common") == nil)
+        #expect(refusal("/Users/someone/Library/CloudStorage/Dropbox/Apps", inTheCloud: true) == .inTheCloud)
+    }
+
     @Test func refusesTheTrashAndAFolderInIt() throws {
         let directory = try TemporaryDirectory()
         let trash = try directory.directory(".Trash")
@@ -34,6 +47,15 @@ struct AppFoldersTests {
         let inTheTrash = try directory.directory(".Trash/Apps")
         let tools = try directory.directory("Tools")
         let saved = [inTheTrash, tools].map { $0.path(percentEncoded: false) }
+        let list = try directory.file("app-folders.json", contents: JSONEncoder().encode(saved))
+
+        #expect(AppFolders(url: list, home: directory.url).load()?.map(\.lastPathComponent) == ["Tools"])
+    }
+
+    @Test func leavesOutAFolderNowRefusedThatWasChosenBefore() throws {
+        let directory = try TemporaryDirectory()
+        let tools = try directory.directory("Tools")
+        let saved = ["/Volumes/Backup", "/System/Applications", tools.path(percentEncoded: false)]
         let list = try directory.file("app-folders.json", contents: JSONEncoder().encode(saved))
 
         #expect(AppFolders(url: list, home: directory.url).load()?.map(\.lastPathComponent) == ["Tools"])

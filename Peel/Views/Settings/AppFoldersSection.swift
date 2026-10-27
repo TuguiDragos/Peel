@@ -8,14 +8,16 @@ struct AppFoldersSection: View {
     @State private var selected: Set<URL> = []
     @State private var refused: [String] = []
     @State private var refusedInATrash: [String] = []
+    @State private var refusedInTheCloud: [String] = []
 
     private var isShowingRefusal: Binding<Bool> {
         Binding(
-            get: { !refused.isEmpty || !refusedInATrash.isEmpty },
+            get: { !refused.isEmpty || !refusedInATrash.isEmpty || !refusedInTheCloud.isEmpty },
             set: {
                 guard !$0 else { return }
                 refused = []
                 refusedInATrash = []
+                refusedInTheCloud = []
             }
         )
     }
@@ -70,14 +72,16 @@ struct AppFoldersSection: View {
         ) { result in
             guard let urls = try? result.get() else { return }
             let refusals = urls.compactMap { url in AppFolders.refusal(of: url).map { (url: url, refusal: $0) } }
-            refused = refusals.filter { $0.refusal != .inATrash }.map(\.url.abbreviatedPath)
+            refused = refusals.filter { [.tooBroad, .alreadyLookedIn].contains($0.refusal) }.map(\.url.abbreviatedPath)
             refusedInATrash = refusals.filter { $0.refusal == .inATrash }.map(\.url.abbreviatedPath)
+            refusedInTheCloud = refusals.filter { $0.refusal == .inTheCloud }.map(\.url.abbreviatedPath)
             let adding = urls.filter { url in !refusals.contains { $0.url == url } }
             guard !adding.isEmpty else { return }
             library.addFolders(adding)
         }
         .alert(
-            refused.count + refusedInATrash.count == 1 ? "That folder can’t be added." : "These folders can’t be added.",
+            refused.count + refusedInATrash.count + refusedInTheCloud.count == 1
+                ? "That folder can’t be added." : "These folders can’t be added.",
             isPresented: isShowingRefusal
         ) {
             Button("OK", role: .cancel) {}
@@ -87,13 +91,12 @@ struct AppFoldersSection: View {
     }
 
     private var refusalMessage: Text {
-        let others = Text("Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, or a Library would slow down every look for apps. Choose the folder that holds the apps.\n\n\(RemovalFailureAlert.firstItems(refused).joined(separator: "\n"))")
+        let others = Text("Peel already looks in the Applications folders, and a folder as wide as a whole disk, your home folder, a Library, or one of macOS’s own would slow down every look for apps. Choose the folder that holds the apps.\n\n\(RemovalFailureAlert.firstItems(refused).joined(separator: "\n"))")
         let inATrash = Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(RemovalFailureAlert.firstItems(refusedInATrash).joined(separator: "\n"))")
-        switch (refused.isEmpty, refusedInATrash.isEmpty) {
-        case (false, true): return others
-        case (true, false): return inATrash
-        default: return Text("\(others)\n\n\(inATrash)")
-        }
+        let inTheCloud = Text("Reading a folder that iCloud or another cloud keeps can download what it holds, so Peel doesn’t look for apps there.\n\n\(RemovalFailureAlert.firstItems(refusedInTheCloud).joined(separator: "\n"))")
+        let parts = [(refused, others), (refusedInATrash, inATrash), (refusedInTheCloud, inTheCloud)]
+            .filter { !$0.0.isEmpty }.map(\.1)
+        return parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
     }
 
     private func removeSelected() {
