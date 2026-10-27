@@ -147,7 +147,7 @@ public enum BackgroundItemActions {
     private static func run(_ arguments: [String]) async throws(Failure) {
         let result = await Launchctl.run(arguments)
         guard result.status == 0 else {
-            throw .launchctl(result.output.trimmingCharacters(in: .whitespacesAndNewlines))
+            throw .launchctl(Launchctl.withoutAdviceToRunAsRoot(result.output))
         }
     }
 

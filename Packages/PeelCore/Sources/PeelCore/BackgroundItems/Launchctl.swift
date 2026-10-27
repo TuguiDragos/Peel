@@ -21,6 +21,15 @@ enum Launchctl {
         }
     }
 
+    /// `output` without the line `launchctl` adds after an error, telling whoever typed the command to run it as root
+    /// for richer errors: the person didn't type it, and can't follow it.
+    static func withoutAdviceToRunAsRoot(_ output: String) -> String {
+        output.split(whereSeparator: \.isNewline)
+            .filter { line in !(line.hasPrefix("Try ") && line.hasSuffix(" as root for richer errors.")) }
+            .joined(separator: "\n")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
     /// Parses `launchctl list`: "PID\tStatus\tLabel", where PID is "-" for jobs that aren't running. Nil when the
     /// output does not start with that header, since another form says nothing.
     static func parseList(_ output: String) -> [String: Int32?]? {

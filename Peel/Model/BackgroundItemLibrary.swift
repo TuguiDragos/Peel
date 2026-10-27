@@ -94,6 +94,8 @@ final class BackgroundItemLibrary {
     enum Action {
         case start
         case stop
+        /// Stop under the name macOS 27's page gives it for a job its gone app left loaded.
+        case remove
         case enable
         case disable
         case moveToTrash
@@ -141,7 +143,7 @@ final class BackgroundItemLibrary {
         do {
             switch action {
             case .start: try await BackgroundItemActions.start(item)
-            case .stop: try await BackgroundItemActions.stop(item)
+            case .stop, .remove: try await BackgroundItemActions.stop(item)
             case .enable:
                 try await BackgroundItemActions.setEnabled(true, for: item)
                 noteEnabled(item)

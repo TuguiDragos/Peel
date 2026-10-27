@@ -418,7 +418,7 @@ struct BackgroundItemDetailView: View {
                 .help(item.isFileGone ? Text(verbatim: "") : Text("Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again."))
             } else if #available(macOS 27, *), item.isLeftByAGoneApp {
                 Button("Remove", systemImage: "xmark.circle") {
-                    Task { await backgroundItems.perform(.stop, on: item) }
+                    Task { await backgroundItems.perform(.remove, on: item) }
                 }
                 .help(removeHelp)
             } else {

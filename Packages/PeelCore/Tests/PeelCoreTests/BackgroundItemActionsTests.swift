@@ -223,6 +223,15 @@ struct BackgroundItemActionsTests {
         #expect(BackgroundItems.Loaded(user: [:], inTheUserDomain: nil).unanswered.lists == [.agent])
     }
 
+    @Test func leavesOutLaunchctlsAdviceToRunItAsRoot() {
+        let bootstrap = "Bootstrap failed: 5: Input/output error\nTry re-running the command as root for richer errors.\n"
+        let kickstart = "Could not kickstart service: 1: Operation not permitted\nTry running `launchctl kickstart -k` as root for richer errors."
+
+        #expect(Launchctl.withoutAdviceToRunAsRoot(bootstrap) == "Bootstrap failed: 5: Input/output error")
+        #expect(Launchctl.withoutAdviceToRunAsRoot(kickstart) == "Could not kickstart service: 1: Operation not permitted")
+        #expect(Launchctl.withoutAdviceToRunAsRoot("Not privileged to start service.") == "Not privileged to start service.")
+    }
+
     @Test func aJobWhoseFileIsGoneSaysSo() throws {
         let directory = try TemporaryDirectory()
         let job = try PropertyListSerialization.data(

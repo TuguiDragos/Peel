@@ -140,6 +140,7 @@ struct BackgroundItemList: View {
         return switch failure.action {
         case .start: Text("“\(label)” couldn’t be started.")
         case .stop: Text("“\(label)” couldn’t be stopped.")
+        case .remove: Text("“\(label)” couldn’t be removed.")
         case .enable: Text("“\(label)” couldn’t be enabled.")
         case .disable: Text("“\(label)” couldn’t be disabled.")
         case .moveToTrash where failure.fileMoved: Text("“\(label)” is in the Trash but couldn’t be stopped.")
