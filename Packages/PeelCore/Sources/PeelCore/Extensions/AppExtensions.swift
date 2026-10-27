@@ -368,10 +368,16 @@ public enum AppExtensions {
         guard !carried.isEmpty else { return .none }
         guard let installed = await answer() else { return CarriedSystemExtensions(names: carried.map(\.name)) }
         let identifiers = Set(carried.map(\.identifier))
-        let held = installed.filter { item in
+        let listed = installed.filter { item in
             let team = item.teamIdentifier
             let sameTeam = app.teamIdentifier == nil || team == nil || team == app.teamIdentifier
             return identifiers.contains(item.identifier) && item.election != .beingRemoved && sameTeam
+        }
+        // During an update macOS lists the old version beside the new one: each is named once, as the one that runs.
+        var named: Set<String> = []
+        let held = listed.compactMap { item in
+            guard named.insert(item.identifier).inserted else { return AppExtension?.none }
+            return listed.first { $0.identifier == item.identifier && $0.election == .on } ?? item
         }
         return CarriedSystemExtensions(
             names: held.map(\.name),

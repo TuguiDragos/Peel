@@ -120,6 +120,24 @@ struct UninstallationTests {
         #expect(!unanswered.systemSettingsDeletesThem, "with no answer the category is not known")
     }
 
+    @Test func namesOnceAnExtensionMacOSListsTwiceDuringAnUpdate() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try appCarryingAFilter(in: directory)
+        func version(_ state: String, _ version: String) -> AppExtension {
+            AppExtension(
+                identifier: "org.example.filter", name: "Example Filter", kind: .systemExtension, point: nil,
+                owner: nil, url: nil, election: AppExtensions.election(forSystemExtensionState: state),
+                teamIdentifier: "ABCDE12345", reportedState: state, version: version
+            )
+        }
+
+        let listed = [version("activated waiting to upgrade", "1.0/100"), version("activated enabled", "2.0/200")]
+
+        let carried = await AppExtensions.installed(carriedBy: app) { listed }
+
+        #expect(carried.names == ["Example Filter"])
+    }
+
     @Test(.permissionsHold) func leavesToFinderAnAppItCannotLookInto() async throws {
         let directory = try TemporaryDirectory()
         let app = try appCarryingAFilter(in: directory)
