@@ -134,9 +134,11 @@ final class RemovalPlan {
     ) async {
         self.canUseHelper = canUseHelper
         let app = app
-        guard let (result, bundle, installed, revision) = await scanRun.run({
+        guard let (result, bundle, installed, revision, roles, isInTheDock) = await scanRun.run({
             let revision = ExclusionsStore.shared.revision
             let exclusions = ExclusionsStore.shared.exclusions
+            async let roles = DefaultApps.roles(of: app)
+            async let isInTheDock = !(await DockTiles().holding([app.url])).isEmpty
             let result = await Uninstallation.prepare(
                 app,
                 installedApps: installedApps,
@@ -148,7 +150,9 @@ final class RemovalPlan {
                 result,
                 await Self.look(inside: app),
                 await Self.packageReceipts(of: app, exclusions: exclusions),
-                revision
+                revision,
+                await roles,
+                await isInTheDock
             )
         }) else { return }
         uninstallation = result
@@ -165,8 +169,8 @@ final class RemovalPlan {
         vendorUninstaller = bundle
         (packageReceipts, filesOutside) = installed
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
-        defaultRoles = await DefaultApps.roles(of: app)
-        hasDockTile = !(await DockTiles().holding([app.url])).isEmpty
+        defaultRoles = roles
+        hasDockTile = isInTheDock
     }
 
     /// Brings the selection in line with the helper as it is now, without scanning again.

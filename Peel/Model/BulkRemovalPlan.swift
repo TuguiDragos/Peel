@@ -112,15 +112,16 @@ final class BulkRemovalPlan {
     ) async {
         self.canUseHelper = canUseHelper
         let apps = apps
-        guard let (result, revision) = await scanRun.run({
+        guard let (result, revision, inTheDock) = await scanRun.run({
             let revision = ExclusionsStore.shared.revision
+            async let inTheDock = DockTiles().holding(apps.map(\.url))
             return (await BulkUninstallation.prepare(
                 apps,
                 installedApps: installedApps,
                 exclusions: ExclusionsStore.shared.exclusions,
                 casks: casks,
                 receipts: receipts
-            ), revision)
+            ), revision, await inTheDock)
         }) else { return }
         bulk = result
         exclusionsRevision = revision
@@ -132,7 +133,7 @@ final class BulkRemovalPlan {
         self.installedApps = installedApps
         suggested = result.suggestedSelection(canUseHelper: self.canUseHelper)
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
-        appsInTheDock = await DockTiles().holding(apps.map(\.url))
+        appsInTheDock = inTheDock
     }
 
     /// Brings the selection in line with the helper as it is now, without scanning again.
