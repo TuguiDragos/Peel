@@ -118,12 +118,19 @@ struct LeftoversCommand: AsyncParsableCommand {
         let appSize: Int64?
         let leftovers: [LeftoverRecord]
         let unreadableLocations: [String]
+        /// Why `peel uninstall` would leave the app itself where it is, or `null` when it would move it. While the app
+        /// stays, none of its files moves.
+        let appStays: String?
 
-        init(app: InstalledApp, appSize: Int64?, leftovers: [Leftover], unreadableLocations: [SearchLocation]) {
+        init(
+            app: InstalledApp, appSize: Int64?, leftovers: [Leftover], unreadableLocations: [SearchLocation],
+            appStays: String?
+        ) {
             self.app = AppRecord(app)
             self.appSize = appSize
             self.leftovers = leftovers.map(LeftoverRecord.init)
             self.unreadableLocations = unreadableLocations.map { Output.path($0.url) }
+            self.appStays = appStays
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -131,6 +138,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             case appSize
             case leftovers
             case unreadableLocations
+            case appStays
         }
 
         func encode(to encoder: any Encoder) throws {
@@ -139,6 +147,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             try container.encode(appSize, forKey: .appSize)
             try container.encode(leftovers, forKey: .leftovers)
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
+            try container.encode(appStays, forKey: .appStays)
         }
     }
 
@@ -158,14 +167,22 @@ struct LeftoversCommand: AsyncParsableCommand {
             )
         }
         let leftovers = uninstallation.scan.leftovers.filter { all || $0.match.isRecommended }
+        let stays = UninstallCommand.whyItStays(uninstallation)
 
         // Printed in JSON mode too, on standard error, so a script that reads an empty list still learns what
         // was left out or couldn't be checked.
+        if let stays {
+            Output.note("\(stays.description) While it stays, `peel uninstall` moves none of its files.")
+        }
         Self.notes(uninstallation, homebrew: homebrew, hidden: uninstallation.scan.leftovers.count - leftovers.count)
         if output.json {
             let appSize = uninstallation.isAppMeasured ? uninstallation.appSize : nil
             let unread = uninstallation.scan.unreadableLocations
-            try Output.json(Report(app: target, appSize: appSize, leftovers: leftovers, unreadableLocations: unread))
+            let report = Report(
+                app: target, appSize: appSize, leftovers: leftovers, unreadableLocations: unread,
+                appStays: stays?.description
+            )
+            try Output.json(report)
             return
         }
         let appSize = uninstallation.isAppMeasured ? Output.size(uninstallation.appSize) : "unknown"
@@ -460,33 +477,54 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     /// Why the app itself can't move: macOS keeps another developer's app from a terminal without App Management,
-    /// which the person can allow, while an app in a folder they can't write to needs an administrator.
+    /// which the person can allow, while an app in a folder they can't write to needs an administrator, whom the Peel
+    /// app asks through its helper, or Finder where the helper may not move it.
     static func whyItCannotMove(
         _ app: InstalledApp,
-        isProtectedByPrivacy: Bool
+        isProtectedByPrivacy: Bool,
+        isBeyondTheHelper: Bool
     ) -> CommandFailure {
         let name = Output.plain(app.name)
-        guard isProtectedByPrivacy else {
-            return CommandFailure("Moving \(name) to the Trash needs administrator access. Remove it with the Peel app.")
+        if isProtectedByPrivacy {
+            return CommandFailure("macOS lets your terminal app move \(name) only with App Management. Allow it in System Settings > Privacy & Security > App Management, then try again, or remove it with the Peel app.")
         }
-        return CommandFailure("macOS lets your terminal app move \(name) only with App Management. Allow it in System Settings > Privacy & Security > App Management, then try again, or remove it with the Peel app.")
+        guard !isBeyondTheHelper else {
+            return CommandFailure("Moving \(name) to the Trash needs administrator access, and Peel's helper isn't allowed to move it from there. Move it to the Trash in Finder, which asks for an administrator's password.")
+        }
+        return CommandFailure("Moving \(name) to the Trash needs administrator access. Remove it with the Peel app.")
     }
 
-    /// Throws for an app removed elsewhere. Peel removes itself from its own Settings, after unregistering its login
-    /// item and privileged helper: if `peel` moved the app, the helper would stay registered with launchd and point
-    /// into the Trash. An agent goes by its maker's uninstaller, which also takes what it keeps in the system.
-    static func refuseIfRemovedElsewhere(
+    /// Why `peel uninstall` leaves the app itself where it is, in the words it says it, or nil when it moves it.
+    static func whyItStays(_ uninstallation: Uninstallation) -> CommandFailure? {
+        let app = uninstallation.app
+        if let refusal = removedElsewhere(app, installedSystemExtensions: uninstallation.installedSystemExtensions)
+            ?? keptByMacOS(app) ?? partOfAnotherPackage(app) {
+            return refusal
+        }
+        guard uninstallation.appRequiresPrivileges else { return nil }
+        return whyItCannotMove(
+            app,
+            isProtectedByPrivacy: FileAccess.isProtectedByPrivacy(app.url),
+            isBeyondTheHelper: uninstallation.isAppBeyondTheHelper
+        )
+    }
+
+    /// Why an app removed elsewhere never moves with `peel`, or nil for any other app. Peel removes itself from its own
+    /// Settings, after unregistering its login item and privileged helper: if `peel` moved the app, the helper would
+    /// stay registered with launchd and point into the Trash. An agent goes by its maker's uninstaller, which also
+    /// takes what it keeps in the system.
+    static func removedElsewhere(
         _ target: InstalledApp,
         installedSystemExtensions: CarriedSystemExtensions = .none
-    ) throws {
+    ) -> CommandFailure? {
         switch RemovedElsewhere.of(target, installedSystemExtensions: installedSystemExtensions) {
         case nil:
-            return
+            return nil
         case .byRemovePeel:
-            throw CommandFailure("Peel removes itself from its own settings, which unregisters the helper first. Open Peel and click Remove Peel in Settings.")
+            return CommandFailure("Peel removes itself from its own settings, which unregisters the helper first. Open Peel and click Remove Peel in Settings.")
         case .byItsMaker(let uninstaller) where uninstaller.removes != nil:
             let product = Output.plain(uninstaller.removes ?? "")
-            throw CommandFailure("\(Output.plain(target.name)) is \(uninstaller.maker)'s uninstaller for \(product): open it, and it removes \(product) and then itself. See \(uninstaller.instructions.absoluteString)")
+            return CommandFailure("\(Output.plain(target.name)) is \(uninstaller.maker)'s uninstaller for \(product): open it, and it removes \(product) and then itself. See \(uninstaller.instructions.absoluteString)")
         case .byItsMaker(let uninstaller):
             let step = switch uninstaller.step {
             case .command(let command): "run `\(command)`"
@@ -494,9 +532,9 @@ struct UninstallCommand: AsyncParsableCommand {
             case .inTheApp: "use the uninstall command in \(Output.plain(target.name))"
             case .onItsDiskImage: "use the uninstaller on the disk image it came on"
             }
-            throw CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
+            return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
         case .byFinder(let carried) where !carried.isKnown:
-            throw CommandFailure("Peel can't look inside \(Output.plain(target.name)) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. Move the app to the Trash in Finder.")
+            return CommandFailure("Peel can't look inside \(Output.plain(target.name)) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. Move the app to the Trash in Finder.")
         case .byFinder(let carried):
             let names = carried.names
             let extensions = names.map(Output.plain).joined(separator: ", ")
@@ -505,16 +543,21 @@ struct UninstallCommand: AsyncParsableCommand {
             let settings = carried.systemSettingsDeletesThem
                 ? " If \(stays), in System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside \(beside) and choose Delete Extension."
                 : ""
-            throw CommandFailure("macOS installed \(what) that came with \(Output.plain(target.name)) (\(extensions)), and only macOS can remove \(them). Move the app to the Trash in Finder, which asks macOS to remove \(them).\(settings)")
+            return CommandFailure("macOS installed \(what) that came with \(Output.plain(target.name)) (\(extensions)), and only macOS can remove \(them). Move the app to the Trash in Finder, which asks macOS to remove \(them).\(settings)")
         }
     }
 
-    /// Throws for an app inside another package, such as a helper app inside the app it serves: moved alone, it
-    /// would be cut out of that package.
-    static func refuseIfPartOfAnotherPackage(_ target: InstalledApp) throws {
-        guard let package = target.enclosingPackage else { return }
+    static func keptByMacOS(_ target: InstalledApp) -> CommandFailure? {
+        guard target.isSystemProtected else { return nil }
+        return CommandFailure("macOS protects \(Output.plain(target.name)), so it can't be removed.")
+    }
+
+    /// Why an app inside another package, such as a helper app inside the app it serves, never moves on its own: it
+    /// would be cut out of that package. Nil for any other app.
+    static func partOfAnotherPackage(_ target: InstalledApp) -> CommandFailure? {
+        guard let package = target.enclosingPackage else { return nil }
         let name = Output.plain(AppInspector.displayName(of: package))
-        throw CommandFailure("\(Output.plain(target.name)) is part of \(name), so it can't be removed on its own.")
+        return CommandFailure("\(Output.plain(target.name)) is part of \(name), so it can't be removed on its own.")
     }
 
     /// Throws when Peel never resets the privacy permissions of `target`. Called for `--reset-privacy` before
@@ -541,13 +584,11 @@ struct UninstallCommand: AsyncParsableCommand {
     func run() async throws {
         let apps = await AppCatalog.installedApps()
         let target = try AppLookup.app(matching: app, in: apps)
-        try Self.refuseIfRemovedElsewhere(
-            target, installedSystemExtensions: await AppExtensions.installed(carriedBy: target)
-        )
-        guard !target.isSystemProtected else {
-            throw CommandFailure("macOS protects \(Output.plain(target.name)), so it can't be removed.")
+        let carried = await AppExtensions.installed(carriedBy: target)
+        if let refusal = Self.removedElsewhere(target, installedSystemExtensions: carried)
+            ?? Self.keptByMacOS(target) ?? Self.partOfAnotherPackage(target) {
+            throw refusal
         }
-        try Self.refuseIfPartOfAnotherPackage(target)
         if resetPrivacy {
             try Self.refuseIfPrivacyCannotBeReset(target)
         }
@@ -568,11 +609,7 @@ struct UninstallCommand: AsyncParsableCommand {
                 receipts: homebrew.receipts
             )
         }
-        let access = try Self.note(
-            for: uninstallation.appRequiresPrivileges
-                ? Self.whyItCannotMove(target, isProtectedByPrivacy: FileAccess.isProtectedByPrivacy(target.url)) : nil,
-            dryRun: dryRun
-        )
+        let access = try Self.note(for: Self.whyItStays(uninstallation), dryRun: dryRun)
         [running, access].compactMap(\.self).forEach(Output.note)
 
         if let note = UnreadableHistory.note() {
@@ -667,8 +704,8 @@ struct UninstallCommand: AsyncParsableCommand {
         try Cleanup.end(failed: !result.failures.isEmpty || privacy?.failed == true, recorded: recorded)
     }
 
-    /// Returns the notes printed before the question: what the scan couldn't fully check, and files that
-    /// will stay. The user needs to see them before agreeing to the move.
+    /// Returns the notes printed before the question: what the scan couldn't fully check, files that will stay, and
+    /// Homebrew's record of the app when it stays. The user needs to see them before agreeing to the move.
     static func whatStays(
         _ plan: UninstallPlan,
         app: InstalledApp,
@@ -678,6 +715,12 @@ struct UninstallCommand: AsyncParsableCommand {
         var notes: [String] = []
         if let note = homebrew.note {
             notes.append(note)
+        }
+        let records = Set(scan.leftovers.filter { $0.kind == .homebrewReceipt }.map(\.url))
+        let moving = Set(plan.moving.map(\.url))
+        if moving.contains(app.url), moving.isDisjoint(with: records),
+           let cask = CaskEvidence.installedCask(for: app, in: homebrew.casks) {
+            notes.append("Homebrew installed \(Output.plain(app.name)) and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(cask.name)`: Homebrew then carries out the cask's own uninstall steps, which can delete files for good.")
         }
         if !scan.unreadableLocations.isEmpty {
             let folders = scan.unreadableLocations.map(\.url)

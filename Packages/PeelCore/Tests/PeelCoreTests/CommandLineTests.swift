@@ -41,10 +41,75 @@ struct CommandLineTests {
         let app = InstalledApp(
             url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "org.example.app", name: "Example"
         )
-        let privacy = UninstallCommand.whyItCannotMove(app, isProtectedByPrivacy: true).description
-        #expect(privacy.contains("App Management") && !privacy.contains("administrator"))
-        let permissions = UninstallCommand.whyItCannotMove(app, isProtectedByPrivacy: false).description
-        #expect(permissions.contains("administrator"))
+        func why(privacy: Bool, beyond: Bool) -> String {
+            UninstallCommand.whyItCannotMove(app, isProtectedByPrivacy: privacy, isBeyondTheHelper: beyond).description
+        }
+        #expect(why(privacy: true, beyond: false).contains("App Management"))
+        #expect(!why(privacy: true, beyond: false).contains("administrator"))
+        #expect(why(privacy: false, beyond: false).contains("administrator"))
+        let beyond = why(privacy: false, beyond: true)
+        #expect(beyond.contains("in Finder") && !beyond.contains("Peel app"), "the app would send it back here")
+    }
+
+    @Test func leftoversSaysWhyTheAppItselfWouldStay() throws {
+        let editor = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor", name: "Editor"
+        )
+        let notes = InstalledApp(
+            url: URL(filePath: "/System/Applications/Notes.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.notes", name: "Notes", isSystemProtected: true
+        )
+        let cache = leftover(URL(filePath: "/Users/me/Library/Caches/com.example.editor"))
+        let scan = LeftoverScan(leftovers: [cache], unreadableLocations: [])
+        let needsAnAdministrator = Uninstallation(app: editor, appSize: 1, appRequiresPrivileges: true, scan: scan)
+        var beyondTheHelper = needsAnAdministrator
+        beyondTheHelper.isAppBeyondTheHelper = true
+
+        #expect(UninstallCommand.whyItStays(uninstallation(app: editor, leftovers: [cache])) == nil)
+        let protected = UninstallCommand.whyItStays(uninstallation(app: notes, leftovers: [cache]))?.description
+        #expect(protected == "macOS protects Notes, so it can't be removed.")
+        #expect(UninstallCommand.whyItStays(needsAnAdministrator)?.description.contains("with the Peel app") == true)
+        #expect(UninstallCommand.whyItStays(beyondTheHelper)?.description.contains("in Finder") == true)
+
+        let report = { (stays: String?) throws -> [String: Any] in
+            let leftovers = LeftoversCommand.Report(
+                app: notes, appSize: nil, leftovers: [cache], unreadableLocations: [], appStays: stays
+            )
+            let json = try Output.jsonText(leftovers)
+            return try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        }
+        #expect(try report(protected)["appStays"] as? String == protected)
+        #expect(try report(nil)["appStays"] is NSNull, "a script always finds the key")
+    }
+
+    @Test func saysHomebrewKeepsListingAnAppWhoseCaskroomRecordStays() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor", name: "Editor"
+        )
+        let cask = HomebrewPackage(
+            name: "editor", kind: .cask, installedVersion: "1.0", appNames: ["Editor.app"],
+            appTargets: ["/Applications/Editor.app"]
+        )
+        let record = Leftover(
+            url: URL(filePath: "/opt/homebrew/Caskroom/editor", directoryHint: .isDirectory),
+            kind: .homebrewReceipt,
+            match: LeftoverMatch(reason: .homebrewReceipt, confidence: .certain, sharedWith: []),
+            size: 10,
+            isMeasured: true,
+            requiresPrivileges: false
+        )
+        let scan = LeftoverScan(leftovers: [record], unreadableLocations: [])
+        let editor = Uninstallation(app: app, appSize: 1, appRequiresPrivileges: false, scan: scan)
+        let homebrew = CaskLookup.Answer(casks: [cask])
+
+        let keepingIt = UninstallPlan.make(editor, keepLeftovers: true) { _ in nil }
+        #expect(UninstallCommand.whatStays(keepingIt, app: app, homebrew: homebrew, scan: scan) == [
+            "Homebrew installed Editor and will keep listing it as installed. To take it off that list, run `brew uninstall --cask editor`: Homebrew then carries out the cask's own uninstall steps, which can delete files for good.",
+        ])
+        let movingIt = UninstallPlan.make(editor, keepLeftovers: false) { _ in nil }
+        #expect(UninstallCommand.whatStays(movingIt, app: app, homebrew: homebrew, scan: scan).isEmpty)
     }
 
     /// What the Trash can't bring back is said before the question in every output: with `--json` on standard error.
@@ -443,7 +508,9 @@ struct CommandLineTests {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
 
-        let report = LeftoversCommand.Report(app: app, appSize: nil, leftovers: [], unreadableLocations: [unread])
+        let report = LeftoversCommand.Report(
+            app: app, appSize: nil, leftovers: [], unreadableLocations: [unread], appStays: nil
+        )
 
         let json = try #require(
             JSONSerialization.jsonObject(with: Data(try Output.jsonText(report).utf8)) as? [String: Any]
@@ -859,8 +926,8 @@ struct CommandLineTests {
 
         #expect(peel.isPeelItself)
         #expect(!other.isPeelItself)
-        #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfRemovedElsewhere(peel) }
-        try UninstallCommand.refuseIfRemovedElsewhere(other)
+        #expect(UninstallCommand.removedElsewhere(peel) != nil)
+        #expect(UninstallCommand.removedElsewhere(other) == nil)
     }
 
     /// A management or security agent goes by its maker's uninstaller, which `peel` names instead of moving it.
@@ -871,8 +938,7 @@ struct CommandLineTests {
             teamIdentifier: "PXPZ95SK77"
         )
 
-        let failure = #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfRemovedElsewhere(agent) }
-        #expect(failure?.description.contains("uninstall_gp.sh") == true)
+        #expect(UninstallCommand.removedElsewhere(agent)?.description.contains("uninstall_gp.sh") == true)
     }
 
     @Test func refusesToUninstallAVPNAndSaysWhereItsOwnUninstallIs() throws {
@@ -881,8 +947,7 @@ struct CommandLineTests {
                 url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory),
                 bundleIdentifier: identifier, name: name, teamIdentifier: team
             )
-            return #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfRemovedElsewhere(app) }?
-                .description
+            return UninstallCommand.removedElsewhere(app)?.description
         }
 
         #expect(refusal("com.express.vpn", team: "TC292Y5427", name: "ExpressVPN")?
@@ -898,9 +963,7 @@ struct CommandLineTests {
             name: "Chrome Remote Desktop Host Uninstaller", teamIdentifier: "EQHXZ8M8AV"
         )
 
-        let failure = #expect(throws: CommandFailure.self) {
-            try UninstallCommand.refuseIfRemovedElsewhere(uninstaller)
-        }
+        let failure = UninstallCommand.removedElsewhere(uninstaller)
         #expect(failure?.description == "Chrome Remote Desktop Host Uninstaller is Google's uninstaller for Chrome Remote Desktop Host: open it, and it removes Chrome Remote Desktop Host and then itself. See https://support.google.com/chrome/answer/1649523")
     }
 
@@ -910,25 +973,19 @@ struct CommandLineTests {
             bundleIdentifier: "org.example.app", name: "Example"
         )
 
-        let failure = #expect(throws: CommandFailure.self) {
-            try UninstallCommand.refuseIfRemovedElsewhere(
-                app, installedSystemExtensions: CarriedSystemExtensions(names: ["Example Filter"])
+        let failure = UninstallCommand.removedElsewhere(
+            app, installedSystemExtensions: CarriedSystemExtensions(names: ["Example Filter"])
+        )
+        let deletable = UninstallCommand.removedElsewhere(
+            app,
+            installedSystemExtensions: CarriedSystemExtensions(names: ["Example Filter"], systemSettingsDeletesThem: true)
+        )
+        let several = UninstallCommand.removedElsewhere(
+            app,
+            installedSystemExtensions: CarriedSystemExtensions(
+                names: ["Example Filter", "Example Proxy"], systemSettingsDeletesThem: true
             )
-        }
-        let deletable = #expect(throws: CommandFailure.self) {
-            try UninstallCommand.refuseIfRemovedElsewhere(
-                app,
-                installedSystemExtensions: CarriedSystemExtensions(names: ["Example Filter"], systemSettingsDeletesThem: true)
-            )
-        }
-        let several = #expect(throws: CommandFailure.self) {
-            try UninstallCommand.refuseIfRemovedElsewhere(
-                app,
-                installedSystemExtensions: CarriedSystemExtensions(
-                    names: ["Example Filter", "Example Proxy"], systemSettingsDeletesThem: true
-                )
-            )
-        }
+        )
         #expect(failure?.description.contains("Trash in Finder") == true)
         #expect(failure?.description.contains("System Settings") == false, "a step System Settings isn't proved to take")
         #expect(deletable?.description.contains("Trash in Finder") == true)
@@ -937,7 +994,7 @@ struct CommandLineTests {
         ) == true)
         #expect(deletable?.description.contains("the More button beside it and choose Delete Extension.") == true)
         #expect(several?.description.contains("the More button beside each and choose Delete Extension.") == true)
-        try UninstallCommand.refuseIfRemovedElsewhere(app)
+        #expect(UninstallCommand.removedElsewhere(app) == nil)
     }
 
     @Test func refusesToUninstallAnAppInsideAnotherApp() throws {
@@ -948,8 +1005,8 @@ struct CommandLineTests {
         )
         let alone = InstalledApp(url: outer, bundleIdentifier: "org.example.outer", name: "Outer")
 
-        #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfPartOfAnotherPackage(inner) }
-        try UninstallCommand.refuseIfPartOfAnotherPackage(alone)
+        #expect(UninstallCommand.partOfAnotherPackage(inner) != nil)
+        #expect(UninstallCommand.partOfAnotherPackage(alone) == nil)
     }
 
     /// A privacy reset that was asked for but can never happen is refused before anything is listed. If it were
