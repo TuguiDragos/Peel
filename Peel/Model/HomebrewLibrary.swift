@@ -102,7 +102,28 @@ final class HomebrewLibrary {
         CaskEvidence.combined(installed: packages ?? [], known: knownCasks)
     }
 
-    var knowsItsOwnApps: Bool { !isInstalled || hasAnswered }
+    var knowsItsOwnApps: Bool {
+        Self.knowsItsOwnApps(isInstalled: isInstalled, hasAnswered: hasAnswered, isNotRun: isNotRun)
+    }
+
+    /// Whether a Homebrew is on this Mac that Peel doesn't run: the `brew` chosen in Settings can't be run, or one
+    /// where Homebrew installs itself is refused. Peel then knows nothing of what that Homebrew installed.
+    var isNotRun: Bool { unrunnableChoice != nil || refusedBrew != nil }
+
+    /// Whether Homebrew's packages say of every app whether Homebrew installed it: with no Homebrew, or once it
+    /// answered, and never while there is one Peel doesn't run.
+    static func knowsItsOwnApps(isInstalled: Bool, hasAnswered: Bool, isNotRun: Bool) -> Bool {
+        hasAnswered || (!isInstalled && !isNotRun)
+    }
+
+    static func unanswered(
+        isInstalled: Bool, hasAnswered: Bool, couldNotRead: Bool, needsDefinitions: Bool, isNotRun: Bool
+    ) -> Unanswered? {
+        if isNotRun { return .notRun }
+        guard isInstalled, !hasAnswered else { return nil }
+        if couldNotRead { return .readingFailed }
+        return needsDefinitions ? .hasToUpdate : nil
+    }
 
     /// Why Homebrew's last reading ended without saying what is installed, as its page says it.
     enum Unanswered: Equatable {
@@ -110,13 +131,16 @@ final class HomebrewLibrary {
         case readingFailed
         /// Homebrew has no local list of its packages, and asking would download it again.
         case hasToUpdate
+        /// Peel doesn't run the Homebrew on this Mac, as its page says.
+        case notRun
     }
 
     /// Nil while Homebrew hasn't answered yet, and once it has.
     var unanswered: Unanswered? {
-        guard isInstalled, !hasAnswered else { return nil }
-        if couldNotRead != nil { return .readingFailed }
-        return needsDefinitions ? .hasToUpdate : nil
+        Self.unanswered(
+            isInstalled: isInstalled, hasAnswered: hasAnswered, couldNotRead: couldNotRead != nil,
+            needsDefinitions: needsDefinitions, isNotRun: isNotRun
+        )
     }
 
     /// Whether this account may change Homebrew, true until Homebrew has been read. On another account of the Mac its
@@ -237,7 +261,7 @@ final class HomebrewLibrary {
     /// Whether the sidebar shows the Homebrew page by default: also while Peel won't run the `brew` it found, so the
     /// page can say why.
     var isOnThisMac: Bool {
-        isInstalled || unrunnableChoice != nil || refusedBrew != nil
+        isInstalled || isNotRun
     }
 
     /// Reads the packages again when Homebrew checked for new versions since they were read, as `brew update` in

@@ -481,10 +481,13 @@ private struct GeneralSettingsView: View {
                     } else if case .homebrewDidNotAnswer(let why) = way {
                         HStack {
                             Group {
-                                if why == .readingFailed {
+                                switch why {
+                                case .readingFailed:
                                     Text("Homebrew didn’t say what is installed, so Peel can’t tell whether it installed this copy, which would then be removed with Homebrew.")
-                                } else {
+                                case .hasToUpdate:
                                     Text("Homebrew has to update before it can say whether it installed this copy, which would then be removed with Homebrew.")
+                                case .notRun:
+                                    Text("Peel doesn’t run the Homebrew on this Mac, so it can’t tell whether Homebrew installed this copy, which would then be removed with Homebrew.")
                                 }
                             }
                             .font(.callout)

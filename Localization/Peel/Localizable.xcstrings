@@ -128405,6 +128405,113 @@
         }
       }
     },
+    "Peel doesn’t run the Homebrew on this Mac, so it can’t tell whether Homebrew installed this copy, which would then be removed with Homebrew." : {
+      "comment" : "Settings, under Remove Peel, beside a button that opens the Homebrew page: the Homebrew on this Mac is one Peel doesn’t run (the brew chosen in Settings can’t be run, or one another account owns), so Remove Peel waits.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nespouští Homebrew v tomto Macu, takže nemůže zjistit, zda tuto kopii nainstaloval Homebrew, a v tom případě by se odstraňovala pomocí Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt das Homebrew auf diesem Mac nicht aus und kann daher nicht feststellen, ob Homebrew diese Kopie installiert hat, die dann mit Homebrew entfernt würde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ejecuta el Homebrew de este Mac, así que no puede saber si Homebrew instaló esta copia, que en ese caso se eliminaría con Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’exécute pas le Homebrew de ce Mac : Peel ne peut donc pas savoir si Homebrew a installé cette copie, qui se supprimerait alors avec Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non esegue l’Homebrew presente su questo Mac, quindi non può sapere se Homebrew ha installato questa copia, che in quel caso andrebbe rimossa con Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PeelはこのMacのHomebrewを実行しないため、このコピーがHomebrewでインストールされたものかどうかを判断できません。Homebrewでインストールされたものであれば、Homebrewでアンインストールすることになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 Mac의 Homebrew를 실행하지 않으므로, Homebrew가 이 복사본을 설치했는지 알 수 없습니다. Homebrew가 설치했다면 이 복사본은 Homebrew로 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert de Homebrew op deze Mac niet uit, dus Peel kan niet zien of Homebrew deze kopie heeft geïnstalleerd, die dan met Homebrew zou worden verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie uruchamia Homebrew na tym Macu, więc nie może ustalić, czy to Homebrew zainstalował tę kopię, którą należałoby wtedy odinstalować za pomocą Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não executa o Homebrew deste Mac, então não consegue saber se o Homebrew instalou esta cópia, que nesse caso seria removida com o Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu rulează instalarea Homebrew de pe acest Mac, așa că nu poate ști dacă Homebrew a instalat această copie, caz în care s‑ar elimina cu Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запускает Homebrew на этом Mac, поэтому не может определить, установил ли эту копию Homebrew, а такую копию удаляют с помощью Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör inte det Homebrew som finns på den här datorn, så Peel kan inte avgöra om Homebrew har installerat den här kopian, som i så fall skulle tas bort med Homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu Mac’teki Homebrew’u çalıştırmaz, bu yüzden bu kopyayı Homebrew’un yükleyip yüklemediğini anlayamıyor; Homebrew yüklediyse bu kopya Homebrew ile kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запускає Homebrew на цьому Mac, тож не може визначити, чи інсталював Homebrew цю копію, а таку копію вилучають через Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会运行这台Mac上的Homebrew，因此无法判断此副本是否由Homebrew安装；如果是，就需要使用Homebrew移除此副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會執行這部Mac上的Homebrew，因此無法判斷這份副本是否由Homebrew安裝；若是由它安裝，就要使用Homebrew移除。"
+          }
+        }
+      }
+    },
     "Peel doesn’t run this `brew`." : {
       "comment" : "In Settings > General > Homebrew and on the Terminal page's Tools tab, beside the path of a brew program Peel won't run. A line under it says why. Keep `brew` as it is.",
       "localizations" : {

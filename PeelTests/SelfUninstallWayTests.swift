@@ -28,4 +28,18 @@ struct SelfUninstallWayTests {
         #expect(SelfUninstall.Way.homebrewDidNotAnswer(.readingFailed).waitsForHomebrew)
         #expect(!SelfUninstall.Way.removePeel.waitsForHomebrew)
     }
+
+    /// A Homebrew Peel doesn't run, the one chosen in Settings that can't be run or one where Homebrew installs itself
+    /// that Peel refuses, says nothing of what it installed, so Remove Peel waits and says why.
+    @Test func waitsWhileThereIsAHomebrewPeelDoesNotRun() {
+        #expect(!HomebrewLibrary.knowsItsOwnApps(isInstalled: false, hasAnswered: false, isNotRun: true))
+        #expect(HomebrewLibrary.knowsItsOwnApps(isInstalled: false, hasAnswered: false, isNotRun: false))
+        #expect(
+            HomebrewLibrary.unanswered(
+                isInstalled: false, hasAnswered: false, couldNotRead: false, needsDefinitions: false, isNotRun: true
+            ) == .notRun
+        )
+        let way = SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false, unanswered: .notRun)
+        #expect(way == .homebrewDidNotAnswer(.notRun))
+    }
 }
