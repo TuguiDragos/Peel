@@ -28,7 +28,7 @@ struct DeveloperDetailView: View {
                 .listRowSeparator(.hidden)
             } header: {
                 SectionHeaderLine {
-                    Text("Caches")
+                    Text("Folders")
                 } actions: {
                     SelectMenu(
                         list: environment.selectableRows,
