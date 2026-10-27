@@ -102991,6 +102991,113 @@
         }
       }
     },
+    "Not selected: it is in a repository, so it may be part of a project’s work." : {
+      "comment" : "The note beside a file in File Search that sits in a Git, Mercurial, or Subversion repository.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: je v repozitáři, takže může být součástí práce na projektu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Diese Datei liegt in einem Repository und gehört daher möglicherweise zur Arbeit an einem Projekt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: está en un repositorio, así que puede que forme parte del trabajo de un proyecto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce fichier se trouve dans un dépôt et fait donc peut-être partie du travail d’un projet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: si trova in un repository, quindi potrebbe far parte del lavoro di un progetto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: リポジトリ内にあるため、プロジェクトの作業の一部である可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 파일은 저장소 안에 있으므로 프로젝트 작업의 일부일 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit staat in een repository, dus het hoort misschien bij het werk aan een project."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten plik jest w repozytorium, więc może być częścią pracy nad projektem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: ele está em um repositório, então pode fazer parte do trabalho de um projeto."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest fișier se află într‑un depozit, așa că poate face parte din lucrările unui proiect."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл находится в репозитории, поэтому может быть частью работы над проектом."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den ligger i ett kodförråd, så den kan vara en del av arbetet i ett projekt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bir deponun içinde, bu yüzden bir projedeki çalışmanın parçası olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей файл міститься в репозиторії, тож він може бути частиною роботи над проєктом."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它位于代码仓库中，因此可能是某个项目工作成果的一部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它位於儲存庫中，因此可能屬於某個計畫案的工作成果。"
+          }
+        }
+      }
+    },
     "Not selected: it is in an app’s own iCloud folder, which Finder may not show, and the app may expect to find it on this Mac." : {
       "comment" : "The note beside a file in iCloud Drive that sits in an app's own folder in iCloud, such as the Documents folder of an app's iCloud container, rather than in iCloud Drive itself.",
       "localizations" : {

@@ -57,6 +57,8 @@ public struct FoundFile: Sendable, Hashable, Identifiable {
     /// The file's identity when it was listed. Results can stay on screen for a long time, and a file written
     /// again under the same name is not the one the row describes.
     public var identity: FileIdentity?
+    /// Why Peel doesn't recommend moving it, or nil.
+    public var heldBack: HoldBack?
 
     public var id: URL { url }
 
@@ -201,6 +203,7 @@ public enum FileSearch {
             if $0.belongsToAnApp != $1.belongsToAnApp { return !$0.belongsToAnApp }
             return $0.info.st_size != $1.info.st_size ? $0.info.st_size > $1.info.st_size : $0.path < $1.path
         }
+        var repositories: [String: Bool] = [:]
         listing: for candidate in candidates {
             let url = URL(filePath: candidate.path)
             let hasRoom = results.files.count < maximumResults
@@ -225,7 +228,8 @@ public enum FileSearch {
                     modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                     belongsToAnApp: candidate.belongsToAnApp,
-                    identity: FileIdentity(candidate.info)
+                    identity: FileIdentity(candidate.info),
+                    heldBack: heldBack(url, environment: environment, repositories: &repositories)
                 ))
             }
         }
@@ -237,6 +241,21 @@ public enum FileSearch {
                 ? $0.length > $1.length : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
         }
         return results
+    }
+
+    /// Why a listed file is held back: one in /Users/Shared may be another account's, and one in a repository part
+    /// of a project's work. `repositories` keeps the answer per folder, since a search lists many files of one.
+    private static func heldBack(
+        _ url: URL, environment: SearchEnvironment, repositories: inout [String: Bool]
+    ) -> HoldBack? {
+        let shared = environment.rootDirectory.appending(path: "Users/Shared").path(percentEncoded: false)
+        if PathComponents.isPath(url.path(percentEncoded: false), inside: shared) { return .sharedWithEveryone }
+        let folder = url.deletingLastPathComponent()
+        let key = folder.path(percentEncoded: false)
+        let isInARepository = repositories[key]
+            ?? DuplicateFinder.isInsideARepository(folder, home: environment.homeDirectory)
+        repositories[key] = isInARepository
+        return isInARepository ? .inARepository : nil
     }
 
     static func judge(

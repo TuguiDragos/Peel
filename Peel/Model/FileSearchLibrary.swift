@@ -19,7 +19,8 @@ final class FileSearchLibrary {
     var selectedURLs: Set<URL> = []
     /// The file the detail shows. The files selected for the Trash are `selectedURLs`.
     var chosen: URL?
-    /// The files Peel recommends: not the ones that need an administrator, nor the ones an app keeps for itself.
+    /// The files Peel recommends: not the ones that need an administrator, the ones an app keeps for itself, nor the
+    /// ones held back, in a repository or in /Users/Shared.
     private(set) var recommendedURLs: Set<URL> = []
     /// The selected files a newer search no longer lists, which stay selected until the person deselects them.
     private(set) var selection = SearchSelection()
@@ -67,7 +68,9 @@ final class FileSearchLibrary {
         results = found
         answered = criteria
         filteredBy = exclusions
-        recommendedURLs = Set(found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp }.map(\.url))
+        recommendedURLs = Set(
+            found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp && $0.heldBack == nil }.map(\.url)
+        )
         let outsideBefore = Set(selection.outside.keys)
         selectedURLs = selection.update(selectedURLs, was: known, now: found.files)
         if Set(selection.outside.keys) != outsideBefore { keepsWhatIsOutside = false }

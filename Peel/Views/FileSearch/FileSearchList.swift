@@ -199,6 +199,7 @@ struct FileSearchList: View {
             file.belongsToAnApp
                 ? String(localized: "An app keeps this in its Library folder, and may be using it right now.")
                 : nil,
+            file.heldBack.map { String(localized: $0.explanation) },
             file.freesLessThanItsLength
                 ? String(localized: "Moving this frees less than its length of \(file.length.byteCount): another file shares its storage, or it takes less space than that.")
                 : nil,

@@ -414,6 +414,8 @@ extension HoldBack {
             "Not selected: it is in an app’s own iCloud folder, which Finder may not show, and the app may expect to find it on this Mac."
         case .opensOnlyOnline:
             "Not selected: it holds passwords or a wallet’s keys, which open again only with an internet connection once the download is removed."
+        case .inARepository:
+            "Not selected: it is in a repository, so it may be part of a project’s work."
         case .openInAProgram:
             "Not selected: a program has this open right now, and may still be using it."
         case .attachedDiskImage:

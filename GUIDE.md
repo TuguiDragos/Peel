@@ -153,8 +153,9 @@ Space shows what fills your disk, area by area, and what each area is.
 - **File Search:** files by name, kind, or size, and by age along with one of them, in your home folder or across this
   Mac's disks, not network volumes, found through Spotlight, up to 2,000 at a time, so a folder in System Settings >
   Spotlight > Search Privacy isn't searched; when nothing is found, the page names any disk Spotlight isn't indexing.
-  A file in a Library folder, an app's working data, is listed last and never recommended, and one that needs an
-  administrator stays where it is. The page says how many files Spotlight found that it doesn't list, and why: what
+  A file in a Library folder, an app's working data, is listed last and never recommended, and neither is one in a
+  repository, which may be part of a project's work, or in Shared, which belongs to every account, and one that needs
+  an administrator stays where it is. The page says how many files Spotlight found that it doesn't list, and why: what
   syncs to your other devices, what you excluded, what sits where Peel never moves anything, and what macOS didn't let
   Peel look at. A file's size is what moving it frees, the list goes by it, and a file that frees less than its
   length, such as a copy that shares its storage, says so. A file you selected that a newer search no longer lists

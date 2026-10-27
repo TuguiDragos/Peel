@@ -354,6 +354,30 @@ struct FileSearchTests {
         #expect(results.files.first?.url.lastPathComponent == "small.mov")
     }
 
+    /// A file in a repository may be part of a project's work, and one in /Users/Shared another account's: both are
+    /// listed and held back, never recommended.
+    @Test func holdsBackWhatIsInARepositoryOrShared() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("home/Code/app/.git")
+        let inRepository = try directory.file("home/Code/app/assets/intro.mov", bytes: 2_000)
+        let shared = try directory.file("Users/Shared/trip.mov", bytes: 2_000)
+        let plain = try directory.file("home/Movies/trip.mov", bytes: 2_000)
+
+        let results = FileSearch.results(
+            from: [inRepository, shared, plain].map { $0.path(percentEncoded: false) },
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            refusal: { _ in nil }
+        )
+
+        let held = Dictionary(uniqueKeysWithValues: results.files.map {
+            ($0.url.deletingLastPathComponent().lastPathComponent, $0.heldBack)
+        })
+        #expect(held["assets"] == .inARepository)
+        #expect(held["Shared"] == .sharedWithEveryone)
+        #expect(held["Movies"] == .some(nil))
+    }
+
     @Test func asksTheGuardOnlyAboutFilesThatCanMakeTheList() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

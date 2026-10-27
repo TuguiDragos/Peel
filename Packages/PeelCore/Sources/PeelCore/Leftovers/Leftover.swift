@@ -171,6 +171,8 @@ public enum HoldBack: String, Sendable, Hashable {
     /// A password database or a wallet's keys in iCloud, which opens again only with an internet connection once its
     /// download is removed.
     case opensOnlyOnline
+    /// A file inside a repository, which may be part of a project's work.
+    case inARepository
 
     /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
     /// would refuse to move it.
