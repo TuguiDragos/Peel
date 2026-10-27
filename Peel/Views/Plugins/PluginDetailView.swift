@@ -64,7 +64,7 @@ struct PluginDetailView: View {
 
             if isLocked {
                 Section {
-                    HelperRequiredBanner()
+                    HelperRequiredBanner(need: .moving(1))
                 }
             }
 

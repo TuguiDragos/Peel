@@ -24219,6 +24219,113 @@
         }
       }
     },
+    "Changing this job needs administrator access" : {
+      "comment" : "A banner’s title on a background job’s page: starting, stopping, enabling or disabling a system daemon, or moving its file, goes through Peel’s helper.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Změna této úlohy vyžaduje oprávnění správce"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Ändern dieses Jobs sind Administratorrechte erforderlich"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para cambiar esta tarea se necesita acceso de administrador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier cette tâche nécessite un accès administrateur"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modificare questo elemento richiede l’accesso come amministratore"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このジョブを変更するには管理者権限が必要です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 작업을 변경하려면 관리자 권한이 필요함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voor het wijzigen van deze taak is beheerderstoegang nodig"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zmiana tego zadania wymaga uprawnień administratora"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alterar esta tarefa requer acesso de administrador"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modificarea acestei sarcini necesită acces de administrator"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы изменить это задание, нужны права администратора"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Att ändra det här jobbet kräver administratörsbehörighet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu işi değiştirmek yönetici erişimi gerektiriyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб змінити це завдання, потрібен доступ адміністратора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更改此任务需要管理员权限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更改此工作需要管理者權限"
+          }
+        }
+      }
+    },
     "Check" : {
       "localizations" : {
         "cs" : {
@@ -47792,6 +47899,113 @@
         }
       }
     },
+    "Forgetting this receipt needs administrator access" : {
+      "comment" : "A banner’s title on an installer receipt’s page: forgetting a receipt moves its files to the Trash through Peel’s helper.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomenutí tohoto záznamu vyžaduje oprávnění správce"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Vergessen dieser Quittung sind Administratorrechte erforderlich"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para olvidar este recibo se necesita acceso de administrador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oublier ce reçu nécessite un accès administrateur"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dimenticare questa ricevuta richiede l’accesso come amministratore"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このレシートをゴミ箱に入れるには管理者権限が必要です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 수신 정보를 제거하려면 관리자 권한이 필요함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voor het vergeten van dit installatiebewijs is beheerderstoegang nodig"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapomnienie tego potwierdzenia wymaga uprawnień administratora"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esquecer este recibo requer acesso de administrador"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitarea acestei recipise necesită acces de administrator"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы забыть эту квитанцию, нужны права администратора"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Att glömma det här kvittot kräver administratörsbehörighet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu makbuzu unutmak yönetici erişimi gerektiriyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб забути цю квитанцію, потрібен доступ адміністратора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除此回执需要管理员权限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除此收據需要管理者權限"
+          }
+        }
+      }
+    },
     "Forgot ^[%lld item](inflect: true)." : {
       "localizations" : {
         "cs" : {
@@ -64491,108 +64705,109 @@
         }
       }
     },
-    "Install Peel’s helper to remove the items in the system folders it serves." : {
+    "Install Peel’s helper, which does this as an administrator in the system folders it serves." : {
+      "comment" : "Under a banner whose title says what needs the helper (moving items, forgetting a receipt, changing a job), and as a button’s help. “This” is that action.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nainstalujte pomocníka Peelu, abyste mohli odstranit položky v systémových složkách, které obsluhuje."
+            "value" : "Nainstalujte pomocníka Peelu, který to udělá jako správce v systémových složkách, které obsluhuje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installiere das Hilfsprogramm von Peel, um die Objekte in den Systemordnern zu entfernen, für die es zuständig ist."
+            "value" : "Installiere das Hilfsprogramm von Peel, das dies als Administrator in den Systemordnern erledigt, für die es zuständig ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instala el asistente de Peel para eliminar los ítems de las carpetas del sistema de las que se encarga."
+            "value" : "Instala el asistente de Peel, que hace esto como administrador en las carpetas del sistema de las que se encarga."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installez l’utilitaire de Peel pour supprimer les éléments des dossiers système qu’il prend en charge."
+            "value" : "Installez l’utilitaire de Peel, qui effectue cette opération en tant qu’administrateur dans les dossiers système qu’il prend en charge."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installa l’assistente di Peel per rimuovere gli elementi nelle cartelle di sistema di cui si occupa."
+            "value" : "Installa l’assistente di Peel, che esegue questa operazione con i privilegi di amministratore nelle cartelle di sistema di cui si occupa."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ヘルパーが扱うシステムフォルダ内の項目をゴミ箱に入れるには、Peelのヘルパーをインストールしてください。"
+            "value" : "Peelのヘルパーをインストールしてください。ヘルパーは、扱うシステムフォルダ内で、この操作を管理者として行います。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "보조 프로그램이 다루는 시스템 폴더의 항목을 제거하려면 Peel 보조 프로그램을 설치하십시오."
+            "value" : "Peel 보조 프로그램을 설치하십시오. 보조 프로그램은 자신이 다루는 시스템 폴더에서 관리자 권한으로 이 동작을 수행합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installeer het hulpprogramma van Peel om de onderdelen te verwijderen in de systeemmappen waarvoor het werkt."
+            "value" : "Installeer het hulpprogramma van Peel, dat dit als beheerder doet in de systeemmappen waarvoor het werkt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zainstaluj pomocnika Peel, aby przenieść do Kosza rzeczy z obsługiwanych przez niego folderów systemowych."
+            "value" : "Zainstaluj pomocnika Peel, który robi to jako administrator w obsługiwanych przez siebie folderach systemowych."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instale o auxiliar do Peel para remover os itens nas pastas do sistema que ele atende."
+            "value" : "Instale o auxiliar do Peel, que faz isso como administrador nas pastas do sistema que ele atende."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instalați instrumentul de ajutor Peel pentru a elimina articolele din dosarele de sistem pe care le deservește."
+            "value" : "Instalați instrumentul de ajutor Peel, care face acest lucru ca administrator în dosarele de sistem pe care le deservește."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Установите помощника Peel, чтобы удалить объекты в системных папках, с которыми он работает."
+            "value" : "Установите помощника Peel, который делает это с правами администратора в системных папках, с которыми он работает."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installera Peels hjälpprogram för att ta bort objekten i de systemmappar som det hanterar."
+            "value" : "Installera Peels hjälpprogram, som gör det här som administratör i de systemmappar som det hanterar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hizmet verdiği sistem klasörlerindeki öğeleri kaldırmak için Peel’in yardımcısını yükleyin."
+            "value" : "Peel’in yardımcısını yükleyin; yardımcı bu işlemi, hizmet verdiği sistem klasörlerinde yönetici olarak yapar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Інсталюйте помічника Peel, щоб вилучати елементи в системних папках, які він обслуговує."
+            "value" : "Інсталюйте помічника Peel, який робить це з правами адміністратора в системних папках, які він обслуговує."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "安装Peel的帮助程序，即可移除它所服务的系统文件夹中的项目。"
+            "value" : "安装Peel的帮助程序，它会以管理员身份在其所服务的系统文件夹中执行此操作。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "安裝Peel的輔助程式，即可移除它所服務之系統檔案夾中的項目。"
+            "value" : "安裝Peel的輔助程式，它會以管理者身分，在它所服務的系統檔案夾中執行此動作。"
           }
         }
       }
@@ -91557,6 +91772,347 @@
         }
       }
     },
+    "Moving ^[%lld item](inflect: true) needs administrator access" : {
+      "comment" : "A banner’s title over a page with items only Peel’s helper can move to the Trash: the number is how many.",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Přesunutí %lld položek vyžaduje oprávnění správce"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Přesunutí %lld položky vyžaduje oprávnění správce"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Přesunutí %lld položky vyžaduje oprávnění správce"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Přesunutí %lld položek vyžaduje oprávnění správce"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zum Verschieben von %lld Objekt sind Administratorrechte erforderlich"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zum Verschieben von %lld Objekten sind Administratorrechte erforderlich"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Para trasladar %lld de ítems se necesita acceso de administrador"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Para trasladar %lld ítem se necesita acceso de administrador"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Para trasladar %lld ítems se necesita acceso de administrador"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Déplacer %lld d’éléments nécessite un accès administrateur"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Déplacer %lld élément nécessite un accès administrateur"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Déplacer %lld éléments nécessite un accès administrateur"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Spostare %lld di elementi richiede l’accesso come amministratore"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Spostare un elemento richiede l’accesso come amministratore"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Spostare %lld elementi richiede l’accesso come amministratore"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld項目をゴミ箱に入れるには管理者権限が必要です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "항목 %lld개를 이동하려면 관리자 권한이 필요함"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Voor het verplaatsen van %lld onderdeel is beheerderstoegang nodig"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Voor het verplaatsen van %lld onderdelen is beheerderstoegang nodig"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przeniesienie %lld rzeczy wymaga uprawnień administratora"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przeniesienie %lld rzeczy wymaga uprawnień administratora"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przeniesienie %lld rzeczy wymaga uprawnień administratora"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przeniesienie %lld rzeczy wymaga uprawnień administratora"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mover %lld de itens requer acesso de administrador"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mover %lld item requer acesso de administrador"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mover %lld itens requer acesso de administrador"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mutarea a %lld articole necesită acces de administrator"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mutarea unui articol necesită acces de administrator"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mutarea a %lld de articole necesită acces de administrator"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Чтобы переместить %lld объекта, нужны права администратора"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Чтобы переместить %lld объектов, нужны права администратора"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Чтобы переместить %lld объект, нужны права администратора"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Чтобы переместить %lld объекта, нужны права администратора"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Att flytta %lld objekt kräver administratörsbehörighet"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Att flytta %lld objekt kräver administratörsbehörighet"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld öğeyi taşımak yönetici erişimi gerektiriyor"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld öğeyi taşımak yönetici erişimi gerektiriyor"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Щоб перемістити %lld елементи, потрібен доступ адміністратора"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Щоб перемістити %lld елементів, потрібен доступ адміністратора"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Щоб перемістити %lld елемент, потрібен доступ адміністратора"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Щоб перемістити %lld елемента, потрібен доступ адміністратора"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动%lld个项目需要管理员权限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動%lld個項目需要管理者權限"
+          }
+        }
+      }
+    },
     "Moving it to the Trash takes away only this shortcut, and the app stays in %@, which can make the shortcut again. To remove the app itself, uninstall it in %@, which takes the shortcut away too." : {
       "localizations" : {
         "cs" : {
@@ -113230,108 +113786,109 @@
         }
       }
     },
-    "Only an administrator can use Peel’s helper, so Peel can’t remove these from this account." : {
+    "Only an administrator can use Peel’s helper, so Peel can’t do this from this account." : {
+      "comment" : "Under a banner whose title says what needs the helper, for an account that isn’t an administrator. “This” is that action.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocníka Peelu může používat jen správce, takže Peel tyto položky z tohoto účtu odstranit nemůže."
+            "value" : "Pomocníka Peelu může používat jen správce, takže Peel to z tohoto účtu udělat nemůže."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur ein Administrator kann das Hilfsprogramm von Peel verwenden, daher kann Peel diese nicht mit diesem Benutzeraccount entfernen."
+            "value" : "Nur ein Administrator kann das Hilfsprogramm von Peel verwenden, daher kann Peel dies nicht mit diesem Benutzeraccount tun."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo un administrador puede usar el asistente de Peel, así que Peel no puede eliminar estos ítems desde esta cuenta."
+            "value" : "Solo un administrador puede usar el asistente de Peel, así que Peel no puede hacer esto desde esta cuenta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seul un administrateur peut utiliser l’utilitaire de Peel : Peel ne peut donc pas supprimer ces éléments depuis ce compte."
+            "value" : "Seul un administrateur peut utiliser l’utilitaire de Peel : Peel ne peut donc pas effectuer cette opération depuis ce compte."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo un amministratore può usare l’assistente di Peel, quindi Peel non può rimuovere questi elementi da questo account."
+            "value" : "Solo un amministratore può usare l’assistente di Peel, quindi Peel non può eseguire questa operazione da questo account."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelのヘルパーを使用できるのは管理者だけのため、Peelはこのアカウントからこれらをゴミ箱に入れることができません。"
+            "value" : "Peelのヘルパーを使用できるのは管理者だけのため、Peelはこのアカウントからこの操作を行えません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "관리자만 Peel 보조 프로그램을 사용할 수 있으므로, 이 계정에서는 Peel이 이 항목들을 제거할 수 없습니다."
+            "value" : "관리자만 Peel 보조 프로그램을 사용할 수 있으므로, 이 계정에서는 Peel이 이 동작을 수행할 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen een beheerder kan het hulpprogramma van Peel gebruiken, dus Peel kan deze niet verwijderen vanuit deze account."
+            "value" : "Alleen een beheerder kan het hulpprogramma van Peel gebruiken, dus Peel kan dit niet doen vanuit deze account."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Z pomocnika Peel może korzystać tylko administrator, więc z tego konta Peel nie może przenieść tych rzeczy do Kosza."
+            "value" : "Z pomocnika Peel może korzystać tylko administrator, więc z tego konta Peel nie może tego zrobić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só um administrador pode usar o auxiliar do Peel, então o Peel não pode remover estes itens a partir desta conta."
+            "value" : "Só um administrador pode usar o auxiliar do Peel, então o Peel não pode fazer isso a partir desta conta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar un administrator poate folosi instrumentul de ajutor Peel, așa că Peel nu le poate elimina din acest cont."
+            "value" : "Doar un administrator poate folosi instrumentul de ajutor Peel, așa că Peel nu poate face acest lucru din acest cont."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Помощником Peel может пользоваться только администратор, поэтому из этой учетной записи Peel не может удалить эти объекты."
+            "value" : "Помощником Peel может пользоваться только администратор, поэтому из этой учетной записи Peel не может это сделать."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bara en administratör kan använda Peels hjälpprogram, så Peel kan inte ta bort de här från det här kontot."
+            "value" : "Bara en administratör kan använda Peels hjälpprogram, så Peel kan inte göra det här från det här kontot."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in yardımcısını yalnızca bir yönetici kullanabilir, bu yüzden Peel bunları bu hesaptan kaldıramaz."
+            "value" : "Peel’in yardımcısını yalnızca bir yönetici kullanabilir, bu yüzden Peel bu işlemi bu hesaptan yapamaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Користуватися помічником Peel може лише адміністратор, тож із цього облікового запису Peel не може їх вилучити."
+            "value" : "Користуватися помічником Peel може лише адміністратор, тож із цього облікового запису Peel не може цього зробити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有管理员才能使用Peel的帮助程序，因此Peel无法在此账户中移除这些项目。"
+            "value" : "只有管理员才能使用Peel的帮助程序，因此Peel无法在此账户中执行此操作。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有管理者能使用Peel的輔助程式，因此Peel無法從此帳號移除這些項目。"
+            "value" : "只有管理者能使用Peel的輔助程式，因此Peel無法從此帳號執行此動作。"
           }
         }
       }
@@ -168640,112 +169197,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "部分項目無法丟到「垃圾桶」。"
-          }
-        }
-      }
-    },
-    "Some items need administrator access" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Některé položky vyžadují oprávnění správce"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einige Objekte benötigen Administratorrechte"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algunos ítems necesitan acceso de administrador"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Certains éléments nécessitent un accès administrateur"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alcuni elementi richiedono l’accesso come amministratore"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一部の項目には管理者権限が必要です"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "일부 항목에 관리자 권한이 필요함"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voor sommige onderdelen is beheerderstoegang nodig"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niektóre rzeczy wymagają uprawnień administratora"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alguns itens requerem acesso de administrador"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unele articole necesită acces de administrator"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Для некоторых объектов нужны права администратора"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vissa objekt kräver administratörsbehörighet"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bazı öğeler yönetici erişimi gerektiriyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Деяким елементам потрібен доступ адміністратора"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "部分项目需要管理员权限"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "部分項目需要管理者權限"
           }
         }
       }

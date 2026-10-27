@@ -111,6 +111,9 @@ final class RemovalPlan {
         uninstallation?.privilegedURLs.isEmpty == false
     }
 
+    /// How many of the page's items only the helper can move.
+    var privilegedCount: Int { uninstallation?.privilegedURLs.count ?? 0 }
+
     /// What a checkbox can select now.
     var selectable: Set<URL> { choices.selectable }
 

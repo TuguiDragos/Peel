@@ -19,7 +19,7 @@ struct PackageDetailView: View {
 
             // Forget Receipt always needs the helper, whatever the items need.
             if !helper.canAct {
-                HelperRequiredBanner()
+                HelperRequiredBanner(need: .forgettingThisReceipt)
             }
             let forAnAdministrator = receipt.items.filter { $0.heldBack == .beyondTheHelper }
             if !forAnAdministrator.isEmpty {

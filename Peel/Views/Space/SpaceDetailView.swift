@@ -21,8 +21,11 @@ struct SpaceDetailView: View {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
-            if let plan, plan.removable.contains(where: { plan.isLocked($0, canUseHelper: helper.canAct) }) {
-                HelperRequiredBanner()
+            if let plan {
+                let locked = plan.removable.count { plan.isLocked($0, canUseHelper: helper.canAct) }
+                if locked > 0 {
+                    HelperRequiredBanner(need: .moving(locked))
+                }
             }
             if !item.isReadOnly, let plan, Self.showsDeveloperNotice(for: plan) {
                 developerNotice(plan, sizes: plan.developerSizes ?? [:])

@@ -182,7 +182,7 @@ struct AppDetailView: View {
                 }
                 // A receipt's Forget needs the helper as well.
                 if plan.requiresHelper || !plan.packageReceipts.isEmpty, !helper.canAct {
-                    HelperRequiredBanner()
+                    HelperRequiredBanner(need: .moving(plan.privilegedCount + plan.packageReceipts.count))
                 }
 
                 Group {

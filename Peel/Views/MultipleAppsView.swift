@@ -35,7 +35,7 @@ struct MultipleAppsView: View {
                         )
                     }
                     if plan.requiresHelper, !helper.canAct {
-                        HelperRequiredBanner()
+                        HelperRequiredBanner(need: .moving(plan.privilegedCount))
                     }
                     // Here, above the lists, so they are seen before Move to Trash however long the lists run.
                     BulkRemovalOptions(plan: plan)

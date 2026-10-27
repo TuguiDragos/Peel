@@ -65,6 +65,9 @@ final class BulkRemovalPlan {
 
     var requiresHelper: Bool { bulk?.privilegedURLs.isEmpty == false }
 
+    /// How many of the page's items only the helper can move.
+    var privilegedCount: Int { bulk?.privilegedURLs.count ?? 0 }
+
     var unreadableLocations: [SearchLocation] { bulk?.unreadableLocations ?? [] }
 
     /// What the alert asks: an app's own words when one runs, as its page says them, whether it goes or only its files

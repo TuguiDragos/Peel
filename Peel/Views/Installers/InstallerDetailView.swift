@@ -16,8 +16,9 @@ struct InstallerDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            if rows.contains(where: { $0.isLocked(canUseHelper: helper.canAct) }) {
-                HelperRequiredBanner()
+            let locked = rows.count { $0.isLocked(canUseHelper: helper.canAct) }
+            if locked > 0 {
+                HelperRequiredBanner(need: .moving(locked))
             }
 
             Section {

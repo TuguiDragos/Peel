@@ -236,7 +236,7 @@ struct BackgroundItemDetailView: View {
 
             if needsHelper {
                 Section {
-                    HelperRequiredBanner()
+                    HelperRequiredBanner(need: item.requiresPrivileges ? .changingThisJob : .moving(1))
                 }
             }
 
