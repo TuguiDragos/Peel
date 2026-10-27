@@ -5,6 +5,7 @@ import SwiftUI
 struct IntelDetailView: View {
     @Environment(AppLibrary.self) private var library
     @Environment(PluginLibrary.self) private var plugins
+    @Environment(BackgroundItemLibrary.self) private var backgroundItems
     let finding: IntelFinding
 
     /// When `app` was last opened, for an app or a bundle inside one. Read from the list, which follows it, since
@@ -111,7 +112,7 @@ struct IntelDetailView: View {
             Section {
                 HStack {
                     // Show in Finder is centered when alone, and goes first when a Review button is beside it.
-                    if app == nil, !finding.isOnThePlugInsPage {
+                    if app == nil, !finding.isOnThePlugInsPage, finding.job == nil {
                         Spacer()
                     }
                     Button("Show in Finder", systemImage: "folder") {
@@ -134,6 +135,12 @@ struct IntelDetailView: View {
                         Button("Review in Plug-ins", systemImage: "powerplug") {
                             plugins.selection = finding.url
                             Navigator.shared.requestedTool = .plugins
+                        }
+                        .buttonStyle(.borderedProminent)
+                    } else if let job = finding.job {
+                        Button("Review in Background Items", systemImage: "gearshape.2") {
+                            backgroundItems.selection = job
+                            Navigator.shared.requestedTool = .backgroundItems
                         }
                         .buttonStyle(.borderedProminent)
                     }

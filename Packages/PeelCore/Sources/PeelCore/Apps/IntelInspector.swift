@@ -24,6 +24,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public var pluginCategory: Plugin.Category?
     /// The labels of the launchd jobs that run a program at it or inside it.
     public var backgroundItems: [String] = []
+    /// For a background item, its row on the Background Items page (`BackgroundItem.id`).
+    public var job: BackgroundItem.ID?
 
     public var id: URL { url }
 }
@@ -212,13 +214,15 @@ public enum IntelInspector {
                 continue
             }
             guard isIntelOnly(executable: program, unreadable: &unreadable), isNew(program) else { continue }
-            findings.append(IntelFinding(
+            var finding = IntelFinding(
                 url: program,
                 kind: .backgroundItem,
                 name: item.label,
                 owner: item.plistURL?.lastPathComponent,
                 size: await measure(program),
-            ))
+            )
+            finding.job = item.id
+            findings.append(finding)
             listed.append(path)
         }
 

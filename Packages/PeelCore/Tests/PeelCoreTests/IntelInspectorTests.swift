@@ -429,6 +429,7 @@ struct IntelInspectorTests {
 
         #expect(scan.findings.count == 1)
         #expect(Set(scan.findings.map(\.id)).count == 1)
+        #expect(scan.findings.first?.job == job("com.example.one").id, "Background Items couldn't show its row")
     }
 
     /// Whatever sits where an executable is named gets opened, and a named pipe opened for reading waits for its
