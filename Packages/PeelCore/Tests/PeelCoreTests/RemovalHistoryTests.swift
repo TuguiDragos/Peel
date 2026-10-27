@@ -367,7 +367,7 @@ struct RemovalHistoryTests {
         for name in kept {
             try directory.setPermissions(0o644, of: "Peel/\(name)")
         }
-        #expect(startedOver)
+        #expect(startedOver == .started)
         #expect(kept.count == 1, "the old file was not kept beside the new one")
         let outcome = await log.load()
         #expect(outcome.records == [])
@@ -396,7 +396,7 @@ struct RemovalHistoryTests {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
 
-        #expect(await RemovalLog(url: url).startOver() == false)
+        #expect(await RemovalLog(url: url).startOver() == .notNeeded)
         let folder = url.deletingLastPathComponent().path(percentEncoded: false)
         #expect(try !FileManager.default.contentsOfDirectory(atPath: folder).contains { $0.hasPrefix("removals-damaged-") })
     }

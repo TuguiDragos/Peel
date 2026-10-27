@@ -24,7 +24,9 @@ struct AppList: View {
                     detail: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."),
                     kind: .note
                 ) {
-                    Button("Start Over") { library.startFoldersOver() }
+                    StartOverButton(file: AppFolders.defaultURL, startedOver: "Started the list of app folders over.") {
+                        library.startFoldersOver()
+                    }
                 }
                 .padding(.vertical, 6)
                 .listRowSeparator(.hidden)
@@ -139,8 +141,8 @@ private struct TeamRecordNotice: View {
                     title: Text("Peel can’t read its record of who signs your apps"),
                     detail: Text("Until you start the record over, Peel can’t warn you when an app’s signer changes. Starting over keeps the old file beside a new one.")
                 ) {
-                    Button("Start Over") {
-                        Task { await library.startTeamRecordOver() }
+                    StartOverButton(file: library.teamRecordFile, startedOver: "Started the record of who signs your apps over.") {
+                        await library.startTeamRecordOver()
                     }
                 }
             case .unsaved:

@@ -63,14 +63,9 @@ final class ExclusionsStore {
     func startOver() async -> StartOver {
         await inTurn { [self] in
             let answer = await store.startOver()
-            switch answer {
-            case .started:
+            if answer == .started {
                 unsaved = []
                 couldNotSave = false
-            case .couldNotSetAside:
-                couldNotSave = true
-            case .notNeeded:
-                break
             }
             show(withUnsaved(await store.load()))
             return answer

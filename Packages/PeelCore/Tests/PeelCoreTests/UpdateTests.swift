@@ -589,7 +589,7 @@ struct TeamRegistryTests {
         #expect(await registry.acknowledge("com.example.app") == .unreadable)
         #expect(try Data(contentsOf: url) == Data("{".utf8))
 
-        #expect(await registry.startOver())
+        #expect(await registry.startOver() == .started)
         let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
         #expect(kept.contains { $0.hasPrefix("teams-damaged-") && $0.hasSuffix(".json") })
         #expect(await registry.check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: nil))
@@ -604,7 +604,7 @@ struct TeamRegistryTests {
         let registry = TeamRegistry(url: url)
         _ = await registry.check([app("com.example.app", team: "AAAA111111")])
 
-        #expect(await registry.startOver())
+        #expect(await registry.startOver() == .notNeeded)
         let files = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
         #expect(!files.contains { $0.hasPrefix("teams-damaged-") })
         #expect(await registry.check([app("com.example.app", team: "BBBB222222")]).changes.map(\.previous) == ["AAAA111111"])

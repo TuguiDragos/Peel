@@ -101,11 +101,12 @@ public struct TeamRegistry: Sendable {
     }
 
     /// Keeps a registry that cannot be read beside a new one, which the next check starts recording in. A registry
-    /// that reads is left as it is. False when the old file could not be set aside.
+    /// that reads is left as it is.
     @concurrent
-    public func startOver() async -> Bool {
+    public func startOver() async -> StartOver {
         FileLock.whileHeld(beside: url) {
-            load() != nil || DamagedFile.setAside(url) != nil
+            guard load() == nil else { return .notNeeded }
+            return DamagedFile.setAside(url) == nil ? .couldNotSetAside : .started
         }
     }
 

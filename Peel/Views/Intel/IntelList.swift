@@ -135,7 +135,9 @@ struct IntelList: View {
     @ViewBuilder
     private var unreadActions: some View {
         if library.listOfFoldersUnreadable {
-            Button("Start Over") { library.startFoldersOver() }
+            StartOverButton(file: AppFolders.defaultURL, startedOver: "Started the list of app folders over.") {
+                library.startFoldersOver()
+            }
         }
         UnreadableFoldersActions(folders: unread, needsFullDiskAccess: needsFullDiskAccess)
     }

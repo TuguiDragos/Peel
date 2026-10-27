@@ -44,8 +44,8 @@ struct ExclusionsSettingsView: View {
                     title: Text("Peel couldn’t read your exclusions"),
                     detail: Text("Until it can read them, or you start over, Peel removes nothing and puts nothing back, because it can’t tell what you asked it to leave alone. Adding or removing an entry below starts over too: the old file is kept beside the new one, but nothing in it counts anymore.")
                 ) {
-                    Button("Start Over") {
-                        Task { await exclusions.startOver() }
+                    StartOverButton(file: ExclusionStore.defaultURL, startedOver: "Started the list of exclusions over.") {
+                        await exclusions.startOver()
                     }
                 }
             }

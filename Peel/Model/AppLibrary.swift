@@ -252,8 +252,13 @@ final class AppLibrary {
     }
 
     /// Sets the list of folders aside when it cannot be read, so the folders can be chosen again.
-    func startFoldersOver() {
-        changeFolders { $0.startOver() }
+    @discardableResult
+    func startFoldersOver() -> StartOver {
+        let store = AppFolders()
+        let answer = store.startOver()
+        if answer == .started { couldNotSaveFolders = false }
+        folders = store.load()
+        return answer
     }
 
     private func changeFolders(_ change: (AppFolders) -> Bool) {
@@ -932,10 +937,14 @@ final class AppLibrary {
     }
 
     /// Keeps a record of signers that cannot be read beside a new one, and records who signs each app now.
-    func startTeamRecordOver() async {
-        guard await teamRegistry.startOver() else { return }
-        await checkSigningTeams()
+    @discardableResult
+    func startTeamRecordOver() async -> StartOver {
+        let answer = await teamRegistry.startOver()
+        if answer != .couldNotSetAside { await checkSigningTeams() }
+        return answer
     }
+
+    var teamRecordFile: URL { teamRegistry.url }
 
     /// Selects the apps together, adding each first when it lives outside the scanned folders, for example in
     /// the Trash. What is not an app is passed over, and false means none was.

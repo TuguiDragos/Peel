@@ -117,12 +117,12 @@ public actor RefusalLog {
     }
 
     /// Keeps a file that cannot be read beside a new one, under another name, and starts writing refusals down again.
-    /// False when the file can be read, or couldn't be set aside.
-    public func startOver() -> Bool {
+    public func startOver() -> StartOver {
         FileLock.whileHeld(beside: url) {
-            guard current() == nil, DamagedFile.setAside(url) != nil else { return false }
+            guard current() == nil else { return .notNeeded }
+            guard DamagedFile.setAside(url) != nil else { return .couldNotSetAside }
             problem = nil
-            return true
+            return .started
         }
     }
 

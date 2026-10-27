@@ -45,7 +45,9 @@ struct AppFoldersSection: View {
                 HStack {
                     StatusLabel(title: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))
                     Spacer()
-                    Button("Start Over") { library.startFoldersOver() }
+                    StartOverButton(file: AppFolders.defaultURL, startedOver: "Started the list of app folders over.") {
+                        library.startFoldersOver()
+                    }
                 }
             }
             if library.couldNotSaveFolders {

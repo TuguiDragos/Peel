@@ -84,28 +84,24 @@ struct RemovalHistoryStoreTests {
         #expect(history.batches.isEmpty)
     }
 
-    @Test func tellsVoiceOverOnlyAStartOverThatHappened() async throws {
+    @Test func answersWhatEachStartOverDid() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
         let removals = folder.appending(path: "removals.json")
         let refusals = folder.appending(path: "refusals.json")
         try FileManager.default.createDirectory(at: removals, withIntermediateDirectories: true)
         try FileManager.default.createDirectory(at: refusals, withIntermediateDirectories: true)
-        let heard = Heard()
         let history = RemovalHistoryStore(
             log: RemovalLog(url: removals),
             refusals: RefusalLog(url: refusals),
-            knowsTheExclusions: { true },
-            announcing: { heard.words.append(String($0.characters)) }
+            knowsTheExclusions: { true }
         )
         await history.load()
 
-        await history.startOver()
-        await history.startOverRefusals()
-        await history.startOver()
-        await history.startOverRefusals()
-
-        #expect(heard.words == ["Started History over.", "Started the Not Moved list over."])
+        #expect(await history.startOver() == .started)
+        #expect(await history.startOverRefusals() == .started)
+        #expect(await history.startOver() == .notNeeded)
+        #expect(await history.startOverRefusals() == .notNeeded)
     }
 
     @Test func looksInTheTrashAgainAfterAPutBackHistoryCouldNotWrite() async throws {
@@ -179,8 +175,8 @@ struct RemovalHistoryStoreTests {
         let startedOver = await history.startOver()
         let startedRefusalsOver = await history.startOverRefusals()
 
-        #expect(!startedOver && history.shownProblem == .unreadable)
-        #expect(!startedRefusalsOver && history.refusalProblem == .unreadable)
+        #expect(startedOver == .couldNotSetAside && history.shownProblem == .unreadable)
+        #expect(startedRefusalsOver == .couldNotSetAside && history.refusalProblem == .unreadable)
     }
 
     @Test func startsOverANotMovedListItCannotRead() async throws {

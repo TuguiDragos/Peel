@@ -82,11 +82,19 @@ struct AppFoldersTests {
         #expect(AppFolders(url: directory.url.appending(path: "missing.json")).load() == [])
     }
 
+    @Test func startsNothingOverWhileTheListCanBeRead() throws {
+        let directory = try TemporaryDirectory()
+        let folders = AppFolders(url: try directory.file("app-folders.json", contents: Data("[]".utf8)))
+
+        #expect(folders.startOver() == .notNeeded)
+        #expect(AppFolders(url: directory.url.appending(path: "missing.json")).startOver() == .notNeeded)
+    }
+
     @Test func startingOverKeepsTheDamagedListBesideAnEmptyOne() throws {
         let directory = try TemporaryDirectory()
         let folders = AppFolders(url: try directory.file("app-folders.json", contents: Data("not a list".utf8)))
 
-        #expect(folders.startOver())
+        #expect(folders.startOver() == .started)
 
         #expect(folders.load() == [])
         let kept = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))

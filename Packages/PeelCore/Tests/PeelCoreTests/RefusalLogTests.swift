@@ -247,7 +247,7 @@ struct RefusalLogTests {
 
         let log = RefusalLog(url: url)
 
-        #expect(await log.startOver())
+        #expect(await log.startOver() == .started)
         let read = await log.load()
         #expect(read.records == [] && read.problem == nil)
         let kept = try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path())
@@ -259,7 +259,7 @@ struct RefusalLogTests {
         let url = try directory.directory("Peel").appending(path: "refusals.json")
         try Data("[]".utf8).write(to: url)
 
-        #expect(await RefusalLog(url: url).startOver() == false)
+        #expect(await RefusalLog(url: url).startOver() == .notNeeded)
         #expect(DamagedFile.copies(of: url) == [])
     }
 

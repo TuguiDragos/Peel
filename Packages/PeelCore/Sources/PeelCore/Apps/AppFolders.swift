@@ -49,12 +49,12 @@ public struct AppFolders: Sendable {
         }
     }
 
-    /// Sets a list that cannot be read aside, under another name, so the folders can be chosen again. False when it
-    /// stays where it is.
+    /// Sets a list that cannot be read aside, under another name, so the folders can be chosen again.
     @discardableResult
-    public func startOver() -> Bool {
+    public func startOver() -> StartOver {
         FileLock.whileHeld(beside: url) {
-            url.isMissing || read() != nil || DamagedFile.setAside(url) != nil
+            guard !url.isMissing, read() == nil else { return .notNeeded }
+            return DamagedFile.setAside(url) == nil ? .couldNotSetAside : .started
         }
     }
 
