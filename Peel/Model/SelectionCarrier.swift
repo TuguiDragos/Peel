@@ -80,6 +80,12 @@ final class SelectionCarrier {
         parts.compactMap { part in self.tool(of: part)?.appToQuit(for: part).map { (part, $0) } }
     }
 
+    /// The parts no open app keeps, which can move while the others wait for their apps to quit.
+    func free(among parts: [CarriedSelection.Part]) -> [CarriedSelection.Part] {
+        let kept = Set(kept(among: parts).map(\.part))
+        return parts.filter { !kept.contains($0) }
+    }
+
     func deselect(_ part: CarriedSelection.Part) {
         tool(of: part)?.deselect(part)
     }

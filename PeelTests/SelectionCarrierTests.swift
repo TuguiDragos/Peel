@@ -44,5 +44,6 @@ struct SelectionCarrierTests {
 
         #expect(kept.map(\.app) == ["Google Chrome", "Slack"])
         #expect(kept.map(\.part.page.scope) == ["chrome", "slack"])
+        #expect(carrier.free(among: [part("chrome"), part("npm"), part("slack")]).map(\.page.scope) == ["npm"])
     }
 }

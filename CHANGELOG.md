@@ -56,7 +56,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Moving to the Trash from several pages
 
 - When open apps keep part of what is selected, the alert names them all and offers Deselect Them, which deselects
-  only the parts they keep.
+  only the parts they keep, and Move the Rest, which moves the other parts after the usual question.
 
 ### Changed
 

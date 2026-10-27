@@ -12,6 +12,7 @@ struct RemovalBar: View {
     @State private var isAsking = false
     /// The open apps that keep part of the selection from moving, and those parts.
     @State private var kept: (apps: [String], parts: [CarriedSelection.Part]) = ([], [])
+    @State private var rest: [CarriedSelection.Part] = []
     @State private var isAskingToQuit = false
     @State private var isShowingPages = false
     /// The page's own words under the question, worked out when Move to Trash was pressed.
@@ -266,6 +267,10 @@ struct RemovalBar: View {
             Button("Deselect Them") {
                 for part in kept.parts { carrier.deselect(part) }
             }
+            if !rest.isEmpty {
+                // The question opens once the alert has closed: one window shows one of them at a time.
+                Button("Move the Rest") { Task { askToMove(rest) } }
+            }
             Button("OK", role: .cancel) {}
         }
     }
@@ -284,21 +289,26 @@ struct RemovalBar: View {
         return Text("Quit \(RemovalFailureAlert.listed(kept.apps)) before removing their files.")
     }
 
-    /// Asks before moving anything, unless open apps keep some of the parts: then nothing moves until they quit or
-    /// their parts are deselected, which the alert offers.
+    /// Asks before moving anything, unless open apps keep some of the parts: then they wait until the apps quit or
+    /// their parts are deselected, and the alert offers to move the rest meanwhile.
     private func ask(about parts: [CarriedSelection.Part]) {
         let keptNow = carrier.kept(among: parts)
         if !keptNow.isEmpty {
             var named: Set<String> = []
             kept = (keptNow.map(\.app).filter { named.insert($0).inserted }, keptNow.map(\.part))
+            rest = carrier.free(among: parts)
             isAskingToQuit = true
         } else {
-            question = parts
-            if case .carried(_, let message) = purpose {
-                pageMessage = message?()
-            }
-            isAsking = true
+            askToMove(parts)
         }
+    }
+
+    private func askToMove(_ parts: [CarriedSelection.Part]) {
+        question = parts
+        if case .carried(_, let message) = purpose {
+            pageMessage = message?()
+        }
+        isAsking = true
     }
 
     /// Under the question: the page's own words when only its selection moves, and otherwise a line for each of the
