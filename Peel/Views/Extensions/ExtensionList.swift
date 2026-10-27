@@ -53,7 +53,7 @@ struct ExtensionList: View {
         .navigationTitle(Text(Tool.extensions.title))
         .announcesScan(
             extensions.isScanning,
-            found: extensions.summary,
+            found: announcement,
             couldNotLook: extensions.unanswered.isEmpty ? nil : "macOS Didn’t Answer",
             wasStopped: extensions.scanRun.wasStopped
         )
@@ -81,6 +81,13 @@ struct ExtensionList: View {
     }
 
     /// Why an empty list says nothing: the one kind macOS gave no answer about, or both.
+    /// What VoiceOver hears when a scan ends: what it found, and that part of the list is missing when it is.
+    private var announcement: AttributedString? {
+        guard let found = extensions.summary else { return nil }
+        guard !extensions.unanswered.isEmpty else { return found }
+        return found + " " + AttributedString(localized: "Part of this list is missing.")
+    }
+
     private var unansweredDescription: Text {
         if extensions.unanswered.count == 1, let missing = extensions.unanswered.first {
             return Text(missing.unansweredNote)
