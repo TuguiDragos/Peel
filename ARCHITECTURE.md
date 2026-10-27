@@ -377,6 +377,15 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   `Printers` and what else sits in `Audio/Plug-Ins` and `ColorPickers`, at the programs launchd jobs run, and at the
   tools in `/usr/local`. It only reports: an app goes from Applications, a plug-in the Plug-ins page lists from
   there, and the rest with the software that installed it.
+- **Space.** `SpaceInventory` measures each area its definitions name (`SpaceReport`), the folders inside apps'
+  containers included, and lists an area from 50 MB (`minimumSize`), one whose size didn't come back in time, and the
+  area open on its page. An area's figure is all its folders hold, or only what it offers where it leaves macOS's own
+  out or offers only a folder's files (`measuresWhatItOffers`). An area Peel moves from is planned when its page opens
+  (`SpaceRemoval.plan`): each child moved whole, never the area's own folders (`emptiedFolders`, which the guard
+  refuses), with what an open app is writing to and a tool's folder the Developer page knows
+  (`FoldersLeftToDeveloper`) kept out, and macOS's own held back or not listed at all; the move asks again which apps
+  are open (`movableNow`). An area only its own app or tool should empty is explained, with that app's or tool's own
+  step.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference

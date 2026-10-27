@@ -451,7 +451,9 @@ sudo rm -f /usr/local/bin/peel
 
 Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when
 files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them
-changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go.
+changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go. A
+virtual machine's disk, such as Docker's, is often a sparse file too: Finder shows the size it can grow to, and Peel
+what it takes on the disk now.
 
 ### Why does Peel ask for Full Disk Access?
 

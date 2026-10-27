@@ -221,7 +221,7 @@
             "name": "Why does Peel show a smaller size than Finder?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go."
+              "text": "Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go. A virtual machine’s disk, such as Docker’s, is often a sparse file too: Finder shows the size it can grow to, and Peel what it takes on the disk now."
             }
           },
           {
@@ -868,7 +868,7 @@
           </details>
           <details>
             <summary>Why does Peel show a smaller size than Finder?</summary>
-            <p>Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go.</p>
+            <p>Peel shows what moving an item to the Trash would free, and Finder shows the space it takes. The two differ when files share their space: a copy Finder makes on an APFS disk shares its blocks with the original until one of them changes, and a file can have a second name somewhere else, which keeps it. Peel counts only what would really go. A virtual machine’s disk, such as Docker’s, is often a sparse file too: Finder shows the size it can grow to, and Peel what it takes on the disk now.</p>
           </details>
           <details>
             <summary>When is the space Peel frees really free?</summary>
