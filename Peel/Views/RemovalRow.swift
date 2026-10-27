@@ -14,6 +14,9 @@ struct RemovalRow: View {
     /// The kind of item, shown in a column of its own. Tools with nothing to show there pass nil, and the
     /// column is left out.
     var kind: LocalizedStringResource?
+    /// A date shown in the kind's column, for a list whose rows have no kind, such as when File Search's files
+    /// were modified.
+    var date: Date?
     var warning: String?
     /// The newest write inside the item, which its note tells when the page knows it.
     var lastWritten: Date?
@@ -41,6 +44,8 @@ struct RemovalRow: View {
     let isSelected: Bool
 
     static let controlWidth: CGFloat = 20
+    /// How `date` reads in its column: the day, the month's short name, and the year.
+    private static let dateFormat = Date.FormatStyle.dateTime.day().month(.abbreviated).year()
     /// The least width a path keeps. With less, the kind and size move under the path, and so does the badge.
     private static let pathFloor: CGFloat = 160
     /// The width of a row's fixed parts: the checkbox, the icon, the note, and the gaps between them.
@@ -73,7 +78,7 @@ struct RemovalRow: View {
             }
         }
         .tableRow(isFirst: isFirst)
-        .onGeometryChange(for: Bool.self) { [limit = Self.compactBelow(hasKind: kind != nil)] proxy in
+        .onGeometryChange(for: Bool.self) { [limit = Self.compactBelow(hasKind: kind != nil || date != nil)] proxy in
             proxy.size.width < limit
         } action: { isCompact = $0 }
         .contextMenu {
@@ -116,7 +121,8 @@ struct RemovalRow: View {
     private var spokenItem: String {
         let badge = badgeKind.map { String(localized: $0.title) }
         let size = isMeasured ? size.byteCount : String(localized: "Unknown")
-        return [name ?? url.abbreviatedPath, badge, kind.map { String(localized: $0) }, size]
+        let column = kind.map { String(localized: $0) } ?? date.map { $0.formatted(Self.dateFormat) }
+        return [name ?? url.abbreviatedPath, badge, column, size]
             .compactMap(\.self)
             .joined(separator: ", ")
     }
@@ -132,6 +138,11 @@ struct RemovalRow: View {
                     HStack(spacing: 8) {
                         if let kind {
                             Text(kind)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        } else if let date {
+                            Text(date, format: Self.dateFormat)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                                 .lineLimit(1)
@@ -155,6 +166,12 @@ struct RemovalRow: View {
                         .lineLimit(1)
                         .frame(width: RowColumns.kind, alignment: .leading)
                         .help(Text(kind))
+                } else if let date {
+                    Text(date, format: Self.dateFormat)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .frame(width: RowColumns.kind, alignment: .leading)
                 }
                 sizeText
                     .foregroundStyle(.secondary)

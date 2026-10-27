@@ -47,7 +47,8 @@ struct FileSearchList: View {
                         RemovalRow(
                             url: file.url,
                             icon: .file(file.url),
-                            detail: "Modified \(file.modificationDate, format: .relative(presentation: .named))",
+                            detail: modified(file).note,
+                            date: modified(file).date,
                             warning: warning(for: file),
                             size: file.size,
                             isLeftAlone: file.requiresPrivileges,
@@ -189,6 +190,13 @@ struct FileSearchList: View {
         .task(id: exclusions.revision) {
             await search.leaveOut(exclusions.exclusions)
         }
+    }
+
+    /// When the file was modified, which a search can filter by: on macOS 27 in the row's own column, and on
+    /// macOS 26 in its note.
+    private func modified(_ file: FoundFile) -> (note: LocalizedStringResource?, date: Date?) {
+        if #available(macOS 27, *) { return (nil, file.modificationDate) }
+        return ("Modified \(file.modificationDate, format: .relative(presentation: .named))", nil)
     }
 
     private func warning(for file: FoundFile) -> String? {
