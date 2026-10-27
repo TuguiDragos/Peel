@@ -92,7 +92,7 @@ struct ShowInPeel: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        Navigator.shared.requestedTool = place.tool
+        Navigator.shared.show(place.tool)
         return .result()
     }
 }
@@ -161,7 +161,7 @@ struct ShowLeftoversInPeel: AppIntent {
             throw NoSuchApp(name: app.name)
         }
         Navigator.shared.requestedApp = installed.url
-        Navigator.shared.requestedTool = .applications
+        Navigator.shared.show(.applications)
         return .result()
     }
 }
