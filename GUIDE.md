@@ -249,7 +249,8 @@ and how many items the others hold.
 - **Package Receipts:** what installer packages other than Apple's put on your Mac, item by item, to move to the Trash.
   Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what something
   else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no longer counts
-  the package as installed. An app a package installed follows the rules of its own page, and so does the rest of its
+  the package as installed, and Forget All does so at once for every package listed under Receipt Only, which left
+  nothing on your Mac. An app a package installed follows the rules of its own page, and so does the rest of its
   package: what is left to Finder or to the maker's uninstaller stays where it is, and what may exist only on this Mac
   is shown and not selected.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:

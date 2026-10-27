@@ -1,10 +1,26 @@
 import Foundation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Testing
 
 @MainActor
 struct HistoryTitleTests {
+    @Test func namesSeveralForgottenReceiptsByHowManyThereAre() {
+        let receipt = { (identifier: String) in
+            PackageReceipt(
+                identifier: identifier, version: nil, installDate: nil, volume: URL(filePath: "/"), items: [],
+                nothingLeftOnDisk: true
+            )
+        }
+        let few = ["org.example.one", "org.example.two"].map(receipt)
+        let many = (1...5).map { receipt("org.example.p\($0)") }
+
+        #expect(PackageLibrary.source(of: few) == ("org.example.one, org.example.two", nil))
+        #expect(PackageLibrary.source(of: many) == ("5 receipts", "receipts.5"))
+        #expect(RemovalBatch.title(source: "written before", key: "receipts.5", tool: .packages)
+            == String(inflecting: "^[\(5) receipt](inflect: true)"))
+    }
+
     @Test func namesTheFirstPagesOfALongRemovalAndFindsItByAnyOfThem() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

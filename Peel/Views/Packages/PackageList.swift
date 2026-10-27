@@ -4,46 +4,47 @@ import SwiftUI
 struct PackageList: View {
     @Environment(PackageLibrary.self) private var packages
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(HelperModel.self) private var helper
     @State private var searchText = ""
     @State private var isRescanning = false
+    @State private var receiptsToForget: [PackageReceipt]?
 
     var body: some View {
         @Bindable var packages = packages
         let filtered = filteredReceipts
+        let receiptsOnly = filtered.filter(\.nothingLeftOnDisk)
 
-        List(filtered, selection: $packages.selection) { receipt in
-            HStack(spacing: 6) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(receipt.identifier)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                    HStack(spacing: 6) {
-                        if let name = receipt.name {
-                            Text(verbatim: name)
+        List(selection: $packages.selection) {
+            if !receiptsOnly.isEmpty {
+                Section {
+                    ForEach(receiptsOnly) { row(for: $0) }
+                } header: {
+                    SectionHeaderLine {
+                        heading(
+                            "Receipt Only",
+                            "macOS still counts these packages as installed, but nothing they put on this Mac is left. Forgetting their receipts moves them to the Trash, and History can put them back."
+                        )
+                    } count: {
+                        Text("^[\(receiptsOnly.count) package](inflect: true)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } actions: {
+                        Button { receiptsToForget = receiptsOnly } label: {
+                            Text("Forget All")
+                                .minimumTarget()
                         }
-                        if receipt.nothingLeftOnDisk {
-                            Text("Receipt only")
-                        } else if !receipt.installedApps.isEmpty {
-                            Text("Still installed")
-                        } else if receipt.holdsNothingToRemove {
-                            Text("Nothing Peel moves")
-                        }
-                        if let version = receipt.version {
-                            Text(verbatim: version)
-                        }
+                        .buttonStyle(.borderless)
+                        .disabled(packages.isWorking || !helper.canAct || !history.mayMove)
+                        .help(forgetAllHelp)
                     }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                }
-                Spacer(minLength: 6)
-                if !receipt.nothingLeftOnDisk, !receipt.holdsNothingToRemove {
-                    Text(receipt.movable.text)
-                        .rowFigure()
                 }
             }
-            .padding(.vertical, 2)
+            Section {
+                ForEach(filtered.filter { !$0.nothingLeftOnDisk }) { row(for: $0) }
+            }
         }
         .accessibilityLabel(Text(Tool.packages.title))
+        .forgetReceiptsDialog(for: $receiptsToForget)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: packages.scanRun) {
             if packages.couldNotAsk {
                 ContentUnavailableView(
@@ -101,6 +102,47 @@ struct PackageList: View {
         if packages.receipts?.isEmpty == true { return .message }
         if filtered.isEmpty, !searchText.isEmpty { return .message }
         return .content
+    }
+
+    private func row(for receipt: PackageReceipt) -> some View {
+        HStack(spacing: 6) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(receipt.identifier)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                HStack(spacing: 6) {
+                    if let name = receipt.name {
+                        Text(verbatim: name)
+                    }
+                    if receipt.nothingLeftOnDisk {
+                        Text("Receipt only")
+                    } else if !receipt.installedApps.isEmpty {
+                        Text("Still installed")
+                    } else if receipt.holdsNothingToRemove {
+                        Text("Nothing Peel moves")
+                    }
+                    if let version = receipt.version {
+                        Text(verbatim: version)
+                    }
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 6)
+            if !receipt.nothingLeftOnDisk, !receipt.holdsNothingToRemove {
+                Text(receipt.movable.text)
+                    .rowFigure()
+            }
+        }
+        .padding(.vertical, 2)
+        .tag(receipt.id)
+    }
+
+    private var forgetAllHelp: Text {
+        guard helper.canAct else {
+            return Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
+        }
+        return Text(verbatim: history.holdingReason?.explanation ?? "")
     }
 
     private var filteredReceipts: [PackageReceipt] {

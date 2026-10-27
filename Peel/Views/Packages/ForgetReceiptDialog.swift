@@ -59,3 +59,49 @@ extension View {
         modifier(ForgetReceiptDialog(receipt: receipt, forget: forget))
     }
 }
+
+/// The question before forgetting every receipt of the Receipt Only section at once, recorded as one removal.
+struct ForgetReceiptsDialog: ViewModifier {
+    @Environment(PackageLibrary.self) private var packages
+    @Environment(RemovalHistoryStore.self) private var history
+    @Environment(RemovalOutcome.self) private var outcome
+    @Binding var receipts: [PackageReceipt]?
+
+    func body(content: Content) -> some View {
+        content
+            .confirmationDialog(title, isPresented: isAsking, presenting: receipts) { receipts in
+                Button("Forget All") { forget(receipts) }
+                Button("Cancel", role: .cancel) {}
+            } message: { receipts in
+                Text("Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing they put on this Mac is left, and History can put the receipts back.\n\n\(RemovalFailureAlert.firstItems(receipts.map { $0.name ?? $0.identifier }).joined(separator: "\n"))")
+            }
+    }
+
+    private var title: Text {
+        Text(verbatim: String(inflecting: "Forget ^[\(receipts?.count ?? 0) receipt](inflect: true)?"))
+    }
+
+    private var isAsking: Binding<Bool> {
+        Binding(get: { receipts != nil }, set: { if !$0 { receipts = nil } })
+    }
+
+    private func forget(_ receipts: [PackageReceipt]) {
+        Task {
+            let result = await packages.forget(receipts) { result in
+                var sizes: [URL: Int64] = [:]
+                for item in result.trashed {
+                    sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
+                }
+                let named = PackageLibrary.source(of: receipts)
+                await history.record(result, tool: .packages, source: named.source, sourceKey: named.key, sizes: sizes)
+            }
+            outcome.report(result)
+        }
+    }
+}
+
+extension View {
+    func forgetReceiptsDialog(for receipts: Binding<[PackageReceipt]?>) -> some View {
+        modifier(ForgetReceiptsDialog(receipts: receipts))
+    }
+}

@@ -42,22 +42,36 @@ public enum PackageActions {
     /// what the package installed. Files the package installed stay where they are.
     @concurrent
     public static func forget(_ receipt: PackageReceipt, exclusions: Exclusions = .none) async -> TrashResult {
-        await forget(receipt, through: TrashService(exclusions: exclusions))
+        await forget([receipt], through: TrashService(exclusions: exclusions))
     }
 
-    static func forget(_ receipt: PackageReceipt, through service: TrashService) async -> TrashResult {
-        let files = receiptFiles(of: receipt.identifier, onVolume: receipt.volume)
-        guard !receipt.installedAppIsExcluded else {
-            return TrashResult(failures: files.map { TrashFailure(url: $0, reason: .guarded(.excluded)) })
+    /// Forgets several receipts in one removal, which History records as one.
+    @concurrent
+    public static func forget(_ receipts: [PackageReceipt], exclusions: Exclusions = .none) async -> TrashResult {
+        await forget(receipts, through: TrashService(exclusions: exclusions))
+    }
+
+    static func forget(_ receipts: [PackageReceipt], through service: TrashService) async -> TrashResult {
+        var files: [URL] = []
+        var refused: [TrashFailure] = []
+        for receipt in receipts {
+            let own = receiptFiles(of: receipt.identifier, onVolume: receipt.volume)
+            if receipt.installedAppIsExcluded {
+                refused += own.map { TrashFailure(url: $0, reason: .guarded(.excluded)) }
+            } else if own.isEmpty {
+                // Named by the file macOS would keep, so the failure says which receipt rather than which disk. With
+                // the folder there, the receipt was forgotten some other way since Peel read it.
+                let folder = receiptsFolder(onVolume: receipt.volume)
+                let missing = folder.appending(path: receipt.identifier + ".plist")
+                let why = folder.isRealFolder ? Self.forgottenReceipt : Self.misplacedReceipt
+                refused.append(TrashFailure(url: missing, reason: .failed(why)))
+            } else {
+                files += own
+            }
         }
-        guard !files.isEmpty else {
-            // Named by the file macOS would keep, so the failure says which receipt rather than which disk. With the
-            // folder there, the receipt was forgotten some other way since Peel read it.
-            let folder = receiptsFolder(onVolume: receipt.volume)
-            let missing = folder.appending(path: receipt.identifier + ".plist")
-            let why = folder.isRealFolder ? Self.forgottenReceipt : Self.misplacedReceipt
-            return TrashResult(failures: [TrashFailure(url: missing, reason: .failed(why))])
-        }
-        return await service.trash(files, usingHelperFor: Set(files))
+        guard !files.isEmpty else { return TrashResult(failures: refused) }
+        var result = await service.trash(files, usingHelperFor: Set(files))
+        result.failures += refused
+        return result
     }
 }

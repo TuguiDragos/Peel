@@ -85,11 +85,40 @@ struct PackageActionsTests {
             moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
         )
 
-        let result = await PackageActions.forget(receipt("com.example.tool", on: directory.url), through: service)
+        let result = await PackageActions.forget([receipt("com.example.tool", on: directory.url)], through: service)
 
         #expect(asked.withLock { $0 }.sorted() == ["com.example.tool.bom", "com.example.tool.plist"])
         #expect(result.trashed.count == 2, "History needs both, or the receipt cannot be put back whole")
         #expect(result.failures.isEmpty)
+    }
+
+    @Test func forgetsSeveralReceiptsInOneRemoval() async throws {
+        let directory = try TemporaryDirectory()
+        for name in ["com.example.one", "com.example.two"] {
+            try directory.file("private/var/db/receipts/\(name).bom")
+            try directory.file("private/var/db/receipts/\(name).plist")
+        }
+        let requests = Mutex<[[String]]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url
+            ),
+            moveThroughHelper: { urls in
+                requests.withLock { $0.append(urls.map(\.lastPathComponent).sorted()) }
+                return TrashResult(trashed: urls.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
+            },
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+        let receipts = ["com.example.one", "com.example.gone", "com.example.two"].map { receipt($0, on: directory.url) }
+
+        let result = await PackageActions.forget(receipts, through: service)
+
+        #expect(requests.withLock { $0 } == [[
+            "com.example.one.bom", "com.example.one.plist", "com.example.two.bom", "com.example.two.plist",
+        ]])
+        #expect(result.trashed.count == 4)
+        #expect(result.failures.map(\.url.lastPathComponent) == ["com.example.gone.plist"])
     }
 
     /// A receipt that is not there is a failure the user is told about, not a silent success, and it names the
@@ -104,14 +133,14 @@ struct PackageActionsTests {
             moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
         )
 
-        let result = await PackageActions.forget(receipt("com.example.gone", on: directory.url), through: service)
+        let result = await PackageActions.forget([receipt("com.example.gone", on: directory.url)], through: service)
 
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.url.lastPathComponent) == ["com.example.gone.plist"])
         #expect(result.failures.map(\.reason) == [.failed(PackageActions.misplacedReceipt)])
 
         try directory.directory("private/var/db/receipts")
-        let forgotten = await PackageActions.forget(receipt("com.example.gone", on: directory.url), through: service)
+        let forgotten = await PackageActions.forget([receipt("com.example.gone", on: directory.url)], through: service)
         #expect(forgotten.failures.map(\.reason) == [.failed(PackageActions.forgottenReceipt)], "it was forgotten already")
     }
 }
