@@ -49,6 +49,20 @@ struct HomebrewChoiceTests {
         #expect(Homebrew.executable(chosen: choice.load()) == nil)
     }
 
+    @Test func runsABrewInAUsualPlaceOnlyByTheRuleAChosenOneFollows() throws {
+        let directory = try TemporaryDirectory()
+        let brew = try program("opt/homebrew/bin/brew", in: directory)
+        let missing = directory.url.appending(path: "usr/local/bin/brew")
+
+        #expect(Homebrew.executable(chosen: nil, usualPlaces: [missing, brew]) == brew)
+        #expect(Homebrew.refusedInAUsualPlace(chosen: nil, usualPlaces: [missing, brew]) == nil)
+
+        #expect(Homebrew.executable(chosen: nil, usualPlaces: [missing, brew], user: getuid() + 1) == nil)
+        let refused = Homebrew.refusedInAUsualPlace(chosen: nil, usualPlaces: [missing, brew], user: getuid() + 1)
+        #expect(refused == HomebrewChoice.Unrunnable(brew: brew, refusal: .ownedByAnotherAccount))
+        #expect(Homebrew.refusedInAUsualPlace(chosen: brew, usualPlaces: [missing, brew], user: getuid() + 1) == nil)
+    }
+
     @Test func runsTheChosenBrewAndFindsItsOwnPrograms() throws {
         let directory = try TemporaryDirectory()
         let brew = try program("opt/brew/bin/brew", in: directory)

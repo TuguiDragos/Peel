@@ -59046,6 +59046,113 @@
         }
       }
     },
+    "Homebrew’s `brew` is in %@, and Peel doesn’t run it." : {
+      "comment" : "On the Homebrew page when the brew program where Homebrew installs itself belongs to another account of the Mac, or anyone can change it. %@ is its path, such as /opt/homebrew/bin/brew. A line under it says why. Keep `brew` as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew má svůj `brew` v umístění %@ a Peel ho nespouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das `brew` von Homebrew liegt in %@, und Peel führt es nicht aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El `brew` de Homebrew está en %@, y Peel no lo ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le `brew` de Homebrew se trouve dans %@, et Peel ne l’exécute pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il `brew` di Homebrew si trova in %@, e Peel non lo esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewの`brew`は%@にありますが、Peelはこれを実行しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 `brew`는 %@에 있으며, Peel은 이를 실행하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De `brew` van Homebrew staat op %@, en Peel voert die niet uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ma swój plik `brew` w %@, a Peel go nie uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O `brew` do Homebrew está em %@, e o Peel não o executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programul `brew` al Homebrew se află în %@, iar Peel nu îl rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл `brew` этого Homebrew находится в %@, и Peel его не запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrews `brew` finns i %@, och Peel kör den inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un `brew` programı %@ konumunda ve Peel onu çalıştırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew` цього Homebrew розташовано за шляхом %@, і Peel його не запускає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的`brew`位于%@，Peel不会运行它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的`brew`位於%@，Peel不會執行它。"
+          }
+        }
+      }
+    },
     "Homebrew’s own housekeeping, run by Homebrew. Peel adds nothing of its own." : {
       "localizations" : {
         "cs" : {
@@ -115417,6 +115524,113 @@
         }
       }
     },
+    "Peel Doesn’t Run This Homebrew" : {
+      "comment" : "The title of the Homebrew page when Peel won't run the Homebrew it found, because another account owns it or anyone on the Mac can change it.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tento Homebrew nespouští"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt dieses Homebrew nicht aus"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ejecuta este Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’exécute pas ce Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non esegue questo Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PeelはこのHomebrewを実行しません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 Homebrew를 실행하지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert deze Homebrew niet uit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie uruchamia tego Homebrew"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel Não Executa Este Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu rulează această instalare Homebrew"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запускает этот Homebrew"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör inte det här Homebrew"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel Bu Homebrew’u Çalıştırmaz"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запускає цей Homebrew"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会运行此Homebrew"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會執行此Homebrew"
+          }
+        }
+      }
+    },
     "Peel Inventory.%@" : {
       "comment" : "A suggested file name. Translate the words before the dot. %@ is the file extension, such as json.",
       "localizations" : {
@@ -122666,6 +122880,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會移除快照：刪除的快照無法還原，這與Peel丟到「垃圾桶」的項目不同。如果你確定，`%@`可以刪除「時光機」的快照。"
+          }
+        }
+      }
+    },
+    "Peel doesn’t run this `brew`." : {
+      "comment" : "In Settings > General > Homebrew and on the Terminal page's Tools tab, beside the path of a brew program Peel won't run. A line under it says why. Keep `brew` as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento `brew` Peel nespouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt dieses `brew` nicht aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ejecuta este `brew`."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’exécute pas ce `brew`."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non esegue questo `brew`."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこの`brew`を実行しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 `brew`를 실행하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert deze `brew` niet uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie uruchamia tego `brew`."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não executa este `brew`."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu rulează acest program `brew`."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запускает этот `brew`."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör inte den här `brew`."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu `brew` programını çalıştırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запускає цей `brew`."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会运行此`brew`。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會執行此`brew`。"
           }
         }
       }

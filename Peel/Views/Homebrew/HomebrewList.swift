@@ -74,6 +74,7 @@ struct HomebrewList: View {
             homebrew.isScanning,
             found: homebrew.summary,
             couldNotLook: homebrew.unrunnableChoice != nil ? "Peel Can’t Run the `brew` You Chose"
+                : homebrew.refusedBrew != nil ? "Peel Doesn’t Run This Homebrew"
                 : !homebrew.isInstalled ? "Homebrew Isn’t Installed"
                 : !homebrew.needsDefinitions ? nil
                 : homebrew.mayChange ? "Homebrew Has to Update First" : "Homebrew Belongs to Another Account",
@@ -702,6 +703,17 @@ struct HomebrewList: View {
                 }
             } actions: {
                 Button("Open Peel Settings") { SettingsPane.general.open(with: openSettings) }
+            }
+        } else if let refused = homebrew.refusedBrew {
+            ContentUnavailableView {
+                Label("Peel Doesn’t Run This Homebrew", systemImage: "mug")
+            } description: {
+                VStack(spacing: 6) {
+                    Text("Homebrew’s `brew` is in \(refused.brew.abbreviatedPath), and Peel doesn’t run it.")
+                    refused.refusal.explanation
+                }
+            } actions: {
+                Button("Homebrew Is in Another Folder") { SettingsPane.general.open(with: openSettings) }
             }
         } else if !homebrew.isInstalled {
             ContentUnavailableView {

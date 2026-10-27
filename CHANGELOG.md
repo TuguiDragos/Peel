@@ -32,8 +32,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Open or Stop and Quit.
 - A cask whose upgrade was stopped, its app left in Homebrew's folder, says so on its page, with the command that
   reinstalls it to copy.
-- When Homebrew belongs to another account of the Mac, the page says so and changes nothing: what only reads, such as
-  the lists, Check Health, and the vulnerability scan, stays.
+- When Homebrew belongs to another account of the Mac, the page says so and Peel doesn't run its `brew`, which that
+  account could change. One this account can only read, such as one root owns, keeps the lists, Check Health, and
+  the vulnerability scan.
 
 #### File Search
 

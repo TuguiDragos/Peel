@@ -14,9 +14,11 @@ struct HomebrewSection: View {
 
     var body: some View {
         let unrunnable = HomebrewChoice().unrunnable()
+        let refused = Homebrew.refusedInAUsualPlace()
+        let brew = unrunnable?.brew ?? refused?.brew ?? Homebrew.executableURL
         Section {
             LabeledContent {
-                Text((unrunnable?.brew ?? Homebrew.executableURL)?.abbreviatedPath ?? String(localized: "Not found"))
+                Text(brew?.abbreviatedPath ?? String(localized: "Not found"))
                     .lineLimit(1)
                     .truncationMode(.middle)
             } label: {
@@ -26,6 +28,13 @@ struct HomebrewSection: View {
                 VStack(alignment: .leading, spacing: 4) {
                     StatusLabel(title: Text("Peel runs only the `brew` you chose, and that one can’t be run now."))
                     unrunnable.refusal.explanation
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
+            } else if let refused {
+                VStack(alignment: .leading, spacing: 4) {
+                    StatusLabel(title: Text("Peel doesn’t run this `brew`."))
+                    refused.refusal.explanation
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }

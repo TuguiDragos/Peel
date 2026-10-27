@@ -51,7 +51,10 @@ struct InventoryCommand: AsyncParsableCommand {
     private static func brewfile() async throws -> String {
         let why: String
         if !(await Homebrew.hasLocalDefinitions()) {
-            why = noDefinitions(isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable())
+            why = noDefinitions(
+                isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable(),
+                refused: Homebrew.refusedInAUsualPlace()
+            )
         } else if let installation = await Homebrew.installation() {
             do {
                 return try await Homebrew.brewfile(from: installation)
@@ -75,10 +78,13 @@ struct InventoryCommand: AsyncParsableCommand {
                 why = error.output
             }
         } else {
-            why = noDefinitions(isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable())
+            why = noDefinitions(
+                isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable(),
+                refused: Homebrew.refusedInAUsualPlace()
+            )
         }
-        let isChosen = HomebrewChoice().load() != nil
-        if let note = homebrewNote(isInstalled: Homebrew.executableURL != nil || isChosen, why: why) {
+        let isThere = HomebrewChoice().load() != nil || Homebrew.refusedInAUsualPlace() != nil
+        if let note = homebrewNote(isInstalled: Homebrew.executableURL != nil || isThere, why: why) {
             Output.note(note)
         }
         return []
@@ -92,9 +98,15 @@ struct InventoryCommand: AsyncParsableCommand {
 
     /// Why Homebrew was not asked: without its local copy of the definitions it would download them. The copy is
     /// missing because Homebrew isn't installed, or because it never fetched one.
-    static func noDefinitions(isInstalled: Bool, unrunnable: HomebrewChoice.Unrunnable? = nil) -> String {
+    static func noDefinitions(
+        isInstalled: Bool, unrunnable: HomebrewChoice.Unrunnable? = nil, refused: HomebrewChoice.Unrunnable? = nil
+    ) -> String {
         if let unrunnable {
             return "Peel runs only the brew chosen in its Settings, \(unrunnable.brew.path(percentEncoded: false)), and that one can't be run."
+        }
+        if let refused {
+            let owner = refused.refusal == .ownedByAnotherAccount ? "another account owns it" : "anyone on this Mac can change it"
+            return "Peel doesn't run the brew in \(refused.brew.path(percentEncoded: false)): \(owner)."
         }
         return isInstalled ? "Homebrew has no list of packages on this Mac. Run `brew update` first." : "Homebrew isn't installed."
     }

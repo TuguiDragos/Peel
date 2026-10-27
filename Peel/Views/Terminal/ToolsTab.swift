@@ -17,6 +17,18 @@ struct ToolsTab: View {
                         }
                         .padding(.vertical, 4)
                     }
+                } else if let refused = state.refused {
+                    Section {
+                        VStack(alignment: .leading, spacing: 4) {
+                            StatusLabel(title: Text("Peel doesn’t run this `brew`."))
+                            Text(refused.brew.abbreviatedPath)
+                                .font(.caption.monospaced())
+                            refused.refusal.explanation
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.vertical, 4)
+                    }
                 } else if state.prefix == nil {
                     Section {
                         VStack(alignment: .leading, spacing: 4) {

@@ -13,6 +13,8 @@ struct CommandLineTests {
         #expect(InventoryCommand.noDefinitions(isInstalled: true) == "Homebrew has no list of packages on this Mac. Run `brew update` first.")
         let chosen = HomebrewChoice.Unrunnable(brew: URL(filePath: "/opt/brew/bin/brew"), refusal: .notAProgram)
         #expect(InventoryCommand.noDefinitions(isInstalled: false, unrunnable: chosen) == "Peel runs only the brew chosen in its Settings, /opt/brew/bin/brew, and that one can't be run.")
+        let theirs = HomebrewChoice.Unrunnable(brew: URL(filePath: "/opt/homebrew/bin/brew"), refusal: .ownedByAnotherAccount)
+        #expect(InventoryCommand.noDefinitions(isInstalled: false, refused: theirs) == "Peel doesn't run the brew in /opt/homebrew/bin/brew: another account owns it.")
     }
 
     /// A list of apps says nothing of Homebrew on a Mac without it, and says why when Homebrew is there and did

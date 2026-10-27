@@ -549,11 +549,31 @@ public enum Homebrew {
         executable(chosen: HomebrewChoice().load())
     }
 
-    static func executable(chosen: URL?) -> URL? {
-        if let chosen { return HomebrewChoice.refusal(of: chosen) == nil ? chosen : nil }
-        return ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"]
-            .map { URL(filePath: $0) }
-            .first { FileManager.default.isExecutableFile(atPath: $0.path(percentEncoded: false)) }
+    static let usualPlaces = ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"].map { URL(filePath: $0) }
+
+    /// A `brew` in a usual place runs by the rule a chosen one does: this account's or root's, and nobody else can
+    /// change it, since its code runs as this account whenever Peel asks Homebrew something.
+    static func executable(chosen: URL?, usualPlaces: [URL] = Homebrew.usualPlaces, user: uid_t = getuid()) -> URL? {
+        if let chosen { return HomebrewChoice.refusal(of: chosen, user: user) == nil ? chosen : nil }
+        return usualPlaces.first { HomebrewChoice.refusal(of: $0, user: user) == nil }
+    }
+
+    /// The `brew` in a usual place that Peel won't run, and why, when none was chosen and none there can run.
+    public static func refusedInAUsualPlace() -> HomebrewChoice.Unrunnable? {
+        refusedInAUsualPlace(chosen: HomebrewChoice().load(), usualPlaces: usualPlaces)
+    }
+
+    static func refusedInAUsualPlace(
+        chosen: URL?, usualPlaces: [URL], user: uid_t = getuid()
+    ) -> HomebrewChoice.Unrunnable? {
+        guard chosen == nil, executable(chosen: nil, usualPlaces: usualPlaces, user: user) == nil else { return nil }
+        return usualPlaces.lazy.compactMap { brew in
+            switch HomebrewChoice.refusal(of: brew, user: user) {
+            case let refusal? where refusal == .ownedByAnotherAccount || refusal == .writableByEveryone:
+                HomebrewChoice.Unrunnable(brew: brew, refusal: refusal)
+            default: nil
+            }
+        }.first
     }
 
     /// Returns whether Homebrew's local copy of its definitions is on disk. Without it, any command that may read

@@ -45,7 +45,7 @@ struct MenuBarFound: View {
 
     private var lines: [Line] {
         let hidden = Tool.hidden(
-            by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isInstalledOrChosen
+            by: SidebarChoices(stored: sidebarTools), homebrewIsInstalled: homebrew.isOnThisMac
         )
         return store.findings.compactMap { tool, finding in
             let looked = Looked(count: finding.count, size: finding.size)
