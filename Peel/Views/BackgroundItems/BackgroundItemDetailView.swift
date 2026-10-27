@@ -326,7 +326,8 @@ struct BackgroundItemDetailView: View {
         return switch SMAppService.statusForLegacyPlist(at: plistURL) {
         case .enabled: "Allowed"
         case .requiresApproval: "Needs approval, or was turned off"
-        case .notRegistered: "Not registered"
+        // Background Task Management lists a job once it has seen its file, which launchd loads meanwhile anyway.
+        case .notRegistered: "Not listed in System Settings yet"
         case .notFound: "Not found"
         @unknown default: "Unknown"
         }
