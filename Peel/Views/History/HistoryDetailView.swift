@@ -321,6 +321,10 @@ private struct HistoryRecordRow: View {
                     NSWorkspace.shared.activateFileViewerSelecting([record.trashedURL])
                 }
             }
+            Button("Copy Path", systemImage: "doc.on.doc") {
+                NSPasteboard.general.clearContents()
+                NSPasteboard.general.setString(record.originalURL.path(percentEncoded: false), forType: .string)
+            }
         }
     }
 
@@ -349,6 +353,7 @@ private struct HistoryRecordRow: View {
                 Text(record.originalURL.abbreviatedPath)
                     .lineLimit(1)
                     .truncationMode(.middle)
+                    .help(Text(verbatim: record.originalURL.path(percentEncoded: false)))
                     .checkboxTitleLine()
                 Text(place.title)
                     .font(.caption)
