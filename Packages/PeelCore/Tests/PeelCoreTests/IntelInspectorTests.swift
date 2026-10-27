@@ -156,6 +156,39 @@ struct IntelInspectorTests {
         )
     }
 
+    @Test func listsAUniversalAppThatAsksForIntelFirstOnlyOnAppleSilicon() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(
+            "Apps/Example.app/Contents/Info.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.first", "LSArchitecturePriority": ["x86_64", "arm64"]],
+                format: .xml, options: 0
+            )
+        )
+        let read = try #require(AppInspector.inspect(directory.url.appending(path: "Apps/Example.app")))
+        #expect(read.asksForIntelFirst)
+        let first = InstalledApp(
+            url: read.url, bundleIdentifier: "org.example.first", name: "Example", architectures: [.arm64, .x86_64],
+            asksForIntelFirst: true
+        )
+        let native = InstalledApp(
+            url: directory.url.appending(path: "Apps/Native.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.native", name: "Native", architectures: [.arm64, .x86_64]
+        )
+
+        let scan = await IntelInspector.scan(
+            installedApps: [first, native], exclusions: .none, environment: environment(in: directory),
+            onAppleSilicon: true, measure: { _ in 1 }
+        )
+        #expect(scan.findings(of: .app).map(\.url) == [first.url])
+        #expect(scan.findings(of: .app).first?.prefersIntel == true)
+        let onIntel = await IntelInspector.scan(
+            installedApps: [first], exclusions: .none, environment: environment(in: directory), onAppleSilicon: false,
+            measure: { _ in 1 }
+        )
+        #expect(onIntel.findings(of: .app).isEmpty)
+    }
+
     @Test func countsWhatItReadsForThePagesFigure() async throws {
         let directory = try TemporaryDirectory()
         for index in 1...3 {

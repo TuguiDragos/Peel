@@ -22,6 +22,15 @@ struct IntelExplanationTests {
         #expect(String(localized: plugin(.vst3).explanation(onAppleSilicon: false)) == String(localized: "This plug-in is Intel only. On this Intel Mac it loads natively."))
     }
 
+    @Test func saysWhyAUniversalAppStillRunsThroughRosetta() {
+        let app = IntelFinding(
+            url: URL(filePath: "/Applications/Example.app"), kind: .app, name: "Example", owner: nil, size: 10,
+            prefersIntel: true
+        )
+
+        #expect(String(localized: app.explanation(onAppleSilicon: true)) == String(localized: "This app has a version for Apple silicon, but it asks macOS to open it as an Intel app, so it runs through Rosetta."))
+    }
+
     @Test func tellsAPlugInsFormatsApart() {
         let words = { (finding: IntelFinding) in finding.subtitle.map { String(localized: $0) } }
 

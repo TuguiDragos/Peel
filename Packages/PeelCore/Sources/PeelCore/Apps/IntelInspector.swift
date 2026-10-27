@@ -27,6 +27,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public var backgroundItems: [String] = []
     /// For a background item, its row on the Background Items page (`BackgroundItem.id`).
     public var job: BackgroundItem.ID?
+    /// For an app, that it has a version for Apple silicon and asks macOS to open it as Intel (`prefersIntel`).
+    public var prefersIntel = false
 
     public var id: URL { url }
 }
@@ -118,6 +120,7 @@ public enum IntelInspector {
         backgroundItems: BackgroundItems.Scan = BackgroundItems.Scan(),
         exclusions: Exclusions,
         environment: SearchEnvironment = .current,
+        onAppleSilicon: Bool = HostArchitecture.isAppleSilicon,
         measure: @escaping FileSize.Measure
     ) async -> IntelScan {
         // A path can be found twice: `/Library/Audio/Plug-Ins/HAL` is a plug-in folder and sits inside a driver
@@ -134,13 +137,15 @@ public enum IntelInspector {
             let intelOnly = app.isIntelOnly
                 || app.architectures.isEmpty && isIntelOnly(bundle: app.url, unreadable: &unreadable)
             guard unreadable.count == refusedBefore else { continue }
-            if intelOnly, isNew(app.url) {
+            let prefersIntel = onAppleSilicon && app.prefersIntel
+            if intelOnly || prefersIntel, isNew(app.url) {
                 findings.append(IntelFinding(
                     url: app.url,
                     kind: .app,
                     name: app.name,
                     owner: nil,
                     size: nil,
+                    prefersIntel: !intelOnly && prefersIntel,
                 ))
                 continue
             }

@@ -16,6 +16,9 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let applicationGroups: [String]
     public let embeddedBundleIdentifiers: [String]
     public let architectures: Set<Architecture>
+    /// Whether its Info.plist puts Intel first in `LSArchitecturePriority`, so macOS runs a universal app under
+    /// Rosetta on Apple silicon.
+    public let asksForIntelFirst: Bool
     public let isFromAppStore: Bool
     public let isSystemProtected: Bool
     /// The package the app sits inside, such as the app it is a helper of. Moved alone, the app would be cut out
@@ -62,6 +65,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         applicationGroups: [String] = [],
         embeddedBundleIdentifiers: [String] = [],
         architectures: Set<Architecture> = [.arm64],
+        asksForIntelFirst: Bool = false,
         isFromAppStore: Bool = false,
         isSystemProtected: Bool = false,
         enclosingPackage: URL? = nil,
@@ -85,6 +89,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.applicationGroups = applicationGroups
         self.embeddedBundleIdentifiers = embeddedBundleIdentifiers
         self.architectures = architectures
+        self.asksForIntelFirst = asksForIntelFirst
         self.isFromAppStore = isFromAppStore
         self.isSystemProtected = isSystemProtected
         self.enclosingPackage = enclosingPackage
@@ -120,6 +125,9 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public var isASafariWebApp: Bool { webApp == .safari }
 
     public var isIntelOnly: Bool { architectures == [.x86_64] }
+
+    /// A universal app that still runs as Intel on Apple silicon, because its Info.plist asks for Intel first.
+    public var prefersIntel: Bool { asksForIntelFirst && architectures.contains(.x86_64) && !isIntelOnly }
 
     public var isFromSetapp: Bool { Self.isFromSetapp(at: url, identifier: bundleIdentifier) }
 

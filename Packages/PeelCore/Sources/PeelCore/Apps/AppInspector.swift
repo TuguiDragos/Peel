@@ -111,6 +111,7 @@ public enum AppInspector {
             applicationGroups: signing.applicationGroups,
             embeddedBundleIdentifiers: embeddedBundleIdentifiers(in: contents, isWrapped: layout.isWrapped),
             architectures: executable.flatMap(MachOHeader.architectures(ofExecutableAt:)) ?? [],
+            asksForIntelFirst: (info["LSArchitecturePriority"] as? [String])?.first == "x86_64",
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
             enclosingPackage: url.enclosingPackage,

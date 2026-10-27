@@ -176605,6 +176605,113 @@
         }
       }
     },
+    "The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run, including some outside the folders Peel looks in." : {
+      "comment" : "On macOS 27, on the Intel Software page when Peel found nothing that needs Rosetta, above a button that opens System Settings. Intel-based Apps is the name of that list in System Settings: use your macOS's name for it.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam „Aplikace pro procesory Intel“ v Nastavení systému > Obecné > Informace uvádí aplikace, které macOS 28 nespustí, včetně některých mimo složky, ve kterých Peel hledá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Liste „Intel-basierte Apps“ unter „Systemeinstellungen“ > „Allgemein“ > „Info“ nennt die Apps, die macOS 28 nicht ausführen wird, darunter auch einige außerhalb der Ordner, in denen Peel sucht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La lista “Apps para Intel” de Ajustes del Sistema > General > Información indica las apps que macOS 28 no ejecutará, incluidas algunas que están fuera de las carpetas en las que busca Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La liste « Apps basées sur Intel », dans Réglages Système > Général > Informations, indique les apps que macOS 28 n’exécutera pas, y compris certaines qui se trouvent en dehors des dossiers que Peel examine."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’elenco “App basate su Intel” in Impostazioni di Sistema > Generali > Informazioni indica le app che macOS 28 non eseguirà, comprese alcune che si trovano fuori dalle cartelle in cui Peel cerca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“システム設定”＞“一般”＞“情報”にある“Intelベースのアプリケーション”のリストに、macOS 28で実行できないアプリが表示されます。Peelが調べるフォルダの外にあるアプリも含まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정 > 일반 > 정보의 ‘Intel 기반 앱’ 목록에는 Peel이 살펴보는 폴더 밖에 있는 일부 앱을 포함하여 macOS 28에서 실행되지 않을 앱이 나와 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De lijst 'Op Intel gebaseerde apps' in Systeeminstellingen > Algemeen > Info noemt de apps die macOS 28 niet meer uitvoert, waaronder sommige buiten de mappen waarin Peel kijkt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista „Aplikacje oparte na procesorze Intel” w Ustawieniach systemowych > Ogólne > Informacje wymienia aplikacje, których macOS 28 nie uruchomi, w tym niektóre spoza folderów, w których szuka Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lista “Apps Baseados em Intel” em Ajustes do Sistema > Geral > Sobre mostra os apps que o macOS 28 não vai executar, inclusive alguns fora das pastas em que o Peel procura."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista „Aplicații bazate pe Intel” din Configurări sistem > General > Detalii enumeră aplicațiile pe care macOS 28 nu le va rula, inclusiv unele din afara dosarelor în care caută Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В списке «Приложения на базе Intel» в разделе «Системные настройки» > «Основные» > «Описание» перечислены приложения, которые macOS 28 не запустит, в том числе некоторые из тех, что находятся вне папок, в которых ищет Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listan ”Intel-baserade appar” i Systeminställningar > Allmänt > Om visar vilka appar macOS 28 inte kommer att köra, inklusive några som ligger utanför de mappar som Peel letar i."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem Ayarları > Genel > Hakkında bölümündeki “Intel Tabanlı Uygulamalar” listesi, macOS 28’in çalıştırmayacağı uygulamaları gösterir; bunların arasında Peel’in baktığı klasörlerin dışındakiler de vardır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список «Програми на основі Intel» у розділі Системні параметри > Загальні > Інформація містить програми, які macOS 28 не запускатиме, зокрема деякі поза папками, у яких шукає Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“系统设置”>“通用”>“关于本机”中的“基于Intel的App”列表会列出macOS 28无法运行的App，其中也包括一些位于Peel不会查看的文件夹中的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「系統設定」>「一般」>「關於」中的「Intel架構式App」列表，會列出macOS 28無法執行的App，包括一些位於Peel所查看檔案夾以外的App。"
+          }
+        }
+      }
+    },
     "The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run. Peel also looks inside apps and at plug-ins and drivers, which that list may leave out." : {
       "localizations" : {
         "cs" : {
@@ -188626,6 +188733,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這也會選取%lld個Peel不建議移除的項目。移除其下載項目前請逐一檢查，或只選取Peel建議的項目。"
+          }
+        }
+      }
+    },
+    "This app has a version for Apple silicon, but it asks macOS to open it as an Intel app, so it runs through Rosetta." : {
+      "comment" : "On the page of an app in Intel Software whose Info.plist asks macOS to run its Intel code first. Rosetta is Apple's name and stays as it is.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato aplikace má verzi pro čipy Apple, ale žádá systém macOS, aby ji otevíral jako aplikaci pro Intel, takže běží v prostředí Rosetta."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese App hat eine Version für Apple Chips, weist macOS aber an, sie als Intel-App zu öffnen, daher läuft sie mit Rosetta."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta app tiene una versión compatible con el chip de Apple, pero le pide a macOS que la abra como una app para Intel, así que se ejecuta mediante Rosetta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette app dispose d’une version pour puce Apple, mais elle demande à macOS de l’ouvrir en tant qu’app Intel : elle s’exécute donc avec Rosetta."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa app ha una versione per Mac con chip Apple, ma chiede a macOS di aprirla come app Intel, quindi funziona tramite Rosetta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリにはAppleシリコン用のバージョンがありますが、Intelプロセッサ用アプリとして開くようmacOSに要求しているため、Rosetta経由で動作します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱에는 Apple silicon용 버전이 있지만, macOS에 Intel 앱으로 열도록 요청하므로 Rosetta를 통해 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze app heeft een versie voor Apple silicon, maar vraagt macOS om deze als Intel-app te openen, dus de app wordt via Rosetta uitgevoerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta aplikacja ma wersję dla układów scalonych Apple, ale prosi macOS o otwieranie jej jako aplikacji dla procesorów Intel, więc działa za pomocą Rosetty."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este app tem uma versão para Apple silicon, mas pede ao macOS que o abra como um app Intel, então ele é executado pelo Rosetta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această aplicație are o versiune pentru Mac‑urile cu cip Apple, dar îi cere lui macOS să o deschidă ca aplicație Intel, așa că rulează prin Rosetta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этого приложения есть версия для чипов Apple, но оно просит macOS открывать его как приложение для Intel, поэтому работает через Rosetta."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här appen har en version för Apple Silicon, men appen ber macOS att öppna den som en Intel-app, så den körs via Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu uygulamanın Apple Silicon için bir sürümü var, ancak uygulama macOS’ten kendisini bir Intel uygulaması olarak açmasını istiyor, bu yüzden Rosetta ile çalışıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ця програма має версію для Apple Silicon, але просить macOS відкривати її як програму для Intel, тож вона працює через Rosetta."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App提供适用于Apple芯片的版本，但它要求macOS将其作为Intel App打开，因此会通过Rosetta运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App有適用於Apple晶片的版本，但它要求macOS將它作為Intel App打開，因此它會透過Rosetta執行。"
           }
         }
       }

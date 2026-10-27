@@ -115,6 +115,9 @@ extension IntelFinding.Kind {
 extension IntelFinding {
     /// Explains the finding, a plug-in by where its Intel code can load (`Plugin.Category.intelHost`).
     func explanation(onAppleSilicon: Bool) -> LocalizedStringResource {
+        if prefersIntel {
+            return "This app has a version for Apple silicon, but it asks macOS to open it as an Intel app, so it runs through Rosetta."
+        }
         guard onAppleSilicon, kind == .plugin else { return kind.explanation(onAppleSilicon: onAppleSilicon) }
         return switch pluginCategory?.intelHost {
         case .insideTheApp:

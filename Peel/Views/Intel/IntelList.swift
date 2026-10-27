@@ -57,13 +57,26 @@ struct IntelList: View {
                     unreadActions
                 }
             } else if intel.findings.isEmpty {
-                ContentUnavailableView(
-                    "Nothing Needs Rosetta",
-                    systemImage: "checkmark.seal",
-                    // The description claims only what Peel looked at, since Intel plug-ins can be missed: the
-                    // macOS 27 release notes say some may not appear even in System Settings.
-                    description: Text("Nothing Peel looked at needs Rosetta: the apps, what they carry inside, the plug-ins, the drivers, the background items, and the tools in /usr/local.")
-                )
+                if #available(macOS 27, *) {
+                    ContentUnavailableView {
+                        Label("Nothing Needs Rosetta", systemImage: "checkmark.seal")
+                    } description: {
+                        VStack(spacing: 6) {
+                            Text("Nothing Peel looked at needs Rosetta: the apps, what they carry inside, the plug-ins, the drivers, the background items, and the tools in /usr/local.")
+                            Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run, including some outside the folders Peel looks in.")
+                        }
+                    } actions: {
+                        Button("Open System Settings") { NSWorkspace.shared.open(DeviceInfo.aboutURL) }
+                    }
+                } else {
+                    ContentUnavailableView(
+                        "Nothing Needs Rosetta",
+                        systemImage: "checkmark.seal",
+                        // The description claims only what Peel looked at, since Intel plug-ins can be missed: the
+                        // macOS 27 release notes say some may not appear even in System Settings.
+                        description: Text("Nothing Peel looked at needs Rosetta: the apps, what they carry inside, the plug-ins, the drivers, the background items, and the tools in /usr/local.")
+                    )
+                }
             }
         }
         .fadesInColumn(whenRowsChange: intel.scan?.findings.map(\.id))
