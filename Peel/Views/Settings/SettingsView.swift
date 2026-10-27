@@ -664,6 +664,7 @@ extension GeneralSettingsView {
 private struct HelperSettingsView: View {
     @Environment(HelperModel.self) private var helper
     @State private var failure: HelperModel.Failure?
+    @State private var isConfirmingUninstall = false
 
     /// The helper's buttons have no label beside them, so each is centered in its row.
     var body: some View {
@@ -705,6 +706,7 @@ private struct HelperSettingsView: View {
                         PrivilegedHelper.openLoginItemsSettings()
                     }
                     .centeredInRow()
+                    uninstallButton
                 case .notThisAccount:
                     Text("Only an administrator can use the helper. Log in as an administrator to remove items that need one.")
                         .font(.callout)
@@ -730,11 +732,19 @@ private struct HelperSettingsView: View {
             await helper.checkConnection()
         }
         .helperFailureAlert($failure)
+        .confirmationDialog("Uninstall Peel’s helper?", isPresented: $isConfirmingUninstall) {
+            Button("Uninstall Helper", role: .destructive) {
+                Task { failure = await helper.uninstall() }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("The helper serves every account on this Mac, so this removes it for all of them. Until it is installed again, Peel can’t move what only an administrator can change.")
+        }
     }
 
     private var uninstallButton: some View {
         Button("Uninstall Helper", systemImage: "trash", role: .destructive) {
-            Task { failure = await helper.uninstall() }
+            isConfirmingUninstall = true
         }
         .disabled(helper.isChanging)
         .centeredInRow()

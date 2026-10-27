@@ -180634,6 +180634,113 @@
         }
       }
     },
+    "The helper serves every account on this Mac, so this removes it for all of them. Until it is installed again, Peel can’t move what only an administrator can change." : {
+      "comment" : "The message of the question before Uninstall Helper in Settings > Helper.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník slouží všem účtům v tomto Macu, takže se tím odstraní pro všechny. Dokud nebude znovu nainstalován, Peel nemůže přesouvat to, co může měnit jen správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm ist für alle Benutzeraccounts auf diesem Mac zuständig, daher wird es dadurch für alle entfernt. Bis es erneut installiert ist, kann Peel nichts verschieben, was nur ein Administrator ändern kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente da servicio a todas las cuentas de este Mac, así que esto lo elimina para todas ellas. Hasta que se vuelva a instalar, Peel no podrá trasladar lo que solo un administrador puede modificar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire est au service de tous les comptes de ce Mac : cette opération le désinstalle donc pour chacun d’eux. Tant qu’il n’est pas réinstallé, Peel ne peut pas déplacer ce que seul un administrateur peut modifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente è al servizio di tutti gli account di questo Mac, quindi in questo modo lo rimuovi per tutti. Finché non viene installato di nuovo, Peel non può spostare ciò che solo un amministratore può modificare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヘルパーはこのMacのすべてのアカウントで共有されているため、この操作を行うと、すべてのアカウントからヘルパーが取り除かれます。再びインストールするまで、Peelは管理者しか変更できないものを移動できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램은 이 Mac의 모든 계정이 함께 사용하므로, 제거하면 모든 계정에서 제거됩니다. 다시 설치할 때까지 Peel은 관리자만 변경할 수 있는 항목을 이동할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma werkt voor elke account op deze Mac, dus hiermee wordt het voor alle accounts verwijderd. Totdat het opnieuw is geïnstalleerd, kan Peel niet verplaatsen wat alleen een beheerder kan wijzigen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik obsługuje wszystkie konta na tym Macu, więc zostanie odinstalowany dla nich wszystkich. Dopóki nie zostanie ponownie zainstalowany, Peel nie będzie mógł przenosić tego, co może zmieniać tylko administrator."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar atende todas as contas deste Mac, então isto o remove para todas elas. Até que ele seja instalado de novo, o Peel não pode mover o que só um administrador pode alterar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor deservește toate conturile de pe acest Mac, așa că dezinstalarea îl elimină pentru toate. Până când va fi instalat din nou, Peel nu poate muta ce poate modifica doar un administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник обслуживает все учетные записи на этом Mac, поэтому он будет удален для всех них. Пока его снова не установят, Peel не сможет перемещать то, что может изменять только администратор."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hjälpprogrammet är gemensamt för alla konton på den här datorn, så det tas bort för dem alla. Tills det har installerats igen kan Peel inte flytta det som bara en administratör kan ändra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı bu Mac’teki her hesaba hizmet verir, bu yüzden bu işlem onu tüm hesaplar için kaldırır. Yardımcı yeniden yüklenene kadar Peel, yalnızca bir yöneticinin değiştirebileceği şeyleri taşıyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник обслуговує всі облікові записи на цьому Mac, тож його буде деінстальовано для всіх. Доки його не інсталюють знову, Peel не зможе переміщувати те, що може змінювати лише адміністратор."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助程序为这台Mac上的所有账户服务，因此此操作会为所有账户移除它。在重新安装它之前，Peel无法移动只有管理员才能更改的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輔助程式為這部Mac上的所有帳號提供服務，因此這會為所有帳號移除它。在重新安裝之前，Peel無法移動只有管理者才能更改的項目。"
+          }
+        }
+      }
+    },
     "The icon stays still while the app starts." : {
       "localizations" : {
         "cs" : {
@@ -195797,6 +195904,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "解除安裝輔助程式"
+          }
+        }
+      }
+    },
+    "Uninstall Peel’s helper?" : {
+      "comment" : "The title of the question before Uninstall Helper in Settings > Helper. The helper is Peel's small tool with administrator rights.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalovat pomocníka Peelu?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hilfsprogramm von Peel deinstallieren?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Desinstalar el asistente de Peel?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désinstaller l’utilitaire de Peel ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi disinstallare l’assistente di Peel?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーをアンインストールしますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램을 제거하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hulpprogramma van Peel deïnstalleren?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalować pomocnika Peel?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desinstalar o auxiliar do Peel?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezinstalați instrumentul de ajutor Peel?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить помощника Peel?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du avinstallera Peels hjälpprogram?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı kaldırılsın mı?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деінсталювати помічника Peel?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要卸载Peel的帮助程序吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要解除安裝Peel的輔助程式嗎？"
           }
         }
       }
