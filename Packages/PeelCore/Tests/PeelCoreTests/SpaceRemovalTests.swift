@@ -117,6 +117,21 @@ struct SpaceRemovalTests {
         #expect(logged.leftToDeveloper.map(\.lastPathComponent) == ["JetBrains"])
     }
 
+    @Test func leavesPeelsOwnFoldersAloneRatherThanAskToQuitIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/com.tuguidragos.Peel/Cache.db")
+        try directory.file("home/Library/Caches/org.example.editor/Cache.db")
+        let running = [
+            RunningCopies.Process(identifier: getpid(), bundleIdentifier: "com.tuguidragos.Peel", bundleURL: nil),
+            RunningCopies.Process(identifier: getpid() + 1, bundleIdentifier: "org.example.editor", bundleURL: nil),
+        ]
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: running)
+
+        #expect(plan.inUse.map(\.name) == ["org.example.editor"], "Peel asked the person to quit Peel")
+        #expect(!plan.removable.contains { $0.lastPathComponent == "com.tuguidragos.Peel" })
+    }
+
     @Test func measuresWhatItLeavesToDeveloper() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/JetBrains/IntelliJIdea2026.2/caches/index.db", bytes: 8192)

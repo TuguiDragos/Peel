@@ -94,7 +94,10 @@ public enum SpaceRemoval {
         exclusions: Exclusions = .none,
         running: [RunningCopies.Process]
     ) async -> Plan {
-        await plan(for: item, environment: environment, exclusions: exclusions, running: namesOfRunningApps(running))
+        await plan(
+            for: item, environment: environment, exclusions: exclusions,
+            running: namesOfRunningApps(running.filter { $0.identifier != getpid() }), own: peelsOwnNames(running)
+        )
     }
 
     @concurrent
@@ -103,9 +106,12 @@ public enum SpaceRemoval {
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         running: [String: String] = [:],
+        own: Set<String> = [],
         measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
     ) async -> Plan {
-        let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
+        let children = children(
+            of: item, environment: environment, exclusions: exclusions, running: running, own: own
+        )
         let macOSsOwn = MacOSsOwnItems(environment: environment)
         let reach = HelperReach(environment: environment)
         var sizes: [URL: Int64] = [:]
@@ -169,7 +175,8 @@ public enum SpaceRemoval {
         running: [RunningCopies.Process]
     ) async -> (removable: [URL], inUse: [(url: URL, name: String)]) {
         await movableNow(
-            in: item, environment: environment, exclusions: exclusions, running: namesOfRunningApps(running)
+            in: item, environment: environment, exclusions: exclusions,
+            running: namesOfRunningApps(running.filter { $0.identifier != getpid() }), own: peelsOwnNames(running)
         )
     }
 
@@ -178,9 +185,12 @@ public enum SpaceRemoval {
         in item: SpaceItem,
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
-        running: [String: String] = [:]
+        running: [String: String] = [:],
+        own: Set<String> = []
     ) async -> (removable: [URL], inUse: [(url: URL, name: String)]) {
-        let children = children(of: item, environment: environment, exclusions: exclusions, running: running)
+        let children = children(
+            of: item, environment: environment, exclusions: exclusions, running: running, own: own
+        )
         return (children.removable, children.inUse)
     }
 
@@ -188,7 +198,8 @@ public enum SpaceRemoval {
         of item: SpaceItem,
         environment: SearchEnvironment,
         exclusions: Exclusions,
-        running: [String: String]
+        running: [String: String],
+        own: Set<String>
     ) -> (
         removable: [URL], inUse: [(url: URL, name: String)], leftToDeveloper: [URL], refused: [URL: GuardRefusal],
         unreadable: [URL], closed: [URL]
@@ -215,6 +226,7 @@ public enum SpaceRemoval {
             for child in children {
                 let name = child.lastPathComponent
                 if item.leavesMacOSsOwn, SpaceInventory.isMacOSsOwn(name) { continue }
+                if own.contains(Naming.normalized(name)) { continue }
                 if onlyFiles, child.isRealFolder { continue }
                 let app = owner ?? running[Naming.normalized(name)]
                 let listed = owned.filter { fnmatch($0[0], name, FNM_CASEFOLD) == 0 }
@@ -286,6 +298,12 @@ public enum SpaceRemoval {
             }
         }
         return names
+    }
+
+    /// The names Peel's own folders go by, from its own process among `running`. Space leaves them alone: Peel runs
+    /// whenever Space plans, and they are no other app's to quit.
+    static func peelsOwnNames(_ running: [RunningCopies.Process]) -> Set<String> {
+        Set(namesOfRunningApps(running.filter { $0.identifier == getpid() }).keys)
     }
 
     /// The name a plan gives an open app, the one the person knows: Finder's, else its identifier.
