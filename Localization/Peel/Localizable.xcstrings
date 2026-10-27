@@ -17896,109 +17896,109 @@
         }
       }
     },
-    "App removed" : {
-      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel. This singular form is used only when the number is exactly 1. Every other count, 0 included, uses \"Apps removed\".",
+    "App moved" : {
+      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel: how many apps Peel has moved to the Trash. This singular form is used only when the number is exactly 1. Every other count, 0 included, uses \"Apps moved\".",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odstraněná aplikace"
+            "value" : "Přesunutá aplikace"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App entfernt"
+            "value" : "App verschoben"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App eliminada"
+            "value" : "App trasladada"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App supprimée"
+            "value" : "App déplacée"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App rimossa"
+            "value" : "App spostata"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "取り除いたアプリ"
+            "value" : "移動済みのアプリ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "제거된 앱"
+            "value" : "이동된 앱"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App verwijderd"
+            "value" : "App verplaatst"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odinstalowana aplikacja"
+            "value" : "Przeniesiona aplikacja"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App removido"
+            "value" : "App movido"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicație eliminată"
+            "value" : "Aplicație mutată"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Приложение удалено"
+            "value" : "Приложение перемещено"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Borttagen app"
+            "value" : "Flyttad app"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kaldırılan uygulama"
+            "value" : "Taşınan uygulama"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вилучена програма"
+            "value" : "Переміщена програма"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移除的App"
+            "value" : "已移走的App"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移除App"
+            "value" : "已移動App"
           }
         }
       }
@@ -18753,109 +18753,109 @@
         }
       }
     },
-    "Apps removed" : {
-      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel. This plural form is used for every count except 1, such as 0, 2, 5, and 21. Write it as a label that is correct with all of them, not as a phrase that agrees with one number.",
+    "Apps moved" : {
+      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel: how many apps Peel has moved to the Trash. This plural form is used for every count except 1, such as 0, 2, 5, and 21. Write it as a label that is correct with all of them, not as a phrase that agrees with one number.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odstraněné aplikace"
+            "value" : "Přesunuté aplikace"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps entfernt"
+            "value" : "Apps verschoben"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps eliminadas"
+            "value" : "Apps trasladadas"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps supprimées"
+            "value" : "Apps déplacées"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App rimosse"
+            "value" : "App spostate"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "取り除いたアプリ"
+            "value" : "移動済みのアプリ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "제거된 앱"
+            "value" : "이동된 앱"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps verwijderd"
+            "value" : "Apps verplaatst"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odinstalowane aplikacje"
+            "value" : "Przeniesione aplikacje"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps removidos"
+            "value" : "Apps movidos"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicații eliminate"
+            "value" : "Aplicații mutate"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Удалено приложений"
+            "value" : "Перемещено приложений"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Borttagna appar"
+            "value" : "Flyttade appar"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kaldırılan uygulama"
+            "value" : "Taşınan uygulama"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вилучені програми"
+            "value" : "Переміщені програми"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移除的App"
+            "value" : "已移走的App"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移除App"
+            "value" : "已移動App"
           }
         }
       }
@@ -42037,113 +42037,6 @@
         }
       }
     },
-    "File removed" : {
-      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel. This singular form is used only when the number is exactly 1. Every other count, 0 included, uses \"Files removed\".",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odstraněný soubor"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Datei entfernt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivo eliminado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fichier supprimé"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File rimosso"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取り除いたファイル"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "제거된 파일"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestand verwijderd"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Przeniesiony plik"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arquivo removido"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fișier eliminat"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файл удален"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Borttagen fil"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaldırılan dosya"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вилучений файл"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已移除的文件"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已移除檔案"
-          }
-        }
-      }
-    },
     "Files" : {
       "localizations" : {
         "cs" : {
@@ -42776,113 +42669,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以App識別碼命名、但沒有任何已安裝App認領的檔案會顯示在此處。"
-          }
-        }
-      }
-    },
-    "Files removed" : {
-      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel. This plural form is used for every count except 1, such as 0, 2, 5, and 21. Write it as a label that is correct with all of them, not as a phrase that agrees with one number.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odstraněné soubory"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dateien entfernt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archivos eliminados"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fichiers supprimés"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File rimossi"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取り除いたファイル"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "제거된 파일"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestanden verwijderd"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Przeniesione pliki"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arquivos removidos"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fișiere eliminate"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалено файлов"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Borttagna filer"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaldırılan dosya"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вилучені файли"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已移除的文件"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已移除檔案"
           }
         }
       }
@@ -70771,6 +70557,113 @@
         }
       }
     },
+    "Item moved" : {
+      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel: how many items Peel has moved to the Trash, files, folders, and apps alike. This singular form is used only when the number is exactly 1. Every other count, 0 included, uses \"Items moved\".",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesunutá položka"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objekt verschoben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ítem trasladado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Élément déplacé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elemento spostato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動済みの項目"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동된 항목"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onderdeel verplaatst"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeniesiona rzecz"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item movido"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Articol mutat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект перемещен"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flyttat objekt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınan öğe"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переміщений елемент"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移走的项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移動項目"
+          }
+        }
+      }
+    },
     "Items" : {
       "localizations" : {
         "cs" : {
@@ -70873,6 +70766,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "項目"
+          }
+        }
+      }
+    },
+    "Items moved" : {
+      "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel: how many items Peel has moved to the Trash, files, folders, and apps alike. This plural form is used for every count except 1, such as 0, 2, 5, and 21. Write it as a label that is correct with all of them, not as a phrase that agrees with one number.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesunuté položky"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objekte verschoben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ítems trasladados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Éléments déplacés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elementi spostati"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動済みの項目"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동된 항목"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onderdelen verplaatst"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeniesione rzeczy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Itens movidos"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Articole mutate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемещено объектов"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flyttade objekt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınan öğe"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переміщені елементи"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移走的项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移動項目"
           }
         }
       }

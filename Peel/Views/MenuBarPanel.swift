@@ -110,9 +110,9 @@ struct MenuBarPanel: View {
     @ViewBuilder
     private var rows: some View {
         // `app.dashed` is the empty slot a removed app leaves.
-        row("app.dashed", stats.appsRemoved == 1 ? "App removed" : "Apps removed", stats.appsRemoved.shortCount, amount: stats.appsRemoved)
+        row("app.dashed", stats.appsLabel, stats.appsRemoved.shortCount, amount: stats.appsRemoved)
         Divider().padding(.leading, Self.wordsInset)
-        row("doc.on.doc", stats.itemsRemoved == 1 ? "File removed" : "Files removed", stats.itemsRemoved.shortCount, amount: stats.itemsRemoved)
+        row("doc.on.doc", stats.itemsLabel, stats.itemsRemoved.shortCount, amount: stats.itemsRemoved)
         if stats.hasABiggestCleanUp {
             Divider().padding(.leading, Self.wordsInset)
             row("internaldrive", "Biggest removal", stats.biggestCleanUp.text, amount: stats.biggestCleanUp.known)

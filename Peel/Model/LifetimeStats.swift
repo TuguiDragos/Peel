@@ -42,6 +42,10 @@ final class LifetimeStats {
     var appsRemoved: Int { totals.apps }
     var biggestCleanUp: SizeTotal { totals.biggest }
 
+    var appsLabel: LocalizedStringResource { appsRemoved == 1 ? "App moved" : "Apps moved" }
+    /// Every item counts: files, folders, and the apps themselves.
+    var itemsLabel: LocalizedStringResource { itemsRemoved == 1 ? "Item moved" : "Items moved" }
+
     /// True once Peel has removed something. Home shows the totals only then, so a new install does not show
     /// a row of zeros.
     var hasCleaned: Bool { itemsRemoved > 0 }

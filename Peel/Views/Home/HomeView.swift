@@ -127,13 +127,13 @@ struct HomeContent: View {
             DeviceSticker(
                 value: stats.appsRemoved.shortCount,
                 amount: Double(stats.appsRemoved),
-                label: stats.appsRemoved == 1 ? "App removed" : "Apps removed",
+                label: stats.appsLabel,
                 fill: Album.charcoal, ink: .white, width: 60, radius: 30, angle: 3
             )
             DeviceSticker(
                 value: stats.itemsRemoved.shortCount,
                 amount: Double(stats.itemsRemoved),
-                label: stats.itemsRemoved == 1 ? "File removed" : "Files removed",
+                label: stats.itemsLabel,
                 fill: Album.cream, ink: Album.charcoal, width: 60, radius: 10, angle: -2
             )
         }
