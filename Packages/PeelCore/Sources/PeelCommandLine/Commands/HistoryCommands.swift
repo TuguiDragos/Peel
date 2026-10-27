@@ -212,9 +212,19 @@ struct HistoryCommand: AsyncParsableCommand {
             Output.table(Self.rows(for: batches))
         }
         // Said where the list reaches History's oldest removal, below which the older ones would be.
-        if outcome.noLongerListed > 0, batches.count == all.count {
+        let reachesTheEnd = batches.count == all.count
+        if outcome.noLongerListed > 0, reachesTheEnd {
             let removals = Output.count(outcome.noLongerListed, "older removal", "older removals")
             Output.note("History no longer lists \(removals). What was moved is still in the Trash unless you emptied it.")
+        }
+        // What stayed is listed apart, by --refused, so the list says how many removals of its time left something.
+        let since = reachesTheEnd ? nil : batches.last?.date
+        let stayed = RefusalRecord.grouped(await refusals.load().records ?? []).filter { removal in
+            since.map { removal.date >= $0 } ?? true
+        }
+        if !stayed.isEmpty {
+            let removals = Output.count(stayed.count, "removal also has", "removals also have")
+            Output.note("\(removals) items that stayed. See `peel history --refused`.")
         }
         if let problem = outcome.problem {
             Output.note(problem.summary)

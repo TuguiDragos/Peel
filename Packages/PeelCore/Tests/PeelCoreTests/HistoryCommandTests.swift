@@ -282,6 +282,36 @@ struct HistoryCommandTests {
         #expect(try await printed(["history"], from: logs) == "History lists no removals.\n")
     }
 
+    /// The list of what moved says how many removals also left items where they were, which `--refused` lists; a
+    /// list that `--limit` cuts short counts only those since its oldest removal.
+    @Test func saysHowManyRemovalsAlsoHaveItemsThatStayed() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let earlier = Date.now.addingTimeInterval(-120)
+        func moved(_ name: String, at date: Date) -> RemovalRecord {
+            RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(
+                    originalURL: URL(filePath: "/Users/me/\(name)"),
+                    trashedURL: URL(filePath: "/Users/me/.Trash/\(name)"),
+                    date: date
+                ),
+                size: 1,
+                source: "Editor",
+                tool: "applications"
+            )
+        }
+        _ = await logs.removals.add([moved("old.bin", at: earlier)])
+        _ = await logs.removals.add([moved("new.bin", at: .now)])
+        let stayed = TrashFailure(url: URL(filePath: "/Users/me/kept.bin"), reason: .guarded(.excluded))
+        await logs.refusals.add([stayed], source: "Editor", tool: "applications", date: earlier)
+        let note = "1 removal also has items that stayed. See `peel history --refused`.\n"
+
+        #expect(try await noted(["history"], from: logs) == note)
+        #expect(try await noted(["history", "--json"], from: logs) == note)
+        #expect(try await noted(["history", "--limit", "1"], from: logs).isEmpty)
+    }
+
     /// `--limit` is what the command prints, in the table and in `--json` alike, and 20 without it.
     @Test func showsAtMostWhatWasAskedFor() async throws {
         let directory = try TemporaryDirectory()
