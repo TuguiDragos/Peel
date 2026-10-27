@@ -105,7 +105,8 @@ struct AppPageHeader: View {
 
     private var moreMenu: some View {
         Menu {
-            if let notes = library.updateStatuses[plan.app.id]?.releaseNotes {
+            if waitingVersion != nil, let status = library.updateStatuses[plan.app.id], status.source != .appStore,
+               let notes = status.releaseNotes {
                 Button("Release Notes") { NSWorkspace.shared.open(notes) }
             }
             if let version = waitingVersion {

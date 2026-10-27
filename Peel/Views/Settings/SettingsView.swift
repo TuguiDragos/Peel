@@ -514,11 +514,12 @@ extension GeneralSettingsView {
     fileprivate struct Muted: Identifiable {
         let reference: String
         let app: InstalledApp?
+        /// The listed app's name, or the Finder name of a copy macOS knows elsewhere.
+        let name: String
         let isIgnored: Bool
         let skippedVersion: String?
 
         var id: String { reference }
-        var name: String { app?.name ?? reference }
     }
 
     fileprivate var muted: [Muted] {
@@ -527,6 +528,7 @@ extension GeneralSettingsView {
             Muted(
                 reference: reference,
                 app: library.apps.first { $0.reference == reference },
+                name: library.name(forReference: reference),
                 isIgnored: library.ignoredApps.contains(reference),
                 skippedVersion: library.skippedVersions[reference]
             )
