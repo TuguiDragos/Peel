@@ -328,16 +328,12 @@ private struct HistoryRecordRow: View {
         }
     }
 
-    /// VoiceOver hears the checkbox and not the lines under it, so on macOS 27 its hint says them too.
+    /// VoiceOver hears the checkbox and not the lines under it, so its hint says them too.
     private var hint: String? {
-        if #available(macOS 27, *) {
-            let lines = notes.map { String(localized: $0.text) } + [failure?.explanation].compactMap { $0 }
-            return lines.isEmpty ? nil : lines.joined(separator: " ")
-        }
-        return failure?.explanation
+        let lines = notes.map { String(localized: $0.text) } + [failure?.explanation].compactMap { $0 }
+        return lines.isEmpty ? nil : lines.joined(separator: " ")
     }
 
-    @available(macOS 27, *)
     private var notes: [RecordNote] {
         var notes: [RecordNote] = record.sharedStorage == true ? [.sharedStorage] : []
         if place == .inTrash, AudioDrivers.isOne(record.originalURL) { notes.append(.loadsAfterARestart) }
@@ -358,12 +354,10 @@ private struct HistoryRecordRow: View {
                 Text(place.title)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                if #available(macOS 27, *) {
-                    ForEach(notes, id: \.self) { note in
-                        Text(note.text)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+                ForEach(notes, id: \.self) { note in
+                    Text(note.text)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
                 if let failure {
                     StatusLabel(title: Text(verbatim: failure.explanation))
