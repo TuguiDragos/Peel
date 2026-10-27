@@ -228,6 +228,220 @@
         }
       }
     },
+    "%@ and other apps that use it may stop working." : {
+      "comment" : "In the question before a plug-in moves to the Trash. %@ is the installed app the plug-in came with.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a další aplikace, které ho používají, mohou přestat fungovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ und andere Apps, die es verwenden, funktionieren möglicherweise nicht mehr."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que %@ y otras apps que lo usan dejen de funcionar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ et les autres apps qui l’utilisent peuvent cesser de fonctionner."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ e altre app che lo usano potrebbero smettere di funzionare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”や、これを使用しているほかのアプリが動作しなくなる場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ 및 이 항목을 사용하는 다른 앱이 작동을 멈출 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ en andere apps die het gebruiken, werken misschien niet meer."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ i inne aplikacje, które z niej korzystają, mogą przestać działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ e outros apps que o usam podem parar de funcionar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ și alte aplicații care îl folosesc pot înceta să funcționeze."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» и другие приложения, которые его используют, могут перестать работать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ och andra appar som använder den kan sluta fungera."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ve onu kullanan diğer uygulamalar çalışmayı durdurabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» та інші програми, які його використовують, можуть перестати працювати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”和其他使用它的App可能会停止工作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」和其他使用它的App可能會停止運作。"
+          }
+        }
+      }
+    },
+    "%@ and other apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder." : {
+      "comment" : "In the question before a plug-in moves to the Trash through Peel’s helper. %@ is the installed app the plug-in came with.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a další aplikace, které ho používají, mohou přestat fungovat. Historie ho nemůže vrátit zpět, protože se z jeho složky načítá kód a sám nepatří výhradně uživateli root, ale ve Finderu ho můžete přetáhnout zpět ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ und andere Apps, die es verwenden, funktionieren möglicherweise nicht mehr. Im Verlauf lässt es sich nicht zurücklegen, da aus seinem Ordner Code geladen wird und es nicht ausschließlich root gehört, du kannst es aber im Finder wieder herausziehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que %@ y otras apps que lo usan dejen de funcionar. Historial no puede restaurarlo, ya que no pertenece solo a root y desde su carpeta se carga código, pero puedes sacarlo arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ et les autres apps qui l’utilisent peuvent cesser de fonctionner. L’Historique ne peut pas le remettre en place, car du code est chargé depuis son dossier et cet élément n’appartient pas uniquement à root, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ e altre app che lo usano potrebbero smettere di funzionare. La Cronologia non può ripristinarlo, perché dalla sua cartella viene caricato del codice e l’elemento non appartiene esclusivamente a root, ma puoi trascinarlo fuori nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”や、これを使用しているほかのアプリが動作しなくなる場合があります。これがあるフォルダからはコードが読み込まれ、rootだけが所有するものでもないため、履歴から戻すことはできません。ただし、Finderでドラッグして取り出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ 및 이 항목을 사용하는 다른 앱이 작동을 멈출 수 있습니다. 이 항목이 들어 있는 폴더에서 코드가 로드되고 이 항목은 Root 사용자 전용이 아니므로 기록에서 되돌려 놓을 수 없지만, Finder에서 드래그하여 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ en andere apps die het gebruiken, werken misschien niet meer. Geschiedenis kan het niet terugzetten, omdat er vanuit de map ervan code wordt geladen en het niet uitsluitend van root is, maar je kunt het in Finder er weer uit slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ i inne aplikacje, które z niej korzystają, mogą przestać działać. Historia nie może jej przywrócić, ponieważ z jej folderu wczytywany jest kod, a ona sama nie należy wyłącznie do użytkownika root, ale możesz przeciągnąć ją z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ e outros apps que o usam podem parar de funcionar. O Histórico não pode colocá-lo de volta, porque a pasta em que ele está é usada para carregar código e ele não pertence só ao usuário root, mas você pode arrastá-lo para fora no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ și alte aplicații care îl folosesc pot înceta să funcționeze. Nu îl puteți pune înapoi din Istoric, deoarece din dosarul său se încarcă cod și articolul nu aparține doar utilizatorului Root, însă, în Finder, îl puteți trage afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» и другие приложения, которые его используют, могут перестать работать. История не сможет его восстановить, поскольку из его папки загружается код, а он принадлежит не только пользователю root, но в Finder его можно перетащить из Корзины обратно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ och andra appar som använder den kan sluta fungera. Historik kan inte lägga tillbaka den, eftersom kod läses in från dess mapp och den inte enbart tillhör rotanvändaren, men du kan dra ut den igen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ve onu kullanan diğer uygulamalar çalışmayı durdurabilir. Geçmiş onu yerine koyamaz, çünkü klasöründen kod yüklenir ve tek sahibi root değildir; ancak onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» та інші програми, які ним користуються, можуть перестати працювати. Історія не зможе його повернути, бо з його папки завантажується код, а він належить не лише користувачу root, але у Finder його можна перетягнути зі Смітника назад."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”和其他使用它的App可能会停止工作。“历史记录”无法将它放回原处，因为系统会从它所在的文件夹载入代码，而且它并非仅归root所有，不过你可以在“访达”中将它拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」和其他使用它的App可能會停止運作。由於系統會從它所在的檔案夾載入程式碼，且它並非只屬於root，「歷史記錄」無法將它還原，但你可以在Finder中將它拖出來。"
+          }
+        }
+      }
+    },
     "%@ asks you again for what it was allowed to access. History can’t undo this." : {
       "localizations" : {
         "cs" : {
@@ -6256,6 +6470,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@（已不再安裝）"
+          }
+        }
+      }
+    },
+    "%@, no longer on this Mac" : {
+      "comment" : "On a plug-in’s page, beside Installed with: %@ is the app the plug-in came with, which Peel saw installed and then saw go.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, už není v tomto Macu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, nicht mehr auf diesem Mac"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, ya no está en este Mac"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, qui n’est plus sur ce Mac"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, non più presente su questo Mac"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@（このMacにはもうありません）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, 이 Mac에 더 이상 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, niet meer op deze Mac"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, której nie ma już na tym Macu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, não está mais neste Mac"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, nu mai este pe acest Mac"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, которого больше нет на этом Mac"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, finns inte längre på den här datorn"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, artık bu Mac’te değil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, якої вже немає на цьому Mac"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，已不在这台Mac上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@（已不在這部Mac上）"
           }
         }
       }
@@ -65870,6 +66191,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已安裝的套件，重新安裝即可恢復"
+          }
+        }
+      }
+    },
+    "Installed with" : {
+      "comment" : "A row’s label on a plug-in’s page: the app the plug-in came with.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nainstalováno s aplikací"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installiert mit"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado con"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installé avec"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installato con"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一緒にインストールされたアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "함께 설치된 앱"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geïnstalleerd met"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zainstalowano z aplikacją"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado com"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalat cu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установлен вместе с приложением"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installerad med"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Birlikte yüklendiği uygulama"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інстальовано разом із"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装来源"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨同安裝的App"
           }
         }
       }

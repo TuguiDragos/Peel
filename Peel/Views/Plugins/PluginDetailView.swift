@@ -45,6 +45,14 @@ struct PluginDetailView: View {
                     }
                     .labeledContentStyle(.oneLine)
                 }
+                if let origin = plugin.origin {
+                    LabeledContent("Installed with") {
+                        switch origin {
+                        case .installedApp(let name): Text(verbatim: name)
+                        case .goneApp(let name): Text("\(name), no longer on this Mac")
+                        }
+                    }
+                }
                 if let version = plugin.version {
                     LabeledContent("Version") {
                         Text(verbatim: version)
@@ -147,9 +155,17 @@ extension Plugin {
         case (true, false):
             ["It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac."]
         case (false, true):
-            ["Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+            if case .installedApp(let name) = origin {
+                ["\(name) and other apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+            } else {
+                ["Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+            }
         case (false, false):
-            ["Apps that use it may stop working."]
+            if case .installedApp(let name) = origin {
+                ["\(name) and other apps that use it may stop working."]
+            } else {
+                ["Apps that use it may stop working."]
+            }
         }
     }
 }

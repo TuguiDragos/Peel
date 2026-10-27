@@ -65,6 +65,34 @@ struct PluginsTests {
         #expect(plugins.first { $0.name == "Own" }?.staysInTheTrash == false)
     }
 
+    /// A plug-in's page says which app it came with, by Orphaned Files' rule: an installed app its declared identifier
+    /// names, one whose name a plug-in that declares none carries, or else an app Peel saw go.
+    @Test func saysWhichAppAPlugInCameWith() {
+        let surge = InstalledApp(
+            url: URL(filePath: "/Applications/Surge XT.app"), bundleIdentifier: "org.example.surgext", name: "Surge XT"
+        )
+        let compressor = InstalledApp(
+            url: URL(filePath: "/Applications/Compressor.app"), bundleIdentifier: "org.example.compressor",
+            name: "Compressor"
+        )
+        let gone = RememberedApp(
+            bundleIdentifier: "com.gonevendor.gone", name: "Gone", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Gone.app"
+        )
+        func origin(_ name: String, _ identifier: String?) -> Plugin.Origin? {
+            Plugins.origin(
+                of: URL(filePath: "/Library/Audio/Plug-Ins/Components/\(name)"), identifier: identifier,
+                claimants: [surge, compressor].map(Plugins.Claimant.init), goneApps: [gone]
+            )
+        }
+
+        #expect(origin("Surge XT.component", "org.example.surgext.au") == .installedApp(name: "Surge XT"))
+        #expect(origin("Compressor.component", nil) == .installedApp(name: "Compressor"))
+        #expect(origin("Compressor.component", "com.othervendor.compressor") == nil)
+        #expect(origin("Gone.component", "com.gonevendor.gone.au") == .goneApp(name: "Gone"))
+        #expect(origin("Nobody.component", "org.nobody.thing") == nil)
+    }
+
     @Test func namesAQuickActionAsTheServicesMenuDoes() {
         let workflow = URL(filePath: "/org.example/Library/Services/Example - ask.workflow")
         let menu: [String: Any] = ["NSServices": [["NSMenuItem": ["default": "Ask Example"]]]]

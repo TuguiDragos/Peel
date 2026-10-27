@@ -43,6 +43,15 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     /// and it isn't root's alone (the helper's `.loadsCode`).
     public var staysInTheTrash = false
 
+    /// The app the plug-in came with, as Orphaned Files tells it.
+    public enum Origin: Sendable, Hashable {
+        case installedApp(name: String)
+        /// An app Peel saw installed and then saw go.
+        case goneApp(name: String)
+    }
+
+    public var origin: Origin?
+
     public var id: URL { url }
 
     /// Whether it is an Automator workflow in a Services folder: a Quick Action, which an app may have put there or
@@ -119,6 +128,44 @@ public enum Plugins {
         }
     }
 
+    /// An installed app with what the matcher knows of it, made once per scan, since each plug-in is asked about every
+    /// app.
+    struct Claimant: Sendable {
+        let name: String
+        let profile: LeftoverMatcher.Profile
+
+        init(_ app: InstalledApp) {
+            name = app.name
+            profile = LeftoverMatcher.Profile(app)
+        }
+    }
+
+    /// The app a plug-in came with: an installed app that claims it surely, through the identifier it declares or,
+    /// for one that declares none, through its name, since a name its identifier doesn't back says nothing; else the
+    /// app Peel saw go whose identifier it has, extends, or shares a maker with, as Orphaned Files lists it.
+    static func origin(
+        of url: URL, identifier: String?, claimants: [Claimant], goneApps: [RememberedApp]
+    ) -> Plugin.Origin? {
+        let name = LeftoverMatcher.key(from: url.lastPathComponent, kind: .plugIns)
+        let candidate = LeftoverMatcher.Candidate(identifier ?? name)
+        let claims = claimants.compactMap { app in
+            app.profile.claim(for: candidate).map { (name: app.name, evidence: $0) }
+        }
+        let sure = claims.filter { $0.evidence.confidence != .possible }
+        if let app = sure.max(by: { $0.evidence.rank < $1.evidence.rank }) {
+            return .installedApp(name: app.name)
+        }
+        guard let identifier else { return nil }
+        let plugIn = identifier.lowercased()
+        let gone = goneApps.first { app in
+            let own = app.bundleIdentifier.lowercased()
+            return plugIn == own || plugIn.hasPrefix(own + ".")
+        } ?? goneApps.first { app in
+            OrphanScanner.cameWithAnAppThatLeft(identifier, goneApps: [app.bundleIdentifier.lowercased()])
+        }
+        return gone.map { .goneApp(name: $0.name) }
+    }
+
     /// Returns the `CFBundleIdentifier` in the plug-in's `Info.plist`. A plug-in is named for what it does, not
     /// for who made it, so this is its only identifier. It is only a claim, so callers match it like a file name.
     static func declaredIdentifier(at url: URL) -> String? {
@@ -126,20 +173,32 @@ public enum Plugins {
         return AppInspector.infoDictionary(in: contents)?["CFBundleIdentifier"] as? String
     }
 
+    /// Reads the plug-ins, each with the app it came with, from the apps in the environment's Applications folders and
+    /// those Peel remembers.
     @concurrent
     public static func scan(
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none
     ) async -> PluginScan {
-        await scan(environment: environment, exclusions: exclusions, measure: FileSize.measure)
+        await scan(
+            environment: environment,
+            exclusions: exclusions,
+            installedApps: await AppCatalog.installedApps(in: AppCatalog.directories(in: environment)),
+            remembered: await AppMemory(url: AppMemory.url(inHome: environment.homeDirectory)).load(),
+            measure: FileSize.measure
+        )
     }
 
     @concurrent
     static func scan(
         environment: SearchEnvironment,
         exclusions: Exclusions,
+        installedApps: [InstalledApp] = [],
+        remembered: [RememberedApp] = [],
         measure: @escaping FileSize.Measure
     ) async -> PluginScan {
+        let (apps, goneApps) = OrphanScanner.split(remembered, installedApps: installedApps)
+        let claimants = apps.map(Claimant.init)
         var unreadable: [URL] = []
         let found = installed(in: environment, unreadable: &unreadable)
             .filter { !exclusions.excludes($0.url) && !exclusions.holds($0.url) }
@@ -165,6 +224,9 @@ public enum Plugins {
             )
             plugin.staysInTheTrash = requiresPrivileges
                 && reach.refusal(ofPuttingBack: item.url, at: item.url) == .loadsCode
+            plugin.origin = origin(
+                of: item.url, identifier: plugin.bundleIdentifier, claimants: claimants, goneApps: goneApps
+            )
             return plugin
         }
         let sorted = plugins.compactMap(\.self).sorted {
