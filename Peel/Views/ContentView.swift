@@ -481,7 +481,7 @@ struct ContentView: View {
             PackageDetailView(receipt: receipt)
                 .id(receipt.id)
         } else {
-            DetailPlaceholder(tool: .packages, summary: packages.summary, instruction: "Choose a package to see what it installed.")
+            DetailPlaceholder(tool: .packages, summary: packages.summary, instruction: "Choose a package to see what it installed. macOS keeps a receipt of the files each package put in place, and forgetting one moves only that receipt to the Trash.")
         }
     }
 

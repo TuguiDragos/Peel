@@ -168,6 +168,9 @@ struct PackageDetailView: View {
                 .help(Text(verbatim: receipt.identifier))
         } details: {
             FlowLayout {
+                if let name = receipt.name {
+                    Badge(title: Text(verbatim: name), systemImage: "tag")
+                }
                 if let version = receipt.version {
                     Badge(title: Text("Version \(version)"), systemImage: "number")
                 }

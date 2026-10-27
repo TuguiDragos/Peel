@@ -345,6 +345,34 @@ struct PackageReceiptsTests {
         #expect(forgotten.failures.map(\.reason) == [.guarded(.excluded), .guarded(.excluded)])
     }
 
+    @Test func namesAPackageAsMacOSsInstallHistoryDoes() throws {
+        let directory = try TemporaryDirectory()
+        let history: [[String: Any]] = [
+            ["displayName": "Mixer 1", "date": Date(timeIntervalSince1970: 1_000), "packageIdentifiers": ["org.example.mixer.pkg"]],
+            ["displayName": "Mixer", "date": Date(timeIntervalSince1970: 2_000), "packageIdentifiers": ["org.example.mixer.pkg"]],
+            ["displayName": "macOS 26.7.1", "date": Date(timeIntervalSince1970: 3_000)],
+            ["displayName": "", "date": Date(timeIntervalSince1970: 4_000), "packageIdentifiers": ["org.example.blank.pkg"]],
+        ]
+        try directory.file(
+            "Library/Receipts/InstallHistory.plist",
+            contents: PropertyListSerialization.data(fromPropertyList: history, format: .xml, options: 0)
+        )
+
+        #expect(InstallHistory.names(onVolume: directory.url) == ["org.example.mixer.pkg": "Mixer"])
+        #expect(InstallHistory.names(onVolume: directory.url.appending(path: "nowhere")).isEmpty)
+
+        var receipt = PackageReceipt(
+            identifier: "org.example.mixer.pkg", version: nil, installDate: nil, volume: directory.url,
+            items: [PackageReceipt.Item(url: URL(filePath: "/Library/Application Support/Soundworks/Mixer"), size: 1, requiresPrivileges: false)],
+            nothingLeftOnDisk: false
+        )
+        receipt.name = "Tunewell"
+        #expect(receipt.matches("mixer.pkg"))
+        #expect(receipt.matches("Tunewell"), "the name macOS gave it")
+        #expect(receipt.matches("Soundworks"), "where its files are")
+        #expect(!receipt.matches("Logitech"))
+    }
+
     @Test func leavesAnAppToFinderWhenMacOSInstalledItsSystemExtension() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)

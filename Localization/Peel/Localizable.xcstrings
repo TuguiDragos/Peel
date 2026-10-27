@@ -26068,108 +26068,109 @@
         }
       }
     },
-    "Choose a package to see what it installed." : {
+    "Choose a package to see what it installed. macOS keeps a receipt of the files each package put in place, and forgetting one moves only that receipt to the Trash." : {
+      "comment" : "In the detail column of Package Receipts while no package is chosen.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zvolte balíček a uvidíte, co nainstaloval."
+            "value" : "Zvolte balíček a uvidíte, co nainstaloval. Systém macOS uchovává pro každý balíček záznam o souborech, které rozmístil, a když záznam zapomenete, přesune se do koše jen tento záznam."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wähle ein Paket, um zu sehen, was es installiert hat."
+            "value" : "Wähle ein Paket, um zu sehen, was es installiert hat. macOS bewahrt eine Quittung über die Dateien auf, die jedes Paket abgelegt hat, und das Vergessen einer Quittung legt nur diese Quittung in den Papierkorb."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elige un paquete para ver lo que instaló."
+            "value" : "Elige un paquete para ver lo que instaló. macOS guarda un recibo de los archivos que colocó cada paquete, y al olvidar uno, solo se traslada a la papelera ese recibo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choisissez un paquet pour voir ce qu’il a installé."
+            "value" : "Choisissez un paquet pour voir ce qu’il a installé. macOS conserve un reçu des fichiers que chaque paquet a mis en place, et en oublier un ne place que ce reçu dans la corbeille."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli un pacchetto per vedere cosa ha installato."
+            "value" : "Scegli un pacchetto per vedere cosa ha installato. macOS conserva una ricevuta dei file installati da ogni pacchetto, e dimenticarne una sposta nel Cestino solo quella ricevuta."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "パッケージを選ぶと、インストールされたものが表示されます。"
+            "value" : "パッケージを選ぶと、インストールされたものが表示されます。macOSは、各パッケージが配置したファイルのレシートを保持しています。レシートをゴミ箱に入れても、ゴミ箱に入るのはそのレシートだけです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "패키지를 선택하면 패키지가 설치한 항목을 볼 수 있습니다."
+            "value" : "패키지를 선택하면 패키지가 설치한 항목을 볼 수 있습니다. macOS는 각 패키지가 배치한 파일의 수신 정보를 보관하며, 수신 정보를 제거하면 해당 수신 정보만 휴지통으로 이동합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kies een pakket om te zien wat het heeft geïnstalleerd."
+            "value" : "Kies een pakket om te zien wat het heeft geïnstalleerd. macOS bewaart een installatiebewijs van de bestanden die elk pakket op hun plek heeft gezet, en als je er een vergeet, wordt alleen dat installatiebewijs naar de prullenmand verplaatst."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wybierz pakiet, aby zobaczyć, co zainstalował."
+            "value" : "Wybierz pakiet, aby zobaczyć, co zainstalował. macOS przechowuje dla każdego pakietu potwierdzenie instalacji z listą plików, które ten pakiet rozmieścił, a zapomnienie któregoś z potwierdzeń przenosi do Kosza tylko to jedno potwierdzenie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escolha um pacote para ver o que ele instalou."
+            "value" : "Escolha um pacote para ver o que ele instalou. O macOS guarda um recibo dos arquivos que cada pacote colocou no lugar, e esquecer um recibo move só esse recibo para o Lixo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alegeți un pachet pentru a vedea ce a instalat."
+            "value" : "Alegeți un pachet pentru a vedea ce a instalat. macOS păstrează o recipisă a fișierelor plasate de fiecare pachet, iar dacă uitați una, doar acea recipisă este mutată în Coș."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите пакет, чтобы увидеть, что он установил."
+            "value" : "Выберите пакет, чтобы увидеть, что он установил. macOS хранит для каждого пакета квитанцию со списком файлов, которые он разместил, и, если забыть квитанцию, в Корзину переместится только она."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Välj ett paket för att se vad det installerade."
+            "value" : "Välj ett paket för att se vad det installerade. macOS sparar ett kvitto över de filer som varje paket har placerat, och om du glömmer ett kvitto flyttas bara det kvittot till papperskorgen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neler yüklediğini görmek için bir paket seçin."
+            "value" : "Neler yüklediğini görmek için bir paket seçin. macOS, her paketin yerleştirdiği dosyaların makbuzunu tutar; bir makbuzu unutmak yalnızca o makbuzu Çöp Sepeti’ne taşır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Виберіть пакет, щоб побачити, що він інсталював."
+            "value" : "Виберіть пакет, щоб побачити, що він інсталював. macOS зберігає квитанцію з переліком файлів, які розмістив кожен пакет, і якщо забути одну з них, у Смітник буде переміщено лише цю квитанцію."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选取一个软件包，查看它安装了什么。"
+            "value" : "选取一个软件包，查看它安装了什么。macOS会为每个软件包放置到位的文件保留回执，移除某个回执只会将该回执移到废纸篓。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選擇一個套件以查看它安裝了什麼。"
+            "value" : "選擇一個套件以查看它安裝了什麼。macOS會為每個套件所放置的檔案保留一份收據，移除收據只會將該收據丟到「垃圾桶」。"
           }
         }
       }

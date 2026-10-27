@@ -57,6 +57,8 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     public var installedApps: [String] = []
     /// Whether one of those apps is excluded in Settings, which leaves its receipt alone too.
     public var installedAppIsExcluded = false
+    /// The name macOS gave the package when it installed it, such as "AdGuard", if its install history keeps one.
+    public var name: String?
 
     public var id: String { identifier }
 
@@ -71,5 +73,14 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// or left alone. False when the file list is unknown, since then nothing is known about what is left.
     public var holdsNothingToRemove: Bool {
         isFileListKnown && !nothingLeftOnDisk && items.allSatisfy(\.isLeftAlone)
+    }
+}
+
+extension PackageReceipt {
+    /// Whether `query` matches the identifier, the name macOS gave the package, or where one of its files is, since few
+    /// know a package by its identifier.
+    public func matches(_ query: String) -> Bool {
+        SearchText.matches(identifier, query) || name.map { SearchText.matches($0, query) } == true
+            || items.contains { SearchText.matches($0.url.path(percentEncoded: false), query) }
     }
 }

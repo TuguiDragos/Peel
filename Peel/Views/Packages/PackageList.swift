@@ -18,6 +18,9 @@ struct PackageList: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                     HStack(spacing: 6) {
+                        if let name = receipt.name {
+                            Text(verbatim: name)
+                        }
                         if receipt.nothingLeftOnDisk {
                             Text("Receipt only")
                         } else if !receipt.installedApps.isEmpty {
@@ -103,6 +106,6 @@ struct PackageList: View {
     private var filteredReceipts: [PackageReceipt] {
         let receipts = packages.receipts ?? []
         guard !searchText.isEmpty else { return receipts }
-        return receipts.filter { SearchText.matches($0.identifier, searchText) }
+        return receipts.filter { $0.matches(searchText) }
     }
 }

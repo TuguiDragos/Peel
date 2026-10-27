@@ -117,8 +117,15 @@ public enum PackageReceipts {
             }
             return results
         }
+        let names = InstallHistory.names(onVolume: environment.rootDirectory)
         return PackageScan(
-            receipts: receipts.sorted { $0.identifier.localizedStandardCompare($1.identifier) == .orderedAscending }
+            receipts: receipts
+                .map { receipt in
+                    var named = receipt
+                    named.name = names[receipt.identifier]
+                    return named
+                }
+                .sorted { $0.identifier.localizedStandardCompare($1.identifier) == .orderedAscending }
         )
     }
 
