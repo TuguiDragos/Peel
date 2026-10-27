@@ -233,11 +233,32 @@ struct PluginsTests {
     }
 
     /// macOS installs its own plug-ins into the same folders apps use, such as `ParrotAudioPlugin.driver` in
-    /// `/Library/Audio/Plug-Ins/HAL`. The test checks names, since asking the scan's own signature question
-    /// again would test nothing.
-    @Test func leavesApplesOwnComponentsOutOfTheList() async {
-        let listed = await Plugins.scan().plugins.map(\.name)
-        #expect(!listed.contains("ParrotAudioPlugin"))
-        #expect(!listed.contains { $0.hasPrefix("AU") && $0 != "AULab" }, "Apple's own audio units were listed: \(listed)")
+    /// `/Library/Audio/Plug-Ins/HAL`. Apple's own, linked from the sealed system into the test's Library, are left
+    /// out by their signature, while a component nobody signed beside them is listed.
+    @Test func leavesApplesOwnComponentsOutOfTheList() async throws {
+        let directory = try TemporaryDirectory()
+        var linked = 0
+        for (system, folder) in [
+            ("/System/Library/Components", "Components"), ("/System/Library/Audio/Plug-Ins/HAL", "HAL"),
+        ] {
+            let library = try directory.directory("root/Library/Audio/Plug-Ins/\(folder)")
+            for name in try FileManager.default.contentsOfDirectory(atPath: system) {
+                try FileManager.default.createSymbolicLink(
+                    at: library.appending(path: name),
+                    withDestinationURL: URL(filePath: system, directoryHint: .isDirectory).appending(path: name)
+                )
+                linked += 1
+            }
+        }
+        try #require(linked > 0)
+        try directory.directory("root/Library/Audio/Plug-Ins/Components/Echo.component/Contents")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let scan = await Plugins.scan(environment: environment)
+
+        #expect(scan.plugins.map(\.name) == ["Echo"])
     }
 }
