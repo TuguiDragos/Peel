@@ -234,7 +234,7 @@ struct HistoryCommand: AsyncParsableCommand {
 
     /// Why an item stayed, in the words the rest of `peel` uses. A reason a newer Peel wrote reads as recorded.
     static func why(_ record: RefusalRecord) -> String {
-        TrashFailure.Reason(name: record.reason, detail: record.detail)?.summary ?? record.detail ?? record.reason
+        record.failureReason?.summary ?? record.detail ?? record.reason
     }
 
     private func listRefusals(in log: RefusalLog, trash: TrashService) async throws {
@@ -268,7 +268,8 @@ struct HistoryCommand: AsyncParsableCommand {
                     tool: removal.parts.count == 1 ? removal.parts[0].namedTool : nil,
                     items: removal.records.map { record in
                         RefusedRemoval.Item(
-                            path: Output.path(record.url), reason: record.reason, detail: record.detail,
+                            path: Output.path(record.url), reason: record.reason,
+                            detail: record.failureReason?.detail ?? record.detail,
                             why: Self.why(record)
                         )
                     }

@@ -353,6 +353,23 @@ struct HistoryCommandTests {
         #expect(FileManager.default.fileExists(atPath: trash.appending(path: "refusals.json").path(percentEncoded: false)))
     }
 
+    @Test func printsWhatMacOSReportedInEnglishWhateverLanguageWroteIt() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let romanian = "Operația nu a putut fi efectuată. Sistem de fișiere doar citire"
+        let error = SystemError(domain: NSPOSIXErrorDomain, code: Int(EROFS))
+        await logs.refusals.add(
+            [TrashFailure(url: URL(filePath: "/Volumes/Old/report.pdf"), reason: .failed(romanian), error: error)],
+            source: "Editor", tool: "applications"
+        )
+
+        let text = try await printed(["history", "--refused"], from: logs)
+        let json = try await printed(["history", "--refused", "--json"], from: logs)
+
+        #expect(text.contains("Read-only file system") && !text.contains("Operația"))
+        #expect(json.contains("Read-only file system") && !json.contains("Operația"))
+    }
+
     @Test func clearsACopySetAsideWhenNothingElseIsLeft() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

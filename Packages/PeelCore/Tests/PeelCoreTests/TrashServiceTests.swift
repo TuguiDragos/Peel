@@ -282,6 +282,21 @@ struct TrashServiceTests {
         #expect(batches.withLock { $0 } == [["Tool.app"], ["tool", "_tool"]])
     }
 
+    @Test func keepsTheCodeOfAnErrorMacOSReported() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("home/Library/Caches/org.example.busy/cache.db")
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+        ) { _ in throw POSIXError(.EBUSY) }
+
+        let result = await service.trashOwnFiles([file])
+
+        #expect(result.failures.map(\.error) == [SystemError(domain: NSPOSIXErrorDomain, code: Int(EBUSY))])
+    }
+
     /// An item inside a folder that just moved went with it, whatever its name begins with: it is neither moved
     /// again nor a failure. A slash and a combining mark after it are one `Character`, so to a comparison of
     /// characters such an item was not inside its folder, and its move failed for a file already in the Trash.

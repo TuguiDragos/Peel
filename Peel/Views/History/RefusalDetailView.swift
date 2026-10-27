@@ -71,6 +71,6 @@ private struct RefusalRecordRow: View {
     /// Why the item stayed, in the words Peel shows when it refuses. A reason this version doesn't know is shown
     /// as it was stored.
     private var explanation: String {
-        TrashFailure.Reason(name: record.reason, detail: record.detail)?.explanation ?? record.detail ?? record.reason
+        record.failureReason?.explanation ?? record.detail ?? record.reason
     }
 }

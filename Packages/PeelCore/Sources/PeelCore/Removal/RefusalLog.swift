@@ -10,6 +10,7 @@ public struct RefusalRecord: Sendable, Codable, Hashable, Identifiable {
     /// `TrashFailure.Reason.name`: a word, not the sentence shown on screen, so later versions can still read it.
     public let reason: String
     public let detail: String?
+    public let error: SystemError?
     public let date: Date
     public let source: String
     /// A key for a source Peel names itself, as in `RemovalRecord.sourceKey`.
@@ -29,10 +30,20 @@ public struct RefusalRecord: Sendable, Codable, Hashable, Identifiable {
         url = failure.url
         reason = failure.reason.name
         detail = failure.reason.detail
+        error = failure.error
         self.date = date
         self.source = source
         self.sourceKey = sourceKey
         self.tool = tool
+    }
+}
+
+extension RefusalRecord {
+    /// Why the item stayed, with what macOS reported worded in the reader's language (`SystemError`), or nil for a
+    /// word this version doesn't know.
+    public var failureReason: TrashFailure.Reason? {
+        if reason == "failed", let error { return .failed(error.description(of: url)) }
+        return TrashFailure.Reason(name: reason, detail: detail)
     }
 }
 

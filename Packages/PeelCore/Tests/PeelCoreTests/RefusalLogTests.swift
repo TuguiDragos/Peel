@@ -171,6 +171,29 @@ struct RefusalLogTests {
         #expect(second.problem == .damaged(setAside: setAside), "the copy set aside is the only trace of it")
     }
 
+    @Test func aReasonMacOSGaveIsWordedInTheReadersLanguage() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+        let item = URL(filePath: "/Volumes/Old/report.pdf")
+        let error = SystemError(domain: NSPOSIXErrorDomain, code: Int(EROFS))
+        let romanian = TrashFailure.Reason.failed("Operația nu a putut fi efectuată. Sistem de fișiere doar citire")
+        await log.add([TrashFailure(url: item, reason: romanian, error: error)], source: "Editor", tool: "applications")
+
+        let record = try #require(await RefusalLog(url: log.url).load().records?.first)
+
+        #expect(record.error == error)
+        #expect(record.failureReason == .failed(error.description(of: item)))
+        #expect(record.failureReason != romanian, "read in the words of the process that wrote it")
+    }
+
+    @Test func aReasonWrittenWithoutItsCodeReadsAsWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+        await log.add([failure("/Users/me/a", .failed("disk full"))], source: "Editor", tool: "applications")
+
+        #expect(try #require(await log.load().records?.first).failureReason == .failed("disk full"))
+    }
+
     @Test func forgetsTheDamageOnceItsCopyIsGone() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.directory("Peel").appending(path: "refusals.json")

@@ -105,10 +105,12 @@ public struct TrashFailure: Sendable, Hashable {
 
     public let url: URL
     public let reason: Reason
+    public let error: SystemError?
 
-    public init(url: URL, reason: Reason) {
+    public init(url: URL, reason: Reason, error: SystemError? = nil) {
         self.url = url
         self.reason = reason
+        self.error = error
     }
 }
 
@@ -513,7 +515,8 @@ public struct TrashService: Sendable {
                 if Self.foundNothing(error), url.isMissing { continue }
                 let reason = Self.reason(for: error)
                 let isLocked = reason == .notPermitted && FileAccess.isLockedInFinder(url)
-                result.failures.append(TrashFailure(url: url, reason: isLocked ? .locked : reason))
+                let code: SystemError? = if case .failed = reason { SystemError(error) } else { nil }
+                result.failures.append(TrashFailure(url: url, reason: isLocked ? .locked : reason, error: code))
             }
         }
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
