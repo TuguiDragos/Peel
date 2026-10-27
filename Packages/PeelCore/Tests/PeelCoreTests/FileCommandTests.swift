@@ -685,7 +685,41 @@ struct FileCommandTests {
 
         let notes = DuplicatesCommand.notes(for: scan)
 
-        #expect(notes.contains { $0.hasPrefix("Peel didn't look in /Users/me/Projects/app, so there may be duplicates there.") })
+        #expect(notes.contains {
+            $0 == "Peel didn't look in /Users/me/Projects/app: it is a repository, or sits inside one, and Peel leaves repositories alone."
+        })
+    }
+
+    @Test func refusesEachFolderItCantScanWithItsReason() throws {
+        let finder = "/System/Library/CoreServices/Finder.app"
+        let error = #expect(throws: (any Error).self) {
+            try PeelCommand.parseAsRoot(["duplicates", "/Applications", finder])
+        }
+
+        let message = PeelCommand.fullMessage(for: try #require(error), columns: 300)
+
+        #expect(message.contains("/Applications: it is outside your home folder and /Users/Shared, or on a disk Peel can't write to"))
+        #expect(message.contains("\(finder): it is an app or another package, or inside one, and what is inside belongs to it"))
+    }
+
+    @Test func saysThereIsNothingToMoveWhenEveryOtherCopySyncs() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
+        try directory.directory("home/Synced/.stfolder")
+        try directory.file("home/Synced/a.bin", contents: contents)
+        try directory.file("home/Documents/a.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await (command(["duplicates", "--remove", "--dry-run"]) as DuplicatesCommand)
+                .clean(scan, using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        }
+
+        #expect(scan.groups.count == 1)
+        #expect(collected.output == "Nothing to move: every other copy syncs to your other devices.\n")
     }
 
     @Test func duplicatesComparesNothingWhileTheExclusionsCantBeRead() {
@@ -714,6 +748,10 @@ struct FileCommandTests {
         let found = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         #expect(found["unreadableLocations"] as? [String] == ["/Users/me/Locked"])
         #expect(found["skippedLocations"] as? [String] == ["/Users/me/Projects/app"])
+        #expect(found["setAside"] as? [[String: String]] == [[
+            "path": "/Users/me/Projects/app",
+            "reason": "it is a repository, or sits inside one, and Peel leaves repositories alone",
+        ]])
     }
 
     @Test func aRemovalFromTwoProjectsOfTheSameNameIsNotNamedForOne() {

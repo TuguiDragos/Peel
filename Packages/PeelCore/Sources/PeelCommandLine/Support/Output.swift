@@ -403,6 +403,18 @@ extension HoldBack {
     }
 }
 
+extension DuplicateFinder.Refusal {
+    var summary: String {
+        switch self {
+        case .appData: "it is app data, the Music or TV app's media folder, or something Peel protects, such as a photo library or a keychain"
+        case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
+        case .outsideTheHome: "it is outside your home folder and /Users/Shared, or on a disk Peel can't write to"
+        case .insideARepository: "it is a repository, or sits inside one, and Peel leaves repositories alone"
+        case .notAFolder: "it isn't a folder Peel can reach"
+        }
+    }
+}
+
 extension ProjectArtifacts.Refusal {
     var summary: String {
         switch self {

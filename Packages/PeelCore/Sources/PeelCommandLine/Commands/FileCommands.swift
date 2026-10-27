@@ -756,6 +756,13 @@ struct DuplicatesCommand: AsyncParsableCommand {
         let unreadableLocations: [String]
         /// Chosen folders the scan didn't look in.
         let skippedLocations: [String]
+        /// The same folders, each with why it wasn't looked in.
+        let setAside: [SetAside]
+    }
+
+    struct SetAside: Encodable {
+        let path: String
+        let reason: String
     }
 
     /// Checks the folders here rather than in `run()`: only while it parses does ArgumentParser know which
@@ -769,9 +776,9 @@ struct DuplicatesCommand: AsyncParsableCommand {
         guard missing.isEmpty else {
             throw ValidationError("\(missing.map(Output.path).joined(separator: ", ")): no such folder.")
         }
-        let rejected = urls.filter { !finder.canScan($0) }
+        let rejected = urls.compactMap { url in finder.refusal(of: url).map { "\(Output.path(url)): \($0.summary)" } }
         guard rejected.isEmpty else {
-            throw ValidationError("Peel can't scan \(rejected.map(Output.path).joined(separator: ", ")). Choose folders in your home folder, /Users/Shared, or a disk Peel can write to. App data, the Music and TV apps' media folders, apps and other packages, and system folders aren't scanned.")
+            throw ValidationError(rejected.joined(separator: "\n"))
         }
     }
 
@@ -832,10 +839,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
                 Output.unreadableNote(for: scan.unreadableLocations, needsFullDiskAccess: scan.needsFullDiskAccess)
             )
         }
-        if !scan.skippedLocations.isEmpty {
-            let folders = scan.skippedLocations.map { Output.path($0.url) }.joined(separator: ", ")
-            notes.append("Peel didn't look in \(folders), so there may be duplicates there. It leaves repositories alone, and doesn't scan app data or system folders.")
-        }
+        notes += scan.skippedLocations.map { "Peel didn't look in \(Output.path($0.url)): \($0.reason.summary)." }
         let synced = scan.groups.reduce(0) { total, group in total + group.files.count { $0.heldBack != nil } }
         if synced > 0 {
             notes.append("\(Output.count(synced, "copy syncs", "copies sync")) to your other devices, so Peel lists them as copies that stay and never moves them.")
@@ -862,7 +866,8 @@ struct DuplicatesCommand: AsyncParsableCommand {
                 )
             },
             unreadableLocations: scan.unreadableLocations.map(Output.path),
-            skippedLocations: scan.skippedLocations.map { Output.path($0.url) }
+            skippedLocations: scan.skippedLocations.map { Output.path($0.url) },
+            setAside: scan.skippedLocations.map { SetAside(path: Output.path($0.url), reason: $0.reason.summary) }
         )
     }
 
@@ -908,7 +913,10 @@ struct DuplicatesCommand: AsyncParsableCommand {
         let folders = scan.folderGroups.flatMap { $0.folders.dropFirst() }
         let files = scan.groups.flatMap { $0.movableFiles.dropFirst() }
         guard !folders.isEmpty || !files.isEmpty else {
-            Output.line("No duplicates found.")
+            Output.line(
+                scan.groups.isEmpty && scan.folderGroups.isEmpty
+                    ? "No duplicates found." : "Nothing to move: every other copy syncs to your other devices."
+            )
             return
         }
         // Where each group's kept copy is comes first, and the copies that sync, which stay: it is what the
