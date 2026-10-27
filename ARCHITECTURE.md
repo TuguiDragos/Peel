@@ -484,8 +484,9 @@ where a Homebrew install takes them from.
 
 Remove Peel, in Settings, takes all of Peel's own files to the Trash but `Terminal/`, the settings zsh and ssh read
 through the user's own lines (`SelfRemoval`), gathered first into one folder named Peel so the Trash shows one item,
-and leaves what it changed outside them as it is. It takes no step while Peel's own move would be refused. The
-helper moves its own ledger there, since nothing else can, just before Peel unregisters it, and before that the
+and leaves what it changed outside them as it is. It takes no step while Peel's own move would be refused. It
+starts only while nothing moves, comes back or runs Homebrew (`SelfUninstall.runAlone`), and while it runs nothing
+else may (`RemovalHistoryStore.holdingReason`, `.peelRemovesItself`). The helper moves its own ledger there, since nothing else can, just before Peel unregisters it, and before that the
 link to the `peel` command when only an administrator can move it (`Uninstallation.unreviewedLinks`): it leads into
 Peel until Peel has moved, and the helper takes such a link only when it leads to the tool of the Peel it runs from
 (`PrivilegedPathPolicy`'s `ownTool`). Both are asked of the helper only once it has answered

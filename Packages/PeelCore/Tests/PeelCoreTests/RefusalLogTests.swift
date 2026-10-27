@@ -348,11 +348,11 @@ struct RefusalLogTests {
     }
 
     private static let everyReason: [TrashFailure.Reason] = [
-        .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .needsHelper,
+        .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .needsHelper,
         .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable, .historyCannotBeWritten,
-        .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt, .heldByAnotherAccount(by: ["CtxHelper"]),
-        .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]), .inUseAsAnInputSource,
-        .inUseByMacOS(by: ["geod", "appleaccountd"]), .failed("x"),
+        .peelRemovesItself, .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt,
+        .heldByAnotherAccount(by: ["CtxHelper"]), .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]),
+        .inUseAsAnInputSource, .inUseByMacOS(by: ["geod", "appleaccountd"]), .attachedDiskImage, .failed("x"),
     ] + GuardRefusal.allCases.map { .guarded($0) }
 
     /// A record stores its reason as a word, not a sentence, so a later version of Peel can still read it.

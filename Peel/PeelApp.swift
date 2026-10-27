@@ -71,7 +71,7 @@ struct PeelApp: App {
     @State private var space: SpaceLibrary
     @State private var carrier: SelectionCarrier
     @State private var background = StandingWork()
-    @State private var selfUninstall = SelfUninstall()
+    @State private var selfUninstall: SelfUninstall
     @State private var textEditing = TextEditing()
     @State private var sheetInFront = SheetInFront()
     @State private var hasLaunched = false
@@ -91,7 +91,10 @@ struct PeelApp: App {
         _home = State(initialValue: HomeModel(helper: helper))
 
         let outcome = RemovalOutcome()
-        let (library, history) = (AppLibrary(), RemovalHistoryStore(outcome: outcome))
+        let selfUninstall = SelfUninstall()
+        _selfUninstall = State(initialValue: selfUninstall)
+        let library = AppLibrary()
+        let history = RemovalHistoryStore(outcome: outcome, removesPeel: { selfUninstall.isRunning })
         let (orphans, space, developer, projects) = (
             OrphanLibrary(), SpaceLibrary(), DeveloperLibrary(), ProjectLibrary()
         )

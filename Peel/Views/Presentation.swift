@@ -180,6 +180,7 @@ extension TrashFailure.Reason {
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.", bundle: bundle)
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.", bundle: bundle)
         case .historyCannotBeWritten: String(localized: "Peel couldn’t write to History, because the disk is full or Peel’s folder can’t be written, and it moves nothing it can’t put back.", bundle: bundle)
+        case .peelRemovesItself: String(localized: "Peel is removing itself, so it moves nothing else meanwhile.", bundle: bundle)
         case .heldOpen(let processes) where processes.count > 1:
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items if they have no window, then try again.", bundle: bundle)
         case .heldOpen(let processes):

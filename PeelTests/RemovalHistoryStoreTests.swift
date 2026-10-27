@@ -80,6 +80,25 @@ struct RemovalHistoryStoreTests {
         #expect(later.untoldNoLongerListed == 5)
     }
 
+    /// Nothing moves or comes back while Peel removes itself, since Remove Peel takes History and Peel's folder.
+    @Test func movesNothingWhilePeelRemovesItself() {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        final class Removal { var runs = false }
+        let removal = Removal()
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true },
+            removesPeel: { removal.runs }
+        )
+
+        #expect(history.mayMove)
+        removal.runs = true
+        #expect(history.holdingReason == .peelRemovesItself)
+        #expect(!history.mayMove)
+    }
+
     @Test func aHistoryThatCannotBeReadIsNotCalledEmpty() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

@@ -84,6 +84,8 @@ public struct TrashFailure: Sendable, Hashable {
         case historyUnreadable
         /// History cannot be written, as on a full disk, so nothing moves: what moved could not be listed for Put Back.
         case historyCannotBeWritten
+        /// Peel is removing itself, History and its folder with it, so nothing else moves meanwhile.
+        case peelRemovesItself
         /// These processes hold a file open in it, and moving it would pull it from under them.
         case heldOpen(by: [String])
         /// Peel itself runs from it or from inside it, and only Remove Peel moves Peel.
@@ -119,7 +121,7 @@ extension TrashFailure.Reason {
     /// state: History it cannot read, or the helper it needs.
     public var isAboutTheItem: Bool {
         switch self {
-        case .historyUnreadable, .historyCannotBeWritten, .needsHelper: false
+        case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper: false
         case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser,
              .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .failed: true
@@ -148,6 +150,7 @@ extension TrashFailure.Reason {
         case .somethingElseMoved: "something-else-moved"
         case .historyUnreadable: "history-unreadable"
         case .historyCannotBeWritten: "history-cannot-be-written"
+        case .peelRemovesItself: "peel-removes-itself"
         case .heldOpen: "held-open"
         case .peelRunsFromIt: "peel-runs-from-it"
         case .heldByAnotherAccount: "held-by-another-account"
@@ -189,6 +192,7 @@ extension TrashFailure.Reason {
         case "something-else-moved": self = .somethingElseMoved(named: detail ?? "")
         case "history-unreadable": self = .historyUnreadable
         case "history-cannot-be-written": self = .historyCannotBeWritten
+        case "peel-removes-itself": self = .peelRemovesItself
         case "held-open": self = .heldOpen(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "peel-runs-from-it": self = .peelRunsFromIt
         case "held-by-another-account":

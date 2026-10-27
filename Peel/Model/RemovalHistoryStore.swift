@@ -133,6 +133,7 @@ final class RemovalHistoryStore {
     /// Undo left in the Trash.
     private let outcome: RemovalOutcome?
     private let knowsTheExclusions: () -> Bool
+    private let removesPeel: () -> Bool
     private let restoring: ([TrashedItem], Bool) async -> [RestoreFailure?]
     private let announcing: (AttributedString) -> Void
     /// Read again here once History has counted a removal, rather than by each tool.
@@ -206,6 +207,7 @@ final class RemovalHistoryStore {
         refusals: RefusalLog = RefusalLog(),
         outcome: RemovalOutcome? = nil,
         knowsTheExclusions: @escaping () -> Bool = { ExclusionsStore.shared.exclusions.isKnown },
+        removesPeel: @escaping () -> Bool = { false },
         restoring: @escaping ([TrashedItem], Bool) async -> [RestoreFailure?] = { items, canUseHelper in
             await TrashService(exclusions: ExclusionsStore.shared.exclusions).restore(items, canUseHelper: canUseHelper)
         },
@@ -217,6 +219,7 @@ final class RemovalHistoryStore {
         self.refusals = refusals
         self.outcome = outcome
         self.knowsTheExclusions = knowsTheExclusions
+        self.removesPeel = removesPeel
         self.restoring = restoring
         self.announcing = announcing
     }
@@ -386,9 +389,10 @@ final class RemovalHistoryStore {
     /// What the Edit menu shows, and nil when there is nothing to undo.
     var undoTitle: String? { undoable?.title }
 
-    /// Why nothing may move to the Trash or back now: the exclusions are not known, or History can't be read or
-    /// written.
+    /// Why nothing may move to the Trash or back now: Peel is removing itself, the exclusions are not known, or History
+    /// can't be read or written.
     var holdingReason: TrashFailure.Reason? {
+        if removesPeel() { return .peelRemovesItself }
         guard knowsTheExclusions() else { return .guarded(.exclusionsNotKnown) }
         if isUnreadable { return .historyUnreadable }
         return cannotBeWritten ? .historyCannotBeWritten : nil

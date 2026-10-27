@@ -127943,6 +127943,113 @@
         }
       }
     },
+    "Peel is removing itself, so it moves nothing else meanwhile." : {
+      "comment" : "Why a Move to Trash, a Put Back or an Undo is off for the few seconds Remove Peel runs, since it takes History and Peel’s folder with it.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel odstraňuje sám sebe, takže mezitím nic jiného nepřesouvá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel entfernt sich gerade selbst und verschiebt daher währenddessen nichts anderes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se está eliminando, así que mientras tanto no traslada nada más."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel est en train de se supprimer et ne déplace donc rien d’autre pendant ce temps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sta rimuovendo sé stesso, quindi nel frattempo non sposta nient’altro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは自身をアンインストールしている最中のため、その間はほかに何も移動しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 자신을 제거하는 중이므로, 그동안 다른 항목은 이동하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel is zichzelf aan het verwijderen, dus het verplaatst intussen niets anders."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel się odinstalowuje, więc w tym czasie nie przenosi niczego innego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel está se removendo, então não move mais nada enquanto isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se elimină chiar acum, așa că între timp nu mută nimic altceva."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel удаляет себя, поэтому пока больше ничего не перемещает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel håller på att ta bort sig själv och flyttar därför inget annat under tiden."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendini kaldırıyor, bu yüzden bu sırada başka hiçbir şeyi taşımaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel вилучає себе, тож тим часом нічого іншого не переміщує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正在移除自身，因此在此期间不会移动其他任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel正在移除自己，因此在此期間不會移動任何其他項目。"
+          }
+        }
+      }
+    },
     "Peel is running from a copy macOS made because it is still marked as downloaded, or from its disk image, and that copy can’t be moved. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again." : {
       "localizations" : {
         "cs" : {
