@@ -293,10 +293,25 @@ struct MultipleAppsView: View {
                 ? String(localized: "macOS keeps this app, so it stays where it is.")
                 : String(localized: "Not selected: it belongs to an app macOS keeps, so it is in use."))
         }
+        if item.isApplication, let app = plan.apps.first(where: { $0.url == item.url }) {
+            if case .browser(let identifier) = app.webApp {
+                let browser = library.name(forReference: identifier)
+                lines.append(String(localized: "Moving it to the Trash takes away only this shortcut, and the app stays in \(browser), which can make the shortcut again. To remove the app itself, uninstall it in \(browser), which takes the shortcut away too."))
+            }
+            if let change = app.bundleIdentifier.flatMap({ library.teamChanges[$0] }) {
+                if change.current.isEmpty {
+                    lines.append(String(localized: "No developer signs this app anymore."))
+                    lines.append(String(localized: "It was first seen signed by \(change.previous). A copy someone has changed looks like this, and so does one built from source."))
+                } else {
+                    lines.append(String(localized: "It was first seen signed by \(change.previous), and is signed by \(change.current) now."))
+                }
+            }
+        }
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
-    /// Under the question: which of the chosen apps go and which stay, and the privacy reset, which History can't undo.
+    /// Under the question: which of the chosen apps go and which stay, the privacy reset, which History can't undo, and
+    /// Homebrew's record of an app that goes while its record stays.
     private func note(about urls: Set<URL>) -> Text {
         let going = plan.apps.filter { urls.contains($0.url) }
         let staying = plan.apps.filter { !urls.contains($0.url) && !plan.appsInTheTrash.contains($0.url) }
@@ -311,6 +326,15 @@ struct MultipleAppsView: View {
             lines.append(Text("The selected apps’ privacy permissions are cleared first, and History can’t bring them back."))
         }
         lines += UninstallsItself.when(moving: urls, among: plan.apps).map(\.warning)
+        for app in going {
+            let movesItsReceipt = plan.items.contains {
+                $0.kind == .homebrewReceipt && $0.apps.contains(app.reference) && urls.contains($0.url)
+            }
+            if !movesItsReceipt, let cask = library.cask(for: app) {
+                let record = Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(cask.name)`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good.")
+                lines.append(Text("\(list([app])): \(record)"))
+            }
+        }
         return lines.dropFirst().reduce(lines.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
     }
 
