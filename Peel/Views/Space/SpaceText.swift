@@ -121,7 +121,7 @@ nonisolated extension SpaceItem {
         ),
         "podcasts": Words(
             title: "Podcast Downloads",
-            detail: "Episodes the Podcasts app keeps on this Mac.",
+            detail: "Episodes the Podcasts app downloaded, with everything else it keeps on this Mac, so removing the downloads frees less than this.",
             hint: "Podcasts > Downloaded > Remove All Downloads"
         ),
         "tv": Words(

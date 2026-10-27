@@ -39485,108 +39485,108 @@
         }
       }
     },
-    "Episodes the Podcasts app keeps on this Mac." : {
+    "Episodes the Podcasts app downloaded, with everything else it keeps on this Mac, so removing the downloads frees less than this." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Díly, které aplikace Podcasty uchovává v tomto Macu."
+            "value" : "Díly, které aplikace Podcasty stáhla, spolu se vším ostatním, co v tomto Macu uchovává, takže odstranění stažených dílů uvolní méně, než kolik činí tento údaj."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Folgen, die in der App „Podcasts“ auf diesem Mac gespeichert sind."
+            "value" : "Von der App „Podcasts“ geladene Folgen, samt allem anderen, was die App auf diesem Mac aufbewahrt, daher gibt das Entfernen der Downloads weniger frei, als hier angegeben ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Episodios que la app Podcasts guarda en este Mac."
+            "value" : "Episodios que ha descargado la app Podcasts, junto con todo lo demás que guarda en este Mac, así que eliminar las descargas libera menos que esta cifra."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les épisodes que l’app Podcasts conserve sur ce Mac."
+            "value" : "Les épisodes téléchargés par l’app Podcasts, avec tout ce qu’elle conserve d’autre sur ce Mac : supprimer les téléchargements libère donc moins d’espace que la taille indiquée."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gli episodi che l’app Podcast conserva su questo Mac."
+            "value" : "Gli episodi che l’app Podcast ha scaricato, insieme a tutto ciò che l’app conserva su questo Mac, quindi rimuovendo i download si libera meno spazio di quello indicato."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ポッドキャストアプリがこのMacに保存しているエピソードです。"
+            "value" : "ポッドキャストアプリがダウンロードしたエピソードと、このアプリがこのMacに保存しているその他すべてのものです。そのため、ダウンロードしたものを削除しても、解放される領域はこれより少なくなります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "팟캐스트 앱이 이 Mac에 보관하는 에피소드입니다."
+            "value" : "팟캐스트 앱이 다운로드한 에피소드와 이 앱이 이 Mac에 보관하는 그 밖의 모든 항목입니다. 따라서 다운로드를 제거하면 이보다 적은 공간이 확보됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afleveringen die de app Podcasts op deze Mac bewaart."
+            "value" : "Afleveringen die de app Podcasts heeft gedownload, samen met alles wat die app verder op deze Mac bewaart, dus als je de downloads verwijdert, maak je minder vrij dan dit."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odcinki przechowywane na tym Macu przez aplikację Podcasty."
+            "value" : "Odcinki pobrane przez aplikację Podcasty wraz ze wszystkim innym, co przechowuje ona na tym Macu, więc usunięcie pobranych rzeczy zwolni mniej miejsca, niż tu podano."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Episódios que o app Podcasts guarda neste Mac."
+            "value" : "Episódios que o app Podcasts baixou, junto com tudo o mais que ele guarda neste Mac, então remover os downloads libera menos do que isso."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Episoadele pe care aplicația Podcasturi le păstrează pe acest Mac."
+            "value" : "Episoadele pe care aplicația Podcasturi le‑a descărcat, împreună cu tot ce mai păstrează aceasta pe acest Mac, așa că eliminarea descărcărilor eliberează mai puțin decât atât."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выпуски, которые приложение «Подкасты» хранит на этом Mac."
+            "value" : "Выпуски, которые загрузило приложение «Подкасты», вместе со всем остальным, что оно хранит на этом Mac, поэтому удаление загрузок освободит меньше места, чем здесь указано."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avsnitt som appen Podcaster sparar på den här datorn."
+            "value" : "Avsnitt som appen Podcaster har hämtat, tillsammans med allt annat som appen sparar på den här datorn, så om du tar bort hämtningarna frigörs mindre än så här."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Podcast’ler uygulamasının bu Mac’te tuttuğu bölümler."
+            "value" : "Podcast’ler uygulamasının indirdiği bölümler ve bu uygulamanın bu Mac’te tuttuğu diğer her şey; bu yüzden indirilenleri silmek bundan daha az yer boşaltır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Епізоди, які програма «Подкасти» зберігає на цьому Mac."
+            "value" : "Епізоди, які викачала програма «Подкасти», разом з усім іншим, що вона зберігає на цьому Mac, тож вилучення викачувань звільнить менше місця, ніж показано тут."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“播客”App在这台Mac上保留的单集。"
+            "value" : "“播客”App下载的单集，以及它在这台Mac上保留的其他所有内容，因此移除下载所释放的空间小于此数值。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「Podcast」App保留在這部Mac上的單集。"
+            "value" : "「Podcast」App下載的單集，以及它在這部Mac上保留的其他所有內容，因此移除下載項目所釋放的空間會少於此數字。"
           }
         }
       }
