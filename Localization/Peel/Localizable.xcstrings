@@ -105327,6 +105327,112 @@
         }
       }
     },
+    "Nothing to move: every other copy syncs to your other devices." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není co přesunout: všechny další kopie se synchronizují s vašimi ostatními zařízeními."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts zu verschieben: Jede andere Kopie wird mit deinen anderen Geräten synchronisiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada que trasladar: todas las demás copias se sincronizan con tus otros dispositivos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien à déplacer : toutes les autres copies sont synchronisées avec vos autres appareils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niente da spostare: ogni altra copia si sincronizza con gli altri tuoi dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動できるものはありません。残すコピー以外は、すべてほかのデバイスに同期されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동할 항목 없음: 나머지 복사본이 모두 다른 기기와 동기화됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niets te verplaatsen: elke andere kopie wordt gesynchroniseerd met je andere apparaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie ma nic do przeniesienia: każda inna kopia jest synchronizowana z Twoimi pozostałymi urządzeniami."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada para mover: todas as outras cópias são sincronizadas com os seus outros dispositivos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimic de mutat: fiecare copie în plus se sincronizează pe celelalte dispozitive ale dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нечего перемещать: все остальные копии синхронизируются с другими Вашими устройствами."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget att flytta: alla andra kopior synkroniseras till dina andra enheter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınacak bir şey yok: geri kalan her kopya diğer aygıtlarınızla eşzamanlanıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає чого переміщувати: усі інші копії синхронізуються з іншими вашими пристроями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有可移动的内容：其他每个副本都会同步到你的其他设备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有可移動的項目：其他每份副本都會與你的其他裝置同步。"
+          }
+        }
+      }
+    },
     "Nothing turns this on or off: Shortcuts and Siri use it whenever someone asks for the app’s actions. Removing it means removing the app it came with." : {
       "localizations" : {
         "cs" : {

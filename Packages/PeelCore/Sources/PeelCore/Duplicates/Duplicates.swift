@@ -181,6 +181,13 @@ public struct DuplicateScan: Sendable {
         return Set(files + folders)
     }
 
+    /// How many groups moving copies would free something in. A group of files counts only with two copies that may
+    /// move, since one always stays; a folder that syncs to other devices is never offered, so every group of
+    /// folders counts.
+    public var groupsWithSomethingToMove: Int {
+        groups.count { $0.movableFiles.count > 1 } + folderGroups.count
+    }
+
     /// Returns `selection` limited to what this scan can still move: only files it lists, and never every copy of
     /// a group, which the move refuses. When every copy left in a group is selected, its first copy is kept.
     public func keepingOneOfEach(_ selection: Set<URL>) -> Set<URL> {

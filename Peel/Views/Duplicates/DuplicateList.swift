@@ -161,7 +161,10 @@ struct DuplicateList: View {
     /// What VoiceOver hears when a scan ends: what it found, then the folders Peel couldn't read and the chosen
     /// folders it set aside, each kind in its own words.
     private var summary: AttributedString? {
-        guard var words = duplicates.summary, let scan = duplicates.scan else { return duplicates.summary }
+        guard let scan = duplicates.scan else { return duplicates.summary }
+        let found = duplicates.summary ?? (scan.groups.isEmpty && scan.folderGroups.isEmpty
+            ? nil : AttributedString(localized: "Nothing to move: every other copy syncs to your other devices."))
+        guard var words = found else { return nil }
         if !scan.unreadableLocations.isEmpty {
             let count = scan.unreadableLocations.count
             words = words + " " + AttributedString(localized: "Peel couldn’t look in ^[\(count) folder](inflect: true).")

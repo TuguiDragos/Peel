@@ -339,6 +339,22 @@ struct DuplicateFinderTests {
     /// A folder that syncs to other devices is scanned, and each copy found in it is listed and held back: a copy
     /// moved there would be removed from every device. Nothing in such a group is suggested, since the one copy that
     /// could move is the only one that stays on this Mac.
+    @Test func countsOnlyTheGroupsWithSomethingToMove() async throws {
+        let directory = try TemporaryDirectory()
+        let synced = randomData(count: 3_000)
+        let local = randomData(count: 3_000)
+        try directory.directory("home/Synced/.stfolder")
+        try directory.file("home/Synced/a.bin", contents: synced)
+        try directory.file("home/Documents/a.bin", contents: synced)
+        try directory.file("home/Documents/b.bin", contents: local)
+        try directory.file("home/Documents/b copy.bin", contents: local)
+
+        let scan = try await scan(directory, folders: ["home/Synced", "home/Documents"])
+
+        #expect(scan.groups.count == 2)
+        #expect(scan.groupsWithSomethingToMove == 1)
+    }
+
     @Test func listsACopyThatSyncsApartAndNeverSelectsIt() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
