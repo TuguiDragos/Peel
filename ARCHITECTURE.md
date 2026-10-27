@@ -386,6 +386,19 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   (`FoldersLeftToDeveloper`) kept out, and macOS's own held back or not listed at all; the move asks again which apps
   are open (`movableNow`). An area only its own app or tool should empty is explained, with that app's or tool's own
   step.
+- **Developer.** `DeveloperCaches.definitions` names each tool's folders, under the home folder, the account's cache
+  folder, or its temporary folder, each with what it holds (`ContentKind`) and where the tool documents it, a page or
+  a file in its repository at a commit, which the tests hold. Only what one tool owns outright is listed: no
+  toolchain or tool version in use, nothing holding an account or a token, and of a folder that keeps work beside a
+  cache only the cache. A folder a tool's configuration moved is found where it went (`Relocation`, read by
+  `ToolSettings` from the file the tool's `config set` writes, never by running the tool), the apps built on Electron
+  by a rule over the installed apps (`electronDefinitions`), and some folders are listed entry by entry: each
+  workspace Xcode built in DerivedData, each archive, an editor's state for a project that is gone, and the versions
+  an installer keeps beside the one it runs. `Location.isRecommended` is what Peel suggests: build data, downloads,
+  caches, and logs, once measured and not held back (a secret inside, a clone of another repository, a recent write
+  where a server may still use it, a workspace that may still be in use), and `peel caches` gives each other row's
+  reason by the same rule. Nothing moves while one of the tool's apps runs (`runningApp`), and a folder in the
+  temporary folder that a program holds open isn't listed.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference
