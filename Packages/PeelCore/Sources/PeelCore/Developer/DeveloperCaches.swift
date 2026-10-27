@@ -69,7 +69,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         public var isTheTools = true
         /// The newest write inside, from the walk that measured it. It is shown and never decides what is selected.
         public var lastWritten: Date?
-        /// A wallet, a signing key, or a password database seen inside. Never a repository: the tool clones it again.
+        /// A wallet, a signing key, or a password database seen inside, a clone of another repository than the one
+        /// its tool names, or a write in the last minutes where a program may still use it.
         public var heldBack: HoldBack?
 
         public var id: URL { url }
@@ -1623,6 +1624,8 @@ public enum DeveloperCaches {
             // app shares.
             let contents = await measure(url)
             let derived = folder.rowsAreDerivedData ? Self.derivedDataRow(at: url) : nil
+            let isTheTools = derived?.isXcodes ?? folder.isTheTools(at: url)
+            let holdsAnotherRepository = folder.clonedFrom != nil && !isTheTools && contents?.holdsRepository == true
             locations.append(DeveloperEnvironment.Location(
                 url: url,
                 kind: folder.kind(at: url),
@@ -1633,9 +1636,10 @@ public enum DeveloperCaches {
                 archive: folder.kind == .archives ? Self.archive(at: url) : nil,
                 workspace: derived?.workspace,
                 project: project,
-                isTheTools: derived?.isXcodes ?? folder.isTheTools(at: url),
+                isTheTools: isTheTools,
                 lastWritten: contents.flatMap { $0.couldNotBeRead ? nil : $0.newestChange },
                 heldBack: contents.flatMap(HoldBack.secret(in:))
+                    ?? (holdsAnotherRepository ? .holdsRepository : nil)
                     ?? (folder.holdsBackRecentWrites && HoldBack.wasWrittenRecently(url, contents: contents)
                         ? .writtenRecently : nil)
             ))

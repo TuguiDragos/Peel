@@ -1497,6 +1497,8 @@ struct DeveloperCachesTests {
         #expect(Set(byName.keys) == ["master", "cocoapods"])
         #expect(byName["master"]?.isRecommended == true)
         #expect(byName["cocoapods"]?.isRecommended == false)
+        #expect(byName["master"]?.heldBack == nil)
+        #expect(byName["cocoapods"]?.heldBack == .holdsRepository, "a clone of another repository may be the person's")
     }
 
     @Test func offersTheImagesTartKeepsAndNeverItsMachines() async throws {

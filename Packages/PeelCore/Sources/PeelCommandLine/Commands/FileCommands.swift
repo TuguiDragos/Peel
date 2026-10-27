@@ -385,8 +385,8 @@ struct CachesCommand: AsyncParsableCommand {
     /// the two must never disagree.
     static func reason(for location: DeveloperEnvironment.Location) -> String? {
         if isKeptByDefault(location.kind) { return "kept by default" }
-        if !location.isTheTools { return "nothing shows the tool made it" }
         if let heldBack = location.heldBack { return heldBack.summary }
+        if !location.isTheTools { return "nothing shows the tool made it" }
         if let workspace = location.workspace, workspace.mayStillBeInUse {
             return workspace.lastUsed == nil
                 ? "Xcode wrote no date for its workspace" : "its workspace was opened in the last 7 days"
