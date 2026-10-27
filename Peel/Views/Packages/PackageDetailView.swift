@@ -1,3 +1,4 @@
+import AppKit
 import PeelCore
 import SwiftUI
 
@@ -19,6 +20,20 @@ struct PackageDetailView: View {
             // Forget Receipt always needs the helper, whatever the items need.
             if !helper.canAct {
                 HelperRequiredBanner()
+            }
+            let forAnAdministrator = receipt.items.filter { $0.heldBack == .beyondTheHelper }
+            if !forAnAdministrator.isEmpty {
+                Notice(
+                    title: Text("Needs an Administrator"),
+                    detail: Text("Only an administrator can move these, and Peel’s helper isn’t allowed to move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks."),
+                    kind: .note,
+                    systemImage: "lock.shield"
+                ) {
+                    Button("Show in Finder", systemImage: "folder") {
+                        NSWorkspace.shared.activateFileViewerSelecting(forAnAdministrator.map(\.url))
+                    }
+                }
+                .listRowSeparator(.hidden)
             }
 
             Section {
@@ -198,7 +213,11 @@ struct PackageDetailView: View {
 
     private func note(for item: PackageReceipt.Item) -> String? {
         if let removedElsewhere = item.removedElsewhere { return String(localized: removedElsewhere.explanation) }
-        return item.heldBack.map { String(localized: $0.explanation) }
+        guard let heldBack = item.heldBack else { return nil }
+        let why = String(localized: heldBack.explanation)
+        guard heldBack == .beyondTheHelper, item.url.isKernelExtension else { return why }
+        return why + "\n\n"
+            + String(localized: "macOS changes the kernel extensions it loads only when the Mac restarts, so restart once this one is in the Trash.")
     }
 
 }

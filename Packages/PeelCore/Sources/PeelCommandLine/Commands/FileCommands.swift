@@ -165,7 +165,7 @@ struct OrphansCommand: AsyncParsableCommand {
         if !scan.forAnAdministrator.isEmpty {
             notes.append(byHand)
         }
-        if scan.forAnAdministrator.contains(where: \.item.isKernelExtension) {
+        if scan.forAnAdministrator.contains(where: \.item.url.isKernelExtension) {
             notes.append(kernelExtensions)
         }
         return notes

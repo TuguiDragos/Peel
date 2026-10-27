@@ -59,7 +59,7 @@ struct AdministratorItemsView: View {
             let apps = entry.apps.formatted(.list(type: .and))
             lines.append(String(localized: "Peel isn’t sure only \(apps) used this. Check it before you remove it."))
         }
-        if entry.item.isKernelExtension {
+        if entry.item.url.isKernelExtension {
             lines.append(String(localized: "macOS changes the kernel extensions it loads only when the Mac restarts, so restart once this one is in the Trash."))
         }
         return lines.joined(separator: "\n\n")

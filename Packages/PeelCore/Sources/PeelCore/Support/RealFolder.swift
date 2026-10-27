@@ -35,6 +35,12 @@ extension URL {
         (try? resourceValues(forKeys: [.isUbiquitousItemKey]).isUbiquitousItem) == true
     }
 
+    /// True for a kernel extension, which macOS takes out of the kernel only when the Mac restarts: since macOS 11,
+    /// third-party kernel extensions load as one collection when the Mac starts up.
+    public var isKernelExtension: Bool {
+        pathExtension.caseInsensitiveCompare("kext") == .orderedSame
+    }
+
     /// Whether this is a package, such as an app.
     var isAPackage: Bool {
         (try? resourceValues(forKeys: [.isPackageKey]).isPackage) == true
