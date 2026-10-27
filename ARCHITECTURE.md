@@ -372,7 +372,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference
-  domain first (`PreferenceBackup`): a reset whose copy fails moves nothing.
+  domain first (`PreferenceBackup`): a reset whose copy fails moves nothing, and one that finds the app open once the
+  copy is made moves nothing either and puts that copy in the Trash.
 - **Watching the Trash.** `TrashMonitor` notices an app the user moves to the Trash: the home's, and the Trash of
   each other disk Peel lists apps on (`VolumeTrashes`), where an app thrown away from that disk lands. `TrashService`
   tells it about Peel's own moves (`OwnTrashMoves`), by where each item landed, so Peel never offers to clean up

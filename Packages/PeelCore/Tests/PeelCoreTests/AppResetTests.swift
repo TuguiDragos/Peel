@@ -392,7 +392,7 @@ struct AppResetTests {
         )
 
         #expect(outcome.stop == .appOpened)
-        #expect(outcome.backup == copy)
+        #expect(outcome.backup == nil && !copy.isThere, "a copy stood in Saved Settings for a reset that didn't happen")
         #expect(outcome.result.trashed.isEmpty)
         #expect(!asked.withLock { $0 })
         #expect(settings.isThere)

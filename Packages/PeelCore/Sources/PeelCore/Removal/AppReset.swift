@@ -99,7 +99,8 @@ public struct AppReset: Sendable {
 
     /// Copies the settings in `selection`, asks again whether the app is open, since the copy takes a moment, then
     /// moves the selection to the Trash and resets the privacy permissions when asked. Nothing starts while every move
-    /// would be refused, and nothing moves when the copy fails or the app opened meanwhile, the copy then staying.
+    /// would be refused, and nothing moves when the copy fails or the app opened meanwhile. In the second case the copy
+    /// goes to the Trash, since no reset happened that it could undo.
     @concurrent
     public func run(
         _ selection: Set<URL>,
@@ -147,6 +148,9 @@ public struct AppReset: Sendable {
             break
         }
         guard await !isOpen() else {
+            if let backup = outcome.backup, await service.trashOwnFiles([backup]).failures.isEmpty {
+                outcome.backup = nil
+            }
             outcome.stop = .appOpened
             return outcome
         }
