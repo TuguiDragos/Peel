@@ -29,6 +29,10 @@ struct HistoryList: View {
         searchText.isEmpty ? history.refusalBatches : found?.refusals ?? history.refusalBatches
     }
 
+    private var hasNotices: Bool {
+        history.shownProblem != nil || history.refusalProblem != nil || history.untoldNoLongerListed != nil
+    }
+
     var body: some View {
         @Bindable var history = history
         // Filtered once per body, since the list and the overlay both use the result.
@@ -64,11 +68,22 @@ struct HistoryList: View {
                     RefusalProblemNotice(problem: problem)
                         .transition(.opacity)
                 }
+                // Said once: the page has said it when it goes away.
+                if let count = history.untoldNoLongerListed {
+                    Notice(
+                        title: Text("History no longer lists ^[\(count) older removal](inflect: true)"),
+                        detail: Text("What was moved is still in the Trash unless you emptied it."),
+                        kind: .note
+                    ) { EmptyView() }
+                    .transition(.opacity)
+                    .onDisappear { history.tellNoLongerListed(count) }
+                }
             }
             .padding(.horizontal, 12)
-            .padding(.bottom, history.shownProblem != nil || history.refusalProblem != nil ? 8 : 0)
+            .padding(.bottom, hasNotices ? 8 : 0)
             .motion(.settle, .movement, value: history.shownProblem != nil)
             .motion(.settle, .movement, value: history.refusalProblem != nil)
+            .motion(.settle, .movement, value: history.untoldNoLongerListed != nil)
         }
         .overlay {
             if !history.hasLoaded {

@@ -19,6 +19,8 @@ public enum RemovalLogProblem: Sendable, Equatable {
 public struct RemovalLogOutcome: Sendable {
     public let records: [RemovalRecord]?
     public let problem: RemovalLogProblem?
+    /// How many older removals the log no longer lists, as the totals count them.
+    public let noLongerListed: Int
 }
 
 /// The record of everything Peel moved to the Trash, so History can put it back.
@@ -59,7 +61,7 @@ public actor RemovalLog {
     /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
     /// the rows that could be read.
     public func load() -> RemovalLogOutcome {
-        whileNoOtherProcessWrites { RemovalLogOutcome(records: current(), problem: problem) }
+        whileNoOtherProcessWrites { outcome(current()) }
     }
 
     /// The places in the Trash where an item Peel moved still is, whichever process moved it: what History records
@@ -71,13 +73,12 @@ public actor RemovalLog {
 
     public func add(_ records: [RemovalRecord]) -> RemovalLogOutcome {
         whileNoOtherProcessWrites {
-            guard !records.isEmpty else { return RemovalLogOutcome(records: current(), problem: problem) }
-            guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
+            guard !records.isEmpty else { return outcome(current()) }
+            guard let existing = current() else { return outcome(nil) }
             let new = Set(records.map(\.batch))
-            let trimmed = Self.trimmed(existing + records, keeping: new)
-            guard let updated = write(trimmed, keeping: new, orNote: .couldNotRecord) else {
+            guard let updated = write(existing + records, keeping: new, orNote: .couldNotRecord) else {
                 journal.keep(records)
-                return RemovalLogOutcome(records: nil, problem: problem)
+                return outcome(nil)
             }
             RemovalTotals.change(at: totals) { $0.add(records) }
             // The journal is what records these items if History is lost, so it lets them go only once History is on
@@ -87,7 +88,7 @@ public actor RemovalLog {
             }
             // A removal that is recorded clears an earlier `.couldNotRecord`.
             if problem == .couldNotRecord { problem = nil }
-            return RemovalLogOutcome(records: updated, problem: problem)
+            return outcome(updated)
         }
     }
 
@@ -134,10 +135,17 @@ public actor RemovalLog {
 
     public func remove(_ ids: Set<UUID>) -> RemovalLogOutcome {
         whileNoOtherProcessWrites {
-            guard let existing = current() else { return RemovalLogOutcome(records: nil, problem: problem) }
+            guard let existing = current() else { return outcome(nil) }
             let updated = existing.filter { !ids.contains($0.id) }
-            return RemovalLogOutcome(records: write(updated, orNote: .couldNotUpdate), problem: problem)
+            return outcome(write(updated, orNote: .couldNotUpdate))
         }
+    }
+
+    /// What a read or change of the log answers, once it has `records` or left the file untouched (nil).
+    private func outcome(_ records: [RemovalRecord]?) -> RemovalLogOutcome {
+        RemovalLogOutcome(
+            records: records, problem: problem, noLongerListed: RemovalTotals.read(beside: url).noLongerListed
+        )
     }
 
     /// Runs `change` under a file lock. The app and `peel` both write this log, and the actor keeps order only
@@ -176,8 +184,9 @@ public actor RemovalLog {
         var updated = records
         if !interrupted.isEmpty {
             let taken = Set(interrupted.map(\.batch))
-            let trimmed = Self.trimmed(records + interrupted, keeping: taken)
-            guard let written = write(trimmed, keeping: taken, orNote: .couldNotRecord) else { return records }
+            guard let written = write(records + interrupted, keeping: taken, orNote: .couldNotRecord) else {
+                return records
+            }
             updated = written
             RemovalTotals.change(at: totals) { $0.add(interrupted) }
         }
@@ -227,8 +236,8 @@ public actor RemovalLog {
         }
     }
 
-    /// Writes `records`, less the oldest removals that wouldn't fit in what is read back, never one in `protected`,
-    /// and answers what it wrote, or nil when it couldn't.
+    /// Writes `records`, less the oldest removals beyond `maximumRecords` or what is read back, never one in
+    /// `protected`, counts those it left out in the totals, and answers what it wrote, or nil when it couldn't.
     private func write(
         _ records: [RemovalRecord], keeping protected: Set<UUID> = [], orNote failure: RemovalLogProblem
     ) -> [RemovalRecord]? {
@@ -237,8 +246,8 @@ public actor RemovalLog {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
             let fitted = try Batches.fitting(
-                records, within: readLimit, batch: \.batch, date: \.date, keeping: protected,
-                encode: { try encoder.encode($0) }
+                Self.trimmed(records, keeping: protected), within: readLimit, batch: \.batch, date: \.date,
+                keeping: protected, encode: { try encoder.encode($0) }
             )
             try FileManager.default.createDirectory(
                 at: url.deletingLastPathComponent(),
@@ -248,6 +257,10 @@ public actor RemovalLog {
             try fitted.data.write(to: url, options: .atomic)
             // Every writer takes the lock, so the file here is the one just written.
             kept = FileIdentity.of(url).map { ($0, fitted.records) }
+            if fitted.records.count < records.count {
+                let leftOut = Set(records.map(\.batch)).subtracting(fitted.records.map(\.batch)).count
+                RemovalTotals.change(at: totals) { $0.countNoLongerListed(leftOut) }
+            }
             return fitted.records
         } catch {
             // An unrecorded removal is the most serious problem, so a later failure never replaces it.

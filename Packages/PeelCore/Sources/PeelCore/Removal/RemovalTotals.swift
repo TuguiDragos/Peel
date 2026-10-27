@@ -10,11 +10,15 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
     public private(set) var items = 0
     public private(set) var apps = 0
     public private(set) var biggest = SizeTotal(known: 0, isComplete: true)
+    /// How many older removals History no longer lists: past its limits it leaves the oldest out, each whole.
+    public var noLongerListed: Int { removalsLeftOut ?? 0 }
     /// The removal counted last and what it has moved so far: a removal of several parts is recorded a part at a
     /// time, and it is the whole of it that can be the biggest.
     private var last: Removal?
     /// Whether the totals the app kept on its own, before `peel` counted too, were added.
     private var tookInEarlier = false
+    /// The removals History left out, absent from totals written before it counted them.
+    private var removalsLeftOut: Int?
 
     private struct Removal: Sendable, Equatable, Codable {
         let batch: UUID
@@ -47,6 +51,11 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
                 biggest = removal.bytes
             }
         }
+    }
+
+    /// Counts `count` more removals History left out.
+    mutating func countNoLongerListed(_ count: Int) {
+        removalsLeftOut = noLongerListed.addingCapped(count)
     }
 
     /// Adds, once, the totals the app kept before `peel` counted too, which share no removal with these.

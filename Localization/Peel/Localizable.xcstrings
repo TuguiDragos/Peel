@@ -52960,6 +52960,347 @@
         }
       }
     },
+    "History no longer lists ^[%lld older removal](inflect: true)" : {
+      "comment" : "A note above History’s list, shown once. The number is how many of the oldest removals History left out to stay quick to read, so it no longer lists them.",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie už neuvádí %lld starší odstranění"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie už neuvádí %lld staršího odstranění"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie už neuvádí %lld starší odstranění"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historie už neuvádí %lld starších odstranění"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Der Verlauf zeigt %lld älteren Eintrag nicht mehr an"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Der Verlauf zeigt %lld ältere Einträge nicht mehr an"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historial ya no muestra %lld de eliminaciones más antiguas"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historial ya no muestra una eliminación más antigua"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historial ya no muestra %lld eliminaciones más antiguas"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique ne liste plus %lld d’anciennes suppressions"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique ne liste plus %lld ancienne suppression"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique ne liste plus %lld anciennes suppressions"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "La Cronologia non elenca più %lld di rimozioni meno recenti"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "La Cronologia non elenca più una rimozione meno recente"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "La Cronologia non elenca più %lld rimozioni meno recenti"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "古い%lld件の記録は履歴に表示されなくなりました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록에 오래된 제거 내역 %lld개가 더 이상 표시되지 않음"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geschiedenis toont %lld oudere verwijdering niet meer"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geschiedenis toont %lld oudere verwijderingen niet meer"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia nie wyświetla już %lld starszych przeniesień do Kosza"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia nie wyświetla już %lld starszych przeniesień do Kosza"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia nie wyświetla już %lld starszego przeniesienia do Kosza"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historia nie wyświetla już %lld starszego przeniesienia do Kosza"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Histórico não lista mais %lld de remoções mais antigas"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Histórico não lista mais %lld remoção mais antiga"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Histórico não lista mais %lld remoções mais antigas"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Istoricul nu mai listează %lld eliminări mai vechi"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Istoricul nu mai listează %lld eliminare mai veche"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Istoricul nu mai listează %lld de eliminări mai vechi"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История больше не показывает %lld старых удаления"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История больше не показывает %lld старых удалений"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История больше не показывает %lld старое удаление"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "История больше не показывает %lld старого удаления"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historik listar inte längre %lld äldre borttagning"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historik listar inte längre %lld äldre borttagningar"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geçmiş artık %lld eski kaldırma işlemini listelemiyor"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geçmiş artık %lld eski kaldırma işlemini listelemiyor"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія більше не показує %lld давніші вилучення"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія більше не показує %lld давніших вилучень"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія більше не показує %lld давніше вилучення"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Історія більше не показує %lld давнішого вилучення"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“历史记录”已不再列出较早的%lld次移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「歷史記錄」已不再列出%lld次較早的移除"
+          }
+        }
+      }
+    },
     "History stops listing them. They have already left the Trash, so nothing on your Mac changes." : {
       "localizations" : {
         "cs" : {
@@ -208632,6 +208973,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如何處理"
+          }
+        }
+      }
+    },
+    "What was moved is still in the Trash unless you emptied it." : {
+      "comment" : "Under that note: what those older removals moved stays in the Trash until the person empties it.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co se přesunulo, je stále v koši, pokud jste ho nevysypali."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was verschoben wurde, liegt noch im Papierkorb, sofern du ihn nicht entleert hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que se trasladó sigue en la papelera, salvo que la hayas vaciado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui a été déplacé se trouve toujours dans la corbeille, sauf si vous l’avez vidée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che è stato spostato è ancora nel Cestino, a meno che tu non l’abbia svuotato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動した項目は、ゴミ箱を空にしていなければ、まだゴミ箱にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴지통을 비우지 않았다면 이동된 항목은 아직 휴지통에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat is verplaatst, staat nog in de prullenmand, tenzij je die hebt geleegd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co przeniesiono, nadal jest w Koszu, chyba że go opróżniono."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que foi movido continua no Lixo, a menos que você o tenha esvaziado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce s‑a mutat se află în continuare în Coș, dacă nu l‑ați golit."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что было перемещено, по-прежнему находится в Корзине, если Вы ее не очистили."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som flyttades ligger fortfarande i papperskorgen, om du inte har tömt den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınanlar, Çöp Sepeti’ni boşaltmadıysanız hâlâ orada duruyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що було переміщено, досі лежить у Смітнику, якщо ви його не очистили."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "除非你已清倒废纸篓，否则移走的内容仍在废纸篓中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "除非你已清空「垃圾桶」，否則已移動的項目仍在「垃圾桶」中。"
           }
         }
       }

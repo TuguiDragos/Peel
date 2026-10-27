@@ -43,6 +43,43 @@ struct RemovalHistoryStoreTests {
         #expect(history.undoTitle == nil, "Undo still offered what peel put back")
     }
 
+    /// History's page says once how many older removals History no longer lists, and again when it leaves out more.
+    @Test func saysOnceWhatHistoryNoLongerLists() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let prefs = try MadeUpDefaults()
+        defer { prefs.forget() }
+        func store() -> RemovalHistoryStore {
+            RemovalHistoryStore(
+                log: RemovalLog(url: folder.appending(path: "removals.json")),
+                refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+                knowsTheExclusions: { true },
+                defaults: prefs.defaults
+            )
+        }
+        func leaveOut(_ count: Int) throws {
+            let totals = #"{"apps":0,"biggest":{"isComplete":true,"known":0},"bytes":{"isComplete":true,"known":0},"items":0,"removalsLeftOut":\#(count),"tookInEarlier":false}"#
+            try Data(totals.utf8).write(to: folder.appending(path: "totals.json"))
+        }
+
+        let history = store()
+        await history.load()
+        #expect(history.untoldNoLongerListed == nil, "said before anything was left out")
+        try leaveOut(3)
+        await history.load()
+        #expect(history.untoldNoLongerListed == 3)
+        history.tellNoLongerListed(3)
+        #expect(history.untoldNoLongerListed == nil)
+
+        let later = store()
+        await later.load()
+        #expect(later.untoldNoLongerListed == nil, "said again after it was said")
+        try leaveOut(5)
+        await later.load()
+        #expect(later.untoldNoLongerListed == 5)
+    }
+
     @Test func aHistoryThatCannotBeReadIsNotCalledEmpty() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

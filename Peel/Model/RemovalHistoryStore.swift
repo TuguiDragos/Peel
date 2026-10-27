@@ -160,6 +160,10 @@ final class RemovalHistoryStore {
     /// What the last read or change of the refusal log met, which the Not Moved list says.
     private(set) var refusalProblem: RefusalLogProblem?
     private(set) var problem: RemovalLogProblem?
+    /// How many older removals History no longer lists, having left them out past its limits.
+    private(set) var noLongerListed = 0
+    /// The count History's page said last, read from the preferences once History has left something out.
+    private var toldNoLongerListed: Int?
     /// Whether History cannot be read, which holds every removal back, as the Trash service does. Known without
     /// reading it: at launch, when Peel comes forward, and with every read or change of History.
     private(set) var isUnreadable = false
@@ -185,6 +189,7 @@ final class RemovalHistoryStore {
     /// older change must never replace a newer one.
     private var listedChange = 0
     private var refusalChange = 0
+    @ObservationIgnored private let defaults: UserDefaults
 
     var selectedBatch: RemovalBatch? {
         batches.first { $0.id == selection }
@@ -204,9 +209,11 @@ final class RemovalHistoryStore {
         restoring: @escaping ([TrashedItem], Bool) async -> [RestoreFailure?] = { items, canUseHelper in
             await TrashService(exclusions: ExclusionsStore.shared.exclusions).restore(items, canUseHelper: canUseHelper)
         },
-        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() }
+        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() },
+        defaults: UserDefaults = .standard
     ) {
         self.log = log
+        self.defaults = defaults
         self.refusals = refusals
         self.outcome = outcome
         self.knowsTheExclusions = knowsTheExclusions
@@ -249,6 +256,18 @@ final class RemovalHistoryStore {
     /// last read or change of it met.
     var shownProblem: RemovalLogProblem? {
         isUnreadable ? .unreadable : problem
+    }
+
+    /// How many older removals History no longer lists, while its page has not said that count yet.
+    var untoldNoLongerListed: Int? {
+        noLongerListed > 0 && noLongerListed != toldNoLongerListed ? noLongerListed : nil
+    }
+
+    /// Notes that History's page said it no longer lists `count` older removals, so it says each count once.
+    func tellNoLongerListed(_ count: Int) {
+        guard toldNoLongerListed != count else { return }
+        toldNoLongerListed = count
+        defaults.set(count, forKey: SettingsKey.toldNoLongerListed)
     }
 
     /// Looks again at whether History can be read and written, which costs no read of it.
@@ -410,6 +429,12 @@ final class RemovalHistoryStore {
     private func apply(_ outcome: RemovalLogOutcome) async {
         problem = outcome.problem
         checkReadability()
+        if noLongerListed != outcome.noLongerListed {
+            if toldNoLongerListed == nil {
+                toldNoLongerListed = defaults.integer(forKey: SettingsKey.toldNoLongerListed)
+            }
+            noLongerListed = outcome.noLongerListed
+        }
         guard let records = outcome.records else { return }
         // What left History since it was listed, as by `peel restore`, is no longer Undo's to put back.
         keepUndoable(without: Set(self.records.map(\.id)).subtracting(records.map(\.id)))

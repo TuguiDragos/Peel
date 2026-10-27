@@ -185,7 +185,8 @@ struct HistoryCommand: AsyncParsableCommand {
         guard let records = outcome.records else {
             throw CommandFailure("Peel couldn't read its History.\(outcome.problem.map { " \($0.summary)" } ?? "")")
         }
-        let batches = Array(Batch.all(in: records).prefix(shown))
+        let all = Batch.all(in: records)
+        let batches = Array(all.prefix(shown))
 
         if output.json {
             try Output.json(batches.map { batch in
@@ -207,6 +208,11 @@ struct HistoryCommand: AsyncParsableCommand {
             Output.line("Peel hasn't moved anything to the Trash yet.")
         } else {
             Output.table(Self.rows(for: batches))
+        }
+        // Said where the list reaches History's oldest removal, below which the older ones would be.
+        if outcome.noLongerListed > 0, batches.count == all.count {
+            let removals = Output.count(outcome.noLongerListed, "older removal", "older removals")
+            Output.note("History no longer lists \(removals). What was moved is still in the Trash unless you emptied it.")
         }
         if let problem = outcome.problem {
             Output.note(problem.summary)

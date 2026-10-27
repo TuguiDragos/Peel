@@ -392,6 +392,37 @@ struct RemovalHistoryTests {
         #expect(!batches.contains(removals[0]), "the oldest removal was kept past the limit")
     }
 
+    /// History counts the removals it leaves out to stay within what it reads back, so it can say what it no
+    /// longer lists.
+    @Test func countsTheRemovalsItLeavesOut() async throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "Peel/removals.json")
+        let log = RemovalLog(url: url, flush: { _ in true }, readLimit: 4_096)
+        let removals = [UUID(), UUID(), UUID()]
+        var added: RemovalLogOutcome?
+        for (index, batch) in removals.enumerated() {
+            let date = Date(timeIntervalSince1970: Double(index) * 60)
+            added = await log.add((0..<4).map { Self.record(batch: batch, date: date, name: "書類書類書類 \(index) \($0)") })
+        }
+
+        let leftOut = removals.count - Set(try #require(added?.records).map(\.batch)).count
+        #expect(leftOut > 0)
+        #expect(added?.noLongerListed == leftOut)
+        #expect(await RemovalLog(url: url, flush: { _ in true }, readLimit: 4_096).load().noLongerListed == leftOut)
+        #expect(RemovalTotals.read(beside: url).noLongerListed == leftOut)
+    }
+
+    @Test func aRemovalForgottenIsNotCountedAsLeftOut() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let added = await log.add([Self.record(batch: UUID())])
+
+        let forgotten = await log.remove(Set(try #require(added.records).map(\.id)))
+
+        #expect(forgotten.records == [])
+        #expect(forgotten.noLongerListed == 0)
+    }
+
     @Test func startsNothingOverWhileHistoryCanBeRead() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))

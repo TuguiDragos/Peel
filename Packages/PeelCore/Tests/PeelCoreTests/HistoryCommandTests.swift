@@ -110,6 +110,19 @@ struct HistoryCommandTests {
         return collected.output
     }
 
+    /// What `arguments` write to standard error.
+    private func noted(
+        _ arguments: [String],
+        from logs: (removals: RemovalLog, refusals: RefusalLog)
+    ) async throws -> String {
+        let collected = Output.Collected()
+        try await Output.$collected.withValue(collected) {
+            try await (command(arguments) as HistoryCommand)
+                .run(in: logs.removals, refusals: logs.refusals, trash: movesNothing)
+        }
+        return collected.notes
+    }
+
     private func listed(_ json: String) throws -> [Any] {
         try #require(try JSONSerialization.jsonObject(with: Data(json.utf8)) as? [Any])
     }
@@ -226,6 +239,37 @@ struct HistoryCommandTests {
         #expect(try listed(try await printed(["history", "--json"], from: logs)).isEmpty)
         #expect(try await printed(["history", "--refused"], from: logs) == "Peel hasn't refused anything it was asked to move.\n")
         #expect(try listed(try await printed(["history", "--refused", "--json"], from: logs)).isEmpty)
+    }
+
+    /// A list that reaches History's oldest removal says how many older removals History no longer lists, in the
+    /// table and in `--json` alike; one that `--limit` cuts short doesn't.
+    @Test func saysWhatHistoryNoLongerListsWhereTheListEnds() async throws {
+        let directory = try TemporaryDirectory()
+        let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"), flush: { _ in true }, readLimit: 4_096)
+        let logs = (removals: removals, refusals: RefusalLog(url: directory.url.appending(path: "Peel/refusals.json")))
+        let count = 12
+        for index in 0..<count {
+            let name = "書類書類書類書類書類書類 \(index)"
+            _ = await removals.add([RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(
+                    originalURL: URL(filePath: "/Users/me/\(name)"),
+                    trashedURL: URL(filePath: "/Users/me/.Trash/\(name)"),
+                    date: Date(timeIntervalSince1970: Double(index) * 60)
+                ),
+                size: 1,
+                source: "Editor",
+                tool: "applications"
+            )])
+        }
+        let listed = Batch.all(in: try #require(await removals.load().records)).count
+        try #require(listed > 1 && listed < count)
+        let leftOut = Output.count(count - listed, "older removal", "older removals")
+        let note = "History no longer lists \(leftOut). What was moved is still in the Trash unless you emptied it.\n"
+
+        #expect(try await noted(["history"], from: logs) == note)
+        #expect(try await noted(["history", "--json"], from: logs) == note)
+        #expect(try await noted(["history", "--limit", "\(listed - 1)"], from: logs).isEmpty)
     }
 
     /// `--limit` is what the command prints, in the table and in `--json` alike, and 20 without it.

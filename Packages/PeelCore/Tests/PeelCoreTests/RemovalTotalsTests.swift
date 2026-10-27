@@ -149,6 +149,20 @@ struct RemovalTotalsTests {
         #expect(kept.contains { $0.hasPrefix("totals-damaged-") })
     }
 
+    /// Totals written before History counted the removals it leaves out are read as they were.
+    @Test func readsTotalsWrittenBeforeHistoryCountedWhatItLeftOut() throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let earlier = #"{"apps":1,"biggest":{"isComplete":true,"known":300},"bytes":{"isComplete":true,"known":500},"items":2,"tookInEarlier":true}"#
+        _ = try directory.file("Peel/totals.json", contents: Data(earlier.utf8))
+
+        let totals = RemovalTotals.read(beside: history)
+
+        #expect(totals.items == 2)
+        #expect(totals.bytes == SizeTotal(known: 500, isComplete: true))
+        #expect(totals.noLongerListed == 0)
+    }
+
     @Test func historyIsRecordedWhenTheTotalsCannotBeWritten() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")
