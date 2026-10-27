@@ -36,7 +36,7 @@ struct FileSearchForm: View {
                     Text("This Mac").tag(FileSearchCriteria.Scope.computer)
                 }
             } header: {
-                heading("Filters", "Peel searches the Spotlight index for files. Folders, apps, and system files aren’t included. What an app keeps in a Library folder is listed last, and Select Recommended leaves it out.")
+                heading("Filters", "Peel searches the Spotlight index for files on this Mac’s disks, not on network volumes. Folders, apps, and system files aren’t included. What an app keeps in a Library folder is listed last, and Select Recommended leaves it out.")
             }
         }
         .formStyle(.grouped)

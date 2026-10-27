@@ -117,6 +117,9 @@ struct FileSearchList: View {
                             } else {
                                 Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
                             }
+                            if criteria.scope == .computer {
+                                Text("Network volumes aren’t searched.")
+                            }
                         }
                     } actions: {
                         if criteria.narrowingFilters > 0 {

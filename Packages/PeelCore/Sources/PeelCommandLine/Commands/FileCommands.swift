@@ -968,7 +968,7 @@ struct SearchCommand: AsyncParsableCommand {
     @Option(name: .customLong("older-than"), help: "Only files not modified in this many days.")
     var olderThan: Int?
 
-    @Flag(help: "Search every volume mounted on this Mac, not only your home folder.")
+    @Flag(help: "Search every disk on this Mac, not only your home folder. Network volumes aren't searched.")
     var everywhere = false
 
     @OptionGroup var output: OutputOptions

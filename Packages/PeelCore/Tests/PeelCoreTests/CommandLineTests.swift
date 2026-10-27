@@ -1292,6 +1292,12 @@ struct CommandLineTests {
         #expect(RestoreFailure.notInATrash.summary == "it isn't in the Trash where Peel put it")
     }
 
+    @Test func searchSaysItLeavesNetworkVolumesOut() {
+        let help = SearchCommand.helpMessage(columns: 300)
+
+        #expect(help.contains("Search every disk on this Mac, not only your home folder. Network volumes aren't searched."))
+    }
+
     @Test func searchSaysWhatItLeftOutAndWhy() throws {
         var results = FileSearchResults()
         results.leftOut = [.syncs: 52, .excluded: 1]
