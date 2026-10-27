@@ -43,11 +43,14 @@ public struct DockTiles: Sendable {
         let list: DockList
         let index: Int
         let tile: Data
+        /// The paths of every tile in its list when it was taken out, nil for one with no path, such as a spacer.
+        let around: [String?]?
 
-        init(list: DockList, index: Int, tile: Data) {
+        init(list: DockList, index: Int, tile: Data, around: [String?]) {
             self.list = list
             self.index = index
             self.tile = tile
+            self.around = around
         }
 
         /// A tile remembered before Peel took out recent ones names no list: it came from the persistent one.
@@ -56,6 +59,42 @@ public struct DockTiles: Sendable {
             list = try container.decodeIfPresent(DockList.self, forKey: .list) ?? .persistent
             index = try container.decode(Int.self, forKey: .index)
             tile = try container.decode(Data.self, forKey: .tile)
+            around = try container.decodeIfPresent([String?].self, forKey: .around)
+        }
+
+        /// Where the tile goes back among tiles leading to `paths`: right after the nearest tile that was before it and
+        /// is still there, past the spacers that were between them, else right before the nearest that was after it,
+        /// else at its old index.
+        func place(among paths: [String?]) -> Int {
+            guard let around, around.indices.contains(index) else { return min(index, paths.count) }
+            var spacers = 0
+            for path in around[..<index].reversed() {
+                guard let path else {
+                    spacers += 1
+                    continue
+                }
+                guard var place = paths.firstIndex(of: path) else { continue }
+                place += 1
+                while spacers > 0, place < paths.count, paths[place] == nil {
+                    place += 1
+                    spacers -= 1
+                }
+                return place
+            }
+            spacers = 0
+            for path in around[(index + 1)...] {
+                guard let path else {
+                    spacers += 1
+                    continue
+                }
+                guard var place = paths.firstIndex(of: path) else { continue }
+                while spacers > 0, place > 0, paths[place - 1] == nil {
+                    place -= 1
+                    spacers -= 1
+                }
+                return place
+            }
+            return min(index, paths.count)
         }
     }
 
@@ -84,12 +123,13 @@ public struct DockTiles: Sendable {
         let lists = Dictionary(uniqueKeysWithValues: DockList.allCases.compactMap { list in
             store.tiles(in: list).map { (list, $0) }
         })
+        let paths = lists.mapValues { $0.map(Self.path(of:)) }
         var removed: [String: [Removed]] = [:]
         for app in apps {
             let found = lists.flatMap { list, tiles in indices(of: app, in: tiles).map { (list, tiles[$0], $0) } }
             let kept = found.compactMap { list, tile, index in
                 (try? PropertyListSerialization.data(fromPropertyList: tile, format: .binary, options: 0))
-                    .map { Removed(list: list, index: index, tile: $0) }
+                    .map { Removed(list: list, index: index, tile: $0, around: paths[list] ?? []) }
             }
             if !found.isEmpty, kept.count == found.count { removed[key(app)] = kept }
         }
@@ -117,8 +157,8 @@ public struct DockTiles: Sendable {
     }
 
     /// Puts back the tiles taken out for `apps`, each in its own list unless that list holds one for its app again,
-    /// and restarts the Dock once. Each list takes its tiles in the order of the places they had, so apps taken out
-    /// together come back as they were, whatever order they are put back in.
+    /// and restarts the Dock once. A tile goes back beside the tiles it sat between, so apps taken out together come
+    /// back where they were, together or one at a time in any order, even after the person added other tiles.
     public func putBack(_ apps: [URL]) async {
         guard let remembered = FileLock.whileHeld(beside: memory, { read() }) else { return }
         let removed = Set(apps.map(key)).compactMap { key in remembered[key].map { (key: key, entries: $0) } }
@@ -131,7 +171,7 @@ public struct DockTiles: Sendable {
             let entries = missing.flatMap { $0.entries.filter { $0.list == list } }
             for entry in entries.sorted(by: { $0.index < $1.index }) {
                 if let tile = try? PropertyListSerialization.propertyList(from: entry.tile, format: nil) {
-                    tiles.insert(tile, at: min(entry.index, tiles.count))
+                    tiles.insert(tile, at: entry.place(among: tiles.map(Self.path(of:))))
                 }
             }
             if !entries.isEmpty {

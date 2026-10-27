@@ -37,10 +37,24 @@ struct DockTilesTests {
         func paths(in list: DockList = .persistent) -> [String] {
             (tiles(in: list) ?? []).compactMap { DockTiles.path(of: $0) }
         }
+
+        func layout(in list: DockList = .persistent) -> [String?] {
+            (tiles(in: list) ?? []).map { DockTiles.path(of: $0) }
+        }
+
+        func add(_ tile: Any, at index: Int = 0, in list: DockList = .persistent) {
+            var tiles = tiles(in: list) ?? []
+            tiles.insert(tile, at: index)
+            _ = setTiles(tiles, in: list)
+        }
     }
 
     private static func tile(_ url: String, type: Int = 15) -> [String: Any] {
         ["tile-data": ["file-data": ["_CFURLString": url, "_CFURLStringType": type]], "tile-type": "file-tile"]
+    }
+
+    private static func spacer() -> [String: Any] {
+        ["tile-data": [String: Any](), "tile-type": "spacer-tile"]
     }
 
     private let studio = URL(filePath: "/Applications/org.example.Studio.app", directoryHint: .isDirectory)
@@ -130,6 +144,64 @@ struct DockTilesTests {
 
         #expect(store.paths() == original)
         #expect(store.restarts.load(ordering: .relaxed) == 2)
+    }
+
+    @Test func appsTakenOutTogetherComeBackInTheirPlacesOneAtATime() async throws {
+        let directory = try TemporaryDirectory()
+        let tools = URL(filePath: "/Applications/org.example.Tools.app", directoryHint: .isDirectory)
+        let store = Store([
+            Self.tile("file:///System/Applications/Mail.app/"),
+            Self.tile("file:///Applications/org.example.Studio.app/"),
+            Self.tile("file:///Applications/org.example.Tools.app/"),
+            Self.tile("file:///Applications/org.example.Notes.app/"),
+        ])
+        let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
+        let original = store.paths()
+
+        #expect(await tiles.takeOut([studio, tools]))
+        await tiles.putBack([tools])
+        await tiles.putBack([studio])
+
+        #expect(store.paths() == original)
+    }
+
+    @Test func aTileThePersonAddedBeforeItMeanwhileMovesNothing() async throws {
+        let directory = try TemporaryDirectory()
+        let store = Store([
+            Self.tile("file:///System/Applications/Mail.app/"),
+            Self.tile("file:///Applications/org.example.Studio.app/"),
+            Self.tile("file:///Applications/org.example.Notes.app/"),
+        ])
+        let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
+
+        #expect(await tiles.takeOut([studio]))
+        store.add(Self.tile("file:///System/Applications/Music.app/"))
+        await tiles.putBack([studio])
+
+        #expect(store.paths() == [
+            "/System/Applications/Music.app", "/System/Applications/Mail.app",
+            "/Applications/org.example.Studio.app", "/Applications/org.example.Notes.app",
+        ])
+    }
+
+    @Test func aTileGoesBackOnItsSideOfASpacer() async throws {
+        for spacerFirst in [true, false] {
+            let directory = try TemporaryDirectory()
+            let studioTile = Self.tile("file:///Applications/org.example.Studio.app/")
+            let store = Store(
+                [Self.tile("file:///System/Applications/Mail.app/")]
+                    + (spacerFirst ? [Self.spacer(), studioTile] : [studioTile, Self.spacer()])
+                    + [Self.tile("file:///Applications/org.example.Notes.app/")]
+            )
+            let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
+            let original = store.layout()
+
+            #expect(await tiles.takeOut([studio]))
+            store.add(Self.tile("file:///System/Applications/Music.app/"))
+            await tiles.putBack([studio])
+
+            #expect(store.layout() == ["/System/Applications/Music.app"] + original, "spacer first: \(spacerFirst)")
+        }
     }
 
     @Test func leavesTheDockAsItIsForAnAppWithNoTile() async throws {
