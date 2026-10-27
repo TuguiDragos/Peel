@@ -143,11 +143,12 @@ Space shows what fills your disk, area by area, and what each area is.
   since Finder may not show them and the app may expect them on this Mac. Downloads are listed in the folders Finder
   shows them in, named as Finder names them, the biggest first, and a folder's checkbox selects every file in it that
   Peel recommends; a file that would free less than 1 MB isn't listed. Remove Downloads, as in Finder, takes away only
-  the copy on this Mac: each file stays in iCloud and downloads again when you open it. A file Keep Downloaded is on
-  for in Finder is listed and not selected, since iCloud would download it again at once, and so is a password
-  database or a wallet's keys, which would open again only with an internet connection. A download whose space on disk
-  is shared with another copy on this Mac would free nothing, so it isn't listed, and the page says how many there
-  are. The page needs Full Disk Access to see what is kept on this Mac.
+  the copy on this Mac: each file stays in iCloud and downloads again when you open it, which takes an internet
+  connection. A file Keep Downloaded is on for in Finder is listed and not selected, since iCloud would download it
+  again at once, and so is a password database or a wallet's keys, which would open again only with an internet
+  connection. A download whose space on disk is shared with the copy iCloud keeps on this Mac once it has uploaded the
+  file, or with another copy, would free nothing, so it isn't listed, and the page says how many there are. The page
+  needs Full Disk Access to see what is kept on this Mac.
 - **Space:** what fills your disk, area by area, and which app or tool each area belongs to.
 - **File Search:** files by name, kind, or size, and by age along with one of them, in your home folder or across this
   Mac's disks, not network volumes, found through Spotlight, up to 2,000 at a time, so a folder in System Settings >

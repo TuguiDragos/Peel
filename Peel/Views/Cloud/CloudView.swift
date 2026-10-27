@@ -202,7 +202,7 @@ struct CloudView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This frees \(cloud.selectedSize.byteCount). Nothing is deleted from iCloud: the files stay there, Finder still lists them, and they download again when you open them.")
+            Text("This frees \(cloud.selectedSize.byteCount). Nothing is deleted from iCloud: the files stay there, Finder still lists them, and they download again when you open them, which takes an internet connection.")
         }
         .alert(
             leftAlone?.freed == 0 ? Text("No downloads were removed.") : Text("Some downloads couldn’t be removed."),
@@ -229,7 +229,7 @@ struct CloudView: View {
 
     @ViewBuilder private var sharedDownloadsNote: some View {
         if cloud.sharedDownloads > 0 {
-            Text("Peel doesn’t list ^[\(cloud.sharedDownloads) download](inflect: true) whose space on disk is shared with another copy on this Mac: removing a download like that frees nothing now.")
+            Text("Peel doesn’t list ^[\(cloud.sharedDownloads) download](inflect: true) whose space on disk is shared with a copy iCloud keeps on this Mac once it has uploaded the file, or with another copy: removing a download like that frees nothing now.")
         }
     }
 
