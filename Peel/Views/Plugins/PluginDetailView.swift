@@ -116,6 +116,9 @@ struct PluginDetailView: View {
                         )
                     }
                     outcome.report(result)
+                    if !result.trashed.isEmpty {
+                        await plugins.refresh()
+                    }
                 }
             }
             Button("Cancel", role: .cancel) {}

@@ -13,14 +13,24 @@ final class PluginLibrary {
     var isScanning: Bool { scanRun.isRunning }
     private(set) var isRemoving = false
     var selection: Plugin.ID?
+    private let scan: @MainActor (Exclusions) async -> PluginScan
+    private let trashService: @MainActor (Exclusions) -> TrashService
+
+    init(
+        scan: @escaping @MainActor (Exclusions) async -> PluginScan = { await Plugins.scan(exclusions: $0) },
+        trashService: @escaping @MainActor (Exclusions) -> TrashService = { TrashService(exclusions: $0) }
+    ) {
+        self.scan = scan
+        self.trashService = trashService
+    }
 
     var selectedPlugin: Plugin? {
         plugins?.first { $0.id == selection }
     }
 
     func refresh() async {
-        guard let result = await scanRun.run({ await Plugins.scan(exclusions: ExclusionsStore.shared.exclusions) })
-        else { return }
+        let scan = scan
+        guard let result = await scanRun.run({ await scan(ExclusionsStore.shared.exclusions) }) else { return }
         plugins = result.plugins
         unreadable = result.unreadable
         needsFullDiskAccess = result.needsFullDiskAccess
@@ -33,16 +43,19 @@ final class PluginLibrary {
         isRemoving = true
         defer { isRemoving = false }
         let privileged: Set<URL> = plugin.requiresPrivileges ? [plugin.url] : []
+        let service = trashService(ExclusionsStore.shared.exclusions)
         let result = await QuitGuard.shared.run {
-            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
-                [plugin.url],
-                usingHelperFor: privileged
-            )
-            // Written down before the rescan, which can take a while: History is the way back for what just moved.
+            let result = await service.trash([plugin.url], usingHelperFor: privileged)
             await record(result)
             return result
         }
-        await refresh()
+        // What moved leaves the list at once, so the page can say how the move went before the list, which can take
+        // a while, is read again.
+        let moved = Set(result.trashed.map(\.originalURL))
+        plugins?.removeAll { moved.contains($0.url) }
+        if let selection, moved.contains(selection) {
+            self.selection = nil
+        }
         return result
     }
 }
