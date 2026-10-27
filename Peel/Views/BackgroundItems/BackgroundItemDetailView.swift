@@ -50,10 +50,10 @@ struct BackgroundItemDetailView: View {
                         }
                     }
                 }
-                if let legacyStatus {
+                if Self.hasLoginItemsStatus(item) {
                     LabeledContent("Login Items & Extensions") {
                         HStack(spacing: 8) {
-                            Text(legacyStatus)
+                            Text(legacyStatus ?? "Checking…")
                             Button {
                                 PrivilegedHelper.openLoginItemsSettings()
                             } label: {
@@ -296,21 +296,23 @@ struct BackgroundItemDetailView: View {
     }
 
     /// Returns the job's status in System Settings (Login Items & Extensions), or nil when it has no plist file in a
-    /// folder launchd reads, the only ones `SMAppService.h` gives a status for. Per that header, `.requiresApproval`
-    /// also means the user turned the job off, so the text says both. Off the main thread: `SMAppService` asks
-    /// Background Task Management over XPC.
+    /// folder launchd reads (`hasLoginItemsStatus`), the only ones `SMAppService.h` gives a status for. Per that
+    /// header, `.requiresApproval` also means the user turned the job off, so the text says both. Off the main thread:
+    /// `SMAppService` asks Background Task Management over XPC.
     @concurrent
     static func legacyStatus(of item: BackgroundItem) async -> LocalizedStringResource? {
-        guard let plistURL = item.plistURL, item.source == .userLibrary || item.source == .systemLibrary else {
-            return nil
-        }
+        guard let plistURL = item.plistURL, hasLoginItemsStatus(item) else { return nil }
         return switch SMAppService.statusForLegacyPlist(at: plistURL) {
         case .enabled: "Allowed"
         case .requiresApproval: "Needs approval, or was turned off"
         case .notRegistered: "Not registered"
         case .notFound: "Not found"
-        @unknown default: nil
+        @unknown default: "Unknown"
         }
+    }
+
+    nonisolated static func hasLoginItemsStatus(_ item: BackgroundItem) -> Bool {
+        item.plistURL != nil && (item.source == .userLibrary || item.source == .systemLibrary)
     }
 
     private var header: some View {
