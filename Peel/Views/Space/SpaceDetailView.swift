@@ -181,13 +181,14 @@ struct SpaceDetailView: View {
 
     /// Why the area's size in the list is more than this page can move, and where the rest is freed.
     private func developerNotice(_ plan: SpaceRemoval.Plan, sizes: [URL: Int64]) -> some View {
-        let folders = plan.leftToDeveloper
-            .sorted { SizeTotal([sizes[$1]]) < SizeTotal([sizes[$0]]) }
-            .map { folder in
-                sizes[folder].map { String(localized: "\(folder.lastPathComponent) (\($0.byteCount))") }
-                    ?? folder.lastPathComponent
-            }
-            .formatted(.list(type: .and))
+        let folders = RemovalFailureAlert.listedFolders(
+            plan.leftToDeveloper
+                .sorted { SizeTotal([sizes[$1]]) < SizeTotal([sizes[$0]]) }
+                .map { folder in
+                    sizes[folder].map { String(localized: "\(folder.lastPathComponent) (\($0.byteCount))") }
+                        ?? folder.lastPathComponent
+                }
+        )
         let title: Text = if let seen = plan.seen, seen.isComplete, total.reading != .unknown {
             Text("\(total.text) of \(seen.known.byteCount) can be moved here.")
         } else {
