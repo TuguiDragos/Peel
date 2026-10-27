@@ -86,45 +86,68 @@ struct TemporaryDirectory: ~Copyable {
         try runningPrograms([path])[0]
     }
 
+    /// `runningProgram(_:)` started with `arguments`, its standard error going to `errors`, which it holds open while
+    /// it runs. With `-` first, `cat` reads its input and never reaches the files named after it.
+    func runningProgram(_ path: String, arguments: [String], writingTo errors: URL) throws -> Process {
+        let program = try signedCopyOfCat(at: path)
+        let handle = try FileHandle(forWritingTo: errors)
+        defer { try? handle.close() }
+        return try Self.echoed([Self.start(program, arguments: arguments, errors: handle)])[0]
+    }
+
     /// Every copy is made before any starts: once a program inside an app starts, macOS may refuse to write into it.
     /// Each is returned once it has echoed a line, so macOS has let it run: until then Gatekeeper reads it where it
     /// started, and ends it if the test has moved it.
     func runningPrograms(_ paths: [String]) throws -> [Process] {
-        let programs = try paths.map { path in
-            let program = url.appending(path: path)
-            try FileManager.default.createDirectory(
-                at: program.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            try FileManager.default.copyItem(at: URL(filePath: "/bin/cat"), to: program)
-            let signing = try Process.run(
-                URL(filePath: "/usr/bin/codesign"),
-                arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
-            )
-            signing.waitUntilExit()
-            guard signing.terminationStatus == 0 else {
-                throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
-            }
-            return program
+        var programs: [URL] = []
+        for path in paths {
+            programs.append(try signedCopyOfCat(at: path))
         }
-        let line = Data("running\n".utf8)
-        let started = try programs.map { program in
-            let input = Pipe()
-            let output = Pipe()
-            try input.fileHandleForWriting.write(contentsOf: line)
-            let process = Process()
-            process.executableURL = program
-            process.standardInput = input
-            process.standardOutput = output
-            try process.run()
-            return (process, output.fileHandleForReading)
+        return try Self.echoed(programs.map { try Self.start($0) })
+    }
+
+    private static let line = Data("running\n".utf8)
+
+    private func signedCopyOfCat(at path: String) throws -> URL {
+        let program = url.appending(path: path)
+        try FileManager.default.createDirectory(
+            at: program.deletingLastPathComponent(), withIntermediateDirectories: true
+        )
+        try FileManager.default.copyItem(at: URL(filePath: "/bin/cat"), to: program)
+        let signing = try Process.run(
+            URL(filePath: "/usr/bin/codesign"),
+            arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
+        )
+        signing.waitUntilExit()
+        guard signing.terminationStatus == 0 else {
+            throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
         }
+        return program
+    }
+
+    private static func start(
+        _ program: URL, arguments: [String] = [], errors: FileHandle? = nil
+    ) throws -> (process: Process, echo: FileHandle) {
+        let input = Pipe()
+        let output = Pipe()
+        try input.fileHandleForWriting.write(contentsOf: line)
+        let process = Process()
+        process.executableURL = program
+        process.arguments = arguments
+        process.standardInput = input
+        process.standardOutput = output
+        if let errors { process.standardError = errors }
+        try process.run()
+        return (process, output.fileHandleForReading)
+    }
+
+    private static func echoed(_ started: [(process: Process, echo: FileHandle)]) throws -> [Process] {
         for (process, echo) in started {
             guard try echo.read(upToCount: line.count) == line else {
                 throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: process.executableURL?.path ?? ""])
             }
         }
-        return started.map(\.0)
+        return started.map(\.process)
     }
 
     func setPermissions(_ permissions: Int, of path: String) throws {

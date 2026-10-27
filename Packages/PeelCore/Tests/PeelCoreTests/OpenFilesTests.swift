@@ -168,7 +168,7 @@ struct OpenFilesTests {
         let directory = try TemporaryDirectory()
         let log = try directory.file("home/.gradle/daemon/9.2/daemon-1.out.log")
         let main = "org.gradle.launcher.daemon.bootstrap.GradleDaemon"
-        let daemon = try Self.program("jdk/bin/java", in: directory, arguments: ["-", main, "9.2"], writingTo: log)
+        let daemon = try directory.runningProgram("jdk/bin/java", arguments: ["-", main, "9.2"], writingTo: log)
         defer { daemon.terminate() }
 
         let refusal = OpenFiles().refusal(of: log.deletingLastPathComponent(), lettingItsProgramsRun: false)
@@ -197,9 +197,9 @@ struct OpenFilesTests {
         let script = try directory.file("home/.npm/_npx/0123abcd/node_modules/.bin/server")
         let errors = try directory.file("errors.log")
         let arguments = ["-", script.path(percentEncoded: false)]
-        let node = try Self.program("bin/node", in: directory, arguments: arguments, writingTo: errors)
+        let node = try directory.runningProgram("bin/node", arguments: arguments, writingTo: errors)
         defer { node.terminate() }
-        let viewer = try Self.program("bin/viewer", in: directory, arguments: arguments, writingTo: errors)
+        let viewer = try directory.runningProgram("bin/viewer", arguments: arguments, writingTo: errors)
         defer { viewer.terminate() }
 
         let refusal = OpenFiles().refusal(of: directory.url.appending(path: "home/.npm/_npx"), lettingItsProgramsRun: false)
@@ -248,37 +248,6 @@ struct OpenFilesTests {
 
     /// A copy of `cat` at `path`, started with `arguments` and holding `file` open for writing as its error output. It
     /// echoes a line before this returns, so macOS has let it run, and reads its input until the test closes it.
-    private static func program(
-        _ path: String, in directory: borrowing TemporaryDirectory, arguments: [String], writingTo file: URL
-    ) throws -> Process {
-        let program = directory.url.appending(path: path)
-        try FileManager.default.createDirectory(
-            at: program.deletingLastPathComponent(), withIntermediateDirectories: true
-        )
-        try FileManager.default.copyItem(at: URL(filePath: "/bin/cat"), to: program)
-        let signing = try Process.run(
-            URL(filePath: "/usr/bin/codesign"), arguments: ["--force", "--sign", "-", program.path(percentEncoded: false)]
-        )
-        signing.waitUntilExit()
-        let input = Pipe()
-        let output = Pipe()
-        let errors = try FileHandle(forWritingTo: file)
-        defer { try? errors.close() }
-        let line = Data("running\n".utf8)
-        try input.fileHandleForWriting.write(contentsOf: line)
-        let process = Process()
-        process.executableURL = program
-        process.arguments = arguments
-        process.standardInput = input
-        process.standardOutput = output
-        process.standardError = errors
-        try process.run()
-        guard try output.fileHandleForReading.read(upToCount: line.count) == line else {
-            throw CocoaError(.executableLoad, userInfo: [NSFilePathErrorKey: program.path])
-        }
-        return process
-    }
-
     /// `iostat`, run from where macOS keeps it, writing into `file`, which it holds open until it ends five minutes on.
     private static func macOSProgram(writingTo file: URL) throws -> Process {
         let process = Process()
