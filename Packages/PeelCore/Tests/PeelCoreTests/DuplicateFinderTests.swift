@@ -748,6 +748,29 @@ struct DuplicateFinderTests {
         #expect(kept(files.groups.first?.files.first?.url) == kept(onTheMac))
     }
 
+    /// Select Recommended and Deselect All change only the groups they are asked about, which a search narrows:
+    /// what is selected in the others stays.
+    @Test func selectsWhatItRecommendsOnlyInTheGroupsShown() async throws {
+        let directory = try TemporaryDirectory()
+        let first = randomData(count: 4_000)
+        let second = randomData(count: 4_000)
+        for name in ["a", "b", "c"] {
+            try directory.file("home/Documents/first-\(name).bin", contents: first)
+            try directory.file("home/Pictures/second-\(name).bin", contents: second)
+        }
+        let result = try await scan(directory)
+        let shown = try #require(result.groups.first { $0.files.first?.url.lastPathComponent.hasPrefix("first") == true })
+        let other = try #require(result.groups.first { $0 != shown })
+        let otherSelected = Set(other.files.map(\.url))
+
+        let recommended = result.selectingRecommended(in: [shown], [], files: otherSelected, folders: [])
+        #expect(recommended.files == otherSelected.union(shown.suggestedFiles.map(\.url)))
+        #expect(shown.suggestedFiles.count == 2)
+
+        let none = result.deselecting([shown], [], files: recommended.files, folders: [])
+        #expect(none.files == otherSelected)
+    }
+
     @Test func stopsWhenCanceled() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Documents/a.txt", contents: Data("same".utf8))

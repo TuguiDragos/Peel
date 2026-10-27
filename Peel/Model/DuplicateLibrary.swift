@@ -270,6 +270,19 @@ final class DuplicateLibrary {
         group.folders.filter { selectedFolders.contains($0.url) }.map(\.reclaimableSize).cappedSum
     }
 
+    /// Selects in `groups` and `folderGroups` what Peel suggests, as after a scan, and nothing else of theirs.
+    func selectRecommended(in groups: [DuplicateGroup], _ folderGroups: [DuplicateFolderGroup]) {
+        guard let scan else { return }
+        let chosen = scan.selectingRecommended(in: groups, folderGroups, files: selectedURLs, folders: selectedFolders)
+        select(chosen.files, folders: chosen.folders)
+    }
+
+    func deselectAll(in groups: [DuplicateGroup], _ folderGroups: [DuplicateFolderGroup]) {
+        guard let scan else { return }
+        let chosen = scan.deselecting(groups, folderGroups, files: selectedURLs, folders: selectedFolders)
+        select(chosen.files, folders: chosen.folders)
+    }
+
     /// Selects exactly `files` and `folders`.
     private func select(_ files: Set<URL>, folders: Set<URL>) {
         selectedURLs = files

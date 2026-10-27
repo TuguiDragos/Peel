@@ -121,6 +121,9 @@ struct DuplicateList: View {
         // column gets no title bar section of its own, and the dividers between columns stop below the title bar.
         .toolbar {
             ToolbarItem {
+                selectMenu
+            }
+            ToolbarItem {
                 Button("Scan Settings", systemImage: "slider.horizontal.3") { isShowingSettings = true }
                     .help(Text("Scan Settings"))
                     .popover(isPresented: $isShowingSettings, arrowEdge: .bottom) {
@@ -182,6 +185,29 @@ struct DuplicateList: View {
     static func reasons(_ folders: [DuplicateScan.FolderSetAside]) -> String {
         RemovalFailureAlert.firstItems(folders.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
             .joined(separator: "\n\n")
+    }
+
+    /// Select Recommended and Deselect All over the groups the list shows. There is no Select All: one copy of every
+    /// group always stays.
+    private var selectMenu: some View {
+        let scan = duplicates.scan
+        let groups = scan?.groups.filter { $0.matches(searchText) } ?? []
+        let folderGroups = scan?.folderGroups.filter { $0.matches(searchText) } ?? []
+        let selected = (files: duplicates.selectedURLs, folders: duplicates.selectedFolders)
+        let recommended = scan?.selectingRecommended(
+            in: groups, folderGroups, files: selected.files, folders: selected.folders
+        )
+        let none = scan?.deselecting(groups, folderGroups, files: selected.files, folders: selected.folders)
+        return Menu {
+            Button("Select Recommended") { duplicates.selectRecommended(in: groups, folderGroups) }
+                .disabled(recommended.map { $0 == selected } ?? true)
+            Button("Deselect All") { duplicates.deselectAll(in: groups, folderGroups) }
+                .disabled(none.map { $0 == selected } ?? true)
+        } label: {
+            ToolbarMenuLabel(title: "Select", systemImage: "checklist")
+        }
+        .disabled(groups.isEmpty && folderGroups.isEmpty || duplicates.isRemoving)
+        .help(Text("Select on every page in the list"))
     }
 
     /// A new scan clears what the last one found, so it asks first when there is something to lose.

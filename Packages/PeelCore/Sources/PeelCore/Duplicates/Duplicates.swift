@@ -210,6 +210,28 @@ public struct DuplicateScan: Sendable {
         Self.keepingOne(of: folderGroups.map { $0.folders.map(\.url) }, selection)
     }
 
+    /// The selection with what Peel suggests in `groups` and `folderGroups`, and nothing else of theirs. What is
+    /// selected in the others stays.
+    public func selectingRecommended(
+        in groups: [DuplicateGroup], _ folderGroups: [DuplicateFolderGroup], files: Set<URL>, folders: Set<URL>
+    ) -> (files: Set<URL>, folders: Set<URL>) {
+        let cleared = deselecting(groups, folderGroups, files: files, folders: folders)
+        return (
+            cleared.files.union(groups.flatMap(\.suggestedFiles).map(\.url)),
+            cleared.folders.union(folderGroups.flatMap { $0.folders.dropFirst() }.map(\.url))
+        )
+    }
+
+    /// The selection with nothing in `groups` and `folderGroups`. What is selected in the others stays.
+    public func deselecting(
+        _ groups: [DuplicateGroup], _ folderGroups: [DuplicateFolderGroup], files: Set<URL>, folders: Set<URL>
+    ) -> (files: Set<URL>, folders: Set<URL>) {
+        (
+            files.subtracting(groups.flatMap(\.files).map(\.url)),
+            folders.subtracting(folderGroups.flatMap(\.folders).map(\.url))
+        )
+    }
+
     /// Whether the copy at `url` may be selected or deselected, given the `selected` copies of its group: one copy of
     /// every group always stays, so the last one not selected cannot be.
     public static func canChange(_ url: URL, among copies: [URL], selected: Set<URL>) -> Bool {
