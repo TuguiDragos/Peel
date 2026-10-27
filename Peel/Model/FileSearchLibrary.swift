@@ -19,8 +19,7 @@ final class FileSearchLibrary {
     var selectedURLs: Set<URL> = []
     /// The file the detail shows. The files selected for the Trash are `selectedURLs`.
     var chosen: URL?
-    /// The files Peel recommends: not the ones that need an administrator, the ones an app keeps for itself, or the
-    /// ones in iCloud Drive, which stay listed with the reason beside them.
+    /// The files Peel recommends: not the ones that need an administrator, nor the ones an app keeps for itself.
     private(set) var recommendedURLs: Set<URL> = []
     private var sizes: [URL: Int64] = [:]
     private var generation = 0

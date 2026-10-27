@@ -129068,108 +129068,108 @@
         }
       }
     },
-    "Peel searches the Spotlight index for files. Folders, apps, and system files aren’t included. What an app keeps in a Library folder is listed last and never selected for you." : {
+    "Peel searches the Spotlight index for files. Folders, apps, and system files aren’t included. What an app keeps in a Library folder is listed last, and Select Recommended leaves it out." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hledá soubory v indexu Spotlightu. Složky, aplikace a systémové soubory se do hledání nezahrnují. Co si aplikace ukládá ve složce Knihovna, je v seznamu až na konci a Peel to za vás nikdy nevybere."
+            "value" : "Peel hledá soubory v indexu Spotlightu. Složky, aplikace a systémové soubory se do hledání nezahrnují. Co si aplikace ukládá ve složce Knihovna, je v seznamu až na konci a příkaz Vybrat doporučené to vynechá."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel durchsucht den Spotlight-Index nach Dateien. Ordner, Apps und Systemdateien sind nicht enthalten. Was eine App in einem Library-Ordner aufbewahrt, wird zuletzt aufgeführt und nie für dich ausgewählt."
+            "value" : "Peel durchsucht den Spotlight-Index nach Dateien. Ordner, Apps und Systemdateien sind nicht enthalten. Was eine App in einem Library-Ordner aufbewahrt, wird zuletzt aufgeführt, und „Empfohlene auswählen“ lässt es aus."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel busca archivos en el índice de Spotlight. No incluye carpetas, apps ni archivos del sistema. Lo que una app guarda en una carpeta Biblioteca aparece al final y Peel nunca lo selecciona por ti."
+            "value" : "Peel busca archivos en el índice de Spotlight. No incluye carpetas, apps ni archivos del sistema. Lo que una app guarda en una carpeta Biblioteca aparece al final, y “Seleccionar recomendados” lo deja fuera."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel recherche les fichiers dans l’index de Spotlight. Les dossiers, les apps et les fichiers système ne sont pas inclus. Ce qu’une app conserve dans un dossier Bibliothèque est listé en dernier et n’est jamais sélectionné à votre place."
+            "value" : "Peel recherche les fichiers dans l’index de Spotlight. Les dossiers, les apps et les fichiers système ne sont pas inclus. Ce qu’une app conserve dans un dossier Bibliothèque est listé en dernier, et « Sélectionner les éléments recommandés » le laisse de côté."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cerca i file nell’indice di Spotlight. Cartelle, app e file di sistema non sono inclusi. Ciò che un’app conserva in una cartella Libreria viene elencato per ultimo e mai selezionato al posto tuo."
+            "value" : "Peel cerca i file nell’indice di Spotlight. Cartelle, app e file di sistema non sono inclusi. Ciò che un’app conserva in una cartella Libreria viene elencato per ultimo, e “Seleziona gli elementi consigliati” non lo include."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PeelはSpotlightの索引を使ってファイルを検索します。フォルダ、アプリ、システムファイルは含まれません。アプリがライブラリフォルダに保存しているものはリストの最後に表示され、自動で選択されることはありません。"
+            "value" : "PeelはSpotlightの索引を使ってファイルを検索します。フォルダ、アプリ、システムファイルは含まれません。アプリがライブラリフォルダに保存しているものはリストの最後に表示され、“おすすめを選択”では選択されません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 Spotlight 인덱스에서 파일을 검색합니다. 폴더, 앱, 시스템 파일은 포함되지 않습니다. 앱이 라이브러리 폴더에 보관하는 항목은 목록의 마지막에 표시되며 절대 미리 선택되지 않습니다."
+            "value" : "Peel은 Spotlight 인덱스에서 파일을 검색합니다. 폴더, 앱, 시스템 파일은 포함되지 않습니다. 앱이 라이브러리 폴더에 보관하는 항목은 목록의 마지막에 표시되며, ‘추천 항목 선택’은 이 항목을 선택하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zoekt in de Spotlight-index naar bestanden. Mappen, apps en systeembestanden worden niet meegenomen. Wat een app in een bibliotheekmap bewaart, wordt als laatste getoond en nooit voor je geselecteerd."
+            "value" : "Peel zoekt in de Spotlight-index naar bestanden. Mappen, apps en systeembestanden worden niet meegenomen. Wat een app in een bibliotheekmap bewaart, wordt als laatste getoond, en 'Selecteer aanbevolen' slaat het over."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel szuka plików w indeksie Spotlight. Foldery, aplikacje i pliki systemowe nie są uwzględniane. To, co aplikacja przechowuje w folderze Biblioteki, jest wyświetlane na końcu i nigdy nie jest zaznaczane za Ciebie."
+            "value" : "Peel szuka plików w indeksie Spotlight. Foldery, aplikacje i pliki systemowe nie są uwzględniane. To, co aplikacja przechowuje w folderze Biblioteki, jest wyświetlane na końcu, a polecenie Zaznacz zalecane to pomija."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel busca arquivos no índice do Spotlight. Pastas, apps e arquivos do sistema não são incluídos. O que um app guarda em uma pasta Biblioteca aparece por último, e o Peel nunca o seleciona por você."
+            "value" : "O Peel busca arquivos no índice do Spotlight. Pastas, apps e arquivos do sistema não são incluídos. O que um app guarda em uma pasta Biblioteca aparece por último, e Selecionar Recomendados o deixa de fora."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel caută fișiere în indexul Spotlight. Dosarele, aplicațiile și fișierele de sistem nu sunt incluse. Ce păstrează o aplicație într‑un dosar Bibliotecă este listat la final și nu este niciodată selectat pentru dvs."
+            "value" : "Peel caută fișiere în indexul Spotlight. Dosarele, aplicațiile și fișierele de sistem nu sunt incluse. Ce păstrează o aplicație într‑un dosar Bibliotecă este listat la final, iar „Selectați articolele recomandate” îl omite."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ищет файлы в индексе Spotlight. Папки, приложения и системные файлы не учитываются. То, что приложение хранит в папке «Библиотека», показывается в конце списка и никогда не выбирается за Вас."
+            "value" : "Peel ищет файлы в индексе Spotlight. Папки, приложения и системные файлы не учитываются. То, что приложение хранит в папке «Библиотека», показывается в конце списка, и пункт «Выбрать рекомендованные» его не выбирает."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel söker efter filer i Spotlight-indexet. Mappar, appar och systemfiler ingår inte. Det som en app har i en biblioteksmapp listas sist och markeras aldrig åt dig."
+            "value" : "Peel söker efter filer i Spotlight-indexet. Mappar, appar och systemfiler ingår inte. Det som en app har i en biblioteksmapp listas sist, och ”Markera rekommenderade” tar inte med det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel dosyaları Spotlight dizininde arar. Klasörler, uygulamalar ve sistem dosyaları dahil edilmez. Bir uygulamanın bir Kitaplık klasöründe tuttukları en sonda listelenir ve hiçbir zaman sizin yerinize seçilmez."
+            "value" : "Peel dosyaları Spotlight dizininde arar. Klasörler, uygulamalar ve sistem dosyaları dahil edilmez. Bir uygulamanın bir Kitaplık klasöründe tuttukları en sonda listelenir ve Önerilenleri Seç bunları dışarıda bırakır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel шукає файли в індексі Spotlight. Папки, програми й системні файли не враховуються. Те, що програма зберігає в папці «Бібліотека», показано в кінці списку, і Peel ніколи не вибирає це за вас."
+            "value" : "Peel шукає файли в індексі Spotlight. Папки, програми й системні файли не враховуються. Те, що програма зберігає в папці «Бібліотека», показано в кінці списку, і команда «Вибрати рекомендовані» цього не вибирає."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel在“聚焦”索引中搜索文件，不包括文件夹、App和系统文件。App保存在“资源库”文件夹中的内容会列在最后，而且绝不会替你选择。"
+            "value" : "Peel在“聚焦”索引中搜索文件。搜索结果不包括文件夹、App和系统文件。App保存在“资源库”文件夹中的内容会列在最后，“选择推荐项目”不会选择它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會在Spotlight索引中搜尋檔案。檔案夾、App和系統檔案不包含在內。App存放在「資源庫」檔案夾中的項目會列在最後，且絕不會替你選取。"
+            "value" : "Peel會在Spotlight索引中搜尋檔案。檔案夾、App和系統檔案不包含在內。App存放在「資源庫」檔案夾中的項目會列在最後，且「選取建議項目」不會選取它們。"
           }
         }
       }
