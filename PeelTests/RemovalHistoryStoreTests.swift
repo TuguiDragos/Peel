@@ -31,7 +31,7 @@ struct RemovalHistoryStoreTests {
         _ = await RemovalLog(url: url).remove([records[0].id])
 
         let seen = Mutex<Int?>(nil)
-        withObservationTracking({ _ = history.rereads }, onChange: {
+        withObservationTracking({ _ = history.trashLooks }, onChange: {
             MainActor.assumeIsolated { seen.withLock { $0 = history.batches.first?.records.count } }
         })
         await history.readAgainIfInUse()
@@ -106,6 +106,35 @@ struct RemovalHistoryStoreTests {
         await history.startOverRefusals()
 
         #expect(heard.words == ["Started History over.", "Started the Not Moved list over."])
+    }
+
+    @Test func looksInTheTrashAgainAfterAPutBackHistoryCouldNotWrite() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let path = folder.path(percentEncoded: false)
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: path)
+            try? FileManager.default.removeItem(at: folder)
+        }
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true },
+            restoring: { items, _ in
+                // Back in place, and History's folder closed before History is told.
+                try? FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: path)
+                return items.map { _ in nil }
+            }
+        )
+        var removal = RemovalInProgress()
+        let part = RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue)
+        await history.record(try moved("Cache"), part: part, sizes: [:], in: &removal)
+        history.finish(removal)
+        let looks = history.trashLooks
+
+        await history.restore(history.records, canUseHelper: false)
+
+        #expect(history.problem == .couldNotUpdate)
+        #expect(history.trashLooks == looks + 1, "the page kept saying it is in the Trash")
     }
 
     @Test func tellsAPutBackThatEndsAsTheOneBefore() async throws {

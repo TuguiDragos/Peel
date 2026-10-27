@@ -22,7 +22,7 @@ struct HistoryDetailView: View {
     /// reads the disk again, since the Trash may have been emptied in the meantime.
     private struct Look: Hashable {
         let batch: RemovalBatch
-        let rereads: Int
+        let trashLooks: Int
     }
 
     /// The size of what can still be put back. Until the disk has answered, it is the batch's own total.
@@ -64,7 +64,7 @@ struct HistoryDetailView: View {
         }
         .navigationTitle(Text(verbatim: batch.title))
         .toolbar(removing: .title)
-        .task(id: Look(batch: batch, rereads: history.rereads)) {
+        .task(id: Look(batch: batch, trashLooks: history.trashLooks)) {
             let standing = await RemovalStanding.of(batch.records)
             // A look that a newer one replaced leaves its answer.
             guard !Task.isCancelled else { return }

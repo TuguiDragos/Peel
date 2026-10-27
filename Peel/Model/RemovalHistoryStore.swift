@@ -170,9 +170,9 @@ final class RemovalHistoryStore {
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
     /// Counts the Put Backs History's page tells, so one that ends as the one before is told again.
     private(set) var toldPutBacks = 0
-    /// Counts the times History was read again, by Reload or as Peel came forward, so a removal's page then looks in
-    /// the Trash again with the records as they are now.
-    private(set) var rereads = 0
+    /// Counts the times a removal's page has to look in the Trash again: History read again, by Reload or as Peel came
+    /// forward, and a Put Back that brought something back, whatever History could write of it.
+    private(set) var trashLooks = 0
     /// Counts, for each tool, the Put Backs that brought back what it had moved, so its page lists them again.
     private(set) var putBack: [Tool: Int] = [:]
     /// The count each page last listed under, kept here so a page off screen at a Put Back lists it when it returns.
@@ -234,7 +234,7 @@ final class RemovalHistoryStore {
     /// Reads History before a removal's page looks in the Trash, so the page never looks with records `peel` changed.
     private func readAgain() async {
         await load()
-        rereads += 1
+        trashLooks += 1
     }
 
     /// Whether History was read and lists nothing. One that can't be read now isn't known to be empty.
@@ -486,6 +486,7 @@ final class RemovalHistoryStore {
                     putBack[tool, default: 0] += 1
                 }
                 await apply(await log.remove(restored))
+                trashLooks += 1
                 // A move is announced, and so is its undoing: the rows only vanish from the list.
                 announcing(AttributedString(localized: "Put back ^[\(restored.count) item](inflect: true)."))
             }
