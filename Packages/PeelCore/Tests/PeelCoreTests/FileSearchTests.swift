@@ -327,6 +327,33 @@ struct FileSearchTests {
 
     /// The guard is asked only about the files that can make the list: the largest first, and no further once
     /// the list is full and one more file shows it had to be cut.
+    /// A file's size is what moving it frees, never its length, and the list goes by it: two clones keep the same
+    /// blocks, so moving either frees nothing while the other stays.
+    @Test func sizesEachFileByWhatMovingItFrees() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let random = { (count: Int) in Data((0..<count).map { _ in UInt8.random(in: 0...255) }) }
+        let original = try directory.file("home/Documents/original.mov", contents: random(1_048_576))
+        let handle = try FileHandle(forWritingTo: original)
+        try handle.synchronize()
+        try handle.close()
+        let clone = home.appending(path: "Documents/clone.mov")
+        try #require(clonefile(original.path(percentEncoded: false), clone.path(percentEncoded: false), 0) == 0)
+        let small = try directory.file("home/Documents/small.mov", contents: random(200_000))
+
+        let results = FileSearch.results(
+            from: [original, clone, small].map { $0.path(percentEncoded: false) },
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+        )
+
+        let files = Dictionary(uniqueKeysWithValues: results.files.map { ($0.url.lastPathComponent, $0) })
+        #expect(files["clone.mov"]?.length == 1_048_576)
+        #expect(try #require(files["clone.mov"]?.size) < 1_048_576 / 2)
+        #expect(files["clone.mov"]?.freesLessThanItsLength == true)
+        #expect(files["small.mov"]?.freesLessThanItsLength == false)
+        #expect(results.files.first?.url.lastPathComponent == "small.mov")
+    }
+
     @Test func asksTheGuardOnlyAboutFilesThatCanMakeTheList() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -347,7 +374,7 @@ struct FileSearchTests {
 
         #expect(results.files.count == FileSearch.maximumResults)
         #expect(results.isTruncated)
-        #expect(results.files.first?.size == Int64(FileSearch.maximumResults + 50))
+        #expect(results.files.first?.length == Int64(FileSearch.maximumResults + 50))
         #expect(asked.withLock { $0 } == FileSearch.maximumResults + 1)
     }
 
@@ -375,7 +402,8 @@ struct FileSearchTests {
         let second = try directory.file("home/Documents/second.txt")
         let files = [first, second].map {
             FoundFile(
-                url: $0, size: 16, modificationDate: .now, requiresPrivileges: false, identity: FileIdentity.of($0)
+                url: $0, size: 16, length: 16, modificationDate: .now, requiresPrivileges: false,
+                identity: FileIdentity.of($0)
             )
         }
         let journal = RemovalJournal(beside: home.appending(path: "removals.json"))

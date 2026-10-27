@@ -969,7 +969,10 @@ struct SearchCommand: AsyncParsableCommand {
 
     private struct Record: Encodable {
         let path: String
+        /// What moving the file would free.
         let size: Int64
+        /// Its length, which `--min-size` reads.
+        let length: Int64
         let modificationDate: Date
     }
 
@@ -1008,7 +1011,10 @@ struct SearchCommand: AsyncParsableCommand {
         if output.json {
             try Output.json(
                 results.files.map {
-                    Record(path: Output.path($0.url), size: $0.size, modificationDate: $0.modificationDate)
+                    Record(
+                        path: Output.path($0.url), size: $0.size, length: $0.length,
+                        modificationDate: $0.modificationDate
+                    )
                 }
             )
         } else if results.files.isEmpty {

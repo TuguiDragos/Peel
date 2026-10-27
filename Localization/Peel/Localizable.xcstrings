@@ -90559,6 +90559,113 @@
         }
       }
     },
+    "Moving this frees less than its length of %@: another file shares its storage, or it takes less space than that." : {
+      "comment" : "A note beside a file in File Search, and in its details. %@ is the file's length, as Finder shows it, such as 10 GB; Peel shows what moving the file would free, which is less: a copy may share its storage, another name may keep it, or it may take less space on the disk than its length.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesunutím tohoto souboru se uvolní méně, než kolik činí jeho délka %@: sdílí místo na disku s jiným souborem, nebo zabírá méně místa, než odpovídá jeho délce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Verschieben dieser Datei gibt weniger als ihre Größe von %@ frei: Eine andere Datei teilt sich Speicherplatz mit ihr, oder sie belegt weniger Platz, als ihre Größe angibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trasladar esto libera menos que su tamaño (%@): otro archivo comparte su almacenamiento, u ocupa en el disco menos espacio que eso."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplacer ce fichier libère moins que sa taille de %@ : un autre fichier partage son stockage, ou il occupe moins d’espace que cela."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spostare questo file libera meno della sua dimensione di %@: lo spazio che occupa è condiviso con un altro file, oppure è inferiore a quella dimensione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これをゴミ箱に入れても、解放される容量はファイルサイズの%@より少なくなります。ほかのファイルとストレージを共有しているか、ディスク上で実際に使用している領域がそれより少ないためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 파일을 이동하면 파일 크기인 %@보다 적은 공간이 확보됩니다. 다른 파일이 이 파일의 저장 공간을 공유하거나, 이 파일이 디스크에서 그보다 적은 공간을 차지하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je dit verplaatst, komt er minder ruimte vrij dan de bestandsgrootte van %@: een ander bestand deelt de opslag ervan, of het neemt minder ruimte in dan dat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeniesienie tego pliku zwolni mniej miejsca niż jego wielkość (%@): inny plik współdzieli z nim miejsce albo sam plik zajmuje na dysku mniej miejsca."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover este arquivo libera menos que %@, o tamanho dele: ele compartilha o armazenamento com outro arquivo ou ocupa menos espaço que isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutarea acestui fișier eliberează mai puțin decât lungimea sa de %@: un alt fișier îi partajează spațiul de stocare sau fișierul ocupă mai puțin spațiu decât atât."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемещение этого файла освободит меньше, чем его длина в %@: другой файл использует с ним общее пространство на диске, или файл занимает на диске меньше места."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du flyttar den här filen frigörs mindre än dess storlek på %@: en annan fil delar dess lagringsutrymme, eller så tar den mindre plats än så."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu taşımak, %@ olan büyüklüğünden daha az yer boşaltır: başka bir dosya onunla aynı saklama alanını paylaşıyor veya dosya diskte bu kadar yer kaplamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переміщення цього файлу звільнить менше місця, ніж його розмір (%@): інший файл спільно використовує з ним сховище, або на диску він займає менше."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动此文件所释放的空间会小于它的大小%@：另一个文件与它共享储存空间，或者它在磁盘上实际占用的空间更小。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動此檔案所釋放的空間會少於其長度%@：另一個檔案與它共用儲存空間，或它佔用的空間比這還少。"
+          }
+        }
+      }
+    },
     "Muted Updates" : {
       "localizations" : {
         "cs" : {

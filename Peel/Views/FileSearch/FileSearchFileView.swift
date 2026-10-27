@@ -44,6 +44,11 @@ struct FileSearchFileView: View {
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
+                if file.freesLessThanItsLength {
+                    Text("Moving this frees less than its length of \(file.length.byteCount): another file shares its storage, or it takes less space than that.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
             } header: {
                 Text("Details")
             }

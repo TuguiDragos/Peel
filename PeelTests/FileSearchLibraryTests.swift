@@ -14,7 +14,9 @@ struct FileSearchLibraryTests {
         let (started, starting) = AsyncStream<Int>.makeStream()
         let calls = OSAllocatedUnfairLock(initialState: 0)
         let found = FileSearchResults(files: [
-            FoundFile(url: invoice, size: 4_096, modificationDate: .distantPast, requiresPrivileges: false)
+            FoundFile(
+                url: invoice, size: 4_096, length: 4_096, modificationDate: .distantPast, requiresPrivileges: false
+            )
         ])
         let library = FileSearchLibrary { _, _ in
             let call = calls.withLock { $0 += 1; return $0 }

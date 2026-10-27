@@ -123,6 +123,7 @@ struct SearchingTests {
         let listed = FoundFile(
             url: url,
             size: 1_000,
+            length: 1_000,
             modificationDate: .distantPast,
             requiresPrivileges: false,
             identity: FileIdentity.of(url)

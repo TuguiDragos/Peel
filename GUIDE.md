@@ -149,7 +149,8 @@ Space shows what fills your disk, area by area, and what each area is.
   file in a Library folder, an app's working data, is listed last and never recommended, and one that needs an
   administrator stays where it is. The page says how many files Spotlight found that it doesn't list, and why: what
   syncs to your other devices, what you excluded, what sits where Peel never moves anything, and what macOS didn't let
-  Peel look at.
+  Peel look at. A file's size is what moving it frees, the list goes by it, and a file that frees less than its length,
+  such as a copy that shares its storage, says so.
 
 <details>
 <summary>Developer, Build Artifacts, and Space, in detail</summary>

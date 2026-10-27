@@ -45,7 +45,10 @@ public struct FileSearchCriteria: Sendable, Hashable {
 
 public struct FoundFile: Sendable, Hashable, Identifiable {
     public let url: URL
+    /// What moving the file would free (`ReclaimableSpace.of`).
     public let size: Int64
+    /// Its length, as Finder shows it and the search's size reads it.
+    public let length: Int64
     public let modificationDate: Date
     public let requiresPrivileges: Bool
     /// True when the file sits in a Library folder, so it is an app's working data rather than something the user
@@ -56,6 +59,10 @@ public struct FoundFile: Sendable, Hashable, Identifiable {
     public var identity: FileIdentity?
 
     public var id: URL { url }
+
+    /// True when moving the file frees less than its length: another file shares its storage, or it takes less
+    /// space than its length.
+    public var freesLessThanItsLength: Bool { size < length }
 }
 
 public struct FileSearchResults: Sendable {
@@ -194,7 +201,7 @@ public enum FileSearch {
             if $0.belongsToAnApp != $1.belongsToAnApp { return !$0.belongsToAnApp }
             return $0.info.st_size != $1.info.st_size ? $0.info.st_size > $1.info.st_size : $0.path < $1.path
         }
-        for candidate in candidates {
+        listing: for candidate in candidates {
             let url = URL(filePath: candidate.path)
             let hasRoom = results.files.count < maximumResults
             let judgment = judge(
@@ -209,17 +216,25 @@ public enum FileSearch {
             case .listed:
                 guard hasRoom else {
                     results.isTruncated = true
-                    return results
+                    break listing
                 }
                 results.files.append(FoundFile(
                     url: url,
-                    size: Int64(candidate.info.st_size),
+                    size: ReclaimableSpace.of(url),
+                    length: Int64(candidate.info.st_size),
                     modificationDate: Date(timeIntervalSince1970: TimeInterval(candidate.info.st_mtimespec.tv_sec)),
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                     belongsToAnApp: candidate.belongsToAnApp,
                     identity: FileIdentity(candidate.info)
                 ))
             }
+        }
+        // The longest made the list, which then goes by what moving each file frees.
+        results.files.sort {
+            if $0.belongsToAnApp != $1.belongsToAnApp { return !$0.belongsToAnApp }
+            if $0.size != $1.size { return $0.size > $1.size }
+            return $0.length != $1.length
+                ? $0.length > $1.length : $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
         }
         return results
     }
