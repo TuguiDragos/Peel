@@ -360,17 +360,28 @@ struct RemovalHistoryTests {
         let log = RemovalLog(url: url)
         #expect(await log.load().problem == .unreadable)
 
-        let outcome = await log.startOver()
+        let startedOver = await log.startOver()
 
         let folder = directory.url.appending(path: "Peel").path(percentEncoded: false)
         let kept = try FileManager.default.contentsOfDirectory(atPath: folder).filter { $0.hasPrefix("removals-damaged-") }
         for name in kept {
             try directory.setPermissions(0o644, of: "Peel/\(name)")
         }
+        #expect(startedOver)
         #expect(kept.count == 1, "the old file was not kept beside the new one")
+        let outcome = await log.load()
         #expect(outcome.records == [])
         #expect(outcome.problem == nil)
         #expect(await log.add([Self.record(batch: UUID())]).records?.count == 1)
+    }
+
+    @Test func startsNothingOverWhileHistoryCanBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+
+        #expect(await RemovalLog(url: url).startOver() == false)
+        let folder = url.deletingLastPathComponent().path(percentEncoded: false)
+        #expect(try !FileManager.default.contentsOfDirectory(atPath: folder).contains { $0.hasPrefix("removals-damaged-") })
     }
 
     /// A log in a folder that cannot be searched is not known to be empty, so it is unreadable, never replaced.

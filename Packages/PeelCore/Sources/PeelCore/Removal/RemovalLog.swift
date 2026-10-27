@@ -119,13 +119,13 @@ public actor RemovalLog {
         return UInt64(info.f_bavail) * UInt64(info.f_bsize)
     }
 
-    /// Keeps a History that cannot be read beside the new one, under another name, and starts recording again.
-    public func startOver() -> RemovalLogOutcome {
+    /// Keeps a History that cannot be read beside the new one, under another name, and starts recording again. False
+    /// when History can be read, or the old file couldn't be set aside.
+    public func startOver() -> Bool {
         whileNoOtherProcessWrites {
-            guard stored() == nil else { return RemovalLogOutcome(records: current(), problem: problem) }
-            guard DamagedFile.setAside(url) != nil else { return RemovalLogOutcome(records: nil, problem: problem) }
+            guard stored() == nil, DamagedFile.setAside(url) != nil else { return false }
             problem = nil
-            return RemovalLogOutcome(records: current(), problem: problem)
+            return true
         }
     }
 

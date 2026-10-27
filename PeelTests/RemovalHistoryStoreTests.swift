@@ -61,6 +61,53 @@ struct RemovalHistoryStoreTests {
         #expect(!history.isKnownEmpty)
     }
 
+    @Test func tellsVoiceOverWhatForgetForgot() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let heard = Heard()
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true },
+            announcing: { heard.words.append(String($0.characters)) }
+        )
+        let part = RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue)
+        var removal = RemovalInProgress()
+        await history.record(try moved("One"), part: part, sizes: [:], in: &removal)
+        await history.record(try moved("Two"), part: part, sizes: [:], in: &removal)
+        history.finish(removal)
+        await history.load()
+
+        await history.forget(history.records)
+
+        #expect(heard.words.last == "Forgot 2 items.")
+        #expect(history.batches.isEmpty)
+    }
+
+    @Test func tellsVoiceOverOnlyAStartOverThatHappened() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let removals = folder.appending(path: "removals.json")
+        let refusals = folder.appending(path: "refusals.json")
+        try FileManager.default.createDirectory(at: removals, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: refusals, withIntermediateDirectories: true)
+        let heard = Heard()
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: removals),
+            refusals: RefusalLog(url: refusals),
+            knowsTheExclusions: { true },
+            announcing: { heard.words.append(String($0.characters)) }
+        )
+        await history.load()
+
+        await history.startOver()
+        await history.startOverRefusals()
+        await history.startOver()
+        await history.startOverRefusals()
+
+        #expect(heard.words == ["Started History over.", "Started the Not Moved list over."])
+    }
+
     @Test func startsOverANotMovedListItCannotRead() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -126,4 +173,8 @@ struct RemovalHistoryStoreTests {
         #expect(history.revision == revision)
         #expect(history.refusalBatches.count == 1)
     }
+}
+
+private final class Heard {
+    var words: [String] = []
 }

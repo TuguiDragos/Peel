@@ -131,6 +131,7 @@ final class RemovalHistoryStore {
     private let outcome: RemovalOutcome?
     private let knowsTheExclusions: () -> Bool
     private let restoring: ([TrashedItem], Bool) async -> [RestoreFailure?]
+    private let announcing: (AttributedString) -> Void
     /// Read again here once History has counted a removal, rather than by each tool.
     var stats: LifetimeStats?
     /// The last batch moved, for Undo. `@Environment(\.undoManager)` is nil in an app with no documents,
@@ -197,13 +198,15 @@ final class RemovalHistoryStore {
         knowsTheExclusions: @escaping () -> Bool = { ExclusionsStore.shared.exclusions.isKnown },
         restoring: @escaping ([TrashedItem], Bool) async -> [RestoreFailure?] = { items, canUseHelper in
             await TrashService(exclusions: ExclusionsStore.shared.exclusions).restore(items, canUseHelper: canUseHelper)
-        }
+        },
+        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() }
     ) {
         self.log = log
         self.refusals = refusals
         self.outcome = outcome
         self.knowsTheExclusions = knowsTheExclusions
         self.restoring = restoring
+        self.announcing = announcing
     }
 
     func load() async {
@@ -253,11 +256,15 @@ final class RemovalHistoryStore {
 
     /// Keeps a History that cannot be read beside a new one, and records again.
     func startOver() async {
-        await apply(await log.startOver())
+        let startedOver = await log.startOver()
+        await apply(await log.load())
+        if startedOver { announcing(AttributedString(localized: "Started History over.")) }
     }
 
     func startOverRefusals() async {
-        await showRefusals(await refusals.startOver())
+        let startedOver = await refusals.startOver()
+        await loadRefusals()
+        if startedOver { announcing(AttributedString(localized: "Started the Not Moved list over.")) }
     }
 
     private func loadRefusals() async {
@@ -336,7 +343,7 @@ final class RemovalHistoryStore {
         let parts = RemovalPart.of(removal.records.map { ($0.date, $0.part) })
         let moved = RemovalBatch(id: removal.batch, parts: parts, date: .now, records: removal.records)
         justMoved = moved
-        AccessibilityNotification.Announcement(moved.movedAnnouncement).post()
+        announcing(moved.movedAnnouncement)
         stats?.reload()
         registerUndo(of: removal.records, title: RemovalBatch.undoTitle(of: parts, title: moved.title))
     }
@@ -468,9 +475,7 @@ final class RemovalHistoryStore {
                 }
                 await apply(await log.remove(restored))
                 // A move is announced, and so is its undoing: the rows only vanish from the list.
-                AccessibilityNotification.Announcement(
-                    AttributedString(localized: "Put back ^[\(restored.count) item](inflect: true).")
-                ).post()
+                announcing(AttributedString(localized: "Put back ^[\(restored.count) item](inflect: true)."))
             }
             return stayed
         }
@@ -479,8 +484,12 @@ final class RemovalHistoryStore {
     /// Removes `records` from History. The page offers this for items that have left the Trash.
     func forget(_ records: [RemovalRecord]) async {
         keepUndoable(without: Set(records.map(\.id)))
-        await apply(await log.remove(Set(records.map(\.id))))
+        let outcome = await log.remove(Set(records.map(\.id)))
+        await apply(outcome)
         selectedIDs.subtract(records.map(\.id))
+        if !records.isEmpty, outcome.records != nil {
+            announcing(AttributedString(localized: "Forgot ^[\(records.count) item](inflect: true)."))
+        }
     }
 
     func isSelected(_ record: RemovalRecord) -> Bool {

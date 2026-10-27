@@ -1,6 +1,7 @@
 import Foundation
 @testable import PeelCommandLine
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct RefusalLogTests {
@@ -203,11 +204,22 @@ struct RefusalLogTests {
         try Data("[]".utf8).write(to: url)
         try directory.setPermissions(0, of: url)
 
-        let started = await RefusalLog(url: url).startOver()
+        let log = RefusalLog(url: url)
 
-        #expect(started.records == [] && started.problem == nil)
+        #expect(await log.startOver())
+        let read = await log.load()
+        #expect(read.records == [] && read.problem == nil)
         let kept = try FileManager.default.contentsOfDirectory(atPath: url.deletingLastPathComponent().path())
         #expect(kept.contains { $0.hasPrefix("refusals-damaged-") }, "the file it could not read was not kept")
+    }
+
+    @Test func startsNothingOverWhileTheListCanBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.directory("Peel").appending(path: "refusals.json")
+        try Data("[]".utf8).write(to: url)
+
+        #expect(await RefusalLog(url: url).startOver() == false)
+        #expect(DamagedFile.copies(of: url) == [])
     }
 
     @Test func clearMovesTheCopiesItSetAsideToo() async throws {

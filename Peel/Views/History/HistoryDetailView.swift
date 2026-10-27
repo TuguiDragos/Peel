@@ -118,7 +118,7 @@ struct HistoryDetailView: View {
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("What History forgets, it can’t put back afterward.")
+                Text("History stops listing them. They have already left the Trash, so nothing on your Mac changes.")
             }
         }
 
