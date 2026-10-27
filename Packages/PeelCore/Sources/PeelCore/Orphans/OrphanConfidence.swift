@@ -93,10 +93,10 @@ public struct OrphanConfidence: Sendable, Hashable {
         }
         let makerIsStillHere = group.rememberedApp?.teamIdentifier.map(installedTeams.contains) ?? false
         // A folder's own date changes when files are taken out of it, so the last write on a leftover is often
-        // the uninstall itself. If nothing was written later than `settling` after Peel last saw the app, a
-        // recent date is the removal, not a sign that something still uses the folder.
+        // the uninstall itself. If nothing was written later than `settling` after Peel saw the app go, or else after
+        // it last saw the app, a recent date is the removal, not a sign that something still uses the folder.
         if !makerIsStillHere, let app = group.rememberedApp, let written = lastWrite(in: group),
-           written <= app.lastSeen.addingTimeInterval(settling) {
+           written <= (app.goneSince ?? app.lastSeen).addingTimeInterval(settling) {
             return OrphanConfidence(level: .certain, reasons: [.appLeft(name: app.name, lastSeen: app.lastSeen)])
         }
         if let written = group.lastModified, now.timeIntervalSince(written) < recentlyWritten, written <= now {

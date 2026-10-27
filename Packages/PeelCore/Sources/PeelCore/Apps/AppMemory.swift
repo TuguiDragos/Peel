@@ -12,6 +12,9 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
     public let lastPath: String
     /// The folders its own product file named for its data (`InstalledApp.productFolders`).
     public var productFolders: [ProductFolder]? = nil
+    /// When Peel, running, read the apps again and found it gone from where it was. Nil when it left while Peel was
+    /// closed, since a launch weeks later can't say when.
+    public var goneSince: Date? = nil
 
     public var id: String { bundleIdentifier }
 }
@@ -53,19 +56,30 @@ public struct AppMemory: Sendable {
 
     /// Records the apps currently installed, keeping every app seen before. Reading, merging, and writing happen
     /// under one lock, so two refreshes that overlap cannot lose each other's apps.
+    /// `gone` holds the identifiers a reading of the apps no longer found, against the reading before it while Peel
+    /// ran: each is noted as gone from then, once its place can be looked at and it isn't there.
     @discardableResult
     @concurrent
-    public func remember(_ apps: [InstalledApp], now: Date = .now) async -> [RememberedApp] {
-        FileLock.whileHeld(beside: url) { remember(apps, now: now, onTopOf: read()) }
+    public func remember(_ apps: [InstalledApp], gone: Set<String> = [], now: Date = .now) async -> [RememberedApp] {
+        FileLock.whileHeld(beside: url) { remember(apps, gone: gone, now: now, onTopOf: read()) }
     }
 
     /// `known` is nil when the file cannot be read or reached. Its contents are then unknown, so it is never
     /// written over, and the apps currently installed are still returned for this run.
-    private func remember(_ apps: [InstalledApp], now: Date, onTopOf known: [RememberedApp]?) -> [RememberedApp] {
+    private func remember(
+        _ apps: [InstalledApp], gone: Set<String>, now: Date, onTopOf known: [RememberedApp]?
+    ) -> [RememberedApp] {
         var byIdentifier = Dictionary(
             (known ?? []).map { ($0.bundleIdentifier, $0) },
             uniquingKeysWith: { first, _ in first }
         )
+        for identifier in gone {
+            guard var app = byIdentifier[identifier], app.goneSince == nil, app.stillInstalled() == nil else {
+                continue
+            }
+            app.goneSince = now
+            byIdentifier[identifier] = app
+        }
         for app in apps where !app.isSystemProtected {
             guard let identifier = app.bundleIdentifier else { continue }
             byIdentifier[identifier] = RememberedApp(

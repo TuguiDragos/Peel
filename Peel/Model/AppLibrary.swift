@@ -286,10 +286,11 @@ final class AppLibrary {
             lastOpenedRevision += 1
             return []
         }
+        let gone = Set(apps.compactMap(\.bundleIdentifier)).subtracting(listed.compactMap(\.bundleIdentifier))
         let changed = adopt(found)
         // Remembered whenever the list changes, so an app installed and removed between two visits to Orphaned
         // Files is still known. Done last, so nothing above is left half done while this waits.
-        await AppMemory().remember(found)
+        await AppMemory().remember(found, gone: gone)
         return changed
     }
 

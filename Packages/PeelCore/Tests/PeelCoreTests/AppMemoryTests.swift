@@ -25,6 +25,34 @@ struct AppMemoryTests {
         #expect(Set(second.map(\.bundleIdentifier)) == ["net.shinyfrog.bear", "dev.zed.Zed"], "an app it saw before was forgotten")
     }
 
+    @Test func notesWhenItSawAnAppGoOnlyWhereTheAppIsNoLongerThere() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
+        try directory.file(
+            "Apps/Tunewell.app/Contents/Info.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.tunewell", "CFBundleName": "Tunewell"],
+                format: .xml, options: 0
+            )
+        )
+        let still = InstalledApp(
+            url: directory.url.appending(path: "Apps/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.tunewell", name: "Tunewell", teamIdentifier: nil
+        )
+        let seen = Date(timeIntervalSince1970: 1_800_000_000)
+        await memory.remember([still, app("Gone", "org.example.gone")], now: seen)
+
+        let left = seen.addingTimeInterval(3_600)
+        let after = await memory.remember([], gone: ["org.example.tunewell", "org.example.gone"], now: left)
+        #expect(after.first { $0.bundleIdentifier == "org.example.gone" }?.goneSince == left)
+        #expect(after.first { $0.bundleIdentifier == "org.example.tunewell" }?.goneSince == nil, "an app still in place")
+
+        let later = await memory.remember([], gone: ["org.example.gone"], now: left.addingTimeInterval(3_600))
+        #expect(later.first { $0.bundleIdentifier == "org.example.gone" }?.goneSince == left, "the first time stays")
+        let back = await memory.remember([app("Gone", "org.example.gone")], now: left.addingTimeInterval(7_200))
+        #expect(back.first { $0.bundleIdentifier == "org.example.gone" }?.goneSince == nil, "installed again")
+    }
+
     /// A memory that leads nowhere cannot be read, so it is left as it is rather than replaced by a new file.
     @Test func leavesAMemoryItCannotReachAsItIs() async throws {
         let directory = try TemporaryDirectory()

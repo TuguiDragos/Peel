@@ -62,6 +62,14 @@ struct OrphanConfidenceTests {
         #expect(judged.reasons.contains { if case .appLeft = $0 { true } else { false } })
     }
 
+    @Test("What the app wrote after Peel last listed it, before Peel saw it go, is no sign of something still running")
+    func writingBeforePeelSawItGo() {
+        var removed = left("Example", daysAgo: 7)
+        removed.goneSince = now.addingTimeInterval(-2 * 24 * 60 * 60)
+        let judged = OrphanConfidence.judge(group(written: 3 * 24 * 60 * 60, remembered: removed), now: now)
+        #expect(judged.level == .certain)
+    }
+
     @Test("A write after the app was last seen is still something running")
     func writingAfterwardsStillCounts() {
         let removed = left("Example", daysAgo: 6)
