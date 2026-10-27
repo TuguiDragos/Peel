@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import PeelCore
+import SwiftUI
 
 @Observable
 final class BackgroundItemLibrary {
@@ -116,6 +117,13 @@ final class BackgroundItemLibrary {
         alerts.dismissCurrent()
     }
 
+    /// What VoiceOver hears once an action on `item` is done and the list read again: the state it is in now, which
+    /// its badge shows without a word, or nil when it left the list.
+    static func announcement(for item: BackgroundItem, in listed: [BackgroundItem]?) -> AttributedString? {
+        guard let now = listed?.first(where: { $0.id == item.id }) else { return nil }
+        return AttributedString(localized: "\(now.label): \(String(localized: now.stateWords()))")
+    }
+
     /// A job enabled while launchd doesn't have it leaves the list, since it is listed only while disabled or loaded.
     static func alertAfterEnabling(_ item: BackgroundItem, listed: [BackgroundItem]?) -> ActionAlert? {
         guard let listed, !listed.contains(where: { $0.id == item.id }) else { return nil }
@@ -129,6 +137,7 @@ final class BackgroundItemLibrary {
     ) async {
         runningActionItemIDs.insert(item.id)
         defer { runningActionItemIDs.remove(item.id) }
+        var failed = false
         do {
             switch action {
             case .start: try await BackgroundItemActions.start(item)
@@ -155,9 +164,15 @@ final class BackgroundItemLibrary {
                 }
             }
         } catch {
+            failed = true
             alerts.add(.failed(ActionFailure(label: item.label, action: action, reason: error)))
         }
+        let shown = scans
         await refresh(installedApps: installedApps)
+        // History tells of a move to the Trash, and an alert of a failure.
+        if action != .moveToTrash, !failed, scans > shown, let words = Self.announcement(for: item, in: items) {
+            AccessibilityNotification.Announcement(words).post()
+        }
     }
 }
 

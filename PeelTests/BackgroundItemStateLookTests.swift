@@ -1,7 +1,6 @@
 import Foundation
 @testable import Peel
 @testable import PeelCore
-import SwiftUI
 import Testing
 
 struct BackgroundItemStateLookTests {
@@ -14,8 +13,8 @@ struct BackgroundItemStateLookTests {
     }
 
     @Test func aDisabledJobThatStillRunsSaysBoth() {
-        #expect(job(.running(pid: 4_242), disabled: true).stateLook().title == Text("Disabled, still running"))
-        #expect(job(.loaded, disabled: true).stateLook().title == Text("Disabled"))
-        #expect(job(.running(pid: 4_242), disabled: false).stateLook().title == Text("Running"))
+        #expect(String(localized: job(.running(pid: 4_242), disabled: true).stateWords()) == String(localized: "Disabled, still running"))
+        #expect(String(localized: job(.loaded, disabled: true).stateWords()) == String(localized: "Disabled"))
+        #expect(String(localized: job(.running(pid: 4_242), disabled: false).stateWords()) == String(localized: "Running"))
     }
 }

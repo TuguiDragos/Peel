@@ -49,7 +49,7 @@ struct BackgroundItemList: View {
         .navigationTitle(Text(Tool.backgroundItems.title))
         .announcesScan(
             backgroundItems.isScanning,
-            found: backgroundItems.summary,
+            found: announcement,
             couldNotLook: couldNotLook,
             wasStopped: backgroundItems.scanRun.wasStopped
         )
@@ -88,6 +88,13 @@ struct BackgroundItemList: View {
         } message: {
             alertMessage
         }
+    }
+
+    /// What VoiceOver hears when a scan ends: what it found, and that part of the list may be missing when it may.
+    private var announcement: AttributedString? {
+        guard let found = backgroundItems.summary else { return nil }
+        guard backgroundItems.missingNote != nil else { return found }
+        return found + " " + AttributedString(localized: "Part of this list may be missing.")
     }
 
     private var couldNotLook: LocalizedStringResource? {
@@ -274,19 +281,26 @@ extension BackgroundItem {
     /// How the job's state is shown, in the list and on its page alike. A state Peel could not read comes first,
     /// since whether the job is disabled may not have been read either. `withProcess` names a running job's process.
     func stateLook(withProcess: Bool = false) -> (title: Text, symbol: String, tint: Color) {
+        let title = Text(stateWords(withProcess: withProcess))
+        return switch state {
+        case .unknown: (title, "questionmark.circle.dashed", .secondary)
+        case _ where isDisabled: (title, "minus.circle.fill", .orange)
+        case .running: (title, "circle.fill", .green)
+        case .loaded: (title, "circle", .secondary)
+        case .notLoaded: (title, "circle.dashed", .secondary)
+        }
+    }
+
+    func stateWords(withProcess: Bool = false) -> LocalizedStringResource {
         switch state {
-        case .unknown: (Text(.unknownBackgroundItemState), "questionmark.circle.dashed", .secondary)
+        case .unknown: .unknownBackgroundItemState
         // Disabling a job keeps launchd from loading it again, and leaves what runs now running.
         case .running(let pid) where isDisabled:
-            (
-                withProcess ? Text("Disabled, still running · PID \(String(pid))") : Text("Disabled, still running"),
-                "minus.circle.fill", .orange
-            )
-        case _ where isDisabled: (Text("Disabled"), "minus.circle.fill", .orange)
-        case .running(let pid):
-            (withProcess ? Text("Running · PID \(String(pid))") : Text("Running"), "circle.fill", .green)
-        case .loaded: (Text("Not running"), "circle", .secondary)
-        case .notLoaded: (Text("Not loaded"), "circle.dashed", .secondary)
+            withProcess ? "Disabled, still running · PID \(String(pid))" : "Disabled, still running"
+        case _ where isDisabled: "Disabled"
+        case .running(let pid): withProcess ? "Running · PID \(String(pid))" : "Running"
+        case .loaded: "Not running"
+        case .notLoaded: "Not loaded"
         }
     }
 }
