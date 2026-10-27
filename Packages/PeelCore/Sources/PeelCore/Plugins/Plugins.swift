@@ -36,8 +36,8 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     /// Nil when measuring ran out of time or was refused. Unknown is not the same as empty.
     public let size: Int64?
     public let requiresPrivileges: Bool
-    /// Why Peel would refuse to move it, such as a Mail bundle in the user's own Library, where all of Mail is
-    /// protected. Such a plug-in is listed and never offered.
+    /// Why Peel would refuse to move it, such as an exclusion, exclusions not read yet, or a folder inside that macOS
+    /// won't let Peel look into. Such a plug-in is listed and never offered.
     public let refusal: GuardRefusal?
     /// True when, moved through Peel's helper, it could not come back from History: code is loaded from its folder,
     /// and it isn't root's alone (the helper's `.loadsCode`).
