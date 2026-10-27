@@ -260,6 +260,26 @@ struct ElectronUpdaterTests {
         #expect(ElectronUpdater.feedURL(fromConfiguration: "provider: github\nhost: github.com\nowner: example\nrepo: tool\n") != nil)
     }
 
+    @Test func offersOnlyWhatElectronUpdaterWouldOfferThisMac() throws {
+        let darwin = "25.6.0"
+        func offered(_ fields: String, id: String? = nil) -> Bool {
+            ElectronUpdater.isOffered(
+                fromFeed: "version: 2.0.0\n\(fields)files:\n  - url: a.zip\n", darwinRelease: darwin,
+                updaterID: id.flatMap(UUID.init(uuidString:))
+            )
+        }
+        #expect(!offered("minimumSystemVersion: 99.0.0\n"))
+        #expect(!offered("minimumSystemVersion: '26.0.0'\n"), "compared with the Darwin release, as os.release() is")
+        #expect(offered("minimumSystemVersion: 20.0.0\n"))
+        #expect(offered("minimumSystemVersion: 13.0\n"), "semver can't read it, and the exception lets the update through")
+        #expect(offered("minimumSystemVersion: 25.6.0-beta.2\n"), "a release comes after its prereleases")
+        #expect(!offered("minimumSystemVersion: v25.6.1-beta.1\n"))
+        #expect(offered("stagingPercentage: 10\n", id: "00000000-0000-0000-0000-00000ccccccc"))
+        #expect(!offered("stagingPercentage: 10\n", id: "00000000-0000-0000-0000-000080000000"))
+        #expect(offered("stagingPercentage: 10\n"), "with no id yet, the app's first check decides")
+        #expect(offered("stagingPercentage: lots\n", id: "00000000-0000-0000-0000-000080000000"))
+    }
+
     @Test func readsVersionFromFeed() {
         let feed = "version: 1.33.0\nfiles:\n  - url: TuneIn-1.33.0-universal-mac.zip\n    version: 9.9.9\nreleaseDate: '2026-03-30T19:23:16.416Z'\n"
         #expect(ElectronUpdater.version(fromFeed: feed) == "1.33.0")

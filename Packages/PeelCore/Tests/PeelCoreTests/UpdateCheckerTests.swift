@@ -634,6 +634,18 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.answer(for: sparkleApp()).notes == nil, "nothing waits for an app that is up to date")
     }
 
+    @Test func anElectronReleaseTheAppWontOfferThisMacIsNoUpdate() async {
+        let chat = InstalledApp(
+            url: URL(filePath: "/Applications/Chat.app"), bundleIdentifier: "com.example.chat", name: "Chat",
+            version: "1.0", updateFeed: .electron(URL(string: "https://updates.example.com/latest-mac.yml")!)
+        )
+        reply("updates.example.com", "version: 2.0.0\nminimumSystemVersion: 99.0.0\nfiles:\n  - url: a.zip\n")
+        #expect(await checker.status(for: chat) == .upToDate)
+
+        reply("updates.example.com", "version: 2.0.0\nminimumSystemVersion: 20.0.0\nfiles:\n  - url: a.zip\n")
+        #expect(await checker.status(for: chat) == .updateAvailable(version: "2.0.0", source: .developer))
+    }
+
     @Test func asksTheAppsOwnFeedForTheNotesOfAnUpdateHomebrewFound() async throws {
         let cask = HomebrewPackage(
             name: "editor", kind: .cask, installedVersion: "1.0", latestVersion: "2.0,200", isOutdated: true,

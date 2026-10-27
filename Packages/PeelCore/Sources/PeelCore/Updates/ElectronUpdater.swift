@@ -48,6 +48,83 @@ enum ElectronUpdater {
         topLevelFields(in: text)["version"]
     }
 
+    /// Whether electron-updater offers the release `text` describes to this Mac, as its `AppUpdater` decides unless
+    /// the app replaces the rule: not when the Darwin release (`os.release()`) is below the feed's
+    /// `minimumSystemVersion` as semver compares them, a version semver can't read deciding nothing, and with a
+    /// `stagingPercentage`, only when the app's own `updaterID` falls within it. With no id yet, the app's first
+    /// check makes one at random, so Peel can't tell, and says it is offered.
+    static func isOffered(fromFeed text: String, darwinRelease: String, updaterID: UUID?) -> Bool {
+        let fields = topLevelFields(in: text)
+        if let minimum = fields["minimumSystemVersion"].flatMap(SemanticVersion.init),
+           let current = SemanticVersion(darwinRelease), current < minimum {
+            return false
+        }
+        guard let staging = fields["stagingPercentage"].flatMap({ Double($0) }), staging.isFinite, let updaterID else {
+            return true
+        }
+        let bytes = withUnsafeBytes(of: updaterID.uuid) { Array($0) }
+        let value = bytes[12...].reduce(UInt32(0)) { $0 << 8 | UInt32($1) }
+        return Double(value) / Double(UInt32.max) < staging / 100
+    }
+
+    /// The id electron-updater keeps for an app's staged releases, in `.updaterId` in the app's own data folder, or nil
+    /// until it has made one.
+    static func updaterID(of app: InstalledApp, home: URL) -> UUID? {
+        guard let name = app.bundleName, !name.isEmpty, !name.contains("/"), name != ".", name != ".." else { return nil }
+        let file = home.appending(path: "Library/Application Support/\(name)/.updaterId")
+        return BoundedRead.data(at: file, maximum: 1_024).flatMap {
+            UUID(uuidString: String(decoding: $0, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines))
+        }
+    }
+
+    /// The Darwin release, which electron-updater reads with `os.release()`, such as 25.6.0.
+    static var darwinRelease: String {
+        var system = utsname()
+        guard uname(&system) == 0 else { return "" }
+        return withUnsafeBytes(of: system.release) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+    }
+
+    /// A version as semver reads it strictly: three numbers with no leading zero, after an optional `v`, then an
+    /// optional prerelease, which comes before the release, and build metadata, which counts for nothing.
+    private struct SemanticVersion: Comparable {
+        let numbers: [Int]
+        let prerelease: [Substring]
+
+        init?(_ text: String) {
+            let pattern = #/
+                v? (?<major> 0|[1-9][0-9]* ) \. (?<minor> 0|[1-9][0-9]* ) \. (?<patch> 0|[1-9][0-9]* )
+                (?: - (?<prerelease>
+                    (?: 0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]* )
+                    (?: \. (?: 0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]* ) )*
+                ) )?
+                (?: \+ [0-9A-Za-z-]+ (?: \. [0-9A-Za-z-]+ )* )?
+                /#
+            guard let match = text.trimmingCharacters(in: .whitespaces).wholeMatch(of: pattern),
+                  let major = Int(match.major), let minor = Int(match.minor), let patch = Int(match.patch)
+            else { return nil }
+            numbers = [major, minor, patch]
+            prerelease = match.prerelease.map { $0.split(separator: ".") } ?? []
+        }
+
+        static func < (lhs: Self, rhs: Self) -> Bool {
+            if lhs.numbers != rhs.numbers { return lhs.numbers.lexicographicallyPrecedes(rhs.numbers) }
+            switch (lhs.prerelease.isEmpty, rhs.prerelease.isEmpty) {
+            case (true, _): return false
+            case (false, true): return true
+            case (false, false):
+                for (left, right) in zip(lhs.prerelease, rhs.prerelease) where left != right {
+                    switch (Int(left), Int(right)) {
+                    case let (left?, right?): return left < right
+                    case (.some, nil): return true
+                    case (nil, .some): return false
+                    case (nil, nil): return left < right
+                    }
+                }
+                return lhs.prerelease.count < rhs.prerelease.count
+            }
+        }
+    }
+
     /// What is new in the release: the feed's top-level `releaseNotes`, which electron-builder writes from the app's
     /// release notes, in Markdown, as a plain, quoted or block scalar. The list it writes instead when told to keep
     /// every version's notes is not read.

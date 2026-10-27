@@ -232,7 +232,7 @@ public struct UpdateChecker: Sendable {
         return switch app.updateFeed {
         case nil: UpdateAnswer(status: .unsupported)
         case .sparkle(let url): await sparkleAnswer(for: app, installed: installed, at: url)
-        case .electron(let url): await electronAnswer(installed: installed, at: url)
+        case .electron(let url): await electronAnswer(for: app, installed: installed, at: url)
         case .appStore: await appStoreAnswer(for: app, earlier: earlier, notListedBefore: notListedBefore)
         }
     }
@@ -260,12 +260,18 @@ public struct UpdateChecker: Sendable {
         )
     }
 
-    private func electronAnswer(installed: String, at url: URL) async -> UpdateAnswer {
+    private func electronAnswer(for app: InstalledApp, installed: String, at url: URL) async -> UpdateAnswer {
         let reply = await fetchReply(url)
         guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
         let feed = String(decoding: data, as: UTF8.self)
         guard let latest = ElectronUpdater.version(fromFeed: feed) else { return UpdateAnswer(status: .failed) }
         guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
+        // A release the app's own updater won't offer this Mac is no update to wait for here, as the app says too.
+        let updaterID = ElectronUpdater.updaterID(of: app, home: .homeDirectory)
+        let release = ElectronUpdater.darwinRelease
+        guard ElectronUpdater.isOffered(fromFeed: feed, darwinRelease: release, updaterID: updaterID) else {
+            return UpdateAnswer(status: .upToDate)
+        }
         return UpdateAnswer(
             status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil),
             notes: ElectronUpdater.releaseNotes(fromFeed: feed)
