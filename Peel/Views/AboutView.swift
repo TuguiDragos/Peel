@@ -78,7 +78,7 @@ struct AboutContent: View {
             .buttonStyle(.link)
             .padding(.vertical, -Self.creditReach)
             Text(
-                "Peel moves what it removes to the Trash, and History can put it back. As the GPL states, it comes with no warranty, to the extent the law allows.",
+                "Peel moves what it removes to the Trash, except what Homebrew deletes itself, and History can put it back. As the GPL states, it comes with no warranty, to the extent the law allows.",
                 comment: "Under the license's name. History is Peel's page of everything it moved to the Trash."
             )
             .multilineTextAlignment(.center)
