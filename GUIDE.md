@@ -307,7 +307,8 @@ It sets up the command line as well:
 
 - **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike, and
   what it was asked to move and wouldn't, with the reason for each item. It puts back what is still in the Trash
-  and keeps the latest 20,000 items, and Undo in the Edit menu puts back the last removal.
+  and keeps the latest 20,000 items, and, while Peel stays open, Undo in the Edit menu puts back the last removal
+  you made in it.
 - **Exclusions:** files, folders, and apps Peel must never touch. An excluded app still appears in Applications, but
   Peel won't offer to remove or reset it, and leaves out of every page the folders named with its identifier, such as
   its caches; to keep its other files, such as plug-ins or a folder named after it, exclude them too. Add them in
