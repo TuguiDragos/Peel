@@ -428,7 +428,7 @@ struct FileCommandTests {
 
     /// The note is the other half of `isRecommended`: a folder that is kept must say why, and one that is
     /// suggested must not claim to be kept.
-    @Test func everyKeptFolderSaysWhyAndEverySuggestedOneDoesNot() {
+    @Test func everyKeptFolderSaysWhyAndEverySuggestedOneDoesNot() throws {
         let project = URL(filePath: "/Users/me/Developer/App", directoryHint: .isDirectory)
         func artifact(
             _ name: String,
@@ -471,6 +471,13 @@ struct FileCommandTests {
         }
         #expect(ProjectsCommand.rows(for: cases.map(\.0)).map(\.count) == cases.map { _ in 4 })
         #expect(ProjectsCommand.rows(for: cases.map(\.0))[0] == ["20 bytes", "/Users/me/Developer/App/DerivedData", "Xcode", "suggested"])
+        let json = try Output.jsonText(ProjectsCommand.report(for: ProjectArtifacts.Scan(artifacts: cases.map(\.0))))
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let records = try #require(report["artifacts"] as? [[String: Any]])
+        #expect(records.map { $0["reason"] as? String ?? "suggested" } == cases.map {
+            $0.1 == "suggested" ? "suggested" : String($0.1.dropLast(", kept".count))
+        })
+        #expect(records[0]["reason"] is NSNull)
     }
 
     /// The first copy is the one Peel suggests keeping, and it is the only row marked.
@@ -746,13 +753,18 @@ struct FileCommandTests {
         let json = try Output.jsonText(ProjectsCommand.report(for: scan))
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         #expect(report["unreadableLocations"] as? [String] == ["/Users/me/Library/Safari"])
+        #expect(report["cutShort"] as? Bool == true)
     }
 
-    @Test func namesEachChosenFolderTheScanDidNotSearch() {
+    @Test func namesEachChosenFolderTheScanDidNotSearch() throws {
         let unplugged = URL(filePath: "/Volumes/Disk/Projects", directoryHint: .isDirectory)
         let scan = ProjectArtifacts.Scan(refusedRoots: [(unplugged, .notAFolder)])
 
         #expect(ProjectsCommand.notes(for: scan) == ["/Volumes/Disk/Projects: it isn't a folder Peel can reach"])
+        let json = try Output.jsonText(ProjectsCommand.report(for: scan))
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        #expect(report["skippedLocations"] as? [String] == ["/Volumes/Disk/Projects"])
+        #expect(report["cutShort"] as? Bool == false)
     }
 
     /// `peel caches --json` says which folders `--remove` would take.

@@ -543,6 +543,8 @@ struct ProjectsCommand: AsyncParsableCommand {
         let recentlyActive: Bool
         /// Why measuring the folder left it to be chosen by hand, or `null` when nothing did.
         let heldBack: String?
+        /// Why the folder isn't suggested, in the words of the list's last column, or `null` when it is.
+        let reason: String?
 
         private enum CodingKeys: String, CodingKey {
             case path
@@ -552,9 +554,10 @@ struct ProjectsCommand: AsyncParsableCommand {
             case suggested
             case recentlyActive
             case heldBack
+            case reason
         }
 
-        /// Encodes a missing `heldBack` as `null`, for the reason `AppRecord` gives.
+        /// Encodes a missing `heldBack` or `reason` as `null`, for the reason `AppRecord` gives.
         func encode(to encoder: any Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(path, forKey: .path)
@@ -564,6 +567,7 @@ struct ProjectsCommand: AsyncParsableCommand {
             try container.encode(suggested, forKey: .suggested)
             try container.encode(recentlyActive, forKey: .recentlyActive)
             try container.encode(heldBack, forKey: .heldBack)
+            try container.encode(reason, forKey: .reason)
         }
     }
 
@@ -603,6 +607,10 @@ struct ProjectsCommand: AsyncParsableCommand {
     struct Report: Encodable {
         let artifacts: [Record]
         let unreadableLocations: [String]
+        /// Chosen folders the scan didn't search.
+        let skippedLocations: [String]
+        /// True when there were more folders than Peel looks at in one go, so the list isn't all of them.
+        let cutShort: Bool
     }
 
     /// What the scan couldn't look at, said on standard error whatever the output, so that an empty answer is not
@@ -630,10 +638,13 @@ struct ProjectsCommand: AsyncParsableCommand {
                     size: MeasuredSize($0.size),
                     suggested: $0.isRecommended,
                     recentlyActive: $0.isRecentlyActive,
-                    heldBack: $0.heldBack?.rawValue
+                    heldBack: $0.heldBack?.rawValue,
+                    reason: reason(for: $0)
                 )
             },
-            unreadableLocations: scan.unreadableLocations.map(Output.path)
+            unreadableLocations: scan.unreadableLocations.map(Output.path),
+            skippedLocations: scan.refusedRoots.map { Output.path($0.url) },
+            cutShort: scan.wasCutShort
         )
     }
 
@@ -684,13 +695,18 @@ struct ProjectsCommand: AsyncParsableCommand {
 
     /// Says in words why `artifact` is kept, or "suggested".
     static func note(for artifact: ProjectArtifact) -> String {
+        reason(for: artifact).map { "\($0), kept" } ?? "suggested"
+    }
+
+    /// Why `artifact` isn't suggested, or nil when it is.
+    static func reason(for artifact: ProjectArtifact) -> String? {
         switch artifact.keptBecause {
-        case .heldBack(let heldBack): "\(heldBack.summary), kept"
-        case .installedPackages: "installed packages, kept"
-        case .genericName: "name could mean anything, kept"
-        case .changedRecently: "changed in the last 7 days, kept"
-        case .lastChangeNotKnown: "too large to tell when it last changed, kept"
-        case nil: "suggested"
+        case .heldBack(let heldBack): heldBack.summary
+        case .installedPackages: "installed packages"
+        case .genericName: "name could mean anything"
+        case .changedRecently: "changed in the last 7 days"
+        case .lastChangeNotKnown: "too large to tell when it last changed"
+        case nil: nil
         }
     }
 }
