@@ -88,10 +88,20 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     }
 
     /// Whether Upgrade All takes it along when it is out of date: a pinned package is held at its version on purpose,
-    /// and a cask whose upgrade needs an administrator is upgraded in Terminal.
+    /// a cask whose upgrade needs an administrator is upgraded in Terminal, and Peel's own updates itself.
     public var joinsUpgradeAll: Bool {
         isStillUpgraded && !isPinned && !upgradeNeedsAnAdministrator && !isMissingWhatItInstalled
-            && !isStoppedMidUpgrade
+            && !isStoppedMidUpgrade && !isPeelItself
+    }
+
+    /// True for Peel's own cask: its definition quits Peel or one of its parts, or the code that runs is in one of its
+    /// apps. Peel never runs Homebrew on it, since Homebrew would have to quit Peel first.
+    public var isPeelItself: Bool {
+        quitIdentifiers.contains(where: Identifier.isPeels)
+            || appTargets.contains { target in
+                let app = PathPattern.comparablePath(of: URL(filePath: target, directoryHint: .isDirectory))
+                return PathComponents.isPath(InstalledApp.runningBundle, atOrInside: app)
+            }
     }
 
     /// Whether Homebrew offers a newer version that it can install. It upgrades a cask's app where it put it, so it

@@ -130341,6 +130341,112 @@
         }
       }
     },
+    "Peel updates itself, so it isn’t upgraded from here: Homebrew would have to quit Peel first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se aktualizuje sám, a proto se odtud neupgraduje: Homebrew by musel Peel nejprve ukončit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel aktualisiert sich selbst, daher wird hier kein Upgrade für Peel ausgeführt: Homebrew müsste Peel zuerst beenden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se actualiza por sí mismo, así que su paquete no se actualiza desde aquí: Homebrew tendría que cerrar Peel primero."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se met à jour lui-même : il n’est donc pas mis à niveau ici, car Homebrew devrait d’abord quitter Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel si aggiorna da solo, quindi non viene aggiornato da qui: Homebrew dovrebbe prima chiudere Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは自身をアップデートするため、ここからはアップグレードされません。アップグレードするには、Homebrewが先にPeelを終了する必要があるためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 스스로 업데이트하므로 여기에서는 업그레이드되지 않습니다. 여기에서 업그레이드하면 Homebrew가 먼저 Peel을 종료해야 하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel werkt zichzelf bij en wordt hier dus niet geüpgraded: Homebrew zou Peel dan eerst moeten stoppen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uaktualnia się sam, więc nie jest stąd uaktualniany: Homebrew musiałby najpierw zakończyć Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel se atualiza sozinho, por isso o upgrade dele não é feito daqui: o Homebrew precisaria encerrar o Peel primeiro."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se actualizează singur, așa că nu i se face upgrade de aici: Homebrew ar trebui să închidă mai întâi aplicația Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel обновляется сам, поэтому Homebrew здесь его не обновляет: ему пришлось бы сначала завершить Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uppdaterar sig själv och uppgraderas därför inte härifrån: Homebrew skulle behöva avsluta Peel först."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendini günceller, bu yüzden buradan yükseltilmez: Homebrew’un önce Peel’den çıkması gerekirdi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel оновлюється сама, тому звідси її не оновлюють: Homebrew довелося б спершу завершити програму «Peel»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会自行更新，因此不在此处升级：Homebrew需要先退出Peel。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會自行更新，因此不會從這裡升級：Homebrew必須先結束Peel。"
+          }
+        }
+      }
+    },
     "Peel waits for Homebrew to say whether it installed this copy, since a copy Homebrew installed is removed with Homebrew." : {
       "localizations" : {
         "cs" : {

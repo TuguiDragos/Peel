@@ -68,6 +68,24 @@ struct HomebrewTests {
         #expect(UpdateChecker.homebrewStatus(of: package(.disabled), appVersion: "1.0", at: .now) == nil)
     }
 
+    @Test func peelsOwnCaskIsLeftToPeelsOwnUpdates() {
+        func cask(quitting identifiers: [String] = [], apps: [String] = []) -> HomebrewPackage {
+            HomebrewPackage(
+                name: "peel", kind: .cask, installedVersion: "1.0", latestVersion: "2.0", isOutdated: true,
+                appTargets: apps, quitIdentifiers: identifiers
+            )
+        }
+        let peels = cask(quitting: ["com.tuguidragos.Peel"])
+        let running = cask(apps: [Bundle.main.bundleURL.path(percentEncoded: false)])
+        let other = cask(quitting: ["org.example.app"], apps: ["/Applications/Example.app"])
+
+        #expect(peels.isPeelItself && running.isPeelItself && !other.isPeelItself)
+        #expect(peels.waitsForAnUpgrade)
+        #expect(!peels.joinsUpgradeAll, "Upgrade All would have Peel quit itself first")
+        #expect(!running.joinsUpgradeAll)
+        #expect(other.joinsUpgradeAll)
+    }
+
     @Test func knowsWhenSudoAskedForAPassword() {
         let sudo = """
             ==> Running installer for zoom with sudo; the password may be necessary.

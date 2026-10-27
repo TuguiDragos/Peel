@@ -6,6 +6,7 @@ struct HomebrewDetailView: View {
     @Environment(AppLibrary.self) private var library
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(RemovalHistoryStore.self) private var history
+    @Environment(PeelUpdater.self) private var updater
     @State private var isConfirmingUninstall = false
     @State private var isConfirmingUpgrade = false
     @State private var quittingToUpgrade = QuitBeforeRemoving()
@@ -133,7 +134,13 @@ struct HomebrewDetailView: View {
                                 .disabled(!history.mayMove)
                                 .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
                         } else if package.waitsForAnUpgrade {
-                            if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
+                            if package.isPeelItself {
+                                Button("Check for Updates…", systemImage: "arrow.down.circle") {
+                                    updater.checkForUpdates()
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .disabled(!updater.canCheckForUpdates)
+                            } else if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
                                 let kind = package.kind == .cask ? "--cask" : "--formula"
                                 CopyButton(
                                     text: Homebrew.terminalCommand(
@@ -178,12 +185,17 @@ struct HomebrewDetailView: View {
                         homebrew.runningCommand != nil || homebrew.isForgetting || quittingToUpgrade.isWaiting
                             || quittingToUninstall.isWaiting
                     )
-                    if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp) {
+                    if package.waitsForAnUpgrade, package.isPeelItself {
+                        Text("Peel updates itself, so it isn’t upgraded from here: Homebrew would have to quit Peel first.")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    } else if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp) {
                         Text(HomebrewLibrary.cleansUp)
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-                    if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator) || isUninstalledInTerminal {
+                    if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator && !package.isPeelItself)
+                        || isUninstalledInTerminal {
                         Text(needsTerminal)
                             .font(.callout)
                             .foregroundStyle(.secondary)

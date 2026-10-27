@@ -160,7 +160,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         )
     }
 
-    private static let runningBundle = PathPattern.comparablePath(of: Bundle.main.bundleURL)
+    static let runningBundle = PathPattern.comparablePath(of: Bundle.main.bundleURL)
 
     private static func isPeel(_ bundleIdentifier: String?, at path: String) -> Bool {
         bundleIdentifier.map(Identifier.isPeels) == true || PathComponents.isPath(runningBundle, inside: path)
