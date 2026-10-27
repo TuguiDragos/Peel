@@ -79892,108 +79892,109 @@
         }
       }
     },
-    "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Installing it takes an administrator: the install command in Peel’s Settings runs from an administrator’s account." : {
+    "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account." : {
+      "comment" : "The note of Home's Command Line row on an account that is not an administrator's. Keep ~/.zshrc as it is.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Umožňuje v Terminálu odinstalovávat aplikace a odstraňovat zbytky, mezipaměti a duplikáty. K instalaci je potřeba správce: instalační příkaz z Nastavení Peelu je nutné spustit z účtu správce."
+            "value" : "Umožňuje v Terminálu odinstalovávat aplikace a odstraňovat zbytky, mezipaměti a duplikáty. Aby byl dostupný přes PATH, je potřeba správce, a Nastavení Peelu nabízí řádek pro soubor ~/.zshrc, díky kterému ho můžete spouštět z tohoto účtu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Damit kannst du im Terminal Apps deinstallieren und Überreste, Caches und Duplikate entfernen. Für die Installation wird ein Administrator benötigt: Der Installationsbefehl in den Peel-Einstellungen funktioniert nur über den Benutzeraccount eines Administrators."
+            "value" : "Damit kannst du im Terminal Apps deinstallieren und Überreste, Caches und Duplikate entfernen. Um das Tool in den Suchpfad aufzunehmen, wird ein Administrator benötigt, und die Peel-Einstellungen bieten eine Zeile für ~/.zshrc, über die du es mit diesem Benutzeraccount verwenden kannst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Te permite desinstalar apps y eliminar restos, cachés y duplicados desde Terminal. Para instalarla hace falta un administrador: el comando de instalación de los ajustes de Peel se ejecuta desde la cuenta de un administrador."
+            "value" : "Te permite desinstalar apps y eliminar restos, cachés y duplicados desde Terminal. Para ponerla en el PATH hace falta un administrador, y los ajustes de Peel ofrecen una línea para ~/.zshrc que permite ejecutarla desde esta cuenta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous permet de désinstaller des apps et de supprimer les fichiers résiduels, les caches et les doublons depuis Terminal. Son installation nécessite un administrateur : la commande d’installation des Réglages de Peel s’exécute depuis le compte d’un administrateur."
+            "value" : "Vous permet de désinstaller des apps et de supprimer les fichiers résiduels, les caches et les doublons depuis Terminal. Le placer dans le PATH nécessite un administrateur, et les Réglages de Peel fournissent une ligne à ajouter au fichier ~/.zshrc pour l’exécuter depuis ce compte."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ti permette di disinstallare app e rimuovere residui, cache e duplicati da Terminale. Per installarlo serve un amministratore: il comando di installazione nelle Impostazioni di Peel va eseguito da un account di amministratore."
+            "value" : "Ti permette di disinstallare app e rimuovere residui, cache e duplicati da Terminale. Per inserirlo nel PATH serve un amministratore, e nelle Impostazioni di Peel trovi una riga per il file ~/.zshrc con cui eseguirlo da questo account."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルからアプリをアンインストールしたり、残存ファイル、キャッシュ、重複項目を取り除いたりできるようにします。インストールには管理者が必要です。Peelの“設定”にあるインストールコマンドは、管理者のアカウントで実行する必要があります。"
+            "value" : "ターミナルからアプリをアンインストールしたり、残存ファイル、キャッシュ、重複項目を取り除いたりできるようにします。PATHの通った場所に置くには管理者が必要ですが、Peelの“設定”には、このアカウントから実行するための~/.zshrc用の行が用意されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널에서 앱을 제거하고 잔여 파일, 캐시, 중복된 항목을 정리할 수 있습니다. 설치하려면 관리자가 필요합니다. Peel 설정에 있는 설치 명령은 관리자 계정에서 실행할 수 있습니다."
+            "value" : "터미널에서 앱을 제거하고 잔여 파일, 캐시, 중복된 항목을 정리할 수 있습니다. PATH에 추가하려면 관리자가 필요하며, Peel 설정에는 이 계정에서 이 도구를 실행할 수 있게 하는 ~/.zshrc용 줄이 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hiermee kun je vanuit Terminal apps deïnstalleren en restbestanden, caches en dubbele onderdelen opruimen. Voor de installatie is een beheerder nodig: het installatiecommando in Peel-instellingen werkt vanuit de account van een beheerder."
+            "value" : "Hiermee kun je vanuit Terminal apps deïnstalleren en restbestanden, caches en dubbele onderdelen opruimen. Om het aan het zoekpad toe te voegen, is een beheerder nodig, en in Peel-instellingen staat een regel voor ~/.zshrc waarmee je het vanuit deze account kunt uitvoeren."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pozwala odinstalowywać aplikacje i przenosić do Kosza pozostałości, pamięci podręczne i duplikaty z poziomu Terminala. Instalacja wymaga administratora: polecenie instalacji z Ustawień Peel należy uruchomić z konta administratora."
+            "value" : "Pozwala odinstalowywać aplikacje i przenosić do Kosza pozostałości, pamięci podręczne i duplikaty z poziomu Terminala. Dodanie go do zmiennej PATH wymaga administratora, a w Ustawieniach Peel znajdziesz wiersz do pliku ~/.zshrc, dzięki któremu uruchomisz go z tego konta."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permite desinstalar apps e limpar sobras, caches e duplicatas pelo Terminal. A instalação requer um administrador: o comando de instalação dos Ajustes do Peel precisa ser executado em uma conta de administrador."
+            "value" : "Permite desinstalar apps e limpar sobras, caches e duplicatas pelo Terminal. Colocar a ferramenta no PATH requer um administrador, e os Ajustes do Peel oferecem uma linha para o ~/.zshrc que permite executá-la a partir desta conta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vă permite să dezinstalați aplicații și să eliminați fișiere rămase, memorii tampon și duplicate din Terminal. Pentru instalare este nevoie de un administrator: comanda de instalare din configurările Peel se rulează dintr‑un cont de administrator."
+            "value" : "Vă permite să dezinstalați aplicații și să eliminați fișiere rămase, memorii tampon și duplicate din Terminal. Pentru a‑l adăuga în PATH este nevoie de un administrator, iar în configurările Peel găsiți o linie pentru ~/.zshrc, cu care îl puteți rula din acest cont."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Позволяет удалять приложения, остатки, кэши и дубликаты из Терминала. Для установки нужен администратор: команда установки из Настроек Peel выполняется из учетной записи администратора."
+            "value" : "Позволяет удалять приложения, остатки, кэши и дубликаты из Терминала. Поместить инструмент в PATH может только администратор, а в Настройках Peel есть строка для ~/.zshrc, с которой его можно запускать из этой учетной записи."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Låter dig avinstallera appar och rensa bort kvarlämnade filer, cachar och dubbletter från Terminal. Det krävs en administratör för att installera det: installationskommandot i Peels inställningar körs från ett administratörskonto."
+            "value" : "Låter dig avinstallera appar och rensa bort kvarlämnade filer, cachar och dubbletter från Terminal. Det krävs en administratör för att lägga till det i sökvägen, och i Peels inställningar finns en rad för ~/.zshrc som gör att det kan köras från det här kontot."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terminal’den uygulamaların yüklemesini kaldırmanızı ve kalıntıları, önbellekleri ve yinelenenleri temizlemenizi sağlar. Yüklemek için bir yönetici gerekir: Peel Ayarları’ndaki yükleme komutu bir yönetici hesabından çalışır."
+            "value" : "Terminal’den uygulamaların yüklemesini kaldırmanızı ve kalıntıları, önbellekleri ve yinelenenleri temizlemenizi sağlar. Onu komut arama yoluna eklemek için bir yönetici gerekir; Peel Ayarları ise onu bu hesaptan çalıştırmak için ~/.zshrc dosyasına eklenecek bir satır sunar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дає змогу деінсталювати програми та вилучати залишки, кеші й дублікати в Терміналі. Для інсталювання потрібен адміністратор: команда інсталювання з Параметрів Peel виконується з облікового запису адміністратора."
+            "value" : "Дає змогу деінсталювати програми та вилучати залишки, кеші й дублікати в Терміналі. Додати інструмент до PATH може лише адміністратор, а в Параметрах Peel є рядок для ~/.zshrc, завдяки якому його можна запускати з цього облікового запису."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "让你能在“终端”中卸载App，并清除残留文件、缓存和重复项。安装它需要管理员：Peel的“设置”中的安装命令须在管理员账户中运行。"
+            "value" : "让你能在“终端”中卸载App，并清除残留文件、缓存和重复项。将它放到PATH中需要管理员，不过Peel的“设置”会提供一行可添加到~/.zshrc的代码，让你能在此账户中运行它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "讓你可以從「終端機」解除安裝App，並清除殘留檔案、快取和重複項目。安裝它需要管理者：Peel「設定」中的安裝指令需在管理者帳號中執行。"
+            "value" : "讓你可以從「終端機」解除安裝App，並清除殘留檔案、快取和重複項目。將它加入PATH需要管理者，而Peel「設定」提供了可加入~/.zshrc的一行設定，讓你從此帳號執行它。"
           }
         }
       }
@@ -139314,6 +139315,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "先儲存App目前的設定，再還原這些設定。"
+          }
+        }
+      }
+    },
+    "Putting `peel` on the path takes an administrator. To use it from this account, add this line to ~/.zshrc, then open a new Terminal window." : {
+      "comment" : "In Settings > General, above a line of shell code to copy, on an account that is not an administrator's. Keep `peel` and ~/.zshrc as they are.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby byl příkaz `peel` dostupný přes PATH, je potřeba správce. Chcete-li ho používat z tohoto účtu, přidejte tento řádek do souboru ~/.zshrc a pak otevřete nové okno Terminálu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um `peel` in den Suchpfad aufzunehmen, wird ein Administrator benötigt. Wenn du es mit diesem Benutzeraccount verwenden möchtest, füge diese Zeile zu ~/.zshrc hinzu und öffne dann ein neues Terminal-Fenster."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para poner `peel` en el PATH hace falta un administrador. Si quieres usarlo desde esta cuenta, añade esta línea a ~/.zshrc y, después, abre una ventana nueva de Terminal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placer `peel` dans le PATH nécessite un administrateur. Pour l’utiliser depuis ce compte, ajoutez cette ligne au fichier ~/.zshrc, puis ouvrez une nouvelle fenêtre de Terminal."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per inserire `peel` nel PATH serve un amministratore. Per usarlo da questo account, aggiungi questa riga al file ~/.zshrc, poi apri una nuova finestra di Terminale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`をPATHの通った場所に置くには、管理者が必要です。このアカウントから使用するには、この行を~/.zshrcに追加してから、ターミナルで新規ウインドウを開いてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`을 PATH에 추가하려면 관리자가 필요합니다. 이 계정에서 사용하려면 이 줄을 ~/.zshrc에 추가한 다음, 새로운 터미널 윈도우를 여십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om `peel` aan het zoekpad toe te voegen, is een beheerder nodig. Als je het vanuit deze account wilt gebruiken, voeg je deze regel toe aan ~/.zshrc en open je daarna een nieuw Terminal-venster."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodanie `peel` do zmiennej PATH wymaga administratora. Aby używać go z tego konta, dodaj ten wiersz do pliku ~/.zshrc, a następnie otwórz nowe okno Terminala."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar o `peel` no PATH requer um administrador. Para usá-lo a partir desta conta, adicione esta linha ao ~/.zshrc e depois abra uma nova janela do Terminal."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a adăuga `peel` în PATH este nevoie de un administrator. Ca să‑l folosiți din acest cont, adăugați această linie în ~/.zshrc, apoi deschideți o fereastră nouă în Terminal."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поместить `peel` в PATH может только администратор. Чтобы запускать его из этой учетной записи, добавьте эту строку в ~/.zshrc, а затем откройте новое окно Терминала."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det krävs en administratör för att lägga till `peel` i sökvägen. Om du vill använda det från det här kontot lägger du till den här raden i ~/.zshrc och öppnar sedan ett nytt Terminal-fönster."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` aracını komut arama yoluna eklemek için bir yönetici gerekir. Onu bu hesaptan kullanmak için bu satırı ~/.zshrc dosyasına ekleyin, ardından yeni bir Terminal penceresi açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати `peel` до PATH може лише адміністратор. Щоб користуватися ним із цього облікового запису, додайте цей рядок до ~/.zshrc, а потім відкрийте нове вікно Термінала."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将`peel`放到PATH中需要管理员。若要在此账户中使用它，请将这一行添加到~/.zshrc，然后打开一个新的“终端”窗口。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將`peel`加入PATH需要管理者。若要從此帳號使用它，請將這一行加入~/.zshrc，然後打開新的「終端機」視窗。"
           }
         }
       }

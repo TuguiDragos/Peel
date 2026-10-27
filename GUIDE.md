@@ -348,8 +348,8 @@ that opens it in Peel. It never adds them up into one figure and never selects a
 
 - **Getting it.** The command ships inside Peel. Settings > General shows, beside Command-line tool, the command
   that puts it on your path: copy it and run it in Terminal, which asks for your password. It runs `sudo`, so on a
-  standard account Peel says it needs an administrator, who runs it from their own account. A Homebrew install puts
-  it there for you.
+  standard account Peel says it needs an administrator, and gives instead a line to add to `~/.zshrc`, which runs the
+  command from that account alone. A Homebrew install puts it there for you.
 - **It asks first.** Every command that moves something shows its plan and asks before it moves anything.
   `--dry-run` only shows the plan, and `-y` skips the question.
 - **Only when you can answer.** It asks only in a terminal where you can see the plan and type, so with its output

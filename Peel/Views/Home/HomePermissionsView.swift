@@ -374,7 +374,7 @@ fileprivate extension HomeModel {
 
     func detail(of permission: Permission) -> LocalizedStringResource {
         guard permission == .commandLine, state(of: permission) == .notThisAccount else { return permission.detail }
-        return "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Installing it takes an administrator: the install command in Peel’s Settings runs from an administrator’s account."
+        return "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account."
     }
 
     func action(for permission: Permission) -> LocalizedStringResource? {

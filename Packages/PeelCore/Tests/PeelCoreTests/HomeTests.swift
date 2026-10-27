@@ -278,6 +278,16 @@ struct AppManagementTests {
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .installed) == nil)
     }
 
+    @Test func givesAnAccountThatIsNotAnAdministratorALineForItsShell() {
+        let embedded = URL(filePath: "/Applications/Peel.app/Contents/Helpers/peel")
+        let quoted = URL(filePath: "/Users/someone/Apps/It's Peel.app/Contents/Helpers/peel")
+        let translocated = URL(filePath: "/private/var/folders/x/AppTranslocation/41B9A/d/Peel.app/Contents/Helpers/peel")
+
+        #expect(CommandLineTool.zshrcLine(embedded: embedded) == "peel() { '/Applications/Peel.app/Contents/Helpers/peel' \"$@\"; }")
+        #expect(CommandLineTool.zshrcLine(embedded: quoted) == "peel() { '/Users/someone/Apps/It'\\''s Peel.app/Contents/Helpers/peel' \"$@\"; }")
+        #expect(CommandLineTool.zshrcLine(embedded: translocated) == nil)
+    }
+
     /// Installed with Homebrew on a Mac with Apple silicon, the `peel` command is Homebrew's link in
     /// `/opt/homebrew/bin`, not the one Peel offers to make in `/usr/local/bin`. Either one leading to this Peel's
     /// tool means the command is there.

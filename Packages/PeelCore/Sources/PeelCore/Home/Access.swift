@@ -109,18 +109,29 @@ public enum CommandLineTool {
     /// The shell command that links the tool, built from where Peel really is rather than a fixed path, or nil once the
     /// link leads to this copy's tool, where something that may not be Peel's is in the link's place, and from a
     /// temporary copy or a read-only disk, whose link would lead nowhere once Peel quits or the disk is ejected.
-    /// `ln -f` deletes what is there, so only a link to another Peel's tool is replaced. A single quote in the path is
-    /// closed, escaped, and reopened, so the shell reads the path as written.
+    /// `ln -f` deletes what is there, so only a link to another Peel's tool is replaced.
     public static func installCommand(embedded: URL, standing: Standing) -> String? {
-        let bundle = embedded.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
-        guard ![.temporaryCopy, .readOnlyVolume].contains(place(of: bundle)) else { return nil }
-        let path = embedded.path(percentEncoded: false).replacingOccurrences(of: "'", with: "'\\''")
+        guard let path = lastingPath(of: embedded) else { return nil }
         let link = switch standing {
         case .missing: "ln -s"
         case .otherPeel: "ln -sf"
         case .installed, .somethingElse: nil as String?
         }
         return link.map { "sudo mkdir -p /usr/local/bin && sudo \($0) '\(path)' \(CommandLineTool.path)" }
+    }
+
+    /// What an account that is not an administrator adds to `~/.zshrc` to run `peel` from anywhere, since the link
+    /// takes `sudo`. A function, since the shell reads an alias's text again and would split a path at a space.
+    public static func zshrcLine(embedded: URL) -> String? {
+        lastingPath(of: embedded).map { "peel() { '\($0)' \"$@\"; }" }
+    }
+
+    /// The tool's path with each single quote closed, escaped, and reopened, or nil from a temporary copy or a
+    /// read-only disk, whose tool goes away once Peel quits or the disk is ejected.
+    private static func lastingPath(of embedded: URL) -> String? {
+        let bundle = embedded.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        guard ![.temporaryCopy, .readOnlyVolume].contains(place(of: bundle)) else { return nil }
+        return embedded.path(percentEncoded: false).replacingOccurrences(of: "'", with: "'\\''")
     }
 
     public static func standing(at path: String = CommandLineTool.path, embedded: URL) -> Standing {

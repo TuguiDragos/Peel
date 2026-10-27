@@ -199,6 +199,8 @@ private struct GeneralSettingsView: View {
     @State private var commandLine = HomeModel.commandLineStanding
     private var installCommand: String? { SettingsKey.commandLineInstallCommand(for: commandLine) }
     private static let place = CommandLineTool.place()
+    private static let embeddedTool = Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
+    private var isStandardAccount: Bool { home.state(of: .commandLine) == .notThisAccount }
     private static let runsFromAReadOnlyCopy = SelfRemoval.isOnAReadOnlyVolume(Bundle.main.bundleURL)
 
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
@@ -358,7 +360,7 @@ private struct GeneralSettingsView: View {
                 LabeledContent {
                     if commandLine == .installed {
                         state("Installed", "checkmark.circle", .green)
-                    } else if home.state(of: .commandLine) == .notThisAccount {
+                    } else if isStandardAccount {
                         state("Needs an administrator", "person.crop.circle.badge.exclamationmark", .orange)
                     } else if let installCommand {
                         CopyButton(text: installCommand)
@@ -379,14 +381,21 @@ private struct GeneralSettingsView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 case .elsewhere:
-                    if commandLine == .installed || installCommand != nil {
+                    if commandLine == .installed || installCommand != nil, !isStandardAccount {
                         Text("The link points at Peel where it is now, \(Text(verbatim: Bundle.main.bundleURL.abbreviatedPath)), so it breaks if Peel moves. Apps live in the Applications folder.")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
                 if [.applications, .elsewhere].contains(Self.place), commandLine != .installed {
-                    if let installCommand {
+                    if isStandardAccount {
+                        if let line = CommandLineTool.zshrcLine(embedded: Self.embeddedTool) {
+                            CopyableLines(
+                                caption: Text("Putting `peel` on the path takes an administrator. To use it from this account, add this line to ~/.zshrc, then open a new Terminal window."),
+                                lines: [line]
+                            )
+                        }
+                    } else if let installCommand {
                         Text(verbatim: installCommand)
                             .font(.caption.monospaced())
                             .foregroundStyle(.secondary)
