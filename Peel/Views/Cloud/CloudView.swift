@@ -158,34 +158,19 @@ struct CloudView: View {
         }
         .edgeBar(.bottom) {
             if cloud.files?.isEmpty == false {
-                if #available(macOS 27, *) {
-                    RemovalBar(
-                        selectedSize: cloud.selectedSize,
-                        isScanning: cloud.isScanning,
-                        isWorking: cloud.isFreeing,
-                        scan: cloud.scanRun,
-                        isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
-                        onRemove: { isConfirming = true },
-                        title: "Remove Downloads",
-                        systemImage: "icloud.and.arrow.down",
-                        notice: freed,
-                        removal: (cloud.freeing, cloud.stopFreeing),
-                        recordsInHistory: false
-                    )
-                } else {
-                    RemovalBar(
-                        selectedSize: cloud.selectedSize,
-                        isScanning: cloud.isScanning,
-                        isWorking: cloud.isFreeing,
-                        scan: cloud.scanRun,
-                        isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
-                        onRemove: { isConfirming = true },
-                        title: "Remove Downloads",
-                        systemImage: "icloud.and.arrow.down",
-                        notice: freed,
-                        recordsInHistory: false
-                    )
-                }
+                RemovalBar(
+                    selectedSize: cloud.selectedSize,
+                    isScanning: cloud.isScanning,
+                    isWorking: cloud.isFreeing,
+                    scan: cloud.scanRun,
+                    isEnabled: cloud.selectedSize > 0 && !cloud.isFreeing,
+                    onRemove: { isConfirming = true },
+                    title: "Remove Downloads",
+                    systemImage: "icloud.and.arrow.down",
+                    notice: freed,
+                    removal: (cloud.freeing, cloud.stopFreeing),
+                    recordsInHistory: false
+                )
             }
         }
         .fadesInColumn(whenRowsChange: cloud.files?.map(\.id))

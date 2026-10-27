@@ -37,7 +37,7 @@ struct RemovalBar: View {
     var progress: MoveProgress?
     /// The apps the page's removal waits for to quit.
     var waitingToQuit: String?
-    /// iCloud Drive's Remove Downloads: on macOS 27 the spinner says how far it got, and the button stops it.
+    /// iCloud Drive's Remove Downloads: the spinner says how far it got, and the button stops it.
     var removal: (progress: MoveProgress, stop: () -> Void)?
     /// False for an action History doesn't record, such as freeing iCloud downloads: it then waits only for the
     /// exclusions, and the bar never shows what History just moved.
@@ -172,7 +172,7 @@ struct RemovalBar: View {
                                 if isShowingScan {
                                     ReadSoFar(scan: scan)
                                         .foregroundStyle(.secondary)
-                                } else if #available(macOS 27, *), let removal, removal.progress.isMoving {
+                                } else if let removal, removal.progress.isMoving {
                                     Text("Removed \(removal.progress.moved, format: .number) of \(removal.progress.toMove, format: .number)")
                                         .monospacedDigit()
                                         .foregroundStyle(.secondary)
@@ -218,7 +218,7 @@ struct RemovalBar: View {
                                     .foregroundStyle(.secondary)
                             }
                         } action: {
-                            if #available(macOS 27, *), isShowingWork, let removal, removal.progress.isMoving {
+                            if isShowingWork, let removal, removal.progress.isMoving {
                                 Button("Stop", systemImage: "xmark", action: removal.stop)
                                     .help(Text("Stop removing downloads"))
                             } else {
