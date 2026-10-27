@@ -1,5 +1,6 @@
 public import Foundation
 import PeelPrivileged
+import Synchronization
 
 /// Finds the app a launchd job belongs to. Every clue is tried before a job is called orphaned, because
 /// one key that does not match is not enough reason to remove a job that an app may still need.
@@ -17,11 +18,11 @@ public struct BackgroundItemOwnership: Sendable {
         public var isInstalled: Bool { url != nil }
     }
 
-    private let apps: [InstalledApp]
     private let byIdentifier: [String: InstalledApp]
     private let byTeam: [String: [InstalledApp]]
     private let teamOfProgram: @Sendable (String) -> String?
     private var liveLabels: Set<String> = []
+    private let declared: DeclaredJobs
 
     public init(installedApps: [InstalledApp]) {
         self.init(installedApps: installedApps) { CodeSignature.teamIdentifier(at: URL(filePath: $0)) }
@@ -30,13 +31,13 @@ public struct BackgroundItemOwnership: Sendable {
     /// For tests: `teamOfProgram` stands in for reading each program's code signature.
     init(installedApps: [InstalledApp], teamOfProgram: @escaping @Sendable (String) -> String?) {
         self.teamOfProgram = teamOfProgram
-        apps = installedApps
         byIdentifier = Dictionary(
             installedApps.compactMap { app in app.bundleIdentifier.map { ($0.lowercased(), app) } },
             uniquingKeysWith: { first, _ in first }
         )
         byTeam = Dictionary(grouping: installedApps.compactMap { app in app.teamIdentifier.map { ($0, app) } }, by: \.0)
             .mapValues { $0.map(\.1) }
+        declared = DeclaredJobs(installedApps)
     }
 
     /// Returns the app that owns a job, trying each clue in turn, or nil when no clue names an app.
@@ -102,7 +103,7 @@ public struct BackgroundItemOwnership: Sendable {
     /// The installed app whose own bundle declares the job `label`: a label launchd still keeps after a restart, when
     /// the job is no longer loaded and nothing else points to its app.
     func owner(declaring label: String, kind: BackgroundItem.Kind) -> Owner? {
-        apps.first { StartsAtLogin.declaration(of: label, kind: kind, in: $0.url) != nil }
+        declared.app(declaring: label, kind: kind)
             .map { Owner(bundleIdentifier: $0.bundleIdentifier, name: $0.name, url: $0.url) }
     }
 
@@ -202,5 +203,30 @@ public struct BackgroundItemOwnership: Sendable {
             return nil
         }
         return (path, identifier)
+    }
+}
+
+/// The jobs the installed apps' bundles declare, read once when first asked about: a scan asks about many labels.
+private final class DeclaredJobs: Sendable {
+    private let apps: [InstalledApp]
+    private let byJob = Mutex<[String: InstalledApp]?>(nil)
+
+    init(_ apps: [InstalledApp]) {
+        self.apps = apps
+    }
+
+    func app(declaring label: String, kind: BackgroundItem.Kind) -> InstalledApp? {
+        byJob.withLock { byJob in
+            if byJob == nil {
+                var read: [String: InstalledApp] = [:]
+                for app in apps {
+                    for job in StartsAtLogin.declarations(in: app.url) where read["\(job.kind)/\(job.label)"] == nil {
+                        read["\(job.kind)/\(job.label)"] = app
+                    }
+                }
+                byJob = read
+            }
+            return byJob?["\(kind)/\(label)"]
+        }
     }
 }

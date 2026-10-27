@@ -345,6 +345,33 @@ struct BackgroundItemActionsTests {
         #expect(items.first?.runsAtLoad == true)
     }
 
+    @Test func readsEachAppsBundleOnceHoweverManyLabelsAreAsked() throws {
+        let directory = try TemporaryDirectory()
+        func write(_ plist: [String: Any], at path: String) throws {
+            let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+            try directory.file(path, contents: data)
+        }
+        try write(["CFBundleIdentifier": "org.example.tide"], at: "Applications/Tide.app/Contents/Info.plist")
+        try write(
+            ["Label": "org.example.tide-sync", "Program": "/bin/true"],
+            at: "Applications/Tide.app/Contents/Library/LaunchAgents/sync.plist"
+        )
+        let app = InstalledApp(
+            url: directory.url.appending(path: "Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+        let ownership = BackgroundItemOwnership(installedApps: [app])
+
+        #expect(ownership.owner(declaring: "org.example.tide-sync", kind: .agent)?.url == app.url)
+        try write(
+            ["Label": "org.example.tide-later", "Program": "/bin/true"],
+            at: "Applications/Tide.app/Contents/Library/LaunchAgents/later.plist"
+        )
+
+        #expect(ownership.owner(declaring: "org.example.tide-later", kind: .agent) == nil, "read again for a second label")
+        #expect(ownership.owner(declaring: "org.example.tide-sync", kind: .daemon) == nil)
+        #expect(BackgroundItemOwnership(installedApps: [app]).owner(declaring: "org.example.tide-later", kind: .agent) != nil)
+    }
+
     @Test func aJobWhoseLabelLeadsNowhereIsNotDisabled() throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(

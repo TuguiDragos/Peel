@@ -37,19 +37,26 @@ enum StartsAtLogin {
     }
 
     static func declaration(of label: String, kind: BackgroundItem.Kind, in app: URL) -> Declaration? {
+        declarations(in: app).first { $0.label == label && $0.kind == kind }?.declaration
+    }
+
+    /// Every job `app`'s bundle declares, in the order `declaration(of:kind:in:)` weighs them.
+    static func declarations(in app: URL) -> [(label: String, kind: BackgroundItem.Kind, declaration: Declaration)] {
         let library = app.appending(path: "Contents/Library", directoryHint: .isDirectory)
-        if kind == .agent {
-            if identifier(of: app) == label { return Declaration(runsAtLoad: true, keepsAlive: nil) }
-            let loginItems = entries(of: library.appending(path: "LoginItems", directoryHint: .isDirectory))
-                .lazy.filter { $0.pathExtension == "app" }.prefix(mostAsked)
-            if loginItems.contains(where: { identifier(of: $0) == label }) {
-                return Declaration(runsAtLoad: true, keepsAlive: true)
-            }
+        var found: [(label: String, kind: BackgroundItem.Kind, declaration: Declaration)] = []
+        if let own = identifier(of: app) {
+            found.append((own, .agent, Declaration(runsAtLoad: true, keepsAlive: nil)))
         }
-        let folder = library.appending(path: kind == .agent ? "LaunchAgents" : "LaunchDaemons", directoryHint: .isDirectory)
-        let job = entries(of: folder).lazy.filter { $0.pathExtension == "plist" }.prefix(mostAsked)
-            .compactMap(JobDefinition.init(contentsOf:)).first { $0.label == label }
-        return job.map { Declaration(runsAtLoad: $0.runsAtLoad, keepsAlive: $0.keepsAlive) }
+        let loginItems = entries(of: library.appending(path: "LoginItems", directoryHint: .isDirectory))
+            .lazy.filter { $0.pathExtension == "app" }.prefix(mostAsked).compactMap(identifier(of:))
+        found += loginItems.map { ($0, .agent, Declaration(runsAtLoad: true, keepsAlive: true)) }
+        for (folder, kind) in [("LaunchAgents", BackgroundItem.Kind.agent), ("LaunchDaemons", .daemon)] {
+            let jobs = entries(of: library.appending(path: folder, directoryHint: .isDirectory))
+                .lazy.filter { $0.pathExtension == "plist" }.prefix(mostAsked)
+                .compactMap(JobDefinition.init(contentsOf:))
+            found += jobs.map { ($0.label, kind, Declaration(runsAtLoad: $0.runsAtLoad, keepsAlive: $0.keepsAlive)) }
+        }
+        return found
     }
 
     /// What launchd holds now of what `app` registered, or nil when it holds nothing.
