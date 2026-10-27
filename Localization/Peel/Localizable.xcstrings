@@ -163571,108 +163571,109 @@
         }
       }
     },
-    "Some leftovers sit in folders only an administrator can change. The helper moves those for Peel. macOS asks you to approve it once, in Login Items & Extensions. It belongs to the copy of Peel that installed it: a second copy, in another folder, has to install its own." : {
+    "Some leftovers sit in folders only an administrator can change. The helper moves those for Peel. macOS asks you to approve it once, in Login Items & Extensions. It belongs to the copy of Peel that installed it." : {
+      "comment" : "The note behind the circled i of the Helper row on Home. Login Items & Extensions is the part of System Settings > General where macOS asks for the approval: use the name your macOS gives it.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Některé zbytky leží ve složkách, které může měnit jen správce. Pomocník je přesouvá za Peel. Systém macOS vás jednou požádá o jeho schválení v části Aktivace položek a rozšíření při přihlášení. Patří té kopii Peelu, která ho nainstalovala: druhá kopie v jiné složce si musí nainstalovat vlastní."
+            "value" : "Některé zbytky leží ve složkách, které může měnit jen správce. Pomocník je přesouvá za Peel. Systém macOS vás jednou požádá o jeho schválení v části Aktivace položek a rozšíření při přihlášení. Patří té kopii Peelu, která ho nainstalovala."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manche Überreste liegen in Ordnern, die nur ein Administrator ändern kann. Das Hilfsprogramm verschiebt diese für Peel. macOS bittet dich einmal in „Anmeldeobjekte & Erweiterungen“, es zu genehmigen. Es gehört zu der Peel-Kopie, die es installiert hat: Eine zweite Kopie in einem anderen Ordner muss ein eigenes installieren."
+            "value" : "Manche Überreste liegen in Ordnern, die nur ein Administrator ändern kann. Das Hilfsprogramm verschiebt diese für Peel. macOS bittet dich einmal in „Anmeldeobjekte & Erweiterungen“, es zu genehmigen. Es gehört zu der Peel-Kopie, die es installiert hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algunos restos están en carpetas que solo un administrador puede modificar. El asistente los traslada en nombre de Peel. macOS te pide que lo apruebes una vez, en Ítems de inicio y extensiones. Pertenece a la copia de Peel que lo instaló: una segunda copia, en otra carpeta, tiene que instalar el suyo."
+            "value" : "Algunos restos están en carpetas que solo un administrador puede modificar. El asistente los traslada en nombre de Peel. macOS te pide que lo apruebes una vez, en Ítems de inicio y extensiones. Pertenece a la copia de Peel que lo instaló."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Certains fichiers résiduels se trouvent dans des dossiers que seul un administrateur peut modifier. L’utilitaire les déplace pour Peel. macOS vous demande de l’approuver une fois, dans Ouverture et extensions. Il appartient à la copie de Peel qui l’a installé : une seconde copie, dans un autre dossier, doit installer le sien."
+            "value" : "Certains fichiers résiduels se trouvent dans des dossiers que seul un administrateur peut modifier. L’utilitaire les déplace pour Peel. macOS vous demande de l’approuver une fois, dans Ouverture et extensions. Il appartient à la copie de Peel qui l’a installé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alcuni residui si trovano in cartelle che solo un amministratore può modificare. L’assistente li sposta per Peel. macOS ti chiede di approvarlo una volta, in “Elementi login ed estensioni”. Appartiene alla copia di Peel che l’ha installato: una seconda copia, in un’altra cartella, deve installare il proprio."
+            "value" : "Alcuni residui si trovano in cartelle che solo un amministratore può modificare. L’assistente li sposta per Peel. macOS ti chiede di approvarlo una volta, in “Elementi login ed estensioni”. Appartiene alla copia di Peel che l’ha installato."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "残存ファイルの中には、管理者しか変更できないフォルダにあるものがあります。ヘルパーは、それらをPeelに代わって移動します。macOSから、“ログイン項目と機能拡張”で一度承認するよう求められます。ヘルパーはそれをインストールしたPeelのコピーに属するため、別のフォルダにある2つ目のコピーでは、そのコピー用のヘルパーをインストールする必要があります。"
+            "value" : "残存ファイルの中には、管理者しか変更できないフォルダにあるものがあります。ヘルパーは、それらをPeelに代わって移動します。macOSから、“ログイン項目と機能拡張”で一度承認するよう求められます。ヘルパーは、それをインストールしたPeelのコピーに属します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "일부 잔여 파일은 관리자만 변경할 수 있는 폴더에 있습니다. 보조 프로그램이 Peel 대신 이러한 파일을 이동합니다. macOS는 로그인 항목 및 확장 프로그램에서 한 번 승인하도록 요청합니다. 보조 프로그램은 자신을 설치한 Peel 복사본에 속하므로, 다른 폴더에 있는 두 번째 복사본은 자체 보조 프로그램을 설치해야 합니다."
+            "value" : "일부 잔여 파일은 관리자만 변경할 수 있는 폴더에 있습니다. 보조 프로그램이 Peel 대신 이러한 파일을 이동합니다. macOS는 로그인 항목 및 확장 프로그램에서 한 번 승인하도록 요청합니다. 보조 프로그램은 자신을 설치한 Peel 복사본에 속합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sommige restbestanden staan in mappen die alleen een beheerder kan wijzigen. Het hulpprogramma verplaatst die voor Peel. macOS vraagt je één keer om het goed te keuren, in 'Inlogonderdelen en extensies'. Het hoort bij de kopie van Peel die het heeft geïnstalleerd: een tweede kopie, in een andere map, moet een eigen hulpprogramma installeren."
+            "value" : "Sommige restbestanden staan in mappen die alleen een beheerder kan wijzigen. Het hulpprogramma verplaatst die voor Peel. macOS vraagt je één keer om het goed te keuren, in 'Inlogonderdelen en extensies'. Het hoort bij de kopie van Peel die het heeft geïnstalleerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niektóre pozostałości znajdują się w folderach, które może zmieniać tylko administrator. Pomocnik przenosi je w imieniu Peel. macOS raz poprosi Cię o jego zatwierdzenie w panelu Rzeczy i rozszerzenia otwierane podczas logowania. Pomocnik należy do kopii Peel, która go zainstalowała: druga kopia, w innym folderze, musi zainstalować własnego."
+            "value" : "Niektóre pozostałości znajdują się w folderach, które może zmieniać tylko administrator. Pomocnik przenosi je w imieniu Peel. macOS raz poprosi Cię o jego zatwierdzenie w panelu Rzeczy i rozszerzenia otwierane podczas logowania. Pomocnik należy do kopii Peel, która go zainstalowała."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algumas sobras ficam em pastas que só um administrador pode alterar. O auxiliar move esses itens em nome do Peel. O macOS pede que você o aprove uma vez, em Itens de Início de Sessão e Extensões. Ele pertence à cópia do Peel que o instalou: uma segunda cópia, em outra pasta, precisa instalar o seu próprio."
+            "value" : "Algumas sobras ficam em pastas que só um administrador pode alterar. O auxiliar move esses itens em nome do Peel. O macOS pede que você o aprove uma vez, em Itens de Início de Sessão e Extensões. Ele pertence à cópia do Peel que o instalou."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unele fișiere rămase se află în dosare pe care doar un administrator le poate modifica. Instrumentul de ajutor le mută pentru Peel. macOS vă cere să îl aprobați o singură dată, în Lansare la login și extensii. Aparține copiei Peel care l‑a instalat: o a doua copie, aflată în alt dosar, trebuie să își instaleze propriul instrument."
+            "value" : "Unele fișiere rămase se află în dosare pe care doar un administrator le poate modifica. Instrumentul de ajutor le mută pentru Peel. macOS vă cere să îl aprobați o singură dată, în Lansare la login și extensii. Aparține copiei Peel care l‑a instalat."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Некоторые остатки лежат в папках, которые может изменять только администратор. Их перемещает для Peel помощник. macOS один раз попросит Вас разрешить его в разделе «Объекты входа и расширения». Помощник принадлежит той копии Peel, которая его установила: вторая копия в другой папке должна установить собственного помощника."
+            "value" : "Некоторые остатки лежат в папках, которые может изменять только администратор. Их перемещает для Peel помощник. macOS один раз попросит Вас разрешить его в разделе «Объекты входа и расширения». Помощник принадлежит той копии Peel, которая его установила."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En del kvarlämnade filer ligger i mappar som bara en administratör kan ändra. Hjälpprogrammet flyttar dem åt Peel. macOS ber dig godkänna det en gång, under Startobjekt och tillägg. Det hör till den kopia av Peel som installerade det: en andra kopia, i en annan mapp, måste installera ett eget."
+            "value" : "En del kvarlämnade filer ligger i mappar som bara en administratör kan ändra. Hjälpprogrammet flyttar dem åt Peel. macOS ber dig godkänna det en gång, under Startobjekt och tillägg. Det hör till den kopia av Peel som installerade det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bazı kalıntılar yalnızca bir yöneticinin değiştirebileceği klasörlerde durur. Yardımcı bunları Peel için taşır. macOS onu bir kez, Oturum Açma Öğeleri ve Genişletmeler’de onaylamanızı ister. Yardımcı, onu yükleyen Peel kopyasına aittir: başka bir klasördeki ikinci bir kopyanın kendi yardımcısını yüklemesi gerekir."
+            "value" : "Bazı kalıntılar yalnızca bir yöneticinin değiştirebileceği klasörlerde durur. Yardımcı bunları Peel için taşır. macOS onu bir kez, Oturum Açma Öğeleri ve Genişletmeler’de onaylamanızı ister. Yardımcı, onu yükleyen Peel kopyasına aittir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Деякі залишки лежать у папках, які може змінювати лише адміністратор. Такі залишки переміщує для Peel помічник. macOS один раз попросить вас схвалити його в розділі «Автозапуск і розширення». Помічник належить тій копії Peel, яка його інсталювала: друга копія, в іншій папці, має інсталювати власний."
+            "value" : "Деякі залишки лежать у папках, які може змінювати лише адміністратор. Такі залишки переміщує для Peel помічник. macOS один раз попросить вас схвалити його в розділі «Автозапуск і розширення». Помічник належить тій копії Peel, яка його інсталювала."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有些残留文件位于只有管理员才能更改的文件夹中，帮助程序会替Peel移动这些文件。macOS会在“登录项与扩展”中请你批准一次。帮助程序属于安装它的那个Peel副本：位于其他文件夹中的第二个副本必须安装自己的帮助程序。"
+            "value" : "有些残留文件位于只有管理员才能更改的文件夹中，帮助程序会替Peel移动这些文件。macOS会在“登录项与扩展”中请你批准一次。帮助程序属于安装它的那个Peel副本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有些殘留檔案位於只有管理者才能更改的檔案夾中。輔助程式會替Peel移動這些檔案。macOS會在「登入項目與延伸功能」中請你核准一次。輔助程式屬於安裝它的那份Peel副本：位於其他檔案夾的第二份副本，必須安裝自己的輔助程式。"
+            "value" : "有些殘留檔案位於只有管理者才能更改的檔案夾中。輔助程式會替Peel移動這些檔案。macOS會在「登入項目與延伸功能」中請你核准一次。輔助程式屬於安裝它的那份Peel副本。"
           }
         }
       }
