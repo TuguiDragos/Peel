@@ -50,12 +50,53 @@ private final class OfflineProtocol: URLProtocol, @unchecked Sendable {
     }
 }
 
+/// Fails every request as a server that closes the connection without answering does.
+private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
+    override class func canInit(with request: URLRequest) -> Bool { true }
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
+    override func stopLoading() {}
+
+    override func startLoading() {
+        client?.urlProtocol(self, didFailWithError: URLError(.networkConnectionLost))
+    }
+}
+
 /// The part of the update check that talks to the network, against replies written here.
 @Suite(.serialized) struct UpdateCheckerTests {
     private var checker: UpdateChecker {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [CannedProtocol.self]
         return UpdateChecker(session: URLSession(configuration: configuration), appStoreWindow: .forTheAppStore())
+    }
+
+    @Test func aServerThatDropsTheConnectionIsNoMacOffline() async {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [DroppedProtocol.self]
+        let checker = { (isOnline: Bool) in
+            UpdateChecker(
+                session: URLSession(configuration: configuration), appStoreWindow: .forTheAppStore(),
+                isOnline: { isOnline }
+            )
+        }
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Fed.app"), bundleIdentifier: "org.example.fed", name: "Fed",
+            version: "1.0", updateFeed: .sparkle(URL(string: "https://feed.example.com/appcast.xml")!)
+        )
+
+        let dropped = await checker(true).answer(for: app)
+        let lost = await checker(false).answer(for: app)
+
+        #expect(dropped.status == .failed && !dropped.wasOffline)
+        #expect(lost.status == .failed && lost.wasOffline)
+    }
+
+    @Test func knowsWhetherThisMacHasANetworkWithinASecond() async {
+        let clock = ContinuousClock()
+        let started = clock.now
+
+        _ = await NetworkPath.isOnline()
+
+        #expect(clock.now - started < .seconds(2))
     }
 
     @Test func aCheckFromAMacThatIsntOnlineLearnsNothing() async {

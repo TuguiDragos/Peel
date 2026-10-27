@@ -36,6 +36,7 @@ public struct UpdateChecker: Sendable {
     private let isAppleSilicon = HostArchitecture.isAppleSilicon
     /// The time a check is made at, which decides whether what Homebrew says is recent enough to count.
     private let clock: @Sendable () -> Date
+    private let isOnline: @Sendable () async -> Bool
 
     public init(
         session: URLSession? = nil, locale: Locale = .current, clock: @escaping @Sendable () -> Date = { .now }
@@ -45,11 +46,12 @@ public struct UpdateChecker: Sendable {
 
     init(
         session: URLSession? = nil, locale: Locale = .current, clock: @escaping @Sendable () -> Date = { .now },
-        appStoreWindow: RequestWindow
+        appStoreWindow: RequestWindow, isOnline: @escaping @Sendable () async -> Bool = NetworkPath.isOnline
     ) {
         self.session = session ?? URLSession(configuration: Self.configuration)
         self.appStoreWindow = appStoreWindow
         self.clock = clock
+        self.isOnline = isOnline
         country = Self.storefront(of: locale)
         let version = ProcessInfo.processInfo.operatingSystemVersion
         systemVersion = "\(version.majorVersion).\(version.minorVersion).\(version.patchVersion)"
@@ -332,11 +334,11 @@ public struct UpdateChecker: Sendable {
     }
 
 
-    /// The errors that mean this Mac isn't online rather than that the server failed.
+    /// The errors only a Mac that isn't online gets. Any other, such as a connection lost, which a server that closes
+    /// it without answering gives too, means so only while this Mac has no network path.
     static func meansOffline(_ error: any Error) -> Bool {
         guard let error = error as? URLError else { return false }
-        return [.notConnectedToInternet, .networkConnectionLost, .dataNotAllowed, .internationalRoamingOff]
-            .contains(error.code)
+        return [.notConnectedToInternet, .dataNotAllowed, .internationalRoamingOff].contains(error.code)
     }
 
     /// What is new in the update `answer` found, asked of the app's own addresses when the answer does not say: the
@@ -430,7 +432,8 @@ public struct UpdateChecker: Sendable {
         do {
             (stream, response) = try await session.bytes(for: request, delegate: delegate)
         } catch {
-            return Reply(wasOffline: delegate.waitedForConnectivity || Self.meansOffline(error))
+            let isOffline = delegate.waitedForConnectivity || Self.meansOffline(error)
+            return Reply(wasOffline: isOffline ? true : !(await isOnline()))
         }
         let status = (response as? HTTPURLResponse)?.statusCode
         var answer = Reply(status: status, mimeType: response.mimeType, textEncodingName: response.textEncodingName)
