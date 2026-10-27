@@ -705,7 +705,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "duplicates",
         abstract: "Find folders and files with identical contents.",
-        discussion: "Without folders, Peel scans Desktop, Documents, Downloads, Pictures, Movies, and Music. The first copy of each group is the one Peel suggests keeping. A copy in a folder that syncs to your other devices, such as iCloud Drive, is listed as one that stays and is never moved. A folder is a copy of another only when every file under it matches, so what a folder already speaks for isn't listed again on its own."
+        discussion: "Without folders, Peel scans Desktop, Documents, Downloads, Pictures, Movies, and Music. The first copy of each group is the one Peel suggests keeping. A copy in a folder that syncs to your other devices, such as iCloud Drive, is listed as one that stays and is never moved, and so is a copy with Finder tags, a Finder comment, or a resource fork the others lack, which keeps the bytes for them, so the others can all go. A folder is a copy of another only when every file under it matches, so what a folder already speaks for isn't listed again on its own."
     )
 
     @Argument(help: "Folders to scan.", completion: .directory)
@@ -727,10 +727,12 @@ struct DuplicatesCommand: AsyncParsableCommand {
     struct Record: Encodable {
         let size: Int64
         let reclaimableSize: Int64
-        /// The copies that may move, the kept one first.
+        /// The copies that may move, the kept one first unless a copy in `stays` keeps the bytes.
         let files: [String]
         /// The copies that sync to other devices, listed and never moved.
         let synced: [String]
+        /// The copies with Finder tags, a Finder comment, or a resource fork the others lack, never moved.
+        let stays: [String]
     }
 
     struct FolderRecord: Encodable {
@@ -803,7 +805,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
             }
             for group in scan.groups {
                 Output.line(Self.heading(for: group))
-                Output.table(Self.rows(for: group.files), indent: "  ")
+                Output.table(Self.rows(for: group), indent: "  ")
             }
             let total =
                 scan.groups.reduce(0) { $0 + $1.reclaimableSize }
@@ -830,9 +832,15 @@ struct DuplicatesCommand: AsyncParsableCommand {
             )
         }
         notes += scan.skippedLocations.map { "Peel didn't look in \(Output.path($0.url)): \($0.reason.summary)." }
-        let synced = scan.groups.reduce(0) { total, group in total + group.files.count { $0.heldBack != nil } }
+        let synced = scan.groups.reduce(0) { total, group in total + group.files.count { $0.heldBack == .inTheCloud } }
         if synced > 0 {
             notes.append("\(Output.count(synced, "copy syncs", "copies sync")) to your other devices, so Peel lists them as copies that stay and never moves them.")
+        }
+        let staying = scan.groups.reduce(0) { total, group in
+            total + group.files.count { $0.heldBack == .keepsWhatTheOthersLack }
+        }
+        if staying > 0 {
+            notes.append("\(Output.count(staying, "copy has", "copies have")) Finder tags, a Finder comment, or a resource fork the others lack, so Peel lists them as copies that stay and never moves them.")
         }
         return notes
     }
@@ -852,7 +860,8 @@ struct DuplicatesCommand: AsyncParsableCommand {
                     size: group.size,
                     reclaimableSize: group.reclaimableSize,
                     files: group.movableFiles.map { Output.path($0.url) },
-                    synced: group.files.filter { $0.heldBack != nil }.map { Output.path($0.url) }
+                    synced: group.files.filter { $0.heldBack == .inTheCloud }.map { Output.path($0.url) },
+                    stays: group.files.filter { $0.heldBack == .keepsWhatTheOthersLack }.map { Output.path($0.url) }
                 )
             },
             unreadableLocations: scan.unreadableLocations.map(Output.path),
@@ -885,11 +894,11 @@ struct DuplicatesCommand: AsyncParsableCommand {
         copies.enumerated().map { index, url in [index == 0 ? "keep" : "", Output.path(url)] }
     }
 
-    /// One row per copy of a file: the first copy that may move is marked "keep", one that syncs to other devices
-    /// "stays", since Peel lists it and never moves it.
-    static func rows(for files: [DuplicateFile]) -> [[String]] {
-        let kept = files.first { $0.heldBack == nil }?.url
-        return files.map { file in
+    /// One row per copy of a file: one Peel never moves is marked "stays", and the first that may move "keep",
+    /// unless a copy that stays keeps the bytes and every other may go.
+    static func rows(for group: DuplicateGroup) -> [[String]] {
+        let kept = group.holdsACopyWithWhatOthersLack ? nil : group.movableFiles.first?.url
+        return group.files.map { file in
             [file.heldBack != nil ? "stays" : file.url == kept ? "keep" : "", Output.path(file.url)]
         }
     }
@@ -901,7 +910,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         refusals: RefusalLog = RefusalLog()
     ) async throws {
         let folders = scan.folderGroups.flatMap { $0.folders.dropFirst() }
-        let files = scan.groups.flatMap { $0.movableFiles.dropFirst() }
+        let files = scan.groups.flatMap(\.suggestedFiles)
         guard !folders.isEmpty || !files.isEmpty else {
             Output.line(
                 scan.groups.isEmpty && scan.folderGroups.isEmpty
@@ -913,7 +922,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         // decision rests on.
         let kept = scan.folderGroups.compactMap { $0.folders.first?.url }.map { ["keep", Output.path($0)] }
             + scan.groups.flatMap { group in
-                Self.rows(for: group.files).filter { $0[0] != "" }
+                Self.rows(for: group).filter { $0[0] != "" }
             }
         Output.table(kept)
         let cleanup = Cleanup.of(

@@ -3,7 +3,8 @@ import Darwin
 import Foundation
 
 /// What a copy carries besides its bytes, which moving it to the Trash takes away from where it was: its Finder tags,
-/// its resource fork, and its Finder comment. Copies that differ in any of them are not duplicates.
+/// its resource fork, and its Finder comment. A copy with what the others lack stays, and folders that differ in any
+/// of them inside are not copies of each other.
 enum FileExtras {
     /// The tags, in order, and a digest of the resource fork and of the comment, as bytes to compare. Nil when one
     /// of those is there and cannot be read, since two copies are then not known to be alike.

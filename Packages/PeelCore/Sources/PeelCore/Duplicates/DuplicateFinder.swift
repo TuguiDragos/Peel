@@ -241,7 +241,7 @@ public struct DuplicateFinder: Sendable {
         }
         guard !Task.isCancelled else { throw CancellationError() }
 
-        let groups = (finalGroups + Self.grouped(verified)).map(makeGroup).sorted {
+        let groups = (finalGroups + Self.grouped(verified)).compactMap(makeGroup).sorted {
             ($0.reclaimableSize, $0.size, $1.id) > ($1.reclaimableSize, $1.size, $0.id)
         }
         return DuplicateScan(
@@ -265,7 +265,6 @@ public struct DuplicateFinder: Sendable {
     private struct ContentKey: Hashable {
         let size: Int64
         let digest: ContentDigest
-        let extras: [UInt8]
     }
 
     private final class UnreadableLocations {
@@ -404,20 +403,29 @@ public struct DuplicateFinder: Sendable {
     }
 
     private static func grouped(_ hashed: [HashedCandidate]) -> [[HashedCandidate]] {
-        let keyed = hashed.compactMap { candidate in
-            FileExtras.of(candidate.item.url).map { extras in
-                (candidate, ContentKey(size: candidate.item.identity.size, digest: candidate.digest, extras: extras))
-            }
-        }
-        return Dictionary(grouping: keyed, by: \.1).values.filter { $0.count > 1 }.map { $0.map(\.0) }
+        Dictionary(grouping: hashed) { ContentKey(size: $0.item.identity.size, digest: $0.digest) }
+            .values.filter { $0.count > 1 }.map(Array.init)
     }
 
-    private func makeGroup(_ members: [HashedCandidate]) -> DuplicateGroup {
+    /// The group of `members`, the copy Peel suggests keeping first, or nil when fewer than two can be compared or
+    /// none could move. A copy with Finder tags, a Finder comment, or a resource fork the others lack stays: the first
+    /// with each such set, unless a copy that syncs already keeps it.
+    private func makeGroup(_ members: [HashedCandidate]) -> DuplicateGroup? {
         let order = KeepOrder(home: homeDirectory)
-        let files = members
-            .map { ($0.item, order.rank(of: $0.item.url, identity: $0.item.identity)) }
-            .sorted { $0.1 < $1.1 }
-            .map { candidate, _ in
+        // A copy whose extras can't be read isn't known to be like the others.
+        var copies = members.compactMap { member in FileExtras.of(member.item.url).map { (member.item, $0) } }
+            .map { (item: $0.0, extras: $0.1, rank: order.rank(of: $0.0.url, identity: $0.0.identity)) }
+            .sorted { $0.rank < $1.rank }
+        guard copies.count > 1 else { return nil }
+        if Set(copies.map(\.extras)).count > 1 {
+            var kept = Set(copies.filter { $0.item.heldBack != nil }.map(\.extras))
+            for index in copies.indices where !copies[index].extras.isEmpty {
+                guard kept.insert(copies[index].extras).inserted else { continue }
+                copies[index].item.heldBack = .keepsWhatTheOthersLack
+            }
+        }
+        let files = copies
+            .map { candidate, _, _ in
                 DuplicateFile(
                     url: candidate.url,
                     size: candidate.identity.size,
@@ -427,7 +435,8 @@ public struct DuplicateFinder: Sendable {
                     heldBack: candidate.heldBack
                 )
             }
-        return DuplicateGroup(id: members[0].digest.hexadecimal, files: files)
+        let group = DuplicateGroup(id: members[0].digest.hexadecimal, files: files)
+        return group.movableFiles.isEmpty && !group.everyCopySyncs ? nil : group
     }
 
     /// Which copy is kept, from the home folder: its Downloads, and the disk it is on.

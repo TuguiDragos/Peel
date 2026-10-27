@@ -46,8 +46,12 @@ struct DuplicateGroupView: View {
     private var copiesNote: LocalizedStringResource {
         if group.everyCopySyncs {
             "These copies sync to your other devices, so Peel lists them and never moves one: the Trash would take it from every device."
+        } else if group.holdsASyncedCopy, group.holdsACopyWithWhatOthersLack {
+            "Selected copies go to the Trash. A copy marked Stays syncs to your other devices, or has Finder tags, a Finder comment, or a resource fork the others don’t, and is never moved."
         } else if group.holdsASyncedCopy {
             "Selected copies go to the Trash. Peel always keeps at least one. A copy marked Stays syncs to your other devices and is never moved."
+        } else if group.holdsACopyWithWhatOthersLack {
+            "Selected copies go to the Trash. A copy marked Stays has Finder tags, a Finder comment, or a resource fork the others don’t, and is never moved."
         } else {
             "Selected copies go to the Trash. Peel always keeps at least one."
         }
@@ -125,11 +129,11 @@ private struct DuplicateFileRow: View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
             if let heldBack = file.heldBack {
                 // No checkbox: the copy can never be selected, and a disabled one would dim the very words the
-                // person reads here, where the copy is. The cloud stands where the other rows' checkbox stands, 16
-                // points wide and 5 before the item, so the copies of a group line up.
+                // person reads here, where the copy is. The cloud, or the tag, stands where the other rows' checkbox
+                // stands, 16 points wide and 5 before the item, so the copies of a group line up.
                 HStack(alignment: .firstTextBaseline, spacing: 5) {
-                    Image(systemName: "icloud")
-                        .foregroundStyle(.blue)
+                    Image(systemName: heldBack == .inTheCloud ? "icloud" : "tag")
+                        .foregroundStyle(heldBack == .inTheCloud ? AnyShapeStyle(.blue) : AnyShapeStyle(.secondary))
                         .frame(width: 16, height: 16)
                         .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 3 }
                         .accessibilityHidden(true)

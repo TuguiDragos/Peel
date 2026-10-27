@@ -78920,6 +78920,113 @@
         }
       }
     },
+    "Left alone: this copy has Finder tags, a Finder comment, or a resource fork the others don’t, which moving it would lose." : {
+      "comment" : "The reason beside a copy in Duplicates that Peel never moves: it has Finder tags, a comment written in Finder's Get Info, or a resource fork, which the other copies of the same file don't have.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: tato kopie má značky Finderu, poznámku Finderu nebo prostředkovou část, které ostatní nemají, a jejím přesunutím by se ztratily."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Anders als die übrigen Kopien hat diese Finder-Tags, einen Finder-Kommentar oder einen Resource-Fork, die beim Verschieben verloren gingen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: esta copia tiene etiquetas del Finder, un comentario del Finder o una bifurcación de recursos que las demás no tienen, y que se perderían al trasladarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : cette copie possède des tags du Finder, un commentaire du Finder ou une branche de ressources que les autres n’ont pas, et que son déplacement ferait perdre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: questa copia ha tag del Finder, un commento del Finder o un resource fork che le altre non hanno, e che andrebbero persi spostandola."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: このコピーには、ほかのコピーにないFinderのタグ、Finderのコメント、またはリソースフォークがあり、移動するとそれらが失われます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 이 복사본에는 다른 복사본에 없는 Finder 태그, Finder 설명 또는 자원 포크가 있으며, 이동하면 이를 잃게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: deze kopie heeft Finder-tags, een Finder-opmerking of een resourcefork die de andere kopieën niet hebben, en die zouden verloren gaan als je deze kopie verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: ta kopia ma tagi Findera, komentarz Findera lub część zawierającą zasoby, których nie mają pozostałe kopie, więc jej przeniesienie oznaczałoby ich utratę."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: esta cópia tem etiquetas do Finder, um comentário do Finder ou uma bifurcação de recursos que as outras não têm, e isso se perderia se ela fosse movida."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: această copie are etichete Finder, un comentariu Finder sau o ramură de resurse pe care celelalte nu le au, iar prin mutarea ei acestea s‑ar pierde."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: у этой копии есть теги Finder, комментарий Finder или ветвь ресурсов, которых нет у других копий, и при перемещении они были бы потеряны."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: den här kopian har Finder-taggar, en Finder-kommentar eller en resursdel som de andra inte har, och de skulle gå förlorade om kopian flyttades."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: bu kopyada diğerlerinde olmayan Finder etiketleri, Finder açıklaması veya kaynak yazılım çatalı var ve kopya taşınırsa bunlar kaybolur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: ця копія має теги Finder, коментар Finder або гілку ресурсів, яких немає в інших, і якби її перемістили, їх було б утрачено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：此副本带有其他副本没有的访达标签、访达注释或资源分支，移动它会丢失这些信息。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：此副本有其他副本沒有的Finder標籤、Finder註解或resource fork，移動它就會失去這些內容。"
+          }
+        }
+      }
+    },
     "Left alone: this syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them." : {
       "localizations" : {
         "cs" : {
@@ -158323,6 +158430,220 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已選取"
+          }
+        }
+      }
+    },
+    "Selected copies go to the Trash. A copy marked Stays has Finder tags, a Finder comment, or a resource fork the others don’t, and is never moved." : {
+      "comment" : "The note behind the circled i of Copies in Duplicates, when one copy stays for its Finder tags, Finder comment, or resource fork. Stays is the badge on that copy's row.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrané kopie se přesunou do koše. Kopie označená jako „Zůstává“ má značky Finderu, poznámku Finderu nebo prostředkovou část, které ostatní nemají, a nikdy se nepřesune."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Kopien werden in den Papierkorb gelegt. Eine mit „Bleibt“ markierte Kopie hat, anders als die übrigen, Finder-Tags, einen Finder-Kommentar oder einen Resource-Fork und wird nie verschoben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las copias seleccionadas van a la papelera. Una copia marcada como “Se queda” tiene etiquetas del Finder, un comentario del Finder o una bifurcación de recursos que las demás no tienen, y nunca se traslada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les copies sélectionnées sont placées dans la corbeille. Une copie marquée « Reste en place » possède des tags du Finder, un commentaire du Finder ou une branche de ressources que les autres n’ont pas, et n’est jamais déplacée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le copie selezionate vanno nel Cestino. Una copia contrassegnata con “Resta” ha tag del Finder, un commento del Finder o un resource fork che le altre non hanno, e non viene mai spostata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択したコピーはゴミ箱に入ります。“移動しない”と表示されたコピーには、ほかのコピーにないFinderのタグ、Finderのコメント、またはリソースフォークがあるため、決して移動されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 복사본은 휴지통으로 이동합니다. ‘남음’으로 표시된 복사본에는 다른 복사본에 없는 Finder 태그, Finder 설명 또는 자원 포크가 있으며, 절대 이동되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geselecteerde kopieën gaan naar de prullenmand. Een kopie met de markering 'Blijft staan' heeft Finder-tags, een Finder-opmerking of een resourcefork die de andere kopieën niet hebben, en wordt nooit verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznaczone kopie trafiają do Kosza. Kopia oznaczona jako „Zawsze zostaje” ma tagi Findera, komentarz Findera lub część zawierającą zasoby, których nie mają pozostałe kopie, a Peel nigdy jej nie przenosi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As cópias selecionadas vão para o Lixo. Uma cópia marcada como “Permanece” tem etiquetas do Finder, um comentário do Finder ou uma bifurcação de recursos que as outras não têm, e nunca é movida."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiile selectate sunt mutate în Coș. O copie marcată cu „Rămâne pe loc” nu este mutată niciodată: are etichete Finder, un comentariu Finder sau o ramură de resurse pe care celelalte nu le au."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбранные копии перемещаются в Корзину. У копии с пометкой «Остается» есть теги Finder, комментарий Finder или ветвь ресурсов, которых нет у других копий, и она никогда не перемещается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markerade kopior flyttas till papperskorgen. En kopia märkt ”Stannar kvar” har Finder-taggar, en Finder-kommentar eller en resursdel som de andra inte har, och flyttas aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili kopyalar Çöp Sepeti’ne gider. “Kalıyor” olarak işaretlenmiş bir kopya, diğerlerinde olmayan Finder etiketlerine, Finder açıklamasına veya kaynak yazılım çatalına sahiptir ve hiçbir zaman taşınmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрані копії переміщуються в Смітник. Копія з позначкою «Лишається на місці» має теги Finder, коментар Finder або гілку ресурсів, яких немає в інших, і Peel ніколи її не переміщує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所选副本会移到废纸篓。标记为“保持原位”的副本带有其他副本没有的访达标签、访达注释或资源分支，绝不会被移动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選取的副本會丟到「垃圾桶」。標示為「留在原處」的副本有其他副本沒有的Finder標籤、Finder註解或resource fork，絕不會被移動。"
+          }
+        }
+      }
+    },
+    "Selected copies go to the Trash. A copy marked Stays syncs to your other devices, or has Finder tags, a Finder comment, or a resource fork the others don’t, and is never moved." : {
+      "comment" : "The note behind the circled i of Copies in Duplicates, when one copy syncs to other devices and one stays for its Finder tags, Finder comment, or resource fork. Stays is the badge on those copies' rows.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybrané kopie se přesunou do koše. Kopie označená jako „Zůstává“ se synchronizuje s vašimi ostatními zařízeními nebo má značky Finderu, poznámku Finderu či prostředkovou část, které ostatní nemají, a nikdy se nepřesune."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählte Kopien werden in den Papierkorb gelegt. Eine mit „Bleibt“ markierte Kopie wird mit deinen anderen Geräten synchronisiert oder hat, anders als die übrigen, Finder-Tags, einen Finder-Kommentar oder einen Resource-Fork und wird nie verschoben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las copias seleccionadas van a la papelera. Una copia marcada como “Se queda” se sincroniza con tus otros dispositivos, o tiene etiquetas del Finder, un comentario del Finder o una bifurcación de recursos que las demás no tienen, y nunca se traslada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les copies sélectionnées sont placées dans la corbeille. Une copie marquée « Reste en place » est synchronisée avec vos autres appareils, ou possède des tags du Finder, un commentaire du Finder ou une branche de ressources que les autres n’ont pas, et n’est jamais déplacée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le copie selezionate vanno nel Cestino. Una copia contrassegnata con “Resta” si sincronizza con gli altri tuoi dispositivi, oppure ha tag del Finder, un commento del Finder o un resource fork che le altre non hanno, e non viene mai spostata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択したコピーはゴミ箱に入ります。“移動しない”と表示されたコピーは、ほかのデバイスに同期されているか、ほかのコピーにないFinderのタグ、Finderのコメント、またはリソースフォークがあるため、決して移動されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 복사본은 휴지통으로 이동합니다. ‘남음’으로 표시된 복사본은 다른 기기와 동기화되거나 다른 복사본에 없는 Finder 태그, Finder 설명 또는 자원 포크를 가지고 있으며, 절대 이동되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geselecteerde kopieën gaan naar de prullenmand. Een kopie met de markering 'Blijft staan' wordt gesynchroniseerd met je andere apparaten of heeft Finder-tags, een Finder-opmerking of een resourcefork die de andere kopieën niet hebben, en wordt nooit verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznaczone kopie trafiają do Kosza. Kopia oznaczona jako „Zawsze zostaje” jest synchronizowana z Twoimi pozostałymi urządzeniami albo ma tagi Findera, komentarz Findera lub część zawierającą zasoby, których nie mają pozostałe kopie, a Peel nigdy jej nie przenosi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As cópias selecionadas vão para o Lixo. Uma cópia marcada como “Permanece” é sincronizada com os seus outros dispositivos ou tem etiquetas do Finder, um comentário do Finder ou uma bifurcação de recursos que as outras não têm, e nunca é movida."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiile selectate sunt mutate în Coș. O copie marcată cu „Rămâne pe loc” nu este mutată niciodată: se sincronizează pe celelalte dispozitive ale dvs. sau are etichete Finder, un comentariu Finder ori o ramură de resurse pe care celelalte nu le au."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбранные копии перемещаются в Корзину. Копия с пометкой «Остается» синхронизируется с другими Вашими устройствами либо имеет теги Finder, комментарий Finder или ветвь ресурсов, которых нет у других копий, и никогда не перемещается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markerade kopior flyttas till papperskorgen. En kopia märkt ”Stannar kvar” synkroniseras till dina andra enheter eller har Finder-taggar, en Finder-kommentar eller en resursdel som de andra inte har, och flyttas aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili kopyalar Çöp Sepeti’ne gider. “Kalıyor” olarak işaretlenmiş bir kopya, diğer aygıtlarınızla eşzamanlanır veya diğerlerinde olmayan Finder etiketlerine, Finder açıklamasına ya da kaynak yazılım çatalına sahiptir ve hiçbir zaman taşınmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрані копії переміщуються в Смітник. Копія з позначкою «Лишається на місці» синхронізується з іншими вашими пристроями або має теги Finder, коментар Finder чи гілку ресурсів, яких немає в інших, і Peel ніколи її не переміщує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所选副本会移到废纸篓。标记为“保持原位”的副本会同步到你的其他设备，或带有其他副本没有的访达标签、访达注释或资源分支，绝不会被移动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選取的副本會丟到「垃圾桶」。標示為「留在原處」的副本會與你的其他裝置同步，或有其他副本沒有的Finder標籤、Finder註解或resource fork，絕不會被移動。"
           }
         }
       }

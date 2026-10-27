@@ -189,9 +189,10 @@ struct DuplicateFinderTests {
         #expect(result.groups.allSatisfy { !$0.holdsASyncedCopy })
     }
 
-    /// Moving a copy takes its Finder tags and its resource fork with it, so copies that differ in either are not
-    /// duplicates, on their own or inside folders.
-    @Test func copiesWithOtherTagsOrAnotherResourceForkAreNotDuplicates() async throws {
+    /// Copies with the same bytes are duplicates whatever their Finder tags or resource fork. Moving a copy takes
+    /// them with it, so a copy with what the others lack stays and the others may all go. Folders that differ in
+    /// them still aren't copies of each other, since a folder moves whole.
+    @Test func aCopyWithTagsOrAForkTheOthersLackStays() async throws {
         let directory = try TemporaryDirectory()
         let contract = randomData(count: 4_000)
         try directory.file("home/Documents/Contract.pdf", contents: contract)
@@ -215,16 +216,34 @@ struct DuplicateFinderTests {
 
         let result = try await scan(directory)
 
-        #expect(Set(names(result)) == [["Documents/Contract.pdf", "Downloads/Contract.pdf"]])
+        let name = { (url: URL) in url.pathComponents.drop { $0 != "home" }.dropFirst().joined(separator: "/") }
+        #expect(Set(names(result)) == [
+            ["Documents/Contract.pdf", "Desktop/Contract.pdf", "Downloads/Contract.pdf"],
+            ["Music/sound.aiff", "Documents/sound.aiff"], ["Projects/a/notes.txt", "Projects/b/notes.txt"],
+        ])
+        let staying = result.groups.flatMap(\.files).filter { $0.heldBack == .keepsWhatTheOthersLack }.map(\.url)
+        #expect(Set(staying.map(name)) == ["Desktop/Contract.pdf", "Music/sound.aiff", "Projects/b/notes.txt"])
+        #expect(Set(result.suggestedSelection.map(name)) == [
+            "Documents/Contract.pdf", "Downloads/Contract.pdf", "Documents/sound.aiff", "Projects/a/notes.txt",
+        ])
         #expect(result.folderGroups.isEmpty)
     }
 
-    /// The Finder keeps a comment in the copy's extended attributes, so it goes with the copy, as tags do.
-    @Test func copiesWithAnotherFinderCommentAreNotDuplicates() async throws {
+    /// The Finder keeps a comment in the copy's extended attributes, so it goes with the copy, as tags do. Copies
+    /// that each have something the others lack all stay, so nothing could go and they aren't listed.
+    @Test func aCopyWithAFinderCommentTheOthersLackStays() async throws {
         let directory = try TemporaryDirectory()
         let report = randomData(count: 4_000)
         try directory.file("home/Documents/Report.pdf", contents: report)
         let commented = try directory.file("home/Desktop/Report.pdf", contents: report)
+        let memo = randomData(count: 4_000)
+        var blue = try directory.file("home/Documents/Memo.pdf", contents: memo)
+        var green = try directory.file("home/Downloads/Memo.pdf", contents: memo)
+        var tags = URLResourceValues()
+        tags.tagNames = ["Blue"]
+        try blue.setResourceValues(tags)
+        tags.tagNames = ["Green"]
+        try green.setResourceValues(tags)
         let comment = try PropertyListSerialization.data(fromPropertyList: "Signed copy", format: .binary, options: 0)
         let written = comment.withUnsafeBytes {
             setxattr(
@@ -236,7 +255,9 @@ struct DuplicateFinderTests {
 
         let result = try await scan(directory)
 
-        #expect(result.groups.isEmpty)
+        #expect(names(result) == [["Documents/Report.pdf", "Desktop/Report.pdf"]])
+        #expect(result.groups.first?.files.last?.heldBack == .keepsWhatTheOthersLack)
+        #expect(result.suggestedSelection.map(\.lastPathComponent) == ["Report.pdf"])
     }
 
     /// Duplicates scans again only when asked, so what is excluded after a scan is taken out of it: the copy

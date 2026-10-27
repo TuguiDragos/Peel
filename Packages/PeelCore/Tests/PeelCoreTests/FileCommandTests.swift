@@ -491,7 +491,7 @@ struct FileCommandTests {
         let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
         let group = try #require(scan.groups.first)
 
-        let rows = DuplicatesCommand.rows(for: group.files)
+        let rows = DuplicatesCommand.rows(for: group)
 
         #expect(rows.count == 3)
         #expect(rows.map(\.first) == ["keep", "", ""])
@@ -514,7 +514,7 @@ struct FileCommandTests {
         let group = try #require(scan.groups.first)
         let synced = try #require(group.files.first { $0.heldBack == .inTheCloud })
 
-        let rows = DuplicatesCommand.rows(for: group.files)
+        let rows = DuplicatesCommand.rows(for: group)
         #expect(rows.first { $0[1] == Output.path(synced.url) }?[0] == "stays")
         #expect(rows.map { $0[0] }.sorted() == ["", "keep", "stays"])
 
@@ -531,6 +531,35 @@ struct FileCommandTests {
         #expect(FileManager.default.fileExists(atPath: synced.url.path(percentEncoded: false)))
     }
 
+
+    /// A copy with tags the others lack stays and keeps the bytes for them, so no copy is marked "keep" and every
+    /// other one moves; the JSON names it under stays.
+    @Test func movesEveryOtherCopyWhenOneStaysForWhatTheOthersLack() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
+        var tagged = try directory.file("home/Documents/a.bin", contents: contents)
+        try directory.file("home/Pictures/a.bin", contents: contents)
+        var red = URLResourceValues()
+        red.tagNames = ["Red"]
+        try tagged.setResourceValues(red)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let group = try #require(scan.groups.first)
+
+        #expect(DuplicatesCommand.rows(for: group).map { $0[0] }.sorted() == ["", "stays"])
+        let json = try Output.jsonText(DuplicatesCommand.found(in: scan))
+        let found = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let record = try #require((found["files"] as? [[String: Any]])?.first)
+        #expect(record["stays"] as? [String] == [Output.path(tagged)])
+        #expect(record["synced"] as? [String] == [])
+
+        try await (command(["duplicates", "--remove", "-y"]) as DuplicatesCommand)
+            .clean(scan, using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+
+        #expect(await moved(logs) == ["a.bin"])
+        #expect(FileManager.default.fileExists(atPath: tagged.path(percentEncoded: false)))
+    }
     @Test func saysHowManyCopiesOfAFolderAndHowBigItIs() async throws {
         let directory = try TemporaryDirectory()
         let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })

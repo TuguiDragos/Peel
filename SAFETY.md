@@ -478,14 +478,15 @@ still shows its reason beside it.
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. When a scan you
 started ends, Duplicates selects every copy but the first of each group, the one it suggests keeping: check which copy
 stays before you move the others. Nothing inside a repository, a project, `node_modules`, a photo or music library, an
-app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`. An
-app, another package, or anything hidden counts only toward the folder around it, a document its app keeps as a
-package among them, such as a Logic Pro or Scrivener project, even once the app is gone, while a folder holding a
-repository, a project, `node_modules`, or a library is never compared, nor any folder above it. Copies that differ in
-their Finder tags, their Finder comment, or their resource fork aren't listed together, since moving the copy that has
-them would take that away, and a folder kept only in the cloud is never looked into. A copy in a folder that syncs to
-your other devices, iCloud Drive or one a sync app keeps in step, is listed and never selected or moved: its row reads
-Stays, and a group whose every copy syncs is listed under Synced to Other Devices.
+app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`. An app,
+another package, or anything hidden counts only toward the folder around it, a document its app keeps as a package among
+them, such as a Logic Pro or Scrivener project, even once the app is gone, while a folder holding a repository, a
+project, `node_modules`, or a library is never compared, nor any folder above it. A copy with Finder tags, a Finder
+comment, or a resource fork the others lack is listed and never selected or moved, since moving it would take that away;
+it keeps the bytes for the others, which can all go. Folders that differ in them inside aren't listed together, and a
+folder kept only in the cloud is never looked into. A copy in a folder that syncs to your other devices, iCloud Drive or
+one a sync app keeps in step, is listed and never selected or moved: its row reads Stays, and a group whose every copy
+syncs is listed under Synced to Other Devices.
 
 What you select on the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and Backups,
 Duplicates, and File Search) stays selected while you look at the others, and Move to Trash on any of them moves all of

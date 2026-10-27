@@ -77,9 +77,21 @@ public struct DuplicateGroup: Sendable, Hashable, Identifiable {
         files.contains { $0.heldBack == .inTheCloud }
     }
 
-    /// What moving every movable copy but the first would free.
+    /// True when a copy stays for the Finder tags, comment, or resource fork the others lack. It keeps the same bytes
+    /// on this Mac, so every copy that may move can go.
+    public var holdsACopyWithWhatOthersLack: Bool {
+        files.contains { $0.heldBack == .keepsWhatTheOthersLack }
+    }
+
+    /// The copies Peel suggests moving: every one that may move but the first, which it keeps, or every one when a
+    /// copy stays for what the others lack.
+    public var suggestedFiles: [DuplicateFile] {
+        holdsACopyWithWhatOthersLack ? movableFiles : Array(movableFiles.dropFirst())
+    }
+
+    /// What moving the suggested copies would free.
     public var reclaimableSize: Int64 {
-        movableFiles.dropFirst().reduce(0) { $0 + $1.reclaimableSize }
+        suggestedFiles.reduce(0) { $0 + $1.reclaimableSize }
     }
 }
 
@@ -159,9 +171,9 @@ public struct DuplicateScan: Sendable {
         groups.isEmpty && folderGroups.isEmpty && !notLookedIn.isEmpty
     }
 
-    /// Every copy that may move except the first of them in each group. A copy that syncs is never suggested.
+    /// The copies each group suggests moving. A copy that stays is never suggested.
     public var suggestedSelection: Set<URL> {
-        Set(groups.flatMap { $0.movableFiles.dropFirst().map(\.url) })
+        Set(groups.flatMap { $0.suggestedFiles.map(\.url) })
     }
 
     public var suggestedFolderSelection: Set<URL> {
@@ -181,11 +193,11 @@ public struct DuplicateScan: Sendable {
         return Set(files + folders)
     }
 
-    /// How many groups moving copies would free something in. A group of files counts only with two copies that may
-    /// move, since one always stays; a folder that syncs to other devices is never offered, so every group of
-    /// folders counts.
+    /// How many groups moving copies would free something in. A group of files counts only with a copy to suggest,
+    /// since one always stays; a folder that syncs to other devices is never offered, so every group of folders
+    /// counts.
     public var groupsWithSomethingToMove: Int {
-        groups.count { $0.movableFiles.count > 1 } + folderGroups.count
+        groups.count { !$0.suggestedFiles.isEmpty } + folderGroups.count
     }
 
     /// Returns `selection` limited to what this scan can still move: only files it lists, and never every copy of

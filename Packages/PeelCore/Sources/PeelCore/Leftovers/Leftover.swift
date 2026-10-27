@@ -159,6 +159,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case mayBeTheOnlyCopy
     /// An encrypted disk image, which holds what the person put in it.
     case encryptedImage
+    /// A duplicate with Finder tags, a Finder comment, or a resource fork the other copies lack, which moving it
+    /// would lose.
+    case keepsWhatTheOthersLack
 
     /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
     /// would refuse to move it.
@@ -169,7 +172,7 @@ public enum HoldBack: String, Sendable, Hashable {
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension
             || self == .signInPlugIn
             || self == .holdsAnExclusion
-            || self == .inTheCloud || self == .holdsAnotherAppsData
+            || self == .inTheCloud || self == .holdsAnotherAppsData || self == .keepsWhatTheOthersLack
     }
 
     /// Why what a walk saw leaves a folder to be chosen by hand: a wallet, a signing key, or a repository inside may
