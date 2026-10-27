@@ -168,6 +168,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// A download in an app's own folder in iCloud, which Finder may not show and the app may expect to find on
     /// this Mac.
     case inAnAppsICloudFolder
+    /// A password database or a wallet's keys in iCloud, which opens again only with an internet connection once its
+    /// download is removed.
+    case opensOnlyOnline
 
     /// True when the item cannot be selected at all, rather than only left unselected: the guard or the helper
     /// would refuse to move it.

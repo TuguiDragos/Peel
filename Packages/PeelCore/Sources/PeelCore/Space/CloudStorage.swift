@@ -339,10 +339,18 @@ public enum CloudStorage {
                 modified: measured.modified,
                 isDesktopPicture: pictures.contains(PathPattern.comparablePath(of: url)),
                 heldBack: isInAPinnedFolder || isPinned(url) ? .keptDownloaded
+                    : holdsSecrets(url, below: root) ? .opensOnlyOnline
                     : isICloudDrive ? nil : .inAnAppsICloudFolder
             )
             collector.add(file)
         }
+    }
+
+    /// Whether `url`, or a folder it sits in below `root`, is named as a password database or a wallet's keys are.
+    static func holdsSecrets(_ url: URL, below root: URL) -> Bool {
+        let names = PathComponents.of(url.path(percentEncoded: false))
+            .dropFirst(PathComponents.of(root.path(percentEncoded: false)).count)
+        return names.contains { FileSize.isPasswordDatabase($0) || FileSize.isWallet($0) }
     }
 
     /// Whether Keep Downloaded is on for `url` in Finder: FileProvider keeps it as the extended attribute

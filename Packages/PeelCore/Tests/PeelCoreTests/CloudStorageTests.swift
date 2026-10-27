@@ -239,6 +239,28 @@ struct CloudStorageTests {
         #expect(held["notes.db"] == .inAnAppsICloudFolder)
     }
 
+    /// A password database or a wallet's keys, once its download is removed, opens again only with an internet
+    /// connection: it is listed and not recommended, and so is every file in a wallet's folder.
+    @Test func holdsBackPasswordsAndWalletsItWouldTakeOffline() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        for path in ["Passwords.kdbx", "Coins/wallets/wallet.dat", "Coins/wallets/db.log", "Coins/prices.csv"] {
+            try directory.file("\(drive)/\(path)", bytes: 2_000)
+        }
+
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            countingFor: nil, isSafe: { _ in true }, isPinned: { _ in false }, unless: { false }
+        )
+
+        let held = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0.heldBack) })
+        #expect(held["Passwords.kdbx"] == .opensOnlyOnline)
+        #expect(held["wallet.dat"] == .opensOnlyOnline)
+        #expect(held["db.log"] == .opensOnlyOnline)
+        #expect(held["prices.csv"] == .some(nil))
+    }
+
     /// A folder kept only in the cloud, which no test can make, is named to the walk.
     @Test func neverLooksIntoAFolderThatLivesOnlyInTheCloud() throws {
         let directory = try TemporaryDirectory()

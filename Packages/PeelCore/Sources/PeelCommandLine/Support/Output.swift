@@ -396,6 +396,7 @@ extension HoldBack {
         case .keepsWhatTheOthersLack: "has Finder tags, a comment, or a resource fork the other copies don't"
         case .keptDownloaded: "Keep Downloaded is on for it in Finder, so iCloud downloads it again"
         case .inAnAppsICloudFolder: "in an app's own iCloud folder, which the app may expect to find on this Mac"
+        case .opensOnlyOnline: "holds passwords or a wallet's keys, which would open again only online"
         case .openInAProgram: "open in a program right now, which may still be using it"
         case .attachedDiskImage: "a disk image open right now; eject it first"
         case .changedRecently: "changed in the last day, so it may still be downloading"

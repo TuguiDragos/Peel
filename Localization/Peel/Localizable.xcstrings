@@ -102671,6 +102671,113 @@
         }
       }
     },
+    "Not selected: it holds passwords or a wallet’s keys, which open again only with an internet connection once the download is removed." : {
+      "comment" : "The note beside a file in iCloud Drive that is a password database, such as a KeePass file, or holds a crypto wallet's keys. Once this Mac's copy is removed, the file stays in iCloud and downloads only when opened online.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje hesla nebo klíče peněženky a po odstranění stažené kopie půjde znovu otevřít jen s připojením k internetu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Diese Datei enthält Passwörter oder die Schlüssel einer Wallet, die sich nach dem Entfernen des Downloads nur mit einer Internetverbindung wieder öffnen lassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene contraseñas o las claves de un monedero digital, que, una vez eliminada la descarga, solo se pueden volver a abrir con conexión a internet."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : ce fichier contient des mots de passe ou les clés d’un portefeuille, auxquels vous n’aurez de nouveau accès qu’avec une connexion à Internet une fois le téléchargement retiré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene password o le chiavi di un wallet, che, una volta rimosso il download, saranno di nuovo accessibili solo con una connessione a internet."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: パスワードまたはウォレットの鍵が含まれているため、ダウンロードしたものを削除すると、再び開くにはインターネット接続が必要になります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 암호나 지갑의 키가 들어 있으며, 다운로드를 제거하면 인터넷에 연결되어 있을 때만 다시 열 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: het bevat wachtwoorden of de sleutels van een wallet, die je na het verwijderen van de download alleen met een internetverbinding weer kunt openen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ten plik zawiera hasła lub klucze portfela, a po usunięciu jego pobranej kopii ich ponowne otwarcie będzie wymagać połączenia z Internetem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: ele contém senhas ou as chaves de uma carteira e, depois que o download for removido, só voltará a abrir com uma conexão à internet."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest fișier conține parole sau cheile unui portofel, care, după eliminarea descărcării, pot fi deschise din nou doar cu o conexiune la internet."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот файл содержит пароли или ключи кошелька, которые после удаления загруженной копии снова станут доступны только при подключении к интернету."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller lösenord eller en plånboks nycklar, som bara går att öppna igen med en internetanslutning när hämtningen har tagits bort."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: içinde parolalar veya bir cüzdanın anahtarları var; indirilen kopyası kaldırıldığında bunlar ancak internet bağlantısıyla yeniden açılabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей файл містить паролі або ключі гаманця, і після вилучення викачування відкрити його знову можна буде лише за наявності інтернет-зʼєднання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它包含密码或钱包的密钥，移除下载后，只有连接到互联网时才能再次打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它存有密碼或錢包的密鑰，移除下載項目後，只有在連上網際網路時才能再次打開。"
+          }
+        }
+      }
+    },
     "Not selected: it holds your current workspace and the last backend configuration, which `terraform init` doesn’t bring back." : {
       "localizations" : {
         "cs" : {

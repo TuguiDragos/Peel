@@ -418,6 +418,9 @@ Never selected for you, even when found:
   last hour, which you may be installing from.
 - A build folder Git tracks files in, and a folder an installer package made that now holds what something else put
   there, which may be another program's files or yours.
+- In iCloud Drive, the download of a file Keep Downloaded is on for, which iCloud would download again at once, of a
+  password database or a wallet's keys, which would open again only with an internet connection, and of what an app
+  keeps in its own iCloud folder, which the app may expect to find on this Mac.
 
 A folder macOS would not let Peel read, and a folder Peel could not measure in time, are not selected either. Both are
 shown with their size as "Unknown", never as zero, in every tool and in History once they are moved: a folder too big to
