@@ -253,10 +253,12 @@ If you are unsure whether something belongs in the helper, it doesn't.
   `PathPattern.locatedWithoutOpening` and never opens them.
 - **`lstat` on a path that ends in a slash follows a link** to where it leads. A folder walk hands back folders
   with that slash, so paths are compared and checked through `PathPattern.comparablePath`, which drops it.
-- **What removing a file frees is its private size, never its length**: the bytes "not trapped inside a clone or
-  snapshot" (`getattrlist(2)`, `ATTR_CMNEXT_PRIVATESIZE`). Once iCloud has uploaded a file, the copy it keeps of it
-  shares the file's blocks, so removing that download frees nothing. `ReclaimableSpace.of` measures every size Peel
-  offers to free, and iCloud Drive says how many downloads it leaves out for that (`CloudScan.sharedDownloads`).
+- **What removing a file frees is never its length**: a file that may share blocks with a clone
+  (`EF_MAY_SHARE_BLOCKS`) frees its private size, the bytes "not trapped inside a clone or snapshot"
+  (`getattrlist(2)`, `ATTR_CMNEXT_PRIVATESIZE`), and any other file every block it takes, since what a snapshot
+  keeps comes back once macOS deletes the snapshot. Once iCloud has uploaded a file, the copy it keeps of it shares
+  the file's blocks, so removing that download frees nothing. `ReclaimableSpace.of` measures every size Peel offers to
+  free, and iCloud Drive says how many downloads it leaves out for that (`CloudScan.sharedDownloads`).
 - **Settings are forgotten with `defaults delete`, never by deleting their file.** cfprefsd keeps a domain in
   memory and writes it back, and `defaults delete` of a domain it still holds writes an empty file where the moved
   one was. `PreferenceCleanup` handles both.

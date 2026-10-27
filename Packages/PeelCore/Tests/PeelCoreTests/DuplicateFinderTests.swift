@@ -708,6 +708,22 @@ struct DuplicateFinderTests {
         await #expect(throws: CancellationError.self) { try await task.value }
     }
 
+    /// A file that may share blocks with a clone frees only its private size. Any other frees every block it takes,
+    /// since what a snapshot keeps of it comes back once macOS deletes the snapshot. A snapshot can't be made in a
+    /// test, so the rule is asked with what `getattrlist(2)` would say of such a file.
+    @Test func aFileThatSharesNoBlockFreesEveryBlockItTakes() {
+        let freed = { (privateSize: Int64?, mayBeShared: Bool?, isCompressed: Bool) in
+            ReclaimableSpace.freed(
+                allocated: 4_096_000, privateSize: privateSize, mayBeShared: mayBeShared, isCompressed: isCompressed
+            )
+        }
+        #expect(freed(0, false, false) == 4_096_000, "kept by a snapshot")
+        #expect(freed(nil, nil, false) == 4_096_000)
+        #expect(freed(1_000, true, false) == 1_000, "cloned")
+        #expect(freed(0, true, true) == 0, "compressed and cloned")
+        #expect(freed(0, false, true) == 4_096_000, "compressed")
+    }
+
     @Test func reportsSpaceThatClonesAndHardLinksDoNotFree() throws {
         let directory = try TemporaryDirectory()
         let original = try directory.file("original.bin", contents: randomData(count: 1_048_576))

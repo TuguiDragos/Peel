@@ -16,8 +16,8 @@ enum ReclaimableSpace {
         info.st_flags & UInt32(UF_COMPRESSED) != 0 ? info.st_size : min(info.st_size, Int64(info.st_blocks) * 512)
     }
 
-    /// The bytes removing the file would free: none while it has other hard links, and otherwise only the blocks
-    /// it does not share with APFS clones or snapshots.
+    /// The bytes removing the file would free: none while it has other hard links, and otherwise every block it
+    /// does not share with an APFS clone.
     static func of(_ url: URL) -> Int64 {
         let path = url.path(percentEncoded: false)
         var info = stat()
@@ -25,13 +25,20 @@ enum ReclaimableSpace {
         // exFAT and FAT answer the private size with zero, though they share no block.
         guard canShareBlocks(path) else { return Int64(info.st_blocks) * 512 }
         let blocks = forkAttributes(of: path)
-        // The private size counts only the data fork, while a compressed file keeps its bytes in its resource
-        // fork or an extended attribute, which the private size leaves out. If the file was never cloned,
-        // removing it frees every block; otherwise it counts as freeing nothing, since a clone may hold them all.
-        if info.st_flags & UInt32(UF_COMPRESSED) != 0 {
-            return blocks?.mayBeShared == false ? Int64(info.st_blocks) * 512 : 0
-        }
-        return blocks?.privateSize ?? Int64(info.st_blocks) * 512
+        return freed(
+            allocated: Int64(info.st_blocks) * 512, privateSize: blocks?.privateSize, mayBeShared: blocks?.mayBeShared,
+            isCompressed: info.st_flags & UInt32(UF_COMPRESSED) != 0
+        )
+    }
+
+    /// What removing a file with one name frees, from what `getattrlist(2)` says of it. A file that was never
+    /// cloned frees every block it takes, those a snapshot keeps included, since they come back once macOS deletes
+    /// the snapshot.
+    static func freed(allocated: Int64, privateSize: Int64?, mayBeShared: Bool?, isCompressed: Bool) -> Int64 {
+        guard mayBeShared == true else { return allocated }
+        // The private size counts only the data fork, while a compressed file keeps its bytes in its resource fork or
+        // an extended attribute, which the private size leaves out: a clone may hold them all.
+        return isCompressed ? 0 : privateSize ?? allocated
     }
 
     /// Whether the disk `path` is on can clone a file or keep a snapshot, the only ways its files share blocks. True

@@ -27,8 +27,8 @@ public enum DuplicateScanProgress: Sendable, Hashable {
 public struct DuplicateFile: Sendable, Hashable, Identifiable {
     public let url: URL
     public let size: Int64
-    /// The bytes removing it would free: less than `size` for a hard link, an APFS clone, a file kept by a
-    /// snapshot, or a compressed or sparse file.
+    /// The bytes removing it would free: less than `size` for a hard link, an APFS clone, or a compressed or sparse
+    /// file.
     public let reclaimableSize: Int64
     /// The space it takes on disk, less than `size` when it is compressed or sparse. Compared with
     /// `reclaimableSize`, it shows whether the file really shares blocks with something else.
