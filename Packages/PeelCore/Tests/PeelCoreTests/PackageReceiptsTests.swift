@@ -244,6 +244,30 @@ struct PackageReceiptsTests {
         #expect(items.sorted() == ["Example.plugin", "Vendor Node/One/vendor-node", "org.example/Driver"])
     }
 
+    @Test func aStoppedListStops() async throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url
+        )
+        let unanswered = Unanswered()
+        let packages = PkgutilAnswer.packages(
+            "org.example.one", "org.example.two", "org.example.three", "org.example.four", "org.example.five",
+            "org.example.six", "org.example.seven", "org.example.eight", "org.example.nine", "org.example.ten"
+        )
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            if arguments.first == "--pkgs-plist" { return packages }
+            return await unanswered.pkgutil(arguments)
+        }
+
+        let stop = try await unanswered.stop {
+            _ = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+        }
+
+        #expect(stop.took < .seconds(1))
+        #expect(stop.askedBefore < 10)
+        #expect(stop.askedAfter == 0)
+    }
+
     @Test func aPackageWhoseScriptsPlaceItsFilesIsNeverReceiptOnly() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)

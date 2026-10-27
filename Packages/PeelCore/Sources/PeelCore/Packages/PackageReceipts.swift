@@ -99,7 +99,8 @@ public enum PackageReceipts {
             }
             while let result = await group.next() {
                 results.append(result)
-                if let identifier = pending.next() {
+                // A stopped scan starts no other package: each would ask `pkgutil` for nothing.
+                if !Task.isCancelled, let identifier = pending.next() {
                     group.addTask {
                         await Self.receipt(
                             identifier,

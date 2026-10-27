@@ -33,6 +33,13 @@ final class Unanswered: Sendable {
         }
     }
 
+    var pkgutil: PackageReceipts.Pkgutil {
+        { [self] _ in
+            await wait()
+            return nil
+        }
+    }
+
     private func wait() async {
         asked.withLock { $0 += 1 }
         try? await Task.sleep(for: .seconds(3_600))
