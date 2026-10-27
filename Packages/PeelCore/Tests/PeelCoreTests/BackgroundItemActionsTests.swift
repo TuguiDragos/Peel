@@ -27,6 +27,28 @@ struct BackgroundItemActionsTests {
         #expect(try !#require(JobDefinition(["Label": "a"])).loadsInTheBackground)
     }
 
+    /// The tab says what runs in the background: a job of an app the person excluded is listed, marked so, and Peel
+    /// acts on none of it.
+    @Test func listsAnExcludedAppsJobWithoutActingOnIt() {
+        func job(_ label: String, owner: String) -> BackgroundItem {
+            BackgroundItem(
+                label: label, kind: .agent, source: .userLibrary,
+                plistURL: URL(filePath: "/Users/me/Library/LaunchAgents/\(label).plist"), program: "/Applications/x",
+                runsAtLoad: true, keepsAlive: true, ownerBundleIdentifier: owner, ownerName: nil,
+                ownerURL: nil, isOrphan: false, state: .running(pid: 42), isDisabled: false
+            )
+        }
+        let rows = BackgroundItems.rows(
+            [job("org.example.other.agent", owner: "org.example.other"), job("org.example.guard.agent", owner: "org.example.guard")],
+            exclusions: Exclusions(bundleIdentifiers: ["org.example.guard"])
+        )
+
+        #expect(rows.map(\.label) == ["org.example.guard.agent", "org.example.other.agent"])
+        #expect(rows.map(\.isExcluded) == [true, false])
+        #expect(rows.map(\.canBeControlled) == [false, true])
+        #expect(rows.map(\.canMoveToTrash) == [false, true])
+    }
+
     @Test func knowsAJobItsGoneAppLeftLoaded() {
         let job = { (source: BackgroundItem.Source, owner: URL?, isOrphan: Bool, program: String?) in
             BackgroundItem(

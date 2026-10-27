@@ -70,6 +70,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True for a job launchd runs from a file no longer on disk, removed while it was loaded: launchd forgets it at
     /// the next logout or restart, and nothing loads it again.
     public var isFileGone = false
+    /// True for a job of an app the person excluded in Settings, which Peel lists and never acts on.
+    public var isExcluded = false
     public var anotherFileIsLoaded = false
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
@@ -99,11 +101,11 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         declaresAnAppleLabel || SystemDaemons.shipped.contains(label) || SystemAgents.shipped.contains(label)
     }
 
-    /// True when Peel may start, stop, enable and disable the job: never under a label of macOS or for a system
-    /// extension, an agent only under a label `launchctl` reads whole, and a daemon only under a label the helper
-    /// takes, which also leaves out the helper itself.
+    /// True when Peel may start, stop, enable and disable the job: never under a label of macOS, for a system
+    /// extension or for an excluded app, an agent only under a label `launchctl` reads whole, and a daemon only under a
+    /// label the helper takes, which also leaves out the helper itself.
     public var canBeControlled: Bool {
-        !usesALabelOfMacOS && !isSystemExtension
+        !usesALabelOfMacOS && !isSystemExtension && !isExcluded
             && (requiresPrivileges ? PrivilegedPathPolicy.allowsDaemon(label) : isReadWholeByLaunchctl)
     }
 
@@ -132,5 +134,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// started again from here.
     public var isSeenOnlyWhileLoaded: Bool { source == .app || source == .otherFile }
 
-    public var canMoveToTrash: Bool { !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS }
+    public var canMoveToTrash: Bool {
+        !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS && !isExcluded
+    }
 }

@@ -210,7 +210,7 @@ public enum IntelInspector {
         // named on its row.
         var listed = findings.map { PathPattern.comparablePath(of: $0.url) }
         unreadable += backgroundItems.unreadableFolders
-        for item in backgroundItems.items where !Task.isCancelled {
+        for item in backgroundItems.items where !Task.isCancelled && !item.isExcluded {
             // Peel can't tell what a job file it can't read runs, which may be Intel only.
             if item.isClosedToPeel, item.program == nil, let plist = item.plistURL {
                 unreadable.append(plist)

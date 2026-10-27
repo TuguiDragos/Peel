@@ -113,9 +113,7 @@ public enum BackgroundItems {
         items += disabledJobs(in: loaded, listed: items, ownership: ownership)
 
         return Scan(
-            items: items
-                .filter { $0.ownerBundleIdentifier.map(exclusions.excludes(bundleIdentifier:)) != true }
-                .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending },
+            items: rows(items, exclusions: exclusions),
             unanswered: undeclared.unanswered,
             unreadableFolders: unlisted.map(\.refused).reduce(into: []) { if !$0.contains($1) { $0.append($1) } }
         )
@@ -123,6 +121,18 @@ public enum BackgroundItems {
 
     /// The rows, each job launchd loaded from a file Peel can't read in the place of that file's row, with the file's
     /// folder as its source; then the other loaded jobs.
+    /// The rows in the page's order. A job of an app the person excluded stays listed, marked so: the tab says what
+    /// runs in the background, and Peel acts on none of it.
+    static func rows(_ items: [BackgroundItem], exclusions: Exclusions) -> [BackgroundItem] {
+        items
+            .map { item in
+                var item = item
+                item.isExcluded = item.ownerBundleIdentifier.map(exclusions.excludes(bundleIdentifier:)) == true
+                return item
+            }
+            .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending }
+    }
+
     private static func jobFolders(
         in environment: SearchEnvironment
     ) -> [(folder: URL, kind: BackgroundItem.Kind, source: BackgroundItem.Source)] {

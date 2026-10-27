@@ -551,7 +551,9 @@ It holds in both directions. A folder with something excluded inside it is never
 excluded file would go with it: an app's leftover like that is shown with the reason and can't be selected, and
 the other tools leave it out. An excluded app still appears in Applications, so you can see it, but gets no
 removal plan and no reset, in the app and in `peel`, and nothing moves it to the Trash or puts it back, from any
-page and whatever its bundle is called, nor a folder that holds it a level or two down. A folder named with its
+page and whatever its bundle is called, nor a folder that holds it a level or two down. Its jobs stay listed in
+Background Items, which says what runs, marked as excluded, and Peel doesn't start, stop, disable, or remove them.
+A folder named with its
 identifier, such as its caches or its container, is left out of every page and never moved, nor is a folder holding
 one a level or two down, nor one with a folder inside that macOS won't let Peel list, since such a folder may be in
 there: that holds even for what only the helper could move, as the helper knows nothing of your exclusions. Its installer

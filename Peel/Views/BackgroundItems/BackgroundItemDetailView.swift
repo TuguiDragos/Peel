@@ -106,6 +106,19 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.isExcluded {
+                Section {
+                    Notice(
+                        title: Text("Excluded in Settings"),
+                        detail: Text("You excluded the app it is for, so Peel lists it and doesn’t start, stop, enable, disable, or remove it here."),
+                        kind: .note
+                    ) {
+                        Button("Open Exclusions in Settings…") { SettingsPane.exclusions.open(with: openSettings) }
+                    }
+                    .padding(.vertical, 6)
+                }
+            }
+
             if item.declaresAnAppleLabel {
                 Section {
                     Notice(

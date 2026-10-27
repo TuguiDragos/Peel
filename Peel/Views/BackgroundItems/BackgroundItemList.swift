@@ -247,6 +247,12 @@ private struct BackgroundItemRow: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
                 }
+                if item.isExcluded {
+                    Text("Excluded in Settings")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
                 if item.unusualCommand != nil {
                     StatusLabel(title: Text("Unusual command"))
                         .font(.caption)

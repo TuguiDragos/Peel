@@ -597,7 +597,8 @@ struct ExclusionsReachEveryScannerTests {
     }
 
     /// An app excluded by identifier takes its background items with it: they are not listed, so not stopped.
-    @Test func theBackgroundItemsOfAnExcludedAppAreNotListed() async throws {
+    /// Background Items says what runs, so an excluded app's jobs stay listed there, and Peel acts on none of them.
+    @Test func theBackgroundItemsOfAnExcludedAppAreListedAndLeftAlone() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/LaunchAgents/com.example.keepme.updater.plist", contents: Data("""
         <?xml version="1.0" encoding="UTF-8"?>
@@ -614,7 +615,8 @@ struct ExclusionsReachEveryScannerTests {
         ).items
 
         #expect(listed.first { $0.label == "com.example.keepme.updater" }?.ownerBundleIdentifier == "com.example.KeepMe")
-        #expect(!kept.contains { $0.label == "com.example.keepme.updater" })
+        let excluded = try #require(kept.first { $0.label == "com.example.keepme.updater" })
+        #expect(excluded.isExcluded && !excluded.canBeControlled && !excluded.canMoveToTrash)
     }
 
     @Test func aPluginTheUserExcludedIsNotListed() async throws {

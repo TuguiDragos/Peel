@@ -112,7 +112,8 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   selected in two places, since its tool clones it again: inside Swift Package Manager's `.build`, which it tags as a
   cache (`CACHEDIR.TAG`), and inside a cache on the Developer page; a tag alone never makes a repository selectable
   (`Definition.remakesItsClones`).
-- **The user's exclusions reach every scanner**, so an excluded item never appears in the first place.
+- **The user's exclusions reach every scanner**, so an excluded item never appears in the first place, but for an
+  excluded app's jobs, which Background Items lists marked, acting on none, since that tab says what runs.
 - **What a file says about itself is anyone's word.** Any program can write a launch job, an app's Info.plist, or one
   of Peel's own records, so a program path that holds a NUL names no program, an app's name goes into a pattern only
   quoted, and a record Peel kept is believed only as a scan believes what it finds (`LeftForAnAdministrator`).

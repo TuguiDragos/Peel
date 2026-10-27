@@ -214339,6 +214339,113 @@
         }
       }
     },
+    "You excluded the app it is for, so Peel lists it and doesn’t start, stop, enable, disable, or remove it here." : {
+      "comment" : "On a background job’s page, under the title Excluded in Settings: the job belongs to an app the person excluded. It stays listed, since the page says what runs in the background, and Peel changes nothing of it.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikaci, ke které patří, jste vyloučili, takže ji tu Peel uvádí, ale nespouští, nezastavuje, nezapíná, nevypíná ani neodstraňuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du hast die App ausgeschlossen, zu der es gehört, daher führt Peel es zwar auf, startet, stoppt, aktiviert, deaktiviert oder entfernt es hier aber nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Has excluido la app a la que pertenece, así que Peel lo muestra, pero aquí no lo inicia, no lo detiene, no lo activa, no lo desactiva ni lo elimina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous avez exclu l’app à laquelle il est destiné : Peel le liste donc, sans le démarrer, l’arrêter, l’activer, le désactiver ni le supprimer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hai escluso l’app a cui appartiene, quindi Peel lo elenca, ma qui non lo avvia, non lo interrompe, non lo abilita, non lo disabilita e non lo rimuove."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このジョブが属するアプリを除外したため、Peelはこれを一覧に表示しますが、ここでは開始、停止、有効化、無効化、ゴミ箱への移動を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 이 항목이 속한 앱을 제외했으므로, Peel은 이 항목을 목록에 표시하지만 여기에서 시작, 중단, 활성화, 비활성화 또는 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt de bijbehorende app uitgesloten, dus Peel toont het wel, maar start het hier niet, stopt het niet, schakelt het niet in of uit en verwijdert het niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz należy do wykluczonej przez Ciebie aplikacji, więc Peel ją wyświetla, ale jej tutaj nie uruchamia, nie zatrzymuje, nie włącza, nie wyłącza ani nie przenosi do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app dele está nas suas exclusões, então o Peel o lista, mas não o inicia, não o interrompe, não o ativa, não o desativa nem o remove aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ați exclus aplicația căreia îi aparține, așa că Peel îl listează, dar nu îl pornește, nu îl oprește, nu îl activează, nu îl dezactivează și nu îl elimină de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы исключили приложение, к которому он относится, поэтому Peel показывает его в списке, но здесь не запускает, не останавливает, не включает, не выключает и не удаляет его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du har undantagit appen som det hör till, så Peel listar det men varken startar, stoppar, aktiverar, avaktiverar eller tar bort det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ait olduğu uygulamayı hariç tuttunuz, bu yüzden Peel onu listeler ama burada başlatmaz, durdurmaz, etkinleştirmez, etkisizleştirmez veya kaldırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ви додали до винятків програму, якій належить цей елемент, тож Peel показує його, але тут не запускає, не зупиняє, не вмикає, не вимикає й не вилучає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已排除它所属的App，因此Peel会列出它，但不会在此处启动、停止、启用、停用或移除它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已排除它所屬的App，因此Peel會列出它，但不會在這裡啟動、停止、啟用、停用或移除它。"
+          }
+        }
+      }
+    },
     "You lose the quick way to type accented letters." : {
       "localizations" : {
         "cs" : {

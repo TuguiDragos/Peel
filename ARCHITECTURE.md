@@ -229,7 +229,8 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   the Trash would take it from those devices too. It looks a level or two inside a folder for a library, a wallet, or
   work kept only in a cache, and refuses a folder holding a folder macOS won't let Peel list, unless only the helper can
   move it, which looks inside as root (`ProtectedData.Finding`).
-- **Exclusions everywhere.** The user's exclusions reach every scanner, so an excluded item never appears, and
+- **Exclusions everywhere.** The user's exclusions reach every scanner, so an excluded item never appears (but an
+  excluded app's jobs, which Background Items lists marked and acts on none of, since that tab says what runs), and
   a folder with something excluded inside is never moved, nor one Peel can't look into for an excluded app, since the
   helper knows nothing of the exclusions.
 - **Unknown stays unknown.** A size that couldn't be measured, a list a tool didn't give, an answer that didn't
