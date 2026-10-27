@@ -61,7 +61,7 @@ extension IntelFinding.Kind {
     var title: LocalizedStringResource {
         switch self {
         case .app: "Apps"
-        case .insideApp: "Inside Universal Apps"
+        case .insideApp: "Inside Other Apps"
         case .plugin: "Plug-ins"
         case .driver: "Drivers"
         case .backgroundItem: "Background Items"
@@ -121,10 +121,16 @@ extension IntelFinding {
         }
     }
 
-    /// What the row says under the name: what the finding belongs to, or a plug-in's format, since one plug-in is
-    /// often installed in several formats under one name.
+    /// What the row says under the name: what the finding belongs to, the job file that starts a background item, or
+    /// a plug-in's format, since one plug-in is often installed in several formats under one name.
     var subtitle: LocalizedStringResource? {
-        owner.map { "in \($0)" } ?? pluginCategory?.title
+        guard let owner else { return pluginCategory?.title }
+        return kind == .backgroundItem ? "started by \(owner)" : "in \(owner)"
+    }
+
+    /// Whether the Plug-ins page lists it: a plug-in found in one of that page's folders, which carries its format.
+    var isOnThePlugInsPage: Bool {
+        kind == .plugin && pluginCategory != nil
     }
 
     /// Whether an app that loads the plug-in decides whether it loads, as for a plug-in loaded inside the app.

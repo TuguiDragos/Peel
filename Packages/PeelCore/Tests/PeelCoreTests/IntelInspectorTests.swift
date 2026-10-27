@@ -185,7 +185,8 @@ struct IntelInspectorTests {
         )
 
         #expect(Set(scan.findings.map(\.name)) == ["Melody.bundle", "Vendor.plugin"])
-        #expect(scan.findings.allSatisfy { $0.kind == .driver })
+        #expect(scan.findings.first { $0.name == "Melody.bundle" }?.kind == .plugin, "an ARA plug-in serves no device")
+        #expect(scan.findings.first { $0.name == "Vendor.plugin" }?.kind == .driver)
     }
 
     @Test func findsAnIntelTWAINDataSource() async throws {

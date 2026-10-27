@@ -88,8 +88,10 @@ struct IntelDetailView: View {
                     }
                 }
                 if let lastOpened = lastOpened(of: app) {
-                    LabeledContent("Last opened") {
+                    LabeledContent {
                         Text(lastOpened, format: .relative(presentation: .named))
+                    } label: {
+                        finding.kind == .insideApp ? Text("App last opened") : Text("Last opened")
                     }
                 }
                 if let app, let status = library.shownUpdateStatus(of: app) {
@@ -109,7 +111,7 @@ struct IntelDetailView: View {
             Section {
                 HStack {
                     // Show in Finder is centered when alone, and goes first when a Review button is beside it.
-                    if app == nil, finding.kind != .plugin {
+                    if app == nil, !finding.isOnThePlugInsPage {
                         Spacer()
                     }
                     Button("Show in Finder", systemImage: "folder") {
@@ -128,7 +130,7 @@ struct IntelDetailView: View {
                         } else {
                             review.buttonStyle(.borderedProminent)
                         }
-                    } else if finding.kind == .plugin {
+                    } else if finding.isOnThePlugInsPage {
                         Button("Review in Plug-ins", systemImage: "powerplug") {
                             plugins.selection = finding.url
                             Navigator.shared.requestedTool = .plugins
@@ -145,8 +147,8 @@ struct IntelDetailView: View {
         .toolbar(removing: .title)
     }
 
-    /// The advice in the note beside the What to Do About It heading. A driver or a tool in `/usr/local` is
-    /// left to the software that installed it, which knows what else goes with it.
+    /// The advice in the note beside the What to Do About It heading. A driver, a tool in `/usr/local`, or a plug-in
+    /// the Plug-ins page doesn't list is left to the software that installed it, which knows what else goes with it.
     private var advice: LocalizedStringResource {
         switch finding.kind {
         case .driver, .commandLineTool:
@@ -156,7 +158,9 @@ struct IntelDetailView: View {
         case .insideApp:
             "Peel only reports here. This part comes with the app and can’t be removed on its own. An update of the app may replace it."
         case .plugin:
-            "Peel only reports here. To remove it, go to Plug-ins."
+            finding.isOnThePlugInsPage
+                ? "Peel only reports here. To remove it, go to Plug-ins."
+                : "Peel only reports here. The software that installed it may have an uninstaller of its own."
         case .backgroundItem:
             "Peel only reports here. Background Items moves a job’s configuration file, not the program it runs: that goes with the software that installed it."
         }
@@ -170,8 +174,8 @@ struct IntelDetailView: View {
                 Text(verbatim: finding.name)
                     .pageTitle()
                     .help(Text(verbatim: finding.name))
-                if let owner = finding.owner {
-                    Text("in \(owner)")
+                if finding.owner != nil, let subtitle = finding.subtitle {
+                    Text(subtitle)
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }

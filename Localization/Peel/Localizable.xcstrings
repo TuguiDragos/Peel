@@ -17578,6 +17578,112 @@
         }
       }
     },
+    "App last opened" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace naposledy otevřena"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App zuletzt geöffnet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última apertura de la app"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière ouverture de l’app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultima apertura dell’app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリを最後に開いた日"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 최근 사용일"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App laatst geopend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikację ostatnio otwarto"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última abertura do app"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultima deschidere a aplicației"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последнее открытие приложения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen senast öppnad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamanın son açılışı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програму востаннє відкрито"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App上次打开时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App上次打開日期"
+          }
+        }
+      }
+    },
     "App removed" : {
       "comment" : "A label for a number that is not part of this text. It appears under the number on Home, and beside it in the menu bar panel. This singular form is used only when the number is exactly 1. Every other count, 0 included, uses \"Apps removed\".",
       "localizations" : {
@@ -27039,6 +27145,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇一個項目，以查看它為何仍需要Rosetta。"
+          }
+        }
+      }
+    },
+    "Choose an item to see why it would need Rosetta on an Apple silicon Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zvolte položku a uvidíte, proč by na Macu s čipem Apple potřebovala prostředí Rosetta."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle ein Objekt, um zu sehen, warum es auf einem Mac mit Apple Chip Rosetta benötigen würde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige un ítem para ver por qué necesitaría Rosetta en un Mac con chip de Apple."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez un élément pour voir pourquoi il aurait besoin de Rosetta sur un Mac équipé d’une puce Apple."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un elemento per vedere perché richiederebbe Rosetta su un Mac con chip Apple."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "項目を選ぶと、Appleシリコン搭載のMacでRosettaが必要になる理由が表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "항목을 선택하면 Apple silicon Mac에서 Rosetta가 필요한 이유를 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een onderdeel om te zien waarom het op een Mac met Apple silicon Rosetta nodig zou hebben."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz pozycję, aby zobaczyć, dlaczego wymagałaby Rosetty na Macu z układem scalonym Apple."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha um item para ver por que ele precisaria do Rosetta em um Mac com Apple silicon."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alegeți un articol pentru a vedea de ce ar avea nevoie de Rosetta pe un Mac cu cip Apple."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите объект, чтобы узнать, почему ему понадобилась бы Rosetta на Mac с чипом Apple."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj ett objekt för att se varför det skulle behöva Rosetta på en Mac med Apple Silicon."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Silicon çipli bir Mac’te neden Rosetta gerektireceğini görmek için bir öğe seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть елемент, щоб побачити, чому на Mac з Apple Silicon він потребував би Rosetta."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选取一个项目，查看它在搭载Apple芯片的Mac上为何需要Rosetta。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇一個項目，以查看它在配備Apple晶片的Mac上為何會需要Rosetta。"
           }
         }
       }
@@ -61386,108 +61598,108 @@
         }
       }
     },
-    "Inside Universal Apps" : {
+    "Inside Other Apps" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uvnitř univerzálních aplikací"
+            "value" : "Uvnitř jiných aplikací"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In Universal-Apps"
+            "value" : "In anderen Apps"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dentro de apps universales"
+            "value" : "Dentro de otras apps"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dans des apps universelles"
+            "value" : "Dans d’autres apps"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dentro le app universali"
+            "value" : "Dentro altre app"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Universalアプリの内部"
+            "value" : "ほかのアプリの内部"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Universal 앱 내부"
+            "value" : "다른 앱 내부"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In universele apps"
+            "value" : "In andere apps"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wewnątrz aplikacji uniwersalnych"
+            "value" : "Wewnątrz innych aplikacji"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dentro de Apps Universais"
+            "value" : "Dentro de Outros Apps"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "În aplicații universale"
+            "value" : "În alte aplicații"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Внутри универсальных приложений"
+            "value" : "Внутри других приложений"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inuti universella appar"
+            "value" : "Inuti andra appar"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Evrensel Uygulamaların İçinde"
+            "value" : "Diğer Uygulamaların İçinde"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Усередині універсальних програм"
+            "value" : "Усередині інших програм"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "通用App内部"
+            "value" : "其他App内部"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "通用App內部"
+            "value" : "其他App內部"
           }
         }
       }
@@ -232541,6 +232753,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ssh會讀取Peel的設定"
+          }
+        }
+      }
+    },
+    "started by %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "spouští se ze souboru %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gestartet von „%@“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iniciado por %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "lancé par %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "avviato da %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@によって起動"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 의해 시작됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gestart door %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "uruchamiana przez %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iniciado por %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pornit de %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "запускается файлом %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "startas av %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından başlatılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "запускається через «%@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由“%@”启动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由「%@」啟動"
           }
         }
       }

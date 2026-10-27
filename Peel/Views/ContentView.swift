@@ -422,7 +422,11 @@ struct ContentView: View {
             IntelDetailView(finding: finding)
                 .id(finding.id)
         } else {
-            DetailPlaceholder(tool: .intel, summary: intel.summary, instruction: "Choose an item to see why it still needs Rosetta.")
+            // Two literals, so the string catalog finds both.
+            let instruction: LocalizedStringResource = HostArchitecture.isAppleSilicon
+                ? "Choose an item to see why it still needs Rosetta."
+                : "Choose an item to see why it would need Rosetta on an Apple silicon Mac."
+            DetailPlaceholder(tool: .intel, summary: intel.summary, instruction: instruction)
         }
     }
 

@@ -44,23 +44,20 @@ public struct IntelScan: Sendable {
 }
 
 public enum IntelInspector {
-    /// Folders searched in both the user's Library and the system's, because printer drivers and audio plug-ins
-    /// can be installed for one user or for everyone. The macOS 27 release notes point to these folders for
-    /// Intel plug-ins that may not appear in System Settings: `~/Library/Audio/Plug-Ins/*`,
-    /// `~/Library/Printers/`, and `~/Library/ColorPickers/`.
-    static let driverFolders = [
-        "Image Capture/Devices",
-        "Image Capture/TWAIN Data Sources",
-        printers,
-        "Audio/Plug-Ins",
-        "ColorPickers",
-    ]
+    /// The folders of drivers, which serve a device, searched in both the user's Library and the system's, because a
+    /// driver can be installed for one user or for everyone.
+    static let driverFolders = ["Image Capture/Devices", "Image Capture/TWAIN Data Sources", printers]
+
+    /// The other folders the macOS 27 release notes point to for Intel plug-ins that may not appear in System
+    /// Settings, `~/Library/Audio/Plug-Ins/*` and `~/Library/ColorPickers/`, in both Libraries. What the Plug-ins page
+    /// doesn't list there, such as an ARA plug-in, is a plug-in all the same.
+    static let plugInFolders = ["Audio/Plug-Ins", "ColorPickers"]
 
     /// A printer driver keeps programs of its own beside its bundles: the filters and the tools its PPD names, as
     /// CUPS's PPD specification shows with `/Library/Printers/vendor/Tools/lowinktool`.
     static let printers = "Printers"
 
-    static func driverDirectories(_ environment: SearchEnvironment, folders: [String] = driverFolders) -> [String] {
+    static func libraryDirectories(_ environment: SearchEnvironment, folders: [String]) -> [String] {
         [environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory),
          environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory)]
             .flatMap { library in folders.map { library.appending(path: $0).path(percentEncoded: false) } }
@@ -171,19 +168,21 @@ public enum IntelInspector {
             ))
         }
 
-        for url in bundles(in: driverDirectories(environment), unreadable: &unreadable)
-        where !Task.isCancelled && !exclusions.excludes(url) {
-            guard isIntelOnly(bundle: url, unreadable: &unreadable), isNew(url) else { continue }
-            findings.append(IntelFinding(
-                url: url,
-                kind: .driver,
-                name: url.lastPathComponent,
-                owner: nil,
-                size: await measure(url),
-            ))
+        for (folders, kind) in [(driverFolders, IntelFinding.Kind.driver), (plugInFolders, .plugin)] {
+            for url in bundles(in: libraryDirectories(environment, folders: folders), unreadable: &unreadable)
+            where !Task.isCancelled && !exclusions.excludes(url) {
+                guard isIntelOnly(bundle: url, unreadable: &unreadable), isNew(url) else { continue }
+                findings.append(IntelFinding(
+                    url: url,
+                    kind: kind,
+                    name: url.lastPathComponent,
+                    owner: nil,
+                    size: await measure(url),
+                ))
+            }
         }
 
-        let printerDirectories = driverDirectories(environment, folders: [printers])
+        let printerDirectories = libraryDirectories(environment, folders: [printers])
         for url in programs(in: printerDirectories, unreadable: &unreadable)
         where !Task.isCancelled && !exclusions.excludes(url) {
             guard isIntelOnly(executable: url, unreadable: &unreadable), isNew(url) else { continue }
