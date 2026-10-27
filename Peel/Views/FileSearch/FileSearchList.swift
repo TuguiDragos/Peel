@@ -20,6 +20,18 @@ struct FileSearchList: View {
                     .foregroundStyle(.secondary)
                     .listRowSeparator(.hidden)
             }
+            if !search.selection.outside.isEmpty, !search.keepsWhatIsOutside {
+                HStack(alignment: .firstTextBaseline) {
+                    Label("Selected but not in this search: ^[\(search.selection.outside.count) file](inflect: true).", systemImage: "checklist")
+                        .foregroundStyle(.secondary)
+                    Spacer(minLength: 8)
+                    Button("Keep Selected") { search.keepWhatIsOutside() }
+                        .buttonStyle(.borderless)
+                    Button("Deselect") { search.deselectWhatIsOutside() }
+                        .buttonStyle(.borderless)
+                }
+                .listRowSeparator(.hidden)
+            }
             if let results = search.results, !results.files.isEmpty, !results.leftOut.isEmpty {
                 Label {
                     LeftOutLines(leftOut: results.leftOut, alignment: .leading)

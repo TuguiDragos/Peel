@@ -60,4 +60,34 @@ struct FileSearchLibraryTests {
         #expect(library.results?.files.map(\.url) == [invoice])
         #expect(library.selectedURLs == [invoice])
     }
+
+    /// A selected file a newer search leaves out stays selected, and moves with the rest, until it is deselected.
+    @Test func keepsSelectedWhatANewerSearchLeavesOut() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let first = folder.appending(path: "first.dmg")
+        let second = folder.appending(path: "second.dmg")
+        for url in [first, second] { try Data(count: 16).write(to: url) }
+        let records = [first, second].map {
+            FoundFile(url: $0, size: 4_096, length: 16, modificationDate: .distantPast, requiresPrivileges: false)
+        }
+        let calls = OSAllocatedUnfairLock(initialState: 0)
+        let library = FileSearchLibrary { _, _ in
+            let call = calls.withLock { $0 += 1; return $0 }
+            return FileSearchResults(files: call == 1 ? records : [records[1]])
+        }
+        library.criteria.name = "dmg"
+        await library.search()
+        library.selectedURLs = [first, second]
+
+        library.criteria.name = "second"
+        await library.search()
+
+        #expect(library.selectedURLs == [first, second])
+        #expect(Set(library.selection.outside.keys) == [first])
+        #expect(library.carriedParts.first?.sizes.keys.contains(first) == true)
+        library.deselectWhatIsOutside()
+        #expect(library.selectedURLs == [second])
+    }
 }

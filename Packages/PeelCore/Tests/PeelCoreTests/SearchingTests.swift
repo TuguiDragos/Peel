@@ -142,4 +142,35 @@ struct SearchingTests {
         #expect(moved.withLock { $0 }.isEmpty)
         #expect(result.failures.map(\.reason) == [.changedSinceScan])
     }
+
+    /// A selected file a new search leaves out stays selected apart, as the search found it, until it is deselected
+    /// or gone from the disk.
+    @Test func keepsWhatANewSearchLeavesOutSelectedApart() throws {
+        let directory = try TemporaryDirectory()
+        let a = try directory.file("a.dmg")
+        let b = try directory.file("b.dmg")
+        let c = try directory.file("c.dmg")
+        let found = { (url: URL) in
+            FoundFile(
+                url: url, size: 16, length: 16, modificationDate: .now, requiresPrivileges: false,
+                identity: FileIdentity.of(url)
+            )
+        }
+        var selection = SearchSelection()
+
+        var selected = selection.update([a, b], was: [], now: [found(a), found(b), found(c)])
+        #expect(selected == [a, b])
+
+        selected = selection.update(selected, was: [found(a), found(b), found(c)], now: [found(c)])
+        #expect(selected == [a, b])
+        #expect(Set(selection.outside.keys) == [a, b])
+
+        try FileManager.default.removeItem(at: b)
+        selected = selection.update(selected, was: [found(c)], now: [found(c)])
+        #expect(selected == [a])
+
+        selected = selection.deselectOutside(from: selected.union([c]))
+        #expect(selected == [c])
+        #expect(selection.outside.isEmpty)
+    }
 }

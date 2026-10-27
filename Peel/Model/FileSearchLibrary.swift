@@ -21,6 +21,10 @@ final class FileSearchLibrary {
     var chosen: URL?
     /// The files Peel recommends: not the ones that need an administrator, nor the ones an app keeps for itself.
     private(set) var recommendedURLs: Set<URL> = []
+    /// The selected files a newer search no longer lists, which stay selected until the person deselects them.
+    private(set) var selection = SearchSelection()
+    /// True once the person chose to keep those files selected, until another search leaves out others.
+    private(set) var keepsWhatIsOutside = false
     private var sizes: [URL: Int64] = [:]
     private var generation = 0
     /// The exclusions the list is filtered by: those the search ran under, or those it was narrowed to since.
@@ -59,12 +63,17 @@ final class FileSearchLibrary {
             if scanRun.wasStopped, current == generation, criteria != answered { forgetResults() }
             return
         }
+        let known = results?.files ?? []
         results = found
         answered = criteria
         filteredBy = exclusions
         recommendedURLs = Set(found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp }.map(\.url))
-        sizes = Dictionary(found.files.map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first })
-        selectedURLs.formIntersection(found.files.filter { !$0.requiresPrivileges }.map(\.url))
+        let outsideBefore = Set(selection.outside.keys)
+        selectedURLs = selection.update(selectedURLs, was: known, now: found.files)
+        if Set(selection.outside.keys) != outsideBefore { keepsWhatIsOutside = false }
+        sizes = Dictionary(
+            (found.files + selection.outside.values).map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first }
+        )
         // The search ran under the exclusions as they were when it started, so leave out anything excluded since.
         await leaveOut(ExclusionsStore.shared.exclusions)
     }
@@ -73,8 +82,23 @@ final class FileSearchLibrary {
         results = nil
         answered = nil
         selectedURLs = []
+        selection = SearchSelection()
         recommendedURLs = []
         sizes = [:]
+    }
+
+    /// Keeps selected the files no longer listed, and stops saying so until another search leaves out others.
+    func keepWhatIsOutside() {
+        keepsWhatIsOutside = true
+    }
+
+    /// Deselects the files no longer listed.
+    func deselectWhatIsOutside() {
+        let outside = selection.outside.keys
+        selectedURLs = selection.deselectOutside(from: selectedURLs)
+        for url in outside {
+            sizes[url] = nil
+        }
     }
 
     /// Narrows the list to what `exclusions` leave. File Search runs only when asked, so without this a file
@@ -83,8 +107,13 @@ final class FileSearchLibrary {
         guard let results, exclusions != filteredBy else { return }
         let current = generation
         let kept = await Self.keeping(results.files, under: exclusions)
+        let outside = Array(selection.outside.values)
+        let keptOutside = await Self.keeping(outside, under: exclusions)
         guard current == generation else { return }
         filteredBy = exclusions
+        let goneOutside = Set(outside.map(\.url)).subtracting(keptOutside.map(\.url))
+        selection.forget(goneOutside)
+        selectedURLs.subtract(goneOutside)
         guard kept.count < results.files.count else { return }
         let gone = Set(results.files.map(\.url)).subtracting(kept.map(\.url))
         self.results?.files = kept
@@ -119,9 +148,9 @@ extension FileSearchLibrary: CarriesSelection {
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         isRemoving = true
         defer { isRemoving = false }
-        let files = results?.files.filter {
+        let files = ((results?.files ?? []) + selection.outside.values).filter {
             selectedURLs.contains($0.url) && part.sizes.keys.contains($0.url) && !$0.requiresPrivileges
-        } ?? []
+        }
         return await FileSearch.trash(files, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
     }
 
