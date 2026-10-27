@@ -104,6 +104,8 @@ public enum PreferenceBackup {
         case appIsOpen
         /// The exclusions aren't read yet or couldn't be read, so nothing was cleared or put back.
         case exclusionsNotKnown
+        /// The copy couldn't be read or holds no settings that can be, so nothing was cleared or put back.
+        case copyUnreadable
         /// The app is excluded, so its settings were left alone.
         case excluded
 
@@ -162,7 +164,7 @@ public enum PreferenceBackup {
         // A copy that is not a readable property list would put nothing back once the delete had cleared the
         // settings in use, so it is refused before anything is cleared.
         let readable = saved.filter { isAPropertyList($0.1) }
-        guard !readable.isEmpty else { return .incomplete(clearedSome: false) }
+        guard !readable.isEmpty else { return .copyUnreadable }
         let current = await save(readable.map(\.0), of: bundleIdentifier, in: directory, through: service, run: run)
         guard current != .failed else { return .notSaved }
         guard await !isOpen() else { return .appIsOpen }

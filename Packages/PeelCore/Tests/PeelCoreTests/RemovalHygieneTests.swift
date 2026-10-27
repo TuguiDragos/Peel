@@ -415,6 +415,25 @@ struct RemovalHygieneTests {
         )
     }
 
+    @Test func aCopyWithNothingToReadPutsNothingBack() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        try Data("not a property list".utf8).write(to: folder.appending(path: "com.example.app.plist"))
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        let restored = await PreferenceBackup.restore(
+            from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false }
+        )
+
+        #expect(restored == .copyUnreadable, "a copy with nothing to read said only that not all went back")
+        #expect(asked.withLock { $0 }.isEmpty)
+    }
+
     /// Put Back replaces what the app set since the reset, which may be a license entered again, so those settings
     /// are saved first, as a copy of their own, and only then cleared.
     @Test func puttingBackSavesTheSettingsInUseFirst() async throws {

@@ -320,7 +320,7 @@ struct ResetSheet: View {
                                     putBack = restored
                                     switch restored {
                                     case .complete, .incomplete: changedFiles = true
-                                    case .notSaved, .appIsOpen, .exclusionsNotKnown, .excluded: break
+                                    case .notSaved, .appIsOpen, .exclusionsNotKnown, .excluded, .copyUnreadable: break
                                     }
                                     isPuttingBack = false
                                 }
@@ -382,6 +382,10 @@ struct ResetSheet: View {
             .foregroundStyle(.secondary)
         case .notSaved:
             StatusLabel(title: Text("Peel couldn’t save the settings \(plan.app.name) has now, so it put nothing back."), tint: .red)
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        case .copyUnreadable:
+            StatusLabel(title: Text("Peel couldn’t read the settings saved for \(plan.app.name), so it put nothing back."), tint: .red)
                 .font(.callout)
                 .foregroundStyle(.secondary)
         case .appIsOpen:

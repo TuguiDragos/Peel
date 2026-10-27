@@ -166,6 +166,8 @@ struct SavedSettingsSection: View {
             )
         case .notSaved:
             failure = Failure(title: String(localized: "Peel couldn’t save the settings \(name) has now, so it put nothing back."), message: "")
+        case .copyUnreadable:
+            failure = Failure(title: String(localized: "Peel couldn’t read the settings saved for \(name), so it put nothing back."), message: "")
         case .appIsOpen:
             failure = Failure(title: String(localized: "Quit \(name) first, or it can write its own settings over these."), message: "")
         case .exclusionsNotKnown:

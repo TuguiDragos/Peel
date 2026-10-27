@@ -118406,6 +118406,112 @@
         }
       }
     },
+    "Peel couldn’t read the settings saved for %@, so it put nothing back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst nastavení uložená pro aplikaci %@, a proto nic nevrátil zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die für „%@“ gesicherten Einstellungen nicht lesen, daher wurde nichts zurückgelegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer los ajustes guardados de %@, así que no ha restaurado nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire les réglages enregistrés pour %@ : il n’a donc rien remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere le impostazioni salvate per %@, quindi non ha ripristinato nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは“%@”用に保存された設定を読み取れなかったため、何も戻しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 ‘%@’에 대해 저장된 설정을 읽을 수 없었으므로 아무것도 되돌려 놓지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de instellingen die voor %@ zijn bewaard, niet lezen, dus er is niets teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać ustawień zachowanych dla aplikacji %@, więc niczego nie przywrócił."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler os ajustes salvos de %@, então não colocou nada de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi configurările salvate pentru %@, așa că nu a pus nimic înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать настройки, сохраненные для приложения «%@», поэтому он ничего не восстановил."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa inställningarna som sparades för %@, så inget lades tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, %@ için kaydedilen ayarları okuyamadı, bu yüzden hiçbir şeyi yerine koymadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати налаштування, збережені для програми «%@», тому нічого не повернуто."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取为“%@”保存的设置，因此没有放回任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取為「%@」儲存的設定，因此沒有還原任何設定。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read your exclusions" : {
       "localizations" : {
         "cs" : {
