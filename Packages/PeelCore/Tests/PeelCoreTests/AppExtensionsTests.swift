@@ -283,6 +283,30 @@ struct AppExtensionsTests {
         #expect(AppExtensions.record(for: "com.example.other", version: nil, among: [old, new]) == nil)
     }
 
+    @Test func keepsTwoCopiesOfOneVersionApart() async throws {
+        func record(_ state: String, _ unique: String) -> AppExtensions.SystemExtensionRecord {
+            .init(
+                identifier: "com.example.filter", version: "2.0/200",
+                staged: URL(filePath: "/Library/SystemExtensions/\(unique)/com.example.filter.systemextension"),
+                container: "/Applications/Example.app", state: state, uniqueID: unique
+            )
+        }
+        let records = [record("terminated_waiting_to_uninstall_on_reboot", "OLD"), record("activated_enabled", "NEW")]
+        let listing = """
+        2 extension(s)
+        --- com.apple.system_extension.network_extension (Go to 'System Settings' to modify these system extension(s))
+        enabled\tactive\tteamID\tbundleID (version)\tname\t[state]
+        *\t*\tABCDE12345\tcom.example.filter (2.0/200)\tExample Filter\t[activated enabled]
+        \t\tABCDE12345\tcom.example.filter (2.0/200)\tExample Filter\t[terminated waiting to uninstall on reboot]
+        """
+
+        let found = try #require(await AppExtensions.systemExtensions(run: { _, _ in listing }, records: records))
+
+        #expect(Set(found.map(\.id)).count == 2, "two rows of a list share an id")
+        #expect(found.first?.url?.pathComponents.contains("NEW") == true)
+        #expect(found.last?.url?.pathComponents.contains("OLD") == true)
+    }
+
     /// An extension that waits for the user's approval has not been turned off. Calling it off would send the user
     /// looking for a switch to turn back on.
     @Test func tellsWaitingForApprovalApartFromTurnedOff() {

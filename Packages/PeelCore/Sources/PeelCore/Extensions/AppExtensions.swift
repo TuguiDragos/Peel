@@ -426,11 +426,12 @@ public enum AppExtensions {
         guard count(in: lines, /^(\d+) extension\(s\)$/) == rows.count else { return nil }
         let records = records()
         return notingReplacements(rows.map { row, category in
-            let record = record(for: row.identifier, version: row.version, among: records)
+            let record = record(for: row.identifier, version: row.version, state: row.state, among: records)
             let installedFor = record.flatMap(installedFor)
             return AppExtension(
-                // During an update, one identifier is listed twice, once for the old version and once for the new.
-                id: [row.identifier, row.version].compactMap(\.self).joined(separator: " "),
+                // During an update, one identifier is listed twice, once for the old version and once for the new,
+                // and in developer mode twice for one version: macOS's record names each copy.
+                id: record?.uniqueID ?? [row.identifier, row.version, row.state].compactMap(\.self).joined(separator: " "),
                 identifier: row.identifier,
                 name: row.name,
                 kind: .systemExtension,
@@ -518,6 +519,8 @@ public enum AppExtensions {
         let container: String?
         /// Where the extension was installed from, inside its app (`originPath`).
         var origin: String? = nil
+        var state: String? = nil
+        var uniqueID: String? = nil
     }
 
     /// The path of the app a record says its extension was installed for: the app macOS holds it for, or, once
@@ -535,14 +538,20 @@ public enum AppExtensions {
 
     /// The record of the extension `systemextensionsctl` listed: the one of its version, or the only one of its
     /// identifier. During an update an identifier has a record per version, and the other version's copy is not
-    /// this one: no path is better than a wrong one.
+    /// this one: no path is better than a wrong one. Two copies of one version, as developer mode allows, are told
+    /// apart by the state, which the record writes with underscores where the listing has spaces.
     static func record(
         for identifier: String,
         version: String?,
+        state: String? = nil,
         among records: [SystemExtensionRecord]
     ) -> SystemExtensionRecord? {
         let named = records.filter { $0.identifier == identifier }
-        return named.first { $0.version == version } ?? (named.count == 1 ? named.first : nil)
+        let ofTheVersion = named.filter { $0.version == version }
+        guard ofTheVersion.count < 2 else {
+            return ofTheVersion.first { $0.state != nil && $0.state == state?.replacing(" ", with: "_") }
+        }
+        return ofTheVersion.first ?? (named.count == 1 ? named.first : nil)
     }
 
     static func systemExtensionRecords(
@@ -560,7 +569,9 @@ public enum AppExtensions {
                 version: [short, build].compactMap(\.self).joined(separator: "/"),
                 staged: staged.flatMap(URL.init(string:)),
                 container: (entry["container"] as? [String: Any])?["bundlePath"] as? String,
-                origin: entry["originPath"] as? String
+                origin: entry["originPath"] as? String,
+                state: entry["state"] as? String,
+                uniqueID: entry["uniqueID"] as? String
             )
         }
     }
