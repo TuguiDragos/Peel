@@ -157,6 +157,7 @@ engines, and AI models. It also lists the graphics caches of Chrome, Chromium, B
 Google's updater downloaded for each of its apps, the web caches of apps built on Electron, such as Slack or Discord,
 and the browser profiles a Playwright run left in the temporary folder when it ended early. It never lists what a
 browser or an app keeps for you, a profile a browser still has open, a toolchain, or anything holding an account.
+Bazel's build data is found from Bazel 9 on: earlier versions keep it in `/private/var/tmp`, where Peel doesn't look.
 
 Some of what it lists you may want again, so Select Recommended passes it by: Xcode's archives and the symbols it
 copied from your devices, model weights, installed packages and the stores your projects load them from, such as
