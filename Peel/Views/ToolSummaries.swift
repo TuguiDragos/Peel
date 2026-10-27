@@ -27,8 +27,7 @@ extension Tool {
             return total.map { AttributedString(localized: "\($0) in ^[\(count) project](inflect: true).") }
                 ?? AttributedString(localized: "^[\(count) project](inflect: true).")
         case .space:
-            return total.map { AttributedString(localized: "\($0) in ^[\(count) area](inflect: true).") }
-                ?? AttributedString(localized: "^[\(count) area](inflect: true).")
+            return AttributedString(localized: "^[\(count) area](inflect: true).")
         case .installers, .cloud, .fileSearch:
             return total.map { AttributedString(localized: "\($0) in ^[\(count) item](inflect: true).") }
                 ?? AttributedString(localized: "^[\(count) item](inflect: true).")
@@ -40,9 +39,9 @@ extension Tool {
     }
 
     /// What the tool found in a word or two, for the menu bar panel's Found list: the size when it is known, and
-    /// otherwise the count.
+    /// otherwise the count. Space only counts, since it never adds its areas up.
     func figure(for looked: Looked) -> String? {
-        if let size = looked.size, size.known > 0 { return size.text }
+        if self != .space, let size = looked.size, size.known > 0 { return size.text }
         let count = looked.count
         let words: AttributedString? = switch self {
         case .applications, .homebrew: AttributedString(localized: "^[\(count) update](inflect: true)")

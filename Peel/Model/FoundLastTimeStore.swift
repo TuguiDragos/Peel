@@ -63,8 +63,9 @@ extension HomebrewLibrary {
 }
 
 extension SpaceLibrary {
+    /// No size: the areas overlap what Developer and iCloud Drive find, and Space never adds them up.
     var looked: Looked? {
-        report.map { Looked(count: $0.items.count, size: SizeTotal(combining: $0.items.map(\.size))) }
+        report.map { Looked(count: $0.items.count, size: nil) }
     }
 }
 
