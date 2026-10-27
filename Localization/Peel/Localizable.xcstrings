@@ -22774,108 +22774,109 @@
         }
       }
     },
-    "Caches from developer tools will appear here." : {
+    "Caches of developer tools, browsers, and apps built on Electron appear here." : {
+      "comment" : "The Developer page's text while it found nothing. Electron is the name of a framework apps are built on, and stays as it is.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zde se zobrazí mezipaměti vývojářských nástrojů."
+            "value" : "Zde se zobrazují mezipaměti vývojářských nástrojů, prohlížečů a aplikací postavených na frameworku Electron."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Caches von Entwicklertools werden hier angezeigt."
+            "value" : "Caches von Entwicklertools, Browsern und auf Electron basierenden Apps werden hier angezeigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí aparecerán las cachés de las herramientas para desarrolladores."
+            "value" : "Aquí aparecen las cachés de las herramientas para desarrolladores, de los navegadores y de las apps basadas en Electron."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les caches des outils de développement apparaîtront ici."
+            "value" : "Les caches des outils de développement, des navigateurs et des apps conçues avec Electron apparaissent ici."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qui appariranno le cache degli strumenti per lo sviluppo."
+            "value" : "Qui appariranno le cache degli strumenti per lo sviluppo, dei browser e delle app basate su Electron."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "デベロッパツールのキャッシュがここに表示されます。"
+            "value" : "デベロッパツール、ブラウザ、Electronで作られたアプリのキャッシュがここに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "개발자 도구의 캐시가 여기에 표시됩니다."
+            "value" : "개발자 도구, 브라우저, Electron 기반 앱의 캐시가 여기에 표시됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Caches van ontwikkeltools verschijnen hier."
+            "value" : "Caches van ontwikkeltools, browsers en apps die op Electron zijn gebouwd, verschijnen hier."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutaj pojawią się pamięci podręczne narzędzi dla deweloperów."
+            "value" : "Tutaj pojawiają się pamięci podręczne narzędzi dla deweloperów, przeglądarek i aplikacji zbudowanych w oparciu o Electron."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os caches de ferramentas para desenvolvedores aparecerão aqui."
+            "value" : "Os caches de ferramentas para desenvolvedores, navegadores e apps baseados no Electron aparecem aqui."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici vor apărea memoriile tampon ale instrumentelor pentru dezvoltatori."
+            "value" : "Aici apar memoriile tampon ale instrumentelor pentru dezvoltatori, ale browserelor și ale aplicațiilor bazate pe Electron."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Здесь появятся кэши инструментов разработчика."
+            "value" : "Здесь отображаются кэши инструментов разработчика, браузеров и приложений на основе Electron."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cachar från utvecklarverktyg visas här."
+            "value" : "Cachar från utvecklarverktyg, webbläsare och appar som är byggda på Electron visas här."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geliştirici araçlarının önbellekleri burada görünür."
+            "value" : "Geliştirici araçlarının, tarayıcıların ve Electron tabanlı uygulamaların önbellekleri burada görünür."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тут зʼявлятимуться кеші інструментів розробника."
+            "value" : "Тут зʼявляються кеші інструментів розробника, браузерів і програм на основі Electron."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "开发者工具的缓存将在此处显示。"
+            "value" : "开发者工具、浏览器以及基于Electron构建的App的缓存会在此处显示。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "開發者工具的快取會顯示在此處。"
+            "value" : "開發者工具、瀏覽器和以Electron為基礎之App的快取會顯示在此處。"
           }
         }
       }
@@ -25538,112 +25539,6 @@
         }
       }
     },
-    "Choose a developer tool to see its caches." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zvolte vývojářský nástroj a zobrazí se jeho mezipaměti."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle ein Entwicklertool, um seine Caches zu sehen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige una herramienta para desarrolladores y verás sus cachés."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez un outil de développement pour voir ses caches."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scegli uno strumento per lo sviluppo per vederne le cache."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "デベロッパツールを選ぶと、そのキャッシュが表示されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "개발자 도구를 선택하면 캐시를 볼 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kies een ontwikkeltool om de caches ervan te zien."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wybierz narzędzie dla deweloperów, aby zobaczyć jego pamięci podręczne."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha uma ferramenta para desenvolvedores e veja os caches dela."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alegeți un instrument pentru dezvoltatori ca să‑i vedeți memoriile tampon."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите инструмент разработчика, чтобы увидеть его кэши."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Välj ett utvecklarverktyg för att se dess cachar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Önbelleklerini görmek için bir geliştirici aracı seçin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Виберіть інструмент розробника, щоб побачити його кеші."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选取一个开发者工具以查看其缓存。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選擇一個開發者工具以查看其快取。"
-          }
-        }
-      }
-    },
     "Choose a file to see where it is." : {
       "localizations" : {
         "cs" : {
@@ -26595,6 +26490,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在下方選擇一個主題，「終端機」就會以該主題打開。"
+          }
+        }
+      }
+    },
+    "Choose a tool or an app to see its caches." : {
+      "comment" : "In the detail column of the Developer page while no tool or app is chosen.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zvolte nástroj nebo aplikaci a zobrazí se příslušné mezipaměti."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle ein Tool oder eine App, um die zugehörigen Caches zu sehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige una herramienta o una app para ver sus cachés."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez un outil ou une app pour voir ses caches."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli uno strumento o un’app per vederne le cache."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ツールまたはアプリを選ぶと、そのキャッシュが表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도구 또는 앱을 선택하면 캐시를 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een tool of een app om de caches ervan te zien."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz narzędzie lub aplikację, aby zobaczyć pamięci podręczne."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma ferramenta ou um app para ver os caches."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alegeți un instrument sau o aplicație ca să‑i vedeți memoriile tampon."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите инструмент или приложение, чтобы увидеть его кэши."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj ett verktyg eller en app för att se dess cachar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önbelleklerini görmek için bir araç veya uygulama seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виберіть інструмент або програму, щоб побачити їхні кеші."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选取一个工具或App以查看其缓存。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇一個工具或App以查看其快取。"
           }
         }
       }

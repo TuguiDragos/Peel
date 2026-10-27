@@ -23,7 +23,7 @@ struct DeveloperList: View {
                 ContentUnavailableView(
                     "No Developer Caches",
                     systemImage: "hammer",
-                    description: Text("Caches from developer tools will appear here.")
+                    description: Text("Caches of developer tools, browsers, and apps built on Electron appear here.")
                 )
             } else if listed.isEmpty {
                 ContentUnavailableView.search(text: searchText)

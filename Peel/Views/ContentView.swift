@@ -471,7 +471,7 @@ struct ContentView: View {
             DeveloperDetailView(environment: environment)
                 .id(environment.id)
         } else {
-            DetailPlaceholder(tool: .developer, summary: developer.summary, instruction: "Choose a developer tool to see its caches.")
+            DetailPlaceholder(tool: .developer, summary: developer.summary, instruction: "Choose a tool or an app to see its caches.")
         }
     }
 
