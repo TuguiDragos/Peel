@@ -77,6 +77,8 @@ final class HomebrewLibrary {
     /// What Homebrew's own settings undo of how Peel runs it, or change of what it tells Peel, read with the packages
     /// and again before an upgrade.
     private(set) var overrides: Homebrew.Overrides = []
+    /// A `brew.env` the person keeps where Homebrew run from Peel doesn't look (`Homebrew.unreadSettingsFile()`).
+    private(set) var unreadSettingsFile = Homebrew.unreadSettingsFile()
     /// Homebrew has no local copy of its package definitions, for example because its cache was cleared (not
     /// by Peel: its Developer page leaves them alone). Any question would make Homebrew download them again,
     /// at launch and on every change in an Applications folder, which would be Peel contacting the network on
@@ -276,6 +278,7 @@ final class HomebrewLibrary {
             autoremovable = preview.autoremoved
         }
         overrides = overridden ?? overrides
+        unreadSettingsFile = Homebrew.unreadSettingsFile()
         revision += 1
         keepSelectionOnItsPage()
     }

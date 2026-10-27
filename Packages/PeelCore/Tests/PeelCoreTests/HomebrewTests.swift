@@ -175,6 +175,18 @@ struct HomebrewTests {
         #expect(Homebrew.lastUpdateCheck(inRepository: empty.url) == nil)
     }
 
+    @Test func namesASettingsFileHomebrewRunFromPeelDoesNotRead() throws {
+        let home = try TemporaryDirectory()
+        #expect(Homebrew.unreadSettingsFile(home: home.url) == nil)
+        try home.directory(".config/homebrew/brew.env")
+        #expect(Homebrew.unreadSettingsFile(home: home.url) == nil, "a folder is no settings file")
+
+        let other = try TemporaryDirectory()
+        let file = try other.file(".config/homebrew/brew.env", contents: Data("https_proxy=http://proxy.example:8080\n".utf8))
+        let unread = Homebrew.unreadSettingsFile(home: other.url)
+        #expect(unread?.path(percentEncoded: false) == file.path(percentEncoded: false))
+    }
+
     @Test func takesTheLaterOfAnUpdateAndAConfirmationOfTheDefinitions() throws {
         let repository = try TemporaryDirectory()
         let fetchHead = try repository.file(".git/FETCH_HEAD", contents: Data("main\n".utf8))

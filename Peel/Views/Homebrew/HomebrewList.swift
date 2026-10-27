@@ -205,6 +205,15 @@ struct HomebrewList: View {
                 Notice(title: Text("Homebrew’s Own Settings Change How Peel Runs It"), detail: Text(verbatim: explanation(of: overrides)), kind: .caution) {}
             }
         }
+        if let unread = homebrew.unreadSettingsFile {
+            Section {
+                Notice(
+                    title: Text("Homebrew Run From Peel Doesn’t Read One of Your Settings Files"),
+                    detail: Text("Peel runs Homebrew without your shell’s settings, so Homebrew reads ~/.homebrew/brew.env, not \(unread.abbreviatedPath). Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env."),
+                    kind: .note
+                ) {}
+            }
+        }
     }
 
     private func explanation(of overrides: Homebrew.Overrides) -> String {

@@ -266,7 +266,9 @@ and how many items the others hold.
   upgrade. A cask Homebrew still lists though its app isn't where Homebrew put it anymore, or, for a cask with no app,
   its packages are gone, can't be upgraded. It is listed apart under Apps Already Gone, where Forget Cask, or Forget
   All for every one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it in its
-  command and completion folders, so Homebrew stops listing it, and History can put it back.
+  command and completion folders, so Homebrew stops listing it, and History can put it back. Peel runs Homebrew
+  without your shell's settings, so Homebrew reads its own from `~/.homebrew/brew.env` there: a proxy you want it to
+  use, such as `https_proxy=http://proxy.example:8080`, goes in that file.
 
 ## Fine-tune your Mac
 

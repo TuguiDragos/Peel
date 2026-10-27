@@ -609,6 +609,15 @@ public enum Homebrew {
         return hasLocalDefinitions(inCache: cache, tag: lines[1], readsTheTaps: readsItsTaps)
     }
 
+    /// A settings file `bin/brew` reads from a shell that sets `XDG_CONFIG_HOME` to `~/.config`, and not when Peel runs
+    /// it, since Peel runs it without the shell's settings and Homebrew then reads `~/.homebrew/brew.env`.
+    public static func unreadSettingsFile(home: URL = .homeDirectory) -> URL? {
+        let file = home.appending(path: ".config/homebrew/brew.env")
+        var isFolder: ObjCBool = false
+        let isThere = FileManager.default.fileExists(atPath: file.path(percentEncoded: false), isDirectory: &isFolder)
+        return isThere && !isFolder.boolValue ? file : nil
+    }
+
     /// The `brew.env` files `bin/brew` reads before every command, in its order: the system's, the prefix's, the
     /// user's, and the system's once more when it says it takes priority.
     static func settingsFiles(system: URL, prefix: URL, userConfiguration: URL) -> [URL] {
