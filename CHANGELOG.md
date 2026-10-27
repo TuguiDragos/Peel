@@ -3,6 +3,305 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
+## 1.2.2 (not released yet)
+
+### Added
+
+#### History
+
+- An item's row shows its whole path on hover, and its Control-click menu copies it, for an item in the Trash or gone.
+- The Not Moved list has Start Over when it can't be read, as History has.
+
+#### Settings
+
+- Under Watch the Trash and the disk warning, Settings says when macOS doesn't let Peel send notifications, with Open
+  System Settings.
+
+#### Intel Software
+
+- When Rosetta isn't installed, every kind but an app offers Apple's command that installs it, to copy, since only an
+  app opening asks for it.
+- A plug-in's page has Review in Plug-ins, and a background item's Review in Background Items, which open that page
+  on the item, even when the page is off in the sidebar.
+
+#### Homebrew
+
+- Before Upgrade, Upgrade All, Upgrade with Homebrew, and Uninstall, Peel quits the cask's app, with Force Quit after a
+  while, and opens it again after an upgrade.
+- Quitting Peel while Homebrew changes something waits for Homebrew; during an upgrade it asks first, with Keep Peel
+  Open or Stop and Quit.
+- A cask whose upgrade was stopped, its app left in Homebrew's folder, says so on its page, with the command that
+  reinstalls it to copy.
+- When Homebrew belongs to another account of the Mac, the page says so and changes nothing: what only reads, such as
+  the lists, Check Health, and the vulnerability scan, stays.
+
+#### File Search
+
+- When Spotlight doesn't index a disk the search reads, the page says so and names it, as `peel search` does.
+- What a search found and left out is counted by reason, above the list, or in place of No Results: what syncs to
+  your other devices, what you excluded, what sits where Peel moves nothing, and what macOS kept Peel from.
+- The Filters button fills while a filter narrows the search, and No Results offers Clear Filters.
+
+#### Background Items
+
+- A job whose file is gone, and one loaded from a file outside the folders launchd reads, can be stopped.
+- A disabled job that still runs reads "Disabled, still running".
+
+#### Extensions
+
+- An extension's page has Review in Applications, which opens its app's page, and a system extension shows its
+  version, with the version that replaces it while macOS updates it.
+
+#### Moving to the Trash from several pages
+
+- When open apps keep part of what is selected, the alert names them all and offers Deselect Them, which deselects
+  only the parts they keep.
+
+### Changed
+
+#### Home
+
+- While the helper waits for approval, Home says to allow Peel in System Settings under Login Items & Extensions, as
+  it is listed there.
+- On a standard account, Command Line says Needs an administrator, without the command, in Settings too.
+
+#### History
+
+- A removal from several pages is named by its first four pages and how many more, in the app and in `peel history`.
+- Forget says what it does: History stops listing the items, and nothing on the Mac changes.
+
+#### Settings
+
+- The note under Check for app updates says that with it off Peel doesn't look for its own updates either.
+- Privacy says all that PRIVACY.md says of each address: a tap added from another address, a package built from
+  source, the release notes in your language, and what a `brew.env` file can change.
+- App Folders refuses a whole disk, macOS's own folders, all of `/Library/Application Support`, and a folder in a
+  cloud, each with its reason.
+- The Helper tab names every order the helper takes, and Remove Peel's notes name everything Peel's folder holds and
+  what Homebrew's zap also does.
+
+#### Applications
+
+- A row moves up to Updates Available once a round of checks ends, rather than while you read the list.
+- Up to date says in its help when Peel last checked, and while the checks are off an old Up to date isn't shown.
+
+#### Intel Software
+
+- The page says that this copy is built for Intel only, and to install the maker's version for Apple silicon when it
+  offers one, rather than that no other version exists.
+- It says where an Intel plug-in can still load, and on macOS 27 that an app set to open using Rosetta opens natively.
+- A part inside an app says it comes with the app and that an update of the app may replace it.
+- A plug-in installed in several formats says its format on each row.
+
+#### Space
+
+- The groups are named Media and Library, for what they hold.
+- An area Peel only explains says "Managed by its own app or tool", and above its commands that those that remove
+  something delete it for good.
+- Local snapshots are explained in Apple's words, and the page says when macOS can't delete some of them to make room.
+- Podcast Downloads says its figure holds all the Podcasts app keeps.
+
+#### Build Artifacts
+
+- A project's page says that nothing is selected for you, and names Select Recommended.
+- Two projects in folders of the same name are told apart by the folders above them, everywhere they are named.
+
+#### Duplicates
+
+- Scan Settings' Folders note says what a folder comparison leaves out, and why.
+
+#### Extensions
+
+- The points an extension plugs into are named as System Settings names them.
+
+#### `peel`
+
+- `peel caches` and `peel projects` say why each folder stays, in their list, their JSON, and when `--remove` leaves
+  it, and `peel duplicates` says why it didn't look in a folder.
+- `peel orphans` heads each group with what `--remove` would move, and `peel leftovers` says when the app itself stays.
+- `peel search` says which files it shows, that network volumes aren't searched, and at most how many it lists.
+
+### Fixed
+
+#### Home
+
+- Reopen Peel is offered however Full Disk Access was turned on, and App Management is learned from a move only when
+  an app of another developer moved.
+- Home says when History keeps every move back, with Open History, rather than You're all set.
+- The greeting follows the hour whenever Home appears, Open at Login follows Settings at once, and VoiceOver hears each
+  permission's state with its name.
+- No command that links `peel` is offered from a temporary copy of Peel or a read-only disk.
+
+#### Menu bar
+
+- The panel is never taller than the screen: what is between its head and Open Peel scrolls when it doesn't fit.
+- Found's "2 hours ago" stays true while the panel is open, and Orphaned Files counts only its groups.
+
+#### History
+
+- Nothing moves while History can't be written, as on a full disk, and every page that moves things says so.
+- A removal History couldn't record says so in its alert, and comes back from the journal as the removal it was.
+- Undo says what it left behind wherever you are, and the Edit menu no longer offers to undo a removal put back since.
+- The page that moved an item lists it again after a Put Back.
+- Put Back says why an item stays: excluded since the move, a protected place, not in the Trash where Peel put it, a
+  locked item or folder, App Management, or a folder that isn't there anymore, each with its step. `peel restore`
+  says the same, and leaves out of its plan what only the helper can put back.
+- An item on a disk with the same name as another, or one renamed, is found by its volume, not its name.
+- An uninstall's Dock icons go back at once, each beside the icons it sat between.
+- History is read again when Peel comes forward, never says Nothing Removed Yet while it can't be read, and keeps
+  fewer removals rather than growing past what it reads back.
+- What macOS reported is worded in your language in the app, and in English by `peel`.
+
+#### Settings
+
+- Remove Peel judges each of its files before gathering them, gives the one cause that holds when it can't move Peel,
+  runs alone and is told wherever you are, waits for Homebrew's answer, and is off on an account that can't remove the
+  helper.
+- Starting over a list never writes an empty one over a list that reads, and every Start Over says whether it started
+  over, also to VoiceOver.
+- The login item and the Finder extension read Checking until macOS answers, and the Helper tab says when another copy
+  of Peel installed the helper.
+- Check for app updates checks at once whichever tab turns it on.
+- `peel exclusions` notes a path that isn't there yet and counts only what went on the list.
+
+#### Applications
+
+- Folders of apps are read each on a thread of its own within a time limit, so one that doesn't answer is named and
+  no longer holds the whole list.
+- A round of update checks no longer stops after apps leave the list, and a check made while the Mac is still offline
+  after waking changes nothing.
+- No update is offered through Homebrew to the version the app already has, a Homebrew package that Homebrew disabled
+  or can't compare says so, and each waiting update is told of once, whoever found it.
+- Each build of an app keeps its own answer, an empty App Store answer about a found update is believed only twice in
+  a row, release notes that didn't come are asked again only after a wait, and an Electron app's release its updater
+  won't offer this Mac reads as up to date.
+- An app that stays recommends nothing, a locked app gets no privacy reset, and an app's page turns its actions off
+  while it removes the app.
+- An app's page and several apps' page tell VoiceOver how their scan ended, and the question to quit apps fits what
+  runs and what goes.
+- Export List of Apps and the counts take only the apps installed on this Mac.
+- Folders where an app keeps what you made are listed and never selected, at an uninstall and in Orphaned Files: an
+  app's backups, a code editor's unsaved files and local history, Sublime Text's data, Minecraft's saved worlds, a
+  browser's saved passwords, and Things 3's to-dos.
+
+#### Orphaned Files
+
+- Files named with a gone app's own identifier are listed whatever the identifier's shape, such as `md.obsidian`.
+- This Belongs To keeps a whole group out, is read without writing, and says when it can't be read or saved.
+- The files of an app on a disk that isn't connected stay out, and a folder Peel couldn't look into counts among what
+  it couldn't read.
+- Rows that wait for the helper leave the selection when it stops answering.
+- A kernel extension removed by an administrator says to restart once it is in the Trash.
+
+#### Intel Software
+
+- Intel programs that start with an i386 slice, and the Intel updaters apps keep in their frameworks, are found.
+- The page reads itself again when shown and when Peel comes forward, names what it couldn't read, and counts Intel
+  code once though a job or a command runs it.
+
+#### Package Receipts
+
+- A folder is offered whole only when nothing inside it is missing from the receipt, and every item follows its app's
+  rules, an app that uninstalls itself with its warning.
+- A package placed by its own scripts is never called a receipt only, a package installed into an app offers the app
+  itself, and one whose app is installed says Still installed and what forgetting it costs.
+- The list is read again when a receipt changed elsewhere, and a receipt already forgotten says so.
+
+#### Homebrew
+
+- Peel asks Homebrew for its prefix and its Cellar, so the formulae you excluded are always kept.
+- Uninstall and Upgrade wait until Homebrew's apps are known, and the copied commands keep the excluded formulae.
+- Check Health runs Homebrew's whole check, the vulnerability scan says when it checked the current formula, and the
+  counts read Unknown until Homebrew answers.
+- Clean Up's question names the first four formulae, the password advice shows only when `sudo` asked for one, and the
+  page's spinners end with Homebrew's work.
+- Update Homebrew is offered above lists read before Homebrew's own definitions went.
+
+#### Space
+
+- An area partly measured reads Over its size, a folder Peel couldn't look into is a row left alone with its reason,
+  and the total counts only what can move now.
+- The disk band is read as often as Home's, both figures of an area's notice come from the same moment, and the plan
+  is made again once an app it names quits.
+- A folder an app opened since the plan is named in the alert, Peel's own folders are left alone, and Sandboxed App
+  Caches holds back what was written in the last 15 minutes.
+- Simulators counts the runtimes CoreSimulator keeps as cryptexes, and an area open on its page stays listed after a
+  move leaves it small.
+
+#### Developer
+
+- Only Neovim's own cache is listed, every Zed channel and Adobe's video apps are waited for, and JetBrains' logs are
+  one row per product.
+- One tool per Electron app however many copies, Hex 2.6's cache, search by a folder's name, and rows counted as items.
+- A CocoaPods clone of another repository and an Xcode workspace with no recorded opening are kept with their reason.
+
+#### Build Artifacts
+
+- A Python environment tagged as a cache, a node_modules in `/Users/Shared`, and a tool's own Time Machine mark are
+  left to you, and any repository, Git or another, makes a project.
+- Build output is found however deep a project sits, and work in a folder named like an artifact counts.
+- The page scans again once its scan is an hour old, and a suggested folder whose project changed in the last 7 days
+  stays when Move to Trash comes.
+
+#### Installers and Backups
+
+- A downloaded update is no longer called installed, a `.part` another program writes is left unselected, and a disk
+  image that is open right now is never suggested or moved.
+- The figures count only what can move, device backups point to System Settings > General > Storage first, and a
+  macOS installer leaves the selection when the helper can't move it.
+
+#### Duplicates
+
+- Nothing is compared while the exclusions can't be read, and what is inside an app's document is never offered,
+  even when its app is gone.
+- A network volume that stops answering no longer holds Peel's threads, a stopped scan says so, and only groups with
+  something to move are counted.
+
+#### iCloud Drive
+
+- Remove Downloads works while History can't be read or written, and no total shows before iCloud Drive is read.
+- The list says why it isn't all of it, an excluded folder is skipped whole, files are named as Finder names them, and
+  a search reads only what the rows show.
+
+#### File Search
+
+- TypeScript files are no longer listed as Movies, and a search stopped for new words leaves no old list behind.
+
+#### Background Items
+
+- A system extension's job and an app's registered item are left to System Settings, with the way there.
+- Agents are read, stopped, and started in the launchd domain they run in, a versioned Homebrew service has its
+  buttons, and two files that declare one job are told apart.
+- An enabled job that leaves the list says why, the list is read again when shown and when Peel comes forward, and
+  VoiceOver hears what an action left an item as.
+
+#### Extensions
+
+- Each extension says where it is really turned on and off, an excluded app's extensions are left out, and the page
+  is read again when shown and when Peel comes forward.
+- A system extension whose app is gone says the app is no longer installed, and is named once while macOS updates it.
+
+#### Plug-ins
+
+- The page names the folders it couldn't read, follows a plug-in folder that is a link, and names a plug-in, and a
+  Quick Action, as Finder and the Services menu do.
+- An input method in use gives the steps that free it, and a plug-in History can't put back says so before it moves.
+
+#### Moving to the Trash from several pages
+
+- Duplicates' part moves last, so the copy it keeps stays even when another page selected it.
+- What changed on a page while its question was open is named in the alert after the move.
+- When nothing on a list is recommended, Return cancels Select All.
+
+#### Every page
+
+- A program another account has open, a build tool's daemon, and a script a running Node.js or Python process was
+  started with are named, with the step that frees them.
+- A Dropbox folder outside File Provider counts as syncing, so nothing in it moves.
+- The folders Peel couldn't read are named, the first four and how many more, with Copy Details, and Full Disk Access
+  is suggested only when macOS's privacy protection kept Peel out.
+- A scan waits for macOS's question about your files, and a page shown again starts its own scan.
+
 ## 1.2.1 (2026-10-25)
 
 ### Added
