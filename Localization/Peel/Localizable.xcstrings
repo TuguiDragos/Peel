@@ -102616,7 +102616,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : ce fichier a changé ces dernières 24 heures et est peut-être encore en cours de téléchargement."
+            "value" : "Non sélectionné : cet élément a changé ces dernières 24 heures et est peut-être encore en cours de téléchargement."
           }
         },
         "it" : {
@@ -103676,7 +103676,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : ce fichier se trouve dans un dossier qu’une app conserve dans Application Support, et l’app en a peut-être encore besoin."
+            "value" : "Non sélectionné : cet élément se trouve dans un dossier qu’une app conserve dans Application Support, et l’app en a peut-être encore besoin."
           }
         },
         "it" : {
