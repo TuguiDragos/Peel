@@ -68,7 +68,6 @@ import Testing
         var shown: Shown?
     }
 
-    /// What `homebrew` shows at the moment its reading starts while `work` runs.
     private func shownWhenTheReadingStarts(
         of homebrew: HomebrewLibrary,
         during work: () async -> Void
