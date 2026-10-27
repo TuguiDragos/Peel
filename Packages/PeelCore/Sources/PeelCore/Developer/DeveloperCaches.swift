@@ -117,6 +117,11 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         SizeTotal(locations.map(\.size))
     }
 
+    /// What Select Recommended would select: the part of `total` Peel recommends.
+    public var recommendedTotal: SizeTotal {
+        SizeTotal(locations.filter(\.isRecommended).map(\.size))
+    }
+
     public var selectableRows: SelectableRows<URL> {
         SelectableRows(
             rows: locations.map(\.url),
