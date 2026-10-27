@@ -13,6 +13,8 @@ nonisolated extension SpaceItem {
         var hint: LocalizedStringResource?
         /// The hint while the apps that manage the area are gone from this Mac.
         var hintWithoutItsApp: LocalizedStringResource?
+        /// True for an area a page of Peel's own frees, which no other app or tool manages.
+        var isFreedByPeel = false
     }
 
     /// The words shown for this area. An area with no words here stops a Debug build, and a Release build
@@ -145,7 +147,8 @@ nonisolated extension SpaceItem {
         "icloud": Words(
             title: "iCloud Drive",
             detail: "iCloud files downloaded to this Mac.",
-            hint: "Peel’s own iCloud Drive page frees these, one file at a time"
+            hint: "Peel’s own iCloud Drive page frees these, one file at a time",
+            isFreedByPeel: true
         ),
         "logs": Words(
             title: "Logs",

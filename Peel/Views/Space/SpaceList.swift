@@ -243,8 +243,8 @@ private struct SpaceRow: View {
             Text(item.words.title)
                 .lineLimit(2)
         } details: {
-            if item.isReadOnly {
-                Text("Managed by its own app")
+            if item.isReadOnly, !item.words.isFreedByPeel {
+                Text("Managed by its own app or tool")
             }
         } trailing: {
             Text(item.size.text)

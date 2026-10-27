@@ -51,7 +51,7 @@ struct SpaceDetailView: View {
                     CopyableLines(
                         caption: item.commands.count == 1
                             ? Text("Run this in Terminal. It deletes for good, without the Trash.")
-                            : Text("Run these in Terminal. They delete for good, without the Trash."),
+                            : Text("Run these in Terminal. Those that remove something delete it for good, without the Trash."),
                         lines: item.commands
                     )
                 }

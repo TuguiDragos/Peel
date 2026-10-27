@@ -82898,108 +82898,108 @@
         }
       }
     },
-    "Managed by its own app" : {
+    "Managed by its own app or tool" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spravováno vlastní aplikací"
+            "value" : "Spravováno vlastní aplikací nebo nástrojem"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Von der eigenen App verwaltet"
+            "value" : "Von der eigenen App oder dem eigenen Tool verwaltet"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gestionado por su propia app"
+            "value" : "Gestionado por su propia app o herramienta"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Géré par sa propre app"
+            "value" : "Géré par sa propre app ou son propre outil"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gestito dalla sua app"
+            "value" : "Gestito dalla sua app o dal suo strumento"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "専用のアプリで管理"
+            "value" : "専用のアプリまたはツールで管理"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "해당 앱에서 관리됨"
+            "value" : "해당 앱 또는 도구에서 관리됨"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beheerd door de eigen app"
+            "value" : "Beheerd door de eigen app of tool"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zarządzane przez własną aplikację"
+            "value" : "Zarządzane przez własną aplikację lub narzędzie"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gerenciado pelo próprio app"
+            "value" : "Gerenciado pelo próprio app ou pela própria ferramenta"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gestionat de propria aplicație"
+            "value" : "Gestionat de propria aplicație sau de propriul instrument"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Управляется своим приложением"
+            "value" : "Управляется своим приложением или инструментом"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hanteras av sin egen app"
+            "value" : "Hanteras av sin egen app eller sitt eget verktyg"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kendi uygulaması tarafından yönetiliyor"
+            "value" : "Kendi uygulaması veya aracı tarafından yönetiliyor"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Керується своєю програмою"
+            "value" : "Керується своєю програмою чи інструментом"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "由其自己的App管理"
+            "value" : "由其自己的App或工具管理"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "由它自己的App管理"
+            "value" : "由它自己的App或工具管理"
           }
         }
       }
@@ -146207,108 +146207,108 @@
         }
       }
     },
-    "Run these in Terminal. They delete for good, without the Trash." : {
+    "Run these in Terminal. Those that remove something delete it for good, without the Trash." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spusťte tyto příkazy v Terminálu. Mažou trvale, bez přesunutí do koše."
+            "value" : "Spusťte tyto příkazy v Terminálu. Ty, které něco odstraňují, to mažou trvale, bez přesunutí do koše."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Führe diese Befehle im Terminal aus. Sie löschen endgültig, ohne Umweg über den Papierkorb."
+            "value" : "Führe diese Befehle im Terminal aus. Befehle, die etwas entfernen, löschen es endgültig, ohne Umweg über den Papierkorb."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ejecuta estos comandos en Terminal. Borran definitivamente, sin pasar por la papelera."
+            "value" : "Ejecuta estos comandos en Terminal. Los que eliminan algo lo borran definitivamente, sin pasar por la papelera."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exécutez ces commandes dans Terminal. Elles suppriment définitivement, sans passer par la corbeille."
+            "value" : "Exécutez ces commandes dans Terminal. Celles qui suppriment quelque chose le font définitivement, sans passer par la corbeille."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esegui in Terminale questi comandi, che eliminano definitivamente senza passare dal Cestino."
+            "value" : "Esegui in Terminale questi comandi. Quelli che rimuovono qualcosa lo eliminano definitivamente, senza passare dal Cestino."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルで以下のコマンドを実行してください。これらのコマンドは、ゴミ箱に入れずに完全に削除します。"
+            "value" : "ターミナルで以下のコマンドを実行してください。何かを取り除くコマンドは、ゴミ箱に入れずに完全に削除します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널에서 이 명령들을 실행하십시오. 이 명령들은 휴지통을 거치지 않고 영구적으로 삭제합니다."
+            "value" : "터미널에서 이 명령들을 실행하십시오. 무언가를 제거하는 명령은 휴지통을 거치지 않고 영구적으로 삭제합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voer deze uit in Terminal. Wat ze verwijderen, is definitief weg: er gaat niets naar de prullenmand."
+            "value" : "Voer deze uit in Terminal. De commando's die iets verwijderen, doen dat definitief: er gaat niets naar de prullenmand."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uruchom te polecenia w Terminalu. Usuwają one dane trwale, z pominięciem Kosza."
+            "value" : "Uruchom te polecenia w Terminalu. Te, które coś usuwają, robią to trwale, z pominięciem Kosza."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Execute estes comandos no Terminal. Eles apagam definitivamente, sem passar pelo Lixo."
+            "value" : "Execute estes comandos no Terminal. Os que removem algo o apagam definitivamente, sem passar pelo Lixo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rulați aceste comenzi în Terminal. Comenzile șterg definitiv, fără să mute nimic în Coș."
+            "value" : "Rulați aceste comenzi în Terminal. Cele care elimină ceva îl șterg definitiv, fără să mute nimic în Coș."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выполните эти команды в Терминале. Они удаляют безвозвратно, минуя Корзину."
+            "value" : "Выполните эти команды в Терминале. Команды, которые что-то удаляют, удаляют это безвозвратно, минуя Корзину."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kör de här kommandona i Terminal. De raderar permanent, utan att något hamnar i papperskorgen."
+            "value" : "Kör de här kommandona i Terminal. De som tar bort något raderar det permanent, utan att något hamnar i papperskorgen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunları Terminal’de çalıştırın. Çöp Sepeti’ne taşımadan kalıcı olarak silerler."
+            "value" : "Bunları Terminal’de çalıştırın. Bir şeyi kaldıranlar, onu Çöp Sepeti’ne taşımadan kalıcı olarak siler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Виконайте ці команди в Терміналі. Вони видаляють назавжди, оминаючи Смітник."
+            "value" : "Виконайте ці команди в Терміналі. Ті з них, що щось вилучають, видаляють це назавжди, оминаючи Смітник."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在“终端”中运行这些命令。它们会永久删除内容，不经过废纸篓。"
+            "value" : "在“终端”中运行这些命令。其中会移除内容的命令会将其永久删除，不经过废纸篓。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在「終端機」中執行這些指令。它們會永久刪除，不經過「垃圾桶」。"
+            "value" : "在「終端機」中執行這些指令。會移除內容的指令會永久刪除，不經過「垃圾桶」。"
           }
         }
       }
