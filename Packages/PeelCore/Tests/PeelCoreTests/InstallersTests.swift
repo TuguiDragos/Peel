@@ -604,27 +604,21 @@ struct InstallersTests {
             try directory.file("Downloads/Thing-\(index).dmg", bytes: 400_000)
         }
         try directory.directory("Applications")
-        let measured = Mutex(0)
-        let home = directory.url
+        let unanswered = Unanswered()
 
-        let scan = Task {
-            await Installers.scan(
+        let stop = try await unanswered.stop {
+            _ = await Installers.scan(
                 installedApps: [],
-                home: home,
-                root: home,
+                home: directory.url,
+                root: directory.url,
                 exclusions: .none,
-                minimumSize: 100_000
-            ) { _ in
-                measured.withLock { $0 += 1 }
-                while !Task.isCancelled { await Task.yield() }
-                return FolderContents(size: 400_000, holdsRepository: false)
-            }
+                minimumSize: 100_000,
+                measure: unanswered.walk
+            )
         }
-        while measured.withLock({ $0 }) == 0 { await Task.yield() }
-        scan.cancel()
-        _ = await scan.value
 
-        #expect(measured.withLock { $0 } == 1, "it went on measuring after it was canceled")
+        #expect(stop.askedBefore == 1)
+        #expect(stop.askedAfter == 0, "it went on measuring after it was canceled")
     }
 
     @Test func aDiskImageOpenRightNowIsNotSuggested() async throws {
