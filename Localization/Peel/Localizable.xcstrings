@@ -56058,108 +56058,108 @@
         }
       }
     },
-    "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel only runs Homebrew’s own commands and reads what they report." : {
+    "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel runs Homebrew’s own commands and reads what they report. Forget, which Peel does itself, moves a cask’s Homebrew receipt to the Trash." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instaluje nástroje příkazového řádku jako formulae a aplikace jako casks. Na této stránce Peel jen spouští vlastní příkazy Homebrew a čte, co hlásí."
+            "value" : "Homebrew instaluje nástroje příkazového řádku jako formulae a aplikace jako casks. Na této stránce Peel spouští vlastní příkazy Homebrew a čte, co hlásí. Akci Zapomenout provádí Peel sám: přesune do koše záznam Homebrew pro daný cask."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installiert Befehlszeilentools als Formulae und Apps als Casks. Auf dieser Seite führt Peel nur die eigenen Befehle von Homebrew aus und liest, was sie melden."
+            "value" : "Homebrew installiert Befehlszeilentools als Formulae und Apps als Casks. Auf dieser Seite führt Peel die eigenen Befehle von Homebrew aus und liest, was sie melden. „Vergessen“, das Peel selbst ausführt, legt die Homebrew-Quittung eines Casks in den Papierkorb."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instala las herramientas de línea de comandos como formulae y las apps como casks. En esta página, Peel solo ejecuta los propios comandos de Homebrew y lee lo que indican."
+            "value" : "Homebrew instala las herramientas de línea de comandos como formulae y las apps como casks. En esta página, Peel ejecuta los propios comandos de Homebrew y lee lo que indican. “Olvidar”, que hace el propio Peel, traslada a la papelera el recibo de Homebrew de un cask."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installe les outils de ligne de commande sous forme de formulae et les apps sous forme de casks. Sur cette page, Peel se contente d’exécuter les commandes de Homebrew et de lire ce qu’elles renvoient."
+            "value" : "Homebrew installe les outils de ligne de commande sous forme de formulae et les apps sous forme de casks. Sur cette page, Peel exécute les commandes de Homebrew et lit ce qu’elles renvoient. La commande Oublier, que Peel effectue lui-même, place le reçu Homebrew d’un cask dans la corbeille."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installa gli strumenti da riga di comando come formulae e le app come casks. In questa pagina Peel esegue solo i comandi di Homebrew e legge ciò che riportano."
+            "value" : "Homebrew installa gli strumenti da riga di comando come formulae e le app come casks. In questa pagina Peel esegue i comandi di Homebrew e legge ciò che riportano. Il comando Dimentica, che Peel esegue da sé, sposta nel Cestino la ricevuta Homebrew di un cask."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewは、コマンドラインツールをformulaeとして、アプリをcasksとしてインストールします。このページでは、PeelはHomebrew自身のコマンドを実行し、その報告を読み取るだけです。"
+            "value" : "Homebrewは、コマンドラインツールをformulaeとして、アプリをcasksとしてインストールします。このページでは、PeelはHomebrew自身のコマンドを実行し、その報告を読み取ります。ただし、caskのHomebrewレシートをゴミ箱に入れる操作は、Peel自身が行います。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 명령어 라인 도구를 formulae로, 앱을 casks로 설치합니다. 이 페이지에서 Peel은 Homebrew 자체 명령만 실행하고 그 결과를 읽기만 합니다."
+            "value" : "Homebrew는 명령어 라인 도구를 formulae로, 앱을 casks로 설치합니다. 이 페이지에서 Peel은 Homebrew 자체 명령을 실행하고 그 결과를 읽습니다. ‘수신 정보 제거’는 Peel이 직접 수행하며, cask의 Homebrew 수신 정보를 휴지통으로 이동합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installeert commandoregeltools als formulae en apps als casks. Op deze pagina doet Peel niets anders dan de eigen commando's van Homebrew uitvoeren en lezen wat die melden."
+            "value" : "Homebrew installeert commandoregeltools als formulae en apps als casks. Op deze pagina voert Peel de eigen commando's van Homebrew uit en leest wat die melden. 'Vergeet', dat Peel zelf uitvoert, verplaatst het Homebrew-bewijs van een cask naar de prullenmand."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instaluje narzędzia wiersza polecenia jako formulae, a aplikacje jako casks. Na tej stronie Peel tylko uruchamia polecenia samego Homebrew i odczytuje to, co zgłaszają."
+            "value" : "Homebrew instaluje narzędzia wiersza polecenia jako formulae, a aplikacje jako casks. Na tej stronie Peel uruchamia polecenia samego Homebrew i odczytuje to, co zgłaszają. Polecenie Zapomnij, które Peel wykonuje samodzielnie, przenosi potwierdzenie Homebrew danego cask do Kosza."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew instala ferramentas de linha de comando como formulae e apps como casks. Nesta página, o Peel só executa os comandos do próprio Homebrew e lê o que eles informam."
+            "value" : "O Homebrew instala ferramentas de linha de comando como formulae e apps como casks. Nesta página, o Peel executa os comandos do próprio Homebrew e lê o que eles informam. O comando Esquecer, que o próprio Peel executa, move para o Lixo o recibo do Homebrew de um cask."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instalează instrumentele în linie de comandă ca formule și aplicațiile ca cask‑uri. Pe această pagină, Peel doar rulează comenzile proprii ale Homebrew și citește ce raportează acestea."
+            "value" : "Homebrew instalează instrumentele în linie de comandă ca formule și aplicațiile ca cask‑uri. Pe această pagină, Peel rulează comenzile proprii ale Homebrew și citește ce raportează acestea. Comanda „Uitați”, pe care o execută chiar Peel, mută în Coș recipisa Homebrew a unui cask."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew устанавливает инструменты командной строки как formulae, а приложения как casks. На этой странице Peel только выполняет собственные команды Homebrew и читает то, что они сообщают."
+            "value" : "Homebrew устанавливает инструменты командной строки как formulae, а приложения как casks. На этой странице Peel выполняет собственные команды Homebrew и читает то, что они сообщают. Команда «Забыть», которую Peel выполняет сам, перемещает квитанцию Homebrew для cask в Корзину."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installerar kommandoradsverktyg som formulae och appar som casks. På den här sidan kör Peel bara Homebrews egna kommandon och läser vad de rapporterar."
+            "value" : "Homebrew installerar kommandoradsverktyg som formulae och appar som casks. På den här sidan kör Peel Homebrews egna kommandon och läser vad de rapporterar. ”Glöm”, som Peel utför själv, flyttar en casks Homebrew-kvitto till papperskorgen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew komut satırı araçlarını formulae olarak, uygulamaları ise casks olarak yükler. Bu sayfada Peel yalnızca Homebrew’un kendi komutlarını çalıştırır ve onların bildirdiklerini okur."
+            "value" : "Homebrew komut satırı araçlarını formulae olarak, uygulamaları ise casks olarak yükler. Bu sayfada Peel, Homebrew’un kendi komutlarını çalıştırır ve onların bildirdiklerini okur. Peel’in kendisinin yaptığı Unut işlemi ise bir cask paketinin Homebrew makbuzunu Çöp Sepeti’ne taşır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew інсталює інструменти командного рядка як formulae, а програми як casks. На цій сторінці Peel лише виконує власні команди Homebrew і читає те, що вони повідомляють."
+            "value" : "Homebrew інсталює інструменти командного рядка як formulae, а програми як casks. На цій сторінці Peel виконує власні команди Homebrew і читає те, що вони повідомляють. Команду «Забути» Peel виконує сама: вона переміщує в Смітник квитанцію Homebrew для cask."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew以formulae的形式安装命令行工具，以casks的形式安装App。在此页面上，Peel只运行Homebrew自己的命令，并读取它们报告的内容。"
+            "value" : "Homebrew以formulae的形式安装命令行工具，以casks的形式安装App。在此页面上，Peel会运行Homebrew自己的命令，并读取它们报告的内容。“移除记录”由Peel自己执行，它会将cask的Homebrew回执移到废纸篓。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew以formulae安裝命令列工具，以casks安裝App。在此頁面上，Peel只會執行Homebrew自己的指令，並讀取它們回報的內容。"
+            "value" : "Homebrew以formulae安裝命令列工具，以casks安裝App。在此頁面上，Peel會執行Homebrew自己的指令，並讀取它們回報的內容。「移除cask」由Peel自己執行，會將cask的Homebrew收據丟到「垃圾桶」。"
           }
         }
       }

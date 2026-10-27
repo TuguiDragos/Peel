@@ -235,7 +235,7 @@ struct HomebrewList: View {
         } header: {
             heading(
                 "Homebrew",
-                "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel only runs Homebrew’s own commands and reads what they report."
+                "Homebrew installs command-line tools as formulae and apps as casks. On this page Peel runs Homebrew’s own commands and reads what they report. Forget, which Peel does itself, moves a cask’s Homebrew receipt to the Trash."
             )
         }
     }
