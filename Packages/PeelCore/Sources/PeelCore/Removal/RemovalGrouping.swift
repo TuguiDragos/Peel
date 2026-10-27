@@ -64,7 +64,7 @@ extension RefusalRecord {
 /// Where some of a removal's records came from: the tool, and the source it names, such as an app or a group of
 /// orphaned files. A removal from one page has one part, and one that moved what was selected in several tools
 /// has one for each, in the order they moved.
-public struct RemovalPart: Sendable, Hashable {
+public struct RemovalPart: Sendable, Hashable, Codable {
     public let source: String
     /// The key of a source Peel names itself, so History can show it in the user's language.
     public let sourceKey: String?

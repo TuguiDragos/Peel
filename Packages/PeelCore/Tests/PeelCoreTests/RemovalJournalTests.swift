@@ -59,6 +59,44 @@ struct RemovalJournalTests {
         #expect(journal.entries().isEmpty)
     }
 
+    /// A removal of several parts that stops after a part moved and before it was recorded is still one entry: what
+    /// the part left in the journal joins the removal under the part's own name.
+    @Test func aPassStoppedBetweenPartsStaysOneRemoval() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let first = try directory.file("home/Library/Caches/com.example.one/cache.db").deletingLastPathComponent()
+        let second = try directory.file("home/Library/Caches/com.example.two/cache.db").deletingLastPathComponent()
+        let service = service(in: directory, journal: journal) { url in
+            directory.url.appending(path: "home/.Trash/\(url.lastPathComponent)")
+        }
+        let batch = UUID()
+        let developer = RemovalPart(source: "npm", sourceKey: nil, tool: "developer")
+        let space = RemovalPart(source: "App Caches", sourceKey: "space.appCaches", tool: "space")
+        let firstMoved = await RecordedRemoval.$current.withValue(RecordedRemoval(batch: batch, part: developer)) {
+            await service.trash([first])
+        }
+        _ = await RemovalLog(url: history).add(developer.records(of: firstMoved, sizes: [:], batch: batch))
+        _ = await RecordedRemoval.$current.withValue(RecordedRemoval(batch: batch, part: space)) {
+            await service.trash([second])
+        }
+
+        let left = journal.entries()
+        #expect(left.map(\.batch) == [batch])
+        #expect(left.map(\.part) == [space])
+        // The process stops before it records the second part.
+        journal.forget(Set(left))
+        for entry in left {
+            let recorded = RecordedRemoval(batch: entry.batch, part: try #require(entry.part))
+            journal.note([entry.item], batch: entry.batch, recordedAs: recorded, by: try endedProcess())
+        }
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+        let removals = RemovalRecord.grouped(records)
+        #expect(removals.count == 1, "the part that stopped came back as a removal of its own")
+        #expect(removals.first?.parts == [developer, space])
+    }
+
     /// While the process that moved an item still runs, it records the item itself, in its own words: a read of
     /// History meanwhile, from the app or from `peel`, leaves the journal alone.
     @Test func aRemovalStillUnderWayIsLeftToRecordItself() async throws {

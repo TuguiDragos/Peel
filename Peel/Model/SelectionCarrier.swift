@@ -104,7 +104,14 @@ final class SelectionCarrier {
             var appsToQuit: [String] = []
             let pass = await QuitGuard.shared.run {
                 await CarriedSelection.pass(parts) { part in
-                    guard let tool = tool(of: part), let result = await tool.move(part, apps: apps) else {
+                    // What a part moves is written down with the removal and the part, so a stop before the part is
+                    // recorded leaves one removal in History, not two.
+                    let recorded = RecordedRemoval(batch: removal.batch, part: part.removalPart)
+                    guard let tool = tool(of: part),
+                          let result = await RecordedRemoval.$current.withValue(recorded, operation: {
+                              await tool.move(part, apps: apps)
+                          })
+                    else {
                         appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
                         return nil
                     }

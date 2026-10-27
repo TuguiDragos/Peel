@@ -15,6 +15,21 @@ struct SelectionCarrierTests {
         func deselect(_ part: CarriedSelection.Part) {}
     }
 
+    /// A tool that moves each part at once and notes the removal its moves were written down under.
+    private final class Recording: CarriesSelection {
+        var seen: [RecordedRemoval?] = []
+        var carriedParts: [CarriedSelection.Part] { [] }
+        func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
+            seen.append(RecordedRemoval.current)
+            let name = part.page.scope
+            let json = #"{"originalURL": "file:///Users/me/\#(name)", "trashedURL": "file:///Users/me/.Trash/\#(name)", "date": 0}"#
+            let item = try? JSONDecoder().decode(TrashedItem.self, from: Data(json.utf8))
+            return TrashResult(trashed: [item].compactMap(\.self))
+        }
+        func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {}
+        func deselect(_ part: CarriedSelection.Part) {}
+    }
+
     private func part(_ scope: String) -> CarriedSelection.Part {
         CarriedSelection.Part(
             page: Tool.developer.page(scope), title: scope, source: scope, sourceKey: nil,
@@ -45,5 +60,33 @@ struct SelectionCarrierTests {
         #expect(kept.map(\.app) == ["Google Chrome", "Slack"])
         #expect(kept.map(\.part.page.scope) == ["chrome", "slack"])
         #expect(carrier.free(among: [part("chrome"), part("npm"), part("slack")]).map(\.page.scope) == ["npm"])
+    }
+
+    /// Each part moves with the removal and the part it goes into in History, which the journal keeps with what moved.
+    @Test func movesEachPartAsPartOfTheRemovalHistoryRecords() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let recording = Recording()
+        let log = RemovalLog(url: folder.appending(path: "removals.json"))
+        let carrier = SelectionCarrier(
+            tools: [.developer: recording],
+            apps: AppLibrary(
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+            ),
+            history: RemovalHistoryStore(
+                log: log,
+                refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+                knowsTheExclusions: { true }
+            ),
+            outcome: RemovalOutcome()
+        )
+
+        await carrier.move([part("npm"), part("pip")])
+
+        let batch = try #require(await log.load().records?.first?.batch)
+        #expect(recording.seen.map { $0?.batch } == [batch, batch])
+        #expect(recording.seen.map { $0?.part } == [part("npm").removalPart, part("pip").removalPart])
     }
 }

@@ -157,8 +157,8 @@ That includes what `pkgutil` and Homebrew would delete:
 A removal reaches History even when something cuts it short. Quitting Peel waits until History has it, `peel`
 carries on through Control-C or a closed terminal until it has written History, and each item Peel moves itself is
 written down the moment it moves, and what its helper moves as soon as the helper answers each request, so one cut
-short by a crash or Force Quit still reaches History, as an interrupted removal, the next time Peel or `peel` opens
-it.
+short by a crash or Force Quit still reaches History the next time Peel or `peel` opens it: as an interrupted
+removal, or, for a removal of what was selected on several pages, in that removal under its page's name.
 
 Right before anything moves, and again once a second while a removal of many items goes on, Peel looks at the files
 other programs of yours hold open, at the program each process runs, and at the script a program such as Node.js or

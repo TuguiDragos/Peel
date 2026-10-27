@@ -1,6 +1,21 @@
 import Darwin
-import Foundation
+public import Foundation
 internal import PeelPrivileged
+
+/// The removal of History a move goes into, and its part, for a removal recorded a part at a time. The journal keeps
+/// it with each item, so what a part left there when its process stopped joins that removal under the part's name.
+public struct RecordedRemoval: Sendable {
+    public let batch: UUID
+    public let part: RemovalPart
+
+    public init(batch: UUID, part: RemovalPart) {
+        self.batch = batch
+        self.part = part
+    }
+
+    /// The removal the moves in the current task go into, set by whoever records them.
+    @TaskLocal public static var current: RecordedRemoval?
+}
 
 /// What a removal moved, written down item by item as it moves, beside History. History takes each item over once
 /// it records it; what a process that stopped before then left here goes into History the next time History is read,
@@ -35,12 +50,16 @@ struct RemovalJournal: Sendable {
         let item: TrashedItem
         /// The record History couldn't take, kept here so the item comes back as what it was.
         var record: RemovalRecord? = nil
+        /// The part of the removal the item moved in, when the removal was recorded a part at a time.
+        var part: RemovalPart? = nil
 
-        /// History's record of the item: the one kept here, or else that of an interrupted removal, which names no
-        /// tool, since which tool moved the item is not known.
+        /// History's record of the item: the one kept here, or else one of its part, its size not known, or else
+        /// that of an interrupted removal, which names no tool, since which tool moved the item is not known.
         var recordToTakeIn: RemovalRecord {
-            record ?? RemovalRecord(
-                batch: batch, item: item, size: nil, source: "Interrupted removal", sourceKey: "interrupted", tool: ""
+            if let record { return record }
+            let part = part ?? RemovalPart(source: "Interrupted removal", sourceKey: "interrupted", tool: "")
+            return RemovalRecord(
+                batch: batch, item: item, size: nil, source: part.source, sourceKey: part.sourceKey, tool: part.tool
             )
         }
     }
@@ -78,14 +97,18 @@ struct RemovalJournal: Sendable {
         RemovalLog.canBeWritten(at: history)
     }
 
-    /// Writes down `items`, which moved together in `batch`, one line each. An item the journal was in, Peel's own
-    /// folder as Peel removes itself, is left out: History went with it, and writing the line would make the
-    /// folder again.
-    func note(_ items: [TrashedItem], batch: UUID, by writer: Writer = .current) {
+    /// Writes down `items`, which moved together in `batch`, or in the removal and part `recorded` names, one line
+    /// each. An item the journal was in, Peel's own folder as Peel removes itself, is left out: History went with it,
+    /// and writing the line would make the folder again.
+    func note(
+        _ items: [TrashedItem], batch: UUID, recordedAs recorded: RecordedRemoval? = .current,
+        by writer: Writer = .current
+    ) {
         let journal = url.path(percentEncoded: false)
+        let entry = { item in Entry(writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part) }
         let lines = items
             .filter { !PathComponents.isPath(journal, atOrInside: $0.originalURL.path(percentEncoded: false)) }
-            .compactMap { item in (try? Self.encoder.encode(Entry(writer: writer, batch: batch, item: item))) }
+            .compactMap { item in (try? Self.encoder.encode(entry(item))) }
         guard !lines.isEmpty else { return }
         FileLock.whileHeld(beside: url) {
             let descriptor = open(journal, O_RDWR | O_APPEND | O_CREAT | O_CLOEXEC, 0o600)
