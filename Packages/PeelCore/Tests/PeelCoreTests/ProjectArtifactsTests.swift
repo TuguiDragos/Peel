@@ -1163,6 +1163,28 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.BackupMarks(found, excluded: [], excludedFromAbove: []).markable.isEmpty)
     }
 
+    /// Beside a Python project's own file, a folder holding `pyvenv.cfg` is an environment whatever it is called, as
+    /// `.venv` and `venv` are: listed with the installed packages and never selected.
+    @Test func aPythonEnvironmentBesideItsProjectIsOneWhateverItIsCalled() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Projects/api/requirements.txt", bytes: 16)
+        for environment in ["venv311", ".venv-3.12", "py312"] {
+            try directory.file("Projects/api/\(environment)/pyvenv.cfg", bytes: 16)
+            try directory.file("Projects/api/\(environment)/lib/python3.12/site-packages/x/__init__.py", bytes: 16)
+        }
+        try directory.file("Projects/api/data/notes.txt", bytes: 16)
+        try directory.file("Projects/notes/py312/pyvenv.cfg", bytes: 16)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")]).artifacts
+
+        let rows = Dictionary(uniqueKeysWithValues: found.map { ("\($0.project.lastPathComponent)/\($0.name)", $0) })
+        #expect(Set(rows.keys) == ["api/venv311", "api/.venv-3.12", "api/py312"])
+        for row in rows.values {
+            #expect(row.isEnvironment && row.tool == "Python" && !row.isRecommended, "\(row.name)")
+        }
+    }
+
     @Test func aFolderGitTracksIsListedAndNeverSelected() async throws {
         let directory = try TemporaryDirectory()
         let git = try await GitFixture(home: directory.url.appending(path: "home"))

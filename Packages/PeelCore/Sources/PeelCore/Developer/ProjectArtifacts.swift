@@ -551,6 +551,11 @@ public enum ProjectArtifacts {
             name: "*", markers: [], tool: "Python", isGeneric: false, isEnvironment: true,
             source: "https://peps.python.org/pep-0405/", proof: .holds("pyvenv.cfg"), isFoundOnlyByItsTag: true
         ),
+        // And beside a Python project's own file, any folder holding `pyvenv.cfg` is one, whatever it is called.
+        Definition(
+            name: "*", markers: pythonProjectFiles, tool: "Python", isGeneric: false, isEnvironment: true,
+            source: "https://peps.python.org/pep-0405/", proof: .holds("pyvenv.cfg")
+        ),
         Definition(
             name: "__pycache__", markers: [], tool: "Python", isGeneric: false,
             source: "https://docs.python.org/3/tutorial/modules.html", proof: .holdsOnlyFilesEnding(".pyc")
