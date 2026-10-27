@@ -743,6 +743,19 @@ struct ProjectArtifactsTests {
         #expect(Set(inside.map(\.project.lastPathComponent)) == ["core", "util"])
     }
 
+    @Test func takesARepositoryOfEveryKindForTheProjectAboveWhatIsFoundInside() async throws {
+        let directory = try TemporaryDirectory()
+        for marker in FileSize.repositoryMarkers.sorted() {
+            try directory.file("repo\(marker)/\(marker)/state", bytes: 16)
+            try directory.file("repo\(marker)/lib/core/__pycache__/model.cpython-313.pyc", bytes: 400_000)
+        }
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(Set(found.map(\.project.lastPathComponent)) == Set(FileSize.repositoryMarkers.map { "repo\($0)" }))
+    }
+
     @Test func readsWhetherTheWholeProjectChangedForWhatIsFoundDeepInside() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("app/pyproject.toml", bytes: 16)

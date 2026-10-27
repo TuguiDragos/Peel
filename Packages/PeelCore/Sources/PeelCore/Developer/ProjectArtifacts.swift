@@ -1155,7 +1155,7 @@ public enum ProjectArtifacts {
     }
 
     static func holdsAProject(names: Set<String>, in folder: URL) -> Bool {
-        names.contains(".git")
+        !names.isDisjoint(with: FileSize.repositoryMarkers)
             || definitions.contains { !$0.markers.isEmpty && $0.hasMarker(besides: names, in: folder) }
     }
 
