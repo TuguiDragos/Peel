@@ -660,9 +660,14 @@ struct DuplicateFinderTests {
 
     @Test func aFolderSpelledInAnotherCaseIsJudgedAsTheDiskSpellsIt() throws {
         let directory = try TemporaryDirectory()
-        let home = try directory.directory("home")
-        try directory.directory("home/Library/Application Support")
-        try directory.directory("home/Music/Music")
+        let volume = try ScratchVolume(
+            fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        )
+        let home = volume.url.appending(path: "home", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(
+            at: home.appending(path: "Library/Application Support"), withIntermediateDirectories: true
+        )
+        try FileManager.default.createDirectory(at: home.appending(path: "Music/Music"), withIntermediateDirectories: true)
         let finder = DuplicateFinder(homeDirectory: home)
 
         for path in ["library", "LIBRARY/application support", "music/MUSIC"] {
