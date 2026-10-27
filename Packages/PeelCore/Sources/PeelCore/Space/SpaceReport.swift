@@ -359,7 +359,8 @@ public enum SpaceInventory {
             paths: [],
             handling: .trash,
             containerFolders: ["Data/Library/Caches", "Data/tmp"],
-            groupContainerFolder: "Library/Caches"
+            groupContainerFolder: "Library/Caches",
+            holdsBackRecentWrites: true
         ),
         // Sandboxed, Mail writes only the second folder. The first is what an older Mail left in the Library itself.
         Definition(

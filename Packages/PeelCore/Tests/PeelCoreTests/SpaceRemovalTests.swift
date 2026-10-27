@@ -228,7 +228,8 @@ struct SpaceRemovalTests {
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         let userCache = directory.url.appending(path: "C", directoryHint: .isDirectory)
         let anHourAgo = Date.now.addingTimeInterval(-3600)
-        for folder in ["home/Library/Caches", "C", "home/Library/Logs"] {
+        let container = "home/Library/Containers/org.example.app/Data/Library/Caches"
+        for folder in ["home/Library/Caches", "C", "home/Library/Logs", container] {
             try directory.file("\(folder)/org.example.busy/data.db")
             let idle = try directory.file("\(folder)/org.example.idle/data.db")
             for url in [idle, idle.deletingLastPathComponent()] {
@@ -244,7 +245,7 @@ struct SpaceRemovalTests {
             measure: LeftoverScanner.walk
         )
 
-        for id in ["caches", "user-caches", "logs"] {
+        for id in ["caches", "user-caches", "logs", "container-caches"] {
             let area = try #require(report.items.first { $0.id == id })
             let plan = await SpaceRemoval.plan(for: area, environment: environment, running: [:])
             let busy = try #require(plan.removable.first { $0.lastPathComponent == "org.example.busy" })

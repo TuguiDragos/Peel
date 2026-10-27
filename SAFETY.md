@@ -386,10 +386,11 @@ Never selected for you, even when found:
   unsaved files or a chat history, only the cache inside it.
 - A cache or a log macOS keeps for its own services in `~/Library/Caches` or `~/Library/Logs` (Spotlight's caches,
   Siri's logs) or in the container of one of Apple's apps.
-- On the Space page, a cache in `~/Library/Caches`, or in the folder macOS gives your account for caches, that
-  something wrote to in the last 15 minutes: Peel knows an open app's caches only by the app's names, and a program
-  may still be using one under a name of its own. On the Developer page, the same holds for the folders a Spring Boot
-  server makes in the temporary folder each time it starts.
+- On the Space page, a cache in `~/Library/Caches`, in the folder macOS gives your account for caches, or in an app's
+  container, that something wrote to in the last 15 minutes: Peel knows an open app's caches only by the app's names,
+  and a program may still be using one under a name of its own, such as an extension that runs without its app. On
+  the Developer page, the same holds for the folders a Spring Boot server makes in the temporary folder each time it
+  starts.
 - A log in `/opt/homebrew/var/log` that something wrote to in the last 15 minutes: a running service may hold it
   open, and moving it would free nothing.
 - `/Users/Shared`: it belongs to every account, not just yours.
