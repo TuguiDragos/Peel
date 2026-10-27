@@ -412,20 +412,42 @@ public enum SpaceInventory {
         ),
     ]
 
+    /// What measuring an area found: its size, and whether a folder in it ran out of time, which says nothing of how
+    /// big it is, while one macOS refused says only that the area is at least what was seen.
+    struct Measured {
+        let size: SizeTotal
+        let ranOutOfTime: Bool
+
+        /// Listed whatever its size when a folder ran out of time, since it may be the biggest one, or when nothing
+        /// in it could be read, so the person learns Peel couldn't look; otherwise by what was seen.
+        func isShown(over minimumSize: Int64) -> Bool {
+            ranOutOfTime || !size.isComplete && size.known == 0 || size.known >= minimumSize
+        }
+
+        /// What ran out of time first, then the biggest of what was seen.
+        func comesBefore(_ other: Measured) -> Bool {
+            ranOutOfTime != other.ranOutOfTime ? ranOutOfTime : size.known > other.size.known
+        }
+    }
+
     /// The total size of `urls` less what is excluded inside them. A folder read only in part counts what was seen; one
     /// that ran out of time (a file provider can stall a read for minutes), or holds an excluded place that did, is
-    /// unknown. An area whose size isn't all known is still listed, since it may be the biggest one.
+    /// unknown.
     private static func size(
         of urls: [URL],
         leaving exclusions: Exclusions,
         measure: @escaping LeftoverScanner.Measure
-    ) async -> SizeTotal {
+    ) async -> Measured {
         var parts: [SizeTotal] = []
+        var ranOutOfTime = false
         for url in urls {
             // A stopped scan asks about nothing more.
-            guard !Task.isCancelled else { return SizeTotal(known: 0, isComplete: false) }
+            guard !Task.isCancelled else {
+                return Measured(size: SizeTotal(known: 0, isComplete: false), ranOutOfTime: true)
+            }
             guard let contents = await measure(url) else {
                 parts.append(SizeTotal(known: 0, isComplete: false))
+                ranOutOfTime = true
                 continue
             }
             var known = contents.size
@@ -433,13 +455,14 @@ public enum SpaceInventory {
             for place in exclusions.places(inside: url) where !place.isMissing {
                 guard let excluded = await measure(place), !excluded.couldNotBeRead else {
                     (known, isComplete) = (0, false)
+                    ranOutOfTime = true
                     break
                 }
                 known -= excluded.size
             }
             parts.append(SizeTotal(known: max(0, known), isComplete: isComplete))
         }
-        return SizeTotal(combining: parts)
+        return Measured(size: SizeTotal(combining: parts), ranOutOfTime: ranOutOfTime)
     }
 
     /// The folders Space empties. Each stays itself, since Space moves what is inside, never the folder.
@@ -555,8 +578,8 @@ public enum SpaceInventory {
         // Four areas are measured at a time. One after another, the wait would be the sum of them all, and a
         // folder that never answers would delay every area after it by its whole budget. Four leaves room for
         // the rest of the app.
-        var measured: [(definition: Definition, urls: [URL], size: SizeTotal)] = []
-        await withTaskGroup(of: (Definition, [URL], SizeTotal).self) { group in
+        var measured: [(definition: Definition, urls: [URL], measured: Measured)] = []
+        await withTaskGroup(of: (Definition, [URL], Measured).self) { group in
             var pending = wanted.makeIterator()
             func addNext() -> Bool {
                 guard !Task.isCancelled, let (definition, urls) = pending.next() else { return false }
@@ -574,16 +597,15 @@ public enum SpaceInventory {
         }
         let help = await simctlHelp
         // An area in `keeping`, open on its page, stays listed whatever its size, so a move doesn't close its page.
-        let shown = measured.filter {
-            keeping.contains($0.definition.id) || !$0.size.isComplete || $0.size.known >= minimumSize
-        }
-        let items = shown.map { definition, urls, size in
-            item(definition, urls: urls, size: size, home: home, root: root, simctlRuntimeHelp: help)
+        let shown = measured
+            .filter { keeping.contains($0.definition.id) || $0.measured.isShown(over: minimumSize) }
+            .sorted { $0.measured.comesBefore($1.measured) }
+        let items = shown.map { definition, urls, measured in
+            item(definition, urls: urls, size: measured.size, home: home, root: root, simctlRuntimeHelp: help)
         }
 
         return SpaceReport(
-            // An unknown size sorts first: an area that ran out of time is most likely one of the biggest.
-            items: items.sorted { $1.size < $0.size },
+            items: items,
             snapshots: await LocalSnapshots.list(),
             needsFullDiskAccess: items.contains {
                 !$0.size.isComplete && $0.urls.contains { FullDiskAccess.canList($0) == .missing }

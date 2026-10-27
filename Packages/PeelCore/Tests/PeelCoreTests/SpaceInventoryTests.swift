@@ -87,7 +87,7 @@ struct SpaceInventoryTests {
         #expect(report.items.last.map { $0.size.isComplete && $0.size.known >= 400_000 } == true)
     }
 
-    /// Without Full Disk Access some areas are refused, and a refused one is kept like one that ran out of time.
+    /// An area macOS refused all of is kept, so the person learns Peel couldn't look there.
     @Test(.permissionsHold) func keepsAFolderItCannotOpen() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Logs/big.log", bytes: 400_000)
@@ -103,6 +103,28 @@ struct SpaceInventoryTests {
         #expect(report.items.map(\.id) == ["logs"])
         #expect(report.items.first?.size.reading == .unknown)
         #expect(!report.needsFullDiskAccess, "ordinary permissions were read as a refusal Full Disk Access would lift")
+    }
+
+    @Test(.permissionsHold) func judgesAnAreaRefusedInPartByWhatItSaw() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Logs/big.log", bytes: 400_000)
+        try directory.file("home/Library/Logs/private/kept.log", bytes: 64)
+        try directory.file("home/Library/Caches/com.example.app/blob", bytes: 3_000_000)
+        try directory.setPermissions(0, of: "home/Library/Logs/private")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Logs/private") }
+        let scan = { (floor: Int64) in
+            await SpaceInventory.scan(
+                home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+                minimumSize: floor,
+                measure: LeftoverScanner.walk
+            )
+        }
+
+        let listed = await scan(100_000)
+        #expect(listed.items.map(\.id) == ["caches", "logs"], "a refusal sorts by what was seen")
+        #expect(listed.items.last.map { !$0.size.isComplete && $0.size.known >= 400_000 } == true)
+        #expect(await scan(1_000_000).items.map(\.id) == ["caches"], "a refusal says nothing of what wasn't seen")
     }
 
     @Test(.permissionsHold) func keepsASharedAreaItCannotListAsUnknown() async throws {
