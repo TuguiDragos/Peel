@@ -31,7 +31,7 @@ extension AppExtension {
 /// those words would then stay English in every language.
 private enum ExtensionPoint {
     case finder, share, widgets, quickLook, safari, shortcuts, notifications, spotlight, photos, messages, network,
-        audio, quickActions
+        audio, quickActions, passwords, xcode, photoProjects, smartCards, services
 
     init?(_ identifier: String) {
         switch identifier {
@@ -39,15 +39,24 @@ private enum ExtensionPoint {
         case "com.apple.share-services": self = .share
         case "com.apple.widgetkit-extension": self = .widgets
         case "com.apple.quicklook.preview", "com.apple.quicklook.thumbnail": self = .quickLook
-        case "com.apple.Safari.web-extension", "com.apple.Safari.extension": self = .safari
-        case "com.apple.intents-service", "com.apple.appintents-extension": self = .shortcuts
+        case "com.apple.Safari.web-extension", "com.apple.Safari.extension", "com.apple.Safari.content-blocker":
+            self = .safari
+        case "com.apple.intents-service", "com.apple.appintents-extension", "com.apple.intents-ui-service":
+            self = .shortcuts
         case "com.apple.usernotifications.content-extension", "com.apple.usernotifications.service": self = .notifications
         case "com.apple.spotlight.import", "com.apple.spotlight.index": self = .spotlight
         case "com.apple.photo-editing": self = .photos
         case "com.apple.message-payload-provider": self = .messages
-        case "com.apple.networkextension.packet-tunnel", "com.apple.networkextension.filter-data": self = .network
+        case "com.apple.networkextension.packet-tunnel", "com.apple.networkextension.filter-data",
+             "com.apple.networkextension.app-proxy":
+            self = .network
         case "com.apple.AudioUnit-UI", "com.apple.AudioUnit": self = .audio
         case "com.apple.ui-services": self = .quickActions
+        case "com.apple.authentication-services-credential-provider-ui": self = .passwords
+        case "com.apple.dt.Xcode.extension.source-editor": self = .xcode
+        case "com.apple.photo-project": self = .photoProjects
+        case "com.apple.ctk-tokens": self = .smartCards
+        case "com.apple.services": self = .services
         default: return nil
         }
     }
@@ -69,6 +78,13 @@ private enum ExtensionPoint {
         case .network: "Network"
         case .audio: "Audio apps"
         case .quickActions: "Quick Actions"
+        // System Settings' own names for these categories of extensions. Services has a key of its own, since some
+        // languages name the category apart from the Services folder the Plug-ins page lists (Ukrainian: Сервіси).
+        case .passwords: "Password AutoFill"
+        case .xcode: "Xcode Source Editor"
+        case .photoProjects: "Photos Projects"
+        case .smartCards: "Smart Card Readers"
+        case .services: LocalizedStringResource("Services (extension point)", defaultValue: "Services")
         }
     }
 }

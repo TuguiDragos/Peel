@@ -24,6 +24,16 @@ struct ExtensionTextTests {
         ).pointName)
     }
 
+    @Test func namesThePointsAppleDocumentsAsSystemSettingsDoes() {
+        let blocker = part(name: "Blocker", owner: "Example", point: "com.apple.Safari.content-blocker")
+        let passwords = part(
+            name: "AutoFill", owner: "Example", point: "com.apple.authentication-services-credential-provider-ui"
+        )
+
+        #expect(blocker.pointName == String(localized: "Safari"))
+        #expect(passwords.pointName == String(localized: "Password AutoFill"))
+    }
+
     @Test func findsAPartByTheWordItsPageShows() throws {
         let widget = part(name: "Example", owner: "Example", point: "com.apple.widgetkit-extension")
         let word = try #require(widget.pointName)
