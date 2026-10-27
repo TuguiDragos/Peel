@@ -549,7 +549,10 @@ public enum Homebrew {
         executable(chosen: HomebrewChoice().load())
     }
 
-    static let usualPlaces = ["/opt/homebrew/bin/brew", "/usr/local/bin/brew"].map { URL(filePath: $0) }
+    /// The prefixes Homebrew installs itself in by default, from the root of the disk.
+    static let usualPrefixes = ["opt/homebrew", "usr/local"]
+
+    static let usualPlaces = usualPrefixes.map { URL(filePath: "/\($0)/bin/brew") }
 
     /// A `brew` in a usual place runs by the rule a chosen one does: this account's or root's, and nobody else can
     /// change it, since its code runs as this account whenever Peel asks Homebrew something.
@@ -639,7 +642,7 @@ public enum Homebrew {
 
     /// The value the last line of `files` gives `name`, read as `bin/brew` reads them (`read -r`): a line counts only
     /// once it ends, trimmed of spaces and tabs, and the value is what follows the equals sign.
-    private static func setting(_ name: String, in files: [URL]) -> String? {
+    static func setting(_ name: String, in files: [URL]) -> String? {
         var value: String?
         for file in files {
             guard let data = BoundedRead.data(at: file, maximum: 64 * 1_024) else { continue }

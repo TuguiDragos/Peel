@@ -355,7 +355,7 @@ public enum DeveloperCaches {
     struct FoldersLeftToDeveloper {
         private let folders: [(path: [String], own: [[String]])]
 
-        init(home: URL, userCache: URL? = nil) {
+        init(home: URL, userCache: URL? = nil, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) {
             // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
             // paths in the table don't.
             let names = { (url: URL) in PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)) }
@@ -363,7 +363,7 @@ public enum DeveloperCaches {
             let userCacheNames = userCache.map(names)
             // A tool's configuration can move a cache into a place Space shows, and the folder it names is the
             // tool's own there.
-            let settings = ToolSettings(home: home)
+            let settings = ToolSettings(home: home, root: root)
             folders = DeveloperCaches.definitions.flatMap { definition in
                 let own = definition.ownFolders.map { homeNames + PathComponents.of($0) }
                 let usual = definition.folders.compactMap { folder -> ([String], [[String]])? in
@@ -461,13 +461,13 @@ public enum DeveloperCaches {
             Folder("Library/Caches/org.carthage.CarthageKit", .downloads, source: "https://github.com/Carthage/Carthage/blob/e33e133a5427129b38bfb1ae18d8f56b29a93204/Source/CarthageKit/Constants.swift#L31"),
         ]),
         Definition(id: "homebrew", name: "Homebrew", systemImage: "mug", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/Homebrew/downloads", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/download_strategy/abstract_file_download_strategy.rb#L42"),
-            Folder("Library/Caches/Homebrew/Cask", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/cask/cache.rb#L9"),
-            Folder("Library/Caches/Homebrew/bootsnap", .cache, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/startup/bootsnap.rb#L45"),
-            Folder("Library/Caches/Homebrew/*_cache", .cache, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/package_manager_cache.rb#L8-L27"),
-            Folder("Library/Caches/Homebrew/glide_home", .cache, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/package_manager_cache.rb#L15"),
-            Folder("Library/Caches/Homebrew/api-source", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/api.rb#L26"),
-            Folder("Library/Caches/Homebrew/gh-actions-artifact", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/utils/github/artifacts/github_artifact_download_strategy.rb#L9"),
+            Folder("Library/Caches/Homebrew/downloads", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/download_strategy/abstract_file_download_strategy.rb#L42", movedBy: .homebrewCache(inside: "downloads")),
+            Folder("Library/Caches/Homebrew/Cask", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/cask/cache.rb#L9", movedBy: .homebrewCache(inside: "Cask")),
+            Folder("Library/Caches/Homebrew/bootsnap", .cache, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/startup/bootsnap.rb#L45", movedBy: .homebrewCache(inside: "bootsnap")),
+            Folder("Library/Caches/Homebrew/*_cache", .cache, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/package_manager_cache.rb#L8-L27", movedBy: .homebrewCache(inside: "*_cache")),
+            Folder("Library/Caches/Homebrew/glide_home", .cache, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/package_manager_cache.rb#L15", movedBy: .homebrewCache(inside: "glide_home")),
+            Folder("Library/Caches/Homebrew/api-source", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/api.rb#L26", movedBy: .homebrewCache(inside: "api-source")),
+            Folder("Library/Caches/Homebrew/gh-actions-artifact", .downloads, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/utils/github/artifacts/github_artifact_download_strategy.rb#L9", movedBy: .homebrewCache(inside: "gh-actions-artifact")),
             Folder("Library/Logs/Homebrew", .logs, source: "https://github.com/Homebrew/brew/blob/1299da92f98e1284cc762977c0e2de31dbb5854c/Library/Homebrew/utils/os.sh#L55-L56"),
         ]),
         Definition(id: "swiftlint", name: "SwiftLint", systemImage: "swift", appBundleIdentifiers: [], folders: [
@@ -1459,7 +1459,8 @@ public enum DeveloperCaches {
         return await scan(
             definitions + electron, homeDirectory: environment.homeDirectory,
             userCacheDirectory: environment.userCacheDirectory,
-            userTemporaryDirectory: environment.userTemporaryDirectory, exclusions: exclusions
+            userTemporaryDirectory: environment.userTemporaryDirectory, rootDirectory: environment.rootDirectory,
+            exclusions: exclusions
         )
     }
 
@@ -1480,7 +1481,8 @@ public enum DeveloperCaches {
         return await scan(
             models, homeDirectory: environment.homeDirectory,
             userCacheDirectory: environment.userCacheDirectory,
-            userTemporaryDirectory: environment.userTemporaryDirectory, exclusions: exclusions
+            userTemporaryDirectory: environment.userTemporaryDirectory, rootDirectory: environment.rootDirectory,
+            exclusions: exclusions
         ).flatMap(\.locations)
     }
 
@@ -1586,12 +1588,13 @@ public enum DeveloperCaches {
         homeDirectory: URL,
         userCacheDirectory: URL? = nil,
         userTemporaryDirectory: URL? = nil,
+        rootDirectory: URL = URL(filePath: "/", directoryHint: .isDirectory),
         exclusions: Exclusions = .none,
         measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk,
         preference: @escaping @Sendable (String) -> String? = Self.xcodePreference,
         openFiles: OpenFiles = OpenFiles()
     ) async -> [DeveloperEnvironment] {
-        let settings = ToolSettings(home: homeDirectory)
+        let settings = ToolSettings(home: homeDirectory, root: rootDirectory)
         let listening = definitions.contains { $0.folders.contains(where: \.namesItsPort) }
             ? ListeningPorts.ofThisAccount() : []
         // Four tools at a time: measured all at once, their big folders would share the disk and each run out of

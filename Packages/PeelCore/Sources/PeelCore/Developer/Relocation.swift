@@ -18,6 +18,9 @@ extension DeveloperCaches {
         case goModuleCache(inside: String)
         /// Go's build cache, which holds the `README` Go writes in it.
         case goBuildCache
+        /// Homebrew's cache, with the folders inside it named by a pattern such as `*_cache`. It counts only while it
+        /// holds the `api` folder Homebrew keeps its definitions in, since the setting can name any folder.
+        case homebrewCache(inside: String)
 
         /// Where the tool says which file holds the setting and where the setting puts the folder.
         var sources: [String] {
@@ -49,6 +52,12 @@ extension DeveloperCaches {
                 "https://github.com/golang/go/blob/a90c4a7a586c70f0de61f5507d5c347702432e39/src/cmd/go/internal/cfg/cfg.go#L347-L363",
                 "https://github.com/golang/go/blob/a90c4a7a586c70f0de61f5507d5c347702432e39/src/cmd/go/internal/cache/default.go#L25-L31",
             ]
+            case .homebrewCache: [
+                "https://github.com/Homebrew/brew/blob/3073d6a8c34f71da054b000cfdbb62594a07c969/bin/brew#L127-L181",
+                "https://github.com/Homebrew/brew/blob/3073d6a8c34f71da054b000cfdbb62594a07c969/Library/Homebrew/brew.sh#L58",
+                "https://github.com/Homebrew/brew/blob/3073d6a8c34f71da054b000cfdbb62594a07c969/Library/Homebrew/startup/config.rb#L22",
+                "https://github.com/Homebrew/brew/blob/3073d6a8c34f71da054b000cfdbb62594a07c969/Library/Homebrew/api.rb#L25",
+            ]
             }
         }
 
@@ -76,6 +85,9 @@ extension DeveloperCaches {
                 settings.goModuleCache.map { [($0.appending(path: inside, directoryHint: .isDirectory), $0)] } ?? []
             case .goBuildCache:
                 settings.goBuildCache.flatMap { Self.holdsGosReadme($0) ? [($0, $0)] : nil } ?? []
+            case .homebrewCache(let inside):
+                settings.homebrewCaches.filter { $0.appending(path: "api", directoryHint: .isDirectory).isRealFolder }
+                    .flatMap { cache in Self.entries(of: cache, named: inside).map { ($0, cache) } }
             }
             return found.map { (Self.entry($0.place), Self.entry($0.named)) }.filter(\.place.isRealFolder)
         }
@@ -90,6 +102,13 @@ extension DeveloperCaches {
         private static func versions(in root: URL) -> [URL] {
             let names = (try? FileManager.default.contentsOfDirectory(atPath: root.path(percentEncoded: false))) ?? []
             return names.filter(isAVersion).sorted().map { root.appending(path: $0, directoryHint: .isDirectory) }
+        }
+
+        /// The entries of `folder` whose names, as the disk writes them, match `pattern`, a hidden one only by name.
+        private static func entries(of folder: URL, named pattern: String) -> [URL] {
+            let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+            return names.filter { fnmatch(pattern, $0, FNM_PERIOD) == 0 }.sorted()
+                .map { folder.appending(path: $0, directoryHint: .isDirectory) }
         }
 
         private static func isAVersion(_ name: String) -> Bool {

@@ -172,6 +172,45 @@ struct ToolSettingsTests {
         #expect(left.inside(home.appending(path: "Library/Caches", directoryHint: .isDirectory)).contains(["npm"]))
     }
 
+    /// `bin/brew` reads the system's file, its prefix's, then the person's, the last line that sets a variable
+    /// winning, and the system's once more when it says so. Each prefix and each place the person's file may be in
+    /// gives a place, and a value names one only as an absolute path, since Homebrew takes it as written.
+    @Test func findsHomebrewsCacheWhereItsSettingsFilesMoveIt() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let write = { (path: String, text: String) throws in _ = try directory.file(path, contents: Data(text.utf8)) }
+        try write("etc/homebrew/brew.env", "HOMEBREW_CACHE=/for/everyone\n")
+        try write("usr/local/etc/homebrew/brew.env", "HOMEBREW_CACHE=/for/intel\n")
+        try write("home/.homebrew/brew.env", "HOMEBREW_CACHE=/own\n  HOMEBREW_CACHE=/own/last\n")
+        try write("home/.config/homebrew/brew.env", "HOMEBREW_CACHE=/unfinished")
+        let caches = { ToolSettings(home: home, root: directory.url).homebrewCaches.map { Self.path($0) } }
+
+        #expect(caches() == ["/own/last", "/for/everyone", "/for/intel"])
+
+        try write("etc/homebrew/brew.env", "HOMEBREW_CACHE=/for/everyone\nHOMEBREW_SYSTEM_ENV_TAKES_PRIORITY=1\n")
+        #expect(caches() == ["/for/everyone"], "the system's file is read again last")
+
+        try write("etc/homebrew/brew.env", "")
+        try write("usr/local/etc/homebrew/brew.env", "HOMEBREW_CACHE=\n")
+        try write("home/.homebrew/brew.env", "HOMEBREW_CACHE=\"/quoted\"\n")
+        try write("home/.config/homebrew/brew.env", "HOMEBREW_CACHE=~/Caches\nHOMEBREW_CACHE=$HOME/Caches\n")
+        #expect(caches().isEmpty, "a value taken as written names no place")
+    }
+
+    /// Space leaves to Developer the folder Homebrew's settings for everyone moved its cache into.
+    @Test func spaceLeavesToDeveloperHomebrewsCacheMovedIntoItsCaches() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let moved = home.appending(path: "Library/Caches/brew").path(percentEncoded: false)
+        try directory.file("etc/homebrew/brew.env", contents: Data("HOMEBREW_CACHE=\(moved)\n".utf8))
+        try directory.directory("home/Library/Caches/brew/api")
+        try directory.file("home/Library/Caches/brew/downloads/0a1b--tool.tar.gz")
+
+        let left = DeveloperCaches.FoldersLeftToDeveloper(home: home, root: directory.url)
+
+        #expect(left.inside(home.appending(path: "Library/Caches", directoryHint: .isDirectory)).contains(["brew"]))
+    }
+
     private static func path(_ url: URL?) -> String? {
         url.map { $0.path(percentEncoded: false) }.map { $0.count > 1 && $0.hasSuffix("/") ? String($0.dropLast()) : $0 }
     }

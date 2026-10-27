@@ -19,8 +19,11 @@ struct ToolSettings: Sendable {
     let goModuleCache: URL?
     /// Go's build cache: `GOCACHE` in the same file.
     let goBuildCache: URL?
+    /// Homebrew's caches: `HOMEBREW_CACHE` in the `brew.env` files `bin/brew` reads.
+    let homebrewCaches: [URL]
 
-    init(home: URL) {
+    /// The settings of the tools of `home`, with Homebrew's files for everyone read from `root`.
+    init(home: URL, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) {
         let npmrc = Self.text(at: home.appending(path: ".npmrc"))
         let yarnrc = Self.text(at: home.appending(path: ".yarnrc"))
         let pnpm = home.appending(path: "Library/Preferences/pnpm", directoryHint: .isDirectory)
@@ -58,6 +61,30 @@ struct ToolSettings: Sendable {
             .flatMap { $0.isEmpty ? nil : String($0) + "/pkg/mod" }
         goModuleCache = (goValue("GOMODCACHE") ?? goPath).flatMap(Self.absolute)
         goBuildCache = goValue("GOCACHE").flatMap(Self.absolute)
+        homebrewCaches = Self.homebrewCaches(home: home, root: root)
+    }
+
+    /// Every place `HOMEBREW_CACHE` names in the `brew.env` files, for each prefix Homebrew may be in and each folder
+    /// the person's own file may be in: `~/.homebrew`, or `~/.config/homebrew` for a shell that sets
+    /// `XDG_CONFIG_HOME` there. Homebrew takes the value as written, so only an absolute path names a place.
+    private static func homebrewCaches(home: URL, root: URL) -> [URL] {
+        let chosen = HomebrewChoice(url: HomebrewChoice.url(inHome: home)).load()
+            .map { $0.deletingLastPathComponent().deletingLastPathComponent() }
+        let prefixes = [chosen].compactMap(\.self)
+            + Homebrew.usualPrefixes.map { root.appending(path: $0, directoryHint: .isDirectory) }
+        let ownFolders = [".homebrew", ".config/homebrew"].map { home.appending(path: $0, directoryHint: .isDirectory) }
+        let system = root.appending(path: "etc/homebrew/brew.env")
+        var caches: [URL] = []
+        for prefix in prefixes {
+            for folder in ownFolders {
+                let files = Homebrew.settingsFiles(system: system, prefix: prefix, userConfiguration: folder)
+                guard let cache = Homebrew.setting("HOMEBREW_CACHE", in: files).flatMap(absolute),
+                      !caches.contains(cache)
+                else { continue }
+                caches.append(cache)
+            }
+        }
+        return caches
     }
 
     /// A configuration file is a few lines; a megabyte is far beyond any real one.

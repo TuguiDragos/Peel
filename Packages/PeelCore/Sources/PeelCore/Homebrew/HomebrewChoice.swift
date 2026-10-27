@@ -26,7 +26,11 @@ public struct HomebrewChoice: Sendable {
     }
 
     public static var defaultURL: URL {
-        PeelFolder.url.appending(path: "homebrew.json")
+        url(inHome: .homeDirectory)
+    }
+
+    static func url(inHome home: URL) -> URL {
+        PeelFolder.url(inHome: home).appending(path: "homebrew.json")
     }
 
     /// The chosen `brew`, or nil when none was chosen. It stays chosen when it can no longer be run, so Peel runs

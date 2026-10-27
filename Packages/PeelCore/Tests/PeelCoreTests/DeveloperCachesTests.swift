@@ -528,6 +528,28 @@ struct DeveloperCachesTests {
         #expect(chat.locations.map(\.url.lastPathComponent) == ["GPUCache"])
     }
 
+    /// Homebrew's cache, moved by `HOMEBREW_CACHE`, is found where it went by the names Homebrew gives its folders
+    /// there, and only where Homebrew keeps its definitions: the setting can name any folder.
+    @Test func findsHomebrewsCacheWhereItsSettingsMoveIt() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let moved = directory.url.appending(path: "Fast/Homebrew").path(percentEncoded: false)
+        let other = directory.url.appending(path: "Fast/Other").path(percentEncoded: false)
+        try directory.file("home/.homebrew/brew.env", contents: Data("HOMEBREW_CACHE=\(moved)\n".utf8))
+        try directory.file("home/.config/homebrew/brew.env", contents: Data("HOMEBREW_CACHE=\(other)\n".utf8))
+        try directory.directory("Fast/Homebrew/api")
+        for path in ["downloads/0a1b--tool.tar.gz", "Cask/app--1.0.dmg", "go_cache/entry", ".x_cache/a", "Music/a.m4a"] {
+            try directory.file("Fast/Homebrew/\(path)", bytes: 4_096)
+        }
+        try directory.file("Fast/Other/downloads/0a1b--tool.tar.gz", bytes: 4_096)
+        let homebrew = DeveloperCaches.definitions.filter { $0.id == "homebrew" }
+
+        let found = await DeveloperCaches.scan(homebrew, homeDirectory: home, rootDirectory: directory.url)
+
+        let listed = Set(found.flatMap(\.locations).map { $0.url.path(percentEncoded: false) })
+        #expect(listed == Set(["Cask", "downloads", "go_cache"].map { "\(moved)/\($0)" }))
+    }
+
     /// A large `DerivedData`, or a Gradle cache on a cold disk, may not be measured in time. Such a folder is not
     /// read as empty: it is listed first, with no size, and never selected for the user.
     @Test func aFolderThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {
