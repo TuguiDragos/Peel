@@ -11,10 +11,10 @@ struct PrivacySettingsView: View {
 
     private let hosts = [
         Host(address: "itunes.apple.com", purpose: "The latest version of apps installed from the App Store."),
-        Host(address: "github.com", purpose: "Peel’s own update feed, the release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to update, upgrade, or repair its taps."),
+        Host(address: "github.com", purpose: "Peel’s own update feed, the release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to update, upgrade, or repair its taps, and a tap you added from another address from there."),
         Host(address: "api.github.com", purpose: "When you ask Homebrew to update or upgrade, it first asks here whether Homebrew itself, and each tap kept on GitHub, has changed."),
         Host(address: "formulae.brew.sh", purpose: "Homebrew’s own package list, downloaded when you ask Homebrew to update or upgrade."),
-        Host(address: "ghcr.io", purpose: "Where Homebrew downloads the packages it upgrades. A cask comes from its maker’s own address."),
+        Host(address: "ghcr.io", purpose: "Where Homebrew downloads the packages it upgrades, and wherever it redirects. A package with no ready-made build for your Mac downloads its source from the address its formula names, and a cask comes from its maker’s own address."),
         Host(address: "api.osv.dev", purpose: "The list of known vulnerabilities Homebrew checks formulae against."),
     ]
 
@@ -32,13 +32,13 @@ struct PrivacySettingsView: View {
                     hostRow(Text(verbatim: host.address), host.purpose)
                 }
                 // Not an address, so unlike the host names above, this name is translated.
-                hostRow(Text("Each app’s own update feed"), "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version, and again hours later when its server didn’t answer.")
+                hostRow(Text("Each app’s own update feed"), "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version, and again hours later when its server didn’t answer. When the feed names a page for each language, Peel asks for the one in yours, so that server can tell which language you read.")
                 LabeledContent {
                     Toggle(isOn: $checksForAppUpdates) { EmptyView() }
                         .labelsHidden()
                         .accessibilityLabel(Text("Check for app updates"))
                 } label: {
-                    titled("Check for app updates", "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan.")
+                    titled("Check for app updates", "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change.")
                 }
             } header: {
                 Text("Hosts Peel Can Contact")

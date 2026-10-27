@@ -131725,108 +131725,108 @@
         }
       }
     },
-    "Peel’s own update feed, the release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to update, upgrade, or repair its taps." : {
+    "Peel’s own update feed, the release feed of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to update, upgrade, or repair its taps, and a tap you added from another address from there." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kanál aktualizací samotného Peelu, kanál vydání aplikací, které se aktualizují přes GitHub, a kamkoli GitHub stahování přesměruje. Odtud Homebrew také aktualizuje sám sebe a své taps, když ho požádáte o aktualizaci, upgrade nebo opravu jeho taps."
+            "value" : "Kanál aktualizací samotného Peelu, kanál vydání aplikací, které se aktualizují přes GitHub, a kamkoli GitHub stahování přesměruje. Odtud Homebrew také aktualizuje sám sebe a své taps, když ho požádáte o aktualizaci, upgrade nebo opravu jeho taps, a tap, který jste přidali z jiné adresy, aktualizuje z ní."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der eigene Update-Feed von Peel, der Release-Feed von Apps, die sich über GitHub aktualisieren, sowie die Adresse, an die GitHub den Download weiterleitet. Homebrew aktualisiert von hier auch sich selbst und seine Taps, wenn du Homebrew aktualisieren, ein Upgrade ausführen oder seine Taps reparieren lässt."
+            "value" : "Der eigene Update-Feed von Peel, der Release-Feed von Apps, die sich über GitHub aktualisieren, sowie die Adresse, an die GitHub den Download weiterleitet. Homebrew aktualisiert von hier auch sich selbst und seine Taps, wenn du Homebrew aktualisieren, ein Upgrade ausführen oder seine Taps reparieren lässt. Einen Tap, den du von einer anderen Adresse hinzugefügt hast, aktualisiert Homebrew von dort."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El canal de actualizaciones del propio Peel, el canal de versiones de las apps que se actualizan a través de GitHub, y el lugar al que GitHub envíe la descarga. Homebrew también se actualiza desde aquí, junto con sus taps, cuando le pides que se actualice, que actualice paquetes o que repare sus taps."
+            "value" : "El canal de actualizaciones del propio Peel, el canal de versiones de las apps que se actualizan a través de GitHub, y el lugar al que GitHub envíe la descarga. Homebrew también se actualiza desde aquí, junto con sus taps, cuando le pides que se actualice, que actualice paquetes o que repare sus taps, salvo un tap que hayas añadido desde otra dirección, que se actualiza desde ella."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le flux de mises à jour propre à Peel, le flux de versions des apps qui se mettent à jour via GitHub, et l’adresse vers laquelle GitHub redirige le téléchargement. Homebrew se met aussi à jour depuis cet hôte, ainsi que ses taps, lorsque vous lui demandez une mise à jour, une mise à niveau ou la réparation de ses taps."
+            "value" : "Le flux de mises à jour propre à Peel, le flux de versions des apps qui se mettent à jour via GitHub, et l’adresse vers laquelle GitHub redirige le téléchargement. Homebrew se met aussi à jour depuis cet hôte, ainsi que ses taps, lorsque vous lui demandez une mise à jour, une mise à niveau ou la réparation de ses taps, tandis qu’un tap que vous avez ajouté depuis une autre adresse est mis à jour depuis celle-ci."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il feed degli aggiornamenti di Peel stesso, il feed delle versioni delle app che si aggiornano tramite GitHub, e ovunque GitHub indirizzi il download. Da qui si aggiorna anche Homebrew, insieme ai suoi tap, quando gli chiedi di aggiornarsi, di aggiornare i pacchetti o di riparare i tap."
+            "value" : "Il feed degli aggiornamenti di Peel stesso, il feed delle versioni delle app che si aggiornano tramite GitHub, e ovunque GitHub indirizzi il download. Da qui si aggiorna anche Homebrew, insieme ai suoi tap, quando gli chiedi di aggiornarsi, di aggiornare i pacchetti o di riparare i tap, mentre un tap che hai aggiunto da un altro indirizzo si aggiorna da quell’indirizzo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自身のアップデートフィード、GitHubでアップデートされるアプリのリリースフィードと、GitHubがダウンロードを転送する先です。アップデート、アップグレード、またはtapsの修復を指示したときに、Homebrewもここから自身とtapsをアップデートします。"
+            "value" : "Peel自身のアップデートフィード、GitHubでアップデートされるアプリのリリースフィードと、GitHubがダウンロードを転送する先です。アップデート、アップグレード、またはtapsの修復を指示したときに、Homebrewもここから自身とtapsをアップデートします。ただし、別のアドレスから追加したtapは、そのアドレスからアップデートします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel 자체의 업데이트 피드, GitHub를 통해 업데이트되는 앱의 릴리즈 피드와, GitHub가 다운로드를 보내는 모든 주소입니다. Homebrew도 업데이트, 업그레이드 또는 tap 복구를 요청하면 여기에서 Homebrew 자체와 tap을 업데이트합니다."
+            "value" : "Peel 자체의 업데이트 피드, GitHub를 통해 업데이트되는 앱의 릴리즈 피드와, GitHub가 다운로드를 보내는 모든 주소입니다. Homebrew도 업데이트, 업그레이드 또는 tap 복구를 요청하면 여기에서 Homebrew 자체와 tap을 업데이트하며, 다른 주소에서 추가한 tap은 그 주소에서 업데이트합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De eigen updatefeed van Peel, de releasefeed van apps die via GitHub worden bijgewerkt, en elke plek waar GitHub de download naar doorstuurt. Homebrew werkt zichzelf en zijn taps hier ook bij als je Homebrew vraagt om bij te werken, te upgraden of zijn taps te herstellen."
+            "value" : "De eigen updatefeed van Peel, de releasefeed van apps die via GitHub worden bijgewerkt, en elke plek waar GitHub de download naar doorstuurt. Homebrew werkt zichzelf en zijn taps hier ook bij als je Homebrew vraagt om bij te werken, te upgraden of zijn taps te herstellen, en een tap die je vanaf een ander adres hebt toegevoegd, werkt Homebrew vanaf dat adres bij."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kanał uaktualnień samego Peel, kanał wydań aplikacji uaktualnianych przez GitHub oraz miejsce, do którego GitHub kieruje pobieranie. Stąd też Homebrew pobiera nowe wersje samego siebie i swoich tapów, gdy użyjesz polecenia Odśwież, Uaktualnij lub Napraw tapy."
+            "value" : "Kanał uaktualnień samego Peel, kanał wydań aplikacji uaktualnianych przez GitHub oraz miejsce, do którego GitHub kieruje pobieranie. Stąd też Homebrew pobiera nowe wersje samego siebie i swoich tapów, gdy użyjesz polecenia Odśwież, Uaktualnij lub Napraw tapy, a nowe wersje tapu dodanego przez Ciebie z innego adresu pobiera stamtąd."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O feed de atualização do próprio Peel, o feed de versões dos apps que se atualizam pelo GitHub, e qualquer endereço para onde o GitHub mande o download. O Homebrew também se atualiza por aqui, junto com os seus taps, quando você pede para ele atualizar, fazer upgrade ou reparar os seus taps."
+            "value" : "O feed de atualização do próprio Peel, o feed de versões dos apps que se atualizam pelo GitHub, e qualquer endereço para onde o GitHub mande o download. O Homebrew também se atualiza por aqui, junto com os seus taps, quando você pede para ele atualizar, fazer upgrade ou reparar os seus taps, e um tap que você adicionou a partir de outro endereço se atualiza por esse endereço."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fluxul de actualizări propriu al aplicației Peel, fluxul de versiuni al aplicațiilor care se actualizează prin GitHub și orice loc spre care GitHub trimite descărcarea. Tot de aici se actualizează și Homebrew, împreună cu tap‑urile sale, când îi cereți să se actualizeze, să facă upgrade sau să își repare tap‑urile."
+            "value" : "Fluxul de actualizări propriu al aplicației Peel, fluxul de versiuni al aplicațiilor care se actualizează prin GitHub și orice loc spre care GitHub trimite descărcarea. Tot de aici se actualizează și Homebrew, împreună cu tap‑urile sale, când îi cereți să se actualizeze, să facă upgrade sau să își repare tap‑urile, iar un tap pe care l‑ați adăugat de la o altă adresă se actualizează de la adresa respectivă."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Собственная лента обновлений Peel, лента выпусков приложений, которые обновляются через GitHub, и адрес, куда GitHub перенаправляет загрузку. Homebrew тоже обновляет отсюда себя и свои taps, когда Вы запускаете обновление Homebrew или пакетов либо исправление taps."
+            "value" : "Собственная лента обновлений Peel, лента выпусков приложений, которые обновляются через GitHub, и адрес, куда GitHub перенаправляет загрузку. Homebrew тоже обновляет отсюда себя и свои taps, когда Вы запускаете обновление Homebrew или пакетов либо исправление taps, а tap, добавленный Вами с другого адреса, обновляет оттуда."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peels eget uppdateringsflöde, versionsflödet för appar som uppdateras via GitHub, och dit GitHub skickar hämtningen. Homebrew uppdaterar också sig självt och sina taps härifrån när du ber det att uppdatera, uppgradera eller reparera sina taps."
+            "value" : "Peels eget uppdateringsflöde, versionsflödet för appar som uppdateras via GitHub, och dit GitHub skickar hämtningen. Homebrew uppdaterar också sig självt och sina taps härifrån när du ber det att uppdatera, uppgradera eller reparera sina taps, och ett tap som du har lagt till från en annan adress uppdateras från den adressen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in kendi güncelleme akışı, GitHub üzerinden güncellenen uygulamaların sürüm akışı ve GitHub’ın indirmeyi yönlendirdiği her yer. Homebrew da, ondan güncellemesini, yükseltmesini veya tap depolarını onarmasını istediğinizde kendini ve tap depolarını buradan günceller."
+            "value" : "Peel’in kendi güncelleme akışı, GitHub üzerinden güncellenen uygulamaların sürüm akışı ve GitHub’ın indirmeyi yönlendirdiği her yer. Homebrew da, ondan güncellemesini, yükseltmesini veya tap depolarını onarmasını istediğinizde kendini ve tap depolarını buradan, başka bir adresten eklediğiniz bir tap deposunu ise o adresten günceller."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Власна стрічка оновлень Peel, стрічка випусків програм, які оновлюються через GitHub, і будь-яка адреса, куди GitHub перенаправляє для викачування. Homebrew також оновлює звідси себе й свої taps, коли ви просите його оновитися, оновити пакети або полагодити taps."
+            "value" : "Власна стрічка оновлень Peel, стрічка випусків програм, які оновлюються через GitHub, і будь-яка адреса, куди GitHub перенаправляє для викачування. Homebrew також оновлює звідси себе й свої taps, коли ви просите його оновитися, оновити пакети або полагодити taps, а tap, який ви додали з іншої адреси, оновлює з тієї адреси."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel本身的更新源、通过GitHub更新的App的发布源，以及GitHub将下载重定向到的任何地址。当你让Homebrew更新或升级，或让它修复其taps时，Homebrew也会从这里更新自身及其taps。"
+            "value" : "Peel本身的更新源、通过GitHub更新的App的发布源，以及GitHub将下载重定向到的任何地址。当你让Homebrew更新或升级，或让它修复其taps时，Homebrew也会从这里更新自身及其taps；对于你从其他地址添加的tap，则从该地址更新。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自己的更新Feed、透過GitHub更新之App的發行版本Feed，以及GitHub將下載導向的任何位置。當你要求Homebrew更新、升級或修復其taps時，Homebrew也會從這裡更新自己和其taps。"
+            "value" : "Peel自己的更新Feed、透過GitHub更新之App的發行版本Feed，以及GitHub將下載導向的任何位置。當你要求Homebrew更新、升級或修復其taps時，Homebrew也會從這裡更新自己和其taps，而你從其他網址加入的tap則會從該網址更新。"
           }
         }
       }
@@ -173827,108 +173827,108 @@
         }
       }
     },
-    "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version, and again hours later when its server didn’t answer." : {
+    "The address written inside the app, and wherever it redirects. For an update that waits, also the page of release notes the feed names, once per version, and again hours later when its server didn’t answer. When the feed names a page for each language, Peel asks for the one in yours, so that server can tell which language you read." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adresa zapsaná uvnitř aplikace a všechny adresy, na které přesměrovává. U čekající aktualizace také stránka s poznámkami k vydání, kterou uvádí kanál, jednou pro každou verzi a znovu o několik hodin později, pokud její server neodpověděl."
+            "value" : "Adresa zapsaná uvnitř aplikace a všechny adresy, na které přesměrovává. U čekající aktualizace také stránka s poznámkami k vydání, kterou uvádí kanál, jednou pro každou verzi a znovu o několik hodin později, pokud její server neodpověděl. Když kanál uvádí stránku pro každý jazyk, Peel si vyžádá tu ve vašem jazyce, takže tento server může poznat, v jakém jazyce čtete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Adresse, die in der App steht, und wohin sie weiterleitet. Bei einem ausstehenden Update außerdem die vom Feed genannte Seite mit den Versionshinweisen, einmal pro Version und Stunden später erneut, wenn ihr Server nicht geantwortet hat."
+            "value" : "Die Adresse, die in der App steht, und wohin sie weiterleitet. Bei einem ausstehenden Update außerdem die vom Feed genannte Seite mit den Versionshinweisen, einmal pro Version und Stunden später erneut, wenn ihr Server nicht geantwortet hat. Nennt der Feed für jede Sprache eine eigene Seite, fragt Peel nach der in deiner Sprache, sodass dieser Server erkennen kann, welche Sprache du liest."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La dirección escrita dentro de la app, y el lugar al que redirija. Para una actualización pendiente, también la página de notas de la versión que indique el canal, una vez por versión, y de nuevo unas horas después si su servidor no respondió."
+            "value" : "La dirección escrita dentro de la app, y el lugar al que redirija. Para una actualización pendiente, también la página de notas de la versión que indique el canal, una vez por versión, y de nuevo unas horas después si su servidor no respondió. Cuando el canal indica una página para cada idioma, Peel pide la de tu idioma, así que ese servidor puede saber qué idioma lees."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’adresse inscrite dans l’app, et celle vers laquelle elle redirige. Pour une mise à jour en attente, Peel consulte aussi la page des notes de mise à jour indiquée par le flux, une fois par version, et de nouveau quelques heures plus tard si son serveur n’a pas répondu."
+            "value" : "L’adresse inscrite dans l’app, et celle vers laquelle elle redirige. Pour une mise à jour en attente, Peel consulte aussi la page des notes de mise à jour indiquée par le flux, une fois par version, et de nouveau quelques heures plus tard si son serveur n’a pas répondu. Lorsque le flux indique une page pour chaque langue, Peel demande celle de votre langue, si bien que ce serveur peut savoir quelle langue vous lisez."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’indirizzo scritto all’interno dell’app, e ovunque esso reindirizzi. Per un aggiornamento in attesa, anche la pagina che il feed indica per le note della versione, una volta per ogni versione, e di nuovo alcune ore dopo se il suo server non ha risposto."
+            "value" : "L’indirizzo scritto all’interno dell’app, e ovunque esso reindirizzi. Per un aggiornamento in attesa, anche la pagina che il feed indica per le note della versione, una volta per ogni versione, e di nuovo alcune ore dopo se il suo server non ha risposto. Quando il feed indica una pagina per ogni lingua, Peel chiede quella nella tua lingua, quindi quel server può capire in quale lingua leggi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリ内に記載されたアドレスと、そのリダイレクト先です。アップデートが待機中の場合は、フィードに記載されたリリースノートのページにも、バージョンごとに1回アクセスします。ページのサーバが応答しなかった場合は、数時間後にもう一度アクセスします。"
+            "value" : "アプリ内に記載されたアドレスと、そのリダイレクト先です。アップデートが待機中の場合は、フィードに記載されたリリースノートのページにも、バージョンごとに1回アクセスします。ページのサーバが応答しなかった場合は、数時間後にもう一度アクセスします。フィードに言語ごとのページが記載されている場合、Peelはお使いの言語のページを要求するため、そのサーバには、どの言語を使用しているかがわかります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱 안에 적힌 주소와, 그 주소가 리디렉션하는 모든 곳입니다. 대기 중인 업데이트가 있으면 피드에 적힌 릴리즈 노트 페이지에도 버전마다 한 번씩 연결하며, 해당 서버가 응답하지 않았으면 몇 시간 후에 다시 연결합니다."
+            "value" : "앱 안에 적힌 주소와, 그 주소가 리디렉션하는 모든 곳입니다. 대기 중인 업데이트가 있으면 피드에 적힌 릴리즈 노트 페이지에도 버전마다 한 번씩 연결하며, 해당 서버가 응답하지 않았으면 몇 시간 후에 다시 연결합니다. 피드에 언어별 페이지가 적혀 있으면 Peel은 사용자의 언어로 된 페이지를 요청하므로, 해당 서버는 사용자가 어떤 언어를 읽는지 알 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het adres dat in de app staat, en waar dat ook naar doorverwijst. Bij een wachtende update ook de pagina met versienotities die de feed noemt, één keer per versie, en uren later opnieuw als de server van die pagina niet reageerde."
+            "value" : "Het adres dat in de app staat, en waar dat ook naar doorverwijst. Bij een wachtende update ook de pagina met versienotities die de feed noemt, één keer per versie, en uren later opnieuw als de server van die pagina niet reageerde. Als de feed voor elke taal een pagina noemt, vraagt Peel om de pagina in jouw taal, zodat die server kan zien welke taal je leest."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adres zapisany w aplikacji oraz miejsca, do których przekierowuje. W przypadku czekającego uaktualnienia także strona z informacjami o wersji podana w kanale, raz dla każdej wersji, i ponownie po kilku godzinach, jeśli jej serwer nie odpowiedział."
+            "value" : "Adres zapisany w aplikacji oraz miejsca, do których przekierowuje. W przypadku czekającego uaktualnienia także strona z informacjami o wersji podana w kanale, raz dla każdej wersji, i ponownie po kilku godzinach, jeśli jej serwer nie odpowiedział. Gdy kanał podaje stronę dla każdego języka, Peel prosi o tę w Twoim języku, więc ten serwer może ustalić, w jakim języku czytasz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O endereço escrito dentro do app, e qualquer endereço para onde ele redirecione. Para uma atualização pendente, também a página de notas de lançamento que o feed indica, uma vez por versão, e de novo horas depois, se o servidor dela não tiver respondido."
+            "value" : "O endereço escrito dentro do app, e qualquer endereço para onde ele redirecione. Para uma atualização pendente, também a página de notas de lançamento que o feed indica, uma vez por versão, e de novo horas depois, se o servidor dela não tiver respondido. Quando o feed indica uma página para cada idioma, o Peel pede a do seu idioma, o que permite que esse servidor saiba qual idioma você lê."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adresa scrisă în aplicație și orice loc spre care redirecționează aceasta. Pentru o actualizare în așteptare, și pagina cu notele de publicare pe care o indică fluxul, câte o dată pentru fiecare versiune și din nou, câteva ore mai târziu, dacă serverul paginii nu a răspuns."
+            "value" : "Adresa scrisă în aplicație și orice loc spre care redirecționează aceasta. Pentru o actualizare în așteptare, și pagina cu notele de publicare pe care o indică fluxul, câte o dată pentru fiecare versiune și din nou, câteva ore mai târziu, dacă serverul paginii nu a răspuns. Când fluxul indică o pagină pentru fiecare limbă, Peel o cere pe cea în limba dvs., așa că serverul respectiv poate afla ce limbă citiți."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Адрес, записанный внутри приложения, и адрес, на который он перенаправляет. Для ожидающего обновления также страница с заметками к выпуску, указанная в ленте, один раз для каждой версии и повторно через несколько часов, если ее сервер не ответил."
+            "value" : "Адрес, записанный внутри приложения, и адрес, на который он перенаправляет. Для ожидающего обновления также страница с заметками к выпуску, указанная в ленте, один раз для каждой версии и повторно через несколько часов, если ее сервер не ответил. Если в ленте указана отдельная страница для каждого языка, Peel запрашивает страницу на Вашем языке, поэтому этот сервер может узнать, на каком языке Вы читаете."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adressen som står i appen, och dit den omdirigerar. Även sidan med versionsanmärkningar som flödet anger för en väntande uppdatering, en gång per version, och igen några timmar senare om sidans server inte svarade."
+            "value" : "Adressen som står i appen, och dit den omdirigerar. Även sidan med versionsanmärkningar som flödet anger för en väntande uppdatering, en gång per version, och igen några timmar senare om sidans server inte svarade. När flödet anger en sida för varje språk ber Peel om sidan på ditt språk, så den servern kan se vilket språk du läser."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamanın içinde yazılı adres ve bu adresin yönlendirdiği her yer. Bekleyen bir güncelleme için ayrıca akışın belirttiği çıkış notları sayfası, her sürüm için bir kez ve sunucusu yanıt vermediğinde saatler sonra bir kez daha."
+            "value" : "Uygulamanın içinde yazılı adres ve bu adresin yönlendirdiği her yer. Bekleyen bir güncelleme için ayrıca akışın belirttiği çıkış notları sayfası, her sürüm için bir kez ve sunucusu yanıt vermediğinde saatler sonra bir kez daha. Akış her dil için ayrı bir sayfa belirttiğinde Peel sizin dilinizdeki sayfayı ister; böylece o sunucu hangi dili okuduğunuzu anlayabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Адреса, записана всередині програми, і будь-яка адреса, куди вона перенаправляє. Для оновлення, яке очікує, також сторінка з примітками до випуску, яку вказує стрічка, один раз для кожної версії, і ще раз через кілька годин, якщо її сервер не відповів."
+            "value" : "Адреса, записана всередині програми, і будь-яка адреса, куди вона перенаправляє. Для оновлення, яке очікує, також сторінка з примітками до випуску, яку вказує стрічка, один раз для кожної версії, і ще раз через кілька годин, якщо її сервер не відповів. Коли стрічка вказує окрему сторінку для кожної мови, Peel запитує сторінку вашою мовою, тож той сервер може дізнатися, якою мовою ви читаєте."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "写在App内部的地址，以及它重定向到的任何地址。对于等待中的更新，还包括更新源中指明的发布说明页面，每个版本访问一次，如果其服务器没有回应，则在数小时后再次访问。"
+            "value" : "写在App内部的地址，以及它重定向到的任何地址。对于等待中的更新，还包括更新源中指明的发布说明页面，每个版本访问一次，如果其服务器没有回应，则在数小时后再次访问。如果更新源为每种语言分别指明了页面，Peel会请求你所用语言的页面，因此该服务器可以得知你阅读的语言。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "寫在App內的網址，以及它重新導向的任何位置。對於等待中的更新項目，也包括Feed中指定的版本附註頁面，每個版本一次；若該頁面的伺服器沒有回應，則會在數小時後再試一次。"
+            "value" : "寫在App內的網址，以及它重新導向的任何位置。對於等待中的更新項目，也包括Feed中指定的版本附註頁面，每個版本一次；若該頁面的伺服器沒有回應，則會在數小時後再試一次。如果Feed為每種語言各指定一個頁面，Peel會要求你所用語言的頁面，因此該伺服器可以得知你閱讀哪種語言。"
           }
         }
       }
@@ -201959,108 +201959,108 @@
         }
       }
     },
-    "Where Homebrew downloads the packages it upgrades. A cask comes from its maker’s own address." : {
+    "Where Homebrew downloads the packages it upgrades, and wherever it redirects. A package with no ready-made build for your Mac downloads its source from the address its formula names, and a cask comes from its maker’s own address." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odtud Homebrew stahuje balíčky, které upgraduje. Cask pochází z vlastní adresy svého výrobce."
+            "value" : "Odtud Homebrew stahuje balíčky, které upgraduje, a také ze všech adres, na které odtud vede přesměrování. U balíčku, pro který není k dispozici hotové sestavení pro váš Mac, se zdrojový kód stahuje z adresy, kterou uvádí jeho formula, a cask pochází z vlastní adresy svého výrobce."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Von hier lädt Homebrew die Pakete, für die es ein Upgrade ausführt. Ein Cask kommt von der eigenen Adresse seines Herstellers."
+            "value" : "Von hier lädt Homebrew die Pakete, für die es ein Upgrade ausführt, und von dort, wohin diese Adresse weiterleitet. Für ein Paket ohne fertigen Build für deinen Mac wird der Quellcode von der Adresse geladen, die seine Formula nennt, und ein Cask kommt von der eigenen Adresse seines Herstellers."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El lugar desde el que Homebrew descarga los paquetes que actualiza. Un cask viene de la propia dirección de su fabricante."
+            "value" : "El lugar desde el que Homebrew descarga los paquetes que actualiza, y el lugar al que redirija. Un paquete sin una compilación lista para tu Mac descarga su código fuente desde la dirección que indica su formula, y un cask viene de la propia dirección de su fabricante."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’endroit où Homebrew télécharge les paquets qu’il met à niveau. Un cask provient de l’adresse de son éditeur."
+            "value" : "L’endroit où Homebrew télécharge les paquets qu’il met à niveau, et l’adresse vers laquelle cet hôte redirige. Un paquet sans version précompilée pour votre Mac est téléchargé sous forme de code source depuis l’adresse indiquée par sa formula, et un cask provient de l’adresse de son éditeur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Da dove Homebrew scarica i pacchetti che aggiorna. Un cask arriva dall’indirizzo del suo produttore."
+            "value" : "Da dove Homebrew scarica i pacchetti che aggiorna, e ovunque questo indirizzo reindirizzi. Un pacchetto senza una build già pronta per il Mac scarica il proprio codice sorgente dall’indirizzo indicato nella sua formula, e un cask arriva dall’indirizzo del suo produttore."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewがアップグレードするパッケージのダウンロード元です。caskは、その開発元自身のアドレスからダウンロードされます。"
+            "value" : "Homebrewがアップグレードするパッケージのダウンロード元と、そのリダイレクト先です。お使いのMac向けのビルド済みのバイナリがないパッケージは、そのformulaに記載されたアドレスからソースがダウンロードされます。caskは、その開発元自身のアドレスからダウンロードされます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 업그레이드하는 패키지를 다운로드하는 곳입니다. cask는 제작자의 자체 주소에서 다운로드됩니다."
+            "value" : "Homebrew가 업그레이드하는 패키지를 다운로드하는 곳과, 그 주소가 리디렉션하는 모든 곳입니다. 사용자의 Mac에 맞게 미리 빌드된 버전이 없는 패키지는 해당 formula에 적힌 주소에서 소스를 다운로드하며, cask는 제작자의 자체 주소에서 다운로드됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Waar Homebrew de pakketten downloadt die het upgradet. Een cask komt van het eigen adres van de maker."
+            "value" : "Waar Homebrew de pakketten downloadt die het upgradet, en waar dat ook naar doorverwijst. Voor een pakket zonder kant-en-klare build voor je Mac wordt de broncode gedownload van het adres dat de formula ervan noemt, en een cask komt van het eigen adres van de maker."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stąd Homebrew pobiera uaktualniane pakiety. Cask pochodzi z własnego adresu producenta."
+            "value" : "Stąd i z miejsc, do których ten adres przekierowuje, Homebrew pobiera uaktualniane pakiety. W przypadku pakietu bez gotowej skompilowanej wersji dla Twojego Maca Homebrew pobiera kod źródłowy z adresu, który podaje jego formula, a cask pochodzi z własnego adresu producenta."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De onde o Homebrew baixa os pacotes para fazer upgrade. Um cask vem do endereço do próprio fabricante."
+            "value" : "De onde o Homebrew baixa os pacotes para fazer upgrade, e qualquer endereço para onde o download seja redirecionado. Para um pacote sem uma compilação pronta para o seu Mac, o código-fonte é baixado do endereço indicado na formula dele, e um cask vem do endereço do próprio fabricante."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Locul de unde Homebrew descarcă pachetele cărora le face upgrade. Un cask vine de la adresa proprie a producătorului său."
+            "value" : "Locul de unde Homebrew descarcă pachetele cărora le face upgrade și orice loc spre care redirecționează acesta. Un pachet care nu are o versiune gata compilată pentru Mac‑ul dvs. își descarcă codul sursă de la adresa indicată de formula sa, iar un cask vine de la adresa proprie a producătorului său."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отсюда Homebrew загружает пакеты, которые обновляет. Cask загружается с собственного адреса его производителя."
+            "value" : "Отсюда Homebrew загружает пакеты, которые обновляет, или с адреса, на который его отсюда перенаправляют. Для пакета, у которого нет готовой сборки для Вашего Mac, исходный код загружается с адреса, указанного в его formula, а cask загружается с собственного адреса его производителя."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Där Homebrew hämtar paketen som det uppgraderar. En cask kommer från tillverkarens egen adress."
+            "value" : "Där Homebrew hämtar paketen som det uppgraderar, och dit adressen omdirigerar. För ett paket som saknar en färdigbyggd version för datorn hämtas källkoden från adressen som paketets formula anger, och en cask kommer från tillverkarens egen adress."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un yükselttiği paketleri indirdiği yer. Bir cask, üreticisinin kendi adresinden gelir."
+            "value" : "Homebrew’un yükselttiği paketleri indirdiği yer ve bu adresin yönlendirdiği her yer. Mac’iniz için hazır bir derlemesi olmayan bir paket, kaynak kodunu formula tanımında belirtilen adresten indirir; bir cask ise üreticisinin kendi adresinden gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Звідси Homebrew викачує пакети, які оновлює. Cask викачується з власної адреси виробника."
+            "value" : "Звідси Homebrew викачує пакети, які оновлює, а також з будь-якої адреси, на яку звідси перенаправлено. Пакет без готової збірки для вашого Mac викачує свій вихідний код з адреси, яку вказує його formula, а cask викачується з власної адреси виробника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew下载所升级软件包的地方。cask则来自其厂商自己的地址。"
+            "value" : "Homebrew下载所升级软件包的地方，以及它重定向到的任何地址。没有适用于你的Mac的现成构建版本的软件包，会从其formula指明的地址下载源代码；cask则来自其厂商自己的地址。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew下載升級套件的位置。每個cask則是從它的廠商自己的網址下載。"
+            "value" : "Homebrew下載升級套件的位置，以及它重新導向的任何位置。若套件沒有適用於你的Mac之現成建置版本，就會從其formula指定的網址下載原始碼；而每個cask則是從它的廠商自己的網址下載。"
           }
         }
       }
@@ -203655,108 +203655,108 @@
         }
       }
     },
-    "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan." : {
+    "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když je tato volba vypnutá, Peel se sám od sebe nikam nepřipojuje. Homebrew se připojí k internetu, jen když ho o to požádáte: Aktualizovat, Upgradovat (tam nebo na vlastní stránce aplikace), Opravit taps a kontrola zranitelností."
+            "value" : "Když je tato volba vypnutá, Peel se sám od sebe nikam nepřipojuje. Homebrew se připojí k internetu, jen když ho o to požádáte: Aktualizovat, Upgradovat (tam nebo na vlastní stránce aplikace), Opravit taps a kontrola zranitelností. To mohou změnit vaše vlastní nastavení Homebrew v souboru brew.env a stránka Homebrew pak uvádí, co mění."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ist dies deaktiviert, kontaktiert Peel von sich aus nichts. Homebrew geht nur online, wenn du es darum bittest: „Aktualisieren“, „Upgraden“ (dort oder auf der Seite einer App), „Taps reparieren“ und der Sicherheitslücken-Scan."
+            "value" : "Ist dies deaktiviert, kontaktiert Peel von sich aus nichts. Homebrew geht nur online, wenn du es darum bittest: „Aktualisieren“, „Upgraden“ (dort oder auf der Seite einer App), „Taps reparieren“ und der Sicherheitslücken-Scan. Deine eigenen Einstellungen für Homebrew in einer brew.env-Datei können das ändern, und die Seite „Homebrew“ gibt dann an, was sie ändern."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con esto desactivado, Peel no se conecta a nada por su cuenta. Homebrew solo se conecta a internet cuando se lo pides: al actualizar Homebrew, al actualizar paquetes (en la página de Homebrew o en la de una app), al reparar taps y con el análisis de vulnerabilidades."
+            "value" : "Con esto desactivado, Peel no se conecta a nada por su cuenta. Homebrew solo se conecta a internet cuando se lo pides: al actualizar Homebrew, al actualizar paquetes (en la página de Homebrew o en la de una app), al reparar taps y con el análisis de vulnerabilidades. Tus propios ajustes de Homebrew, en un archivo brew.env, pueden cambiar esto, y entonces la página de Homebrew indica qué cambian."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si cette option est désactivée, Peel ne contacte rien de lui-même. Homebrew ne se connecte à Internet que lorsque vous le lui demandez : « Mettre à jour », « Mettre à niveau » (sur la page Homebrew ou sur celle d’une app), « Réparer les taps » et la recherche de vulnérabilités."
+            "value" : "Si cette option est désactivée, Peel ne contacte rien de lui-même. Homebrew ne se connecte à Internet que lorsque vous le lui demandez : « Mettre à jour », « Mettre à niveau » (sur la page Homebrew ou sur celle d’une app), « Réparer les taps » et la recherche de vulnérabilités. Vos propres réglages Homebrew, dans un fichier brew.env, peuvent modifier cela, et la page Homebrew indique alors ce qu’ils changent."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con questa opzione disattivata, Peel non contatta nulla di sua iniziativa. Homebrew va online solo quando glielo chiedi: con Aggiorna (per Homebrew stesso, o per i pacchetti lì o nella pagina di un’app), con “Ripara i tap” e con la ricerca di vulnerabilità."
+            "value" : "Con questa opzione disattivata, Peel non contatta nulla di sua iniziativa. Homebrew va online solo quando glielo chiedi: con Aggiorna (per Homebrew stesso, o per i pacchetti lì o nella pagina di un’app), con “Ripara i tap” e con la ricerca di vulnerabilità. Le tue impostazioni di Homebrew, in un file brew.env, possono cambiare questo comportamento, e in quel caso la pagina Homebrew indica cosa cambiano."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これをオフにすると、Peelが自ら通信することはありません。Homebrewがインターネットに接続するのは、指示したときだけです。対象は、“アップデート”、“アップグレード”（Homebrewのページ、またはアプリのページ）、“tapsを修復”、脆弱性スキャンです。"
+            "value" : "これをオフにすると、Peelが自ら通信することはありません。Homebrewがインターネットに接続するのは、指示したときだけです。対象は、“アップデート”、“アップグレード”（Homebrewのページ、またはアプリのページ）、“tapsを修復”、脆弱性スキャンです。brew.envファイルで行ったHomebrewの設定によって、これが変わることがあります。その場合は、何が変わるかがHomebrewのページに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 기능이 꺼져 있으면 Peel은 스스로 아무 곳에도 연결하지 않습니다. Homebrew는 사용자가 요청할 때만 온라인에 연결합니다. 업데이트, 업그레이드(Homebrew 페이지 또는 앱의 페이지에서), tap 복구, 취약점 스캔이 이에 해당합니다."
+            "value" : "이 기능이 꺼져 있으면 Peel은 스스로 아무 곳에도 연결하지 않습니다. Homebrew는 사용자가 요청할 때만 온라인에 연결합니다. 업데이트, 업그레이드(Homebrew 페이지 또는 앱의 페이지에서), tap 복구, 취약점 스캔이 이에 해당합니다. brew.env 파일에 있는 사용자 자신의 Homebrew 설정이 이를 바꿀 수 있으며, 그런 경우 Homebrew 페이지에서 무엇이 바뀌는지 알려 줍니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als dit uit staat, maakt Peel uit zichzelf nergens verbinding mee. Homebrew gaat alleen online als je het daarom vraagt: 'Werk bij', 'Upgrade' (daar of op de eigen pagina van een app), 'Herstel taps' en de kwetsbaarheidsscan."
+            "value" : "Als dit uit staat, maakt Peel uit zichzelf nergens verbinding mee. Homebrew gaat alleen online als je het daarom vraagt: 'Werk bij', 'Upgrade' (daar of op de eigen pagina van een app), 'Herstel taps' en de kwetsbaarheidsscan. Je eigen Homebrew-instellingen in een brew.env-bestand kunnen dat wijzigen, en de pagina 'Homebrew' vermeldt dan wat ze wijzigen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy to jest wyłączone, Peel samodzielnie z niczym się nie łączy. Homebrew łączy się z Internetem tylko wtedy, gdy o to poprosisz: Odśwież, Uaktualnij (tam lub na stronie aplikacji), Napraw tapy i skanowanie luk w zabezpieczeniach."
+            "value" : "Gdy to jest wyłączone, Peel samodzielnie z niczym się nie łączy. Homebrew łączy się z Internetem tylko wtedy, gdy o to poprosisz: Odśwież, Uaktualnij (tam lub na stronie aplikacji), Napraw tapy i skanowanie luk w zabezpieczeniach. Twoje własne ustawienia Homebrew w pliku brew.env mogą to zmienić, a strona Homebrew podaje wtedy, co zmieniają."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Com esta opção desativada, o Peel não contata nada por conta própria. O Homebrew só se conecta à internet quando você pede: Atualizar, Fazer Upgrade (lá ou na página de um app), Reparar Taps e a análise de vulnerabilidades."
+            "value" : "Com esta opção desativada, o Peel não contata nada por conta própria. O Homebrew só se conecta à internet quando você pede: Atualizar, Fazer Upgrade (lá ou na página de um app), Reparar Taps e a análise de vulnerabilidades. Os seus próprios ajustes do Homebrew, em um arquivo brew.env, podem mudar isso, e então a página Homebrew informa o que eles mudam."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cu această opțiune dezactivată, Peel nu contactează nimic de la sine. Homebrew se conectează la internet doar când îi cereți: „Actualizați”, „Faceți upgrade” (pe pagina Homebrew sau pe pagina unei aplicații), „Reparați tap‑urile” și scanarea vulnerabilităților."
+            "value" : "Cu această opțiune dezactivată, Peel nu contactează nimic de la sine. Homebrew se conectează la internet doar când îi cereți: „Actualizați”, „Faceți upgrade” (pe pagina Homebrew sau pe pagina unei aplicații), „Reparați tap‑urile” și scanarea vulnerabilităților. Propriile dvs. configurări Homebrew, dintr‑un fișier brew.env, pot schimba acest lucru, iar pagina Homebrew arată atunci ce anume schimbă acestea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Если этот параметр выключен, Peel сам ни к чему не обращается. Homebrew выходит в сеть, только когда Вы его об этом просите: «Обновить» для самого Homebrew, «Обновить» для пакетов (на странице Homebrew или на странице приложения), «Исправить taps» и поиск уязвимостей."
+            "value" : "Если этот параметр выключен, Peel сам ни к чему не обращается. Homebrew выходит в сеть, только когда Вы его об этом просите: «Обновить» для самого Homebrew, «Обновить» для пакетов (на странице Homebrew или на странице приложения), «Исправить taps» и поиск уязвимостей. Ваши собственные настройки Homebrew в файле brew.env могут это изменить, и тогда страница Homebrew сообщает, что именно они меняют."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När det här är avstängt kontaktar Peel ingenting på egen hand. Homebrew ansluter till internet bara när du ber om det: Uppdatera, Uppgradera (där eller på en apps egen sida), Reparera taps och sårbarhetsskanningen."
+            "value" : "När det här är avstängt kontaktar Peel ingenting på egen hand. Homebrew ansluter till internet bara när du ber om det: Uppdatera, Uppgradera (där eller på en apps egen sida), Reparera taps och sårbarhetsskanningen. Dina egna inställningar för Homebrew, i en brew.env-fil, kan ändra på det, och sidan Homebrew visar då vad de ändrar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu kapalıyken Peel kendiliğinden hiçbir yere bağlanmaz. Homebrew yalnızca siz istediğinizde internete bağlanır: Güncelle, Yükselt (orada veya bir uygulamanın kendi sayfasında), Tap Depolarını Onar ve güvenlik açığı taraması."
+            "value" : "Bu kapalıyken Peel kendiliğinden hiçbir yere bağlanmaz. Homebrew yalnızca siz istediğinizde internete bağlanır: Güncelle, Yükselt (orada veya bir uygulamanın kendi sayfasında), Tap Depolarını Onar ve güvenlik açığı taraması. Bir brew.env dosyasındaki kendi Homebrew ayarlarınız bunu değiştirebilir; bu durumda Homebrew sayfası bu ayarların neyi değiştirdiğini söyler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли це вимкнено, Peel самостійно ні з чим не звʼязується. Homebrew виходить в інтернет лише на ваше прохання: «Оновити» для самого Homebrew, «Оновити» для пакетів (на сторінці Homebrew або на сторінці програми), «Полагодити taps» і сканування вразливостей."
+            "value" : "Коли це вимкнено, Peel самостійно ні з чим не звʼязується. Homebrew виходить в інтернет лише на ваше прохання: «Оновити» для самого Homebrew, «Оновити» для пакетів (на сторінці Homebrew або на сторінці програми), «Полагодити taps» і сканування вразливостей. Ваші власні налаштування Homebrew у файлі brew.env можуть це змінити, і тоді сторінка «Homebrew» показує, що саме вони змінюють."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关闭此项后，Peel不会自行联系任何地址。Homebrew只在你要求时才会联网：“更新”、“升级”（在Homebrew页面或某个App自己的页面上）、“修复taps”以及漏洞扫描。"
+            "value" : "关闭此项后，Peel不会自行联系任何地址。Homebrew只在你要求时才会联网：“更新”、“升级”（在Homebrew页面或某个App自己的页面上）、“修复taps”以及漏洞扫描。你自己在brew.env文件中设定的Homebrew设置可能会改变这一点，此时Homebrew页面会说明它们改变了什么。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關閉此選項後，Peel不會自行連線到任何地方。Homebrew只有在你要求時才會連上網路：「更新」、「升級」（在Homebrew頁面或App自己的頁面上）、「修復taps」，以及漏洞掃描。"
+            "value" : "關閉此選項後，Peel不會自行連線到任何地方。Homebrew只有在你要求時才會連上網路：「更新」、「升級」（在Homebrew頁面或App自己的頁面上）、「修復taps」，以及漏洞掃描。你自己的Homebrew設定（位於brew.env檔案中）可能會改變這一點，屆時「Homebrew」頁面會說明這些設定改變了什麼。"
           }
         }
       }
