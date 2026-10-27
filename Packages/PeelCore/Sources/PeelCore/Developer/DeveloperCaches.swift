@@ -77,12 +77,30 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
 
         /// Whether Peel recommends this location, which Select Recommended selects and `peel caches --remove` moves:
         /// only content that tools make or fetch again, or logs, and only once measured.
-        public var isRecommended: Bool {
-            guard isTheTools, workspace?.mayStillBeInUse != true, heldBack == nil else { return false }
-            return switch kind {
-            case .buildData, .downloads, .cache, .logs: size != nil
-            case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: false
+        public var isRecommended: Bool { keptBecause == nil }
+
+        /// Why Peel doesn't recommend this location, or nil when it does.
+        public var keptBecause: Kept? {
+            switch kind {
+            case .buildData, .downloads, .cache, .logs: break
+            case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: return .keptByDefault
             }
+            if let heldBack { return .heldBack(heldBack) }
+            if !isTheTools { return .notTheTools }
+            if let workspace, workspace.mayStillBeInUse { return .workspaceMayBeInUse(lastUsed: workspace.lastUsed) }
+            guard size == nil else { return nil }
+            if closedByPermissions { return .heldBack(.closedByPermissions) }
+            return .heldBack(couldNotBeRead ? .couldNotBeRead : .notMeasured)
+        }
+
+        public enum Kept: Sendable, Equatable {
+            /// Its kind is kept unless chosen: what a tool can't simply make again.
+            case keptByDefault
+            case heldBack(HoldBack)
+            /// Nothing shows its tool made it.
+            case notTheTools
+            /// Build data of an Xcode workspace opened in the last week, or with no date.
+            case workspaceMayBeInUse(lastUsed: Date?)
         }
     }
 

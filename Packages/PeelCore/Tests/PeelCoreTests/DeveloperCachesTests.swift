@@ -116,6 +116,34 @@ struct DeveloperCachesTests {
         #expect(androidStudio.appBundleIdentifiers.contains("com.google.android.studio-EAP"))
     }
 
+    @Test func saysWhyALocationStaysByTheRuleThatRecommendsIt() {
+        func location(_ kind: DeveloperEnvironment.ContentKind, size: Int64? = 10) -> DeveloperEnvironment.Location {
+            DeveloperEnvironment.Location(
+                url: URL(filePath: "/Users/me/Library/Caches/tool"), kind: kind, size: size, source: "https://example.com"
+            )
+        }
+        var held = location(.cache)
+        held.heldBack = .holdsAWallet
+        var another = location(.cache)
+        another.isTheTools = false
+        var opened = location(.buildData)
+        opened.workspace = DeveloperEnvironment.Workspace(name: "App", lastUsed: nil)
+        var closed = location(.cache, size: nil)
+        (closed.couldNotBeRead, closed.closedByPermissions) = (true, true)
+        let unmeasured = location(.cache, size: nil)
+
+        #expect(location(.cache).keptBecause == nil)
+        #expect(location(.models).keptBecause == .keptByDefault)
+        #expect(held.keptBecause == .heldBack(.holdsAWallet))
+        #expect(another.keptBecause == .notTheTools)
+        #expect(opened.keptBecause == .workspaceMayBeInUse(lastUsed: nil))
+        #expect(closed.keptBecause == .heldBack(.closedByPermissions))
+        #expect(unmeasured.keptBecause == .heldBack(.notMeasured))
+        for sample in [location(.cache), location(.models), held, another, opened, closed, unmeasured] {
+            #expect(sample.isRecommended == (sample.keptBecause == nil))
+        }
+    }
+
     @Test func everyChannelOfZedKeepsItsFoldersWhileItRuns() throws {
         let zed = try #require(DeveloperCaches.definitions.first { $0.id == "zed" })
 

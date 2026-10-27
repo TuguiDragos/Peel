@@ -381,33 +381,23 @@ struct CachesCommand: AsyncParsableCommand {
         environment.locations.map { [Output.size($0.size), Output.path($0.url), $0.kind.summary, note(for: $0)] }
     }
 
-    /// Why `location` stays, or nil when `--remove` takes it. It checks the same conditions as `isRecommended`, and
-    /// the two must never disagree.
+    /// Why `location` stays, in the words the list says it, or nil when `--remove` takes it.
     static func reason(for location: DeveloperEnvironment.Location) -> String? {
-        if isKeptByDefault(location.kind) { return "kept by default" }
-        if let heldBack = location.heldBack { return heldBack.summary }
-        if !location.isTheTools { return "nothing shows the tool made it" }
-        if let workspace = location.workspace, workspace.mayStillBeInUse {
-            return workspace.lastUsed == nil
-                ? "Xcode wrote no date for its workspace" : "its workspace was opened in the last 7 days"
+        location.keptBecause.map { kept in
+            switch kept {
+            case .keptByDefault: "kept by default"
+            case .heldBack(let heldBack): heldBack.summary
+            case .notTheTools: "nothing shows the tool made it"
+            case .workspaceMayBeInUse(let lastUsed):
+                lastUsed == nil ? "Xcode wrote no date for its workspace" : "its workspace was opened in the last 7 days"
+            }
         }
-        guard location.size == nil else { return nil }
-        let unread: HoldBack = location.closedByPermissions ? .closedByPermissions
-            : location.couldNotBeRead ? .couldNotBeRead : .notMeasured
-        return unread.summary
     }
 
     /// The list's last column: "suggested", or why the folder stays.
     static func note(for location: DeveloperEnvironment.Location) -> String {
         guard let reason = reason(for: location) else { return "suggested" }
-        return isKeptByDefault(location.kind) ? reason : "\(reason), kept"
-    }
-
-    private static func isKeptByDefault(_ kind: DeveloperEnvironment.ContentKind) -> Bool {
-        switch kind {
-        case .buildData, .downloads, .cache, .logs: false
-        case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: true
-        }
+        return location.keptBecause == .keptByDefault ? reason : "\(reason), kept"
     }
 
     /// What `--remove` leaves of the tools it moves from, each folder with why.
