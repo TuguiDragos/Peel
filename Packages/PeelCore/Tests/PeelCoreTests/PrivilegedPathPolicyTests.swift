@@ -340,6 +340,29 @@ struct PrivilegedPathPolicyTests {
         )
     }
 
+    @Test func aPlugInFolderInsideAFolderThatTakesAnythingStillLoadsCode() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Caches/Vendor/Plug-Ins")
+        try directory.directory("root/Library/Caches/com.example.cache")
+        let root = directory.url.path(percentEncoded: false)
+        let helper = PrivilegedPathPolicy(
+            homeDirectory: root + "home",
+            systemLocations: [root + "root/Library/Caches"],
+            restoreLocations: [root + "root/Library/Caches"],
+            manifestLocations: [],
+            plugInLocations: [root + "root/Library/Caches/Vendor/Plug-Ins"]
+        )
+        let users = try trashed("Example.plugin", in: directory, by: helper)
+
+        #expect(
+            helper.openDestination(path("root/Library/Caches/Vendor/Plug-Ins/Example.plugin", in: directory), for: users)
+                .rejection == .loadsCode,
+            "code is loaded from it, wherever it sits"
+        )
+        #expect(helper.openDestination(path("root/Library/Caches/com.example.cache/data", in: directory), for: users)
+            .rejection == nil)
+    }
+
     @Test func refusesRestoreDestinationsThatAreWrong() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

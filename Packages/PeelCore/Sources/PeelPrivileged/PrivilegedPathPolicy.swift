@@ -51,9 +51,10 @@ public struct PrivilegedPathPolicy: Sendable {
         + (LibraryFolder.local + LibraryFolder.plugIns).map { "/Library/" + $0.rawValue }
         + ["/private/var/db/receipts"]
 
-    /// The served folders where anything the helper moved may be put back (`init` adds the user's Library).
-    /// The others are folders that code is loaded from, and take back only what belongs to root alone (see
-    /// `openDestination`). `HelperLedger`, never the caller, decides which item may go back, and where to.
+    /// The served folders where anything the helper moved may be put back (`init` adds the user's Library), but for
+    /// the plug-in folders inside them. The others are folders that code is loaded from, and take back only what
+    /// belongs to root alone (see `openDestination`). `HelperLedger`, never the caller, decides which item may go
+    /// back, and where to.
     public static let restoreLocations = [
         "/Applications",
         "/Library/Application Support",
@@ -75,6 +76,10 @@ public struct PrivilegedPathPolicy: Sendable {
         "share/zsh/site-functions", "share/fish/vendor_completions.d", "etc/bash_completion.d", "share/pwsh/completions",
     ]
 
+    /// The folders of `/Library` plug-ins are loaded from, which load code wherever they sit: AAX plug-ins are in
+    /// Application Support.
+    public static let plugInLocations = LibraryFolder.plugIns.map { "/Library/" + $0.rawValue }
+
     /// The folders of `/Library` browsers read native messaging manifests from. The helper takes from them only a
     /// manifest that starts nothing, as it judges the item it opened.
     public static let manifestLocations = NativeMessagingFolder.inTheMacsLibrary.map { "/Library/" + $0.path }
@@ -88,6 +93,7 @@ public struct PrivilegedPathPolicy: Sendable {
     private let applicationLocations: [String]
     private let links: [String]
     private let manifests: [String]
+    private let plugIns: [String]
     /// The device and inode of the `peel` tool inside the app the helper runs from.
     private let ownTool: (device: dev_t, inode: ino_t)?
     /// The folders of the home's Library that Peel searches, lowercased, as names from the root.
@@ -102,6 +108,7 @@ public struct PrivilegedPathPolicy: Sendable {
         restoreLocations: [String] = Self.restoreLocations,
         linkLocations: [String] = Self.linkLocations,
         manifestLocations: [String] = Self.manifestLocations,
+        plugInLocations: [String] = Self.plugInLocations,
         ownTool: String? = nil,
         trustedOwner: uid_t = 0
     ) {
@@ -109,6 +116,7 @@ public struct PrivilegedPathPolicy: Sendable {
         self.trustedOwner = trustedOwner
         links = linkLocations.compactMap(Self.realPath)
         manifests = manifestLocations.compactMap(Self.realPath)
+        plugIns = plugInLocations.compactMap(Self.realPath)
         self.ownTool = ownTool.flatMap { path in
             var info = stat()
             guard stat(path, &info) == 0 else { return nil }
@@ -273,10 +281,12 @@ public struct PrivilegedPathPolicy: Sendable {
     /// Whether a folder that code is loaded from keeps out an item `owner` owns with `mode`, going back to `path` in
     /// `parent`: such a folder takes back only what root owns and nobody else can write to, which is how anything the
     /// helper took from there looks. Anything else could have been rewritten while it sat in the user's Trash. A
-    /// browser starts the program a manifest names, so a manifests folder is one that code is loaded from.
+    /// browser starts the program a manifest names, so a manifests folder is one that code is loaded from, and so is
+    /// a plug-in folder inside a folder that takes anything back.
     private func keepsOut(owner: uid_t?, mode: mode_t?, at path: String, in parent: String) -> Bool {
+        let loadsCode = manifests.contains(parent) || plugIns.contains { PathComponents.isPath(path, inside: $0) }
         let takesAnything = restorable.contains { PathComponents.isPath(path, inside: $0) }
-        guard !takesAnything || manifests.contains(parent) else { return false }
+        guard !takesAnything || loadsCode else { return false }
         return owner != trustedOwner || mode.map { $0 & 0o022 != 0 } ?? true
     }
 
