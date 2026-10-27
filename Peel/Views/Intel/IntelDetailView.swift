@@ -4,6 +4,7 @@ import SwiftUI
 
 struct IntelDetailView: View {
     @Environment(AppLibrary.self) private var library
+    @Environment(PluginLibrary.self) private var plugins
     let finding: IntelFinding
 
     /// When `app` was last opened, for an app or a bundle inside one. Read from the list, which follows it, since
@@ -107,8 +108,8 @@ struct IntelDetailView: View {
 
             Section {
                 HStack {
-                    // Show in Finder is centered when alone, and goes first when Review in Applications is beside it.
-                    if app == nil {
+                    // Show in Finder is centered when alone, and goes first when a Review button is beside it.
+                    if app == nil, finding.kind != .plugin {
                         Spacer()
                     }
                     Button("Show in Finder", systemImage: "folder") {
@@ -127,6 +128,12 @@ struct IntelDetailView: View {
                         } else {
                             review.buttonStyle(.borderedProminent)
                         }
+                    } else if finding.kind == .plugin {
+                        Button("Review in Plug-ins", systemImage: "powerplug") {
+                            plugins.selection = finding.url
+                            Navigator.shared.requestedTool = .plugins
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
                 }
             } header: {
