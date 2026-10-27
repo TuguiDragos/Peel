@@ -233,7 +233,8 @@ If you are unsure whether something belongs in the helper, it doesn't.
   `--filter SuggestedSelectionOnThisMacTests` it scans every app installed on the Mac and checks that nothing Peel
   would select is refused or shared, and without the filter three more read this Mac's system extensions, Trash, and
   storage, the first of them failing on a Mac with no system extension. The `PeelUITests` scheme runs Xcode's
-  accessibility audit on every page, in light and dark, moving the pointer, typing, and quitting a Peel that is open,
+  accessibility audit on every page, and on a row's page of Background Items, Extensions, and Plug-ins, in light and
+  dark, moving the pointer, typing, and quitting a Peel that is open,
   so it runs on a Mac nobody is using; macOS asks once for Accessibility for the test runner, and for an
   administrator's password each time Automation Mode turns on:
   `xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -destination "platform=macOS,arch=$(uname -m)"

@@ -31,6 +31,9 @@ final class AccessibilityAuditTests: XCTestCase {
 
     private static let settingsPanes = ["General", "Exclusions", "Privacy", "Helper"]
 
+    /// The pages whose list leads to a page of each row, audited once more with a row chosen.
+    private static let pagesOfRows: Set = ["Background Items", "Extensions", "Plug-ins"]
+
     func testEverythingInTheLightAppearance() {
         auditEverything(appearance: "Light")
     }
@@ -69,6 +72,9 @@ final class AccessibilityAuditTests: XCTestCase {
             waitForTheScan(of: page, in: app)
             guard let tabs = Self.tabs[page] else {
                 audit(page, appearance: appearance, of: app)
+                if Self.pagesOfRows.contains(page), chooseARow(of: page, in: app) {
+                    audit("\(page), a row's page", appearance: appearance, of: app)
+                }
                 continue
             }
             for tab in tabs where click(toolbarItem(tab, in: app), named: "\(page), \(tab)") {
@@ -252,6 +258,22 @@ final class AccessibilityAuditTests: XCTestCase {
         title.click()
         // The menu's own items only: View > Sort and Filter holds a Homebrew and a Developer of its own.
         title.menus.firstMatch.children(matching: .menuItem)[item].click()
+    }
+
+    /// Chooses a row of the page's list, whose own page the detail column then shows: a click below the rows gives the
+    /// list the keyboard, and Down Arrow chooses the next row that can be chosen, past a section's heading.
+    private func chooseARow(of page: String, in app: XCUIApplication) -> Bool {
+        let window = app.windows["main"]
+        let named = NSPredicate(format: "label == %@", page)
+        let outline = window.outlines.matching(named).firstMatch
+        let list = outline.exists ? outline : window.tables.matching(named).firstMatch
+        guard list.waitForExistence(timeout: 5) else {
+            XCTFail("\(page)'s list isn't there")
+            return false
+        }
+        list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.97)).click()
+        list.typeKey(.downArrow, modifierFlags: [])
+        return true
     }
 
     /// Waits for the page's scan to end. While one runs, the toolbar's Rescan turns into Stop, a moment after the
