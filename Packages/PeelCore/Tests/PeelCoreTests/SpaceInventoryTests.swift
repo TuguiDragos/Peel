@@ -63,6 +63,11 @@ struct SpaceInventoryTests {
             home: directory.url, root: root, minimumSize: 1, measure: LeftoverScanner.walk
         )
         #expect(Set(everything.items.map(\.id)) == ["logs", "colima"])
+
+        let keepingColima = await SpaceInventory.scan(
+            home: directory.url, root: root, minimumSize: 100_000, keeping: ["colima"], measure: LeftoverScanner.walk
+        )
+        #expect(Set(keepingColima.items.map(\.id)) == ["logs", "colima"], "an area open on its page left the list")
     }
 
     /// The folders Space exists to show are the ones most likely to run out of time. Such a folder stays in the

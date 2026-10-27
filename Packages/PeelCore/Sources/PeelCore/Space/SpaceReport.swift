@@ -504,6 +504,7 @@ public enum SpaceInventory {
     public static func scan(
         in environment: SearchEnvironment = .current,
         minimumSize: Int64 = SpaceInventory.minimumSize,
+        keeping: Set<String> = [],
         exclusions: Exclusions = .none
     ) async -> SpaceReport {
         await scan(
@@ -511,6 +512,7 @@ public enum SpaceInventory {
             root: environment.rootDirectory,
             userCache: environment.userCacheDirectory,
             minimumSize: minimumSize,
+            keeping: keeping,
             exclusions: exclusions,
             measure: LeftoverScanner.walk
         )
@@ -523,6 +525,7 @@ public enum SpaceInventory {
         root: URL = URL(filePath: "/", directoryHint: .isDirectory),
         userCache: URL? = nil,
         minimumSize: Int64,
+        keeping: Set<String> = [],
         exclusions: Exclusions = .none,
         measure: @escaping LeftoverScanner.Measure,
         simctlRuntimeHelp: @escaping @Sendable () async -> String? = { await Simctl.runtimeHelp() }
@@ -565,7 +568,10 @@ public enum SpaceInventory {
             }
         }
         let help = await simctlHelp
-        let shown = measured.filter { !$0.size.isComplete || $0.size.known >= minimumSize }
+        // An area in `keeping`, open on its page, stays listed whatever its size, so a move doesn't close its page.
+        let shown = measured.filter {
+            keeping.contains($0.definition.id) || !$0.size.isComplete || $0.size.known >= minimumSize
+        }
         let items = shown.map { definition, urls, size in
             item(definition, urls: urls, size: size, home: home, root: root, simctlRuntimeHelp: help)
         }

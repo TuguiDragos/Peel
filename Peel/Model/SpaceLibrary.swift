@@ -30,7 +30,7 @@ final class SpaceLibrary: RowSelection {
     }
 
     func refresh() async {
-        await refresh(replanning: [])
+        await refresh(replanning: [], keepingTheOpenArea: true)
     }
 
     func readDisk() async {
@@ -40,7 +40,7 @@ final class SpaceLibrary: RowSelection {
     /// Scans again and makes every area's plan again, as Rescan asks: a plan also depends on which apps are open,
     /// which the area's size does not show.
     func rescan() async {
-        await refresh(replanning: Set(plans.keys))
+        await refresh(replanning: Set(plans.keys), keepingTheOpenArea: false)
     }
 
     /// Makes the area's plan from what is on disk now, keeping what was chosen in it.
@@ -133,11 +133,13 @@ final class SpaceLibrary: RowSelection {
 
     /// Scans again, and makes again the plans of the areas in `replanning` and of every area that changed since
     /// its plan was made, so what is carried from them follows what is on disk. The plans are part of the scan, so
-    /// an area's page stays busy until it shows what is there now.
-    private func refresh(replanning: Set<SpaceItem.ID>) async {
+    /// an area's page stays busy until it shows what is there now. The area open on its page stays listed, however
+    /// small a move left it, until the person asks for a Rescan.
+    private func refresh(replanning: Set<SpaceItem.ID>, keepingTheOpenArea: Bool) async {
         let exclusions = ExclusionsStore.shared.exclusions
+        let keeping = keepingTheOpenArea ? Set([selection].compactMap(\.self)) : []
         let answer = await scanRun.run {
-            let result = await SpaceInventory.scan(exclusions: exclusions)
+            let result = await SpaceInventory.scan(keeping: keeping, exclusions: exclusions)
             var made: [(item: SpaceItem, plan: SpaceRemoval.Plan, exclusions: Int)] = []
             for item in result.items where self.plans[item.id] != nil && !Task.isCancelled {
                 let planned = self.plannedFor[item.id]
@@ -222,7 +224,7 @@ extension SpaceLibrary: CarriesSelection {
     }
 
     func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
-        await refresh(replanning: Set(parts.map(\.page.scope)))
+        await refresh(replanning: Set(parts.map(\.page.scope)), keepingTheOpenArea: true)
     }
 
     func choose(_ page: CarriedSelection.Page) {
