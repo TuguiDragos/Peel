@@ -360,6 +360,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A CocoaPods clone of another repository and an Xcode workspace with no recorded opening are kept with their reason.
 - A running Spring Boot server's folder stays while something listens on its port, and Homebrew's cache is found where
   `HOMEBREW_CACHE` moves it.
+- Jan's models are found where Jan's own setting moved its data folder.
 
 #### Build Artifacts
 
