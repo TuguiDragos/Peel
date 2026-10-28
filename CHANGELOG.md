@@ -295,6 +295,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Folders where an app keeps what you made are listed and never selected, at an uninstall and in Orphaned Files: an
   app's backups, a code editor's unsaved files and local history, Sublime Text's data, Minecraft's saved worlds, a
   browser's saved passwords, and Things 3's to-dos.
+- Waterfox's, Zen's, and Floorp's profiles keep saved passwords, as Firefox's does, so they are listed and never
+  selected.
 - An app's receipt stays, unselected, while its package left more outside the app.
 
 #### Orphaned Files
