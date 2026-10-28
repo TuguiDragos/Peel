@@ -256,7 +256,7 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | --- | --- |
 | A preference domain is forgotten (`defaults delete`) once its file is in the Trash | Putting the file back from History, as described below |
 | A launch job is stopped (`launchctl bootout`) once its file is in the Trash | Putting the file back from History, which starts the job again (`launchctl bootstrap`, a daemon through the helper) |
-| An uninstalled app's icon is taken out of the Dock, which restarts the Dock | Putting the app back from History puts its icon back where it was |
+| An uninstalled app's icon is taken out of the Dock, which restarts the Dock | Putting the app back from History puts its icon back where it was; the icon of an app that was already in the Trash doesn't come back |
 | An app's privacy permissions are reset, only when you choose it | Can't be undone: the app asks again for each permission |
 | Homebrew uninstalls a package, or cleans up its downloads, the old versions it kept, and the formulae nothing needs anymore | Can't be undone: Homebrew deletes what it removes |
 | Homebrew upgrades a package, updates itself and its taps, or repairs its taps' links (Upgrade, Upgrade All, Update, Repair Taps) | Not through History: an upgrade replaces the version that was installed, and the earlier versions of a formula stay until you clean up |
@@ -284,7 +284,8 @@ The first three happen after a move, and only for what really moved:
   the file back from History starts again the job Peel stopped, as the file back in place declares it (a daemon
   through the helper), and a job that was not running stays as it was.
 - **An uninstalled app's icon leaves the Dock**, unless you deselect Also remove from the Dock, and the Dock restarts.
-  Putting the app back puts its icon back where it was.
+  Putting the app back puts its icon back where it was. The icon of an app that was already in the Trash goes once the
+  files it left behind move, and doesn't come back.
 
 ## What is selected for you
 

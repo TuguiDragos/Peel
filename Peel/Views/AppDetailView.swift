@@ -513,8 +513,10 @@ struct AppDetailView: View {
                     leftForAnAdministrator: left.count,
                     shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL))
                 )
-                if plan.removesDockTile, result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
-                    _ = await DockTiles().takeOut([plan.app.url])
+                let movedTheApp = result.trashed.contains(where: { $0.originalURL == plan.app.url })
+                if plan.removesDockTile, movedTheApp || plan.isAppInTheTrash && !result.trashed.isEmpty {
+                    let forgotten: Set<URL> = plan.isAppInTheTrash ? [plan.app.url] : []
+                    _ = await DockTiles().takeOut([plan.app.url], forgetting: forgotten)
                 }
                 if let state = AppManagement.state(
                     after: result,
@@ -553,8 +555,9 @@ private struct AppRemovalOptions: View {
         if !PrivacyReset.apps(among: [plan.app], moving: plan.selectable).isEmpty {
             PrivacyResetRow(isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
         }
-        if plan.hasDockTile, plan.selectable.contains(plan.app.url) {
-            DockTileRow(isOn: Bindable(plan).removesDockTile)
+        if plan.hasDockTile,
+           plan.selectable.contains(plan.app.url) || plan.isAppInTheTrash && !plan.selectable.isEmpty {
+            DockTileRow(isOn: Bindable(plan).removesDockTile, apps: plan.isAppInTheTrash ? .alreadyInTheTrash : .moved)
         }
     }
 }

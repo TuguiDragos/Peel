@@ -112,28 +112,35 @@ public struct DockTiles: Sendable {
     /// Those of `apps` that have a tile in the Dock.
     @concurrent
     public func holding(_ apps: [URL]) async -> Set<URL> {
-        let lists = DockList.allCases.compactMap { store.tiles(in: $0) }
-        return Set(apps.filter { app in lists.contains { !indices(of: app, in: $0).isEmpty } })
+        let lists = DockList.allCases.compactMap { store.tiles(in: $0) }.map(Places.init)
+        return Set(apps.filter { app in lists.contains { !$0.indices(of: key(app)).isEmpty } })
     }
 
     /// Takes the tiles of `apps` out of the Dock, remembering where each was, and restarts the Dock once. False
     /// when none had a tile, or when that could not be remembered or written. Peel removing itself remembers nothing,
-    /// since its folder, where the memory is kept, has gone to the Trash.
-    public func takeOut(_ apps: [URL], remembering: Bool = true) async -> Bool {
+    /// since its folder, where the memory is kept, has gone to the Trash, and the tile of an app in `forgotten` is not
+    /// remembered either: such an app was already in the Trash, so History, which puts a tile back, never moved it.
+    public func takeOut(_ apps: [URL], remembering: Bool = true, forgetting forgotten: Set<URL> = []) async -> Bool {
         let lists = Dictionary(uniqueKeysWithValues: DockList.allCases.compactMap { list in
             store.tiles(in: list).map { (list, $0) }
         })
-        let paths = lists.mapValues { $0.map(Self.path(of:)) }
+        let places = lists.mapValues(Places.init)
         var removed: [String: [Removed]] = [:]
         for app in apps {
-            let found = lists.flatMap { list, tiles in indices(of: app, in: tiles).map { (list, tiles[$0], $0) } }
+            let found = lists.flatMap { list, tiles in
+                (places[list]?.indices(of: key(app)) ?? []).map { (list, tiles[$0], $0) }
+            }
             let kept = found.compactMap { list, tile, index in
                 (try? PropertyListSerialization.data(fromPropertyList: tile, format: .binary, options: 0))
-                    .map { Removed(list: list, index: index, tile: $0, around: paths[list] ?? []) }
+                    .map { Removed(list: list, index: index, tile: $0, around: places[list]?.paths ?? []) }
             }
             if !found.isEmpty, kept.count == found.count { removed[key(app)] = kept }
         }
-        guard !removed.isEmpty, !remembering || change({ $0.merge(removed) { _, new in new } }) else { return false }
+        let forgottenKeys = Set(forgotten.map(key))
+        let remembered = removed.filter { !forgottenKeys.contains($0.key) }
+        guard !removed.isEmpty,
+              !remembering || remembered.isEmpty || change({ $0.merge(remembered) { _, new in new } })
+        else { return false }
         var written: Set<DockList> = []
         for (list, tiles) in lists {
             let taken = Set(removed.values.flatMap { $0.filter { $0.list == list }.map(\.index) })
@@ -143,9 +150,9 @@ public struct DockTiles: Sendable {
             }
         }
         let failed = Set(removed.values.flatMap { $0.map(\.list) }).subtracting(written)
-        if remembering, !failed.isEmpty {
+        if remembering, !remembered.isEmpty, !failed.isEmpty {
             _ = change { entries in
-                for key in removed.keys {
+                for key in remembered.keys {
                     let left = entries[key]?.filter { !failed.contains($0.list) } ?? []
                     entries[key] = left.isEmpty ? nil : left
                 }
@@ -202,8 +209,35 @@ public struct DockTiles: Sendable {
         return url.map(PathPattern.comparablePath)
     }
 
-    private func indices(of app: URL, in tiles: [Any]) -> [Int] {
-        indices(ofKey: key(app), in: tiles)
+    /// Where the bookmark the Dock keeps beside a tile's path finds the tile's app, for a path that leads nowhere: the
+    /// Dock keeps the place an app was kept from once the app moves, to the Trash too.
+    private static func bookmarkedPath(of tile: Any, leadingNowhereFrom path: String) -> String? {
+        guard URL(filePath: path).isMissing,
+              let book = ((tile as? [String: Any])?["tile-data"] as? [String: Any])?["book"] as? Data
+        else { return nil }
+        var isStale = false
+        let found = try? URL(
+            resolvingBookmarkData: book, options: [.withoutUI, .withoutMounting], relativeTo: nil,
+            bookmarkDataIsStale: &isStale
+        )
+        return found.map(PathPattern.comparablePath)
+    }
+
+    /// Where each tile of a list leads, worked out once for the list, since a bookmark is resolved on disk.
+    private struct Places {
+        let paths: [String?]
+        let bookmarked: [String?]
+
+        init(_ tiles: [Any]) {
+            paths = tiles.map(DockTiles.path(of:))
+            bookmarked = zip(tiles, paths).map { tile, path in
+                path.flatMap { DockTiles.bookmarkedPath(of: tile, leadingNowhereFrom: $0) }
+            }
+        }
+
+        func indices(of key: String) -> [Int] {
+            paths.indices.filter { paths[$0] == key || bookmarked[$0] == key }
+        }
     }
 
     private func indices(ofKey key: String, in tiles: [Any]) -> [Int] {

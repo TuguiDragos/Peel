@@ -64,7 +64,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **Privacy permissions too, if you want.** Peel can also reset the permissions macOS gave the app, such as access
   to the camera and the microphone. History can't undo this: the app asks again for each one.
 - **Its Dock icon too.** Peel takes the app's icon out of the Dock, where it would stay as a question mark,
-  unless you deselect it, and History puts it back where it was when you put the app back.
+  unless you deselect it, and History puts it back where it was when you put the app back. An app you had already
+  moved to the Trash loses its icon once the files it left behind move, and History doesn't put that icon back.
 - **When macOS needs more.** After a removal, Peel says when macOS keeps using what moved: an audio driver until
   you restart your Mac, and, on macOS 27, an app's login items, which macOS starts from the Trash until you empty it.
 - **Lines that still point to what moved.** After a removal, Peel reads the files your shell runs when it starts

@@ -53,6 +53,10 @@ struct DockTilesTests {
         ["tile-data": ["file-data": ["_CFURLString": url, "_CFURLStringType": type]], "tile-type": "file-tile"]
     }
 
+    private static func tile(_ url: String, book: Data) -> [String: Any] {
+        ["tile-data": ["file-data": ["_CFURLString": url, "_CFURLStringType": 15], "book": book], "tile-type": "file-tile"]
+    }
+
     private static func spacer() -> [String: Any] {
         ["tile-data": [String: Any](), "tile-type": "spacer-tile"]
     }
@@ -88,6 +92,38 @@ struct DockTilesTests {
 
         await tiles.putBack([studio])
         #expect(store.paths().count == 4, "a tile was put back twice")
+    }
+
+    @Test func takesOutTheTileOfAnAppAlreadyInTheTrashWithoutRememberingIt() async throws {
+        let directory = try TemporaryDirectory()
+        let root = directory.url.resolvingSymlinksInPath()
+        let kept = try directory.directory("Applications/org.example.Studio.app").resolvingSymlinksInPath()
+        let tile = try Self.tile(kept.absoluteString, book: kept.bookmarkData())
+        try directory.directory(".Trash")
+        let trashed = root.appending(path: ".Trash/org.example.Studio.app", directoryHint: .isDirectory)
+        try FileManager.default.moveItem(at: kept, to: trashed)
+        let store = Store([Self.tile("file:///System/Applications/Mail.app/"), tile])
+        let memory = directory.url.appending(path: "dock-tiles.json")
+        let tiles = DockTiles(store: store, memory: memory)
+
+        #expect(await tiles.holding([trashed]) == [trashed])
+        #expect(await tiles.takeOut([trashed], forgetting: [trashed]))
+        #expect(store.paths() == ["/System/Applications/Mail.app"])
+        #expect(store.restarts.load(ordering: .relaxed) == 1)
+        #expect(memory.isMissing, "a tile was remembered for an app History never moved")
+    }
+
+    @Test func aTileWhoseBookmarkFindsACopyElsewhereIsNotTheTrashedApps() async throws {
+        let directory = try TemporaryDirectory()
+        let root = directory.url.resolvingSymlinksInPath()
+        let kept = try directory.directory("Applications/org.example.Studio.app").resolvingSymlinksInPath()
+        let tile = try Self.tile(kept.absoluteString, book: kept.bookmarkData())
+        try directory.directory("Elsewhere")
+        try FileManager.default.moveItem(at: kept, to: root.appending(path: "Elsewhere/org.example.Studio.app"))
+        let trashed = try directory.directory(".Trash/org.example.Studio.app").resolvingSymlinksInPath()
+        let tiles = DockTiles(store: Store([tile]), memory: directory.url.appending(path: "dock-tiles.json"))
+
+        #expect(await tiles.holding([trashed]).isEmpty)
     }
 
     @Test func takesOutATileWithoutRememberingItInAFolderThatIsGone() async throws {

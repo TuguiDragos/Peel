@@ -401,9 +401,11 @@ struct MultipleAppsView: View {
                 )
                 if plan.removesDockTiles {
                     let moved = Set(result.trashed.map(\.originalURL))
-                    // Asked of every app that moved, since one opened after the last scan has a tile now.
-                    let apps = plan.apps.map(\.url).filter(moved.contains).sorted { $0.path < $1.path }
-                    _ = await DockTiles().takeOut(apps)
+                    // Asked of every app that moved, since one opened after the last scan has a tile now, and of every
+                    // app already in the Trash whose own files moved.
+                    let inTheTrash = plan.appsInTheTrash(withFilesAmong: moved).map(\.url)
+                    let apps = (plan.apps.map(\.url).filter(moved.contains) + inTheTrash).sorted { $0.path < $1.path }
+                    _ = await DockTiles().takeOut(apps, forgetting: Set(inTheTrash))
                 }
                 if let state = AppManagement.state(
                     after: result,
@@ -458,7 +460,9 @@ private struct BulkRemovalOptions: View {
 
     var body: some View {
         let resets = !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty
-        let removesTiles = !plan.appsInTheDock.isDisjoint(with: plan.selectable)
+        let movesAppsWithTiles = !plan.appsInTheDock.isDisjoint(with: plan.selectable)
+        let tilesInTheTrash = !plan.appsInTheTrashWithTiles.isEmpty
+        let removesTiles = movesAppsWithTiles || tilesInTheTrash
         if resets || removesTiles {
             // Side by side while they fit, and the second on a line of its own when they don't.
             FlowLayout(spacing: 24) {
@@ -466,7 +470,10 @@ private struct BulkRemovalOptions: View {
                     PrivacyResetOption(isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
                 }
                 if removesTiles {
-                    DockTileOption(isOn: Bindable(plan).removesDockTiles)
+                    DockTileOption(
+                        isOn: Bindable(plan).removesDockTiles,
+                        apps: movesAppsWithTiles ? (tilesInTheTrash ? .both : .moved) : .alreadyInTheTrash
+                    )
                 }
             }
             .padding(.vertical, 8)

@@ -182366,6 +182366,112 @@
         }
       }
     },
+    "The Dock keeps an app’s icon after the app is gone, as a question mark. If this is selected, Peel takes the icon out once the app is in the Trash, and the Dock restarts. Putting the app back from History puts its icon back where it was, but an app that was already in the Trash doesn’t get its icon back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když aplikace zmizí, Dock její ikonu ponechá jako otazník. Pokud je tato volba vybraná, Peel ikonu odstraní, jakmile bude aplikace v koši, a Dock se restartuje. Když aplikaci vrátíte zpět z Historie, vrátí se i její ikona tam, kde byla, ale aplikace, která už byla v koši, svou ikonu zpět nedostane."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ist eine App nicht mehr da, behält das Dock ihr Symbol als Fragezeichen. Ist diese Option ausgewählt, entfernt Peel das Symbol, sobald die App im Papierkorb ist, und das Dock startet neu. Legst du die App im Verlauf zurück, kommt auch ihr Symbol wieder an seine alte Stelle, aber eine App, die bereits im Papierkorb war, bekommt ihr Symbol nicht zurück."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Dock conserva el icono de una app cuando la app ya no está, como un signo de interrogación. Si esta opción está seleccionada, Peel quita el icono cuando la app ya está en la papelera, y el Dock se reinicia. Al restaurar la app desde Historial, su icono vuelve a donde estaba, pero una app que ya estaba en la papelera no recupera su icono."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Dock conserve l’icône d’une app après sa disparition, sous la forme d’un point d’interrogation. Si cette option est cochée, Peel supprime l’icône une fois l’app dans la corbeille, et le Dock redémarre. Si vous remettez l’app depuis l’Historique, son icône revient à sa place, mais une app qui était déjà dans la corbeille ne récupère pas son icône."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Dock mantiene l’icona di un’app dopo che l’app non c’è più, come un punto interrogativo. Se questa opzione è selezionata, Peel rimuove l’icona una volta che l’app è nel Cestino, e il Dock si riavvia. Se ripristini l’app dalla Cronologia, la sua icona torna dov’era, ma un’app che era già nel Cestino non recupera la sua icona."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockは、アプリがなくなった後もそのアイコンを疑問符として残します。これを選択すると、アプリがゴミ箱に入った時点でPeelがアイコンを取り除き、Dockが再起動します。“履歴”からアプリを戻すと、アイコンも元の場所に戻ります。ただし、すでにゴミ箱に入っていたアプリのアイコンは戻りません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock은 앱이 사라진 후에도 앱의 아이콘을 물음표로 남겨 둡니다. 이 항목을 선택하면 앱이 휴지통으로 이동된 후 Peel이 아이콘을 제거하고, Dock이 다시 시작됩니다. 기록에서 앱을 되돌려 놓으면 아이콘도 원래 있던 자리로 되돌아가지만, 이미 휴지통에 있던 앱의 아이콘은 되돌아가지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het Dock bewaart het symbool van een app nadat de app weg is, als een vraagteken. Als dit is geselecteerd, haalt Peel het symbool weg zodra de app in de prullenmand staat, en start het Dock opnieuw. Als je de app vanuit Geschiedenis terugzet, komt het symbool terug op de plek waar het stond, maar een app die al in de prullenmand stond, krijgt zijn symbool niet terug."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock zachowuje ikonę aplikacji po jej zniknięciu, jako znak zapytania. Jeśli ta opcja jest zaznaczona, Peel usuwa ikonę, gdy aplikacja znajdzie się w Koszu, a Dock uruchamia się ponownie. Przywrócenie aplikacji z Historii przywraca jej ikonę tam, gdzie była, ale aplikacja, która była już w Koszu, nie odzyskuje swojej ikony."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Dock mantém o ícone de um app depois que o app deixa de existir, como um ponto de interrogação. Se esta opção estiver selecionada, o Peel remove o ícone assim que o app estiver no Lixo, e o Dock reinicia. Ao colocar o app de volta pelo Histórico, o ícone volta para onde estava, mas o ícone de um app que já estava no Lixo não volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock‑ul păstrează pictograma unei aplicații după ce aplicația dispare, sub forma unui semn de întrebare. Dacă această opțiune este selectată, Peel elimină pictograma după ce aplicația a ajuns în Coș, iar Dock‑ul repornește. Dacă puneți aplicația înapoi din Istoric, pictograma ei revine unde era, dar o aplicație care era deja în Coș nu își recapătă pictograma."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock сохраняет значок приложения и после его удаления, в виде вопросительного знака. Если этот параметр выбран, Peel убирает значок, как только приложение окажется в Корзине, и Dock перезапускается. Если восстановить приложение из Истории, его значок вернется на прежнее место, но значок приложения, которое уже было в Корзине, не вернется."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock behåller en apps symbol som ett frågetecken när appen är borta. Om det här är markerat tar Peel bort symbolen när appen ligger i papperskorgen, och Dock startas om. Om du lägger tillbaka appen från Historik läggs symbolen tillbaka där den var, men en app som redan låg i papperskorgen får inte tillbaka sin symbol."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock, bir uygulama gittikten sonra onun simgesini soru işareti olarak tutar. Bu seçiliyse, uygulama Çöp Sepeti’ne taşındıktan sonra Peel simgeyi Dock’tan çıkarır ve Dock yeniden başlar. Uygulamayı Geçmiş’ten yerine koyduğunuzda simgesi de eski yerine döner, ancak zaten Çöp Sepeti’nde olan bir uygulamanın simgesi geri gelmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock зберігає іконку програми у вигляді знака питання, коли самої програми вже немає. Якщо цей параметр вибрано, Peel прибирає іконку, щойно програма опиняється в Смітнику, і Dock перезапускається. Якщо повернути програму з Історії, її іконка повернеться туди, де була, але іконка програми, яка вже була в Смітнику, не повернеться."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App移除后，程序坞仍会以问号的形式保留它的图标。如果选择此项，Peel会在App移到废纸篓后移除它的图标，程序坞会重新启动。从“历史记录”中将App放回原处时，它的图标也会回到原来的位置，但原本就已在废纸篓中的App，它的图标不会放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App不在後，Dock仍會以問號保留它的圖像。若已選取此選項，Peel會在App丟到「垃圾桶」後移除該圖像，Dock也會重新啟動。從「歷史記錄」還原App時，其圖像也會放回原本的位置，但原本就已在「垃圾桶」中的App，其圖像不會放回。"
+          }
+        }
+      }
+    },
     "The Dock keeps an app’s icon after the app is gone, as a question mark. If this is selected, Peel takes the icon out once the app is in the Trash, and the Dock restarts. Putting the app back from History puts its icon back where it was." : {
       "localizations" : {
         "cs" : {
@@ -182468,6 +182574,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App不在後，Dock仍會以問號保留它的圖像。若已選取此選項，Peel會在App丟到「垃圾桶」後移除該圖像，Dock也會重新啟動。從「歷史記錄」還原App時，其圖像也會放回原本的位置。"
+          }
+        }
+      }
+    },
+    "The Dock keeps an app’s icon after the app is gone, as a question mark. If this is selected, Peel takes the icon out once the files the app left behind are in the Trash, and the Dock restarts. The app was already in the Trash, so History doesn’t put its icon back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když aplikace zmizí, Dock její ikonu ponechá jako otazník. Pokud je tato volba vybraná, Peel ikonu odstraní, jakmile budou v koši soubory, které po sobě aplikace zanechala, a Dock se restartuje. Aplikace už byla v koši, takže Historie její ikonu nevrátí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ist eine App nicht mehr da, behält das Dock ihr Symbol als Fragezeichen. Ist diese Option ausgewählt, entfernt Peel das Symbol, sobald die von der App hinterlassenen Dateien im Papierkorb sind, und das Dock startet neu. Die App war bereits im Papierkorb, daher legt der Verlauf ihr Symbol nicht zurück."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Dock conserva el icono de una app cuando la app ya no está, como un signo de interrogación. Si esta opción está seleccionada, Peel quita el icono cuando los archivos que ha dejado la app ya están en la papelera, y el Dock se reinicia. La app ya estaba en la papelera, así que Historial no restaura su icono."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Dock conserve l’icône d’une app après sa disparition, sous la forme d’un point d’interrogation. Si cette option est cochée, Peel supprime l’icône une fois que les fichiers que l’app a laissés derrière elle sont dans la corbeille, et le Dock redémarre. L’app était déjà dans la corbeille : l’Historique ne remet donc pas son icône en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Dock mantiene l’icona di un’app dopo che l’app non c’è più, come un punto interrogativo. Se questa opzione è selezionata, Peel rimuove l’icona una volta che i file che l’app si è lasciata dietro sono nel Cestino, e il Dock si riavvia. L’app era già nel Cestino, quindi la Cronologia non ripristina la sua icona."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockは、アプリがなくなった後もそのアイコンを疑問符として残します。これを選択すると、アプリが残したファイルがゴミ箱に入った時点でPeelがアイコンを取り除き、Dockが再起動します。アプリはすでにゴミ箱に入っていたため、“履歴”からアイコンを戻すことはできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock은 앱이 사라진 후에도 앱의 아이콘을 물음표로 남겨 둡니다. 이 항목을 선택하면 앱이 남긴 파일이 휴지통으로 이동된 후 Peel이 아이콘을 제거하고, Dock이 다시 시작됩니다. 앱이 이미 휴지통에 있었으므로 기록은 아이콘을 되돌려 놓지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het Dock bewaart het symbool van een app nadat de app weg is, als een vraagteken. Als dit is geselecteerd, haalt Peel het symbool weg zodra de bestanden die de app heeft achtergelaten, in de prullenmand staan, en start het Dock opnieuw. De app stond al in de prullenmand, dus Geschiedenis zet het symbool niet terug."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock zachowuje ikonę aplikacji po jej zniknięciu, jako znak zapytania. Jeśli ta opcja jest zaznaczona, Peel usuwa ikonę, gdy pliki pozostawione przez aplikację znajdą się w Koszu, a Dock uruchamia się ponownie. Aplikacja była już w Koszu, więc Historia nie przywraca jej ikony."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Dock mantém o ícone de um app depois que o app deixa de existir, como um ponto de interrogação. Se esta opção estiver selecionada, o Peel remove o ícone assim que os arquivos que o app deixou para trás estiverem no Lixo, e o Dock reinicia. O app já estava no Lixo, então o Histórico não coloca o ícone de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock‑ul păstrează pictograma unei aplicații după ce aplicația dispare, sub forma unui semn de întrebare. Dacă această opțiune este selectată, Peel elimină pictograma după ce fișierele lăsate în urmă de aplicație au ajuns în Coș, iar Dock‑ul repornește. Aplicația era deja în Coș, așa că nu îi puteți pune pictograma înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock сохраняет значок приложения и после его удаления, в виде вопросительного знака. Если этот параметр выбран, Peel убирает значок, как только файлы, оставшиеся после приложения, окажутся в Корзине, и Dock перезапускается. Приложение уже было в Корзине, поэтому История не вернет его значок на место."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock behåller en apps symbol som ett frågetecken när appen är borta. Om det här är markerat tar Peel bort symbolen när filerna som appen lämnade kvar ligger i papperskorgen, och Dock startas om. Appen låg redan i papperskorgen, så Historik lägger inte tillbaka symbolen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock, bir uygulama gittikten sonra onun simgesini soru işareti olarak tutar. Bu seçiliyse, uygulamanın geride bıraktığı dosyalar Çöp Sepeti’ne taşındıktan sonra Peel simgeyi Dock’tan çıkarır ve Dock yeniden başlar. Uygulama zaten Çöp Sepeti’ndeydi, bu yüzden Geçmiş onun simgesini yerine koymaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock зберігає іконку програми у вигляді знака питання, коли самої програми вже немає. Якщо цей параметр вибрано, Peel прибирає іконку, щойно файли, які програма залишила по собі, опиняються в Смітнику, і Dock перезапускається. Програма вже була в Смітнику, тож Історія не повертає її іконку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App移除后，程序坞仍会以问号的形式保留它的图标。如果选择此项，Peel会在App留下的文件移到废纸篓后移除App的图标，程序坞会重新启动。该App原本就已在废纸篓中，因此“历史记录”不会将它的图标放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App不在後，Dock仍會以問號保留它的圖像。若已選取此選項，Peel會在App留下的檔案丟到「垃圾桶」後移除該圖像，Dock也會重新啟動。App原本就已在「垃圾桶」中，因此「歷史記錄」不會將其圖像放回。"
           }
         }
       }

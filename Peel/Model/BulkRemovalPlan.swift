@@ -50,6 +50,16 @@ final class BulkRemovalPlan {
 
     var items: [BulkUninstallation.Item] { bulk?.items ?? [] }
 
+    /// The chosen apps already in the Trash that hold a tile in the Dock and a file of their own that can be selected.
+    var appsInTheTrashWithTiles: [InstalledApp] {
+        appsInTheTrash(withFilesAmong: selectable).filter { appsInTheDock.contains($0.url) }
+    }
+
+    func appsInTheTrash(withFilesAmong urls: Set<URL>) -> [InstalledApp] {
+        guard let bulk, !appsInTheTrash.isEmpty else { return [] }
+        return apps.filter { appsInTheTrash.contains($0.url) && !bulk.files(of: $0.reference).isDisjoint(with: urls) }
+    }
+
     /// What a confirmation would ask about now: the selection, with the sizes this scan measured.
     var request: RemovalRequest {
         RemovalRequest(
