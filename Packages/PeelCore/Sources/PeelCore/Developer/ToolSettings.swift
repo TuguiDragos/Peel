@@ -21,6 +21,9 @@ struct ToolSettings: Sendable {
     let goBuildCache: URL?
     /// Homebrew's caches: `HOMEBREW_CACHE` in the `brew.env` files `bin/brew` reads.
     let homebrewCaches: [URL]
+    /// Jan's data folder: `data_folder` in Jan's `settings.json`, or, while that file is missing, in the one in the
+    /// folder named for Jan's bundle, which Jan recovers it from.
+    let janDataFolder: URL?
 
     /// The settings of the tools of `home`, with Homebrew's files for everyone read from `root`.
     init(home: URL, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) {
@@ -62,6 +65,17 @@ struct ToolSettings: Sendable {
         goModuleCache = (goValue("GOMODCACHE") ?? goPath).flatMap(Self.absolute)
         goBuildCache = goValue("GOCACHE").flatMap(Self.absolute)
         homebrewCaches = Self.homebrewCaches(home: home, root: root)
+
+        let applicationSupport = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
+        let janSettings = applicationSupport.appending(path: "Jan/settings.json")
+        janDataFolder = Self.text(
+            at: janSettings.isMissing ? applicationSupport.appending(path: "jan.ai.app/settings.json") : janSettings
+        ).flatMap { Self.jsonValue(of: "data_folder", in: $0) }.flatMap(Self.absolute)
+    }
+
+    private static func jsonValue(of key: String, in text: String) -> String? {
+        let object = try? JSONSerialization.jsonObject(with: Data(text.utf8))
+        return (object as? [String: Any])?[key] as? String
     }
 
     /// Every place `HOMEBREW_CACHE` names in the `brew.env` files, for each prefix Homebrew may be in and each folder

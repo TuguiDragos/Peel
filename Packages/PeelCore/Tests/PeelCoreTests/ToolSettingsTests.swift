@@ -207,6 +207,25 @@ struct ToolSettingsTests {
         #expect(left.inside(home.appending(path: "Library/Caches", directoryHint: .isDirectory)).contains(["brew"]))
     }
 
+    @Test func readsJansDataFolderWhereJanLooksForIt() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let write = { (path: String, text: String) throws in _ = try directory.file(path, contents: Data(text.utf8)) }
+        let dataFolder = { Self.path(ToolSettings(home: home).janDataFolder) }
+
+        try write("home/Library/Application Support/jan.ai.app/settings.json", #"{"data_folder":"/Volumes/Fast/jan-old"}"#)
+        #expect(dataFolder() == "/Volumes/Fast/jan-old", "Jan recovers its settings from its bundle's folder")
+
+        try write("home/Library/Application Support/Jan/settings.json", #"{"data_folder":"/Volumes/Fast/jan"}"#)
+        #expect(dataFolder() == "/Volumes/Fast/jan")
+
+        try write("home/Library/Application Support/Jan/settings.json", #"{"data_folder":"./data"}"#)
+        #expect(dataFolder() == nil, "a relative path names no place")
+
+        try write("home/Library/Application Support/Jan/settings.json", #"["/Volumes/Fast/jan"]"#)
+        #expect(dataFolder() == nil)
+    }
+
     private static func path(_ url: URL?) -> String? {
         url.map { $0.path(percentEncoded: false) }.map { $0.count > 1 && $0.hasSuffix("/") ? String($0.dropLast()) : $0 }
     }

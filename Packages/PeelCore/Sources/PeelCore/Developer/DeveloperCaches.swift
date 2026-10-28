@@ -1253,8 +1253,9 @@ public enum DeveloperCaches {
             Folder(".cache/kagglehub", .models, source: "https://github.com/Kaggle/kagglehub/blob/4fe0a176e0e9b815ca4101c371b504ff97239b97/src/kagglehub/config.py#L17"),
         ]),
         Definition(id: "jan", name: "Jan", systemImage: "brain", appBundleIdentifiers: ["jan.ai.app"], folders: [
-            Folder("Library/Application Support/Jan/data/llamacpp/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
-            Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder"),
+            Folder("Library/Application Support/Jan/data/llamacpp/models", .models, source: "https://jan.ai/docs/desktop/data-folder", movedBy: .janDataFolder(inside: "llamacpp/models")),
+            Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder", movedBy: .janDataFolder(inside: "mlx/models")),
+            // Not followed to a moved data folder: the person chose that folder, and a `logs` there may be theirs.
             Folder("Library/Application Support/Jan/data/logs", .logs, source: "https://jan.ai/docs/desktop/data-folder"),
         ]),
         Definition(id: "anythingllm", name: "AnythingLLM", systemImage: "brain", appBundleIdentifiers: [], folders: [

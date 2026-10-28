@@ -1371,6 +1371,24 @@ struct DeveloperCachesTests {
         ])
     }
 
+    @Test func findsJansModelsWhereItsSettingMovedItsDataFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let moved = directory.url.appending(path: "Fast/jan").path(percentEncoded: false)
+        try directory.file("home/Library/Application Support/Jan/settings.json", contents: Data(#"{"data_folder":"\#(moved)"}"#.utf8))
+        try directory.file("Fast/jan/llamacpp/models/tiny/model.gguf", bytes: 400_000)
+        try directory.file("Fast/jan/mlx/models/small/weights.safetensors", bytes: 400_000)
+        try directory.file("Fast/jan/logs/app.log", bytes: 400_000)
+        let jan = DeveloperCaches.definitions.filter { $0.id == "jan" }
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+
+        let found = await DeveloperCaches.scan(jan, homeDirectory: home).flatMap(\.locations)
+
+        let temporary = directory.url.path(percentEncoded: false)
+        #expect(Set(found.map { $0.url.path(percentEncoded: false).replacingOccurrences(of: temporary, with: "") }) == [
+            "Fast/jan/llamacpp/models", "Fast/jan/mlx/models",
+        ])
+    }
+
     /// A path that needs the tool's own environment, or a folder without the tool's mark, names no place.
     @Test func aConfigurationThatNamesNoPlaceOfItsOwnMovesNothing() async throws {
         let directory = try TemporaryDirectory()
