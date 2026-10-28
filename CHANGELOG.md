@@ -213,6 +213,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The helper's banner says what the page needs it for, moving how many items, forgetting the receipt, or changing the
   job.
+- Peel knows two more browser wallets, Hana Wallet and Portal DEX in Chrome and the browsers built on it: a browser
+  profile that holds one stays whole.
 
 #### `peel`
 
