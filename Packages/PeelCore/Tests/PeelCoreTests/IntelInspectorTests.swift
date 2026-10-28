@@ -142,6 +142,18 @@ struct IntelInspectorTests {
         return directory.url.appending(path: path, directoryHint: .isDirectory)
     }
 
+    private func javaRuntime(
+        _ directory: borrowing TemporaryDirectory, _ path: String, _ cpuTypes: [UInt32], name: String?
+    ) throws {
+        var info = ["CFBundleExecutable": "libjli.dylib"]
+        info["CFBundleName"] = name
+        let plist = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+        try directory.file("\(path)/Contents/Info.plist", contents: plist)
+        try directory.file("\(path)/Contents/MacOS/libjli.dylib", contents: fatHeader(cpuTypes))
+        let java = try directory.file("\(path)/Contents/Home/bin/java", contents: fatHeader(cpuTypes))
+        try directory.setPermissions(0o755, of: java)
+    }
+
     /// Runs one of the scan's walks over fixtures that can all be read, so it names nothing it couldn't read.
     private func readable<T>(_ walk: (inout [URL]) -> T) -> T {
         var unread: [URL] = []
@@ -435,6 +447,28 @@ struct IntelInspectorTests {
 
         #expect(tools.map(\.name) == ["tool"])
         #expect(tools.map { PathPattern.comparablePath(of: $0.url) } == [PathPattern.comparablePath(of: program)])
+    }
+
+    @Test func findsTheIntelOnlyJavaRuntimesInEitherLibrary() async throws {
+        let directory = try TemporaryDirectory()
+        try javaRuntime(directory, "home/Library/Java/JavaVirtualMachines/jdk-21.0.13+9", [intel], name: "OpenJDK 21.0.13")
+        try javaRuntime(directory, "root/Library/Java/JavaVirtualMachines/temurin-17.jdk", [intel], name: nil)
+        try javaRuntime(directory, "root/Library/Java/JavaVirtualMachines/zulu-21.jdk", [intel, appleSilicon], name: "Zulu")
+        try directory.file("root/Library/Java/JavaVirtualMachines/notes/readme.txt")
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { _ in 1 }
+        )
+
+        #expect(Set(scan.findings.map(\.name)) == ["OpenJDK 21.0.13", "temurin-17"])
+        #expect(scan.findings.allSatisfy { $0.kind == .javaRuntime })
+        #expect(scan.unreadable.isEmpty, "named \(scan.unreadable)")
     }
 
     @Test func looksForCommandsUnderTheRootItIsGiven() async throws {

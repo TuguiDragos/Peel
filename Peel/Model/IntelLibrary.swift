@@ -71,6 +71,7 @@ extension IntelFinding.Kind {
         case .driver: "Drivers"
         case .backgroundItem: "Background Items"
         case .commandLineTool: "Command Line Tools"
+        case .javaRuntime: "Java Runtimes"
         }
     }
 
@@ -85,6 +86,7 @@ extension IntelFinding.Kind {
         case .driver: "printer"
         case .backgroundItem: "gearshape.2"
         case .commandLineTool: "terminal"
+        case .javaRuntime: "cup.and.saucer"
         }
     }
 
@@ -98,6 +100,7 @@ extension IntelFinding.Kind {
             case .driver: "This driver is Intel only. On this Intel Mac it runs natively."
             case .backgroundItem: "This background item is Intel only. On this Intel Mac it runs natively."
             case .commandLineTool: "This tool in /usr/local is Intel only. On this Intel Mac it runs natively."
+            case .javaRuntime: "This Java runtime is Intel only. On this Intel Mac it runs natively."
             }
         }
         return switch self {
@@ -108,6 +111,8 @@ extension IntelFinding.Kind {
         case .driver: "This driver is Intel only. The device it serves may stop working without Rosetta."
         case .backgroundItem: "This background item is Intel only, so it needs Rosetta to run."
         case .commandLineTool: "This tool in /usr/local is Intel only, so it needs Rosetta to run."
+        case .javaRuntime:
+            "This Java runtime is Intel only, so it needs Rosetta to run. If its maker offers one for Apple silicon, install that one instead."
         }
     }
 }

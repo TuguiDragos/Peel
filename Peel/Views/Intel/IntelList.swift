@@ -62,7 +62,7 @@ struct IntelList: View {
                         Label("Nothing Needs Rosetta", systemImage: "checkmark.seal")
                     } description: {
                         VStack(spacing: 6) {
-                            Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, and the tools in /usr/local.")
+                            Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
                             Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run, including some outside the folders Peel looks in.")
                         }
                     } actions: {
@@ -74,7 +74,7 @@ struct IntelList: View {
                         systemImage: "checkmark.seal",
                         // The description claims only what Peel looked at, since Intel plug-ins can be missed: the
                         // macOS 27 release notes say some may not appear even in System Settings.
-                        description: Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, and the tools in /usr/local.")
+                        description: Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
                     )
                 }
             }

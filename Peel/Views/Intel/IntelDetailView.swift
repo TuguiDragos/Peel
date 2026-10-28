@@ -13,7 +13,7 @@ struct IntelDetailView: View {
     private func lastOpened(of app: InstalledApp?) -> Date? {
         switch finding.kind {
         case .app, .insideApp: app?.lastUsedDate
-        case .plugin, .driver, .backgroundItem, .commandLineTool: nil
+        case .plugin, .driver, .backgroundItem, .commandLineTool, .javaRuntime: nil
         }
     }
 
@@ -170,6 +170,8 @@ struct IntelDetailView: View {
                 : "Peel only reports here. The software that installed it may have an uninstaller of its own."
         case .backgroundItem:
             "Peel only reports here. Background Items moves a job’s configuration file, not the program it runs: that goes with the software that installed it."
+        case .javaRuntime:
+            "Peel only reports here. A Java runtime is its folder: to remove it, move the folder to the Trash in Finder."
         }
     }
 

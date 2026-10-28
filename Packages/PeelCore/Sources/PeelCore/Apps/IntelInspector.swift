@@ -12,6 +12,7 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
         case driver
         case backgroundItem
         case commandLineTool
+        case javaRuntime
     }
 
     public let url: URL
@@ -61,6 +62,10 @@ public enum IntelInspector {
     /// A printer driver keeps programs of its own beside its bundles: the filters and the tools its PPD names, as
     /// CUPS's PPD specification shows with `/Library/Printers/vendor/Tools/lowinktool`.
     static let printers = "Printers"
+
+    /// Where Java runtimes are installed: Oracle's "Installing the JDK on macOS" names
+    /// `/Library/Java/JavaVirtualMachines/jdk-<feature>.jdk`, and `java_home` lists the home's folder as well.
+    static let javaRuntimes = "Java/JavaVirtualMachines"
 
     static func libraryDirectories(_ environment: SearchEnvironment, folders: [String]) -> [String] {
         [environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory),
@@ -201,6 +206,19 @@ public enum IntelInspector {
                 url: url,
                 kind: .driver,
                 name: url.lastPathComponent,
+                owner: nil,
+                size: nil,
+            ))
+        }
+
+        for runtime in intelOnlyJavaRuntimes(
+            in: libraryDirectories(environment, folders: [javaRuntimes]), unreadable: &unreadable
+        ) where !Task.isCancelled && !exclusions.excludes(runtime) && isNew(runtime) {
+            let info = AppInspector.infoDictionary(in: runtime.appending(path: "Contents", directoryHint: .isDirectory))
+            findings.append(IntelFinding(
+                url: runtime,
+                kind: .javaRuntime,
+                name: Plugins.name(of: runtime, info: info),
                 owner: nil,
                 size: nil,
             ))
@@ -404,17 +422,37 @@ public enum IntelInspector {
         let name = (info?["CFBundleExecutable"] as? String) ?? bundle.deletingPathExtension().lastPathComponent
         // The second place is for a flat bundle, which keeps its binary at its top level.
         for candidate in [contents.appending(path: "MacOS/\(name)"), bundle.appending(path: name)] {
-            var status = stat()
-            if stat(candidate.path(percentEncoded: false), &status) == 0 {
-                if isRunnable(status) { return candidate }
-            } else if ![ENOENT, ENOTDIR, ELOOP].contains(errno) {
-                if let folder = FileAccess.refusedFolder(candidate.deletingLastPathComponent()) {
-                    unreadable.append(folder)
-                }
-                return nil
+            switch isRunnableFile(candidate, unreadable: &unreadable) {
+            case true?: return candidate
+            case false?: continue
+            case nil: return nil
             }
         }
         return nil
+    }
+
+    /// Whether `url` is a file anyone can run, or nil when Peel can't look at it, which adds the folder that kept it
+    /// out to `unreadable`. What isn't there is no program.
+    private static func isRunnableFile(_ url: URL, unreadable: inout [URL]) -> Bool? {
+        var status = stat()
+        if stat(url.path(percentEncoded: false), &status) == 0 { return isRunnable(status) }
+        guard ![ENOENT, ENOTDIR, ELOOP].contains(errno) else { return false }
+        if let folder = FileAccess.refusedFolder(url.deletingLastPathComponent()) {
+            unreadable.append(folder)
+        }
+        return nil
+    }
+
+    /// The runtimes in each Library's Java folder that run only on Intel. A runtime's executable, `libjli.dylib`, is a
+    /// library no one runs, so its `java` decides.
+    static func intelOnlyJavaRuntimes(in directories: [String], unreadable: inout [URL]) -> [URL] {
+        directories.flatMap { directory in
+            entries(of: URL(filePath: directory, directoryHint: .isDirectory), unreadable: &unreadable)
+        }.filter { runtime in
+            let java = runtime.appending(path: "Contents/Home/bin/java")
+            return isRunnableFile(java, unreadable: &unreadable) == true
+                && isIntelOnly(executable: java, unreadable: &unreadable)
+        }
     }
 
     /// `ds` is a TWAIN data source, which Apple's Technical Note TN2088 puts in `Image Capture/TWAIN Data Sources`.
