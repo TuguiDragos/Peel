@@ -441,6 +441,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A removal bigger than History can keep is refused before anything moves, naming how many it keeps at once.
 - What moving a file frees is one rule everywhere, so Time Machine's local snapshots no longer make duplicates read
   Zero kB to free.
+- A folder only named like an app, as an app's web data or cache can be, stays in place while a program reads it.
 
 ## 1.2.1 (2026-10-25)
 
