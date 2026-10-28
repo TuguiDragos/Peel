@@ -189,7 +189,7 @@ extension ProtectedData {
     public static let walletAddOns: Set<String> = [
         // Alby: extension@getalby.com
         "f758c0ade84f7a93d09cbe7c6d9c15532bc336d3cf15d52c56563f081c97228d",
-        // Ambire, withdrawn: wallet@ambire.com
+        // Ambire: wallet@ambire.com
         "306d0fc0eeeb74b3d040c32d22fee199905e5df19d60b473d262e41e58ce451e",
         // Braavos: {a0c6ccfd-26a3-4df4-9729-aa036070ad29}
         "d536965e0833bc553d1bc1058a5b94583d8747d334c16888a5453938f2ae3693",
@@ -205,7 +205,7 @@ extension ProtectedData {
         "ce84733ead38daa7c822e11172031b90a8c1afa029e97b120202ff9d294a1c1f",
         // MetaMask Flask: webextension-flask@metamask.io
         "c1376eab47cb9e03a886e6c12b09f027eb8a78fb84c073a97c7ea85e92d5f0c6",
-        // My Wallet, formerly MyTonWallet, withdrawn: {98fcdaee-2b58-4f71-8a3c-f0c66f24dede}
+        // My Wallet, formerly MyTonWallet: {98fcdaee-2b58-4f71-8a3c-f0c66f24dede}
         "d75f165247ed9fee1470778d5cbd5c3a4d0f4c68c5bc17a52a71bf2b6267e32f",
         // Nightly: {76026700-1d2e-4c46-8454-198e27682104}
         "16b79069b9be67309856bc41364bf6fdca535ef9783fa01217fe835fd730169c",
