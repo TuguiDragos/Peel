@@ -300,6 +300,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - LibreWolf's, Mullvad Browser's, and Tor Browser's profiles keep your bookmarks, and Tor Browser's the keys you
   added for onion services, so they are listed and never selected too.
 - An app's receipt stays, unselected, while its package left more outside the app.
+- An app you had already moved to the Trash in Finder can lose its Dock icon too, once the files it left behind move.
 
 #### Orphaned Files
 
