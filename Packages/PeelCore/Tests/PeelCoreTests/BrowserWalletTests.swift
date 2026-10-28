@@ -134,7 +134,7 @@ struct BrowserWalletTests {
         ], allowed: [], in: directory)
     }
 
-    @Test(arguments: ["Gate Wallet", "Glow", "Jupiter Wallet", "NC Wallet", "Wigwam", "Wombat"])
+    @Test(arguments: ["Gate Wallet", "Glow", "Hana Wallet", "Jupiter Wallet", "NC Wallet", "Portal DEX", "Wigwam", "Wombat"])
     func aChromiumProfileWithTheWalletsExtensionStays(wallet: String) throws {
         let directory = try TemporaryDirectory()
         let profile = "home/Library/Application Support/Google/Chrome/Default"

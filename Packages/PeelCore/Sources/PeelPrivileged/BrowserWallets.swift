@@ -65,6 +65,8 @@ extension ProtectedData {
         "d371a27fb26fa3639a582bb4cbda89f80527d571c1551311516b0b15456c77c1",
         // Guarda: hpglfhgfnhbgpjdenjgmdgoeiappafln
         "481c38331739261484b3812dfa7ce899b7d8d31b6e3ca3b29310d36b79bf3cdf",
+        // Hana Wallet: jfdlamikmbghhapbgfoogdffldioobgl
+        "598cec49b5bbd1c846f1b2826788b5b29b735b9127c405415d3a17b948b2ff13",
         // HashPack: gjagmgiddbbciopjhllkdnddhcglnemk
         "b8f3784dd3405e46d254da4ef3443932264fb92b2c3f8af25f3fb0cb7e0e5a76",
         // Jupiter Wallet: iledlaeogohbilgbfhmbgkgmpplbfboh
@@ -121,6 +123,8 @@ extension ProtectedData {
         "37c3731cf4d0ed4b632b1bb5219ce30043b49ae3f1c3abd3e39248d7616705ca",
         // Pontem: phkbamefinggmakgklpkljjmgibohnba
         "0194c07603a6c3bdc4ae274330384ffd7d5a8a5428b9ad1a4d36739d3a097435",
+        // Portal DEX: ieldiilncjhfkalnemgjbffmpomcaigi
+        "d4e51d6d9ac9c21d7fe138fbbe8b7c8486103de16a07e8449fc858eef2964cef",
         // Rabby: acmacodkjbdgmoleebolmdjonilkdbch
         "fdbcc88c100d3fd0baf5888d6e69e9f60abb46ab9634d6b18682c1ca575654fa",
         // Rainbow: opfgelmcmbiajamepnmloijbpoleiama
