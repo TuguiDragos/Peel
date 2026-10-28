@@ -44,19 +44,35 @@ struct FileSearchList: View {
             if let results = search.results, !results.files.isEmpty {
                 Section {
                     ForEach(results.files) { file in
-                        RemovalRow(
-                            url: file.url,
-                            icon: .file(file.url),
-                            detail: modified(file).note,
-                            date: modified(file).date,
-                            warning: warning(for: file),
-                            size: file.size,
-                            isLeftAlone: file.requiresPrivileges,
-                            isFirst: file.id == results.files.first?.id,
-                            isChoosable: true,
-                            selection: search, isSelected: search.isSelected(file.url)
-                        )
-                        .tag(file.url)
+                        // On macOS 27 the day the file was modified stands in the column other lists give the kind.
+                        if #available(macOS 27, *) {
+                            RemovalRow(
+                                url: file.url,
+                                icon: .file(file.url),
+                                detail: nil,
+                                kind: "\(file.modificationDate, format: .dateTime.day().month(.abbreviated).year())",
+                                warning: warning(for: file),
+                                size: file.size,
+                                isLeftAlone: file.requiresPrivileges,
+                                isFirst: file.id == results.files.first?.id,
+                                isChoosable: true,
+                                selection: search, isSelected: search.isSelected(file.url)
+                            )
+                            .tag(file.url)
+                        } else {
+                            RemovalRow(
+                                url: file.url,
+                                icon: .file(file.url),
+                                detail: "Modified \(file.modificationDate, format: .relative(presentation: .named))",
+                                warning: warning(for: file),
+                                size: file.size,
+                                isLeftAlone: file.requiresPrivileges,
+                                isFirst: file.id == results.files.first?.id,
+                                isChoosable: true,
+                                selection: search, isSelected: search.isSelected(file.url)
+                            )
+                            .tag(file.url)
+                        }
                     }
                     .listRowSeparator(.hidden)
                 } header: {
@@ -190,13 +206,6 @@ struct FileSearchList: View {
         .task(id: exclusions.revision) {
             await search.leaveOut(exclusions.exclusions)
         }
-    }
-
-    /// When the file was modified, which a search can filter by: on macOS 27 in the row's own column, and on
-    /// macOS 26 in its note.
-    private func modified(_ file: FoundFile) -> (note: LocalizedStringResource?, date: Date?) {
-        if #available(macOS 27, *) { return (nil, file.modificationDate) }
-        return ("Modified \(file.modificationDate, format: .relative(presentation: .named))", nil)
     }
 
     private func warning(for file: FoundFile) -> String? {
