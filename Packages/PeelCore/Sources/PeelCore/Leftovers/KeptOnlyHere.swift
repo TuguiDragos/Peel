@@ -44,10 +44,15 @@ enum KeptOnlyHere {
         // Browsers built on Firefox keep the same profiles and save passwords as it does: Waterfox's
         // `moz.configure` and Zen's `moz-configure.patch` name the folder (`MOZ_APP_PROFILE`), Zen's "Managing
         // Firefox Profiles" says `logins.json` holds the saved passwords, and Floorp keeps them under its own name.
-        // LibreWolf, Tor Browser and Mullvad Browser save none unless the person turns it on, so they aren't here.
         ("Library/Application Support/Waterfox", "Profiles", .holdsPasswordsOrCodes),
         ("Library/Application Support/zen", "Profiles", .holdsPasswordsOrCodes),
         ("Library/Application Support/Floorp", "Profiles", .holdsPasswordsOrCodes),
+        // LibreWolf, Mullvad Browser and Tor Browser save no passwords unless the person turns it on, but keep the
+        // bookmarks, and Tor Browser the keys added for onion services, which nothing syncs: LibreWolf's FAQ, Mullvad's
+        // "Install Mullvad Browser" and Tor Browser's manual, "Uninstalling", name the folders.
+        ("Library/Application Support/librewolf", "Profiles", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/MullvadBrowser", "Profiles", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/TorBrowser-Data", nil, .holdsWorkMadeWithTheApp),
         // Chromium's `docs/user_data_dir.md` and `password_manager_constants.cc`: each browser's folder holds its
         // profiles, most often `Default`, and a profile keeps the saved passwords in `Login Data`. Brave's folders are
         // named by its `build/config.gni` and `BRANDING`. Opera's desktop blog names its folder, which before Opera 102
