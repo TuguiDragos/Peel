@@ -22,6 +22,9 @@ struct KeptOnlyHereTests {
             ("Library/Containers/io.ente.auth.mac", .holdsPasswordsOrCodes),
             ("Library/Application Support/Firefox", .holdsPasswordsOrCodes),
             ("Library/Application Support/Firefox/Profiles/abcd1234.default-release/logins.json", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Waterfox", .holdsPasswordsOrCodes),
+            ("Library/Application Support/zen/Profiles/pzrcsk7e.Default (release)/logins.json", .holdsPasswordsOrCodes),
+            ("Library/Application Support/Floorp/Profiles/y5yiweov.default-default/key4.db", .holdsPasswordsOrCodes),
             ("Library/Application Support/Google/Chrome", .holdsPasswordsOrCodes),
             ("Library/Application Support/Google/Chrome/Default/Login Data", .holdsPasswordsOrCodes),
             ("Library/Application Support/Google/Chrome Canary", .holdsPasswordsOrCodes),
@@ -106,6 +109,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/Chromium/NativeMessagingHosts/org.example.host.json",
             "Library/Application Support/Mozilla/NativeMessagingHosts/org.example.host.json",
             "Library/Caches/Firefox/Profiles/abcd1234.default-release", "Library/Application Support/Google",
+            "Library/Caches/Waterfox/Profiles/b1p8ayxl.default-release", "Library/Caches/zen", "Library/Caches/Floorp",
             "Library/Application Support/Google/GoogleUpdater", "Library/Application Support/BraveSoftware",
             "Library/Containers/com.culturedcode.ThingsMac", "Library/Caches/com.culturedcode.ThingsMac",
         ]

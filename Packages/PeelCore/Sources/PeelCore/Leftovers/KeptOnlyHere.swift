@@ -41,6 +41,13 @@ enum KeptOnlyHere {
         // Mozilla's "Profiles - Where Firefox stores your bookmarks, passwords and other user data": each profile keeps
         // the saved passwords in `key4.db` and `logins.json`, and Firefox can be uninstalled without losing them.
         ("Library/Application Support/Firefox", "Profiles", .holdsPasswordsOrCodes),
+        // Browsers built on Firefox keep the same profiles and save passwords as it does: Waterfox's
+        // `moz.configure` and Zen's `moz-configure.patch` name the folder (`MOZ_APP_PROFILE`), Zen's "Managing
+        // Firefox Profiles" says `logins.json` holds the saved passwords, and Floorp keeps them under its own name.
+        // LibreWolf, Tor Browser and Mullvad Browser save none unless the person turns it on, so they aren't here.
+        ("Library/Application Support/Waterfox", "Profiles", .holdsPasswordsOrCodes),
+        ("Library/Application Support/zen", "Profiles", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Floorp", "Profiles", .holdsPasswordsOrCodes),
         // Chromium's `docs/user_data_dir.md` and `password_manager_constants.cc`: each browser's folder holds its
         // profiles, most often `Default`, and a profile keeps the saved passwords in `Login Data`. Brave's folders are
         // named by its `build/config.gni` and `BRANDING`. Opera's desktop blog names its folder, which before Opera 102
