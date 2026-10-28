@@ -254,6 +254,11 @@ public struct TrashResult: Sendable {
         self.failures = failures
     }
 
+    /// Where each item that moved is now, by the place it was moved from.
+    public var trashedAt: [URL: URL] {
+        Dictionary(trashed.map { ($0.originalURL, $0.trashedURL) }) { first, _ in first }
+    }
+
     /// Marks each item whose move stopped the job it declares.
     mutating func note(_ stopped: [LaunchdCleanup.Job]) {
         for job in stopped {

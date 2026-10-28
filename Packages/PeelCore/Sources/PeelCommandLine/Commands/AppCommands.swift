@@ -685,7 +685,7 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }
         if isInTheDock, Self.takesOutDockIcon(of: target, after: result, keeping: keepInDock) {
-            _ = await DockTiles().takeOut([target.url])
+            _ = await DockTiles().takeOut([target.url], foundAt: result.trashedAt)
         }
         let references = await ShellReferences.find(naming: result.trashed.map(\.originalURL))
 

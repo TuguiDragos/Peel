@@ -516,7 +516,7 @@ struct AppDetailView: View {
                 let movedTheApp = result.trashed.contains(where: { $0.originalURL == plan.app.url })
                 if plan.removesDockTile, movedTheApp || plan.isAppInTheTrash && !result.trashed.isEmpty {
                     let forgotten: Set<URL> = plan.isAppInTheTrash ? [plan.app.url] : []
-                    _ = await DockTiles().takeOut([plan.app.url], forgetting: forgotten)
+                    _ = await DockTiles().takeOut([plan.app.url], foundAt: result.trashedAt, forgetting: forgotten)
                 }
                 if let state = AppManagement.state(
                     after: result,

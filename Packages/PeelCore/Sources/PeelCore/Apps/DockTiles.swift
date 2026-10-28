@@ -112,29 +112,35 @@ public struct DockTiles: Sendable {
     /// Those of `apps` that have a tile in the Dock.
     @concurrent
     public func holding(_ apps: [URL]) async -> Set<URL> {
-        let lists = DockList.allCases.compactMap { store.tiles(in: $0) }.map(Places.init)
-        return Set(apps.filter { app in lists.contains { !$0.indices(of: key(app)).isEmpty } })
+        let asked = apps.map { Asked(app: $0, now: $0) }
+        let lists = DockList.allCases.compactMap { store.tiles(in: $0) }.map { Places($0, lookingFor: asked) }
+        return Set(asked.filter { app in lists.contains { !$0.indices(of: app).isEmpty } }.map(\.app))
     }
 
     /// Takes the tiles of `apps` out of the Dock, remembering where each was, and restarts the Dock once. False
-    /// when none had a tile, or when that could not be remembered or written. Peel removing itself remembers nothing,
-    /// since its folder, where the memory is kept, has gone to the Trash, and the tile of an app in `forgotten` is not
-    /// remembered either: such an app was already in the Trash, so History, which puts a tile back, never moved it.
-    public func takeOut(_ apps: [URL], remembering: Bool = true, forgetting forgotten: Set<URL> = []) async -> Bool {
+    /// when none had a tile, or when that could not be remembered or written. An app that has moved is looked for where
+    /// it went (`moves`). Peel removing itself remembers nothing, since its folder, where the memory is kept, has gone
+    /// to the Trash, and the tile of an app in `forgotten` is not remembered either: such an app was already in the
+    /// Trash, so History, which puts a tile back, never moved it.
+    @concurrent
+    public func takeOut(
+        _ apps: [URL], foundAt moves: [URL: URL] = [:], remembering: Bool = true, forgetting forgotten: Set<URL> = []
+    ) async -> Bool {
+        let asked = apps.map { Asked(app: $0, now: moves[$0] ?? $0) }
         let lists = Dictionary(uniqueKeysWithValues: DockList.allCases.compactMap { list in
             store.tiles(in: list).map { (list, $0) }
         })
-        let places = lists.mapValues(Places.init)
+        let places = lists.mapValues { Places($0, lookingFor: asked) }
         var removed: [String: [Removed]] = [:]
-        for app in apps {
+        for one in asked {
             let found = lists.flatMap { list, tiles in
-                (places[list]?.indices(of: key(app)) ?? []).map { (list, tiles[$0], $0) }
+                (places[list]?.indices(of: one) ?? []).map { (list, tiles[$0], $0) }
             }
             let kept = found.compactMap { list, tile, index in
                 (try? PropertyListSerialization.data(fromPropertyList: tile, format: .binary, options: 0))
                     .map { Removed(list: list, index: index, tile: $0, around: places[list]?.paths ?? []) }
             }
-            if !found.isEmpty, kept.count == found.count { removed[key(app)] = kept }
+            if !found.isEmpty, kept.count == found.count { removed[key(one.app)] = kept }
         }
         let forgottenKeys = Set(forgotten.map(key))
         let remembered = removed.filter { !forgottenKeys.contains($0.key) }
@@ -223,20 +229,51 @@ public struct DockTiles: Sendable {
         return found.map(PathPattern.comparablePath)
     }
 
-    /// Where each tile of a list leads, worked out once for the list, since a bookmark is resolved on disk.
+    private static func identifier(of tile: Any) -> String? {
+        (((tile as? [String: Any])?["tile-data"] as? [String: Any])?["bundle-identifier"] as? String)?.lowercased()
+    }
+
+    /// An app asked about: the place its tile names, and where it is now, which its tile's bookmark finds.
+    private struct Asked {
+        let app: URL
+        let place: String
+        let now: String
+        let identifier: String?
+
+        init(app: URL, now: URL) {
+            self.app = app
+            place = PathPattern.comparablePath(of: app)
+            self.now = PathPattern.comparablePath(of: now)
+            let info = BoundedRead.propertyList(at: AppBundleLayout(of: now).infoFolder.appending(path: "Info.plist"))
+            identifier = (info?["CFBundleIdentifier"] as? String)?.lowercased()
+        }
+    }
+
+    /// Where each tile of a list leads, worked out once for the list. Only a tile naming an app asked about is looked
+    /// for on disk, so another app's tile, on a disk that may not answer, is never waited on.
     private struct Places {
         let paths: [String?]
+        let identifiers: [String?]
         let bookmarked: [String?]
 
-        init(_ tiles: [Any]) {
-            paths = tiles.map(DockTiles.path(of:))
-            bookmarked = zip(tiles, paths).map { tile, path in
-                path.flatMap { DockTiles.bookmarkedPath(of: tile, leadingNowhereFrom: $0) }
+        init(_ tiles: [Any], lookingFor asked: [Asked]) {
+            let wanted = Set(asked.compactMap(\.identifier))
+            let paths = tiles.map(DockTiles.path(of:))
+            let identifiers = tiles.map(DockTiles.identifier(of:))
+            bookmarked = tiles.indices.map { index in
+                guard let identifier = identifiers[index], wanted.contains(identifier), let path = paths[index]
+                else { return nil }
+                return DockTiles.bookmarkedPath(of: tiles[index], leadingNowhereFrom: path)
             }
+            self.paths = paths
+            self.identifiers = identifiers
         }
 
-        func indices(of key: String) -> [Int] {
-            paths.indices.filter { paths[$0] == key || bookmarked[$0] == key }
+        func indices(of app: Asked) -> [Int] {
+            paths.indices.filter { index in
+                paths[index] == app.place
+                    || app.identifier != nil && identifiers[index] == app.identifier && bookmarked[index] == app.now
+            }
         }
     }
 

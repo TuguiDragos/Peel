@@ -405,7 +405,7 @@ struct MultipleAppsView: View {
                     // app already in the Trash whose own files moved.
                     let inTheTrash = plan.appsInTheTrash(withFilesAmong: moved).map(\.url)
                     let apps = (plan.apps.map(\.url).filter(moved.contains) + inTheTrash).sorted { $0.path < $1.path }
-                    _ = await DockTiles().takeOut(apps, forgetting: Set(inTheTrash))
+                    _ = await DockTiles().takeOut(apps, foundAt: result.trashedAt, forgetting: Set(inTheTrash))
                 }
                 if let state = AppManagement.state(
                     after: result,

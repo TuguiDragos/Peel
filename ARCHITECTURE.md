@@ -154,7 +154,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      checks the move makes first (the guard, History, and the programs holding it) say it will go
      (`PrivacyReset`).
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, macOS is told to
-   forget the preference domains whose files went, and an uninstalled app's Dock icon comes out (`DockTiles`),
+   forget the preference domains whose files went, and an uninstalled app's Dock icon comes out (`DockTiles`: the
+   tile naming the app's place, or naming its identifier with a bookmark that finds the app where it went, so an app
+   the person moved or had already put in the Trash loses its icon too),
    unless Also remove from the Dock was turned off, or `peel uninstall` was given `--keep-in-dock`. On macOS 27,
    an app's page and several apps' page also say when macOS still starts the app's login items at login, now from
    the Trash, until the Trash is emptied (`TrashResult.startsFromTheTrash`). Both pages, and `peel uninstall`, also
