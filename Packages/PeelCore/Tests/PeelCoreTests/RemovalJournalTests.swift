@@ -59,8 +59,6 @@ struct RemovalJournalTests {
         #expect(journal.entries().isEmpty)
     }
 
-    /// A removal of several parts that stops after a part moved and before it was recorded is still one entry: what
-    /// the part left in the journal joins the removal under the part's own name.
     @Test func aPassStoppedBetweenPartsStaysOneRemoval() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")

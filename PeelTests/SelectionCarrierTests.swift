@@ -62,7 +62,6 @@ struct SelectionCarrierTests {
         #expect(carrier.free(among: [part("chrome"), part("npm"), part("slack")]).map(\.page.scope) == ["npm"])
     }
 
-    /// Each part moves with the removal and the part it goes into in History, which the journal keeps with what moved.
     @Test func movesEachPartAsPartOfTheRemovalHistoryRecords() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

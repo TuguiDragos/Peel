@@ -143,8 +143,6 @@ struct SearchingTests {
         #expect(result.failures.map(\.reason) == [.changedSinceScan])
     }
 
-    /// A selected file a new search leaves out stays selected apart, as the search found it, until it is deselected
-    /// or gone from the disk.
     @Test func keepsWhatANewSearchLeavesOutSelectedApart() throws {
         let directory = try TemporaryDirectory()
         let a = try directory.file("a.dmg")

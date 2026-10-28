@@ -61,7 +61,6 @@ struct FileSearchLibraryTests {
         #expect(library.selectedURLs == [invoice])
     }
 
-    /// A selected file a newer search leaves out stays selected, and moves with the rest, until it is deselected.
     @Test func keepsSelectedWhatANewerSearchLeavesOut() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)

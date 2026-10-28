@@ -189,9 +189,6 @@ struct DuplicateFinderTests {
         #expect(result.groups.allSatisfy { !$0.holdsASyncedCopy })
     }
 
-    /// Copies with the same bytes are duplicates whatever their Finder tags or resource fork. Moving a copy takes
-    /// them with it, so a copy with what the others lack stays and the others may all go. Folders that differ in
-    /// them still aren't copies of each other, since a folder moves whole.
     @Test func aCopyWithTagsOrAForkTheOthersLackStays() async throws {
         let directory = try TemporaryDirectory()
         let contract = randomData(count: 4_000)
@@ -229,8 +226,6 @@ struct DuplicateFinderTests {
         #expect(result.folderGroups.isEmpty)
     }
 
-    /// The Finder keeps a comment in the copy's extended attributes, so it goes with the copy, as tags do. Copies
-    /// that each have something the others lack all stay, so nothing could go and they aren't listed.
     @Test func aCopyWithAFinderCommentTheOthersLackStays() async throws {
         let directory = try TemporaryDirectory()
         let report = randomData(count: 4_000)
@@ -357,8 +352,6 @@ struct DuplicateFinderTests {
         #expect(inside.groups.isEmpty, "a folder inside a repository was scanned")
     }
 
-    /// A copy in iCloud Drive or a cloud's File Provider folder syncs through that cloud, and one a sync app keeps in
-    /// step, such as Syncthing, through that app: the row's symbol says which.
     @Test func tellsACloudFromASyncApp() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
@@ -738,8 +731,6 @@ struct DuplicateFinderTests {
         }
     }
 
-    /// The copy on the disk the home folder is on is kept before an older one on another disk, such as photos that
-    /// were on a card before they were on the Mac.
     @Test func keepsTheCopyOnTheHomeDisk() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -772,8 +763,6 @@ struct DuplicateFinderTests {
         #expect(kept(files.groups.first?.files.first?.url) == kept(onTheMac))
     }
 
-    /// Select Recommended and Deselect All change only the groups they are asked about, which a search narrows:
-    /// what is selected in the others stays.
     @Test func selectsWhatItRecommendsOnlyInTheGroupsShown() async throws {
         let directory = try TemporaryDirectory()
         let first = randomData(count: 4_000)
@@ -810,9 +799,6 @@ struct DuplicateFinderTests {
         await #expect(throws: CancellationError.self) { try await task.value }
     }
 
-    /// A file that may share blocks with a clone frees only its private size. Any other frees every block it takes,
-    /// since what a snapshot keeps of it comes back once macOS deletes the snapshot. A snapshot can't be made in a
-    /// test, so the rule is asked with what `getattrlist(2)` would say of such a file.
     @Test func aFileThatSharesNoBlockFreesEveryBlockItTakes() {
         let freed = { (privateSize: Int64?, mayBeShared: Bool?, isCompressed: Bool) in
             ReclaimableSpace.freed(

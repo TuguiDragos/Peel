@@ -22,7 +22,6 @@ public struct CloudFile: Sendable, Hashable, Identifiable {
 
     public var id: URL { url }
 
-    /// Whether Select Recommended takes it.
     public var isRecommended: Bool {
         !isDesktopPicture && heldBack == nil
     }

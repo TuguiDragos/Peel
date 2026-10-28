@@ -3,7 +3,6 @@ import Foundation
 import Testing
 
 struct ToolDefaultsTests {
-    /// iCloud Drive's page starts on only where iCloud Drive is set up, as Homebrew's does only with Homebrew.
     @Test func showsICloudDriveByDefaultOnlyWhereItIsSetUp() {
         #expect(Tool.cloud.isShownByDefault(homebrewIsInstalled: true, hasICloudDrive: true))
         #expect(!Tool.cloud.isShownByDefault(homebrewIsInstalled: true, hasICloudDrive: false))

@@ -1163,8 +1163,6 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.BackupMarks(found, excluded: [], excludedFromAbove: []).markable.isEmpty)
     }
 
-    /// Beside a Python project's own file, a folder holding `pyvenv.cfg` is an environment whatever it is called, as
-    /// `.venv` and `venv` are: listed with the installed packages and never selected.
     @Test func aPythonEnvironmentBesideItsProjectIsOneWhateverItIsCalled() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Projects/api/requirements.txt", bytes: 16)
@@ -1228,7 +1226,6 @@ struct ProjectArtifactsTests {
         #expect(!pods.isRecommended)
     }
 
-    /// An index that takes longer than its budget to read says so, rather than that it couldn't be read.
     @Test func whatGitTracksIsNotKnownYetWhileItsIndexTakesTooLong() async throws {
         let directory = try TemporaryDirectory()
         let git = try await GitFixture(home: directory.url.appending(path: "home"))

@@ -181,8 +181,6 @@ struct UninstallationTests {
         #expect(!plan.selectable(canUseHelper: true).contains(leftover.url))
     }
 
-    /// Music apps and other hosts load an audio plug-in on their own, so an uninstall lists it unselected, and a click
-    /// still selects it.
     @Test func holdsBackAnAudioPlugInOtherAppsLoad() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

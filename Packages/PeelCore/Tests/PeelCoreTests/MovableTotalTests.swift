@@ -20,7 +20,6 @@ struct MovableTotalTests {
         #expect(group.movable(canUseHelper: true) == SizeTotal(known: 10, isComplete: true))
     }
 
-    /// What only the helper can move counts while the helper can act, as the bar beside the total counts it.
     @Test func whatOnlyTheHelperMovesCountsOnlyWhileItCanAct() {
         let cache = OrphanItem(
             url: URL(filePath: "/Users/x/Library/Caches/org.example.gone"), kind: .caches, size: 10,

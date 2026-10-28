@@ -215,7 +215,6 @@ struct InstallersTests {
             == Set([copied, photos, backup, secrets].map { PathPattern.comparablePath(of: $0) }))
     }
 
-    /// An installer that arrived in its folder or changed in the last hour may be the one being installed from now.
     @Test func holdsBackAnInstallerThatJustArrived() async throws {
         let directory = try TemporaryDirectory()
         let fresh = try directory.file("Downloads/Fresh-1.dmg", bytes: 400_000)
@@ -579,7 +578,6 @@ struct InstallersTests {
         #expect(items["com.apple.finder.ShipIt"]?.heldBack == .appIsRunning)
     }
 
-    /// An excluded app's downloaded update stays with the app, as its caches do, whatever the updater named its folder.
     @Test func leavesOutWhatAnExcludedAppDownloaded() async throws {
         let directory = try TemporaryDirectory()
         let caches = "Library/Caches"
@@ -678,8 +676,6 @@ struct InstallersTests {
         #expect(scan.items(in: .firmware).map(\.name) == ["iPhone17,1_26.1.ipsw"])
     }
 
-    /// A macOS installer is found in every folder Peel reads apps from, and one from before macOS Sierra by the name
-    /// Apple gave it then.
     @Test func findsMacOSInstallersWhereverThePersonKeepsApps() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

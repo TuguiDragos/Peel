@@ -528,8 +528,6 @@ struct DeveloperCachesTests {
         #expect(chat.locations.map(\.url.lastPathComponent) == ["GPUCache"])
     }
 
-    /// Homebrew's cache, moved by `HOMEBREW_CACHE`, is found where it went by the names Homebrew gives its folders
-    /// there, and only where Homebrew keeps its definitions: the setting can name any folder.
     @Test func findsHomebrewsCacheWhereItsSettingsMoveIt() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

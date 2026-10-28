@@ -95,7 +95,6 @@ final class FileSearchLibrary {
         keepsWhatIsOutside = true
     }
 
-    /// Deselects the files no longer listed.
     func deselectWhatIsOutside() {
         let outside = selection.outside.keys
         selectedURLs = selection.deselectOutside(from: selectedURLs)

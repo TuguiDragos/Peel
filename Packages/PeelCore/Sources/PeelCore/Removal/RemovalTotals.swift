@@ -53,7 +53,6 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
         }
     }
 
-    /// Counts `count` more removals History left out.
     mutating func countNoLongerListed(_ count: Int) {
         removalsLeftOut = noLongerListed.addingCapped(count)
     }

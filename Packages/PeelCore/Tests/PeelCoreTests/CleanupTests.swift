@@ -41,8 +41,6 @@ struct CleanupTests {
         #expect(plan.total.known == 20)
     }
 
-    /// A removal History couldn't keep is refused before anything moves, naming how many items it keeps at once, and
-    /// a dry run says so.
     @Test func refusesARemovalHistoryCouldNotKeep() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)

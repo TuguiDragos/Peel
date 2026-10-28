@@ -13,8 +13,6 @@ struct SelfUninstallWayTests {
         #expect(SelfUninstall.way(cask: cask, homebrewKnowsItsApps: false) == .homebrew("brew uninstall --zap --cask peel"))
     }
 
-    /// Once Homebrew's reading ended without an answer, Remove Peel says why, as the Homebrew page does, rather than
-    /// waiting for an answer that isn't coming.
     @Test func saysWhyHomebrewDidntSayWhetherItInstalledThisCopy() {
         #expect(
             SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false, unanswered: .readingFailed)
@@ -29,8 +27,6 @@ struct SelfUninstallWayTests {
         #expect(!SelfUninstall.Way.removePeel.waitsForHomebrew)
     }
 
-    /// A Homebrew Peel doesn't run, the one chosen in Settings that can't be run or one where Homebrew installs itself
-    /// that Peel refuses, says nothing of what it installed, so Remove Peel waits and says why.
     @Test func waitsWhileThereIsAHomebrewPeelDoesNotRun() {
         #expect(!HomebrewLibrary.knowsItsOwnApps(isInstalled: false, hasAnswered: false, isNotRun: true))
         #expect(HomebrewLibrary.knowsItsOwnApps(isInstalled: false, hasAnswered: false, isNotRun: false))

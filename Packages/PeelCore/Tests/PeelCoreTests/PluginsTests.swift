@@ -65,8 +65,6 @@ struct PluginsTests {
         #expect(plugins.first { $0.name == "Own" }?.staysInTheTrash == false)
     }
 
-    /// A plug-in's page says which app it came with, by Orphaned Files' rule: an installed app its declared identifier
-    /// names, one whose name a plug-in that declares none carries, or else an app Peel saw go.
     @Test func saysWhichAppAPlugInCameWith() {
         let surge = InstalledApp(
             url: URL(filePath: "/Applications/Surge XT.app"), bundleIdentifier: "org.example.surgext", name: "Surge XT"

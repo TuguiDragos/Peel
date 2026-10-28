@@ -532,8 +532,6 @@ struct FileCommandTests {
     }
 
 
-    /// A copy with tags the others lack stays and keeps the bytes for them, so no copy is marked "keep" and every
-    /// other one moves; the JSON names it under stays.
     @Test func movesEveryOtherCopyWhenOneStaysForWhatTheOthersLack() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

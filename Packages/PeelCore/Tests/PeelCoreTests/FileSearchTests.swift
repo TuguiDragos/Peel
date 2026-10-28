@@ -325,10 +325,6 @@ struct FileSearchTests {
         #expect(results.leftOut == [.protected: 1])
     }
 
-    /// The guard is asked only about the files that can make the list: the largest first, and no further once
-    /// the list is full and one more file shows it had to be cut.
-    /// A file's size is what moving it frees, never its length, and the list goes by it: two clones keep the same
-    /// blocks, so moving either frees nothing while the other stays.
     @Test func sizesEachFileByWhatMovingItFrees() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -354,8 +350,6 @@ struct FileSearchTests {
         #expect(results.files.first?.url.lastPathComponent == "small.mov")
     }
 
-    /// A file in a repository may be part of a project's work, and one in /Users/Shared another account's: both are
-    /// listed and held back, never recommended.
     @Test func holdsBackWhatIsInARepositoryOrShared() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -378,6 +372,8 @@ struct FileSearchTests {
         #expect(held["Movies"] == .some(nil))
     }
 
+    /// The guard is asked only about the files that can make the list: the largest first, and no further once
+    /// the list is full and one more file shows it had to be cut.
     @Test func asksTheGuardOnlyAboutFilesThatCanMakeTheList() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

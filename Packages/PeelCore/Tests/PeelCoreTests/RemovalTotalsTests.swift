@@ -149,7 +149,6 @@ struct RemovalTotalsTests {
         #expect(kept.contains { $0.hasPrefix("totals-damaged-") })
     }
 
-    /// Totals written before History counted the removals it leaves out are read as they were.
     @Test func readsTotalsWrittenBeforeHistoryCountedWhatItLeftOut() throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")

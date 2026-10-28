@@ -26,7 +26,6 @@ struct RemovalBarTests {
         #expect(RemovalBar.lines(for: parts(most)).count == most)
     }
 
-    /// A selection History couldn't keep in one removal is refused before Peel asks to move it.
     @Test func refusesASelectionHistoryCouldNotKeep() {
         let many = (0...RemovalLog.maximumRecords).map { URL(filePath: "/Users/me/Library/Caches/org.example.app\($0)") }
         let selection = CarriedSelection.Part(

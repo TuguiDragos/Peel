@@ -172,9 +172,6 @@ struct ToolSettingsTests {
         #expect(left.inside(home.appending(path: "Library/Caches", directoryHint: .isDirectory)).contains(["npm"]))
     }
 
-    /// `bin/brew` reads the system's file, its prefix's, then the person's, the last line that sets a variable
-    /// winning, and the system's once more when it says so. Each prefix and each place the person's file may be in
-    /// gives a place, and a value names one only as an absolute path, since Homebrew takes it as written.
     @Test func findsHomebrewsCacheWhereItsSettingsFilesMoveIt() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -197,7 +194,6 @@ struct ToolSettingsTests {
         #expect(caches().isEmpty, "a value taken as written names no place")
     }
 
-    /// Space leaves to Developer the folder Homebrew's settings for everyone moved its cache into.
     @Test func spaceLeavesToDeveloperHomebrewsCacheMovedIntoItsCaches() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

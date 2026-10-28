@@ -27,8 +27,6 @@ struct BackgroundItemActionsTests {
         #expect(try !#require(JobDefinition(["Label": "a"])).loadsInTheBackground)
     }
 
-    /// The tab says what runs in the background: a job of an app the person excluded is listed, marked so, and Peel
-    /// acts on none of it.
     @Test func listsAnExcludedAppsJobWithoutActingOnIt() {
         func job(_ label: String, owner: String) -> BackgroundItem {
             BackgroundItem(
@@ -120,8 +118,6 @@ struct BackgroundItemActionsTests {
         #expect(!present.isLeftByAGoneApp)
     }
 
-    /// A job its app gave launchd itself, as Squirrel's ShipIt is, is told apart from one the app registered with
-    /// ServiceManagement, whose switch is in System Settings.
     @Test func knowsAJobItsAppGaveLaunchdItself() throws {
         func item(_ details: Launchctl.JobDetails) throws -> BackgroundItem {
             let found = BackgroundItems.undeclaredItem(

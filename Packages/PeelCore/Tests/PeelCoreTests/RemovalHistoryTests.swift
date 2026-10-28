@@ -392,8 +392,6 @@ struct RemovalHistoryTests {
         #expect(!batches.contains(removals[0]), "the oldest removal was kept past the limit")
     }
 
-    /// History counts the removals it leaves out to stay within what it reads back, so it can say what it no
-    /// longer lists.
     @Test func countsTheRemovalsItLeavesOut() async throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "Peel/removals.json")
@@ -458,8 +456,6 @@ struct RemovalHistoryTests {
         #expect(outcome.records?.count == records.count, "the batch lost its tail")
     }
 
-    /// One removal holds at most what History can keep and read back: `maximumRecords` items, fewer when their paths
-    /// are long. A record is never reckoned smaller than History writes it.
     @Test func tellsHowManyItemsOneRemovalCanHold() throws {
         let short = (0...RemovalLog.maximumRecords).map { URL(filePath: "/Users/me/Library/Caches/org.example.app\($0)") }
         let deep = String(repeating: "書類フォルダ/", count: 50)

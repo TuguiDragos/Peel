@@ -241,8 +241,6 @@ struct HistoryCommandTests {
         #expect(try listed(try await printed(["history", "--refused", "--json"], from: logs)).isEmpty)
     }
 
-    /// A list that reaches History's oldest removal says how many older removals History no longer lists, in the
-    /// table and in `--json` alike; one that `--limit` cuts short doesn't.
     @Test func saysWhatHistoryNoLongerListsWhereTheListEnds() async throws {
         let directory = try TemporaryDirectory()
         let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"), flush: { _ in true }, readLimit: 4_096)
@@ -272,7 +270,6 @@ struct HistoryCommandTests {
         #expect(try await noted(["history", "--limit", "\(listed - 1)"], from: logs).isEmpty)
     }
 
-    /// A History emptied by Put Back or Forget is not called one Peel never wrote to.
     @Test func anEmptiedHistoryIsNotCalledNeverUsed() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
@@ -282,8 +279,6 @@ struct HistoryCommandTests {
         #expect(try await printed(["history"], from: logs) == "History lists no removals.\n")
     }
 
-    /// The list of what moved says how many removals also left items where they were, which `--refused` lists; a
-    /// list that `--limit` cuts short counts only those since its oldest removal.
     @Test func saysHowManyRemovalsAlsoHaveItemsThatStayed() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

@@ -1239,7 +1239,6 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
-    /// Music apps still load a gone app's audio plug-in on their own, so its group is unsure, and the item says why.
     @Test func aGoneAppsAudioPlugInMakesItsGroupUnsure() async throws {
         let directory = try TemporaryDirectory()
         let info = #"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.gonevendor.gone.vst3</string></dict></plist>"#

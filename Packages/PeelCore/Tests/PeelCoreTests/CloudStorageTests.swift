@@ -195,9 +195,6 @@ struct CloudStorageTests {
         #expect(sizes["clone.bin"] == nil, "a clone frees nothing")
     }
 
-    /// Keep Downloaded keeps a file, or every file in a folder, on this Mac whatever happens, and iCloud downloads it
-    /// again once its download is removed: such a file is listed and held back. Only FileProvider sets the mark, so
-    /// the test says which items carry it.
     @Test func holdsBackWhatKeepDownloadedKeepsOnThisMac() throws {
         let directory = try TemporaryDirectory()
         let drive = "Library/Mobile Documents/com~apple~CloudDocs"
@@ -221,8 +218,6 @@ struct CloudStorageTests {
         #expect(collector.collected.files.filter(\.isRecommended).map(\.name) == ["a.pdf"])
     }
 
-    /// What an app keeps in its own iCloud folder is listed and not recommended: Finder may not show it, and the app
-    /// may expect to find it on this Mac. Only what is in iCloud Drive itself is.
     @Test func recommendsOnlyWhatIsInICloudDriveItself() throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Report.pdf", bytes: 2_000)
@@ -239,8 +234,6 @@ struct CloudStorageTests {
         #expect(held["notes.db"] == .inAnAppsICloudFolder)
     }
 
-    /// A password database or a wallet's keys, once its download is removed, opens again only with an internet
-    /// connection: it is listed and not recommended, and so is every file in a wallet's folder.
     @Test func holdsBackPasswordsAndWalletsItWouldTakeOffline() throws {
         let directory = try TemporaryDirectory()
         let drive = "Library/Mobile Documents/com~apple~CloudDocs"
@@ -261,8 +254,6 @@ struct CloudStorageTests {
         #expect(held["prices.csv"] == .some(nil))
     }
 
-    /// Without the folder iCloud keeps in the home, iCloud Drive was never set up for this account, which the page
-    /// says rather than that nothing was found.
     @Test func saysWhenICloudDriveIsNotSetUp() async throws {
         let directory = try TemporaryDirectory()
 

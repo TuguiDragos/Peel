@@ -596,7 +596,6 @@ struct ExclusionsReachEveryScannerTests {
         #expect(artifacts.isEmpty)
     }
 
-    /// An app excluded by identifier takes its background items with it: they are not listed, so not stopped.
     /// Background Items says what runs, so an excluded app's jobs stay listed there, and Peel acts on none of them.
     @Test func theBackgroundItemsOfAnExcludedAppAreListedAndLeftAlone() async throws {
         let directory = try TemporaryDirectory()

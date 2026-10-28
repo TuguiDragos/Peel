@@ -11,7 +11,6 @@ struct CloudNotesTests {
         )
     }
 
-    /// The note column is on while a listed download has a note, so the note is drawn beside its row.
     @Test func showsTheNoteColumnWhileARowHasANote() {
         var picture = Self.download("Beach.heic")
         picture.isDesktopPicture = true

@@ -43,7 +43,6 @@ struct RemovalHistoryStoreTests {
         #expect(history.undoTitle == nil, "Undo still offered what peel put back")
     }
 
-    /// History's page says once how many older removals History no longer lists, and again when it leaves out more.
     @Test func saysOnceWhatHistoryNoLongerLists() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -80,7 +79,6 @@ struct RemovalHistoryStoreTests {
         #expect(later.untoldNoLongerListed == 5)
     }
 
-    /// Nothing moves or comes back while Peel removes itself, since Remove Peel takes History and Peel's folder.
     @Test func movesNothingWhilePeelRemovesItself() {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
