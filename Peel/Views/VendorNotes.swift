@@ -50,28 +50,20 @@ struct PackageReceiptSection: View {
     private static let mostListed = 12
 
     let plan: RemovalPlan
-    /// Scans the page again, which reads the receipts again: a receipt forgotten here also leaves its lists.
-    let rescan: () async -> Void
-    /// Chosen from the page's More menu.
-    @Binding var receiptToForget: PackageReceipt?
-    @Binding var isForgetting: Bool
 
     var body: some View {
-        Group {
-            if !plan.packageReceipts.isEmpty {
-                Section {
-                    ForEach(plan.packageReceipts) { receipt in
-                        rows(for: receipt)
-                    }
-                } header: {
-                    heading(
-                        "Installed by a Package",
-                        "macOS keeps a receipt of the files a package installed. The ones outside the app are listed here only to show them: other software may rely on them. If Peel also found one of them for this app, it appears in the lists above as well, and may be selected there. Forgetting a receipt, from the page’s More menu, moves it to the Trash: macOS stops counting the package as installed, and the files stay where they are."
-                    )
+        if !plan.packageReceipts.isEmpty {
+            Section {
+                ForEach(plan.packageReceipts) { receipt in
+                    rows(for: receipt)
                 }
+            } header: {
+                heading(
+                    "Installed by a Package",
+                    "macOS keeps a receipt of the files a package installed. The ones outside the app are listed here only to show them: other software may rely on them. If Peel also found one of them for this app, it appears in the lists above as well, and may be selected there. Forgetting a receipt, from the page’s More menu, moves it to the Trash: macOS stops counting the package as installed, and the files stay where they are."
+                )
             }
         }
-        .forgetReceiptDialog(for: $receiptToForget, forget: forget)
     }
 
     @ViewBuilder
@@ -115,17 +107,5 @@ struct PackageReceiptSection: View {
             }
         }
         .padding(.vertical, 4)
-    }
-
-    private func forget(_ receipt: PackageReceipt, recording record: (TrashResult) async -> Void) async -> TrashResult {
-        isForgetting = true
-        defer { isForgetting = false }
-        let result = await QuitGuard.shared.run {
-            let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
-            await record(result)
-            return result
-        }
-        await rescan()
-        return result
     }
 }

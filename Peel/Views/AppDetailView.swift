@@ -72,6 +72,8 @@ struct AppDetailView: View {
         .sheet(item: $upgradeOutput) { result in
             HomebrewOutputView(result: result)
         }
+        // On the page, never in the List: a question attached to rows the List hasn't built yet doesn't show.
+        .forgetReceiptDialog(for: $receiptToForget, forget: forgetReceipt)
         // Keyed to what Homebrew knows: evidence that arrives after the page opened is a reason to look again.
         .task(id: homebrew.evidenceRevision) {
             // Arrowing down the list puts a page on screen for every row passed. The wait means a row left
@@ -190,10 +192,7 @@ struct AppDetailView: View {
                     reviewSection
                     AppRemovalOptions(plan: plan)
                     defaultsSection
-                    PackageReceiptSection(
-                        plan: plan, rescan: rescan,
-                        receiptToForget: $receiptToForget, isForgetting: $isForgettingReceipt
-                    )
+                    PackageReceiptSection(plan: plan)
                 }
                 .dimmedWhileBusy(isAtWork)
                 .disabled(plan.isRemoving)
@@ -375,6 +374,21 @@ struct AppDetailView: View {
             casks: homebrew.caskEvidence,
             receipts: homebrew.receipts
         )
+    }
+
+    /// Forgets a receipt chosen from the More menu, then scans again, so the receipt leaves the page's lists.
+    private func forgetReceipt(
+        _ receipt: PackageReceipt, recording record: (TrashResult) async -> Void
+    ) async -> TrashResult {
+        isForgettingReceipt = true
+        defer { isForgettingReceipt = false }
+        let result = await QuitGuard.shared.run {
+            let result = await PackageActions.forget(receipt, exclusions: ExclusionsStore.shared.exclusions)
+            await record(result)
+            return result
+        }
+        await rescan()
+        return result
     }
 
     private func row(for leftover: Leftover) -> some View {
