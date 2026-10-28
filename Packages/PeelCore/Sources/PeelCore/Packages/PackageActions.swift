@@ -56,7 +56,8 @@ public enum PackageActions {
         var refused: [TrashFailure] = []
         for receipt in receipts {
             let own = receiptFiles(of: receipt.identifier, onVolume: receipt.volume)
-            if receipt.installedAppIsExcluded {
+            // Asked now, with the exclusions this removal goes by: one can come after the scan the receipt is from.
+            if receipt.apps.contains(where: service.excludes) {
                 refused += own.map { TrashFailure(url: $0, reason: .guarded(.excluded)) }
             } else if own.isEmpty {
                 // Named by the file macOS would keep, so the failure says which receipt rather than which disk. With

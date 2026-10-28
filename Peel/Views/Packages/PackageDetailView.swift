@@ -80,7 +80,7 @@ struct PackageDetailView: View {
                             .minimumTarget()
                     }
                     .buttonStyle(.borderless)
-                    .disabled(!helper.canAct || !history.mayMove || receipt.installedAppIsExcluded)
+                    .disabled(!helper.canAct || !history.mayMove || isForAnExcludedApp)
                     .help(forgetHelp)
                 }
             }
@@ -130,8 +130,13 @@ struct PackageDetailView: View {
         .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
     }
 
+    /// Read from the exclusions, not the scan, so it holds as soon as they change.
+    private var isForAnExcludedApp: Bool {
+        receipt.apps.contains(where: ExclusionsStore.shared.exclusions.excludes)
+    }
+
     private var forgetHelp: Text {
-        if receipt.installedAppIsExcluded {
+        if isForAnExcludedApp {
             return Text("The app this package installed is excluded in Settings, so Peel leaves its receipt alone too.")
         }
         return helper.canAct

@@ -53,14 +53,15 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// True when the package's scripts put its files in place: it installed into a temporary folder, or listed
     /// nothing. Its receipt then doesn't say where they are, so nothing is judged left or gone from it.
     public var installedThroughItsScripts = false
-    /// The names of the apps the package put on this Mac that are still where it put them.
-    public var installedApps: [String] = []
-    /// Whether one of those apps is excluded in Settings, which leaves its receipt alone too.
-    public var installedAppIsExcluded = false
+    /// The apps the package put on this Mac that are still where it put them. Excluding one leaves the receipt alone
+    /// too, which is asked of the exclusions as they stand whenever it counts.
+    public var apps: [InstalledApp] = []
     /// The name macOS gave the package when it installed it, such as "AdGuard", if its install history keeps one.
     public var name: String?
 
     public var id: String { identifier }
+
+    public var installedApps: [String] { apps.map(\.name).sorted() }
 
     /// What forgetting the package's files could free now, as an orphan group counts it. Unknown when the file list
     /// is, since an empty list then says nothing about what is left.

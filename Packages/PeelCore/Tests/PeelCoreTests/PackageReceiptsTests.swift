@@ -332,17 +332,31 @@ struct PackageReceiptsTests {
 
         #expect(scan.receipts.first { $0.identifier == "org.example.mixer.pkg" }?.installedApps == ["Mixer"])
         #expect(scan.receipts.first { $0.identifier == "org.example.gone.pkg" }?.installedApps == [])
-        #expect(scan.receipts.allSatisfy { !$0.installedAppIsExcluded })
 
         let excluding = Exclusions(bundleIdentifiers: ["org.example.mixer"])
         let kept = await PackageReceipts.list(exclusions: excluding, pkgutil: pkgutil, environment: environment)
         let mixer = try #require(kept.receipts.first { $0.identifier == "org.example.mixer.pkg" })
-        #expect(mixer.installedAppIsExcluded)
+        #expect(mixer.apps.contains(where: excluding.excludes))
         try directory.file("private/var/db/receipts/org.example.mixer.pkg.bom", bytes: 16)
         try directory.file("private/var/db/receipts/org.example.mixer.pkg.plist", bytes: 16)
         let forgotten = await PackageActions.forget(mixer, exclusions: excluding)
         #expect(forgotten.trashed.isEmpty)
         #expect(forgotten.failures.map(\.reason) == [.guarded(.excluded), .guarded(.excluded)])
+
+        // Read before the app was excluded, and forgotten after: the question can outlive the scan it came from.
+        let readBefore = try #require(scan.receipts.first { $0.identifier == "org.example.mixer.pkg" })
+        let moved = Mutex<[URL]>([])
+        let service = TrashService(
+            environment: environment, exclusions: excluding,
+            moveThroughHelper: { urls in
+                moved.withLock { $0 += urls }
+                return TrashResult(trashed: urls.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
+            },
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+        let late = await PackageActions.forget([readBefore], through: service)
+        #expect(moved.withLock { $0 }.isEmpty)
+        #expect(late.failures.map(\.reason) == [.guarded(.excluded), .guarded(.excluded)])
     }
 
     @Test func namesAPackageAsMacOSsInstallHistoryDoes() throws {
