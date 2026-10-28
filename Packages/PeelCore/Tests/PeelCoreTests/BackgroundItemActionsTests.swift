@@ -47,6 +47,32 @@ struct BackgroundItemActionsTests {
         #expect(rows.map(\.canMoveToTrash) == [false, true])
     }
 
+    @Test func movesNoJobOfAnAppExcludedSinceItWasRead() async throws {
+        let plist = URL(filePath: "/Users/x/Library/LaunchAgents/org.example.guard.agent.plist")
+        let job = BackgroundItem(
+            label: "org.example.guard.agent", kind: .agent, source: .userLibrary, plistURL: plist,
+            program: "/Applications/x", runsAtLoad: true, keepsAlive: false, ownerBundleIdentifier: "org.example.guard",
+            ownerName: nil, ownerURL: nil, isOrphan: false, state: .notLoaded, isDisabled: false
+        )
+        let moved = Mutex<[URL]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/")
+            ),
+            exclusions: Exclusions(bundleIdentifiers: ["org.example.guard"])
+        ) { url in
+            moved.withLock { $0.append(url) }
+            return url
+        }
+
+        let result = try await BackgroundItemActions.moveToTrash(
+            job, isHelperEnabled: false, trash: service
+        ) { _ in nil }
+
+        #expect(moved.withLock { $0 }.isEmpty)
+        #expect(result.result.failures.map(\.reason) == [.guarded(.excluded)])
+    }
+
     @Test func knowsAJobItsGoneAppLeftLoaded() {
         let job = { (source: BackgroundItem.Source, owner: URL?, isOrphan: Bool, program: String?) in
             BackgroundItem(

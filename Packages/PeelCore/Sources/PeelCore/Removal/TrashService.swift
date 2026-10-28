@@ -389,6 +389,7 @@ public struct TrashService: Sendable {
     public var knowsTheExclusions: Bool { removalGuard.knowsTheExclusions }
 
     func excludes(_ app: InstalledApp) -> Bool { removalGuard.excludes(app) }
+    func excludes(bundleIdentifier: String) -> Bool { removalGuard.excludes(bundleIdentifier: bundleIdentifier) }
 
     /// Why every move would be refused now, whatever it is asked to move, or nil when a move may go ahead.
     public var refusalOfEveryMove: TrashFailure.Reason? {

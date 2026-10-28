@@ -68,6 +68,7 @@ struct RemovalGuard: Sendable {
     var knowsTheExclusions: Bool { exclusions.isKnown }
 
     func excludes(_ app: InstalledApp) -> Bool { exclusions.excludes(app) }
+    func excludes(bundleIdentifier: String) -> Bool { exclusions.excludes(bundleIdentifier: bundleIdentifier) }
     private let home: String
 
     init(

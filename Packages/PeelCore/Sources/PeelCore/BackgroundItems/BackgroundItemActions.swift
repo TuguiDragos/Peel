@@ -128,6 +128,11 @@ public enum BackgroundItemActions {
         stop: (BackgroundItem) async -> Failure?
     ) async throws(Failure) -> Moved {
         guard item.canMoveToTrash, let plist = item.plistURL else { throw .noFileToMove }
+        // Asked now, with the exclusions this move goes by: the app may have been excluded since the job was read.
+        if let owner = item.ownerBundleIdentifier, trash.excludes(bundleIdentifier: owner) {
+            let refused = TrashFailure(url: plist, reason: .guarded(.excluded))
+            return Moved(result: TrashResult(failures: [refused]), stillRunning: nil)
+        }
         if item.removalRequiresPrivileges, !isHelperEnabled {
             throw .requiresPrivileges
         }
