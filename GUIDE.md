@@ -55,7 +55,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   what it left behind, while Peel is open or in the menu bar, and once it has Full Disk Access. An old copy thrown
   away while another copy of the app is still installed brings no such offer, since nothing was left behind. Apps
   you keep outside the Applications folders, such as on another disk, join the list once you add their folder in
-  Settings > General > App Folders.
+  Settings > General > App Folders, and so do apps kept deeper in an Applications folder than the three levels Peel
+  looks through, such as the editors Unity Hub installs in `/Applications/Unity/Hub/Editor`.
 - **Reset instead of remove.** Reset, on an app's page, clears its settings without uninstalling it, and never
   selects your own work. Peel saves a copy of the settings first: put them back from the Reset sheet right away, or
   later from Settings > General > Saved Settings, which keeps each copy until you move it to the Trash, since a copy

@@ -8,7 +8,7 @@ public struct AppFolders: Sendable {
         /// A whole disk, the home folder, a Library or its Application Support, or one of macOS's own folders, which
         /// would make every reading of the apps slow.
         case tooBroad
-        /// An Applications folder, or one inside it, which Peel already looks in.
+        /// An Applications folder, or a folder inside one that Peel already reads (`AppCatalog.depth`).
         case alreadyLookedIn
         /// The Trash, or a folder in it, which holds what is on its way out.
         case inATrash
@@ -88,8 +88,13 @@ public struct AppFolders: Sendable {
         if TrashService.isAtOrInsideATrash(folder, home: home) { return .inATrash }
         // Listing a folder a cloud keeps can download what it holds.
         if isInTheCloud(folder) { return .inTheCloud }
-        let lookedIn = AppCatalog.standardDirectories(home: home).contains {
-            PathComponents.isPath(path, atOrInside: folded($0))
+        // A folder deeper than the reading of an Applications folder goes, or one it passes over, is taken.
+        let lookedIn = AppCatalog.standardDirectories(home: home).contains { directory in
+            let base = PathComponents.of(folded(directory))
+            let levels = names.count - base.count
+            guard levels >= 0, levels < AppCatalog.depth, names.starts(with: base) else { return false }
+            return sequence(first: folder) { $0.deletingLastPathComponent() }.prefix(levels)
+                .allSatisfy(AppCatalog.looksInside)
         }
         return lookedIn ? .alreadyLookedIn : nil
     }

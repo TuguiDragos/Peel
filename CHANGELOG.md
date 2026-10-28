@@ -127,6 +127,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The Helper tab names every order the helper takes, and Remove Peel's notes name everything Peel's folder holds and
   what Homebrew's zap also does.
 - App Folders gives each reason it refuses a folder a sentence of its own.
+- App Folders takes a folder deeper inside an Applications folder than Peel looks, such as the one Unity Hub keeps
+  its editors in.
 
 #### Applications
 

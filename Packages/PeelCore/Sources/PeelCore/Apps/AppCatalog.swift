@@ -229,10 +229,19 @@ public enum AppCatalog {
             }
     }
 
-    /// The apps in `directory`, three levels deep, and the folders in it that are there and could not be read. A
+    /// How many levels below each folder apps are looked for.
+    static let depth = 3
+
+    /// Whether `appBundles` looks inside `folder` when it meets it: it passes over hidden folders and packages.
+    static func looksInside(_ folder: URL) -> Bool {
+        let values = try? folder.resourceValues(forKeys: [.isHiddenKey, .isPackageKey])
+        return values?.isHidden != true && values?.isPackage != true
+    }
+
+    /// The apps in `directory`, `depth` levels deep, and the folders in it that are there and could not be read. A
     /// folder that is not there, such as an Applications folder nobody made, holds no app.
     static func appBundles(
-        in directory: URL, maximumDepth: Int = 3, unless isStopped: () -> Bool = { false }
+        in directory: URL, unless isStopped: () -> Bool = { false }
     ) -> (bundles: [URL], unreadable: [URL]) {
         var unreadable: [URL] = []
         guard let enumerator = FileManager.default.enumerator(
@@ -250,7 +259,7 @@ public enum AppCatalog {
             guard !isStopped() else { break }
             if url.pathExtension == "app" {
                 bundles.append(url.standardizedFileURL)
-            } else if enumerator.level >= maximumDepth {
+            } else if enumerator.level >= depth {
                 enumerator.skipDescendants()
             }
         }

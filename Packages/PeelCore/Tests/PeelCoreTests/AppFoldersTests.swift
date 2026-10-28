@@ -18,6 +18,30 @@ struct AppFoldersTests {
         }
     }
 
+    @Test func refusesAsLookedInExactlyWhatTheWalkOfAnApplicationsFolderReads() throws {
+        let directory = try TemporaryDirectory()
+        let paths = [
+            "Applications/Suite", "Applications/Suite/Pro", "Applications/Suite/Pro/Editor",
+            "Applications/Suite/Pro/Editor/2026", "Applications/.Hidden", "Applications/.Hidden/Inner",
+            "Applications/Tool.app/Contents", "Applications/Tool.app/Contents/Helpers",
+        ]
+        let folders = try paths.map { try directory.directory($0) }
+        for path in paths {
+            try directory.directory(path + "/Probe.app")
+        }
+
+        let found = Set(AppCatalog.appBundles(in: directory.url.appending(path: "Applications")).bundles.map {
+            PathPattern.comparablePath(of: $0)
+        })
+
+        for folder in folders {
+            let isFound = found.contains(PathPattern.comparablePath(of: folder.appending(path: "Probe.app")))
+            let isRefused = AppFolders.refusal(of: folder, home: directory.url) == .alreadyLookedIn
+            #expect(isRefused == isFound, "\(folder.lastPathComponent)")
+        }
+        #expect(AppFolders.refusal(of: folders[2], home: directory.url) == nil, "Unity Hub's Editor folder")
+    }
+
     @Test func refusesAWholeDiskMacOSsOwnFoldersAndTheCloud() {
         let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
         func refusal(_ path: String, inTheCloud: Bool = false) -> AppFolders.Refusal? {
