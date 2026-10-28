@@ -38,4 +38,15 @@ struct SelfUninstallWayTests {
         let way = SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false, unanswered: .notRun)
         #expect(way == .homebrewDidNotAnswer(.notRun))
     }
+
+    @Test func removesPeelWhereNoHomebrewPeelDoesNotRunHoldsPeel() {
+        let knows = { (mayHaveInstalledPeel: Bool) in
+            HomebrewLibrary.knowsWhetherItInstalledPeel(
+                knowsItsOwnApps: false, isNotRun: true, mayHaveInstalledPeel: mayHaveInstalledPeel
+            )
+        }
+        #expect(knows(false))
+        #expect(!knows(true))
+        #expect(SelfUninstall.way(cask: nil, homebrewKnowsItsApps: knows(false), unanswered: .notRun) == .removePeel)
+    }
 }

@@ -116,6 +116,19 @@ final class HomebrewLibrary {
         hasAnswered || (!isInstalled && !isNotRun)
     }
 
+    /// Whether Homebrew says whether it installed this copy of Peel: as it says it of any app, or, while Peel doesn't
+    /// run the Homebrew on this Mac, once no Caskroom Peel knows holds Peel's cask.
+    var knowsWhetherItInstalledPeel: Bool {
+        Self.knowsWhetherItInstalledPeel(
+            knowsItsOwnApps: knowsItsOwnApps, isNotRun: isNotRun,
+            mayHaveInstalledPeel: isNotRun && Homebrew.mayHaveInstalledPeel()
+        )
+    }
+
+    static func knowsWhetherItInstalledPeel(knowsItsOwnApps: Bool, isNotRun: Bool, mayHaveInstalledPeel: Bool) -> Bool {
+        knowsItsOwnApps || isNotRun && !mayHaveInstalledPeel
+    }
+
     static func unanswered(
         isInstalled: Bool, hasAnswered: Bool, couldNotRead: Bool, needsDefinitions: Bool, isNotRun: Bool
     ) -> Unanswered? {

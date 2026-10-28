@@ -63,6 +63,26 @@ struct HomebrewChoiceTests {
         #expect(Homebrew.refusedInAUsualPlace(chosen: brew, usualPlaces: [missing, brew], user: getuid() + 1) == nil)
     }
 
+    @Test(.permissionsHold) func tellsFromItsCaskroomsWhetherAHomebrewMayHaveInstalledPeel() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("opt/homebrew/Caskroom/another-app")
+        #expect(!Homebrew.mayHaveInstalledPeel(chosen: nil, root: directory.url))
+
+        let chosen = directory.url.appending(path: "opt/brew/bin/brew")
+        try directory.directory("opt/brew/Caskroom/peel")
+        #expect(Homebrew.mayHaveInstalledPeel(chosen: chosen, root: directory.url))
+        #expect(!Homebrew.mayHaveInstalledPeel(chosen: nil, root: directory.url))
+
+        try directory.directory("usr/local/Caskroom/peel")
+        #expect(Homebrew.mayHaveInstalledPeel(chosen: nil, root: directory.url))
+
+        let closed = try TemporaryDirectory()
+        try closed.directory("opt/homebrew/Caskroom")
+        try closed.setPermissions(0o000, of: "opt/homebrew/Caskroom")
+        defer { try? closed.setPermissions(0o755, of: "opt/homebrew/Caskroom") }
+        #expect(Homebrew.mayHaveInstalledPeel(chosen: nil, root: closed.url), "a Caskroom it can't look into")
+    }
+
     @Test func runsTheChosenBrewAndFindsItsOwnPrograms() throws {
         let directory = try TemporaryDirectory()
         let brew = try program("opt/brew/bin/brew", in: directory)

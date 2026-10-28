@@ -561,6 +561,25 @@ public enum Homebrew {
         return usualPlaces.first { HomebrewChoice.refusal(of: $0, user: user) == nil }
     }
 
+    /// Peel's own cask, so named in Homebrew's casks and in its maker's tap.
+    static let peelsCask = "peel"
+
+    /// Whether a Homebrew Peel doesn't run may have installed Peel, read without running anything: Peel's cask is in
+    /// the Caskroom of the `brew` chosen in Settings or of either place Homebrew installs itself, or one of those
+    /// can't be looked into.
+    public static func mayHaveInstalledPeel(
+        chosen: URL? = HomebrewChoice().load(), root: URL = URL(filePath: "/", directoryHint: .isDirectory)
+    ) -> Bool {
+        let chosenPrefix = chosen.map { $0.deletingLastPathComponent().deletingLastPathComponent() }
+        let prefixes = [chosenPrefix].compactMap(\.self)
+            + usualPrefixes.map { root.appending(path: $0, directoryHint: .isDirectory) }
+        return prefixes.contains { prefix in
+            var info = stat()
+            let cask = prefix.appending(path: "Caskroom/\(peelsCask)").path(percentEncoded: false)
+            return lstat(cask, &info) == 0 || errno != ENOENT && errno != ENOTDIR
+        }
+    }
+
     /// The `brew` in a usual place that Peel won't run, and why, when none was chosen and none there can run.
     public static func refusedInAUsualPlace() -> HomebrewChoice.Unrunnable? {
         refusedInAUsualPlace(chosen: HomebrewChoice().load(), usualPlaces: usualPlaces)

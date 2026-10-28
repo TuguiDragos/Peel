@@ -414,7 +414,9 @@ private struct GeneralSettingsView: View {
 
             Section {
                 let way = SelfUninstall.way(
-                    cask: ownCask, homebrewKnowsItsApps: homebrew.knowsItsOwnApps, unanswered: homebrew.unanswered
+                    cask: ownCask,
+                    homebrewKnowsItsApps: homebrew.knowsWhetherItInstalledPeel,
+                    unanswered: homebrew.unanswered
                 )
                 if case .homebrew(let command) = way {
                     LabeledContent {
