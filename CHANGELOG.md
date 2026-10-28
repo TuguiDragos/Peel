@@ -24,6 +24,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Intel Software
 
+- Java runtimes built only for Intel, in `/Library/Java/JavaVirtualMachines` and the same folder in your home.
 - When Rosetta isn't installed, every kind but an app offers Apple's command that installs it, to copy, since only an
   app opening asks for it.
 - A plug-in's page has Review in Plug-ins, and a background item's Review in Background Items, which open that page
