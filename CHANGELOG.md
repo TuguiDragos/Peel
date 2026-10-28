@@ -302,6 +302,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   added for onion services, so they are listed and never selected too.
 - An app's receipt stays, unselected, while its package left more outside the app.
 - An app you had already moved to the Trash in Finder can lose its Dock icon too, once the files it left behind move.
+- An app you moved to another folder in Finder loses its Dock icon too when Peel removes it.
 
 #### Orphaned Files
 
