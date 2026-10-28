@@ -74,6 +74,7 @@ struct OpenFilesTests {
         let directory = try TemporaryDirectory()
         let code = try directory.file("Example.app/Contents/PlugIns/Open.appex/Contents/MacOS/Open")
         let state = try directory.file("Example.app/Contents/Resources/state.db")
+        try directory.file("Example.app/Contents/Info.plist")
         let app = directory.url.appending(path: "Example.app", directoryHint: .isDirectory)
         let reading = try FileHandle(forReadingFrom: code)
         defer { try? reading.close() }
@@ -84,6 +85,16 @@ struct OpenFilesTests {
         defer { try? writing.close() }
         #expect(!OpenFiles(excluding: nil).holders(of: app).isEmpty)
         #expect(!OpenFiles(excluding: nil).holders(of: app, lettingItsProgramsRun: true).isEmpty)
+    }
+
+    @Test func aFolderOnlyNamedLikeAnAppIsHeldByAFileOpenForReading() throws {
+        let directory = try TemporaryDirectory()
+        let store = try directory.file("Library/WebKit/org.example.tool.app/WebsiteData/LocalStorage/store.db")
+        let reading = try FileHandle(forReadingFrom: store)
+        defer { try? reading.close() }
+
+        let folder = directory.url.appending(path: "Library/WebKit/org.example.tool.app", directoryHint: .isDirectory)
+        #expect(!OpenFiles(excluding: nil).holders(of: folder).isEmpty)
     }
 
     /// Nothing is written into the app here: once a program inside it starts, macOS revokes a descriptor open for

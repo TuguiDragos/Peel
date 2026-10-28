@@ -189,7 +189,7 @@ struct OpenFiles {
 
     private func holding(_ url: URL, lettingItsProgramsRun: Bool) -> [File] {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
-        let isAnApp = url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
+        let isAnApp = AppBundleLayout.isAnApp(url)
         return files.filter { file in
             guard file.names.starts(with: names) else { return false }
             switch file.hold {

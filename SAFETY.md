@@ -168,16 +168,17 @@ how to free the item: quit it, or stop it in Background Items when it has no win
 program again. A build tool's daemon, which stays after a build and keeps
 the tool's caches open, is named by its tool with the command that tool documents for stopping it: Gradle's and
 Kotlin's stop with `gradle --stop`, Bazel's with `bazel shutdown`, and mvnd's with `mvnd --stop`.
-Moving a database or a cache from under an agent, a daemon, or a server that is using it would break it. A program
-of macOS's own, such as a service keeping its cache open, is named as macOS: nobody quits it, so the item stays
-where it is. An app is code, which loses nothing when it moves, so a program that only reads inside it, as Safari
-reads an app's Safari extension, does not keep it in place; one that runs from it or writes in it does. A program
-running from an app that uninstalls itself once it is moved, as Mullvad VPN, Citrix Workspace, and TeamViewer do,
-doesn't keep that app in place, since their own uninstaller stops it; one writing in it still does. When nothing but
-an app's own background programs, the launch agents and daemons that run from inside it, keeps the app
-in place, an uninstall stops them first and then moves the app, and starts them again if it still stays. Peel itself
-counts too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel. Of
-programs that run as another account or as root, macOS's own among them, only the program can be seen, never the
+Moving a database or a cache from under an agent, a daemon, or a server that is using it would break it. A program of
+macOS's own, such as a service keeping its cache open, is named as macOS: nobody quits it, so the item stays where it
+is. An app is code, which loses nothing when it moves, so a program that only reads inside it, as Safari reads an
+app's Safari extension, does not keep it in place; one that runs from it or writes in it does. A folder only named
+like an app, such as the web data or the cache an app keeps under its identifier, is no app, so a program reading
+there keeps it in place. A program running from an app that uninstalls itself once it is moved, as Mullvad VPN, Citrix
+Workspace, and TeamViewer do, doesn't keep that app in place, since their own uninstaller stops it; one writing in it
+still does. When nothing but an app's own background programs, the launch agents and daemons that run from inside it,
+keeps the app in place, an uninstall stops them first and then moves the app, and starts them again if it still stays.
+Peel itself counts too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel.
+Of programs that run as another account or as root, macOS's own among them, only the program can be seen, never the
 files it holds open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of
 the disk, where those programs keep theirs, does not list them at all. Neither you nor Peel can quit such a program,
 so Peel never asks you to: what it runs from stays, and says so, until it is stopped in Background Items or by the

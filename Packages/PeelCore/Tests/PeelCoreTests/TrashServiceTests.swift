@@ -494,6 +494,7 @@ struct TrashServiceTests {
     @Test func anAppPutBackIsRegisteredWithLaunchServicesOnceItIsBack() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("home/Applications/org.example.Studio.app")
+        try directory.file("home/Applications/org.example.Studio.app/Contents/Info.plist")
         let cache = try directory.directory("home/Library/Caches/org.example.Studio")
         let trash = try directory.directory("home/.Trash")
         let registered = Mutex<[String]>([])
@@ -517,9 +518,32 @@ struct TrashServiceTests {
         #expect(registered.withLock { $0 } == [app.path(percentEncoded: false)])
     }
 
+    @Test func aFolderOnlyNamedLikeAnAppIsNotRegisteredWhenPutBack() async throws {
+        let directory = try TemporaryDirectory()
+        let data = try directory.directory("home/Library/WebKit/org.example.tool.app")
+        let trash = try directory.directory("home/.Trash")
+        let registered = Mutex<[String]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            registerApp: { url in registered.withLock { $0.append(url.path(percentEncoded: false)) } }
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let moved = await service.trash([data]).trashed
+        #expect(await service.restore(moved) == [nil])
+        #expect(registered.withLock { $0 }.isEmpty)
+    }
+
     @Test func registersTheAppsPutBackOnlyOnceEveryItemIsBack() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("home/Applications/org.example.Studio.app")
+        try directory.file("home/Applications/org.example.Studio.app/Contents/Info.plist")
         let container = try directory.directory("home/Library/Containers/org.example.Studio.Extension")
         let trash = try directory.directory("home/.Trash")
         let containerWasBack = Mutex<[Bool]>([])

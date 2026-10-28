@@ -127,7 +127,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      Inside an app, which is code and loses nothing when it moves, a file open only for reading holds nothing, and
      neither does the program running from an app that uninstalls itself once it has moved (`UninstallsItself`:
      Mullvad VPN's daemon, and Citrix Workspace's agent and TeamViewer's daemon, each known by the `WatchPaths` of
-     its job file), whose uninstaller's files are held back (`leftToItsUninstaller`) rather than moved first.
+     its job file), whose uninstaller's files are held back (`leftToItsUninstaller`) rather than moved first. A
+     folder only named `.app`, such as the web data an app keeps under its identifier, is no app bundle
+     (`AppBundleLayout.isAnApp`), so a file open for reading there holds it.
    - What Peel itself runs from never moves, nor anything holding it, such as the folder a copy built from source
      runs from: only Remove Peel moves Peel (`TrashFailure.Reason.peelRunsFromIt`).
    - An app carrying a system extension macOS installed is left to Finder (`RemovedElsewhere.byFinder`): Finder's

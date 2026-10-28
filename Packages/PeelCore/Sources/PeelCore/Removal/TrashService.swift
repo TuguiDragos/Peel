@@ -761,7 +761,7 @@ public struct TrashService: Sendable {
             await putBackDockTiles(back)
         }
         for (item, answer) in zip(items, answers)
-        where answer == nil && item.originalURL.pathExtension.caseInsensitiveCompare("app") == .orderedSame {
+        where answer == nil && AppBundleLayout.isAnApp(item.originalURL) {
             await registerApp(item.originalURL)
         }
         return answers
@@ -860,8 +860,7 @@ public struct TrashService: Sendable {
                 guard Self.reason(for: error) == .notPermitted else { return .failed(error.localizedDescription) }
                 // Refused by macOS rather than by the permissions, the helper couldn't do it either.
                 if FileAccess.isProtectedByPrivacy(item.trashedURL) {
-                    let isAnApp = item.trashedURL.pathExtension.caseInsensitiveCompare("app") == .orderedSame
-                    return isAnApp ? .needsAppManagement : .notPermitted
+                    return AppBundleLayout.isAnApp(item.trashedURL) ? .needsAppManagement : .notPermitted
                 }
             }
         }
