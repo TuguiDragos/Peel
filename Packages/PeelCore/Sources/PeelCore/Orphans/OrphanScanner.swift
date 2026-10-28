@@ -160,6 +160,7 @@ public struct OrphanScanner: Sendable {
             uniquingKeysWith: { first, _ in first }
         )
         let folders = manifestFolders
+        let loadedByOtherApps = Plugins.LoadedByOtherApps(environment: environment)
         let given = Set(owners.filter { here.contains($0.value.lowercased()) }.keys.map { $0.lowercased() })
         let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: Bool?)? in
             guard !exclusions.excludes(entry.item.url), !exclusions.excludes(bundleIdentifier: entry.identifier),
@@ -181,7 +182,7 @@ public struct OrphanScanner: Sendable {
                 item.heldBack = .signInPlugIn
                 return (entry.identifier, item)
             }
-            if item.heldBack == nil, Plugins.isLoadedByOtherApps(item.url, environment: environment) {
+            if item.heldBack == nil, loadedByOtherApps.holds(item.url) {
                 item.heldBack = .loadedByOtherApps
             }
             if item.leftAlone == nil, entry.holds == nil {

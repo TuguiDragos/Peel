@@ -116,15 +116,23 @@ public enum Plugins {
         Plugin.Category(folder).map { (folder.rawValue, $0) }
     }
 
-    /// Whether `url` is at or inside a folder of plug-ins music apps and other hosts load on their own, in the home's
-    /// Library or the Mac's.
-    static func isLoadedByOtherApps(_ url: URL, environment: SearchEnvironment) -> Bool {
-        let path = PathPattern.comparablePath(of: url)
-        return [environment.homeDirectory, environment.rootDirectory].contains { base in
-            folders.contains { folder, category in
-                let place = PathPattern.comparablePath(of: base.appending(path: "Library/\(folder)"))
-                return category.isLoadedByOtherApps && PathComponents.isPath(path, inside: place)
+    /// The folders of plug-ins music apps and other hosts load on their own, in the home's Library and the Mac's,
+    /// worked out once for a scan that asks about each of its items.
+    struct LoadedByOtherApps: Sendable {
+        /// Each folder's names, split once.
+        private let places: [[String]]
+
+        init(environment: SearchEnvironment) {
+            let names = Plugins.folders.filter { $0.1.isLoadedByOtherApps }.map(\.0)
+            places = [environment.homeDirectory, environment.rootDirectory].flatMap { base in
+                names.map { PathComponents.of(PathPattern.comparablePath(of: base.appending(path: "Library/\($0)"))) }
             }
+        }
+
+        /// Whether `url` is inside one of these folders, as `PathComponents.isPath(_:inside:)` tells.
+        func holds(_ url: URL) -> Bool {
+            let names = PathComponents.of(PathPattern.comparablePath(of: url))
+            return places.contains { names.count > $0.count && names.starts(with: $0) }
         }
     }
 

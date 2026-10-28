@@ -409,10 +409,10 @@ public struct LeftoverScan: Sendable {
 
     /// Holds back each audio plug-in other apps load on their own, unless something else already holds it back.
     func holdingBack(plugInsOtherAppsLoadIn environment: SearchEnvironment) -> LeftoverScan {
-        LeftoverScan(
+        let folders = Plugins.LoadedByOtherApps(environment: environment)
+        return LeftoverScan(
             leftovers: leftovers.map {
-                $0.match.heldBack == nil && Plugins.isLoadedByOtherApps($0.url, environment: environment)
-                    ? $0.heldBack(.loadedByOtherApps) : $0
+                $0.match.heldBack == nil && folders.holds($0.url) ? $0.heldBack(.loadedByOtherApps) : $0
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
