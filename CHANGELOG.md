@@ -269,8 +269,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - `peel exclusions` notes a path that isn't there yet and counts only what went on the list.
 - A `brew` chosen in Settings that can't be run is never replaced by another, and a `brew` where Homebrew installs
   itself is run only by the chosen one's rule.
-- Remove Peel says why it waits when Homebrew can't answer, with Open Homebrew, and nothing else moves while Peel
-  removes itself.
+- Remove Peel says why it waits when Homebrew can't answer or Peel doesn't run the Homebrew on this Mac, which may
+  have installed it, with Open Homebrew, and nothing else moves while Peel removes itself.
 
 #### Applications
 
