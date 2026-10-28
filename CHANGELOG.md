@@ -297,6 +297,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   browser's saved passwords, and Things 3's to-dos.
 - Waterfox's, Zen's, and Floorp's profiles keep saved passwords, as Firefox's does, so they are listed and never
   selected.
+- LibreWolf's, Mullvad Browser's, and Tor Browser's profiles keep your bookmarks, and Tor Browser's the keys you
+  added for onion services, so they are listed and never selected too.
 - An app's receipt stays, unselected, while its package left more outside the app.
 
 #### Orphaned Files
