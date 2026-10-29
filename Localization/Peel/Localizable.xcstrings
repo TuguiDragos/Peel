@@ -53519,6 +53519,112 @@
         }
       }
     },
+    "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie ho nemůže vrátit zpět, protože pomocník Peelu do této složky vrací zpět jen to, co patří výhradně uživateli root, ale ve Finderu ho můžete přetáhnout zpět ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Verlauf lässt es sich nicht zurücklegen, da das Hilfsprogramm von Peel in diesen Ordner nur zurücklegt, was ausschließlich root gehört, du kannst es aber im Finder wieder herausziehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial no puede restaurarlo, ya que el asistente de Peel solo restaura en esa carpeta lo que pertenece únicamente a root, pero puedes sacarlo arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’Historique ne peut pas le remettre en place, car l’utilitaire de Peel ne remet dans ce dossier que ce qui appartient uniquement à root, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Cronologia non può ripristinarlo, perché l’assistente di Peel ripristina in quella cartella soltanto ciò che appartiene esclusivamente a root, ma puoi trascinarlo fuori nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーはrootだけが所有するものしかそのフォルダに戻さないため、履歴から戻すことはできません。ただし、Finderでドラッグして取り出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목이 들어 있는 폴더에는 Peel 보조 프로그램이 Root 사용자 전용인 항목만 되돌려 놓으므로 기록에서 되돌려 놓을 수 없지만, Finder에서 드래그하여 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschiedenis kan het niet terugzetten, omdat het hulpprogramma van Peel in die map alleen terugzet wat uitsluitend van root is, maar je kunt het in Finder er weer uit slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historia nie może jej przywrócić, ponieważ pomocnik Peel przywraca do tego folderu tylko to, co należy wyłącznie do użytkownika root, ale możesz przeciągnąć ją z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Histórico não pode colocá-lo de volta, porque o auxiliar do Peel só coloca de volta nessa pasta o que pertence apenas ao usuário root, mas você pode arrastá-lo para fora no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu îl puteți pune înapoi din Istoric, deoarece instrumentul de ajutor Peel pune înapoi în acel dosar doar ce aparține exclusiv utilizatorului Root, însă, în Finder, îl puteți trage afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История не сможет его восстановить, поскольку помощник Peel восстанавливает в эту папку только то, что принадлежит исключительно пользователю root, но в Finder его можно перетащить из Корзины обратно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historik kan inte lägga tillbaka den, eftersom Peels hjälpprogram bara lägger tillbaka något i den mappen om det tillhör rotanvändaren och ingen annan, men du kan dra ut den igen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş onu yerine koyamaz, çünkü Peel’in yardımcısı o klasörde yalnızca tek sahibi root olan öğeleri yerine koyar; ancak onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Історія не зможе його повернути, бо помічник Peel повертає в ту папку лише те, що належить тільки користувачу root, але у Finder його можна перетягнути зі Смітника назад."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“历史记录”无法将它放回原处，因为Peel的帮助程序只会将仅归root所有的内容放回该文件夹，不过你可以在“访达”中将它拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由於Peel的輔助程式只會將只屬於root的項目還原到該檔案夾，「歷史記錄」無法將它還原，但你可以在Finder中將它拖出來。"
+          }
+        }
+      }
+    },
     "History couldn’t be updated" : {
       "localizations" : {
         "cs" : {
@@ -236791,6 +236897,112 @@
         }
       }
     },
+    "macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ani dnešní prohlížeče už nenačítají plug-iny, jako je tento, takže jeho přesunutí nic nezmění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS und heutige Browser laden Plug-ins wie dieses nicht mehr, daher ändert sich durch das Verschieben nichts."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS y los navegadores actuales ya no cargan módulos como este, así que trasladarlo no cambia nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS et les navigateurs actuels ne chargent plus les modules tels que celui-ci : le déplacer ne change donc rien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS e i browser attuali non caricano più i plugin come questo, quindi spostarlo non cambia nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSも現在のブラウザもこのようなプラグインを読み込まなくなったため、ゴミ箱に入れても何も変わりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS와 최신 브라우저는 이와 같은 플러그인을 더 이상 로드하지 않으므로, 이동해도 아무것도 달라지지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS en de huidige browsers laden plug-ins zoals deze niet meer, dus als je het verplaatst, verandert er niets."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS i współczesne przeglądarki nie wczytują już wtyczek takich jak ta, więc przeniesienie jej do Kosza niczego nie zmieni."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS e os navegadores atuais não carregam mais plug-ins como este, então movê-lo não altera nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS și browserele de astăzi nu mai încarcă plug-inuri precum acesta, așa că mutarea lui nu schimbă nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS и современные браузеры больше не загружают плагины, подобные этому, поэтому его перемещение ничего не изменит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS och dagens webbläsare läser inte längre in insticksfiler som den här, så om den flyttas ändras ingenting."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ve günümüz tarayıcıları artık bunun gibi yazılım eklerini yüklemiyor, bu yüzden onu taşımak hiçbir şeyi değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS і сучасні браузери більше не завантажують такі плагіни, як цей, тож його переміщення нічого не змінить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS和如今的浏览器都已不再载入此类插件，因此移动它不会带来任何变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS和現今的瀏覽器都已不再載入這類外掛模組，因此移動它不會有任何影響。"
+          }
+        }
+      }
+    },
     "macOS calls it" : {
       "localizations" : {
         "cs" : {
@@ -241264,6 +241476,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS將它標示為受保護。"
+          }
+        }
+      }
+    },
+    "macOS no longer loads Quick Look generators like this one, so moving it changes nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS už nenačítá generátory Rychlého náhledu, jako je tento, takže jeho přesunutí nic nezmění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lädt Übersicht-Generatoren wie diesen nicht mehr, daher ändert sich durch das Verschieben nichts."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ya no carga generadores de Vista rápida como este, así que trasladarlo no cambia nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne charge plus les générateurs Coup d’œil tels que celui-ci : le déplacer ne change donc rien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non carica più i generatori di “Visualizzazione rapida” come questo, quindi spostarlo non cambia nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSはこのようなクイックルックジェネレータを読み込まなくなったため、ゴミ箱に入れても何も変わりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 이와 같은 훑어보기 생성자를 더 이상 로드하지 않으므로, 이동해도 아무것도 달라지지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laadt generators voor Snelle weergave zoals deze niet meer, dus als je het verplaatst, verandert er niets."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie wczytuje już generatorów Szybkiego przeglądu takich jak ten, więc przeniesienie tej wtyczki do Kosza niczego nie zmieni."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não carrega mais geradores da Visualização Rápida como este, então movê-lo não altera nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu mai încarcă generatoare Privire rapidă precum acesta, așa că mutarea lui nu schimbă nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS больше не загружает генераторы Быстрого просмотра, подобные этому, поэтому его перемещение ничего не изменит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS läser inte längre in Överblick-generatorer som den här, så om den flyttas ändras ingenting."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS artık bunun gibi Göz At oluşturucularını yüklemiyor, bu yüzden onu taşımak hiçbir şeyi değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS більше не завантажує такі генератори Швидкого перегляду, як цей, тож його переміщення нічого не змінить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS已不再载入此类快速查看生成器，因此移动它不会带来任何变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS已不再載入這類「快速查看」產生器，因此移動它不會有任何影響。"
           }
         }
       }

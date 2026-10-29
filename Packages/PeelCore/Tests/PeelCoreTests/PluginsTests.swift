@@ -65,6 +65,28 @@ struct PluginsTests {
         #expect(plugins.first { $0.name == "Own" }?.staysInTheTrash == false)
     }
 
+    @Test func knowsThePlugInsNothingLoadsAnymore() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/QuickLook/Markdown.qlgenerator/Contents")
+        try directory.directory("home/Library/QuickLook/Preview.appex/Contents")
+        try directory.directory("root/Library/Internet Plug-Ins/Flash Player.plugin/Contents")
+        try directory.directory("root/Library/Internet Plug-Ins/Viewer.webplugin/Contents")
+        try Data("WBPL????".utf8).write(to: directory.file("root/Library/Internet Plug-Ins/Reader.plugin/Contents/PkgInfo"))
+        try directory.directory("home/Library/Audio/Plug-Ins/Components/Echo.component/Contents")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins
+        let noLongerLoaded = Dictionary(uniqueKeysWithValues: plugins.map { ($0.name, $0.noLongerLoaded) })
+
+        #expect(noLongerLoaded == [
+            "Markdown": .quickLookGenerator, "Preview": nil, "Flash Player": .internetPlugIn, "Viewer": nil,
+            "Reader": nil, "Echo": nil,
+        ])
+    }
+
     @Test func saysWhichAppAPlugInCameWith() {
         let surge = InstalledApp(
             url: URL(filePath: "/Applications/Surge XT.app"), bundleIdentifier: "org.example.surgext", name: "Surge XT"

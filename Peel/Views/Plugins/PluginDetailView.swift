@@ -149,7 +149,18 @@ extension Plugin {
     }
 
     private var whatGoes: [LocalizedStringResource] {
-        switch (isAQuickAction, staysInTheTrash) {
+        if let noLongerLoaded {
+            let nothingChanges: LocalizedStringResource = switch noLongerLoaded {
+            case .quickLookGenerator:
+                "macOS no longer loads Quick Look generators like this one, so moving it changes nothing."
+            case .internetPlugIn:
+                "macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing."
+            }
+            return staysInTheTrash
+                ? [nothingChanges, "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."]
+                : [nothingChanges]
+        }
+        return switch (isAQuickAction, staysInTheTrash) {
         case (true, true):
             ["It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
         case (true, false):

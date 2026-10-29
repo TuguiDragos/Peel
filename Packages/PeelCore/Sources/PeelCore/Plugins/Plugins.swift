@@ -52,6 +52,15 @@ public struct Plugin: Sendable, Hashable, Identifiable {
 
     public var origin: Origin?
 
+    /// A kind of plug-in nothing on macOS loads anymore, so moving one changes nothing.
+    public enum NoLongerLoaded: Sendable, Hashable {
+        case quickLookGenerator
+        /// An Internet plug-in other than a WebKit plug-in.
+        case internetPlugIn
+    }
+
+    public var noLongerLoaded: NoLongerLoaded?
+
     public var id: URL { url }
 
     /// Whether it is an Automator workflow in a Services folder: a Quick Action, which an app may have put there or
@@ -232,6 +241,7 @@ public enum Plugins {
             )
             plugin.staysInTheTrash = requiresPrivileges
                 && reach.refusal(ofPuttingBack: item.url, at: item.url) == .loadsCode
+            plugin.noLongerLoaded = noLongerLoaded(item.url, category: item.category)
             plugin.origin = origin(
                 of: item.url, identifier: plugin.bundleIdentifier, claimants: claimants, goneApps: goneApps
             )
@@ -246,6 +256,27 @@ public enum Plugins {
             needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing }
         )
     }
+
+    /// Whether nothing on macOS loads the plug-in anymore. macOS no longer loads a Quick Look generator from another
+    /// maker (macOS 15 Release Notes), and from an Internet Plug-Ins folder WebKit loads only a WebKit plug-in, named
+    /// `.webplugin` or of package type `WBPL` as `CFBundleGetPackageInfo` reads it, while browsers load none.
+    static func noLongerLoaded(_ url: URL, category: Plugin.Category) -> Plugin.NoLongerLoaded? {
+        switch category {
+        case .quickLook:
+            return url.pathExtension.caseInsensitiveCompare("qlgenerator") == .orderedSame ? .quickLookGenerator : nil
+        case .internetPlugIns:
+            guard url.pathExtension.caseInsensitiveCompare("webplugin") != .orderedSame else { return nil }
+            var type: UInt32 = 0
+            if let bundle = CFBundleCreate(nil, url as CFURL) {
+                CFBundleGetPackageInfo(bundle, &type, nil)
+            }
+            return type == webKitPlugInType ? nil : .internetPlugIn
+        default:
+            return nil
+        }
+    }
+
+    private static let webKitPlugInType = "WBPL".utf8.reduce(UInt32(0)) { $0 << 8 | UInt32($1) }
 
     /// The plug-ins in the user's Library and the Mac's, each with its kind and whether it is there for every account.
     /// A folder that is there and can't be listed joins `unreadable`.
