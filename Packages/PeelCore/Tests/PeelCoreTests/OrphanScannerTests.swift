@@ -1239,6 +1239,22 @@ struct OrphanScannerTests {
         #expect(Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["Gone.vst3", "Gone Reverb.component"])
     }
 
+    @Test func listsAGoneAppsCameraPlugIn() async throws {
+        let directory = try TemporaryDirectory()
+        let info = #"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.gonevendor.gone.camera</string></dict></plist>"#
+        try directory.file("root/Library/CoreMediaIO/Plug-Ins/DAL/Gone Camera.plugin/Contents/Info.plist", contents: Data(info.utf8))
+        try directory.file("root/Library/CoreMediaIO/Plug-Ins/DAL/plugins-info.txt")
+        let gone = RememberedApp(
+            bundleIdentifier: "com.gonevendor.gone", name: "Gone", teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/Gone.app"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [gone])
+
+        let items = scan.groups.flatMap(\.items)
+        #expect(items.map(\.url.lastPathComponent) == ["Gone Camera.plugin"])
+        #expect(items.first?.heldBack == nil)
+    }
+
     @Test func aGoneAppsAudioPlugInMakesItsGroupUnsure() async throws {
         let directory = try TemporaryDirectory()
         let info = #"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>com.gonevendor.gone.vst3</string></dict></plist>"#

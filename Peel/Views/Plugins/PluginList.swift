@@ -150,6 +150,7 @@ extension Plugin.Category {
         case .vst3: "VST3 Plug-ins"
         case .clap: "CLAP Plug-ins"
         case .midiDrivers: "MIDI Drivers"
+        case .cameraPlugIns: "Camera Plug-ins"
         case .internetPlugIns: "Internet Plug-ins"
         case .preferencePanes: "Preference Panes"
         case .quickLook: "Quick Look Plug-ins"

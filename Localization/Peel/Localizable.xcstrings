@@ -23791,6 +23791,112 @@
         }
       }
     },
+    "Camera Plug-ins" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamerové plug-iny"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera-Plug-ins"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Módulos de cámara"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modules de caméra"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plugin per fotocamere"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カメラプラグイン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카메라 플러그인"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cameraplug-ins"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wtyczki kamer"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug-ins de Câmera"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug-inuri de cameră"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плагины камеры"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamerainsticksfiler"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera Yazılım Ekleri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плагіни камер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "摄像头插件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相機外掛模組"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "cs" : {
@@ -241370,6 +241476,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS只允許它的擁有者讀取它，因此Peel在這裡顯示的內容，是macOS對它從此檔案載入的工作所提供的資訊。"
+          }
+        }
+      }
+    },
+    "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS načítá plug-iny, jako je tento, jen tehdy, když byla v zotavovacím režimu obnovena podpora starších videozařízení. V tom případě mohou aplikace, které ho používají, přestat fungovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lädt Plug-ins wie dieses nur, wenn in der macOS-Wiederherstellung die Unterstützung für ältere Videogeräte wiederhergestellt wurde. Ist dies der Fall, funktionieren Apps, die es verwenden, möglicherweise nicht mehr."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS solo carga módulos como este cuando se ha restaurado la compatibilidad con dispositivos de vídeo antiguos desde la función de recuperación de macOS. Si es así, puede que las apps que lo usan dejen de funcionar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne charge les modules tels que celui-ci que si l’ancienne prise en charge des appareils vidéo a été restaurée à l’aide de la fonctionnalité de récupération de macOS. Si c’est le cas, les apps qui l’utilisent peuvent cesser de fonctionner."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS carica i plugin come questo solo quando il supporto legacy per i dispositivi video è stato ripristinato in Recupero di macOS. In questo caso, le app che usano il plugin potrebbero smettere di funzionare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがこのようなプラグインを読み込むのは、macOS復旧でレガシービデオデバイスのサポートが復元されている場合だけです。復元されていれば、これを使用しているアプリが動作しなくなる場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 macOS 복구에서 이전 비디오 기기 지원이 복원된 경우에만 이와 같은 플러그인을 로드합니다. 복원된 경우, 이 항목을 사용하는 앱이 작동을 멈출 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laadt plug-ins zoals deze alleen als de ondersteuning voor verouderde videoapparaten is hersteld in macOS-herstel. Als dat zo is, werken apps die het gebruiken misschien niet meer."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS wczytuje wtyczki takie jak ta tylko wtedy, gdy w trybie odzyskiwania macOS przywrócono obsługę starszych urządzeń wideo. Jeśli tak, aplikacje, które korzystają z tej wtyczki, mogą przestać działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS só carrega plug-ins como este se a compatibilidade antiga dos dispositivos de vídeo tiver sido restaurada na Recuperação do macOS. Nesse caso, os apps que o usam podem parar de funcionar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS încarcă plug-inuri precum acesta doar dacă software‑ul de asistență moștenit pentru dispozitivul video a fost restaurat din Recuperare macOS. Dacă a fost restaurat, aplicațiile care folosesc acest plug-in pot înceta să funcționeze."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS загружает плагины, подобные этому, только если поддержка устаревших видеоустройств была восстановлена в режиме восстановления macOS. Если это так, приложения, которые его используют, могут перестать работать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS läser in insticksfiler som den här bara om stödet för äldre videoenheter har återskapats i macOS Återställning. I så fall kan appar som använder den sluta fungera."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, bunun gibi yazılım eklerini yalnızca eski video aygıtı desteği macOS Kurtarma’da geri yüklenmişse yükler. Geri yüklenmişse, onu kullanan uygulamalar çalışmayı durdurabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS завантажує такі плагіни, як цей, лише якщо підтримку застарілих відеопристроїв відновлено в розділі «Відновлення macOS». Якщо так, програми, які його використовують, можуть перестати працювати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅当已在“macOS恢复”中恢复旧视频设备支持时，macOS才会载入此类插件。如果已恢复，使用它的App可能会停止工作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只有在「macOS復原」中回復舊版視訊裝置支援後，才會載入這類外掛模組。若已回復，使用它的App可能會停止運作。"
           }
         }
       }

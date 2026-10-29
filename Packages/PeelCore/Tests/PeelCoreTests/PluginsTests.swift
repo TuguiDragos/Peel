@@ -198,6 +198,22 @@ struct PluginsTests {
         ])
     }
 
+    @Test func findsACameraPlugInWhereMacOSLoadsThem() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/CoreMediaIO/Plug-Ins/DAL/Lens.plugin/Contents")
+        try directory.file("root/Library/CoreMediaIO/Plug-Ins/DAL/plugins-info.txt")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins
+
+        #expect(plugins.map { "\($0.name) \($0.category.rawValue)" } == ["Lens cameraPlugIns"])
+        #expect(plugins.first?.isInstalledForAllUsers == true)
+        #expect(plugins.first?.noLongerLoaded == nil)
+    }
+
     @Test func offersAMailBundleInTheUsersLibrary() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Mail/Bundles/Example.mailbundle/Contents")

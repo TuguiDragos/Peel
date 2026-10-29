@@ -1412,6 +1412,24 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.allSatisfy { $0.kind == .plugIns })
     }
 
+    @Test func findsTheCameraPlugInAnAppInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Lens.app"), bundleIdentifier: "org.example.lens", name: "Lens"
+        )
+        try directory.file(
+            "root/Library/CoreMediaIO/Plug-Ins/DAL/Lens Camera.plugin/Contents/Info.plist",
+            contents: plist("org.example.lens.camera")
+        )
+        try directory.file("root/Library/CoreMediaIO/Plug-Ins/DAL/plugins-info.txt")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        #expect(scan.leftovers.map(\.url.lastPathComponent) == ["Lens Camera.plugin"])
+        #expect(scan.leftovers.first?.kind == .plugIns)
+        #expect(scan.leftovers.first?.match.isRecommended == true)
+    }
+
     @Test func leavesTheAppsPartOfCloudKitsCacheToCloudKit() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

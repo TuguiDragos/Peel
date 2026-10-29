@@ -9,6 +9,7 @@ public struct Plugin: Sendable, Hashable, Identifiable {
         case vst3
         case clap
         case midiDrivers
+        case cameraPlugIns
         case internetPlugIns
         case preferencePanes
         case quickLook
@@ -84,6 +85,7 @@ extension Plugin.Category {
         case .vst3: self = .vst3
         case .clap: self = .clap
         case .midiDrivers: self = .midiDrivers
+        case .cameraPlugIns: self = .cameraPlugIns
         case .internetPlugIns: self = .internetPlugIns
         case .preferencePanes: self = .preferencePanes
         case .quickLook: self = .quickLook
@@ -323,6 +325,7 @@ public enum Plugins {
         .vst3: ["vst3"],
         .clap: ["clap"],
         .midiDrivers: ["plugin", "driver", "bundle"],
+        .cameraPlugIns: ["plugin"],
         .internetPlugIns: ["plugin", "webplugin", "bundle"],
         .preferencePanes: ["prefpane"],
         .quickLook: ["qlgenerator", "appex"],

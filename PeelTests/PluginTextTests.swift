@@ -61,4 +61,21 @@ struct PluginTextTests {
         ])
         #expect(echo.whenMoved.map { String(localized: $0) } == [String(localized: "Apps that use it may stop working.")])
     }
+
+    @Test func saysWhenMacOSLoadsACameraPlugIn() {
+        let camera = plugin(
+            "/Library/CoreMediaIO/Plug-Ins/DAL/Lens.plugin", name: "Lens", forAllUsers: true, category: .cameraPlugIns
+        )
+        var stays = camera
+        stays.staysInTheTrash = true
+        let legacy = String(localized: "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working.")
+        let everyAccount = String(localized: "Every account on this Mac has it, so moving it takes it from all of them.")
+
+        #expect(camera.whenMoved.map { String(localized: $0) } == [legacy, everyAccount])
+        #expect(stays.whenMoved.map { String(localized: $0) } == [
+            legacy,
+            String(localized: "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."),
+            everyAccount,
+        ])
+    }
 }

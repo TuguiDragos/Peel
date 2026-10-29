@@ -637,7 +637,7 @@ and it fails closed.
   something on the list is refused like the thing itself.
 - It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders
   of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents, LaunchDaemons,
-  PrivilegedHelperTools, and StartupItems) and the 22 that hold plug-ins; the installer receipts in
+  PrivilegedHelperTools, and StartupItems) and the 23 that hold plug-ins; the installer receipts in
   `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, and the four folders of
   `/usr/local` that shell completions are linked into; the folders of `/Library` browsers read native messaging
   manifests from; and the Library of the administrator who asks.

@@ -363,6 +363,27 @@ struct PrivilegedPathPolicyTests {
             .rejection == nil)
     }
 
+    @Test func servesTheFolderOfCameraPlugInsAsOneThatLoadsCode() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/CoreMediaIO/Plug-Ins/DAL")
+        let root = directory.url.path(percentEncoded: false) + "root"
+        let helper = PrivilegedPathPolicy(
+            homeDirectory: directory.url.path(percentEncoded: false) + "home",
+            systemLocations: PrivilegedPathPolicy.systemLocations.map { root + $0 },
+            restoreLocations: PrivilegedPathPolicy.restoreLocations.map { root + $0 },
+            linkLocations: [],
+            manifestLocations: [],
+            plugInLocations: PrivilegedPathPolicy.plugInLocations.map { root + $0 }
+        )
+        let folder = root + "/Library/CoreMediaIO/Plug-Ins/DAL"
+        let users = try trashed("Lens.plugin", in: directory, by: helper)
+
+        #expect(helper.refusal(of: folder + "/Lens.plugin") == nil)
+        #expect(helper.refusal(of: folder) == .outsideAllowedLocations)
+        #expect(helper.refusal(of: root + "/Library/CoreMediaIO") == .outsideAllowedLocations)
+        #expect(helper.openDestination(folder + "/Lens.plugin", for: users).rejection == .loadsCode)
+    }
+
     @Test func refusesRestoreDestinationsThatAreWrong() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

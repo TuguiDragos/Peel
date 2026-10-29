@@ -27,6 +27,7 @@ public enum LibraryFolder: String, CaseIterable, Sendable {
     case vst3 = "Audio/Plug-Ins/VST3"
     case clap = "Audio/Plug-Ins/CLAP"
     case midiDrivers = "Audio/MIDI Drivers"
+    case cameraPlugIns = "CoreMediaIO/Plug-Ins/DAL"
     case internetPlugIns = "Internet Plug-Ins"
     case preferencePanes = "PreferencePanes"
     case quickLook = "QuickLook"
@@ -52,9 +53,9 @@ public enum LibraryFolder: String, CaseIterable, Sendable {
 
     /// The folders macOS loads plug-ins from, in each Library.
     public static let plugIns: [LibraryFolder] = [
-        .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes, .quickLook,
-        .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles, .aax,
-        .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns,
+        .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .cameraPlugIns, .internetPlugIns,
+        .preferencePanes, .quickLook, .screenSavers, .spotlight, .services, .inputMethods, .colorPickers,
+        .contextualMenuItems, .mailBundles, .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns,
     ]
 
     /// The folders searched in the home's Library, besides the plug-in folders.

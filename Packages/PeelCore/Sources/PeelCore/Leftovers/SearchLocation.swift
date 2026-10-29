@@ -122,8 +122,8 @@ extension SearchLocation.Kind {
         case .privilegedHelperTools: self = .privilegedHelperTools
         case .startupItems: self = .startupItems
         case .frameworks: self = .frameworks
-        case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .internetPlugIns, .preferencePanes,
-            .quickLook,
+        case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .cameraPlugIns, .internetPlugIns,
+            .preferencePanes, .quickLook,
              .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
              .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:
             self = .plugIns

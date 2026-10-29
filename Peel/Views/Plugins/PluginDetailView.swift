@@ -148,17 +148,24 @@ extension Plugin {
         return whatGoes + forAllUsers
     }
 
+    private var whenItLoads: LocalizedStringResource? {
+        switch noLongerLoaded {
+        case .quickLookGenerator:
+            "macOS no longer loads Quick Look generators like this one, so moving it changes nothing."
+        case .internetPlugIn:
+            "macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing."
+        case nil:
+            category == .cameraPlugIns
+                ? "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working."
+                : nil
+        }
+    }
+
     private var whatGoes: [LocalizedStringResource] {
-        if let noLongerLoaded {
-            let nothingChanges: LocalizedStringResource = switch noLongerLoaded {
-            case .quickLookGenerator:
-                "macOS no longer loads Quick Look generators like this one, so moving it changes nothing."
-            case .internetPlugIn:
-                "macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing."
-            }
+        if let whenItLoads {
             return staysInTheTrash
-                ? [nothingChanges, "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."]
-                : [nothingChanges]
+                ? [whenItLoads, "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."]
+                : [whenItLoads]
         }
         return switch (isAQuickAction, staysInTheTrash) {
         case (true, true):
