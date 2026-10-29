@@ -763,6 +763,32 @@ struct DuplicateFinderTests {
         #expect(kept(files.groups.first?.files.first?.url) == kept(onTheMac))
     }
 
+    @Test func keepsTheCopyOnTheHomeDiskEvenInDownloads() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let volume = try ScratchVolume(
+            fileSystem: "APFS", mountedAt: home.appending(path: "Card", directoryHint: .isDirectory)
+        )
+        let contents = Data(repeating: 9, count: 200_000)
+        let onTheMac = try directory.file("home/Downloads/Holiday/photo.jpg", contents: contents)
+        let onTheCard = volume.url.appending(path: "Holiday/photo.jpg")
+        try FileManager.default.createDirectory(
+            at: onTheCard.deletingLastPathComponent(), withIntermediateDirectories: true
+        )
+        try contents.write(to: onTheCard)
+
+        let downloads = home.appending(path: "Downloads", directoryHint: .isDirectory)
+        let finder = DuplicateFinder(homeDirectory: home)
+        let kept = { (url: URL?) in url.map { PathPattern.comparablePath(of: $0) } }
+
+        let folders = try await finder.scan(.everySize(in: [downloads, volume.url]))
+        #expect(kept(folders.folderGroups.first?.folders.first?.url) == kept(onTheMac.deletingLastPathComponent()))
+
+        try directory.file("home/Downloads/Holiday/notes.txt", contents: Data("only here".utf8))
+        let files = try await finder.scan(.everySize(in: [downloads, volume.url]))
+        #expect(kept(files.groups.first?.files.first?.url) == kept(onTheMac))
+    }
+
     @Test func selectsWhatItRecommendsOnlyInTheGroupsShown() async throws {
         let directory = try TemporaryDirectory()
         let first = randomData(count: 4_000)

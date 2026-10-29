@@ -452,14 +452,14 @@ public struct DuplicateFinder: Sendable {
             homeDevice = stat(home.path(percentEncoded: false), &info) == 0 ? info.st_dev : nil
         }
 
-        /// Ranks a copy for keeping, lower being better: outside Downloads, without a copy suffix, on the disk the
-        /// home folder is on, created earlier, less deeply nested, then with a shorter name. The path breaks any tie
-        /// that is left.
+        /// Ranks a copy for keeping, lower being better: on the disk the home folder is on, outside Downloads, without
+        /// a copy suffix, created earlier, less deeply nested, then with a shorter name. The path breaks any tie that
+        /// is left.
         func rank(of url: URL, identity: FileIdentity) -> (Int, Int, Int, Int, String) {
             let path = DuplicateFinder.path(of: url)
             let name = url.deletingPathExtension().lastPathComponent
             let flags = [
-                path.isInside(downloads), DuplicateFinder.hasCopySuffix(name), identity.link.device != homeDevice,
+                identity.link.device != homeDevice, path.isInside(downloads), DuplicateFinder.hasCopySuffix(name),
             ]
             return (
                 // Each flag outweighs those after it.
