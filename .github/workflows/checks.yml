@@ -42,42 +42,36 @@ jobs:
 
       # The app's targets treat warnings as errors in the project, and the package in its manifest, for every build;
       # the flag here names it on the command line too. The tests write to a file, since a test that writes a line
-      # waits for whoever reads it, and the log is read late here.
+      # waits for whoever reads it, and the log is read late here. A green run takes minutes, so tests still running
+      # after 20 have hung: the step shows the programs they started and where each of their threads stands, which the
+      # log can't, since its last lines are still in the process when it is stopped.
       - name: Test PeelCore
         timeout-minutes: 30
         run: |
           log="$RUNNER_TEMP/test.log"
-          if swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors > "$log" 2>&1; then
+          swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors > "$log" 2>&1 &
+          tests=$!
+          for _ in $(seq 240); do kill -0 "$tests" 2>/dev/null || break; sleep 5; done
+          if kill -0 "$tests" 2>/dev/null; then
+            descendants() { for child in $(pgrep -P "$1"); do echo "$child"; descendants "$child"; done; }
+            started=$(descendants "$tests")
+            echo "Still running after 20 minutes, the tests and every program they started:"
+            ps -o pid,ppid,etime,command -p "$(echo "$tests" $started | tr ' ' ',')" || true
+            for helper in $(pgrep -P "$tests" -f swiftpm-testing-helper); do
+              sample "$helper" 5 -file "$RUNNER_TEMP/sample-$helper.txt" > /dev/null 2>&1 \
+                || sudo -n sample "$helper" 5 -file "$RUNNER_TEMP/sample-$helper.txt" > /dev/null 2>&1 || true
+              cat "$RUNNER_TEMP/sample-$helper.txt" || true
+            done
+            # `peel`'s removals ignore SIGTERM while they run, in its tests too, so the tests are stopped with SIGKILL.
+            kill -KILL $started "$tests" || true
+            exit 1
+          fi
+          if wait "$tests"; then
             grep -E "Test run with" "$log"
           else
             cat "$log"
             exit 1
           fi
-
-      # The log names each test and suite as it starts and as it ends. They run side by side, so a test that hangs may
-      # have started long before the log's end: what started and never ended is what was still running.
-      - name: The package tests that never finished
-        if: failure() || cancelled()
-        run: |
-          log="$RUNNER_TEMP/test.log"
-          [ -f "$log" ] || exit 0
-          grep -q "Test run with" "$log" && exit 0
-          python3 - "$log" <<'EOF'
-          import collections, re, sys
-          start = re.compile(r"\S+ (Test|Suite) (?!case |run )(.+) started\.$")
-          end = re.compile(r"\S+ (Test|Suite) (.+?)(?: with \d+ test cases?)? (?:passed|failed) after ")
-          started, ended = collections.Counter(), collections.Counter()
-          for line in open(sys.argv[1], encoding="utf-8", errors="replace"):
-              if match := start.match(line):
-                  started[match.groups()] += 1
-              elif match := end.match(line):
-                  ended[match.groups()] += 1
-          running = started - ended
-          print("Still running when the step stopped:" if running else "Nothing was still running.")
-          for kind, name in running:
-              print(f"  {kind} {name}")
-          EOF
-          tail -n 40 "$log"
 
       # Sparkle, which updates Peel, is built from its source at the commit the script names, with arm64e.
       - name: Build Sparkle
