@@ -241798,6 +241798,112 @@
         }
       }
     },
+    "macOS no longer loads contextual menu items like this one, so moving it changes nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS už nenačítá položky kontextové nabídky, jako je tato, takže její přesunutí nic nezmění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lädt Kontextmenü-Objekte wie dieses nicht mehr, daher ändert sich durch das Verschieben nichts."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ya no carga ítems de menú contextual como este, así que trasladarlo no cambia nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne charge plus les éléments de menu contextuel tels que celui-ci : le déplacer ne change donc rien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non carica più gli elementi del menu contestuale come questo, quindi spostarlo non cambia nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSはこのようなコンテクストメニュー項目を読み込まなくなったため、ゴミ箱に入れても何も変わりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 이와 같은 빠른 메뉴 항목을 더 이상 로드하지 않으므로, 이동해도 아무것도 달라지지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laadt contextmenu-onderdelen zoals dit niet meer, dus als je het verplaatst, verandert er niets."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie wczytuje już pozycji menu kontekstowego takich jak ta, więc przeniesienie tej wtyczki do Kosza niczego nie zmieni."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não carrega mais itens de menu contextual como este, então movê-lo não altera nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu mai încarcă articole de meniu contextual precum acesta, așa că mutarea lui nu schimbă nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS больше не загружает пункты контекстного меню, подобные этому, поэтому его перемещение ничего не изменит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS läser inte längre in kontextmenyobjekt som det här, så om det flyttas ändras ingenting."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS artık bunun gibi bağlamsal menü öğelerini yüklemiyor, bu yüzden onu taşımak hiçbir şeyi değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS більше не завантажує такі елементи контекстного меню, як цей, тож його переміщення нічого не змінить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS已不再载入此类关联菜单项，因此移动它不会带来任何变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS已不再載入這類特色選單項目，因此移動它不會有任何影響。"
+          }
+        }
+      }
+    },
     "macOS puts them on the Desktop. Choose somewhere else." : {
       "localizations" : {
         "cs" : {

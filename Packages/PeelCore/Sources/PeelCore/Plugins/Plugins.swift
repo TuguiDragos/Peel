@@ -58,6 +58,7 @@ public struct Plugin: Sendable, Hashable, Identifiable {
         case quickLookGenerator
         /// An Internet plug-in other than a WebKit plug-in.
         case internetPlugIn
+        case contextualMenuItem
     }
 
     public var noLongerLoaded: NoLongerLoaded?
@@ -261,9 +262,12 @@ public enum Plugins {
 
     /// Whether nothing on macOS loads the plug-in anymore. macOS no longer loads a Quick Look generator from another
     /// maker (macOS 15 Release Notes), and from an Internet Plug-Ins folder WebKit loads only a WebKit plug-in, named
-    /// `.webplugin` or of package type `WBPL` as `CFBundleGetPackageInfo` reads it, while browsers load none.
+    /// `.webplugin` or of package type `WBPL` as `CFBundleGetPackageInfo` reads it, while browsers load none. A 64-bit
+    /// app ignores contextual menu plug-ins (64-Bit Guide for Carbon Developers), and macOS runs no 32-bit app.
     static func noLongerLoaded(_ url: URL, category: Plugin.Category) -> Plugin.NoLongerLoaded? {
         switch category {
+        case .contextualMenuItems:
+            return .contextualMenuItem
         case .quickLook:
             return url.pathExtension.caseInsensitiveCompare("qlgenerator") == .orderedSame ? .quickLookGenerator : nil
         case .internetPlugIns:

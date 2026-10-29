@@ -62,6 +62,21 @@ struct PluginTextTests {
         #expect(echo.whenMoved.map { String(localized: $0) } == [String(localized: "Apps that use it may stop working.")])
     }
 
+    @Test func saysNothingLoadsAContextualMenuItem() {
+        var menu = plugin(
+            "/Library/Contextual Menu Items/Old Menu.plugin", name: "Old Menu", forAllUsers: true,
+            category: .contextualMenuItems
+        )
+        menu.noLongerLoaded = .contextualMenuItem
+        menu.staysInTheTrash = true
+
+        #expect(menu.whenMoved.map { String(localized: $0) } == [
+            String(localized: "macOS no longer loads contextual menu items like this one, so moving it changes nothing."),
+            String(localized: "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."),
+            String(localized: "Every account on this Mac has it, so moving it takes it from all of them."),
+        ])
+    }
+
     @Test func saysWhenMacOSLoadsACameraPlugIn() {
         let camera = plugin(
             "/Library/CoreMediaIO/Plug-Ins/DAL/Lens.plugin", name: "Lens", forAllUsers: true, category: .cameraPlugIns

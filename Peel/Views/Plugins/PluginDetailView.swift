@@ -154,6 +154,8 @@ extension Plugin {
             "macOS no longer loads Quick Look generators like this one, so moving it changes nothing."
         case .internetPlugIn:
             "macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing."
+        case .contextualMenuItem:
+            "macOS no longer loads contextual menu items like this one, so moving it changes nothing."
         case nil:
             category == .cameraPlugIns
                 ? "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working."

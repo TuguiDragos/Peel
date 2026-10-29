@@ -87,6 +87,21 @@ struct PluginsTests {
         ])
     }
 
+    @Test func knowsNothingLoadsAContextualMenuItem() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Contextual Menu Items/Old Menu.plugin/Contents")
+        try directory.directory("root/Library/Contextual Menu Items/Vendor Menu.plugin/Contents")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins
+
+        #expect(plugins.map(\.name) == ["Old Menu", "Vendor Menu"])
+        #expect(plugins.allSatisfy { $0.noLongerLoaded == .contextualMenuItem })
+    }
+
     @Test func saysWhichAppAPlugInCameWith() {
         let surge = InstalledApp(
             url: URL(filePath: "/Applications/Surge XT.app"), bundleIdentifier: "org.example.surgext", name: "Surge XT"
