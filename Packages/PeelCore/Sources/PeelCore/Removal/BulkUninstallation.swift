@@ -37,6 +37,8 @@ public struct BulkUninstallation: Sendable {
         public var enclosingPackage: URL?
         /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
         public var holdsDamagedSettings = false
+        /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.
+        public var syncedBy: SyncKeeper?
 
         public var id: URL { url }
 
@@ -260,7 +262,8 @@ public struct BulkUninstallation: Sendable {
                     removedElsewhere: existing.removedElsewhere ?? item.removedElsewhere,
                     isInTheTrash: existing.isInTheTrash || item.isInTheTrash,
                     enclosingPackage: existing.enclosingPackage ?? item.enclosingPackage,
-                    holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings
+                    holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings,
+                    syncedBy: existing.syncedBy ?? item.syncedBy
                 )
             } else {
                 byURL[item.url] = item
@@ -290,7 +293,8 @@ public struct BulkUninstallation: Sendable {
                     isBeyondTheHelper: leftover.match.heldBack == .beyondTheHelper,
                     isLeftForAnAdministrator: leftover.isLeftForAnAdministrator,
                     removedElsewhere: uninstallation.removedElsewhere,
-                    holdsDamagedSettings: leftover.holdsDamagedSettings
+                    holdsDamagedSettings: leftover.holdsDamagedSettings,
+                    syncedBy: leftover.syncedBy
                 ))
             }
             add(Item(

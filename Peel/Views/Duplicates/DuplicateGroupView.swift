@@ -140,8 +140,8 @@ private struct DuplicateFileRow: View {
                     item
                 }
                 .accessibilityElement(children: .combine)
-                .accessibilityHint(Text(heldBack.explanation))
-                .help(Text(heldBack.explanation))
+                .accessibilityHint(Text(heldBack.explanation(keptInStepBy: file.syncedBy)))
+                .help(Text(heldBack.explanation(keptInStepBy: file.syncedBy)))
 
                 // Where the copy is matters more than a look at it: what is done with it is done in Finder or on
                 // another device. The folder symbol, the menu's for Show in Finder, is close to the eye's width, so

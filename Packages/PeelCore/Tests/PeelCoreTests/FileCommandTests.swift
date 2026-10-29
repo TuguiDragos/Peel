@@ -717,6 +717,23 @@ struct FileCommandTests {
         })
     }
 
+    @Test func namesTheAppThatSyncsTheCopiesItLeavesAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = Data((0..<3_000).map { _ in UInt8.random(in: 0...255) })
+        try directory.directory("home/.stfolder")
+        try directory.file("home/Desktop/a.bin", contents: contents)
+        try directory.file("home/Documents/a.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(
+            .everySize(in: ["Desktop", "Documents"].map { home.appending(path: $0, directoryHint: .isDirectory) })
+        )
+        let marker = Output.path(home.appending(path: ".stfolder"))
+
+        #expect(DuplicatesCommand.notes(for: scan).contains(
+            "Syncthing syncs some of them to your other devices (its marker is \(marker))."
+        ))
+    }
+
     @Test func refusesEachFolderItCantScanWithItsReason() throws {
         let finder = "/System/Library/CoreServices/Finder.app"
         let error = #expect(throws: (any Error).self) {

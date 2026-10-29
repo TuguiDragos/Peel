@@ -3,7 +3,7 @@ import Foundation
 internal import PeelPrivileged
 
 /// Why `RemovalGuard` refuses to move an item.
-public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
+public enum GuardRefusal: Sendable, Hashable, CaseIterable {
     /// The exclusions have not been read yet, or cannot be read, so nothing moves.
     case exclusionsNotKnown
     /// The person excluded it, or something inside it.
@@ -16,7 +16,7 @@ public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
     case holdsProtectedData
     /// It syncs to the person's other devices, through iCloud or File Provider or in a folder another app keeps in
     /// step (`SyncedFolders`), as Desktop and Documents do in iCloud Drive.
-    case inTheCloud
+    case inTheCloud(SyncKeeper)
     /// A sandboxed app's documents are inside.
     case holdsDocuments
     /// A photo, music, or video library is inside.
@@ -25,6 +25,12 @@ public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
     case holdsWorkKeptInACache
     /// macOS would not let Peel list a folder inside it, so whether something Peel never moves is there is not known.
     case couldNotLookInside
+
+    /// Each kind of refusal once, the cloud standing for every keeper.
+    public static let allCases: [GuardRefusal] = [
+        .exclusionsNotKnown, .excluded, .staysItself, .protectedLocation, .holdsProtectedData, .inTheCloud(.cloud),
+        .holdsDocuments, .holdsALibrary, .holdsWorkKeptInACache, .couldNotLookInside,
+    ]
 
     /// A fixed word for the reason, which the refusal log stores, so a record still reads in a later version.
     public var name: String {
@@ -42,9 +48,19 @@ public enum GuardRefusal: String, Sendable, Hashable, CaseIterable {
         }
     }
 
-    public init?(name: String) {
+    /// What a refusal log keeps beside the word, when the word alone doesn't say it all.
+    var detail: String? {
+        guard case .inTheCloud(let keeper) = self else { return nil }
+        return keeper.detail
+    }
+
+    public init?(name: String, detail: String? = nil) {
         guard let refusal = Self.allCases.first(where: { $0.name == name }) else { return nil }
-        self = refusal
+        if case .inTheCloud = refusal {
+            self = .inTheCloud(SyncKeeper(detail: detail))
+        } else {
+            self = refusal
+        }
     }
 }
 
@@ -63,7 +79,7 @@ struct RemovalGuard: Sendable {
     private let protectedTrees: [[String]]
     private let protectedObjects: ProtectedObjects
     private let exclusions: Exclusions
-    private let syncsToOtherDevices: @Sendable (URL) -> Bool
+    private let syncKeeper: @Sendable (URL) -> SyncKeeper?
 
     var knowsTheExclusions: Bool { exclusions.isKnown }
 
@@ -74,10 +90,10 @@ struct RemovalGuard: Sendable {
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
-        syncsToOtherDevices: @escaping @Sendable (URL) -> Bool = SyncedFolders().syncsToOtherDevices
+        syncKeeper: @escaping @Sendable (URL) -> SyncKeeper? = SyncedFolders().keeper(of:)
     ) {
         self.exclusions = exclusions
-        self.syncsToOtherDevices = syncsToOtherDevices
+        self.syncKeeper = syncKeeper
         let home = environment.homeDirectory
         self.home = home.path(percentEncoded: false)
         var paths: [String] = [
@@ -151,7 +167,8 @@ struct RemovalGuard: Sendable {
         let type = Self.type(of: item?.path(percentEncoded: false) ?? located)
         // The kernel's own name for the item is judged too: `/.vol/<device>/<inode>` names a file by its numbers
         // alone and shows none of the folders it sits in.
-        let names = Set([path, located, PathPattern.kernelName(of: path, followingLinks: false)].compactMap(\.self))
+        let inOrder = [path, located, PathPattern.kernelName(of: path, followingLinks: false)].compactMap(\.self)
+        let names = Set(inOrder)
         // Worked out once per name, since each resolves links on disk. The names are standardized already, so these
         // are the spellings the exclusions would work out themselves.
         let spelled = Dictionary(uniqueKeysWithValues: names.map { ($0, ProtectedData.spellings(of: $0)) })
@@ -197,7 +214,10 @@ struct RemovalGuard: Sendable {
         let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_NOUNLINK)
         guard lstat(path, &info) != 0 || info.st_flags & protectedFlags == 0 else { return .protectedLocation }
         // Not for Put Back, which removes nothing from the other devices.
-        if item == nil, names.contains(where: { syncsToOtherDevices(URL(filePath: $0)) }) { return .inTheCloud }
+        // Asked of the name as written first, so the marker is named the way the item was.
+        if item == nil, let keeper = inOrder.lazy.compactMap({ syncKeeper(URL(filePath: $0)) }).first {
+            return .inTheCloud(keeper)
+        }
 
         // Last, since each reads what is a level or two inside the folder, and a name refused above needs none of it.
         guard !exclusions.isAnExcludedApp(item ?? URL(filePath: path)) else { return .excluded }

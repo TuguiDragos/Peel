@@ -193,7 +193,9 @@ struct FileSearchTests {
         let synced = try directory.file("home/Documents/Report.pdf", bytes: 9_000)
         let local = try directory.file("home/Downloads/Setup.dmg", bytes: 1_000)
         let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
-        let guardian = RemovalGuard(environment: environment, syncsToOtherDevices: { $0.lastPathComponent == "Report.pdf" })
+        let guardian = RemovalGuard(
+            environment: environment, syncKeeper: { $0.lastPathComponent == "Report.pdf" ? .cloud : nil }
+        )
 
         let results = FileSearch.results(
             from: [synced, local].map { $0.path(percentEncoded: false) },
@@ -205,6 +207,23 @@ struct FileSearchTests {
         #expect(results.leftOut == [.syncs: 1])
     }
 
+    @Test func namesTheAppThatSyncsWhatItLeftOut() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Sync/.megaignore")
+        let synced = try directory.file("home/Sync/Report.pdf")
+        let local = try directory.file("home/Desktop/Setup.dmg")
+
+        let results = FileSearch.results(
+            from: [synced, local].map { $0.path(percentEncoded: false) },
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+        )
+
+        #expect(results.files.map(\.url.lastPathComponent) == ["Setup.dmg"])
+        #expect(results.leftOut == [.syncs: 1])
+        #expect(results.syncedBy == [.app(.mega, marker: directory.url.appending(path: "home/Sync/.megaignore"))])
+    }
+
     @Test func aRefusedFileThatSyncsIsCountedAsSyncing() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -214,7 +233,7 @@ struct FileSearchTests {
         let results = FileSearch.results(
             from: [inICloudDrive, keychain].map { $0.path(percentEncoded: false) },
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
-            syncsToOtherDevices: { $0.lastPathComponent == "Report.pdf" }
+            syncKeeper: { $0.lastPathComponent == "Report.pdf" ? .cloud : nil }
         )
 
         #expect(results.files.isEmpty)
@@ -230,7 +249,7 @@ struct FileSearchTests {
         info.st_mode = S_IFREG
         info.st_flags = UInt32(SF_DATALESS)
         func judged(_ kind: FileKind) -> FileSearch.Judgment {
-            FileSearch.judge(clip, info: info, kind: kind, refusal: { _ in nil }, syncsToOtherDevices: { _ in false })
+            FileSearch.judge(clip, info: info, kind: kind, refusal: { _ in nil }, syncKeeper: { _ in nil })
         }
 
         #expect(judged(.any) == .leftOut(.syncs))
@@ -317,7 +336,7 @@ struct FileSearchTests {
             from: paths + [bigRefused, smallRefused, last].map { $0.path(percentEncoded: false) },
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
             refusal: { $0.lastPathComponent.hasPrefix("refused") ? .protectedLocation : nil },
-            syncsToOtherDevices: { _ in false }
+            syncKeeper: { _ in nil }
         )
 
         #expect(results.files.count == FileSearch.maximumResults)

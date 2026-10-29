@@ -35,6 +35,8 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
     /// Why the item is left for the person to choose, from what measuring it saw: it was not measured or not read,
     /// or a wallet or a repository is inside.
     public var heldBack: HoldBack?
+    /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.
+    public var syncedBy: SyncKeeper? = nil
 
     public var id: URL { url }
 
@@ -152,7 +154,7 @@ public enum Installers {
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
         canList: (URL) -> AccessState = FullDiskAccess.canList,
-        syncsToOtherDevices: (URL) -> Bool = SyncedFolders().syncsToOtherDevices,
+        syncKeeper: (URL) -> SyncKeeper? = SyncedFolders().keeper(of:),
         openFiles: OpenFiles = OpenFiles()
     ) async -> InstallerScan {
         var items: [InstallerItem] = []
@@ -184,7 +186,7 @@ public enum Installers {
                 let (size, seen, newestInside) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let heldBack = heldBack(
-                    url, seen: seen, in: folder, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                    url, seen: seen, in: folder, syncKeeper: syncKeeper, openFiles: openFiles
                 )
                 if isIncomplete {
                     items.append(
@@ -218,7 +220,7 @@ public enum Installers {
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
-            syncsToOtherDevices: syncsToOtherDevices,
+            syncKeeper: syncKeeper,
             openFiles: openFiles
         )
         items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
@@ -228,7 +230,7 @@ public enum Installers {
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
-            syncsToOtherDevices: syncsToOtherDevices,
+            syncKeeper: syncKeeper,
             openFiles: openFiles
         )
         items += await packagesKeptByApps(
@@ -237,7 +239,7 @@ public enum Installers {
             exclusions: exclusions,
             minimumSize: minimumSize,
             measure: measure,
-            syncsToOtherDevices: syncsToOtherDevices,
+            syncKeeper: syncKeeper,
             openFiles: openFiles
         )
 
@@ -250,10 +252,11 @@ public enum Installers {
         if readable == .missing { unreadable.append(backupFolder) }
         let reach = HelperReach(environment: SearchEnvironment(homeDirectory: home, rootDirectory: root))
         items = items.map { item in
+            var item = item
+            if item.heldBack == .inTheCloud { item.syncedBy = syncKeeper(item.url) }
             guard item.requiresPrivileges, item.heldBack?.cannotBeMoved != true, reach.isBeyond(item.url) else {
                 return item
             }
-            var item = item
             item.heldBack = .beyondTheHelper
             return item
         }
@@ -286,9 +289,9 @@ public enum Installers {
     /// Why an item is left for the person to choose: it syncs to other devices, measuring it saw a reason, a program
     /// has it open, or it belongs to every account on this Mac.
     private static func heldBack(
-        _ url: URL, seen: HoldBack?, in folder: Folder, syncsToOtherDevices: (URL) -> Bool, openFiles: OpenFiles
+        _ url: URL, seen: HoldBack?, in folder: Folder, syncKeeper: (URL) -> SyncKeeper?, openFiles: OpenFiles
     ) -> HoldBack? {
-        if syncsToOtherDevices(url) { return .inTheCloud }
+        if syncKeeper(url) != nil { return .inTheCloud }
         if let seen { return seen }
         if openFiles.isAttachedDiskImage(url) { return .attachedDiskImage }
         if !openFiles.holders(of: url).isEmpty { return .openInAProgram }
@@ -460,7 +463,7 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        syncsToOtherDevices: (URL) -> Bool,
+        syncKeeper: (URL) -> SyncKeeper?,
         openFiles: OpenFiles
     ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
@@ -484,7 +487,7 @@ public enum Installers {
                     notes: version.map { [.version($0)] } ?? [],
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                     heldBack: heldBack(
-                        url, seen: seen, in: folder, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                        url, seen: seen, in: folder, syncKeeper: syncKeeper, openFiles: openFiles
                     )
                 ))
             }
@@ -529,7 +532,7 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        syncsToOtherDevices: (URL) -> Bool,
+        syncKeeper: (URL) -> SyncKeeper?,
         openFiles: OpenFiles
     ) async -> [InstallerItem] {
         let caches = home.appending(path: "Library/Caches", directoryHint: .isDirectory)
@@ -594,7 +597,7 @@ public enum Installers {
                 notes: app.map { [.downloadedBy($0.name)] } ?? [],
                 requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                 heldBack: heldBack(
-                    url, seen: seen, in: place, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                    url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles
                 )
                     ?? (isRunning ? .appIsRunning : nil)
             ))
@@ -610,7 +613,7 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        syncsToOtherDevices: (URL) -> Bool,
+        syncKeeper: (URL) -> SyncKeeper?,
         openFiles: OpenFiles
     ) async -> [InstallerItem] {
         let support = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
@@ -632,7 +635,7 @@ public enum Installers {
                 guard isWorthARow(size, minimumSize) else { continue }
                 let place = Folder(url: folder, isSharedWithEveryone: false)
                 let heldBack = heldBack(
-                    url, seen: seen, in: place, syncsToOtherDevices: syncsToOtherDevices, openFiles: openFiles
+                    url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles
                 )
                 let named = installedApp(for: url, in: installedApps) == nil ? owner : nil
                 items.append(appInstaller(

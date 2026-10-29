@@ -150,7 +150,9 @@ extension GuardRefusal {
         case .staysItself: "Peel won’t move this folder itself, since macOS expects to find it. What is inside it can go."
         case .protectedLocation: "Peel won’t move this: it is part of macOS, or inside something Peel protects."
         case .holdsProtectedData: "Peel won’t move this: something Peel protects is inside, such as a keychain or a wallet."
-        case .inTheCloud: "Peel won’t move this: it syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them."
+        case .inTheCloud(.cloud): "Peel won’t move this: it syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them."
+        case .inTheCloud(.app(let app, let marker)):
+            "Peel won’t move this: it is in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), and moving it to the Trash would also remove it from them."
         case .holdsDocuments: "Peel won’t move this: an app’s documents are inside."
         case .holdsALibrary: "Peel won’t move this: a photo, music, or video library is inside."
         case .holdsWorkKeptInACache: "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history."
@@ -227,7 +229,9 @@ extension ProjectArtifacts.Refusal {
         switch self {
         case .tooBroad: String(localized: "A whole home folder or disk is too much to search. Choose the folder your projects are in.")
         case .systemFolder: String(localized: "It is a folder that macOS or every account uses, not a folder of projects. Choose the folder your projects are in.")
-        case .inTheCloud: String(localized: "It is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app.")
+        case .inTheCloud(.cloud): String(localized: "It is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app.")
+        case .inTheCloud(.app(let app, let marker)):
+            String(localized: "It is in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), which Peel leaves to that app.")
         case .notAFolder: String(localized: "It isn’t a folder Peel can reach. A disk that isn’t connected looks like this too.")
         case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
         case .neverSearched: String(localized: "It is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one. Apps and tools keep what they install there, so Peel doesn’t look for projects in it.")
@@ -442,6 +446,12 @@ extension HoldBack {
         case .encryptedImage:
             "Not selected: an encrypted disk image holds what you put in it."
         }
+    }
+
+    /// The explanation, naming the app that keeps the item in step and its marker when one does.
+    func explanation(keptInStepBy keeper: SyncKeeper?) -> LocalizedStringResource {
+        guard self == .inTheCloud, case .app(let app, let marker)? = keeper else { return explanation }
+        return "Left alone: this is in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), and moving it to the Trash would also remove it from them."
     }
 }
 

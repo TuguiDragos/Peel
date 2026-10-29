@@ -422,7 +422,7 @@ struct AppDetailView: View {
             lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))."))
         }
         if let heldBack = leftover.match.heldBack {
-            lines.append(String(localized: heldBack.explanation))
+            lines.append(String(localized: heldBack.explanation(keptInStepBy: leftover.syncedBy)))
         }
         if leftover.holdsDamagedSettings {
             lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))

@@ -73,6 +73,8 @@ public struct FileSearchResults: Sendable {
     public var isTruncated = false
     /// The files Spotlight found that the list leaves out, by why. A file the cut left out counts there, not here.
     public var leftOut: [FileSearch.LeftOut: Int] = [:]
+    /// The apps that keep in step the folders of files left out because they sync, each marker once.
+    public var syncedBy: [SyncKeeper] = []
     /// False when the query itself could not be made or run, which is not the same as finding nothing.
     public var didRun = true
     /// The disks Spotlight doesn't index, named as Finder names them, asked only when nothing was found.
@@ -177,11 +179,11 @@ public enum FileSearch {
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
         refusal: ((URL) -> GuardRefusal?)? = nil,
-        syncsToOtherDevices: (@Sendable (URL) -> Bool)? = nil
+        syncKeeper: (@Sendable (URL) -> SyncKeeper?)? = nil
     ) -> FileSearchResults {
-        let syncsToOtherDevices = syncsToOtherDevices ?? SyncedFolders().syncsToOtherDevices
+        let syncKeeper = syncKeeper ?? SyncedFolders().keeper(of:)
         let refusal = refusal ?? RemovalGuard(
-            environment: environment, exclusions: exclusions, syncsToOtherDevices: syncsToOtherDevices
+            environment: environment, exclusions: exclusions, syncKeeper: syncKeeper
         ).refusal(of:)
         let appData = AppDataFolders(home: environment.homeDirectory)
         var results = FileSearchResults()
@@ -207,15 +209,18 @@ public enum FileSearch {
         listing: for candidate in candidates {
             let url = URL(filePath: candidate.path)
             let hasRoom = results.files.count < maximumResults
-            let judgment = judge(
-                url, info: candidate.info, kind: kind, refusal: refusal, syncsToOtherDevices: syncsToOtherDevices
-            )
+            let judgment = judge(url, info: candidate.info, kind: kind, refusal: refusal, syncKeeper: syncKeeper)
             switch judgment {
             case .skipped:
                 continue
             case .leftOut(let reason):
                 // Counted only while the list had room: whatever came after was left out by the cut.
-                if hasRoom { results.leftOut[reason, default: 0] += 1 }
+                guard hasRoom else { continue }
+                results.leftOut[reason, default: 0] += 1
+                if reason == .syncs, let keeper = syncKeeper(url), keeper != .cloud,
+                   !results.syncedBy.contains(keeper) {
+                    results.syncedBy.append(keeper)
+                }
             case .listed:
                 guard hasRoom else {
                     results.isTruncated = true
@@ -259,7 +264,7 @@ public enum FileSearch {
     }
 
     static func judge(
-        _ url: URL, info: stat, kind: FileKind, refusal: (URL) -> GuardRefusal?, syncsToOtherDevices: (URL) -> Bool
+        _ url: URL, info: stat, kind: FileKind, refusal: (URL) -> GuardRefusal?, syncKeeper: (URL) -> SyncKeeper?
     ) -> Judgment {
         guard holdsItsContentsHere(info) else {
             // A transport stream is a movie only by its first bytes, and reading a file that lives only in the cloud
@@ -270,7 +275,8 @@ public enum FileSearch {
         guard let refused = refusal(url) else { return .listed }
         // That a file syncs is what the person needs to know, whatever else the guard says: a file in iCloud Drive
         // sits in a tree the guard protects.
-        return .leftOut(refused == .inTheCloud || syncsToOtherDevices(url) ? .syncs : LeftOut(refused))
+        if case .inTheCloud = refused { return .leftOut(.syncs) }
+        return .leftOut(syncKeeper(url) != nil ? .syncs : LeftOut(refused))
     }
 
     /// macOS gives TypeScript's `.ts` the type of an MPEG-2 transport stream, a movie, so such a file is one only when

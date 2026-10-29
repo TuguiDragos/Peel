@@ -269,7 +269,7 @@ struct MultipleAppsView: View {
             lines.append(String(localized: "Also used by \(users.formatted(.list(type: .and)))."))
         }
         if let heldBack = item.match?.heldBack {
-            lines.append(String(localized: heldBack.explanation))
+            lines.append(String(localized: heldBack.explanation(keptInStepBy: item.syncedBy)))
         }
         if item.holdsDamagedSettings {
             lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))

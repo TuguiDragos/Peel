@@ -92,6 +92,22 @@ struct RefusalLogTests {
         #expect(isInHistory.withLock { $0 }, "History waited for the refusals")
     }
 
+    @Test func keepsWhichAppSyncsWhatItRefused() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+        let syncthing = GuardRefusal.inTheCloud(.app(.syncthing, marker: URL(filePath: "/Users/me/.stfolder")))
+
+        await log.add(
+            [failure("/Users/me/Documents/a.pdf", .guarded(syncthing)), failure("/Users/me/b.pdf", .guarded(.inTheCloud(.cloud)))],
+            source: "Duplicates", tool: "duplicates"
+        )
+
+        let records = try #require(await log.load().records)
+        #expect(records.map { TrashFailure.Reason(name: $0.reason, detail: $0.detail) } == [
+            .guarded(syncthing), .guarded(.inTheCloud(.cloud)),
+        ])
+    }
+
     @Test func nothingIsWrittenWhenNothingWasRefused() async throws {
         let directory = try TemporaryDirectory()
         let url = directory.url.appending(path: "Peel/refusals.json")

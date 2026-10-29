@@ -374,7 +374,7 @@ struct InstallersTests {
         let scan = await Installers.scan(
             installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
             measure: LeftoverScanner.walk,
-            syncsToOtherDevices: { PathPattern.comparablePath(of: $0.deletingLastPathComponent()) == documents }
+            syncKeeper: { PathPattern.comparablePath(of: $0.deletingLastPathComponent()) == documents ? .cloud : nil }
         )
 
         let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
@@ -385,6 +385,22 @@ struct InstallersTests {
         #expect(Set(scan.items.filter { selectable.contains($0.url) }.map(\.name)) == ["Other-3.dmg"])
     }
 
+
+    @Test func namesTheAppThatSyncsAnInstallerItLeavesAlone() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Documents/.megaignore")
+        try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk
+        )
+
+        let item = try #require(scan.items.first { $0.name == "Tool-2.dmg" })
+        #expect(item.heldBack == .inTheCloud)
+        let mega = SyncKeeper.app(.mega, marker: directory.url.appending(path: "Documents/.megaignore"))
+        #expect(item.syncedBy?.resolved == mega.resolved)
+    }
 
     @Test func countsToRemoveOnlyWhatCanMove() {
         func item(

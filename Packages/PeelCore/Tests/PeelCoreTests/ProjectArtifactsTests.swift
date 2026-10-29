@@ -1385,7 +1385,7 @@ struct ProjectArtifactsTests {
 
         #expect(ProjectArtifacts.refusal(for: home, home: home) == .tooBroad)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Volumes/Disk"), home: home) == .tooBroad)
-        #expect(ProjectArtifacts.refusal(for: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs/Code"), home: home) == .inTheCloud)
+        #expect(ProjectArtifacts.refusal(for: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs/Code"), home: home) == .inTheCloud(.cloud))
         #expect(ProjectArtifacts.refusal(for: directory.url.appending(path: "nothing-here"), home: home) == .notAFolder)
         #expect(ProjectArtifacts.refusal(for: try directory.directory("Code"), home: home) == nil)
 
@@ -1393,7 +1393,7 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/users/x"), home: home) == .tooBroad)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/System/Volumes/Data/Users/x"), home: home) == .tooBroad)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/System/Volumes/Data"), home: home) == .tooBroad)
-        #expect(ProjectArtifacts.refusal(for: home.appending(path: "Library/CLOUDSTORAGE/Dropbox"), home: home) == .inTheCloud)
+        #expect(ProjectArtifacts.refusal(for: home.appending(path: "Library/CLOUDSTORAGE/Dropbox"), home: home) == .inTheCloud(.cloud))
     }
 
     /// A cloud folder is known by its place, never by a name that only begins like one. What is inside an app or
@@ -1448,8 +1448,8 @@ struct ProjectArtifactsTests {
     @Test func refusesRootsThatAreTooBroadOrNotOurs() {
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/")) == .tooBroad)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users")) == .systemFolder)
-        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/Mobile Documents/com~apple~Pages")) == .inTheCloud)
-        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/CloudStorage/Dropbox")) == .inTheCloud)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/Mobile Documents/com~apple~Pages")) == .inTheCloud(.cloud))
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/CloudStorage/Dropbox")) == .inTheCloud(.cloud))
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/does-not-exist")) == .notAFolder)
     }
 
@@ -1468,7 +1468,8 @@ struct ProjectArtifactsTests {
         let scan = await ProjectArtifacts.scan(roots: [code, shared])
 
         #expect(scan.artifacts.map(\.project.lastPathComponent) == ["kept"])
-        #expect(scan.refusedRoots.map { $0.reason } == [.inTheCloud])
+        let mega = SyncKeeper.app(.mega, marker: directory.url.appending(path: "Shared/.megaignore"))
+        #expect(scan.refusedRoots.map { $0.reason } == [.inTheCloud(mega)])
     }
 
     @Test func findsEveryKindItKnowsInAProjectOfItsOwn() async throws {

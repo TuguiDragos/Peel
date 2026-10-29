@@ -26,6 +26,20 @@ struct RemovalFailureAlertTests {
         #expect(details.filter { $0.contains("Example 30") }.count == 3)
     }
 
+    @Test func namesTheAppThatSyncsWhatStaysAndItsMarker() {
+        let marker = FileManager.default.homeDirectoryForCurrentUser.appending(path: ".stfolder")
+        let syncthing = SyncKeeper.app(.syncthing, marker: marker)
+
+        #expect(String(localized: GuardRefusal.inTheCloud(syncthing).explanation) == String(localized: "Peel won’t move this: it is in a folder \("Syncthing") syncs to your other devices (its marker is \("~/.stfolder")), and moving it to the Trash would also remove it from them."))
+        #expect(String(localized: GuardRefusal.inTheCloud(.cloud).explanation) == String(localized: "Peel won’t move this: it syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them."))
+        #expect(String(localized: HoldBack.inTheCloud.explanation(keptInStepBy: syncthing)) == String(localized: "Left alone: this is in a folder \("Syncthing") syncs to your other devices (its marker is \("~/.stfolder")), and moving it to the Trash would also remove it from them."))
+        #expect(
+            String(localized: HoldBack.notMeasured.explanation(keptInStepBy: syncthing))
+                == String(localized: HoldBack.notMeasured.explanation)
+        )
+        #expect(ProjectArtifacts.Refusal.inTheCloud(syncthing).explanation == String(localized: "It is in a folder \("Syncthing") syncs to your other devices (its marker is \("~/.stfolder")), which Peel leaves to that app."))
+    }
+
     @Test func anUndoThatMacOSRefusedNamesAppManagementAndNotTheMove() {
         let outcome = RemovalOutcome()
         outcome.reportPutBack([

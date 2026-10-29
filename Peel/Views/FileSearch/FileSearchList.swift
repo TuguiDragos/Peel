@@ -34,7 +34,7 @@ struct FileSearchList: View {
             }
             if let results = search.results, !results.files.isEmpty, !results.leftOut.isEmpty {
                 Label {
-                    LeftOutLines(leftOut: results.leftOut, alignment: .leading)
+                    LeftOutLines(leftOut: results.leftOut, syncedBy: results.syncedBy, alignment: .leading)
                 } icon: {
                     Image(systemName: "eye.slash")
                 }
@@ -122,7 +122,7 @@ struct FileSearchList: View {
                         Label("All Results Left Out", systemImage: "eye.slash")
                     } description: {
                         VStack(spacing: 8) {
-                            LeftOutLines(leftOut: results.leftOut)
+                            LeftOutLines(leftOut: results.leftOut, syncedBy: results.syncedBy)
                             if !results.unindexedDisks.isEmpty {
                                 Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
                             }
@@ -244,12 +244,20 @@ struct FileSearchList: View {
 
 private struct LeftOutLines: View {
     let leftOut: [FileSearch.LeftOut: Int]
+    var syncedBy: [SyncKeeper] = []
     var alignment = HorizontalAlignment.center
 
     var body: some View {
         VStack(alignment: alignment, spacing: 6) {
             ForEach(FileSearch.LeftOut.allCases.filter { leftOut[$0] != nil }, id: \.self) { reason in
                 line(for: reason, count: leftOut[reason] ?? 0)
+                if reason == .syncs {
+                    ForEach(syncedBy, id: \.self) { keeper in
+                        if case .app(let app, let marker) = keeper {
+                            Text("\(app.name) syncs some of them to your other devices (its marker is \(marker.abbreviatedPath)).")
+                        }
+                    }
+                }
             }
         }
     }

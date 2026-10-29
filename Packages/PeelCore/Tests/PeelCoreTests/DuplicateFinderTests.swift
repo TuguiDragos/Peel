@@ -161,11 +161,11 @@ struct DuplicateFinderTests {
                 asked.append(url.lastPathComponent)
                 switch url.lastPathComponent {
                 case "refused", "partner": return .protectedLocation
-                case "synced": return .inTheCloud
+                case "synced": return .inTheCloud(.cloud)
                 default: return nil
                 }
             },
-            syncsToOtherDevices: { $0.lastPathComponent == "synced" }
+            syncKeeper: { $0.lastPathComponent == "synced" ? .cloud : nil }
         )
 
         #expect(asked == ["a", "b", "refused", "linked", "other", "alone", "partner", "synced", "twin"])
@@ -449,6 +449,8 @@ struct DuplicateFinderTests {
         #expect(group.movableFiles.isEmpty)
         #expect(group.reclaimableSize == 0)
         #expect(scan.suggestedSelection.isEmpty)
+        let syncthing = SyncKeeper.app(.syncthing, marker: directory.url.appending(path: "home/.stfolder"))
+        #expect(group.files.map { $0.syncedBy?.resolved } == [syncthing.resolved, syncthing.resolved])
     }
 
     /// A chosen folder that is not there, as a folder on a disk that isn't connected, is named rather than passed over.

@@ -5280,6 +5280,118 @@
         }
       }
     },
+    "%@ syncs some of them to your other devices (its marker is %@)." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %1$@ synchronizuje některé z nich s vašimi ostatními zařízeními (její značka je %2$@)."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ synchronisiert einige davon mit deinen anderen Geräten (Markierung: %2$@)."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ syncs some of them to your other devices (its marker is %2$@)."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ sincroniza algunos de ellos con tus otros dispositivos (su marcador es %2$@)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ synchronise certains d’entre eux avec vos autres appareils (son marqueur est %2$@)."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ ne sincronizza alcuni con gli altri tuoi dispositivi (il suo marcatore è %2$@)."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "それらのファイルの一部は、“%1$@”を通じてほかのデバイスに同期されます（目印は%2$@）。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그중 일부는 ‘%1$@’을(를) 통해 다른 기기와 동기화됩니다(표식: %2$@)."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ synchroniseert een deel ervan met je andere apparaten (de markering is %2$@)."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja %1$@ synchronizuje część tych plików z Twoimi pozostałymi urządzeniami (jej znacznik to %2$@)."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O %1$@ sincroniza alguns deles com os seus outros dispositivos (o marcador dele é %2$@)."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ sincronizează unele dintre aceste fișiere pe celelalte dispozitive ale dvs. (marcajul său este %2$@)."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Некоторые из них синхронизируются с другими Вашими устройствами через приложение «%1$@» (маркер: %2$@)."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ synkroniserar några av dem till dina andra enheter (dess markör är %2$@)."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, bu dosyaların bir kısmını diğer aygıtlarınızla eşzamanlıyor (işaretçisi: %2$@)."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деякі з них синхронізуються з іншими вашими пристроями через програму «%1$@» (її маркер: %2$@)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%1$@”会将其中一些文件同步到你的其他设备（其标记为“%2$@”）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%1$@」會將其中部分檔案與你的其他裝置同步（其標記為「%2$@」）。"
+          }
+        }
+      }
+    },
     "%@ used" : {
       "localizations" : {
         "cs" : {
@@ -69271,6 +69383,118 @@
         }
       }
     },
+    "It is in a folder %@ syncs to your other devices (its marker is %@), which Peel leaves to that app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je ve složce, která se synchronizuje přes aplikaci %1$@ s vašimi ostatními zařízeními (její značka je %2$@) a kterou Peel přenechává této aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner liegt in einem Ordner, der über %1$@ mit deinen anderen Geräten synchronisiert wird (Markierung: %2$@) und den Peel dieser App überlässt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It is in a folder %1$@ syncs to your other devices (its marker is %2$@), which Peel leaves to that app."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en una carpeta que %1$@ sincroniza con tus otros dispositivos (su marcador es %2$@), y que Peel deja en manos de esa app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il se trouve dans un dossier que %1$@ synchronise avec vos autres appareils (son marqueur est %2$@) et que Peel laisse à cette app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si trova in una cartella che %1$@ sincronizza con gli altri tuoi dispositivi (il suo marcatore è %2$@), e che Peel lascia a quell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%1$@”を通じてほかのデバイスに同期されているフォルダ（目印は%2$@）にあり、Peelはそれをそのアプリに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%1$@’을(를) 통해 다른 기기와 동기화되는 폴더(표식: %2$@)에 있습니다. Peel은 이러한 폴더를 해당 앱에 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het staat in een map die wordt gesynchroniseerd met je andere apparaten via %1$@ (de markering is %2$@), en die Peel overlaat aan die app."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest w folderze synchronizowanym z Twoimi pozostałymi urządzeniami przez aplikację %1$@ (jej znacznik to %2$@), który Peel zostawia tej aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uma pasta que o %1$@ sincroniza com os seus outros dispositivos (o marcador dela é %2$@), e o Peel a deixa para esse app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se află într‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. prin %1$@ (marcajul său este %2$@), iar Peel îl lasă în seama acestei aplicații."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта папка находится в папке, которая синхронизируется с другими Вашими устройствами через приложение «%1$@» (маркер: %2$@), и Peel оставляет ее этому приложению."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den ligger i en mapp som %1$@ synkroniserar till dina andra enheter (dess markör är %2$@), och som Peel lämnar åt den appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ aracılığıyla diğer aygıtlarınızla eşzamanlanan bir klasörde (işaretçisi: %2$@); Peel bunu o uygulamaya bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка лежить у папці, яка синхронізується з іншими вашими пристроями через програму «%1$@» (її маркер: %2$@), а таку папку Peel залишає тій програмі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位于一个通过“%1$@”同步到你的其他设备的文件夹中（其标记为“%2$@”），Peel会将其交给该App处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位於會透過「%1$@」與你的其他裝置同步的檔案夾中（其標記為「%2$@」），Peel會交由該App處理。"
+          }
+        }
+      }
+    },
     "It is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app." : {
       "localizations" : {
         "cs" : {
@@ -81416,6 +81640,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原地保留：此副本有其他副本沒有的Finder標籤、Finder註解或resource fork，移動它就會失去這些內容。"
+          }
+        }
+      }
+    },
+    "Left alone: this is in a folder %@ syncs to your other devices (its marker is %@), and moving it to the Trash would also remove it from them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: tato položka je ve složce, která se synchronizuje přes aplikaci %1$@ s vašimi ostatními zařízeními (její značka je %2$@), a přesunutím do koše byste ji odstranili také z nich."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Dieses Objekt liegt in einem Ordner, der über %1$@ mit deinen anderen Geräten synchronisiert wird (Markierung: %2$@), und es in den Papierkorb zu legen, würde es auch von ihnen entfernen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Left alone: this is in a folder %1$@ syncs to your other devices (its marker is %2$@), and moving it to the Trash would also remove it from them."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: está en una carpeta que %1$@ sincroniza con tus otros dispositivos (su marcador es %2$@), y trasladarlo a la papelera también lo eliminaría de ellos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : cet élément se trouve dans un dossier que %1$@ synchronise avec vos autres appareils (son marqueur est %2$@), et le placer dans la corbeille le supprimerait aussi de ces appareils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: si trova in una cartella che %1$@ sincronizza con gli altri tuoi dispositivi (il suo marcatore è %2$@), e spostarlo nel Cestino lo rimuoverebbe anche da quei dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: これは“%1$@”を通じてほかのデバイスに同期されているフォルダ（目印は%2$@）にあるため、ゴミ箱に入れると、それらのデバイスからも削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 이 항목은 ‘%1$@’을(를) 통해 다른 기기와 동기화되는 폴더(표식: %2$@)에 있으며, 휴지통으로 이동하면 해당 기기에서도 삭제됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: dit bevindt zich in een map die wordt gesynchroniseerd met je andere apparaten via %1$@ (de markering is %2$@), en als je het naar de prullenmand verplaatst, verdwijnt het ook van die apparaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: jest w folderze synchronizowanym z Twoimi pozostałymi urządzeniami przez aplikację %1$@ (jej znacznik to %2$@), a po przeniesieniu do Kosza zostałoby usunięte także z nich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: este item está em uma pasta que o %1$@ sincroniza com os seus outros dispositivos (o marcador dela é %2$@), e movê-lo para o Lixo também o removeria deles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: acest articol se află într‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. prin %1$@ (marcajul său este %2$@), iar mutarea lui în Coș l‑ar elimina și de pe acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: этот объект находится в папке, которая синхронизируется с другими Вашими устройствами через приложение «%1$@» (маркер: %2$@), и, если переместить его в Корзину, он будет удален также с этих устройств."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: det här ligger i en mapp som %1$@ synkroniserar till dina andra enheter (dess markör är %2$@), och om det flyttades till papperskorgen skulle det också tas bort från dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: bu, %1$@ aracılığıyla diğer aygıtlarınızla eşzamanlanan bir klasörde (işaretçisi: %2$@) bulunuyor ve Çöp Sepeti’ne taşınırsa onlardan da silinir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: цей елемент лежить у папці, яка синхронізується з іншими вашими пристроями через програму «%1$@» (її маркер: %2$@), і переміщення в Смітник також прибрало б його з них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：此项位于一个通过“%1$@”同步到你的其他设备的文件夹中（其标记为“%2$@”），如果将它移到废纸篓，它也会从这些设备中删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：此項目位於會透過「%1$@」與你的其他裝置同步的檔案夾中（其標記為「%2$@」），丟到「垃圾桶」也會將它從這些裝置上移除。"
           }
         }
       }
@@ -138073,6 +138409,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會移動此項目：其中有App的文件。"
+          }
+        }
+      }
+    },
+    "Peel won’t move this: it is in a folder %@ syncs to your other devices (its marker is %@), and moving it to the Trash would also remove it from them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: je ve složce, která se synchronizuje přes aplikaci %1$@ s vašimi ostatními zařízeními (její značka je %2$@), a přesunutím do koše byste ji odstranili také z nich."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: Es liegt in einem Ordner, der über %1$@ mit deinen anderen Geräten synchronisiert wird (Markierung: %2$@), und es in den Papierkorb zu legen, würde es auch von ihnen entfernen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel won’t move this: it is in a folder %1$@ syncs to your other devices (its marker is %2$@), and moving it to the Trash would also remove it from them."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: está en una carpeta que %1$@ sincroniza con tus otros dispositivos (su marcador es %2$@), y trasladarlo a la papelera también lo eliminaría de ellos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : il se trouve dans un dossier que %1$@ synchronise avec vos autres appareils (son marqueur est %2$@), et le placer dans la corbeille le supprimerait aussi de ces appareils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non lo sposta: si trova in una cartella che %1$@ sincronizza con gli altri tuoi dispositivi (il suo marcatore è %2$@), e spostarlo nel Cestino lo rimuoverebbe anche da quei dispositivi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。“%1$@”を通じてほかのデバイスに同期されているフォルダ（目印は%2$@）にあるため、ゴミ箱に入れると、それらのデバイスからも削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 이동하지 않습니다. ‘%1$@’을(를) 통해 다른 기기와 동기화되는 폴더(표식: %2$@)에 있으며, 휴지통으로 이동하면 해당 기기에서도 삭제되기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: het staat in een map die wordt gesynchroniseerd met je andere apparaten via %1$@ (de markering is %2$@), en als je het naar de prullenmand verplaatst, verdwijnt het ook van die apparaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tego nie przeniesie: jest w folderze synchronizowanym z Twoimi pozostałymi urządzeniami przez aplikację %1$@ (jej znacznik to %2$@), a po przeniesieniu do Kosza zostałoby usunięte także z nich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: está em uma pasta que o %1$@ sincroniza com os seus outros dispositivos (o marcador dela é %2$@), e movê-lo para o Lixo também o removeria deles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: se află într‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. prin %1$@ (marcajul său este %2$@), iar mutarea lui în Coș l‑ar elimina și de pe acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет это перемещать: объект находится в папке, которая синхронизируется с другими Вашими устройствами через приложение «%1$@» (маркер: %2$@), и, если переместить его в Корзину, он будет удален также с этих устройств."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: det ligger i en mapp som %1$@ synkroniserar till dina andra enheter (dess markör är %2$@), och om det flyttades till papperskorgen skulle det också tas bort från dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: %1$@ aracılığıyla diğer aygıtlarınızla eşzamanlanan bir klasörde (işaretçisi: %2$@) bulunuyor ve Çöp Sepeti’ne taşınırsa onlardan da silinir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: елемент лежить у папці, яка синхронізується з іншими вашими пристроями через програму «%1$@» (її маркер: %2$@), і переміщення в Смітник також прибрало б його з них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：它位于一个通过“%1$@”同步到你的其他设备的文件夹中（其标记为“%2$@”），如果将它移到废纸篓，它也会从这些设备中删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：它位於會透過「%1$@」與你的其他裝置同步的檔案夾中（其標記為「%2$@」），丟到「垃圾桶」也會將它從這些裝置上移除。"
           }
         }
       }

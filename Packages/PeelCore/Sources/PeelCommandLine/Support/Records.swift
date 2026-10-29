@@ -44,6 +44,8 @@ struct LeftoverRecord: Encodable {
     let confidence: String
     /// Why Peel left the item unselected on purpose, or `null` when it didn't.
     let heldBack: String?
+    /// The app that syncs the item and its marker, when it is held back for syncing through one, or `null`.
+    let syncedBy: SyncRecord?
     let sharedWith: [String]
     /// Other copies of the app that use the item too, by their place, since they share its identifier.
     let otherCopies: [String]
@@ -56,6 +58,7 @@ struct LeftoverRecord: Encodable {
         reason = leftover.match.reason.rawValue
         confidence = leftover.match.confidence.summary
         heldBack = leftover.match.heldBack?.rawValue
+        syncedBy = leftover.match.heldBack == .inTheCloud ? leftover.syncedBy?.record : nil
         sharedWith = leftover.match.sharedWith
         otherCopies = leftover.match.otherCopies.map(Output.path)
         isRecommended = leftover.match.isRecommended
@@ -68,6 +71,7 @@ struct LeftoverRecord: Encodable {
         case reason
         case confidence
         case heldBack
+        case syncedBy
         case sharedWith
         case otherCopies
         case isRecommended
@@ -82,6 +86,7 @@ struct LeftoverRecord: Encodable {
         try container.encode(reason, forKey: .reason)
         try container.encode(confidence, forKey: .confidence)
         try container.encode(heldBack, forKey: .heldBack)
+        try container.encode(syncedBy, forKey: .syncedBy)
         try container.encode(sharedWith, forKey: .sharedWith)
         try container.encode(otherCopies, forKey: .otherCopies)
         try container.encode(isRecommended, forKey: .isRecommended)

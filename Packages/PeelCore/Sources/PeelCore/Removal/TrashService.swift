@@ -165,6 +165,7 @@ extension TrashFailure.Reason {
 
     public var detail: String? {
         switch self {
+        case .guarded(let refusal): refusal?.detail
         case .failed(let message): message
         case .somethingElseMoved(let name): name
         case .heldOpen(let processes), .heldByAnotherAccount(let processes), .openForAnotherUser(let processes),
@@ -176,7 +177,7 @@ extension TrashFailure.Reason {
 
     /// The reason a refusal log stored as `name` and `detail`, or nil for a word this version doesn't know.
     public init?(name: String, detail: String?) {
-        if let refusal = GuardRefusal(name: name) {
+        if let refusal = GuardRefusal(name: name, detail: detail) {
             self = .guarded(refusal)
             return
         }

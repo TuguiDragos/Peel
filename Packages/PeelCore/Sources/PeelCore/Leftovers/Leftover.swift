@@ -324,6 +324,8 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     /// True when only an administrator can move it, from a place the helper may not move it from, and nothing else
     /// holds it back.
     public var isLeftForAnAdministrator = false
+    /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.
+    public var syncedBy: SyncKeeper? = nil
 
     public var id: URL { url }
 
@@ -331,7 +333,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
         Leftover(
             url: url, kind: kind, match: match.sharing(with: apps), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
-            isLeftForAnAdministrator: isLeftForAnAdministrator
+            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy
         )
     }
 
@@ -342,7 +344,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
         return Leftover(
             url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
-            isLeftForAnAdministrator: isLeftForAnAdministrator
+            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy
         )
     }
 }

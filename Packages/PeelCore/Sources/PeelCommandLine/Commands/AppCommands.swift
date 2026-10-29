@@ -216,7 +216,7 @@ struct LeftoversCommand: AsyncParsableCommand {
     static func summary(of leftover: Leftover) -> String {
         var summary = leftover.match.reason.summary
         if let heldBack = leftover.match.heldBack {
-            summary += ", review: \(heldBack.summary)"
+            summary += ", review: \(heldBack.summary(keptInStepBy: leftover.syncedBy))"
         } else if !leftover.match.isRecommended {
             let users = leftover.match.sharedWith + leftover.match.otherCopies.map(Output.path)
             summary += leftover.match.isShared

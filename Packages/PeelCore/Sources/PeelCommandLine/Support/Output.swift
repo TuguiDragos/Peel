@@ -337,7 +337,9 @@ extension GuardRefusal {
         case .staysItself: "a folder that stays in place, though what is inside may go"
         case .protectedLocation: "part of macOS, or inside something Peel protects"
         case .holdsProtectedData: "holds something Peel protects, such as a keychain or a wallet"
-        case .inTheCloud: "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
+        case .inTheCloud(.cloud): "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
+        case .inTheCloud(.app(let app, let marker)):
+            "in a folder \(app.name) syncs to your other devices (its marker is \(Output.plain(Output.path(marker)))), so moving it would remove it from them too"
         case .holdsDocuments: "holds an app's documents"
         case .holdsALibrary: "holds a photo, music, or video library"
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
@@ -346,7 +348,32 @@ extension GuardRefusal {
     }
 }
 
+extension SyncKeeper {
+    /// A note naming the app that syncs some of the items counted, and its marker, or nil for iCloud.
+    var note: String? {
+        guard case .app(let app, let marker) = self else { return nil }
+        return "\(app.name) syncs some of them to your other devices (its marker is \(Output.plain(Output.path(marker))))."
+    }
+
+    var record: SyncRecord? {
+        guard case .app(let app, let marker) = self else { return nil }
+        return SyncRecord(app: app.name, marker: Output.path(marker))
+    }
+}
+
+/// The app that syncs an item, and the marker it keeps at the root of the folder it syncs.
+struct SyncRecord: Encodable, Equatable {
+    let app: String
+    let marker: String
+}
+
 extension HoldBack {
+    /// The summary, naming the app that keeps the item in step and its marker when one does.
+    func summary(keptInStepBy keeper: SyncKeeper?) -> String {
+        guard self == .inTheCloud, case .app(let app, let marker)? = keeper else { return summary }
+        return "in a folder \(app.name) syncs to your other devices (its marker is \(Output.plain(Output.path(marker)))), so moving it would remove it from them too"
+    }
+
     /// Why the item was held back, the same reason the app's rows give, in the command line's plain English.
     var summary: String {
         switch self {
@@ -431,7 +458,9 @@ extension ProjectArtifacts.Refusal {
         switch self {
         case .tooBroad: "a whole home folder or disk is too much to search"
         case .systemFolder: "it is a folder that macOS or every account uses, not a folder of projects"
-        case .inTheCloud: "it is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app"
+        case .inTheCloud(.cloud): "it is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app"
+        case .inTheCloud(.app(let app, let marker)):
+            "it is in a folder \(app.name) syncs to your other devices (its marker is \(Output.plain(Output.path(marker)))), which Peel leaves to that app"
         case .notAFolder: "it isn't a folder Peel can reach"
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
         case .neverSearched: "it is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one, where apps and tools keep what they install"

@@ -226,7 +226,7 @@ public struct DuplicateFinder: Sendable {
             Self.grouped(sampled),
             names: names,
             refusal: removalGuard.refusal(of:),
-            syncsToOtherDevices: { synced.syncsToOtherDevices($0) || Self.isInACloudFolder(Self.path(of: $0)) }
+            syncKeeper: { Self.isInACloudFolder(Self.path(of: $0)) ? .cloud : synced.keeper(of: $0) }
         )
         let finalGroups = sampledGroups.filter { !FileDigest.isSampled(size: $0[0].item.identity.size) }
 
@@ -258,6 +258,8 @@ public struct DuplicateFinder: Sendable {
         let identity: FileIdentity
         /// Set by `movable` for a copy that is kept in its group but never moved.
         var heldBack: HoldBack? = nil
+        /// What keeps a copy held back as `inTheCloud` in step with the other devices.
+        var syncedBy: SyncKeeper? = nil
     }
 
     typealias HashedCandidate = (item: Candidate, digest: ContentDigest)
@@ -360,7 +362,7 @@ public struct DuplicateFinder: Sendable {
         _ groups: [[HashedCandidate]],
         names: [FileIdentity.Link: [Candidate]],
         refusal: (URL) -> GuardRefusal?,
-        syncsToOtherDevices: (URL) -> Bool
+        syncKeeper: (URL) -> SyncKeeper?
     ) throws(CancellationError) -> [[HashedCandidate]] {
         var asked = 0
         var movable: [[HashedCandidate]] = []
@@ -378,9 +380,10 @@ public struct DuplicateFinder: Sendable {
                         synced = nil
                         break
                     }
-                    if synced == nil, syncsToOtherDevices(name.url) {
+                    if synced == nil, let keeper = syncKeeper(name.url) {
                         var held = name
                         held.heldBack = .inTheCloud
+                        held.syncedBy = keeper
                         synced = held
                     }
                 }
@@ -433,8 +436,7 @@ public struct DuplicateFinder: Sendable {
                     allocatedSize: ReclaimableSpace.allocated(candidate.url),
                     identity: candidate.identity,
                     heldBack: candidate.heldBack,
-                    syncsThroughACloud: candidate.heldBack == .inTheCloud
-                        && (candidate.url.isInTheCloud || Self.isInACloudFolder(Self.path(of: candidate.url)))
+                    syncedBy: candidate.heldBack == .inTheCloud ? candidate.syncedBy : nil
                 )
             }
         let group = DuplicateGroup(id: members[0].digest.hexadecimal, files: files)

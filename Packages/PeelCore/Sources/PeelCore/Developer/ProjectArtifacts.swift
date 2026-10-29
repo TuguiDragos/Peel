@@ -982,7 +982,7 @@ public enum ProjectArtifacts {
         case tooBroad
         /// A folder macOS or every account uses, such as `/Applications`, `/opt`, or `/Users/Shared`.
         case systemFolder
-        case inTheCloud
+        case inTheCloud(SyncKeeper)
         case notAFolder
         /// An app or another package, or a folder inside one: what is inside belongs to it.
         case inAPackage
@@ -1034,7 +1034,7 @@ public enum ProjectArtifacts {
             let isInACloudFolder = zip(components, components.dropFirst()).contains { folder, inside in
                 folder == "library" && ["mobile documents", "cloudstorage"].contains(inside)
             }
-            if isInACloudFolder { return .inTheCloud }
+            if isInACloudFolder { return .inTheCloud(.cloud) }
             if homes.contains(path) { return .tooBroad }
             // The data volume's own path reaches the same folders as the path without it.
             let names = components.starts(with: ["system", "volumes", "data"]) ? Array(components.dropFirst(3)) : components
@@ -1050,7 +1050,7 @@ public enum ProjectArtifacts {
             FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: root), isDirectory: &isDirectory)
             && isDirectory.boolValue
         guard isThere else { return .notAFolder }
-        if SyncedFolders().syncsToOtherDevices(root) { return .inTheCloud }
+        if let keeper = SyncedFolders().keeper(of: root) { return .inTheCloud(keeper) }
         if root.isOrIsInsideAPackage { return .inAPackage }
         return PathComponents.of(kernelName).contains(where: isSkipped) ? .neverSearched : nil
     }

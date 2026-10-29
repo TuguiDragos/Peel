@@ -731,6 +731,8 @@ struct DuplicatesCommand: AsyncParsableCommand {
         let files: [String]
         /// The copies that sync to other devices, listed and never moved.
         let synced: [String]
+        /// The apps that sync those copies, each with its marker.
+        let syncedBy: [SyncRecord]
         /// The copies with Finder tags, a Finder comment, or a resource fork the others lack, never moved.
         let stays: [String]
     }
@@ -835,6 +837,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         let synced = scan.groups.reduce(0) { total, group in total + group.files.count { $0.heldBack == .inTheCloud } }
         if synced > 0 {
             notes.append("\(Output.count(synced, "copy syncs", "copies sync")) to your other devices, so Peel lists them as copies that stay and never moves them.")
+            notes += keepers(of: scan.groups.flatMap(\.files)).compactMap(\.note)
         }
         let staying = scan.groups.reduce(0) { total, group in
             total + group.files.count { $0.heldBack == .keepsWhatTheOthersLack }
@@ -843,6 +846,13 @@ struct DuplicatesCommand: AsyncParsableCommand {
             notes.append("\(Output.count(staying, "copy has", "copies have")) Finder tags, a Finder comment, or a resource fork the others lack, so Peel lists them as copies that stay and never moves them.")
         }
         return notes
+    }
+
+    /// The apps that sync the copies held back for syncing through one, each marker once, in the order found.
+    static func keepers(of files: [DuplicateFile]) -> [SyncKeeper] {
+        files.filter { $0.heldBack == .inTheCloud }.compactMap(\.syncedBy).reduce(into: []) { keepers, keeper in
+            if !keepers.contains(keeper) { keepers.append(keeper) }
+        }
     }
 
     static func found(in scan: DuplicateScan) -> Found {
@@ -861,6 +871,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
                     reclaimableSize: group.reclaimableSize,
                     files: group.movableFiles.map { Output.path($0.url) },
                     synced: group.files.filter { $0.heldBack == .inTheCloud }.map { Output.path($0.url) },
+                    syncedBy: keepers(of: group.files).compactMap(\.record),
                     stays: group.files.filter { $0.heldBack == .keepsWhatTheOthersLack }.map { Output.path($0.url) }
                 )
             },
@@ -1037,7 +1048,9 @@ struct SearchCommand: AsyncParsableCommand {
             Output.note("Only the first \(Output.number(FileSearch.maximumResults)) files are shown, yours before those an app keeps in a Library folder, each largest first. Narrow the search to see the rest.")
         }
         for reason in FileSearch.LeftOut.allCases {
-            if let count = results.leftOut[reason] { Output.note(Self.note(for: reason, count: count)) }
+            guard let count = results.leftOut[reason] else { continue }
+            Output.note(Self.note(for: reason, count: count))
+            if reason == .syncs { results.syncedBy.compactMap(\.note).forEach(Output.note) }
         }
         if !results.unindexedDisks.isEmpty {
             let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")

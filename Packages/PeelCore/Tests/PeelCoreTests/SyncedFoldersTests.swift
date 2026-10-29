@@ -29,6 +29,38 @@ struct SyncedFoldersTests {
         #expect(!synced.syncsToOtherDevices(directory.url.appending(path: "home/Plain/Projects/notes.txt")))
     }
 
+    @Test func namesTheAppThatKeepsAFolderInStepAndItsMarker() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/.stfolder")
+        try directory.file("home/Documents/notes.txt")
+        try directory.file("home/Music/.megaignore")
+        try directory.file("home/Music/Live/set.txt")
+        try directory.file("home/Sync/.sync/ID")
+        try directory.file("home/Sync/notes.txt")
+        let synced = SyncedFolders()
+        func keeper(_ path: String) -> (SyncApp, String)? {
+            guard case .app(let app, let marker) = synced.keeper(of: directory.url.appending(path: path)) else {
+                return nil
+            }
+            return (app, marker.path(percentEncoded: false))
+        }
+        let home = directory.url.appending(path: "home").path(percentEncoded: false)
+
+        #expect(keeper("home/Documents/notes.txt")! == (.syncthing, home + "/.stfolder"))
+        #expect(keeper("home/Music/Live/set.txt")! == (.mega, home + "/Music/.megaignore"))
+        #expect(keeper("home/Sync/notes.txt")! == (.resilioSync, home + "/Sync/.sync/ID"))
+        #expect(synced.keeper(of: directory.url.appending(path: "notes.txt")) == nil)
+    }
+
+    @Test func aRefusalLogReadsBackTheAppAndItsMarker() {
+        let keeper = SyncKeeper.app(.dropbox, marker: URL(filePath: "/Users/me/Dropbox/.dropbox.cache"))
+
+        #expect(SyncKeeper(detail: keeper.detail) == keeper)
+        #expect(SyncKeeper.cloud.detail == nil)
+        #expect(SyncKeeper(detail: nil) == .cloud)
+        #expect(SyncKeeper(detail: "rsync\n/Users/me/.stfolder") == .cloud)
+    }
+
     @Test func aSyncFolderWithoutResiliosIdentifierMarksNothing() throws {
         let directory = try TemporaryDirectory()
         try directory.file("Tool/.sync/settings.json")
@@ -51,5 +83,13 @@ struct SyncedFoldersTests {
         #expect(!SyncedFolders.marksAFolder(try listing("Tool")))
         #expect(SyncedFolders.marksAFolder([URL(filePath: "/Sync/.stfolder"), URL(filePath: "/Sync/notes.txt")]))
         #expect(!SyncedFolders.marksAFolder([URL(filePath: "/Sync/notes.txt")]))
+    }
+}
+
+extension SyncKeeper {
+    /// The keeper with its marker's links resolved, since a folder's listing names `/var` as `/private/var`.
+    var resolved: SyncKeeper {
+        guard case .app(let app, let marker) = self else { return self }
+        return .app(app, marker: URL(filePath: PathPattern.comparablePath(of: marker.resolvingSymlinksInPath())))
     }
 }

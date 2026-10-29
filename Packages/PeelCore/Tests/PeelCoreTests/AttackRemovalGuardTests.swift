@@ -670,13 +670,13 @@ struct AttackRemovalGuardTests {
         let synced: Set = ["Report.pdf", "Trip", "Notes.txt"]
         let guardian = RemovalGuard(
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")),
-            syncsToOtherDevices: { synced.contains($0.lastPathComponent) }
+            syncKeeper: { synced.contains($0.lastPathComponent) ? .cloud : nil }
         )
         let (device, number) = try #require(inode(file.path(percentEncoded: false)))
 
-        #expect(guardian.refusal(of: file) == .inTheCloud)
-        #expect(guardian.refusal(of: folder) == .inTheCloud)
-        #expect(guardian.refusal(of: URL(filePath: "/.vol/\(device)/\(number)")) == .inTheCloud, "asked by its numbers")
+        #expect(guardian.refusal(of: file) == .inTheCloud(.cloud))
+        #expect(guardian.refusal(of: folder) == .inTheCloud(.cloud))
+        #expect(guardian.refusal(of: URL(filePath: "/.vol/\(device)/\(number)")) == .inTheCloud(.cloud), "asked by its numbers")
         #expect(guardian.refusal(of: local) == nil)
         #expect(guardian.refusal(ofPuttingBack: trashed, at: home.appending(path: "Desktop/Notes.txt")) == nil)
     }
@@ -693,9 +693,11 @@ struct AttackRemovalGuardTests {
             environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
         )
 
-        #expect(guardian.refusal(of: file) == .inTheCloud)
-        #expect(guardian.refusal(of: file.deletingLastPathComponent()) == .inTheCloud)
-        #expect(guardian.refusal(of: home.appending(path: "Sync", directoryHint: .isDirectory)) == .inTheCloud)
+        let syncthing = GuardRefusal.inTheCloud(.app(.syncthing, marker: home.appending(path: "Sync/.stfolder")))
+
+        #expect(guardian.refusal(of: file) == syncthing)
+        #expect(guardian.refusal(of: file.deletingLastPathComponent()) == syncthing)
+        #expect(guardian.refusal(of: home.appending(path: "Sync", directoryHint: .isDirectory)) == syncthing)
         #expect(guardian.refusal(of: twin) == nil)
         #expect(guardian.refusal(ofPuttingBack: trashed, at: file.deletingLastPathComponent().appending(path: "Shells.jpg")) == nil)
     }

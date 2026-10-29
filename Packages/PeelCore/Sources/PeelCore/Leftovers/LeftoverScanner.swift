@@ -380,7 +380,7 @@ public struct LeftoverScanner: Sendable {
         root: String,
         foldersAbove: FoldersAbove = .itsOwn,
         measure: Measure = LeftoverScanner.walk,
-        syncsToOtherDevices: (URL) -> Bool = SyncedFolders().syncsToOtherDevices
+        syncKeeper: (URL) -> SyncKeeper? = SyncedFolders().keeper(of:)
     ) async -> Leftover {
         // The walk that measures the folder also reports whether it saw a repository or a wallet, so neither
         // check costs extra reading. A repository means the folder holds more than the app's state, such as work
@@ -396,27 +396,28 @@ public struct LeftoverScanner: Sendable {
         // What the guard will refuse comes first, whatever the walk saw. A folder macOS refuses to open would read
         // as empty, and an empty folder of the app's own would be selected. From macOS 27, another team's container
         // is refused outright rather than prompted for.
-        let heldBack: HoldBack? = if ProtectedData.holds(path, home: home) || wallet == .found {
-            .holdsKeys
+        let held: (HoldBack?, SyncKeeper?) = if ProtectedData.holds(path, home: home) || wallet == .found {
+            (.holdsKeys, nil)
         } else if kind == .containers, ProtectedData.holdsAContainersDocuments(path) {
-            .holdsDocuments
+            (.holdsDocuments, nil)
         } else if library == .found {
-            .holdsALibrary
+            (.holdsALibrary, nil)
         } else if work == .found {
-            .holdsWorkKeptInACache
+            (.holdsWorkKeptInACache, nil)
         } else if !requiresPrivileges, [wallet, library, work].contains(.notKnown) {
-            .couldNotLookInside
-        } else if syncsToOtherDevices(url) {
-            .inTheCloud
+            (.couldNotLookInside, nil)
+        } else if let keeper = syncKeeper(url) {
+            (.inTheCloud, keeper)
         } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home, root: root) {
-            keptOnlyHere
+            (keptOnlyHere, nil)
         } else if let contents, contents.couldNotBeRead {
-            HoldBack.unread(contents)
+            (HoldBack.unread(contents), nil)
         } else if let contents {
-            heldBack(match, at: url, in: kind, contents: contents, foldersAbove: foldersAbove)
+            (heldBack(match, at: url, in: kind, contents: contents, foldersAbove: foldersAbove), nil)
         } else {
-            .notMeasured
+            (.notMeasured, nil)
         }
+        let (heldBack, syncedBy) = held
         return Leftover(
             url: url,
             kind: kind,
@@ -424,7 +425,8 @@ public struct LeftoverScanner: Sendable {
             size: contents?.size ?? 0,
             isMeasured: contents.map { !$0.couldNotBeRead } ?? false,
             requiresPrivileges: requiresPrivileges,
-            holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url)
+            holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url),
+            syncedBy: syncedBy
         )
     }
 

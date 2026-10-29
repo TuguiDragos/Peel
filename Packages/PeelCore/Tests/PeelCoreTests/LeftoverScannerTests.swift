@@ -1315,7 +1315,7 @@ struct LeftoverScannerTests {
                 parent: ParentAccess(url.deletingLastPathComponent()),
                 home: directory.url.appending(path: "home").path(percentEncoded: false),
                 root: directory.url.appending(path: "root").path(percentEncoded: false),
-                syncsToOtherDevices: { $0.lastPathComponent == "Example" }
+                syncKeeper: { $0.lastPathComponent == "Example" ? .cloud : nil }
             )
         }
 
@@ -1341,8 +1341,12 @@ struct LeftoverScannerTests {
             )
         }
 
+        let mega = SyncKeeper.app(.mega, marker: directory.url.appending(path: "home/Projects/.megaignore"))
+
         #expect(await leftover(synced).match.heldBack == .inTheCloud)
+        #expect(await leftover(synced).syncedBy == mega)
         #expect(await leftover(local).match.heldBack == nil)
+        #expect(await leftover(local).syncedBy == nil)
     }
 
     /// A browser's folder that holds a profile with a wallet extension cannot be selected either.
