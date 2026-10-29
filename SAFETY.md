@@ -84,7 +84,9 @@ what is on your Desktop and in Documents when they are in iCloud Drive, and what
 Synology Drive Client, MEGA, or Dropbox outside File Provider keeps in step, known by the entry each writes at that
 folder's root (`.stfolder`, `.sync/ID`, `.SynologyWorkingDirectory`, `.megaignore`, `.dropbox.cache`). The Trash would
 take it from your other devices too. Its row says so, File Search doesn't list it and says how many such files it left
-out, and Duplicates lists such a copy marked Stays, never selected and never moved.
+out, and Duplicates lists such a copy marked Stays, never selected and never moved. Where an app's entry is the reason,
+Peel names the app and the entry's path, in the app and from `peel`, so an entry left behind by an app you no longer
+use, or copied over with a folder, can be found.
 
 Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android Studio keep a
 history of your changes in `LocalHistory`, beside their caches, which no repository may hold, Deno keeps `localStorage`
