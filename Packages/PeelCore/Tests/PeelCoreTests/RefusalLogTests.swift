@@ -2,6 +2,7 @@ import Foundation
 @testable import PeelCommandLine
 @testable import PeelCore
 import PeelPrivileged
+import Synchronization
 import Testing
 
 struct RefusalLogTests {
@@ -72,24 +73,23 @@ struct RefusalLogTests {
         let result = TrashResult(
             trashed: [moved], failures: [failure("/Users/me/Library/Mail", .guarded(.protectedLocation))]
         )
-        // Holds the refusal log's lock, as another process writing it would.
+        // Another writer holds the refusal log's lock and, like another process, lets go on a thread of its own, since
+        // waiting for the lock holds one of the threads this process's tasks run on.
         let lockFile = folder.appending(path: "refusals.json.lock").path(percentEncoded: false)
         let lock = open(lockFile, O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
-        defer { close(lock) }
         flock(lock, LOCK_EX)
+        let isInHistory = Mutex(false)
+        Thread {
+            let path = history.path(percentEncoded: false)
+            let deadline = Date.now.addingTimeInterval(60)
+            while !FileManager.default.fileExists(atPath: path), Date.now < deadline { usleep(20_000) }
+            isInHistory.withLock { $0 = FileManager.default.fileExists(atPath: path) }
+            flock(lock, LOCK_UN)
+            close(lock)
+        }.start()
 
-        let recording = Task {
-            await Removals.record(result, from: "Editor", sizes: [:], tool: "applications", in: log, refusals: refusals)
-        }
-        var isInHistory = false
-        for _ in 0..<100 where !isInHistory {
-            try await Task.sleep(for: .milliseconds(20))
-            isInHistory = FileManager.default.fileExists(atPath: history.path(percentEncoded: false))
-        }
-        flock(lock, LOCK_UN)
-
-        #expect(await recording.value)
-        #expect(isInHistory, "History waited for the refusals")
+        #expect(await Removals.record(result, from: "Editor", sizes: [:], tool: "applications", in: log, refusals: refusals))
+        #expect(isInHistory.withLock { $0 }, "History waited for the refusals")
     }
 
     @Test func nothingIsWrittenWhenNothingWasRefused() async throws {
