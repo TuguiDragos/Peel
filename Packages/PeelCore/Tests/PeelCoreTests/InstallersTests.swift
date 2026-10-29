@@ -765,8 +765,8 @@ struct InstallersTests {
         try directory.directory("Applications")
         let home = directory.url
         let asked = Mutex<[String]>([])
+        let isAsked = DispatchSemaphore(value: 0)
         let answer = DispatchSemaphore(value: 0)
-        let (firstQuestion, isAsked) = AsyncStream.makeStream(of: Void.self)
 
         let scan = Task {
             await Installers.scan(
@@ -774,15 +774,20 @@ struct InstallersTests {
                 measure: LeftoverScanner.walk,
                 canList: { url in
                     asked.withLock { $0.append(url.lastPathComponent) }
-                    isAsked.yield()
-                    if url.lastPathComponent == "Downloads" { answer.wait() }
+                    if url.lastPathComponent == "Downloads" {
+                        isAsked.signal()
+                        answer.wait()
+                    }
                     return .granted
                 }
             )
         }
-        for await _ in firstQuestion { break }
-        scan.cancel()
-        answer.signal()
+        // The person answers from outside this process's tasks, since the question holds the thread the scan runs on.
+        Thread {
+            isAsked.wait()
+            scan.cancel()
+            answer.signal()
+        }.start()
         _ = await scan.value
 
         #expect(asked.withLock { $0 } == ["Downloads"])
