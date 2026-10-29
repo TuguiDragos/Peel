@@ -54,14 +54,30 @@ jobs:
             exit 1
           fi
 
-      # The log names each test as it starts, so a run stopped before its end shows last what it was running.
+      # The log names each test and suite as it starts and as it ends. They run side by side, so a test that hangs may
+      # have started long before the log's end: what started and never ended is what was still running.
       - name: The package tests that never finished
         if: failure() || cancelled()
         run: |
           log="$RUNNER_TEMP/test.log"
           [ -f "$log" ] || exit 0
           grep -q "Test run with" "$log" && exit 0
-          tail -n 150 "$log"
+          python3 - "$log" <<'EOF'
+          import collections, re, sys
+          start = re.compile(r"\S+ (Test|Suite) (?!case |run )(.+) started\.$")
+          end = re.compile(r"\S+ (Test|Suite) (.+?)(?: with \d+ test cases?)? (?:passed|failed) after ")
+          started, ended = collections.Counter(), collections.Counter()
+          for line in open(sys.argv[1], encoding="utf-8", errors="replace"):
+              if match := start.match(line):
+                  started[match.groups()] += 1
+              elif match := end.match(line):
+                  ended[match.groups()] += 1
+          running = started - ended
+          print("Still running when the step stopped:" if running else "Nothing was still running.")
+          for kind, name in running:
+              print(f"  {kind} {name}")
+          EOF
+          tail -n 40 "$log"
 
       # Sparkle, which updates Peel, is built from its source at the commit the script names, with arm64e.
       - name: Build Sparkle
