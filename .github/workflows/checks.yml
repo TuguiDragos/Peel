@@ -44,6 +44,7 @@ jobs:
       # the flag here names it on the command line too. The tests write to a file, since a test that writes a line
       # waits for whoever reads it, and the log is read late here.
       - name: Test PeelCore
+        timeout-minutes: 30
         run: |
           log="$RUNNER_TEMP/test.log"
           if swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors > "$log" 2>&1; then
@@ -52,6 +53,15 @@ jobs:
             cat "$log"
             exit 1
           fi
+
+      # The log names each test as it starts, so a run stopped before its end shows last what it was running.
+      - name: The package tests that never finished
+        if: failure() || cancelled()
+        run: |
+          log="$RUNNER_TEMP/test.log"
+          [ -f "$log" ] || exit 0
+          grep -q "Test run with" "$log" && exit 0
+          tail -n 150 "$log"
 
       # Sparkle, which updates Peel, is built from its source at the commit the script names, with arm64e.
       - name: Build Sparkle
