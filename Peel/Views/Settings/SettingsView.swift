@@ -250,11 +250,11 @@ private struct GeneralSettingsView: View {
                     }
                     .labelsHidden()
                     .accessibilityLabel(Text("Prefer updates from"))
+                    .disabled(!checksForAppUpdates)
                 } label: {
                     titled("Prefer updates from",
                            "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed.")
                 }
-                .disabled(!checksForAppUpdates)
                 .onChange(of: updateSource) { _, _ in
                     Task { await library.updateSourceChanged() }
                 }
@@ -279,8 +279,8 @@ private struct GeneralSettingsView: View {
                 toggle("Show in Menu Bar", isOn: $showsInMenuBar,
                        "Peel stays in the menu bar after you close its window, with what each tool found and the updates waiting. Without it, Peel quits when you close its window.")
                 toggle("Hide from the Dock while no window is open", isOn: $hidesFromDock,
-                       "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight.")
-                    .disabled(!showsInMenuBar)
+                       "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight.",
+                       isDisabled: !showsInMenuBar)
                 toggle("Watch the Trash", isOn: $watchesTrash,
                        "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar.")
                 if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
@@ -309,8 +309,8 @@ private struct GeneralSettingsView: View {
                 }
                 // A binding, not `onChange`: macOS's own answer landing in the model must not register again.
                 toggle("Open Peel at login", isOn: Binding(get: { home.loginItem.isOn }, set: { home.loginItem.set(on: $0) }),
-                       "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.")
-                    .disabled(!home.loginItem.isKnown)
+                       "Starts Peel when you log in. “Watch the Trash” works only while Peel is running.",
+                       isDisabled: !home.loginItem.isKnown)
                 if home.loginItem.needsApproval {
                     HStack {
                         StatusLabel(title: Text("Peel is turned off in Login Items & Extensions, so macOS won’t start it."))
@@ -615,15 +615,19 @@ extension GeneralSettingsView {
 }
 
 extension GeneralSettingsView {
+    /// A switch row. `isDisabled` disables the switch alone: disabling the whole row would disable the circled i beside
+    /// the title too, so its note couldn't be read while it explains why the switch is off.
     fileprivate func toggle(
         _ title: LocalizedStringResource,
         isOn: Binding<Bool>,
-        _ detail: LocalizedStringResource
+        _ detail: LocalizedStringResource,
+        isDisabled: Bool = false
     ) -> some View {
         LabeledContent {
             Toggle(isOn: isOn) { EmptyView() }
                 .labelsHidden()
                 .accessibilityLabel(Text(title))
+                .disabled(isDisabled)
         } label: {
             titled(title, detail)
         }
