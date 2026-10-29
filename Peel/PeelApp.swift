@@ -12,6 +12,11 @@ final class PeelAppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        guard !PeelApp.isHostingTests else { return }
+        DockPresence.shared.start()
+    }
+
     func applicationShouldTerminateAfterLastWindowClosed(_ application: NSApplication) -> Bool {
         !UserDefaults.standard.bool(forKey: SettingsKey.showsInMenuBar)
     }
@@ -38,6 +43,7 @@ struct PeelApp: App {
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
     @AppStorage(SettingsKey.showsInMenuBar) private var showsInMenuBar = false
+    @AppStorage(SettingsKey.hidesFromDock) private var hidesFromDock = false
     @AppStorage(SettingsKey.warnsWhenDiskIsNearlyFull) private var warnsWhenDiskIsNearlyFull = false
     @State private var trashMonitor = TrashMonitor()
     @State private var notifications: PeelNotifications
@@ -457,9 +463,14 @@ struct PeelApp: App {
             }
         }
         .onChange(of: showsInMenuBar) { _, shows in
-            if !shows, !NSApp.windows.contains(where: { $0.isVisible && $0.canBecomeMain }) {
+            if !shows, !NSApp.windows.containsAnOpenWindow() {
                 QuitGuard.quit()
+            } else {
+                DockPresence.shared.update()
             }
+        }
+        .onChange(of: hidesFromDock) {
+            DockPresence.shared.update()
         }
         .onChange(of: checksForAppUpdates) { _, isChecking in
             guard isChecking else { return }

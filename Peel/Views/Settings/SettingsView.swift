@@ -134,6 +134,7 @@ enum SettingsKey {
     static let checksForAppUpdates = "checksForAppUpdates"
     static let watchesTrash = "watchesTrash"
     static let showsInMenuBar = "showsInMenuBar"
+    static let hidesFromDock = "hidesFromDock"
     static let warnsWhenDiskIsNearlyFull = "lowDiskSpace.warns"
     static let toldDiskIsNearlyFull = "lowDiskSpace.told"
     /// How many older removals History's page last said it no longer lists.
@@ -209,6 +210,7 @@ private struct GeneralSettingsView: View {
     @AppStorage(SettingsKey.updateSource) private var updateSource = UpdateSource.automatic.rawValue
     @AppStorage(SettingsKey.watchesTrash) private var watchesTrash = false
     @AppStorage(SettingsKey.showsInMenuBar) private var showsInMenuBar = false
+    @AppStorage(SettingsKey.hidesFromDock) private var hidesFromDock = false
     @AppStorage(SettingsKey.warnsWhenDiskIsNearlyFull) private var warnsWhenDiskIsNearlyFull = false
     @AppStorage(SettingsKey.sidebarTools) private var sidebarTools = ""
     @Environment(TrashMonitor.self) private var trashMonitor
@@ -276,6 +278,9 @@ private struct GeneralSettingsView: View {
             Section("While Peel Runs") {
                 toggle("Show in Menu Bar", isOn: $showsInMenuBar,
                        "Peel stays in the menu bar after you close its window, with what each tool found and the updates waiting. Without it, Peel quits when you close its window.")
+                toggle("Hide from the Dock while no window is open", isOn: $hidesFromDock,
+                       "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight.")
+                    .disabled(!showsInMenuBar)
                 toggle("Watch the Trash", isOn: $watchesTrash,
                        "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar.")
                 if watchesTrash, trashMonitor.status == .needsFullDiskAccess {

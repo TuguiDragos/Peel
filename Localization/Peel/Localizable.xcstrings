@@ -53072,6 +53072,112 @@
         }
       }
     },
+    "Hide from the Dock while no window is open" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skrývat v Docku, když není otevřené žádné okno"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus dem Dock ausblenden, solange kein Fenster geöffnet ist"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar del Dock mientras no haya ninguna ventana abierta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer du Dock tant qu’aucune fenêtre n’est ouverte"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nascondi dal Dock quando non ci sono finestre aperte"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ウインドウが開いていないときはDockに表示しない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "열려 있는 윈도우가 없을 때 Dock에서 가리기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon niet in Dock zolang er geen venster open is"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ukrywaj w Docku, gdy nie ma otwartych okien"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar do Dock enquanto nenhuma janela estiver aberta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ascundeți din Dock cât timp nu este deschisă nicio fereastră"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убирать из Dock, когда нет открытых окон"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Göm från Dock när inget fönster är öppet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiçbir pencere açık değilken Dock’ta gizle"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прибирати з Dock, коли немає відкритих вікон"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无打开的窗口时从程序坞中隐藏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有打開的視窗時從Dock中隱藏"
+          }
+        }
+      }
+    },
     "High" : {
       "localizations" : {
         "cs" : {
@@ -215000,6 +215106,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel執行時"
+          }
+        }
+      }
+    },
+    "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když se Peel zobrazuje v řádku nabídek, jeho ikona po zavření posledního okna zmizí z Docku a vrátí se, až Peel znovu otevřete z řádku nabídek, z Finderu nebo ze Spotlightu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solange Peel in der Menüleiste angezeigt wird, verschwindet sein Symbol aus dem Dock, wenn du sein letztes Fenster schließt, und kehrt zurück, sobald du Peel erneut über die Menüleiste, den Finder oder Spotlight öffnest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mientras Peel se muestra en la barra de menús, su icono desaparece del Dock cuando cierras su última ventana y reaparece cuando vuelves a abrir Peel desde la barra de menús, el Finder o Spotlight."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que Peel s’affiche dans la barre des menus, son icône disparaît du Dock lorsque vous fermez sa dernière fenêtre, et y revient lorsque vous rouvrez Peel depuis la barre des menus, le Finder ou Spotlight."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentre Peel è nella barra dei menu, la sua icona scompare dal Dock quando ne chiudi l’ultima finestra e ricompare quando riapri Peel dalla barra dei menu, dal Finder o da Spotlight."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがメニューバーに表示されている間は、最後のウインドウを閉じるとPeelのアイコンがDockに表示されなくなり、メニューバー、Finder、またはSpotlightからPeelをもう一度開くとDockに戻ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 메뉴 막대에 표시되는 동안에는 마지막 윈도우를 닫으면 아이콘이 Dock에서 사라지고, 메뉴 막대, Finder 또는 Spotlight에서 Peel을 다시 열면 아이콘이 다시 나타납니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zolang Peel in de menubalk staat, verdwijnt het symbool van Peel uit het Dock wanneer je het laatste venster sluit, en komt het terug wanneer je Peel opnieuw opent vanuit de menubalk, Finder of Spotlight."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy Peel jest widoczny na pasku menu, jego ikona znika z Docka po zamknięciu jego ostatniego okna i wraca, gdy ponownie otworzysz Peel z paska menu, z Findera lub ze Spotlight."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enquanto o Peel aparece na barra de menus, o ícone dele sai do Dock quando você fecha a última janela dele, e volta quando você abre o Peel novamente pela barra de menus, pelo Finder ou pelo Spotlight."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cât timp Peel este afișat în bara de meniu, pictograma sa dispare din Dock când îi închideți ultima fereastră și revine când deschideți din nou Peel din bara de meniu, din Finder sau din Spotlight."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Peel отображается в строке меню, его значок убирается из Dock, когда Вы закрываете его последнее окно, и возвращается, когда Вы снова открываете Peel из строки меню, Finder или Spotlight."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Så länge Peel visas i menyraden försvinner dess symbol från Dock när du stänger Peels sista fönster, och den kommer tillbaka när du öppnar Peel igen från menyraden, Finder eller Spotlight."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel menü çubuğunda gösterilirken, son penceresini kapattığınızda simgesi Dock’tan kaybolur ve Peel’i menü çubuğundan, Finder’dan veya Spotlight’tan yeniden açtığınızda geri gelir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поки Peel показується на смузі меню, її іконка зникає з Dock, коли ви закриваєте її останнє вікно, і повертається, коли ви знову відкриваєте Peel зі смуги меню, з Finder або зі Spotlight."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在菜单栏显示时，它的图标会在你关闭其最后一个窗口后从程序坞中消失，并在你从菜单栏、“访达”或“聚焦”再次打开Peel时重新出现。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在選單列中顯示時，其圖像會在你關閉其最後一個視窗時離開Dock，並在你從選單列、Finder或Spotlight再次打開Peel時回來。"
           }
         }
       }
