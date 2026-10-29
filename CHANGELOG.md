@@ -221,6 +221,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   job.
 - Peel knows two more browser wallets, Hana Wallet and Portal DEX in Chrome and the browsers built on it: a browser
   profile that holds one stays whole.
+- What stays because a sync app keeps its folder in step names the app and the entry it keeps there, such as
+  `~/.stfolder`, in a row's note, after Move to Trash, in History's Not Moved, for a folder Build Artifacts won't
+  search, and under File Search's count, so an entry left behind by an app you no longer use can be found.
 
 #### `peel`
 
@@ -228,6 +231,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   it, and `peel duplicates` says why it didn't look in a folder.
 - `peel orphans` heads each group with what `--remove` would move, and `peel leftovers` says when the app itself stays.
 - `peel search` says which files it shows, that network volumes aren't searched, and at most how many it lists.
+- `peel leftovers`, `peel duplicates`, `peel search`, and every refusal name the sync app that keeps a folder in step
+  and its entry, and the JSON of `peel leftovers` and `peel duplicates` adds `syncedBy`.
 
 ### Fixed
 
