@@ -261,8 +261,8 @@ and how many items the others hold.
 - **Plug-ins:** the plug-ins in the Library folders made for them, from audio units and camera plug-ins to Quick Look,
   each with the app it came with, as Orphaned Files tells it, and each of which you can move to the Trash, after Peel
   warns that apps using it may stop working, says that macOS loads a camera plug-in only once legacy video device
-  support has been restored in macOS Recovery, or says that nothing loads it anymore, as for a Quick Look generator or
-  an old Internet plug-in such as Flash.
+  support has been restored in macOS Recovery, or says that nothing loads it anymore, as for a Quick Look generator, an
+  old Internet plug-in such as Flash, or a contextual menu item.
 - **Package Receipts:** what installer packages other than Apple's put on your Mac, item by item, to move to the Trash.
   Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what something
   else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no longer counts
