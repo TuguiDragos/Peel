@@ -16,6 +16,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Settings
 
+- Hide from the Dock while no window is open, under Show in Menu Bar: Peel's icon leaves the Dock with its last window
+  and comes back when you open Peel again from the menu bar, Finder, or Spotlight.
 - Under Watch the Trash and the disk warning, Settings says when macOS doesn't let Peel send notifications, with Open
   System Settings.
 - On a standard account, Settings gives a line to add to `~/.zshrc` that runs Peel's own `peel`, with Copy.
