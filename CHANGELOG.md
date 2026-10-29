@@ -188,8 +188,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Scan Settings' Folders note says what a folder comparison leaves out, and why.
 - Copies are grouped by their bytes: the copy whose tags, comment, or resource fork the others lack stays, marked
   Stays, and every other copy is suggested.
-- The copy on the home folder's disk is kept before an older one elsewhere, and the cloud shows only beside a copy
-  that syncs through one.
+- The copy on the home folder's disk is kept before one on another disk, even an older one or one outside Downloads,
+  and the cloud shows only beside a copy that syncs through one.
 
 #### iCloud Drive
 
