@@ -426,8 +426,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The page names the folders it couldn't read, follows a plug-in folder that is a link, and names a plug-in, and a
   Quick Action, as Finder and the Services menu do.
 - An input method in use gives the steps that free it, and a plug-in History can't put back says so before it moves.
-- Before a Quick Look generator or an old Internet plug-in such as Flash moves to the Trash, the question says that
-  nothing loads it anymore, rather than that apps using it may stop working.
+- Before a Quick Look generator, an old Internet plug-in such as Flash, or a contextual menu item moves to the Trash,
+  the question says that nothing loads it anymore, rather than that apps using it may stop working.
 
 #### Moving to the Trash from several pages
 
