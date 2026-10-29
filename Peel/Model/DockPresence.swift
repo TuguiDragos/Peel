@@ -19,7 +19,7 @@ final class DockPresence {
         observers.append(center.addObserver(forName: NSWindow.willCloseNotification, object: nil, queue: nil) { note in
             let window = note.object as? NSWindow
             MainActor.assumeIsolated {
-                guard let window, window.canBecomeMain else { return }
+                guard let window, window.countsAsOpen else { return }
                 DockPresence.shared.update(closing: window)
             }
         })
@@ -57,10 +57,14 @@ final class DockPresence {
     }
 }
 
+extension NSWindow {
+    /// Whether the window is open for the person: minimized, or on screen and able to be main. AppKit answers that a
+    /// minimized window can't be main, and the menu bar panel and the menu bar item's own window never can.
+    var countsAsOpen: Bool { isMiniaturized || canBecomeMain && isVisible }
+}
+
 extension [NSWindow] {
-    /// Whether a window that can be main is on screen or minimized, leaving out `closing`. The menu bar panel and
-    /// the menu bar item's own window can't be main.
     func containsAnOpenWindow(besides closing: NSWindow? = nil) -> Bool {
-        contains { $0 !== closing && $0.canBecomeMain && ($0.isVisible || $0.isMiniaturized) }
+        contains { $0 !== closing && $0.countsAsOpen }
     }
 }

@@ -26,7 +26,7 @@ struct DockPresenceTests {
     }
 }
 
-/// Never ordered in, so the window server makes no window for it.
+/// Never ordered in, so the window server makes no window for it. Like AppKit's, it can become main only on screen.
 private final class StandInWindow: NSWindow {
     var onScreen = false
     var minimized = false
@@ -34,5 +34,5 @@ private final class StandInWindow: NSWindow {
 
     override var isVisible: Bool { onScreen }
     override var isMiniaturized: Bool { minimized }
-    override var canBecomeMain: Bool { mayBeMain }
+    override var canBecomeMain: Bool { mayBeMain && onScreen }
 }
