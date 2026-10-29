@@ -148,26 +148,29 @@ extension Plugin {
         return whatGoes + forAllUsers
     }
 
-    private var whenItLoads: LocalizedStringResource? {
+    private var whenItLoads: [LocalizedStringResource] {
         switch noLongerLoaded {
         case .quickLookGenerator:
-            "macOS no longer loads Quick Look generators like this one, so moving it changes nothing."
+            ["macOS no longer loads Quick Look generators like this one, so moving it changes nothing."]
         case .internetPlugIn:
-            "macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing."
+            ["macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing."]
         case .contextualMenuItem:
-            "macOS no longer loads contextual menu items like this one, so moving it changes nothing."
+            ["macOS no longer loads contextual menu items like this one, so moving it changes nothing."]
+        case nil where category == .cameraPlugIns:
+            [
+                "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working.",
+                "System Settings > Privacy & Security > Camera shows a warning when that support has been restored.",
+            ]
         case nil:
-            category == .cameraPlugIns
-                ? "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working."
-                : nil
+            []
         }
     }
 
     private var whatGoes: [LocalizedStringResource] {
-        if let whenItLoads {
+        if !whenItLoads.isEmpty {
             return staysInTheTrash
-                ? [whenItLoads, "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."]
-                : [whenItLoads]
+                ? whenItLoads + ["History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."]
+                : whenItLoads
         }
         return switch (isAQuickAction, staysInTheTrash) {
         case (true, true):

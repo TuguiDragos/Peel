@@ -84,11 +84,13 @@ struct PluginTextTests {
         var stays = camera
         stays.staysInTheTrash = true
         let legacy = String(localized: "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working.")
+        let warning = String(localized: "System Settings > Privacy & Security > Camera shows a warning when that support has been restored.")
         let everyAccount = String(localized: "Every account on this Mac has it, so moving it takes it from all of them.")
 
-        #expect(camera.whenMoved.map { String(localized: $0) } == [legacy, everyAccount])
+        #expect(camera.whenMoved.map { String(localized: $0) } == [legacy, warning, everyAccount])
         #expect(stays.whenMoved.map { String(localized: $0) } == [
             legacy,
+            warning,
             String(localized: "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."),
             everyAccount,
         ])

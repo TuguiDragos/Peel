@@ -178550,6 +178550,112 @@
         }
       }
     },
+    "System Settings > Privacy & Security > Camera shows a warning when that support has been restored." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Nastavení systému > Soukromí a zabezpečení > Kamera se zobrazí varování, když byla podpora starších videozařízení obnovena."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unter „Systemeinstellungen“ > „Datenschutz & Sicherheit“ > „Kamera“ wird eine Warnung angezeigt, wenn die Unterstützung für ältere Videogeräte wiederhergestellt wurde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando se ha restaurado la compatibilidad con dispositivos de vídeo antiguos, aparece un aviso en Ajustes del Sistema > Privacidad y seguridad > Cámara."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque l’ancienne prise en charge des appareils vidéo a été restaurée, un avertissement s’affiche dans Réglages Système > Confidentialité et sécurité > Caméra."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Impostazioni di Sistema > Privacy e sicurezza > Fotocamera compare un avviso quando il supporto legacy per i dispositivi video è stato ripristinato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レガシービデオデバイスのサポートが復元されている場合は、“システム設定”＞“プライバシーとセキュリティ”＞“カメラ”に警告が表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전 비디오 기기 지원이 복원된 경우, 시스템 설정 > 개인정보 보호 및 보안 > 카메라에 경고가 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Systeeminstellingen > Privacy en beveiliging > Camera wordt een waarschuwing weergegeven als de ondersteuning voor verouderde videoapparaten is hersteld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W Ustawieniach systemowych > Prywatność i ochrona > Kamera wyświetlane jest ostrzeżenie, gdy przywrócono obsługę starszych urządzeń wideo."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Ajustes do Sistema > Privacidade e Segurança > Câmera, aparece um aviso quando essa compatibilidade tiver sido restaurada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În Configurări sistem > Intimitate și securitate > Cameră este afișat un avertisment când software‑ul de asistență moștenit pentru dispozitivul video a fost restaurat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В разделе «Системные настройки» > «Конфиденциальность и безопасность» > «Камера» отображается предупреждение, если поддержка устаревших видеоустройств была восстановлена."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I Systeminställningar > Integritet och säkerhet > Kamera visas en varning när stödet för äldre videoenheter har återskapats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eski video aygıtı desteği geri yüklenmişse, Sistem Ayarları > Gizlilik ve Güvenlik > Kamera bölümünde bir uyarı gösterilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У розділі Системні параметри > Приватність і безпека > Камера зʼявляється попередження, якщо підтримку застарілих відеопристроїв відновлено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果已恢复旧视频设备支持，“系统设置”>“隐私与安全性”>“摄像头”中会出现警告。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "回復舊版視訊裝置支援後，「系統設定」>「隱私權與安全性」>「相機」中會顯示警告。"
+          }
+        }
+      }
+    },
     "System Settings > Screen Time > Content & Privacy > Siri, to turn off Siri AI or block capabilities such as Writing Assistance." : {
       "localizations" : {
         "cs" : {
