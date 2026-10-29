@@ -86,6 +86,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Plug-ins
 
 - A plug-in's page says which app it came with, installed or gone, and the question before a move names that app.
+- Camera plug-ins in `/Library/CoreMediaIO/Plug-Ins/DAL`, which macOS loads only once legacy video device support has
+  been restored in macOS Recovery, as the question before one moves says; an app's uninstall and Orphaned Files find
+  them too.
 
 #### Moving to the Trash from several pages
 
