@@ -258,8 +258,10 @@ and how many items the others hold.
   the choice made for each one, or that macOS decides when nobody chose, and where it is turned on or off: System
   Settings for most, Safari > Settings > Extensions for a Safari extension, which Safari alone shows the state of, Edit
   Widgets for a widget, and nowhere for what Shortcuts and Siri use.
-- **Plug-ins:** plug-ins of every kind, from audio units to Quick Look, each with the app it came with, as Orphaned
-  Files tells it, and each of which you can move to the Trash, after Peel warns that apps using it may stop working.
+- **Plug-ins:** the plug-ins in the Library folders made for them, from audio units to Quick Look, each with the app
+  it came with, as Orphaned Files tells it, and each of which you can move to the Trash, after Peel warns that apps
+  using it may stop working, or says that nothing loads it anymore, as for a Quick Look generator or an old Internet
+  plug-in such as Flash.
 - **Package Receipts:** what installer packages other than Apple's put on your Mac, item by item, to move to the Trash.
   Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what something
   else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no longer counts
