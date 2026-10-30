@@ -1798,13 +1798,14 @@ struct DeveloperCachesTests {
 
         let before = await DeveloperCaches.scan(swiftpm, homeDirectory: directory.url).flatMap(\.locations)
         let freshPath = fresh.path(percentEncoded: false)
-        try FileManager.default.setAttributes([.modificationDate: Date.now], ofItemAtPath: freshPath)
+        let rewritten = Date(timeIntervalSince1970: Date.now.timeIntervalSince1970.rounded(.down))
+        try FileManager.default.setAttributes([.modificationDate: rewritten], ofItemAtPath: freshPath)
         let after = await DeveloperCaches.scan(swiftpm, homeDirectory: directory.url).flatMap(\.locations)
 
         let first = try #require(before.first)
         let second = try #require(after.first)
         #expect(first.lastWritten == written)
-        #expect(second.lastWritten.map { Date.now.timeIntervalSince($0) < 60 } == true)
+        #expect(second.lastWritten == rewritten)
         #expect(first.isRecommended == second.isRecommended)
     }
 
