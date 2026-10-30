@@ -304,8 +304,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   while it removes the app.
 - An app's page, several apps' page, and the Reset sheet tell VoiceOver how their scan ended, and the question to quit
   apps fits what runs and what goes.
-- An app's page that can move nothing tells VoiceOver why, in its note's own words, and the list tells VoiceOver what it
-  found only after the first reading and after Rescan, so a removal is followed by its own words alone.
+- An app's page, or several apps' page, that can move nothing tells VoiceOver why rather than Nothing found, and the
+  list tells VoiceOver what it found only after the first reading and after Rescan, so a removal is followed by its own
+  words alone.
 - Export List of Apps and the counts take only the apps installed on this Mac.
 - Folders where an app keeps what you made are listed and never selected, at an uninstall and in Orphaned Files: an
   app's backups, a code editor's unsaved files and local history, Sublime Text's data, Minecraft's saved worlds, a
@@ -461,8 +462,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A folder only named like an app, as an app's web data or cache can be, stays in place while a program reads it.
 - Return closes an alert that reports what went wrong, rather than copying its details, showing a file in Finder, or
   deselecting what open apps keep.
-- VoiceOver passes over a symbol that only decorates, such as the folder beside a folder's name or the symbol on a
-  note, rather than saying Move or Build, the actions macOS names those symbols by.
+- VoiceOver no longer says Move or Build, the actions macOS names some symbols by: it passes over a folder's symbol
+  beside its name, hears Info or Warning for a notice whatever symbol it draws, and Not installed for an app listed in
+  Settings that isn't on this Mac.
 
 ## 1.2.1 (2026-10-25)
 
