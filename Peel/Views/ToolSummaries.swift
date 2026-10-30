@@ -189,8 +189,8 @@ extension RemovalHistoryStore {
 }
 
 extension View {
-    /// Tells VoiceOver how a scan ended, since the list fills in silently: what it found, that it was stopped, or
-    /// `couldNotLook`, the title of the page's message, in place of "Nothing found." when it could not look. The
+    /// Tells VoiceOver how a scan ended, since the list fills in silently: what it found, that it was stopped, or,
+    /// when it found nothing to tell, `couldNotLook`, the page's own words for why, in place of "Nothing found.". The
     /// summary is worked out only then, so the page does not depend on everything it reads.
     func announcesScan(
         _ isScanning: Bool,
