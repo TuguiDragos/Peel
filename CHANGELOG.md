@@ -304,6 +304,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   while it removes the app.
 - An app's page, several apps' page, and the Reset sheet tell VoiceOver how their scan ended, and the question to quit
   apps fits what runs and what goes.
+- An app's page that can move nothing tells VoiceOver why, in its note's own words, and the list tells VoiceOver what it
+  found only after the first reading and after Rescan, so a removal is followed by its own words alone.
 - Export List of Apps and the counts take only the apps installed on this Mac.
 - Folders where an app keeps what you made are listed and never selected, at an uninstall and in Orphaned Files: an
   app's backups, a code editor's unsaved files and local history, Sublime Text's data, Minecraft's saved worlds, a
@@ -457,6 +459,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - What moving a file frees is one rule everywhere, so Time Machine's local snapshots no longer make duplicates read
   Zero kB to free.
 - A folder only named like an app, as an app's web data or cache can be, stays in place while a program reads it.
+- Return closes an alert that reports what went wrong, rather than copying its details, showing a file in Finder, or
+  deselecting what open apps keep.
 
 ## 1.2.1 (2026-10-25)
 
