@@ -696,6 +696,14 @@ private nonisolated final class TestClock: Sendable {
         #expect(none.casks.isEmpty && !none.didNotAnswer)
     }
 
+    @Test func anExportSaysHomebrewStoppedWhenItPrintedNothing() {
+        #expect(
+            InventoryExport.reason(for: Homebrew.CommandFailure(output: "\n"))
+                == String(localized: "Homebrew stopped without saying why.")
+        )
+        #expect(InventoryExport.reason(for: Homebrew.CommandFailure(output: "Error: No such keg")) == "Error: No such keg")
+    }
+
     @Test func twoCopiesOfAnAppAtTwoBuildsKeepAnAnswerEach() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

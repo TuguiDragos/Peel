@@ -65,8 +65,8 @@ final class HomebrewLibrary {
     private(set) var unrunnableChoice = HomebrewChoice().unrunnable()
     /// A `brew` where Homebrew installs itself that another account owns or anyone can change, which Peel doesn't run.
     private(set) var refusedBrew = Homebrew.refusedInAUsualPlace()
-    /// Homebrew's output when the last reading failed, which is not the same as nothing being installed.
-    private(set) var couldNotRead: String?
+    /// How the last reading failed, which is not the same as nothing being installed.
+    private(set) var couldNotRead: Homebrew.CommandFailure?
     private(set) var packages: [HomebrewPackage]?
     /// The installed Homebrew's version and prefix. The version decides what Peel may ask it for.
     private(set) var installation: HomebrewInstallation?
@@ -321,7 +321,7 @@ final class HomebrewLibrary {
         case .failure(let error):
             packages = packages ?? []
             hasAnswered = false
-            couldNotRead = error.output
+            couldNotRead = error
         }
         self.installation = found
         // Keeps the last figure when this reading brought none: one that was right a moment ago beats none.
@@ -510,7 +510,7 @@ final class HomebrewLibrary {
             }
             return CommandResult(succeeded: true, output: output)
         } catch {
-            return CommandResult(succeeded: false, output: error.output)
+            return CommandResult(succeeded: false, output: error.output ?? "")
         }
     }
 
@@ -587,7 +587,7 @@ final class HomebrewLibrary {
         case .success(let output):
             return CommandResult(succeeded: true, output: written.isEmpty ? output : written)
         case .failure(let failure):
-            return CommandResult(succeeded: false, output: written.isEmpty ? failure.output : written)
+            return CommandResult(succeeded: false, output: written.isEmpty ? failure.output ?? "" : written)
         }
     }
 

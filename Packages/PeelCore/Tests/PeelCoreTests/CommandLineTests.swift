@@ -27,6 +27,15 @@ struct CommandLineTests {
         )
     }
 
+    @Test func addsNothingAfterItsOwnSentenceWhenHomebrewPrintedNothing() {
+        let silent = Homebrew.CommandFailure(output: "")
+        #expect(
+            InventoryCommand.homebrewNote(isInstalled: true, why: silent.output)
+                == "Homebrew didn't answer, so no app is marked as installed by it."
+        )
+        #expect(CaskLookup.Answer(failure: silent).note == "Homebrew didn't answer, so what only its casks know is missing.")
+    }
+
     @Test func aListOfAppsSaysWhatItCouldNotRead() {
         let studio = URL(filePath: "/Volumes/Studio/Apps", directoryHint: .isDirectory)
 
@@ -714,7 +723,10 @@ struct CommandLineTests {
             leftovers: [], unreadableLocations: [caches], cutShortLocations: [caches], needsFullDiskAccess: true
         )
 
-        let notes = UninstallCommand.whatStays(plan, app: app, homebrew: CaskLookup.Answer(failure: "brew is not installed"), scan: scan)
+        let notes = UninstallCommand.whatStays(
+            plan, app: app, homebrew: CaskLookup.Answer(failure: Homebrew.CommandFailure(output: "brew is not installed")),
+            scan: scan
+        )
 
         #expect(notes.count == 5)
         #expect(notes[0].hasPrefix("Homebrew didn't answer, so what only its casks know is missing."))

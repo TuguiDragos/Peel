@@ -2,16 +2,19 @@ import Foundation
 import PeelCore
 
 enum CaskLookup {
-    /// The casks Homebrew knows and the installer receipts, with Homebrew's message when it failed. A failure is
+    /// The casks Homebrew knows and the installer receipts, with how Homebrew failed when it did. A failure is
     /// kept apart from an empty list, which would wrongly say that no cask installed the app or has an update.
     struct Answer {
         var casks: [HomebrewPackage] = []
         /// Identifiers of the installer receipts on the Mac, used by the cask evidence and by the uninstall.
         var receipts: Set<String> = []
-        var failure: String?
+        var failure: Homebrew.CommandFailure?
 
         var note: String? {
-            failure.map { "Homebrew didn't answer, so what only its casks know is missing.\n\($0)" }
+            failure.map {
+                ["Homebrew didn't answer, so what only its casks know is missing.", $0.output].compactMap(\.self)
+                    .joined(separator: "\n")
+            }
         }
     }
 
@@ -49,9 +52,9 @@ enum CaskLookup {
         }
     }
 
-    /// Returns what Homebrew printed when it failed, or else the error's description. It takes `any Error`
-    /// because a typed `throws(Homebrew.CommandFailure)` arrives as `any Error` through `async let`.
-    private static func why(_ error: any Error) -> String {
-        (error as? Homebrew.CommandFailure)?.output ?? error.localizedDescription
+    /// Returns how Homebrew failed. It takes `any Error` because a typed `throws(Homebrew.CommandFailure)` arrives
+    /// as `any Error` through `async let`.
+    private static func why(_ error: any Error) -> Homebrew.CommandFailure {
+        error as? Homebrew.CommandFailure ?? Homebrew.CommandFailure(output: error.localizedDescription)
     }
 }

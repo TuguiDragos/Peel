@@ -16,7 +16,8 @@ struct Notice<Actions: View>: View {
     }
 
     let title: Text
-    let detail: Text
+    /// Nil when there is nothing to add, so the title stands alone in the middle of the panel.
+    let detail: Text?
     var kind = Kind.problem
     /// A symbol to use instead of the default, such as the one a list row shows for the same fact.
     var systemImage: String?
@@ -61,9 +62,11 @@ struct Notice<Actions: View>: View {
             title
                 .font(isAlbum ? .system(size: 12.5, weight: .bold, design: .rounded) : .callout.weight(.semibold))
                 .foregroundStyle(titleColor)
-            detail
-                .font(isAlbum ? .system(size: 11) : .caption)
-                .foregroundStyle(.secondary)
+            if let detail {
+                detail
+                    .font(isAlbum ? .system(size: 11) : .caption)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 

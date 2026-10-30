@@ -49,7 +49,7 @@ struct InventoryCommand: AsyncParsableCommand {
     /// Returns Homebrew's own Brewfile, or fails with why: an empty one would look like a success until someone
     /// uses it.
     private static func brewfile() async throws -> String {
-        let why: String
+        let why: String?
         if !(await Homebrew.hasLocalDefinitions()) {
             why = noDefinitions(
                 isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable(),
@@ -64,13 +64,16 @@ struct InventoryCommand: AsyncParsableCommand {
         } else {
             why = "Homebrew didn't say which version it is."
         }
-        throw CommandFailure("Homebrew didn't answer, so there is nothing to write a Brewfile from.\n\(why)")
+        throw CommandFailure(
+            ["Homebrew didn't answer, so there is nothing to write a Brewfile from.", why].compactMap(\.self)
+                .joined(separator: "\n")
+        )
     }
 
     /// Returns the packages Homebrew installed, so an app it installed says so. When Homebrew can't answer, the
     /// list goes on without it and says why.
     private static func casks() async -> [HomebrewPackage] {
-        let why: String
+        let why: String?
         if await Homebrew.hasLocalDefinitions() {
             do {
                 return try await Homebrew.installedPackages()
@@ -92,8 +95,10 @@ struct InventoryCommand: AsyncParsableCommand {
 
     /// What a list other than a Brewfile says when Homebrew gave no packages: nothing on a Mac without Homebrew,
     /// and why otherwise.
-    static func homebrewNote(isInstalled: Bool, why: String) -> String? {
-        isInstalled ? "Homebrew didn't answer, so no app is marked as installed by it.\n\(why)" : nil
+    static func homebrewNote(isInstalled: Bool, why: String?) -> String? {
+        guard isInstalled else { return nil }
+        return ["Homebrew didn't answer, so no app is marked as installed by it.", why].compactMap(\.self)
+            .joined(separator: "\n")
     }
 
     /// Why Homebrew was not asked: without its local copy of the definitions it would download them. The copy is

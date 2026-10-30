@@ -538,7 +538,12 @@ public enum Homebrew {
     public static let autoUpdateInterval: TimeInterval = 24 * 60 * 60
 
     public struct CommandFailure: Error, Sendable, Hashable {
-        public let output: String
+        /// What Homebrew printed, or nil when it printed nothing but blank space.
+        public let output: String?
+
+        public init(output: String) {
+            self.output = output.allSatisfy(\.isWhitespace) ? nil : output
+        }
     }
 
     /// The `brew` executable: the one the person chose in Settings (`HomebrewChoice`), or else the one in either
@@ -854,7 +859,7 @@ public enum Homebrew {
             } catch {
                 // A failure is one sentence with no line ending, and the next call's report starts on a line of
                 // its own.
-                output += error.output.hasSuffix("\n") ? error.output : error.output + "\n"
+                if let said = error.output { output += said.hasSuffix("\n") ? said : said + "\n" }
                 didFail = true
             }
         }

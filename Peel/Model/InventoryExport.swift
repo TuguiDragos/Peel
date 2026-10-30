@@ -31,6 +31,11 @@ enum InventoryExport {
         alert.runModal()
     }
 
+    /// What the alert says when Homebrew couldn't write the Brewfile.
+    static func reason(for failure: Homebrew.CommandFailure) -> String {
+        failure.output ?? String(localized: "Homebrew stopped without saying why.")
+    }
+
     /// Returns nil when the file was written or the user canceled, and the error message otherwise.
     @MainActor
     private static func run(
@@ -45,7 +50,7 @@ enum InventoryExport {
             do {
                 brewfile = try await Homebrew.brewfile(from: installation)
             } catch {
-                return error.output
+                return reason(for: error)
             }
         }
         let marking = casks(

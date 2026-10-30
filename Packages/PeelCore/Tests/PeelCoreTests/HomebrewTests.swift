@@ -382,6 +382,30 @@ struct HomebrewTests {
         #expect(throws: Homebrew.CommandFailure.self) { try failed.transcript() }
     }
 
+    @Test func aBrewThatFailsWithoutPrintingAnythingLeavesNoWords() {
+        let silent = Homebrew.Attempt(status: 1, standardOutput: "", standardError: "\n")
+        let failure = #expect(throws: Homebrew.CommandFailure.self) { try silent.answer() }
+        #expect(failure?.output == nil)
+        #expect(Homebrew.CommandFailure(output: " \t\n").output == nil)
+        #expect(Homebrew.CommandFailure(output: "Error: No such keg\n").output == "Error: No such keg\n")
+    }
+
+    @Test func anUpgradeThatFailedWithoutAWordAddsNoEmptyLine() async {
+        let packages = [
+            HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"),
+            HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0"),
+        ]
+        do {
+            _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
+                guard arguments[1] == "--cask" else { throw Homebrew.CommandFailure(output: "") }
+                return Homebrew.Attempt(status: 0, standardOutput: "firefox was upgraded.\n", standardError: "")
+            }
+            Issue.record("a batch that failed read as a success")
+        } catch {
+            #expect(error.output == "firefox was upgraded.\n")
+        }
+    }
+
     @Test func parsesInstalledFormulaeAndCasks() throws {
         let json = """
         {

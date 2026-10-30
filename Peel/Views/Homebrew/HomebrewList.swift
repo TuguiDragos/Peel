@@ -469,13 +469,13 @@ struct HomebrewList: View {
 
     @ViewBuilder
     private var empty: some View {
-        if let problem = homebrew.couldNotRead {
+        if let failure = homebrew.couldNotRead {
             Section {
                 Notice(
                     title: Text("Homebrew didn’t say what is installed"),
-                    detail: Text(
-                        verbatim: FixedSentence.translated(problem.trimmingCharacters(in: .whitespacesAndNewlines))
-                    ),
+                    detail: failure.output.map {
+                        Text(verbatim: FixedSentence.translated($0.trimmingCharacters(in: .whitespacesAndNewlines)))
+                    },
                     kind: .note
                 ) {}
                 .listRowSeparator(.hidden)
