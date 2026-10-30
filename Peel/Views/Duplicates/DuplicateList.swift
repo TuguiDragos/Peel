@@ -243,6 +243,7 @@ private struct DuplicateFolderGroupRow: View {
                 .font(.system(size: 20))
                 .rowTint(Color.accentColor)
                 .frame(width: 28, height: 28)
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(verbatim: group.folders[0].url.lastPathComponent)
                     .lineLimit(1)

@@ -111,6 +111,8 @@ struct Notice<Actions: View>: View {
                 .font(.system(size: 16))
                 .foregroundStyle(tint)
                 .frame(width: 26)
+                // The kind's own symbol tells VoiceOver Info or Warning; one a page chooses only decorates.
+                .accessibilityHidden(systemImage != nil)
         }
     }
 }

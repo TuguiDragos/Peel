@@ -582,6 +582,7 @@ extension GeneralSettingsView {
             } else {
                 Image(systemName: "questionmark.app")
                     .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(verbatim: item.name)

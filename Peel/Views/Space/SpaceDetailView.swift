@@ -72,6 +72,7 @@ struct SpaceDetailView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "folder")
                             .foregroundStyle(.secondary)
+                            .accessibilityHidden(true)
                         Text(url.abbreviatedPath)
                             .lineLimit(1)
                             .truncationMode(.middle)
