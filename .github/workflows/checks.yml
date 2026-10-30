@@ -57,6 +57,8 @@ jobs:
             started=$(descendants "$tests")
             echo "Still running after 20 minutes, the tests and every program they started:"
             ps -o pid,ppid,etime,command -p "$(echo "$tests" $started | tr ' ' ',')" || true
+            echo "The last lines the tests wrote:"
+            tail -n 60 "$log" || true
             for helper in $(pgrep -P "$tests" -f swiftpm-testing-helper); do
               sample "$helper" 5 -file "$RUNNER_TEMP/sample-$helper.txt" > /dev/null 2>&1 \
                 || sudo -n sample "$helper" 5 -file "$RUNNER_TEMP/sample-$helper.txt" > /dev/null 2>&1 || true
