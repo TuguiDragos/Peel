@@ -5,9 +5,10 @@ import Synchronization
 import Testing
 
 struct FolderWatchTests {
-    /// Each wait returns at the first change, so only a broken watch waits this long; a busy Mac can hold FSEvents
-    /// back for many seconds.
-    private static let patience = Duration.seconds(60)
+    /// Each wait returns at the first change, so only a broken watch waits this long. The watch answers at utility
+    /// quality, which gets no thread while every thread of Swift's pool is busy at a higher one, as for most of a
+    /// whole test run on a Mac with few processors.
+    private static let patience = Duration.seconds(600)
 
     /// The stream keeps the last change, so one that lands before anyone reads is not lost.
     @Test func saysWhenSomethingAppearsInAFolder() async throws {
