@@ -789,8 +789,12 @@ struct InstallersTests {
                 installedApps: [], home: home, root: home, exclusions: .none, minimumSize: 100_000,
                 measure: LeftoverScanner.walk,
                 canList: { url in
-                    asked.withLock { $0.append(url.lastPathComponent) }
-                    if url.lastPathComponent == "Downloads" {
+                    let isFirst = asked.withLock { asked in
+                        asked.append(url.lastPathComponent)
+                        return asked.count == 1
+                    }
+                    // Only the first question waits, so a scan that asks again fails here rather than waiting for good.
+                    if isFirst, url.lastPathComponent == "Downloads" {
                         isAsked.signal()
                         answer.wait()
                     }
