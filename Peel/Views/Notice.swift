@@ -107,12 +107,13 @@ struct Notice<Actions: View>: View {
                         .foregroundStyle(isQuiet ? Color.secondary : .white)
                 )
         } else {
-            Image(systemName: systemImage ?? (kind == .note ? "info.circle.fill" : "exclamationmark.triangle.fill"))
+            let kindSymbol = kind == .note ? "info.circle.fill" : "exclamationmark.triangle.fill"
+            Image(systemName: systemImage ?? kindSymbol)
                 .font(.system(size: 16))
                 .foregroundStyle(tint)
                 .frame(width: 26)
-                // The kind's own symbol tells VoiceOver Info or Warning; one a page chooses only decorates.
-                .accessibilityHidden(systemImage != nil)
+                // VoiceOver hears the kind's own symbol, Info or Warning, whichever symbol is drawn.
+                .accessibilityRepresentation { Image(systemName: kindSymbol) }
         }
     }
 }

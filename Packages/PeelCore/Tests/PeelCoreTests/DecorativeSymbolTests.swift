@@ -34,11 +34,12 @@ struct DecorativeSymbolTests {
         #expect(found.isEmpty, "VoiceOver would say macOS's word for these symbols: \(found)")
     }
 
-    @Test func aNoticesOwnSymbolIsDecoration() throws {
+    @Test func aNoticeTellsVoiceOverItsKindWhicheverSymbolItDraws() throws {
         let text = try String(
             contentsOf: LineLengthTests.repository.appending(path: "Peel/Views/Notice.swift"), encoding: .utf8
         )
-        #expect(text.contains(".accessibilityHidden(systemImage != nil)"))
+        #expect(text.contains(".accessibilityRepresentation { Image(systemName: kindSymbol) }"))
+        #expect(!text.contains(".accessibilityHidden("))
     }
 
     @Test func aMissingAppsStandInTellsVoiceOverItIsNotInstalled() throws {
