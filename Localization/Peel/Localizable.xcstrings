@@ -54608,108 +54608,108 @@
         }
       }
     },
-    "History stops listing them. They have already left the Trash, so nothing on your Mac changes." : {
+    "History stops listing what has already left the Trash, so nothing on your Mac changes." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historie je přestane zobrazovat. Už nejsou v koši, takže se ve vašem Macu nic nezmění."
+            "value" : "Historie přestane zobrazovat to, co už není v koši, takže se ve vašem Macu nic nezmění."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Verlauf zeigt sie nicht mehr an. Diese Objekte sind bereits nicht mehr im Papierkorb, daher ändert sich auf deinem Mac nichts."
+            "value" : "Der Verlauf zeigt nicht mehr an, was bereits nicht mehr im Papierkorb ist, daher ändert sich auf deinem Mac nichts."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historial deja de mostrarlos. Ya no están en la papelera, así que no cambia nada en tu Mac."
+            "value" : "Historial deja de mostrar lo que ya no está en la papelera, así que no cambia nada en tu Mac."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’Historique cesse de les lister. Ils ont déjà quitté la corbeille : rien ne change donc sur votre Mac."
+            "value" : "L’Historique cesse de lister ce qui a déjà quitté la corbeille : rien ne change donc sur votre Mac."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La Cronologia smette di elencarli. Sono già usciti dal Cestino, quindi sul Mac non cambia nulla."
+            "value" : "La Cronologia smette di elencare ciò che è già uscito dal Cestino, quindi sul Mac non cambia nulla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらの項目は履歴に表示されなくなります。すでにゴミ箱にはないため、Mac上では何も変わりません。"
+            "value" : "すでにゴミ箱にない項目が履歴に表示されなくなるだけなので、Mac上では何も変わりません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기록에서 더 이상 이 항목들을 나열하지 않습니다. 이 항목들은 이미 휴지통에 없으므로 Mac에서는 아무것도 변경되지 않습니다."
+            "value" : "기록에서 이미 휴지통에 없는 항목을 더 이상 나열하지 않으므로 Mac에서는 아무것도 변경되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geschiedenis vermeldt ze dan niet meer. Ze zijn al uit de prullenmand verdwenen, dus er verandert niets op je Mac."
+            "value" : "Geschiedenis vermeldt dan niet meer wat al uit de prullenmand is verdwenen, dus er verandert niets op je Mac."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historia przestanie je wyświetlać. Te rzeczy zniknęły już z Kosza, więc na Twoim Macu nic się nie zmieni."
+            "value" : "Historia przestanie wyświetlać to, co już zniknęło z Kosza, więc na Twoim Macu nic się nie zmieni."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Histórico deixa de listá-los. Eles já saíram do Lixo, então nada muda no seu Mac."
+            "value" : "O Histórico deixa de listar o que já saiu do Lixo, então nada muda no seu Mac."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Istoricul nu le va mai lista. Acestea nu mai sunt în Coș, așa că pe Mac‑ul dvs. nu se schimbă nimic."
+            "value" : "Istoricul nu va mai lista ce nu mai este în Coș, așa că pe Mac‑ul dvs. nu se schimbă nimic."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "История перестанет их показывать. Их уже нет в Корзине, поэтому на Вашем Mac ничего не изменится."
+            "value" : "История перестанет показывать то, чего уже нет в Корзине, поэтому на Вашем Mac ничего не изменится."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historik listar dem inte längre. De har redan lämnat papperskorgen, så inget på datorn ändras."
+            "value" : "Historik listar inte längre det som redan har lämnat papperskorgen, så inget på datorn ändras."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçmiş bunları artık listelemez. Bunlar zaten Çöp Sepeti’nden çıktı, bu yüzden Mac’inizde hiçbir şey değişmez."
+            "value" : "Geçmiş, Çöp Sepeti’nden zaten çıkmış olanı artık listelemez, bu yüzden Mac’inizde hiçbir şey değişmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Історія перестане їх показувати. Їх уже немає в Смітнику, тож на вашому Mac нічого не зміниться."
+            "value" : "Історія перестане показувати те, чого вже немає в Смітнику, тож на вашому Mac нічого не зміниться."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“历史记录”将不再列出它们。它们已不在废纸篓中，因此你的Mac上不会有任何变化。"
+            "value" : "“历史记录”将不再列出已不在废纸篓中的项目，因此你的Mac上不会有任何变化。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「歷史記錄」將不再列出這些項目。它們已不在「垃圾桶」中，因此你的Mac上不會有任何變更。"
+            "value" : "「歷史記錄」將不再列出已不在「垃圾桶」中的項目，因此你的Mac上不會有任何變更。"
           }
         }
       }
