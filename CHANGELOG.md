@@ -461,6 +461,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A folder only named like an app, as an app's web data or cache can be, stays in place while a program reads it.
 - Return closes an alert that reports what went wrong, rather than copying its details, showing a file in Finder, or
   deselecting what open apps keep.
+- VoiceOver passes over a symbol that only decorates, such as the folder beside a folder's name or the symbol on a
+  note, rather than saying Move or Build, the actions macOS names those symbols by.
 
 ## 1.2.1 (2026-10-25)
 
