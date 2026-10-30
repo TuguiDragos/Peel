@@ -55,7 +55,7 @@ struct OrphanList: View {
                     parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
                 } actions: {
                     if library.listOfFoldersUnreadable {
-                        StartOverButton(file: AppFolders.defaultURL, startedOver: "Started the list of app folders over.") {
+                        StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
                             library.startFoldersOver()
                         }
                     }

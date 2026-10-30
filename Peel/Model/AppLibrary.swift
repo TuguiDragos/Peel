@@ -69,7 +69,7 @@ final class AppLibrary {
     private(set) var hasLoaded = false
     /// The folders the person chose for apps, beside the Applications folders, or nil when their list cannot be read.
     /// `PeelApp` watches them and reads the apps again when they change.
-    private(set) var folders = AppFolders().load()
+    private(set) var folders: [URL]?
     private(set) var couldNotSaveFolders = false
     /// What the last reading of the folders could not read, so the apps in it are missing from `apps`
     /// (`AppScan.unreadable`).
@@ -156,6 +156,8 @@ final class AppLibrary {
     private(set) var releaseNotes = ReleaseNotesMemory()
     private let releaseNotesStore: ReleaseNotesStore
     private let defaults: UserDefaults
+    private let appFolders: AppFolders
+    private let appMemory: AppMemory
     /// Apps shown from outside the scanned folders, such as one in Downloads or in the Trash. Kept apart,
     /// because the next reading of the folders doesn't find them and would drop their row and their page.
     private var revealed: [InstalledApp] = []
@@ -172,11 +174,16 @@ final class AppLibrary {
     init(
         defaults: UserDefaults = .standard,
         updateChecker: UpdateChecker = UpdateChecker(),
-        releaseNotesStore: ReleaseNotesStore = ReleaseNotesStore()
+        releaseNotesStore: ReleaseNotesStore = ReleaseNotesStore(),
+        appFolders: AppFolders = AppFolders(),
+        appMemory: AppMemory = AppMemory()
     ) {
         self.defaults = defaults
         self.updateChecker = updateChecker
         self.releaseNotesStore = releaseNotesStore
+        self.appFolders = appFolders
+        self.appMemory = appMemory
+        folders = appFolders.load()
         ignoredApps = Set(defaults.stringArray(forKey: SettingsKey.ignoredUpdateApps) ?? [])
         skippedVersions = defaults.dictionary(forKey: SettingsKey.skippedUpdateVersions) as? [String: String] ?? [:]
         announced = AnnouncedUpdates(
@@ -223,7 +230,8 @@ final class AppLibrary {
         if !hasLoaded {
             releaseNotes = await releaseNotesStore.load()
         }
-        let found = await scanRun.run { await AppCatalog.scan() }
+        let chosen = readFolders()
+        let found = await scanRun.run { await AppCatalog.scan(chosen: chosen) }
         if let found {
             keepUnreadable(of: found)
             adopt(found.apps)
@@ -232,7 +240,7 @@ final class AppLibrary {
         isLoading = false
         hasLoaded = true
         if let found {
-            await AppMemory().remember(found.apps)
+            await appMemory.remember(found.apps)
         }
     }
 
@@ -254,17 +262,25 @@ final class AppLibrary {
     /// Sets the list of folders aside when it cannot be read, so the folders can be chosen again.
     @discardableResult
     func startFoldersOver() -> StartOver {
-        let store = AppFolders()
-        let answer = store.startOver()
+        let answer = appFolders.startOver()
         if answer == .started { couldNotSaveFolders = false }
-        folders = store.load()
+        folders = appFolders.load()
         return answer
     }
 
+    var foldersFile: URL { appFolders.url }
+
     private func changeFolders(_ change: (AppFolders) -> Bool) {
-        let store = AppFolders()
-        couldNotSaveFolders = !change(store)
-        folders = store.load()
+        couldNotSaveFolders = !change(appFolders)
+        folders = appFolders.load()
+    }
+
+    /// Reads the list of chosen folders for a reading of the apps, which looks in exactly these, so Settings and the
+    /// pages say the same of it. Set before the reading, so a change made in Settings meanwhile is never undone.
+    private func readFolders() -> [URL]? {
+        let read = appFolders.load()
+        if read != folders { folders = read }
+        return read
     }
 
     /// Reads the folders again without emptying the list first, so an app installed while Peel is open
@@ -276,7 +292,8 @@ final class AppLibrary {
     @discardableResult
     func refresh() async -> [InstalledApp] {
         lastRead = .now
-        guard let scan = await scanRun.run({ await AppCatalog.scan() }) else { return [] }
+        let chosen = readFolders()
+        guard let scan = await scanRun.run({ await AppCatalog.scan(chosen: chosen) }) else { return [] }
         keepUnreadable(of: scan)
         let found = scan.apps
         let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found))
@@ -290,7 +307,7 @@ final class AppLibrary {
         let changed = adopt(found)
         // Remembered whenever the list changes, so an app installed and removed between two visits to Orphaned
         // Files is still known. Done last, so nothing above is left half done while this waits.
-        await AppMemory().remember(found, gone: gone)
+        await appMemory.remember(found, gone: gone)
         return changed
     }
 

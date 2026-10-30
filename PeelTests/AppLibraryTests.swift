@@ -898,4 +898,30 @@ private nonisolated final class TestClock: Sendable {
         library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
         #expect(library.shownUpdateStatus(of: app) == .upToDate)
     }
+
+    @Test func aListOfFoldersDamagedWhilePeelRunsIsSaidAlikeEverywhereAndStartedOver() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let list = AppFolders(url: folder.appending(path: "app-folders.json"))
+        let library = AppLibrary(
+            defaults: made.defaults,
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: list,
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+        await library.load()
+        #expect(library.folders == [] && !library.listOfFoldersUnreadable)
+
+        try Data("not a list".utf8).write(to: list.url)
+        await library.refresh()
+        #expect(library.listOfFoldersUnreadable && library.folders == nil)
+
+        #expect(library.startFoldersOver() == .started)
+        #expect(library.folders == [])
+        await library.refresh()
+        #expect(library.folders == [] && !library.listOfFoldersUnreadable)
+    }
 }

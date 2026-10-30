@@ -90,7 +90,13 @@ public enum AppCatalog {
     /// folders cannot be read, the reading says so (`listOfFoldersUnreadable`).
     @concurrent
     public static func scan(choices: AppFolders = AppFolders()) async -> AppScan {
-        guard let chosen = choices.load() else {
+        await scan(chosen: choices.load())
+    }
+
+    /// The same reading, from a list of chosen folders already read: nil when it could not be read.
+    @concurrent
+    public static func scan(chosen: [URL]?) async -> AppScan {
+        guard let chosen else {
             let standard = await scan(in: standardDirectories)
             return AppScan(
                 apps: standard.apps,
