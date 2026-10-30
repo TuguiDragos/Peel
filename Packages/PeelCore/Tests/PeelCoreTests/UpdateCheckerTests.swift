@@ -91,12 +91,9 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
     }
 
     @Test func knowsWhetherThisMacHasANetworkWithinASecond() async {
-        let clock = ContinuousClock()
-        let started = clock.now
+        let check = await timedWhereItRuns { await NetworkPath.isOnline() }
 
-        _ = await NetworkPath.isOnline()
-
-        #expect(clock.now - started < .seconds(2))
+        #expect(check.took < .seconds(2))
     }
 
     @Test func aCheckFromAMacThatIsntOnlineLearnsNothing() async {

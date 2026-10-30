@@ -439,10 +439,10 @@ struct FileSizeTests {
         // Asked again, with a real budget: the answer comes from what is known about the folder, not from a
         // second walk waited out. The same folder written with a trailing slash is the same key.
         let withSlash = URL(filePath: folder.path(percentEncoded: false) + "/", directoryHint: .isDirectory)
-        let start = ContinuousClock.now
-        _ = await FileSize.reclaimableSize(of: folder, within: FileSize.budget)
-        _ = await FileSize.reclaimableSize(of: withSlash, within: FileSize.budget)
-        let took = ContinuousClock.now - start
+        let (_, took) = await timedWhereItRuns {
+            _ = await FileSize.reclaimableSize(of: folder, within: FileSize.budget)
+            _ = await FileSize.reclaimableSize(of: withSlash, within: FileSize.budget)
+        }
         #expect(took < .seconds(FileSize.budget), "a question about a folder being walked paid a budget of its own")
     }
 
