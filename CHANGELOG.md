@@ -278,6 +278,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   helper.
 - Starting over a list never writes an empty one over a list that reads, and every Start Over says whether it started
   over, also to VoiceOver.
+- App Folders says its list can't be read as soon as a reading of the apps finds it so, and starting it over anywhere
+  clears the notice on every page.
 - The login item and the Finder extension read Checking until macOS answers, and the Helper tab says when another copy
   of Peel installed the helper.
 - Check for app updates checks at once whichever tab turns it on.
@@ -300,8 +302,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   won't offer this Mac reads as up to date.
 - An app that stays recommends nothing, a locked app gets no privacy reset, and an app's page turns its actions off
   while it removes the app.
-- An app's page and several apps' page tell VoiceOver how their scan ended, and the question to quit apps fits what
-  runs and what goes.
+- An app's page, several apps' page, and the Reset sheet tell VoiceOver how their scan ended, and the question to quit
+  apps fits what runs and what goes.
 - Export List of Apps and the counts take only the apps installed on this Mac.
 - Folders where an app keeps what you made are listed and never selected, at an uninstall and in Orphaned Files: an
   app's backups, a code editor's unsaved files and local history, Sublime Text's data, Minecraft's saved worlds, a
