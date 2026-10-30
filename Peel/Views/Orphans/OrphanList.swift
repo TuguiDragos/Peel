@@ -158,6 +158,7 @@ struct OrphanList: View {
                 Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
             }
             Button("OK", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         } message: {
             orphans.owners == nil
                 ? Text("Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions.")

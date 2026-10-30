@@ -24,6 +24,7 @@ struct StartOverButton: View {
         .alert("Peel couldn’t set the old file aside", isPresented: $couldNotSetAside) {
             Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([file]) }
             Button("OK", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         } message: {
             Text("Nothing changed. Check that Peel can write to its folder in Application Support, then try again.")
         }

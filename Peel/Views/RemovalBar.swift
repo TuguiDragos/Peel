@@ -283,6 +283,7 @@ struct RemovalBar: View {
                 Button("Move the Rest") { Task { askToMove(rest) } }
             }
             Button("OK", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         }
     }
 

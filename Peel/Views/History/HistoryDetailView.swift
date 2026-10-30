@@ -92,6 +92,7 @@ struct HistoryDetailView: View {
             }
             Button("Copy Details") { copyFailureDetails() }
             Button("OK", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         } message: {
             failureMessage
         }
