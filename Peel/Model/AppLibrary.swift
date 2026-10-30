@@ -81,6 +81,10 @@ final class AppLibrary {
 
     /// Whether the last reading read every app, which Orphaned Files waits for.
     var readEverything: Bool { listing.readEverything }
+    /// True while a reading the person asked for runs, the first or Rescan's: the list tells VoiceOver only those, and
+    /// the readings Peel starts on its own change it quietly.
+    var isReadingAsAsked: Bool { scanRun.isRunning && askedForReading }
+    private var askedForReading = false
     private(set) var updateStatuses: [InstalledApp.ID: UpdateStatus] = [:] {
         didSet { updatesRevision += 1 }
     }
@@ -231,7 +235,9 @@ final class AppLibrary {
             releaseNotes = await releaseNotesStore.load()
         }
         let chosen = readFolders()
+        askedForReading = true
         let found = await scanRun.run { await AppCatalog.scan(chosen: chosen) }
+        if !scanRun.isRunning { askedForReading = false }
         if let found {
             keepUnreadable(of: found)
             adopt(found.apps)
@@ -293,7 +299,9 @@ final class AppLibrary {
     func refresh() async -> [InstalledApp] {
         lastRead = .now
         let chosen = readFolders()
-        guard let scan = await scanRun.run({ await AppCatalog.scan(chosen: chosen) }) else { return [] }
+        let read = await scanRun.run { await AppCatalog.scan(chosen: chosen) }
+        if !scanRun.isRunning { askedForReading = false }
+        guard let scan = read else { return [] }
         keepUnreadable(of: scan)
         let found = scan.apps
         let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found))
@@ -321,6 +329,7 @@ final class AppLibrary {
 
     /// Reads the folders again and asks about every app's updates, in a round of its own so the list isn't held.
     func rescan() async {
+        askedForReading = true
         let changed = await refresh()
         if !changed.isEmpty { await checkSigningTeams() }
         checkEveryAppAgain()

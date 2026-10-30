@@ -924,4 +924,36 @@ private nonisolated final class TestClock: Sendable {
         await library.refresh()
         #expect(library.folders == [] && !library.listOfFoldersUnreadable)
     }
+
+    @Test func onlyTheReadingsThePersonAskedForAreToldToVoiceOver() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock { $0 = Data() }
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [AppcastProtocol.self]
+        let library = AppLibrary(
+            defaults: made.defaults,
+            updateChecker: UpdateChecker(session: URLSession(configuration: configuration)),
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: AppFolders(url: folder.appending(path: "app-folders.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+        func toldWhile(_ reading: @escaping () async -> Void) async throws -> Bool {
+            let task = Task { await reading() }
+            for _ in 0..<10_000 where !library.scanRun.isRunning { await Task.yield() }
+            try #require(library.scanRun.isRunning)
+            let told = library.isReadingAsAsked
+            await task.value
+            return told
+        }
+
+        #expect(try await toldWhile { await library.load() })
+        #expect(try await !toldWhile { await library.refresh() })
+        #expect(try await toldWhile { await library.rescan() })
+        library.recheck?.cancel()
+        #expect(!library.isReadingAsAsked)
+    }
 }
