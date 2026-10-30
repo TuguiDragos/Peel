@@ -122,7 +122,7 @@ struct AppDetailView: View {
             RemovalsHeldBanner()
             if plan.isExcluded {
                 Notice(
-                    title: Text("This app is excluded"),
+                    title: Text(Self.excludedTitle),
                     detail: Text("Peel leaves it and its files alone. Change that in Settings."),
                     kind: .note
                 ) {
@@ -132,7 +132,7 @@ struct AppDetailView: View {
             }
             if plan.removedElsewhere == .byRemovePeel {
                 Notice(
-                    title: Text("Peel removes itself in Settings"),
+                    title: Text(Self.removesItselfTitle),
                     detail: Text("Remove Peel, in Settings > General, removes its helper and login item as well. Moved from here, Peel would leave them behind."),
                     kind: .note
                 ) {
@@ -203,7 +203,12 @@ struct AppDetailView: View {
         }
         .scrollBarBelowSectionHeaders()
         .scanState(phase, fadesInResults: false, scan: plan.scanRun)
-        .announcesScan(plan.isScanning, found: plan.total.spoken, wasStopped: plan.scanRun.wasStopped)
+        .announcesScan(
+            plan.isScanning,
+            found: plan.total.spoken,
+            couldNotLook: whyNothingMoves,
+            wasStopped: plan.scanRun.wasStopped
+        )
         .edgeBar(.bottom) {
             if plan.scan != nil {
                 let selected = plan.request.total
@@ -328,6 +333,21 @@ struct AppDetailView: View {
                     place: Text("Review Before Removing")
                 )
             }
+        }
+    }
+
+    private static let excludedTitle: LocalizedStringResource = "This app is excluded"
+    private static let removesItselfTitle: LocalizedStringResource = "Peel removes itself in Settings"
+
+    /// What VoiceOver hears when the scan ends with nothing here to move: the title of the page's own note, as on
+    /// every other page, since the app and its files are still listed.
+    private var whyNothingMoves: LocalizedStringResource {
+        if plan.isExcluded { return Self.excludedTitle }
+        switch plan.removedElsewhere {
+        case .byRemovePeel?: return Self.removesItselfTitle
+        case .byItsMaker(let uninstaller)?: return MakersUninstallerNotice.title(of: uninstaller)
+        case .byFinder?: return SystemExtensionNotice.title
+        case nil: return "Nothing here can be moved. Each file’s note says why."
         }
     }
 

@@ -110,7 +110,12 @@ struct MultipleAppsView: View {
         .dimmedWhileBusy(plan.isRemoving)
         .disabled(plan.isRemoving)
         .scanState(phase, isRescanning: isRescanning, fadesInResults: false, scan: plan.scanRun)
-        .announcesScan(plan.isScanning, found: plan.total.spoken, wasStopped: plan.scanRun.wasStopped)
+        .announcesScan(
+            plan.isScanning,
+            found: plan.total.spoken,
+            couldNotLook: "Nothing here can be moved. Each file’s note says why.",
+            wasStopped: plan.scanRun.wasStopped
+        )
         .edgeBar(.bottom) {
             if plan.bulk != nil {
                 let selected = plan.request.total

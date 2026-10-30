@@ -20,4 +20,13 @@ struct ScanAnnouncementTests {
             "ScanState builds its content again when the first scan ends, which loses an announcement inside it: \(found)"
         )
     }
+
+    @Test func anAppsPageSaysWhyNothingMovesRatherThanNothingFound() throws {
+        for name in ["Peel/Views/AppDetailView.swift", "Peel/Views/MultipleAppsView.swift"] {
+            let text = try String(contentsOf: LineLengthTests.repository.appending(path: name), encoding: .utf8)
+            let call = try #require(text.range(of: ".announcesScan(")).upperBound
+            let arguments = text[call...].prefix { $0 != ")" }
+            #expect(arguments.contains("couldNotLook:"), "\(name) lists the apps it can't move and says Nothing found.")
+        }
+    }
 }

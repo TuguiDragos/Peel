@@ -9,7 +9,7 @@ struct MakersUninstallerNotice: View {
     let uninstaller: MakersUninstaller
 
     var body: some View {
-        Notice(title: title, detail: detail, kind: .note) {
+        Notice(title: Text(Self.title(of: uninstaller)), detail: detail, kind: .note) {
             switch uninstaller.step {
             case .command(let command):
                 CopyButton(text: command, title: "Copy Uninstall Command")
@@ -25,11 +25,11 @@ struct MakersUninstallerNotice: View {
         }
     }
 
-    private var title: Text {
+    static func title(of uninstaller: MakersUninstaller) -> LocalizedStringResource {
         if let product = uninstaller.removes {
-            Text("\(uninstaller.maker)’s uninstaller for \(product)")
+            "\(uninstaller.maker)’s uninstaller for \(product)"
         } else {
-            Text("Removed with \(uninstaller.maker)’s own uninstaller")
+            "Removed with \(uninstaller.maker)’s own uninstaller"
         }
     }
 

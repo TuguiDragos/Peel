@@ -7,9 +7,11 @@ struct SystemExtensionNotice: View {
     let app: InstalledApp
     let extensions: CarriedSystemExtensions
 
+    static let title: LocalizedStringResource = "Move It to the Trash in Finder"
+
     var body: some View {
         Notice(
-            title: Text("Move It to the Trash in Finder"),
+            title: Text(Self.title),
             detail: detail,
             kind: .note
         ) {
