@@ -271,4 +271,30 @@ struct HelperAnswerTests {
         #expect((helper.handledAt.withLock { $0 } ?? 0) >= QOS_CLASS_USER_INITIATED.rawValue)
         #expect((sentAt.value.withLock { $0 } ?? 0) >= QOS_CLASS_USER_INITIATED.rawValue)
     }
+
+    @Test func aHelperTurnedAwayIsWaitedForAtTheQualityOfItsWaitWhateverTheTaskThatAsks() async {
+        let helper = StandInHelper(answering: HelperIdentity.protocolVersion, rejectingFirst: 1)
+        defer { helper.stop() }
+        let connecting = helper.connecting
+        let lookedUpAt = Record<UInt32?>(nil)
+        let watchedAt = Record<UInt32?>(nil)
+
+        let answering = await Task.detached(priority: .background) {
+            await PrivilegedHelper.isResponding(
+                connecting: connecting, waitingAtMost: Self.anyWait,
+                runningHelper: { _, _ in
+                    lookedUpAt.value.withLock { $0 = qos_class_self().rawValue }
+                    return getpid()
+                },
+                untilEnded: { _, _ in
+                    watchedAt.value.withLock { $0 = qos_class_self().rawValue }
+                    return true
+                }
+            )
+        }.value
+
+        #expect(answering)
+        #expect((lookedUpAt.value.withLock { $0 } ?? 0) >= QOS_CLASS_USER_INITIATED.rawValue)
+        #expect((watchedAt.value.withLock { $0 } ?? 0) >= QOS_CLASS_USER_INITIATED.rawValue)
+    }
 }

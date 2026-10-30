@@ -169,21 +169,25 @@ public enum PrivilegedHelper {
         },
         untilEnded: @escaping @Sendable (pid_t, TimeInterval) async -> Bool = { await ProcessEnds.ends($0, within: $1) }
     ) async -> Bool {
-        let deadline = ContinuousClock.now.advanced(by: .seconds(wait))
-        let left = { ContinuousClock.now.duration(to: deadline) / .seconds(1) }
-        let asked = Date.now
-        let first = await askVersion(connecting: connect, waitingAtMost: wait)
-        if first.value == HelperIdentity.protocolVersion { return true }
-        guard first.value != nil || first.wasRejected else { return false }
-        // A helper of another version, or one XPC turns away because an update deleted its program, is one the update
-        // left running: it leaves as soon as no connection is open (`HelperLifetime`), and launchd then starts the one
-        // this copy carries. Another copy's helper keeps running.
-        var process = first.process
-        if process == nil { process = await runningHelper(asked, left()) }
-        if let process {
-            guard await untilEnded(process, left()) else { return false }
-        }
-        return await askVersion(connecting: connect, waitingAtMost: left()).value == HelperIdentity.protocolVersion
+        // The steps between two questions run at the timers' quality too: a task that asks at a lower one resumes
+        // behind Peel's busy threads, and the wait it spent there would be taken from a helper that answered.
+        await Task.detached(priority: .userInitiated) {
+            let deadline = ContinuousClock.now.advanced(by: .seconds(wait))
+            let left = { ContinuousClock.now.duration(to: deadline) / .seconds(1) }
+            let asked = Date.now
+            let first = await askVersion(connecting: connect, waitingAtMost: wait)
+            if first.value == HelperIdentity.protocolVersion { return true }
+            guard first.value != nil || first.wasRejected else { return false }
+            // A helper of another version, or one XPC turns away because an update deleted its program, is one the
+            // update left running: it leaves as soon as no connection is open (`HelperLifetime`), and launchd then
+            // starts the one this copy carries. Another copy's helper keeps running.
+            var process = first.process
+            if process == nil { process = await runningHelper(asked, left()) }
+            if let process {
+                guard await untilEnded(process, left()) else { return false }
+            }
+            return await askVersion(connecting: connect, waitingAtMost: left()).value == HelperIdentity.protocolVersion
+        }.value
     }
 
     /// The process launchd runs the helper in, if it already ran when Peel asked at `date`: XPC names no process whose
