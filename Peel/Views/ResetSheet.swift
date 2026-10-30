@@ -184,12 +184,6 @@ struct ResetSheet: View {
             }
         }
         .scrollBarBelowSectionHeaders()
-        .announcesScan(
-            plan.scanRun.isRunning,
-            found: plan.items.isEmpty ? nil : AttributedString(localized: "^[\(plan.items.count) item](inflect: true)."),
-            couldNotLook: phase != .message ? nil : plan.isExcluded ? "This app is excluded" : "Nothing to Reset",
-            wasStopped: plan.scanRun.wasStopped
-        )
         .scanState(phase, scan: plan.scanRun) {
             if plan.isExcluded {
                 ContentUnavailableView(
@@ -205,6 +199,12 @@ struct ResetSheet: View {
                 )
             }
         }
+        .announcesScan(
+            plan.scanRun.isRunning,
+            found: plan.items.isEmpty ? nil : AttributedString(localized: "^[\(plan.items.count) item](inflect: true)."),
+            couldNotLook: phase != .message ? nil : plan.isExcluded ? "This app is excluded" : "Nothing to Reset",
+            wasStopped: plan.scanRun.wasStopped
+        )
         .edgeBar(.bottom) { bar }
     }
 
