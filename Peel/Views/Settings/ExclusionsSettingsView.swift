@@ -112,7 +112,7 @@ struct ExclusionsSettingsView: View {
                                 } else {
                                     Image(systemName: "questionmark.app")
                                         .foregroundStyle(.secondary)
-                                        .accessibilityHidden(true)
+                                        .accessibilityRepresentation { Text("Not installed") }
                                 }
                                 Text(verbatim: identifier)
                                     .font(.caption)
