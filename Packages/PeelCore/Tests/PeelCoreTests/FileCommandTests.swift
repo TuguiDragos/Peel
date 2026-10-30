@@ -699,7 +699,7 @@ struct FileCommandTests {
         let said = OrphansCommand.refusal(for: AppScan(apps: [], unreadable: many, needsFullDiskAccess: false))?
             .description
         #expect(said?.hasPrefix("Peel couldn't read /Volumes/Old/f1x, /Volumes/Old/f2x, /Volumes/Old/f3x, /Volumes/Old/f4x, and 56 more folders, so") == true)
-        let list = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, listOfFoldersUnreadable: true)
+        let list = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, chosenFolders: nil)
         #expect(OrphansCommand.refusal(for: list)?.description == "Peel couldn't read its list of app folders, so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned. Start the list over in Settings > General > App Folders.")
     }
 

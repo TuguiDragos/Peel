@@ -956,4 +956,39 @@ private nonisolated final class TestClock: Sendable {
         library.recheck?.cancel()
         #expect(!library.isReadingAsAsked)
     }
+
+    @Test func aReadingWaitsForTheListOfFoldersAwayFromTheMainActor() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let list = AppFolders(url: folder.appending(path: "app-folders.json"))
+        let library = AppLibrary(
+            defaults: made.defaults,
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: list,
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+        // Held as `peel` holds it while it reads the list, until the main actor has been free during the reading.
+        let lock = open(list.url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
+        try #require(lock >= 0 && flock(lock, LOCK_EX) == 0)
+        let mainWasFree = DispatchSemaphore(value: 0)
+        async let releasedInTime = withCheckedContinuation { continuation in
+            Thread {
+                let inTime = mainWasFree.wait(timeout: .now() + 60) == .success
+                flock(lock, LOCK_UN)
+                close(lock)
+                continuation.resume(returning: inTime)
+            }.start()
+        }
+
+        let reading = Task { await library.refresh() }
+        for _ in 0..<100 { await Task.yield() }
+        let stillReading = library.scanRun.isRunning
+        mainWasFree.signal()
+        _ = await reading.value
+        #expect(await releasedInTime)
+        #expect(stillReading)
+    }
 }

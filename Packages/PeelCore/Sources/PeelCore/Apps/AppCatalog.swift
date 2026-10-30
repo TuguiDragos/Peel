@@ -9,16 +9,20 @@ public struct AppScan: Sendable, Equatable {
     public let unreadable: [URL]
     /// Whether Full Disk Access would open what could not be read.
     public let needsFullDiskAccess: Bool
-    /// Whether the list of folders the person chose is there and could not be read, so the apps in those folders are
-    /// missing from `apps` too. Settings > General > App Folders starts it over.
-    public let listOfFoldersUnreadable: Bool
+    /// The folders the person chose that the reading looked in, beside the Applications folders, or nil when their
+    /// list is there and could not be read.
+    public let chosenFolders: [URL]?
 
-    init(apps: [InstalledApp], unreadable: [URL], needsFullDiskAccess: Bool, listOfFoldersUnreadable: Bool = false) {
+    init(apps: [InstalledApp], unreadable: [URL], needsFullDiskAccess: Bool, chosenFolders: [URL]? = []) {
         self.apps = apps
         self.unreadable = unreadable
         self.needsFullDiskAccess = needsFullDiskAccess
-        self.listOfFoldersUnreadable = listOfFoldersUnreadable
+        self.chosenFolders = chosenFolders
     }
+
+    /// Whether the list of folders the person chose could not be read, so the apps in those folders are missing from
+    /// `apps` too. Settings > General > App Folders starts it over.
+    public var listOfFoldersUnreadable: Bool { chosenFolders == nil }
 
     /// Whether every app could be read. Until then nothing can be called orphaned, since the files of an app Peel
     /// can't see would look so.
@@ -86,26 +90,18 @@ public enum AppCatalog {
         await scan(in: directories).apps
     }
 
-    /// Reads the apps in the Applications folders and in the folders the person chose. When the list of chosen
-    /// folders cannot be read, the reading says so (`listOfFoldersUnreadable`).
+    /// Reads the apps in the Applications folders and in the folders the person chose, and says which of those it
+    /// looked in (`chosenFolders`, nil when their list cannot be read).
     @concurrent
     public static func scan(choices: AppFolders = AppFolders()) async -> AppScan {
-        await scan(chosen: choices.load())
-    }
-
-    /// The same reading, from a list of chosen folders already read: nil when it could not be read.
-    @concurrent
-    public static func scan(chosen: [URL]?) async -> AppScan {
-        guard let chosen else {
-            let standard = await scan(in: standardDirectories)
-            return AppScan(
-                apps: standard.apps,
-                unreadable: standard.unreadable,
-                needsFullDiskAccess: standard.needsFullDiskAccess,
-                listOfFoldersUnreadable: true
-            )
-        }
-        return await scan(in: directories(adding: chosen))
+        let chosen = choices.load()
+        let found = await scan(in: chosen.map(directories(adding:)) ?? standardDirectories)
+        return AppScan(
+            apps: found.apps,
+            unreadable: found.unreadable,
+            needsFullDiskAccess: found.needsFullDiskAccess,
+            chosenFolders: chosen
+        )
     }
 
     @concurrent

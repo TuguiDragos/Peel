@@ -35,7 +35,7 @@ struct CommandLineTests {
             Output.unreadableNote(for: AppScan(apps: [], unreadable: [studio], needsFullDiskAccess: false))
                 == "Peel couldn't look inside /Volumes/Studio/Apps, so something may be there that isn't listed."
         )
-        let listUnread = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, listOfFoldersUnreadable: true)
+        let listUnread = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, chosenFolders: nil)
         #expect(Output.unreadableNote(for: listUnread) == "Peel can't read its list of app folders, so the apps in them aren't listed. Start it over in Settings > General > App Folders.")
     }
 
