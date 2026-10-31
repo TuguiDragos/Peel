@@ -324,27 +324,12 @@ private struct AppRow: View {
             } else {
                 Text("Update to \(update.latest)")
             }
-        } else {
-            caption
-        }
-    }
-
-    /// Every other row says when it was last opened, or when it arrived if that is what the list is sorted by.
-    private var caption: Text {
-        switch sort {
-        case .lastOpened, .name, .size:
-            if let lastUsedDate = app.lastUsedDate {
-                Text("Opened \(lastUsedDate, format: .relative(presentation: .named))")
-            } else if let version = app.version {
-                Text(verbatim: version)
-            } else {
-                app.isUseRecorded ? Text("Never opened") : Text(verbatim: "")
-            }
-        case .dateAdded:
-            if let dateAdded = app.dateAdded {
-                Text("Added \(dateAdded, format: .relative(presentation: .named))")
-            } else {
-                Text(verbatim: app.version ?? "")
+        } else if let caption = AppRowCaption(app: app, sort: sort) {
+            switch caption {
+            case .opened(let lastUsedDate): Text("Opened \(lastUsedDate, format: .relative(presentation: .named))")
+            case .added(let dateAdded): Text("Added \(dateAdded, format: .relative(presentation: .named))")
+            case .version(let version): Text(verbatim: version)
+            case .neverOpened: Text("Never opened")
             }
         }
     }
