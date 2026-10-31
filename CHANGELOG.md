@@ -24,6 +24,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Uninstall Helper is offered while the helper waits for approval too, and asks first, since the helper serves every
   account.
 
+#### Applications
+
+- VS Code is asked about through the update service VS Code itself asks, so its new version shows as soon as
+  Microsoft offers it, not only once Homebrew's list of packages has it.
+
 #### Intel Software
 
 - Java runtimes built only for Intel, in `/Library/Java/JavaVirtualMachines` and the same folder in your home.
@@ -140,7 +145,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Applications
 
 - A row moves up to Updates Available once a round of checks ends, rather than while you read the list.
-- Up to date says in its help when Peel last checked, and while the checks are off an old Up to date isn't shown.
+- Up to date says in its help when Peel last checked, and while the checks are off, one older than a week says the
+  day it was found.
+- Opening Peel asks again about every app it last checked a day ago or more, beside those whose turn it is.
 - Forget Receipt is in the More menu of an app's page.
 - An uninstall lists an app's audio plug-ins unselected, since music apps load them on their own.
 - An app with an update waiting shows it in a panel of its own under the app: the version, how to get it, and the start
@@ -362,8 +369,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Clean Up's question names the first four formulae, the password advice shows only when `sudo` asked for one, and the
   page's spinners end with Homebrew's work.
 - Update Homebrew is offered above lists read before Homebrew's own definitions went.
-- Homebrew's last check is dated by its definitions file too, so a Homebrew that read its API today isn't said to have
-  checked a week ago.
+- While Homebrew reads its definitions from its API, its last check is dated by their file alone, so a fetch of
+  Homebrew's own code that left them as they were no longer makes what it says of versions count as new.
+- Peel no longer turns Homebrew's developer mode on: one of its questions was a developer command, after which `brew
+  update` moved Homebrew to the latest commit of its main branch. `brew developer off` turns it off.
 - A notice Homebrew gave no detail for, such as Homebrew didn't say what is installed, shows its title alone, without an
   empty line under it.
 - When Homebrew stops before writing a Brewfile, File > Export > Brewfile says why in your language.
@@ -484,6 +493,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On macOS 26, with the sidebar hidden, the title bar no longer draws a band and a line across the list and the page.
 - On macOS 27, while the sidebar slides back, the page no longer runs past the window's edge, and the toolbar's last
   buttons no longer move into its overflow menu for a moment.
+- On macOS 27, closing the sidebar by dragging its edge keeps the divider between a list and its page in place.
 - On macOS 26, sheets and alerts open and close faster on pages with section headers.
 
 ## 1.2.1 (2026-10-25)
