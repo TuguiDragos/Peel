@@ -315,8 +315,12 @@ private struct QuietLoginRow: View {
                 }
                 asked = false
                 Task {
-                    let result = await terminal.moveQuietLoginToTrash { result, sizes in
-                        await history.record(result, tool: .terminal, source: "Terminal", sourceKey: "tool", sizes: sizes)
+                    let result = await history.moving(tool: .terminal, source: "Terminal", sourceKey: "tool") {
+                        await terminal.moveQuietLoginToTrash { result, sizes in
+                            await history.record(
+                                result, tool: .terminal, source: "Terminal", sourceKey: "tool", sizes: sizes
+                            )
+                        }
                     }
                     asked = nil
                     outcome.report(result)

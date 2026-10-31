@@ -17,12 +17,14 @@ struct ForgetReceiptDialog: ViewModifier {
             .confirmationDialog(Text("Forget the receipt of \(receipt?.identifier ?? "")?"), isPresented: isAsking, presenting: receipt) { receipt in
                 Button("Forget Receipt") {
                     Task {
-                        let result = await forget(receipt) { result in
-                            var sizes: [URL: Int64] = [:]
-                            for item in result.trashed {
-                                sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
+                        let result = await history.moving(tool: .packages, source: receipt.identifier) {
+                            await forget(receipt) { result in
+                                var sizes: [URL: Int64] = [:]
+                                for item in result.trashed {
+                                    sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
+                                }
+                                await history.record(result, tool: .packages, source: receipt.identifier, sizes: sizes)
                             }
-                            await history.record(result, tool: .packages, source: receipt.identifier, sizes: sizes)
                         }
                         outcome.report(result)
                     }
@@ -87,13 +89,17 @@ struct ForgetReceiptsDialog: ViewModifier {
 
     private func forget(_ receipts: [PackageReceipt]) {
         Task {
-            let result = await packages.forget(receipts) { result in
-                var sizes: [URL: Int64] = [:]
-                for item in result.trashed {
-                    sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
+            let named = PackageLibrary.source(of: receipts)
+            let result = await history.moving(tool: .packages, source: named.source, sourceKey: named.key) {
+                await packages.forget(receipts) { result in
+                    var sizes: [URL: Int64] = [:]
+                    for item in result.trashed {
+                        sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
+                    }
+                    await history.record(
+                        result, tool: .packages, source: named.source, sourceKey: named.key, sizes: sizes
+                    )
                 }
-                let named = PackageLibrary.source(of: receipts)
-                await history.record(result, tool: .packages, source: named.source, sourceKey: named.key, sizes: sizes)
             }
             outcome.report(result)
         }

@@ -51,6 +51,8 @@ struct RemovalStandingTests {
 
         try disk?.remount(at: directory.url.appending(path: "Renamed", directoryHint: .isDirectory))
         let elsewhere = RemovalStanding([moved])
+        let renamed = directory.url.appending(path: "Renamed/.Trashes/\(getuid())/report.txt")
+        #expect(PathPattern.comparablePath(of: elsewhere.place(of: moved)) == PathPattern.comparablePath(of: renamed))
         disk = nil
         let other = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
         try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)

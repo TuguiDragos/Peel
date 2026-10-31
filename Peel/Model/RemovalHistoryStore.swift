@@ -176,8 +176,6 @@ final class RemovalHistoryStore {
     /// sits in many batches.
     var selectedIDs: Set<RemovalRecord.ID> = []
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
-    /// Counts the Put Backs History's page tells, so one that ends as the one before is told again.
-    private(set) var toldPutBacks = 0
     /// Counts the times a removal's page has to look in the Trash again: History read again, by Reload or as Peel came
     /// forward, and a Put Back that brought something back, whatever History could write of it.
     private(set) var trashLooks = 0
@@ -340,6 +338,18 @@ final class RemovalHistoryStore {
         finish(removal)
     }
 
+    /// Runs `move`, whose items the journal writes down under this name, so a removal a stop leaves unrecorded comes
+    /// back in History as what it was and not as an interrupted removal.
+    func moving<Answer>(_ part: RemovalPart, _ move: () async -> Answer) async -> Answer {
+        await RecordedRemoval.$current.withValue(RecordedRemoval(batch: UUID(), part: part)) { await move() }
+    }
+
+    func moving<Answer>(
+        tool: Tool, source: String, sourceKey: String? = nil, _ move: () async -> Answer
+    ) async -> Answer {
+        await moving(RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue), move)
+    }
+
     /// Records in History what one part of `removal` moved, and what it refused.
     func record(
         _ result: TrashResult,
@@ -405,11 +415,7 @@ final class RemovalHistoryStore {
     func undoLastRemoval() async {
         guard let undoable, !isRestoring, mayMove else { return }
         self.undoable = nil
-        let stayed = await restore(undoable.records, canUseHelper: canUseHelper, tellingThePage: false)
-        guard !stayed.isEmpty else { return }
-        outcome?.reportPutBack(stayed.map {
-            RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
-        }, of: undoable.records.count)
+        let stayed = await restore(undoable.records, canUseHelper: canUseHelper)
         // What stayed for a reason that can pass, such as the helper or something in its place, can be asked again.
         let again = stayed.filter { !$0.failure.isFinal }.map(\.record)
         if !again.isEmpty { self.undoable = (again, undoable.title) }
@@ -479,11 +485,11 @@ final class RemovalHistoryStore {
         return (batches, searchKeys)
     }
 
-    /// Puts `records` back and answers what stayed, each with why. History's page shows the reasons
-    /// (`tellingThePage`); an Undo, asked from any page, has them told by the app instead.
+    /// Puts `records` back and answers what stayed, each with why. What stayed is told by the app wherever the person
+    /// is by then, since a Put Back can outlast the page that asked, and each reason stays under its row.
     @discardableResult
     func restore(
-        _ records: [RemovalRecord], canUseHelper: Bool, tellingThePage: Bool = true
+        _ records: [RemovalRecord], canUseHelper: Bool
     ) async -> [(record: RemovalRecord, failure: RestoreFailure)] {
         // One restore at a time, however often it is asked for: two rounds over the same records would each
         // report the items the other put back as already there.
@@ -495,7 +501,7 @@ final class RemovalHistoryStore {
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
             var stayed: [(record: RemovalRecord, failure: RestoreFailure)] = []
             let ordered = records.inPutBackOrder
-            let disks = MountedDisks.now()
+            let disks = await MountedDisks.read()
             let answers = await restoring(ordered.map { $0.located(on: disks).trashedItem }, canUseHelper)
             for (record, answer) in zip(ordered, answers) {
                 if let failure = answer {
@@ -505,9 +511,13 @@ final class RemovalHistoryStore {
                     restored.insert(record.id)
                 }
             }
-            if tellingThePage {
-                failures = problems
-                toldPutBacks += 1
+            for record in ordered {
+                failures[record.id] = problems[record.id]
+            }
+            if !stayed.isEmpty {
+                outcome?.reportPutBack(stayed.map {
+                    RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
+                }, of: records.count)
             }
             selectedIDs.subtract(restored)
             if !restored.isEmpty {

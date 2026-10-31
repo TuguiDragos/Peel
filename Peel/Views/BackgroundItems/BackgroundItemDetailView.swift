@@ -277,8 +277,10 @@ struct BackgroundItemDetailView: View {
                     if let plist = item.plistURL {
                         sizes[plist] = await FileSize.reclaimableSize(of: plist)
                     }
-                    await backgroundItems.perform(.moveToTrash, on: item) { result in
-                        await history.record(result, tool: .backgroundItems, source: item.label, sizes: sizes)
+                    await history.moving(tool: .backgroundItems, source: item.label) {
+                        await backgroundItems.perform(.moveToTrash, on: item) { result in
+                            await history.record(result, tool: .backgroundItems, source: item.label, sizes: sizes)
+                        }
                     }
                 }
             }

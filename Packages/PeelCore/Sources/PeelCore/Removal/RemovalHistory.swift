@@ -132,6 +132,12 @@ public struct TrashedDisk: Sendable, Codable, Hashable {
 public struct MountedDisks: Sendable {
     private let places: [String: String]
 
+    /// The disks mounted now, read off the main actor: macOS may wait on a disk that doesn't answer.
+    @concurrent
+    public static func read() async -> MountedDisks {
+        now()
+    }
+
     public static func now() -> MountedDisks {
         let key = URLResourceKey.volumeUUIDStringKey
         let volumes = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: [key], options: []) ?? []

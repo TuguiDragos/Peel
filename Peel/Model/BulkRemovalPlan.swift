@@ -189,7 +189,7 @@ final class BulkRemovalPlan {
     }
 
     /// Up to three app names, or a count in English that History shows in the user's language through the key.
-    private func part(naming named: [InstalledApp]) -> RemovalPart {
+    func part(naming named: [InstalledApp]) -> RemovalPart {
         let named = named.isEmpty ? apps : named
         let tool = Tool.applications.rawValue
         guard named.count > 3 else {

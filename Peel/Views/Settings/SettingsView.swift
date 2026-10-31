@@ -531,12 +531,14 @@ private struct GeneralSettingsView: View {
         .confirmationDialog("Remove Peel from this Mac?", isPresented: $isConfirmingSelfRemoval) {
             Button("Remove Peel", role: .destructive) {
                 Task {
-                    await selfUninstall.run(
-                        installedApps: library.apps,
-                        helper: helper,
-                        pausing: background
-                    ) { result in
-                        await history.record(result, tool: .applications, source: "Peel", sizes: [:])
+                    await history.moving(tool: .applications, source: "Peel") {
+                        await selfUninstall.run(
+                            installedApps: library.apps,
+                            helper: helper,
+                            pausing: background
+                        ) { result in
+                            await history.record(result, tool: .applications, source: "Peel", sizes: [:])
+                        }
                     }
                 }
             }

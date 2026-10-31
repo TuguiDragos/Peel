@@ -33,13 +33,18 @@ struct ForgetCasksDialog: ViewModifier {
 
     private func forget(_ casks: [HomebrewPackage]) {
         Task {
-            let result = await homebrew.forget(casks) { result in
-                var sizes: [URL: Int64] = [:]
-                for item in result.trashed {
-                    sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
+            let asked = HomebrewLibrary.source(of: casks, after: TrashResult())
+            let result = await history.moving(tool: .homebrew, source: asked.source, sourceKey: asked.key) {
+                await homebrew.forget(casks) { result in
+                    var sizes: [URL: Int64] = [:]
+                    for item in result.trashed {
+                        sizes[item.originalURL] = await FileSize.reclaimableSize(of: item.trashedURL)
+                    }
+                    let named = HomebrewLibrary.source(of: casks, after: result)
+                    await history.record(
+                        result, tool: .homebrew, source: named.source, sourceKey: named.key, sizes: sizes
+                    )
                 }
-                let named = HomebrewLibrary.source(of: casks, after: result)
-                await history.record(result, tool: .homebrew, source: named.source, sourceKey: named.key, sizes: sizes)
             }
             if let result { outcome.report(result) }
         }

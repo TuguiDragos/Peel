@@ -189,14 +189,17 @@ struct SavedSettingsSection: View {
         // Measured before the move, since nothing is left at that path after it.
         let size = await FileSize.reclaimableSize(of: copy.folder)
         await QuitGuard.shared.run {
-            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([copy.folder])
+            let source = "Settings Saved for \(name)"
+            let result = await history.moving(tool: .applications, source: source, sourceKey: "savedSettings.\(name)") {
+                await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([copy.folder])
+            }
             if let reason = result.failures.first?.reason {
                 failure = Failure(title: String(localized: "The copy couldn’t be moved to the Trash."), message: reason.explanation)
             }
             await history.record(
                 result,
                 tool: .applications,
-                source: "Settings Saved for \(name)",
+                source: source,
                 sourceKey: "savedSettings.\(name)",
                 sizes: [URL: Int64](measured: [(copy.folder, size)])
             )

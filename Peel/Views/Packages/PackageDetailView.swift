@@ -116,13 +116,15 @@ struct PackageDetailView: View {
         ) {
             Button("Move to Trash") {
                 Task {
-                    let result = await packages.removeSelectedItems { result in
-                        await history.record(
-                            result,
-                            tool: .packages,
-                            source: receipt.identifier,
-                            sizes: [URL: Int64](measured: receipt.items.map { ($0.url, $0.size) })
-                        )
+                    let result = await history.moving(tool: .packages, source: receipt.identifier) {
+                        await packages.removeSelectedItems { result in
+                            await history.record(
+                                result,
+                                tool: .packages,
+                                source: receipt.identifier,
+                                sizes: [URL: Int64](measured: receipt.items.map { ($0.url, $0.size) })
+                            )
+                        }
                     }
                     outcome.report(result)
                 }

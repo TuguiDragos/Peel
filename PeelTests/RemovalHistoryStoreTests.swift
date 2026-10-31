@@ -190,9 +190,11 @@ struct RemovalHistoryStoreTests {
     @Test func tellsAPutBackThatEndsAsTheOneBefore() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
+        let outcome = RemovalOutcome()
         let history = RemovalHistoryStore(
             log: RemovalLog(url: folder.appending(path: "removals.json")),
             refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            outcome: outcome,
             knowsTheExclusions: { true },
             restoring: { items, _ in items.map { _ in .needsHelper } }
         )
@@ -203,10 +205,45 @@ struct RemovalHistoryStoreTests {
 
         await history.restore(history.records, canUseHelper: false)
         let first = history.failures
+        #expect(outcome.putBackFailures.count == 1)
+        outcome.clear()
         await history.restore(history.records, canUseHelper: false)
 
         #expect(history.failures == first)
-        #expect(history.toldPutBacks == 2, "the second Put Back's alert never showed")
+        #expect(outcome.putBackFailures.count == 1, "the second Put Back's alert never showed")
+    }
+
+    @Test func aPutBackKeepsItsReasonsWhateverPageIsOnScreenByThen() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let outcome = RemovalOutcome()
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            outcome: outcome,
+            knowsTheExclusions: { true },
+            restoring: { items, _ in items.map { _ in .needsHelper } }
+        )
+        var removal = RemovalInProgress()
+        let part = RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue)
+        await history.record(try moved("Driver"), part: part, sizes: [:], in: &removal)
+        history.finish(removal)
+        let records = history.records
+
+        await history.restore(records, canUseHelper: false)
+
+        #expect(outcome.putBackFailures.map(\.failure) == [.needsHelper])
+        #expect(records.allSatisfy { history.failures[$0.id] == .needsHelper })
+    }
+
+    @Test func aMoveTellsTheJournalWhatItIsCalled() async {
+        let history = RemovalHistoryStore(knowsTheExclusions: { true })
+
+        let recorded = await history.moving(tool: .plugins, source: "Reverb", sourceKey: "tool") {
+            RecordedRemoval.current
+        }
+
+        #expect(recorded?.part == RemovalPart(source: "Reverb", sourceKey: "tool", tool: Tool.plugins.rawValue))
     }
 
     @Test func saysWhenStartingOverCouldNotSetTheOldFileAside() async throws {

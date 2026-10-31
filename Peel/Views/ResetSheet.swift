@@ -39,7 +39,11 @@ struct ResetSheet: View {
             Button("Reset", role: .destructive) {
                 Task {
                     await QuitGuard.shared.run {
-                        let result = await plan.performReset()
+                        let result = await history.moving(
+                            tool: .applications, source: "Reset of \(plan.app.name)", sourceKey: "reset.\(plan.app.name)"
+                        ) {
+                            await plan.performReset()
+                        }
                         if !result.trashed.isEmpty {
                             changedFiles = true
                         }

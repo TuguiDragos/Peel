@@ -392,7 +392,7 @@ struct MultipleAppsView: View {
                 // place.
                 let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
                 let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
-                let result = await plan.move(request)
+                let result = await history.moving(plan.part(naming: [])) { await plan.move(request) }
                 let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
                 let left = plan.bulk?.leftForAnAdministrator(after: result) ?? []
                 await LeftForAnAdministrator().record(left)

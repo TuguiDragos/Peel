@@ -5,17 +5,10 @@ import SwiftUI
 struct HistoryDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(HelperModel.self) private var helper
-    @Environment(\.openSettings) private var openSettings
     /// Nil until the disk has answered. An empty value would show every record as gone from the Trash for a
     /// moment, and offer to forget records that are still there.
     @State private var standing: RemovalStanding?
     @State private var isAskingToForget = false
-    /// The alert after a Put Back that left items behind. Its reasons stay under the rows once it is closed.
-    @State private var isShowingFailures = false
-    /// This batch's items that stayed in the Trash, in the order the page lists them.
-    @State private var failures: [(record: RemovalRecord, failure: RestoreFailure)] = []
-    /// How many items the last Put Back asked for, for the alert's title.
-    @State private var askedToPutBack = 0
     let batch: RemovalBatch
 
     /// The id of the page's task: the batch, and each time History was read again. When either changes, the page
@@ -58,7 +51,6 @@ struct HistoryDetailView: View {
             ) {
                 guard let standing else { return }
                 let selected = standing.selected(among: batch.records, in: history.selectedIDs)
-                askedToPutBack = selected.count
                 Task { await history.restore(selected, canUseHelper: helper.canAct) }
             }
         }
@@ -69,32 +61,6 @@ struct HistoryDetailView: View {
             // A look that a newer one replaced leaves its answer.
             guard !Task.isCancelled else { return }
             self.standing = standing
-        }
-        .task(id: batch.id) {
-            // Failures belong to the batch they happened in, so another batch's page starts without them. Keyed to
-            // the batch alone: a Put Back that partly worked changes the batch's records, and the alert that
-            // reports the rest must stay.
-            history.failures = [:]
-        }
-        .onChange(of: history.toldPutBacks) {
-            failures = batch.records.compactMap { record in history.failures[record.id].map { (record, $0) } }
-            isShowingFailures = !failures.isEmpty
-        }
-        .alert(
-            Text(verbatim: RestoreFailure.title(stayed: failures.count, of: askedToPutBack)),
-            isPresented: $isShowingFailures
-        ) {
-            if failures.contains(where: { $0.failure == .needsAppManagement }) {
-                Button("Open System Settings") { NSWorkspace.shared.open(AppManagement.settingsURL) }
-            }
-            if failures.contains(where: { $0.failure == .needsHelper }) {
-                Button("Open Peel Settings") { SettingsPane.helper.open(with: openSettings) }
-            }
-            Button("Copy Details") { copyFailureDetails() }
-            Button("OK", role: .cancel) {}
-                .keyboardShortcut(.defaultAction)
-        } message: {
-            failureMessage
         }
     }
 
@@ -149,6 +115,7 @@ struct HistoryDetailView: View {
                     history: history,
                     record: record,
                     place: place(of: record, in: standing),
+                    trashedURL: standing.place(of: record),
                     failure: history.failures[record.id],
                     isSelected: history.isSelected(record),
                     isFirst: record.id == batch.records.first?.id
@@ -202,27 +169,6 @@ struct HistoryDetailView: View {
         return .gone
     }
 
-    /// The alert's message: the first few items that couldn't be put back, each with its own reason, since items
-    /// can fail for different reasons, and how many more there are.
-    private var failureMessage: Text {
-        let failures = failures
-        var lines = failures.prefix(RemovalFailureAlert.mostListed).map {
-            "\($0.record.originalURL.abbreviatedPath)\n\($0.failure.explanation)"
-        }
-        let rest = failures.count - lines.count
-        if rest > 0 {
-            lines.append(String(inflecting: "And ^[\(rest) more item](inflect: true)."))
-        }
-        return Text(verbatim: lines.joined(separator: "\n\n"))
-    }
-
-    /// Copies every item with its full path, since the alert lists only the first few and its text can't be
-    /// selected.
-    private func copyFailureDetails() {
-        let lines = failures.map { "\($0.record.originalURL.path(percentEncoded: false))\n\($0.failure.explanation)" }
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(lines.joined(separator: "\n\n"), forType: .string)
-    }
 }
 
 private struct RestoreBar: View {
@@ -294,6 +240,8 @@ private struct HistoryRecordRow: View {
     let history: RemovalHistoryStore
     let record: RemovalRecord
     let place: RecordPlace
+    /// Where the item is now, which is not where it went when its disk is mounted at another place.
+    let trashedURL: URL
     /// Why the last Put Back left this item in the Trash, said under it.
     let failure: RestoreFailure?
     let isSelected: Bool
@@ -319,7 +267,7 @@ private struct HistoryRecordRow: View {
         .contextMenu {
             if place == .inTrash {
                 Button("Show in Finder", systemImage: "folder") {
-                    NSWorkspace.shared.activateFileViewerSelecting([record.trashedURL])
+                    NSWorkspace.shared.activateFileViewerSelecting([trashedURL])
                 }
             }
             Button("Copy Path", systemImage: "doc.on.doc") {
