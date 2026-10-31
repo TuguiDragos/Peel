@@ -21,7 +21,9 @@ struct PackageDetailView: View {
             if !helper.canAct {
                 HelperRequiredBanner(need: .forgettingThisReceipt)
             }
-            let forAnAdministrator = receipt.items.filter { $0.heldBack == .beyondTheHelper }
+            let forAnAdministrator = receipt.items.filter {
+                $0.heldBack == .beyondTheHelper && $0.removedElsewhere == nil
+            }
             if !forAnAdministrator.isEmpty {
                 Notice(
                     title: Text("Needs an Administrator"),

@@ -434,6 +434,89 @@ struct PackageReceiptsTests {
         #expect(items["Plain.app"]?.isLeftAlone == false)
     }
 
+    @Test(arguments: ["Vendor/Guard.app", "Vendor/Tools/Guard.app"])
+    func anAppInAPackagesOwnFolderKeepsItsRules(place: String) async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        func info(_ identifier: String, _ name: String) throws -> Data {
+            try PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": identifier, "CFBundleName": name], format: .xml, options: 0
+            )
+        }
+        try directory.file("Applications/\(place)/Contents/Info.plist", contents: info("org.example.guard", "Guard"))
+        try directory.file(
+            "Applications/\(place)/Contents/Library/SystemExtensions/org.example.guard.filter.systemextension/Contents/Info.plist",
+            contents: info("org.example.guard.filter", "Guard Filter")
+        )
+        try directory.file("Applications/Plain/Plain.app/Contents/Info.plist", contents: info("org.example.plain", "Plain"))
+        let listed = PathComponents.of(place).indices.map { PathComponents.of(place)[...$0].joined(separator: "/") }
+        let files = ["Plain", "Plain/Plain.app", "Plain/Plain.app/Contents", "Plain/Plain.app/Contents/Info.plist"] + listed
+            + ["\(place)/Contents", "\(place)/Contents/Info.plist", "\(place)/Contents/Library"]
+            + ["\(place)/Contents/Library/SystemExtensions"]
+            + ["\(place)/Contents/Library/SystemExtensions/org.example.guard.filter.systemextension"]
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.guard.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "Applications"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return files.joined(separator: "\n") + "\n"
+            default:
+                return nil
+            }
+        }
+        let filter = AppExtension(
+            identifier: "org.example.guard.filter", name: "Guard Filter", kind: .systemExtension, point: nil, owner: nil,
+            url: nil, election: .on, teamIdentifier: nil, reportedState: nil
+        )
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: pkgutil, environment: environment, systemExtensions: { [filter] }
+        )
+
+        let receipt = try #require(scan.receipts.first)
+        #expect(receipt.installedApps == ["Guard", "Plain"])
+        let vendor = try #require(receipt.items.first { $0.url.lastPathComponent == "Vendor" })
+        #expect(vendor.removedElsewhere != nil)
+        #expect(vendor.isLeftAlone)
+        let selectable = receipt.selectableRows(canUseHelper: true)
+        #expect(!selectable.recommended.contains(vendor.url))
+    }
+
+    @Test func anAppInAFolderOthersFilledIsNotThePackagesOwn() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.other", "CFBundleName": "Other"], format: .xml, options: 0
+        )
+        try directory.file("Applications/Vendor/Other.app/Contents/Info.plist", contents: info)
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.vendor.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "Applications"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return "Vendor\n"
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: pkgutil, environment: environment, systemExtensions: { [] }
+        )
+
+        #expect(scan.receipts.first?.installedApps == [])
+    }
+
     @Test func leavesTheRestOfAPackageToWhatRemovesItsApp() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)

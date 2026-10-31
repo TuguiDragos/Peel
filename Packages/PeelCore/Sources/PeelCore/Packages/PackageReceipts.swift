@@ -309,10 +309,14 @@ public enum PackageReceipts {
             && (files.isEmpty || isTemporary(installLocation: info["install-location"] as? String ?? ""))
 
         let found = topLevel(files: files, installLocation: installLocation.path(percentEncoded: false))
-        // An app's own rules reach the rest of its package, as they reach its files on its page.
-        let apps = found.offered
-            .filter { ($0 as NSString).pathExtension.caseInsensitiveCompare("app") == .orderedSame }
-            .compactMap { AppInspector.inspect(URL(filePath: PathPattern.located($0) ?? $0)) }
+        // An app's own rules reach the rest of its package, as they reach its files on its page, and a folder an app
+        // sits in moves that app too. What else a folder holds isn't this package's, even when the folder is.
+        let inspected = { (paths: [String]) in
+            paths.compactMap { AppInspector.inspect(URL(filePath: PathPattern.located($0) ?? $0)) }
+        }
+        let apps = inspected(found.offered.flatMap { appPaths(in: $0) })
+        let ownApps = found.othersFilled.isEmpty
+            ? apps : inspected(found.offered.filter { !found.othersFilled.contains($0) }.flatMap { appPaths(in: $0) })
         var removedApps: [String: RemovedElsewhere] = [:]
         for app in apps {
             let carried = await AppExtensions.installed(carriedBy: app) { await installed.answer() }
@@ -355,7 +359,9 @@ public enum PackageReceipts {
                 heldBack: heldBack,
                 removedElsewhere: url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
                     ? removedApps[place] : removedWithItsApp,
-                uninstallsItself: uninstallers.first { PathPattern.comparablePath(of: $0.app.url) == place }
+                uninstallsItself: uninstallers.first {
+                    PathComponents.isPath(PathPattern.comparablePath(of: $0.app.url), atOrInside: place)
+                }
             ))
         }
 
@@ -370,7 +376,7 @@ public enum PackageReceipts {
                 nothingLeftOnDisk: listing != nil && !throughScripts && found.onDisk.isEmpty,
                 isFileListKnown: listing != nil,
                 installedThroughItsScripts: throughScripts,
-                apps: apps
+                apps: ownApps
             ),
             paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) },
             installLocation: installLocation.path(percentEncoded: false)
@@ -512,6 +518,23 @@ public enum PackageReceipts {
             return [path]
         }
         return parts(depth + 1)
+    }
+
+    /// `path` when it is an app, or else the apps a level or two inside it, as far as the guard looks for an excluded
+    /// one. An app inside another bundle is that bundle's own.
+    static func appPaths(in path: String) -> [String] {
+        let isAnApp = { (path: String) in
+            (path as NSString).pathExtension.caseInsensitiveCompare("app") == .orderedSame
+        }
+        guard !isAnApp(path) else { return [path] }
+        guard !isBundle(path, exists: { URL(filePath: $0).isThere }), let names = namesInside(path) else { return [] }
+        return names.sorted().flatMap { name -> [String] in
+            let inside = (path as NSString).appendingPathComponent(name)
+            if isAnApp(inside) { return URL(filePath: inside).isRealFolder ? [inside] : [] }
+            guard !isBundle(inside, exists: { URL(filePath: $0).isThere }) else { return [] }
+            return (namesInside(inside) ?? []).sorted().map { (inside as NSString).appendingPathComponent($0) }
+                .filter { isAnApp($0) && URL(filePath: $0).isRealFolder }
+        }
     }
 
     /// What is inside a folder, or nil for a file or a link, which is one item whatever it leads to.
