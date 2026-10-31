@@ -5,6 +5,47 @@ import PeelPrivileged
 import Testing
 
 struct BackgroundItemActionsTests {
+    @Test func theHelperIsAskedForOnlyWhenThePageCanUseIt() {
+        func daemon(
+            source: BackgroundItem.Source = .systemLibrary,
+            plist: URL? = URL(filePath: "/Library/LaunchDaemons/org.example.job.plist"),
+            isDisabled: Bool = false
+        ) -> BackgroundItem {
+            BackgroundItem(
+                label: "org.example.job", kind: .daemon, source: source, plistURL: plist, program: nil, runsAtLoad: nil,
+                keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false,
+                state: .loaded, isDisabled: isDisabled
+            )
+        }
+        #expect(daemon().waitsForTheHelper)
+
+        var registered = daemon(source: .app, plist: nil)
+        registered.isManagedByServiceManagement = true
+        #expect(!registered.waitsForTheHelper)
+
+        var turnedOff = daemon(source: .app, plist: nil, isDisabled: true)
+        turnedOff.isManagedByServiceManagement = true
+        #expect(turnedOff.waitsForTheHelper)
+
+        var excluded = daemon()
+        excluded.isExcluded = true
+        #expect(!excluded.waitsForTheHelper)
+
+        var unknown = daemon()
+        unknown.state = .unknown
+        #expect(unknown.waitsForTheHelper)
+
+        var fileOnly = BackgroundItem(
+            label: "org.example.agent", kind: .agent, source: .systemLibrary,
+            plistURL: URL(filePath: "/Library/LaunchAgents/org.example.agent.plist"), program: nil, runsAtLoad: nil,
+            keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false,
+            state: .loaded, isDisabled: false
+        )
+        #expect(fileOnly.waitsForTheHelper)
+        fileOnly.isExcluded = true
+        #expect(!fileOnly.waitsForTheHelper)
+    }
+
     private func item(state: BackgroundItem.State, plist: URL?) -> BackgroundItem {
         BackgroundItem(
             label: "com.example.agent", kind: .agent, source: .userLibrary, plistURL: plist, program: nil,

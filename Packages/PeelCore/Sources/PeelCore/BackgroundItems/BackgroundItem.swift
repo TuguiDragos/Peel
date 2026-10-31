@@ -140,4 +140,22 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var canMoveToTrash: Bool {
         !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS && !isExcluded
     }
+
+    /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
+    /// file named by itself since its label couldn't be read, and a file whose label launchd runs from another file
+    /// don't have. A job loaded from a file elsewhere has only Stop. A job Peel may not disable has only Enable, while
+    /// launchd keeps it disabled.
+    public var offersControls: Bool {
+        guard canBeControlled, state != .unknown, !isNamedByItsFile, !anotherFileIsLoaded else { return false }
+        if canOnlyBeStopped { return true }
+        if #available(macOS 27, *), isLeftByAGoneApp { return true }
+        return !isSeenOnlyWhileLoaded || isDisabled || mayBeDisabled
+    }
+
+    /// Whether the helper would let Peel do more with the job than it can without it: a control the page offers, or the
+    /// move of its file.
+    public var waitsForTheHelper: Bool {
+        guard !isPeelsHelper, !isSystemExtension else { return false }
+        return requiresPrivileges && offersControls || removalRequiresPrivileges && canMoveToTrash
+    }
 }

@@ -246,7 +246,9 @@ struct BackgroundItemDetailView: View {
 
             if needsHelper {
                 Section {
-                    HelperRequiredBanner(need: item.requiresPrivileges ? .changingThisJob : .moving(1))
+                    HelperRequiredBanner(
+                        need: item.requiresPrivileges && item.offersControls ? .changingThisJob : .moving(1)
+                    )
                 }
             }
 
@@ -292,13 +294,7 @@ struct BackgroundItemDetailView: View {
         }
     }
 
-    /// Whether this item needs administrator access while the helper can't act. Never true for Peel's own helper,
-    /// a job under one of macOS's labels, or a system extension: none offers an action, so the helper would change
-    /// nothing.
-    private var needsHelper: Bool {
-        !item.isPeelsHelper && !item.usesALabelOfMacOS && !item.isSystemExtension
-            && (item.requiresPrivileges || item.removalRequiresPrivileges) && !helper.canAct
-    }
+    private var needsHelper: Bool { item.waitsForTheHelper && !helper.canAct }
 
     private func answer(_ fact: Bool?) -> Text {
         switch fact {
@@ -401,18 +397,7 @@ struct BackgroundItemDetailView: View {
             .contentTransition(.opacity)
     }
 
-    /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
-    /// file named by itself since its label couldn't be read, and a file whose label launchd runs from another file
-    /// don't have. A job loaded from a file elsewhere has only Stop. A job Peel may not disable has only Enable, while
-    /// launchd keeps it disabled.
-    private var hasOwnControls: Bool {
-        guard item.canBeControlled, item.state != .unknown, !item.isNamedByItsFile, !item.anotherFileIsLoaded else {
-            return false
-        }
-        if item.canOnlyBeStopped { return true }
-        if #available(macOS 27, *), item.isLeftByAGoneApp { return true }
-        return !item.isSeenOnlyWhileLoaded || item.isDisabled || item.mayBeDisabled
-    }
+    private var hasOwnControls: Bool { item.offersControls }
 
     private var controls: some View {
         let hasFileControls = finderURL != nil || item.canMoveToTrash
