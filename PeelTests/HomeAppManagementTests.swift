@@ -1,6 +1,7 @@
 import Foundation
 @testable import Peel
 import PeelCore
+import Synchronization
 import Testing
 
 @MainActor
@@ -53,5 +54,43 @@ struct HomeAppManagementTests {
 
         #expect(!home.appManagementAwaitsARemoval)
         #expect(!home.waitingRequired.contains(.appManagement))
+    }
+
+    @Test func theRowsDontWaitForTheQuestionAboutAnotherCopy() async throws {
+        let madeUp = try MadeUpDefaults()
+        defer { madeUp.forget() }
+        let (gate, opens) = AsyncStream.makeStream(of: Void.self)
+        let home = HomeModel(
+            helper: HelperModel(), defaults: madeUp.defaults, readsFinderExtension: (
+                isEnabled: { false },
+                runsFromAnotherCopy: {
+                    for await _ in gate {}
+                    return true
+                }
+            ), readsModelName: { nil }
+        )
+
+        let refresh = Task { await home.refresh() }
+        while !home.hasChecked { await Task.yield() }
+        #expect(!home.isFinderExtensionFromAnotherCopy)
+        opens.finish()
+        await refresh.value
+
+        #expect(home.isFinderExtensionFromAnotherCopy)
+    }
+
+    @Test func asksForTheMacsNameOnceALaunchWhenNothingAnswers() async throws {
+        let madeUp = try MadeUpDefaults()
+        defer { madeUp.forget() }
+        let asked = Mutex(0)
+        let home = HomeModel(helper: HelperModel(), defaults: madeUp.defaults, readsModelName: {
+            asked.withLock { $0 += 1 }
+            return nil
+        })
+
+        await home.refresh()
+        await home.refresh()
+
+        #expect(asked.withLock { $0 } == 1)
     }
 }

@@ -105,7 +105,7 @@ struct HomePermissionsContent: View {
                             .accessibilityValue(Text(status))
                         InfoNote(
                             name: String(localized: permission.title),
-                            detail: Text(home.detail(of: permission)),
+                            detail: home.detail(of: permission),
                             symbol: permission.symbol,
                             isAlbum: true
                         )
@@ -144,7 +144,7 @@ struct HomePermissionsContent: View {
 
     private func help(for permission: HomeModel.Permission) -> Text {
         permission.isInSystemSettings
-            ? Text("Show \(String(localized: permission.title)) in System Settings")
+            ? Text("Show \(permission.nameInSystemSettings) in System Settings")
             : Text("Open Peel Settings")
     }
 
@@ -338,14 +338,20 @@ struct HomePermissionsContent: View {
                 Task { helperFailure = await helper.install() }
             }
         case .notifications: Task { await home.requestNotifications() }
-        case .fullDiskAccess, .appManagement, .finderExtension, .openAtLogin: reveal(permission)
+        case .openAtLogin:
+            if home.loginItem.needsApproval {
+                reveal(permission)
+            } else {
+                home.loginItem.set(on: true)
+            }
+        case .fullDiskAccess, .appManagement, .finderExtension: reveal(permission)
         // Its `CopyButton` copies the command by itself, so `perform` is never called for it.
         case .commandLine: break
         }
     }
 }
 
-fileprivate extension HomeModel {
+extension HomeModel {
     func status(of permission: Permission) -> LocalizedStringResource {
         guard hasChecked else { return "Checking…" }
         return switch (permission, state(of: permission)) {
@@ -361,6 +367,7 @@ fileprivate extension HomeModel {
             }
         case (.helper, .pending): "Needs approval, or was turned off"
         case (.finderExtension, .off) where isFinderExtensionFromAnotherCopy: "On in another copy of Peel"
+        case (.openAtLogin, .off) where loginItem.failure != nil: "Couldn’t turn on"
         case (_, .notThisAccount): "Needs an administrator"
         case (.appManagement, .pending):
             appManagementAwaitsARemoval ? "Checked at the next removal" : "Checked at first removal"
@@ -373,10 +380,23 @@ fileprivate extension HomeModel {
         }
     }
 
-    func detail(of permission: Permission) -> LocalizedStringResource {
-        guard permission == .commandLine, state(of: permission) == .notThisAccount else { return permission.detail }
-        return "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account."
+    func detail(of permission: Permission) -> Text {
+        switch permission {
+        case .helper where state(of: .helper) == .missing && helper.standing != .notAnswering
+            && helper.isRegisteredByAnotherCopy:
+            Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
+        case .openAtLogin where loginItem.failure != nil:
+            Text(verbatim: loginItem.failure ?? "")
+        case .commandLine:
+            Text(verbatim: [permission.detail, Self.commandLineNextStep(
+                state: state(of: permission), standing: Self.commandLineStanding, place: Self.commandLinePlace
+            )].compactMap { $0.map { String(localized: $0) } }.joined(separator: " "))
+        default:
+            Text(permission.detail)
+        }
     }
+
+    private static let commandLinePlace = CommandLineTool.place()
 
     func action(for permission: Permission) -> LocalizedStringResource? {
         guard hasChecked else { return nil }
@@ -396,7 +416,11 @@ fileprivate extension HomeModel {
         // The optional rows open System Settings from their name, so they need no button. Notifications has
         // one until Peel has asked, because macOS lists Peel under Notifications only after that.
         case .notifications: return notificationStatus == .notDetermined ? "Turn On" : nil
-        case .finderExtension, .openAtLogin: return nil
+        case .finderExtension: return nil
+        // macOS lists Peel under Open at Login only once it has registered, so the row turns it on, as Settings does.
+        case .openAtLogin:
+            guard state != .on, loginItem.isKnown else { return nil }
+            return loginItem.needsApproval ? "Open System Settings" : "Turn On"
         // Short on purpose: every row shares the grid's button column, so a wide label here would narrow
         // every row's name. The row's name says what is copied, and the note beside it explains.
         case .commandLine:
@@ -410,6 +434,11 @@ extension HomeModel.Permission {
     /// Whether the setting lives in System Settings. The command-line tool is a symlink in `/usr/local/bin`,
     /// so its row is the one with no pane to open.
     var isInSystemSettings: Bool { self != .commandLine }
+
+    /// What System Settings lists the setting under: macOS lists the helper as Peel itself.
+    var nameInSystemSettings: String {
+        self == .helper ? "Peel" : String(localized: title)
+    }
 
     var tilt: Double {
         switch self {

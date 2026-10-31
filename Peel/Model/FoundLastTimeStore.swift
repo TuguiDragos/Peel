@@ -31,8 +31,8 @@ struct Looked: Equatable {
     let size: SizeTotal?
 }
 
-// What counts as found for each tool Home lists. Each is nil until the tool has looked since Peel opened, so
-// what an earlier look found stays until the tool looks again.
+// What counts as found for each tool the menu bar panel lists. Each is nil until the tool has looked since Peel
+// opened, so what an earlier look found stays until the tool looks again.
 
 extension AppLibrary {
     /// The apps with an update waiting, as the menu bar counts them, once a round of checks is over.

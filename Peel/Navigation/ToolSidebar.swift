@@ -13,6 +13,8 @@ enum SidebarDestination: Hashable {
 
 struct ToolSidebar: View {
     @Environment(HomeModel.self) private var home
+    @Environment(ExclusionsStore.self) private var exclusions
+    @Environment(RemovalHistoryStore.self) private var history
     @Environment(PeelUpdater.self) private var updater
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage("sidebar.apps.expanded") private var isAppsExpanded = true
@@ -225,10 +227,12 @@ struct ToolSidebar: View {
             }
             if tool == .home {
                 Spacer(minLength: 8)
+                let needsAttention = home.needsAttention
+                    || MovesHeld.reason(exclusions: exclusions, history: history) != nil
                 AttentionBadge()
-                    .opacity(home.needsAttention ? 1 : 0)
-                    .accessibilityHidden(!home.needsAttention)
-                    .motion(value: home.needsAttention)
+                    .opacity(needsAttention ? 1 : 0)
+                    .accessibilityHidden(!needsAttention)
+                    .motion(value: needsAttention)
             }
         }
         .background {

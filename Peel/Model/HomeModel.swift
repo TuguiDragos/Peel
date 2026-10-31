@@ -54,10 +54,10 @@ final class HomeModel {
             case .fullDiskAccess: "Lets Peel look inside the Trash and the private folders where apps keep their data. Without it, Peel can’t find everything an app leaves behind."
             case .helper: "Some leftovers sit in folders only an administrator can change. The helper moves those for Peel. macOS asks you to approve it once, in Login Items & Extensions. It belongs to the copy of Peel that installed it."
             case .appManagement: "macOS stops an app from moving another developer’s app to the Trash unless you allow it. Without this, Peel can still clear an app’s files, but macOS may refuse to move the app itself."
-            case .notifications: "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too."
+            case .notifications: "Tells you when your apps have new updates and when a Homebrew upgrade finishes or runs into a problem. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too."
             case .finderExtension: "Adds Uninstall with Peel to the menu you get when you Control-click an app in Finder."
             case .openAtLogin: "Starts Peel when you log in. “Watch the Trash” works only while Peel is running."
-            case .commandLine: "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Copy the install command and run it in Terminal: it asks for your password."
+            case .commandLine: "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal."
             }
         }
 
@@ -100,7 +100,6 @@ final class HomeModel {
     /// The Finder extension is on, but macOS runs the one inside another copy of Peel, so this copy reads it as off.
     private(set) var isFinderExtensionFromAnotherCopy = false
     private let refreshes = OneRunAtATime()
-    private var isReadingModelName = false
     private var found: [Permission: State] = [:]
     private(set) var notificationStatus: UNAuthorizationStatus = .notDetermined
     private(set) var appManagement: AccessState = .unknown
@@ -122,6 +121,12 @@ final class HomeModel {
     private(set) var hasChecked = false
     private let frontmost: FrontmostApp
     private let defaults: UserDefaults
+    private let readsFinderExtension: FinderExtensionReads
+    private let readsModelName: @Sendable () async -> String?
+    private var hasAskedForTheModelName = false
+    typealias FinderExtensionReads = (
+        isEnabled: @Sendable () async -> Bool, runsFromAnotherCopy: @Sendable () async -> Bool
+    )
 
     /// The login item Settings switches too, so Home shows each change as it lands.
     let loginItem: LoginItem
@@ -130,12 +135,19 @@ final class HomeModel {
         helper: HelperModel,
         loginItem: LoginItem = .ofTheMainApp(),
         defaults: UserDefaults = .standard,
-        frontmost: FrontmostApp = .shared
+        frontmost: FrontmostApp = .shared,
+        readsFinderExtension: FinderExtensionReads = (
+            isEnabled: { await isFinderExtensionEnabled() },
+            runsFromAnotherCopy: { await finderExtensionRunsFromAnotherCopy() }
+        ),
+        readsModelName: @escaping @Sendable () async -> String? = { await DeviceInfo.marketingName() }
     ) {
         self.helper = helper
         self.loginItem = loginItem
         self.defaults = defaults
         self.frontmost = frontmost
+        self.readsFinderExtension = readsFinderExtension
+        self.readsModelName = readsModelName
         let stored = AccessState(stored: defaults.string(forKey: Self.appManagementKey))
         appManagementAwaitsARemoval = stored == .missing
         appManagement = stored == .missing ? .unknown : stored
@@ -158,6 +170,29 @@ final class HomeModel {
     }
 
     var needsAttention: Bool { !missingRequired.isEmpty }
+
+    /// What the Command Line row's note says to do, which is what its button offers and what Settings says. Nil once
+    /// the tool is on the path.
+    static func commandLineNextStep(
+        state: State, standing: CommandLineTool.Standing, place: CommandLineTool.Place
+    ) -> LocalizedStringResource? {
+        guard state != .on else { return nil }
+        switch place {
+        case .temporaryCopy:
+            return "Peel is running from a copy macOS made because it is still marked as downloaded. Move Peel to the Applications folder and open it from there."
+        case .readOnlyVolume:
+            return "Peel is running from a read-only disk, such as the disk image it came on. Move Peel to the Applications folder and open it from there."
+        case .applications, .elsewhere:
+            break
+        }
+        if state == .notThisAccount {
+            return "Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account."
+        }
+        if standing == .somethingElse {
+            return "Something else is at \(CommandLineTool.path), and Peel offers no command that would replace it."
+        }
+        return "Copy the install command and run it in Terminal: it asks for your password."
+    }
 
     /// Required permissions still pending, such as a helper waiting for approval or a check that got no
     /// answer. Home doesn't say "You're all set" while any remain. App Management counts only after a refusal: it is
@@ -200,9 +235,7 @@ final class HomeModel {
         async let helperChecked: Void = helper.checkConnection()
 
         notificationStatus = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
-        let isFinderExtensionEnabled = await Self.isFinderExtensionEnabled()
-        isFinderExtensionFromAnotherCopy =
-            isFinderExtensionEnabled ? false : await Self.finderExtensionRunsFromAnotherCopy()
+        let isFinderExtensionEnabled = await readsFinderExtension.isEnabled()
 
         let fullDisk = await access
         needsRelaunchForFullDiskAccess = FullDiskAccess.offersReopen(
@@ -224,6 +257,9 @@ final class HomeModel {
         ]
         hasChecked = true
 
+        // Only a word of an optional row hangs on this, and `pluginkit` can take seconds, so no row waits for it.
+        isFinderExtensionFromAnotherCopy = isFinderExtensionEnabled
+            ? false : await readsFinderExtension.runsFromAnotherCopy()
         await helperChecked
 
         // Free space is read every time, since it is how the user sees that a cleanup worked.
@@ -240,13 +276,13 @@ final class HomeModel {
         return defaults.string(forKey: Self.modelNameKey + identifier)
     }
 
-    /// Reads the marketing name with `system_profiler` and saves it, when none is saved for this model yet.
+    /// Reads the marketing name with `system_profiler` and saves it, when none is saved for this model yet. It is asked
+    /// once a launch: a `system_profiler` that didn't answer would otherwise take seconds each time Peel comes forward.
     private func readModelName() async {
-        guard !isReadingModelName, let identifier = device?.modelIdentifier, !identifier.isEmpty, modelName == nil
+        guard !hasAskedForTheModelName, let identifier = device?.modelIdentifier, !identifier.isEmpty, modelName == nil
         else { return }
-        isReadingModelName = true
-        defer { isReadingModelName = false }
-        guard let name = await DeviceInfo.marketingName() else { return }
+        hasAskedForTheModelName = true
+        guard let name = await readsModelName() else { return }
         defaults.set(name, forKey: Self.modelNameKey + identifier)
         device = device?.named(name)
     }
@@ -317,11 +353,11 @@ final class HomeModel {
 
     /// Off the main thread: it waits for another process to answer.
     @concurrent
-    private static func isFinderExtensionEnabled() async -> Bool {
+    private nonisolated static func isFinderExtensionEnabled() async -> Bool {
         FIFinderSyncController.isExtensionEnabled
     }
 
-    private static func finderExtensionRunsFromAnotherCopy() async -> Bool {
+    private nonisolated static func finderExtensionRunsFromAnotherCopy() async -> Bool {
         guard let own = Bundle.main.builtInPlugInsURL.flatMap({ Bundle(url: $0.appending(path: "PeelFinder.appex")) }),
               let identifier = own.bundleIdentifier
         else { return false }

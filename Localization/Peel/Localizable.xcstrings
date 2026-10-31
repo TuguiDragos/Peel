@@ -34416,6 +34416,218 @@
         }
       }
     },
+    "Copy the install command and run it in Terminal: it asks for your password." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkopírujte instalační příkaz a spusťte ho v Terminálu: vyžádá si vaše heslo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiere den Installationsbefehl und führe ihn im Terminal aus: Er fragt nach deinem Passwort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia el comando de instalación y ejecútalo en Terminal: te pedirá la contraseña."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiez la commande d’installation et exécutez-la dans Terminal : elle vous demande votre mot de passe."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia il comando di installazione ed eseguilo in Terminale: ti chiederà la password."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストールコマンドをコピーしてターミナルで実行してください。パスワードの入力を求められます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치 명령을 복사하여 터미널에서 실행하십시오. 실행하면 암호를 묻습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieer het installatiecommando en voer het uit in Terminal: je wordt om je wachtwoord gevraagd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skopiuj polecenie instalacji i uruchom je w Terminalu: poprosi o Twoje hasło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copie o comando de instalação e execute-o no Terminal: ele pede a sua senha."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiați comanda de instalare și rulați‑o în Terminal: vă va cere parola."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопируйте команду установки и выполните ее в Терминале: она запросит Ваш пароль."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiera installationskommandot och kör det i Terminal: det ber om ditt lösenord."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükleme komutunu kopyalayıp Terminal’de çalıştırın: parolanızı ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопіюйте команду інсталювання й виконайте її в Терміналі: вона попросить ваш пароль."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请拷贝安装命令并在“终端”中运行：它会要求你输入密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請拷貝安裝指令並在「終端機」中執行：它會要求輸入你的密碼。"
+          }
+        }
+      }
+    },
+    "Couldn’t turn on" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nepodařilo se zapnout"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konnte nicht aktiviert werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido activar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activation impossible"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile attivare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オンにできませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켤 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kon niet worden ingeschakeld"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się włączyć"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ativar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s‑a putut activa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось включить"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunde inte slås på"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açılamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося увімкнути"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法開啟"
+          }
+        }
+      }
+    },
     "Critical" : {
       "localizations" : {
         "cs" : {
@@ -84092,215 +84304,108 @@
         }
       }
     },
-    "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Copy the install command and run it in Terminal: it asks for your password." : {
+    "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Umožňuje v Terminálu odinstalovávat aplikace a odstraňovat zbytky, mezipaměti a duplikáty. Zkopírujte instalační příkaz a spusťte ho v Terminálu: vyžádá si vaše heslo."
+            "value" : "Umožňuje v Terminálu odinstalovávat aplikace a odstraňovat zbytky, mezipaměti a duplikáty."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Damit kannst du im Terminal Apps deinstallieren und Überreste, Caches und Duplikate entfernen. Kopiere den Installationsbefehl und führe ihn im Terminal aus: Er fragt nach deinem Passwort."
+            "value" : "Damit kannst du im Terminal Apps deinstallieren und Überreste, Caches und Duplikate entfernen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Te permite desinstalar apps y eliminar restos, cachés y duplicados desde Terminal. Copia el comando de instalación y ejecútalo en Terminal: te pedirá la contraseña."
+            "value" : "Te permite desinstalar apps y eliminar restos, cachés y duplicados desde Terminal."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous permet de désinstaller des apps et de supprimer les fichiers résiduels, les caches et les doublons depuis Terminal. Copiez la commande d’installation et exécutez-la dans Terminal : elle vous demande votre mot de passe."
+            "value" : "Vous permet de désinstaller des apps et de supprimer les fichiers résiduels, les caches et les doublons depuis Terminal."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ti permette di disinstallare app e rimuovere residui, cache e duplicati da Terminale. Copia il comando di installazione ed eseguilo in Terminale: ti chiederà la password."
+            "value" : "Ti permette di disinstallare app e rimuovere residui, cache e duplicati da Terminale."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルからアプリをアンインストールしたり、残存ファイル、キャッシュ、重複項目を取り除いたりできるようにします。インストールコマンドをコピーしてターミナルで実行してください。パスワードの入力を求められます。"
+            "value" : "ターミナルからアプリをアンインストールしたり、残存ファイル、キャッシュ、重複項目を取り除いたりできるようにします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널에서 앱을 제거하고 잔여 파일, 캐시, 중복된 항목을 정리할 수 있습니다. 설치 명령을 복사하여 터미널에서 실행하십시오. 실행하면 암호를 묻습니다."
+            "value" : "터미널에서 앱을 제거하고 잔여 파일, 캐시, 중복된 항목을 정리할 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hiermee kun je vanuit Terminal apps deïnstalleren en restbestanden, caches en dubbele onderdelen opruimen. Kopieer het installatiecommando en voer het uit in Terminal: je wordt om je wachtwoord gevraagd."
+            "value" : "Hiermee kun je vanuit Terminal apps deïnstalleren en restbestanden, caches en dubbele onderdelen opruimen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pozwala odinstalowywać aplikacje i przenosić do Kosza pozostałości, pamięci podręczne i duplikaty z poziomu Terminala. Skopiuj polecenie instalacji i uruchom je w Terminalu: poprosi o Twoje hasło."
+            "value" : "Pozwala odinstalowywać aplikacje i przenosić do Kosza pozostałości, pamięci podręczne i duplikaty z poziomu Terminala."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permite desinstalar apps e limpar sobras, caches e duplicatas pelo Terminal. Copie o comando de instalação e execute-o no Terminal: ele pede a sua senha."
+            "value" : "Permite desinstalar apps e limpar sobras, caches e duplicatas pelo Terminal."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vă permite să dezinstalați aplicații și să eliminați fișiere rămase, memorii tampon și duplicate din Terminal. Copiați comanda de instalare și rulați‑o în Terminal: vă va cere parola."
+            "value" : "Vă permite să dezinstalați aplicații și să eliminați fișiere rămase, memorii tampon și duplicate din Terminal."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Позволяет удалять приложения, остатки, кэши и дубликаты из Терминала. Скопируйте команду установки и выполните ее в Терминале: она запросит Ваш пароль."
+            "value" : "Позволяет удалять приложения, остатки, кэши и дубликаты из Терминала."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Låter dig avinstallera appar och rensa bort kvarlämnade filer, cachar och dubbletter från Terminal. Kopiera installationskommandot och kör det i Terminal: det ber om ditt lösenord."
+            "value" : "Låter dig avinstallera appar och rensa bort kvarlämnade filer, cachar och dubbletter från Terminal."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terminal’den uygulamaların yüklemesini kaldırmanızı ve kalıntıları, önbellekleri ve yinelenenleri temizlemenizi sağlar. Yükleme komutunu kopyalayıp Terminal’de çalıştırın: parolanızı ister."
+            "value" : "Terminal’den uygulamaların yüklemesini kaldırmanızı ve kalıntıları, önbellekleri ve yinelenenleri temizlemenizi sağlar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дає змогу деінсталювати програми та вилучати залишки, кеші й дублікати в Терміналі. Скопіюйте команду інсталювання й виконайте її в Терміналі: вона попросить ваш пароль."
+            "value" : "Дає змогу деінсталювати програми та вилучати залишки, кеші й дублікати в Терміналі."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "让你能在“终端”中卸载App，并清除残留文件、缓存和重复项。请拷贝安装命令并在“终端”中运行：它会要求你输入密码。"
+            "value" : "让你能在“终端”中卸载App，并清除残留文件、缓存和重复项。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "讓你可以從「終端機」解除安裝App，並清除殘留檔案、快取和重複項目。請拷貝安裝指令並在「終端機」中執行：它會要求輸入你的密碼。"
-          }
-        }
-      }
-    },
-    "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal. Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account." : {
-      "comment" : "The note of Home's Command Line row on an account that is not an administrator's. Keep ~/.zshrc as it is.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Umožňuje v Terminálu odinstalovávat aplikace a odstraňovat zbytky, mezipaměti a duplikáty. Aby byl dostupný přes PATH, je potřeba správce, a Nastavení Peelu nabízí řádek pro soubor ~/.zshrc, díky kterému ho můžete spouštět z tohoto účtu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Damit kannst du im Terminal Apps deinstallieren und Überreste, Caches und Duplikate entfernen. Um das Tool in den Suchpfad aufzunehmen, wird ein Administrator benötigt, und die Peel-Einstellungen bieten eine Zeile für ~/.zshrc, über die du es mit diesem Benutzeraccount verwenden kannst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Te permite desinstalar apps y eliminar restos, cachés y duplicados desde Terminal. Para ponerla en el PATH hace falta un administrador, y los ajustes de Peel ofrecen una línea para ~/.zshrc que permite ejecutarla desde esta cuenta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous permet de désinstaller des apps et de supprimer les fichiers résiduels, les caches et les doublons depuis Terminal. Le placer dans le PATH nécessite un administrateur, et les Réglages de Peel fournissent une ligne à ajouter au fichier ~/.zshrc pour l’exécuter depuis ce compte."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ti permette di disinstallare app e rimuovere residui, cache e duplicati da Terminale. Per inserirlo nel PATH serve un amministratore, e nelle Impostazioni di Peel trovi una riga per il file ~/.zshrc con cui eseguirlo da questo account."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ターミナルからアプリをアンインストールしたり、残存ファイル、キャッシュ、重複項目を取り除いたりできるようにします。PATHの通った場所に置くには管理者が必要ですが、Peelの“設定”には、このアカウントから実行するための~/.zshrc用の行が用意されています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "터미널에서 앱을 제거하고 잔여 파일, 캐시, 중복된 항목을 정리할 수 있습니다. PATH에 추가하려면 관리자가 필요하며, Peel 설정에는 이 계정에서 이 도구를 실행할 수 있게 하는 ~/.zshrc용 줄이 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hiermee kun je vanuit Terminal apps deïnstalleren en restbestanden, caches en dubbele onderdelen opruimen. Om het aan het zoekpad toe te voegen, is een beheerder nodig, en in Peel-instellingen staat een regel voor ~/.zshrc waarmee je het vanuit deze account kunt uitvoeren."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pozwala odinstalowywać aplikacje i przenosić do Kosza pozostałości, pamięci podręczne i duplikaty z poziomu Terminala. Dodanie go do zmiennej PATH wymaga administratora, a w Ustawieniach Peel znajdziesz wiersz do pliku ~/.zshrc, dzięki któremu uruchomisz go z tego konta."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permite desinstalar apps e limpar sobras, caches e duplicatas pelo Terminal. Colocar a ferramenta no PATH requer um administrador, e os Ajustes do Peel oferecem uma linha para o ~/.zshrc que permite executá-la a partir desta conta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vă permite să dezinstalați aplicații și să eliminați fișiere rămase, memorii tampon și duplicate din Terminal. Pentru a‑l adăuga în PATH este nevoie de un administrator, iar în configurările Peel găsiți o linie pentru ~/.zshrc, cu care îl puteți rula din acest cont."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Позволяет удалять приложения, остатки, кэши и дубликаты из Терминала. Поместить инструмент в PATH может только администратор, а в Настройках Peel есть строка для ~/.zshrc, с которой его можно запускать из этой учетной записи."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Låter dig avinstallera appar och rensa bort kvarlämnade filer, cachar och dubbletter från Terminal. Det krävs en administratör för att lägga till det i sökvägen, och i Peels inställningar finns en rad för ~/.zshrc som gör att det kan köras från det här kontot."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terminal’den uygulamaların yüklemesini kaldırmanızı ve kalıntıları, önbellekleri ve yinelenenleri temizlemenizi sağlar. Onu komut arama yoluna eklemek için bir yönetici gerekir; Peel Ayarları ise onu bu hesaptan çalıştırmak için ~/.zshrc dosyasına eklenecek bir satır sunar."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дає змогу деінсталювати програми та вилучати залишки, кеші й дублікати в Терміналі. Додати інструмент до PATH може лише адміністратор, а в Параметрах Peel є рядок для ~/.zshrc, завдяки якому його можна запускати з цього облікового запису."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "让你能在“终端”中卸载App，并清除残留文件、缓存和重复项。将它放到PATH中需要管理员，不过Peel的“设置”会提供一行可添加到~/.zshrc的代码，让你能在此账户中运行它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "讓你可以從「終端機」解除安裝App，並清除殘留檔案、快取和重複項目。將它加入PATH需要管理者，而Peel「設定」提供了可加入~/.zshrc的一行設定，讓你從此帳號執行它。"
+            "value" : "讓你可以從「終端機」解除安裝App，並清除殘留檔案、快取和重複項目。"
           }
         }
       }
@@ -146464,6 +146569,112 @@
         }
       }
     },
+    "Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby byl dostupný přes PATH, je potřeba správce, a Nastavení Peelu nabízí řádek pro soubor ~/.zshrc, díky kterému ho můžete spouštět z tohoto účtu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um das Tool in den Suchpfad aufzunehmen, wird ein Administrator benötigt, und die Peel-Einstellungen bieten eine Zeile für ~/.zshrc, über die du es mit diesem Benutzeraccount verwenden kannst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para ponerla en el PATH hace falta un administrador, y los ajustes de Peel ofrecen una línea para ~/.zshrc que permite ejecutarla desde esta cuenta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le placer dans le PATH nécessite un administrateur, et les Réglages de Peel fournissent une ligne à ajouter au fichier ~/.zshrc pour l’exécuter depuis ce compte."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per inserirlo nel PATH serve un amministratore, e nelle Impostazioni di Peel trovi una riga per il file ~/.zshrc con cui eseguirlo da questo account."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PATHの通った場所に置くには管理者が必要ですが、Peelの“設定”には、このアカウントから実行するための~/.zshrc用の行が用意されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PATH에 추가하려면 관리자가 필요하며, Peel 설정에는 이 계정에서 이 도구를 실행할 수 있게 하는 ~/.zshrc용 줄이 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om het aan het zoekpad toe te voegen, is een beheerder nodig, en in Peel-instellingen staat een regel voor ~/.zshrc waarmee je het vanuit deze account kunt uitvoeren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodanie go do zmiennej PATH wymaga administratora, a w Ustawieniach Peel znajdziesz wiersz do pliku ~/.zshrc, dzięki któremu uruchomisz go z tego konta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colocar a ferramenta no PATH requer um administrador, e os Ajustes do Peel oferecem uma linha para o ~/.zshrc que permite executá-la a partir desta conta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a‑l adăuga în PATH este nevoie de un administrator, iar în configurările Peel găsiți o linie pentru ~/.zshrc, cu care îl puteți rula din acest cont."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поместить инструмент в PATH может только администратор, а в Настройках Peel есть строка для ~/.zshrc, с которой его можно запускать из этой учетной записи."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det krävs en administratör för att lägga till det i sökvägen, och i Peels inställningar finns en rad för ~/.zshrc som gör att det kan köras från det här kontot."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu komut arama yoluna eklemek için bir yönetici gerekir; Peel Ayarları ise onu bu hesaptan çalıştırmak için ~/.zshrc dosyasına eklenecek bir satır sunar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати інструмент до PATH може лише адміністратор, а в Параметрах Peel є рядок для ~/.zshrc, завдяки якому його можна запускати з цього облікового запису."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将它放到PATH中需要管理员，不过Peel的“设置”会提供一行可添加到~/.zshrc的代码，让你能在此账户中运行它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將它加入PATH需要管理者，而Peel「設定」提供了可加入~/.zshrc的一行設定，讓你從此帳號執行它。"
+          }
+        }
+      }
+    },
     "Quick Actions" : {
       "localizations" : {
         "cs" : {
@@ -181124,108 +181335,108 @@
         }
       }
     },
-    "Tells you when your apps have new updates. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
+    "Tells you when your apps have new updates and when a Homebrew upgrade finishes or runs into a problem. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upozorní vás, když jsou pro vaše aplikace nové aktualizace. Když je v Nastavení zapnutá volba „Sledovat koš“, upozorní vás také, když sami přesunete aplikaci do koše, abyste mohli odstranit, co po ní zůstalo. Když je zapnutá volba „Upozornit, když je disk téměř plný“, upozorní vás i na to."
+            "value" : "Upozorní vás, když jsou pro vaše aplikace nové aktualizace a když upgrade pomocí Homebrew skončí nebo narazí na problém. Když je v Nastavení zapnutá volba „Sledovat koš“, upozorní vás také, když sami přesunete aplikaci do koše, abyste mohli odstranit, co po ní zůstalo. Když je zapnutá volba „Upozornit, když je disk téměř plný“, upozorní vás i na to."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informiert dich, wenn es neue Updates für deine Apps gibt. Ist „Papierkorb beobachten“ in den Einstellungen aktiviert, wirst du auch benachrichtigt, wenn du selbst eine App in den Papierkorb legst, damit du entfernen kannst, was sie hinterlassen hat. Ist „Warnen, wenn das Volume fast voll ist“ aktiviert, wirst du auch darüber benachrichtigt."
+            "value" : "Informiert dich, wenn es neue Updates für deine Apps gibt und wenn ein Homebrew-Upgrade abgeschlossen ist oder auf ein Problem stößt. Ist „Papierkorb beobachten“ in den Einstellungen aktiviert, wirst du auch benachrichtigt, wenn du selbst eine App in den Papierkorb legst, damit du entfernen kannst, was sie hinterlassen hat. Ist „Warnen, wenn das Volume fast voll ist“ aktiviert, wirst du auch darüber benachrichtigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Te avisa cuando tus apps tienen actualizaciones nuevas. Con “Vigilar la papelera” activado en Ajustes, también te avisa cuando trasladas una app a la papelera por tu cuenta, para que puedas eliminar lo que ha dejado. Con “Avisar cuando el disco esté casi lleno” activado, también te avisa de eso."
+            "value" : "Te avisa cuando tus apps tienen actualizaciones nuevas y cuando una actualización de paquetes de Homebrew termina o tiene un problema. Con “Vigilar la papelera” activado en Ajustes, también te avisa cuando trasladas una app a la papelera por tu cuenta, para que puedas eliminar lo que ha dejado. Con “Avisar cuando el disco esté casi lleno” activado, también te avisa de eso."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous prévient lorsque vos apps ont de nouvelles mises à jour. Si « Surveiller la corbeille » est activé dans les Réglages, les notifications vous préviennent aussi lorsque vous placez vous-même une app dans la corbeille, pour que vous puissiez supprimer ce qu’elle a laissé derrière elle. Si « Avertir lorsque le disque est presque plein » est activé, elles vous signalent aussi que le disque est presque plein."
+            "value" : "Vous prévient lorsque vos apps ont de nouvelles mises à jour, et lorsqu’une mise à niveau Homebrew se termine ou rencontre un problème. Si « Surveiller la corbeille » est activé dans les Réglages, les notifications vous préviennent aussi lorsque vous placez vous-même une app dans la corbeille, pour que vous puissiez supprimer ce qu’elle a laissé derrière elle. Si « Avertir lorsque le disque est presque plein » est activé, elles vous signalent aussi que le disque est presque plein."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ti avvisa quando le tue app hanno nuovi aggiornamenti. Con “Monitora il Cestino” attivo nelle Impostazioni, ti avvisa anche quando sposti un’app nel Cestino per conto tuo, così puoi rimuovere ciò che si è lasciata dietro. Con “Avvisa quando il disco è quasi pieno” attivo, ti avvisa anche di questo."
+            "value" : "Ti avvisa quando le tue app hanno nuovi aggiornamenti e quando un aggiornamento tramite Homebrew termina o riscontra un problema. Con “Monitora il Cestino” attivo nelle Impostazioni, ti avvisa anche quando sposti un’app nel Cestino per conto tuo, così puoi rimuovere ciò che si è lasciata dietro. Con “Avvisa quando il disco è quasi pieno” attivo, ti avvisa anche di questo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリに新しいアップデートがあると知らせます。“設定”で“ゴミ箱を監視”をオンにしていると、自分でアプリをゴミ箱に入れたときにも知らせるので、そのアプリが残したものを取り除けます。“ディスクの空きが少なくなったら警告”をオンにしていると、ディスクの空きが少なくなったときにも知らせます。"
+            "value" : "アプリに新しいアップデートがあるときと、Homebrewのアップグレードが完了したとき、または問題が発生したときに知らせます。“設定”で“ゴミ箱を監視”をオンにしていると、自分でアプリをゴミ箱に入れたときにも知らせるので、そのアプリが残したものを取り除けます。“ディスクの空きが少なくなったら警告”をオンにしていると、ディスクの空きが少なくなったときにも知らせます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱에 새로운 업데이트가 있으면 알려 줍니다. 설정에서 ‘휴지통 지켜보기’가 켜져 있으면 사용자가 직접 앱을 휴지통으로 이동했을 때도 알려 주므로, 앱이 남긴 항목을 정리할 수 있습니다. ‘디스크가 거의 가득 차면 경고하기’가 켜져 있으면 디스크가 거의 가득 찼을 때도 알려 줍니다."
+            "value" : "앱에 새로운 업데이트가 있을 때와 Homebrew 업그레이드가 완료되거나 문제가 발생했을 때 알려 줍니다. 설정에서 ‘휴지통 지켜보기’가 켜져 있으면 사용자가 직접 앱을 휴지통으로 이동했을 때도 알려 주므로, 앱이 남긴 항목을 정리할 수 있습니다. ‘디스크가 거의 가득 차면 경고하기’가 켜져 있으면 디스크가 거의 가득 찼을 때도 알려 줍니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laat je weten wanneer er nieuwe updates voor je apps zijn. Als 'Houd prullenmand in de gaten' is ingeschakeld in Instellingen, laat Peel je ook weten wanneer je zelf een app naar de prullenmand verplaatst, zodat je kunt opruimen wat die heeft achtergelaten. Is 'Waarschuw als de schijf bijna vol is' ingeschakeld, dan laat Peel je ook weten wanneer je schijf bijna vol is."
+            "value" : "Laat je weten wanneer er nieuwe updates voor je apps zijn en wanneer een Homebrew-upgrade is voltooid of tegen een probleem aanloopt. Als 'Houd prullenmand in de gaten' is ingeschakeld in Instellingen, laat Peel je ook weten wanneer je zelf een app naar de prullenmand verplaatst, zodat je kunt opruimen wat die heeft achtergelaten. Is 'Waarschuw als de schijf bijna vol is' ingeschakeld, dan laat Peel je ook weten wanneer je schijf bijna vol is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informuje, gdy Twoje aplikacje mają nowe uaktualnienia. Gdy w Ustawieniach jest włączona opcja „Obserwuj Kosz”, informuje też, gdy samodzielnie przeniesiesz aplikację do Kosza, aby można było pozbyć się także tego, co po sobie pozostawiła. Gdy jest włączona opcja „Ostrzegaj, gdy dysk jest prawie pełny”, informuje też o tym."
+            "value" : "Informuje, gdy Twoje aplikacje mają nowe uaktualnienia oraz gdy uaktualnianie w Homebrew zakończy się lub napotka problem. Gdy w Ustawieniach jest włączona opcja „Obserwuj Kosz”, informuje też, gdy samodzielnie przeniesiesz aplikację do Kosza, aby można było pozbyć się także tego, co po sobie pozostawiła. Gdy jest włączona opcja „Ostrzegaj, gdy dysk jest prawie pełny”, informuje też o tym."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avisa quando os seus apps têm novas atualizações. Com “Monitorar o Lixo” ativado nos Ajustes, também avisa quando você mesmo move um app para o Lixo, para que você possa limpar o que ele deixou para trás. Com “Avisar quando o disco estiver quase cheio” ativado, também avisa quando o disco está quase cheio."
+            "value" : "Avisa quando os seus apps têm novas atualizações e quando um upgrade do Homebrew termina ou encontra um problema. Com “Monitorar o Lixo” ativado nos Ajustes, também avisa quando você mesmo move um app para o Lixo, para que você possa limpar o que ele deixou para trás. Com “Avisar quando o disco estiver quase cheio” ativado, também avisa quando o disco está quase cheio."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vă anunță când aplicațiile dvs. au actualizări noi. Cu „Urmăriți Coșul” activat în Configurări, vă anunță și când mutați chiar dvs. o aplicație în Coș, ca să puteți elimina ce a lăsat în urmă. Cu „Avertizați când discul este aproape plin” activat, vă anunță și acest lucru."
+            "value" : "Vă anunță când aplicațiile dvs. au actualizări noi și când un upgrade Homebrew se termină sau întâmpină o problemă. Cu „Urmăriți Coșul” activat în Configurări, vă anunță și când mutați chiar dvs. o aplicație în Coș, ca să puteți elimina ce a lăsat în urmă. Cu „Avertizați când discul este aproape plin” activat, vă anunță și acest lucru."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сообщает, когда для Ваших приложений выходят обновления. Если в Настройках включен параметр «Следить за Корзиной», также сообщает, когда Вы сами перемещаете приложение в Корзину, чтобы Вы могли удалить его остатки. Если включен параметр «Предупреждать, когда диск почти заполнен», сообщает и об этом."
+            "value" : "Сообщает, когда для Ваших приложений выходят обновления, а также когда Homebrew завершает обновление или сталкивается с проблемой. Если в Настройках включен параметр «Следить за Корзиной», также сообщает, когда Вы сами перемещаете приложение в Корзину, чтобы Вы могли удалить его остатки. Если включен параметр «Предупреждать, когда диск почти заполнен», сообщает и об этом."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Talar om när dina appar har nya uppdateringar. När ”Bevaka papperskorgen” är på i Inställningar får du också veta när du själv flyttar en app till papperskorgen, så att du kan rensa bort det som den lämnade kvar. När ”Varna när skivan är nästan full” är på får du också veta det."
+            "value" : "Talar om när dina appar har nya uppdateringar och när en Homebrew-uppgradering blir klar eller stöter på ett problem. När ”Bevaka papperskorgen” är på i Inställningar får du också veta när du själv flyttar en app till papperskorgen, så att du kan rensa bort det som den lämnade kvar. När ”Varna när skivan är nästan full” är på får du också veta det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamalarınızın yeni güncellemeleri olduğunda size bildirir. Ayarlar’da “Çöp Sepeti’ni izle” açıksa, bir uygulamayı kendiniz Çöp Sepeti’ne taşıdığınızda da bildirir; böylece geride bıraktıklarını temizleyebilirsiniz. “Disk neredeyse dolduğunda uyar” açıksa, diskiniz neredeyse dolduğunda da bildirir."
+            "value" : "Uygulamalarınızın yeni güncellemeleri olduğunda ve bir Homebrew yükseltmesi bittiğinde veya bir sorunla karşılaştığında size bildirir. Ayarlar’da “Çöp Sepeti’ni izle” açıksa, bir uygulamayı kendiniz Çöp Sepeti’ne taşıdığınızda da bildirir; böylece geride bıraktıklarını temizleyebilirsiniz. “Disk neredeyse dolduğunda uyar” açıksa, diskiniz neredeyse dolduğunda da bildirir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Повідомляє, коли для ваших програм зʼявляються нові оновлення. Якщо в Параметрах увімкнено «Стежити за Смітником», також повідомляє, коли ви самі переміщуєте програму в Смітник, щоб ви могли вилучити те, що вона залишила по собі. Якщо увімкнено «Попереджати, коли диск майже заповнений», повідомляє й про це."
+            "value" : "Повідомляє, коли для ваших програм зʼявляються нові оновлення і коли оновлення пакетів Homebrew завершується або натрапляє на проблему. Якщо в Параметрах увімкнено «Стежити за Смітником», також повідомляє, коли ви самі переміщуєте програму в Смітник, щоб ви могли вилучити те, що вона залишила по собі. Якщо увімкнено «Попереджати, коли диск майже заповнений», повідомляє й про це."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你的App有新更新时通知你。如果在“设置”中打开了“监视废纸篓”，你自己将App移到废纸篓时，它也会通知你，以便你清除该App留下的文件。如果打开了“磁盘快满时发出警告”，磁盘快满时它也会通知你。"
+            "value" : "在你的App有新更新时，以及Homebrew升级完成或遇到问题时通知你。如果在“设置”中打开了“监视废纸篓”，你自己将App移到废纸篓时，它也会通知你，以便你清除该App留下的文件。如果打开了“磁盘快满时发出警告”，磁盘快满时它也会通知你。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你的App有新的更新項目時通知你。若在「設定」中開啟「監看垃圾桶」，當你自行將App丟到「垃圾桶」時也會通知你，讓你可以清除它留下的檔案。若開啟「磁碟幾乎已滿時發出警告」，也會在磁碟幾乎已滿時通知你。"
+            "value" : "在你的App有新的更新項目時，以及Homebrew升級完成或遇到問題時通知你。若在「設定」中開啟「監看垃圾桶」，當你自行將App丟到「垃圾桶」時也會通知你，讓你可以清除它留下的檔案。若開啟「磁碟幾乎已滿時發出警告」，也會在磁碟幾乎已滿時通知你。"
           }
         }
       }

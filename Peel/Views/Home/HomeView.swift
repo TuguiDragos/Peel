@@ -107,6 +107,7 @@ struct HomeContent: View {
         .motion(.touch, value: isPointingAtDevice)
         .onHover { isPointingAtDevice = $0 }
         .help(Text("Show About in System Settings"))
+        .accessibilityHint(Text("Show About in System Settings"))
     }
 
     /// What Peel has moved to the Trash, from the same counters the menu bar panel reads. The biggest single
