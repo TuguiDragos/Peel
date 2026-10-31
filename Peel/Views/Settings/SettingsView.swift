@@ -234,6 +234,21 @@ private struct GeneralSettingsView: View {
 
     var body: some View {
         Form {
+            Section {
+                LabeledContent {
+                    Button("Choose Tools…") {
+                        isChoosingSidebarTools = true
+                    }
+                    .popover(isPresented: $isChoosingSidebarTools, arrowEdge: .bottom) {
+                        sidebarToolsChoice
+                    }
+                } label: {
+                    Text(sidebarToolsSummary)
+                }
+            } header: {
+                titled("Sidebar", "Turn a tool off to leave it out of the sidebar. The View menu and Shortcuts still open it.")
+            }
+
             Section("Updates") {
                 toggle("Check for app updates", isOn: $checksForAppUpdates,
                        "Peel asks each app’s update feed, the App Store, or Homebrew for the latest version. It never installs anything on its own. With this off, Peel doesn’t look for its own updates either, unless you choose Check for Updates in the Peel menu.")
@@ -324,21 +339,6 @@ private struct GeneralSettingsView: View {
                     StatusLabel(title: Text(failure))
                         .textSelection(.enabled)
                 }
-            }
-
-            Section {
-                LabeledContent {
-                    Button("Choose Tools…") {
-                        isChoosingSidebarTools = true
-                    }
-                    .popover(isPresented: $isChoosingSidebarTools, arrowEdge: .bottom) {
-                        sidebarToolsChoice
-                    }
-                } label: {
-                    Text(sidebarToolsSummary)
-                }
-            } header: {
-                titled("Sidebar", "Turn a tool off to leave it out of the sidebar. The View menu and Shortcuts still open it.")
             }
 
             Section("Elsewhere on This Mac") {
