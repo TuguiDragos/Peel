@@ -678,8 +678,17 @@ public enum Homebrew {
     }
 
     /// A settings file `bin/brew` reads from a shell that sets `XDG_CONFIG_HOME` to `~/.config`, and not when Peel runs
-    /// it, since Peel runs it without the shell's settings and Homebrew then reads `~/.homebrew/brew.env`.
-    public static func unreadSettingsFile(home: URL = .homeDirectory) -> URL? {
+    /// it, since Peel runs it without the shell's settings and Homebrew then reads `~/.homebrew/brew.env`. Nil when
+    /// Homebrew's own files name another folder for the person's settings.
+    public static func unreadSettingsFile(prefix: URL) -> URL? {
+        unreadSettingsFile(home: .homeDirectory, system: systemSettingsFile, prefix: prefix)
+    }
+
+    static func unreadSettingsFile(home: URL, system: URL, prefix: URL) -> URL? {
+        let read = userConfiguration(home: home, system: system, prefix: prefix).path(percentEncoded: false)
+        guard read == home.appending(path: ".homebrew", directoryHint: .isDirectory).path(percentEncoded: false) else {
+            return nil
+        }
         let file = home.appending(path: ".config/homebrew/brew.env")
         var isFolder: ObjCBool = false
         let isThere = FileManager.default.fileExists(atPath: file.path(percentEncoded: false), isDirectory: &isFolder)

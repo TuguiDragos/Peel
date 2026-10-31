@@ -176,15 +176,21 @@ struct HomebrewTests {
     }
 
     @Test func namesASettingsFileHomebrewRunFromPeelDoesNotRead() throws {
+        let settings = try TemporaryDirectory()
+        let system = settings.url.appending(path: "etc/homebrew/brew.env")
+        let prefix = settings.url.appending(path: "prefix", directoryHint: .isDirectory)
+        let unread = { (home: URL) in Homebrew.unreadSettingsFile(home: home, system: system, prefix: prefix) }
         let home = try TemporaryDirectory()
-        #expect(Homebrew.unreadSettingsFile(home: home.url) == nil)
+        #expect(unread(home.url) == nil)
         try home.directory(".config/homebrew/brew.env")
-        #expect(Homebrew.unreadSettingsFile(home: home.url) == nil, "a folder is no settings file")
+        #expect(unread(home.url) == nil, "a folder is no settings file")
 
         let other = try TemporaryDirectory()
         let file = try other.file(".config/homebrew/brew.env", contents: Data("https_proxy=http://proxy.example:8080\n".utf8))
-        let unread = Homebrew.unreadSettingsFile(home: other.url)
-        #expect(unread?.path(percentEncoded: false) == file.path(percentEncoded: false))
+        #expect(unread(other.url)?.path(percentEncoded: false) == file.path(percentEncoded: false))
+        let config = other.url.appending(path: ".config", directoryHint: .isDirectory).path(percentEncoded: false)
+        try settings.file("prefix/etc/homebrew/brew.env", contents: Data("HOMEBREW_XDG_CONFIG_HOME=\(config)\n".utf8))
+        #expect(unread(other.url) == nil, "Homebrew's own settings send it to that file")
     }
 
     @Test func datesTheLastCheckByTheDefinitionsHomebrewReadsFromItsAPI() throws {
