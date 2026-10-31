@@ -367,7 +367,7 @@ struct ContentView: View {
                     historyDetail
                 }
             }
-            .frame(minWidth: 480)
+            .pageFloor()
             .scrollContentBackground(.hidden)
             // Claims a title bar section for this column. SwiftUI only inserts its
             // `NSTrackingSeparatorToolbarItem` once both columns carry a toolbar item, and that separator is
@@ -589,6 +589,18 @@ private final class WindowWidth {
 }
 
 private extension View {
+    /// A tool's page is never narrower than 480 points. On macOS 27 the columns' widths keep it so (`ListColumn`,
+    /// `besideSidebar`), since a SwiftUI minimum there widens the window as the sidebar returns whenever the page
+    /// alone couldn't make room for it.
+    @ViewBuilder
+    func pageFloor() -> some View {
+        if #available(macOS 27, *) {
+            self
+        } else {
+            frame(minWidth: 480)
+        }
+    }
+
     /// The floor as a minimum on the content. On macOS 27 the window's content view holds it (`FloorConstraints`).
     @ViewBuilder
     func floorFrame(_ floor: CGSize?) -> some View {
