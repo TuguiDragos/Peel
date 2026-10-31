@@ -36,6 +36,35 @@ struct UninstallationTests {
         )
     }
 
+    @Test func theHelperIsAskedForOnlyWhatThePageCanDoWithIt() {
+        let receiptFile = leftover("org.example.app.bom", requiresPrivileges: true)
+        let receiptPlist = leftover("org.example.app.plist", requiresPrivileges: true)
+        #expect(uninstallation(leftovers: [receiptFile, receiptPlist]).helperUse(receipts: 1) == .moving(2))
+        #expect(uninstallation(leftovers: []).helperUse(receipts: 1) == .forgettingAReceipt)
+        #expect(uninstallation(leftovers: []).helperUse(receipts: 0) == nil)
+
+        let held = Leftover(
+            url: URL(filePath: "/Users/me/Library/Containers/held"),
+            kind: .containers,
+            match: LeftoverMatch(
+                reason: .bundleIdentifier, confidence: .certain, sharedWith: [], heldBack: .holdsDocuments
+            ),
+            size: 1_000,
+            isMeasured: true,
+            requiresPrivileges: true
+        )
+        #expect(uninstallation(leftovers: [held]).helperUse(receipts: 0) == nil)
+        let bulk = BulkUninstallation(uninstallations: [uninstallation(leftovers: [held, receiptFile])])
+        #expect(bulk.rowsWaitingForTheHelper == 1)
+
+        let agent = InstalledApp(
+            url: URL(filePath: "/Applications/GlobalProtect.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client", name: "GlobalProtect",
+            teamIdentifier: "PXPZ95SK77"
+        )
+        #expect(uninstallation(app: agent, leftovers: [receiptFile]).helperUse(receipts: 1) == nil)
+    }
+
     /// A management or security agent goes by its maker's uninstaller, so like Peel itself it is listed and nothing of
     /// it is selected, counted, moved, or handed to the helper.
     @Test func leavesAnAgentAndItsFilesToItsMakersUninstaller() {

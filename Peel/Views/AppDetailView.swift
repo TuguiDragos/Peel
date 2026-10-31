@@ -185,9 +185,11 @@ struct AppDetailView: View {
                     ) {}
                     .listRowSeparator(.hidden)
                 }
-                // A receipt's Forget needs the helper as well.
-                if plan.requiresHelper || !plan.packageReceipts.isEmpty, !helper.canAct {
-                    HelperRequiredBanner(need: .moving(plan.privilegedCount + plan.packageReceipts.count))
+                if !helper.canAct, let use = plan.helperUse {
+                    switch use {
+                    case .moving(let rows): HelperRequiredBanner(need: .moving(rows))
+                    case .forgettingAReceipt: HelperRequiredBanner(need: .forgettingThisReceipt)
+                    }
                 }
 
                 Group {

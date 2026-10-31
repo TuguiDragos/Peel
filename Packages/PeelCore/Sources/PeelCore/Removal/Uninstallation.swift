@@ -432,6 +432,21 @@ public struct Uninstallation: Sendable {
         return urls
     }
 
+    /// What the app's page needs the helper for.
+    public enum HelperUse: Sendable, Hashable {
+        /// Moving this many rows, each of which a person could select once the helper can act.
+        case moving(Int)
+        case forgettingAReceipt
+    }
+
+    /// Nil on a page from which nothing moves. A receipt's files are rows of their own when they are listed, so
+    /// `receipts`, what the page's menu can forget, counts only with no row waiting.
+    public func helperUse(receipts: Int) -> HelperUse? {
+        guard !isExcluded, removedElsewhere == nil else { return nil }
+        let rows = privilegedURLs.intersection(selectable(canUseHelper: true)).count
+        return rows > 0 ? .moving(rows) : receipts > 0 ? .forgettingAReceipt : nil
+    }
+
     /// The app itself, then the selected leftovers.
     public func removalOrder(of selection: Set<URL>) -> [URL] {
         guard !isExcluded, removedElsewhere == nil else { return [] }

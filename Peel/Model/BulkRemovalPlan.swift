@@ -73,10 +73,7 @@ final class BulkRemovalPlan {
 
     var privilegedURLs: Set<URL> { bulk?.privilegedURLs ?? [] }
 
-    var requiresHelper: Bool { bulk?.privilegedURLs.isEmpty == false }
-
-    /// How many of the page's items only the helper can move.
-    var privilegedCount: Int { bulk?.privilegedURLs.count ?? 0 }
+    var rowsWaitingForTheHelper: Int { bulk?.rowsWaitingForTheHelper ?? 0 }
 
     var unreadableLocations: [SearchLocation] { bulk?.unreadableLocations ?? [] }
 
