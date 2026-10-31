@@ -47,13 +47,14 @@ final class ShellLibrary {
         }
         let shell = ShellSessions.inTerminal(terminal, home: home)
         let startupFile = await shell?.zshrc(home: home)
-        let choices = ShellFile.read(file)
         let isSourced = startupFile.map { ShellFile.isSourced(file, from: $0, home: home) } ?? false
-        let shownPrompt: ShellSessions.ShownPrompt? = if choices?.prompt != nil, isSourced {
+        let shownPrompt: ShellSessions.ShownPrompt? = if ShellFile.read(file)?.prompt != nil, isSourced {
             await shell?.promptShown(home: home)
         } else {
             nil
         }
+        // Read after zsh answered, which takes as long as the person's startup files: a switch can change it meanwhile.
+        let choices = ShellFile.read(file)
         state = State(
             shell: shell,
             startupFile: startupFile,

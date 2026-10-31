@@ -96,6 +96,29 @@ struct TerminalLibrariesTests {
         #expect(library.state?.shownPrompt?.prompt == "mine> ")
     }
 
+    @Test func aSwitchTurnedOnWhileZshAnswersStaysOn() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/zsh"
+        let library = ShellLibrary(folder: folder, home: home, terminal: terminal)
+        try ("sleep 3\n" + library.line + "\n")
+            .write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
+        try "export ZDOTDIR=\"$HOME\"\n".write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
+        await library.refresh()
+        library.setPrompt(Prompt())
+
+        let reading = Task { await library.refresh() }
+        try await Task.sleep(for: .seconds(1))
+        library.set(.autoCD, to: true)
+        await reading.value
+
+        #expect(library.state?.choices?.settings.contains(.autoCD) == true)
+        library.set(.comments, to: true)
+        #expect(ShellFile.read(library.file)?.settings == [.autoCD, .comments])
+    }
+
     @Test func theShellTabLooksForNoZshrcWhenTerminalOpensBash() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
