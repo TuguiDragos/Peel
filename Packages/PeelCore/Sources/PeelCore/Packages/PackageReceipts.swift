@@ -440,15 +440,15 @@ public enum PackageReceipts {
     private static let deepestDescent = 6
 
     /// Returns the outermost existing paths that are this package's own, never a shared directory such as
-    /// `/Library`. `onDisk` holds all of them. `offered` leaves out protected data (`ProtectedData.refuses`),
-    /// which Peel never lists at all. `othersFilled` holds the folders offered whole that hold what something
-    /// besides this package put there.
+    /// `/Library`. `onDisk` holds all of them, and a path this account can't reach is not gone. `offered` leaves out
+    /// protected data (`ProtectedData.refuses`), which Peel never lists at all. `othersFilled` holds the folders
+    /// offered whole that hold what something besides this package put there.
     static func topLevel(
         files: [String],
         installLocation: String,
         home: String = URL.homeDirectory.path(percentEncoded: false),
         namesInside: (String) -> [String]? = PackageReceipts.namesInside,
-        exists: (String) -> Bool = { URL(filePath: $0).isThere }
+        exists: (String) -> Bool = { !URL(filePath: $0).isMissing }
     ) -> (onDisk: [String], offered: [String], othersFilled: Set<String>) {
         let root = (installLocation as NSString).standardizingPath
         let paths = files.map { file -> String in

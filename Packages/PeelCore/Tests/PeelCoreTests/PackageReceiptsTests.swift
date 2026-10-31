@@ -517,6 +517,44 @@ struct PackageReceiptsTests {
         #expect(scan.receipts.first?.installedApps == [])
     }
 
+    @Test(.permissionsHold) func whatTheAccountCannotReachIsNotGone() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let closed = try directory.directory("Vendor")
+        try directory.file("Vendor/Plugins/x", bytes: 16)
+        try directory.setPermissions(0o000, of: closed)
+        defer { try? directory.setPermissions(0o755, of: closed) }
+        let location = closed.path(percentEncoded: false)
+
+        let found = PackageReceipts.topLevel(files: ["Plugins", "Plugins/x"], installLocation: location)
+        #expect(!found.onDisk.isEmpty)
+
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.vendor.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "Vendor"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return "Plugins\nPlugins/x\n"
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: pkgutil, environment: environment, systemExtensions: { [] }
+        )
+
+        let receipt = try #require(scan.receipts.first)
+        #expect(!receipt.nothingLeftOnDisk)
+        #expect(receipt.items.map(\.size) == [nil])
+        #expect(receipt.selectableRows(canUseHelper: true).recommended.isEmpty)
+    }
+
     @Test func leavesTheRestOfAPackageToWhatRemovesItsApp() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
