@@ -69,7 +69,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         running: Set<String> = [],
         now: Date = .now
     ) -> OrphanConfidence {
-        if running.contains(where: { isOneApp($0.lowercased(), group.identifier.lowercased()) }) {
+        let declared = group.rememberedApp?.bundleIdentifier.lowercased()
+        if running.contains(where: { isOneApp($0.lowercased(), group.identifier.lowercased(), declared: declared) }) {
             return OrphanConfidence(level: .unsure, reasons: [.running])
         }
         if group.items.contains(where: { $0.heldBack == .loadedByOtherApps }) {
@@ -125,13 +126,13 @@ public struct OrphanConfidence: Sendable, Hashable {
     }
 
     /// Whether two identifiers belong to one app. A helper runs under its app's identifier or a longer one. A
-    /// prefix counts only with three components or more, since two name a maker, not an app. A Safari web app's
-    /// identifier begins with Safari's, and is still an app of its own.
-    static func isOneApp(_ one: String, _ other: String) -> Bool {
+    /// prefix counts only with three components or more, since two name a maker, not an app, unless it is what the
+    /// app declared. A Safari web app's identifier begins with Safari's, and is still an app of its own.
+    static func isOneApp(_ one: String, _ other: String, declared: String? = nil) -> Bool {
         if one == other { return true }
         guard !SafariWebApp.isIdentifier(one), !SafariWebApp.isIdentifier(other) else { return false }
         let (short, long) = one.count < other.count ? (one, other) : (other, one)
-        return Identifier.componentCount(of: short) >= 3 && long.hasPrefix(short + ".")
+        return (Identifier.componentCount(of: short) >= 3 || short == declared) && long.hasPrefix(short + ".")
     }
 
     /// The group's last write, or nil when an item was not measured in time: what is inside it was not read.

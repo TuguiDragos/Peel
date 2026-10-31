@@ -97,6 +97,20 @@ struct OrphanConfidenceTests {
         #expect(judged.reasons == [.sameMakerStillInstalled])
     }
 
+    @Test func aHelperOfATwoPartAppRunningMakesItsGroupUnsure() {
+        let gone = RememberedApp(
+            bundleIdentifier: "md.example",
+            name: "Example",
+            teamIdentifier: nil,
+            lastSeen: now.addingTimeInterval(-40 * 24 * 60 * 60),
+            lastPath: "/Applications/Example.app"
+        )
+        let itsOwn = group(identifier: "md.example", written: 400 * 24 * 60 * 60, remembered: gone)
+        #expect(OrphanConfidence.judge(itsOwn, running: ["md.example.helper"], now: now).reasons == [.running])
+        let nobodysPrefix = group(identifier: "md.example", written: 400 * 24 * 60 * 60)
+        #expect(OrphanConfidence.judge(nobodysPrefix, running: ["md.example.helper"], now: now).level == .certain)
+    }
+
     @Test("What is running is matched the way an app is: a helper runs under its app's identifier and a longer one")
     func aRunningHelperOrItsAppBothCount() {
         let old = group(identifier: "com.example.app", written: 400 * 24 * 60 * 60)
