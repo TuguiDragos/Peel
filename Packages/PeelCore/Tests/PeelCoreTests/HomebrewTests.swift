@@ -187,7 +187,7 @@ struct HomebrewTests {
         #expect(unread?.path(percentEncoded: false) == file.path(percentEncoded: false))
     }
 
-    @Test func takesTheLaterOfAnUpdateAndAConfirmationOfTheDefinitions() throws {
+    @Test func datesTheLastCheckByTheDefinitionsHomebrewReadsFromItsAPI() throws {
         let repository = try TemporaryDirectory()
         let fetchHead = try repository.file(".git/FETCH_HEAD", contents: Data("main\n".utf8))
         let fetched = Date(timeIntervalSince1970: 1_792_315_250)
@@ -206,6 +206,9 @@ struct HomebrewTests {
 
         #expect(check(false) == confirmed)
         #expect(check(true) == fetched)
+        let older = fetched.addingTimeInterval(-6 * 24 * 60 * 60)
+        try date(older, packages)
+        #expect(check(false) == older, "a fetch of Homebrew's own code that left its definitions as they were")
         let pinned = Calendar(identifier: .gregorian).date(from: DateComponents(year: 1970, month: 1, day: 1))
         try date(try #require(pinned), packages)
         #expect(check(false) == fetched, "a download Homebrew couldn't verify")
@@ -229,7 +232,6 @@ struct HomebrewTests {
         #expect((read == nil) == (fetched == nil && confirmed.isEmpty))
         if let read {
             #expect(([fetched] + confirmed).compactMap(\.self).contains { abs(read.timeIntervalSince($0)) < 0.001 })
-            #expect(fetched.map { read >= $0.addingTimeInterval(-0.001) } ?? true)
         }
         guard await Homebrew.hasLocalDefinitions() else { return }
         #expect(try await Homebrew.installedPackages().allSatisfy { $0.lastUpdateCheck == read })

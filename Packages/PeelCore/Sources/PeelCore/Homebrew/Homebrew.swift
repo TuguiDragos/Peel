@@ -696,9 +696,8 @@ public enum Homebrew {
         }
     }
 
-    /// When Homebrew last checked for new versions: when `brew update` last touched `.git/FETCH_HEAD` in its
-    /// repository, which Homebrew compares with `HOMEBREW_AUTO_UPDATE_SECS`, or, while it reads its definitions from
-    /// its API, when it last downloaded or confirmed them, whichever is later. Nil when neither can be found.
+    /// When Homebrew last checked for new versions: the date of its definitions file while it reads its API, as by
+    /// default, since a fetch of its own code leaves them as they were, else when `.git/FETCH_HEAD` was last touched.
     @concurrent
     public static func lastUpdateCheck() async -> Date? {
         guard let answer = try? await answer(["--repository"]), let repository = folder(answering: answer) else {
@@ -717,7 +716,7 @@ public enum Homebrew {
     static func lastUpdateCheck(inRepository repository: URL, cache: URL, readsTheTaps: Bool) -> Date? {
         let fetched = lastUpdateCheck(inRepository: repository)
         guard !readsTheTaps else { return fetched }
-        return ([fetched] + definitionsChecks(inCache: cache)).compactMap(\.self).max()
+        return definitionsChecks(inCache: cache).max() ?? fetched
     }
 
     /// The dates of the packages files in Homebrew's API cache, which it sets at every download or revalidation
