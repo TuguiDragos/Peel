@@ -37,8 +37,10 @@ struct ContentView: View {
     @State private var windowWidth = WindowWidth()
     @State private var listColumn = ListColumn()
     @State private var hostWindow = HostWindow()
-    /// The content's share of `WindowFloor` on the window's screen, once the window is known (`fitFloor`).
+    /// The content's share of `WindowFloor` on the window's screen, once the window is known (`fitFloor`). On macOS
+    /// 27 the window's content view holds the floor instead (`FloorConstraints`).
     @State private var floor: CGSize?
+    @State private var floorConstraints = FloorConstraints()
     @State private var searchText = ""
     private var navigator: Navigator { .shared }
 
@@ -106,7 +108,7 @@ struct ContentView: View {
         // The floor is `WindowFloor`, as far as the window's screen has room for it. On a screen too narrow for the
         // sidebar beside what the page needs, the sidebar steps aside (`fitSidebar`), and Home puts its halves one
         // above the other. Growing is unrestricted.
-        .frame(minWidth: floor?.width, minHeight: floor?.height)
+        .floorFrame(floor)
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
             windowWidth.value = width
             fitWidth()
@@ -190,10 +192,15 @@ struct ContentView: View {
     }
 
     /// `WindowFloor` is the window's whole frame, while a minimum height set here sizes the content under the
-    /// title bar, so the title bar's height comes off it.
+    /// title bar, so the title bar's height comes off it. On macOS 27 the window's content view, which spans the
+    /// whole frame, takes it as it is.
     private func fitFloor() {
         guard let window = hostWindow.value, let screen = window.screen else { return }
         let frame = WindowFloor.size(within: screen.visibleFrame.size)
+        if #available(macOS 27, *) {
+            floorConstraints.hold(frame, in: window)
+            return
+        }
         let titleBar = window.frame.height - window.contentLayoutRect.height
         let fitting = CGSize(width: frame.width, height: frame.height - titleBar)
         if fitting != floor { floor = fitting }
@@ -579,4 +586,16 @@ private struct Destination: Equatable {
 /// The window's width, outside SwiftUI's state: see `ContentView.windowWidth`.
 private final class WindowWidth {
     var value: CGFloat = 0
+}
+
+private extension View {
+    /// The floor as a minimum on the content. On macOS 27 the window's content view holds it (`FloorConstraints`).
+    @ViewBuilder
+    func floorFrame(_ floor: CGSize?) -> some View {
+        if #available(macOS 27, *) {
+            self
+        } else {
+            frame(minWidth: floor?.width, minHeight: floor?.height)
+        }
+    }
 }
