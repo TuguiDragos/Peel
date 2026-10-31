@@ -89,6 +89,43 @@ struct OrphanScannerTests {
         #expect(!ownership.isClaimed(fileName: "ABCDE12345.org.other.thing", kind: .groupContainers, identifier: "ABCDE12345.org.other.thing"))
         #expect(!asked.withLock { $0 }.contains { $0.hasPrefix("ABCDE12345") || $0.hasPrefix("group.") })
     }
+    @Test func aTwoPartAppMacOSKnowsElsewhereKeepsItsFiles() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Preferences/md.example.plist")
+        try directory.file("home/Library/Caches/md.example.helper/data")
+        let gone = RememberedApp(
+            bundleIdentifier: "md.example", name: "Example", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-30 * 86_400),
+            lastPath: "/Applications/Example.app",
+            goneSince: .now.addingTimeInterval(-30 * 86_400)
+        )
+
+        let nobodyKnowsIt = await scanner(in: directory).scan(installedApps: [], remembered: [gone])
+        #expect(nobodyKnowsIt.groups.map(\.identifier) == ["md.example"])
+        #expect(nobodyKnowsIt.groups.flatMap(\.items).count == 2)
+
+        let known = scanner(in: directory, registered: ["md.example"])
+        let scan = await known.scan(installedApps: [], remembered: [gone])
+        #expect(scan.groups.isEmpty)
+        let stillOrphaned = await known.stillOrphaned(
+            nobodyKnowsIt.groups.flatMap(\.items), installedApps: [], remembered: [gone]
+        )
+        #expect(stillOrphaned.isEmpty)
+    }
+
+    @Test func aTwoPartIdentifierNoAppDeclaredIsNeverAskedAboutAsAPrefix() {
+        let asked = Mutex<[String]>([])
+        let ownership = AppOwnership(installedApps: [], goneApps: ["com.example.gone"]) { identifier in
+            asked.withLock { $0.append(identifier) }
+            return false
+        }
+
+        #expect(!ownership.isClaimed(
+            fileName: "com.example.other.plist", kind: .preferences, identifier: "com.example.other"
+        ))
+        #expect(asked.withLock { $0 } == ["com.example.other"])
+    }
+
     private let installed = [
         InstalledApp(url: URL(filePath: "/Applications/Installed.app"), bundleIdentifier: "com.installed.app", name: "Installed"),
         InstalledApp(url: URL(filePath: "/Applications/Word.app"), bundleIdentifier: "com.microsoft.Word", name: "Microsoft Word", teamIdentifier: "UBF8T346G9"),

@@ -32,8 +32,9 @@ struct AppOwnership: Sendable {
     }
 
     /// Returns whether an installed app has any claim on the item, even a weak one, or macOS knows an app by the
-    /// item's identifier or by a prefix of it with at least three components. The apps are asked about the
-    /// identifier as well as the name, since a plug-in is named for what it does and a container can be a UUID.
+    /// item's identifier, by a prefix of it with at least three components, or by the identifier of the gone app it
+    /// belongs to, whatever its shape. The apps are asked about the identifier as well as the name, since a plug-in is
+    /// named for what it does and a container can be a UUID.
     func isClaimed(fileName: String, kind: SearchLocation.Kind, identifier: String) -> Bool {
         var candidates = [LeftoverMatcher.Candidate(LeftoverMatcher.key(from: fileName, kind: kind))]
         if candidates[0].key != identifier.lowercased() {
@@ -59,7 +60,7 @@ struct AppOwnership: Sendable {
         // app Launch Services knows, is no owner of the web app's files.
         var components = OrphanScanner.groupingKey(for: identifier).split(separator: ".")
         let shortest = SafariWebApp.isIdentifier(identifier)
-            ? components.count : max(3, gone.map { $0.split(separator: ".").count } ?? 3)
+            ? components.count : gone.map { $0.split(separator: ".").count } ?? 3
         while components.count >= shortest {
             if isRegisteredApp(components.joined(separator: ".")) {
                 return true
