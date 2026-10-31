@@ -93,6 +93,12 @@ public enum SelfRemoval {
         return isOnAReadOnlyVolume ? .readOnlyCopy : .needsAnAdministrator
     }
 
+    /// Why Peel at `app` won't move itself, known from where it is before any plan is made.
+    public static func blockAhead(of app: URL) -> Block? {
+        if isOnAReadOnlyVolume(app) { return .readOnlyCopy }
+        return FileAccess.requiresPrivilegesToRemove(app) ? .needsAnAdministrator : nil
+    }
+
     /// Whether `url` is on a volume mounted read-only (`statfs(2)`, `MNT_RDONLY`), which Foundation's resource value
     /// doesn't say of the startup disk.
     public static func isOnAReadOnlyVolume(_ url: URL) -> Bool {

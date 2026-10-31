@@ -20,7 +20,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and comes back when you open Peel again from the menu bar, Finder, or Spotlight.
 - Under Watch the Trash and the disk warning, Settings says when macOS doesn't let Peel send notifications, with Open
   System Settings.
-- On a standard account, Settings gives a line to add to `~/.zshrc` that runs Peel's own `peel`, with Copy.
+- On a standard account, Settings gives a line to add to your shell's startup file that runs Peel's own `peel`, with
+  Copy.
 - Uninstall Helper is offered while the helper waits for approval too, and asks first, since the helper serves every
   account.
 
@@ -322,8 +323,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   over, also to VoiceOver.
 - App Folders says its list can't be read as soon as a reading of the apps finds it so, and starting it over anywhere
   clears the notice on every page.
-- The login item and the Finder extension read Checking until macOS answers, and the Helper tab says when another copy
-  of Peel installed the helper.
+- The login item's switch stays off, and the Finder extension reads Checking, until macOS answers, and the Helper tab
+  says when another copy of Peel installed the helper.
 - Check for app updates checks at once whichever tab turns it on.
 - `peel exclusions` notes a path that isn't there yet and counts only what went on the list.
 - A `brew` chosen in Settings that can't be run is never replaced by another, and a `brew` where Homebrew installs

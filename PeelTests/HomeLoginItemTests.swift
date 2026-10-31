@@ -50,6 +50,14 @@ struct HomeLoginItemTests {
         #expect(home.action(for: .openAtLogin) == "Open System Settings")
     }
 
+    @Test func saysWhenThePersonTurnedItOffInSystemSettings() async {
+        let item = LoginItem(read: { .requiresApproval }, change: { _ in LoginItem.Answer(status: .requiresApproval) })
+        let home = read(item)
+        await home.refresh()
+
+        #expect(home.status(of: .openAtLogin) == "Turned off in Login Items & Extensions")
+    }
+
     @Test func saysWhenTurningItOnFailed() async {
         let item = LoginItem(read: { .notRegistered }) { _ in
             LoginItem.Answer(status: .notRegistered, error: "macOS said no")

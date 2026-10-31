@@ -70,6 +70,8 @@ final class AppLibrary {
     /// The folders the person chose for apps, beside the Applications folders, or nil when their list cannot be read.
     /// `PeelApp` watches them and reads the apps again when they change.
     private(set) var folders: [URL]?
+    /// The folders on the list that are no longer read, which Settings names.
+    private(set) var foldersLeftOut: [AppFolders.LeftOut] = []
     /// Counts the changes the person makes to that list, so a reading that began before one never shows its older list.
     @ObservationIgnored private var folderChanges = 0
     private(set) var couldNotSaveFolders = false
@@ -286,6 +288,7 @@ final class AppLibrary {
         if answer == .started { couldNotSaveFolders = false }
         folderChanges += 1
         folders = appFolders.load()
+        foldersLeftOut = appFolders.leftOut()
         return answer
     }
 
@@ -295,12 +298,15 @@ final class AppLibrary {
         couldNotSaveFolders = !change(appFolders)
         folderChanges += 1
         folders = appFolders.load()
+        foldersLeftOut = appFolders.leftOut()
     }
 
     /// Shows the list of chosen folders the reading looked in, so Settings and the pages say the same of it, unless
     /// the person changed the list since the reading began: that change brings a reading of its own.
     private func showFolders(of scan: AppScan, readSince changes: Int) {
-        if changes == folderChanges, scan.chosenFolders != folders { folders = scan.chosenFolders }
+        guard changes == folderChanges else { return }
+        if scan.chosenFolders != folders { folders = scan.chosenFolders }
+        if scan.foldersLeftOut != foldersLeftOut { foldersLeftOut = scan.foldersLeftOut }
     }
 
     /// Reads the folders again without emptying the list first, so an app installed while Peel is open

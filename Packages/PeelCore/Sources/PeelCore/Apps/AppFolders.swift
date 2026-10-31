@@ -4,7 +4,7 @@ internal import PeelPrivileged
 /// The folders the person chose for Peel to look for apps in, beside the Applications folders: another disk, or a
 /// folder of tools. Every reading of the installed apps looks in them, in the app and in `peel` alike.
 public struct AppFolders: Sendable {
-    public enum Refusal: Sendable, Equatable {
+    public enum Refusal: Sendable, Hashable {
         /// A whole disk, the home folder, a Library or its Application Support, or one of macOS's own folders, which
         /// would make every reading of the apps slow.
         case tooBroad
@@ -14,6 +14,17 @@ public struct AppFolders: Sendable {
         case inATrash
         /// A folder iCloud or another cloud keeps, whose listing can download what it holds.
         case inTheCloud
+    }
+
+    /// A folder on the saved list Peel no longer reads, since a rule came after it was chosen.
+    public struct LeftOut: Sendable, Hashable {
+        public let folder: URL
+        public let refusal: Refusal
+
+        public init(folder: URL, refusal: Refusal) {
+            self.folder = folder
+            self.refusal = refusal
+        }
     }
 
     public let url: URL
@@ -39,6 +50,19 @@ public struct AppFolders: Sendable {
     /// The folders chosen, or nil when the file is there and cannot be read: the apps in them are then not known.
     public func load() -> [URL]? {
         FileLock.whileReading(beside: url) { url.isMissing ? [] : read() }
+    }
+
+    /// The folders the list holds that are no longer read, and why. One Peel reads anyway, as part of an Applications
+    /// folder, loses nothing.
+    public func leftOut() -> [LeftOut] {
+        guard !url.isMissing else { return [] }
+        return FileLock.whileReading(beside: url) {
+            (saved() ?? []).compactMap { path in
+                let folder = URL(filePath: path, directoryHint: .isDirectory)
+                let refusal = Self.refusal(of: folder, home: home)
+                return refusal.flatMap { $0 == .alreadyLookedIn ? nil : LeftOut(folder: folder, refusal: $0) }
+            }
+        }
     }
 
     /// Adds `folders`. False when they could not be saved, or when the file is there and cannot be read, since
@@ -110,18 +134,21 @@ public struct AppFolders: Sendable {
 
     private func change(_ edit: (inout [String]) -> Void) -> Bool {
         FileLock.whileHeld(beside: url) {
-            guard var paths = read().map({ $0.map { $0.path(percentEncoded: false) } }) ?? (url.isMissing ? [] : nil)
-            else { return false }
+            guard var paths = saved() ?? (url.isMissing ? [] : nil) else { return false }
             edit(&paths)
             guard let data = try? JSONEncoder().encode(paths) else { return false }
             return (try? PeelFolder.write(data, to: url)) != nil
         }
     }
 
+    /// The paths as saved, or nil when the file cannot be read.
+    private func saved() -> [String]? {
+        BoundedRead.data(at: url).flatMap { try? JSONDecoder().decode([String].self, from: $0) }
+    }
+
     /// The folders saved, less any refused now, which a list saved before the folder was refused can hold.
     private func read() -> [URL]? {
-        guard let data = BoundedRead.data(at: url), let paths = try? JSONDecoder().decode([String].self, from: data)
-        else { return nil }
+        guard let paths = saved() else { return nil }
         return paths.map { URL(filePath: $0, directoryHint: .isDirectory) }
             .filter { Self.refusal(of: $0, home: home) == nil }
     }

@@ -211,6 +211,10 @@ enum Output {
         if !catalog.unreadable.isEmpty {
             notes.append(unreadableNote(for: catalog.unreadable, needsFullDiskAccess: catalog.needsFullDiskAccess))
         }
+        if !catalog.foldersLeftOut.isEmpty {
+            let folders = list(named(catalog.foldersLeftOut.map(\.folder)))
+            notes.append("Peel no longer looks in \(folders), so the apps there aren't listed. Choose the folder that holds the apps in Settings > General > App Folders.")
+        }
         return notes.isEmpty ? nil : notes.joined(separator: "\n")
     }
 

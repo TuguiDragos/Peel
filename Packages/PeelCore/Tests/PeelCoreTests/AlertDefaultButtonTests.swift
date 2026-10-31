@@ -19,4 +19,14 @@ struct AlertDefaultButtonTests {
         }
         #expect(found.isEmpty, "Return would press the first other button, not OK: \(found)")
     }
+
+    @Test func removingPeelOrItsHelperKeepsReturnOnCancel() throws {
+        let settings = LineLengthTests.repository.appending(path: "Peel/Views/Settings/SettingsView.swift")
+        let lines = try String(contentsOf: settings, encoding: .utf8).components(separatedBy: "\n")
+        for title in ["Remove Peel from this Mac?", "Uninstall Peel’s helper?"] {
+            let start = try #require(lines.firstIndex { $0.contains(title) })
+            let cancel = try #require(lines[start...].firstIndex { $0.contains(#"Button("Cancel", role: .cancel)"#) })
+            #expect(lines[cancel + 1].contains(".keyboardShortcut(.defaultAction)"), "\(title)")
+        }
+    }
 }

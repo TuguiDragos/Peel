@@ -104,6 +104,43 @@ struct AppFoldersTests {
         #expect(AppFolders(url: list, home: directory.url).load()?.map(\.lastPathComponent) == ["Tools"])
     }
 
+    @Test func namesWhatItLeavesOutAndKeepsItUntilItIsTakenOff() throws {
+        let directory = try TemporaryDirectory()
+        let tools = try directory.directory("Tools")
+        let other = try directory.directory("Other")
+        let saved = ["/Volumes/Backup", tools.path(percentEncoded: false)]
+        let list = try directory.file("app-folders.json", contents: JSONEncoder().encode(saved))
+        let folders = AppFolders(url: list, home: directory.url)
+
+        let backup = URL(filePath: "/Volumes/Backup", directoryHint: .isDirectory)
+        #expect(folders.leftOut() == [AppFolders.LeftOut(folder: backup, refusal: .tooBroad)])
+
+        #expect(folders.add([other]))
+        #expect(folders.leftOut().map(\.refusal) == [.tooBroad], "an edit lost it without a word")
+        #expect(folders.load()?.map(\.lastPathComponent) == ["Tools", "Other"])
+
+        #expect(folders.remove([URL(filePath: "/Volumes/Backup")]))
+        #expect(folders.leftOut().isEmpty)
+    }
+
+    @Test func aFolderPeelReadsAnywayIsNotLeftOut() throws {
+        let directory = try TemporaryDirectory()
+        let inside = directory.url.appending(path: "Applications/Tools", directoryHint: .isDirectory)
+        let list = try directory.file(
+            "app-folders.json", contents: JSONEncoder().encode([inside.path(percentEncoded: false)])
+        )
+
+        #expect(AppFolders(url: list, home: directory.url).leftOut().isEmpty)
+    }
+
+    @Test func aMissingListLeavesOutNothingAndMakesNothing() throws {
+        let directory = try TemporaryDirectory()
+        let folder = directory.url.appending(path: "Peel")
+
+        #expect(AppFolders(url: folder.appending(path: "app-folders.json"), home: directory.url).leftOut().isEmpty)
+        #expect(folder.isMissing)
+    }
+
     @Test func aReadingOfAnotherHomeLeavesOutAFolderInThatHomesTrash() throws {
         let directory = try TemporaryDirectory()
         let saved = [try directory.directory(".Trash/Apps"), try directory.directory("Tools")]

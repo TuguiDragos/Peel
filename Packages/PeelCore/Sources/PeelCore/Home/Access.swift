@@ -120,10 +120,21 @@ public enum CommandLineTool {
         return link.map { "sudo mkdir -p /usr/local/bin && sudo \($0) '\(path)' \(CommandLineTool.path)" }
     }
 
-    /// What an account that is not an administrator adds to `~/.zshrc` to run `peel` from anywhere, since the link
-    /// takes `sudo`. A function, since the shell reads an alias's text again and would split a path at a space.
-    public static func zshrcLine(embedded: URL) -> String? {
-        lastingPath(of: embedded).map { "peel() { '\($0)' \"$@\"; }" }
+    public struct ShellLine: Sendable, Equatable {
+        public let file: String
+        public let line: String
+    }
+
+    /// What an account that is not an administrator adds to its shell's startup file to run `peel` from anywhere, since
+    /// the link takes `sudo`. A function, since the shell reads an alias's text again and would split a path at a
+    /// space. Terminal starts a login shell, which is the one bash reads `~/.bash_profile` in.
+    public static func shellLine(embedded: URL, shell: String? = ShellSessions.loginShell()) -> ShellLine? {
+        guard let path = lastingPath(of: embedded) else { return nil }
+        return switch shell.map({ URL(filePath: $0).lastPathComponent }) {
+        case "fish": ShellLine(file: "~/.config/fish/config.fish", line: "function peel; '\(path)' $argv; end")
+        case "bash": ShellLine(file: "~/.bash_profile", line: "peel() { '\(path)' \"$@\"; }")
+        default: ShellLine(file: "~/.zshrc", line: "peel() { '\(path)' \"$@\"; }")
+        }
     }
 
     /// The tool's path with each single quote closed, escaped, and reopened, or nil from a temporary copy or a

@@ -222,9 +222,11 @@ struct ExclusionCommandTests {
         await #expect(throws: CommandFailure.self) {
             try await remove(["/Users/me/thing"], in: store)
         }
-        await #expect(throws: CommandFailure.self) {
+        let failure = await #expect(throws: CommandFailure.self) {
             try await list(in: store)
         }
+        #expect(failure?.description.contains("won't change it") == false, "nobody asked for a change")
+        #expect(failure?.description.contains("Start Over") == true)
         #expect(try Data(contentsOf: store.url) == Data("not json".utf8))
     }
 

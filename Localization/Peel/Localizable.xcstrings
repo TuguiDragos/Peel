@@ -135107,7 +135107,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu mută niciodată în Coș nimic din interiorul acestora și nici un dosar care conține unul dintre ele, iar le omite din listele sale, cu excepția paginii Toate aplicațiile, care marchează ca exclusă o aplicație din interiorul acestora, și a paginii Homebrew, care nu dezinstalează niciun pachet din interiorul acestora. Istoricul arată în continuare ce a fost mutat înainte. „Curățați” din pagina Homebrew păstrează formulele ale căror dosare le excludeți aici, dar această listă nu acoperă ce altceva șterge comanda, cum ar fi descărcările Homebrew."
+            "value" : "Peel nu mută niciodată în Coș nimic din interiorul acestora și nici un dosar care conține unul dintre ele, și le lasă în afara listelor sale, cu excepția paginii Toate aplicațiile, care marchează ca exclusă o aplicație din interiorul acestora, și a paginii Homebrew, care nu dezinstalează niciun pachet din interiorul acestora. Istoricul arată în continuare ce a fost mutat înainte. „Curățați” din pagina Homebrew păstrează formulele ale căror dosare le excludeți aici, dar această listă nu acoperă ce altceva șterge comanda, cum ar fi descărcările Homebrew."
           }
         },
         "ru" : {
@@ -135356,6 +135356,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel絕不會為此App重置這些權限。"
+          }
+        }
+      }
+    },
+    "Peel no longer looks in these folders, so the apps in them aren’t listed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel už v těchto složkách nehledá, takže aplikace v nich se neuvádějí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht nicht mehr in diesen Ordnern, daher werden die Apps darin nicht aufgeführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ya no busca en estas carpetas, así que las apps que contienen no aparecen en la lista."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne regarde plus dans ces dossiers : les apps qu’ils contiennent ne sont donc pas listées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non cerca più in queste cartelle, quindi le app che contengono non vengono elencate."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれらのフォルダを調べなくなったため、中にあるアプリは一覧に表示されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 폴더들을 더 이상 살펴보지 않으므로 그 안에 있는 앱은 목록에 표시되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kijkt niet meer in deze mappen, dus de apps daarin worden niet getoond."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie szuka już w tych folderach, więc znajdujących się w nich aplikacji nie ma na liście."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não procura mais nestas pastas, então os apps que estão nelas não são listados."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mai caută în aceste dosare, așa că aplicațiile din ele nu sunt listate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel больше не ищет в этих папках, поэтому находящиеся в них приложения не показываются в списке."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar inte längre i de här mapparna, så apparna i dem listas inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel artık bu klasörlere bakmıyor, bu yüzden içlerindeki uygulamalar listelenmiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel більше не шукає в цих папках, тож програми в них не показуються."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已不再查看这些文件夹，因此不会列出其中的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已不再查看這些檔案夾，因此不會列出其中的App。"
           }
         }
       }
@@ -138228,108 +138334,108 @@
         }
       }
     },
-    "Peel won’t move itself from here: its folder needs an administrator. Drag it to the Trash in Finder, which asks for an administrator." : {
+    "Peel won’t move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there, or drag it to the Trash in Finder, which asks for one." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se odsud sám nepřesune: jeho složka vyžaduje oprávnění správce. Přetáhněte ho do koše ve Finderu, který požádá o údaje správce."
+            "value" : "Peel se odsud sám nepřesune: jeho složka vyžaduje oprávnění správce. Přihlaste se jako správce a tam zvolte „Odstranit Peel“, nebo ho přetáhněte do koše ve Finderu, který požádá o údaje správce."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verschiebt sich von hier aus nicht selbst: Der Ordner, in dem Peel liegt, erfordert einen Administrator. Ziehe Peel im Finder in den Papierkorb. Der Finder fragt nach einem Administrator."
+            "value" : "Peel verschiebt sich von hier aus nicht selbst: Der Ordner, in dem Peel liegt, erfordert einen Administrator. Melde dich als Administrator an und wähle dort „Peel entfernen“, oder ziehe Peel im Finder in den Papierkorb. Der Finder fragt nach einem Administrator."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no se trasladará a sí mismo desde aquí: su carpeta necesita un administrador. Arrástralo a la papelera en el Finder, que pide un administrador."
+            "value" : "Peel no se trasladará a sí mismo desde aquí: su carpeta necesita un administrador. Inicia sesión como administrador y elige “Eliminar Peel” allí, o arrástralo a la papelera en el Finder, que pide un administrador."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : son dossier nécessite un administrateur. Faites-le glisser dans la corbeille depuis le Finder, qui demande l’autorisation d’un administrateur."
+            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : son dossier nécessite un administrateur. Ouvrez une session en tant qu’administrateur et choisissez « Supprimer Peel » dans cette session, ou faites glisser Peel dans la corbeille depuis le Finder, qui demande l’autorisation d’un administrateur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Da qui Peel non sposta sé stesso: la sua cartella richiede un amministratore. Trascinalo nel Cestino dal Finder, che chiede l’autorizzazione di un amministratore."
+            "value" : "Da qui Peel non sposta sé stesso: la sua cartella richiede un amministratore. Esegui il login come amministratore e scegli “Rimuovi Peel” da lì, oppure trascinalo nel Cestino dal Finder, che chiede l’autorizzazione di un amministratore."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはここから自身を移動しません。Peelがあるフォルダでは管理者の権限が必要なためです。Finderでゴミ箱にドラッグしてください。その際、Finderが管理者の認証を求めます。"
+            "value" : "Peelはここから自身を移動しません。Peelがあるフォルダでは管理者の権限が必要なためです。管理者としてログインし、そこで“Peelをアンインストール”を選択するか、Finderでゴミ箱にドラッグしてください。その際、Finderが管理者の認証を求めます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. Peel이 있는 폴더에 관리자 권한이 필요하기 때문입니다. Finder에서 Peel을 휴지통으로 드래그하십시오. Finder가 관리자 인증을 요청합니다."
+            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. Peel이 있는 폴더에 관리자 권한이 필요하기 때문입니다. 관리자로 로그인한 다음 그곳에서 ‘Peel 제거’를 선택하거나, Finder에서 Peel을 휴지통으로 드래그하십시오. Finder가 관리자 인증을 요청합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: voor de map is een beheerder nodig. Sleep Peel in Finder naar de prullenmand, dan vraagt Finder om een beheerder."
+            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: voor de map is een beheerder nodig. Log in als beheerder en kies daar 'Verwijder Peel', of sleep Peel in Finder naar de prullenmand, dan vraagt Finder om een beheerder."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: jego folder wymaga uprawnień administratora. Przeciągnij go do Kosza w Finderze, który poprosi o dane administratora."
+            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: jego folder wymaga uprawnień administratora. Zaloguj się jako administrator i tam wybierz „Odinstaluj Peel” albo przeciągnij go do Kosza w Finderze, który poprosi o dane administratora."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não vai se mover daqui: a pasta dele requer um administrador. Arraste-o para o Lixo no Finder, que pede um administrador."
+            "value" : "O Peel não vai se mover daqui: a pasta dele requer um administrador. Inicie sessão como administrador e escolha “Remover o Peel” lá, ou arraste-o para o Lixo no Finder, que pede um administrador."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu se mută singur de aici: dosarul său necesită un administrator. Trageți‑l în Coș din Finder, care cere un administrator."
+            "value" : "Peel nu se mută singur de aici: dosarul său necesită un administrator. Faceți login ca administrator și alegeți „Eliminați Peel” de acolo sau trageți‑l în Coș din Finder, care cere un administrator."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не будет перемещать себя отсюда: для его папки нужен администратор. Перетащите его в Корзину в Finder: Finder запросит данные администратора."
+            "value" : "Peel не будет перемещать себя отсюда: для его папки нужен администратор. Войдите как администратор и выберите там «Удалить Peel» или перетащите его в Корзину в Finder: Finder запросит данные администратора."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel flyttar inte sig själv härifrån: mappen kräver en administratör. Dra Peel till papperskorgen i Finder, som ber om en administratör."
+            "value" : "Peel flyttar inte sig själv härifrån: mappen kräver en administratör. Logga in som administratör och välj ”Ta bort Peel” där, eller dra Peel till papperskorgen i Finder, som ber om en administratör."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kendini buradan taşımaz: bulunduğu klasör bir yönetici gerektiriyor. Onu Finder’da Çöp Sepeti’ne sürükleyin; Finder yönetici ister."
+            "value" : "Peel kendini buradan taşımaz: bulunduğu klasör bir yönetici gerektiriyor. Yönetici olarak oturum açın ve orada “Peel’i Kaldır” düğmesini tıklayın ya da onu Finder’da Çöp Sepeti’ne sürükleyin; Finder yönetici ister."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не перемістить себе звідси: змінювати її папку може лише адміністратор. Перетягніть Peel у Смітник у Finder: Finder попросить дані адміністратора."
+            "value" : "Peel не перемістить себе звідси: змінювати її папку може лише адміністратор. Увійдіть як адміністратор і виберіть там «Вилучити Peel» або перетягніть Peel у Смітник у Finder, який попросить дані адміністратора."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不会从此处移动自己：它所在的文件夹需要管理员权限。请在“访达”中将它拖到废纸篓，“访达”会要求管理员授权。"
+            "value" : "Peel不会从此处移动自己：它所在的文件夹需要管理员权限。请以管理员身份登录，然后在那里选取“移除Peel”；或者在“访达”中将它拖到废纸篓，“访达”会要求管理员授权。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不會從這裡移動自己：它所在的檔案夾需要管理者權限。請在Finder中將它拖到「垃圾桶」，Finder會要求管理者驗證。"
+            "value" : "Peel不會從這裡移動自己：它所在的檔案夾需要管理者權限。請以管理者身分登入，並在那裡選擇「移除Peel」，或在Finder中將它拖到「垃圾桶」，Finder會要求管理者驗證。"
           }
         }
       }
@@ -146696,109 +146802,108 @@
         }
       }
     },
-    "Putting `peel` on the path takes an administrator. To use it from this account, add this line to ~/.zshrc, then open a new Terminal window." : {
-      "comment" : "In Settings > General, above a line of shell code to copy, on an account that is not an administrator's. Keep `peel` and ~/.zshrc as they are.",
+    "Putting `peel` on the path takes an administrator. To use it from this account, add this line to %@, then open a new Terminal window." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aby byl příkaz `peel` dostupný přes PATH, je potřeba správce. Chcete-li ho používat z tohoto účtu, přidejte tento řádek do souboru ~/.zshrc a pak otevřete nové okno Terminálu."
+            "value" : "Aby byl příkaz `peel` dostupný přes PATH, je potřeba správce. Chcete-li ho používat z tohoto účtu, přidejte tento řádek do souboru %@ a pak otevřete nové okno Terminálu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um `peel` in den Suchpfad aufzunehmen, wird ein Administrator benötigt. Wenn du es mit diesem Benutzeraccount verwenden möchtest, füge diese Zeile zu ~/.zshrc hinzu und öffne dann ein neues Terminal-Fenster."
+            "value" : "Um `peel` in den Suchpfad aufzunehmen, wird ein Administrator benötigt. Wenn du es mit diesem Benutzeraccount verwenden möchtest, füge diese Zeile zu %@ hinzu und öffne dann ein neues Terminal-Fenster."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Para poner `peel` en el PATH hace falta un administrador. Si quieres usarlo desde esta cuenta, añade esta línea a ~/.zshrc y, después, abre una ventana nueva de Terminal."
+            "value" : "Para poner `peel` en el PATH hace falta un administrador. Si quieres usarlo desde esta cuenta, añade esta línea a %@ y, después, abre una ventana nueva de Terminal."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Placer `peel` dans le PATH nécessite un administrateur. Pour l’utiliser depuis ce compte, ajoutez cette ligne au fichier ~/.zshrc, puis ouvrez une nouvelle fenêtre de Terminal."
+            "value" : "Placer `peel` dans le PATH nécessite un administrateur. Pour l’utiliser depuis ce compte, ajoutez cette ligne au fichier %@, puis ouvrez une nouvelle fenêtre de Terminal."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Per inserire `peel` nel PATH serve un amministratore. Per usarlo da questo account, aggiungi questa riga al file ~/.zshrc, poi apri una nuova finestra di Terminale."
+            "value" : "Per inserire `peel` nel PATH serve un amministratore. Per usarlo da questo account, aggiungi questa riga al file %@, poi apri una nuova finestra di Terminale."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`peel`をPATHの通った場所に置くには、管理者が必要です。このアカウントから使用するには、この行を~/.zshrcに追加してから、ターミナルで新規ウインドウを開いてください。"
+            "value" : "`peel`をPATHの通った場所に置くには、管理者が必要です。このアカウントから使用するには、この行を%@に追加してから、ターミナルで新規ウインドウを開いてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`peel`을 PATH에 추가하려면 관리자가 필요합니다. 이 계정에서 사용하려면 이 줄을 ~/.zshrc에 추가한 다음, 새로운 터미널 윈도우를 여십시오."
+            "value" : "`peel`을 PATH에 추가하려면 관리자가 필요합니다. 이 계정에서 사용하려면 이 줄을 %@에 추가한 다음, 새로운 터미널 윈도우를 여십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om `peel` aan het zoekpad toe te voegen, is een beheerder nodig. Als je het vanuit deze account wilt gebruiken, voeg je deze regel toe aan ~/.zshrc en open je daarna een nieuw Terminal-venster."
+            "value" : "Om `peel` aan het zoekpad toe te voegen, is een beheerder nodig. Als je het vanuit deze account wilt gebruiken, voeg je deze regel toe aan %@ en open je daarna een nieuw Terminal-venster."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dodanie `peel` do zmiennej PATH wymaga administratora. Aby używać go z tego konta, dodaj ten wiersz do pliku ~/.zshrc, a następnie otwórz nowe okno Terminala."
+            "value" : "Dodanie `peel` do zmiennej PATH wymaga administratora. Aby używać go z tego konta, dodaj ten wiersz do pliku %@, a następnie otwórz nowe okno Terminala."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colocar o `peel` no PATH requer um administrador. Para usá-lo a partir desta conta, adicione esta linha ao ~/.zshrc e depois abra uma nova janela do Terminal."
+            "value" : "Colocar o `peel` no PATH requer um administrador. Para usá-lo a partir desta conta, adicione esta linha ao %@ e depois abra uma nova janela do Terminal."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pentru a adăuga `peel` în PATH este nevoie de un administrator. Ca să‑l folosiți din acest cont, adăugați această linie în ~/.zshrc, apoi deschideți o fereastră nouă în Terminal."
+            "value" : "Pentru a adăuga `peel` în PATH este nevoie de un administrator. Ca să‑l folosiți din acest cont, adăugați această linie în %@, apoi deschideți o fereastră nouă în Terminal."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поместить `peel` в PATH может только администратор. Чтобы запускать его из этой учетной записи, добавьте эту строку в ~/.zshrc, а затем откройте новое окно Терминала."
+            "value" : "Поместить `peel` в PATH может только администратор. Чтобы запускать его из этой учетной записи, добавьте эту строку в %@, а затем откройте новое окно Терминала."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det krävs en administratör för att lägga till `peel` i sökvägen. Om du vill använda det från det här kontot lägger du till den här raden i ~/.zshrc och öppnar sedan ett nytt Terminal-fönster."
+            "value" : "Det krävs en administratör för att lägga till `peel` i sökvägen. Om du vill använda det från det här kontot lägger du till den här raden i %@ och öppnar sedan ett nytt Terminal-fönster."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`peel` aracını komut arama yoluna eklemek için bir yönetici gerekir. Onu bu hesaptan kullanmak için bu satırı ~/.zshrc dosyasına ekleyin, ardından yeni bir Terminal penceresi açın."
+            "value" : "`peel` aracını komut arama yoluna eklemek için bir yönetici gerekir. Onu bu hesaptan kullanmak için bu satırı %@ dosyasına ekleyin, ardından yeni bir Terminal penceresi açın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Додати `peel` до PATH може лише адміністратор. Щоб користуватися ним із цього облікового запису, додайте цей рядок до ~/.zshrc, а потім відкрийте нове вікно Термінала."
+            "value" : "Додати `peel` до PATH може лише адміністратор. Щоб користуватися ним із цього облікового запису, додайте цей рядок до %@, а потім відкрийте нове вікно Термінала."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "将`peel`放到PATH中需要管理员。若要在此账户中使用它，请将这一行添加到~/.zshrc，然后打开一个新的“终端”窗口。"
+            "value" : "将`peel`放到PATH中需要管理员。若要在此账户中使用它，请将这一行添加到%@，然后打开一个新的“终端”窗口。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "將`peel`加入PATH需要管理者。若要從此帳號使用它，請將這一行加入~/.zshrc，然後打開新的「終端機」視窗。"
+            "value" : "將`peel`加入PATH需要管理者。若要從此帳號使用它，請將這一行加入%@，然後打開新的「終端機」視窗。"
           }
         }
       }
@@ -146909,108 +147014,108 @@
         }
       }
     },
-    "Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account." : {
+    "Putting it on the path takes an administrator, and Peel’s Settings gives a line for your shell that runs it from this account." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aby byl dostupný přes PATH, je potřeba správce, a Nastavení Peelu nabízí řádek pro soubor ~/.zshrc, díky kterému ho můžete spouštět z tohoto účtu."
+            "value" : "Aby byl dostupný přes PATH, je potřeba správce, a Nastavení Peelu nabízí pro váš shell řádek, díky kterému ho můžete spouštět z tohoto účtu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um das Tool in den Suchpfad aufzunehmen, wird ein Administrator benötigt, und die Peel-Einstellungen bieten eine Zeile für ~/.zshrc, über die du es mit diesem Benutzeraccount verwenden kannst."
+            "value" : "Um das Tool in den Suchpfad aufzunehmen, wird ein Administrator benötigt, und die Peel-Einstellungen bieten eine Zeile für deine Shell, über die du es mit diesem Benutzeraccount verwenden kannst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Para ponerla en el PATH hace falta un administrador, y los ajustes de Peel ofrecen una línea para ~/.zshrc que permite ejecutarla desde esta cuenta."
+            "value" : "Para ponerla en el PATH hace falta un administrador, y los ajustes de Peel ofrecen una línea para tu shell que permite ejecutarla desde esta cuenta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le placer dans le PATH nécessite un administrateur, et les Réglages de Peel fournissent une ligne à ajouter au fichier ~/.zshrc pour l’exécuter depuis ce compte."
+            "value" : "Le placer dans le PATH nécessite un administrateur, et les Réglages de Peel fournissent une ligne pour votre shell afin de l’exécuter depuis ce compte."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Per inserirlo nel PATH serve un amministratore, e nelle Impostazioni di Peel trovi una riga per il file ~/.zshrc con cui eseguirlo da questo account."
+            "value" : "Per inserirlo nel PATH serve un amministratore, e nelle Impostazioni di Peel trovi una riga per la tua shell con cui eseguirlo da questo account."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PATHの通った場所に置くには管理者が必要ですが、Peelの“設定”には、このアカウントから実行するための~/.zshrc用の行が用意されています。"
+            "value" : "PATHの通った場所に置くには管理者が必要ですが、Peelの“設定”には、このアカウントから実行するためのシェル用の行が用意されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PATH에 추가하려면 관리자가 필요하며, Peel 설정에는 이 계정에서 이 도구를 실행할 수 있게 하는 ~/.zshrc용 줄이 있습니다."
+            "value" : "PATH에 추가하려면 관리자가 필요하며, Peel 설정에는 이 계정에서 이 도구를 실행할 수 있게 하는 셸용 줄이 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om het aan het zoekpad toe te voegen, is een beheerder nodig, en in Peel-instellingen staat een regel voor ~/.zshrc waarmee je het vanuit deze account kunt uitvoeren."
+            "value" : "Om het aan het zoekpad toe te voegen, is een beheerder nodig, en in Peel-instellingen staat een regel voor je shell waarmee je het vanuit deze account kunt uitvoeren."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dodanie go do zmiennej PATH wymaga administratora, a w Ustawieniach Peel znajdziesz wiersz do pliku ~/.zshrc, dzięki któremu uruchomisz go z tego konta."
+            "value" : "Dodanie go do zmiennej PATH wymaga administratora, a w Ustawieniach Peel znajdziesz wiersz dla swojej powłoki, dzięki któremu uruchomisz go z tego konta."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colocar a ferramenta no PATH requer um administrador, e os Ajustes do Peel oferecem uma linha para o ~/.zshrc que permite executá-la a partir desta conta."
+            "value" : "Colocar a ferramenta no PATH requer um administrador, e os Ajustes do Peel oferecem uma linha para o seu shell que permite executá-la a partir desta conta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pentru a‑l adăuga în PATH este nevoie de un administrator, iar în configurările Peel găsiți o linie pentru ~/.zshrc, cu care îl puteți rula din acest cont."
+            "value" : "Pentru a‑l adăuga în PATH este nevoie de un administrator, iar în configurările Peel găsiți o linie pentru shellul dvs., cu care îl puteți rula din acest cont."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поместить инструмент в PATH может только администратор, а в Настройках Peel есть строка для ~/.zshrc, с которой его можно запускать из этой учетной записи."
+            "value" : "Поместить инструмент в PATH может только администратор, а в Настройках Peel есть строка для Вашей оболочки, с которой его можно запускать из этой учетной записи."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det krävs en administratör för att lägga till det i sökvägen, och i Peels inställningar finns en rad för ~/.zshrc som gör att det kan köras från det här kontot."
+            "value" : "Det krävs en administratör för att lägga till det i sökvägen, och i Peels inställningar finns en rad för din kommandotolk som gör att det kan köras från det här kontot."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Onu komut arama yoluna eklemek için bir yönetici gerekir; Peel Ayarları ise onu bu hesaptan çalıştırmak için ~/.zshrc dosyasına eklenecek bir satır sunar."
+            "value" : "Onu komut arama yoluna eklemek için bir yönetici gerekir; Peel Ayarları ise kabuğunuz için onu bu hesaptan çalıştıran bir satır sunar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Додати інструмент до PATH може лише адміністратор, а в Параметрах Peel є рядок для ~/.zshrc, завдяки якому його можна запускати з цього облікового запису."
+            "value" : "Додати інструмент до PATH може лише адміністратор, а в Параметрах Peel є рядок для вашої оболонки, завдяки якому його можна запускати з цього облікового запису."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "将它放到PATH中需要管理员，不过Peel的“设置”会提供一行可添加到~/.zshrc的代码，让你能在此账户中运行它。"
+            "value" : "将它放到PATH中需要管理员，不过Peel的“设置”会为你的shell提供一行代码，让你能在此账户中运行它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "將它加入PATH需要管理者，而Peel「設定」提供了可加入~/.zshrc的一行設定，讓你從此帳號執行它。"
+            "value" : "將它加入PATH需要管理者，而Peel「設定」提供了適用於你的Shell的一行設定，讓你從此帳號執行它。"
           }
         }
       }
@@ -150945,6 +151050,112 @@
         }
       }
     },
+    "Remove From List" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebrat ze seznamu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus Liste entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar de la lista"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer de la liste"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi dall’elenco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リストから削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록에서 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder uit lijst"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń z listy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover da Lista"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați din listă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить из списка"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort från listan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listeden Çıkar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучити зі списку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从列表中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從列表移除"
+          }
+        }
+      }
+    },
     "Remove Peel" : {
       "localizations" : {
         "cs" : {
@@ -152532,6 +152743,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移除Homebrew在安裝和升級後保留的項目：快取的下載檔案、舊版本，以及只為了現已不存在的項目而安裝的formulae。你自己安裝的項目會保留。"
+          }
+        }
+      }
+    },
+    "Removing Peel leaves the peel command in place. To remove it too, an administrator runs this command in Terminal:" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po odstranění Peelu zůstane příkaz peel na místě. Chcete-li ho odstranit také, musí správce spustit v Terminálu tento příkaz:"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du Peel entfernst, bleibt der Befehl „peel“ erhalten. Um auch ihn zu entfernen, muss ein Administrator diesen Befehl im Terminal ausführen:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al eliminar Peel, el comando peel se queda donde está. Para eliminarlo también, un administrador debe ejecutar este comando en Terminal:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer Peel laisse la commande peel en place. Pour la supprimer aussi, un administrateur doit exécuter cette commande dans Terminal :"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se rimuovi Peel, il comando peel resta al suo posto. Per rimuovere anche quello, un amministratore deve eseguire questo comando in Terminale:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelをアンインストールしても、peelコマンドはそのまま残ります。コマンドも取り除くには、管理者がターミナルで以下のコマンドを実行する必要があります:"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel을 제거해도 peel 명령은 그대로 남습니다. 이 명령도 제거하려면 관리자가 터미널에서 다음 명령을 실행해야 합니다:"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je Peel verwijdert, blijft het commando peel staan. Om het ook te verwijderen, voert een beheerder dit commando uit in Terminal:"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalowanie Peel pozostawia polecenie peel na miejscu. Aby je także usunąć, administrator musi uruchomić to polecenie w Terminalu:"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover o Peel deixa o comando peel onde está. Para removê-lo também, um administrador precisa executar este comando no Terminal:"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminarea aplicației Peel lasă comanda peel pe loc. Pentru a o elimina și pe ea, un administrator trebuie să ruleze această comandă în Terminal:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "После удаления Peel команда peel остается на месте. Чтобы удалить и ее, администратор должен выполнить эту команду в Терминале:"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du tar bort Peel finns kommandot peel kvar. Om du vill ta bort det också måste en administratör köra det här kommandot i Terminal:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’i kaldırmak peel komutunu yerinde bırakır. Onu da kaldırmak için bir yöneticinin bu komutu Terminal’de çalıştırması gerekir:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Після вилучення Peel команда peel лишається на місці. Щоб вилучити і її, адміністратор має виконати цю команду в Терміналі:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除Peel不会移除peel命令。若要一并移除它，需要由管理员在“终端”中运行此命令："
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除Peel後，peel指令仍會保留。若也要移除它，需由管理者在「終端機」中執行此指令："
           }
         }
       }
@@ -202884,6 +203201,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已關閉"
+          }
+        }
+      }
+    },
+    "Turned off in Login Items & Extensions" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnuto v části Aktivace položek a rozšíření při přihlášení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In „Anmeldeobjekte & Erweiterungen“ deaktiviert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivado en Ítems de inicio y extensiones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé dans Ouverture et extensions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattivato in “Elementi login ed estensioni”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“ログイン項目と機能拡張”でオフにされています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 항목 및 확장 프로그램에서 꺼짐"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitgeschakeld in 'Inlogonderdelen en extensies'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłączone w panelu Rzeczy i rozszerzenia otwierane podczas logowania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativado em Itens de Início de Sessão e Extensões"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezactivat în Lansare la login și extensii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключено в разделе «Объекты входа и расширения»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avstängt i Startobjekt och tillägg"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturum Açma Öğeleri ve Genişletmeler’de kapatıldı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкнено в розділі «Автозапуск і розширення»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在登录项与扩展中关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在「登入項目與延伸功能」中關閉"
           }
         }
       }

@@ -184,7 +184,7 @@ final class SelfUninstall {
         case .readOnlyCopy:
             String(localized: "Peel is running from a copy macOS made because it is still marked as downloaded, or from its disk image, and that copy can’t be moved. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
         case .needsAnAdministrator:
-            String(localized: "Peel won’t move itself from here: its folder needs an administrator. Drag it to the Trash in Finder, which asks for an administrator.")
+            String(localized: "Peel won’t move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there, or drag it to the Trash in Finder, which asks for one.")
         }
     }
 

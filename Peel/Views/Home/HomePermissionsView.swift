@@ -368,6 +368,7 @@ extension HomeModel {
         case (.helper, .pending): "Needs approval, or was turned off"
         case (.finderExtension, .off) where isFinderExtensionFromAnotherCopy: "On in another copy of Peel"
         case (.openAtLogin, .off) where loginItem.failure != nil: "Couldn’t turn on"
+        case (.openAtLogin, .off) where loginItem.needsApproval: "Turned off in Login Items & Extensions"
         case (_, .notThisAccount): "Needs an administrator"
         case (.appManagement, .pending):
             appManagementAwaitsARemoval ? "Checked at the next removal" : "Checked at first removal"

@@ -364,6 +364,17 @@ struct SelfRemovalTests {
         #expect(try String(contentsOf: moved.trashedURL.appending(path: "removals.json"), encoding: .utf8) == "2")
     }
 
+    @Test(.permissionsHold) func knowsAheadThatAFolderOnlyAnAdministratorCanChangeHoldsPeel() throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("Applications/Peel.app")
+        #expect(SelfRemoval.blockAhead(of: app) == nil)
+
+        try directory.setPermissions(0o555, of: "Applications")
+        defer { try? directory.setPermissions(0o755, of: "Applications") }
+
+        #expect(SelfRemoval.blockAhead(of: app) == .needsAnAdministrator)
+    }
+
     @Test func aScanThatEndsAfterPeelLeftDoesNotBringItsFolderBack() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("home/Applications/Peel.app")

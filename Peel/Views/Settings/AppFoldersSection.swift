@@ -6,22 +6,10 @@ struct AppFoldersSection: View {
     @Environment(AppLibrary.self) private var library
     @State private var isChoosing = false
     @State private var selected: Set<URL> = []
-    @State private var refusedAsTooBroad: [String] = []
-    @State private var refusedAsLookedIn: [String] = []
-    @State private var refusedInATrash: [String] = []
-    @State private var refusedInTheCloud: [String] = []
+    @State private var refused: [AppFolders.LeftOut] = []
 
     private var isShowingRefusal: Binding<Bool> {
-        Binding(
-            get: { !(refusedAsTooBroad + refusedAsLookedIn + refusedInATrash + refusedInTheCloud).isEmpty },
-            set: {
-                guard !$0 else { return }
-                refusedAsTooBroad = []
-                refusedAsLookedIn = []
-                refusedInATrash = []
-                refusedInTheCloud = []
-            }
-        )
+        Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
     }
 
     var body: some View {
@@ -54,6 +42,16 @@ struct AppFoldersSection: View {
                     }
                 }
             }
+            if !library.foldersLeftOut.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    StatusLabel(title: Text("Peel no longer looks in these folders, so the apps in them aren’t listed."))
+                    Self.message(for: library.foldersLeftOut)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .textSelection(.enabled)
+                    Button("Remove From List") { library.removeFolders(library.foldersLeftOut.map(\.folder)) }
+                }
+            }
             if library.couldNotSaveFolders {
                 StatusLabel(title: Text("Peel couldn’t save the app folders."))
             }
@@ -73,34 +71,34 @@ struct AppFoldersSection: View {
             isPresented: $isChoosing, allowedContentTypes: [.folder], allowsMultipleSelection: true
         ) { result in
             guard let urls = try? result.get() else { return }
-            let refusals = urls.compactMap { url in AppFolders.refusal(of: url).map { (url: url, refusal: $0) } }
-            refusedAsTooBroad = refusals.filter { $0.refusal == .tooBroad }.map(\.url.abbreviatedPath)
-            refusedAsLookedIn = refusals.filter { $0.refusal == .alreadyLookedIn }.map(\.url.abbreviatedPath)
-            refusedInATrash = refusals.filter { $0.refusal == .inATrash }.map(\.url.abbreviatedPath)
-            refusedInTheCloud = refusals.filter { $0.refusal == .inTheCloud }.map(\.url.abbreviatedPath)
-            let adding = urls.filter { url in !refusals.contains { $0.url == url } }
+            refused = urls.compactMap { url in AppFolders.refusal(of: url).map { .init(folder: url, refusal: $0) } }
+            let adding = urls.filter { url in !refused.contains { $0.folder == url } }
             guard !adding.isEmpty else { return }
             library.addFolders(adding)
         }
         .alert(
-            (refusedAsTooBroad + refusedAsLookedIn + refusedInATrash + refusedInTheCloud).count == 1
-                ? "That folder can’t be added." : "These folders can’t be added.",
+            refused.count == 1 ? "That folder can’t be added." : "These folders can’t be added.",
             isPresented: isShowingRefusal
         ) {
             Button("OK", role: .cancel) {}
         } message: {
-            refusalMessage
+            Self.message(for: refused)
         }
     }
 
-    private var refusalMessage: Text {
-        let tooBroad = Text("A folder as wide as a whole disk, your home folder, a Library, or one of macOS’s own would slow down every look for apps. Choose the folder that holds the apps.\n\n\(RemovalFailureAlert.firstItems(refusedAsTooBroad).joined(separator: "\n"))")
-        let lookedIn = Text("Peel already looks in the Applications folders and in the folders inside them, three levels deep.\n\n\(RemovalFailureAlert.firstItems(refusedAsLookedIn).joined(separator: "\n"))")
-        let inATrash = Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(RemovalFailureAlert.firstItems(refusedInATrash).joined(separator: "\n"))")
-        let inTheCloud = Text("Reading a folder that iCloud or another cloud keeps can download what it holds, so Peel doesn’t look for apps there.\n\n\(RemovalFailureAlert.firstItems(refusedInTheCloud).joined(separator: "\n"))")
+    /// Why each of `folders` isn't taken, a paragraph for each reason, with the folders it holds for.
+    private static func message(for folders: [AppFolders.LeftOut]) -> Text {
+        func paths(_ refusal: AppFolders.Refusal) -> [String] {
+            folders.filter { $0.refusal == refusal }.map(\.folder.abbreviatedPath)
+        }
+        func named(_ refusal: AppFolders.Refusal) -> String {
+            RemovalFailureAlert.firstItems(paths(refusal)).joined(separator: "\n")
+        }
         let parts = [
-            (refusedAsTooBroad, tooBroad), (refusedAsLookedIn, lookedIn), (refusedInATrash, inATrash),
-            (refusedInTheCloud, inTheCloud),
+            (paths(.tooBroad), Text("A folder as wide as a whole disk, your home folder, a Library, or one of macOS’s own would slow down every look for apps. Choose the folder that holds the apps.\n\n\(named(.tooBroad))")),
+            (paths(.alreadyLookedIn), Text("Peel already looks in the Applications folders and in the folders inside them, three levels deep.\n\n\(named(.alreadyLookedIn))")),
+            (paths(.inATrash), Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(named(.inATrash))")),
+            (paths(.inTheCloud), Text("Reading a folder that iCloud or another cloud keeps can download what it holds, so Peel doesn’t look for apps there.\n\n\(named(.inTheCloud))")),
         ]
             .filter { !$0.0.isEmpty }.map(\.1)
         return parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }

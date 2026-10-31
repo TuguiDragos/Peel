@@ -283,9 +283,15 @@ struct AppManagementTests {
         let quoted = URL(filePath: "/Users/someone/Apps/It's Peel.app/Contents/Helpers/peel")
         let translocated = URL(filePath: "/private/var/folders/x/AppTranslocation/41B9A/d/Peel.app/Contents/Helpers/peel")
 
-        #expect(CommandLineTool.zshrcLine(embedded: embedded) == "peel() { '/Applications/Peel.app/Contents/Helpers/peel' \"$@\"; }")
-        #expect(CommandLineTool.zshrcLine(embedded: quoted) == "peel() { '/Users/someone/Apps/It'\\''s Peel.app/Contents/Helpers/peel' \"$@\"; }")
-        #expect(CommandLineTool.zshrcLine(embedded: translocated) == nil)
+        #expect(CommandLineTool.shellLine(embedded: embedded, shell: "/bin/zsh")?.line == "peel() { '/Applications/Peel.app/Contents/Helpers/peel' \"$@\"; }")
+        #expect(CommandLineTool.shellLine(embedded: quoted, shell: "/bin/zsh")?.line == "peel() { '/Users/someone/Apps/It'\\''s Peel.app/Contents/Helpers/peel' \"$@\"; }")
+        #expect(CommandLineTool.shellLine(embedded: translocated) == nil)
+        #expect(CommandLineTool.shellLine(embedded: embedded, shell: "/bin/zsh")?.file == "~/.zshrc")
+        #expect(CommandLineTool.shellLine(embedded: embedded, shell: nil)?.file == "~/.zshrc")
+        #expect(CommandLineTool.shellLine(embedded: embedded, shell: "/bin/bash")?.file == "~/.bash_profile")
+        let fish = CommandLineTool.shellLine(embedded: embedded, shell: "/opt/homebrew/bin/fish")
+        #expect(fish?.file == "~/.config/fish/config.fish")
+        #expect(fish?.line == "function peel; '/Applications/Peel.app/Contents/Helpers/peel' $argv; end")
     }
 
     /// Installed with Homebrew on a Mac with Apple silicon, the `peel` command is Homebrew's link in

@@ -186,7 +186,7 @@ final class HomeModel {
             break
         }
         if state == .notThisAccount {
-            return "Putting it on the path takes an administrator, and Peel’s Settings gives a line for ~/.zshrc that runs it from this account."
+            return "Putting it on the path takes an administrator, and Peel’s Settings gives a line for your shell that runs it from this account."
         }
         if standing == .somethingElse {
             return "Something else is at \(CommandLineTool.path), and Peel offers no command that would replace it."

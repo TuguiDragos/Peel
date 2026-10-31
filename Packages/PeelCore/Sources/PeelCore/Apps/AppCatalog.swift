@@ -12,12 +12,18 @@ public struct AppScan: Sendable, Equatable {
     /// The folders the person chose that the reading looked in, beside the Applications folders, or nil when their
     /// list is there and could not be read.
     public let chosenFolders: [URL]?
+    /// The folders on that list it no longer reads, whose apps it doesn't list.
+    public let foldersLeftOut: [AppFolders.LeftOut]
 
-    init(apps: [InstalledApp], unreadable: [URL], needsFullDiskAccess: Bool, chosenFolders: [URL]? = []) {
+    init(
+        apps: [InstalledApp], unreadable: [URL] = [], needsFullDiskAccess: Bool = false, chosenFolders: [URL]? = [],
+        foldersLeftOut: [AppFolders.LeftOut] = []
+    ) {
         self.apps = apps
         self.unreadable = unreadable
         self.needsFullDiskAccess = needsFullDiskAccess
         self.chosenFolders = chosenFolders
+        self.foldersLeftOut = foldersLeftOut
     }
 
     /// Whether the list of folders the person chose could not be read, so the apps in those folders are missing from
@@ -100,7 +106,8 @@ public enum AppCatalog {
             apps: found.apps,
             unreadable: found.unreadable,
             needsFullDiskAccess: found.needsFullDiskAccess,
-            chosenFolders: chosen
+            chosenFolders: chosen,
+            foldersLeftOut: choices.leftOut()
         )
     }
 

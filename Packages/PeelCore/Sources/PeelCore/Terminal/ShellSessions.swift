@@ -125,7 +125,7 @@ public enum ShellSessions: Sendable, Equatable {
         "/etc/\(name)rc_Apple_Terminal"
     }
 
-    static func loginShell(of user: uid_t = getuid()) -> String? {
+    public static func loginShell(of user: uid_t = getuid()) -> String? {
         var capacity = 1_024
         while capacity <= 65_536 {
             var entry = passwd()

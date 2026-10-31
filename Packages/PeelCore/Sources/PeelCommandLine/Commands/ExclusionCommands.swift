@@ -13,9 +13,9 @@ struct ExclusionsCommand: AsyncParsableCommand {
 
     /// Returns the saved exclusions, or throws when the file exists but can't be read. Saving would set that
     /// file aside and silently drop what the user chose. Only the app starts a new list, after warning the user.
-    static func current(in store: ExclusionStore) async throws -> Exclusions {
+    static func current(in store: ExclusionStore, whenUnreadable said: String = unreadable) async throws -> Exclusions {
         let exclusions = await store.load()
-        guard !exclusions.isUnreadable else { throw CommandFailure(unreadable) }
+        guard !exclusions.isUnreadable else { throw CommandFailure(said) }
         return exclusions
     }
 
@@ -55,7 +55,10 @@ struct ExclusionsCommand: AsyncParsableCommand {
         }
 
         func run(in store: ExclusionStore) async throws {
-            let exclusions = try await ExclusionsCommand.current(in: store)
+            let exclusions = try await ExclusionsCommand.current(
+                in: store,
+                whenUnreadable: "Peel couldn't read its exclusions file, so it can't say what it leaves alone. Open Peel and click Start Over in Settings > Exclusions."
+            )
             let paths = exclusions.paths.map(Output.path).sorted()
             let apps = exclusions.bundleIdentifiers.sorted()
 

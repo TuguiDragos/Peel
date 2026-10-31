@@ -204,8 +204,8 @@ private struct GeneralSettingsView: View {
     private var installCommand: String? { SettingsKey.commandLineInstallCommand(for: commandLine) }
     private static let place = CommandLineTool.place()
     private static let embeddedTool = Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
-    private var isStandardAccount: Bool { home.state(of: .commandLine) == .notThisAccount }
-    private static let runsFromAReadOnlyCopy = SelfRemoval.isOnAReadOnlyVolume(Bundle.main.bundleURL)
+    private var isStandardAccount: Bool { !helper.isAvailableToThisAccount }
+    private static let blockAhead = SelfRemoval.blockAhead(of: Bundle.main.bundleURL)
 
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
     @AppStorage(SettingsKey.updateSource) private var updateSource = UpdateSource.automatic.rawValue
@@ -397,10 +397,10 @@ private struct GeneralSettingsView: View {
                 }
                 if [.applications, .elsewhere].contains(Self.place), commandLine != .installed {
                     if isStandardAccount {
-                        if let line = CommandLineTool.zshrcLine(embedded: Self.embeddedTool) {
+                        if let shell = CommandLineTool.shellLine(embedded: Self.embeddedTool) {
                             CopyableLines(
-                                caption: Text("Putting `peel` on the path takes an administrator. To use it from this account, add this line to ~/.zshrc, then open a new Terminal window."),
-                                lines: [line]
+                                caption: Text("Putting `peel` on the path takes an administrator. To use it from this account, add this line to \(shell.file), then open a new Terminal window."),
+                                lines: [shell.line]
                             )
                         }
                     } else if let installCommand {
@@ -451,7 +451,7 @@ private struct GeneralSettingsView: View {
                         // Peel's alone.
                         .disabled(
                             selfUninstall.isRunning || !library.hasLoaded || way.waitsForHomebrew
-                                || !history.mayMove || Self.runsFromAReadOnlyCopy || waitsForAnAdministrator
+                                || !history.mayMove || Self.blockAhead != nil || waitsForAnAdministrator
                         )
                     }
                     if selfUninstall.isRunning {
@@ -474,8 +474,8 @@ private struct GeneralSettingsView: View {
                         Text("The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
-                    } else if Self.runsFromAReadOnlyCopy {
-                        Text(SelfUninstall.explanation(of: .readOnlyCopy))
+                    } else if let block = Self.blockAhead {
+                        Text(SelfUninstall.explanation(of: block))
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if waitsForAnAdministrator {
@@ -509,8 +509,14 @@ private struct GeneralSettingsView: View {
                 if selfUninstall.leavesCommandLineTool(helper: helper.status),
                    ownCask?.commandLinks.contains(CommandLineTool.path) != true {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Removing Peel leaves the peel command in place. To remove it too, run this command in Terminal:")
-                            .font(.callout)
+                        Group {
+                            if isStandardAccount {
+                                Text("Removing Peel leaves the peel command in place. To remove it too, an administrator runs this command in Terminal:")
+                            } else {
+                                Text("Removing Peel leaves the peel command in place. To remove it too, run this command in Terminal:")
+                            }
+                        }
+                        .font(.callout)
                         Text(verbatim: SelfUninstall.removeCommand)
                             .font(.caption.monospaced())
                     }
@@ -544,6 +550,7 @@ private struct GeneralSettingsView: View {
                 }
             }
             Button("Cancel", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         } message: {
             Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, App Folders, and Saved Settings, among others. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash.")
         }
@@ -769,6 +776,7 @@ private struct HelperSettingsView: View {
                 Task { failure = await helper.uninstall() }
             }
             Button("Cancel", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         } message: {
             Text("The helper serves every account on this Mac, so this removes it for all of them. Until it is installed again, Peel can’t move what only an administrator can change.")
         }

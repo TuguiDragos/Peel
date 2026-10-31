@@ -380,8 +380,8 @@ when you open Peel again from the menu bar, Finder, or Spotlight.
 
 - **Getting it.** The command ships inside Peel. Settings > General shows, beside Command-line tool, the command
   that puts it on your path: copy it and run it in Terminal, which asks for your password. It runs `sudo`, so on a
-  standard account Peel says it needs an administrator, and gives instead a line to add to `~/.zshrc`, which runs the
-  command from that account alone. A Homebrew install puts it there for you.
+  standard account Peel says it needs an administrator, and gives instead a line to add to your shell's startup file,
+  `~/.zshrc`, `~/.bash_profile`, or fish's `config.fish`, which runs the command from that account alone. A Homebrew install puts it there for you.
 - **It asks first.** Every command that moves something shows its plan and asks before it moves anything.
   `--dry-run` only shows the plan, and `-y` skips the question.
 - **Only when you can answer.** It asks only in a terminal where you can see the plan and type, so with its output
@@ -450,9 +450,10 @@ In Settings > General, choose Remove Peel. Peel then:
   exclusions, App Folders, and the settings Peel saved when you reset an app, among others;
 - ends its Finder extension, takes its icon out of the Dock, clears its settings, and quits.
 
-Remove Peel takes no step while Peel itself can't move, such as from a folder only an administrator can change, or
-from the copy macOS runs while Peel is still marked as downloaded, or from its disk image: move Peel to the
-Applications folder, open it there, and choose Remove Peel. And while its helper is installed, only an
+Remove Peel takes no step, and says so before you choose it, while Peel itself can't move. From a folder only an
+administrator can change, log in as an administrator and choose it there, or drag Peel to the Trash in Finder, which
+asks for one. From the copy macOS runs while Peel is still marked as downloaded, or from its disk image, move Peel to
+the Applications folder, open it there, and choose Remove Peel. And while its helper is installed, only an
 administrator's account can remove it, so from another account Peel stays where it is.
 
 If you dragged Peel to the Trash instead, its helper stays registered: System Settings > General > Login Items &
