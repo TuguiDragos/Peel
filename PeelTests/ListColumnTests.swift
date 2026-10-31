@@ -71,6 +71,24 @@ struct ListColumnTests {
         #expect(column.widths == ListColumn.width...ListColumn.width)
     }
 
+    @Test func theDividerStaysWhereItIsWhenAppKitCollapsesTheSidebarItself() throws {
+        let (window, controller) = columns()
+        let column = ListColumn()
+        #expect(column.found(controller))
+        column.rest(aside: false, windowWidth: 1307)
+        apply(column, to: controller, in: window)
+        let start = try #require(pageStart(of: controller))
+
+        // What a drag on the sidebar's edge does: AppKit collapses the item, and SwiftUI's columns follow later.
+        controller.splitViewItems[0].isCollapsed = true
+        apply(column, to: controller, in: window)
+        if #available(macOS 27, *) {
+            #expect(pageStart(of: controller) == start)
+        } else {
+            #expect(column.widths == ListColumn.width...ListColumn.width)
+        }
+    }
+
     @Test func aHiddenSidebarLeavesThePageItsWidthInANarrowWindow() {
         let (window, controller) = columns()
         let column = ListColumn()

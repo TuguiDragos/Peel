@@ -25,6 +25,8 @@ final class ListColumn {
     @ObservationIgnored private var covered: CGFloat = 0
     @ObservationIgnored private weak var columns: NSSplitViewController?
     @ObservationIgnored private var pin: NSLayoutConstraint?
+    @ObservationIgnored private weak var watchedSidebar: NSSplitViewItem?
+    @ObservationIgnored private var sidebarWatch: NSKeyValueObservation?
 
     /// The list's width without the sidebar: also the part the sidebar covered, so the divider stays, as far as the
     /// page's 480 points allow.
@@ -38,9 +40,27 @@ final class ListColumn {
         guard let columns = shownColumns, place(of: 0, in: columns) != nil, place(of: 2, in: columns) != nil else {
             return false
         }
+        if #available(macOS 27, *) { watch(columns.splitViewItems[0]) }
         measure(columns)
         fit()
         return true
+    }
+
+    /// A drag on the sidebar's edge, or a double click on it, collapses the sidebar through AppKit, while SwiftUI's
+    /// `columns` follows only once the columns are laid out. On macOS 27 the page took the sidebar's room meanwhile, so
+    /// the slide starts here, before the change. A change SwiftUI asked for has already set `aside`.
+    private func watch(_ sidebar: NSSplitViewItem) {
+        guard watchedSidebar !== sidebar else { return }
+        watchedSidebar = sidebar
+        // `collapsed` is KVO compliant and follows user interaction (`NSSplitViewItem.h`).
+        sidebarWatch = sidebar.observe(\.isCollapsed, options: [.prior]) { [weak self] item, change in
+            guard change.isPrior else { return }
+            let collapsing = !item.isCollapsed
+            MainActor.assumeIsolated {
+                guard let self, collapsing != self.aside else { return }
+                self.sidebarSlides(aside: collapsing, windowWidth: self.windowWidth)
+            }
+        }
     }
 
     /// Called as the sidebar starts to hide or return.
