@@ -284,18 +284,10 @@ public struct UpdateChecker: Sendable {
 
     private func vsCodeAnswer(installed: String, at url: URL) async -> UpdateAnswer {
         let reply = await fetchReply(url)
-        // The service answers 204, with nothing, while the build is the newest (`doIsLatestVersion`).
-        if reply.status == 204 { return UpdateAnswer(status: .upToDate) }
         guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
-        switch VSCodeUpdateService.read(data) {
-        case .unreadable:
-            return UpdateAnswer(status: .failed)
-        case .nothingOffered:
-            return UpdateAnswer(status: .upToDate)
-        case .offered(let latest):
-            guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
-            return UpdateAnswer(status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil))
-        }
+        guard let latest = VSCodeUpdateService.version(in: data) else { return UpdateAnswer(status: .failed) }
+        guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
+        return UpdateAnswer(status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil))
     }
 
     /// Asks the App Store about `app`, but only when the app has an App Store receipt, whoever calls this.

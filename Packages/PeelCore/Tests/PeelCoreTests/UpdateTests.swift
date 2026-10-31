@@ -405,7 +405,7 @@ struct UpdateFeedDetectionTests {
              "commit": "e646868227c3e3a9e3f24277c8c7220be42c0be7", "darwinUniversalAssetId": "darwin-universal"}
             """#
         let app = try #require(AppInspector.inspect(try bundle(info: [:], files: ["Resources/app/product.json": product], in: folder)))
-        let address = "https://update.code.visualstudio.com/api/update/darwin-universal/stable/e646868227c3e3a9e3f24277c8c7220be42c0be7?u=none"
+        let address = "https://update.code.visualstudio.com/api/update/darwin-universal/stable/latest"
         #expect(app.updateFeed == .vsCode(try #require(URL(string: address))))
     }
 
@@ -414,13 +414,11 @@ struct UpdateFeedDetectionTests {
             "updateUrl": "https://update.code.visualstudio.com", "quality": "stable",
             "commit": "e646868227c3e3a9e3f24277c8c7220be42c0be7",
         ]
-        let address = { (platform: String) in
-            "https://update.code.visualstudio.com/api/update/\(platform)/stable/e646868227c3e3a9e3f24277c8c7220be42c0be7?u=none"
-        }
+        let address = { (platform: String) in "https://update.code.visualstudio.com/api/update/\(platform)/stable/latest" }
 
         #expect(VSCodeUpdateService.feedURL(product: product, runsOnAppleSilicon: true)?.absoluteString == address("darwin-arm64"))
         #expect(VSCodeUpdateService.feedURL(product: product, runsOnAppleSilicon: false)?.absoluteString == address("darwin"))
-        for (key, value) in [("quality", "insider"), ("updateUrl", "https://updates.example.com"), ("commit", "HEAD")] {
+        for (key, value) in [("quality", "insider"), ("updateUrl", "https://updates.example.com")] {
             var other = product
             other[key] = value
             #expect(VSCodeUpdateService.feedURL(product: other, runsOnAppleSilicon: true) == nil, "\(key)")

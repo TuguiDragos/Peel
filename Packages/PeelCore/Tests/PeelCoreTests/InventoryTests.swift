@@ -25,7 +25,7 @@ struct InventoryTests {
     /// receipt inside the bundle says App Store.
     @Test func namesWhereEachAppCameFrom() {
         let cask = HomebrewPackage(name: "bear", kind: .cask, installedVersion: "2.0", appNames: ["Bear.app"])
-        let service = "https://update.code.visualstudio.com/api/update/darwin-arm64/stable/\(String(repeating: "0", count: 40))"
+        let service = "https://update.code.visualstudio.com/api/update/darwin-arm64/stable/latest"
         let inventory = Inventory.build(
             apps: [
                 app("Bear", bundleIdentifier: "net.shinyfrog.bear"),

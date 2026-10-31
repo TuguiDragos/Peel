@@ -356,8 +356,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   settings from. It asks on its own only while Check for app updates is on (`OwnUpdateCheck`), and the update
   round of the other apps passes over Peel.
 - **Updates of other apps.** `UpdateChecker` asks each app's own feed (a Sparkle appcast, electron-updater's file, or,
-  for a stable build of VS Code, the service its `product.json` names, as VS Code asks it, `VSCodeUpdateService`), or
-  the App Store about an app from the App Store, and uses what Homebrew knows for an app a cask installed: first with
+  for a stable build of VS Code, the latest build the service its `product.json` names offers, `VSCodeUpdateService`),
+  or the App Store about an app from the App Store, and uses what Homebrew knows for an app a cask installed: first with
   Automatic or Homebrew preferred, and under any choice once the app's own source can't answer, an "up to date" only
   for a day after Homebrew last checked for new versions (`Homebrew.lastUpdateCheck`: while it reads its API, the date
   of the definitions file it downloads or confirms, since a fetch of its own repository leaves them as they were;
