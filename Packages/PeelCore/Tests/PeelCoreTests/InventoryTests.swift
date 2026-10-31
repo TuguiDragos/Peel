@@ -25,12 +25,14 @@ struct InventoryTests {
     /// receipt inside the bundle says App Store.
     @Test func namesWhereEachAppCameFrom() {
         let cask = HomebrewPackage(name: "bear", kind: .cask, installedVersion: "2.0", appNames: ["Bear.app"])
+        let service = "https://update.code.visualstudio.com/api/update/darwin-arm64/stable/\(String(repeating: "0", count: 40))"
         let inventory = Inventory.build(
             apps: [
                 app("Bear", bundleIdentifier: "net.shinyfrog.bear"),
                 app("Shazam", bundleIdentifier: "com.shazam.mac", isFromAppStore: true),
                 app("AdGuard", bundleIdentifier: "com.adguard.mac", feed: .sparkle(URL(string: "https://example.com/appcast.xml")!)),
                 app("Code", bundleIdentifier: "com.microsoft.VSCode", feed: .appStore(.mac)),
+                app("Editor", bundleIdentifier: "org.example.Editor", feed: .vsCode(URL(string: service)!)),
                 app("Nothing", bundleIdentifier: "com.example.nothing"),
                 app("Sample", bundleIdentifier: "org.example.Sample-setapp", feed: .sparkle(URL(string: "https://example.com/setapp.xml")!)),
             ],
@@ -45,6 +47,8 @@ struct InventoryTests {
         #expect(sources["Shazam"] == "App Store")
         #expect(sources["AdGuard"] == "Sparkle")
         #expect(sources["Code"] == "Unknown")
+        #expect(sources["Editor"] == "VS Code")
+        #expect(inventory.entries.first { $0.name == "Editor" }?.sourceDetail == service)
         #expect(sources["Nothing"] == "Unknown")
         #expect(sources["Sample"] == "Setapp", "Setapp keeps the app up to date, whatever feed it also carries")
         #expect(inventory.entries.first { $0.name == "Bear" }?.sourceDetail == "bear")

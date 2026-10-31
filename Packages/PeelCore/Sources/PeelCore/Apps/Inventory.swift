@@ -7,7 +7,8 @@ public struct InventoryEntry: Sendable, Hashable, Codable {
     public let bundleIdentifier: String?
     public let version: String?
     public let build: String?
-    /// Where the app came from: "Homebrew", "App Store", "Setapp", "Sparkle", "Electron", "Downloaded", or "Unknown".
+    /// Where the app came from: "Homebrew", "App Store", "Setapp", "Sparkle", "Electron", "VS Code", "Downloaded", or
+    /// "Unknown".
     public let source: String
     /// What identifies the app in that source: a cask token, a feed address, or the address it was downloaded from.
     public let sourceDetail: String?
