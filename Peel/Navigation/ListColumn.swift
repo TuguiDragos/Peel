@@ -47,8 +47,8 @@ final class ListColumn {
     }
 
     /// A drag on the sidebar's edge, or a double click on it, collapses the sidebar through AppKit, while SwiftUI's
-    /// `columns` follows only once the columns are laid out. On macOS 27 the page took the sidebar's room meanwhile, so
-    /// the slide starts here, before the change. A change SwiftUI asked for has already set `aside`.
+    /// `columns` follows only once the columns are laid out. On macOS 27 the page would take the sidebar's room
+    /// meanwhile, so the slide starts here, before the change. A change SwiftUI asked for has already set `aside`.
     private func watch(_ sidebar: NSSplitViewItem) {
         guard watchedSidebar !== sidebar else { return }
         watchedSidebar = sidebar
