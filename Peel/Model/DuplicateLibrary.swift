@@ -178,6 +178,8 @@ final class DuplicateLibrary {
             of: DuplicateScanProgress.self,
             bufferingPolicy: .bufferingNewest(1)
         )
+        // Whichever way this ends: a stream never finished keeps the task reading it suspended for good.
+        defer { continuation.finish() }
         let progressUpdates = Task {
             for await update in updates {
                 // A scan stopped or replaced reports on until it notices, over the newer scan's progress otherwise.
