@@ -24,6 +24,17 @@ final class SpaceLibrary: RowSelection {
     private(set) var models: SizeTotal?
     @ObservationIgnored private var modelsMeasurement = 0
     @ObservationIgnored private var quitCheck: Task<Void, Never>?
+    /// How many plans of each area have started, so that a plan that started earlier and ended later is dropped: it can
+    /// name folders a move has taken since.
+    @ObservationIgnored private var plansStarted: [SpaceItem.ID: Int] = [:]
+    private let makePlan: @Sendable (SpaceItem, Exclusions, [RunningCopies.Process]) async -> SpaceRemoval.Plan
+
+    init(
+        makingPlans makePlan: @escaping @Sendable (SpaceItem, Exclusions, [RunningCopies.Process]) async
+            -> SpaceRemoval.Plan = { await SpaceRemoval.plan(for: $0, exclusions: $1, running: $2) }
+    ) {
+        self.makePlan = makePlan
+    }
 
     var selectedItem: SpaceItem? {
         report?.items.first { $0.id == selection }
@@ -48,7 +59,7 @@ final class SpaceLibrary: RowSelection {
         let made = await newPlan(for: item)
         // A plan cut short measured only part of the area, and would read the rest as unknown.
         guard !Task.isCancelled else { return }
-        keep(made.plan, for: item, madeWith: made.exclusions)
+        keep(made, for: item)
         await measureWhatIsLeftToDeveloper(in: item)
     }
 
@@ -75,19 +86,25 @@ final class SpaceLibrary: RowSelection {
         plans[item.id]?.keptSizes = keptSizes
     }
 
-    private func newPlan(for item: SpaceItem) async -> (plan: SpaceRemoval.Plan, exclusions: Int) {
-        let revision = ExclusionsStore.shared.revision
-        let plan = await SpaceRemoval.plan(
-            for: item,
-            exclusions: ExclusionsStore.shared.exclusions,
-            running: RunningCopies.current
-        )
-        return (plan, revision)
+    private struct MadePlan {
+        let plan: SpaceRemoval.Plan
+        /// The exclusions' revision it was made with.
+        let exclusions: Int
+        let number: Int
     }
 
-    private func keep(_ plan: SpaceRemoval.Plan, for item: SpaceItem, madeWith revision: Int) {
+    private func newPlan(for item: SpaceItem) async -> MadePlan {
+        let number = (plansStarted[item.id] ?? 0) + 1
+        plansStarted[item.id] = number
+        let revision = ExclusionsStore.shared.revision
+        let plan = await makePlan(item, ExclusionsStore.shared.exclusions, RunningCopies.current)
+        return MadePlan(plan: plan, exclusions: revision, number: number)
+    }
+
+    private func keep(_ made: MadePlan, for item: SpaceItem) {
+        guard plansStarted[item.id] == made.number else { return }
         let previous = plans[item.id]
-        var plan = plan
+        var plan = made.plan
         // The sizes measured for the same folders stand until they are measured again, so the page's notice holds.
         if let previous, previous.leftToDeveloper == plan.leftToDeveloper {
             plan.developerSizes = previous.developerSizes
@@ -97,7 +114,7 @@ final class SpaceLibrary: RowSelection {
         selectedURLs.subtract(previous?.removable ?? [])
         selectedURLs.formUnion(chosen)
         plans[item.id] = plan
-        plannedFor[item.id] = (item, revision)
+        plannedFor[item.id] = (item, made.exclusions)
     }
 
     /// Makes the plans of the areas in `items` that have none yet, as the page's scan: Rescan turns into Stop
@@ -106,16 +123,15 @@ final class SpaceLibrary: RowSelection {
         let unplanned = items.filter { !$0.isReadOnly && plans[$0.id] == nil }
         guard !unplanned.isEmpty else { return true }
         let answer = await scanRun.run {
-            var made: [(item: SpaceItem, plan: SpaceRemoval.Plan, exclusions: Int)] = []
+            var made: [(item: SpaceItem, plan: MadePlan)] = []
             for item in unplanned where !Task.isCancelled {
-                let new = await self.newPlan(for: item)
-                made.append((item, new.plan, new.exclusions))
+                made.append((item, await self.newPlan(for: item)))
             }
             return made
         }
         guard let made = answer else { return false }
-        for (item, plan, revision) in made {
-            keep(plan, for: item, madeWith: revision)
+        for (item, plan) in made {
+            keep(plan, for: item)
         }
         return true
     }
@@ -140,13 +156,12 @@ final class SpaceLibrary: RowSelection {
         let keeping = keepingTheOpenArea ? Set([selection].compactMap(\.self)) : []
         let answer = await scanRun.run {
             let result = await SpaceInventory.scan(keeping: keeping, exclusions: exclusions)
-            var made: [(item: SpaceItem, plan: SpaceRemoval.Plan, exclusions: Int)] = []
+            var made: [(item: SpaceItem, plan: MadePlan)] = []
             for item in result.items where self.plans[item.id] != nil && !Task.isCancelled {
                 let planned = self.plannedFor[item.id]
                 let changed = planned?.item != item || planned?.exclusions != ExclusionsStore.shared.revision
                 guard replanning.contains(item.id) || changed else { continue }
-                let new = await self.newPlan(for: item)
-                made.append((item, new.plan, new.exclusions))
+                made.append((item, await self.newPlan(for: item)))
             }
             return (result, made, await DiskSpace.read())
         }
@@ -162,10 +177,10 @@ final class SpaceLibrary: RowSelection {
         if let selection, !result.items.contains(where: { $0.id == selection }) {
             self.selection = nil
         }
-        for (item, plan, revision) in made {
-            keep(plan, for: item, madeWith: revision)
+        for (item, plan) in made {
+            keep(plan, for: item)
         }
-        for (item, _, _) in made {
+        for (item, _) in made {
             await measureWhatIsLeftToDeveloper(in: item)
         }
         if #available(macOS 27, *) {
