@@ -6,14 +6,14 @@ enum VSCodeUpdateService {
     /// An editor built on VS Code names a service of its own, whose answers Peel doesn't know.
     static let service = "https://update.code.visualstudio.com"
 
-    /// The address of the latest stable build for the installed build's platform, from its `product.json`. VS Code
-    /// asks about the commit it was built from, which names its version, so Peel asks for the latest build instead.
-    /// Only a stable build, since an Insiders build keeps its version from one build to the next.
-    static func feedURL(product: [String: Any], runsOnAppleSilicon: Bool) -> URL? {
+    /// The address of the latest stable build, for a stable build of Microsoft's, whose `product.json` names the
+    /// service. VS Code asks about the commit it was built from, which names its version, and for its own platform, so
+    /// Peel asks for the latest build of one platform whatever is installed: every platform gets the same version, and
+    /// the address says nothing of this Mac. Only a stable build, since an Insiders build keeps its version from one
+    /// build to the next.
+    static func feedURL(product: [String: Any]) -> URL? {
         guard product["updateUrl"] as? String == service, product["quality"] as? String == "stable" else { return nil }
-        let platform = product["darwinUniversalAssetId"] as? String ?? (runsOnAppleSilicon ? "darwin-arm64" : "darwin")
-        guard platform.wholeMatch(of: /[a-z0-9-]+/) != nil else { return nil }
-        return URL(string: "\(service)/api/update/\(platform)/stable/latest")
+        return URL(string: "\(service)/api/update/darwin-universal/stable/latest")
     }
 
     /// The version a reply gives the latest build, its `productVersion`: its `version` is the commit.

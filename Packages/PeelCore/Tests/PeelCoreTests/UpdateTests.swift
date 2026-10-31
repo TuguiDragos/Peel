@@ -414,15 +414,27 @@ struct UpdateFeedDetectionTests {
             "updateUrl": "https://update.code.visualstudio.com", "quality": "stable",
             "commit": "e646868227c3e3a9e3f24277c8c7220be42c0be7",
         ]
-        let address = { (platform: String) in "https://update.code.visualstudio.com/api/update/\(platform)/stable/latest" }
 
-        #expect(VSCodeUpdateService.feedURL(product: product, runsOnAppleSilicon: true)?.absoluteString == address("darwin-arm64"))
-        #expect(VSCodeUpdateService.feedURL(product: product, runsOnAppleSilicon: false)?.absoluteString == address("darwin"))
+        #expect(VSCodeUpdateService.feedURL(product: product) != nil)
         for (key, value) in [("quality", "insider"), ("updateUrl", "https://updates.example.com")] {
             var other = product
             other[key] = value
-            #expect(VSCodeUpdateService.feedURL(product: other, runsOnAppleSilicon: true) == nil, "\(key)")
+            #expect(VSCodeUpdateService.feedURL(product: other) == nil, "\(key)")
         }
+    }
+
+    @Test func tellsVSCodesServiceNothingOfThisMacOrItsBuild() throws {
+        let universal = try #require(VSCodeUpdateService.feedURL(product: [
+            "updateUrl": "https://update.code.visualstudio.com", "quality": "stable",
+            "darwinUniversalAssetId": "darwin-universal",
+            "commit": "e646868227c3e3a9e3f24277c8c7220be42c0be7", "version": "1.144.0",
+        ]))
+        let appleSilicon = VSCodeUpdateService.feedURL(product: [
+            "updateUrl": "https://update.code.visualstudio.com", "quality": "stable",
+        ])
+
+        #expect(appleSilicon == universal)
+        #expect(universal.absoluteString == "https://update.code.visualstudio.com/api/update/darwin-universal/stable/latest")
     }
 
     @Test func readsTheFolderElectronUpdaterKeepsItsDownloadsIn() throws {

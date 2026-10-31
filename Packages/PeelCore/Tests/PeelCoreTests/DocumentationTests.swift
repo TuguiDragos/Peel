@@ -93,6 +93,18 @@ struct DocumentationTests {
         #expect(missing.isEmpty, "\(missing)")
     }
 
+    @Test func everyAddressAnUpdateCheckWritesItselfIsInPrivacyMD() throws {
+        let privacy = try String(contentsOf: LineLengthTests.repository.appending(path: "PRIVACY.md"), encoding: .utf8)
+        let folder = LineLengthTests.repository.appending(path: "Packages/PeelCore/Sources/PeelCore/Updates")
+        let sources = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+            .map { try String(contentsOf: $0, encoding: .utf8) }
+        let hosts = Set(sources.flatMap { $0.matches(of: /"https:\/\/([a-z0-9.-]+)/).map { String($0.output.1) } })
+
+        #expect(hosts.contains("update.code.visualstudio.com"))
+        let missing = hosts.filter { !privacy.contains("| `\($0)` |") }
+        #expect(missing.isEmpty, "\(missing)")
+    }
+
     @Test func aFileNameInTheCodeCountsAsItsWords() {
         #expect(Self.words(in: #"let tag = "CACHEDIR.TAG" // BrowserWallets.swift"#).isSuperset(of: ["CACHEDIR", "BrowserWallets"]))
     }

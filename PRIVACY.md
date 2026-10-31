@@ -48,6 +48,7 @@ them as the page loads, and they are posted only if you send the issue.
 |---|---|
 | `itunes.apple.com` | The latest version of an app from the App Store. No other app is ever asked about. |
 | `github.com` | Peel's own update feed, release feeds of apps that update through GitHub, and wherever GitHub sends the download. Homebrew also updates itself and its taps from here when you ask it to, Repair Taps included, and a tap you added from another address from there. |
+| `update.code.visualstudio.com` | The latest stable version of Visual Studio Code, asked about only while it is installed. |
 | `api.github.com` | When you ask Homebrew to update or upgrade, it first asks here whether Homebrew itself, and each tap kept on GitHub, has changed. |
 | `formulae.brew.sh` | Homebrew's list of packages, when you ask Homebrew to update or upgrade. |
 | `ghcr.io` | Where Homebrew downloads the packages it upgrades, and wherever it redirects. A package with no ready-made build for your Mac downloads its source from the address its formula names, and a cask comes from its maker's own address. |

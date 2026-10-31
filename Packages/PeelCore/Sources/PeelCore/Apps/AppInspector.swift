@@ -100,9 +100,6 @@ public enum AppInspector {
         let architectures = executable.flatMap(MachOHeader.architectures(ofExecutableAt:)) ?? []
         let asksForIntelFirst = (info["LSArchitecturePriority"] as? [String])?.first == "x86_64"
         let vsCodeProduct = ProductFolders.vsCodeProduct(of: url)
-        // VS Code asks for the build of the processor it runs on, Intel code running translated on Apple silicon.
-        let runsOnAppleSilicon = HostArchitecture.isAppleSilicon && architectures.contains(.arm64)
-            && !(asksForIntelFirst && architectures.contains(.x86_64))
 
         return InstalledApp(
             url: url,
@@ -127,7 +124,7 @@ public enum AppInspector {
                 info: info,
                 electronConfiguration: electronConfiguration,
                 vsCodeFeed: vsCodeProduct.flatMap {
-                    VSCodeUpdateService.feedURL(product: $0, runsOnAppleSilicon: runsOnAppleSilicon)
+                    VSCodeUpdateService.feedURL(product: $0)
                 },
                 appStoreListing: appStoreListing,
                 isSystemProtected: isSystemProtected,

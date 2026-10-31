@@ -188866,6 +188866,112 @@
         }
       }
     },
+    "The latest stable version of Visual Studio Code, asked about only while it is installed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nejnovější stabilní verze aplikace Visual Studio Code, na kterou se Peel ptá, jen dokud je aplikace nainstalovaná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die neueste stabile Version von Visual Studio Code, nur abgefragt, solange die App installiert ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versión estable más reciente de Visual Studio Code, por la que solo se pregunta mientras está instalada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La dernière version stable de Visual Studio Code, demandée uniquement tant que cette app est installée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’ultima versione stabile di Visual Studio Code, richiesta solo mentre l’app è installata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visual Studio Codeの最新の安定バージョンを確認します。インストールされている間だけ問い合わせます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치되어 있는 동안에만 묻는 Visual Studio Code의 최신 안정 버전 정보입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De nieuwste stabiele versie van Visual Studio Code, alleen opgevraagd zolang de app is geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Najnowsza stabilna wersja Visual Studio Code, o którą Peel pyta tylko wtedy, gdy ta aplikacja jest zainstalowana."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A versão estável mais recente do Visual Studio Code, consultada só enquanto ele estiver instalado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cea mai recentă versiune stabilă de Visual Studio Code, despre care Peel întreabă doar cât timp aplicația este instalată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последняя стабильная версия Visual Studio Code, о которой Peel спрашивает, только пока приложение установлено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den senaste stabila versionen av Visual Studio Code, som Peel bara frågar efter så länge appen är installerad."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visual Studio Code’un en son kararlı sürümü; yalnızca uygulama yüklüyken sorulur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найновіша стабільна версія Visual Studio Code, про яку Peel запитує лише тоді, коли цю програму інстальовано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visual Studio Code的最新稳定版本，仅在已安装它时才会查询。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visual Studio Code的最新穩定版本，只有在已安裝時才會詢問。"
+          }
+        }
+      }
+    },
     "The latest version of apps installed from the App Store." : {
       "localizations" : {
         "cs" : {
