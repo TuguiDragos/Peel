@@ -238623,6 +238623,112 @@
         }
       }
     },
+    "macOS didn’t let Peel read %@ in iCloud Drive, so this list isn’t all of it. Full Disk Access in System Settings gives Peel what it needs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nedovolil Peelu přečíst %@ na iCloud Drivu, takže tento seznam není úplný. Plný přístup k disku v Nastavení systému dá Peelu, co potřebuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat Peel nicht erlaubt, %@ in iCloud Drive zu lesen, daher ist diese Liste nicht vollständig. Festplattenvollzugriff in den Systemeinstellungen gibt Peel, was dafür nötig ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha dejado que Peel lea %@ en iCloud Drive, así que esta lista no lo incluye todo. El acceso total al disco en Ajustes del Sistema le da a Peel lo que necesita."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas laissé Peel lire %@ dans iCloud Drive : cette liste est donc incomplète. L’accès complet au disque, dans Réglages Système, donne à Peel ce dont il a besoin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha permesso a Peel di leggere %@ su iCloud Drive, quindi questo elenco non è completo. L’accesso completo al disco in Impostazioni di Sistema dà a Peel ciò che gli serve."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがPeelにiCloud Drive内の%@の読み取りを許可しなかったため、この一覧にはすべてが含まれているわけではありません。システム設定でフルディスクアクセスを許可すると、Peelは必要なものを読み取れるようになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 Peel이 iCloud Drive의 %@을(를) 읽지 못하게 했으므로 이 목록이 전부는 아닙니다. 시스템 설정에서 Peel에 전체 디스크 접근 권한을 부여하면 읽을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS liet Peel %@ op iCloud Drive niet lezen, dus deze lijst is niet volledig. Met volledige schijftoegang in Systeeminstellingen krijgt Peel wat het nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie pozwolił aplikacji Peel odczytać na iCloud Drive: %@, więc ta lista nie jest pełna. Pełny dostęp do dysku w Ustawieniach systemowych zapewni aplikacji Peel to, czego potrzebuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não deixou o Peel ler %@ no iCloud Drive, então esta lista não está completa. O Acesso Total ao Disco, nos Ajustes do Sistema, dá ao Peel aquilo de que ele precisa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu i‑a permis aplicației Peel să citească %@ de pe iCloud Drive, așa că această listă nu este completă. Acces complet la disc, din Configurări sistem, îi oferă aplicației Peel ceea ce îi trebuie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не позволила Peel прочитать %@ в iCloud Drive, поэтому в этом списке показано не все. Полный доступ к диску в Системных настройках даст Peel все необходимое."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lät inte Peel läsa %@ i iCloud Drive, så listan visar inte allt. Med full skivtillgång i Systeminställningar får Peel det som behövs."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, Peel’in iCloud Drive’daki %@ içeriğini okumasına izin vermedi, bu yüzden bu liste eksik. Sistem Ayarları’ndaki Tam Disk Erişimi, Peel’e gereken izni verir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не дала Peel прочитати %@ в iCloud Drive, тож цей список показує не все. Повний доступ до диска в Системних параметрах дасть Peel те, що їй потрібно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不允许Peel读取iCloud云盘中的“%@”，因此此列表并不完整。在“系统设置”中授予Peel完全磁盘访问权限，它就能读取了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不讓Peel讀取「iCloud雲碟」中的%@，因此此列表並不完整。在「系統設定」中給予「完全取用磁碟」權限，Peel就能取得所需的存取權限。"
+          }
+        }
+      }
+    },
     "macOS didn’t list the agents and daemons that apps added, so some may be missing here." : {
       "localizations" : {
         "cs" : {

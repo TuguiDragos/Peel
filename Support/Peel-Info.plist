@@ -5,9 +5,9 @@
 	<key>NSAppDataUsageDescription</key>
 	<string>Peel looks inside an app’s own container to list what it would leave behind. Nothing is removed until you say so.</string>
 	<key>NSDesktopFolderUsageDescription</key>
-	<string>Peel looks here for installers and duplicate files. Nothing is removed until you say so.</string>
+	<string>Peel looks here for installers and duplicate files, and for iCloud downloads it can remove when this folder is in iCloud Drive. Nothing is removed until you say so.</string>
 	<key>NSDocumentsFolderUsageDescription</key>
-	<string>Peel looks here for installers, duplicate files, and what builds left behind. Nothing is removed until you say so.</string>
+	<string>Peel looks here for installers, duplicate files, and what builds left behind, and for iCloud downloads it can remove when this folder is in iCloud Drive. Nothing is removed until you say so.</string>
 	<key>NSDownloadsFolderUsageDescription</key>
 	<string>Peel looks here for installers and duplicate files. Nothing is removed until you say so.</string>
 	<key>NSFileProviderDomainUsageDescription</key>

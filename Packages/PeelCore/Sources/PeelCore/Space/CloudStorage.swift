@@ -40,6 +40,8 @@ public struct CloudScan: Sendable {
     public var folders: [CloudFolder] = []
     /// iCloud Drive was never set up for this account: the folder iCloud keeps in the home isn't there.
     public var isNotSetUp = false
+    /// The folders of the home iCloud Drive keeps that macOS would not let Peel read: Desktop, Documents.
+    public var unreadableFolders: [String] = []
 
     public enum CutShort: Sendable, Equatable {
         /// The walk ran out of time or was stopped before it read everything.
@@ -81,8 +83,9 @@ public enum CloudStorage {
     /// The most files listed. The walk goes on past it, keeping the biggest files it finds, so a big file read late
     /// is not left out for smaller ones read first.
     public static let maximumFiles = 5_000
-    /// How long the walk may take, in seconds. A folder iCloud manages can stall a directory read for minutes,
-    /// and this walk also reads the sync state of every file.
+    /// How long each walk may take, in seconds: of `Mobile Documents`, and of each folder of the home iCloud Drive
+    /// keeps, so a Documents folder of many small files costs the others nothing. A folder iCloud manages can stall a
+    /// directory read for minutes, and a walk also reads the sync state of every file.
     public static let budget: TimeInterval = 20
 
     /// True only for a file whose local copy is current and already safely in iCloud. A file not yet uploaded,
@@ -138,33 +141,60 @@ public enum CloudStorage {
         exclusions: Exclusions,
         desktopPictures: Set<URL>,
         within budget: TimeInterval,
+        while isAsked: @escaping @Sendable () -> Bool = AppDataQuestion.isOnScreen,
+        isSafe: @escaping @Sendable (URLResourceValues) -> Bool = isSafeToFree(_:),
         isDataless: @escaping @Sendable (URL) -> Bool
     ) async -> CloudScan {
         let collector = Collector()
         let scan = ScanCount.current
-        let finished = await SlowRead.answer(within: budget) { isGivenUp in
-            collect(
-                home: home,
-                minimumSize: minimumSize,
-                exclusions: exclusions,
-                desktopPictures: desktopPictures,
-                into: collector,
-                deadline: .now + .seconds(budget),
-                countingFor: scan,
-                isDataless: isDataless,
-                unless: isGivenUp
-            )
-            return true
+        func walk(_ folder: URL?) async -> Bool {
+            await SlowRead.answer(within: budget, while: isAsked) { isGivenUp in
+                collect(
+                    home: home,
+                    minimumSize: minimumSize,
+                    exclusions: exclusions,
+                    desktopPictures: desktopPictures,
+                    keptInTheHome: folder,
+                    into: collector,
+                    countingFor: scan,
+                    isSafe: isSafe,
+                    isDataless: isDataless,
+                    unless: isGivenUp
+                )
+                return true
+            } != nil
+        }
+        var isWhole = await walk(nil)
+        let kept = await SlowRead.answer(within: budget, while: isAsked) { _ in foldersKeptInTheHome(home: home) }
+        if kept == nil { isWhole = false }
+        for folder in kept ?? [] {
+            let finished = await walk(folder)
+            isWhole = isWhole && finished
         }
         let collected = collector.collected
         return CloudScan(
             files: collected.files.sorted { $0.size > $1.size },
-            cutShort: finished == nil ? .ranOutOfTime : collected.cutShort,
+            cutShort: isWhole ? collected.cutShort : .ranOutOfTime,
             couldNotRead: collected.couldNotRead,
             sharedDownloads: collected.sharedDownloads,
             folders: folders(of: collected.files, home: home),
-            isNotSetUp: !isSetUp(home: home)
+            isNotSetUp: !isSetUp(home: home),
+            unreadableFolders: collected.unreadableFolders
         )
+    }
+
+    /// The folders of the home iCloud Drive keeps: Desktop and Documents, which System Settings turns on together.
+    /// macOS leaves them where they are and puts a link to each in iCloud Drive, where Finder shows it
+    /// (`NSFileProviderKnownFolders.h`), so the link says so, and a walk of iCloud Drive doesn't go through it.
+    static func foldersKeptInTheHome(home: URL) -> [URL] {
+        let drive = home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs", directoryHint: .isDirectory)
+        return ["Desktop", "Documents"].compactMap { name in
+            let link = drive.appending(path: name).path(percentEncoded: false)
+            let folder = home.appending(path: name, directoryHint: .isDirectory)
+            guard let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: link) else { return nil }
+            let leadsTo = URL(filePath: destination, relativeTo: drive)
+            return PathPattern.comparablePath(of: leadsTo) == PathPattern.comparablePath(of: folder) ? folder : nil
+        }
     }
 
     /// What the walk has gathered so far, written by the thread that walks and read once it stops or the
@@ -175,6 +205,7 @@ public enum CloudStorage {
             var cutShort: CloudScan.CutShort?
             var couldNotRead = false
             var sharedDownloads = 0
+            var unreadableFolders: [String] = []
         }
 
         private let state = Mutex(Collected())
@@ -234,28 +265,34 @@ public enum CloudStorage {
             state.withLock { $0.couldNotRead = true }
         }
 
+        func unreadable(_ folder: URL) {
+            let name = FileManager.default.displayName(atPath: folder.path(percentEncoded: false))
+            state.withLock { $0.unreadableFolders.append(name) }
+        }
+
         func leftOutAsShared() {
             state.withLock { $0.sharedDownloads += 1 }
         }
     }
 
-    /// Walks iCloud Drive and adds each file worth freeing to `collector`. Stops at `deadline` as well as when
-    /// `isGivenUp` says so, because the timer behind `isGivenUp` runs on another thread and can fire late on a
-    /// busy Mac. Only iCloud can say a file is safely there, so a test says it through `isSafe`.
+    /// Walks iCloud Drive, or `folder` of the home that it keeps, and adds each file worth freeing to `collector`,
+    /// until `isGivenUp` says to stop. Only iCloud can say a file is safely there, so a test says it through `isSafe`.
     static func collect(
         home: URL,
         minimumSize: Int64,
         exclusions: Exclusions,
         desktopPictures: Set<URL> = [],
+        keptInTheHome folder: URL? = nil,
         into collector: Collector,
-        deadline: ContinuousClock.Instant,
         countingFor scan: ScanCount?,
         isSafe: (URLResourceValues) -> Bool = isSafeToFree(_:),
         isPinned: (URL) -> Bool = isPinned(_:),
         isDataless: (URL) -> Bool = FileSize.isDataless(_:),
         unless isGivenUp: () -> Bool
     ) {
-        let root = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
+        let cloud = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
+        let root = folder ?? cloud
+        guard !exclusions.excludes(root) else { return }
         let rootPath = PathPattern.comparablePath(of: root)
         let pictures = Set(desktopPictures.map(PathPattern.comparablePath))
         guard let enumerator = FileManager.default.enumerator(
@@ -269,7 +306,9 @@ public enum CloudStorage {
                 let isMissing =
                     (error as NSError).domain == NSCocoaErrorDomain
                     && (error as NSError).code == NSFileReadNoSuchFileError
-                if PathPattern.comparablePath(of: url) == rootPath, !isMissing { collector.unreadable() }
+                if PathPattern.comparablePath(of: url) == rootPath, !isMissing {
+                    if let folder { collector.unreadable(folder) } else { collector.unreadable() }
+                }
                 return true
             }
         ) else {
@@ -277,24 +316,23 @@ public enum CloudStorage {
             return
         }
 
-        // The budget is spent, or the page that asked was left or stopped.
-        func stopped() -> Bool { ContinuousClock.now >= deadline || isGivenUp() }
         func key(_ url: URL) -> String {
             let path = url.path(percentEncoded: false)
             return path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path
         }
-        var container = ""
-        var isICloudDrive = false
+        var container = folder == nil ? "" : containerName(of: cloud.appending(path: "com~apple~CloudDocs"), under: cloud)
+        var isICloudDrive = folder != nil
         // The folders Keep Downloaded is on for, itself or through a folder above.
         var pinnedFolders: Set<String> = []
+        let isAllPinned = folder.map(isPinned) == true
         for case let url as URL in enumerator {
-            guard !stopped() else {
+            guard !isGivenUp() else {
                 collector.ranOutOfTime()
                 return
             }
             scan?.add(1)
             // Each folder directly in Mobile Documents is one container, named once for everything inside it.
-            if enumerator.level == 1 {
+            if folder == nil, enumerator.level == 1 {
                 container = containerName(of: url, under: root)
                 isICloudDrive = url.lastPathComponent == "com~apple~CloudDocs"
             }
@@ -309,7 +347,7 @@ public enum CloudStorage {
                 continue
             }
             guard let values = try? url.resourceValues(forKeys: keys) else { continue }
-            let isInAPinnedFolder = pinnedFolders.contains(key(url.deletingLastPathComponent()))
+            let isInAPinnedFolder = isAllPinned || pinnedFolders.contains(key(url.deletingLastPathComponent()))
             guard values.isRegularFile == true || values.isPackage == true else {
                 if isInAPinnedFolder || isPinned(url) { pinnedFolders.insert(key(url)) }
                 continue
@@ -320,9 +358,9 @@ public enum CloudStorage {
                     size: ReclaimableSpace.of(url), taken: ReclaimableSpace.allocated(url),
                     modified: values.contentModificationDate
                 )
-                : package(url, values, exclusions: exclusions, countingFor: scan, unless: stopped)
+                : package(url, values, exclusions: exclusions, countingFor: scan, unless: isGivenUp)
             guard let measured else {
-                if stopped() {
+                if isGivenUp() {
                     collector.ranOutOfTime()
                     return
                 }

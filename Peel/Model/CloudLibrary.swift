@@ -34,6 +34,8 @@ final class CloudLibrary {
     /// The downloads left out because another copy on this Mac shares their space, so removing them frees nothing.
     private(set) var sharedDownloads = 0
     private(set) var isNotSetUp = false
+    /// The folders of the home iCloud Drive keeps that macOS would not let Peel read.
+    private(set) var unreadableFolders: [String] = []
     var selectedURLs: Set<URL> = [] {
         didSet { updateSelectedSize() }
     }
@@ -60,7 +62,7 @@ final class CloudLibrary {
     /// nil until iCloud Drive has been read.
     var total: SizeTotal? {
         guard let files, !couldNotRead else { return nil }
-        return SizeTotal(known: files.map(\.size).cappedSum, isComplete: cutShort == nil)
+        return SizeTotal(known: files.map(\.size).cappedSum, isComplete: cutShort == nil && unreadableFolders.isEmpty)
     }
 
     /// The files whose folder or path holds `query`, every file for an empty one.
@@ -100,6 +102,7 @@ final class CloudLibrary {
         couldNotRead = found.couldNotRead
         sharedDownloads = found.sharedDownloads
         isNotSetUp = found.isNotSetUp
+        unreadableFolders = found.unreadableFolders
         selectedURLs.formIntersection(Set(found.files.map(\.url)))
     }
 

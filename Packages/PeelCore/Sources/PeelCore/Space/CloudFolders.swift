@@ -44,16 +44,27 @@ extension CloudStorage {
         }
         return CloudFolder.ordered(grouped.values.map { files in
             let folder = files[0].url.deletingLastPathComponent()
-            let shown = names(of: folder, container: files[0].container, under: root)
+            let shown = names(of: folder, container: files[0].container, under: root, home: home)
             return CloudFolder(url: folder, names: shown, files: files)
         })
     }
 
-    /// Finder shows an app's `Documents` as the app's folder itself, so that name is left out.
-    static func names(of folder: URL, container: String, under root: URL) -> [String] {
+    /// Finder shows an app's `Documents` as the app's folder itself, so that name is left out, and a folder of the
+    /// home that iCloud Drive keeps inside iCloud Drive.
+    static func names(of folder: URL, container: String, under root: URL, home: URL) -> [String] {
         let rootNames = PathComponents.of(PathPattern.comparablePath(of: root))
         let names = PathComponents.of(PathPattern.comparablePath(of: folder))
-        guard names.count > rootNames.count, names.starts(with: rootNames) else { return [folder.lastPathComponent] }
+        guard names.count > rootNames.count, names.starts(with: rootNames) else {
+            let homeNames = PathComponents.of(PathPattern.comparablePath(of: home))
+            guard names.count > homeNames.count, names.starts(with: homeNames) else {
+                return [folder.lastPathComponent]
+            }
+            var place = home
+            return [container] + names.dropFirst(homeNames.count).map { name in
+                place = place.appending(path: name, directoryHint: .isDirectory)
+                return FileManager.default.displayName(atPath: place.path(percentEncoded: false))
+            }
+        }
         var place = root.appending(path: names[rootNames.count], directoryHint: .isDirectory)
         var shown = [container]
         for (depth, name) in names.dropFirst(rootNames.count + 1).enumerated() {

@@ -102,7 +102,7 @@ struct CloudView: View {
                         )
                     }
                 } footer: {
-                    if cloud.cutShort != nil || cloud.sharedDownloads > 0 {
+                    if cloud.cutShort != nil || cloud.sharedDownloads > 0 || !cloud.unreadableFolders.isEmpty {
                         VStack(alignment: .leading, spacing: 6) {
                             switch cloud.cutShort {
                             case .listIsFull:
@@ -112,6 +112,7 @@ struct CloudView: View {
                             case nil:
                                 EmptyView()
                             }
+                            unreadableFoldersNote
                             sharedDownloadsNote
                         }
                         .font(.callout)
@@ -135,13 +136,16 @@ struct CloudView: View {
                 } actions: {
                     Button("Open System Settings") { home.openFullDiskAccessSettings() }
                 }
-            } else if cloud.files?.isEmpty == true, cloud.cutShort != nil {
+            } else if cloud.files?.isEmpty == true, hasMoreThanItRead {
                 // The scan stopped early, so an empty list does not mean there is nothing to free.
                 ContentUnavailableView {
                     Label("Nothing Found So Far", systemImage: "icloud")
                 } description: {
                     VStack(spacing: 8) {
-                        Text("There is more in iCloud Drive than Peel can read in the time it gives a scan, and nothing in the part it read is big enough to be worth freeing.")
+                        if cloud.cutShort != nil {
+                            Text("There is more in iCloud Drive than Peel can read in the time it gives a scan, and nothing in the part it read is big enough to be worth freeing.")
+                        }
+                        unreadableFoldersNote
                         sharedDownloadsNote
                     }
                 }
@@ -231,6 +235,16 @@ struct CloudView: View {
         }
     }
 
+    private var hasMoreThanItRead: Bool {
+        cloud.cutShort != nil || !cloud.unreadableFolders.isEmpty
+    }
+
+    @ViewBuilder private var unreadableFoldersNote: some View {
+        if !cloud.unreadableFolders.isEmpty {
+            Text("macOS didn’t let Peel read \(cloud.unreadableFolders.formatted(.list(type: .and))) in iCloud Drive, so this list isn’t all of it. Full Disk Access in System Settings gives Peel what it needs.")
+        }
+    }
+
     @ViewBuilder private var sharedDownloadsNote: some View {
         if cloud.sharedDownloads > 0 {
             Text("Peel doesn’t list ^[\(cloud.sharedDownloads) download](inflect: true) whose space on disk is shared with a copy iCloud keeps on this Mac once it has uploaded the file, or with another copy: removing a download like that frees nothing now.")
@@ -264,7 +278,7 @@ struct CloudView: View {
 
     private var couldNotLook: LocalizedStringResource? {
         if cloud.couldNotRead { return "iCloud Drive Couldn’t Be Read" }
-        if cloud.files?.isEmpty == true, cloud.cutShort != nil { return "Nothing Found So Far" }
+        if cloud.files?.isEmpty == true, hasMoreThanItRead { return "Nothing Found So Far" }
         return nil
     }
 

@@ -70,7 +70,7 @@ struct CloudStorageTests {
         let url = try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file.bin", bytes: 2_000_000)
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
         let scanned = try #require(collector.collected.files.first)
@@ -180,7 +180,6 @@ struct CloudStorageTests {
             minimumSize: 1,
             exclusions: .none,
             into: collector,
-            deadline: .now + .seconds(20),
             countingFor: nil,
             isSafe: { _ in true },
             unless: { false }
@@ -205,7 +204,7 @@ struct CloudStorageTests {
 
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, isPinned: { pinned.contains($0.lastPathComponent) },
             unless: { false }
         )
@@ -225,7 +224,7 @@ struct CloudStorageTests {
 
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, isPinned: { _ in false }, unless: { false }
         )
 
@@ -243,7 +242,7 @@ struct CloudStorageTests {
 
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, isPinned: { _ in false }, unless: { false }
         )
 
@@ -279,7 +278,6 @@ struct CloudStorageTests {
             minimumSize: 1,
             exclusions: .none,
             into: collector,
-            deadline: .now + .seconds(20),
             countingFor: nil,
             isSafe: { _ in true },
             isDataless: { PathPattern.comparablePath(of: $0) == evicted },
@@ -307,7 +305,7 @@ struct CloudStorageTests {
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
             home: directory.url, minimumSize: CloudStorage.minimumSize, exclusions: .none, into: collector,
-            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
 
         #expect(collector.collected.files.map(\.name) == ["plain.bin"])
@@ -363,7 +361,17 @@ struct CloudStorageTests {
             try directory.file("Library/Mobile Documents/com~apple~CloudDocs/folder\(index)/file.bin", bytes: 1_000)
         }
 
-        let scan = await CloudStorage.downloaded(home: directory.url, within: 0)
+        let held = DispatchSemaphore(value: 0)
+        defer { held.signal() }
+
+        let scan = await CloudStorage.downloaded(
+            home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [], within: 0,
+            isDataless: { _ in
+                held.wait()
+                held.signal()
+                return false
+            }
+        )
 
         #expect(scan.cutShort == .ranOutOfTime)
     }
@@ -377,7 +385,7 @@ struct CloudStorageTests {
         let collector = CloudStorage.Collector(maximum: 2)
 
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
 
@@ -403,28 +411,163 @@ struct CloudStorageTests {
         #expect(collector.collected.cutShort == .ranOutOfTime)
     }
 
-    /// A walk past its deadline stops on its own, without waiting for the timer that gives up on it. That timer
-    /// runs on another thread and can fire late on a busy Mac, so a short walk could finish first and read as a
-    /// complete list.
-    @Test func aWalkPastItsDeadlineStopsWithoutWaitingForTheTimer() async throws {
+    private func linkInICloudDrive(
+        _ name: String, to destination: String, in directory: borrowing TemporaryDirectory
+    ) throws {
+        let drive = try directory.directory("Library/Mobile Documents/com~apple~CloudDocs")
+        try FileManager.default.createSymbolicLink(
+            atPath: drive.appending(path: name).path(percentEncoded: false), withDestinationPath: destination
+        )
+    }
+
+    private func safeScan(of directory: borrowing TemporaryDirectory) async -> CloudScan {
+        await CloudStorage.downloaded(
+            home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [], within: CloudStorage.budget,
+            isSafe: { _ in true }, isDataless: { _ in false }
+        )
+    }
+
+    @Test func readsDesktopAndDocumentsWhereICloudDriveKeepsThem() async throws {
         let directory = try TemporaryDirectory()
-        for index in 0..<3 {
-            try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file\(index).bin", bytes: 1_000)
-        }
+        try directory.file("Documents/pfp/Me.png", bytes: 2_000)
+        try directory.file("Desktop/Shot.png", bytes: 3_000)
+        try linkInICloudDrive("Documents", to: "../../../Documents", in: directory)
+        try linkInICloudDrive(
+            "Desktop", to: directory.url.appending(path: "Desktop").path(percentEncoded: false), in: directory
+        )
+
+        let scan = await safeScan(of: directory)
+
+        #expect(scan.files.map(\.name) == ["Shot.png", "Me.png"])
+        #expect(scan.files.allSatisfy { $0.isRecommended })
+        #expect(scan.cutShort == nil)
+        #expect(!scan.couldNotRead)
+        #expect(scan.folders.map(\.names) == [["iCloud Drive", "Desktop"], ["iCloud Drive", "Documents", "pfp"]])
+    }
+
+    @Test func leavesAHomeFolderICloudDriveDoesNotKeep() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Documents/Local.png", bytes: 2_000)
+        try directory.file("Desktop/Local.png", bytes: 2_000)
+        try directory.file("Elsewhere/Other.png", bytes: 2_000)
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Documents/InICloud.png", bytes: 2_000)
+        try linkInICloudDrive("Desktop", to: "../../../Elsewhere", in: directory)
+
+        let scan = await safeScan(of: directory)
+
+        #expect(scan.files.map(\.name) == ["InICloud.png"])
+    }
+
+    @Test func aHomeFolderICloudDriveKeepsFollowsTheRulesOfTheRest() async throws {
+        let directory = try TemporaryDirectory()
+        let kept = try directory.file("Documents/Pinned/Kept.png", bytes: 2_000)
+        let secret = try directory.file("Documents/Vault.kdbx", bytes: 2_000)
+        try directory.file("Documents/Excluded/Left.png", bytes: 2_000)
         let collector = CloudStorage.Collector()
 
         CloudStorage.collect(
-            home: directory.url,
-            minimumSize: 1,
-            exclusions: .none,
-            into: collector,
-            deadline: .now,
-            countingFor: nil,
-            unless: { false }
+            home: directory.url, minimumSize: 1,
+            exclusions: Exclusions(paths: [directory.url.appending(path: "Documents/Excluded")]),
+            keptInTheHome: directory.url.appending(path: "Documents", directoryHint: .isDirectory),
+            into: collector, countingFor: nil, isSafe: { _ in true },
+            isPinned: { $0.lastPathComponent == "Pinned" }, unless: { false }
         )
 
-        #expect(collector.collected.cutShort == .ranOutOfTime)
+        let found = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0) })
+        #expect(Set(found.keys) == [kept.lastPathComponent, secret.lastPathComponent])
+        #expect(found["Kept.png"]?.heldBack == .keptDownloaded)
+        #expect(found["Vault.kdbx"]?.heldBack == .opensOnlyOnline)
+        #expect(found["Kept.png"]?.container == "iCloud Drive")
+    }
+
+    @Test func aHomeFolderKeptDownloadedWholeHoldsBackWhatIsInIt() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Documents/File.png", bytes: 2_000)
+        let collector = CloudStorage.Collector()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none,
+            keptInTheHome: directory.url.appending(path: "Documents", directoryHint: .isDirectory),
+            into: collector, countingFor: nil, isSafe: { _ in true },
+            isPinned: { $0.lastPathComponent == "Documents" }, unless: { false }
+        )
+
+        #expect(collector.collected.files.first?.heldBack == .keptDownloaded)
+    }
+
+    @Test func aHomeFolderThatIsExcludedIsNotRead() throws {
+        let directory = try TemporaryDirectory()
+        let documents = directory.url.appending(path: "Documents", directoryHint: .isDirectory)
+        try directory.file("Documents/File.png", bytes: 2_000)
+        let collector = CloudStorage.Collector()
+        let count = ScanCount()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: Exclusions(paths: [documents]),
+            keptInTheHome: documents, into: collector, countingFor: count, isSafe: { _ in true }, unless: { false }
+        )
+
+        #expect(count.value == 0)
         #expect(collector.collected.files.isEmpty)
+    }
+
+    @Test func aHomeFolderThatCannotBeReadIsNamedAndTheRestStays() async throws {
+        let directory = try TemporaryDirectory()
+        let documents = try directory.directory("Documents")
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/InICloud.png", bytes: 2_000)
+        try linkInICloudDrive("Documents", to: "../../../Documents", in: directory)
+        let path = documents.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.posixPermissions: 0], ofItemAtPath: path)
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: path) }
+
+        let scan = await safeScan(of: directory)
+
+        #expect(scan.files.map(\.name) == ["InICloud.png"])
+        #expect(!scan.couldNotRead)
+        #expect(scan.unreadableFolders == ["Documents"])
+    }
+
+    @Test func aWalkThatRunsOutOfTimeCostsTheOtherWalksNothing() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Stalls/File.png", bytes: 2_000)
+        try directory.file("Documents/Found.png", bytes: 2_000)
+        try linkInICloudDrive("Documents", to: "../../../Documents", in: directory)
+        let held = DispatchSemaphore(value: 0)
+        defer { held.signal() }
+
+        let scan = await CloudStorage.downloaded(
+            home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [], within: 0.2,
+            while: { false }, isSafe: { _ in true },
+            isDataless: { url in
+                if url.lastPathComponent == "Stalls" {
+                    held.wait()
+                    held.signal()
+                }
+                return false
+            }
+        )
+
+        #expect(scan.files.map(\.name) == ["Found.png"])
+        #expect(scan.cutShort == .ranOutOfTime)
+    }
+
+    @Test func aWalkGoesOnPastItsBudgetWhileMacOSAsks() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<3 {
+            try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file\(index).bin", bytes: 2_000)
+        }
+
+        let scan = await CloudStorage.downloaded(
+            home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [], within: 0.05,
+            while: { true }, isSafe: { _ in true },
+            isDataless: { _ in
+                Thread.sleep(forTimeInterval: 0.1)
+                return false
+            }
+        )
+
+        #expect(scan.files.count == 3)
+        #expect(scan.cutShort == nil)
     }
 
     @Test func aStoppedScanReturnsWhileItsWalkIsHeld() async throws {
@@ -468,7 +611,7 @@ struct CloudStorageTests {
         var isGivenUp = false
 
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true },
             isDataless: { _ in
                 asked += 1
@@ -494,7 +637,7 @@ struct CloudStorageTests {
 
         CloudStorage.collect(
             home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
-            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
 
         #expect(collector.collected.files.map(\.name).sorted() == ["Note.bin", "Shared.bin", "Song.mp3"])
@@ -511,7 +654,7 @@ struct CloudStorageTests {
 
         CloudStorage.collect(
             home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
-            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true },
+            countingFor: nil, isSafe: { _ in true },
             isDataless: { $0.lastPathComponent == evicted.lastPathComponent }, unless: { false }
         )
 
@@ -525,7 +668,7 @@ struct CloudStorageTests {
         let collector = CloudStorage.Collector()
 
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
 
@@ -545,7 +688,7 @@ struct CloudStorageTests {
 
         CloudStorage.collect(
             home: directory.url, minimumSize: 1, exclusions: Exclusions(paths: [archive]), into: collector,
-            deadline: .now + .seconds(20), countingFor: count, isSafe: { _ in true }, unless: { false }
+            countingFor: count, isSafe: { _ in true }, unless: { false }
         )
 
         #expect(collector.collected.files.map(\.name) == ["kept.bin"])
@@ -567,7 +710,7 @@ struct CloudStorageTests {
 
         CloudStorage.collect(
             home: directory.url, minimumSize: 1, exclusions: Exclusions(paths: [excluded]), into: collector,
-            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
         let files = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0) })
 
@@ -584,7 +727,7 @@ struct CloudStorageTests {
         let inside = try directory.file("\(drive)/Notes.rtfd/TXT.rtf", bytes: 2_000_000)
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
         let scanned = try #require(collector.collected.files.first)
@@ -604,7 +747,7 @@ struct CloudStorageTests {
         let inside = try directory.file("\(drive)/Notes.rtfd/TXT.rtf", bytes: 2_000_000)
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
-            home: directory.url, minimumSize: 1, exclusions: .none, into: collector, deadline: .now + .seconds(20),
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
             countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
         let scanned = try #require(collector.collected.files.first)
@@ -684,7 +827,7 @@ struct CloudStorageTests {
         let collector = CloudStorage.Collector()
         CloudStorage.collect(
             home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [picture], into: collector,
-            deadline: .now + .seconds(20), countingFor: nil, isSafe: { _ in true }, unless: { false }
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
         )
         let marked = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0.isDesktopPicture) })
 

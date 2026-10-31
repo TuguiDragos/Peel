@@ -144,7 +144,8 @@ Space shows what fills your disk, area by area, and what each area is.
   devices. A disk image can also be one you made to keep files in, so look before you select it. An installer,
   download, or update smaller than 20 MB isn't listed.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac, as Finder shows them: what is
-  in iCloud Drive and each app's documents, never an app's own data. An app's documents are listed and not selected,
+  in iCloud Drive, your Desktop and Documents when iCloud Drive keeps them, and each app's documents, never an app's
+  own data. An app's documents are listed and not selected,
   since Finder may not show them and the app may expect them on this Mac. Downloads are listed in the folders Finder
   shows them in, named as Finder names them, the biggest first, and a folder's checkbox selects every file in it that
   Peel recommends; a file that would free less than 1 MB isn't listed. Remove Downloads, as in Finder, takes away only
@@ -415,7 +416,7 @@ and takes you straight to the right place in System Settings, or, for the comman
 | App Management | Move another developer's app to the Trash. Without it, Peel can still clear an app's files, but macOS may refuse to move the app itself. |
 | Helper | Move to the Trash, and put back, what sits in folders only an administrator can change, such as an app's leftovers, the caches and logs Space lists for every account, and an installer package's files and receipt, and start, stop, enable, or disable other developers' background items that run as root. It answers administrators only. macOS asks you to approve it once in Login Items & Extensions, and an update of Peel brings its new helper with it. |
 | Notifications (optional) | Tell you when your apps have updates, when Homebrew finishes an upgrade or runs into a problem, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. While they're off, Settings > General says so under those two switches. |
-| Folders macOS asks about | Without Full Disk Access, macOS asks the first time Peel looks in Desktop, Documents, or Downloads for installers, duplicates, and what builds left, or at your cloud folders to measure them. On macOS 26 it also asks before Peel looks inside another app's data for what it would leave behind; on macOS 27 it refuses without asking, and Peel says which folders it couldn't read. |
+| Folders macOS asks about | Without Full Disk Access, macOS asks the first time Peel looks in Desktop, Documents, or Downloads for installers, duplicates, what builds left, and what iCloud Drive keeps there, or at your cloud folders to measure them. On macOS 26 it also asks before Peel looks inside another app's data for what it would leave behind; on macOS 27 it refuses without asking, and Peel says which folders it couldn't read. |
 | Finder Extension (optional) | Add Uninstall with Peel to the menu you get when you Control-click an app in Finder. |
 | Open at Login (optional) | Start Peel when you log in. With Show in Menu Bar on, it keeps running after you close its window, so Watch the Trash keeps working. |
 | Command Line (optional) | Use `peel` from anywhere in Terminal. Home's Copy button, like Settings > General, copies the command that puts it on your path, and Terminal asks for your password when you run it. |

@@ -17,6 +17,17 @@ struct CloudLibraryTests {
         )
     }
 
+    @Test func aFolderOfTheHomeThatCouldNotBeReadLeavesTheTotalOnlyTheLeastItCanBe() async {
+        let cloud = CloudLibrary(scan: { _, _, _ in
+            CloudScan(files: [Self.download("Plan.pdf")], unreadableFolders: ["Documents"])
+        })
+
+        await cloud.refresh()
+
+        #expect(cloud.unreadableFolders == ["Documents"])
+        #expect(cloud.total?.isComplete == false)
+    }
+
     @Test func hasNoTotalUntilICloudDriveIsRead() async throws {
         let home = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let drive = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
