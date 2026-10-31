@@ -362,7 +362,8 @@ fileprivate extension HomeModel {
         case (.helper, .pending): "Needs approval, or was turned off"
         case (.finderExtension, .off) where isFinderExtensionFromAnotherCopy: "On in another copy of Peel"
         case (_, .notThisAccount): "Needs an administrator"
-        case (.appManagement, .pending): "Checked at first removal"
+        case (.appManagement, .pending):
+            appManagementAwaitsARemoval ? "Checked at the next removal" : "Checked at first removal"
         case (.commandLine, .on): "Installed"
         case (.commandLine, _):
             HomeModel.commandLineStanding == .somethingElse ? "Something else is there" : "Not installed"

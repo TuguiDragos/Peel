@@ -108,6 +108,11 @@ final class HomeModel {
     /// weighing everything, including the signature the permission was given to, so it outranks the privacy
     /// database.
     private var appManagementSeenThisLaunch: AccessState?
+    /// macOS refused this permission at a removal and the person has had the chance to change it since. macOS has no
+    /// API for it, so only the next removal can say.
+    private(set) var appManagementAwaitsARemoval = false
+    /// How many times System Settings had come forward when macOS refused, while the refusal stands.
+    private var systemSettingsShowsAtRefusal: Int?
     /// Full Disk Access only applies to a new process, so Peel offers to reopen itself.
     private(set) var needsRelaunchForFullDiskAccess = false
     /// Peel could not open a fresh copy of itself, so it stayed.
@@ -115,15 +120,25 @@ final class HomeModel {
     /// False until the first check finishes. Until then no state is shown, so the panel never flashes a wrong one. The
     /// helper's row is checked apart and says so until its own answer.
     private(set) var hasChecked = false
-    private let frontmost = FrontmostApp.shared
+    private let frontmost: FrontmostApp
+    private let defaults: UserDefaults
 
     /// The login item Settings switches too, so Home shows each change as it lands.
     let loginItem: LoginItem
 
-    init(helper: HelperModel, loginItem: LoginItem = .ofTheMainApp()) {
+    init(
+        helper: HelperModel,
+        loginItem: LoginItem = .ofTheMainApp(),
+        defaults: UserDefaults = .standard,
+        frontmost: FrontmostApp = .shared
+    ) {
         self.helper = helper
         self.loginItem = loginItem
-        appManagement = AccessState(stored: UserDefaults.standard.string(forKey: Self.appManagementKey))
+        self.defaults = defaults
+        self.frontmost = frontmost
+        let stored = AccessState(stored: defaults.string(forKey: Self.appManagementKey))
+        appManagementAwaitsARemoval = stored == .missing
+        appManagement = stored == .missing ? .unknown : stored
     }
 
     /// What each row shows. The helper's row is the helper model's, as it changes, from Home's first read on.
@@ -145,10 +160,12 @@ final class HomeModel {
     var needsAttention: Bool { !missingRequired.isEmpty }
 
     /// Required permissions still pending, such as a helper waiting for approval or a check that got no
-    /// answer. Home doesn't say "You're all set" while any remain. App Management is left out: it is often
-    /// known only after the first removal.
+    /// answer. Home doesn't say "You're all set" while any remain. App Management counts only after a refusal: it is
+    /// often known only after the first removal.
     var waitingRequired: [Permission] {
-        Permission.allCases.filter { $0.isRequired && state(of: $0) == .pending && $0 != .appManagement }
+        Permission.allCases.filter {
+            $0.isRequired && state(of: $0) == .pending && ($0 != .appManagement || appManagementAwaitsARemoval)
+        }
     }
 
     func state(of permission: Permission) -> State {
@@ -192,6 +209,7 @@ final class HomeModel {
             fullDisk, systemSettingsWasInFront: frontmost.hasShownSystemSettings
         )
         await loginItem.refresh()
+        followSystemSettings()
         found = [
             .fullDiskAccess: state(for: fullDisk),
             .appManagement: state(for: appManagementSeenThisLaunch ?? appManagement),
@@ -219,7 +237,7 @@ final class HomeModel {
     private var modelName: String? {
         let identifier = device?.modelIdentifier ?? ""
         guard !identifier.isEmpty else { return nil }
-        return UserDefaults.standard.string(forKey: Self.modelNameKey + identifier)
+        return defaults.string(forKey: Self.modelNameKey + identifier)
     }
 
     /// Reads the marketing name with `system_profiler` and saves it, when none is saved for this model yet.
@@ -229,15 +247,17 @@ final class HomeModel {
         isReadingModelName = true
         defer { isReadingModelName = false }
         guard let name = await DeviceInfo.marketingName() else { return }
-        UserDefaults.standard.set(name, forKey: Self.modelNameKey + identifier)
+        defaults.set(name, forKey: Self.modelNameKey + identifier)
         device = device?.named(name)
     }
 
     func record(appManagement state: AccessState) {
         appManagementSeenThisLaunch = state
+        appManagementAwaitsARemoval = false
+        systemSettingsShowsAtRefusal = state == .missing ? frontmost.systemSettingsShows : nil
         guard state != appManagement else { return }
         appManagement = state
-        UserDefaults.standard.set(state.stored, forKey: Self.appManagementKey)
+        defaults.set(state.stored, forKey: Self.appManagementKey)
         found[.appManagement] = self.state(for: state)
     }
 
@@ -245,13 +265,26 @@ final class HomeModel {
         NSWorkspace.shared.open(FullDiskAccess.settingsURL)
     }
 
-    /// Opens the App Management settings and forgets the stored state. macOS has no API for this permission, so a
-    /// stored "off" that only a removal updates would keep Home red after the user turns it on.
-    func openAppManagementSettings() {
+    /// A refusal stands until System Settings has come forward, by whichever button or by hand: only a removal updates
+    /// it, so it would keep Home red after the person turned the permission on.
+    func followSystemSettings() {
+        guard let shows = systemSettingsShowsAtRefusal, frontmost.systemSettingsShows > shows else { return }
+        systemSettingsShowsAtRefusal = nil
         appManagementSeenThisLaunch = nil
         appManagement = .unknown
-        UserDefaults.standard.removeObject(forKey: Self.appManagementKey)
-        found[.appManagement] = state(for: .unknown)
+        appManagementAwaitsARemoval = true
+        found[.appManagement] = .pending
+    }
+
+    /// Opens the App Management settings, where the person can turn off what a removal found on, so that answer no
+    /// longer holds.
+    func openAppManagementSettings() {
+        if (appManagementSeenThisLaunch ?? appManagement) == .granted {
+            appManagementSeenThisLaunch = nil
+            appManagement = .unknown
+            defaults.removeObject(forKey: Self.appManagementKey)
+            found[.appManagement] = state(for: .unknown)
+        }
         NSWorkspace.shared.open(AppManagement.settingsURL)
     }
 

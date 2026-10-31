@@ -9,8 +9,9 @@ final class FrontmostApp {
     static let shared = FrontmostApp()
 
     private(set) var bundleIdentifier = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
-    /// True once System Settings has been in front since Peel started, however the person got there.
-    private(set) var hasShownSystemSettings = false
+    /// How many times System Settings has come to the front since Peel started, however the person got there.
+    private(set) var systemSettingsShows = 0
+    var hasShownSystemSettings: Bool { systemSettingsShows > 0 }
 
     init(observing: Bool = true) {
         note(bundleIdentifier)
@@ -29,7 +30,7 @@ final class FrontmostApp {
     func note(_ identifier: String?) {
         bundleIdentifier = identifier
         if identifier == "com.apple.systempreferences" {
-            hasShownSystemSettings = true
+            systemSettingsShows += 1
         }
     }
 }
