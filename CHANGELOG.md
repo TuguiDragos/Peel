@@ -484,6 +484,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On macOS 26, with the sidebar hidden, the title bar no longer draws a band and a line across the list and the page.
 - On macOS 27, while the sidebar slides back, the page no longer runs past the window's edge, and the toolbar's last
   buttons no longer move into its overflow menu for a moment.
+- On macOS 26, sheets and alerts open and close faster on pages with section headers.
 
 ## 1.2.1 (2026-10-25)
 
