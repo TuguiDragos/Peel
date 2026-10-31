@@ -106,6 +106,10 @@ final class ShellLibrary {
         write(ShellFile.Choices())
     }
 
+    func forgetRefusal() {
+        wasRefused = false
+    }
+
     private func write(_ choices: ShellFile.Choices) {
         wasRefused = !ShellFile.write(choices, to: file)
         state?.choices = ShellFile.read(file)

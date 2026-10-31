@@ -50,6 +50,8 @@ struct TerminalPage: View {
         .onDisappear {
             tweaks.forgetNotices()
             terminal.forgetRefusal()
+            shell.forgetRefusal()
+            ssh.forgetRefusal()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             Task { await refresh() }

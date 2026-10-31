@@ -63,6 +63,10 @@ final class SSHLibrary {
         write([])
     }
 
+    func forgetRefusal() {
+        wasRefused = false
+    }
+
     private func write(_ settings: Set<SSHSetting>) {
         wasRefused = !SSHFile.write(settings, to: file)
         state?.settings = SSHFile.read(file)
