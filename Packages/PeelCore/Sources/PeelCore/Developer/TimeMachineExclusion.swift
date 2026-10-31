@@ -8,13 +8,19 @@ internal import CoreServices
 /// It uses `CSBackupSetItemExcluded`, Apple's API for this, rather than `tmutil addexclusion`, which is slow
 /// and fails in a process that macOS hasn't given Full Disk Access.
 public enum TimeMachineExclusion {
+    /// Written beside the mark Peel puts, since the mark itself says nothing of who put it.
+    private static let ownMark = "com.tuguidragos.Peel.backupMark"
+
     /// Whether Time Machine backs up a folder, and if not, where the exclusion comes from. Per `BackupCore.h`,
     /// `CSBackupIsItemExcluded` answers true "if the item or any of its ancestors are excluded" and says
     /// whether the exclusion is by path. Only a mark on the folder itself can be taken off from here.
     public enum Standing: Sendable, Hashable {
         case included
-        /// The mark is on this folder, so Peel can take it off again.
+        /// The mark is on this folder, and nothing says who put it: a tool, as Poetry marks each environment it makes
+        /// and Xcode its DerivedData, the person, or a version of Peel that didn't say.
         case excludedItself
+        /// The mark is on this folder, and Peel put it.
+        case markedByPeel
         /// A folder above it is excluded, or the exclusion is on the path rather than on this folder.
         case excludedFromAbove
     }
@@ -26,7 +32,8 @@ public enum TimeMachineExclusion {
         guard !byPath.boolValue, !CSBackupIsItemExcluded(url.deletingLastPathComponent() as CFURL, nil) else {
             return .excludedFromAbove
         }
-        return .excludedItself
+        return getxattr(url.path(percentEncoded: false), ownMark, nil, 0, 0, XATTR_NOFOLLOW) >= 0
+            ? .markedByPeel : .excludedItself
     }
 
     public static func isExcluded(_ url: URL) -> Bool {
@@ -47,6 +54,15 @@ public enum TimeMachineExclusion {
     /// Sets or clears the mark on each folder and returns the folders that could not be changed. A folder
     /// that refuses the mark, such as one owned by root, does not stop the others.
     public static func setExcluded(_ isExcluded: Bool, _ urls: [URL]) -> Set<URL> {
-        Set(urls.filter { CSBackupSetItemExcluded($0 as CFURL, isExcluded, false) != noErr })
+        Set(urls.filter { url in
+            guard CSBackupSetItemExcluded(url as CFURL, isExcluded, false) == noErr else { return true }
+            let path = url.path(percentEncoded: false)
+            if isExcluded {
+                _ = setxattr(path, ownMark, "1", 1, 0, XATTR_NOFOLLOW)
+            } else {
+                _ = removexattr(path, ownMark, XATTR_NOFOLLOW)
+            }
+            return false
+        })
     }
 }

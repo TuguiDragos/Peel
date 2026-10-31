@@ -33,7 +33,7 @@ struct TimeMachineExclusionTests {
         #expect(!TimeMachineExclusion.isExcluded(modules))
         #expect(TimeMachineExclusion.setExcluded(true, [modules, build]).isEmpty, "a folder refused the mark")
         #expect(try await settles([modules, build], as: [modules, build]), "\(state(of: [modules, build]))")
-        #expect(TimeMachineExclusion.standing(of: modules) == .excludedItself)
+        #expect(TimeMachineExclusion.standing(of: modules) == .markedByPeel)
 
         #expect(TimeMachineExclusion.setExcluded(false, [modules]).isEmpty)
         #expect(try await settles([modules, build], as: [build]), "\(state(of: [modules, build]))")
@@ -42,6 +42,26 @@ struct TimeMachineExclusionTests {
 
         #expect(TimeMachineExclusion.setExcluded(false, [build]).isEmpty)
         #expect(try await settles([modules, build], as: []), "\(state(of: [modules, build]))")
+    }
+
+    @Test func knowsTheMarkPeelPutFromATools() async throws {
+        let directory = try TemporaryDirectory()
+        let modules = try directory.directory("app/node_modules")
+        let venv = try directory.directory("app/.venv")
+        // What Poetry writes on each environment it makes.
+        let mark = try PropertyListSerialization.data(fromPropertyList: "com.apple.backupd", format: .binary, options: 0)
+        let name = "com.apple.metadata:com_apple_backup_excludeItem"
+        let path = venv.path(percentEncoded: false)
+        #expect(mark.withUnsafeBytes { setxattr(path, name, $0.baseAddress, $0.count, 0, 0) } == 0)
+
+        #expect(TimeMachineExclusion.setExcluded(true, [modules]).isEmpty)
+        #expect(try await settles([modules, venv], as: [modules, venv]), "\(state(of: [modules, venv]))")
+        #expect(TimeMachineExclusion.standing(of: venv) == .excludedItself)
+        #expect(TimeMachineExclusion.standing(of: modules) == .markedByPeel)
+
+        #expect(TimeMachineExclusion.setExcluded(false, [modules]).isEmpty)
+        #expect(try await settles([modules, venv], as: [venv]), "\(state(of: [modules, venv]))")
+        #expect(TimeMachineExclusion.standing(of: modules) == .included)
     }
 
     @Test func answersWithoutComplainingForAnEmptyListOrAMissingFolder() throws {

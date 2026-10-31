@@ -129,17 +129,30 @@ struct ProjectArtifactsTests {
         let venv = artifact(".venv", isEnvironment: true)
         let target = artifact("target", isGeneric: true)
         let artifacts = [modules, venv, target]
-        func marks(excluded: Set<URL>, excludedFromAbove: Set<URL> = [], of list: [ProjectArtifact] = artifacts)
-            -> ProjectArtifacts.BackupMarks {
-            ProjectArtifacts.BackupMarks(list, excluded: excluded, excludedFromAbove: excludedFromAbove)
+        func marks(
+            excluded: Set<URL>, excludedFromAbove: Set<URL> = [], markedByPeel: Set<URL> = [],
+            of list: [ProjectArtifact] = artifacts
+        ) -> ProjectArtifacts.BackupMarks {
+            ProjectArtifacts.BackupMarks(
+                list, excluded: excluded, excludedFromAbove: excludedFromAbove, markedByPeel: markedByPeel
+            )
         }
 
         #expect(!marks(excluded: []).isOn)
         #expect(marks(excluded: []).folders(turning: true) == [modules.url])
         #expect(marks(excluded: [modules.url]).isOn, "a project with an environment read off once marked")
         #expect(marks(excluded: [modules.url]).folders(turning: false) == [modules.url])
-        #expect(Set(marks(excluded: [modules.url, venv.url]).folders(turning: false)) == [modules.url, venv.url])
-        #expect(marks(excluded: [venv.url], of: [venv]).isOn && marks(excluded: [venv.url], of: [venv]).canChange)
+        #expect(marks(excluded: [modules.url, venv.url]).folders(turning: false) == [modules.url])
+        let poetry = marks(excluded: [venv.url], of: [venv])
+        #expect(!poetry.isOn && !poetry.canChange, "a tool's mark on an environment isn't Peel's to take off")
+        #expect(poetry.markedByOthers == [venv.url])
+        #expect(poetry.folders(turning: false).isEmpty)
+        var held = modules
+        held.heldBack = .notMeasured
+        let xcode = marks(excluded: [held.url], of: [held])
+        #expect(!xcode.isOn && !xcode.canChange && xcode.markedByOthers == [held.url])
+        let own = marks(excluded: [held.url], markedByPeel: [held.url], of: [held])
+        #expect(own.isOn && own.canChange && own.folders(turning: false) == [held.url] && own.markedByOthers.isEmpty)
         #expect(marks(excluded: [modules.url], excludedFromAbove: [modules.url], of: [modules]).isOn)
         #expect(!marks(excluded: [modules.url], excludedFromAbove: [modules.url], of: [modules]).canChange)
     }

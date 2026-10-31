@@ -28,6 +28,7 @@ final class ProjectLibrary {
     private(set) var folders: [URL]
     /// Which artifacts Time Machine is already leaving out.
     private(set) var excludedFromBackups: Set<URL> = []
+    private var markedByPeel: Set<URL> = []
     /// Artifacts excluded from backups by a folder above them or by a path rule. The exclusion is not their
     /// own, so it cannot be removed from here.
     private(set) var excludedFromAbove: Set<URL> = []
@@ -105,6 +106,7 @@ final class ProjectLibrary {
         groups = result
         excludedFromBackups = Set(standings.filter { $0.value != .included }.keys)
         excludedFromAbove = Set(standings.filter { $0.value == .excludedFromAbove }.keys)
+        markedByPeel = Set(standings.filter { $0.value == .markedByPeel }.keys)
         selectedURLs.formIntersection(Set(artifacts.map(\.url)))
         if let selection, !result.contains(where: { $0.project == selection }) {
             self.selection = nil
@@ -156,7 +158,8 @@ final class ProjectLibrary {
 
     private func backupMarks(_ group: ProjectGroup) -> ProjectArtifacts.BackupMarks {
         ProjectArtifacts.BackupMarks(
-            group.artifacts, excluded: excludedFromBackups, excludedFromAbove: excludedFromAbove
+            group.artifacts, excluded: excludedFromBackups, excludedFromAbove: excludedFromAbove,
+            markedByPeel: markedByPeel
         )
     }
 
@@ -186,8 +189,10 @@ final class ProjectLibrary {
         let changed = Set(urls).subtracting(failed)
         if isExcluded {
             excludedFromBackups.formUnion(changed)
+            markedByPeel.formUnion(changed)
         } else {
             excludedFromBackups.subtract(changed)
+            markedByPeel.subtract(changed)
         }
     }
 

@@ -83,24 +83,28 @@ public enum ProjectArtifacts {
         /// no build makes again (`.terraform` keeps the chosen workspace and the backend's settings), and never one
         /// held back, whose hold back says a build does not make all of it again.
         public let markable: [URL]
-        /// The folders carrying Peel's own mark, which turning the switch off takes away.
+        /// The folders carrying a mark that is Peel's to take away when the switch goes off: one it could have put, so
+        /// the switch can put it back, or one it says it put.
         public let marked: [URL]
-        /// The folders whose own mark is another's: Peel never marks a folder with a generic name, so a mark on one is
-        /// its tool's, as Cargo marks `target`, or the person's. The switch neither shows it nor takes it away.
+        /// The folders whose own mark is another's: on what Peel never marks a mark is its tool's, as Cargo marks
+        /// `target` and Poetry each environment, or the person's. The switch neither shows it nor takes it away.
         public let markedByOthers: [URL]
         private let shown: [URL]
         private let excluded: Set<URL>
 
         /// `excludedFromAbove`: what Time Machine leaves out through a folder above or a rule of its own, not Peel's.
-        public init(_ artifacts: [ProjectArtifact], excluded: Set<URL>, excludedFromAbove: Set<URL>) {
+        public init(
+            _ artifacts: [ProjectArtifact], excluded: Set<URL>, excludedFromAbove: Set<URL>, markedByPeel: Set<URL> = []
+        ) {
             let considered = artifacts.filter { !$0.hasGenericName && !$0.isEnvironment && $0.heldBack == nil }
                 .map(\.url)
             let markedItself = { (artifact: ProjectArtifact) in
                 excluded.contains(artifact.url) && !excludedFromAbove.contains(artifact.url)
             }
             markable = considered.filter { !excludedFromAbove.contains($0) }
-            marked = artifacts.filter { markedItself($0) && !$0.hasGenericName }.map(\.url)
-            markedByOthers = artifacts.filter { markedItself($0) && $0.hasGenericName }.map(\.url)
+            let isPeels = { (url: URL) in considered.contains(url) || markedByPeel.contains(url) }
+            marked = artifacts.filter { markedItself($0) && isPeels($0.url) }.map(\.url)
+            markedByOthers = artifacts.filter { markedItself($0) && !isPeels($0.url) }.map(\.url)
             shown = considered + marked.filter { !considered.contains($0) }
             self.excluded = excluded
         }
