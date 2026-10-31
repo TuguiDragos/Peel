@@ -113,6 +113,44 @@ struct OrphanScannerTests {
         #expect(stillOrphaned.isEmpty)
     }
 
+    @Test(arguments: ["ABCDE12345.md.example", "ABCDE12345.group.md.example"])
+    func aTeamContainerOfATwoPartAppJoinsItsGroup(container: String) async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Group Containers/\(container)/data")
+        try directory.file("home/Library/Preferences/md.example.plist")
+        let gone = RememberedApp(
+            bundleIdentifier: "md.example", name: "Example", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-30 * 86_400),
+            lastPath: "/Applications/Example.app",
+            goneSince: .now.addingTimeInterval(-30 * 86_400)
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: [], remembered: [gone])
+        #expect(scan.groups.map(\.identifier) == ["md.example"])
+        #expect(scan.groups.first?.items.count == 2)
+        #expect(scan.groups.first?.rememberedApp?.bundleIdentifier == "md.example")
+
+        let given = await scanner(in: directory).scan(
+            installedApps: installed, remembered: [gone], owners: ["md.example": "com.installed.app"]
+        )
+        #expect(given.groups.isEmpty)
+
+        let known = await scanner(in: directory, registered: ["md.example"]).scan(installedApps: [], remembered: [gone])
+        #expect(known.groups.isEmpty)
+    }
+
+    @Test func aTeamContainerNamesAGoneAppOnly() {
+        let gone = { (name: String) in name == "md.example" }
+        #expect(
+            OrphanScanner.orphanIdentifier(forKey: "ABCDE12345.md.example", kind: .groupContainers, isAGoneApp: gone)
+                == "md.example"
+        )
+        #expect(
+            OrphanScanner.orphanIdentifier(forKey: "ABCDE12345.md.installed", kind: .groupContainers, isAGoneApp: gone)
+                == "ABCDE12345.md.installed"
+        )
+    }
+
     @Test func aTwoPartIdentifierNoAppDeclaredIsNeverAskedAboutAsAPrefix() {
         let asked = Mutex<[String]>([])
         let ownership = AppOwnership(installedApps: [], goneApps: ["com.example.gone"]) { identifier in

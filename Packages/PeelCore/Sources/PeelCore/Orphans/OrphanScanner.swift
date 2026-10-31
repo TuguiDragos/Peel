@@ -463,7 +463,8 @@ public struct OrphanScanner: Sendable {
     static func orphanIdentifier(
         forKey key: String,
         kind: SearchLocation.Kind,
-        isDeclared: (String) -> Bool = { _ in false }
+        isDeclared: (String) -> Bool = { _ in false },
+        isAGoneApp: (String) -> Bool = { _ in false }
     ) -> String? {
         var identifier = key
         if kind == .groupContainers || kind == .applicationScripts, identifier.hasPrefix("group.") {
@@ -476,8 +477,9 @@ public struct OrphanScanner: Sendable {
         if Identifier.isReverseDNS(identifier) {
             return identifier
         }
-        if kind == .groupContainers, Identifier.teamScoped(identifier) != nil {
-            return identifier
+        if kind == .groupContainers, let remainder = Identifier.teamScoped(identifier)?.remainder {
+            let app = remainder.hasPrefix("group.") ? String(remainder.dropFirst("group.".count)) : remainder
+            return isAGoneApp(app) ? app : identifier
         }
         if Identifier.isValid(identifier), isDeclared(identifier) {
             return identifier
@@ -546,8 +548,9 @@ public struct OrphanScanner: Sendable {
         guard let names = await SlowRead.names(in: url) else { return nil }
         return names.contains { name in
             let key = LeftoverMatcher.key(from: name, kind: kind)
-            guard let identifier = orphanIdentifier(forKey: key, kind: kind, isDeclared: ownership.isDeclared)
-            else { return false }
+            guard let identifier = orphanIdentifier(
+                forKey: key, kind: kind, isDeclared: ownership.isDeclared, isAGoneApp: ownership.isAGoneApp
+            ) else { return false }
             return ownership.isClaimed(fileName: name, kind: kind, identifier: identifier)
         }
     }
@@ -618,10 +621,13 @@ public struct OrphanScanner: Sendable {
             !isSensitive(fileName: name),
             let identifier = (DeclaredIdentifier.nameSaysNothing(of: url, kind: kind)
                 ? nil : orphanIdentifier(
-                    forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind, isDeclared: ownership.isDeclared
+                    forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind, isDeclared: ownership.isDeclared,
+                    isAGoneApp: ownership.isAGoneApp
                 ))
                 ?? DeclaredIdentifier.of(url, kind: kind).flatMap({
-                    orphanIdentifier(forKey: $0, kind: kind, isDeclared: ownership.isDeclared)
+                    orphanIdentifier(
+                        forKey: $0, kind: kind, isDeclared: ownership.isDeclared, isAGoneApp: ownership.isAGoneApp
+                    )
                 }),
             goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),

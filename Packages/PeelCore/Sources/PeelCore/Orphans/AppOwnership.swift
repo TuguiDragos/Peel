@@ -31,6 +31,10 @@ struct AppOwnership: Sendable {
         return false
     }
 
+    func isAGoneApp(_ identifier: String) -> Bool {
+        goneApps.contains(identifier.lowercased())
+    }
+
     /// Returns whether an installed app has any claim on the item, even a weak one, or macOS knows an app by the
     /// item's identifier, by a prefix of it with at least three components, or by the identifier of the gone app it
     /// belongs to, whatever its shape. The apps are asked about the identifier as well as the name, since a plug-in is
