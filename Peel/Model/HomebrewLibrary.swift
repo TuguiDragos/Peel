@@ -197,7 +197,7 @@ final class HomebrewLibrary {
     var isScanning: Bool { scanRun.isRunning }
     /// The command the page is busy with: Homebrew runs it, then Peel reads what it changed, and nothing else starts
     /// until both are done.
-    private(set) var runningCommand: Command?
+    var runningCommand: Command?
     /// The casks the page is forgetting, until Peel has read Homebrew again. No command runs beside it.
     private(set) var forgetting: Set<HomebrewPackage.ID> = []
     var isForgetting: Bool { !forgetting.isEmpty }
@@ -205,6 +205,9 @@ final class HomebrewLibrary {
     private(set) var isReadingWhatChanged = false
     /// The command while Homebrew itself runs it, which is what its spinner, "Running Homebrew…" and Stop stand for.
     var commandHomebrewRuns: Command? { isReadingWhatChanged ? nil : runningCommand }
+    private var isChangingHomebrew: Bool {
+        !isReadingWhatChanged && (isForgetting || runningCommand?.onlyLooks == false)
+    }
     /// The casks while Peel moves their records, which is what Forget's spinner stands for.
     var casksBeingForgotten: Set<HomebrewPackage.ID> { isReadingWhatChanged ? [] : forgetting }
     /// The last lines Homebrew has written in the running upgrade. Nil when no upgrade runs.
@@ -322,6 +325,9 @@ final class HomebrewLibrary {
     /// so it is asked for only while that page is open or after a command, never on every change in
     /// `/Applications`.
     func refresh(includingReclaimable: Bool = false) async {
+        // What Homebrew says in the middle of a change is only halfway, and the change's own end reads it again: an
+        // upgrade takes the old app away and names its folder `<version>.upgrading` while it unpacks the new one.
+        guard !isChangingHomebrew else { return }
         isInstalled = Homebrew.executableURL != nil
         unrunnableChoice = HomebrewChoice().unrunnable()
         refusedBrew = Homebrew.refusedInAUsualPlace()

@@ -53,6 +53,17 @@ import Testing
         #expect(wasReading == false, "an answer to a quit goes out before Homebrew is read again")
     }
 
+    @Test func aReadingIsLeftForTheEndOfWhatHomebrewIsDoing() async {
+        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
+        let homebrew = HomebrewLibrary()
+        homebrew.runningCommand = .upgradeAll
+        let before = homebrew.revision
+
+        await homebrew.refresh()
+
+        #expect(homebrew.revision == before)
+    }
+
     @Test func forgetsMovesEndBeforePeelReadsWhatChanged() async {
         guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
         let homebrew = HomebrewLibrary()
