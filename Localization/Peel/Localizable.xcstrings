@@ -163537,7 +163537,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaznaczone kopie trafiają do Kosza. Kopia oznaczona jako „Zawsze zostaje” ma tagi Findera, komentarz Findera lub część zawierającą zasoby, których nie mają pozostałe kopie, a Peel nigdy jej nie przenosi."
+            "value" : "Zaznaczone kopie trafiają do Kosza. Kopia oznaczona jako „Zostaje na miejscu” ma tagi Findera, komentarz Findera lub część zawierającą zasoby, których nie mają pozostałe kopie, a Peel nigdy jej nie przenosi."
           }
         },
         "pt" : {
@@ -163555,7 +163555,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выбранные копии перемещаются в Корзину. У копии с пометкой «Остается» есть теги Finder, комментарий Finder или ветвь ресурсов, которых нет у других копий, и она никогда не перемещается."
+            "value" : "Выбранные копии перемещаются в Корзину. У копии с пометкой «Остается на месте» есть теги Finder, комментарий Finder или ветвь ресурсов, которых нет у других копий, и она никогда не перемещается."
           }
         },
         "sv" : {
@@ -163644,7 +163644,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaznaczone kopie trafiają do Kosza. Kopia oznaczona jako „Zawsze zostaje” jest synchronizowana z Twoimi pozostałymi urządzeniami albo ma tagi Findera, komentarz Findera lub część zawierającą zasoby, których nie mają pozostałe kopie, a Peel nigdy jej nie przenosi."
+            "value" : "Zaznaczone kopie trafiają do Kosza. Kopia oznaczona jako „Zostaje na miejscu” jest synchronizowana z Twoimi pozostałymi urządzeniami albo ma tagi Findera, komentarz Findera lub część zawierającą zasoby, których nie mają pozostałe kopie, a Peel nigdy jej nie przenosi."
           }
         },
         "pt" : {
@@ -163662,7 +163662,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выбранные копии перемещаются в Корзину. Копия с пометкой «Остается» синхронизируется с другими Вашими устройствами либо имеет теги Finder, комментарий Finder или ветвь ресурсов, которых нет у других копий, и никогда не перемещается."
+            "value" : "Выбранные копии перемещаются в Корзину. Копия с пометкой «Остается на месте» синхронизируется с другими Вашими устройствами либо имеет теги Finder, комментарий Finder или ветвь ресурсов, которых нет у других копий, и никогда не перемещается."
           }
         },
         "sv" : {
@@ -163808,7 +163808,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vybrané kopie se přesunou do koše. Peel vždy ponechá alespoň jednu. Kopie označená jako „Synchronizuje se“ je synchronizována s vašimi ostatními zařízeními a nikdy se nepřesune."
+            "value" : "Vybrané kopie se přesunou do koše. Peel vždy ponechá alespoň jednu. Kopie označená jako „Zůstává“ je synchronizována s vašimi ostatními zařízeními a nikdy se nepřesune."
           }
         },
         "de" : {
@@ -163820,7 +163820,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias seleccionadas van a la papelera. Peel siempre conserva al menos una. Una copia marcada como “Se sincroniza” se sincroniza con tus otros dispositivos y nunca se traslada."
+            "value" : "Las copias seleccionadas van a la papelera. Peel siempre conserva al menos una. Una copia marcada como “Se queda” se sincroniza con tus otros dispositivos y nunca se traslada."
           }
         },
         "fr" : {
@@ -163838,7 +163838,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選択したコピーはゴミ箱に入ります。Peelは必ず少なくとも1つを残します。“同期済み”と表示されたコピーはほかのデバイスに同期されているため、決して移動されません。"
+            "value" : "選択したコピーはゴミ箱に入ります。Peelは必ず少なくとも1つを残します。“移動しない”と表示されたコピーはほかのデバイスに同期されているため、決して移動されません。"
           }
         },
         "ko" : {
@@ -163850,61 +163850,61 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geselecteerde kopieën gaan naar de prullenmand. Peel behoudt er altijd minstens één. Een kopie met de markering 'Gesynchroniseerd' wordt gesynchroniseerd met je andere apparaten en wordt nooit verplaatst."
+            "value" : "Geselecteerde kopieën gaan naar de prullenmand. Peel behoudt er altijd minstens één. Een kopie met de markering 'Blijft staan' wordt gesynchroniseerd met je andere apparaten en wordt nooit verplaatst."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaznaczone kopie trafiają do Kosza. Peel zawsze zachowuje co najmniej jedną. Kopia oznaczona jako „Synchronizowane” jest synchronizowana z Twoimi pozostałymi urządzeniami, a Peel nigdy jej nie przenosi."
+            "value" : "Zaznaczone kopie trafiają do Kosza. Peel zawsze zachowuje co najmniej jedną. Kopia oznaczona jako „Zostaje na miejscu” jest synchronizowana z Twoimi pozostałymi urządzeniami, a Peel nigdy jej nie przenosi."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As cópias selecionadas vão para o Lixo. O Peel sempre mantém pelo menos uma. Uma cópia marcada como Sincronizada é sincronizada com os seus outros dispositivos e nunca é movida."
+            "value" : "As cópias selecionadas vão para o Lixo. O Peel sempre mantém pelo menos uma. Uma cópia marcada como “Permanece” é sincronizada com os seus outros dispositivos e nunca é movida."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copiile selectate sunt mutate în Coș. Peel păstrează întotdeauna cel puțin una. O copie marcată cu „Se sincronizează” nu este mutată niciodată: se sincronizează pe celelalte dispozitive ale dvs."
+            "value" : "Copiile selectate sunt mutate în Coș. Peel păstrează întotdeauna cel puțin una. O copie marcată cu „Rămâne pe loc” nu este mutată niciodată: se sincronizează pe celelalte dispozitive ale dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выбранные копии перемещаются в Корзину. Peel всегда оставляет хотя бы одну. Копия с пометкой «Синхронизируется» синхронизируется с другими Вашими устройствами и никогда не перемещается."
+            "value" : "Выбранные копии перемещаются в Корзину. Peel всегда оставляет хотя бы одну. Копия с пометкой «Остается на месте» синхронизируется с другими Вашими устройствами и никогда не перемещается."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Markerade kopior flyttas till papperskorgen. Peel behåller alltid minst en. En kopia märkt ”Synkroniseras” synkroniseras till dina andra enheter och flyttas aldrig."
+            "value" : "Markerade kopior flyttas till papperskorgen. Peel behåller alltid minst en. En kopia märkt ”Stannar kvar” synkroniseras till dina andra enheter och flyttas aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçili kopyalar Çöp Sepeti’ne gider. Peel her zaman en az birini tutar. Eşzamanlanıyor olarak işaretlenmiş bir kopya diğer aygıtlarınızla eşzamanlanıyor ve hiçbir zaman taşınmaz."
+            "value" : "Seçili kopyalar Çöp Sepeti’ne gider. Peel her zaman en az birini tutar. “Kalıyor” olarak işaretlenmiş bir kopya diğer aygıtlarınızla eşzamanlanıyor ve hiçbir zaman taşınmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вибрані копії переміщуються в Смітник. Peel завжди залишає щонайменше одну. Копія з позначкою «Синхронізується» синхронізується з іншими вашими пристроями, і Peel ніколи її не переміщує."
+            "value" : "Вибрані копії переміщуються в Смітник. Peel завжди залишає щонайменше одну. Копія з позначкою «Лишається на місці» синхронізується з іншими вашими пристроями, і Peel ніколи її не переміщує."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所选副本会移到废纸篓。Peel始终至少保留一个。标记为“已同步”的副本会同步到你的其他设备，绝不会被移动。"
+            "value" : "所选副本会移到废纸篓。Peel始终至少保留一个。标记为“保持原位”的副本会同步到你的其他设备，绝不会被移动。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選取的副本會丟到「垃圾桶」。Peel一律至少保留一份。標示為「已同步」的副本會與你的其他裝置同步，絕不會被移動。"
+            "value" : "選取的副本會丟到「垃圾桶」。Peel一律至少保留一份。標示為「留在原處」的副本會與你的其他裝置同步，絕不會被移動。"
           }
         }
       }
@@ -176937,7 +176937,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zawsze zostaje"
+            "value" : "Zostaje na miejscu"
           }
         },
         "pt" : {
@@ -176955,7 +176955,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Остается"
+            "value" : "Остается на месте"
           }
         },
         "sv" : {

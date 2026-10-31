@@ -156,6 +156,22 @@ import Testing
         #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
     }
 
+    @Test func theBadgesOfACopyReadApartAndTheNotesNameThemAsTheyRead() throws {
+        let strings = try Self.localizable()
+        let notes = [
+            "Selected copies go to the Trash. Peel always keeps at least one. A copy marked Stays syncs to your other devices and is never moved.",
+            "Selected copies go to the Trash. A copy marked Stays has Finder tags, a Finder comment, or a resource fork the others don’t, and is never moved.",
+            "Selected copies go to the Trash. A copy marked Stays syncs to your other devices, or has Finder tags, a Finder comment, or a resource fork the others don’t, and is never moved.",
+        ]
+        for language in try Self.declaredLanguages() {
+            let stays = try #require(Self.value(of: "Stays", in: language, strings))
+            #expect(Self.value(of: "Keep", in: language, strings) != stays, "\(language)")
+            for note in notes {
+                #expect(Self.value(of: note, in: language, strings)?.contains(stays) == true, "\(language): \(note)")
+            }
+        }
+    }
+
     @Test func everyAboutCreditFitsOnOneLine() throws {
         let localizable = try Self.localizable()
         let debugBuild = try Self.strings(in: "Localization/Peel/DebugBuild.xcstrings")
