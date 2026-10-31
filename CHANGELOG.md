@@ -135,6 +135,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - App Folders gives each reason it refuses a folder a sentence of its own.
 - App Folders takes a folder deeper inside an Applications folder than Peel looks, such as the one Unity Hub keeps
   its editors in.
+- Sidebar is the first section of General.
 
 #### Applications
 
@@ -142,6 +143,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Up to date says in its help when Peel last checked, and while the checks are off an old Up to date isn't shown.
 - Forget Receipt is in the More menu of an app's page.
 - An uninstall lists an app's audio plug-ins unselected, since music apps load them on their own.
+- An app with an update waiting shows it in a panel of its own under the app: the version, how to get it, and the start
+  of what is new. Show More… opens all of it in a popover, where a long changelog scrolls.
 
 #### Orphaned Files
 
@@ -160,6 +163,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Clean Up's and Update's notes say what else Homebrew deletes, and when Homebrew goes online on its own.
 - Forget's question names the folders whose links go with a cask's Homebrew receipt.
+- A cask's notes open in full in a popover from Show More…, rather than unfolding on the page.
 
 #### Space
 
@@ -224,6 +228,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - What stays because a sync app keeps its folder in step names the app and the entry it keeps there, such as
   `~/.stfolder`, in a row's note, after Move to Trash, in History's Not Moved, for a folder Build Artifacts won't
   search, and under File Search's count, so an entry left behind by an app you no longer use can be found.
+- The divider between a list and its page stays where it is and can't be dragged: without the sidebar, the list takes
+  the room the sidebar covered.
 
 #### `peel`
 
@@ -318,6 +324,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's receipt stays, unselected, while its package left more outside the app.
 - An app you had already moved to the Trash in Finder can lose its Dock icon too, once the files it left behind move.
 - An app you moved to another folder in Finder loses its Dock icon too when Peel removes it.
+- An app with nothing to say under its name, no version and no date of last use, shows its name alone beside its icon.
+- A version left blank in an app's Info.plist counts as none: the row shows no empty line, and the update check no
+  longer counts every release as newer.
 
 #### Orphaned Files
 
@@ -355,6 +364,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Update Homebrew is offered above lists read before Homebrew's own definitions went.
 - Homebrew's last check is dated by its definitions file too, so a Homebrew that read its API today isn't said to have
   checked a week ago.
+- A notice Homebrew gave no detail for, such as Homebrew didn't say what is installed, shows its title alone, without an
+  empty line under it.
+- When Homebrew stops before writing a Brewfile, File > Export > Brewfile says why in your language.
 
 #### Space
 
@@ -379,6 +391,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A running Spring Boot server's folder stays while something listens on its port, and Homebrew's cache is found where
   `HOMEBREW_CACHE` moves it.
 - Jan's models are found where Jan's own setting moved its data folder.
+- An Xcode archive whose version is left blank shows its build alone.
 
 #### Build Artifacts
 
@@ -396,6 +409,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   macOS installer leaves the selection when the helper can't move it.
 - An excluded app's downloaded update is left out, and macOS installers are found in every app folder and under the
   name Install OS X.
+- A macOS installer whose version is left blank no longer reads Version with nothing after it.
 
 #### Duplicates
 
@@ -440,6 +454,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An input method in use gives the steps that free it, and a plug-in History can't put back says so before it moves.
 - Before a Quick Look generator, an old Internet plug-in such as Flash, or a contextual menu item moves to the Trash,
   the question says that nothing loads it anymore, rather than that apps using it may stop working.
+- A plug-in whose version is left blank shows no empty line under its name.
 
 #### Moving to the Trash from several pages
 
@@ -465,6 +480,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - VoiceOver no longer says Move or Build, the actions macOS names some symbols by: it passes over a folder's symbol
   beside its name, hears Info or Warning for a notice whatever symbol it draws, and Not installed for an app listed in
   Settings that isn't on this Mac.
+- Hiding or showing the sidebar moves only the sidebar: the page keeps its width and place, and the window its size.
+- On macOS 26, with the sidebar hidden, the title bar no longer draws a band and a line across the list and the page.
+- On macOS 27, while the sidebar slides back, the page no longer runs past the window's edge, and the toolbar's last
+  buttons no longer move into its overflow menu for a moment.
 
 ## 1.2.1 (2026-10-25)
 
