@@ -83,10 +83,12 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   updates until Homebrew checks again, with Update Homebrew on the Homebrew page or `brew update` in Terminal, and Peel
   reads Homebrew again once it has. Homebrew can't say at all for a cask that installs whatever is newest each time,
   nor, when its settings leave apps that update themselves to their own updates, for such an app, so those read Can't
-  check for updates too, unless the app names a feed. Rescan in Applications asks about every app again at once. Skip
-  This Version and Never Check This App keep it quiet about the ones you want left alone, and Settings > General lists
-  them under Muted Updates, where Check Again brings their updates back. Turning off Check for app updates there stops
-  the checks, and an app's Up to date, which Peel then no longer renews, goes after a week.
+  check for updates too, unless the app names a feed. Peel asks about each app again on a schedule of its own, less
+  often while nothing changes, and when it opens, about every app it last asked a day ago or more. Rescan in
+  Applications asks about every app again at once. Skip This Version and Never Check This App keep it quiet about the
+  ones you want left alone, and Settings > General lists them under Muted Updates, where Check Again brings their
+  updates back. Turning off Check for app updates there stops the checks, and an app's Up to date, which Peel then no
+  longer renews, goes after a week.
 
 ## Free up disk space
 

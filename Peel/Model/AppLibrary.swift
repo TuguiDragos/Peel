@@ -103,6 +103,9 @@ final class AppLibrary {
         }
     }
     var appsCheckingForUpdates: Set<InstalledApp.ID> { updateRounds.checking }
+    /// Whether a round has asked about apps since Peel opened. The first one also asks about every app whose answer is
+    /// a day old, whatever its schedule says, so opening Peel shows what came out meanwhile.
+    private var hasAskedSinceLaunch = false
     /// The apps with an update when the current round of checks began. The menu bar shows them until the round
     /// ends, rather than a count that climbs as answers arrive seconds apart, and the list draws only them first.
     private var heldUpdates: Set<InstalledApp.ID>? {
@@ -600,6 +603,8 @@ final class AppLibrary {
         // What Homebrew says lasts only a day after its last check, so its casks decide again in every round.
         applyHomebrewStatuses()
         let now = Date.now
+        let isFirstRound = !force && !hasAskedSinceLaunch && !targets.isEmpty
+        if isFirstRound { hasAskedSinceLaunch = true }
         // An app is checked on a schedule kept by its identifier, so an app with none is left to Homebrew's answer.
         let wanted = targets.filter { app in
             guard app.bundleIdentifier != nil, isAskedAboutUpdates(app) else { return false }
@@ -608,7 +613,9 @@ final class AppLibrary {
             guard !appsCheckingForUpdates.contains(app.id) else { return false }
             // An update whose notes are still to be asked for is checked now rather than on its next turn.
             let notesWait = releaseNotes.asks(about: updateStatuses[app.id], of: app, with: updatePreferences)
-            return remembered(app)?.schedule.isDue(at: now) ?? true || notesWait
+            let saved = remembered(app)
+            let isDue = saved?.schedule.isDue(at: now) ?? true
+            return isDue || notesWait || isFirstRound && saved?.isADayOld(at: now) == true
         }
         // The list's own entry, not the caller's: a page that was open through an upgrade still holds the old build.
         .map { app in apps.first { $0.id == app.id } ?? app }

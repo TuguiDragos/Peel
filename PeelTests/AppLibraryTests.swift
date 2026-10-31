@@ -611,6 +611,64 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.releaseNotes.asks("org.example.fed", version: "1.1"))
     }
 
+    /// What an earlier launch kept about `app`: up to date two days ago, and due again only in two days.
+    private func keepAnAnswerTwoDaysOld(about app: InstalledApp, in defaults: UserDefaults) {
+        let day: TimeInterval = 24 * 60 * 60
+        let answered = Date.now - 2 * day
+        let schedule = UpdateSchedule.next(
+            after: .upToDate, following: UpdateSchedule.next(after: .upToDate, from: answered - 2 * day), from: answered
+        )
+        var memories = UpdateMemories()
+        memories.keep(UpdateMemory(status: .upToDate, schedule: schedule, checked: answered, describing: app), for: app)
+        defaults.set(memories.data, forKey: SettingsKey.updateMemory)
+    }
+
+    private let newerFeed = Data("""
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>\
+        <enclosure url="https://feed.example.com/u.zip" sparkle:version="101" sparkle:shortVersionString="1.1" />\
+        </item></channel></rss>
+        """.utf8)
+
+    @Test func theFirstRoundSinceLaunchAsksAgainAboutAnAnswerADayOld() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock { $0 = newerFeed }
+        let earlier = library(with: made.defaults, notesIn: folder)
+        #expect(await earlier.reveal([bundle]))
+        let app = try #require(earlier.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        keepAnAnswerTwoDaysOld(about: app, in: made.defaults)
+
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal([bundle]))
+        await library.checkForUpdates([app])
+        #expect(library.hasUpdate(app))
+    }
+
+    @Test func aLaterRoundLeavesAnAnswerADayOldToItsSchedule() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        let other = try caskApp("Calm", in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock { $0 = newerFeed }
+        let earlier = library(with: made.defaults, notesIn: folder)
+        #expect(await earlier.reveal([bundle]))
+        let app = try #require(earlier.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        keepAnAnswerTwoDaysOld(about: app, in: made.defaults)
+
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal([other]))
+        let calm = try #require(library.apps.first { $0.bundleIdentifier == "org.example.calm" })
+        await library.checkForUpdates([calm])
+        #expect(await library.reveal([bundle]))
+        await library.checkForUpdates([app])
+        #expect(!library.hasUpdate(app))
+    }
+
     @Test func anUpToDateNoCheckRenewsSaysNothingAfterTheLongestWait() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")

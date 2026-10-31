@@ -24,6 +24,17 @@ struct UpdateMemoryTests {
 
     private let schedule = UpdateSchedule.next(after: .upToDate, following: nil)
 
+    @Test func anAnswerIsADayOldFromADayAfterItCame() {
+        let checked = Date(timeIntervalSince1970: 1_800_000_000)
+        let day: TimeInterval = 24 * 60 * 60
+        let answer = UpdateMemory(status: .upToDate, schedule: schedule, checked: checked, describing: app("1.0"))
+        let undated = UpdateMemory(status: .upToDate, schedule: schedule, checked: nil, describing: app("1.0"))
+
+        #expect(!answer.isADayOld(at: checked + day - 1))
+        #expect(answer.isADayOld(at: checked + day))
+        #expect(undated.isADayOld(at: checked))
+    }
+
     /// An answer is about the build it was given for. If the app updates itself while Peel is closed, the
     /// answer about 1.0 is dropped; kept, it would read "2.0 → 2.0" under Updates Available.
     @Test func forgetsAnAnswerAboutAnotherBuild() {

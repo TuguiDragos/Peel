@@ -48,6 +48,12 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         version == app.version && buildVersion == app.buildVersion
     }
 
+    /// Whether the answer came a day or more before `now`, or when isn't known. Opening Peel asks again about such an
+    /// app, whatever its schedule says.
+    public func isADayOld(at now: Date) -> Bool {
+        checked.map { now.timeIntervalSince($0) >= UpdateSchedule.base } ?? true
+    }
+
     /// How long past its due date an entry is kept for an app that is not installed, such as one on a disk that
     /// is not connected. Without a limit, the saved list would keep an entry for every app ever seen.
     static let longestAbsence: TimeInterval = 90 * 24 * 60 * 60

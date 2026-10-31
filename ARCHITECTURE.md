@@ -372,10 +372,11 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   Software Update and Setapp keep them current, whatever feed the bundle carries. A check waits up to 30 seconds for
   a Mac just awake to go online, and one made while it isn't online counts for nothing (`UpdateAnswer.wasOffline`):
   what was known stays and the app is asked at the next round. Every answer that changes nothing makes the next check
-  of that app wait longer, up to a week (`UpdateSchedule`), and `UpdateMemory` keeps the last answer across launches,
-  with the revision of the checker that gave it (`UpdateChecker.revision`): an answer an earlier revision gave about
-  an app it couldn't check, or about one this revision asks nobody about, is dropped, so the app is asked again at
-  the next round.
+  of that app wait longer, up to a week (`UpdateSchedule`), though the first round after Peel opens also asks about
+  every app whose answer is a day old (`UpdateMemory.isADayOld`). `UpdateMemory` keeps the last answer across
+  launches, with the revision of the checker that gave it (`UpdateChecker.revision`): an answer an earlier revision
+  gave about an app it couldn't check, or about one this revision asks nobody about, is dropped, so the app is asked
+  again at the next round.
 - **Orphaned Files.** `OrphanScanner` lists what no installed app claims, under the app Peel saw go when it can
   name it (`AppMemory`), and selects nothing for the person. An app macOS knows on another disk that claims something
   is remembered too (`OrphanScan.appsOnOtherDisks`, `Disks`), so its files stay its own while that disk isn't
