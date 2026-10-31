@@ -151,6 +151,26 @@ struct OrphanScannerTests {
         )
     }
 
+    @Test func aScanThatLandsLeavesOutWhatThePersonGaveAwayMeanwhile() {
+        let item = { (name: String) in
+            OrphanItem(
+                url: URL(filePath: "/Users/me/Library/Caches/\(name)"), kind: .caches, size: 1, modificationDate: nil,
+                requiresPrivileges: false
+            )
+        }
+        let groups = ["org.example.given", "org.example.kept", "org.example.gone"].map {
+            OrphanGroup(identifier: $0, items: [item($0)])
+        }
+        let scan = OrphanScan(groups: groups, unreadableLocations: [])
+
+        let left = scan.leavingOut(
+            given: ["org.example.given": "com.installed.app", "org.example.gone": "org.example.notinstalled"],
+            installedApps: installed
+        )
+
+        #expect(left.groups.map(\.identifier) == ["org.example.kept", "org.example.gone"])
+    }
+
     @Test func aTwoPartIdentifierNoAppDeclaredIsNeverAskedAboutAsAPrefix() {
         let asked = Mutex<[String]>([])
         let ownership = AppOwnership(installedApps: [], goneApps: ["com.example.gone"]) { identifier in

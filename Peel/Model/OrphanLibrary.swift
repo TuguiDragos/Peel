@@ -69,7 +69,7 @@ final class OrphanLibrary {
         let installedApps = library.apps
         let owners = OrphanOwners().load()
         self.owners = owners
-        guard let result = await scanRun.run({
+        guard let found = await scanRun.run({
             let remembered = await AppMemory().remember(installedApps)
             // What is currently running is better evidence than anything worked out from what is installed: a
             // helper or an agent can keep a folder that no app bundle claims.
@@ -86,6 +86,8 @@ final class OrphanLibrary {
             }
             return scan
         }), library.readEverything else { return }
+        // The owners this scan began with may have grown while it ran.
+        let result = found.leavingOut(given: self.owners ?? [:], installedApps: library.apps)
         let remainingURLs = Set(result.groups.flatMap(\.items).filter { $0.leftAlone == nil }.map(\.url))
         scan = result
         scannedAgainst = listing

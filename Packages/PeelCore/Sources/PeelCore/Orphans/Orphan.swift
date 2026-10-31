@@ -118,8 +118,20 @@ public struct OrphanScan: Sendable {
 
     /// The same scan without the group `id`, as when the person said it belongs to an app.
     public func without(_ id: OrphanGroup.ID) -> OrphanScan {
+        keeping { $0.id != id }
+    }
+
+    /// The same scan without the groups `owners` give to an app of `installedApps`, for a scan that ran while the
+    /// person gave one away.
+    public func leavingOut(given owners: [String: String], installedApps: [InstalledApp]) -> OrphanScan {
+        let here = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
+        let given = Set(owners.filter { here.contains($0.value.lowercased()) }.keys.map { $0.lowercased() })
+        return keeping { !OrphanScanner.isInAGroup($0.identifier, among: given) }
+    }
+
+    private func keeping(_ isKept: (OrphanGroup) -> Bool) -> OrphanScan {
         OrphanScan(
-            groups: groups.filter { $0.id != id }, unreadableLocations: unreadableLocations,
+            groups: groups.filter(isKept), unreadableLocations: unreadableLocations,
             needsFullDiskAccess: needsFullDiskAccess, cutShortLocations: cutShortLocations,
             forAnAdministrator: forAnAdministrator, appsOnOtherDisks: appsOnOtherDisks
         )
