@@ -17,7 +17,7 @@ struct DuplicateFinderTests {
     @Test func aReadThatNeverAnswersHoldsNeitherAStoppedScanNorItsThreads() async throws {
         let stuck = Stuck()
         let reading = Task {
-            await FileDigest.many(Array(0..<8)) { _ -> ContentDigest? in
+            await FileDigest.many(Array(0..<8)) { _, _ -> ContentDigest? in
                 stuck.hold()
                 return nil
             }
@@ -29,6 +29,34 @@ struct DuplicateFinderTests {
 
         #expect(stuck.isStillHeld, "the stopped scan waited for its reads to answer")
         stuck.letGo()
+    }
+
+    @Test func aStoppedScanStopsReadingTheFileItIsReadingWhole() async throws {
+        let directory = try TemporaryDirectory()
+        let length = 64 << 20
+        let file = try directory.file("big.bin", contents: Data(count: length))
+        var info = stat()
+        #expect(lstat(file.path(percentEncoded: false), &info) == 0)
+        let identity = FileIdentity(info)
+        let bytesRead = Mutex(0)
+        let stop = Mutex<(@Sendable () -> Void)?>(nil)
+        let (ended, end) = AsyncStream.makeStream(of: Void.self)
+        let reading = Task {
+            await FileDigest.many([file]) { url, isGivenUp in
+                defer { end.finish() }
+                return FileDigest.full(of: url, identity: identity, isGivenUp: isGivenUp) { count in
+                    bytesRead.withLock { $0 += count }
+                    stop.withLock { $0 }?()
+                    while !isGivenUp() { usleep(100) }
+                }
+            }
+        }
+        stop.withLock { $0 = { reading.cancel() } }
+
+        for await _ in ended {}
+        _ = await reading.value
+
+        #expect(bytesRead.withLock { $0 } < length)
     }
 
     @Test func aWalkThatNeverAnswersHoldsNeitherAStoppedScanNorItsThreads() async throws {

@@ -21,7 +21,7 @@ enum FileDigest {
     /// reads still under way are given up and no new read starts.
     static func many<Item: Sendable>(
         _ items: [Item],
-        digest: @escaping @Sendable (Item) -> ContentDigest?,
+        digest: @escaping @Sendable (Item, _ isGivenUp: @escaping @Sendable () -> Bool) -> ContentDigest?,
         onCompletion: (Int) -> Void = { _ in }
     ) async -> [(item: Item, digest: ContentDigest)] {
         await withTaskGroup(of: (item: Item, digest: ContentDigest)?.self) { group in
@@ -48,13 +48,18 @@ enum FileDigest {
 
     private static func read<Item: Sendable>(
         _ item: Item,
-        _ digest: @escaping @Sendable (Item) -> ContentDigest?
+        _ digest: @escaping @Sendable (Item, _ isGivenUp: @escaping @Sendable () -> Bool) -> ContentDigest?
     ) async -> (item: Item, digest: ContentDigest)? {
-        (await BlockingWork.run { _ in digest(item) } ?? nil).map { (item: item, digest: $0) }
+        (await BlockingWork.run { digest(item, $0) } ?? nil).map { (item: item, digest: $0) }
     }
 
     /// SHA-256 of the first and last `sampleLength` bytes, or of the whole file when it isn't longer than both.
-    static func sample(of url: URL, identity: FileIdentity, known: KnownDigests? = nil) -> ContentDigest? {
+    static func sample(
+        of url: URL,
+        identity: FileIdentity,
+        known: KnownDigests? = nil,
+        isGivenUp: () -> Bool = { false }
+    ) -> ContentDigest? {
         if let digest = known?.sample(of: identity) { return digest }
         // Each buffer is only as large as the read it serves, not `chunkLength`: this pass runs for every
         // candidate and reads at most 128 KiB of each.
@@ -69,7 +74,7 @@ enum FileDigest {
                         into: &hasher
                     )
             }
-            : whole(url, identity: identity)
+            : whole(url, identity: identity, isGivenUp: isGivenUp)
         if let digest { known?.keep(sample: digest, of: identity) }
         return digest
     }
@@ -78,15 +83,18 @@ enum FileDigest {
         of url: URL,
         identity: FileIdentity,
         known: KnownDigests? = nil,
+        isGivenUp: () -> Bool = { false },
         onRead: (Int) -> Void = { _ in }
     ) -> ContentDigest? {
         if let digest = known?.full(of: identity) { return digest }
-        let digest = whole(url, identity: identity, onRead: onRead)
+        let digest = whole(url, identity: identity, isGivenUp: isGivenUp, onRead: onRead)
         if let digest { known?.keep(full: digest, of: identity) }
         return digest
     }
 
-    private static func whole(_ url: URL, identity: FileIdentity, onRead: (Int) -> Void = { _ in }) -> ContentDigest? {
+    private static func whole(
+        _ url: URL, identity: FileIdentity, isGivenUp: () -> Bool, onRead: (Int) -> Void = { _ in }
+    ) -> ContentDigest? {
         read(
             url,
             bufferLength: Int(min(Int64(chunkLength), max(identity.size, 1))),
@@ -94,7 +102,8 @@ enum FileDigest {
         ) { descriptor, buffer, hasher in
             var offset: Int64 = 0
             while offset < identity.size {
-                guard !Task.isCancelled else { return false }
+                // This runs on `BlockingWork`'s queue, where no task is current and `Task.isCancelled` is always false.
+                guard !isGivenUp() else { return false }
                 let count = Int(min(Int64(buffer.count), identity.size - offset))
                 guard readFully(descriptor, count: count, offset: offset, buffer: buffer, into: &hasher) else {
                     return false

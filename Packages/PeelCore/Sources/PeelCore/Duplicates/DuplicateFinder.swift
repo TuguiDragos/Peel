@@ -214,7 +214,7 @@ public struct DuplicateFinder: Sendable {
         let comparing = ReportThrottle()
         let sampled = await FileDigest.many(
             sameSize,
-            digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known) }
+            digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known, isGivenUp: $1) }
         ) { completed in
             if comparing.allows(isLast: completed == sameSize.count) {
                 progress(.comparing(filesCompared: completed, filesToCompare: sameSize.count))
@@ -236,8 +236,10 @@ public struct DuplicateFinder: Sendable {
             bytesToRead: FileDigest.bytesToRead(toVerify.map(\.identity), known: known),
             report: progress
         )
-        let verified = await FileDigest.many(toVerify) { candidate in
-            FileDigest.full(of: candidate.url, identity: candidate.identity, known: known, onRead: reading.add)
+        let verified = await FileDigest.many(toVerify) { candidate, isGivenUp in
+            FileDigest.full(
+                of: candidate.url, identity: candidate.identity, known: known, isGivenUp: isGivenUp, onRead: reading.add
+            )
         }
         guard !Task.isCancelled else { throw CancellationError() }
 

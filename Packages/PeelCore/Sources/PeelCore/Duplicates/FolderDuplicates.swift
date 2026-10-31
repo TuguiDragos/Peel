@@ -79,7 +79,7 @@ struct FolderDuplicates: Sendable {
         let comparing = ReportThrottle()
         let sampled = await FileDigest.many(
             files,
-            digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known) }
+            digest: { FileDigest.sample(of: $0.url, identity: $0.identity, known: known, isGivenUp: $1) }
         ) { completed in
             if comparing.allows(isLast: completed == files.count) {
                 progress(.comparing(filesCompared: completed, filesToCompare: files.count))
@@ -94,8 +94,10 @@ struct FolderDuplicates: Sendable {
             bytesToRead: FileDigest.bytesToRead(toRead.map(\.identity), known: known),
             report: progress
         )
-        let read = await FileDigest.many(toRead) { file in
-            FileDigest.full(of: file.url, identity: file.identity, known: known, onRead: reading.add)
+        let read = await FileDigest.many(toRead) { file, isGivenUp in
+            FileDigest.full(
+                of: file.url, identity: file.identity, known: known, isGivenUp: isGivenUp, onRead: reading.add
+            )
         }
         guard !Task.isCancelled else { throw CancellationError() }
         var contents = samples.filter { !FileDigest.isSampled(size: $0.key.size) }
