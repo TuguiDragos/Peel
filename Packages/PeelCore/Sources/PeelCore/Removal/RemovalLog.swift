@@ -125,8 +125,9 @@ public actor RemovalLog {
         url.isMissing || BoundedRead.opens(url, maximum: maximumBytes)
     }
 
-    /// Whether a removal could be recorded in History at `url` now: the folder it is written into can be written, and
-    /// its disk has room for the copy a safe write makes of the whole file, with a megabyte to spare.
+    /// Whether a removal could be recorded in History at `url` now: the folder it is written into can be written, its
+    /// disk has room for the copy a safe write makes of the whole file, with a megabyte to spare, and the journal
+    /// beside it can take what moves meanwhile.
     public static func canBeWritten(
         at url: URL = RemovalHistory.defaultURL,
         freeSpace: (URL) -> UInt64? = RemovalLog.freeSpace(at:)
@@ -135,7 +136,7 @@ public actor RemovalLog {
         while folder.isMissing, folder.path(percentEncoded: false) != "/" { folder = folder.deletingLastPathComponent() }
         guard access(folder.path(percentEncoded: false), W_OK) == 0, let free = freeSpace(folder) else { return false }
         let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map { UInt64($0) } ?? 0
-        return free >= size + 1_000_000
+        return free >= size + 1_000_000 && RemovalJournal(beside: url).canBeWritten
     }
 
     /// The space free on the disk holding `folder`, as `statfs(2)` gives it.
@@ -199,6 +200,9 @@ public actor RemovalLog {
     /// lines go. An item History already has is not recorded again: a process may have stopped after writing
     /// History and before letting its lines go.
     private func takingInInterrupted(_ records: [RemovalRecord]) -> [RemovalRecord] {
+        if let setAside = journal.setAsideIfUnreadable() {
+            note(.damaged(setAside: setAside))
+        }
         let left = journal.left()
         guard !left.isEmpty else { return records }
         let recorded = Set(records.map { RemovalJournal.Key($0.trashedItem) })
@@ -212,7 +216,9 @@ public actor RemovalLog {
             updated = written
             RemovalTotals.change(at: totals) { $0.add(interrupted) }
         }
-        journal.forget(Set(left))
+        if flush(url.path(percentEncoded: false)) {
+            journal.forget(Set(left))
+        }
         return updated
     }
 

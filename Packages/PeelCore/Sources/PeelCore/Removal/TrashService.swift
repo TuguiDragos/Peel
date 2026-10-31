@@ -779,6 +779,7 @@ public struct TrashService: Sendable {
     func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
         let failure = await moveBack(item, canUseHelper: canUseHelper)
         if failure == nil {
+            journal?.forget([item])
             // The label comes from History, which any process of the user can rewrite, so the job starts only as the
             // file now back in place declares it.
             if let label = item.stoppedJob,

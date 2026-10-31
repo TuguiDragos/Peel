@@ -52,6 +52,8 @@ struct RemovalJournal: Sendable {
         var record: RemovalRecord? = nil
         /// The part of the removal the item moved in, when the removal was recorded a part at a time.
         var part: RemovalPart? = nil
+        /// The disk the item moved on, read then: that disk may be gone when the line is taken in.
+        var disk: TrashedDisk? = nil
 
         /// History's record of the item: the one kept here, or else one of its part, its size not known, or else
         /// that of an interrupted removal, which names no tool, since which tool moved the item is not known.
@@ -59,7 +61,8 @@ struct RemovalJournal: Sendable {
             if let record { return record }
             let part = part ?? RemovalPart(source: "Interrupted removal", sourceKey: "interrupted", tool: "")
             return RemovalRecord(
-                batch: batch, item: item, size: nil, source: part.source, sourceKey: part.sourceKey, tool: part.tool
+                batch: batch, item: item, size: nil, source: part.source, sourceKey: part.sourceKey, tool: part.tool,
+                disk: disk
             )
         }
     }
@@ -88,6 +91,22 @@ struct RemovalJournal: Sendable {
         self.history = history
     }
 
+    /// Whether a line can be written here: there is no journal yet, or it opens as the file it should be.
+    var canBeWritten: Bool {
+        url.isMissing || (canBeRead && access(url.path(percentEncoded: false), W_OK) == 0)
+    }
+
+    private var canBeRead: Bool {
+        BoundedRead.opens(url, maximum: Self.maximumBytes)
+    }
+
+    /// Keeps a journal that can't be read beside a new one, under another name, and answers that name: while it stands
+    /// in its place, what a removal cut short leaves behind would be lost.
+    func setAsideIfUnreadable() -> URL? {
+        guard !url.isMissing, !canBeRead else { return nil }
+        return DamagedFile.setAside(url)
+    }
+
     /// Whether History can be read, and so take in what is written here.
     var historyCanBeRead: Bool {
         RemovalLog.canBeRead(at: history)
@@ -105,7 +124,12 @@ struct RemovalJournal: Sendable {
         by writer: Writer = .current
     ) {
         let journal = url.path(percentEncoded: false)
-        let entry = { item in Entry(writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part) }
+        let entry = { item in
+            Entry(
+                writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part,
+                disk: TrashedDisk(of: item.trashedURL)
+            )
+        }
         let lines = items
             .filter { !PathComponents.isPath(journal, atOrInside: $0.originalURL.path(percentEncoded: false)) }
             .compactMap { item in (try? Self.encoder.encode(entry(item))) }
@@ -189,9 +213,11 @@ struct RemovalJournal: Sendable {
     }
 
     private func read() -> [Entry] {
-        guard let data = BoundedRead.data(at: url, maximum: 64 * 1_024 * 1_024) else { return [] }
+        guard let data = BoundedRead.data(at: url, maximum: Self.maximumBytes) else { return [] }
         return data.split(separator: UInt8(ascii: "\n")).compactMap { try? Self.decoder.decode(Entry.self, from: $0) }
     }
+
+    private static let maximumBytes = 64 * 1_024 * 1_024
 
     private static let encoder: JSONEncoder = {
         let encoder = JSONEncoder()

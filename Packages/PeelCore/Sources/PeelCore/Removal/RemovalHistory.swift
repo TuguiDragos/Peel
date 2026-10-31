@@ -33,13 +33,14 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         source: String,
         sourceKey: String? = nil,
         tool: String,
-        sharedStorage: Bool? = nil
+        sharedStorage: Bool? = nil,
+        disk: TrashedDisk? = nil
     ) {
         self.id = id
         self.batch = batch
         originalURL = item.originalURL
         trashedURL = item.trashedURL
-        disk = TrashedDisk(of: item.trashedURL)
+        self.disk = disk ?? TrashedDisk(of: item.trashedURL)
         date = item.date
         identity = item.identity
         self.size = size

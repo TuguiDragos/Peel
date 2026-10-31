@@ -133,6 +133,100 @@ struct RemovalJournalTests {
         #expect(flushed.withLock { $0.first?.waiting } == 1, "the journal let the item go before History was on the drive")
     }
 
+    @Test func historyIsOnTheDriveBeforeTheJournalLetsGoOfARemovalCutShort() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        journal.note([item("com.example.app", in: directory)], batch: UUID(), by: try endedProcess())
+        let flushed = Mutex<[Int]>([])
+        let log = RemovalLog(url: history) { _ in
+            flushed.withLock { $0.append(journal.entries().count) }
+            return true
+        }
+
+        _ = await log.load()
+
+        #expect(flushed.withLock { $0 } == [1], "the journal let the item go before History was on the drive")
+        #expect(journal.entries().isEmpty)
+    }
+
+    @Test func aRemovalCutShortStaysInTheJournalWhileHistoryIsNotOnTheDrive() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let moved = item("com.example.app", in: directory)
+        journal.note([moved], batch: UUID(), by: try endedProcess())
+        let log = RemovalLog(url: history) { _ in false }
+
+        let first = await log.load()
+        let second = await log.load()
+
+        #expect(journal.entries().count == 1)
+        #expect(first.records?.count == 1)
+        #expect(second.records?.count == 1, "it was taken in twice")
+    }
+
+    @Test func nothingMovesWhileTheJournalCannotBeWritten() throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        try FileManager.default.createDirectory(at: journal.url, withIntermediateDirectories: true)
+
+        #expect(!RemovalLog.canBeWritten(at: history))
+        #expect(!journal.historyCanBeWritten)
+    }
+
+    @Test func aJournalThatCannotBeReadIsKeptAsideAndSaid() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        try FileManager.default.createDirectory(at: journal.url, withIntermediateDirectories: true)
+
+        let outcome = await RemovalLog(url: history).load()
+
+        guard case .damaged(let aside) = outcome.problem else {
+            Issue.record("nothing said: \(String(describing: outcome.problem))")
+            return
+        }
+        #expect(aside.isThere)
+        #expect(journal.url.isMissing)
+        #expect(RemovalLog.canBeWritten(at: history))
+    }
+
+    @Test func anItemPutBackLeavesTheJournal() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "home/Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let trash = try directory.directory("home/.Trash")
+        let file = try directory.file("home/Library/Caches/com.example.app/file", bytes: 10)
+        let folder = file.deletingLastPathComponent()
+        let service = service(in: directory, journal: journal) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let moved = await service.trash([folder])
+        let item = try #require(moved.trashed.first)
+        #expect(journal.entries().count == 1)
+
+        #expect(await service.restore(item) == nil)
+
+        #expect(journal.entries().isEmpty, "it would come back as a removal whose items are no longer in the Trash")
+    }
+
+    @Test func anItemsDiskIsTheOneItMovedOn() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try JSONDecoder().decode(
+            TrashedDisk.self, from: Data(#"{"volume": "ABC", "path": ".Trashes/501/file"}"#.utf8)
+        )
+        let entry = RemovalJournal.Entry(
+            writer: .current, batch: UUID(), item: item("com.example.app", in: directory), disk: disk
+        )
+
+        #expect(entry.recordToTakeIn.disk == disk)
+    }
+
     /// An item History already has is never recorded twice, as when a process wrote History and stopped before it
     /// could let the journal go.
     @Test func anItemHistoryHasIsNotRecordedAgain() async throws {
