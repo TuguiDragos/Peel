@@ -575,6 +575,99 @@ struct HistoryCommandTests {
         #expect(failure?.description == asked)
     }
 
+    private func restoring(
+        _ record: RemovalRecord, _ flag: String, from logs: (removals: RemovalLog, refusals: RefusalLog),
+        in directory: borrowing TemporaryDirectory
+    ) async throws -> (said: String, failure: (any Error)?) {
+        let service = service(in: directory)
+        let collected = Output.Collected()
+        let command: RestoreCommand = try command(["restore", String(record.batch.uuidString.prefix(8)), flag])
+        let failure = await Output.$collected.withValue(collected) { () async -> (any Error)? in
+            do {
+                try await command.run(in: logs.removals, using: service)
+                return nil
+            } catch {
+                return error
+            }
+        }
+        return (collected.output + collected.notes, failure)
+    }
+
+    @Test(.permissionsHold) func aRestoreDoesNotCallGoneWhatPeelCannotLookAt() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let taken = try removal(in: directory)
+        let locked = try directory.file("home/.Trash/locked/report.pdf")
+        let unseen = RemovalRecord(
+            batch: taken.record.batch,
+            item: TrashedItem(
+                originalURL: directory.url.appending(path: "home/Documents/other.pdf"), trashedURL: locked, date: .now
+            ),
+            size: 16, source: "Editor", tool: "applications"
+        )
+        _ = await logs.removals.add([taken.record, unseen])
+        try directory.setPermissions(0, of: "home/.Trash/locked")
+        defer { try? directory.setPermissions(0o755, of: "home/.Trash/locked") }
+
+        let part = try await restoring(taken.record, "--dry-run", from: logs, in: directory)
+        #expect(part.said.contains("1 item Peel can't look at in the Trash right now stays listed."))
+        #expect(!part.said.contains("no longer in the Trash"))
+
+        try directory.setPermissions(0o755, of: "home/.Trash/locked")
+        try FileManager.default.removeItem(at: taken.record.trashedURL)
+        try directory.setPermissions(0, of: "home/.Trash/locked")
+
+        let none = try await restoring(taken.record, "--dry-run", from: logs, in: directory)
+        #expect((none.failure as? CommandFailure)?.description
+            == "Peel can't look in the Trash right now, so it can't say what could go back.")
+    }
+
+    @Test func saysSoWhenEverythingLeftIsRefused() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let taken = try removal(in: directory)
+        try directory.file("home/Documents/report.pdf", bytes: 1)
+        _ = await logs.removals.add([taken.record])
+
+        let dry = try await restoring(taken.record, "--dry-run", from: logs, in: directory)
+        let real = try await restoring(taken.record, "-y", from: logs, in: directory)
+
+        let nothing = "Nothing of that removal can be put back from here."
+        #expect(dry.said.contains(nothing))
+        #expect(!dry.said.contains("Dry run"))
+        #expect(dry.failure == nil)
+        #expect(real.said.contains(nothing))
+        #expect(real.failure != nil)
+    }
+
+    @Test(.permissionsHold) func putsNothingBackWhileHistoryCannotBeWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let taken = try removal(in: directory)
+        _ = await logs.removals.add([taken.record])
+        try directory.setPermissions(0o500, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+
+        let answer = try await restoring(taken.record, "-y", from: logs, in: directory)
+
+        #expect((answer.failure as? CommandFailure)?.description.contains("History can't be written") == true)
+        #expect(!FileManager.default.fileExists(atPath: taken.original.path(percentEncoded: false)))
+    }
+
+    @Test func saysHowManyRemovalsNotMovedNoLongerLists() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        await logs.refusals.add(
+            [TrashFailure(url: URL(filePath: "/Users/me/kept.bin"), reason: .guarded(.excluded))],
+            source: "Editor", tool: "applications"
+        )
+        RemovalTotals.change(at: RemovalTotals.url(beside: logs.refusals.url)) {
+            $0.countRefusalsNoLongerListed(2)
+        }
+
+        #expect(try await noted(["history", "--refused"], from: logs).contains("no longer lists 2 older removals"))
+    }
+
     @Test func aDryRunPutsNothingBack() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

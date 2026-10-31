@@ -143,7 +143,9 @@ struct HistoryDetailView: View {
                 .textSelection(.enabled)
                 .help(Text(verbatim: batch.title))
         } details: {
-            Text("Moved to the Trash \(batch.date, format: .relative(presentation: .named)), on \(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()).")
+            TimelineView(.everyMinute) { _ in
+                Text("Moved to the Trash \(batch.date, format: .relative(presentation: .named)), on \(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()).")
+            }
                 .font(.callout)
                 .foregroundStyle(.secondary)
             FlowLayout {

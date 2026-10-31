@@ -163,6 +163,8 @@ final class RemovalHistoryStore {
     private(set) var problem: RemovalLogProblem?
     /// How many older removals History no longer lists, having left them out past its limits.
     private(set) var noLongerListed = 0
+    private(set) var refusalsNoLongerListed = 0
+    private var toldRefusalsNoLongerListed: Int?
     /// The count History's page said last, read from the preferences once History has left something out.
     private var toldNoLongerListed: Int?
     /// Whether History cannot be read, which holds every removal back, as the Trash service does. Known without
@@ -264,6 +266,18 @@ final class RemovalHistoryStore {
         noLongerListed > 0 && noLongerListed != toldNoLongerListed ? noLongerListed : nil
     }
 
+    /// How many older removals Not Moved no longer lists, while History's page has not said that count yet.
+    var untoldRefusalsNoLongerListed: Int? {
+        refusalsNoLongerListed > 0 && refusalsNoLongerListed != toldRefusalsNoLongerListed
+            ? refusalsNoLongerListed : nil
+    }
+
+    func tellRefusalsNoLongerListed(_ count: Int) {
+        guard toldRefusalsNoLongerListed != count else { return }
+        toldRefusalsNoLongerListed = count
+        defaults.set(count, forKey: SettingsKey.toldRefusalsNoLongerListed)
+    }
+
     /// Notes that History's page said it no longer lists `count` older removals, so it says each count once.
     func tellNoLongerListed(_ count: Int) {
         guard toldNoLongerListed != count else { return }
@@ -301,8 +315,16 @@ final class RemovalHistoryStore {
         await showRefusals(await refusals.load())
     }
 
-    private func showRefusals(_ read: (records: [RefusalRecord]?, problem: RefusalLogProblem?)) async {
+    private func showRefusals(
+        _ read: (records: [RefusalRecord]?, problem: RefusalLogProblem?, noLongerListed: Int)
+    ) async {
         refusalProblem = read.problem
+        if refusalsNoLongerListed != read.noLongerListed {
+            if toldRefusalsNoLongerListed == nil {
+                toldRefusalsNoLongerListed = defaults.integer(forKey: SettingsKey.toldRefusalsNoLongerListed)
+            }
+            refusalsNoLongerListed = read.noLongerListed
+        }
         refusalChange += 1
         let change = refusalChange
         let records = read.records ?? []

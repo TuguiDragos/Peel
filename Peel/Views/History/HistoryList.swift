@@ -32,6 +32,7 @@ struct HistoryList: View {
 
     private var hasNotices: Bool {
         history.shownProblem != nil || history.refusalProblem != nil || history.untoldNoLongerListed != nil
+            || history.untoldRefusalsNoLongerListed != nil
     }
 
     var body: some View {
@@ -78,6 +79,15 @@ struct HistoryList: View {
                     ) { EmptyView() }
                     .transition(.opacity)
                     .onDisappear { history.tellNoLongerListed(count) }
+                }
+                if let count = history.untoldRefusalsNoLongerListed {
+                    Notice(
+                        title: Text("Not Moved no longer lists ^[\(count) older removal](inflect: true)"),
+                        detail: Text("What each refused stayed where it was."),
+                        kind: .note
+                    ) { EmptyView() }
+                    .transition(.opacity)
+                    .onDisappear { history.tellRefusalsNoLongerListed(count) }
                 }
             }
             .padding(.horizontal, 12)
@@ -215,7 +225,9 @@ private struct HistoryBatchRow: View {
                 Text("^[\(batch.records.count) item](inflect: true)")
                 Text(verbatim: batch.size.text)
                     .monospacedDigit()
-                Text(batch.date, format: .relative(presentation: .named))
+                TimelineView(.everyMinute) { _ in
+                    Text(batch.date, format: .relative(presentation: .named))
+                }
                     .help(Text(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()))
             }
             .lineLimit(1)
@@ -235,7 +247,9 @@ private struct RefusalBatchRow: View {
         } details: {
             HStack(spacing: 6) {
                 Text("^[\(batch.records.count) item](inflect: true) not moved")
-                Text(batch.date, format: .relative(presentation: .named))
+                TimelineView(.everyMinute) { _ in
+                    Text(batch.date, format: .relative(presentation: .named))
+                }
                     .help(Text(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()))
             }
             .lineLimit(1)

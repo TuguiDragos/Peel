@@ -183,7 +183,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      until Start Over, on the History page, sets the unreadable file aside, and while it cannot be written, its folder
      closed or its disk without room for the copy a safe write makes, nothing moves either (`RemovalLog.canBeWritten`).
    - What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not Moved, one
-     removal to an entry.
+     removal to an entry, the latest 5,000 items at most, leaving the oldest out whole and counting them in
+     `totals.json`, so its page and `peel history --refused` say how many.
    - What only an administrator can move, from a place the helper doesn't serve, stays where it is, and once the
      app has moved, an uninstall records it (`left-for-an-administrator.json`, through `LeftForAnAdministrator`),
      so Orphaned Files lists it under Needs an Administrator, judged again as its scan judges what it finds.

@@ -82,10 +82,10 @@ public actor RefusalLog {
 
     /// The records, with what is still to be said about the file (`note`). Nil records when the file could not be
     /// read: what was refused is then not known, which is not the same as nothing refused.
-    public func load() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?) {
+    public func load() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?, noLongerListed: Int) {
         FileLock.whileReading(beside: url) {
             let records = current()
-            return (records, problem)
+            return (records, problem, RemovalTotals.read(beside: url).refusalsNoLongerListed)
         }
     }
 
@@ -103,13 +103,18 @@ public actor RefusalLog {
         guard !records.isEmpty else { return nil }
         return FileLock.whileHeld(beside: url) {
             guard let existing = current() else { return problem }
-            let kept = Batches.trimmed(
-                existing + records, maximum: Self.maximumRecords, batch: { $0.batch ?? $0.id }, date: \.date,
-                keeping: [batch]
+            let every = existing + records
+            let trimmed = Batches.trimmed(
+                every, maximum: Self.maximumRecords, batch: { $0.batch ?? $0.id }, date: \.date, keeping: [batch]
             )
-            guard write(kept, keeping: [batch]) else {
+            guard write(trimmed, keeping: [batch]) else {
                 note(.couldNotRecord)
                 return problem
+            }
+            let listed = Set((kept?.records ?? trimmed).map { $0.batch ?? $0.id })
+            let leftOut = Set(every.map { $0.batch ?? $0.id }).subtracting(listed).count
+            if leftOut > 0 {
+                RemovalTotals.change(at: RemovalTotals.url(beside: url)) { $0.countRefusalsNoLongerListed(leftOut) }
             }
             if problem == .couldNotRecord { problem = nil }
             return problem

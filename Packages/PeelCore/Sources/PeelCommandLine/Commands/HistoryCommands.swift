@@ -31,6 +31,8 @@ struct Batch {
     var restorable: [RemovalRecord] { records.filter { $0.isOnAConnectedDisk(disks) && $0.isStillInTrash } }
     /// The records on a disk that isn't connected: their items may still be in its Trash.
     var waiting: [RemovalRecord] { records.filter { !$0.isOnAConnectedDisk(disks) } }
+    /// The records on a connected disk that macOS won't let Peel look at, which may still be in the Trash.
+    var notKnown: [RemovalRecord] { records.filter { $0.isOnAConnectedDisk(disks) && $0.standing == .notKnown } }
 
     /// Each record where its disk is mounted now.
     static func all(in records: [RemovalRecord], disks: MountedDisks = .now()) -> [Batch] {
@@ -298,6 +300,10 @@ struct HistoryCommand: AsyncParsableCommand {
         } else {
             Output.table(Self.rows(for: removals.flatMap(\.records)))
         }
+        if read.noLongerListed > 0 {
+            let older = Output.count(read.noLongerListed, "older removal", "older removals")
+            Output.note("This list no longer lists \(older). What each refused stayed where it was.")
+        }
     }
 }
 
@@ -367,8 +373,11 @@ struct RestoreCommand: AsyncParsableCommand {
         let elsewhere = waiting.isEmpty
             ? nil
             : "\(items) on a disk that isn't connected. Connect it and run the command again."
+        let notKnown = batch.notKnown
         guard !inTheTrash.isEmpty else {
-            let nothing = "Nothing of that removal is in the Trash anymore, so there is nothing to put back."
+            let nothing = notKnown.isEmpty
+                ? "Nothing of that removal is in the Trash anymore, so there is nothing to put back."
+                : "Peel can't look in the Trash right now, so it can't say what could go back."
             throw CommandFailure(elsewhere ?? nothing)
         }
 
@@ -376,10 +385,15 @@ struct RestoreCommand: AsyncParsableCommand {
             Output.table(going.map { [Output.size($0.size), Output.path($0.originalURL)] })
             Output.line("Total: \(Output.size(going.totalSize))")
         }
-        let gone = batch.records.count - inTheTrash.count - waiting.count
+        let gone = batch.records.count - inTheTrash.count - waiting.count - notKnown.count
         if gone > 0 {
             let items = Output.count(gone, "item is", "items are")
             Output.note("\(items) no longer in the Trash and can't be put back.")
+        }
+        if !notKnown.isEmpty {
+            let items = notKnown.count == 1 ? "1 item Peel can't look at in the Trash right now stays" :
+                "\(Output.number(notKnown.count)) items Peel can't look at in the Trash right now stay"
+            Output.note("\(items) listed.")
         }
         if let elsewhere {
             Output.note(elsewhere)
@@ -388,11 +402,19 @@ struct RestoreCommand: AsyncParsableCommand {
             Output.note("\(Output.plain(Output.path(record.originalURL))) stays: \(failure.summary)")
         }
 
+        guard !going.isEmpty else {
+            Output.line("Nothing of that removal can be put back from here.")
+            if dryRun { return }
+            throw ExitCode.failure
+        }
         guard !dryRun else {
             Output.line("Dry run: nothing was moved.")
             return
         }
-        guard !going.isEmpty else { throw ExitCode.failure }
+        // As for a move: History would go on listing what came back.
+        guard RemovalLog.canBeWritten(at: log.url) else {
+            throw CommandFailure("Nothing was put back. \(TrashFailure.Reason.historyCannotBeWritten.summary).")
+        }
         if !yes {
             try Output.confirm("Put \(Output.count(going.count, "item", "items")) back?")
         }

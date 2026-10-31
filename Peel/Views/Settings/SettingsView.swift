@@ -139,6 +139,7 @@ enum SettingsKey {
     static let toldDiskIsNearlyFull = "lowDiskSpace.told"
     /// How many older removals History's page last said it no longer lists.
     static let toldNoLongerListed = "history.toldNoLongerListed"
+    static let toldRefusalsNoLongerListed = "history.toldRefusalsNoLongerListed"
     /// The tools the person chose to show or leave out of the sidebar (`SidebarChoices`).
     static let sidebarTools = "sidebar.tools"
     /// The tools left out before each tool had a default, carried into `sidebarTools` once.

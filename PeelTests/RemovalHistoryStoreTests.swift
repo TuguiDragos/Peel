@@ -236,6 +236,29 @@ struct RemovalHistoryStoreTests {
         #expect(records.allSatisfy { history.failures[$0.id] == .needsHelper })
     }
 
+    @Test func saysOnceHowManyRemovalsNotMovedNoLongerLists() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true }, defaults: made.defaults
+        )
+        await history.load()
+        #expect(history.untoldRefusalsNoLongerListed == nil)
+
+        let totals = #"{"apps":0,"biggest":{"isComplete":true,"known":0},"bytes":{"isComplete":true,"known":0},"items":0,"refusalsLeftOut":1,"tookInEarlier":false}"#
+        try Data(totals.utf8).write(to: folder.appending(path: "totals.json"))
+        await history.load()
+        #expect(history.untoldRefusalsNoLongerListed == 1)
+
+        history.tellRefusalsNoLongerListed(1)
+        #expect(history.untoldRefusalsNoLongerListed == nil)
+    }
+
     @Test func aMoveTellsTheJournalWhatItIsCalled() async {
         let history = RemovalHistoryStore(knowsTheExclusions: { true })
 

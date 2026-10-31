@@ -150,6 +150,7 @@ struct RefusalLogTests {
         let records = try #require(await log.load().records)
         #expect(records.count == 2_001)
         #expect(Set(records.map(\.source)) == ["Older", "New"])
+        #expect(await log.load().noLongerListed == 1)
     }
 
     @Test func readsUnchangedRefusalsWithoutDecodingThemAgain() async throws {

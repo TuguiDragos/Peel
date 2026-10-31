@@ -14,7 +14,9 @@ struct RefusalDetailView: View {
                     .textSelection(.enabled)
                     .help(Text(verbatim: batch.title))
             } details: {
-                Text("You asked to move these \(batch.date, format: .relative(presentation: .named)), on \(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()).")
+                TimelineView(.everyMinute) { _ in
+                    Text("You asked to move these \(batch.date, format: .relative(presentation: .named)), on \(batch.date, format: .dateTime.day().month(.wide).year().hour().minute()).")
+                }
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
