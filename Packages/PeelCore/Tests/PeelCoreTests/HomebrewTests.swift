@@ -68,6 +68,27 @@ struct HomebrewTests {
         #expect(UpdateChecker.homebrewStatus(of: package(.disabled), appVersion: "1.0", at: .now) == nil)
     }
 
+    @Test func anExcludedPackageIsLeftOutOfUpgradeAll() throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("Applications/Sample.app")
+        try directory.file("Applications/Other.app/Contents/Info.plist")
+        func cask(_ name: String) -> HomebrewPackage {
+            HomebrewPackage(name: name, kind: .cask, installedVersion: "1.0", latestVersion: "2.0", isOutdated: true)
+        }
+        let sample = InstalledApp(url: app, bundleIdentifier: "org.example.sample", name: "Sample")
+        let casks = [cask("sample"), cask("other")]
+        let appsOf = { (package: HomebrewPackage) in package.name == "sample" ? [sample] : [] }
+        let names = { (exclusions: Exclusions) in
+            exclusions.joiningUpgradeAll(casks, appsOf: appsOf, installation: nil).map(\.name)
+        }
+
+        #expect(names(Exclusions()) == ["sample", "other"])
+        #expect(names(Exclusions(paths: [app])) == ["other"])
+        #expect(names(Exclusions(bundleIdentifiers: ["org.example.sample"])) == ["other"])
+        #expect(names(.unreadable).isEmpty)
+        #expect(names(.notYetRead).isEmpty)
+    }
+
     @Test func peelsOwnCaskIsLeftToPeelsOwnUpdates() {
         func cask(quitting identifiers: [String] = [], apps: [String] = []) -> HomebrewPackage {
             HomebrewPackage(

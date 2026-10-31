@@ -509,6 +509,8 @@ struct HomebrewList: View {
                         Spacer(minLength: 4)
                         if package.isPinned {
                             Badge(title: Text("Pinned"), systemImage: "pin")
+                        } else if homebrew.isExcluded(package) {
+                            Badge(title: Text("Excluded in Settings"), systemImage: "hand.raised.fill")
                         } else if package.upgradeNeedsAnAdministrator {
                             Badge(title: Text("Needs Terminal"), systemImage: "terminal")
                         }

@@ -67,7 +67,7 @@ struct PeelApp: App {
     @State private var duplicates: DuplicateLibrary
     @State private var fileSearch: FileSearchLibrary
     @State private var plugins = PluginLibrary()
-    @State private var homebrew = HomebrewLibrary()
+    @State private var homebrew: HomebrewLibrary
     @State private var helper: HelperModel
     @State private var updater = PeelUpdater()
     @State private var home: HomeModel
@@ -100,6 +100,7 @@ struct PeelApp: App {
         let selfUninstall = SelfUninstall()
         _selfUninstall = State(initialValue: selfUninstall)
         let library = AppLibrary()
+        _homebrew = State(initialValue: HomebrewLibrary(appsOfCask: { [library] in library.apps(of: $0) }))
         let history = RemovalHistoryStore(outcome: outcome, removesPeel: { selfUninstall.isRunning })
         let (orphans, space, developer, projects) = (
             OrphanLibrary(), SpaceLibrary(), DeveloperLibrary(), ProjectLibrary()

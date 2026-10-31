@@ -256,10 +256,10 @@ public struct Exclusions: Sendable, Codable, Hashable {
         app.bundleIdentifier.map(excludes(bundleIdentifier:)) == true || excludes(app.url)
     }
 
-    /// Whether `brew uninstall` would delete something excluded: an app the package installs (`apps` are the
-    /// installed apps known to be its), an app identifier it quits, or its own folder in the installation's Caskroom
-    /// or Cellar. Nil when one of these can't be looked into for an excluded app. An unreadable list, or one not read
-    /// yet, counts as excluding every package, since `brew uninstall` cannot be undone.
+    /// Whether `brew uninstall`, or an upgrade, which deletes the version it replaces, would delete something excluded:
+    /// an app the package installs (`apps` are the installed apps known to be its), an app identifier it quits, or its
+    /// own folder in the installation's Caskroom or Cellar. Nil when one of these can't be looked into for an excluded
+    /// app. An unreadable list, or one not read yet, counts as excluding every package, since neither can be undone.
     public func excludes(
         _ package: HomebrewPackage,
         apps: [InstalledApp],
@@ -283,6 +283,14 @@ public struct Exclusions: Sendable, Codable, Hashable {
             }
         }
         return isKnownToHoldNothing ? false : nil
+    }
+
+    public func joiningUpgradeAll(
+        _ outdated: [HomebrewPackage],
+        appsOf: (HomebrewPackage) -> [InstalledApp],
+        installation: HomebrewInstallation?
+    ) -> [HomebrewPackage] {
+        outdated.filter { $0.joinsUpgradeAll && excludes($0, apps: appsOf($0), installation: installation) == false }
     }
 
     /// The installed formulae whose own folder in `cellar` is excluded or holds something excluded, which Homebrew

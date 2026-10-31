@@ -15,6 +15,11 @@ final class HomebrewLibrary {
     /// Incremented every time the packages are read, so a view can key work to it. Their count stays the same
     /// through an upgrade, but their versions change.
     private(set) var revision = 0
+    @ObservationIgnored private let appsOfCask: (HomebrewPackage) -> [InstalledApp]
+
+    init(appsOfCask: @escaping (HomebrewPackage) -> [InstalledApp] = { _ in [] }) {
+        self.appsOfCask = appsOfCask
+    }
 
     enum Command: Equatable {
         case upgrade(HomebrewPackage.ID)
@@ -253,10 +258,32 @@ final class HomebrewLibrary {
             + retired.filter { $0.retirement?.stage == .deprecated }
     }
 
-    /// What Upgrade All upgrades: the rest are shown as out of date and left alone (`joinsUpgradeAll`), and all of
-    /// them while Homebrew would clean up after an upgrade, which deletes old versions for good.
+    /// What Upgrade All upgrades: the rest are shown as out of date and left alone (`joinsUpgradeAll`, the exclusions),
+    /// and all of them while Homebrew would clean up after an upgrade, which deletes old versions for good.
     var upgradable: [HomebrewPackage] {
-        overrides.contains(.cleansUp) ? [] : outdated.filter(\.joinsUpgradeAll)
+        guard !overrides.contains(.cleansUp) else { return [] }
+        return ExclusionsStore.shared.exclusions.joiningUpgradeAll(
+            outdated, appsOf: appsOfCask, installation: installation
+        )
+    }
+
+    /// Why the exclusions keep Homebrew from changing `package`, or nil when they don't: an upgrade deletes the version
+    /// it replaces for good, as `brew uninstall` deletes the package.
+    func exclusionRefusal(of package: HomebrewPackage) -> LocalizedStringResource? {
+        let exclusions = ExclusionsStore.shared.exclusions
+        if exclusions.isUnreadable { return "Exclusions can’t be read: see Settings" }
+        if !exclusions.hasBeenRead { return "Checking…" }
+        switch exclusions.excludes(package, apps: appsOfCask(package), installation: installation) {
+        case true?: return "Excluded in Settings"
+        case nil: return "Can’t be checked against your exclusions"
+        case false?: return nil
+        }
+    }
+
+    func isExcluded(_ package: HomebrewPackage) -> Bool {
+        let exclusions = ExclusionsStore.shared.exclusions
+        return exclusions.isKnown
+            && exclusions.excludes(package, apps: appsOfCask(package), installation: installation) == true
     }
 
     /// How many packages of `kind` are installed, or nil while Homebrew hasn't said what is installed.

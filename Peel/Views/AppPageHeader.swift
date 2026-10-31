@@ -169,6 +169,8 @@ struct AppPageHeader: View {
     private func updateExplanation(for source: UpdateSource) -> LocalizedStringResource {
         switch source {
         case .appStore: "The App Store has it. Update from the App Store."
+        case .homebrew where upgradeRefusal != nil:
+            upgradeRefusal ?? .excludedApp
         case .homebrew where library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true:
             "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
         case .homebrew where homebrew.overrides.contains(.cleansUp):
@@ -184,6 +186,10 @@ struct AppPageHeader: View {
         library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true || homebrew.overrides.contains(.cleansUp)
     }
 
+    private var upgradeRefusal: LocalizedStringResource? {
+        library.cask(for: plan.app).flatMap(homebrew.exclusionRefusal(of:))
+    }
+
     @ViewBuilder
     private func updateAction(for source: UpdateSource, version: String) -> some View {
         switch source {
@@ -193,6 +199,8 @@ struct AppPageHeader: View {
                 NSWorkspace.shared.open(page ?? URL(string: "macappstore://showUpdatesPage")!)
             }
             .buttonStyle(.borderedProminent)
+        case .homebrew where upgradeRefusal != nil:
+            EmptyView()
         case .homebrew where upgradeNeedsTerminal:
             if let cask = library.cask(for: plan.app) {
                 CopyButton(
@@ -235,6 +243,8 @@ struct AppPageHeader: View {
         guard let cask = library.cask(for: plan.app) else { return }
         let quit = QuitBeforeHomebrew([cask], library: library)
         quittingToUpgrade.check(quit.processes) {
+            // Asked again once its apps have quit, since the exclusions can change meanwhile.
+            guard upgradeRefusal == nil else { return }
             Task {
                 await upgrade(cask)
                 quit.reopen()

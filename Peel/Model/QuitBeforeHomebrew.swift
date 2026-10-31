@@ -15,7 +15,7 @@ struct QuitBeforeHomebrew {
         var reopening: [URL] = []
         var processes: [RunningCopies.Process] = []
         for cask in packages where cask.kind == .cask {
-            let apps = library.apps.filter { library.cask(for: $0)?.id == cask.id }
+            let apps = library.apps(of: cask)
             processes += RunningCopies.belonging(
                 toCask: cask, apps: apps, among: running, installedApps: library.apps
             ).filter { seen.insert($0.identifier).inserted }

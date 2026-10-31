@@ -140,7 +140,8 @@ struct HomebrewDetailView: View {
                                 }
                                 .buttonStyle(.borderedProminent)
                                 .disabled(!updater.canCheckForUpdates)
-                            } else if package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
+                            } else if upgradeRefusal == nil,
+                                      package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
                                 let kind = package.kind == .cask ? "--cask" : "--formula"
                                 CopyButton(
                                     text: Homebrew.terminalCommand(
@@ -154,7 +155,11 @@ struct HomebrewDetailView: View {
                                 }
                                 .buttonStyle(.borderedProminent)
                                 // A cask's apps, which have to quit first, are known only once they are matched.
-                                .disabled(package.isPinned || package.kind == .cask && !library.knowsHomebrewsApps)
+                                .disabled(
+                                    package.isPinned || package.kind == .cask && !library.knowsHomebrewsApps
+                                        || upgradeRefusal != nil
+                                )
+                                .help(upgradeRefusal.map { Text($0) } ?? Text(verbatim: ""))
                             }
                         }
                         if isRunning {
@@ -189,13 +194,13 @@ struct HomebrewDetailView: View {
                         Text("Peel updates itself, so it isn’t upgraded from here: Homebrew would have to quit Peel first.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
-                    } else if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp) {
+                    } else if package.waitsForAnUpgrade, homebrew.overrides.contains(.cleansUp), upgradeRefusal == nil {
                         Text(HomebrewLibrary.cleansUp)
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-                    if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator && !package.isPeelItself)
-                        || isUninstalledInTerminal {
+                    if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator && !package.isPeelItself
+                        && upgradeRefusal == nil) || isUninstalledInTerminal {
                         Text(needsTerminal)
                             .font(.callout)
                             .foregroundStyle(.secondary)
@@ -221,14 +226,18 @@ struct HomebrewDetailView: View {
         .toolbar(removing: .title)
         // Asked first, as Upgrade All is: an upgrade can run for a long time while Homebrew builds on this Mac.
         .confirmationDialog("Upgrade \(package.name)?", isPresented: $isConfirmingUpgrade) {
-            Button("Upgrade") { upgrade() }
+            Button("Upgrade") {
+                // Checks again, since the exclusions can change while the dialog is open.
+                guard upgradeRefusal == nil else { return }
+                upgrade()
+            }
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
         }
         .forgetCasksDialog(for: $casksToForget)
-        .task(id: caskApps.filter(\.carriesSystemExtensions).map(\.url)) {
-            let carrying = caskApps.filter(\.carriesSystemExtensions)
+        .task(id: library.apps(of: package).filter(\.carriesSystemExtensions).map(\.url)) {
+            let carrying = library.apps(of: package).filter(\.carriesSystemExtensions)
             guard !carrying.isEmpty else { return }
             let found = await RemovedElsewhere.first(among: carrying)
             extensionsAnswer = (carrying.map(\.url), found)
@@ -250,6 +259,8 @@ struct HomebrewDetailView: View {
     private func upgrade() {
         let quit = QuitBeforeHomebrew([package], library: library)
         quittingToUpgrade.check(quit.processes) {
+            // Asked again once its apps have quit, since the exclusions can change meanwhile.
+            guard upgradeRefusal == nil else { return }
             Task {
                 await homebrew.run(.upgrade(package.id))
                 quit.reopen()
@@ -296,7 +307,7 @@ struct HomebrewDetailView: View {
         if !exclusions.exclusions.hasBeenRead { return "Checking…" }
         // Until then the cask's apps aren't known, and with them neither are the rules their own pages follow.
         if !library.knowsHomebrewsApps { return "Checking…" }
-        let apps = caskApps
+        let apps = library.apps(of: package)
         // Homebrew deletes the app, so an app its own page never removes is never uninstalled from here either.
         if let removedElsewhere = apps.lazy.compactMap(\.removedElsewhere).first { return removedElsewhere.explanation }
         let carrying = apps.filter(\.carriesSystemExtensions).map(\.url)
@@ -304,22 +315,18 @@ struct HomebrewDetailView: View {
             guard let extensionsAnswer, extensionsAnswer.apps == carrying else { return "Checking…" }
             if let removedElsewhere = extensionsAnswer.removedElsewhere { return removedElsewhere.explanation }
         }
-        switch exclusions.exclusions.excludes(package, apps: apps, installation: homebrew.installation) {
-        case true?: return "Excluded in Settings"
-        case nil: return "Can’t be checked against your exclusions"
-        case false?: return nil
-        }
+        return upgradeRefusal
     }
 
-    private var caskApps: [InstalledApp] {
-        library.apps.filter { library.cask(for: $0)?.id == package.id }
+    private var upgradeRefusal: LocalizedStringResource? {
+        homebrew.exclusionRefusal(of: package)
     }
 
     private var isRunning: Bool {
         if homebrew.casksBeingForgotten.contains(package.id) { return true }
         return switch homebrew.commandHomebrewRuns {
         case .upgrade(let id), .uninstall(let id): id == package.id
-        case .upgradeAll: package.isOutdated && package.joinsUpgradeAll
+        case .upgradeAll: homebrew.upgradable.contains { $0.id == package.id }
         case .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health, .vulnerabilities, nil:
             false
         }

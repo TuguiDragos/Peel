@@ -497,6 +497,10 @@ final class AppLibrary {
         homebrewApps[app.id]
     }
 
+    func apps(of cask: HomebrewPackage) -> [InstalledApp] {
+        apps.filter { self.cask(for: $0)?.id == cask.id }
+    }
+
     func whyItCannotCheck(_ app: InstalledApp) -> CannotCheck {
         updateChecker.whyItCannotCheck(app, preference: updateSource, casks: casks)
     }
