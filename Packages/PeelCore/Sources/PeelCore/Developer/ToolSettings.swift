@@ -79,8 +79,9 @@ struct ToolSettings: Sendable {
     }
 
     /// Every place `HOMEBREW_CACHE` names in the `brew.env` files, for each prefix Homebrew may be in and each folder
-    /// the person's own file may be in: `~/.homebrew`, or `~/.config/homebrew` for a shell that sets
-    /// `XDG_CONFIG_HOME` there. Homebrew takes the value as written, so only an absolute path names a place.
+    /// the person's own file may be in: `~/.homebrew`, `~/.config/homebrew` for a shell that sets `XDG_CONFIG_HOME`
+    /// there, or the folder Homebrew's own files name. Homebrew takes the value as written, so only an absolute path
+    /// names a place.
     private static func homebrewCaches(home: URL, root: URL) -> [URL] {
         let chosen = HomebrewChoice(url: HomebrewChoice.url(inHome: home)).load()
             .map { $0.deletingLastPathComponent().deletingLastPathComponent() }
@@ -90,7 +91,8 @@ struct ToolSettings: Sendable {
         let system = root.appending(path: "etc/homebrew/brew.env")
         var caches: [URL] = []
         for prefix in prefixes {
-            for folder in ownFolders {
+            let named = Homebrew.userConfiguration(home: home, system: system, prefix: prefix)
+            for folder in ownFolders.contains(named) ? ownFolders : ownFolders + [named] {
                 let files = Homebrew.settingsFiles(system: system, prefix: prefix, userConfiguration: folder)
                 guard let cache = Homebrew.setting("HOMEBREW_CACHE", in: files).flatMap(absolute),
                       !caches.contains(cache)

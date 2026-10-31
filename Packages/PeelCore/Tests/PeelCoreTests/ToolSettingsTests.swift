@@ -194,6 +194,16 @@ struct ToolSettingsTests {
         #expect(caches().isEmpty, "a value taken as written names no place")
     }
 
+    @Test func findsHomebrewsCacheInTheSettingsFolderItsOwnFilesName() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let settings = directory.url.appending(path: "settings", directoryHint: .isDirectory).path(percentEncoded: false)
+        try directory.file("opt/homebrew/etc/homebrew/brew.env", contents: Data("HOMEBREW_XDG_CONFIG_HOME=\(settings)\n".utf8))
+        try directory.file("settings/homebrew/brew.env", contents: Data("HOMEBREW_CACHE=/moved\n".utf8))
+
+        #expect(ToolSettings(home: home, root: directory.url).homebrewCaches.map { Self.path($0) } == ["/moved"])
+    }
+
     @Test func spaceLeavesToDeveloperHomebrewsCacheMovedIntoItsCaches() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
