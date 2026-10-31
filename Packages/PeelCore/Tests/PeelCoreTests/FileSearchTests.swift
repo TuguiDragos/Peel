@@ -187,6 +187,23 @@ struct FileSearchTests {
         #expect(Set(anything.files.map(\.url.lastPathComponent)) == ["index.ts", "clip.ts", "recording.ts"])
     }
 
+    @Test func moviesLeaveOutTypeScriptModulesMacOSTypesAsAnAVCHDStream() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let module = try directory.file("home/Projects/app/lib.mts", contents: Data("export const answer = 42\n".utf8))
+        let types = try directory.file("home/Projects/app/index.d.mts", contents: Data("export {}\n".utf8))
+        var packets = [UInt8](repeating: 0xFF, count: 192 * 3)
+        for start in stride(from: 4, to: packets.count, by: 192) { packets[start] = 0x47 }
+        let camera = try directory.file("home/Movies/00001.mts", contents: Data(packets))
+        let blueRay = try directory.file("home/Movies/00002.m2ts", contents: Data(packets))
+        let paths = [module, types, camera, blueRay].map { $0.path(percentEncoded: false) }
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+
+        let movies = FileSearch.results(from: paths, kind: .movies, environment: environment, refusal: { _ in nil })
+
+        #expect(Set(movies.files.map(\.url.lastPathComponent)) == ["00001.mts", "00002.m2ts"])
+    }
+
     @Test func neverListsAFileThatSyncsToTheCloud() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

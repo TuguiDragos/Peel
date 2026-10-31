@@ -279,9 +279,9 @@ public enum FileSearch {
         return .leftOut(syncKeeper(url) != nil ? .syncs : LeftOut(refused))
     }
 
-    /// macOS gives TypeScript's `.ts` the type of an MPEG-2 transport stream, a movie, so such a file is one only when
-    /// it begins as one: packets that each start with the byte 0x47, every 188 bytes, or every 192 after the 4-byte
-    /// header Blu-ray adds (ISO/IEC 13818-1).
+    /// macOS gives TypeScript's `.ts` and `.mts` the type of an MPEG-2 transport stream, a movie, so such a file is one
+    /// only when it begins as one: packets that each start with the byte 0x47, every 188 bytes, or every 192 after the
+    /// 4-byte header Blu-ray adds (ISO/IEC 13818-1).
     static func isAMovie(_ url: URL) -> Bool {
         guard isTypedAsATransportStream(url) else { return true }
         guard let bytes = BoundedRead.prefix(of: url, count: 197).map(Array.init) else { return false }
@@ -292,7 +292,7 @@ public enum FileSearch {
     }
 
     static func isTypedAsATransportStream(_ url: URL) -> Bool {
-        UTType(filenameExtension: url.pathExtension) == .mpeg2TransportStream
+        UTType(filenameExtension: url.pathExtension)?.conforms(to: .mpeg2TransportStream) == true
     }
 
     /// Whether a file's contents are on this Mac. One whose contents live only in the cloud (`SF_DATALESS`) frees
