@@ -162,7 +162,8 @@ public enum Plugins {
 
     /// The app a plug-in came with: an installed app that claims it surely, through the identifier it declares or,
     /// for one that declares none, through its name, since a name its identifier doesn't back says nothing; else the
-    /// app Peel saw go whose identifier it has, extends, or shares a maker with, as Orphaned Files lists it.
+    /// app Peel saw go whose identifier it has or extends, as Orphaned Files names it. Sharing a maker doesn't say
+    /// which app a plug-in came with, since a maker's plug-ins usually come on their own.
     static func origin(
         of url: URL, identifier: String?, claimants: [Claimant], goneApps: [RememberedApp]
     ) -> Plugin.Origin? {
@@ -180,8 +181,6 @@ public enum Plugins {
         let gone = goneApps.first { app in
             let own = app.bundleIdentifier.lowercased()
             return plugIn == own || plugIn.hasPrefix(own + ".")
-        } ?? goneApps.first { app in
-            OrphanScanner.cameWithAnAppThatLeft(identifier, goneApps: [app.bundleIdentifier.lowercased()])
         }
         return gone.map { .goneApp(name: $0.name) }
     }

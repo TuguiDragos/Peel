@@ -125,6 +125,7 @@ struct PluginsTests {
         #expect(origin("Compressor.component", nil) == .installedApp(name: "Compressor"))
         #expect(origin("Compressor.component", "com.othervendor.compressor") == nil)
         #expect(origin("Gone.component", "com.gonevendor.gone.au") == .goneApp(name: "Gone"))
+        #expect(origin("Other.component", "com.gonevendor.other") == nil, "sharing a maker says nothing of which app")
         #expect(origin("Nobody.component", "org.nobody.thing") == nil)
     }
 
