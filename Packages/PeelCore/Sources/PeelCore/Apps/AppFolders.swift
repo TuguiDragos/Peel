@@ -75,6 +75,11 @@ public struct AppFolders: Sendable {
     }
 
     static func refusal(of folder: URL, home: URL, isInTheCloud: (URL) -> Bool) -> Refusal? {
+        // A link is read as where it leads, so that is what it is judged as too.
+        if folder.isSymbolicLink,
+           let refusal = refusal(of: PathPattern.canonical(folder), home: home, isInTheCloud: isInTheCloud) {
+            return refusal
+        }
         let path = folded(folder)
         let library = folded(home) + "/library"
         let broad = [

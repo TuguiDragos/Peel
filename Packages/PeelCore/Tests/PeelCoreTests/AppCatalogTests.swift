@@ -4,6 +4,39 @@ import Synchronization
 import Testing
 
 struct AppCatalogTests {
+    @Test func readsAFolderGivenAsALink() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("elsewhere/Example.app")
+        try directory.directory("elsewhere/Tools/Other.app")
+        let target = directory.url.appending(path: "elsewhere", directoryHint: .isDirectory)
+        let link = directory.url.appending(path: "Applications", directoryHint: .isDirectory)
+        try FileManager.default.createSymbolicLink(
+            atPath: directory.url.appending(path: "Applications").path(percentEncoded: false),
+            withDestinationPath: "elsewhere"
+        )
+
+        let found = AppCatalog.appBundles(in: link)
+
+        #expect(found.unreadable.isEmpty)
+        #expect(Set(found.bundles.map(\.lastPathComponent)) == ["Example.app", "Other.app"])
+        let place = PathPattern.comparablePath(of: target)
+        #expect(found.bundles.allSatisfy { $0.path(percentEncoded: false).hasPrefix(place) })
+    }
+
+    @Test func aLinkThatLeadsNowhereHoldsNoApp() throws {
+        let directory = try TemporaryDirectory()
+        let link = directory.url.appending(path: "Applications", directoryHint: .isDirectory)
+        try FileManager.default.createSymbolicLink(
+            atPath: directory.url.appending(path: "Applications").path(percentEncoded: false),
+            withDestinationPath: "/Volumes/org-example-not-connected/Applications"
+        )
+
+        let found = AppCatalog.appBundles(in: link)
+
+        #expect(found.unreadable.isEmpty)
+        #expect(found.bundles.isEmpty)
+    }
+
     private let yesterday = Date(timeIntervalSince1970: 1_800_000_000)
     private let today = Date(timeIntervalSince1970: 1_800_086_400)
 

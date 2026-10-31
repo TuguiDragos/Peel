@@ -33,6 +33,21 @@ struct FolderWatchTests {
         #expect(await firstChange(of: changes, within: Self.patience), "no change arrived")
     }
 
+    @Test func hearsWhatChangesWhereALinkLeads() async throws {
+        let directory = try TemporaryDirectory()
+        let target = try directory.directory("elsewhere")
+        try FileManager.default.createSymbolicLink(
+            atPath: directory.url.appending(path: "Applications").path(percentEncoded: false),
+            withDestinationPath: "elsewhere"
+        )
+        let link = directory.url.appending(path: "Applications", directoryHint: .isDirectory)
+        let changes = FolderWatch.changes(in: [link])
+
+        try FileManager.default.createDirectory(at: target.appending(path: "New.app"), withIntermediateDirectories: false)
+
+        #expect(await firstChange(of: changes, within: Self.patience), "no change arrived")
+    }
+
     /// The control: without this, a watcher that reported constantly would pass the tests above.
     @Test func staysSilentWhileNothingHappens() async throws {
         let directory = try TemporaryDirectory()

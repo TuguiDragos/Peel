@@ -9,6 +9,18 @@ extension URL {
         return lstat(path(percentEncoded: false), &info) == 0
     }
 
+    /// `lstat` follows a link named with a slash after it, as a URL marked as a directory is.
+    var isSymbolicLink: Bool {
+        var info = stat()
+        return lstat(PathPattern.comparablePath(of: self), &info) == 0 && info.st_mode & S_IFMT == S_IFLNK
+    }
+
+    /// True for a link whose destination isn't there, as on a disk that isn't connected.
+    var isALinkThatLeadsNowhere: Bool {
+        var info = stat()
+        return isSymbolicLink && stat(path(percentEncoded: false), &info) != 0 && errno == ENOENT
+    }
+
     /// True only when nothing is there under this name. A name macOS cannot look up, as in a folder that cannot be
     /// searched, is not missing, so one of Peel's files it cannot reach is never read as one that is not there.
     public var isMissing: Bool {

@@ -140,7 +140,7 @@ public enum AppCatalog {
         }
         guard !Task.isCancelled else { return AppScan(apps: [], unreadable: [], needsFullDiskAccess: false) }
 
-        Reading.forget(inside: answered.map(\.0), except: bundles)
+        Reading.forget(inside: answered.map { followingALink($0.0) }, except: bundles)
         let closedApps = read.filter { $0.app == nil && AppInspector.isClosed($0.bundle) }.map(\.bundle)
         let refused = answered.flatMap(\.1.unreadable) + closedApps
         return AppScan(
@@ -240,14 +240,20 @@ public enum AppCatalog {
         return values?.isHidden != true && values?.isPackage != true
     }
 
+    /// What is read for `directory`: the enumerator doesn't follow a link it starts from, answering "Not a directory".
+    private static func followingALink(_ directory: URL) -> URL {
+        directory.isSymbolicLink ? PathPattern.canonical(directory) : directory
+    }
+
     /// The apps in `directory`, `depth` levels deep, and the folders in it that are there and could not be read. A
     /// folder that is not there, such as an Applications folder nobody made, holds no app.
     static func appBundles(
         in directory: URL, unless isStopped: () -> Bool = { false }
     ) -> (bundles: [URL], unreadable: [URL]) {
         var unreadable: [URL] = []
+        guard !directory.isALinkThatLeadsNowhere else { return ([], []) }
         guard let enumerator = FileManager.default.enumerator(
-            at: directory,
+            at: followingALink(directory),
             includingPropertiesForKeys: [.isDirectoryKey],
             options: [.skipsHiddenFiles, .skipsPackageDescendants],
             errorHandler: { url, error in

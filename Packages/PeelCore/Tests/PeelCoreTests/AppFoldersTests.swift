@@ -3,6 +3,25 @@ import Foundation
 import Testing
 
 struct AppFoldersTests {
+    @Test func aLinkIsJudgedByWhereItLeads() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.directory("home/Applications")
+        try directory.directory("home/.Trash/Old")
+        try directory.directory("elsewhere")
+        func link(_ name: String, to destination: String) throws -> URL {
+            try FileManager.default.createSymbolicLink(
+                atPath: directory.url.appending(path: name).path(percentEncoded: false),
+                withDestinationPath: destination
+            )
+            return directory.url.appending(path: name, directoryHint: .isDirectory)
+        }
+
+        #expect(AppFolders.refusal(of: try link("one", to: "home/Applications"), home: home) == .alreadyLookedIn)
+        #expect(AppFolders.refusal(of: try link("two", to: "home/.Trash/Old"), home: home) == .inATrash)
+        #expect(AppFolders.refusal(of: try link("three", to: "elsewhere"), home: home) == nil)
+    }
+
     /// A folder chosen for apps is looked through three levels deep. The whole disk, the home folder or a folder
     /// Peel already looks in would only repeat or slow every reading of the apps.
     @Test func refusesAFolderTooBroadOrAlreadyLookedIn() {
