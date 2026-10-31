@@ -333,6 +333,15 @@ struct AppInspectorTests {
         #expect(AppInspector.inspect(directory.url.appending(path: "Empty.app"))?.version == "7")
     }
 
+    @Test func statesNoVersionWhenTheBundleGivesOnlyBlankSpace() throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.blank", "CFBundleShortVersionString": "", "CFBundleVersion": ""], at: "Blank.app/Contents/Info.plist", in: directory)
+        try plist(["CFBundleIdentifier": "org.example.spaces", "CFBundleShortVersionString": " ", "CFBundleVersion": "12"], at: "Spaces.app/Contents/Info.plist", in: directory)
+
+        #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Blank.app"))).version == nil)
+        #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Spaces.app"))).version == "12")
+    }
+
     @Test func readsAnAppWhoseInfoPlistNamesNoIdentifier() throws {
         let directory = try TemporaryDirectory()
         try plist(["CFBundleName": "Plain Editor", "CFBundleVersion": "4.0"], at: "Plain Editor.app/Contents/Info.plist", in: directory)

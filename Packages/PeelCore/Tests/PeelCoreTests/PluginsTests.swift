@@ -158,6 +158,23 @@ struct PluginsTests {
         #expect(Plugins.name(of: localized, info: ["CFBundleName": "Input"]) == "Kana Input")
     }
 
+    @Test func aPlugInThatStatesNoVersionShowsNone() async throws {
+        let directory = try TemporaryDirectory()
+        for (name, info) in [("Blank", ["CFBundleShortVersionString": "", "CFBundleVersion": ""]), ("Build", ["CFBundleShortVersionString": " ", "CFBundleVersion": "12"])] {
+            let data = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            try data.write(to: directory.file("home/Library/Audio/Plug-Ins/Components/\(name).component/Contents/Info.plist"))
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins
+
+        #expect(try #require(plugins.first { $0.name == "Blank" }).version == nil)
+        #expect(try #require(plugins.first { $0.name == "Build" }).version == "12")
+    }
+
     @Test func findsPluginBundlesInUserAndSystemLibraries() async throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(

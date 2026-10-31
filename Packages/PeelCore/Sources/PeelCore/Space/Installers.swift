@@ -473,9 +473,8 @@ public enum Installers {
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, seen, _) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
-                let version = AppInspector.infoDictionary(
-                    in: url.appending(path: "Contents", directoryHint: .isDirectory)
-                )?["CFBundleShortVersionString"] as? String
+                let info = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))
+                let version = AppInspector.stated(info?["CFBundleShortVersionString"])
                 items.append(InstallerItem(
                     url: url,
                     kind: .macOSInstaller,

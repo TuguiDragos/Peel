@@ -103,8 +103,7 @@ public enum AppInspector {
             bundleIdentifier: bundleIdentifier,
             name: displayName(of: url, identifier: bundleIdentifier),
             bundleName: info["CFBundleName"] as? String,
-            // Falls back to the build number when the short version is empty or is not a string, such as a number.
-            version: (info["CFBundleShortVersionString"] as? String).flatMap { $0.isEmpty ? nil : $0 } ?? info["CFBundleVersion"] as? String,
+            version: statedVersion(in: info),
             buildVersion: info["CFBundleVersion"] as? String,
             teamIdentifier: signing.teamIdentifier,
             developer: signing.developer,
@@ -157,6 +156,18 @@ public enum AppInspector {
     static func infoDictionary(in contents: URL) -> [String: Any]? {
         guard let data = BoundedRead.data(at: contents.appending(path: "Info.plist")) else { return nil }
         return try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
+    }
+
+    /// The version a bundle's Info.plist states: its short version, else its build number.
+    static func statedVersion(in info: [String: Any]?) -> String? {
+        stated(info?["CFBundleShortVersionString"]) ?? stated(info?["CFBundleVersion"])
+    }
+
+    /// A value of an Info.plist as text. One that is not text, or holds only blank space, states nothing, so it is
+    /// never shown as an empty line.
+    static func stated(_ value: Any?) -> String? {
+        guard let text = value as? String, !text.allSatisfy(\.isWhitespace) else { return nil }
+        return text
     }
 
     /// Whether the bundle's Info.plist is there and macOS will not let Peel read it, so nothing can be told about

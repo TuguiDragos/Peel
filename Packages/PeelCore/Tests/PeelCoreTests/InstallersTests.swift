@@ -692,6 +692,24 @@ struct InstallersTests {
         #expect(scan.items(in: .firmware).map(\.name) == ["iPhone17,1_26.1.ipsw"])
     }
 
+    @Test func aMacOSInstallerWithABlankVersionNotesNone() async throws {
+        let directory = try TemporaryDirectory()
+        for (name, version) in [("Install macOS Tahoe", ""), ("Install macOS Sequoia", "15.6")] {
+            try directory.file("Applications/\(name).app/Contents/MacOS/app", bytes: 400_000)
+            try directory.file(
+                "Applications/\(name).app/Contents/Info.plist",
+                contents: try PropertyListSerialization.data(fromPropertyList: ["CFBundleShortVersionString": version], format: .xml, options: 0)
+            )
+        }
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        #expect(try #require(scan.items(in: .macOSInstaller).first { $0.name == "Install macOS Tahoe" }).notes == [])
+        #expect(try #require(scan.items(in: .macOSInstaller).first { $0.name == "Install macOS Sequoia" }).notes == [.version("15.6")])
+    }
+
     @Test func findsMacOSInstallersWhereverThePersonKeepsApps() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

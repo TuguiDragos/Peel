@@ -1123,6 +1123,19 @@ struct DeveloperCachesTests {
         #expect(locations.first { $0.url.lastPathComponent.hasPrefix("App 02.09") }?.archive == nil)
     }
 
+    @Test func anArchiveWithABlankVersionShowsItsBuild() throws {
+        let directory = try TemporaryDirectory()
+        for (name, properties) in [("Blank", ["CFBundleShortVersionString": "", "CFBundleVersion": "45"]), ("Nothing", ["CFBundleShortVersionString": " ", "CFBundleVersion": ""])] {
+            try directory.file(
+                "\(name).xcarchive/Info.plist",
+                contents: try PropertyListSerialization.data(fromPropertyList: ["ApplicationProperties": properties], format: .xml, options: 0)
+            )
+        }
+
+        #expect(DeveloperCaches.archive(at: directory.url.appending(path: "Blank.xcarchive"))?.label == "45")
+        #expect(DeveloperCaches.archive(at: directory.url.appending(path: "Nothing.xcarchive")) == nil)
+    }
+
     @Test func listsEveryArchiveHoweverManyThereAre() async throws {
         let directory = try TemporaryDirectory()
         for day in 1...130 {

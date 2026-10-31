@@ -344,8 +344,8 @@ public enum DeveloperCaches {
             let facts = BoundedRead.propertyList(at: url.appending(path: "Info.plist")),
             let app = facts["ApplicationProperties"] as? [String: Any]
         else { return nil }
-        let version = app["CFBundleShortVersionString"] as? String
-        let build = app["CFBundleVersion"] as? String
+        let version = AppInspector.stated(app["CFBundleShortVersionString"])
+        let build = AppInspector.stated(app["CFBundleVersion"])
         guard version != nil || build != nil else { return nil }
         return DeveloperEnvironment.Archive(version: version, build: build)
     }

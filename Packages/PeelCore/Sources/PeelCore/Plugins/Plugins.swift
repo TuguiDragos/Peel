@@ -235,7 +235,7 @@ public enum Plugins {
                 url: item.url,
                 name: name(of: item.url, info: info),
                 bundleIdentifier: info?["CFBundleIdentifier"] as? String,
-                version: (info?["CFBundleShortVersionString"] ?? info?["CFBundleVersion"]) as? String,
+                version: AppInspector.statedVersion(in: info),
                 category: item.category,
                 isInstalledForAllUsers: item.isForAllUsers,
                 size: await measure(item.url),
