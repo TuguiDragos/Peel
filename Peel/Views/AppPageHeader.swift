@@ -242,20 +242,17 @@ struct AppPageHeader: View {
         homebrew.quittingToUpgrade.check(quit.processes) {
             // Asked again once its apps have quit, since the exclusions can change meanwhile.
             guard upgradeRefusal == nil else { return }
-            Task {
-                await upgrade(cask)
-                quit.reopen()
-            }
+            Task { await upgrade(cask, reopening: quit.reopen) }
         }
     }
 
     /// Upgrades the app with Homebrew, which can take a while. The button shows progress while it runs, the
     /// line under it shows the result, and a notification reports it too, in case the user has moved on.
-    private func upgrade(_ cask: HomebrewPackage) async {
+    private func upgrade(_ cask: HomebrewPackage, reopening reopen: () -> Void) async {
         let app = plan.app
         library.record(nil, of: app)
         // Nil when Homebrew is already running a command. The button is disabled then, so this is only a safeguard.
-        guard let result = await homebrew.run(.upgrade(cask.id), showsResult: false) else { return }
+        guard let result = await homebrew.run(.upgrade(cask.id), showsResult: false, reopening: reopen) else { return }
         let succeeded = result.succeeded
         upgradeOutput = succeeded ? nil : result
 

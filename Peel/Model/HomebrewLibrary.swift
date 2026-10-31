@@ -409,10 +409,13 @@ final class HomebrewLibrary {
 
     /// Runs `command` and returns its result to the caller. Only one command runs at a time: while one runs,
     /// this returns nil at once. `showsResult` is false for a page that shows the result itself, so the
-    /// Homebrew page opens no sheet about it later.
+    /// Homebrew page opens no sheet about it later. `reopen` opens what was quit for the command as soon as it ends.
     @discardableResult
-    func run(_ command: Command, showsResult: Bool = true) async -> CommandResult? {
-        guard runningCommand == nil, !isForgetting, command.onlyLooks || mayChange else { return nil }
+    func run(_ command: Command, showsResult: Bool = true, reopening reopen: () -> Void = {}) async -> CommandResult? {
+        guard runningCommand == nil, !isForgetting, command.onlyLooks || mayChange else {
+            reopen()
+            return nil
+        }
         runningCommand = command
         defer {
             (runningCommand, isReadingWhatChanged) = (nil, false)
@@ -428,7 +431,12 @@ final class HomebrewLibrary {
         if command.onlyLooks {
             outcome = await task.value
         } else {
-            outcome = await QuitGuard.shared.run(stoppingWith: stop) { await task.value }
+            // Inside the guard: a quit of Peel asked for meanwhile ends as soon as this does.
+            outcome = await QuitGuard.shared.run(stoppingWith: stop) {
+                let outcome = await task.value
+                reopen()
+                return outcome
+            }
         }
         (runningTask, progress, isStopping) = (nil, nil, false)
         if showsResult, let outcome { result = outcome }

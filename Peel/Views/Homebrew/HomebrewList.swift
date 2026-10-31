@@ -679,10 +679,7 @@ struct HomebrewList: View {
     private func upgradeAll() {
         let quit = QuitBeforeHomebrew(homebrew.upgradable, library: library)
         homebrew.quittingToUpgrade.check(quit.processes) {
-            Task {
-                await homebrew.run(.upgradeAll)
-                quit.reopen()
-            }
+            Task { await homebrew.run(.upgradeAll, reopening: quit.reopen) }
         }
     }
 

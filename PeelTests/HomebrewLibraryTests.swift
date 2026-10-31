@@ -42,6 +42,17 @@ import Testing
         #expect(homebrew.runningCommand == nil && !homebrew.isReadingWhatChanged && homebrew.progress == nil)
     }
 
+    @Test func whatAnUpgradeQuitOpensAgainBeforeAQuitOfPeelCanEnd() async {
+        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
+        // Nothing is read yet, so Upgrade All finds nothing to upgrade and runs no `brew upgrade`.
+        let homebrew = HomebrewLibrary()
+        var wasReading: Bool?
+
+        await homebrew.run(.upgradeAll, showsResult: false, reopening: { wasReading = homebrew.isReadingWhatChanged })
+
+        #expect(wasReading == false, "an answer to a quit goes out before Homebrew is read again")
+    }
+
     @Test func forgetsMovesEndBeforePeelReadsWhatChanged() async {
         guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
         let homebrew = HomebrewLibrary()

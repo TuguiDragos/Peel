@@ -257,10 +257,7 @@ struct HomebrewDetailView: View {
         homebrew.quittingToUpgrade.check(quit.processes) {
             // Asked again once its apps have quit, since the exclusions can change meanwhile.
             guard upgradeRefusal == nil else { return }
-            Task {
-                await homebrew.run(.upgrade(package.id))
-                quit.reopen()
-            }
+            Task { await homebrew.run(.upgrade(package.id), reopening: quit.reopen) }
         }
     }
 
