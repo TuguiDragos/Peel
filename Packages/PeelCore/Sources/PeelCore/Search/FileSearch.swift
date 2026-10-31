@@ -207,6 +207,7 @@ public enum FileSearch {
         }
         var repositories: [String: Bool] = [:]
         listing: for candidate in candidates {
+            guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             let url = URL(filePath: candidate.path)
             let hasRoom = results.files.count < maximumResults
             let judgment = judge(url, info: candidate.info, kind: kind, refusal: refusal, syncKeeper: syncKeeper)

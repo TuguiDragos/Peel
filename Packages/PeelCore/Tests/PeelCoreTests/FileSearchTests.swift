@@ -31,6 +31,28 @@ struct FileSearchTests {
         #expect(stop.askedAfter == 0)
     }
 
+    @Test func aStoppedSearchStopsJudgingWhatItFound() async throws {
+        let directory = try TemporaryDirectory()
+        let paths = try (1...5).map { try directory.file("home/file\($0).txt", bytes: 16).path(percentEncoded: false) }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url
+        )
+        let judged = Mutex(0)
+
+        let searching = Task {
+            FileSearch.results(from: paths, kind: .any, environment: environment, refusal: { _ in
+                judged.withLock { $0 += 1 }
+                withUnsafeCurrentTask { $0?.cancel() }
+                return nil
+            })
+        }
+        let results = await searching.value
+
+        #expect(judged.withLock { $0 } == 1)
+        #expect(!results.didRun)
+    }
+
     @Test func anEmptySearchNamesTheDisksSpotlightDoesNotIndex() async throws {
         var criteria = FileSearchCriteria()
         criteria.name = "report"
