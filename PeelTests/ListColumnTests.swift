@@ -24,7 +24,7 @@ struct ListColumnTests {
         [sidebar, list, page].forEach(controller.addSplitViewItem)
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 1307, height: 800),
-            styleMask: [.titled, .resizable, .fullSizeContentView], backing: .buffered, defer: false
+            styleMask: [.titled, .resizable, .fullSizeContentView], backing: .buffered, defer: true
         )
         window.contentViewController = controller
         window.setContentSize(NSSize(width: 1307, height: 800))

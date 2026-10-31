@@ -7,7 +7,7 @@ struct FloorConstraintsTests {
     private func window() -> NSWindow {
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 1400, height: 900),
-            styleMask: [.titled, .resizable, .fullSizeContentView], backing: .buffered, defer: false
+            styleMask: [.titled, .resizable, .fullSizeContentView], backing: .buffered, defer: true
         )
         window.contentView = NSView()
         return window
