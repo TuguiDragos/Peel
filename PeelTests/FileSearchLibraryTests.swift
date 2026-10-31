@@ -28,6 +28,83 @@ struct FileSearchLibraryTests {
         return (library, started.makeAsyncIterator())
     }
 
+    private func found(_ urls: URL...) -> FileSearchResults {
+        FileSearchResults(files: urls.map {
+            FoundFile(url: $0, size: 1, length: 1, modificationDate: .distantPast, requiresPrivileges: false)
+        })
+    }
+
+    @Test func narrowingAnOldListLeavesTheNewOneAlone() async throws {
+        let budget = URL(filePath: "/org.example/budget.pdf")
+        let (first, second) = (found(invoice), found(budget))
+        let calls = OSAllocatedUnfairLock(initialState: 0)
+        let landing = OSAllocatedUnfairLock<CheckedContinuation<Void, Never>?>(initialState: nil)
+        let narrowingHeld = OSAllocatedUnfairLock<CheckedContinuation<Void, Never>?>(initialState: nil)
+        let holding = OSAllocatedUnfairLock(initialState: true)
+        let library = FileSearchLibrary(run: { _, _ in
+            guard calls.withLock({ $0 += 1; return $0 }) > 1 else { return first }
+            await withCheckedContinuation { continuation in landing.withLock { $0 = continuation } }
+            return second
+        }, narrowing: { files, exclusions in
+            if holding.withLock({ $0 }) {
+                holding.withLock { $0 = false }
+                await withCheckedContinuation { continuation in narrowingHeld.withLock { $0 = continuation } }
+            }
+            return exclusions.keeping(files, url: \.url)
+        }, exclusionsNow: { .none })
+        library.criteria.name = "invoice"
+        await library.search()
+
+        library.criteria.name = "budget"
+        let searching = Task { await library.search() }
+        while landing.withLock({ $0 }) == nil { await Task.yield() }
+        let narrowing = Task { await library.leaveOut(Exclusions(paths: [invoice])) }
+        while narrowingHeld.withLock({ $0 }) == nil { await Task.yield() }
+        landing.withLock { $0 }?.resume()
+        while library.results?.files.map(\.url) != [budget] { await Task.yield() }
+        narrowingHeld.withLock { $0 }?.resume()
+        await narrowing.value
+        await searching.value
+
+        #expect(library.results?.files.map(\.url) == [budget])
+        #expect(library.results?.leftOut[.excluded] == nil)
+    }
+
+    @Test func twoNarrowingsCountWhatTheyLeaveOutOnce() async throws {
+        let results = found(invoice)
+        let library = FileSearchLibrary(run: { _, _ in results }, exclusionsNow: { .none })
+        library.criteria.name = "invoice"
+        await library.search()
+        let excluded = Exclusions(paths: [invoice])
+
+        async let one: Void = library.leaveOut(excluded)
+        async let other: Void = library.leaveOut(Exclusions(paths: [invoice, URL(filePath: "/org.example/other.pdf")]))
+        _ = await (one, other)
+
+        #expect(library.results?.files.isEmpty == true)
+        #expect(library.results?.leftOut[.excluded] == 1)
+    }
+
+    @Test func aSearchAllLeftOutForUnreadableExclusionsRunsAgainOnceTheyAreRead() async throws {
+        let calls = OSAllocatedUnfairLock(initialState: 0)
+        var exclusions = Exclusions.unreadable
+        let library = FileSearchLibrary(
+            run: { _, _ in
+                calls.withLock { $0 += 1 }
+                return FileSearchResults()
+            },
+            exclusionsNow: { exclusions }
+        )
+        library.criteria.name = "invoice"
+        await library.search()
+        #expect(calls.withLock { $0 } == 1)
+
+        exclusions = .none
+        await library.leaveOut(.none)
+
+        #expect(calls.withLock { $0 } == 2)
+    }
+
     @Test func aSearchStoppedForOtherWordsLeavesNothingOfTheOldOnes() async {
         var (library, started) = library()
         library.criteria.name = "invoice"

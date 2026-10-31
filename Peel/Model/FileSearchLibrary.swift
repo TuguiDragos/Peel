@@ -31,13 +31,25 @@ final class FileSearchLibrary {
     /// The exclusions the list is filtered by: those the search ran under, or those it was narrowed to since.
     private var filteredBy = Exclusions.none
     private let run: @Sendable (FileSearchCriteria, Exclusions) async -> FileSearchResults
+    private let narrowing: @Sendable ([FoundFile], Exclusions) async -> [FoundFile]
+    private let exclusionsNow: () -> Exclusions
+    /// Moves whenever another list lands, so that narrowing the one before it writes nothing over it.
+    private var listsLanded = 0
+    /// The last narrowing asked for. Each waits for the one before, or both would count what they leave out.
+    @ObservationIgnored private var lastNarrowing: Task<Void, Never>?
 
     init(
         run: @escaping @Sendable (FileSearchCriteria, Exclusions) async -> FileSearchResults = {
             await FileSearch.run($0, exclusions: $1)
-        }
+        },
+        narrowing: @escaping @Sendable ([FoundFile], Exclusions) async -> [FoundFile] = {
+            await keeping($0, under: $1)
+        },
+        exclusionsNow: @escaping () -> Exclusions = { ExclusionsStore.shared.exclusions }
     ) {
         self.run = run
+        self.narrowing = narrowing
+        self.exclusionsNow = exclusionsNow
     }
 
     var chosenFile: FoundFile? {
@@ -54,7 +66,7 @@ final class FileSearchLibrary {
             forgetResults()
             return
         }
-        let exclusions = ExclusionsStore.shared.exclusions
+        let exclusions = exclusionsNow()
         let run = run
         guard let found = await scanRun.run({ await run(criteria, exclusions) }) else {
             // Canceled with the task that asked for it, as when the page goes away, the search answered nothing,
@@ -65,6 +77,7 @@ final class FileSearchLibrary {
             return
         }
         let known = results?.files ?? []
+        listsLanded += 1
         results = found
         answered = criteria
         filteredBy = exclusions
@@ -78,10 +91,11 @@ final class FileSearchLibrary {
             (found.files + selection.outside.values).map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first }
         )
         // The search ran under the exclusions as they were when it started, so leave out anything excluded since.
-        await leaveOut(ExclusionsStore.shared.exclusions)
+        await leaveOut(exclusionsNow())
     }
 
     private func forgetResults() {
+        listsLanded += 1
         results = nil
         answered = nil
         selectedURLs = []
@@ -106,12 +120,33 @@ final class FileSearchLibrary {
     /// Narrows the list to what `exclusions` leave. File Search runs only when asked, so without this a file
     /// excluded from its own row would stay listed and selected until the move refused it.
     func leaveOut(_ exclusions: Exclusions) async {
+        guard results != nil, exclusions != filteredBy else { return }
+        // Exclusions Peel couldn't read left everything out for a reason now gone, and narrowing brings nothing back.
+        if !filteredBy.isKnown, exclusions.isKnown {
+            await search()
+            return
+        }
+        let before = lastNarrowing
+        let turn = Task {
+            await before?.value
+            await narrow(to: exclusions)
+        }
+        lastNarrowing = turn
+        await turn.value
+    }
+
+    private func narrow(to exclusions: Exclusions) async {
         guard let results, exclusions != filteredBy else { return }
         let current = generation
-        let kept = await Self.keeping(results.files, under: exclusions)
+        let list = listsLanded
+        let kept = await narrowing(results.files, exclusions)
         let outside = Array(selection.outside.values)
-        let keptOutside = await Self.keeping(outside, under: exclusions)
+        let keptOutside = await narrowing(outside, exclusions)
         guard current == generation else { return }
+        guard list == listsLanded else {
+            await narrow(to: exclusions)
+            return
+        }
         filteredBy = exclusions
         let goneOutside = Set(outside.map(\.url)).subtracting(keptOutside.map(\.url))
         selection.forget(goneOutside)
