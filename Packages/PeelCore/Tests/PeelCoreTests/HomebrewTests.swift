@@ -214,6 +214,30 @@ struct HomebrewTests {
         #expect(check(false) == fetched, "a download Homebrew couldn't verify")
     }
 
+    @Test func datesTheLastCheckByTheSettingsFilesBrewReadsForPeel() async throws {
+        let folder = try TemporaryDirectory()
+        let fetchHead = try folder.file("repository/.git/FETCH_HEAD", contents: Data("main\n".utf8))
+        let packages = try folder.file("cache/api/internal/packages.arm64_tahoe.jws.json", bytes: 64)
+        let fetched = Date(timeIntervalSince1970: 1_792_315_250)
+        for (when, file) in [(fetched, fetchHead), (fetched.addingTimeInterval(60 * 60), packages)] {
+            let path = file.path(percentEncoded: false)
+            try FileManager.default.setAttributes([.modificationDate: when], ofItemAtPath: path)
+        }
+        let settings = folder.url.appending(path: "settings", directoryHint: .isDirectory).path(percentEncoded: false)
+        try folder.file("prefix/etc/homebrew/brew.env", contents: Data("HOMEBREW_XDG_CONFIG_HOME=\(settings)\n".utf8))
+        try folder.file("settings/homebrew/brew.env", contents: Data("HOMEBREW_NO_INSTALL_FROM_API=1\n".utf8))
+        let answers = ["--repository": "repository", "--cache": "cache", "--prefix": "prefix"].mapValues {
+            folder.url.appending(path: $0, directoryHint: .isDirectory).path(percentEncoded: false)
+        }
+
+        let checked = await Homebrew.lastUpdateCheck(
+            home: folder.url.appending(path: "home", directoryHint: .isDirectory),
+            system: folder.url.appending(path: "etc/homebrew/brew.env")
+        ) { answers[$0.joined(separator: " ")] }
+
+        #expect(checked == fetched, "the person's settings, in the folder the prefix's file names, make it read its taps")
+    }
+
     @Test func readsTheLastCheckOfTheHomebrewOnThisMac() async throws {
         guard Homebrew.executableURL != nil else {
             #expect(await Homebrew.lastUpdateCheck() == nil)

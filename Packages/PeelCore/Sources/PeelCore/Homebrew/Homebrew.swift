@@ -628,9 +628,7 @@ public enum Homebrew {
               let repository = await ask(["--repository"]).flatMap(folder(answering:)),
               let prefix = await ask(["--prefix"]).flatMap(folder(answering:))
         else { return false }
-        let system = URL(filePath: "/etc/homebrew/brew.env")
-        let user = userConfiguration(home: home, system: system, prefix: prefix)
-        let files = settingsFiles(system: system, prefix: prefix, userConfiguration: user)
+        let files = settingsFiles(system: systemSettingsFile, prefix: prefix, home: home)
         // A tap is installed when its folder is there (`Tap#installed?`).
         let taps = repository.appending(path: "Library/Taps/homebrew", directoryHint: .isDirectory)
         let hasCoreTaps = ["homebrew-core", "homebrew-cask"].allSatisfy { tap in
@@ -686,6 +684,14 @@ public enum Homebrew {
         var isFolder: ObjCBool = false
         let isThere = FileManager.default.fileExists(atPath: file.path(percentEncoded: false), isDirectory: &isFolder)
         return isThere && !isFolder.boolValue ? file : nil
+    }
+
+    static let systemSettingsFile = URL(filePath: "/etc/homebrew/brew.env")
+
+    /// The `brew.env` files `bin/brew` reads when Peel runs it, with the person's in the folder it names for Peel.
+    static func settingsFiles(system: URL, prefix: URL, home: URL) -> [URL] {
+        let user = userConfiguration(home: home, system: system, prefix: prefix)
+        return settingsFiles(system: system, prefix: prefix, userConfiguration: user)
     }
 
     /// The `brew.env` files `bin/brew` reads before every command, in its order: the system's, the prefix's, the
@@ -751,16 +757,17 @@ public enum Homebrew {
     /// default, since a fetch of its own code leaves them as they were, else when `.git/FETCH_HEAD` was last touched.
     @concurrent
     public static func lastUpdateCheck() async -> Date? {
-        guard let answer = try? await answer(["--repository"]), let repository = folder(answering: answer) else {
-            return nil
-        }
-        guard let executable = executableURL, let cache = (try? await self.answer(["--cache"])).flatMap(folder(answering:))
+        await lastUpdateCheck(home: .homeDirectory, system: systemSettingsFile) { try? await answer($0) }
+    }
+
+    static func lastUpdateCheck(
+        home: URL, system: URL, asking ask: (_ arguments: [String]) async -> String?
+    ) async -> Date? {
+        guard let repository = await ask(["--repository"]).flatMap(folder(answering:)) else { return nil }
+        guard let cache = await ask(["--cache"]).flatMap(folder(answering:)),
+              let prefix = await ask(["--prefix"]).flatMap(folder(answering:))
         else { return lastUpdateCheck(inRepository: repository) }
-        let files = settingsFiles(
-            system: URL(filePath: "/etc/homebrew/brew.env"),
-            prefix: executable.deletingLastPathComponent().deletingLastPathComponent(),
-            userConfiguration: URL.homeDirectory.appending(path: ".homebrew", directoryHint: .isDirectory)
-        )
+        let files = settingsFiles(system: system, prefix: prefix, home: home)
         return lastUpdateCheck(inRepository: repository, cache: cache, readsTheTaps: readsTheTaps(settingsIn: files))
     }
 
