@@ -182,6 +182,20 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: sparkleApp()) == .upToDate)
     }
 
+    @Test func aBlankBuildLeavesTheComparisonToTheVersions() async throws {
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"101\" sparkle:shortVersionString=\"1.0\" /></item>"))
+        let directory = try TemporaryDirectory()
+        let info = [
+            "CFBundleIdentifier": "org.example.editor", "CFBundleShortVersionString": "1.0", "CFBundleVersion": " ",
+            "SUFeedURL": "https://feed.example.com/appcast.xml",
+        ]
+        try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            .write(to: directory.file("Editor.app/Contents/Info.plist"))
+        let app = try #require(AppInspector.inspect(directory.url.appending(path: "Editor.app")))
+
+        #expect(await checker.status(for: app) == .upToDate)
+    }
+
     @Test func asksNothingAboutAnAppFromSetapp() async throws {
         reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"200\" sparkle:shortVersionString=\"2.0\" /></item>"))
         func inspected(_ identifier: String, in directory: borrowing TemporaryDirectory) throws -> InstalledApp {

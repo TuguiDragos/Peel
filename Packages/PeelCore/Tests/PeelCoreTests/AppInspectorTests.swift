@@ -339,6 +339,7 @@ struct AppInspectorTests {
         try plist(["CFBundleIdentifier": "org.example.spaces", "CFBundleShortVersionString": " ", "CFBundleVersion": "12"], at: "Spaces.app/Contents/Info.plist", in: directory)
 
         #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Blank.app"))).version == nil)
+        #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Blank.app"))).buildVersion == nil)
         #expect(try #require(AppInspector.inspect(directory.url.appending(path: "Spaces.app"))).version == "12")
     }
 

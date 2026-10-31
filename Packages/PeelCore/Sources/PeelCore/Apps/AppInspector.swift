@@ -104,7 +104,7 @@ public enum AppInspector {
             name: displayName(of: url, identifier: bundleIdentifier),
             bundleName: info["CFBundleName"] as? String,
             version: statedVersion(in: info),
-            buildVersion: info["CFBundleVersion"] as? String,
+            buildVersion: stated(info["CFBundleVersion"]),
             teamIdentifier: signing.teamIdentifier,
             developer: signing.developer,
             applicationGroups: signing.applicationGroups,
