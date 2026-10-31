@@ -17,9 +17,13 @@ struct PackageDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            // Forget Receipt always needs the helper, whatever the items need.
+            // Forget Receipt always needs the helper, whatever the items need, unless the exclusions leave it alone.
             if !helper.canAct {
-                HelperRequiredBanner(need: .forgettingThisReceipt)
+                if receipt.itemsWaitingForTheHelper > 0 {
+                    HelperRequiredBanner(need: .moving(receipt.itemsWaitingForTheHelper))
+                } else if !isForAnExcludedApp {
+                    HelperRequiredBanner(need: .forgettingThisReceipt)
+                }
             }
             let forAnAdministrator = receipt.items.filter {
                 $0.heldBack == .beyondTheHelper && $0.removedElsewhere == nil

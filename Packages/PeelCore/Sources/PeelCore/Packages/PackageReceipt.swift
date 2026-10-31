@@ -80,6 +80,9 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         )
     }
 
+    /// How many items only the helper can move and a person could select once it can act.
+    public var itemsWaitingForTheHelper: Int { items.count { $0.requiresPrivileges && !$0.isLeftAlone } }
+
     /// True when the package still has files on disk but none of them can be moved: each is excluded, protected,
     /// or left alone. False when the file list is unknown, since then nothing is known about what is left.
     public var holdsNothingToRemove: Bool {

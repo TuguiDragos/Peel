@@ -555,6 +555,23 @@ struct PackageReceiptsTests {
         #expect(receipt.selectableRows(canUseHelper: true).recommended.isEmpty)
     }
 
+    @Test func countsTheItemsThatWaitForTheHelper() {
+        let daemon = PackageReceipt.Item(
+            url: URL(filePath: "/Library/LaunchDaemons/org.example.helper.plist"), size: 10, requiresPrivileges: true
+        )
+        var refused = PackageReceipt.Item(
+            url: URL(filePath: "/usr/bin/example"), size: 10, requiresPrivileges: true
+        )
+        refused.refusal = .protectedLocation
+        let plain = PackageReceipt.Item(url: URL(filePath: "/Users/Shared/Example"), size: 10, requiresPrivileges: false)
+        let receipt = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"),
+            items: [daemon, refused, plain]
+        )
+
+        #expect(receipt.itemsWaitingForTheHelper == 1)
+    }
+
     @Test func leavesTheRestOfAPackageToWhatRemovesItsApp() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
