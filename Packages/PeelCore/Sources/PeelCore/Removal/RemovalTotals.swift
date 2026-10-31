@@ -85,7 +85,7 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
         guard var totals = stored(at: url) ?? startedAgain(at: url) else { return false }
         change(&totals)
         guard let data = try? JSONEncoder().encode(totals) else { return false }
-        return (try? data.write(to: url, options: .atomic)) != nil
+        return (try? PeelFolder.write(data, to: url)) != nil
     }
 
     /// The totals at `url`: none yet when there is no file, and nil when the file cannot be read as the totals.

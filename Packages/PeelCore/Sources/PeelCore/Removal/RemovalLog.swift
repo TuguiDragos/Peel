@@ -61,7 +61,7 @@ public actor RemovalLog {
     /// Reads the log. The read takes the lock too, because reading a damaged file sets it aside and writes back
     /// the rows that could be read.
     public func load() -> RemovalLogOutcome {
-        whileNoOtherProcessWrites { outcome(current()) }
+        FileLock.whileReading(beside: url) { outcome(current()) }
     }
 
     /// The places in the Trash where an item Peel moved still is, whichever process moved it: what History records
@@ -271,12 +271,7 @@ public actor RemovalLog {
                 Self.trimmed(records, keeping: protected), within: readLimit, batch: \.batch, date: \.date,
                 keeping: protected, encode: { try encoder.encode($0) }
             )
-            try FileManager.default.createDirectory(
-                at: url.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            // `.atomic` writes a temporary file and renames it, so a crash leaves either the old log or the new one.
-            try fitted.data.write(to: url, options: .atomic)
+            try PeelFolder.write(fitted.data, to: url)
             // Every writer takes the lock, so the file here is the one just written.
             kept = FileIdentity.of(url).map { ($0, fitted.records) }
             if fitted.records.count < records.count {

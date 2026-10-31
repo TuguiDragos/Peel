@@ -22,8 +22,11 @@ public final class ScanRun {
     public private(set) var itemsRead = 0
     @ObservationIgnored private var newest = 0
     @ObservationIgnored private var stopNewest: (@Sendable () -> Void)?
+    @ObservationIgnored private let others: RunningScans
 
-    public init() {}
+    public init(among others: RunningScans = .shared) {
+        self.others = others
+    }
 
     /// Runs `work` as the page's scan and returns its answer, or nil when it was stopped, replaced by another
     /// scan, or canceled with its caller.
@@ -37,6 +40,7 @@ public final class ScanRun {
         wasStopped = false
         isAbandoned = false
         isRunning = true
+        others.began(self)
         itemsRead = 0
         let reading = Task { [weak self] in
             while !Task.isCancelled {
@@ -58,6 +62,7 @@ public final class ScanRun {
         guard asked == newest else { return nil }
         stopNewest = nil
         isRunning = false
+        others.ended(self)
         isAbandoned = false
         return task.isCancelled ? nil : answer
     }
@@ -85,7 +90,29 @@ public final class ScanRun {
         stopNewest = nil
         newest += 1
         isRunning = false
+        others.ended(self)
         isAbandoned = false
         wasStopped = true
+    }
+}
+
+/// The scans running on every page, so that Remove Peel can stop them all.
+@MainActor
+public final class RunningScans {
+    public static let shared = RunningScans()
+    private var scans: [ObjectIdentifier: ScanRun] = [:]
+
+    public init() {}
+
+    fileprivate func began(_ scan: ScanRun) {
+        scans[ObjectIdentifier(scan)] = scan
+    }
+
+    fileprivate func ended(_ scan: ScanRun) {
+        scans[ObjectIdentifier(scan)] = nil
+    }
+
+    func stopEvery() {
+        Array(scans.values).forEach { $0.stop() }
     }
 }

@@ -50,8 +50,7 @@ public struct HomebrewChoice: Sendable {
     @discardableResult
     public func save(_ brew: URL?) -> Bool {
         guard let data = try? JSONEncoder().encode(brew?.path(percentEncoded: false)) else { return false }
-        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        return (try? data.write(to: url, options: .atomic)) != nil
+        return (try? PeelFolder.write(data, to: url)) != nil
     }
 
     /// Why `brew` cannot be the one Peel runs, or nil. A link is followed, since the file it leads to is what runs.

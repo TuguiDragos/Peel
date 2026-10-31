@@ -126,11 +126,7 @@ public struct TeamRegistry: Sendable {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
             let data = try encoder.encode(entries)
-            try FileManager.default.createDirectory(
-                at: url.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            try data.write(to: url, options: .atomic)
+            try PeelFolder.write(data, to: url)
             return true
         } catch {
             return false

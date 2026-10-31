@@ -95,7 +95,6 @@ public struct ReleaseNotesStore: Sendable {
     @concurrent
     public func save(_ memory: ReleaseNotesMemory) async {
         guard let data = try? JSONEncoder().encode(memory) else { return }
-        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        try? data.write(to: url, options: .atomic)
+        try? PeelFolder.write(data, to: url)
     }
 }

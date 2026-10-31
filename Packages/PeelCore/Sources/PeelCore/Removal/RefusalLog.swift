@@ -83,7 +83,7 @@ public actor RefusalLog {
     /// The records, with what is still to be said about the file (`note`). Nil records when the file could not be
     /// read: what was refused is then not known, which is not the same as nothing refused.
     public func load() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?) {
-        FileLock.whileHeld(beside: url) {
+        FileLock.whileReading(beside: url) {
             let records = current()
             return (records, problem)
         }
@@ -128,7 +128,7 @@ public actor RefusalLog {
 
     /// Whether nothing is left to forget: no refusal written down, no file that can't be read, and no copy set aside.
     public func holdsNothing() -> Bool {
-        FileLock.whileHeld(beside: url) { current() == [] && DamagedFile.copies(of: url) == [] }
+        FileLock.whileReading(beside: url) { current() == [] && DamagedFile.copies(of: url) == [] }
     }
 
     /// Moves the file and the copies set aside to the Trash, so every refusal is forgotten and can still be taken back
@@ -216,8 +216,7 @@ public actor RefusalLog {
             records, within: readLimit, batch: { $0.batch ?? $0.id }, date: \.date, keeping: protected,
             encode: { try encoder.encode($0) }
         ) else { return false }
-        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        guard (try? fitted.data.write(to: url, options: .atomic)) != nil else { return false }
+        guard (try? PeelFolder.write(fitted.data, to: url)) != nil else { return false }
         // Every writer takes the lock, so the file here is the one just written.
         kept = FileIdentity.of(url).map { ($0, fitted.records) }
         return true

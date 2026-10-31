@@ -36,7 +36,7 @@ public enum SSHFile {
         guard let data = BoundedRead.data(at: url, maximum: maximumBytes),
               let updated = update(of: String(decoding: data, as: UTF8.self))
         else { return }
-        try? Data(updated.utf8).write(to: url, options: .atomic)
+        try? PeelFolder.write(Data(updated.utf8), to: url)
     }
 
     public static func settings(in contents: String) -> Set<SSHSetting> {
@@ -55,16 +55,7 @@ public enum SSHFile {
     }
 
     public static func write(_ settings: Set<SSHSetting>, to url: URL) -> Bool {
-        do {
-            try FileManager.default.createDirectory(
-                at: url.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            try Data(contents(of: settings).utf8).write(to: url, options: .atomic)
-            return true
-        } catch {
-            return false
-        }
+        (try? PeelFolder.write(Data(contents(of: settings).utf8), to: url)) != nil
     }
 
     /// The lines that make ssh read the file. `Match all` first, so they apply to every server even after a `Host`

@@ -405,15 +405,6 @@ public struct ExclusionStore: Sendable {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         guard let data = try? encoder.encode(exclusions) else { return false }
         if read().isUnreadable, DamagedFile.setAside(url) == nil { return false }
-        do {
-            try FileManager.default.createDirectory(
-                at: url.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            try data.write(to: url, options: .atomic)
-            return true
-        } catch {
-            return false
-        }
+        return (try? PeelFolder.write(data, to: url)) != nil
     }
 }

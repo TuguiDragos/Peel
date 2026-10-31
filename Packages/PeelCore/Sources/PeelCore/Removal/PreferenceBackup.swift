@@ -73,8 +73,8 @@ public enum PreferenceBackup {
         // shape `copies` reads back, which rules out a `/` and a space.
         guard
             Identifier.isValid(bundleIdentifier),
-            (try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)) != nil,
-            let folder = newFolder(for: bundleIdentifier, in: directory)
+            let folder = PeelFolder.whileOpen(making: directory, { newFolder(for: bundleIdentifier, in: directory) })
+                ?? nil
         else { return .failed }
 
         for domain in domains {

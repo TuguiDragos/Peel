@@ -19,6 +19,12 @@ enum FileLock {
         }
     }
 
+    /// The same, for a read: with no folder there is nothing to read or to wait for, and a read makes nothing.
+    static func whileReading<T>(beside url: URL, _ read: () -> T) -> T {
+        guard url.deletingLastPathComponent().isThere else { return read() }
+        return whileHeld(beside: url, read)
+    }
+
     /// The same, for a change that has to wait for other work, such as a move to the Trash.
     static func whileHeld<T>(beside url: URL, waitingFor change: () async -> T) async -> T {
         guard let descriptor = openLock(beside: url) else { return await change() }
@@ -31,9 +37,10 @@ enum FileLock {
     }
 
     private static func openLock(beside url: URL) -> Int32? {
-        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        let descriptor = open(url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
-        return descriptor >= 0 ? descriptor : nil
+        let descriptor = PeelFolder.whileOpen(making: url.deletingLastPathComponent()) {
+            open(url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
+        }
+        return descriptor.flatMap { $0 >= 0 ? $0 : nil }
     }
 
     private static func lock(_ descriptor: Int32) -> Bool {

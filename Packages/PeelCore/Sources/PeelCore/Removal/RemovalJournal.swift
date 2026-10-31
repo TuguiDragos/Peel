@@ -111,8 +111,10 @@ struct RemovalJournal: Sendable {
             .compactMap { item in (try? Self.encoder.encode(entry(item))) }
         guard !lines.isEmpty else { return }
         FileLock.whileHeld(beside: url) {
-            let descriptor = open(journal, O_RDWR | O_APPEND | O_CREAT | O_CLOEXEC, 0o600)
-            guard descriptor >= 0 else { return }
+            let opened = PeelFolder.whileOpen(making: url.deletingLastPathComponent()) {
+                open(journal, O_RDWR | O_APPEND | O_CREAT | O_CLOEXEC, 0o600)
+            }
+            guard let descriptor = opened, descriptor >= 0 else { return }
             defer { close(descriptor) }
             var data = Data()
             // A line cut short, as when the disk filled up, is ended first, so the next line is not read as part
@@ -183,7 +185,7 @@ struct RemovalJournal: Sendable {
 
     private func write(_ entries: [Entry]) {
         let data = entries.compactMap { try? Self.encoder.encode($0) }.reduce(into: Data()) { $0 += $1 + Data("\n".utf8) }
-        try? data.write(to: url, options: .atomic)
+        try? PeelFolder.write(data, to: url)
     }
 
     private func read() -> [Entry] {

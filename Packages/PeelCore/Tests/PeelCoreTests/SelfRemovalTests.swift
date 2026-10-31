@@ -364,6 +364,28 @@ struct SelfRemovalTests {
         #expect(try String(contentsOf: moved.trashedURL.appending(path: "removals.json"), encoding: .utf8) == "2")
     }
 
+    @Test func aScanThatEndsAfterPeelLeftDoesNotBringItsFolderBack() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+
+        _ = await SelfRemoval.move([app], app: app, folder: folder, using: try service(in: directory)) { _ in }
+        #expect(folder.isMissing)
+
+        _ = await AppMemory(url: folder.appending(path: "apps.json")).remember([])
+        #expect(folder.isMissing, "a write made the folder again")
+    }
+
+    @Test func peelThatStaysKeepsWritingInItsFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let app = directory.url.appending(path: "home/Applications/Peel.app", directoryHint: .isDirectory)
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+
+        _ = await SelfRemoval.move([app], app: app, folder: folder, using: try service(in: directory)) { _ in }
+
+        #expect(HomebrewChoice(url: folder.appending(path: "homebrew.json")).save(nil))
+    }
+
     @Test func movesTheAppPeelRunsFrom() async throws {
         let directory = try TemporaryDirectory()
         let program = try #require(RunningProgram.path(of: getpid()))

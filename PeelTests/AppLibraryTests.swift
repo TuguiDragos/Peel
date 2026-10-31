@@ -301,6 +301,24 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.shownUpdateStatus(of: app)?.version == "1.1")
     }
 
+    @Test func stoppingTheRoundOfEveryAppEndsIt() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+
+        library.checkEveryAppAgain()
+        #expect(library.isCheckingEveryApp)
+        let round = library.recheck
+        library.stopCheckingEveryApp()
+
+        #expect(!library.isCheckingEveryApp)
+        #expect(round?.isCancelled == true)
+        await round?.value
+        #expect(!library.isCheckingEveryApp)
+    }
+
     @Test func knowsHomebrewsAppsOnlyOnceAReadingKnowsThemAll() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

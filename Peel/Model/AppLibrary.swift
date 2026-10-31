@@ -368,6 +368,12 @@ final class AppLibrary {
         }
     }
 
+    func stopCheckingEveryApp() {
+        recheck?.cancel()
+        rechecks += 1
+        isCheckingEveryApp = false
+    }
+
     private func keepUnreadable(of scan: AppScan) {
         if unreadable != scan.unreadable { unreadable = scan.unreadable }
         if listOfFoldersUnreadable != scan.listOfFoldersUnreadable {

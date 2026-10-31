@@ -332,10 +332,13 @@ struct PeelApp: App {
         guard HomeSnapshot.directory == nil, TerminalExport.directory == nil else { return }
         #endif
         Navigator.shared.openWindow = openWindow
-        background.start([
-            followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
-            followHelper, followHomebrew, followUpdates,
-        ])
+        background.start(
+            [
+                followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
+                followHelper, followHomebrew, followUpdates,
+            ],
+            stoppingWithIt: [duplicates.stop, library.stopCheckingEveryApp]
+        )
         textEditing.start()
         sheetInFront.start()
         // Work for Peel coming forward is in `followActivations`.

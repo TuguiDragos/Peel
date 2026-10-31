@@ -51,16 +51,7 @@ public enum ShellFile {
     }
 
     public static func write(_ choices: Choices, to url: URL) -> Bool {
-        do {
-            try FileManager.default.createDirectory(
-                at: url.deletingLastPathComponent(),
-                withIntermediateDirectories: true
-            )
-            try Data(contents(of: choices).utf8).write(to: url, options: .atomic)
-            return true
-        } catch {
-            return false
-        }
+        (try? PeelFolder.write(Data(contents(of: choices).utf8), to: url)) != nil
     }
 
     public static func line(sourcing url: URL, home: URL) -> String {

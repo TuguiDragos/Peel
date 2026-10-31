@@ -38,7 +38,7 @@ public struct AppFolders: Sendable {
 
     /// The folders chosen, or nil when the file is there and cannot be read: the apps in them are then not known.
     public func load() -> [URL]? {
-        FileLock.whileHeld(beside: url) { url.isMissing ? [] : read() }
+        FileLock.whileReading(beside: url) { url.isMissing ? [] : read() }
     }
 
     /// Adds `folders`. False when they could not be saved, or when the file is there and cannot be read, since
@@ -114,9 +114,7 @@ public struct AppFolders: Sendable {
             else { return false }
             edit(&paths)
             guard let data = try? JSONEncoder().encode(paths) else { return false }
-            let folder = url.deletingLastPathComponent()
-            try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            return (try? data.write(to: url, options: .atomic)) != nil
+            return (try? PeelFolder.write(data, to: url)) != nil
         }
     }
 

@@ -167,7 +167,7 @@ public enum SelfRemoval {
     /// Moves `app` to the Trash, then the rest of `urls` once it has moved, and then `folder`, all but the Terminal
     /// settings the person's `.zshrc` and `~/.ssh/config` read, which go on working without Peel. `record` writes
     /// History into `folder` first, with `movedFirst`, what the helper moved before it went, so the record goes with
-    /// it. Nothing is written after that, or the folder would be created again.
+    /// it. Nothing is written after that (`PeelFolder.take`), or the folder would be created again.
     public static func move(
         _ urls: [URL],
         app: URL,
@@ -185,10 +185,9 @@ public enum SelfRemoval {
         )
         result.trashed.insert(contentsOf: movedFirst, at: 0)
         await record(result)
-        guard
-            result.trashed.contains(where: { $0.originalURL == app }),
-            FileManager.default.fileExists(atPath: folder.path(percentEncoded: false))
-        else { return result }
+        guard result.trashed.contains(where: { $0.originalURL == app }) else { return result }
+        PeelFolder.take(folder)
+        guard FileManager.default.fileExists(atPath: folder.path(percentEncoded: false)) else { return result }
         let terminal = ShellFile.url(in: folder).deletingLastPathComponent()
         let moved = terminal.isMissing
             ? await service.trash([folder]) : await movingTogether(folder, leaving: terminal, using: service)

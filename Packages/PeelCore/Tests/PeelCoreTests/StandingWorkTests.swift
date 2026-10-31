@@ -9,7 +9,7 @@ struct StandingWorkTests {
         var started = 0
         var ended = 0
         let (changes, _) = AsyncStream<Void>.makeStream()
-        let work = StandingWork()
+        let work = StandingWork(scans: RunningScans())
         work.start([{
             started += 1
             for await _ in changes {}
@@ -28,6 +28,51 @@ struct StandingWorkTests {
         await settle { false }
         #expect(started == 2, "a second start ran the work again")
         work.pause()
+    }
+
+    @Test func aPauseStopsEveryPagesScanAndWhatItWasGivenToStop() async {
+        let scans = RunningScans()
+        let work = StandingWork(scans: scans)
+        let run = ScanRun(among: scans)
+        let finished = ScanRun(among: scans)
+        var stopped = 0
+        _ = await finished.run { true }
+        let (never, _) = AsyncStream<Void>.makeStream()
+        work.start([{}], stoppingWithIt: [{ stopped += 1 }])
+        let scan = Task {
+            await run.run {
+                for await _ in never {}
+                return true
+            }
+        }
+        await settle { run.isRunning }
+
+        work.pause()
+
+        #expect(!run.isRunning)
+        #expect(run.wasStopped)
+        #expect(!finished.wasStopped)
+        #expect(stopped == 1)
+        #expect(await scan.value == nil)
+    }
+
+    @Test func aScanOfAnotherListKeepsRunningThroughAPause() async {
+        let work = StandingWork(scans: RunningScans())
+        let run = ScanRun(among: RunningScans())
+        let (never, _) = AsyncStream<Void>.makeStream()
+        let scan = Task {
+            await run.run {
+                for await _ in never {}
+                return true
+            }
+        }
+        await settle { run.isRunning }
+
+        work.pause()
+
+        #expect(run.isRunning)
+        run.stop()
+        _ = await scan.value
     }
 
     private func settle(until done: () -> Bool) async {

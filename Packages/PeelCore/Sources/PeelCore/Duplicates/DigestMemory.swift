@@ -28,7 +28,7 @@ public struct DigestMemory: Sendable {
     }
 
     func load(now: Date = .now) -> KnownDigests {
-        KnownDigests(entries: FileLock.whileHeld(beside: url) { read() }, day: Self.day(of: now))
+        KnownDigests(entries: FileLock.whileReading(beside: url) { read() }, day: Self.day(of: now))
     }
 
     /// Merges what this scan learned into the file's current contents instead of replacing them, since the app
@@ -121,8 +121,7 @@ public struct DigestMemory: Sendable {
             bytes += entry.full?.bytes ?? none
         }
         bytes += ContentDigest(SHA256.hash(data: bytes)).bytes
-        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        try? Data(bytes).write(to: url, options: .atomic)
+        try? PeelFolder.write(Data(bytes), to: url)
     }
 }
 

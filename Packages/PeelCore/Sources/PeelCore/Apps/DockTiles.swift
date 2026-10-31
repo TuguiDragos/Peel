@@ -173,7 +173,7 @@ public struct DockTiles: Sendable {
     /// and restarts the Dock once. A tile goes back beside the tiles it sat between, so apps taken out together come
     /// back where they were, together or one at a time in any order, even after the person added other tiles.
     public func putBack(_ apps: [URL]) async {
-        guard let remembered = FileLock.whileHeld(beside: memory, { read() }) else { return }
+        guard let remembered = FileLock.whileReading(beside: memory, { read() }) else { return }
         let removed = Set(apps.map(key)).compactMap { key in remembered[key].map { (key: key, entries: $0) } }
         var settled: [String: Set<DockList>] = [:]
         var changed = false
@@ -290,10 +290,7 @@ public struct DockTiles: Sendable {
             guard var entries = read() ?? (memory.isMissing ? [:] : nil) else { return false }
             edit(&entries)
             guard let data = try? JSONEncoder().encode(entries) else { return false }
-            try? FileManager.default.createDirectory(
-                at: memory.deletingLastPathComponent(), withIntermediateDirectories: true
-            )
-            return (try? data.write(to: memory, options: .atomic)) != nil
+            return (try? PeelFolder.write(data, to: memory)) != nil
         }
     }
 
