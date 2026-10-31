@@ -301,6 +301,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
   streams, in the order Homebrew wrote them.
 - **Never run `brew` by hand with `HOMEBREW_NO_INSTALL_FROM_API=1`**: Homebrew then clones its whole core tap, over
   a gigabyte. Peel sets it for one question only, whether Homebrew's copy of its definitions is on the Mac.
+- **Peel never runs one of Homebrew's developer commands** (those in its `dev-cmd` folder, `brew ruby` among them):
+  the first one turns Homebrew's developer mode on for good, and `brew update` then moves Homebrew to the latest
+  commit of its main branch rather than its latest release (`man brew`, `developer`).
 - **What Homebrew says of versions is as new as its last check for them.** While Homebrew reads its definitions from
   its API, as it does by default, it dates their file at every download or confirmation (`api.rb`), and only that date
   says how new they are: `brew update` can touch `.git/FETCH_HEAD` in Homebrew's repository, the mark Homebrew compares

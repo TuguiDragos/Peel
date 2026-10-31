@@ -960,6 +960,60 @@ struct HomebrewTests {
         #expect(!Homebrew.hasLocalDefinitions(inCache: cache.url, tag: "arm64_27", readsTheTaps: false))
     }
 
+    @Test func namesTheCopyForThisMacAsHomebrewDoes() {
+        let table = """
+              RELEASES = T.let({
+                golden_gate: "27",
+                tahoe:       "26",
+                sequoia:     "15",
+                catalina:    "10.15",
+              }.freeze, T::Hash[Symbol, String])
+
+              RELEASE_ALIASES = T.let({
+                "10.16" => "11",
+              }.freeze, T::Hash[String, String])
+            """
+
+        #expect(Homebrew.definitionsTag(releases: table, macOS: 26, onAppleSilicon: true) == "arm64_tahoe")
+        #expect(Homebrew.definitionsTag(releases: table, macOS: 27, onAppleSilicon: true) == "arm64_golden_gate")
+        #expect(Homebrew.definitionsTag(releases: table, macOS: 26, onAppleSilicon: false) == "tahoe")
+        #expect(Homebrew.definitionsTag(releases: table, macOS: 28, onAppleSilicon: true) == nil)
+        #expect(Homebrew.definitionsTag(releases: "", macOS: 26, onAppleSilicon: true) == nil)
+    }
+
+    @Test func homebrewsOwnTableNamesThisMacOS() async throws {
+        let home = try TemporaryDirectory()
+        guard Homebrew.executableURL != nil,
+              let repository = await Homebrew.answerWithoutTheAPI(["--repository"], home: home.url)
+                .flatMap(Homebrew.folder(answering:))
+        else { return }
+
+        let tag = try #require(Homebrew.definitionsTag(repository: repository))
+        #expect(tag.wholeMatch(of: /(arm64_)?[a-z][a-z0-9_]*/) != nil)
+    }
+
+    @Test func withoutThePlatformsNameAnyCopyCounts() throws {
+        let cache = try TemporaryDirectory()
+        try cache.directory("api/internal")
+        #expect(!Homebrew.hasLocalDefinitions(inCache: cache.url, tag: nil, readsTheTaps: false))
+
+        try cache.file("api/internal/packages.arm64_tahoe.jws.json")
+        #expect(Homebrew.hasLocalDefinitions(inCache: cache.url, tag: nil, readsTheTaps: false))
+    }
+
+    @Test func namesThePersonsSettingsFolderAsBinBrewDoes() throws {
+        let folder = try TemporaryDirectory()
+        let home = folder.url.appending(path: "home", directoryHint: .isDirectory)
+        let system = folder.url.appending(path: "etc/homebrew/brew.env")
+        let prefix = folder.url.appending(path: "prefix", directoryHint: .isDirectory)
+
+        #expect(Homebrew.userConfiguration(home: home, system: system, prefix: prefix).path(percentEncoded: false)
+            == home.appending(path: ".homebrew/").path(percentEncoded: false))
+        try folder.file("prefix/etc/homebrew/brew.env", contents: Data("HOMEBREW_XDG_CONFIG_HOME=/srv/settings\n".utf8))
+        #expect(Homebrew.userConfiguration(home: home, system: system, prefix: prefix).path(percentEncoded: false)
+            == "/srv/settings/homebrew/")
+    }
+
     /// With `HOMEBREW_NO_INSTALL_FROM_API`, Homebrew reads its taps and never the API files, so its taps are the
     /// local copy.
     @Test func readingTheTapsNeedsNoAPICopy() throws {
@@ -975,6 +1029,27 @@ struct HomebrewTests {
         #expect(await !Homebrew.hasLocalDefinitions(home: home.url))
         let api = home.url.appending(path: "Library/Caches/Homebrew/api")
         #expect(!FileManager.default.fileExists(atPath: api.path(percentEncoded: false)), "Homebrew went online")
+    }
+
+    @Test func askingAboutTheDefinitionsRunsNoDeveloperCommand() async throws {
+        let home = try TemporaryDirectory()
+        guard Homebrew.executableURL != nil,
+              let repository = await Homebrew.answerWithoutTheAPI(["--repository"], home: home.url)
+                .flatMap(Homebrew.folder(answering:))
+        else { return }
+        let folder = repository.appending(path: "Library/Homebrew/dev-cmd").path(percentEncoded: false)
+        let developerCommands = Set(try FileManager.default.contentsOfDirectory(atPath: folder).map {
+            ($0 as NSString).deletingPathExtension
+        })
+        let asked = Mutex<[String]>([])
+
+        _ = await Homebrew.hasLocalDefinitions(home: home.url) { arguments in
+            asked.withLock { $0.append(arguments.first ?? "") }
+            return await Homebrew.answerWithoutTheAPI(arguments, home: home.url)
+        }
+        #expect(developerCommands.contains("ruby"))
+        #expect(!asked.withLock(\.self).isEmpty)
+        #expect(asked.withLock { $0.filter(developerCommands.contains) }.isEmpty)
     }
 
     @Test func readsTheTapsOnlyWhereTheLastBrewEnvLineSaysSo() throws {

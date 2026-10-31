@@ -605,35 +605,78 @@ public enum Homebrew {
 
     /// Returns whether Homebrew's local copy of its definitions is on disk. Without it, any command that may read
     /// them makes Homebrew download the copy first, even with `HOMEBREW_NO_AUTO_UPDATE` set (`fetch_api_files!` in
-    /// `brew.rb`, 7.0). So Peel looks for the copy itself, and runs nothing else when it is missing. Where Homebrew
-    /// keeps it and the platform it is named for are asked of Homebrew with its API turned off, which keeps that
-    /// question from downloading. Whether it reads its taps instead is what its `brew.env` files say, since Peel's
-    /// own environment never sets it.
+    /// `brew.rb`, 7.0). So Peel looks for the copy itself, and runs nothing else when it is missing. It asks Homebrew
+    /// only what `brew.sh` answers without Ruby, and works out the rest as Homebrew does: only a developer command
+    /// could tell it, and running one turns Homebrew's developer mode on for good. Whether Homebrew reads its taps
+    /// instead is what its `brew.env` files say, since Peel's own environment never sets it.
     @concurrent
     public static func hasLocalDefinitions() async -> Bool {
         await hasLocalDefinitions(home: .homeDirectory)
     }
 
     static func hasLocalDefinitions(home: URL) async -> Bool {
-        guard executableURL != nil else { return false }
-        let question = "puts HOMEBREW_CACHE; puts Utils::Bottles.tag; puts HOMEBREW_PREFIX; "
-            + "puts ENV.fetch('HOMEBREW_USER_CONFIG_HOME', ''); "
-            + "puts(CoreTap.instance.installed? && CoreCaskTap.instance.installed?)"
-        guard let answer = try? await answer(["ruby", "-e", question], readsTheAPI: false, home: home) else {
-            return false
+        await hasLocalDefinitions(home: home) { await answerWithoutTheAPI($0, home: home) }
+    }
+
+    static func answerWithoutTheAPI(_ arguments: [String], home: URL) async -> String? {
+        try? await answer(arguments, readsTheAPI: false, home: home)
+    }
+
+    static func hasLocalDefinitions(home: URL, asking ask: (_ arguments: [String]) async -> String?) async -> Bool {
+        guard executableURL != nil,
+              let cache = await ask(["--cache"]).flatMap(folder(answering:)),
+              let repository = await ask(["--repository"]).flatMap(folder(answering:)),
+              let prefix = await ask(["--prefix"]).flatMap(folder(answering:))
+        else { return false }
+        let system = URL(filePath: "/etc/homebrew/brew.env")
+        let user = userConfiguration(home: home, system: system, prefix: prefix)
+        let files = settingsFiles(system: system, prefix: prefix, userConfiguration: user)
+        // A tap is installed when its folder is there (`Tap#installed?`).
+        let taps = repository.appending(path: "Library/Taps/homebrew", directoryHint: .isDirectory)
+        let hasCoreTaps = ["homebrew-core", "homebrew-cask"].allSatisfy { tap in
+            var isFolder: ObjCBool = false
+            let path = taps.appending(path: tap).path(percentEncoded: false)
+            return FileManager.default.fileExists(atPath: path, isDirectory: &isFolder) && isFolder.boolValue
         }
-        let lines = answer.split(whereSeparator: \.isNewline).map(String.init)
-        guard lines.count == 5, !lines[0].isEmpty, !lines[1].isEmpty, !lines[2].isEmpty, !lines[3].isEmpty else {
-            return false
+        let readsItsTaps = hasCoreTaps && readsTheTaps(settingsIn: files)
+        let tag = definitionsTag(repository: repository)
+        return hasLocalDefinitions(inCache: cache, tag: tag, readsTheTaps: readsItsTaps)
+    }
+
+    /// The folder of the person's own `brew.env` as `bin/brew` names it for Peel, which passes no `XDG_CONFIG_HOME`:
+    /// from a `HOMEBREW_XDG_CONFIG_HOME` the system's or the prefix's file sets, else `~/.homebrew`.
+    static func userConfiguration(home: URL, system: URL, prefix: URL) -> URL {
+        let files = [system, prefix.appending(path: "etc/homebrew/brew.env")]
+        guard let folder = setting("HOMEBREW_XDG_CONFIG_HOME", in: files), folder.hasPrefix("/") else {
+            return home.appending(path: ".homebrew", directoryHint: .isDirectory)
         }
-        let files = settingsFiles(
-            system: URL(filePath: "/etc/homebrew/brew.env"),
-            prefix: URL(filePath: lines[2], directoryHint: .isDirectory),
-            userConfiguration: URL(filePath: lines[3], directoryHint: .isDirectory)
+        return URL(filePath: folder, directoryHint: .isDirectory).appending(path: "homebrew", directoryHint: .isDirectory)
+    }
+
+    /// The platform Homebrew names its copy for (`Utils::Bottles.tag`), `arm64_tahoe` say: its own name for this
+    /// macOS from its table of releases, after `arm64_` while its Ruby runs on Apple silicon, as an Intel one runs
+    /// translated. Nil when the table can't be read or names no release for this macOS.
+    static func definitionsTag(repository: URL) -> String? {
+        let library = repository.appending(path: "Library/Homebrew", directoryHint: .isDirectory)
+        guard let table = BoundedRead.data(at: library.appending(path: "macos_version.rb"), maximum: 64 * 1_024) else {
+            return nil
+        }
+        let ruby = library.appending(path: "vendor/portable-ruby/current/bin/ruby")
+        let rubyArchitectures = MachOHeader.architectures(ofExecutableAt: ruby) ?? []
+        return definitionsTag(
+            releases: String(decoding: table, as: UTF8.self),
+            macOS: ProcessInfo.processInfo.operatingSystemVersion.majorVersion,
+            onAppleSilicon: HostArchitecture.isAppleSilicon
+                && (rubyArchitectures.isEmpty || rubyArchitectures.contains(.arm64))
         )
-        let cache = URL(filePath: lines[0], directoryHint: .isDirectory)
-        let readsItsTaps = lines[4] == "true" && readsTheTaps(settingsIn: files)
-        return hasLocalDefinitions(inCache: cache, tag: lines[1], readsTheTaps: readsItsTaps)
+    }
+
+    /// The tag for `major` in Homebrew's table of releases, whose lines read `tahoe:       "26",`.
+    static func definitionsTag(releases: String, macOS major: Int, onAppleSilicon: Bool) -> String? {
+        let name = releases.split(separator: "\n").lazy.compactMap { line in
+            line.wholeMatch(of: /\s*([a-z][a-z0-9_]*):\s*"([0-9.]+)",?\s*/).map { (String($0.1), String($0.2)) }
+        }.first { $0.1 == String(major) }?.0
+        return name.map { onAppleSilicon ? "arm64_\($0)" : $0 }
     }
 
     /// A settings file `bin/brew` reads from a shell that sets `XDG_CONFIG_HOME` to `~/.config`, and not when Peel runs
@@ -685,12 +728,20 @@ public enum Homebrew {
     /// platform Homebrew reads it for (`tag`), like `api/internal/packages.arm64_tahoe.jws.json`: a file left for
     /// an older macOS is no copy, since Homebrew downloads the one it wants. Earlier versions keep one file for
     /// formulae and one for casks (`cmd/update.sh` in 5.1.9), and both must be there: a query of either kind
-    /// downloads its file when it is missing. A Homebrew that reads its taps needs neither.
-    static func hasLocalDefinitions(inCache cache: URL, tag: String, readsTheTaps: Bool) -> Bool {
+    /// downloads its file when it is missing. A Homebrew that reads its taps needs neither. Without the platform's
+    /// name, any copy counts.
+    static func hasLocalDefinitions(inCache cache: URL, tag: String?, readsTheTaps: Bool) -> Bool {
         guard !readsTheTaps else { return true }
         let api = cache.appending(path: "api", directoryHint: .isDirectory)
-        let packages = api.appending(path: "internal/packages.\(tag).jws.json")
-        if FileManager.default.fileExists(atPath: packages.path(percentEncoded: false)) { return true }
+        let internalFolder = api.appending(path: "internal", directoryHint: .isDirectory)
+        let copies = tag.map { ["packages.\($0).jws.json"] }
+            ?? (try? FileManager.default.contentsOfDirectory(atPath: internalFolder.path(percentEncoded: false)))?
+                .filter { $0.hasPrefix("packages.") && $0.hasSuffix(".jws.json") } ?? []
+        if copies.contains(where: {
+            FileManager.default.fileExists(atPath: internalFolder.appending(path: $0).path(percentEncoded: false))
+        }) {
+            return true
+        }
         return ["formula.jws.json", "cask.jws.json"].allSatisfy {
             FileManager.default.fileExists(atPath: api.appending(path: $0).path(percentEncoded: false))
         }
