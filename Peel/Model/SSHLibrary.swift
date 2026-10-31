@@ -33,6 +33,8 @@ final class SSHLibrary {
 
     func refresh() async {
         let accepted = if let accepted = state?.accepted { accepted } else { await SSHFile.accepted() }
+        // A reading stopped because the page went away got no answer from ssh, which isn't ssh not answering.
+        guard !Task.isCancelled else { return }
         state = State(
             settings: SSHFile.read(file),
             isIncluded: SSHFile.isIncluded(file, from: config, home: home),

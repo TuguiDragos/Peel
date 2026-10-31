@@ -55,6 +55,8 @@ final class ShellLibrary {
         }
         // Read after zsh answered, which takes as long as the person's startup files: a switch can change it meanwhile.
         let choices = ShellFile.read(file)
+        // A reading stopped because the page went away got no answer from zsh, which isn't zsh not answering.
+        guard !Task.isCancelled else { return }
         state = State(
             shell: shell,
             startupFile: startupFile,

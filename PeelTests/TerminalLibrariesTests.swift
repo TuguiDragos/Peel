@@ -119,6 +119,26 @@ struct TerminalLibrariesTests {
         #expect(ShellFile.read(library.file)?.settings == [.autoCD, .comments])
     }
 
+    @Test func aReadingCutShortIsNoAnswerFromZshOrSSH() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/zsh"
+        let shell = ShellLibrary(folder: folder, home: home, terminal: terminal)
+        let ssh = SSHLibrary(folder: folder, home: home)
+
+        let reading = Task {
+            withUnsafeCurrentTask { $0?.cancel() }
+            await shell.refresh()
+            await ssh.refresh()
+        }
+        await reading.value
+
+        #expect(shell.state == nil)
+        #expect(ssh.state == nil)
+    }
+
     @Test func theShellTabLooksForNoZshrcWhenTerminalOpensBash() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
