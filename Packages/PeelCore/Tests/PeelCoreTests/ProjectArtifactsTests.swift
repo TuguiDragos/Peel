@@ -118,6 +118,21 @@ struct ProjectArtifactsTests {
         #expect(markable.map { $0.deletingLastPathComponent().lastPathComponent } == ["app"])
     }
 
+    @Test func walksAChosenFolderThatIsALink() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Work/site/package.json", bytes: 16)
+        try directory.file("Work/site/node_modules/left-pad/index.js", bytes: 16)
+        try FileManager.default.createSymbolicLink(
+            atPath: directory.url.appending(path: "Projects").path(percentEncoded: false), withDestinationPath: "Work"
+        )
+        let link = directory.url.appending(path: "Projects", directoryHint: .isDirectory)
+
+        let scan = await ProjectArtifacts.scan(roots: [link])
+
+        #expect(scan.unreadableLocations.isEmpty)
+        #expect(scan.artifacts.map(\.name) == ["node_modules"])
+    }
+
     @Test func theBackupSwitchShowsAndTakesOffWhatPeelMarked() {
         func artifact(_ name: String, isGeneric: Bool = false, isEnvironment: Bool = false) -> ProjectArtifact {
             ProjectArtifact(

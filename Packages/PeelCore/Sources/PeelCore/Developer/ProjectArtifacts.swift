@@ -893,7 +893,9 @@ public enum ProjectArtifacts {
                     refused.append((root, reason))
                     continue
                 }
-                group.addTask { await artifacts(in: root, exclusions: exclusions, measure: measure) }
+                // Listing a link as a URL answers "Not a directory", so the walk starts from where it leads.
+                let folder = root.isSymbolicLink ? PathPattern.canonical(root) : root
+                group.addTask { await artifacts(in: folder, exclusions: exclusions, measure: measure) }
             }
             var found: [ProjectArtifact] = []
             var seen: Set<URL> = []
