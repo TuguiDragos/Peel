@@ -38,8 +38,8 @@ The package, `Packages/PeelCore`, has four libraries:
 - **PeelPrivileged** is the part the helper shares: which paths may be touched, what is protected, how a tool
   is run, and how a path is split into names. The helper links nothing else, so it stays small.
 - **PeelCommandLine** holds the `peel` commands. `PeelCLI` is only their entry point.
-- **PeelLink** says what a `peel://open?path=` link means, for the Finder extension that sends it, the
-  notifications that send it too, and the app that reads it. The extension links nothing else.
+- **PeelLink** says what a `peel://open?path=` link means, for the Finder extension that sends it and the app that
+  reads it. The extension links nothing else.
 
 Keeping the logic in the package is what makes it testable: `swift test --package-path Packages/PeelCore` runs
 more than 2,200 tests without building the app.

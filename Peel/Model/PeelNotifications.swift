@@ -1,13 +1,12 @@
 import AppKit
 import Foundation
 import PeelCore
-import PeelLink
 import SwiftUI
 import UserNotifications
 
 final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
-    private nonisolated static let pathKey = "path"
-    private nonisolated static let toolKey = "tool"
+    nonisolated static let pathKey = "path"
+    nonisolated static let toolKey = "tool"
 
     func activate() {
         UNUserNotificationCenter.current().delegate = self
@@ -62,14 +61,30 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
     /// One notification for the whole round of checks, never one per app.
     func notify(updatesAvailable count: Int, firstName: String, firstApp: URL) {
         guard count > 0 else { return }
+        let content = Self.updatesContent(count: count, firstName: firstName, firstApp: firstApp)
+        let request = UNNotificationRequest(identifier: "updates", content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request)
+    }
+
+    static func updatesContent(count: Int, firstName: String, firstApp: URL) -> UNNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = count == 1
             ? String(localized: "\(firstName) has an update")
             : String(inflecting: "^[\(count) app](inflect: true) have new updates")
         content.body = String(localized: "Peel doesn’t install updates on its own. Click to see what’s waiting, under Applications.")
         content.userInfo = [Self.pathKey: firstApp.path(percentEncoded: false)]
-        let request = UNNotificationRequest(identifier: "updates", content: content, trigger: nil)
-        UNUserNotificationCenter.current().add(request)
+        return content
+    }
+
+    /// Answers a click in this copy of Peel, as a Shortcut does: a `peel://` link goes to whichever copy Launch
+    /// Services prefers.
+    func open(tool: String?, path: String?) {
+        if let path {
+            Navigator.shared.requestedApp = URL(filePath: path, directoryHint: .isDirectory)
+            Navigator.shared.show(.applications)
+        } else if let tool = tool.flatMap(Tool.init(rawValue:)) {
+            Navigator.shared.show(tool)
+        }
     }
 
     func notify(diskNearlyFull storage: DeviceInfo.Storage) {
@@ -92,21 +107,9 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse
     ) async {
-        if let tool = response.notification.request.content.userInfo[Self.toolKey] as? String {
-            await MainActor.run {
-                if let tool = Tool(rawValue: tool) {
-                    Navigator.shared.show(tool)
-                }
-            }
-            return
-        }
-        guard
-            let path = response.notification.request.content.userInfo[Self.pathKey] as? String,
-            let url = OpenRequest.link(toApplicationAt: path)
-        else { return }
-        await MainActor.run {
-            _ = NSWorkspace.shared.open(url)
-        }
+        let userInfo = response.notification.request.content.userInfo
+        let (tool, path) = (userInfo[Self.toolKey] as? String, userInfo[Self.pathKey] as? String)
+        await MainActor.run { open(tool: tool, path: path) }
     }
 }
 
