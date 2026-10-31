@@ -1,12 +1,16 @@
 import AppKit
 @testable import Peel
 import SwiftUI
+import Synchronization
 import Testing
 
 @MainActor
 struct SectionHeaderLineTests {
-    private nonisolated final class Counter {
-        var count = 0
+    private nonisolated final class Counter: Sendable {
+        private let count = Mutex(0)
+        var value: Int { count.withLock { $0 } }
+        func add() { count.withLock { $0 += 1 } }
+        func reset() { count.withLock { $0 = 0 } }
     }
 
     /// Counts how often SwiftUI asks the view inside for its size.
@@ -14,7 +18,7 @@ struct SectionHeaderLineTests {
         let counter: Counter
 
         func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-            counter.count += 1
+            counter.add()
             return subviews.first?.sizeThatFits(proposal) ?? .zero
         }
 
@@ -41,10 +45,10 @@ struct SectionHeaderLineTests {
 
         func size(of view: some View, width: CGFloat) -> (heading: Int, buttons: Int) {
             let host = NSHostingController(rootView: view)
-            heading.count = 0
-            buttons.count = 0
+            heading.reset()
+            buttons.reset()
             _ = host.sizeThatFits(in: CGSize(width: width, height: 200))
-            return (heading.count, buttons.count)
+            return (heading.value, buttons.value)
         }
     }
 
