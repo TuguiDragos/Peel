@@ -704,6 +704,13 @@ private nonisolated final class TestClock: Sendable {
         #expect(InventoryExport.reason(for: Homebrew.CommandFailure(output: "Error: No such keg")) == "Error: No such keg")
     }
 
+    @Test func anExportSaysPeelsOwnSentencesInTheReadersLanguage() throws {
+        let romanian = try #require(Bundle.main.path(forResource: "ro", ofType: "lproj").flatMap(Bundle.init(path:)))
+        let notInstalled = Homebrew.CommandFailure(output: "Homebrew isn’t installed.")
+        #expect(InventoryExport.reason(for: notInstalled, in: romanian) == "Homebrew nu este instalat.")
+        #expect(InventoryExport.reason(for: Homebrew.CommandFailure(output: "Error: No such keg\n"), in: romanian) == "Error: No such keg")
+    }
+
     @Test func twoCopiesOfAnAppAtTwoBuildsKeepAnAnswerEach() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

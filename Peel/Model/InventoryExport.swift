@@ -31,9 +31,13 @@ enum InventoryExport {
         alert.runModal()
     }
 
-    /// What the alert says when Homebrew couldn't write the Brewfile.
-    static func reason(for failure: Homebrew.CommandFailure) -> String {
-        failure.output ?? String(localized: "Homebrew stopped without saying why.")
+    /// What the alert says when Homebrew couldn't write the Brewfile: Homebrew's words, or Peel's own sentence in the
+    /// reader's language.
+    static func reason(for failure: Homebrew.CommandFailure, in bundle: Bundle? = nil) -> String {
+        guard let output = failure.output else {
+            return String(localized: "Homebrew stopped without saying why.", bundle: bundle)
+        }
+        return FixedSentence.translated(output.trimmingCharacters(in: .whitespacesAndNewlines), in: bundle)
     }
 
     /// Returns nil when the file was written or the user canceled, and the error message otherwise.
