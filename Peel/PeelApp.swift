@@ -100,6 +100,7 @@ struct PeelApp: App {
         let selfUninstall = SelfUninstall()
         _selfUninstall = State(initialValue: selfUninstall)
         let library = AppLibrary()
+        notifications.appList = library
         _homebrew = State(initialValue: HomebrewLibrary(appsOfCask: { [library] in library.apps(of: $0) }))
         let history = RemovalHistoryStore(outcome: outcome, removesPeel: { selfUninstall.isRunning })
         let (orphans, space, developer, projects) = (

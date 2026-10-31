@@ -8,6 +8,9 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
     nonisolated static let pathKey = "path"
     nonisolated static let toolKey = "tool"
 
+    /// The list of apps, whose chosen row a click that opens the whole list clears.
+    var appList: AppLibrary?
+
     func activate() {
         UNUserNotificationCenter.current().delegate = self
     }
@@ -72,7 +75,10 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
             ? String(localized: "\(firstName) has an update")
             : String(inflecting: "^[\(count) app](inflect: true) have new updates")
         content.body = String(localized: "Peel doesn’t install updates on its own. Click to see what’s waiting, under Applications.")
-        content.userInfo = [Self.pathKey: firstApp.path(percentEncoded: false)]
+        // One update opens that app's page, where it is updated. Several open the list, which leads with them, rather
+        // than one app's page with its files selected for removal.
+        content.userInfo = count == 1
+            ? [Self.pathKey: firstApp.path(percentEncoded: false)] : [Self.toolKey: Tool.applications.rawValue]
         return content
     }
 
@@ -83,6 +89,7 @@ final class PeelNotifications: NSObject, UNUserNotificationCenterDelegate {
             Navigator.shared.requestedApp = URL(filePath: path, directoryHint: .isDirectory)
             Navigator.shared.show(.applications)
         } else if let tool = tool.flatMap(Tool.init(rawValue:)) {
+            if tool == .applications { appList?.selection = [] }
             Navigator.shared.show(tool)
         }
     }

@@ -24,4 +24,27 @@ import UserNotifications
         #expect(Navigator.shared.requestedApp == app)
         #expect(Navigator.shared.requestedTool == .applications)
     }
+
+    @Test func severalUpdatesOpenTheListWithNoAppChosen() throws {
+        defer {
+            Navigator.shared.requestedApp = nil
+            Navigator.shared.requestedTool = nil
+        }
+        let madeUp = try MadeUpDefaults()
+        defer { madeUp.forget() }
+        let library = AppLibrary(defaults: madeUp.defaults)
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app", name: "Example"
+        )
+        library.selection = [app.id]
+        let notifications = PeelNotifications()
+        notifications.appList = library
+
+        click(PeelNotifications.updatesContent(count: 3, firstName: "Example", firstApp: app.url), on: notifications)
+
+        #expect(Navigator.shared.requestedApp == nil)
+        #expect(Navigator.shared.requestedTool == .applications)
+        #expect(library.selection.isEmpty)
+    }
 }
