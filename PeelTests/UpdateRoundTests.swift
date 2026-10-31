@@ -79,6 +79,38 @@ private nonisolated final class TransportProtocol: URLProtocol, @unchecked Senda
         #expect(known != nil && remembered == known, "nothing learned, nothing put off")
     }
 
+    @Test func aReadingAskedForDuringTheFirstLeavesWhatEarlierRunsLearned() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let chosen = folder.appending(path: "Chosen", directoryHint: .isDirectory)
+        let bundle = try app("Saved", in: chosen, feed: "https://one.example.com/appcast.xml")
+        TransportProtocol.answering.withLock { $0 = ["one.example.com"] }
+        let earlier = library(made.defaults, notesIn: folder)
+        #expect(await earlier.reveal([bundle]))
+        await earlier.checkForUpdates(earlier.apps.filter { $0.bundleIdentifier == "org.example.saved" }, force: true)
+
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [TransportProtocol.self]
+        let library = AppLibrary(
+            defaults: made.defaults,
+            updateChecker: UpdateChecker(session: URLSession(configuration: configuration)),
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: AppFolders(url: folder.appending(path: "app-folders.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+        library.addFolders([chosen])
+
+        let first = Task { await library.load() }
+        while !library.scanRun.isRunning { await Task.yield() }
+        await library.refresh()
+        await first.value
+
+        let saved = try #require(library.apps.first { $0.bundleIdentifier == "org.example.saved" })
+        #expect(library.shownUpdateStatus(of: saved) == .upToDate)
+    }
+
     @Test func aFeedThatReachesNoServerFailsWhileAnotherAnswers() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

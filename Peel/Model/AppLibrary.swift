@@ -177,6 +177,7 @@ final class AppLibrary {
     /// finish last with a list that lacks an app installed in between.
     let scanRun = ScanRun()
     private var lastRead: ContinuousClock.Instant?
+    @ObservationIgnored private var firstReading: Task<Void, Never>?
     private let updateChecker: UpdateChecker
     private let teamRegistry = TeamRegistry()
 
@@ -231,9 +232,16 @@ final class AppLibrary {
         Listing(revision: revision, unreadable: unreadable, listOfFoldersUnreadable: listOfFoldersUnreadable)
     }
 
-    /// The first reading of the folders, at launch. A reading the folder watch starts meanwhile takes its place
-    /// and lists the apps itself.
+    /// The first reading of the folders, at launch. A reading asked for meanwhile, as when the folder watch hears of a
+    /// change, waits for this one, which alone puts back what earlier runs learned.
     func load() async {
+        let reading = Task { await readFirst() }
+        firstReading = reading
+        await reading.value
+        firstReading = nil
+    }
+
+    private func readFirst() async {
         isLoading = true
         lastRead = .now
         if !hasLoaded {
@@ -303,6 +311,7 @@ final class AppLibrary {
     /// when it was last checked) is dropped rather than shown for a version it doesn't describe.
     @discardableResult
     func refresh() async -> [InstalledApp] {
+        await firstReading?.value
         lastRead = .now
         let changes = folderChanges
         let read = await scanRun.run { [appFolders] in await AppCatalog.scan(choices: appFolders) }
