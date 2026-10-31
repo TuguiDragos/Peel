@@ -129,8 +129,9 @@ struct PackageList: View {
                 .foregroundStyle(.secondary)
             }
             Spacer(minLength: 6)
-            if !receipt.nothingLeftOnDisk, !receipt.holdsNothingToRemove {
-                Text(receipt.movable(canUseHelper: helper.canAct).text)
+            if !receipt.nothingLeftOnDisk, !receipt.holdsNothingToRemove,
+               let figure = receipt.figure(canUseHelper: helper.canAct) {
+                Text(figure.text)
                     .rowFigure()
             }
         }

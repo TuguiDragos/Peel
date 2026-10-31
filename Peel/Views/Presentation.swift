@@ -580,7 +580,7 @@ extension SizeTotal {
     /// What VoiceOver hears of a page's total once its scan ends, as the page's header says it, or nil when nothing
     /// is to move.
     var spoken: AttributedString? {
-        known > 0 || !isComplete ? AttributedString(localized: "\(text) can be moved to the Trash") : nil
+        !isNothing ? AttributedString(localized: "\(text) can be moved to the Trash") : nil
     }
 
     var text: String {

@@ -33,7 +33,7 @@ struct AppHeader<Actions: View>: View {
                 actions
             }
             Spacer(minLength: 12)
-            if let total, total.known > 0 || !total.isComplete {
+            if let total, !total.isNothing {
                 TotalLabel(total: total, caption: Text("to remove"))
                     .accessibilityLabel(Text("\(total.text) can be moved to the Trash"))
             }

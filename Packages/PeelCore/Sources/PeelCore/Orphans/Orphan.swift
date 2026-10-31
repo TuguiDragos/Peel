@@ -63,6 +63,12 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
         return SizeTotal(items.filter { selectable.contains($0.url) }.map(\.size))
     }
 
+    /// The size a row of the list shows, as the page's total does: none while nothing could move now.
+    public func figure(canUseHelper: Bool) -> SizeTotal? {
+        let movable = movable(canUseHelper: canUseHelper)
+        return movable.isNothing ? nil : movable
+    }
+
     public var lastModified: Date? {
         items.compactMap(\.modificationDate).max()
     }

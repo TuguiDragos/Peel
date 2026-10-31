@@ -572,6 +572,18 @@ struct PackageReceiptsTests {
         #expect(receipt.itemsWaitingForTheHelper == 1)
     }
 
+    @Test func aRowShowsNoSizeWhileOnlyTheHelperCouldMoveAnything() {
+        let daemon = PackageReceipt.Item(
+            url: URL(filePath: "/Library/LaunchDaemons/org.example.helper.plist"), size: 10, requiresPrivileges: true
+        )
+        let receipt = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"), items: [daemon]
+        )
+
+        #expect(receipt.figure(canUseHelper: false) == nil)
+        #expect(receipt.figure(canUseHelper: true) == SizeTotal([10]))
+    }
+
     @Test func leavesTheRestOfAPackageToWhatRemovesItsApp() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)

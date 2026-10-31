@@ -43,6 +43,9 @@ public struct SizeTotal: Sendable, Hashable, Comparable, Codable {
         SizeTotal(known: known.addingCapped(other.known), isComplete: isComplete && other.isComplete)
     }
 
+    /// True when the total is known to be nothing, which is no size to show.
+    public var isNothing: Bool { isComplete && known == 0 }
+
     /// How the total reads: a size, the least it can be, or nothing known at all.
     public enum Reading: Sendable, Hashable {
         case exactly(Int64)

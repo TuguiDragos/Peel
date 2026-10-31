@@ -4,6 +4,17 @@ import Testing
 
 /// A list shows what a page would move, so a row and the page it opens never give two figures for one thing.
 struct MovableTotalTests {
+    @Test func anOrphanRowShowsNoSizeWhileOnlyTheHelperCouldMoveAnything() {
+        let item = OrphanItem(
+            url: URL(filePath: "/Library/LaunchDaemons/org.example.gone.plist"), kind: .launchDaemons, size: 10,
+            modificationDate: nil, requiresPrivileges: true
+        )
+        let group = OrphanGroup(identifier: "org.example.gone", items: [item])
+
+        #expect(group.figure(canUseHelper: false) == nil)
+        #expect(group.figure(canUseHelper: true) == SizeTotal([10]))
+    }
+
     @Test func anOrphanGroupCountsOnlyWhatCanMove() {
         var library = OrphanItem(
             url: URL(filePath: "/Users/x/Pictures/org.example.gone"), kind: .elsewhere, size: 1_000,

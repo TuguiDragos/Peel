@@ -217,7 +217,7 @@ struct MultipleAppsView: View {
                 }
             }
             Spacer(minLength: 8)
-            if plan.total.known > 0 || !plan.total.isComplete {
+            if !plan.total.isNothing {
                 TotalLabel(total: plan.total, caption: Text("to remove"))
                     .accessibilityLabel(Text("\(plan.total.text) can be moved to the Trash"))
             }

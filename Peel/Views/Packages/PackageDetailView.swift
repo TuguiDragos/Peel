@@ -204,7 +204,7 @@ struct PackageDetailView: View {
             }
         } trailing: {
             let movable = receipt.movable(canUseHelper: helper.canAct)
-            if movable.known > 0 || !movable.isComplete {
+            if !movable.isNothing {
                 TotalLabel(total: movable, caption: Text("to remove"))
                     .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
             }

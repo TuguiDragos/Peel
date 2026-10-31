@@ -255,8 +255,10 @@ private struct OrphanGroupRow: View {
                 .foregroundStyle(.secondary)
             }
             Spacer(minLength: 6)
-            Text(group.movable(canUseHelper: canUseHelper).text)
-                .rowFigure()
+            if let figure = group.figure(canUseHelper: canUseHelper) {
+                Text(figure.text)
+                    .rowFigure()
+            }
         }
         .padding(.vertical, 2)
     }

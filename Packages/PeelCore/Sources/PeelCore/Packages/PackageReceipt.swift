@@ -80,6 +80,12 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         )
     }
 
+    /// The size a row of the list shows, as the page's total does: none while nothing could move now.
+    public func figure(canUseHelper: Bool) -> SizeTotal? {
+        let movable = movable(canUseHelper: canUseHelper)
+        return movable.isNothing ? nil : movable
+    }
+
     /// How many items only the helper can move and a person could select once it can act.
     public var itemsWaitingForTheHelper: Int { items.count { $0.requiresPrivileges && !$0.isLeftAlone } }
 
