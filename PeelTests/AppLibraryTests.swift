@@ -669,7 +669,7 @@ private nonisolated final class TestClock: Sendable {
         #expect(!library.hasUpdate(app))
     }
 
-    @Test func anUpToDateNoCheckRenewsSaysNothingAfterTheLongestWait() async throws {
+    @Test func anUpToDateNoCheckRenewsKeepsTheDayItWasFoundAfterTheLongestWait() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -693,8 +693,11 @@ private nonisolated final class TestClock: Sendable {
         made.defaults.set(false, forKey: SettingsKey.checksForAppUpdates)
         clock.set(now + 24 * 60 * 60)
         #expect(library.shownUpdateStatus(of: app) == .upToDate)
+        #expect(library.keptUpToDate(of: app) == nil)
         clock.set(now + 30 * 24 * 60 * 60)
-        #expect(library.shownUpdateStatus(of: app) == nil)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+        let found = try #require(library.keptUpToDate(of: app))
+        #expect(found <= Date.now && found >= now - 60)
     }
 
     @Test func theRoundRescanStartsSaysWhenItEnds() async throws {

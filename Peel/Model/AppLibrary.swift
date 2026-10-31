@@ -774,14 +774,18 @@ final class AppLibrary {
     func shownUpdateStatus(of app: InstalledApp) -> UpdateStatus? {
         // A web app updates with its website, so there is nothing to check, and nothing is said.
         guard !app.isPeelItself, app.webApp == nil else { return nil }
-        let shown = updatePreferences.shownStatus(updateStatuses[app.id], for: app)
-        // With the checks off, an "up to date" ages unasked: past the longest wait it says nothing, unless Homebrew
-        // says it now, which counts only for a day after its own check.
-        guard shown == .upToDate, !defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true),
-              !updateChecker.stillHolds(answeredAt: lastUpdateChecks[app.id]),
+        return updatePreferences.shownStatus(updateStatuses[app.id], for: app)
+    }
+
+    /// The day the Up to date shown for `app` was found, once nothing renews it: the checks are off, the answer is past
+    /// the longest wait, and Homebrew doesn't say it now. The badge then says that day.
+    func keptUpToDate(of app: InstalledApp) -> Date? {
+        guard shownUpdateStatus(of: app) == .upToDate,
+              !defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true),
+              let checked = lastUpdateChecks[app.id], !updateChecker.stillHolds(answeredAt: checked),
               updateChecker.homebrewStatus(for: app, casks: casks) != .upToDate
-        else { return shown }
-        return nil
+        else { return nil }
+        return checked
     }
 
     /// The apps the reading of the folders found, without those shown on the list from elsewhere: what is installed,

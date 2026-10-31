@@ -7,6 +7,8 @@ struct UpdateStatusBadge: View {
     let isChecking: Bool
     /// When a check last got an answer, which is what the note for a failed check tells the user.
     var lastCheck: Date?
+    /// The day an Up to date nothing renews anymore was found (`AppLibrary.keptUpToDate`).
+    var keptSince: Date?
     let cannotCheck: CannotCheck
 
     var body: some View {
@@ -34,7 +36,13 @@ struct UpdateStatusBadge: View {
             case .updateAvailable:
                 Badge(title: Text("Update available: \(status.displayVersion ?? "")"), systemImage: "arrow.down.circle", tint: .blue)
             case .upToDate:
-                if let lastCheck {
+                if let keptSince {
+                    Badge(
+                        title: Text("Up to date as of \(keptSince, format: .dateTime.day().month(.abbreviated).year())"),
+                        systemImage: "checkmark.circle",
+                        tint: .green
+                    )
+                } else if let lastCheck {
                     upToDate.help(Text("Peel last checked \(lastCheck, format: .relative(presentation: .named))."))
                 } else {
                     upToDate

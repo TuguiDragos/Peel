@@ -12,6 +12,7 @@ struct AppHeader<Actions: View>: View {
     /// True when `AppLibrary.hasUpdate` is, since the page then shows the update in a panel of its own.
     var hasWaitingUpdate = false
     var lastCheck: Date?
+    var keptSince: Date?
     let cannotCheck: CannotCheck
     var total: SizeTotal?
     /// True when the app frees much less than its size, because most of it is shared with another copy.
@@ -91,6 +92,7 @@ struct AppHeader<Actions: View>: View {
                     status: updateStatus,
                     isChecking: isCheckingForUpdates,
                     lastCheck: lastCheck,
+                    keptSince: keptSince,
                     cannotCheck: cannotCheck
                 )
             }

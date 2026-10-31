@@ -87,8 +87,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   often while nothing changes, and when it opens, about every app it last asked a day ago or more. Rescan in
   Applications asks about every app again at once. Skip This Version and Never Check This App keep it quiet about the
   ones you want left alone, and Settings > General lists them under Muted Updates, where Check Again brings their
-  updates back. Turning off Check for app updates there stops the checks, and an app's Up to date, which Peel then no
-  longer renews, goes after a week.
+  updates back. Turning off Check for app updates there stops the checks, and after a week an app's Up to date, which
+  Peel then no longer renews, says the day it was found.
 
 ## Free up disk space
 
