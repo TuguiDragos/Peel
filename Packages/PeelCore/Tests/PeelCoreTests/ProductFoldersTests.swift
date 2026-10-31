@@ -16,7 +16,7 @@ struct ProductFoldersTests {
             contents: Data(#"{"dataFolderName": ".example-editor", "sharedDataFolderName": ".example-editor-shared"}"#.utf8)
         )
 
-        #expect(ProductFolders.of(appAt: ide) == [
+        #expect(folders(of: ide) == [
             ProductFolder(
                 path: "Library/Application Support/ExampleVendor/ExampleIDE2025.2", proof: nil,
                 work: ["scratches", "consoles"]
@@ -24,11 +24,11 @@ struct ProductFoldersTests {
             ProductFolder(path: "Library/Caches/ExampleVendor/ExampleIDE2025.2", proof: nil),
             ProductFolder(path: "Library/Logs/ExampleVendor/ExampleIDE2025.2", proof: nil),
         ])
-        #expect(ProductFolders.of(appAt: editor) == [
+        #expect(folders(of: editor) == [
             ProductFolder(path: ".example-editor", proof: "argv.json"),
             ProductFolder(path: ".example-editor-shared", proof: "sharedStorage"),
         ])
-        #expect(ProductFolders.of(appAt: try directory.directory("Applications/Plain.app")).isEmpty)
+        #expect(folders(of: try directory.directory("Applications/Plain.app")).isEmpty)
     }
 
     @Test func namesTheFolderACodeEditorKeepsItsDataInAndTheWorkInside() {
@@ -72,5 +72,9 @@ struct ProductFoldersTests {
         for name in ["example", ".", "..", ".config/example", ""] {
             #expect(ProductFolders.vsCodeFolders(in: ["dataFolderName": name]).isEmpty, "\(name)")
         }
+    }
+
+    private func folders(of app: URL) -> [ProductFolder] {
+        ProductFolders.of(appAt: app, vsCodeProduct: ProductFolders.vsCodeProduct(of: app))
     }
 }

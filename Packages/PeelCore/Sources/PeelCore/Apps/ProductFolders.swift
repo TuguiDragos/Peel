@@ -48,8 +48,8 @@ enum ProductFolders {
     /// What a code editor built on VS Code reads to name its folders.
     static let vsCodeFile = "Contents/Resources/app/product.json"
 
-    static func of(appAt url: URL) -> [ProductFolder] {
-        jetBrainsFolders(in: json(at: url.appending(path: jetBrainsFile))) + vsCodeFolders(in: vsCodeProduct(of: url))
+    static func of(appAt url: URL, vsCodeProduct: [String: Any]?) -> [ProductFolder] {
+        jetBrainsFolders(in: json(at: url.appending(path: jetBrainsFile))) + vsCodeFolders(in: vsCodeProduct)
     }
 
     /// Whether `folder`, read back from a file, is one these rules would name.

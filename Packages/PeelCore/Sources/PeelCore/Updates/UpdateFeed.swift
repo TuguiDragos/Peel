@@ -4,6 +4,7 @@ internal import PeelPrivileged
 public enum UpdateFeed: Sendable, Hashable {
     case sparkle(URL)
     case electron(URL)
+    case vsCode(URL)
     case appStore(AppStoreListing)
 }
 
@@ -64,6 +65,7 @@ extension UpdateFeed {
     static func detect(
         info: [String: Any],
         electronConfiguration: String?,
+        vsCodeFeed: URL?,
         appStoreListing: AppStoreListing?,
         isSystemProtected: Bool,
         isFromSetapp: Bool
@@ -79,6 +81,9 @@ extension UpdateFeed {
         }
         if let feed = electronConfiguration.flatMap(ElectronUpdater.feedURL(fromConfiguration:)) {
             return .electron(feed)
+        }
+        if let vsCodeFeed {
+            return .vsCode(vsCodeFeed)
         }
         // An app that names no update source gets no feed. Asking Apple about it would send its identifier
         // to itunes.apple.com, and doing that for every app would send Apple the list of installed apps, which

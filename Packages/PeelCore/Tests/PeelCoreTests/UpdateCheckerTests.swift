@@ -686,6 +686,29 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.answer(for: sparkleApp()).notes == nil, "nothing waits for an app that is up to date")
     }
 
+    @Test func readsVSCodesServiceAsVSCodeDoes() async throws {
+        let address = "https://update.code.visualstudio.com/api/update/darwin-arm64/stable/e646868227c3e3a9e3f24277c8c7220be42c0be7?u=none"
+        let code = InstalledApp(
+            url: URL(filePath: "/Applications/Visual Studio Code.app"), bundleIdentifier: "com.microsoft.VSCode",
+            name: "Visual Studio Code", version: "1.143.1", updateFeed: .vsCode(try #require(URL(string: address)))
+        )
+        let offer = { (version: String) in
+            #"{"url":"https://example.com/VSCode-darwin-arm64.zip","version":"2c33b50b16c472efe58357d1d2a8a5414bc23fbf","productVersion":"\#(version)"}"#
+        }
+
+        reply("update.code.visualstudio.com", status: 204, "")
+        #expect(await checker.status(for: code) == .upToDate)
+        #expect(CannedProtocol.addresses.withLock { $0.last } == address)
+        reply("update.code.visualstudio.com", offer("1.144.0"))
+        #expect(await checker.status(for: code) == .updateAvailable(version: "1.144.0", source: .developer))
+        reply("update.code.visualstudio.com", offer("1.143.0"))
+        #expect(await checker.status(for: code) == .upToDate)
+        reply("update.code.visualstudio.com", #"{"productVersion":"1.144.0"}"#)
+        #expect(await checker.status(for: code) == .upToDate, "no download named")
+        reply("update.code.visualstudio.com", "<html></html>")
+        #expect(await checker.status(for: code) == .failed)
+    }
+
     @Test func anElectronReleaseTheAppWontOfferThisMacIsNoUpdate() async {
         let chat = InstalledApp(
             url: URL(filePath: "/Applications/Chat.app"), bundleIdentifier: "com.example.chat", name: "Chat",

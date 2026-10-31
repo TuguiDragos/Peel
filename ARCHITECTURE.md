@@ -355,29 +355,31 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   `SUVerifyUpdateBeforeExtraction`, and `SUAllowsAutomaticUpdates` off), the one place Sparkle reads its security
   settings from. It asks on its own only while Check for app updates is on (`OwnUpdateCheck`), and the update
   round of the other apps passes over Peel.
-- **Updates of other apps.** `UpdateChecker` asks each app's own feed, or the App Store about an app from the App
-  Store, and uses what Homebrew knows for an app a cask installed: first with Automatic or Homebrew preferred, and
-  under any choice once the app's own source can't answer, an "up to date" only for a day after Homebrew last checked
-  for new versions (`Homebrew.lastUpdateCheck`: while it reads its API, the date of the definitions file it downloads
-  or confirms, since a fetch of its own repository leaves them as they were; otherwise the time of `.git/FETCH_HEAD`
-  in its repository, which Homebrew itself compares before updating on its own). An answer Homebrew gives in place of
-  the app's own source carries what that source answered (`UpdateAnswer.standsInFor`, kept in `UpdateMemory`): the
-  source's answer stands again once Homebrew's no longer counts, the next check follows the source's own count, and an
-  update the source found earlier stays. What Homebrew's casks and the app's own files decide without a server, and
-  what Homebrew knows where the app's own source last had no answer (`statusWithoutAsking`), shows as soon as Homebrew
-  is read, and again at every round, an update Homebrew no longer reports is forgotten then, and Peel reads Homebrew
-  again once it has checked since. From the App Store it reads the listing of the installed bundle
-  (`AppStoreListing`): the Mac's, which Apple gives for the desktop, also for an app sold once for iPhone and Mac, or
-  the iPhone and iPad one for an app of those devices installed on the Mac, at most 20 lookups in any minute in a
-  process, the pace Apple documents for its lookup (`RequestWindow`). An app that came with macOS or from Setapp gets
-  no feed (`UpdateFeed.detect`, `InstalledApp.isFromSetapp`): Software Update and Setapp keep them current, whatever
-  feed the bundle carries. A check waits up to 30 seconds for a Mac just awake to go online, and one made while it
-  isn't online counts for nothing (`UpdateAnswer.wasOffline`): what was known stays and the app is asked at the next
-  round. Every answer that changes nothing makes the next check of that app wait longer, up to a week
-  (`UpdateSchedule`), though the first round after Peel opens also asks about every app whose answer is a day old
-  (`UpdateMemory.isADayOld`). `UpdateMemory` keeps the last answer across launches, with the revision of the checker
-  that gave it (`UpdateChecker.revision`): an answer an earlier revision gave about an app it couldn't check, or about
-  one this revision asks nobody about, is dropped, so the app is asked again at the next round.
+- **Updates of other apps.** `UpdateChecker` asks each app's own feed (a Sparkle appcast, electron-updater's file, or,
+  for a stable build of VS Code, the service its `product.json` names, as VS Code asks it, `VSCodeUpdateService`), or
+  the App Store about an app from the App Store, and uses what Homebrew knows for an app a cask installed: first with
+  Automatic or Homebrew preferred, and under any choice once the app's own source can't answer, an "up to date" only
+  for a day after Homebrew last checked for new versions (`Homebrew.lastUpdateCheck`: while it reads its API, the date
+  of the definitions file it downloads or confirms, since a fetch of its own repository leaves them as they were;
+  otherwise the time of `.git/FETCH_HEAD` in its repository, which Homebrew itself compares before updating on its
+  own). An answer Homebrew gives in place of the app's own source carries what that source answered
+  (`UpdateAnswer.standsInFor`, kept in `UpdateMemory`): the source's answer stands again once Homebrew's no longer
+  counts, the next check follows the source's own count, and an update the source found earlier stays. What Homebrew's
+  casks and the app's own files decide without a server, and what Homebrew knows where the app's own source last had
+  no answer (`statusWithoutAsking`), shows as soon as Homebrew is read, and again at every round, an update Homebrew
+  no longer reports is forgotten then, and Peel reads Homebrew again once it has checked since. From the App Store it
+  reads the listing of the installed bundle (`AppStoreListing`): the Mac's, which Apple gives for the desktop, also
+  for an app sold once for iPhone and Mac, or the iPhone and iPad one for an app of those devices installed on the
+  Mac, at most 20 lookups in any minute in a process, the pace Apple documents for its lookup (`RequestWindow`). An
+  app that came with macOS or from Setapp gets no feed (`UpdateFeed.detect`, `InstalledApp.isFromSetapp`): Software
+  Update and Setapp keep them current, whatever feed the bundle carries. A check waits up to 30 seconds for a Mac just
+  awake to go online, and one made while it isn't online counts for nothing (`UpdateAnswer.wasOffline`): what was
+  known stays and the app is asked at the next round. Every answer that changes nothing makes the next check of that
+  app wait longer, up to a week (`UpdateSchedule`), though the first round after Peel opens also asks about every app
+  whose answer is a day old (`UpdateMemory.isADayOld`). `UpdateMemory` keeps the last answer across launches, with the
+  revision of the checker that gave it (`UpdateChecker.revision`): an answer an earlier revision gave about an app it
+  couldn't check, or about one this revision asks nobody about, is dropped, so the app is asked again at the next
+  round.
 - **Orphaned Files.** `OrphanScanner` lists what no installed app claims, under the app Peel saw go when it can
   name it (`AppMemory`), and selects nothing for the person. An app macOS knows on another disk that claims something
   is remembered too (`OrphanScan.appsOnOtherDisks`, `Disks`), so its files stay its own while that disk isn't

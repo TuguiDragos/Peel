@@ -97,6 +97,12 @@ public enum AppInspector {
         let isSystemProtected = isSystemProtected(url)
         let use = use(of: url)
         let electronConfiguration = ElectronUpdater.configuration(in: contents)
+        let architectures = executable.flatMap(MachOHeader.architectures(ofExecutableAt:)) ?? []
+        let asksForIntelFirst = (info["LSArchitecturePriority"] as? [String])?.first == "x86_64"
+        let vsCodeProduct = ProductFolders.vsCodeProduct(of: url)
+        // VS Code asks for the build of the processor it runs on, Intel code running translated on Apple silicon.
+        let runsOnAppleSilicon = HostArchitecture.isAppleSilicon && architectures.contains(.arm64)
+            && !(asksForIntelFirst && architectures.contains(.x86_64))
 
         return InstalledApp(
             url: url,
@@ -109,8 +115,8 @@ public enum AppInspector {
             developer: signing.developer,
             applicationGroups: signing.applicationGroups,
             embeddedBundleIdentifiers: embeddedBundleIdentifiers(in: contents, isWrapped: layout.isWrapped),
-            architectures: executable.flatMap(MachOHeader.architectures(ofExecutableAt:)) ?? [],
-            asksForIntelFirst: (info["LSArchitecturePriority"] as? [String])?.first == "x86_64",
+            architectures: architectures,
+            asksForIntelFirst: asksForIntelFirst,
             isFromAppStore: isFromAppStore,
             isSystemProtected: isSystemProtected,
             enclosingPackage: url.enclosingPackage,
@@ -120,12 +126,15 @@ public enum AppInspector {
             updateFeed: UpdateFeed.detect(
                 info: info,
                 electronConfiguration: electronConfiguration,
+                vsCodeFeed: vsCodeProduct.flatMap {
+                    VSCodeUpdateService.feedURL(product: $0, runsOnAppleSilicon: runsOnAppleSilicon)
+                },
                 appStoreListing: appStoreListing,
                 isSystemProtected: isSystemProtected,
                 isFromSetapp: InstalledApp.isFromSetapp(at: url, identifier: bundleIdentifier)
             ),
             updaterFolder: electronConfiguration.flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:)),
-            productFolders: ProductFolders.of(appAt: url),
+            productFolders: ProductFolders.of(appAt: url, vsCodeProduct: vsCodeProduct),
             webApp: bundleIdentifier.flatMap { WebApp.of(identifier: $0, info: info) },
             carriesSystemExtensions: AppExtensions.systemExtensions(carriedBy: url).map { !$0.isEmpty } ?? true
         )

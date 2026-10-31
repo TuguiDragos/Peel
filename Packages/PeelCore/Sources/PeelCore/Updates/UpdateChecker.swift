@@ -4,7 +4,7 @@ import Synchronization
 public struct UpdateChecker: Sendable {
     /// Raised whenever the checker answers some apps differently: an app an earlier revision couldn't check is asked
     /// again rather than waited out, and so is one this revision asks nobody about (`UpdateMemory.recalled`).
-    public static let revision = 3
+    public static let revision = 4
 
     /// The largest reply read. An update feed is a small XML, YAML, or JSON file, and its address comes from
     /// the app's own bundle, so the server is not trusted to keep its reply small.
@@ -236,6 +236,7 @@ public struct UpdateChecker: Sendable {
         case nil: UpdateAnswer(status: .unsupported)
         case .sparkle(let url): await sparkleAnswer(for: app, installed: installed, at: url)
         case .electron(let url): await electronAnswer(for: app, installed: installed, at: url)
+        case .vsCode(let url): await vsCodeAnswer(installed: installed, at: url)
         case .appStore: await appStoreAnswer(for: app, earlier: earlier, notListedBefore: notListedBefore)
         }
     }
@@ -279,6 +280,22 @@ public struct UpdateChecker: Sendable {
             status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil),
             notes: ElectronUpdater.releaseNotes(fromFeed: feed)
         )
+    }
+
+    private func vsCodeAnswer(installed: String, at url: URL) async -> UpdateAnswer {
+        let reply = await fetchReply(url)
+        // The service answers 204, with nothing, while the build is the newest (`doIsLatestVersion`).
+        if reply.status == 204 { return UpdateAnswer(status: .upToDate) }
+        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
+        switch VSCodeUpdateService.read(data) {
+        case .unreadable:
+            return UpdateAnswer(status: .failed)
+        case .nothingOffered:
+            return UpdateAnswer(status: .upToDate)
+        case .offered(let latest):
+            guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
+            return UpdateAnswer(status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil))
+        }
     }
 
     /// Asks the App Store about `app`, but only when the app has an App Store receipt, whoever calls this.
@@ -372,7 +389,7 @@ public struct UpdateChecker: Sendable {
                   let notes = ElectronUpdater.releaseNotes(fromFeed: feed)
             else { return .notGiven }
             return .found(notes)
-        case .appStore, nil:
+        case .vsCode, .appStore, nil:
             return .notGiven
         }
     }

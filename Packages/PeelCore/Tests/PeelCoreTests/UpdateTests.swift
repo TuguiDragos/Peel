@@ -398,6 +398,35 @@ struct UpdateFeedDetectionTests {
         #expect(electronApp.updateFeed == .electron(URL(string: "https://example.com/updates/latest-mac.yml")!))
     }
 
+    @Test func findsTheUpdateServiceVSCodeNames() throws {
+        let folder = try TemporaryDirectory()
+        let product = #"""
+            {"nameShort": "Code", "quality": "stable", "updateUrl": "https://update.code.visualstudio.com",
+             "commit": "e646868227c3e3a9e3f24277c8c7220be42c0be7", "darwinUniversalAssetId": "darwin-universal"}
+            """#
+        let app = try #require(AppInspector.inspect(try bundle(info: [:], files: ["Resources/app/product.json": product], in: folder)))
+        let address = "https://update.code.visualstudio.com/api/update/darwin-universal/stable/e646868227c3e3a9e3f24277c8c7220be42c0be7?u=none"
+        #expect(app.updateFeed == .vsCode(try #require(URL(string: address))))
+    }
+
+    @Test func asksVSCodesServiceOnlyAboutAStableBuildOfMicrosofts() {
+        let product: [String: Any] = [
+            "updateUrl": "https://update.code.visualstudio.com", "quality": "stable",
+            "commit": "e646868227c3e3a9e3f24277c8c7220be42c0be7",
+        ]
+        let address = { (platform: String) in
+            "https://update.code.visualstudio.com/api/update/\(platform)/stable/e646868227c3e3a9e3f24277c8c7220be42c0be7?u=none"
+        }
+
+        #expect(VSCodeUpdateService.feedURL(product: product, runsOnAppleSilicon: true)?.absoluteString == address("darwin-arm64"))
+        #expect(VSCodeUpdateService.feedURL(product: product, runsOnAppleSilicon: false)?.absoluteString == address("darwin"))
+        for (key, value) in [("quality", "insider"), ("updateUrl", "https://updates.example.com"), ("commit", "HEAD")] {
+            var other = product
+            other[key] = value
+            #expect(VSCodeUpdateService.feedURL(product: other, runsOnAppleSilicon: true) == nil, "\(key)")
+        }
+    }
+
     @Test func readsTheFolderElectronUpdaterKeepsItsDownloadsIn() throws {
         let cases: [(settings: String, folder: String?)] = [
             ("provider: generic\nurl: https://example.com/updates\nupdaterCacheDirName: notes-updater\n", "notes-updater"),
@@ -423,14 +452,14 @@ struct UpdateFeedDetectionTests {
 
         #expect(
             UpdateFeed.detect(
-                info: info, electronConfiguration: nil, appStoreListing: nil,
+                info: info, electronConfiguration: nil, vsCodeFeed: nil, appStoreListing: nil,
                 isSystemProtected: true, isFromSetapp: false
             )
                 == nil
         )
         #expect(
             UpdateFeed.detect(
-                info: info, electronConfiguration: nil, appStoreListing: nil,
+                info: info, electronConfiguration: nil, vsCodeFeed: nil, appStoreListing: nil,
                 isSystemProtected: false, isFromSetapp: false
             )
                 == .sparkle(try #require(URL(string: "https://example.com/appcast.xml")))
@@ -464,7 +493,7 @@ struct UpdateFeedDetectionTests {
         let peel = ["CFBundleIdentifier": "com.tuguidragos.Peel", "SUFeedURL": feed]
         #expect(
             UpdateFeed.detect(
-                info: peel, electronConfiguration: nil, appStoreListing: nil,
+                info: peel, electronConfiguration: nil, vsCodeFeed: nil, appStoreListing: nil,
                 isSystemProtected: false, isFromSetapp: false
             )
                 == .sparkle(URL(string: feed)!)
@@ -473,6 +502,7 @@ struct UpdateFeedDetectionTests {
             UpdateFeed.detect(
                 info: ["CFBundleIdentifier": "com.tuguidragos.Peel"],
                 electronConfiguration: nil,
+                vsCodeFeed: nil,
                 appStoreListing: nil,
                 isSystemProtected: false,
                 isFromSetapp: false

@@ -108,6 +108,7 @@ public struct Inventory: Sendable {
         return switch app.updateFeed {
         case .sparkle(let url): ("Sparkle", url.absoluteString)
         case .electron(let url): ("Electron", url.absoluteString)
+        case .vsCode(let url): ("VS Code", url.absoluteString)
         case .appStore, nil: origins?.address(of: app.url).map { ("Downloaded", $0.absoluteString) } ?? ("Unknown", nil)
         }
     }
