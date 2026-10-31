@@ -644,10 +644,10 @@ public enum Homebrew {
     }
 
     /// The folder of the person's own `brew.env` as `bin/brew` names it for Peel, which passes no `XDG_CONFIG_HOME`:
-    /// from a `HOMEBREW_XDG_CONFIG_HOME` the system's or the prefix's file sets, else `~/.homebrew`.
+    /// from a `HOMEBREW_XDG_CONFIG_HOME` the system's or the prefix's file sets, taken as written, else `~/.homebrew`.
     static func userConfiguration(home: URL, system: URL, prefix: URL) -> URL {
         let files = [system, prefix.appending(path: "etc/homebrew/brew.env")]
-        guard let folder = setting("HOMEBREW_XDG_CONFIG_HOME", in: files), folder.hasPrefix("/") else {
+        guard let folder = setting("HOMEBREW_XDG_CONFIG_HOME", in: files), !folder.isEmpty else {
             return home.appending(path: ".homebrew", directoryHint: .isDirectory)
         }
         return URL(filePath: folder, directoryHint: .isDirectory).appending(path: "homebrew", directoryHint: .isDirectory)

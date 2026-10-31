@@ -1012,6 +1012,11 @@ struct HomebrewTests {
         try folder.file("prefix/etc/homebrew/brew.env", contents: Data("HOMEBREW_XDG_CONFIG_HOME=/srv/settings\n".utf8))
         #expect(Homebrew.userConfiguration(home: home, system: system, prefix: prefix).path(percentEncoded: false)
             == "/srv/settings/homebrew/")
+        try folder.file("prefix/etc/homebrew/brew.env", contents: Data("HOMEBREW_XDG_CONFIG_HOME=\"/srv/settings\"\n".utf8))
+        let workingFolder = URL(filePath: FileManager.default.currentDirectoryPath, directoryHint: .isDirectory)
+        #expect(Homebrew.userConfiguration(home: home, system: system, prefix: prefix).path(percentEncoded: false)
+            == workingFolder.appending(path: "\"/srv/settings\"/homebrew/").path(percentEncoded: false),
+            "bin/brew takes the value as written, quotes included, from the folder it runs in")
     }
 
     /// With `HOMEBREW_NO_INSTALL_FROM_API`, Homebrew reads its taps and never the API files, so its taps are the
