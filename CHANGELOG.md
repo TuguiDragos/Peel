@@ -27,7 +27,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Applications
 
 - VS Code is asked about through the update service VS Code itself asks, so its new version shows as soon as
-  Microsoft offers it, not only once Homebrew's list of packages has it.
+  Microsoft offers it, not only once Homebrew's list of packages has it. The address is the same for every Mac, so it
+  tells Microsoft nothing of this one.
 
 #### Intel Software
 
@@ -44,6 +45,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Each package shows the name macOS gave it, and the search finds it by that name and by where its files are.
 - Receipt Only lists the receipts whose package left nothing, with Forget All: one question, one removal, one entry in
   History.
+- A package's page says how to remove what only an administrator can move, with Show in Finder, and that a kernel
+  extension leaves the kernel only when the Mac restarts.
 
 #### Homebrew
 
@@ -152,6 +155,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An uninstall lists an app's audio plug-ins unselected, since music apps load them on their own.
 - An app with an update waiting shows it in a panel of its own under the app: the version, how to get it, and the start
   of what is new. Show More… opens all of it in a popover, where a long changelog scrolls.
+- On several apps' page, a chosen app's row says when it is a browser's web app or when the developer who signs it
+  changed, and the question names each app whose Homebrew record stays.
 
 #### Orphaned Files
 
@@ -171,6 +176,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Clean Up's and Update's notes say what else Homebrew deletes, and when Homebrew goes online on its own.
 - Forget's question names the folders whose links go with a cask's Homebrew receipt.
 - A cask's notes open in full in a popover from Show More…, rather than unfolding on the page.
+- The section's note says that Forget is Peel's own step, the one there History can undo.
+- Apps Already Gone says an app isn't where Homebrew put it, not that it left this Mac, since an app moved or renamed is
+  still here.
+- Why Forget is off is said on the page, not only in its tooltip.
 
 #### Space
 
@@ -179,6 +188,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   something delete it for good.
 - Local snapshots are explained in Apple's words, and the page says when macOS can't delete some of them to make room.
 - Podcast Downloads says its figure holds all the Podcasts app keeps.
+- The note on an area's folders left to Developer names the four largest and counts the rest.
 
 #### Developer
 
@@ -195,6 +205,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - An installer is judged by the address it says it came from: one that names none and is no installed app's is held
   back wherever it is, and so is one that arrived in the last hour.
+- The empty page names every kind Peel looks for, and the size it means.
 
 #### Duplicates
 
@@ -221,10 +232,21 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - An excluded app's jobs stay listed, marked Excluded in Settings, and Peel acts on none of them.
 - A job macOS hasn't listed yet reads Not listed in System Settings yet.
+- Before moving an item an installed app added, the question says first that the app may stop working until the item is
+  put back.
+- The question and the Kind row say that an agent in `/Library/LaunchAgents` is every account's: it stops for you, and
+  other accounts logged in run it until they log out.
+- A job an app registers reads Unknown where nothing tells whether it starts at login or restarts itself.
+- "Part of this list may be missing" says why, and names a folder of job files Peel couldn't look in.
 
 #### Extensions
 
 - The points an extension plugs into are named as System Settings names them.
+
+#### Plug-ins
+
+- The question before moving a plug-in in `/Library` says that every account on this Mac has it, so moving it takes it
+  from all of them.
 
 #### Every page
 
@@ -246,6 +268,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - `peel search` says which files it shows, that network volumes aren't searched, and at most how many it lists.
 - `peel leftovers`, `peel duplicates`, `peel search`, and every refusal name the sync app that keeps a folder in step
   and its entry, and the JSON of `peel leftovers` and `peel duplicates` adds `syncedBy`.
+- `peel updates` answers as the app does, from what the app remembers, and names the folders and apps it couldn't read.
 
 ### Fixed
 
@@ -283,6 +306,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   something.
 - A removal from several pages cut short by a crash stays one entry, the part cut short named as its page.
 - A removal's notes about a put-back audio driver and an app that shared its storage show on macOS 26 too.
+- VoiceOver reads a Not Moved row as one item.
+- A second Put Back that ends the same way shows its alert again.
+- After a Put Back History couldn't write down, the page looks in the Trash again, so what came back no longer reads "In
+  the Trash".
+- Undo no longer offers again what the helper's own rule refuses.
+- A removal of orphaned files is named in History as their list names them, not by an identifier.
 
 #### Settings
 
@@ -301,6 +330,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   itself is run only by the chosen one's rule.
 - Remove Peel says why it waits when Homebrew can't answer, or when a Homebrew on this Mac that Peel doesn't run
   holds Peel's cask, with Open Homebrew, and nothing else moves while Peel removes itself.
+- The circled i beside a dimmed row in Settings > General opens its note.
+- Muted Updates names an app no longer listed as Finder does, not by its identifier.
+- The exclusions list says it is empty only once it has been read.
+- Putting back saved settings that can't be read says so, instead of "not all could be put back".
 
 #### Applications
 
@@ -334,6 +367,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app with nothing to say under its name, no version and no date of last use, shows its name alone beside its icon.
 - A version left blank in an app's Info.plist counts as none: the row shows no empty line, and the update check no
   longer counts every release as newer.
+- An app's More menu offers Release Notes only while an update waits, and not for an App Store update, which the App
+  Store button opens.
+- A reset that finds the app open after copying its settings moves the copy to the Trash, instead of listing it in Saved
+  Settings for a reset that never happened.
+- The Dock option and Opens These by Default arrive with the page's rows, and Stop ends their reads.
 
 #### Orphaned Files
 
@@ -359,6 +397,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   itself, and one whose app is installed says Still installed and what forgetting it costs.
 - The list is read again when a receipt changed elsewhere, and a receipt already forgotten says so.
 - An excluded app's receipt is left alone here too.
+- Stop ends the scan: each answer that came back no longer starts the next package.
 
 #### Homebrew
 
@@ -376,6 +415,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A notice Homebrew gave no detail for, such as Homebrew didn't say what is installed, shows its title alone, without an
   empty line under it.
 - When Homebrew stops before writing a Brewfile, File > Export > Brewfile says why in your language.
+- Peel's own cask offers Check for Updates… and stays out of Upgrade All, since Homebrew would quit Peel before the
+  upgrade could run.
+- History names a Forget entry after the casks whose record moved, not every cask chosen.
 
 #### Space
 
@@ -390,6 +432,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Caches for All Users and Logs for All Users keep what a service wrote in the last 15 minutes, and a service's log
   folder, offering only its files.
 - An area macOS refused in part is sorted and judged by what Peel saw, and one refused whole is listed last.
+- The note on folders left to Developer comes with the plan, so the rows don't move seconds later.
 
 #### Developer
 
@@ -409,6 +452,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Build output is found however deep a project sits, and work in a folder named like an artifact counts.
 - The page scans again once its scan is an hour old, and a suggested folder whose project changed in the last 7 days
   stays when Move to Trash comes.
+- A folder found by its `CACHEDIR.TAG` reads "Marked as a cache", since any program can write that tag.
 
 #### Installers and Backups
 
@@ -419,6 +463,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An excluded app's downloaded update is left out, and macOS installers are found in every app folder and under the
   name Install OS X.
 - A macOS installer whose version is left blank no longer reads Version with nothing after it.
+- A search finds an update by the app it is for, not only by its updater's folder.
 
 #### Duplicates
 
@@ -426,6 +471,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   even when its app is gone.
 - A network volume that stops answering no longer holds Peel's threads, a stopped scan says so, and only groups with
   something to move are counted.
+- A folder group's figures stay whole at any width, and in Scan Settings each folder's Remove button carries its name,
+  so VoiceOver and Voice Control can tell them apart.
+- On macOS 27 the scroll bar starts at the top of a list with no headings.
 
 #### iCloud Drive
 
@@ -435,6 +483,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A download Keep Downloaded keeps, a password database, and a wallet's keys are held back, and a download's note is
   drawn beside its row.
 - Remove Downloads counts and offers Stop on macOS 26 too.
+- Remove Downloads leaves a package that now holds something excluded, says so, and never counts a date it can't read as
+  unchanged.
 
 #### File Search
 
@@ -449,12 +499,20 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   VoiceOver hears what an action left an item as.
 - Unusual command looks at `/Users/Shared` and the account's temporary folder, and reads base64 only when the command
   decodes it.
+- A job file Peel can't read moves without stopping another job of that name, and its question says macOS won't start it
+  again.
+- `launchctl`'s errors no longer carry its advice to run as root, and on macOS 27 a failed Remove is called that.
+- The Login Items row shows only for the three folders System Settings answers for, and holds its place while macOS
+  answers.
 
 #### Extensions
 
 - Each extension says where it is really turned on and off, an excluded app's extensions are left out, and the page
   is read again when shown and when Peel comes forward.
 - A system extension whose app is gone says the app is no longer installed, and is named once while macOS updates it.
+- VoiceOver hears when part of the list is missing.
+- The parts of one app that carry its name read apart, a search finds an extension point by the word its page shows, and
+  VoiceOver hears an extension's kind.
 
 #### Plug-ins
 
@@ -464,6 +522,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Before a Quick Look generator, an old Internet plug-in such as Flash, or a contextual menu item moves to the Trash,
   the question says that nothing loads it anymore, rather than that apps using it may stop working.
 - A plug-in whose version is left blank shows no empty line under its name.
+- A moved plug-in leaves the list at once, and the page says how the move went before reading every plug-in again.
 
 #### Moving to the Trash from several pages
 
@@ -495,6 +554,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   buttons no longer move into its overflow menu for a moment.
 - On macOS 27, closing the sidebar by dragging its edge keeps the divider between a list and its page in place.
 - On macOS 26, sheets and alerts open and close faster on pages with section headers.
+- The shortcuts that show a place in Peel open the main window, also while Settings is open or Peel runs from the menu
+  bar alone.
+
+### Security
+
+- An agent's label that carries a slash or a control character is never handed to `launchctl`, which reads a service's
+  name up to the next slash, so a job file labeled `com.openssh.ssh-agent/x` can no longer make Disable reach macOS's
+  own SSH agent.
 
 ## 1.2.1 (2026-10-25)
 
