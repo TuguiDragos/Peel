@@ -87,7 +87,7 @@ enum PrivateStructure {
             switch self {
             case .titlebarSeparators: "the line under the title bar is back"
             case .fixedColumn: "the sidebar can be dragged to any width"
-            case .listColumn: "with the sidebar aside, the list's title bar runs past its divider"
+            case .listColumn: "the list's divider moves when the sidebar hides or returns"
             case .columnFade: "a list that changes no longer fades in"
             case .sidebarFocus: "the sidebar no longer takes the keyboard focus when nothing holds it"
             }

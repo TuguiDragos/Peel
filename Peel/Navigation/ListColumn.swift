@@ -1,43 +1,110 @@
 import AppKit
 import SwiftUI
 
-/// The width of the list column beside a tool's page: 365 points at first, never narrower, and as wide as the
-/// user drags it. While the sidebar is hidden, the window's buttons and the sidebar button move into the list's
-/// section of the title bar and can run past its divider, so the list widens to fit them, as far as the page's
-/// 480 points allow. It gets its earlier width back when the sidebar returns. The divider is moved every time,
-/// even to where it already is: on macOS 26, a split view built with the sidebar hidden draws no divider through
-/// the title bar until a divider has moved.
+/// The list column beside a tool's page. Its divider stays where it is whether the sidebar is shown or not, and it
+/// can't be dragged: the sidebar floats over the list's left part, so hiding it uncovers the list beneath and showing
+/// it covers it again. While the sidebar slides, the page's place is pinned, so the list takes exactly the room the
+/// sidebar leaves or gives it back: AppKit otherwise hands that room to the page at once, since the page holds its
+/// width with the lowest priority, and the divider moves.
 @MainActor @Observable
 final class ListColumn {
-    static let minimum: CGFloat = 365
+    /// The list's width beside the sidebar.
+    static let width: CGFloat = 366
     /// The page's minimum width plus the divider between the page and the list.
-    fileprivate static let besideList: CGFloat = 480 + 1
+    static let besideList: CGFloat = 480 + 1
 
-    /// Incremented each time the list should be fitted again: when the sidebar hides or returns, or when the page
-    /// changes while the sidebar is hidden.
-    fileprivate private(set) var request = 0
-    @ObservationIgnored fileprivate var handled = 0
-    @ObservationIgnored fileprivate private(set) var isAside = false
-    @ObservationIgnored fileprivate private(set) var title = ""
-    @ObservationIgnored fileprivate private(set) var restore: CGFloat?
-    @ObservationIgnored fileprivate private(set) var beforeAside: CGFloat?
-    @ObservationIgnored fileprivate var current = minimum
+    /// What the list's width is held within: one width at rest, both ends while the sidebar slides.
+    fileprivate(set) var widths: ClosedRange<CGFloat> = width...width
+    /// Incremented each time the sidebar starts to slide, so the column lets go of the page once it stops.
+    fileprivate private(set) var slides = 0
+    @ObservationIgnored fileprivate var settled = 0
+    @ObservationIgnored private var aside = false
+    @ObservationIgnored private var windowWidth: CGFloat = 0
+    /// How much of the list the sidebar covers while it is shown: its width, and the margin it floats in by where
+    /// macOS draws one. Read from AppKit's layout, which keeps the sidebar's place while it is hidden too.
+    @ObservationIgnored private var covered: CGFloat = 0
+    @ObservationIgnored private weak var columns: NSSplitViewController?
+    @ObservationIgnored private var pin: NSLayoutConstraint?
 
-    func aside(title: String) {
-        if beforeAside == nil { beforeAside = current }
-        isAside = true
-        self.title = title
-        restore = nil
-        request += 1
+    /// The list's width without the sidebar: also the part the sidebar covered, so the divider stays, as far as the
+    /// page's 480 points allow.
+    private var asideWidth: CGFloat {
+        min(Self.width + covered, max(Self.width, windowWidth - Self.besideList))
     }
 
-    /// `room` is the width left for the list once the sidebar is back and the page has its 480 points.
-    func show(room: CGFloat) {
-        guard let before = beforeAside else { return }
-        beforeAside = nil
-        isAside = false
-        restore = max(Self.minimum, min(before, room))
-        request += 1
+    /// Called with the window's columns each time the list is laid out. Answers whether they are built as expected.
+    func found(_ columns: NSSplitViewController?) -> Bool {
+        self.columns = columns
+        guard let columns = shownColumns, place(of: 0, in: columns) != nil, place(of: 2, in: columns) != nil else {
+            return false
+        }
+        measure(columns)
+        fit()
+        return true
+    }
+
+    /// Called as the sidebar starts to hide or return.
+    func sidebarSlides(aside: Bool, windowWidth: CGFloat) {
+        self.aside = aside
+        self.windowWidth = windowWidth
+        guard let columns = shownColumns else {
+            fit()
+            return
+        }
+        measure(columns)
+        let (sidebar, list) = (columns.splitViewItems[0], columns.splitViewItems[1])
+        // The window keeps its size: AppKit would otherwise make it narrower or wider by the sidebar's width.
+        sidebar.collapseBehavior = .preferResizingSiblingsWithFixedSplitView
+        list.minimumThickness = Self.width
+        list.maximumThickness = asideWidth
+        if pin == nil, let place = place(of: 2, in: columns) {
+            pin = place.leadingAnchor.constraint(equalTo: columns.splitView.leadingAnchor, constant: place.frame.minX)
+            pin?.isActive = true
+        }
+        widths = Self.width...asideWidth
+        slides += 1
+    }
+
+    /// Called when the window, the page or the sidebar changes while nothing slides.
+    func rest(aside: Bool, windowWidth: CGFloat) {
+        self.aside = aside
+        self.windowWidth = windowWidth
+        if let columns = shownColumns { measure(columns) }
+        fit()
+    }
+
+    func settle() {
+        settled = slides
+        pin?.isActive = false
+        pin = nil
+        if let columns = shownColumns { measure(columns) }
+        fit()
+    }
+
+    /// Holds the list at one width, unless the page is pinned while the sidebar slides.
+    private func fit() {
+        guard pin == nil else { return }
+        let width = aside ? asideWidth : Self.width
+        if widths != width...width { widths = width...width }
+    }
+
+    private var shownColumns: NSSplitViewController? {
+        guard let columns, columns.splitViewItems.count == 3, columns.splitView.window != nil else { return nil }
+        return columns
+    }
+
+    /// Reads what the sidebar covers from its place while it rests, shown or hidden: AppKit keeps the place's width
+    /// while the sidebar is hidden, and only an animation leaves it part way.
+    private func measure(_ columns: NSSplitViewController) {
+        guard slides == settled, let sidebar = place(of: 0, in: columns),
+              !columns.splitViewItems[0].isCollapsed || sidebar.isHidden else { return }
+        covered = sidebar.frame.width
+    }
+
+    /// The view the split view lays out for an item, which holds the item's own view. Not API (see `PrivateStructure`).
+    private func place(of item: Int, in columns: NSSplitViewController) -> NSView? {
+        let view = columns.splitViewItems[item].viewController.view
+        return columns.splitView.subviews.first { view.isDescendant(of: $0) }
     }
 }
 
@@ -53,7 +120,6 @@ extension View {
     func builtWithItsTitleBar() -> some View {
         if #available(macOS 27, *) {
             BuiltWithItsTitleBar(column: self)
-                .navigationSplitViewColumnWidth(min: ListColumn.minimum, ideal: ListColumn.minimum)
         } else {
             self
         }
@@ -62,6 +128,7 @@ extension View {
 
 @available(macOS 27, *)
 private struct BuiltWithItsTitleBar<Column: View>: View {
+    @Environment(ListColumn.self) private var listColumn
     let column: Column
     @State private var knowsItsTitleBar = false
 
@@ -76,6 +143,9 @@ private struct BuiltWithItsTitleBar<Column: View>: View {
         .onGeometryChange(for: Bool.self) { $0.safeAreaInsets.top > 0 } action: { known in
             if known { knowsItsTitleBar = true }
         }
+        .navigationSplitViewColumnWidth(
+            min: listColumn.widths.lowerBound, ideal: listColumn.widths.lowerBound, max: listColumn.widths.upperBound
+        )
     }
 }
 
@@ -83,29 +153,29 @@ private struct ListColumnWidth: ViewModifier {
     @Environment(ListColumn.self) private var column
 
     func body(content: Content) -> some View {
-        // The width is read inside the column: a `GeometryReader` around the content would change the column's width.
         content
-            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { column.current = $0 }
-            .background(ListColumnDivider(column: column, request: column.request))
-            .navigationSplitViewColumnWidth(min: ListColumn.minimum, ideal: ListColumn.minimum)
+            .background(SlideWatch(column: column, slides: column.slides))
+            .navigationSplitViewColumnWidth(
+                min: column.widths.lowerBound, ideal: column.widths.lowerBound, max: column.widths.upperBound
+            )
     }
 }
 
-/// Moves the list's divider the way a drag does. A width limit set through SwiftUI does not last: SwiftUI keeps its
-/// own width for the column and puts it back once the limit is lifted.
-private struct ListColumnDivider: NSViewRepresentable {
+/// Hands `ListColumn` the window's columns, and tells it once they have stopped changing after the sidebar slid:
+/// AppKit says nothing when the animation ends.
+private struct SlideWatch: NSViewRepresentable {
     let column: ListColumn
-    let request: Int
+    let slides: Int
 
-    func makeNSView(context: Context) -> Mover {
-        Mover(column: column)
+    func makeNSView(context: Context) -> Watch {
+        Watch(column: column)
     }
 
-    func updateNSView(_ nsView: Mover, context: Context) {
-        nsView.needsLayout = true
+    func updateNSView(_ nsView: Watch, context: Context) {
+        if slides != column.settled { nsView.needsLayout = true }
     }
 
-    final class Mover: NSView {
+    final class Watch: NSView {
         let column: ListColumn
         private var pending: Task<Void, Never>?
         private weak var observed: NSSplitView?
@@ -121,16 +191,14 @@ private struct ListColumnDivider: NSViewRepresentable {
 
         override func layout() {
             super.layout()
-            if let splitView = enclosingSplitView?.view {
-                PrivateStructure.found(.listColumn)
+            if let splitView = enclosingSplitView {
+                if column.found(splitView.delegate as? NSSplitViewController) { PrivateStructure.found(.listColumn) }
                 observe(splitView)
             }
             PrivateStructure.check(.listColumn)
-            fitSoon()
+            settleSoon()
         }
 
-        /// Also fits the list when the split view resizes its subviews, because the column can change width while
-        /// the list inside it keeps its own, for example when the sidebar returns.
         private func observe(_ splitView: NSSplitView) {
             guard observed !== splitView else { return }
             if let observed {
@@ -150,82 +218,26 @@ private struct ListColumnDivider: NSViewRepresentable {
         }
 
         @objc private func splitViewResized(_ notification: Notification) {
-            fitSoon()
+            settleSoon()
         }
 
-        /// Fits the list once the columns have stopped changing for a moment. The sidebar hides and returns with an
-        /// animation, and a divider moved before the animation ends lands in the wrong place. The frames of the
-        /// sidebar and the column do not show when the animation is over, so this waits for them to stop changing.
-        private func fitSoon() {
-            guard column.request != column.handled else { return }
+        private func settleSoon() {
+            guard column.slides != column.settled else { return }
             pending?.cancel()
             pending = Task { [weak self] in
                 try? await Task.sleep(for: .milliseconds(120))
-                guard !Task.isCancelled else { return }
-                self?.fit()
+                guard !Task.isCancelled, let column = self?.column, column.slides != column.settled else { return }
+                column.settle()
             }
         }
 
-        private func fit() {
-            guard column.request != column.handled, let split = enclosingSplitView else { return }
-            // While the sidebar is shown, the column's view runs under it and is wider than the list. Go on only
-            // when that matches `isAside`, that is, once the sidebar has finished hiding or returning.
-            guard (split.item.viewController.view.frame.width - bounds.width >= 1) != column.isAside else { return }
-            let target: CGFloat
-            if column.isAside {
-                guard let needs = titleBarNeeds(dividerIndex: split.index) else { return }
-                target = max(
-                    ListColumn.minimum,
-                    min(
-                        split.view.bounds.width - ListColumn.besideList,
-                        max(column.beforeAside ?? ListColumn.minimum, needs)
-                    )
-                )
-            } else if let restore = column.restore {
-                target = restore
-            } else {
-                column.handled = column.request
-                return
-            }
-            column.handled = column.request
-            let position = split.item.viewController.view.frame.maxX + target - bounds.width
-            // A move to where the divider already is does nothing, so it goes a point away first.
-            if abs(target - bounds.width) < 1 {
-                split.view.setPosition(position + 1, ofDividerAt: split.index)
-            }
-            split.view.setPosition(position, ofDividerAt: split.index)
-        }
-
-        /// The width the list's section of the title bar needs while the sidebar is hidden. On macOS 26, the
-        /// window's buttons and the sidebar button end at 148 points, the title takes its text width plus 24 (at
-        /// least 160), each toolbar item takes its view plus 8, and the divider sits 4 into its own item.
-        private func titleBarNeeds(dividerIndex: Int) -> CGFloat? {
-            guard let items = window?.toolbar?.items,
-                  let end = items.firstIndex(where: {
-                      ($0 as? NSTrackingSeparatorToolbarItem)?.dividerIndex == dividerIndex
-                  }),
-                  let start = items[..<end].lastIndex(where: { $0 is NSTrackingSeparatorToolbarItem })
-            else { return nil }
-            let itemsWidth = items[(start + 1)..<end].reduce(0) { $0 + ($1.view?.frame.width ?? 0) + 8 }
-            let words = [NSFont.Weight.semibold, .bold]
-                .map {
-                    (column.title as NSString)
-                        .size(withAttributes: [.font: NSFont.systemFont(ofSize: 15, weight: $0)]).width
-                }
-                .max() ?? 0
-            return ceil(148 + max(160, words + 24) + itemsWidth + 4)
-        }
-
-        /// The split view around this view, the item of the column that holds it, and that item's index. This
-        /// structure is not API (see `PrivateStructure`).
-        private var enclosingSplitView: (view: NSSplitView, item: NSSplitViewItem, index: Int)? {
+        /// The split view of the window's columns, which SwiftUI builds with an `NSSplitViewController` as its
+        /// delegate. This structure is not API (see `PrivateStructure`).
+        private var enclosingSplitView: NSSplitView? {
             var view = superview
             while let current = view {
-                if let splitView = current as? NSSplitView,
-                   let controller = splitView.delegate as? NSSplitViewController,
-                   let index = controller.splitViewItems
-                       .firstIndex(where: { isDescendant(of: $0.viewController.view) }) {
-                    return (splitView, controller.splitViewItems[index], index)
+                if let splitView = current as? NSSplitView, splitView.delegate is NSSplitViewController {
+                    return splitView
                 }
                 view = current.superview
             }

@@ -123,9 +123,9 @@ struct ContentView: View {
         .onChange(of: sidebarWidth) { fitWidth() }
         .onChange(of: drawn) { fitWidth(pageChanged: true) }
         // The columns change with the sidebar button as well as with the width.
-        .onChange(of: columns) { _, shown in
+        .onChange(of: columns) { old, shown in
             if shown == .all, isNarrow { makeRoomForSidebar() }
-            fitList()
+            fitList(sliding: (old == .all) != (shown == .all))
         }
         .background(HostWindowReader(host: hostWindow, found: fitFloor))
         .environment(listColumn)
@@ -175,12 +175,12 @@ struct ContentView: View {
     }
 
 
-    /// The width a page needs beside the sidebar. A tool needs its two columns, 365 and 480, the 8 points the
-    /// sidebar floats in from the window's edge, and the list's divider. A page that takes the whole pane fits
+    /// The width a page needs beside the sidebar. A tool needs its list, the page's 480 and the list's divider, and
+    /// the 8 points the sidebar floats in from the window's edge on macOS 26. A page that takes the whole pane fits
     /// beside the sidebar at the window's narrowest, except Tweaks and Terminal in the languages with the longest tab
     /// titles.
     private var besideSidebar: CGFloat {
-        if !isWholePage { return 365 + 480 + 8 + 1 }
+        if !isWholePage { return ListColumn.width + ListColumn.besideList + 8 }
         guard drawn.page == nil else { return 0 }
         return switch drawn.tool {
         case .tweaks: TweakPage.tabBarWidth
@@ -219,6 +219,8 @@ struct ContentView: View {
             // and the window grows by the sidebar's width whenever the page would otherwise get too narrow.
             withAnimation(.linear(duration: 0)) { columns = .all }
             hidSidebarForWidth = false
+        } else if columns != .all, columns != hidden {
+            columns = hidden
         }
         fitList()
     }
@@ -240,13 +242,13 @@ struct ContentView: View {
         window.setFrame(frame, display: true)
     }
 
-    /// The list takes the room its title bar needs while the sidebar is aside (`ListColumn`).
-    private func fitList() {
-        guard !isWholePage else { return }
-        if columns == .all {
-            listColumn.show(room: windowWidth.value - sidebarWidth - 8 - 481)
+    /// Without the sidebar, the list also takes the sidebar's place, as far as the page's 480 points allow, so the
+    /// divider stays where it was (`ListColumn`).
+    private func fitList(sliding: Bool = false) {
+        if sliding {
+            listColumn.sidebarSlides(aside: columns != .all, windowWidth: windowWidth.value)
         } else {
-            listColumn.aside(title: String(localized: drawn.tool.title))
+            listColumn.rest(aside: columns != .all, windowWidth: windowWidth.value)
         }
     }
 
