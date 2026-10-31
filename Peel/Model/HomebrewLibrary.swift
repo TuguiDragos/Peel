@@ -16,6 +16,10 @@ final class HomebrewLibrary {
     /// through an upgrade, but their versions change.
     private(set) var revision = 0
     @ObservationIgnored private let appsOfCask: (HomebrewPackage) -> [InstalledApp]
+    /// Waiting for a cask's apps to quit before Homebrew changes them. These are the library's, not a page's: choosing
+    /// another row builds another page, and the command the person asked for still has to run.
+    let quittingToUpgrade = QuitBeforeRemoving()
+    let quittingToUninstall = QuitBeforeRemoving()
 
     init(appsOfCask: @escaping (HomebrewPackage) -> [InstalledApp] = { _ in [] }) {
         self.appsOfCask = appsOfCask

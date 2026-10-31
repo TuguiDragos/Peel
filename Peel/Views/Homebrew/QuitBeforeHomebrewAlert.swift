@@ -16,6 +16,5 @@ extension View {
                 : Text("Homebrew deletes what it uninstalls, even while it runs, so Peel quits it first.")
         }
         .forceQuitOffer(quitting)
-        .onDisappear { quitting.giveUp() }
     }
 }

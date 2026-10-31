@@ -12,7 +12,6 @@ struct HomebrewList: View {
     /// One of the deeper clean ups, or the repair, waiting for its confirmation.
     @State private var confirming: HomebrewLibrary.Command?
     @State private var isConfirmingUpgradeAll = false
-    @State private var quittingToUpgrade = QuitBeforeRemoving()
     @State private var casksToForget: [HomebrewPackage]?
 
     var body: some View {
@@ -104,7 +103,6 @@ struct HomebrewList: View {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
         }
         .forgetCasksDialog(for: $casksToForget)
-        .quitBeforeHomebrew(quittingToUpgrade, upgrading: true)
         // Clean Up is confirmed first, like Uninstall on a package's page, because Homebrew deletes these files
         // permanently and History can't put them back.
         .confirmationDialog("Clean up Homebrew?", isPresented: $isConfirmingCleanUp) {
@@ -534,7 +532,8 @@ struct HomebrewList: View {
                     }
                         .buttonStyle(.borderless)
                         .disabled(
-                            homebrew.upgradable.isEmpty || isBusy || quittingToUpgrade.isWaiting || !homebrew.mayChange
+                            homebrew.upgradable.isEmpty || isBusy || homebrew.quittingToUpgrade.isWaiting
+                                || !homebrew.mayChange
                                 || homebrew.upgradable.contains { $0.kind == .cask } && !library.knowsHomebrewsApps
                         )
                 }
@@ -679,7 +678,7 @@ struct HomebrewList: View {
 
     private func upgradeAll() {
         let quit = QuitBeforeHomebrew(homebrew.upgradable, library: library)
-        quittingToUpgrade.check(quit.processes) {
+        homebrew.quittingToUpgrade.check(quit.processes) {
             Task {
                 await homebrew.run(.upgradeAll)
                 quit.reopen()

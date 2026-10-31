@@ -9,7 +9,6 @@ struct AppDetailView: View {
     @Environment(HomebrewLibrary.self) private var homebrew
     @State private var plan: RemovalPlan
     @State private var quitting = QuitBeforeRemoving()
-    @State private var quittingToUpgrade = QuitBeforeRemoving()
     @Environment(RemovalOutcome.self) private var outcome
     @State private var isRescanning = false
     @State private var progress = MoveProgress()
@@ -63,7 +62,6 @@ struct AppDetailView: View {
         }
         .forceQuitOffer(quitting)
         .onDisappear { quitting.giveUp() }
-        .quitBeforeHomebrew(quittingToUpgrade, upgrading: true)
         .sheet(isPresented: $isShowingReset, onDismiss: {
             guard resetChangedFiles else { return }
             resetChangedFiles = false
@@ -114,8 +112,7 @@ struct AppDetailView: View {
                 upgradeOutput: $upgradeOutput,
                 receiptToForget: $receiptToForget,
                 isForgettingReceipt: isForgettingReceipt,
-                isRemoving: plan.isRemoving || quitting.isWaiting,
-                quittingToUpgrade: quittingToUpgrade
+                isRemoving: plan.isRemoving || quitting.isWaiting
             )
             .listRowSeparator(.hidden)
 

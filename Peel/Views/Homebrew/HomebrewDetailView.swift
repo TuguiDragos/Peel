@@ -9,8 +9,6 @@ struct HomebrewDetailView: View {
     @Environment(PeelUpdater.self) private var updater
     @State private var isConfirmingUninstall = false
     @State private var isConfirmingUpgrade = false
-    @State private var quittingToUpgrade = QuitBeforeRemoving()
-    @State private var quittingToUninstall = QuitBeforeRemoving()
     @State private var casksToForget: [HomebrewPackage]?
     /// What macOS said of the system extensions the cask's apps carry, with the apps it was asked about.
     @State private var extensionsAnswer: (apps: [URL], removedElsewhere: RemovedElsewhere?)?
@@ -187,8 +185,8 @@ struct HomebrewDetailView: View {
                         }
                     }
                     .disabled(
-                        homebrew.runningCommand != nil || homebrew.isForgetting || quittingToUpgrade.isWaiting
-                            || quittingToUninstall.isWaiting
+                        homebrew.runningCommand != nil || homebrew.isForgetting || homebrew.quittingToUpgrade.isWaiting
+                            || homebrew.quittingToUninstall.isWaiting
                     )
                     if package.waitsForAnUpgrade, package.isPeelItself {
                         Text("Peel updates itself, so it isn’t upgraded from here: Homebrew would have to quit Peel first.")
@@ -252,13 +250,11 @@ struct HomebrewDetailView: View {
         } message: {
             Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
         }
-        .quitBeforeHomebrew(quittingToUpgrade, upgrading: true)
-        .quitBeforeHomebrew(quittingToUninstall, upgrading: false)
     }
 
     private func upgrade() {
         let quit = QuitBeforeHomebrew([package], library: library)
-        quittingToUpgrade.check(quit.processes) {
+        homebrew.quittingToUpgrade.check(quit.processes) {
             // Asked again once its apps have quit, since the exclusions can change meanwhile.
             guard upgradeRefusal == nil else { return }
             Task {
@@ -270,7 +266,7 @@ struct HomebrewDetailView: View {
 
     private func uninstall() {
         let quit = QuitBeforeHomebrew([package], library: library)
-        quittingToUninstall.check(quit.processes) {
+        homebrew.quittingToUninstall.check(quit.processes) {
             // Asked again once its apps have quit, since the exclusions can change meanwhile.
             guard uninstallRefusal == nil else { return }
             Task { await homebrew.run(.uninstall(package.id)) }

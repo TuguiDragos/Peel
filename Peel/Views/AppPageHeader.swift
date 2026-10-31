@@ -19,9 +19,6 @@ struct AppPageHeader: View {
     let isForgettingReceipt: Bool
     /// True while the page removes the app or waits for it to quit first, when nothing else is started from here.
     let isRemoving: Bool
-    /// Asks the app to quit before Homebrew upgrades it. The page owns it and shows its questions, since a List
-    /// takes this header away when it is scrolled out of view, and that would end the wait.
-    let quittingToUpgrade: QuitBeforeRemoving
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -225,7 +222,7 @@ struct AppPageHeader: View {
                 }
             }
             .buttonStyle(.borderedProminent)
-            .disabled(homebrew.runningCommand != nil || quittingToUpgrade.isWaiting)
+            .disabled(homebrew.runningCommand != nil || homebrew.quittingToUpgrade.isWaiting)
         case .developer, .automatic:
             Button("Open \(plan.app.name)", systemImage: "arrow.up.forward.app") {
                 NSWorkspace.shared.open(plan.app.url)
@@ -242,7 +239,7 @@ struct AppPageHeader: View {
     private func upgradeWithHomebrew() {
         guard let cask = library.cask(for: plan.app) else { return }
         let quit = QuitBeforeHomebrew([cask], library: library)
-        quittingToUpgrade.check(quit.processes) {
+        homebrew.quittingToUpgrade.check(quit.processes) {
             // Asked again once its apps have quit, since the exclusions can change meanwhile.
             guard upgradeRefusal == nil else { return }
             Task {

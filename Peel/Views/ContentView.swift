@@ -142,6 +142,8 @@ struct ContentView: View {
         .clearTitleBar()
         .measuresFrames()
         .focusedSceneValue(\.selectedTool, shownTool)
+        .quitBeforeHomebrew(homebrew.quittingToUpgrade, upgrading: true)
+        .quitBeforeHomebrew(homebrew.quittingToUninstall, upgrading: false)
         // The page changes only for a bundle that is an app, since any app or web page can send the link.
         .onOpenURL { url in
             guard let applicationURL = OpenRequest.applicationURL(from: url) else { return }
