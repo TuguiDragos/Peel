@@ -122419,214 +122419,220 @@
         }
       }
     },
-    "Peel asked where %@ updates from and got no answer it could read. A feed that is down, moved, or behind a sign-in ends up here, and Peel asks again at the next check." : {
+    "Peel asked where %@ updates from and got no answer it could read. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se ptal, odkud se aplikace %@ aktualizuje, a nedostal odpověď, kterou by dokázal přečíst. Sem se dostane kanál, který nefunguje, přesunul se nebo vyžaduje přihlášení, a Peel se při příští kontrole zeptá znovu."
+            "value" : "Peel se ptal, odkud se aplikace %@ aktualizuje, a nedostal odpověď, kterou by dokázal přečíst. Sem se dostane kanál, který nefunguje, přesunul se nebo vyžaduje přihlášení, stejně jako kanál, ke kterému se síť tohoto Macu nedostane přes proxy nebo VPN, a Peel se při příští kontrole zeptá znovu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat gefragt, woher „%@“ Updates bezieht, und keine lesbare Antwort erhalten. Ein Feed, der ausgefallen ist, umgezogen ist oder eine Anmeldung verlangt, landet hier, und Peel fragt bei der nächsten Prüfung erneut."
+            "value" : "Peel hat gefragt, woher „%@“ Updates bezieht, und keine lesbare Antwort erhalten. Ein Feed, der ausgefallen ist, umgezogen ist oder eine Anmeldung verlangt, landet hier, ebenso einer, den das Netzwerk dieses Mac nicht über einen Proxy oder ein VPN erreicht, und Peel fragt bei der nächsten Prüfung erneut."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha preguntado de dónde se actualiza %@ y no ha obtenido ninguna respuesta que pueda leer. Un canal que no funciona, que se ha movido o que requiere iniciar sesión acaba aquí, y Peel vuelve a preguntar en la siguiente comprobación."
+            "value" : "Peel ha preguntado de dónde se actualiza %@ y no ha obtenido ninguna respuesta que pueda leer. Un canal que no funciona, que se ha movido o que requiere iniciar sesión acaba aquí, igual que uno al que la red de este Mac no llega a través de un proxy o una VPN, y Peel vuelve a preguntar en la siguiente comprobación."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, et Peel repose la question à la prochaine vérification."
+            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, tout comme un flux que le réseau de ce Mac n’atteint pas via un proxy ou un VPN, et Peel repose la question à la prochaine vérification."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha chiesto da dove si aggiorna %@ e non ha ricevuto una risposta leggibile. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, e Peel chiede di nuovo alla prossima verifica."
+            "value" : "Peel ha chiesto da dove si aggiorna %@ e non ha ricevuto una risposta leggibile. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, come pure uno che la rete di questo Mac non raggiunge tramite un proxy o una VPN, e Peel chiede di nuovo alla prossima verifica."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは“%@”のアップデート元に問い合わせましたが、読み取れる応答がありませんでした。停止している、移動した、またはサインインが必要なフィードはこの状態になり、Peelは次回の確認時にもう一度問い合わせます。"
+            "value" : "Peelは“%@”のアップデート元に問い合わせましたが、読み取れる応答がありませんでした。停止している、移動した、またはサインインが必要なフィードや、このMacのネットワークからプロキシまたはVPN経由で到達できないフィードはこの状態になり、Peelは次回の確認時にもう一度問い合わせます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 ‘%@’의 업데이트 출처에 물었지만 읽을 수 있는 응답을 받지 못했습니다. 다운되었거나, 옮겨졌거나, 로그인이 필요한 피드는 여기에 표시되며, Peel은 다음 확인 때 다시 묻습니다."
+            "value" : "Peel이 ‘%@’의 업데이트 출처에 물었지만 읽을 수 있는 응답을 받지 못했습니다. 다운되었거나, 옮겨졌거나, 로그인이 필요한 피드와 이 Mac의 네트워크가 프록시나 VPN을 통해 연결하지 못하는 피드는 여기에 표시되며, Peel은 다음 확인 때 다시 묻습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft gevraagd waar %@ updates vandaan haalt, maar kreeg geen antwoord dat Peel kon lezen. Een feed die offline is, verplaatst is of achter een inlogscherm zit, komt hier terecht, en Peel vraagt het opnieuw bij de volgende controle."
+            "value" : "Peel heeft gevraagd waar %@ updates vandaan haalt, maar kreeg geen antwoord dat Peel kon lezen. Een feed die offline is, verplaatst is of achter een inlogscherm zit, komt hier terecht, net als een feed die het netwerk van deze Mac niet bereikt via een proxy of VPN, en Peel vraagt het opnieuw bij de volgende controle."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał, skąd uaktualnia się aplikacja %@, i nie otrzymał odpowiedzi, którą mógłby odczytać. Tak jest w przypadku kanału, który nie działa, został przeniesiony lub wymaga zalogowania, a Peel zapyta ponownie przy następnym sprawdzaniu."
+            "value" : "Peel zapytał, skąd uaktualnia się aplikacja %@, i nie otrzymał odpowiedzi, którą mógłby odczytać. Tak jest w przypadku kanału, który nie działa, został przeniesiony lub wymaga zalogowania, a także kanału, do którego sieć tego Maca nie dociera przez serwer proxy lub VPN. Peel zapyta ponownie przy następnym sprawdzaniu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel perguntou de onde %@ se atualiza e não obteve uma resposta que conseguisse ler. Um feed fora do ar, que mudou de endereço ou que exige iniciar sessão acaba aqui, e o Peel pergunta de novo na próxima verificação."
+            "value" : "O Peel perguntou de onde %@ se atualiza e não obteve uma resposta que conseguisse ler. Um feed fora do ar, que mudou de endereço ou que exige iniciar sessão acaba aqui, assim como um feed que a rede deste Mac não alcança por meio de um proxy ou de uma VPN, e o Peel pergunta de novo na próxima verificação."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a întrebat de unde se actualizează %@ și nu a primit niciun răspuns pe care să îl poată citi. Aici ajunge un flux care nu funcționează, care a fost mutat sau care cere autentificare, iar Peel întreabă din nou la următoarea verificare."
+            "value" : "Peel a întrebat de unde se actualizează %@ și nu a primit niciun răspuns pe care să îl poată citi. Aici ajunge un flux care nu funcționează, care a fost mutat sau care cere autentificare, precum și unul la care rețeaua acestui Mac nu ajunge printr‑un proxy sau un VPN, iar Peel întreabă din nou la următoarea verificare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запросил, откуда обновляется приложение «%@», но не получил ответа, который смог бы прочитать. Сюда попадают ленты, которые не работают, переехали или требуют входа, и Peel спросит снова при следующей проверке."
+            "value" : "Peel запросил, откуда обновляется приложение «%@», но не получил ответа, который смог бы прочитать. Сюда попадают ленты, которые не работают, переехали или требуют входа, а также те, к которым сеть этого Mac не может подключиться через прокси или VPN, и Peel спросит снова при следующей проверке."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågade varifrån %@ uppdateras och fick inget svar som gick att läsa. Ett flöde som inte fungerar, har flyttats eller kräver inloggning hamnar här, och Peel frågar igen vid nästa kontroll."
+            "value" : "Peel frågade varifrån %@ uppdateras och fick inget svar som gick att läsa. Ett flöde som inte fungerar, har flyttats eller kräver inloggning hamnar här, liksom ett flöde som den här datorns nätverk inte når via en proxy eller ett VPN, och Peel frågar igen vid nästa kontroll."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, %@ uygulamasının nereden güncellendiğini sordu ve okuyabileceği bir yanıt alamadı. Çalışmayan, taşınmış veya oturum açmayı gerektiren bir akış bu duruma düşer; Peel bir sonraki denetimde yeniden sorar."
+            "value" : "Peel, %@ uygulamasının nereden güncellendiğini sordu ve okuyabileceği bir yanıt alamadı. Çalışmayan, taşınmış veya oturum açmayı gerektiren bir akış bu duruma düşer; bu Mac’in ağının bir proxy veya VPN üzerinden ulaşamadığı bir akış da öyle. Peel bir sonraki denetimde yeniden sorar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запитала, звідки оновлюється програма «%@», але не отримала відповіді, яку могла б прочитати. Сюди потрапляє стрічка, яка не працює, переїхала або вимагає входу, і Peel запитає знову під час наступної перевірки."
+            "value" : "Peel запитала, звідки оновлюється програма «%@», але не отримала відповіді, яку могла б прочитати. Сюди потрапляє стрічка, яка не працює, переїхала або вимагає входу, а також стрічка, до якої мережа цього Mac не може дістатися через проксі чи VPN, і Peel запитає знову під час наступної перевірки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查询了“%@”的更新来源，但没有得到可读取的回应。更新源停止服务、已迁移或需要登录时都会出现这种情况，Peel会在下次检查时再次查询。"
+            "value" : "Peel查询了“%@”的更新来源，但没有得到可读取的回应。更新源停止服务、已迁移或需要登录时都会出现这种情况，这台Mac的网络通过代理或VPN无法访问更新源时也是如此。Peel会在下次检查时再次查询。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel詢問了「%@」的更新來源，但沒有得到它能讀取的回應。Feed無法使用、已移動或需要登入時就會出現這種情況，Peel會在下次檢查時再次詢問。"
+            "value" : "Peel詢問了「%@」的更新來源，但沒有得到它能讀取的回應。Feed無法使用、已移動或需要登入時就會出現這種情況，這部Mac的網路無法透過代理伺服器或VPN連上Feed時也是如此，Peel會在下次檢查時再次詢問。"
           }
         }
       }
     },
-    "Peel asked where %@ updates from and got no answer it could read. The last answer came %@. A feed that is down, moved, or behind a sign-in ends up here, and Peel asks again at the next check." : {
+    "Peel asked where %@ updates from and got no answer it could read. The last answer came %@. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se ptal, odkud se aplikace %@ aktualizuje, a nedostal odpověď, kterou by dokázal přečíst. Poslední odpověď přišla %@. Sem se dostane kanál, který nefunguje, přesunul se nebo vyžaduje přihlášení, a Peel se při příští kontrole zeptá znovu."
+            "value" : "Peel se ptal, odkud se aplikace %1$@ aktualizuje, a nedostal odpověď, kterou by dokázal přečíst. Poslední odpověď přišla %2$@. Sem se dostane kanál, který nefunguje, přesunul se nebo vyžaduje přihlášení, stejně jako kanál, ke kterému se síť tohoto Macu nedostane přes proxy nebo VPN, a Peel se při příští kontrole zeptá znovu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat gefragt, woher „%@“ Updates bezieht, und keine lesbare Antwort erhalten. Die letzte Antwort kam %@. Ein Feed, der ausgefallen ist, umgezogen ist oder eine Anmeldung verlangt, landet hier, und Peel fragt bei der nächsten Prüfung erneut."
+            "value" : "Peel hat gefragt, woher „%1$@“ Updates bezieht, und keine lesbare Antwort erhalten. Die letzte Antwort kam %2$@. Ein Feed, der ausgefallen ist, umgezogen ist oder eine Anmeldung verlangt, landet hier, ebenso einer, den das Netzwerk dieses Mac nicht über einen Proxy oder ein VPN erreicht, und Peel fragt bei der nächsten Prüfung erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel asked where %1$@ updates from and got no answer it could read. The last answer came %2$@. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha preguntado de dónde se actualiza %@ y no ha obtenido ninguna respuesta que pueda leer. La última respuesta llegó %@. Un canal que no funciona, que se ha movido o que requiere iniciar sesión acaba aquí, y Peel vuelve a preguntar en la siguiente comprobación."
+            "value" : "Peel ha preguntado de dónde se actualiza %1$@ y no ha obtenido ninguna respuesta que pueda leer. La última respuesta llegó %2$@. Un canal que no funciona, que se ha movido o que requiere iniciar sesión acaba aquí, igual que uno al que la red de este Mac no llega a través de un proxy o una VPN, y Peel vuelve a preguntar en la siguiente comprobación."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. La dernière réponse est arrivée %@. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, et Peel repose la question à la prochaine vérification."
+            "value" : "Peel a demandé d’où proviennent les mises à jour de %1$@, sans obtenir de réponse lisible. La dernière réponse est arrivée %2$@. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, tout comme un flux que le réseau de ce Mac n’atteint pas via un proxy ou un VPN, et Peel repose la question à la prochaine vérification."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha chiesto da dove si aggiorna %@ e non ha ricevuto una risposta leggibile. Ultima risposta: %@. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, e Peel chiede di nuovo alla prossima verifica."
+            "value" : "Peel ha chiesto da dove si aggiorna %1$@ e non ha ricevuto una risposta leggibile. Ultima risposta: %2$@. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, come pure uno che la rete di questo Mac non raggiunge tramite un proxy o una VPN, e Peel chiede di nuovo alla prossima verifica."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは“%@”のアップデート元に問い合わせましたが、読み取れる応答がありませんでした。最後に応答があったのは%@です。停止している、移動した、またはサインインが必要なフィードはこの状態になり、Peelは次回の確認時にもう一度問い合わせます。"
+            "value" : "Peelは“%1$@”のアップデート元に問い合わせましたが、読み取れる応答がありませんでした。最後に応答があったのは%2$@です。停止している、移動した、またはサインインが必要なフィードや、このMacのネットワークからプロキシまたはVPN経由で到達できないフィードはこの状態になり、Peelは次回の確認時にもう一度問い合わせます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 ‘%@’의 업데이트 출처에 물었지만 읽을 수 있는 응답을 받지 못했습니다. 마지막으로 응답을 받은 시점은 %@입니다. 다운되었거나, 옮겨졌거나, 로그인이 필요한 피드는 여기에 표시되며, Peel은 다음 확인 때 다시 묻습니다."
+            "value" : "Peel이 ‘%1$@’의 업데이트 출처에 물었지만 읽을 수 있는 응답을 받지 못했습니다. 마지막으로 응답을 받은 시점은 %2$@입니다. 다운되었거나, 옮겨졌거나, 로그인이 필요한 피드와 이 Mac의 네트워크가 프록시나 VPN을 통해 연결하지 못하는 피드는 여기에 표시되며, Peel은 다음 확인 때 다시 묻습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft gevraagd waar %@ updates vandaan haalt, maar kreeg geen antwoord dat Peel kon lezen. Het laatste antwoord kwam %@. Een feed die offline is, verplaatst is of achter een inlogscherm zit, komt hier terecht, en Peel vraagt het opnieuw bij de volgende controle."
+            "value" : "Peel heeft gevraagd waar %1$@ updates vandaan haalt, maar kreeg geen antwoord dat Peel kon lezen. Het laatste antwoord kwam %2$@. Een feed die offline is, verplaatst is of achter een inlogscherm zit, komt hier terecht, net als een feed die het netwerk van deze Mac niet bereikt via een proxy of VPN, en Peel vraagt het opnieuw bij de volgende controle."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał, skąd uaktualnia się aplikacja %@, i nie otrzymał odpowiedzi, którą mógłby odczytać. Ostatnia odpowiedź nadeszła %@. Tak jest w przypadku kanału, który nie działa, został przeniesiony lub wymaga zalogowania, a Peel zapyta ponownie przy następnym sprawdzaniu."
+            "value" : "Peel zapytał, skąd uaktualnia się aplikacja %1$@, i nie otrzymał odpowiedzi, którą mógłby odczytać. Ostatnia odpowiedź nadeszła %2$@. Tak jest w przypadku kanału, który nie działa, został przeniesiony lub wymaga zalogowania, a także kanału, do którego sieć tego Maca nie dociera przez serwer proxy lub VPN. Peel zapyta ponownie przy następnym sprawdzaniu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel perguntou de onde %@ se atualiza e não obteve uma resposta que conseguisse ler. A última resposta chegou %@. Um feed fora do ar, que mudou de endereço ou que exige iniciar sessão acaba aqui, e o Peel pergunta de novo na próxima verificação."
+            "value" : "O Peel perguntou de onde %1$@ se atualiza e não obteve uma resposta que conseguisse ler. A última resposta chegou %2$@. Um feed fora do ar, que mudou de endereço ou que exige iniciar sessão acaba aqui, assim como um feed que a rede deste Mac não alcança por meio de um proxy ou de uma VPN, e o Peel pergunta de novo na próxima verificação."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a întrebat de unde se actualizează %@ și nu a primit niciun răspuns pe care să îl poată citi. Ultimul răspuns a venit %@. Aici ajunge un flux care nu funcționează, care a fost mutat sau care cere autentificare, iar Peel întreabă din nou la următoarea verificare."
+            "value" : "Peel a întrebat de unde se actualizează %1$@ și nu a primit niciun răspuns pe care să îl poată citi. Ultimul răspuns a venit %2$@. Aici ajunge un flux care nu funcționează, care a fost mutat sau care cere autentificare, precum și unul la care rețeaua acestui Mac nu ajunge printr‑un proxy sau un VPN, iar Peel întreabă din nou la următoarea verificare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запросил, откуда обновляется приложение «%@», но не получил ответа, который смог бы прочитать. Последний ответ пришел %@. Сюда попадают ленты, которые не работают, переехали или требуют входа, и Peel спросит снова при следующей проверке."
+            "value" : "Peel запросил, откуда обновляется приложение «%1$@», но не получил ответа, который смог бы прочитать. Последний ответ пришел %2$@. Сюда попадают ленты, которые не работают, переехали или требуют входа, а также те, к которым сеть этого Mac не может подключиться через прокси или VPN, и Peel спросит снова при следующей проверке."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågade varifrån %@ uppdateras och fick inget svar som gick att läsa. Det senaste svaret kom %@. Ett flöde som inte fungerar, har flyttats eller kräver inloggning hamnar här, och Peel frågar igen vid nästa kontroll."
+            "value" : "Peel frågade varifrån %1$@ uppdateras och fick inget svar som gick att läsa. Det senaste svaret kom %2$@. Ett flöde som inte fungerar, har flyttats eller kräver inloggning hamnar här, liksom ett flöde som den här datorns nätverk inte når via en proxy eller ett VPN, och Peel frågar igen vid nästa kontroll."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, %@ uygulamasının nereden güncellendiğini sordu ve okuyabileceği bir yanıt alamadı. Son yanıt %@ geldi. Çalışmayan, taşınmış veya oturum açmayı gerektiren bir akış bu duruma düşer; Peel bir sonraki denetimde yeniden sorar."
+            "value" : "Peel, %1$@ uygulamasının nereden güncellendiğini sordu ve okuyabileceği bir yanıt alamadı. Son yanıt %2$@ geldi. Çalışmayan, taşınmış veya oturum açmayı gerektiren bir akış bu duruma düşer; bu Mac’in ağının bir proxy veya VPN üzerinden ulaşamadığı bir akış da öyle. Peel bir sonraki denetimde yeniden sorar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запитала, звідки оновлюється програма «%@», але не отримала відповіді, яку могла б прочитати. Остання відповідь надійшла %@. Сюди потрапляє стрічка, яка не працює, переїхала або вимагає входу, і Peel запитає знову під час наступної перевірки."
+            "value" : "Peel запитала, звідки оновлюється програма «%1$@», але не отримала відповіді, яку могла б прочитати. Остання відповідь надійшла %2$@. Сюди потрапляє стрічка, яка не працює, переїхала або вимагає входу, а також стрічка, до якої мережа цього Mac не може дістатися через проксі чи VPN, і Peel запитає знову під час наступної перевірки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查询了“%@”的更新来源，但没有得到可读取的回应。上次回应是在%@。更新源停止服务、已迁移或需要登录时都会出现这种情况，Peel会在下次检查时再次查询。"
+            "value" : "Peel查询了“%1$@”的更新来源，但没有得到可读取的回应。上次回应是在%2$@。更新源停止服务、已迁移或需要登录时都会出现这种情况，这台Mac的网络通过代理或VPN无法访问更新源时也是如此。Peel会在下次检查时再次查询。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel詢問了「%@」的更新來源，但沒有得到它能讀取的回應。上一次回應是在%@。Feed無法使用、已移動或需要登入時就會出現這種情況，Peel會在下次檢查時再次詢問。"
+            "value" : "Peel詢問了「%1$@」的更新來源，但沒有得到它能讀取的回應。上一次回應是在%2$@。Feed無法使用、已移動或需要登入時就會出現這種情況，這部Mac的網路無法透過代理伺服器或VPN連上Feed時也是如此，Peel會在下次檢查時再次詢問。"
           }
         }
       }

@@ -633,9 +633,11 @@ final class AppLibrary {
         let casks = casks
         let notesBefore = releaseNotes
         var notesToAsk: [ReleaseNotesQuestion] = []
+        let repliesBefore = checker.serverReplies
 
         await withTaskGroup(of: (InstalledApp.ID, UpdateAnswer).self) { group in
             var pending = wanted.makeIterator()
+            var unreached: [(id: InstalledApp.ID, answer: UpdateAnswer)] = []
             @MainActor func askNext() {
                 guard let app = pending.next() else { return }
                 let earlier = updateStatuses[app.id]
@@ -663,9 +665,22 @@ final class AppLibrary {
                 // what was known and put off the next check for hours, and so would recording a check made while
                 // this Mac wasn't online, which leaves the app due at the next round.
                 guard !Task.isCancelled, !answer.wasOffline else { continue }
+                if answer.reachedNoServer {
+                    unreached.append((id, answer))
+                } else {
+                    take(answer, of: id)
+                }
+            }
+            // With no server answering at all the fault is this Mac's network, and nothing was learned of any app.
+            guard !Task.isCancelled, checker.serverReplies > repliesBefore else { return }
+            for (id, answer) in unreached {
+                take(answer, of: id)
+            }
+
+            @MainActor func take(_ answer: UpdateAnswer, of id: InstalledApp.ID) {
                 // The answer describes the build that was asked about, which may have been replaced since.
                 guard let app = asked[id], apps.contains(where: { $0.id == id && $0.isTheSameBuild(as: app) }) else {
-                    continue
+                    return
                 }
                 let kept = answer.following(updateStatuses[id])
                 // Homebrew's answer stands in for the app's own only where it is the status kept.
@@ -683,7 +698,7 @@ final class AppLibrary {
                 if answer.status != .failed {
                     lastUpdateChecks[id] = .now
                 }
-                guard let identifier = app.bundleIdentifier else { continue }
+                guard let identifier = app.bundleIdentifier else { return }
                 let before = remembered(app)
                 memory.keep(UpdateMemory(
                     status: kept,

@@ -109,9 +109,9 @@ struct UpdateStatusBadge: View {
 
     private var failureReason: Text {
         if let lastCheck {
-            Text("Peel asked where \(app.name) updates from and got no answer it could read. The last answer came \(lastCheck, format: .relative(presentation: .named)). A feed that is down, moved, or behind a sign-in ends up here, and Peel asks again at the next check.")
+            Text("Peel asked where \(app.name) updates from and got no answer it could read. The last answer came \(lastCheck, format: .relative(presentation: .named)). A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check.")
         } else {
-            Text("Peel asked where \(app.name) updates from and got no answer it could read. A feed that is down, moved, or behind a sign-in ends up here, and Peel asks again at the next check.")
+            Text("Peel asked where \(app.name) updates from and got no answer it could read. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check.")
         }
     }
 }

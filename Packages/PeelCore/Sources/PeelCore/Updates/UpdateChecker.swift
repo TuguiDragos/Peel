@@ -37,6 +37,7 @@ public struct UpdateChecker: Sendable {
     /// The time a check is made at, which decides whether what Homebrew says is recent enough to count.
     private let clock: @Sendable () -> Date
     private let isOnline: @Sendable () async -> Bool
+    private let replies = ReplyCount()
 
     public init(
         session: URLSession? = nil, locale: Locale = .current, clock: @escaping @Sendable () -> Date = { .now }
@@ -103,7 +104,8 @@ public struct UpdateChecker: Sendable {
         // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
         if let homebrew, own.status == .unsupported || own.status == .failed {
             return UpdateAnswer(
-                status: homebrew, developer: own.developer, standsInFor: own.status, isNotListed: own.isNotListed
+                status: homebrew, developer: own.developer, standsInFor: own.status,
+                reachedNoServer: own.reachedNoServer, isNotListed: own.isNotListed
             )
         }
         return own
@@ -243,7 +245,7 @@ public struct UpdateChecker: Sendable {
 
     private func sparkleAnswer(for app: InstalledApp, installed: String, at url: URL) async -> UpdateAnswer {
         let reply = await fetchReply(url)
-        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
+        guard let data = reply.data else { return Self.answer(after: reply) }
         let item: AppcastItem
         switch Appcast.read(data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon) {
         case .unreadable: return UpdateAnswer(status: .failed)
@@ -266,7 +268,7 @@ public struct UpdateChecker: Sendable {
 
     private func electronAnswer(for app: InstalledApp, installed: String, at url: URL) async -> UpdateAnswer {
         let reply = await fetchReply(url)
-        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
+        guard let data = reply.data else { return Self.answer(after: reply) }
         let feed = String(decoding: data, as: UTF8.self)
         guard let latest = ElectronUpdater.version(fromFeed: feed) else { return UpdateAnswer(status: .failed) }
         guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
@@ -284,7 +286,7 @@ public struct UpdateChecker: Sendable {
 
     private func vsCodeAnswer(installed: String, at url: URL) async -> UpdateAnswer {
         let reply = await fetchReply(url)
-        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
+        guard let data = reply.data else { return Self.answer(after: reply) }
         guard let latest = VSCodeUpdateService.version(in: data) else { return UpdateAnswer(status: .failed) }
         guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
         return UpdateAnswer(status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil))
@@ -305,7 +307,7 @@ public struct UpdateChecker: Sendable {
         if reply.status == 400, store != "us" {
             reply = await lookup(identifier, in: "us", for: listing)
         }
-        guard let data = reply.data else { return UpdateAnswer(status: .failed, wasOffline: reply.wasOffline) }
+        guard let data = reply.data else { return Self.answer(after: reply) }
         switch AppStoreLookup.answer(in: data, for: listing) {
         case .unreadable:
             return UpdateAnswer(status: .failed)
@@ -431,7 +433,15 @@ public struct UpdateChecker: Sendable {
         var textEncodingName: String?
         /// True when this Mac wasn't online, so no server was asked.
         var wasOffline = false
+        var reachedNoServer = false
     }
+
+    private static func answer(after reply: Reply) -> UpdateAnswer {
+        UpdateAnswer(status: .failed, wasOffline: reply.wasOffline, reachedNoServer: reply.reachedNoServer)
+    }
+
+    /// How many requests a server has answered, whatever it said, since this checker was made.
+    public var serverReplies: Int { replies.count }
 
     private func fetchReply(_ url: URL) async -> Reply {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
@@ -442,8 +452,9 @@ public struct UpdateChecker: Sendable {
             (stream, response) = try await session.bytes(for: request, delegate: delegate)
         } catch {
             let isOffline = delegate.waitedForConnectivity || Self.meansOffline(error)
-            return Reply(wasOffline: isOffline ? true : !(await isOnline()))
+            return Reply(wasOffline: isOffline ? true : !(await isOnline()), reachedNoServer: true)
         }
+        replies.add()
         let status = (response as? HTTPURLResponse)?.statusCode
         var answer = Reply(status: status, mimeType: response.mimeType, textEncodingName: response.textEncodingName)
         guard status == 200, response.expectedContentLength <= Self.maximumFeedBytes else { return answer }
@@ -463,6 +474,16 @@ public struct UpdateChecker: Sendable {
         }
         answer.data = Data(bytes)
         return answer
+    }
+}
+
+private final class ReplyCount: Sendable {
+    private let total = Mutex(0)
+
+    var count: Int { total.withLock { $0 } }
+
+    func add() {
+        total.withLock { $0 += 1 }
     }
 }
 
@@ -500,6 +521,9 @@ public struct UpdateAnswer: Sendable, Hashable {
     public let standsInFor: UpdateStatus?
     /// True when this Mac wasn't online, so the check learned nothing about the app.
     public let wasOffline: Bool
+    /// True when the request ended before any server answered. A network that leads nowhere, such as a sign-in page, a
+    /// proxy or a VPN, looks like this for every feed at once, so it says something of a feed only if another answers.
+    public let reachedNoServer: Bool
     /// True when the App Store answered that it lists no such app.
     public let isNotListed: Bool
 
@@ -510,6 +534,7 @@ public struct UpdateAnswer: Sendable, Hashable {
         notesPage: URL? = nil,
         standsInFor: UpdateStatus? = nil,
         wasOffline: Bool = false,
+        reachedNoServer: Bool = false,
         isNotListed: Bool = false
     ) {
         self.status = status
@@ -518,6 +543,7 @@ public struct UpdateAnswer: Sendable, Hashable {
         self.notesPage = notesPage
         self.standsInFor = standsInFor
         self.wasOffline = wasOffline
+        self.reachedNoServer = reachedNoServer
         self.isNotListed = isNotListed
     }
 
