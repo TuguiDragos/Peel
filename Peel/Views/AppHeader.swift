@@ -9,8 +9,8 @@ struct AppHeader<Actions: View>: View {
     let app: InstalledApp
     let updateStatus: UpdateStatus?
     let isCheckingForUpdates: Bool
-    /// The version a waiting update would bring. The caller passes it only when `AppLibrary.hasUpdate` is true.
-    var waitingVersion: String?
+    /// True when `AppLibrary.hasUpdate` is, since the page then shows the update in a panel of its own.
+    var hasWaitingUpdate = false
     var lastCheck: Date?
     let cannotCheck: CannotCheck
     var total: SizeTotal?
@@ -37,11 +37,10 @@ struct AppHeader<Actions: View>: View {
                     .accessibilityLabel(Text("\(total.text) can be moved to the Trash"))
             }
         }
-        .padding(.bottom, 8)
     }
 
-    /// The line under the name: the bundle identifier, the installed version, and where an update would take
-    /// it, then badges for anything unusual about the app and for the update status. It wraps when it doesn't fit.
+    /// The line under the name: the bundle identifier and the installed version, then badges for anything unusual
+    /// about the app and for the update status. It wraps when it doesn't fit.
     private var identity: some View {
         FlowLayout(spacing: 6) {
             HStack(spacing: 5) {
@@ -56,16 +55,7 @@ struct AppHeader<Actions: View>: View {
                         Text(verbatim: "·")
                             .accessibilityHidden(true)
                     }
-                    if let waitingVersion {
-                        StatusLabel(
-                            title: Text(verbatim: "\(version) → \(waitingVersion)"),
-                            systemImage: "arrow.down.circle",
-                            tint: .accentColor
-                        )
-                        .accessibilityLabel(Text("\(version), update available: \(waitingVersion)"))
-                    } else {
-                        Text(verbatim: version)
-                    }
+                    Text(verbatim: version)
                 }
             }
             .font(.subheadline.monospaced())
@@ -95,9 +85,7 @@ struct AppHeader<Actions: View>: View {
                     detail: Text("macOS keeps this app, so it stays where it is.")
                 )
             }
-            // A waiting update already shows beside the version, so the status badge shows only when
-            // there is none.
-            if waitingVersion == nil {
+            if !hasWaitingUpdate {
                 UpdateStatusBadge(
                     app: app,
                     status: updateStatus,
@@ -107,6 +95,6 @@ struct AppHeader<Actions: View>: View {
                 )
             }
         }
-        .motion(value: waitingVersion)
+        .motion(value: hasWaitingUpdate)
     }
 }

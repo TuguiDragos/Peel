@@ -24,18 +24,22 @@ struct AppPageHeader: View {
     let quittingToUpgrade: QuitBeforeRemoving
 
     var body: some View {
-        AppHeader(
-            app: plan.app,
-            updateStatus: library.shownUpdateStatus(of: plan.app),
-            isCheckingForUpdates: library.appsCheckingForUpdates.contains(plan.app.id),
-            waitingVersion: waitingVersion == nil ? nil : library.updateStatuses[plan.app.id]?.displayVersion,
-            lastCheck: library.lastUpdateChecks[plan.app.id],
-            cannotCheck: library.whyItCannotCheck(plan.app),
-            total: plan.total,
-            sharesStorage: plan.appSharesStorage
-        ) {
-            appActions
+        VStack(alignment: .leading, spacing: 16) {
+            AppHeader(
+                app: plan.app,
+                updateStatus: library.shownUpdateStatus(of: plan.app),
+                isCheckingForUpdates: library.appsCheckingForUpdates.contains(plan.app.id),
+                hasWaitingUpdate: waitingVersion != nil,
+                lastCheck: library.lastUpdateChecks[plan.app.id],
+                cannotCheck: library.whyItCannotCheck(plan.app),
+                total: plan.total,
+                sharesStorage: plan.appSharesStorage
+            ) {
+                appActions
+            }
+            updatePanel
         }
+        .padding(.bottom, 8)
     }
 
     /// The version an update would bring. Nil when there is no update, or when the user muted this app or
@@ -44,18 +48,11 @@ struct AppPageHeader: View {
         library.hasUpdate(plan.app) ? library.updateStatuses[plan.app.id]?.version : nil
     }
 
-    private var updateSource: UpdateSource? {
-        library.updateStatuses[plan.app.id]?.source
-    }
-
-    /// What can be done to the app without removing it: update it, open its maker's uninstaller, or reset it.
-    /// Less common actions, such as the release notes or muting updates, sit in the More menu.
+    /// What can be done to the app without removing it, its update aside: open its maker's uninstaller, or reset
+    /// it. Less common actions, such as the release notes or muting updates, sit in the More menu.
     private var appActions: some View {
         VStack(alignment: .leading, spacing: 6) {
             FlowLayout {
-                if let version = waitingVersion, let source = updateSource {
-                    updateAction(for: source, version: version)
-                }
                 if let uninstaller = plan.vendorUninstaller {
                     Button("Open Uninstaller", systemImage: "arrow.up.forward.app") {
                         NSWorkspace.shared.open(uninstaller)
@@ -75,37 +72,41 @@ struct AppPageHeader: View {
                 moreMenu
             }
             .disabled(isRemoving)
-            if let upgrade = library.upgrade(of: plan.app) {
+            // An upgrade that brought the app up to date leaves no panel to say how it went.
+            if waitingVersion == nil, let upgrade = library.upgrade(of: plan.app) {
                 outcome(of: upgrade)
-            } else if let source = updateSource, waitingVersion != nil {
-                Text(updateExplanation(for: source))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             if let privacyReset {
                 outcome(of: privacyReset)
             }
-            if let releaseNotesBox {
-                releaseNotesBox
-            }
         }
     }
 
-    /// What is new in the update that waits, or where the app says it. The store's page is already the App Store
-    /// button, and a cask's homepage is offered as what it is.
-    private var releaseNotesBox: ReleaseNotesBox? {
-        guard waitingVersion != nil, let status = library.updateStatuses[plan.app.id],
-              let version = status.displayVersion
-        else { return nil }
-        let notes = library.releaseNotes(of: plan.app)
-        let link = status.source == .appStore ? nil : status.releaseNotes
-        guard notes != nil || link != nil else { return nil }
-        return ReleaseNotesBox(
-            version: version,
-            notes: notes,
-            link: link,
-            linkTitle: status.source == .homebrew ? "Homepage" : "Release Notes"
-        )
+    /// The update that waits, how to get it, and what is new in it. The store's page is already the App Store button,
+    /// and a cask's homepage is offered as what it is.
+    @ViewBuilder
+    private var updatePanel: some View {
+        if let version = waitingVersion, let status = library.updateStatuses[plan.app.id],
+           let source = status.source, let shown = status.displayVersion {
+            UpdatePanel(
+                version: shown,
+                notes: library.releaseNotes(of: plan.app),
+                link: source == .appStore ? nil : status.releaseNotes.map {
+                    ReleaseNotesLink(url: $0, title: source == .homebrew ? "Homepage" : "Release Notes")
+                }
+            ) {
+                if let upgrade = library.upgrade(of: plan.app) {
+                    outcome(of: upgrade)
+                } else {
+                    Text(updateExplanation(for: source))
+                }
+            } action: {
+                updateAction(for: source, version: version)
+                    .disabled(isRemoving)
+            }
+        }
     }
 
     private var moreMenu: some View {
@@ -268,23 +269,19 @@ struct AppPageHeader: View {
 
     @ViewBuilder
     private func outcome(of upgrade: AppLibrary.Upgrade) -> some View {
-        Group {
-            if upgrade.succeeded {
-                StatusLabel(
-                    title: upgrade.app.version.map { Text("Now on \($0).") } ?? Text("Homebrew finished the upgrade."),
-                    systemImage: "checkmark.circle.fill",
-                    tint: .green
-                )
-            } else {
-                StatusLabel(
-                    title: Text("Homebrew couldn’t finish the upgrade."),
-                    systemImage: "exclamationmark.triangle.fill",
-                    tint: .red
-                )
-            }
+        if upgrade.succeeded {
+            StatusLabel(
+                title: upgrade.app.version.map { Text("Now on \($0).") } ?? Text("Homebrew finished the upgrade."),
+                systemImage: "checkmark.circle.fill",
+                tint: .green
+            )
+        } else {
+            StatusLabel(
+                title: Text("Homebrew couldn’t finish the upgrade."),
+                systemImage: "exclamationmark.triangle.fill",
+                tint: .red
+            )
         }
-        .font(.caption)
-        .foregroundStyle(.secondary)
     }
 
     @ViewBuilder

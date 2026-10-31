@@ -205,7 +205,7 @@ struct HomebrewDetailView: View {
 
             if let (version, notes) = caskNotes {
                 Section {
-                    ReleaseNotesView(notes: notes)
+                    ReleaseNotesView(notes: notes, version: version)
                 } header: {
                     Text("What’s New in \(version)")
                 }

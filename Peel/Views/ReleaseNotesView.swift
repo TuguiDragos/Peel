@@ -1,25 +1,36 @@
 import PeelCore
 import SwiftUI
 
-/// What is new in a waiting update, as its notes say it: headings, paragraphs and lists, cut to a few lines until
-/// the person asks for the rest.
+/// What is new in a waiting update, as its notes say it: headings, paragraphs and lists, cut to a few lines with the
+/// rest in a popover, so long notes never make the page longer.
 struct ReleaseNotesView: View {
     let notes: ReleaseNotes
+    /// The version the notes are for, which the popover is titled with.
+    let version: String
+    /// Shown at the end of the notes, beside Show More when they are cut.
+    var link: ReleaseNotesLink?
     @State private var blocks: [ReleaseNotes.Block] = []
-    @State private var isLong = false
-    @State private var isExpanded = false
+    @State private var isTall = false
+    @State private var isShowingAll = false
 
     nonisolated private static let shortHeight: CGFloat = 132
+    /// More blocks than the cut ever shows, since each is at least a line: only these are built on the page, so a long
+    /// changelog doesn't put hundreds of views there.
+    private static let shownBlocks = 10
+
+    private var isLong: Bool {
+        isTall || blocks.count > Self.shownBlocks
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            content
+            ReleaseNotesBlocks(blocks: blocks.prefix(Self.shownBlocks))
                 .fixedSize(horizontal: false, vertical: true)
-                .onGeometryChange(for: Bool.self) { $0.size.height > Self.shortHeight } action: { isLong = $0 }
-                .frame(maxHeight: isLong && !isExpanded ? Self.shortHeight : nil, alignment: .top)
+                .onGeometryChange(for: Bool.self) { $0.size.height > Self.shortHeight } action: { isTall = $0 }
+                .frame(maxHeight: isLong ? Self.shortHeight : nil, alignment: .top)
                 .clipped()
                 .mask {
-                    if isLong && !isExpanded {
+                    if isLong {
                         VStack(spacing: 0) {
                             Color.black
                             LinearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom)
@@ -29,85 +40,107 @@ struct ReleaseNotesView: View {
                         Color.black
                     }
                 }
-            if isLong {
-                Button {
-                    isExpanded.toggle()
-                } label: {
-                    Text(isExpanded ? "Show Less" : "Show More")
-                        .minimumTarget()
+            if isLong || link != nil {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    if isLong {
+                        Button {
+                            isShowingAll = true
+                        } label: {
+                            Text("Show More\u{2026}")
+                                .minimumTarget()
+                        }
+                        .buttonStyle(.link)
+                        // A popover, not a sheet: a sheet dims the window, which makes SwiftUI measure every row on
+                        // screen again as it opens and again as it closes.
+                        .popover(isPresented: $isShowingAll, arrowEdge: .bottom) {
+                            AllReleaseNotes(version: version, blocks: blocks)
+                        }
+                    }
+                    Spacer(minLength: 8)
+                    link
                 }
-                .buttonStyle(.link)
             }
         }
         .font(.callout)
-        .motion(value: isExpanded)
         // Reading HTML takes a moment, so it is read away from the page and only again when the notes change.
         .task(id: notes) {
             let notes = notes
             blocks = await Task.detached { notes.blocks }.value
         }
     }
+}
 
-    private var content: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            ForEach(Array(blocks.enumerated()), id: \.offset) { _, block in
-                switch block {
-                case .heading(let words):
-                    Text(words)
-                        .fontWeight(.semibold)
-                        .accessibilityAddTraits(.isHeader)
-                case .paragraph(let words):
-                    Text(words)
-                case .item(let words, let depth):
-                    HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text(verbatim: "•")
-                            .accessibilityHidden(true)
-                        Text(words)
-                    }
-                    .padding(.leading, CGFloat(depth) * 14)
-                }
+/// Blocks of an update's notes, from the top. In a scroll view they are lazy, built as they come into sight.
+private struct ReleaseNotesBlocks: View {
+    let blocks: ArraySlice<ReleaseNotes.Block>
+    var isLazy = false
+
+    var body: some View {
+        Group {
+            if isLazy {
+                LazyVStack(alignment: .leading, spacing: 6) { rows }
+            } else {
+                VStack(alignment: .leading, spacing: 6) { rows }
             }
         }
         .textSelection(.enabled)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-}
 
-/// The panel an app's page shows under its update: what is new in the version that waits, or, when no notes came
-/// with the update, where the app says it.
-struct ReleaseNotesBox: View {
-    let version: String
-    let notes: ReleaseNotes?
-    let link: URL?
-    let linkTitle: LocalizedStringResource
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("What’s New in \(version)")
-                    .font(.callout.weight(.semibold))
+    private var rows: some View {
+        ForEach(blocks.indices, id: \.self) { index in
+            switch blocks[index] {
+            case .heading(let words):
+                Text(words)
+                    .fontWeight(.semibold)
                     .accessibilityAddTraits(.isHeader)
-                Spacer(minLength: 8)
-                if let link {
-                    Link(destination: link) {
-                        Text(linkTitle)
-                            .minimumTarget()
-                    }
-                    .font(.callout)
-                    .help(Text(verbatim: link.absoluteString))
+            case .paragraph(let words):
+                Text(words)
+            case .item(let words, let depth):
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text(verbatim: "•")
+                        .accessibilityHidden(true)
+                    Text(words)
                 }
-            }
-            if let notes {
-                ReleaseNotesView(notes: notes)
-            } else {
-                Text("This update came with no notes.")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
+                .padding(.leading, CGFloat(depth) * 14)
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.quaternary, in: .rect(cornerRadius: 8))
+    }
+}
+
+/// All of an update's notes, in a popover as tall as they are up to a limit, past which they scroll. The link to
+/// them stays beside Show More, under the notes the page shows.
+private struct AllReleaseNotes: View {
+    let version: String
+    let blocks: [ReleaseNotes.Block]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("What’s New in \(version)")
+                .font(.headline)
+                .accessibilityAddTraits(.isHeader)
+            ScrollView {
+                ReleaseNotesBlocks(blocks: blocks[...], isLazy: true)
+            }
+            .frame(maxHeight: 400)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(14)
+        .frame(width: 440)
+    }
+}
+
+/// Where an update's notes are on the web: the app's own page of release notes, or a cask's homepage.
+struct ReleaseNotesLink: View {
+    let url: URL
+    let title: LocalizedStringResource
+
+    var body: some View {
+        Link(destination: url) {
+            Text(title)
+                .minimumTarget()
+        }
+        .fixedSize()
+        .help(Text(verbatim: url.absoluteString))
     }
 }
