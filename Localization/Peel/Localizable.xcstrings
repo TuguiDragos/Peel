@@ -3070,6 +3070,698 @@
         }
       }
     },
+    "%@ in ^[%lld project](inflect: true), %@ of it recommended." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projekty, z toho Peel doporučuje odstranit %3$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projektu, z toho Peel doporučuje odstranit %3$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projekt, z toho Peel doporučuje odstranit %3$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projektů, z toho Peel doporučuje odstranit %3$@."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld Projekt, davon %3$@ empfohlen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld Projekten, davon %3$@ empfohlen."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ in ^[%2$lld project](inflect: true), %3$@ of it recommended."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ en %2$lld de proyectos; Peel recomienda eliminar %3$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ en %2$lld proyecto; Peel recomienda eliminar %3$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ en %2$lld proyectos; Peel recomienda eliminar %3$@."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ dans %2$lld de projets, dont %3$@ que Peel recommande de supprimer."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ dans %2$lld projet, dont %3$@ que Peel recommande de supprimer."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ dans %2$lld projets, dont %3$@ que Peel recommande de supprimer."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld di progetti, di cui %3$@ consigliati."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld progetto, di cui %3$@ consigliati."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld progetti, di cui %3$@ consigliati."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld個のプロジェクトで、合計%1$@です。そのうちおすすめのものは%3$@です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로젝트 %2$lld개, 총 %1$@, 그중 추천 항목 %3$@."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld project, waarvan %3$@ aanbevolen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld projecten, waarvan %3$@ aanbevolen."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projektach, z czego zalecane: %3$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projektach, z czego zalecane: %3$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projekcie, z czego zalecane: %3$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projektu, z czego zalecane: %3$@."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ em %2$lld de projetos, sendo %3$@ recomendados."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ em %2$lld projeto, sendo %3$@ recomendados."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ em %2$lld projetos, sendo %3$@ recomendados."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ în %2$lld proiecte, din care %3$@ recomandați."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ în %2$lld proiect, din care %3$@ recomandați."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ în %2$lld de proiecte, din care %3$@ recomandați."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проектах, из них рекомендуется удалить %3$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проектах, из них рекомендуется удалить %3$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проекте, из них рекомендуется удалить %3$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проекта, из них рекомендуется удалить %3$@."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ i %2$lld projekt, varav %3$@ rekommenderas."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ i %2$lld projekt, varav %3$@ rekommenderas."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%2$lld projede %1$@, kaldırılması önerilen kısmı %3$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%2$lld projede %1$@, kaldırılması önerilen kısmı %3$@."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєктах, з них рекомендовано %3$@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєктах, з них рекомендовано %3$@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєкті, з них рекомендовано %3$@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєкту, з них рекомендовано %3$@."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld个项目，共%1$@，其中推荐移除%3$@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld個計畫案，共%1$@，其中建議移除%3$@。"
+          }
+        }
+      }
+    },
+    "%@ in ^[%lld project](inflect: true), none of it recommended." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projekty, z toho Peel nedoporučuje odstranit nic."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projektu, z toho Peel nedoporučuje odstranit nic."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projekt, z toho Peel nedoporučuje odstranit nic."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ připadá na %2$lld projektů, z toho Peel nedoporučuje odstranit nic."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld Projekt, davon nichts empfohlen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld Projekten, davon nichts empfohlen."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ in ^[%2$lld project](inflect: true), none of it recommended."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ en %2$lld de proyectos; Peel no recomienda eliminar nada."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ en %2$lld proyecto; Peel no recomienda eliminar nada."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ en %2$lld proyectos; Peel no recomienda eliminar nada."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ dans %2$lld de projets, dont Peel ne recommande de supprimer aucune partie."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ dans %2$lld projet, dont Peel ne recommande de supprimer aucune partie."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ dans %2$lld projets, dont Peel ne recommande de supprimer aucune partie."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld di progetti, di cui nulla consigliato."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld progetto, di cui nulla consigliato."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld progetti, di cui nulla consigliato."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld個のプロジェクトで、合計%1$@です。そのうちおすすめのものはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로젝트 %2$lld개, 총 %1$@, 그중 추천 항목 없음."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld project, waarvan niets aanbevolen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ in %2$lld projecten, waarvan niets aanbevolen."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projektach, z czego nic nie jest zalecane."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projektach, z czego nic nie jest zalecane."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projekcie, z czego nic nie jest zalecane."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ w %2$lld projektu, z czego nic nie jest zalecane."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ em %2$lld de projetos, sem nada recomendado."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ em %2$lld projeto, sem nada recomendado."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ em %2$lld projetos, sem nada recomendado."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ în %2$lld proiecte, din care nimic nu este recomandat."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ în %2$lld proiect, din care nimic nu este recomandat."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ în %2$lld de proiecte, din care nimic nu este recomandat."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проектах, ничего из этого не рекомендуется удалять."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проектах, ничего из этого не рекомендуется удалять."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проекте, ничего из этого не рекомендуется удалять."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ в %2$lld проекта, ничего из этого не рекомендуется удалять."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ i %2$lld projekt, varav inget rekommenderas."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ i %2$lld projekt, varav inget rekommenderas."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%2$lld projede %1$@, hiçbir kısmının kaldırılması önerilmiyor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%2$lld projede %1$@, hiçbir kısmının kaldırılması önerilmiyor."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєктах, з них нічого не рекомендовано."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєктах, з них нічого не рекомендовано."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєкті, з них нічого не рекомендовано."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$@ у %2$lld проєкту, з них нічого не рекомендовано."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld个项目，共%1$@，其中没有推荐移除的部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld個計畫案，共%1$@，其中沒有建議移除的項目。"
+          }
+        }
+      }
+    },
     "%@ in ^[%lld project](inflect: true)." : {
       "localizations" : {
         "cs" : {

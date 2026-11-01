@@ -76,6 +76,37 @@ struct ProjectLibraryTests {
         #expect(library.canMarkForBackups(group))
     }
 
+    @Test func saysHowMuchOfWhatItFoundPeelRecommends() {
+        func artifact(_ name: String, size: Int64, isEnvironment: Bool = false) -> ProjectArtifact {
+            let project = URL(filePath: "/Users/me/Code/app", directoryHint: .isDirectory)
+            return ProjectArtifact(
+                url: project.appending(path: name), project: project, name: name, tool: "npm", size: size,
+                lastActivity: .now.addingTimeInterval(-60 * 60 * 24 * 60), hasGenericName: false,
+                isEnvironment: isEnvironment
+            )
+        }
+        func group(_ artifacts: [ProjectArtifact]) -> ProjectGroup {
+            ProjectGroup(project: artifacts[0].project, name: "app", artifacts: artifacts)
+        }
+        let words = { (groups: [ProjectGroup]) in ProjectLibrary.summary(of: groups).map { String($0.characters) } }
+        let built = artifact("node_modules", size: 6_000_000_000)
+        let installed = artifact(".venv", size: 89_000_000_000, isEnvironment: true)
+
+        let total = SizeTotal(known: 95_000_000_000, isComplete: true).text
+        let recommended = SizeTotal(known: 6_000_000_000, isComplete: true).text
+        #expect(words([group([built, installed])]) == String(AttributedString(
+            localized: "\(total) in ^[\(1) project](inflect: true), \(recommended) of it recommended."
+        ).characters))
+        let onlyInstalled = SizeTotal(known: 89_000_000_000, isComplete: true).text
+        #expect(words([group([installed])]) == String(AttributedString(
+            localized: "\(onlyInstalled) in ^[\(1) project](inflect: true), none of it recommended."
+        ).characters))
+        #expect(words([group([built])]) == String(AttributedString(
+            localized: "\(recommended) in ^[\(1) project](inflect: true)."
+        ).characters), "all of it recommended")
+        #expect(words([]) == nil)
+    }
+
     private func project(_ name: String, in root: URL) throws {
         let folder = root.appending(path: "\(name)/node_modules/left-pad", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)

@@ -111,7 +111,23 @@ extension DeveloperLibrary {
 }
 
 extension ProjectLibrary {
-    var summary: AttributedString? { Tool.projects.summary(of: looked) }
+    var summary: AttributedString? { groups.flatMap(Self.summary(of:)) }
+
+    /// What was found, and how much of it Peel recommends when that is only part of it: what has a generic name, what
+    /// is installed, and what changed lately count in the total and are never selected for the person.
+    static func summary(of groups: [ProjectGroup]) -> AttributedString? {
+        let count = groups.count
+        let total = SizeTotal(combining: groups.map(\.total))
+        guard let found = Tool.projects.summary(of: Looked(count: count, size: total)) else { return nil }
+        let recommended = SizeTotal(groups.flatMap(\.artifacts).filter(\.isRecommended).map(\.size))
+        guard total.known > 0, recommended != total else { return found }
+        guard recommended.known > 0 else {
+            return AttributedString(localized: "\(total.text) in ^[\(count) project](inflect: true), none of it recommended.")
+        }
+        return AttributedString(
+            localized: "\(total.text) in ^[\(count) project](inflect: true), \(recommended.text) of it recommended."
+        )
+    }
 }
 
 extension SpaceLibrary {
