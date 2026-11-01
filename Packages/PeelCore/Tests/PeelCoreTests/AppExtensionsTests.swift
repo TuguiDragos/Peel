@@ -415,6 +415,9 @@ struct AppExtensionsTests {
         #expect(await AppExtensions.appExtensions { _, _ in Self.pluginkit } == [])
         #expect(await AppExtensions.appExtensions { _, _ in spaced } == nil)
         #expect(await AppExtensions.appExtensions { _, _ in "" } == nil)
+        let uncounted = Self.pluginkit.split(whereSeparator: \.isNewline).filter { !$0.contains("plug-in") }
+            .joined(separator: "\n")
+        #expect(await AppExtensions.appExtensions { _, _ in uncounted } == nil)
         #expect(await AppExtensions.systemExtensions { _, _ in "0 extension(s)" } == [])
         #expect(await AppExtensions.systemExtensions { _, _ in rows } == nil)
         let one = rows.replacing("2 extension(s)", with: "1 extension(s)")

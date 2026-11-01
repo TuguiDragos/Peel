@@ -257,8 +257,7 @@ public enum AppExtensions {
         guard let output = await run("/usr/bin/pluginkit", ["-m", "-v"]) else { return nil }
         let lines = output.split(whereSeparator: \.isNewline)
         let rows = lines.compactMap { parse(String($0)) }
-        let listed = count(in: lines, /^ *\((\d+) plug-ins?\)$/)
-        guard !rows.isEmpty, listed == nil || listed == rows.count else { return nil }
+        guard !rows.isEmpty, count(in: lines, /^ *\((\d+) plug-ins?\)$/) == rows.count else { return nil }
         return rows.compactMap { parsed in
             guard !isTheSystemsOwn(parsed.path) else { return nil }
             let url = URL(filePath: parsed.path, directoryHint: .isDirectory)

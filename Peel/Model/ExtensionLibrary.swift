@@ -99,7 +99,7 @@ extension AppExtension.Election {
         }
     }
 
-    /// The symbol the list shows in the accent color beside a choice someone made, and beside waiting for approval,
+    /// The symbol the list shows in the accent color beside what someone turned on, and beside waiting for approval,
     /// the only state the user can do something about.
     var mark: String? {
         switch self {
