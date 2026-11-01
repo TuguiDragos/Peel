@@ -160,6 +160,15 @@ struct ContentView: View {
         .task(id: library.hasLoaded) {
             applyPendingRequest()
         }
+        .alert(
+            Text("Peel couldn’t open this app"),
+            isPresented: Binding(get: { library.couldNotShow != nil }, set: { if !$0 { library.couldNotShow = nil } }),
+            presenting: library.couldNotShow
+        ) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { app in
+            Text("\(app.abbreviatedPath) isn’t there anymore, or macOS doesn’t let this account read it.")
+        }
         // The window's Undo, so Command-Z after a removal means what it means everywhere else on a Mac.
         .focusedSceneValue(\.removalHistory, history)
         .onAppear { history.canUseHelper = helper.canAct }
@@ -174,7 +183,7 @@ struct ContentView: View {
         .onChange(of: navigator.requestedApp) { _, app in
             guard let app, library.hasLoaded else { return }
             navigator.requestedApp = nil
-            Task { await library.reveal([app]) }
+            Task { await library.showRequested(app) }
         }
     }
 
@@ -388,7 +397,7 @@ struct ContentView: View {
         }
         if let app = navigator.requestedApp, library.hasLoaded {
             navigator.requestedApp = nil
-            Task { await library.reveal([app]) }
+            Task { await library.showRequested(app) }
         }
     }
 

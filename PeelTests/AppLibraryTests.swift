@@ -259,6 +259,24 @@ private nonisolated final class TestClock: Sendable {
         Data(#"{"resultCount":1,"results":[{"kind":"mac-software","version":"\#(version)"}]}"#.utf8)
     }
 
+    @Test func saysWhenAnAppSomethingAskedForCanNotBeShown() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+        let gone = folder.appending(path: "Gone.app", directoryHint: .isDirectory)
+
+        await library.showRequested(bundle)
+        #expect(library.couldNotShow == nil)
+        #expect(library.selection.count == 1)
+
+        await library.showRequested(gone)
+        #expect(library.couldNotShow == gone)
+        #expect(library.selection.count == 1)
+    }
+
     @Test func anOlderAppStoreAnswerLeavesTheUpdateItFound() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try soldApp(in: folder)

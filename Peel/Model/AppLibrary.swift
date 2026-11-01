@@ -143,6 +143,8 @@ final class AppLibrary {
     private(set) var homebrewApps: [InstalledApp.ID: HomebrewPackage] = [:]
     /// The rows chosen in the list, which the page beside it shows.
     var selection: Set<InstalledApp.ID> = []
+    /// An app something asked to show that Peel couldn't read, which the window says.
+    var couldNotShow: URL?
     /// The apps selected with their checkboxes, to be removed together. Kept apart from `selection`, so
     /// choosing a row to look at never clears the batch.
     var picked: Set<InstalledApp.ID> = []
@@ -1048,6 +1050,10 @@ final class AppLibrary {
         guard !chosen.isEmpty else { return false }
         selection = chosen
         return true
+    }
+
+    func showRequested(_ app: URL) async {
+        if await !reveal([app]) { couldNotShow = app }
     }
 
     private func listed(_ url: URL) async -> InstalledApp.ID? {
