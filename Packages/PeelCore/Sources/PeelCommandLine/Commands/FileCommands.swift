@@ -1009,7 +1009,8 @@ struct SearchCommand: AsyncParsableCommand {
     @Option(name: .customLong("min-size"), help: "Only files at least this large, like 500KB or 1.5GB.")
     var minimumSize: ByteSize?
 
-    @Option(name: .customLong("older-than"), help: "Only files not modified in this many days.")
+    // Unconditional, or `-1` reads as an option and `validate` never says what is wrong with it.
+    @Option(name: .customLong("older-than"), parsing: .unconditional, help: "Only files not modified in this many days.")
     var olderThan: Int?
 
     @Flag(help: "Search every disk on this Mac, not only your home folder. Network volumes aren't searched.")

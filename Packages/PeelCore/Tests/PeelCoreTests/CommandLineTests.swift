@@ -544,6 +544,32 @@ struct CommandLineTests {
             == "No leftovers Peel suggests. 11 files need review. Add --all to see them.")
     }
 
+    @Test func withoutASubcommandItShowsTheHelpAndFails() async throws {
+        let command = try #require(try PeelCommand.parseAsRoot([]) as? PeelCommand)
+        let collected = Output.Collected()
+
+        let failure = await Output.$collected.withValue(collected) { () async -> (any Error)? in
+            do {
+                try await command.run()
+                return nil
+            } catch {
+                return error
+            }
+        }
+
+        #expect((failure as? ExitCode)?.rawValue == 64)
+        #expect(collected.notes.contains("USAGE: peel"))
+        #expect(collected.output.isEmpty, "a script reading standard output finds no list there")
+    }
+
+    @Test func aNegativeAgeReachesTheCommandsOwnWords() throws {
+        let failure = #expect(throws: (any Error).self) {
+            try PeelCommand.parseAsRoot(["search", "--name", "report", "--older-than", "-1"])
+        }
+
+        #expect(PeelCommand.message(for: try #require(failure)).contains("--older-than can't be negative."))
+    }
+
     @Test func leftoversAndUninstallSayWhichAppFoldersCouldNotBeRead() {
         let folder = URL(filePath: "/Volumes/org.example.Sleeping/Apps")
         let scan = AppScan(apps: [], unreadable: [folder], needsFullDiskAccess: false)

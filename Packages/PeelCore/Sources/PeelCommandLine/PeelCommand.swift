@@ -27,6 +27,12 @@ public struct PeelCommand: AsyncParsableCommand {
 
     public init() {}
 
+    /// A command with no subcommand is wrong, so a script that lost its subcommand doesn't read a success.
+    public func run() async throws {
+        Output.note(Self.helpMessage())
+        throw ExitCode.validationFailure
+    }
+
     /// Parses the process arguments and runs the matching command.
     ///
     /// Refuses to run as root. `access(2)` checks the real user ID, which `sudo` sets to root, so every file would
