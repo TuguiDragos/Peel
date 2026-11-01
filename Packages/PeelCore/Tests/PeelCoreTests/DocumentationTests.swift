@@ -81,6 +81,9 @@ struct DocumentationTests {
             ("README.md", "<a href=\"https://peel.tuguidragos.com/languages\">"),
             ("README.md", "<a href=\"#install\">"),
             ("README.md", "## Install > [!CAUTION]"),
+            (".github/workflows/downloads.yml", "test(\"\\\\.(dmg|zip)$\")"),
+            (".github/downloads.json", "\"label\": \"Downloaded\""),
+            ("README.md", "<a href=\"https://github.com/TuguiDragos/Peel/releases\"><img src=\"https://img.shields.io/endpoint"),
         ]
 
         let wrong = try said.filter { try !text($0.0).contains($0.1) }

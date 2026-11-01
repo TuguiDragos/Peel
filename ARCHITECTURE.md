@@ -545,7 +545,13 @@ its place (`SettingsView`), whose zap takes Peel's whole folder, `Terminal/` inc
   `Scripts/generate_manual.py --check` when the manual page of `peel` is behind the tool.
 - The Checks workflow (`.github/workflows/checks.yml`) runs on every push and pull request: the suite, Sparkle's
   build, the app in Debug and its own tests, the app in Release with every binary's three slices and its class data
-  signed, the accessibility audit's build, and both `--check` scripts.
+  signed, the accessibility audit's build, and both `--check` scripts. It passes over a push that changes only
+  `.github/downloads.json`.
+- The Downloads workflow (`.github/workflows/downloads.yml`) writes that file, which the README's badge shows, on the
+  16th of each month. It counts only disk images and zips: every installed copy reads `appcast.xml` each day, which
+  downloads nothing, and Homebrew's installs are already in the zips, which its cask downloads from the release.
+  `GITHUB_TOKEN` can't commit to main, which takes only pull requests, so a GitHub App on the ruleset's bypass list
+  does.
 
 ## Releases
 

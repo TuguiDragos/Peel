@@ -89,8 +89,8 @@ python3 Scripts/generate_manual.py --check
   and check a release.
 - `Terminal/`: the Terminal themes and the pictures TERMINAL.md shows.
 - `readme-assets/`: the screenshots and pictures the documents show.
-- `.github/`: the Checks workflow, Dependabot's settings, the issue and discussion forms, the pull request template,
-  and the sponsor link in FUNDING.yml.
+- `.github/`: the Checks workflow, the monthly count behind the README's downloads badge, Dependabot's settings, the
+  issue and discussion forms, the pull request template, and the sponsor link in FUNDING.yml.
 - `docs/`: Peel's website, peel.tuguidragos.com.
 - The documents, at the root: [README.md](README.md) says what Peel is and how to get it, [GUIDE.md](GUIDE.md) what
   each tool does, [PRIVACY.md](PRIVACY.md) what Peel sends, [SAFETY.md](SAFETY.md) what it protects,

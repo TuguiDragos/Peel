@@ -1,0 +1,46 @@
+name: Downloads
+
+on:
+  schedule:
+    - cron: "41 4 16 * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
+        id: app
+        with:
+          client-id: ${{ vars.DOWNLOADS_APP_CLIENT_ID }}
+          private-key: ${{ secrets.DOWNLOADS_APP_KEY }}
+          permission-contents: write
+
+      - name: Update the download count
+        shell: bash
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          BADGE_FILE: repos/${{ github.repository }}/contents/.github/downloads.json
+          COMMIT_BODY: |
+            Counted only from the disk images and zips of every release.
+            appcast.xml is left out: installed copies read it to look for updates.
+
+            Thank you to everyone who trusts Peel ❤️
+
+            Co-authored-by: Țugui Dragoș <contact@tuguidragos.com>
+        run: |
+          count=$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases" | jq -r '
+            def commas: tostring | if length > 3 then (.[:-3] | commas) + "," + .[-3:] else . end;
+            [.[][] | select(.draft | not) | .assets[] | select(.name | test("\\.(dmg|zip)$")) | .download_count]
+            | add | commas')
+          badge=$(jq -n --arg message "$count times" \
+            '{schemaVersion: 1, label: "Downloaded", message: $message, labelColor: "201F1D", color: "FF9933"}')
+          current=$(gh api "$BADGE_FILE")
+          if [ "$(jq -r .content <<<"$current" | base64 -d)" != "$badge" ]; then
+            gh api --method PUT "$BADGE_FILE" \
+              -f message="Update the download count to $count"$'\n\n'"$COMMIT_BODY" \
+              -f sha="$(jq -r .sha <<<"$current")" \
+              -f content="$(base64 -w0 <<<"$badge")"
+          fi

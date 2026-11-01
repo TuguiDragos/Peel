@@ -4,6 +4,8 @@ name: Checks
 # While it is private, only a run started by hand does anything.
 on:
   push:
+    paths-ignore:
+      - .github/downloads.json
   pull_request:
   workflow_dispatch:
 
