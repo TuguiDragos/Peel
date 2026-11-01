@@ -65,6 +65,12 @@ public struct Plugin: Sendable, Hashable, Identifiable {
 
     public var id: URL { url }
 
+    /// True for a driver in the home's Library: macOS loads audio drivers (`AudioServerPlugIn.h`) and camera plug-ins
+    /// only from `/Library`, so nothing loads this one.
+    public var isWhereNothingLoadsIt: Bool {
+        (category == .audioDrivers || category == .cameraPlugIns) && !isInstalledForAllUsers
+    }
+
     /// Whether it is an Automator workflow in a Services folder: a Quick Action, which an app may have put there or
     /// someone may have made on this Mac.
     public var isAQuickAction: Bool {

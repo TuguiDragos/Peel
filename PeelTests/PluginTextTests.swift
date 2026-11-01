@@ -29,6 +29,27 @@ struct PluginTextTests {
         #expect(Plugin.sayingForAllUsers([mine, everyones, alone]) == [everyones.id])
     }
 
+    @Test func saysNothingLoadsADriverInTheHomesLibrary() {
+        let inTheHome = "macOS loads plug-ins like this one only from /Library, so nothing loads this one and moving it changes nothing."
+        let audio = plugin(
+            "/Users/org.example/Library/Audio/Plug-Ins/HAL/Sound.driver", name: "Sound", category: .audioDrivers
+        )
+        let camera = plugin(
+            "/Users/org.example/Library/CoreMediaIO/Plug-Ins/DAL/Camera.plugin", name: "Camera", category: .cameraPlugIns
+        )
+        let everyones = plugin(
+            "/Library/Audio/Plug-Ins/HAL/Sound.driver", name: "Sound", forAllUsers: true, category: .audioDrivers
+        )
+        let midi = plugin(
+            "/Users/org.example/Library/Audio/MIDI Drivers/Keys.plugin", name: "Keys", category: .midiDrivers
+        )
+
+        #expect(audio.whenMoved.map(\.key).contains(inTheHome))
+        #expect(camera.whenMoved.map(\.key).contains(inTheHome))
+        #expect(!everyones.whenMoved.map(\.key).contains(inTheHome))
+        #expect(!midi.whenMoved.map(\.key).contains(inTheHome))
+    }
+
     @Test func saysAMoveTakesAPlugInInLibraryFromEveryAccount() {
         let mine = plugin("/Users/org.example/Library/Audio/Plug-Ins/Components/Echo.component", name: "Echo")
         let everyones = plugin("/Library/Audio/Plug-Ins/Components/Echo.component", name: "Echo", forAllUsers: true)

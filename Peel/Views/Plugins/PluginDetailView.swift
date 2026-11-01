@@ -151,7 +151,10 @@ extension Plugin {
     }
 
     private var whenItLoads: [LocalizedStringResource] {
-        switch noLongerLoaded {
+        if isWhereNothingLoadsIt {
+            return ["macOS loads plug-ins like this one only from /Library, so nothing loads this one and moving it changes nothing."]
+        }
+        return switch noLongerLoaded {
         case .quickLookGenerator:
             ["macOS no longer loads Quick Look generators like this one, so moving it changes nothing."]
         case .internetPlugIn:

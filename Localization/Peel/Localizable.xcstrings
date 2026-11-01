@@ -250668,6 +250668,112 @@
         }
       }
     },
+    "macOS loads plug-ins like this one only from /Library, so nothing loads this one and moving it changes nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS načítá plug-iny, jako je tento, jen ze složky /Library, takže se tento nikdy nenačte a jeho přesunutí nic nezmění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lädt Plug-ins wie dieses nur aus /Library, daher lädt nichts dieses Plug-in, und durch das Verschieben ändert sich nichts."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS solo carga módulos como este desde /Library, así que nada lo carga y trasladarlo no cambia nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne charge les modules tels que celui-ci que depuis /Library : rien ne charge donc ce module, et le déplacer ne change rien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS carica i plugin come questo solo da /Library, quindi nulla lo carica e spostarlo non cambia nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSはこのようなプラグインを/Libraryからのみ読み込むため、このプラグインを読み込むものはなく、ゴミ箱に入れても何も変わりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 이와 같은 플러그인을 /Library에서만 로드하므로, 이 플러그인을 로드하는 것은 없으며 이동해도 아무것도 달라지지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laadt plug-ins zoals deze alleen vanuit /Library, dus niets laadt deze plug-in, en als je die verplaatst, verandert er niets."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS wczytuje wtyczki takie jak ta tylko z /Library, więc nic nie wczytuje tej wtyczki, a przeniesienie jej do Kosza niczego nie zmieni."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS só carrega plug-ins como este a partir de /Library, então nada carrega este e movê-lo não altera nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS încarcă plug-inuri precum acesta doar din /Library, așa că nimic nu îl încarcă pe acesta, iar mutarea lui nu schimbă nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS загружает плагины, подобные этому, только из /Library, поэтому этот плагин ничто не загружает, и его перемещение ничего не изменит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS läser bara in insticksfiler som den här från /Library, så inget läser in den här, och om den flyttas ändras ingenting."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bunun gibi yazılım eklerini yalnızca /Library içinden yükler, bu yüzden bunu hiçbir şey yüklemez ve onu taşımak hiçbir şeyi değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS завантажує такі плагіни, як цей, лише з /Library, тож цей плагін ніщо не завантажує, і його переміщення нічого не змінить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只会从/Library载入此类插件，因此没有任何程序会载入此插件，移动它不会带来任何变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只會從/Library載入這類外掛模組，因此沒有任何東西會載入這個外掛模組，移動它也不會有任何影響。"
+          }
+        }
+      }
+    },
     "macOS loads plug-ins like this one only when legacy video device support has been restored in macOS Recovery. If it has, apps that use it may stop working." : {
       "localizations" : {
         "cs" : {
