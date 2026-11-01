@@ -34216,108 +34216,108 @@
         }
       }
     },
-    "Copies of the attachments you opened in Mail. Mail deletes each with its message unless you edited it, so they are listed and never selected." : {
+    "Copies of the attachments you opened in Mail. Unless you changed Mail’s Remove unedited downloads setting, Mail deletes each with its message, but one you edited or saved may be the only copy, so they are listed and never selected." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopie příloh, které jste otevřeli v aplikaci Mail. Aplikace Mail každou z nich smaže spolu s její zprávou, pokud jste ji neupravili, proto se zobrazují, ale nikdy se nevybírají."
+            "value" : "Kopie příloh, které jste otevřeli v aplikaci Mail. Pokud jste v aplikaci Mail nezměnili nastavení „Odstranit neupravená stahování“, aplikace Mail každou z nich smaže spolu s její zprávou. Kopie, kterou jste upravili nebo uložili, však může být jediná, proto se zobrazují, ale nikdy se nevybírají."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopien der Anhänge, die du in Mail geöffnet hast. Mail löscht jede Kopie zusammen mit ihrer E-Mail, sofern du sie nicht bearbeitet hast, daher werden sie angezeigt, aber nie ausgewählt."
+            "value" : "Kopien der Anhänge, die du in Mail geöffnet hast. Sofern du die Einstellung „Nicht bearbeitete Downloads entfernen“ in Mail nicht geändert hast, löscht Mail jede Kopie zusammen mit ihrer E-Mail, doch eine Kopie, die du bearbeitet oder gesichert hast, ist möglicherweise die einzige, daher werden sie angezeigt, aber nie ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copias de los archivos adjuntos que has abierto en Mail. Mail borra cada una con su mensaje salvo que la hayas editado, por eso se muestran pero nunca se seleccionan."
+            "value" : "Copias de los archivos adjuntos que has abierto en Mail. Salvo que hayas cambiado en Mail el ajuste “Eliminar las descargas no editadas”, Mail borra cada una con su mensaje, pero una que hayas editado o guardado puede ser la única copia, por eso se muestran pero nunca se seleccionan."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copies des pièces jointes que vous avez ouvertes dans Mail. Mail supprime chacune avec son message, sauf si vous l’avez modifiée. C’est pourquoi elles sont listées mais jamais sélectionnées."
+            "value" : "Copies des pièces jointes que vous avez ouvertes dans Mail. Sauf si vous avez changé son réglage « Effacer les téléchargements non modifiés », Mail supprime chacune avec son message, mais celle que vous avez modifiée ou enregistrée peut être la seule copie : elles sont donc listées, mais jamais sélectionnées."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copie degli allegati che hai aperto in Mail. Mail elimina ognuna insieme al suo messaggio, a meno che tu non l’abbia modificata, quindi sono elencate ma mai selezionate."
+            "value" : "Copie degli allegati che hai aperto in Mail. A meno che tu non abbia modificato l’impostazione “Rimuovi download non modificati” di Mail, Mail elimina ognuna insieme al suo messaggio, ma una che hai modificato o salvato potrebbe essere l’unica copia, quindi sono elencate ma mai selezionate."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "メールで開いた添付ファイルのコピーです。編集していないものはメッセージの削除時にメールが一緒に削除するため、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "メールで開いた添付ファイルのコピーです。メールの“未変更の添付ファイルの消去”設定を変更していない限り、メールはメッセージの削除時に各コピーも一緒に削除します。ただし、編集または保存したものは唯一のコピーである可能性があるため、一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mail에서 연 첨부 파일의 복사본입니다. Mail은 편집하지 않은 한 각 복사본을 해당 메시지와 함께 삭제하므로, 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "Mail에서 연 첨부 파일의 복사본입니다. Mail의 ‘편집되지 않은 다운로드 제거’ 설정을 변경하지 않았다면 Mail은 각 복사본을 해당 메시지와 함께 삭제합니다. 하지만 사용자가 편집하거나 저장한 복사본은 유일한 복사본일 수 있으므로, 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopieën van de bijlagen die je in Mail hebt geopend. Mail verwijdert elke kopie samen met het bijbehorende bericht, tenzij je deze hebt bewerkt, dus ze worden getoond maar nooit geselecteerd."
+            "value" : "Kopieën van de bijlagen die je in Mail hebt geopend. Tenzij je de instelling 'Verwijder niet-bewerkte downloads' van Mail hebt gewijzigd, verwijdert Mail elke kopie samen met het bijbehorende bericht, maar een kopie die je hebt bewerkt of bewaard, is misschien de enige, dus ze worden getoond maar nooit geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopie załączników otwartych przez Ciebie w Poczcie. Poczta usuwa każdą z nich razem z jej wiadomością, jeśli jej nie edytowano, dlatego są na liście, ale nigdy nie są zaznaczane."
+            "value" : "Kopie załączników otwartych przez Ciebie w Poczcie. O ile nie zmieniono ustawienia Poczty „Usuwaj nieedytowane załączniki”, Poczta usuwa każdą z nich razem z jej wiadomością, jednak ta, którą edytowano lub zachowano, może być jedyną kopią, dlatego są na liście, ale nigdy nie są zaznaczane."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cópias dos anexos que você abriu no Mail. O Mail apaga cada uma com a respectiva mensagem, a menos que você a tenha editado, por isso elas são listadas, mas nunca selecionadas."
+            "value" : "Cópias dos anexos que você abriu no Mail. A menos que você tenha alterado o ajuste “Remover downloads não editados” do Mail, o Mail apaga cada uma com a respectiva mensagem, mas uma que você editou ou salvou pode ser a única cópia, por isso elas são listadas e nunca selecionadas."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copii ale fișierelor atașate pe care le‑ați deschis în Mail. Mail șterge fiecare copie odată cu mesajul său, dacă nu ați editat‑o, așa că sunt listate, dar nu sunt niciodată selectate."
+            "value" : "Copii ale fișierelor atașate pe care le‑ați deschis în Mail. Dacă nu ați modificat configurarea „Eliminați descărcările needitate” din Mail, Mail șterge fiecare copie odată cu mesajul său, însă una pe care ați editat‑o sau ați salvat‑o poate fi singura copie, așa că sunt listate, dar nu sunt niciodată selectate."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копии вложений, которые Вы открывали в Почте. Почта удаляет каждую из них вместе с ее письмом, если Вы ее не редактировали, поэтому они показываются в списке, но никогда не выбираются."
+            "value" : "Копии вложений, которые Вы открывали в Почте. Если Вы не меняли в Почте настройку «Удалять необработанные загрузки», Почта удаляет каждую из них вместе с ее письмом, однако отредактированная или сохраненная Вами копия может оказаться единственной, поэтому они показываются в списке, но никогда не выбираются."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopior av bilagor som du har öppnat i Mail. Mail raderar varje bilaga tillsammans med mejlet den hör till om du inte har redigerat den, så de visas i listan men markeras aldrig."
+            "value" : "Kopior av bilagor som du har öppnat i Mail. Om du inte har ändrat inställningen ”Ta bort ej redigerade hämtningar” i Mail raderar Mail varje bilaga tillsammans med mejlet den hör till, men en bilaga som du har redigerat eller sparat kan vara den enda kopian, så de visas i listan men markeras aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mail’de açtığınız ilişiklerin kopyaları. Mail, düzenlemediğiniz her birini iletisiyle birlikte siler; bu yüzden listelenir ama hiçbir zaman seçilmez."
+            "value" : "Mail’de açtığınız ilişiklerin kopyaları. Mail’in “Düzenlenmemiş indirilenleri sil” ayarını değiştirmediyseniz Mail her birini iletisiyle birlikte siler, ancak düzenlediğiniz veya kaydettiğiniz bir kopya tek kopya olabilir; bu yüzden listelenir ama hiçbir zaman seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копії вкладень, які ви відкривали в Пошті. Пошта видаляє кожну разом із її листом, якщо ви її не редагували, тому вони показуються, але ніколи не вибираються."
+            "value" : "Копії вкладень, які ви відкривали в Пошті. Якщо ви не змінювали параметр Пошти «Видаляти нередаговані викачування», Пошта видаляє кожну копію разом із її листом, однак копія, яку ви редагували чи зберегли, може бути єдиною, тому вони показуються, але ніколи не вибираються."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你在“邮件”中打开的附件的副本。除非你编辑过，否则“邮件”会在删除邮件时一并删除每个副本，因此它们会列出，但绝不会被选择。"
+            "value" : "你在“邮件”中打开的附件的副本。除非你更改了“邮件”的“移除未编辑的下载”设置，否则“邮件”会在删除邮件时一并删除每个副本。不过，你编辑或保存过的副本可能是唯一的副本，因此它们会列出，但绝不会被选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你在「郵件」中打開的附件副本。「郵件」會隨郵件一併刪除每個副本，除非你編輯過它，因此這些副本會列出，但絕不會選取。"
+            "value" : "你在「郵件」中打開的附件副本。除非你更改過「郵件」的「移除尚未編輯的下載項目」設定，否則「郵件」會隨郵件一併刪除每個副本；不過，你編輯或儲存過的副本可能是唯一的一份，因此這些副本會列出，但絕不會選取。"
           }
         }
       }
@@ -87732,108 +87732,108 @@
         }
       }
     },
-    "Logs that apps wrote in your Library." : {
+    "Logs that apps wrote in your Library and in their containers, and the crash reports macOS keeps for your account. Only the reports are offered one by one, never the folders they sit in." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokoly, které aplikace zapsaly do vaší Knihovny."
+            "value" : "Protokoly, které aplikace zapsaly do vaší Knihovny a do svých kontejnerů, a zprávy o haváriích, které systém macOS uchovává pro váš účet. Jednotlivě se nabízejí jen zprávy, nikdy složky, ve kterých jsou."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokolle, die Apps in deine Library geschrieben haben."
+            "value" : "Protokolle, die Apps in deine Library und in ihre Container geschrieben haben, und die Absturzberichte, die macOS für deinen Benutzeraccount aufbewahrt. Nur die Berichte werden einzeln angeboten, nie die Ordner, in denen sie liegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que las apps han escrito en tu carpeta Biblioteca."
+            "value" : "Registros que las apps han escrito en tu carpeta Biblioteca y en sus contenedores, y los informes de errores que macOS guarda para tu cuenta. Solo se ofrecen los informes uno por uno, nunca las carpetas en las que están."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les historiques que les apps ont écrits dans votre Bibliothèque."
+            "value" : "Les historiques que les apps ont écrits dans votre Bibliothèque et dans leurs conteneurs, et les rapports de blocage que macOS conserve pour votre compte. Seuls les rapports sont proposés, un par un, jamais les dossiers qui les contiennent."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log che le app hanno scritto nella tua Libreria."
+            "value" : "Log che le app hanno scritto nella tua Libreria e nei loro contenitori, e i resoconti dei blocchi che macOS conserva per il tuo account. Vengono proposti uno per uno solo i resoconti, mai le cartelle che li contengono."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがユーザライブラリに書き込んだログです。"
+            "value" : "アプリがユーザライブラリと自身のコンテナに書き込んだログと、macOSがお使いのアカウント用に保管しているクラッシュレポートです。レポートは1つずつ候補になり、レポートが入っているフォルダは決して候補になりません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 사용자의 라이브러리에 기록한 로그입니다."
+            "value" : "앱이 사용자의 라이브러리와 자체 컨테이너에 기록한 로그 및 macOS가 사용자 계정을 위해 보관하는 충돌 리포트입니다. 리포트만 하나씩 제안되며, 리포트가 들어 있는 폴더는 절대 제안되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logs die apps in je bibliotheekmap hebben geschreven."
+            "value" : "Logs die apps in je bibliotheekmap en in hun containers hebben geschreven, en de crashrapporten die macOS voor je account bewaart. Alleen de rapporten worden één voor één aangeboden, nooit de mappen waarin ze staan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dzienniki zapisane przez aplikacje w Twoim folderze Biblioteki."
+            "value" : "Dzienniki zapisane przez aplikacje w Twoim folderze Biblioteki i w ich kontenerach oraz raporty o awariach przechowywane przez macOS dla Twojego konta. Proponowane są tylko pojedyncze raporty, nigdy foldery, w których się znajdują."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que os apps gravaram na sua Biblioteca."
+            "value" : "Registros que os apps gravaram na sua Biblioteca e nos contêineres deles, e os relatórios de falha que o macOS guarda para a sua conta. Só os relatórios são oferecidos um a um, nunca as pastas em que estão."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jurnale scrise de aplicații în dosarul dvs. Bibliotecă."
+            "value" : "Jurnale scrise de aplicații în dosarul dvs. Bibliotecă și în containerele lor, precum și rapoartele de oprire subită pe care macOS le păstrează pentru contul dvs. Doar rapoartele sunt propuse unul câte unul, niciodată dosarele în care se află."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журналы, которые приложения записали в Вашу папку «Библиотека»."
+            "value" : "Журналы, которые приложения записали в Вашу папку «Библиотека» и в свои контейнеры, а также отчеты о сбоях, которые macOS хранит для Вашей учетной записи. Предлагаются только сами отчеты, по одному, и никогда не папки, в которых они лежат."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loggar som appar har skrivit i din biblioteksmapp."
+            "value" : "Loggar som appar har skrivit i din biblioteksmapp och i sina behållare, och de kraschrapporter som macOS sparar för ditt konto. Bara rapporterna erbjuds en och en, aldrig mapparna som de ligger i."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaların Kitaplık klasörünüze yazdığı günlükler."
+            "value" : "Uygulamaların Kitaplık klasörünüze ve kendi kapsayıcılarına yazdığı günlükler ile macOS’in hesabınız için tuttuğu çökme raporları. Yalnızca raporlar tek tek sunulur; içinde bulundukları klasörler hiçbir zaman sunulmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журнали, які програми записали у вашу Бібліотеку."
+            "value" : "Журнали, які програми записали у вашу Бібліотеку та у свої контейнери, і звіти про аварії, які macOS зберігає для вашого облікового запису. Лише звіти пропонуються по одному, ніколи не папки, у яких вони лежать."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App在你的资源库中写入的日志。"
+            "value" : "App在你的资源库和它们自己的容器中写入的日志，以及macOS为你的账户保留的崩溃报告。只有这些报告会逐个列出以供移除，绝不会列出它们所在的文件夹。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App寫入你的「資源庫」中的記錄檔。"
+            "value" : "App寫入你的「資源庫」和其容器中的記錄檔，以及macOS為你的帳號保留的當機報告。只有這些報告會逐一列出供你移除，絕不包含它們所在的檔案夾。"
           }
         }
       }

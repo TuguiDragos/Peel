@@ -204,24 +204,25 @@ the top of the page with the reason, never taken for one with nothing built in i
 folder, a Library, or a folder a tool fills, such as `node_modules`, where apps and tools keep what they install, so
 choosing one, or a folder inside one, is refused.
 
-**Space:** what's taking up room, and which app it belongs to. An area smaller than 50 MB isn't listed. What an app
-manages itself, such as Xcode's simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space
-measures and leaves to that tool, with the command that frees it, when there is one, for you to copy into Terminal:
-Peel never runs it, since it deletes for good. Once Xcode is gone, the Simulators area says to install it again
-before using its settings. In the Library at the top of the disk, Space also lists the caches and logs apps keep for
-every account, and the crash reports macOS keeps. Those an administrator owns go through Peel's helper, and what
-macOS keeps there for its own services is never listed. In your own Logs, the folder macOS saves crash reports in
-stays and only the reports are offered, since macOS can't make that folder again. What macOS keeps for its own
-services in your own Caches and Logs is listed, and Select Recommended passes it by. The logs Homebrew's services
-write in `/opt/homebrew/var/log` are offered file by file, and the folders they sit in stay, since a service expects
-to find the folder it writes in. Where Developer knows part of a folder, Space says how much of it moves here and
-opens Developer for the rest. Space also explains the snapshots macOS keeps on the disk, which Peel never removes,
-and, on macOS 27, says how much Apple Intelligence may keep on this Mac, by Apple's figure, and how much the AI
-models and datasets Developer lists take.
+**Space:** what's taking up room, and which app it belongs to. An area smaller than 50 MB isn't listed, unless Peel
+couldn't measure part of it or it is open on its page after a move. What an app manages itself, such as Xcode's
+simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool, with
+the command that frees it, when there is one, for you to copy into Terminal: Peel never runs it, since it deletes for
+good. Once Xcode is gone, the Simulators area says to install it again before using its settings. In the Library at
+the top of the disk, Space also lists the caches and logs apps keep for every account, and the crash reports macOS
+keeps. Those an administrator owns go through Peel's helper, and what macOS keeps there for its own services is never
+listed. In your own Logs, the folder macOS saves crash reports in stays and only the reports are offered, since macOS
+can't make that folder again. What macOS keeps for its own services in your own Caches and Logs is listed, and Select
+Recommended passes it by. The logs Homebrew's services write in `/opt/homebrew/var/log` are offered file by file, and
+the folders they sit in stay, since a service expects to find the folder it writes in. Where Developer knows part of a
+folder, Space says how much of it moves here and opens Developer for the rest. Space also explains the snapshots macOS
+keeps on the disk, which Peel never removes, and, on macOS 27, says how much Apple Intelligence may keep on this Mac,
+by Apple's figure, and how much the AI models and datasets Developer lists take.
 
 Nothing is selected for you: Select Recommended takes what Peel could measure in an area and nothing holds back. A
-cache or a service's log that something wrote to in the last 15 minutes waits for you to select it, since a program
-may still be using it, and what an open app is still writing to stays until you quit the app. Peel can also warn
+cache, or a log in the Library every account shares or in Homebrew's folder, that something wrote to in the last 15
+minutes waits for you to select it, since a program may still be using it, and what an open app is still writing to
+stays until you quit the app. Peel can also warn
 you, with a notification that opens Space, when less than a tenth of your disk is available: turn it on in Settings >
 General.
 

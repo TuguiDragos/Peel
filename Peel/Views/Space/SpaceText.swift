@@ -155,7 +155,7 @@ nonisolated extension SpaceItem {
         ),
         "logs": Words(
             title: "Logs",
-            detail: "Logs that apps wrote in your Library."
+            detail: "Logs that apps wrote in your Library and in their containers, and the crash reports macOS keeps for your account. Only the reports are offered one by one, never the folders they sit in."
         ),
         "caches": Words(
             title: "App Caches",
@@ -171,7 +171,7 @@ nonisolated extension SpaceItem {
         ),
         "mail-downloads": Words(
             title: "Mail Downloads",
-            detail: "Copies of the attachments you opened in Mail. Mail deletes each with its message unless you edited it, so they are listed and never selected."
+            detail: "Copies of the attachments you opened in Mail. Unless you changed Mail’s Remove unedited downloads setting, Mail deletes each with its message, but one you edited or saved may be the only copy, so they are listed and never selected."
         ),
         "system-caches": Words(
             title: "Caches for All Users",

@@ -68,7 +68,7 @@ struct DocumentationTests {
             ("SAFETY.md", "in the last \(minutes) minutes"),
             ("SAFETY.md", "changed in the last \(days) days, and a download that changed in the last day"),
             ("GUIDE.md", "changed in the last \(days) days"),
-            ("GUIDE.md", "An area smaller than \(spaceFloor) MB isn't listed."),
+            ("GUIDE.md", "An area smaller than \(spaceFloor) MB isn't listed,"),
             ("GUIDE.md", "An installer, download, or update smaller than \(installersFloor) MB isn't listed."),
             ("docs/index.html", "\(themes) dark themes"),
             ("docs/llms.txt", "\(themes) dark themes"),
