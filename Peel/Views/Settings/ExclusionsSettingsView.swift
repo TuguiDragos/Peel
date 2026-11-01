@@ -81,18 +81,19 @@ struct ExclusionsSettingsView: View {
                         Task { await exclusions.remove(paths: Array(removed)) }
                     }
                 }
-                ActionRow {
+                ListEditingButtons {
                     Button("Add Files or Folders…", systemImage: "plus") {
                         isChoosingPaths = true
                     }
+                    .help(Text("Add Files or Folders…"))
                     Button("Remove", systemImage: "minus") {
                         let removed = selectedPaths
                         selectedPaths = []
                         Task { await exclusions.remove(paths: Array(removed)) }
                     }
                     .disabled(selectedPaths.isEmpty)
+                    .help(Text("Remove"))
                 }
-                .editingControls()
             } header: {
                 heading("Files and Folders", "Peel never moves anything inside these to the Trash, nor a folder that holds one of them, and leaves them out of its lists, but for Applications, which marks an app inside them as excluded, and Homebrew, which won’t uninstall a package inside them. History still shows what moved before. Homebrew’s Clean Up keeps the formulae whose folder you exclude here, but this list doesn’t cover what else it deletes, such as its downloads.")
             }
@@ -130,7 +131,7 @@ struct ExclusionsSettingsView: View {
                         Task { await exclusions.remove(bundleIdentifiers: Array(removed)) }
                     }
                 }
-                ActionRow {
+                ListEditingButtons {
                     Menu {
                         // An app with no identifier is left alone by where it is, as its Control-click menu does.
                         ForEach(
@@ -154,14 +155,15 @@ struct ExclusionsSettingsView: View {
                     }
                     .menuStyle(.button)
                     .fixedSize()
+                    .help(Text("Add App"))
                     Button("Remove", systemImage: "minus") {
                         let removed = selectedApps
                         selectedApps = []
                         Task { await exclusions.remove(bundleIdentifiers: Array(removed)) }
                     }
                     .disabled(selectedApps.isEmpty)
+                    .help(Text("Remove"))
                 }
-                .editingControls()
             } header: {
                 heading("Apps", "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. A folder named exactly with an excluded app’s identifier, such as its caches or its container, and an update it downloaded are left out of every page and never moved. The app’s other files, such as plug-ins or a folder named after it, go by files and folders only, so to protect them, exclude them above as well.")
             }
@@ -194,16 +196,16 @@ struct ExclusionsSettingsView: View {
                         .scrollContentBackground(.hidden)
                         .onDeleteCommand { forgetSelectedGroups() }
                     }
-                    HStack {
-                        Spacer()
+                    ListEditingButtons {
                         Button("Remove", systemImage: "minus") { forgetSelectedGroups() }
                             .disabled(selectedGroups.isEmpty)
+                            .help(Text("Remove"))
                     }
-                    .editingControls()
                 } else {
-                    Text("Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one.")
-                        .foregroundStyle(.secondary)
-                    ActionRow {
+                    HStack(spacing: 8) {
+                        Text("Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one.")
+                            .foregroundStyle(.secondary)
+                        Spacer(minLength: 8)
                         StartOverButton(
                             file: OrphanOwners.defaultURL,
                             startedOver: "Started the list of orphaned files that belong to an app over."

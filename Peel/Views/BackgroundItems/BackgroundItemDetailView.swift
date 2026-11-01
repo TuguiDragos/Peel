@@ -78,6 +78,9 @@ struct BackgroundItemDetailView: View {
                         Text(verbatim: program)
                             .textSelection(.enabled)
                             .help(Text(verbatim: program))
+                        if finderURL?.path(percentEncoded: false) == program {
+                            ShowInFinderButton(url: URL(filePath: program))
+                        }
                     }
                     .labeledContentStyle(.oneLine)
                 }
@@ -86,6 +89,9 @@ struct BackgroundItemDetailView: View {
                         Text(verbatim: plist.abbreviatedPath)
                             .textSelection(.enabled)
                             .help(Text(verbatim: plist.path(percentEncoded: false)))
+                        if finderURL == plist {
+                            ShowInFinderButton(url: plist)
+                        }
                     }
                     .labeledContentStyle(.oneLine)
                 }
@@ -258,12 +264,16 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
-            if hasOwnControls || finderURL != nil {
+            if item.canMoveToTrash {
                 Section {
-                    if item.canMoveToTrash {
-                        RemovalsHeldBanner()
-                    }
-                    controls
+                    RemovalsHeldBanner()
+                }
+            }
+
+            if hasOwnControls || item.canMoveToTrash {
+                PageActions {
+                    if hasOwnControls { ownControls }
+                    moveToTrash
                 }
             }
         }
@@ -407,27 +417,16 @@ struct BackgroundItemDetailView: View {
 
     private var hasOwnControls: Bool { item.offersControls }
 
-    /// A row for what acts on the job, and a row for what acts on its file.
-    @ViewBuilder
-    private var controls: some View {
-        if hasOwnControls {
-            ActionRow(keepsTogether: true) { ownControls }
-        }
-        if finderURL != nil || item.canMoveToTrash {
-            ActionRow { fileControls }
-        }
-    }
-
     private var ownControls: some View {
         Group {
             // Stopping takes the job out of launchd, and nothing else removes one whose file or app is gone.
             if item.canOnlyBeStopped {
-                Button("Stop", systemImage: "stop.fill") {
+                Button("Stop") {
                     Task { await backgroundItems.perform(.stop, on: item) }
                 }
                 .help(item.isFileGone ? Text(verbatim: "") : Text("Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again."))
             } else if #available(macOS 27, *), item.isLeftByAGoneApp {
-                Button("Remove", systemImage: "xmark.circle") {
+                Button("Remove") {
                     Task { await backgroundItems.perform(.remove, on: item) }
                 }
                 .help(removeHelp)
@@ -437,21 +436,21 @@ struct BackgroundItemDetailView: View {
                 if !item.isSeenOnlyWhileLoaded {
                     let isRunning = if case .running = item.state { true } else { false }
                     if !isRunning {
-                        Button("Start", systemImage: "play.fill") {
+                        Button("Start") {
                             Task { await backgroundItems.perform(.start, on: item) }
                         }
                         .help(startHelp)
                     }
                     // A job that waits for its schedule is loaded too, and only this takes it out for now.
                     if item.state != .notLoaded {
-                        Button("Stop", systemImage: "stop.fill") {
+                        Button("Stop") {
                             Task { await backgroundItems.perform(.stop, on: item) }
                         }
                         .help(Text("Takes it out of launchd until the next login or restart. Its file stays where it is."))
                     }
                 }
                 if item.isDisabled || item.mayBeDisabled {
-                    Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
+                    Button(item.isDisabled ? "Enable" : "Disable") {
                         Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
                     }
                     .help(item.isDisabled ? Text(verbatim: "") : Text("macOS won’t load it again from the next login or restart. If it’s running now, it may keep running until then."))
@@ -478,14 +477,9 @@ struct BackgroundItemDetailView: View {
     }
 
     @ViewBuilder
-    private var fileControls: some View {
-        if let finderURL {
-            Button("Show in Finder", systemImage: "folder") {
-                NSWorkspace.shared.activateFileViewerSelecting([finderURL])
-            }
-        }
+    private var moveToTrash: some View {
         if item.canMoveToTrash {
-            Button("Move to Trash", systemImage: "trash") {
+            Button("Move to Trash") {
                 isConfirmingTrash = true
             }
             .buttonStyle(.borderedProminent)

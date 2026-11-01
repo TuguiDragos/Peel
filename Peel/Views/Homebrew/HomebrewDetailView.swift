@@ -120,39 +120,19 @@ struct HomebrewDetailView: View {
 
             Section {
                 if let reason = homebrew.whyItCantChange {
-                    Text(reason.detail)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                    if let command = reason.command {
-                        CopyButton(text: command)
+                    HStack(spacing: 8) {
+                        Text(reason.detail)
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                        if let command = reason.command {
+                            Spacer(minLength: 8)
+                            CopyButton(text: command)
+                        }
                     }
                 } else {
                     if package.isMissingWhatItInstalled {
                         RemovalsHeldBanner()
                     }
-                    ActionRow {
-                        if isUninstalledInTerminal {
-                            CopyButton(
-                                text: Homebrew.terminalCommand(
-                                    "brew uninstall --cask \(package.fullName)", keeping: homebrew.keptFormulaeNow
-                                ),
-                                title: "Copy Uninstall Command"
-                            )
-                        } else {
-                            Button("Uninstall", systemImage: "trash", role: .destructive) {
-                                Task {
-                                    await readWhatUsesIt()
-                                    isConfirmingUninstall = true
-                                }
-                            }
-                            .disabled(uninstallRefusal != nil)
-                        }
-                        stateAndUpgrade
-                    }
-                    .disabled(
-                        homebrew.runningCommand != nil || homebrew.isForgetting || homebrew.quittingToUpgrade.isWaiting
-                            || homebrew.quittingToUninstall.isWaiting
-                    )
                     if package.waitsForAnUpgrade, package.isPeelItself {
                         Text("Peel updates itself, so it isn’t upgraded from here: Homebrew would have to quit Peel first.")
                             .font(.callout)
@@ -169,6 +149,32 @@ struct HomebrewDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+            }
+
+            if homebrew.whyItCantChange == nil {
+                PageActions {
+                    if isUninstalledInTerminal {
+                        CopyButton(
+                            text: Homebrew.terminalCommand(
+                                "brew uninstall --cask \(package.fullName)", keeping: homebrew.keptFormulaeNow
+                            ),
+                            title: "Copy Uninstall Command"
+                        )
+                    } else {
+                        Button("Uninstall", role: .destructive) {
+                            Task {
+                                await readWhatUsesIt()
+                                isConfirmingUninstall = true
+                            }
+                        }
+                        .disabled(uninstallRefusal != nil)
+                    }
+                    stateAndUpgrade
+                }
+                .disabled(
+                    homebrew.runningCommand != nil || homebrew.isForgetting || homebrew.quittingToUpgrade.isWaiting
+                        || homebrew.quittingToUninstall.isWaiting
+                )
             }
 
             if let (version, notes) = caskNotes {
@@ -223,7 +229,7 @@ struct HomebrewDetailView: View {
         }
     }
 
-    /// The right end of the row: what is under way or in the way, and the step that brings the package up to date.
+    /// What is under way or in the way, and the step that brings the package up to date.
     private var stateAndUpgrade: some View {
         HStack {
             if isRunning {
@@ -242,7 +248,7 @@ struct HomebrewDetailView: View {
                     .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
             } else if package.waitsForAnUpgrade {
                 if package.isPeelItself {
-                    Button("Check for Updates…", systemImage: "arrow.down.circle") {
+                    Button("Check for Updates…") {
                         updater.checkForUpdates()
                     }
                     .buttonStyle(.borderedProminent)
@@ -257,7 +263,7 @@ struct HomebrewDetailView: View {
                         title: "Copy Upgrade Command"
                     )
                 } else {
-                    Button("Upgrade", systemImage: "arrow.down.circle") {
+                    Button("Upgrade") {
                         isConfirmingUpgrade = true
                     }
                     .buttonStyle(.borderedProminent)

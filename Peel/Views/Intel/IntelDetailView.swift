@@ -64,11 +64,14 @@ struct IntelDetailView: View {
                     }
                     // The list also names Intel apps that are only installed, so it matters without Rosetta too.
                     if #available(macOS 27, *) {
-                        Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run. Peel also looks inside apps and at plug-ins and drivers, which that list may leave out.")
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
-                        Button("Open System Settings") {
-                            NSWorkspace.shared.open(DeviceInfo.aboutURL)
+                        HStack(spacing: 8) {
+                            Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run. Peel also looks inside apps and at plug-ins and drivers, which that list may leave out.")
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                            Spacer(minLength: 8)
+                            Button("Open System Settings") {
+                                NSWorkspace.shared.open(DeviceInfo.aboutURL)
+                            }
                         }
                     }
                 }
@@ -81,6 +84,7 @@ struct IntelDetailView: View {
                     Text(verbatim: finding.url.abbreviatedPath)
                         .textSelection(.enabled)
                         .help(Text(verbatim: finding.url.path(percentEncoded: false)))
+                    ShowInFinderButton(url: finding.url)
                 }
                 .labeledContentStyle(.oneLine)
                 LabeledContent("Size") {
@@ -114,45 +118,22 @@ struct IntelDetailView: View {
                 Text("Details")
             }
 
-            Section {
-                ActionRow {
-                    Button("Show in Finder", systemImage: "folder") {
-                        NSWorkspace.shared.activateFileViewerSelecting([finding.url])
-                    }
-                    if let app {
-                        let review = Button("Review in Applications", systemImage: "square.grid.2x2") {
-                            library.selection = [app.id]
-                            // Selecting the app does not switch tools by itself, so Applications is requested too.
-                            Navigator.shared.requestedTool = .applications
-                        }
-                        // A part inside the app never goes alone, so removing the app isn't the step to lead with.
-                        if finding.kind == .insideApp {
-                            review
-                        } else {
-                            review.buttonStyle(.borderedProminent)
-                        }
-                    } else if finding.isOnThePlugInsPage {
-                        Button("Review in Plug-ins", systemImage: "powerplug") {
-                            plugins.selection = finding.url
-                            Navigator.shared.requestedTool = .plugins
-                        }
-                        .buttonStyle(.borderedProminent)
-                    } else if let receipt {
-                        Button("Review in Package Receipts", systemImage: "shippingbox") {
-                            packages.selection = receipt
-                            Navigator.shared.requestedTool = .packages
-                        }
-                        .buttonStyle(.borderedProminent)
-                    } else if let job = finding.job {
-                        Button("Review in Background Items", systemImage: "gearshape.2") {
-                            backgroundItems.selection = job
-                            Navigator.shared.requestedTool = .backgroundItems
-                        }
-                        .buttonStyle(.borderedProminent)
+            if app == nil, !finding.isOnThePlugInsPage, finding.job == nil, receipt == nil {
+                Section {
+                    Text(advice)
+                        .font(.callout)
+                } header: {
+                    Text("What to Do About It")
+                }
+            } else {
+                Section {
+                } header: {
+                    HeadingWithActions {
+                        heading("What to Do About It", advice)
+                    } actions: {
+                        review(of: app)
                     }
                 }
-            } header: {
-                heading("What to Do About It", advice)
             }
         }
         .formStyle(.grouped)
@@ -162,6 +143,42 @@ struct IntelDetailView: View {
         }
         .navigationTitle(Text(verbatim: finding.name))
         .toolbar(removing: .title)
+    }
+
+    /// The button that leads to the page where this can be dealt with.
+    @ViewBuilder
+    private func review(of app: InstalledApp?) -> some View {
+        if let app {
+            let button = Button("Review in Applications") {
+                library.selection = [app.id]
+                // Selecting the app does not switch tools by itself, so Applications is requested too.
+                Navigator.shared.requestedTool = .applications
+            }
+            // A part inside the app never goes alone, so removing the app isn't the step to lead with.
+            if finding.kind == .insideApp {
+                button
+            } else {
+                button.buttonStyle(.borderedProminent)
+            }
+        } else if finding.isOnThePlugInsPage {
+            Button("Review in Plug-ins") {
+                plugins.selection = finding.url
+                Navigator.shared.requestedTool = .plugins
+            }
+            .buttonStyle(.borderedProminent)
+        } else if let receipt {
+            Button("Review in Package Receipts") {
+                packages.selection = receipt
+                Navigator.shared.requestedTool = .packages
+            }
+            .buttonStyle(.borderedProminent)
+        } else if let job = finding.job {
+            Button("Review in Background Items") {
+                backgroundItems.selection = job
+                Navigator.shared.requestedTool = .backgroundItems
+            }
+            .buttonStyle(.borderedProminent)
+        }
     }
 
     /// The advice in the note beside the What to Do About It heading. A driver, a tool in `/usr/local`, or a plug-in

@@ -1,11 +1,8 @@
 import PeelCore
 import SwiftUI
 
-/// The buttons at the foot of a page, laid out by `ActionRowPlan`: one is centered, and of two, what leads elsewhere
-/// goes at the left end and the main action at the right. `keepsTogether` is for buttons that all act on one thing.
+/// Buttons together at the right edge, the last, the page's main action, at the edge itself, as `ActionRowPlan` says.
 struct ActionRow: Layout {
-    var keepsTogether = false
-
     func makeCache(subviews: Subviews) -> [CGSize] {
         subviews.map { $0.sizeThatFits(.unspecified) }
     }
@@ -29,6 +26,20 @@ struct ActionRow: Layout {
             guard let width, size.width > width else { return size }
             return subview.sizeThatFits(ProposedViewSize(width: width, height: nil))
         }
-        return ActionRowPlan(sizes: fitted, width: width, keepsTogether: keepsTogether)
+        return ActionRowPlan(sizes: fitted, width: width)
+    }
+}
+
+/// The buttons of a page, under its last group and outside any box, as System Settings has them under a list of
+/// accounts. An action that concerns one row stays at that row's right end.
+struct PageActions<Buttons: View>: View {
+    @ViewBuilder let buttons: Buttons
+
+    var body: some View {
+        // A grouped form keeps the box around a section's rows whatever their background, and none around a footer.
+        Section {
+        } footer: {
+            ActionRow { buttons }
+        }
     }
 }

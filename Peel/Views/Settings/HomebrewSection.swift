@@ -18,9 +18,16 @@ struct HomebrewSection: View {
         let brew = unrunnable?.brew ?? refused?.brew ?? Homebrew.executableURL
         Section {
             LabeledContent {
-                Text(brew?.abbreviatedPath ?? String(localized: "Not found"))
-                    .lineLimit(1)
-                    .truncationMode(.middle)
+                HStack(spacing: 8) {
+                    Text(brew?.abbreviatedPath ?? String(localized: "Not found"))
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Button("Choose…") { isChoosing = true }
+                    if choice != nil {
+                        Button("Use the Usual Places") { use(nil) }
+                    }
+                }
+                .editingControls()
             } label: {
                 Text(verbatim: "brew")
             }
@@ -42,13 +49,6 @@ struct HomebrewSection: View {
             if couldNotSave {
                 StatusLabel(title: Text("Peel couldn’t save which `brew` to run."))
             }
-            ActionRow {
-                Button("Choose…") { isChoosing = true }
-                if choice != nil {
-                    Button("Use the Usual Places") { use(nil) }
-                }
-            }
-            .editingControls()
         } header: {
             titled("Homebrew", "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one.")
         }

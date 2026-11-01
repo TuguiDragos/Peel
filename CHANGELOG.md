@@ -178,6 +178,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - App Folders takes a folder deeper inside an Applications folder than Peel looks, such as the one Unity Hub keeps
   its editors in.
 - Sidebar is the first section of General.
+- App Folders and Exclusions add and remove with `+` and `-` at the foot of each list, and the Helper tab keeps its
+  state and its buttons on one row.
 
 #### Applications
 
@@ -306,9 +308,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   the room the sidebar covered.
 - A message about what couldn't be read says when the permissions of what it names kept Peel out, in the app and
   from `peel`.
-- The buttons at the foot of a page follow one rule in every language: two stand at the ends of the row, one is
-  centered, and those that act on the item itself stay together in the middle. Where a language's words leave no room
-  on one line, each takes a line of its own rather than having its title cut.
+- The buttons of a page follow one rule in every language: they stand under its last group at the right, with no box
+  around them and no symbols, the main action last, and take a second line at the right where a language's words leave
+  no room. What concerns one row sits at that row's right end, and a section heading with nothing under it keeps its
+  button beside it.
+- Show in Finder is Finder's own symbol at the end of the row that says where the item is.
 
 #### `peel`
 

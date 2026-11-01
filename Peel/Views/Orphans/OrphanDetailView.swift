@@ -124,7 +124,7 @@ struct OrphanDetailView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 let documents = group.items.filter { $0.leftAlone == .holdsDocuments }.map(\.url)
                 if !documents.isEmpty {
-                    Button("Show in Finder", systemImage: "folder") {
+                    Button("Show in Finder") {
                         NSWorkspace.shared.activateFileViewerSelecting(documents)
                     }
                 }

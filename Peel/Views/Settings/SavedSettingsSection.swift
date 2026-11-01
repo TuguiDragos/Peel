@@ -27,14 +27,10 @@ struct SavedSettingsSection: View {
                             row(for: copy)
                         }
                     } else {
-                        HStack {
+                        HStack(spacing: 8) {
                             StatusLabel(title: Text("Peel can’t read the folder that keeps the saved copies of settings, so none can be listed or put back."))
-                            Spacer()
-                            Button("Show in Finder", systemImage: "folder") {
-                                NSWorkspace.shared.activateFileViewerSelecting([PreferenceBackup.defaultDirectory])
-                            }
-                            .labelStyle(.iconOnly)
-                            .help(Text("Show in Finder"))
+                            Spacer(minLength: 8)
+                            ShowInFinderButton(url: PreferenceBackup.defaultDirectory)
                         }
                     }
                 } header: {
@@ -78,30 +74,29 @@ struct SavedSettingsSection: View {
         let name = library.name(forReference: copy.bundleIdentifier)
         let isOpen = openApps.contains(copy.bundleIdentifier)
         let refusal = PreferenceBackup.refusal(ofPuttingBack: copy.bundleIdentifier, exclusions: exclusions.exclusions)
-        return LabeledContent {
+        // An `HStack` centers the buttons on the row's two lines, where `LabeledContent` would set them on the first.
+        return HStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: 1) {
+                Text(verbatim: name)
+                Text(copy.date, format: .dateTime.day().month().year().hour().minute())
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 8)
             HStack(spacing: 8) {
+                ShowInFinderButton(url: copy.folder)
+                RowSymbolButton("Move to Trash", systemImage: "trash") {
+                    copyToTrash = copy
+                }
+                .help(history.holdingReason.map { Text(verbatim: $0.explanation) } ?? Text("Move to Trash"))
+                .disabled(!history.mayMove)
                 Button("Put Back") {
                     copyToPutBack = copy
                 }
                 .disabled(isOpen || refusal != nil)
                 .help(putBackHelp(refusal: refusal, isOpen: isOpen, name: name))
-                Button("Show in Finder", systemImage: "folder") {
-                    NSWorkspace.shared.activateFileViewerSelecting([copy.folder])
-                }
-                .labelStyle(.iconOnly)
-                .help(Text("Show in Finder"))
-                Button("Move to Trash", systemImage: "trash") {
-                    copyToTrash = copy
-                }
-                .labelStyle(.iconOnly)
-                .help(history.holdingReason.map { Text(verbatim: $0.explanation) } ?? Text("Move to Trash"))
-                .disabled(!history.mayMove)
             }
-            .buttonStyle(.bordered)
             .disabled(workingOn != nil)
-        } label: {
-            Text(verbatim: name)
-            Text(copy.date, format: .dateTime.day().month().year().hour().minute())
         }
     }
 

@@ -61,19 +61,15 @@ struct InstallerDetailView: View {
             if kind == .deviceBackup {
                 Section {
                 } header: {
-                    HStack(spacing: 8) {
+                    HeadingWithActions {
                         heading(
                             "Device Backups",
                             "A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder from a connected device’s General > Manage Backups. Peel doesn’t touch them: what is inside came off a device and may be the only copy."
                         )
-                        Spacer(minLength: 8)
-                        Button {
+                    } actions: {
+                        Button("Open System Settings") {
                             NSWorkspace.shared.open(Installers.storageSettingsURL)
-                        } label: {
-                            Text("Open System Settings")
-                                .minimumTarget()
                         }
-                        .buttonStyle(.borderless)
                     }
                 }
             }

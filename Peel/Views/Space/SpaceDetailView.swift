@@ -121,15 +121,7 @@ struct SpaceDetailView: View {
                 .accessibilityHidden(true)
             name()
             Spacer(minLength: 8)
-            Button {
-                NSWorkspace.shared.activateFileViewerSelecting([url])
-            } label: {
-                Label("Show in Finder", systemImage: "arrow.up.forward.app")
-                    .minimumTarget()
-            }
-            .labelStyle(.iconOnly)
-            .buttonStyle(.borderless)
-            .help(Text("Show in Finder"))
+            ShowInFinderButton(url: url)
         }
     }
 

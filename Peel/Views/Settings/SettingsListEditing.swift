@@ -7,11 +7,26 @@ func settingsListHeight(rows: Int) -> CGFloat {
 }
 
 extension View {
-    /// Styles the buttons that add to a list and remove from it as small bordered buttons, 20 points high, the
+    /// Styles the buttons beside a Settings row as small bordered buttons, 20 points high, the
     /// HIG's minimum on the Mac. A borderless pull-down stays 16 points high at every control size, so they all use
     /// this style.
     func editingControls() -> some View {
         buttonStyle(.bordered)
             .controlSize(.small)
+    }
+}
+
+/// The `+` and `-` at the foot of a Settings list, as macOS's own lists have them: symbols at the left, each named by
+/// its tooltip and to VoiceOver.
+struct ListEditingButtons<Buttons: View>: View {
+    @ViewBuilder let buttons: Buttons
+
+    var body: some View {
+        HStack(spacing: 4) {
+            buttons
+            Spacer(minLength: 0)
+        }
+        .labelStyle(.iconOnly)
+        .editingControls()
     }
 }

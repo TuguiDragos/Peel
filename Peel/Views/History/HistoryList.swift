@@ -151,7 +151,7 @@ private struct HistoryProblemNotice: View {
                 title: Text("The record of past removals was damaged"),
                 detail: Text("Peel kept the old file and continued with what it could still read. Items already in the Trash are still there: you can drag them back out in Finder.")
             ) {
-                Button("Show in Finder", systemImage: "folder") {
+                Button("Show in Finder") {
                     NSWorkspace.shared.activateFileViewerSelecting([setAside])
                 }
             }
@@ -190,7 +190,7 @@ private struct RefusalProblemNotice: View {
                 title: Text("The Not Moved list was damaged"),
                 detail: Text("Peel kept the old file and continued with what it could still read.")
             ) {
-                Button("Show in Finder", systemImage: "folder") {
+                Button("Show in Finder") {
                     NSWorkspace.shared.activateFileViewerSelecting([setAside])
                 }
             }

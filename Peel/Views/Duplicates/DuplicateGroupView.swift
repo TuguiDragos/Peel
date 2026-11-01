@@ -143,12 +143,12 @@ private struct DuplicateFileRow: View {
                 .help(Text(heldBack.explanation(keptInStepBy: file.syncedBy)))
 
                 // Where the copy is matters more than a look at it: what is done with it is done in Finder or on
-                // another device. The folder symbol, the menu's for Show in Finder, is close to the eye's width, so
+                // another device. Finder's symbol is close to the eye's width, so
                 // the two buttons read as one column.
                 Button {
                     NSWorkspace.shared.activateFileViewerSelecting([file.url])
                 } label: {
-                    Label("Show in Finder", systemImage: "folder")
+                    Label("Show in Finder", systemImage: "finder")
                         .minimumTarget()
                 }
                 .labelStyle(.iconOnly)

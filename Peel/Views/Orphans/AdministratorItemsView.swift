@@ -74,7 +74,7 @@ struct AdministratorItemsView: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
-            Button("Show in Finder", systemImage: "folder") {
+            Button("Show in Finder") {
                 NSWorkspace.shared.activateFileViewerSelecting(items.map(\.item.url))
             }
         }

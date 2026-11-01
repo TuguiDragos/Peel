@@ -71,7 +71,7 @@ struct PackageDetailView: View {
                     kind: .note,
                     systemImage: "lock.shield"
                 ) {
-                    Button("Show in Finder", systemImage: "folder") {
+                    Button("Show in Finder") {
                         NSWorkspace.shared.activateFileViewerSelecting(forAnAdministrator.map(\.url))
                     }
                 }
@@ -82,6 +82,7 @@ struct PackageDetailView: View {
                 if receipt.items.isEmpty {
                     Text(emptyListReason)
                         .foregroundStyle(.secondary)
+                        .listRowSeparator(.hidden)
                 }
                 ForEach(Array(receipt.items.enumerated()), id: \.element.id) { index, item in
                     RemovalRow(
@@ -109,19 +110,15 @@ struct PackageDetailView: View {
 
             Section {
             } header: {
-                HStack(spacing: 8) {
+                HeadingWithActions {
                     heading(
                         "Installer Receipt",
                         "Forgetting it moves the receipt to the Trash, so macOS no longer counts the package as installed. What it installed stays where it is."
                     )
-                    Spacer(minLength: 8)
-                    Button {
+                } actions: {
+                    Button("Forget Receipt") {
                         receiptToForget = receipt
-                    } label: {
-                        Text("Forget Receipt")
-                            .minimumTarget()
                     }
-                    .buttonStyle(.borderless)
                     .disabled(!helper.canAct || !history.mayMove || isForAnExcludedApp)
                     .help(forgetHelp)
                 }

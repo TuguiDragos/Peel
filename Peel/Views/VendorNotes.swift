@@ -15,7 +15,7 @@ struct SystemExtensionNotice: View {
             detail: detail,
             kind: .note
         ) {
-            Button("Show in Finder", systemImage: "folder") {
+            Button("Show in Finder") {
                 NSWorkspace.shared.activateFileViewerSelecting([app.url])
             }
         }

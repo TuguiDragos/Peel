@@ -236,15 +236,16 @@ private struct GeneralSettingsView: View {
     var body: some View {
         Form {
             Section {
-                LabeledContent {
+                // An `HStack` centers the button on a summary that takes two lines, as Saved Settings' rows do.
+                HStack(spacing: 8) {
+                    Text(sidebarToolsSummary)
+                    Spacer(minLength: 8)
                     Button("Choose Tools…") {
                         isChoosingSidebarTools = true
                     }
                     .popover(isPresented: $isChoosingSidebarTools, arrowEdge: .bottom) {
                         sidebarToolsChoice
                     }
-                } label: {
-                    Text(sidebarToolsSummary)
                 }
             } header: {
                 titled("Sidebar", "Turn a tool off to leave it out of the sidebar. The View menu and Shortcuts still open it.")
@@ -442,7 +443,7 @@ private struct GeneralSettingsView: View {
                         titled("Remove Peel",
                                "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings zsh and ssh read, clears its settings, then quits. That folder holds History, your exclusions, App Folders, and Saved Settings, among others. What you set in Tweaks and on the Terminal page stays as it is. The Finder extension goes with the app.")
                         Spacer(minLength: 8)
-                        Button("Remove Peel", systemImage: "trash") {
+                        Button("Remove Peel") {
                             isConfirmingSelfRemoval = true
                         }
                         .buttonStyle(.borderedProminent)
@@ -705,66 +706,25 @@ private struct HelperSettingsView: View {
     @State private var failure: HelperModel.Failure?
     @State private var isConfirmingUninstall = false
 
-    /// The helper's buttons have no label beside them, so each is centered in its row.
     var body: some View {
         Form {
             Section {
-                LabeledContent {
-                    statusBadge
-                } label: {
-                    HStack(spacing: 5) {
-                        Text("Status")
-                        InfoNote(
-                            name: String(localized: "Helper"),
-                            detail: Text("A small tool with administrator rights. It moves items to the Trash and puts them back, starts, stops, enables, or disables background items, and forgets installer receipts. It takes no other orders."),
-                            symbol: "lock.shield"
-                        )
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 8) {
+                        status
+                        Spacer(minLength: 8)
+                        actions
+                    }
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 8) { status }
+                        ActionRow { actions }
                     }
                 }
-            }
-
-            Section {
-                switch helper.standing {
-                case .notInstalled:
-                    if helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy) {
-                        Button("Install Helper", systemImage: "lock.shield") {
-                            Task { failure = await helper.install() }
-                        }
-                        .disabled(helper.isChanging)
-                        .centeredInRow()
-                    } else {
-                        Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
-                            .font(.callout)
-                    }
-                case .waitingForApproval:
-                    Text("Allow Peel in System Settings under Login Items & Extensions.")
+                if let explanation {
+                    explanation
                         .font(.callout)
-                    // Opens System Settings instead of registering again, which returns an error in this state
-                    // (`SMAppService.h`).
-                    Button("Open System Settings", systemImage: "gearshape") {
-                        PrivilegedHelper.openLoginItemsSettings()
-                    }
-                    .centeredInRow()
-                    uninstallButton
-                case .notThisAccount:
-                    Text("Only an administrator can use the helper. Log in as an administrator to remove items that need one.")
-                        .font(.callout)
-                case .notAnswering:
-                    // Several causes share this message: an older or newer helper, a signature that doesn't
-                    // match, or a helper that didn't start.
-                    Text("Peel’s helper isn’t answering. Repairing it installs the one this version of Peel works with.")
-                        .font(.callout)
-                    Button("Repair Helper", systemImage: "arrow.clockwise") {
-                        Task { failure = await helper.repair() }
-                    }
-                    .disabled(helper.isChanging)
-                    .centeredInRow()
-                    uninstallButton
-                case .ready:
-                    uninstallButton
                 }
             }
-            .listRowBackground(Color.clear)
         }
         .formStyle(.grouped)
         .task {
@@ -782,12 +742,76 @@ private struct HelperSettingsView: View {
         }
     }
 
+    /// The state with its word and its note, which stay together wherever the buttons go.
+    @ViewBuilder
+    private var status: some View {
+        InfoNote(
+            name: String(localized: "Helper"),
+            detail: Text("A small tool with administrator rights. It moves items to the Trash and puts them back, starts, stops, enables, or disables background items, and forgets installer receipts. It takes no other orders."),
+            symbol: "lock.shield"
+        )
+        Text("Status")
+        statusBadge
+    }
+
+    /// What can be done about the state, the step it asks for last.
+    @ViewBuilder
+    private var actions: some View {
+        switch helper.standing {
+        case .notInstalled:
+            if helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy) {
+                Button("Install Helper") {
+                    Task { failure = await helper.install() }
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(helper.isChanging)
+            }
+        case .waitingForApproval:
+            uninstallButton
+            // Opens System Settings instead of registering again, which returns an error in this state
+            // (`SMAppService.h`).
+            Button("Open System Settings") {
+                PrivilegedHelper.openLoginItemsSettings()
+            }
+            .buttonStyle(.borderedProminent)
+        case .notThisAccount:
+            EmptyView()
+        case .notAnswering:
+            uninstallButton
+            Button("Repair Helper") {
+                Task { failure = await helper.repair() }
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(helper.isChanging)
+        case .ready:
+            uninstallButton
+        }
+    }
+
+    /// What the helper's state asks of the person, said under its row.
+    private var explanation: Text? {
+        switch helper.standing {
+        case .notInstalled:
+            helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy)
+                ? nil : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
+        case .waitingForApproval:
+            Text("Allow Peel in System Settings under Login Items & Extensions.")
+        case .notThisAccount:
+            Text("Only an administrator can use the helper. Log in as an administrator to remove items that need one.")
+        case .notAnswering:
+            // Several causes share this message: an older or newer helper, a signature that doesn't
+            // match, or a helper that didn't start.
+            Text("Peel’s helper isn’t answering. Repairing it installs the one this version of Peel works with.")
+        case .ready:
+            nil
+        }
+    }
+
     private var uninstallButton: some View {
-        Button("Uninstall Helper", systemImage: "trash", role: .destructive) {
+        Button("Uninstall Helper", role: .destructive) {
             isConfirmingUninstall = true
         }
         .disabled(helper.isChanging)
-        .centeredInRow()
     }
 
     @ViewBuilder

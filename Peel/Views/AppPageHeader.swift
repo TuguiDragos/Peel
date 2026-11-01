@@ -52,7 +52,7 @@ struct AppPageHeader: View {
         VStack(alignment: .leading, spacing: 6) {
             FlowLayout {
                 if let uninstaller = plan.vendorUninstaller {
-                    Button("Open Uninstaller", systemImage: "arrow.up.forward.app") {
+                    Button("Open Uninstaller") {
                         NSWorkspace.shared.open(uninstaller)
                     }
                     .buttonStyle(.bordered)
@@ -197,7 +197,7 @@ struct AppPageHeader: View {
     private func updateAction(for source: UpdateSource, version: String) -> some View {
         switch source {
         case .appStore:
-            Button("Open App Store", systemImage: "bag") {
+            Button("Open App Store") {
                 let page = library.updateStatuses[plan.app.id]?.releaseNotes
                 NSWorkspace.shared.open(page ?? URL(string: "macappstore://showUpdatesPage")!)
             }
@@ -224,13 +224,13 @@ struct AppPageHeader: View {
                         Text("Upgrading\u{2026}")
                     }
                 } else {
-                    Label("Upgrade with Homebrew", systemImage: "mug")
+                    Text("Upgrade with Homebrew")
                 }
             }
             .buttonStyle(.borderedProminent)
             .disabled(homebrew.runningCommand != nil || homebrew.quittingToUpgrade.isWaiting)
         case .developer, .automatic:
-            Button("Open \(plan.app.name)", systemImage: "arrow.up.forward.app") {
+            Button("Open \(plan.app.name)") {
                 NSWorkspace.shared.open(plan.app.url)
             }
             .buttonStyle(.borderedProminent)

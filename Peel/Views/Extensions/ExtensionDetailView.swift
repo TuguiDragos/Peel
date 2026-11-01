@@ -105,14 +105,10 @@ struct ExtensionDetailView: View {
 
             Section {
             } header: {
-                HStack(spacing: 8) {
+                HeadingWithActions {
                     heading("Turning It On and Off", explanation)
-                    Spacer(minLength: 8)
+                } actions: {
                     switchButton
-                        .buttonStyle(.borderless)
-                        // In a form, a button in a section header is drawn lighter than the header's title (a list
-                        // draws them alike), so the button is set to the title's weight.
-                        .fontWeight(.semibold)
                 }
             }
         }
@@ -153,20 +149,14 @@ struct ExtensionDetailView: View {
     private var switchButton: some View {
         switch item.turnedOnAndOffIn {
         case .systemSettings:
-            Button {
+            Button("Open System Settings") {
                 NSWorkspace.shared.open(AppExtensions.settingsURL)
-            } label: {
-                Text("Open System Settings")
-                    .minimumTarget()
             }
         case .safari:
-            Button {
+            Button("Open Safari") {
                 if let safari = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari") {
                     NSWorkspace.shared.open(safari)
                 }
-            } label: {
-                Text("Open Safari")
-                    .minimumTarget()
             }
         case .widgetGallery, .nowhere:
             EmptyView()

@@ -34,35 +34,39 @@ struct AppFoldersSection: View {
                 Text("No other folder is on this list yet.")
                     .foregroundStyle(.secondary)
             } else {
-                HStack {
+                HStack(spacing: 8) {
                     StatusLabel(title: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))
-                    Spacer()
+                    Spacer(minLength: 8)
                     StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
                         library.startFoldersOver()
                     }
                 }
             }
             if !library.foldersLeftOut.isEmpty {
-                VStack(alignment: .leading, spacing: 6) {
-                    StatusLabel(title: Text("Peel no longer looks in these folders, so the apps in them aren’t listed."))
-                    Self.message(for: library.foldersLeftOut)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .textSelection(.enabled)
+                HStack(spacing: 8) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        StatusLabel(title: Text("Peel no longer looks in these folders, so the apps in them aren’t listed."))
+                        Self.message(for: library.foldersLeftOut)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .textSelection(.enabled)
+                    }
+                    Spacer(minLength: 8)
                     Button("Remove From List") { library.removeFolders(library.foldersLeftOut.map(\.folder)) }
                 }
             }
             if library.couldNotSaveFolders {
                 StatusLabel(title: Text("Peel couldn’t save the app folders."))
             }
-            ActionRow {
+            ListEditingButtons {
                 Button("Add Folder…", systemImage: "plus") {
                     isChoosing = true
                 }
+                .help(Text("Add Folder…"))
                 Button("Remove", systemImage: "minus") { removeSelected() }
                     .disabled(selected.isEmpty)
+                    .help(Text("Remove"))
             }
-            .editingControls()
         } header: {
             titled("App Folders", "Peel looks for apps in the Applications folders and in the folders on this list, such as one on another disk. While that disk isn’t connected, its apps still count as installed, so their files aren’t listed as orphaned.")
         }

@@ -26,6 +26,7 @@ struct FileSearchFileView: View {
                     Text(verbatim: file.url.abbreviatedPath)
                         .textSelection(.enabled)
                         .help(Text(verbatim: file.url.path(percentEncoded: false)))
+                    ShowInFinderButton(url: file.url)
                 }
                 .labeledContentStyle(.oneLine)
                 LabeledContent("Size") {
@@ -56,14 +57,6 @@ struct FileSearchFileView: View {
                 }
             } header: {
                 Text("Details")
-            }
-
-            Section {
-                ActionRow {
-                    Button("Show in Finder", systemImage: "folder") {
-                        NSWorkspace.shared.activateFileViewerSelecting([file.url])
-                    }
-                }
             }
         }
         .formStyle(.grouped)

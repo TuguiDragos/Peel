@@ -320,26 +320,6 @@ struct ResetSheet: View {
                                     .buttonStyle(.bordered)
                             }
                         }
-                        ActionRow {
-                            Button("Show in Finder", systemImage: "folder") {
-                                NSWorkspace.shared.activateFileViewerSelecting([backup])
-                            }
-                            .buttonStyle(.bordered)
-                            Button("Put Settings Back") {
-                                isPuttingBack = true
-                                Task {
-                                    let restored = await plan.putSettingsBack(from: backup)
-                                    putBack = restored
-                                    switch restored {
-                                    case .complete, .incomplete: changedFiles = true
-                                    case .notSaved, .appIsOpen, .exclusionsNotKnown, .excluded, .copyUnreadable: break
-                                    }
-                                    isPuttingBack = false
-                                }
-                            }
-                            .buttonStyle(.borderedProminent)
-                            .disabled(isPuttingBack || plan.isAppRunning || plan.putBackRefusal != nil)
-                        }
                         if let refusal = plan.putBackRefusal {
                             putBackResult(refusal)
                         } else if let putBack {
@@ -349,10 +329,30 @@ struct ResetSheet: View {
                     .padding(.vertical, 2)
                     .listRowSeparator(.hidden)
                 } header: {
-                    heading(
-                        "If You Change Your Mind",
-                        "The old settings were saved before they were cleared. Put them back from here: once the app opens again, it writes new settings where the old ones were, and History won’t put the old files back over them."
-                    )
+                    HeadingWithActions {
+                        heading(
+                            "If You Change Your Mind",
+                            "The old settings were saved before they were cleared. Put them back from here: once the app opens again, it writes new settings where the old ones were, and History won’t put the old files back over them."
+                        )
+                    } actions: {
+                        Button("Show in Finder") {
+                            NSWorkspace.shared.activateFileViewerSelecting([backup])
+                        }
+                        Button("Put Settings Back") {
+                            isPuttingBack = true
+                            Task {
+                                let restored = await plan.putSettingsBack(from: backup)
+                                putBack = restored
+                                switch restored {
+                                case .complete, .incomplete: changedFiles = true
+                                case .notSaved, .appIsOpen, .exclusionsNotKnown, .excluded, .copyUnreadable: break
+                                }
+                                isPuttingBack = false
+                            }
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(isPuttingBack || plan.isAppRunning || plan.putBackRefusal != nil)
+                    }
                 }
             }
         }

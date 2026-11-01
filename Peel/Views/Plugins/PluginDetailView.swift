@@ -66,6 +66,7 @@ struct PluginDetailView: View {
                     Text(verbatim: plugin.url.abbreviatedPath)
                         .textSelection(.enabled)
                         .help(Text(verbatim: plugin.url.path(percentEncoded: false)))
+                    ShowInFinderButton(url: plugin.url)
                 }
                 .labeledContentStyle(.oneLine)
             }
@@ -83,27 +84,23 @@ struct PluginDetailView: View {
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
-                ActionRow {
-                    Button("Show in Finder", systemImage: "folder") {
-                        NSWorkspace.shared.activateFileViewerSelecting([plugin.url])
-                    }
-                    HStack {
-                        BusyShown(isBusy: plugins.isRemoving) { isShown in
-                            if isShown {
-                                ProgressView()
-                                    .controlSize(.small)
-                            }
-                        }
-                        Button("Move to Trash", systemImage: "trash") {
-                            isConfirmingRemoval = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .disabled(
-                            isLocked || plugin.refusal != nil || plugins.isRemoving || plugins.isScanning
-                                || !history.mayMove
-                        )
+            }
+
+            PageActions {
+                BusyShown(isBusy: plugins.isRemoving) { isShown in
+                    if isShown {
+                        ProgressView()
+                            .controlSize(.small)
                     }
                 }
+                Button("Move to Trash") {
+                    isConfirmingRemoval = true
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(
+                    isLocked || plugin.refusal != nil || plugins.isRemoving || plugins.isScanning
+                        || !history.mayMove
+                )
             }
         }
         .formStyle(.grouped)
