@@ -3,6 +3,16 @@ import Foundation
 import Testing
 
 struct ScreenshotNameTests {
+    @Test func namesAScreenshotInTheLanguageOfTheMacNotOfThisProcess() {
+        let romanian = ScreenshotName.macOSDefault(preferring: ["ro-RO", "en"])
+        let german = ScreenshotName.macOSDefault(preferring: ["de-DE"])
+        let english = ScreenshotName.macOSDefault(preferring: ["en"])
+
+        #expect(english == "Screenshot")
+        #expect(romanian != nil && romanian != english)
+        #expect(german != nil && german != english && german != romanian)
+    }
+
     @Test func aNameIsAFileNameMacOSCanWriteAndShow() {
         #expect(ScreenshotName.problem(with: "ss") == nil)
         #expect(ScreenshotName.problem(with: "Captură de ecran") == nil)

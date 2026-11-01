@@ -16,8 +16,21 @@ public enum ScreenshotName {
         return nil
     }
 
+    /// What macOS names a screenshot. `screencaptureui` names its files in the language of the session, which a person
+    /// can set apart from this app's.
     public static var macOSDefault: String? {
-        Bundle(path: "/System/Library/CoreServices/screencaptureui.app")?
-            .localizedString(forKey: "Screenshot", value: nil, table: "Localizable")
+        let languages = CFPreferencesCopyValue(
+            "AppleLanguages" as CFString, kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost
+        ) as? [String]
+        return macOSDefault(preferring: languages ?? Locale.preferredLanguages)
+    }
+
+    static func macOSDefault(preferring languages: [String]) -> String? {
+        guard let bundle = Bundle(path: "/System/Library/CoreServices/screencaptureui.app"),
+              let language = Bundle.preferredLocalizations(from: bundle.localizations, forPreferences: languages).first
+        else { return nil }
+        return bundle.localizedString(
+            forKey: "Screenshot", value: nil, table: "Localizable", localizations: [Locale.Language(identifier: language)]
+        )
     }
 }
