@@ -77,7 +77,7 @@ struct ProjectDetailView: View {
     private var backupsCheckbox: some View {
         let isOn = Binding(
             get: { projects.isExcludedFromBackups(group) },
-            set: { projects.setExcludedFromBackups($0, in: group) }
+            set: { isExcluded in Task { await projects.setExcludedFromBackups(isExcluded, in: group) } }
         )
         let explanation = String(localized: "Backups keep the project and skip the folders listed here, node_modules and Pods included. Installed packages such as .venv, and the .terraform folder, stay in backups, as do folders whose name could mean anything and folders Peel doesn’t select because of what is inside. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
         let others = projects.markedByOthers(in: group).map(\.lastPathComponent)

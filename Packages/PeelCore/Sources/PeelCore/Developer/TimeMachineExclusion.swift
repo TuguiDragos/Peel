@@ -51,6 +51,12 @@ public enum TimeMachineExclusion {
         Set(urls.filter(isExcluded))
     }
 
+    /// `setExcluded(_:_:)` away from the caller's thread, since on a network volume a mark can take its time.
+    @concurrent
+    public static func marking(_ isExcluded: Bool, _ urls: [URL]) async -> Set<URL> {
+        setExcluded(isExcluded, urls)
+    }
+
     /// Sets or clears the mark on each folder and returns the folders that could not be changed. A folder
     /// that refuses the mark, such as one owned by root, does not stop the others.
     public static func setExcluded(_ isExcluded: Bool, _ urls: [URL]) -> Set<URL> {

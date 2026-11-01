@@ -49,13 +49,20 @@ final class ProjectLibrary {
     var selectedURLs: Set<URL> = []
 
     private let defaults: UserDefaults
+    private let mark: @Sendable (Bool, [URL]) async -> Set<URL>
+    /// What was clicked for each project whose marks are being written.
+    private var backupsBeingChanged: [URL: Bool] = [:]
     @ObservationIgnored private var scannedAt: ContinuousClock.Instant?
 
     /// How long what a scan saw is shown before the page, appearing or with Peel coming forward, looks again.
     static let scanAgainAfter: Duration = .seconds(60 * 60)
 
-    init(defaults: UserDefaults = .standard) {
+    init(
+        defaults: UserDefaults = .standard,
+        markingForBackups mark: @escaping @Sendable (Bool, [URL]) async -> Set<URL> = TimeMachineExclusion.marking
+    ) {
         self.defaults = defaults
+        self.mark = mark
         folders = (defaults.array(forKey: Self.foldersKey) as? [String] ?? [])
             .map { URL(filePath: $0, directoryHint: .isDirectory) }
         Task { await readSuggestions() }
@@ -164,7 +171,11 @@ final class ProjectLibrary {
     }
 
     func isExcludedFromBackups(_ group: ProjectGroup) -> Bool {
-        backupMarks(group).isOn
+        backupsBeingChanged[group.project] ?? backupMarks(group).isOn
+    }
+
+    func isChangingBackups(of group: ProjectGroup) -> Bool {
+        backupsBeingChanged[group.project] != nil
     }
 
     /// The group's folders that would not take the mark the last time Peel set it.
@@ -173,7 +184,7 @@ final class ProjectLibrary {
     }
 
     func canMarkForBackups(_ group: ProjectGroup) -> Bool {
-        backupMarks(group).canChange
+        !isChangingBackups(of: group) && backupMarks(group).canChange
     }
 
     func markedByOthers(in group: ProjectGroup) -> [URL] {
@@ -182,9 +193,12 @@ final class ProjectLibrary {
 
     /// Excludes the group's artifacts from Time Machine backups, or includes them again, so a backup holds the
     /// project and not what a build can make again.
-    func setExcludedFromBackups(_ isExcluded: Bool, in group: ProjectGroup) {
+    func setExcludedFromBackups(_ isExcluded: Bool, in group: ProjectGroup) async {
+        guard !isChangingBackups(of: group) else { return }
+        backupsBeingChanged[group.project] = isExcluded
+        defer { backupsBeingChanged[group.project] = nil }
         let urls = backupMarks(group).folders(turning: isExcluded)
-        let failed = TimeMachineExclusion.setExcluded(isExcluded, urls)
+        let failed = await mark(isExcluded, urls)
         backupMarkFailures = backupMarkFailures.subtracting(urls).union(failed)
         let changed = Set(urls).subtracting(failed)
         if isExcluded {

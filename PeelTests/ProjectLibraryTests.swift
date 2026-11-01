@@ -1,5 +1,6 @@
 import Foundation
 @testable import Peel
+@testable import PeelCore
 import Testing
 
 @MainActor
@@ -40,6 +41,39 @@ struct ProjectLibraryTests {
         _ = await (first, second)
 
         #expect(library.folders == [root])
+    }
+
+    @Test func aMarkBeingWrittenShowsWhatWasClickedAndTakesNoOtherClick() async throws {
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let root = FileManager.default.temporaryDirectory.appending(
+            path: "ProjectLibraryTests-\(UUID().uuidString)", directoryHint: .isDirectory
+        )
+        defer { try? FileManager.default.removeItem(at: root) }
+        try project("app", in: root)
+        made.defaults.set([root.path(percentEncoded: false)], forKey: "projectFolders")
+        let (held, release) = AsyncStream.makeStream(of: Void.self)
+        let library = ProjectLibrary(defaults: made.defaults) { _, _ in
+            for await _ in held { break }
+            return []
+        }
+        await library.refresh()
+        let group = try #require(library.groups?.first)
+        #expect(!library.isExcludedFromBackups(group))
+
+        let change = Task { await library.setExcludedFromBackups(true, in: group) }
+        let clock = ContinuousClock()
+        let start = clock.now
+        while !library.isChangingBackups(of: group), clock.now - start < .seconds(5) { await Task.yield() }
+
+        #expect(library.isExcludedFromBackups(group))
+        #expect(!library.canMarkForBackups(group))
+        release.yield()
+        release.finish()
+        await change.value
+        #expect(library.isExcludedFromBackups(group))
+        #expect(!library.isChangingBackups(of: group))
+        #expect(library.canMarkForBackups(group))
     }
 
     private func project(_ name: String, in root: URL) throws {
