@@ -110,6 +110,35 @@ struct ExtensionTextTests {
         #expect(gone.rowDetail(showingVersion: true) == "\(String(localized: "\("Example"), no longer installed")) · \(words)")
     }
 
+    @Test func aSystemExtensionsNoteSaysWhatIsLeftToDoWithIt() {
+        func system(
+            election: AppExtension.Election = .on, goneApp: String? = nil, replacedBy: String? = nil
+        ) -> AppExtension {
+            var item = AppExtension(
+                identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+                url: nil, election: election, teamIdentifier: nil, reportedState: nil, goneApp: goneApp
+            )
+            item.replacedBy = replacedBy
+            return item
+        }
+        let gone = system(goneApp: "/Applications/Example.app")
+        #expect(system(goneApp: "/Applications/Example.app").systemExtensionNote(
+            isOnMacOS27: false, systemSettingsDeletesIt: false
+        ).key == gone.leftAlone?.explanation.key)
+        let goingWithANewerVersion = system(election: .beingRemoved, replacedBy: "2.20.2 (2629)")
+        #expect(goingWithANewerVersion.systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false).key
+            == "Version %@ replaced this one, which macOS is removing. Some removals finish only when the Mac restarts.")
+        let going = system(election: .beingRemoved)
+        #expect(going.systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: true).key
+            == AppExtension.Election.beingRemoved.explanation.key)
+        let onItsOwn = Set([
+            system().systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false).key,
+            system().systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: false).key,
+            system().systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: true).key,
+        ])
+        #expect(onItsOwn.count == 3)
+    }
+
     @Test func findsAPartByTheWordItsPageShows() throws {
         let widget = part(name: "Example", owner: "Example", point: "com.apple.widgetkit-extension")
         let word = try #require(widget.pointName)

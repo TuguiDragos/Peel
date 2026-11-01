@@ -340,7 +340,7 @@ struct AppExtensionsTests {
             #expect(FileManager.default.fileExists(atPath: path), "\(item.identifier) is at \(path), which isn't there")
             #expect(item.reportedState?.isEmpty == false, "\(item.identifier) reported no state")
             #expect(
-                item.owner != nil || item.election == .beingRemoved,
+                item.appName != nil || item.election == .beingRemoved,
                 "nothing says which app brought \(item.identifier)"
             )
         }

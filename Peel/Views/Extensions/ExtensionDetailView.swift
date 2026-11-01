@@ -175,7 +175,7 @@ struct ExtensionDetailView: View {
 
     private var explanation: LocalizedStringResource {
         switch (item.kind, item.turnedOnAndOffIn) {
-        case (.systemExtension, _): systemExtensionExplanation
+        case (.systemExtension, _): item.systemExtensionNote
         case (.appExtension, .systemSettings):
             "Peel doesn’t turn extensions on or off: macOS does. Removing one means removing the app it came with."
         case (.appExtension, .safari):
@@ -185,21 +185,5 @@ struct ExtensionDetailView: View {
         case (.appExtension, .nowhere):
             "Nothing turns this on or off: Shortcuts and Siri use it whenever someone asks for the app’s actions. Removing it means removing the app it came with."
         }
-    }
-
-    private var systemExtensionExplanation: LocalizedStringResource {
-        // With its app gone, the advice for an installed app leads nowhere: Orphaned Files' words say what does.
-        if item.goneApp != nil, let reason = item.leftAlone { return reason.explanation }
-        // A version macOS is removing goes on its own, whatever happens to the app.
-        if item.election == .beingRemoved {
-            guard let newer = item.replacedBy else { return item.election.explanation }
-            return "Version \(newer) replaced this one, which macOS is removing. Some removals finish only when the Mac restarts."
-        }
-        if #available(macOS 27, *) {
-            return item.systemSettingsDeletesIt
-                ? "macOS keeps its own copy of this, apart from the app, so Peel leaves that app to Finder. Moving the app to the Trash in Finder asks macOS to remove it. So does System Settings: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
-                : "macOS keeps its own copy of this, apart from the app, and moving the app to the Trash in Finder asks macOS to remove it, sometimes at the next restart. So Peel leaves that app to Finder."
-        }
-        return "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder."
     }
 }

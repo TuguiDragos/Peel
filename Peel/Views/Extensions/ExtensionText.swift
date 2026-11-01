@@ -46,6 +46,31 @@ extension AppExtension {
             : election.explanation
     }
 
+    var systemExtensionNote: LocalizedStringResource {
+        if #available(macOS 27, *) {
+            return systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: systemSettingsDeletesIt)
+        }
+        return systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false)
+    }
+
+    /// What the page says of a system extension: what its app being gone leaves to do, what macOS is doing with it, or
+    /// what moving its app asks of macOS.
+    func systemExtensionNote(isOnMacOS27: Bool, systemSettingsDeletesIt: Bool) -> LocalizedStringResource {
+        // With its app gone, the advice for an installed app leads nowhere: Orphaned Files' words say what does.
+        if goneApp != nil, let reason = leftAlone { return reason.explanation }
+        // A version macOS is removing goes on its own, whatever happens to the app.
+        if election == .beingRemoved {
+            guard let newer = replacedBy else { return election.explanation }
+            return "Version \(newer) replaced this one, which macOS is removing. Some removals finish only when the Mac restarts."
+        }
+        if isOnMacOS27 {
+            return systemSettingsDeletesIt
+                ? "macOS keeps its own copy of this, apart from the app, so Peel leaves that app to Finder. Moving the app to the Trash in Finder asks macOS to remove it. So does System Settings: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
+                : "macOS keeps its own copy of this, apart from the app, and moving the app to the Trash in Finder asks macOS to remove it, sometimes at the next restart. So Peel leaves that app to Finder."
+        }
+        return "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder."
+    }
+
     /// Whether a search for `text` finds it, by what its row and page say as well as by its identifiers.
     func matches(_ text: String) -> Bool {
         [name, owner, pointName, categoryName, point, identifier].contains {
