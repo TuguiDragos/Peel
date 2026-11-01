@@ -115,15 +115,10 @@ struct IntelDetailView: View {
             }
 
             Section {
-                HStack {
-                    // Show in Finder is centered when alone, and goes first when a Review button is beside it.
-                    if app == nil, !finding.isOnThePlugInsPage, finding.job == nil, receipt == nil {
-                        Spacer()
-                    }
+                ActionRow {
                     Button("Show in Finder", systemImage: "folder") {
                         NSWorkspace.shared.activateFileViewerSelecting([finding.url])
                     }
-                    Spacer()
                     if let app {
                         let review = Button("Review in Applications", systemImage: "square.grid.2x2") {
                             library.selection = [app.id]

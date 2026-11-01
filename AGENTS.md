@@ -386,6 +386,10 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   accent color read under the 4.5:1 text needs on a light background. The color goes on a symbol beside the words,
   which keep the style of the text around them: `StatusLabel` for a warning or a state, a `Badge`'s `tint`, and a
   note's `caution`.
+- **The buttons at the foot of a page go in `ActionRow`:** of two, what leads elsewhere stands at the left end and the
+  main action at the right, one alone is centered, and `keepsTogether` holds the ones that act on the item itself in
+  the middle. It gives each button a line of its own when a language's words leave no room, so never lay such a row
+  out by hand. A sheet's footer stays on the right, and buttons under a title stay in a `FlowLayout`.
 - Rows of a long list stay cheap to build. A checkbox in a row is `NativeCheckbox` beside the item, with
   `checkboxTitleLine()` on the first line of its title and `checkboxTitle()` on the title, rather than a checkbox
   `Toggle` whose label is the row; Duplicates' rows keep their `Toggle`, where the AppKit checkbox costs as much. A

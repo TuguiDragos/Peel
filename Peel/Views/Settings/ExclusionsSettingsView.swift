@@ -81,11 +81,10 @@ struct ExclusionsSettingsView: View {
                         Task { await exclusions.remove(paths: Array(removed)) }
                     }
                 }
-                HStack {
+                ActionRow {
                     Button("Add Files or Folders…", systemImage: "plus") {
                         isChoosingPaths = true
                     }
-                    Spacer()
                     Button("Remove", systemImage: "minus") {
                         let removed = selectedPaths
                         selectedPaths = []
@@ -131,7 +130,7 @@ struct ExclusionsSettingsView: View {
                         Task { await exclusions.remove(bundleIdentifiers: Array(removed)) }
                     }
                 }
-                HStack {
+                ActionRow {
                     Menu {
                         // An app with no identifier is left alone by where it is, as its Control-click menu does.
                         ForEach(
@@ -155,7 +154,6 @@ struct ExclusionsSettingsView: View {
                     }
                     .menuStyle(.button)
                     .fixedSize()
-                    Spacer()
                     Button("Remove", systemImage: "minus") {
                         let removed = selectedApps
                         selectedApps = []
@@ -205,8 +203,7 @@ struct ExclusionsSettingsView: View {
                 } else {
                     Text("Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one.")
                         .foregroundStyle(.secondary)
-                    HStack {
-                        Spacer()
+                    ActionRow {
                         StartOverButton(
                             file: OrphanOwners.defaultURL,
                             startedOver: "Started the list of orphaned files that belong to an app over."

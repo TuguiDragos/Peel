@@ -130,51 +130,7 @@ struct HomebrewDetailView: View {
                     if package.isMissingWhatItInstalled {
                         RemovalsHeldBanner()
                     }
-                    HStack {
-                        if package.isMissingWhatItInstalled {
-                            Button("Forget Cask") { casksToForget = [package] }
-                                .buttonStyle(.borderedProminent)
-                                .disabled(!history.mayMove)
-                                .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
-                        } else if package.waitsForAnUpgrade {
-                            if package.isPeelItself {
-                                Button("Check for Updates…", systemImage: "arrow.down.circle") {
-                                    updater.checkForUpdates()
-                                }
-                                .buttonStyle(.borderedProminent)
-                                .disabled(!updater.canCheckForUpdates)
-                            } else if upgradeRefusal == nil,
-                                      package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
-                                let kind = package.kind == .cask ? "--cask" : "--formula"
-                                CopyButton(
-                                    text: Homebrew.terminalCommand(
-                                        "brew upgrade \(kind) \(package.fullName)", keeping: homebrew.keptFormulaeNow
-                                    ),
-                                    title: "Copy Upgrade Command"
-                                )
-                            } else {
-                                Button("Upgrade", systemImage: "arrow.down.circle") {
-                                    isConfirmingUpgrade = true
-                                }
-                                .buttonStyle(.borderedProminent)
-                                // A cask's apps, which have to quit first, are known only once they are matched.
-                                .disabled(
-                                    package.isPinned || package.kind == .cask && !library.knowsHomebrewsApps
-                                        || upgradeRefusal != nil
-                                )
-                                .help(upgradeRefusal.map { Text($0) } ?? Text(verbatim: ""))
-                            }
-                        }
-                        if isRunning {
-                            ProgressView()
-                                .controlSize(.small)
-                            Text("Running Homebrew…")
-                                .foregroundStyle(.secondary)
-                        } else if let uninstallRefusal {
-                            Label { Text(uninstallRefusal) } icon: { Image(systemName: "hand.raised.fill") }
-                                .foregroundStyle(.secondary)
-                        }
-                        Spacer()
+                    ActionRow {
                         if isUninstalledInTerminal {
                             CopyButton(
                                 text: Homebrew.terminalCommand(
@@ -191,6 +147,7 @@ struct HomebrewDetailView: View {
                             }
                             .disabled(uninstallRefusal != nil)
                         }
+                        stateAndUpgrade
                     }
                     .disabled(
                         homebrew.runningCommand != nil || homebrew.isForgetting || homebrew.quittingToUpgrade.isWaiting
@@ -263,6 +220,55 @@ struct HomebrewDetailView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             uninstallMessage
+        }
+    }
+
+    /// The right end of the row: what is under way or in the way, and the step that brings the package up to date.
+    private var stateAndUpgrade: some View {
+        HStack {
+            if isRunning {
+                ProgressView()
+                    .controlSize(.small)
+                Text("Running Homebrew…")
+                    .foregroundStyle(.secondary)
+            } else if let uninstallRefusal {
+                Label { Text(uninstallRefusal) } icon: { Image(systemName: "hand.raised.fill") }
+                    .foregroundStyle(.secondary)
+            }
+            if package.isMissingWhatItInstalled {
+                Button("Forget Cask") { casksToForget = [package] }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(!history.mayMove)
+                    .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
+            } else if package.waitsForAnUpgrade {
+                if package.isPeelItself {
+                    Button("Check for Updates…", systemImage: "arrow.down.circle") {
+                        updater.checkForUpdates()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(!updater.canCheckForUpdates)
+                } else if upgradeRefusal == nil,
+                          package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
+                    let kind = package.kind == .cask ? "--cask" : "--formula"
+                    CopyButton(
+                        text: Homebrew.terminalCommand(
+                            "brew upgrade \(kind) \(package.fullName)", keeping: homebrew.keptFormulaeNow
+                        ),
+                        title: "Copy Upgrade Command"
+                    )
+                } else {
+                    Button("Upgrade", systemImage: "arrow.down.circle") {
+                        isConfirmingUpgrade = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    // A cask's apps, which have to quit first, are known only once they are matched.
+                    .disabled(
+                        package.isPinned || package.kind == .cask && !library.knowsHomebrewsApps
+                            || upgradeRefusal != nil
+                    )
+                    .help(upgradeRefusal.map { Text($0) } ?? Text(verbatim: ""))
+                }
+            }
         }
     }
 

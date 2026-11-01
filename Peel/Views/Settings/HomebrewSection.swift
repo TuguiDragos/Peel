@@ -42,9 +42,8 @@ struct HomebrewSection: View {
             if couldNotSave {
                 StatusLabel(title: Text("Peel couldn’t save which `brew` to run."))
             }
-            HStack {
+            ActionRow {
                 Button("Choose…") { isChoosing = true }
-                Spacer()
                 if choice != nil {
                     Button("Use the Usual Places") { use(nil) }
                 }

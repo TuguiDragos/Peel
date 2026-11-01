@@ -59,12 +59,10 @@ struct FileSearchFileView: View {
             }
 
             Section {
-                HStack {
-                    Spacer()
+                ActionRow {
                     Button("Show in Finder", systemImage: "folder") {
                         NSWorkspace.shared.activateFileViewerSelecting([file.url])
                     }
-                    Spacer()
                 }
             }
         }

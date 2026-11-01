@@ -302,6 +302,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   search, and under File Search's count, so an entry left behind by an app you no longer use can be found.
 - The divider between a list and its page stays where it is and can't be dragged: without the sidebar, the list takes
   the room the sidebar covered.
+- The buttons at the foot of a page follow one rule in every language: two stand at the ends of the row, one is
+  centered, and those that act on the item itself stay together in the middle. Where a language's words leave no room
+  on one line, each takes a line of its own rather than having its title cut.
 
 #### `peel`
 

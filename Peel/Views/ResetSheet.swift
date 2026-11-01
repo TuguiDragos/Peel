@@ -320,7 +320,11 @@ struct ResetSheet: View {
                                     .buttonStyle(.bordered)
                             }
                         }
-                        HStack(spacing: 10) {
+                        ActionRow {
+                            Button("Show in Finder", systemImage: "folder") {
+                                NSWorkspace.shared.activateFileViewerSelecting([backup])
+                            }
+                            .buttonStyle(.bordered)
                             Button("Put Settings Back") {
                                 isPuttingBack = true
                                 Task {
@@ -335,10 +339,6 @@ struct ResetSheet: View {
                             }
                             .buttonStyle(.borderedProminent)
                             .disabled(isPuttingBack || plan.isAppRunning || plan.putBackRefusal != nil)
-                            Button("Show in Finder", systemImage: "folder") {
-                                NSWorkspace.shared.activateFileViewerSelecting([backup])
-                            }
-                            .buttonStyle(.bordered)
                         }
                         if let refusal = plan.putBackRefusal {
                             putBackResult(refusal)

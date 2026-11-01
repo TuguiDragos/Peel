@@ -83,25 +83,26 @@ struct PluginDetailView: View {
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
-                HStack {
+                ActionRow {
                     Button("Show in Finder", systemImage: "folder") {
                         NSWorkspace.shared.activateFileViewerSelecting([plugin.url])
                     }
-                    Spacer()
-                    BusyShown(isBusy: plugins.isRemoving) { isShown in
-                        if isShown {
-                            ProgressView()
-                                .controlSize(.small)
+                    HStack {
+                        BusyShown(isBusy: plugins.isRemoving) { isShown in
+                            if isShown {
+                                ProgressView()
+                                    .controlSize(.small)
+                            }
                         }
+                        Button("Move to Trash", systemImage: "trash") {
+                            isConfirmingRemoval = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(
+                            isLocked || plugin.refusal != nil || plugins.isRemoving || plugins.isScanning
+                                || !history.mayMove
+                        )
                     }
-                    Button("Move to Trash", systemImage: "trash") {
-                        isConfirmingRemoval = true
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(
-                        isLocked || plugin.refusal != nil || plugins.isRemoving || plugins.isScanning
-                            || !history.mayMove
-                    )
                 }
             }
         }

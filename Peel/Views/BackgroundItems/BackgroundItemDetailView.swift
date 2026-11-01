@@ -407,22 +407,15 @@ struct BackgroundItemDetailView: View {
 
     private var hasOwnControls: Bool { item.offersControls }
 
+    /// A row for what acts on the job, and a row for what acts on its file.
+    @ViewBuilder
     private var controls: some View {
-        let hasFileControls = finderURL != nil || item.canMoveToTrash
-        // With controls on one side only, there is no spacer, so the row is only as wide as its buttons and is
-        // centered. When the buttons don't fit on one line, `FlowLayout` wraps them onto the next.
-        return ViewThatFits(in: .horizontal) {
-            HStack {
-                if hasOwnControls { ownControls }
-                if hasOwnControls, hasFileControls { Spacer() }
-                fileControls
-            }
-            FlowLayout {
-                if hasOwnControls { ownControls }
-                fileControls
-            }
+        if hasOwnControls {
+            ActionRow(keepsTogether: true) { ownControls }
         }
-        .frame(maxWidth: .infinity)
+        if finderURL != nil || item.canMoveToTrash {
+            ActionRow { fileControls }
+        }
     }
 
     private var ownControls: some View {

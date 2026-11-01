@@ -55,11 +55,10 @@ struct AppFoldersSection: View {
             if library.couldNotSaveFolders {
                 StatusLabel(title: Text("Peel couldn’t save the app folders."))
             }
-            HStack {
+            ActionRow {
                 Button("Add Folder…", systemImage: "plus") {
                     isChoosing = true
                 }
-                Spacer()
                 Button("Remove", systemImage: "minus") { removeSelected() }
                     .disabled(selected.isEmpty)
             }
