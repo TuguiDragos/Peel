@@ -68,6 +68,7 @@ struct CloudFolderRow: View {
             .accessibilityValue(isOpen ? Text("Expanded") : Text("Collapsed"))
         }
         .tableRow(isFirst: isFirst)
+        .contextMenu { ItemMenu(url: folder.url) }
     }
 
     private var spoken: String {
