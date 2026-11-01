@@ -544,6 +544,13 @@ struct CommandLineTests {
             == "No leftovers Peel suggests. 11 files need review. Add --all to see them.")
     }
 
+    @Test func textHidesWhatCouldReorderANameAndJSONKeepsItWhole() throws {
+        let name = "Notes\u{202E}.app"
+
+        #expect(Output.plain(name) == "Notes?.app")
+        #expect(try Output.jsonText(["name": name]).contains(name))
+    }
+
     @Test func withoutASubcommandItShowsTheHelpAndFails() async throws {
         let command = try #require(try PeelCommand.parseAsRoot([]) as? PeelCommand)
         let collected = Output.Collected()

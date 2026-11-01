@@ -55,6 +55,7 @@ struct DocumentationTests {
             ("SAFETY.md", "at most \(HelperRequest.maximumItems) items in one request"),
             ("SAFETY.md", "and the \(LibraryFolder.plugIns.count) that hold plug-ins"),
             ("ARCHITECTURE.md", "at most \(HelperRequest.maximumItems) items"),
+            ("ARCHITECTURE.md", "JSON keeps each value whole"),
             ("ARCHITECTURE.md", "answers, within \(Int(PrivilegedHelper.answerWait)) seconds"),
             ("ARCHITECTURE.md", "at most \(Int(PrivilegedHelper.requestWait)) seconds for a request"),
             ("SAFETY.md", "quits \(idle) seconds after its last request ends"),

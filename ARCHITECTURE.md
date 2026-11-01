@@ -463,7 +463,8 @@ each item, stop there with `--dry-run`, ask unless given `-y`, exit 2 when the a
 couldn't finish, and write the same History the app shows. The tool never uses the helper. Everything it prints goes
 through `Output`, so scripts can read it: its own words are plain ASCII, and names, paths, and what macOS says in an
 error are printed as they are, in UTF-8, with every character that could hide or reorder text shown as `?`
-(`PlainText`). A long scan says how far it has got on one line of standard error, written over itself and cleared
+(`PlainText`). JSON keeps each value whole, by JSON's own rules, since a script needs the real name. A long scan says
+how far it has got on one line of standard error, written over itself and cleared
 before anything else is printed (`ProgressLine`). Only a terminal shows it, and only while `peel` is its foreground
 job, so a script reading standard error gets nothing.
 
