@@ -455,6 +455,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- On macOS 27, the list keeps its place when the first update arrives or the last one leaves.
 - A system extension macOS is updating is named once on its app's page and in `peel uninstall`.
 - Folders of apps are read each on a thread of its own within a time limit, so one that doesn't answer is named and
   no longer holds the whole list.
@@ -741,6 +742,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- On macOS 27, a search field keeps the keyboard when the rows it filters come and go, so the next letter no longer
+  chooses a tool in the sidebar.
 - A program another account has open, a build tool's daemon, and a script a running Node.js or Python process was
   started with are named, with the step that frees them.
 - A Dropbox folder outside File Provider counts as syncing, so nothing in it moves.

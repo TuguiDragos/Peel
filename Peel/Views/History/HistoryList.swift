@@ -58,7 +58,7 @@ struct HistoryList: View {
             }
         }
         .accessibilityLabel(Text(Tool.history.title))
-        .scrollBarBelowSectionHeaders(!listed.isEmpty && !refused.isEmpty)
+        .scrollBarBelowSectionHeaders(!history.batches.isEmpty && !history.refusalBatches.isEmpty)
         .columnSearch(text: $searchText, prompt: "Search History", when: !history.batches.isEmpty || !history.refusalBatches.isEmpty)
         .edgeBar(.top) {
             VStack(spacing: 8) {

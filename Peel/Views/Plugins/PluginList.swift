@@ -58,7 +58,7 @@ struct PluginList: View {
             }
         }
         .accessibilityLabel(Text(Tool.plugins.title))
-        .scrollBarBelowSectionHeaders(!byCategory.isEmpty)
+        .scrollBarBelowSectionHeaders(plugins.plugins?.isEmpty == false)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: plugins.scanRun) {
             if plugins.plugins?.isEmpty == true, !plugins.unreadable.isEmpty {
                 ContentUnavailableView {

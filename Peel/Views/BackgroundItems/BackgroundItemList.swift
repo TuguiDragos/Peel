@@ -22,7 +22,7 @@ struct BackgroundItemList: View {
             section(Text("Daemons"), items: filtered.filter { $0.kind == .daemon })
         }
         .accessibilityLabel(Text(Tool.backgroundItems.title))
-        .scrollBarBelowSectionHeaders(!filtered.isEmpty)
+        .scrollBarBelowSectionHeaders(backgroundItems.items?.isEmpty == false)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: backgroundItems.scanRun) {
             if backgroundItems.items?.isEmpty == true,
                let note = backgroundItems.missingNote, let title = couldNotLook {

@@ -55,7 +55,7 @@ struct AppList: View {
             }
         }
         .accessibilityLabel(Text(Tool.applications.title))
-        .scrollBarBelowSectionHeaders(!visible.waiting.isEmpty)
+        .scrollBarBelowSectionHeaders(!library.apps.isEmpty)
         .overlay {
             if library.isLoading, library.apps.isEmpty {
                 ProgressView()

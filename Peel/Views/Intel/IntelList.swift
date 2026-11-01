@@ -49,7 +49,7 @@ struct IntelList: View {
             }
         }
         .accessibilityLabel(Text(Tool.intel.title))
-        .scrollBarBelowSectionHeaders(!byKind.isEmpty)
+        .scrollBarBelowSectionHeaders(!intel.findings.isEmpty)
         .columnSearch(text: $searchText, prompt: "Search Intel Software", when: !intel.findings.isEmpty)
         .scanState(phase(matching), isRescanning: isRescanning, scan: intel.scanRun) {
             if !searchText.isEmpty, matching.isEmpty {

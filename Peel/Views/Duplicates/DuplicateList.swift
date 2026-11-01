@@ -50,7 +50,9 @@ struct DuplicateList: View {
                     }
                 }
                 .accessibilityLabel(Text(Tool.duplicates.title))
-                .scrollBarBelowSectionHeaders(!folderGroups.isEmpty || !synced.isEmpty)
+                .scrollBarBelowSectionHeaders(
+                    !scan.folderGroups.isEmpty || scan.groups.contains(where: \.everyCopySyncs)
+                )
                 .columnSearch(text: $searchText, prompt: "Search Duplicates", when: !scan.groups.isEmpty || !scan.folderGroups.isEmpty)
                 .overlay {
                     if !(scan.groups.isEmpty && scan.folderGroups.isEmpty), groups.isEmpty, folderGroups.isEmpty {
