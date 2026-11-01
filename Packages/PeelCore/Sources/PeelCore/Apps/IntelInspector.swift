@@ -216,9 +216,12 @@ public enum IntelInspector {
             ))
         }
 
-        for runtime in intelOnlyJavaRuntimes(
+        for found in intelOnlyJavaRuntimes(
             in: libraryDirectories(environment, folders: [javaRuntimes]), unreadable: &unreadable
-        ) where !Task.isCancelled && !exclusions.excludes(runtime) && isNew(runtime) {
+        ) where !Task.isCancelled && !exclusions.excludes(found) {
+            // Homebrew's `openjdk` asks for a link here, and a link says neither where a runtime is nor what it takes.
+            let runtime = found.isSymbolicLink ? PathPattern.canonicalWithoutOpening(found) : found
+            guard !exclusions.excludes(runtime), isNew(runtime) else { continue }
             let info = AppInspector.infoDictionary(in: runtime.appending(path: "Contents", directoryHint: .isDirectory))
             findings.append(IntelFinding(
                 url: runtime,

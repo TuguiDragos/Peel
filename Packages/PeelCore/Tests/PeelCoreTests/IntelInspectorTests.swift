@@ -471,6 +471,43 @@ struct IntelInspectorTests {
         #expect(scan.unreadable.isEmpty, "named \(scan.unreadable)")
     }
 
+    @Test func aRuntimeLinkedIntoTheFolderIsListedWhereItIs() async throws {
+        let directory = try TemporaryDirectory()
+        try javaRuntime(directory, "elsewhere/libexec/openjdk.jdk", [intel], name: "Linked JDK")
+        try javaRuntime(directory, "root/Library/Java/JavaVirtualMachines/temurin-17.jdk", [intel], name: nil)
+        let folder = directory.url.appending(path: "root/Library/Java/JavaVirtualMachines", directoryHint: .isDirectory)
+        let runtime = directory.url.appending(path: "elsewhere/libexec/openjdk.jdk", directoryHint: .isDirectory)
+        try FileManager.default.createSymbolicLink(
+            at: folder.appending(path: "openjdk.jdk"), withDestinationURL: runtime
+        )
+        try FileManager.default.createSymbolicLink(
+            at: folder.appending(path: "current.jdk"), withDestinationURL: folder.appending(path: "temurin-17.jdk")
+        )
+        let measured = Mutex<[String]>([])
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { url in
+                measured.withLock { $0.append(PathPattern.comparablePath(of: url)) }
+                return 1
+            }
+        )
+
+        let places = scan.findings.map { PathPattern.comparablePath(of: $0.url) }.sorted()
+        let expected = [
+            PathPattern.comparablePath(of: PathPattern.canonical(folder.appending(path: "temurin-17.jdk"))),
+            PathPattern.comparablePath(of: PathPattern.canonical(runtime)),
+        ].sorted()
+        #expect(places == expected)
+        #expect(scan.findings.map(\.name).contains("Linked JDK"))
+        #expect(measured.withLock { $0.sorted() } == expected)
+    }
+
     @Test func looksForCommandsUnderTheRootItIsGiven() async throws {
         let directory = try TemporaryDirectory()
         let tool = try directory.file("root/usr/local/bin/tool", contents: fatHeader([intel]))

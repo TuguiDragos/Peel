@@ -513,6 +513,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   code once though a job or a command runs it.
 - A plug-in nothing loads anymore says so instead of offering Rosetta, a universal app that opens as Intel isn't called
   Intel only, and a job of an excluded app stays off the page.
+- A Java runtime linked into the Java folder, as Homebrew's `openjdk` asks, is listed where it is, with its real size,
+  rather than as a link of Zero kB.
 
 #### Package Receipts
 
