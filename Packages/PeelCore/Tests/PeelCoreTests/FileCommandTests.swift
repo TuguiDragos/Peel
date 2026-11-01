@@ -94,6 +94,31 @@ struct FileCommandTests {
         #expect(FileManager.default.fileExists(atPath: directory.url.appending(path: "home/Library/Models/llama").path(percentEncoded: false)))
     }
 
+    @Test func anAppThatRunsHoldsNothingBackWhenNoneOfItsFoldersIsInThePlan() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let open = try environment(
+            "Finder Tools", id: "finder", apps: ["com.apple.finder"],
+            locations: [("Library/Application Support/models", .models)], in: directory
+        )
+        let closed = try environment("Rust", id: "rust", locations: [("Library/Caches/cargo", .cache)], in: directory)
+        #expect(open.runningApp == "Finder")
+
+        let collected = Output.Collected()
+        try await Output.$collected.withValue(collected) {
+            try await (command(["caches", "--remove", "-y"]) as CachesCommand)
+                .clean(
+                    [open, closed],
+                    using: try service(in: directory),
+                    recordingIn: logs.removals,
+                    refusals: logs.refusals
+                )
+        }
+
+        #expect(await moved(logs) == ["cargo"])
+        #expect(!collected.notes.contains("Quit Finder first"))
+    }
+
     /// Nothing of a tool moves while its app runs, since the app writes in those folders: the Developer page waits,
     /// and so does `peel caches`. Finder runs on every Mac, so it stands for an app that is open.
     @Test func leavesTheCachesOfAnAppThatRuns() async throws {

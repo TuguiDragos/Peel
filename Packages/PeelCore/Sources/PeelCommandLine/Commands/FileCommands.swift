@@ -464,13 +464,16 @@ struct CachesCommand: AsyncParsableCommand {
         recordingIn log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog()
     ) async throws {
-        // Nothing of a tool moves while its app runs, since the app writes in those folders.
-        let open = environments.filter { $0.runningApp != nil && $0.locations.contains(where: \.isRecommended) }
+        // Nothing of a tool moves while its app runs, since the app writes in those folders. A tool nothing would move
+        // from holds nothing up, whether its app runs or not.
+        let moving = environments.filter { $0.locations.contains(where: \.isRecommended) }
+        let open = moving.filter { $0.runningApp != nil }
         for environment in open {
             Output.note(Self.quitFirst(environment))
         }
         let closed = environments.filter { environment in !open.contains { $0.id == environment.id } }
-        let locations = closed.flatMap { environment in environment.locations.filter(\.isRecommended) }
+        let closedMoving = moving.filter { environment in !open.contains { $0.id == environment.id } }
+        let locations = closedMoving.flatMap { environment in environment.locations.filter(\.isRecommended) }
         Self.notes(for: environments).forEach(Output.note)
         // Nobody asked for a folder Peel doesn't suggest on its own, so it is said here and never recorded as refused.
         let staying = Self.staying(in: closed)
@@ -484,8 +487,8 @@ struct CachesCommand: AsyncParsableCommand {
         }
         let cleanup = Cleanup.of(
             locations.map { (url: $0.url, size: $0.size) },
-            source: closed.count == 1 ? closed[0].name : "Developer caches",
-            sourceKey: closed.count == 1 ? nil : "tool",
+            source: closedMoving.count == 1 ? closedMoving[0].name : "Developer caches",
+            sourceKey: closedMoving.count == 1 ? nil : "tool",
             tool: "developer",
             service: service
         )
@@ -499,7 +502,7 @@ struct CachesCommand: AsyncParsableCommand {
             refusals: refusals,
             checkingAgain: {
                 // The question takes time, and an app may have been opened meanwhile.
-                if let reopened = closed.first(where: { $0.runningApp != nil }) {
+                if let reopened = closedMoving.first(where: { $0.runningApp != nil }) {
                     throw CommandFailure(Self.quitFirst(reopened))
                 }
             }
