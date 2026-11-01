@@ -164,10 +164,14 @@ struct ContentView: View {
             Text("Peel couldn’t open this app"),
             isPresented: Binding(get: { library.couldNotShow != nil }, set: { if !$0 { library.couldNotShow = nil } }),
             presenting: library.couldNotShow
-        ) { _ in
+        ) { app in
+            if !app.isMissing {
+                Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([app]) }
+            }
             Button("OK", role: .cancel) {}
+                .keyboardShortcut(.defaultAction)
         } message: { app in
-            Text("\(app.abbreviatedPath) isn’t there anymore, or macOS doesn’t let this account read it.")
+            Text("\(app.abbreviatedPath) isn’t there anymore, or Peel can’t read it as an app.")
         }
         // The window's Undo, so Command-Z after a removal means what it means everywhere else on a Mac.
         .focusedSceneValue(\.removalHistory, history)
@@ -183,7 +187,7 @@ struct ContentView: View {
         .onChange(of: navigator.requestedApp) { _, app in
             guard let app, library.hasLoaded else { return }
             navigator.requestedApp = nil
-            Task { await library.showRequested(app) }
+            Task { await library.reveal([app]) }
         }
     }
 
@@ -397,7 +401,7 @@ struct ContentView: View {
         }
         if let app = navigator.requestedApp, library.hasLoaded {
             navigator.requestedApp = nil
-            Task { await library.showRequested(app) }
+            Task { await library.reveal([app]) }
         }
     }
 

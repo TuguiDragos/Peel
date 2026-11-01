@@ -1038,22 +1038,23 @@ final class AppLibrary {
     var teamRecordFile: URL { teamRegistry.url }
 
     /// Selects the apps together, adding each first when it lives outside the scanned folders, for example in
-    /// the Trash. What is not an app is passed over, and false means none was.
+    /// the Trash. The first Peel can't read is left for the window to say (`couldNotShow`), and false means none
+    /// could be read.
     @discardableResult
     func reveal(_ urls: [URL]) async -> Bool {
         var chosen: Set<InstalledApp.ID> = []
+        var unread: [URL] = []
         for url in urls {
             if let id = await listed(url) {
                 chosen.insert(id)
+            } else {
+                unread.append(url)
             }
         }
+        if let first = unread.first { couldNotShow = first }
         guard !chosen.isEmpty else { return false }
         selection = chosen
         return true
-    }
-
-    func showRequested(_ app: URL) async {
-        if await !reveal([app]) { couldNotShow = app }
     }
 
     private func listed(_ url: URL) async -> InstalledApp.ID? {

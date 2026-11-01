@@ -268,13 +268,19 @@ private nonisolated final class TestClock: Sendable {
         let library = library(with: made.defaults, notesIn: folder)
         let gone = folder.appending(path: "Gone.app", directoryHint: .isDirectory)
 
-        await library.showRequested(bundle)
+        await library.reveal([bundle])
         #expect(library.couldNotShow == nil)
         #expect(library.selection.count == 1)
 
-        await library.showRequested(gone)
+        await library.reveal([gone])
         #expect(library.couldNotShow == gone)
         #expect(library.selection.count == 1)
+
+        let broken = folder.appending(path: "Broken.app/Contents", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: broken, withIntermediateDirectories: true)
+        library.couldNotShow = nil
+        #expect(await library.reveal([bundle, broken.deletingLastPathComponent()]))
+        #expect(library.couldNotShow?.lastPathComponent == "Broken.app")
     }
 
     @Test func anOlderAppStoreAnswerLeavesTheUpdateItFound() async throws {

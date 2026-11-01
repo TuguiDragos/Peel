@@ -6464,108 +6464,108 @@
         }
       }
     },
-    "%@ isn’t there anymore, or macOS doesn’t let this account read it." : {
+    "%@ isn’t there anymore, or Peel can’t read it as an app." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Položka %@ už tam není, nebo ji systém macOS tomuto účtu nedovoluje přečíst."
+            "value" : "Položka %@ už tam není, nebo ji Peel nedokáže přečíst jako aplikaci."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ ist nicht mehr vorhanden, oder macOS erlaubt diesem Benutzeraccount nicht, es zu lesen."
+            "value" : "%@ ist nicht mehr vorhanden, oder Peel kann es nicht als App lesen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ ya no está ahí, o macOS no deja que esta cuenta lo lea."
+            "value" : "%@ ya no está ahí, o Peel no puede leerlo como una app."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ n’est plus là, ou macOS ne permet pas à ce compte de le lire."
+            "value" : "%@ n’est plus là, ou Peel ne peut pas le lire en tant qu’app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ non c’è più, oppure macOS non ne consente la lettura a questo account."
+            "value" : "%@ non c’è più, oppure per Peel non è leggibile come app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@はもうそこにないか、macOSがこのアカウントに読み取りを許可していません。"
+            "value" : "%@はもうそこにないか、Peelがアプリとして読み取れません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@이(가) 더 이상 그곳에 없거나, macOS가 이 계정에서 읽지 못하게 합니다."
+            "value" : "%@이(가) 더 이상 그곳에 없거나 Peel이 앱으로 읽을 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ is er niet meer, of macOS laat deze account het niet lezen."
+            "value" : "%@ is er niet meer, of Peel kan het niet als app lezen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikacji %@ już tam nie ma albo macOS nie pozwala temu kontu jej odczytać."
+            "value" : "Rzeczy %@ już tam nie ma albo Peel nie może odczytać jej jako aplikacji."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ não está mais lá, ou o macOS não permite que esta conta o leia."
+            "value" : "%@ não está mais lá, ou o Peel não consegue lê-lo como um app."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ nu mai este acolo sau macOS nu îi permite acestui cont să îl citească."
+            "value" : "%@ nu mai este acolo sau Peel nu îl poate citi ca aplicație."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Объекта %@ больше нет, или macOS не позволяет этой учетной записи его прочитать."
+            "value" : "Объекта %@ больше нет, или Peel не может прочитать его как приложение."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ finns inte längre, eller så låter macOS inte det här kontot läsa den."
+            "value" : "%@ finns inte längre, eller så kan Peel inte läsa den som en app."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ artık orada değil veya macOS bu hesabın onu okumasına izin vermiyor."
+            "value" : "%@ artık orada değil veya Peel onu bir uygulama olarak okuyamıyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ там уже немає, або macOS не дає цьому обліковому запису це прочитати."
+            "value" : "%@ там уже немає, або Peel не може прочитати це як програму."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@已不存在，或者macOS不允许此账户读取它。"
+            "value" : "%@已不存在，或者Peel无法将其读取为App。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@已不在那裡，或macOS不允許此帳號讀取它。"
+            "value" : "%@已不在那裡，或Peel無法將它讀取為App。"
           }
         }
       }
