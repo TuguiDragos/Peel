@@ -260,4 +260,39 @@ struct BackgroundItemOwnershipTests {
 
         #expect(JobDefinition(["Program": "/usr/local/bin/tool"]) == nil)
     }
+
+    @Test func readsAProgramsTeamOnceWhileTheFileStaysTheSame() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("agent", bytes: 16).path(percentEncoded: false)
+        let reads = Mutex(0)
+        let teams = BackgroundItemOwnership.ProgramTeams { _ in
+            reads.withLock { $0 += 1 }
+            return "ORGEXAMPLE"
+        }
+
+        let first = teams.team(of: program)
+        let second = teams.team(of: program)
+        let readsOfTheSameFile = reads.withLock { $0 }
+        try Data(count: 32).write(to: URL(filePath: program))
+        let third = teams.team(of: program)
+        let readsOnceWritten = reads.withLock { $0 }
+
+        #expect([first, second, third] == ["ORGEXAMPLE", "ORGEXAMPLE", "ORGEXAMPLE"])
+        #expect(readsOfTheSameFile == 1)
+        #expect(readsOnceWritten == 2)
+    }
+
+    @Test func readsTheTeamOfAProgramItCanNotIdentifyEveryTime() {
+        let reads = Mutex(0)
+        let teams = BackgroundItemOwnership.ProgramTeams { _ in
+            reads.withLock { $0 += 1 }
+            return nil
+        }
+
+        _ = teams.team(of: "/org.example/gone")
+        _ = teams.team(of: "/org.example/gone")
+
+        let timesRead = reads.withLock { $0 }
+        #expect(timesRead == 2)
+    }
 }

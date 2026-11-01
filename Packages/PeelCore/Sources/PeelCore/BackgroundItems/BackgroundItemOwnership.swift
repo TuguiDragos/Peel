@@ -18,6 +18,28 @@ public struct BackgroundItemOwnership: Sendable {
         public var isInstalled: Bool { url != nil }
     }
 
+    /// The team each program is signed by, read once while its file stays the same: a page scans every job's program
+    /// each time Peel comes forward, and checking a signature takes milliseconds.
+    final class ProgramTeams: Sendable {
+        static let shared = ProgramTeams { CodeSignature.teamIdentifier(at: URL(filePath: $0)) }
+
+        private let known = Mutex<[String: (file: FileIdentity, team: String?)]>([:])
+        private let read: @Sendable (String) -> String?
+
+        init(read: @escaping @Sendable (String) -> String?) {
+            self.read = read
+        }
+
+        func team(of program: String) -> String? {
+            guard let file = FileIdentity.of(URL(filePath: program)) else { return read(program) }
+            let last = known.withLock { $0[program] }
+            if let last, last.file == file { return last.team }
+            let team = read(program)
+            known.withLock { $0[program] = (file, team) }
+            return team
+        }
+    }
+
     private let byIdentifier: [String: InstalledApp]
     private let byTeam: [String: [InstalledApp]]
     private let teamOfProgram: @Sendable (String) -> String?
@@ -25,7 +47,7 @@ public struct BackgroundItemOwnership: Sendable {
     private let declared: DeclaredJobs
 
     public init(installedApps: [InstalledApp]) {
-        self.init(installedApps: installedApps) { CodeSignature.teamIdentifier(at: URL(filePath: $0)) }
+        self.init(installedApps: installedApps, teamOfProgram: ProgramTeams.shared.team(of:))
     }
 
     /// For tests: `teamOfProgram` stands in for reading each program's code signature.
