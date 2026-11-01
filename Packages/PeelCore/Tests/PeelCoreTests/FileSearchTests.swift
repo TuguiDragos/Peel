@@ -41,7 +41,7 @@ struct FileSearchTests {
         let judged = Mutex(0)
 
         let searching = Task {
-            FileSearch.results(from: paths, kind: .any, environment: environment, refusal: { _ in
+            FileSearch.results(from: paths, environment: environment, refusal: { _ in
                 judged.withLock { $0 += 1 }
                 withUnsafeCurrentTask { $0?.cancel() }
                 return nil
@@ -62,7 +62,7 @@ struct FileSearchTests {
         ]
         func search(indexing: Set<String>, finding paths: [String] = []) async -> FileSearchResults {
             await FileSearch.run(
-                criteria, gather: { _ in paths }, disks: { _ in disks },
+                criteria, gather: { _ in FileSearch.Found(paths: paths) }, disks: { _ in disks },
                 isIndexing: { indexing.contains($0.path) }
             )
         }
@@ -92,7 +92,8 @@ struct FileSearchTests {
         ]
         func search(indexing: Set<String>) async -> FileSearchResults {
             await FileSearch.run(
-                criteria, gather: { _ in [file.path(percentEncoded: false)] }, disks: { _ in disks },
+                criteria, gather: { _ in FileSearch.Found(paths: [file.path(percentEncoded: false)]) },
+                disks: { _ in disks },
                 isIndexing: { indexing.contains($0.path) }
             )
         }
@@ -239,8 +240,10 @@ struct FileSearchTests {
         let paths = [code, clip, recording].map { $0.path(percentEncoded: false) }
         let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
 
-        let movies = FileSearch.results(from: paths, kind: .movies, environment: environment, refusal: { _ in nil })
-        let anything = FileSearch.results(from: paths, kind: .any, environment: environment, refusal: { _ in nil })
+        let movies = FileSearch.results(
+            from: paths, transportStreams: Set(paths), environment: environment, refusal: { _ in nil }
+        )
+        let anything = FileSearch.results(from: paths, environment: environment, refusal: { _ in nil })
 
         #expect(Set(movies.files.map(\.url.lastPathComponent)) == ["clip.ts", "recording.ts"])
         #expect(Set(anything.files.map(\.url.lastPathComponent)) == ["index.ts", "clip.ts", "recording.ts"])
@@ -258,9 +261,44 @@ struct FileSearchTests {
         let paths = [module, types, camera, blueRay].map { $0.path(percentEncoded: false) }
         let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
 
-        let movies = FileSearch.results(from: paths, kind: .movies, environment: environment, refusal: { _ in nil })
+        let movies = FileSearch.results(
+            from: paths, transportStreams: Set(paths), environment: environment, refusal: { _ in nil }
+        )
 
         #expect(Set(movies.files.map(\.url.lastPathComponent)) == ["00001.mts", "00002.m2ts"])
+        #expect(FileSearch.isATransportStream(type: "public.mpeg-2-transport-stream"))
+        #expect(FileSearch.isATransportStream(type: "public.avchd-mpeg-2-transport-stream"))
+        #expect(!FileSearch.isATransportStream(type: "public.mpeg-4"))
+    }
+
+    @Test func goesByTheTypeSpotlightIndexedAndNotTheExtension() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let indexedAsCode = try directory.file("home/Projects/app/index.ts", contents: Data("export {}\n".utf8))
+        let indexedAsAStream = try directory.file("home/Movies/notes.dat", contents: Data("export {}\n".utf8))
+        let paths = [indexedAsCode, indexedAsAStream].map { $0.path(percentEncoded: false) }
+
+        let movies = FileSearch.results(
+            from: paths, transportStreams: [indexedAsAStream.path(percentEncoded: false)],
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url), refusal: { _ in nil }
+        )
+
+        #expect(movies.files.map(\.url.lastPathComponent) == ["index.ts"])
+    }
+
+    @Test(.permissionsHold) func countsAFileIndexedAsAStreamThatCouldNotBeRead() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let clip = try directory.file("home/Movies/clip.ts", bytes: 2_000)
+        try directory.setPermissions(0, of: clip)
+
+        let movies = FileSearch.results(
+            from: [clip.path(percentEncoded: false)], transportStreams: [clip.path(percentEncoded: false)],
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url), refusal: { _ in nil }
+        )
+
+        #expect(movies.files.isEmpty)
+        #expect(movies.leftOut == [.couldNotBeRead: 1])
     }
 
     @Test func neverListsAFileThatSyncsToTheCloud() throws {
@@ -324,12 +362,14 @@ struct FileSearchTests {
         var info = stat()
         info.st_mode = S_IFREG
         info.st_flags = UInt32(SF_DATALESS)
-        func judged(_ kind: FileKind) -> FileSearch.Judgment {
-            FileSearch.judge(clip, info: info, kind: kind, refusal: { _ in nil }, syncKeeper: { _ in nil })
+        func judged(isTypedAsAStream: Bool) -> FileSearch.Judgment {
+            FileSearch.judge(
+                clip, info: info, isTypedAsAStream: isTypedAsAStream, refusal: { _ in nil }, syncKeeper: { _ in nil }
+            )
         }
 
-        #expect(judged(.any) == .leftOut(.syncs))
-        #expect(judged(.movies) == .skipped)
+        #expect(judged(isTypedAsAStream: false) == .leftOut(.syncs))
+        #expect(judged(isTypedAsAStream: true) == .skipped)
     }
 
     @Test func countsWhatItCannotCheckAgainstExclusionsNotYetRead() throws {

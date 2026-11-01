@@ -115,8 +115,15 @@ public enum FileSearch {
         case skipped
     }
 
-    /// Runs a Spotlight query and returns the paths it found, or nil when it could not run or was stopped.
-    typealias Gather = @concurrent @Sendable (sending MDQuery) async -> [String]?
+    /// What a Spotlight query found.
+    struct Found: Sendable {
+        var paths: [String] = []
+        /// Those Spotlight indexed as an MPEG-2 transport stream, read only for a search for movies.
+        var transportStreams: Set<String> = []
+    }
+
+    /// Runs a Spotlight query and returns what it found, or nil when it could not run or was stopped.
+    typealias Gather = @concurrent @Sendable (sending MDQuery) async -> Found?
 
     /// Moves `files` to the Trash as one removal. A file written again under the same name after it was
     /// listed is a different file, so it fails with `changedSinceScan` instead, checked right before its own move.
@@ -140,7 +147,10 @@ public enum FileSearch {
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none
     ) async -> FileSearchResults {
-        await run(criteria, environment: environment, exclusions: exclusions) { await SpotlightGathering($0).paths() }
+        let readsTypes = criteria.kind == .movies
+        return await run(criteria, environment: environment, exclusions: exclusions) { query in
+            await SpotlightGathering(query, readsTypes: readsTypes).found()
+        }
     }
 
     /// The same, with the query, the disks and their index asked of `gather`, `disks` and `isIndexing`, so a test can
@@ -158,8 +168,11 @@ public enum FileSearch {
         }
         let scope = criteria.scope == .home ? kMDQueryScopeHome : kMDQueryScopeComputer
         MDQuerySetSearchScope(query, [scope] as CFArray, 0)
-        guard let paths = await gather(query), !Task.isCancelled else { return FileSearchResults(didRun: false) }
-        var results = results(from: paths, kind: criteria.kind, environment: environment, exclusions: exclusions)
+        guard let found = await gather(query), !Task.isCancelled else { return FileSearchResults(didRun: false) }
+        var results = results(
+            from: found.paths, transportStreams: found.transportStreams, environment: environment,
+            exclusions: exclusions
+        )
         // Files found on one disk say nothing of another, while a search of the home that found any has read its disk.
         guard results.didRun, results.files.isEmpty || criteria.scope == .computer else { return results }
         let searched = disks(criteria.scope)
@@ -177,7 +190,7 @@ public enum FileSearch {
     /// left out counted by why. Separate from the query, so a test can pass its own paths and answers.
     static func results(
         from paths: [String],
-        kind: FileKind = .any,
+        transportStreams: Set<String> = [],
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none,
         refusal: ((URL) -> GuardRefusal?)? = nil,
@@ -212,7 +225,10 @@ public enum FileSearch {
             guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
             let url = URL(filePath: candidate.path)
             let hasRoom = results.files.count < maximumResults
-            let judgment = judge(url, info: candidate.info, kind: kind, refusal: refusal, syncKeeper: syncKeeper)
+            let judgment = judge(
+                url, info: candidate.info, isTypedAsAStream: transportStreams.contains(candidate.path),
+                refusal: refusal, syncKeeper: syncKeeper
+            )
             switch judgment {
             case .skipped:
                 continue
@@ -267,14 +283,21 @@ public enum FileSearch {
     }
 
     static func judge(
-        _ url: URL, info: stat, kind: FileKind, refusal: (URL) -> GuardRefusal?, syncKeeper: (URL) -> SyncKeeper?
+        _ url: URL,
+        info: stat,
+        isTypedAsAStream: Bool,
+        refusal: (URL) -> GuardRefusal?,
+        syncKeeper: (URL) -> SyncKeeper?
     ) -> Judgment {
         guard holdsItsContentsHere(info) else {
             // A transport stream is a movie only by its first bytes, and reading a file that lives only in the cloud
             // downloads it.
-            return kind == .movies && isTypedAsATransportStream(url) ? .skipped : .leftOut(.syncs)
+            return isTypedAsAStream ? .skipped : .leftOut(.syncs)
         }
-        guard kind != .movies || isAMovie(url) else { return .skipped }
+        if isTypedAsAStream {
+            guard let isAStream = beginsAsATransportStream(url) else { return .leftOut(.couldNotBeRead) }
+            guard isAStream else { return .skipped }
+        }
         // A search of this Mac finds macOS's own files by the tens of thousands, and the guard opens each it judges.
         if RemovalGuard.neverMovesAFile(at: url.path(percentEncoded: false)) { return .leftOut(.protected) }
         guard let refused = refusal(url) else { return .listed }
@@ -286,18 +309,17 @@ public enum FileSearch {
 
     /// macOS gives TypeScript's `.ts` and `.mts` the type of an MPEG-2 transport stream, a movie, so such a file is one
     /// only when it begins as one: packets that each start with the byte 0x47, every 188 bytes, or every 192 after the
-    /// 4-byte header Blu-ray adds (ISO/IEC 13818-1).
-    static func isAMovie(_ url: URL) -> Bool {
-        guard isTypedAsATransportStream(url) else { return true }
-        guard let bytes = BoundedRead.prefix(of: url, count: 197).map(Array.init) else { return false }
+    /// 4-byte header Blu-ray adds (ISO/IEC 13818-1). Nil when it can't be read.
+    static func beginsAsATransportStream(_ url: URL) -> Bool? {
+        guard let bytes = BoundedRead.prefix(of: url, count: 197).map(Array.init) else { return nil }
         func packets(from start: Int, every length: Int) -> Bool {
             bytes.count > start + length && bytes[start] == 0x47 && bytes[start + length] == 0x47
         }
         return packets(from: 0, every: 188) || packets(from: 4, every: 192)
     }
 
-    static func isTypedAsATransportStream(_ url: URL) -> Bool {
-        UTType(filenameExtension: url.pathExtension)?.conforms(to: .mpeg2TransportStream) == true
+    static func isATransportStream(type identifier: String) -> Bool {
+        UTType(identifier)?.conforms(to: .mpeg2TransportStream) == true
     }
 
     /// Whether a file's contents are on this Mac. One whose contents live only in the cloud (`SF_DATALESS`) frees
@@ -389,17 +411,19 @@ private final class SpotlightGathering: @unchecked Sendable {
     private let query: MDQuery
     private let queue = DispatchQueue(label: "com.tuguidragos.Peel.FileSearch")
     // Touched only on `queue`.
-    private var continuation: CheckedContinuation<[String]?, Never>?
+    private var continuation: CheckedContinuation<FileSearch.Found?, Never>?
     private var observer: (any NSObjectProtocol)?
     private var isOver = false
     /// Set as soon as the task is canceled, not on `queue`, where the cancel would wait behind the reading of paths.
     private let isCanceled = Atomic(false)
+    private let readsTypes: Bool
 
-    init(_ query: MDQuery) {
+    init(_ query: MDQuery, readsTypes: Bool) {
         self.query = query
+        self.readsTypes = readsTypes
     }
 
-    func paths() async -> [String]? {
+    func found() async -> FileSearch.Found? {
         await withTaskCancellationHandler {
             await withCheckedContinuation { continuation in
                 queue.async { self.start(continuation) }
@@ -410,7 +434,7 @@ private final class SpotlightGathering: @unchecked Sendable {
         }
     }
 
-    private func start(_ continuation: CheckedContinuation<[String]?, Never>) {
+    private func start(_ continuation: CheckedContinuation<FileSearch.Found?, Never>) {
         // Canceled before it started.
         guard !isOver else { return continuation.resume(returning: nil) }
         self.continuation = continuation
@@ -419,7 +443,7 @@ private final class SpotlightGathering: @unchecked Sendable {
             forName: Notification.Name(kMDQueryDidFinishNotification as String), object: query, queue: nil
         ) { [weak self] _ in
             guard let self else { return }
-            end(with: foundPaths())
+            end(with: results())
         }
         if !MDQueryExecute(query, 0) {
             end(with: nil)
@@ -428,29 +452,32 @@ private final class SpotlightGathering: @unchecked Sendable {
 
     /// Reads each result's path from the result itself, since a query's value lists never carry `kMDItemPath`.
     /// Nil once the task is canceled.
-    private func foundPaths() -> [String]? {
+    private func results() -> FileSearch.Found? {
         MDQueryDisableUpdates(query)
-        var paths: [String] = []
+        var found = FileSearch.Found()
         for index in 0..<MDQueryGetResultCount(query) {
             if index.isMultiple(of: 256), isCanceled.load(ordering: .relaxed) { return nil }
             guard let pointer = MDQueryGetResultAtIndex(query, index) else { continue }
             let item = Unmanaged<MDItem>.fromOpaque(pointer).takeUnretainedValue()
-            if let path = MDItemCopyAttribute(item, kMDItemPath) as? String {
-                paths.append(path)
+            guard let path = MDItemCopyAttribute(item, kMDItemPath) as? String else { continue }
+            found.paths.append(path)
+            if readsTypes, let type = MDItemCopyAttribute(item, kMDItemContentType) as? String,
+               FileSearch.isATransportStream(type: type) {
+                found.transportStreams.insert(path)
             }
         }
-        return paths
+        return found
     }
 
     /// Stops the query and answers the waiting task, once.
-    private func end(with paths: [String]?) {
+    private func end(with found: FileSearch.Found?) {
         guard !isOver else { return }
         isOver = true
         MDQueryStop(query)
         if let observer {
             NotificationCenter.default.removeObserver(observer)
         }
-        continuation?.resume(returning: paths)
+        continuation?.resume(returning: found)
         continuation = nil
     }
 }
