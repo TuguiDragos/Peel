@@ -19,6 +19,21 @@ public enum PathPattern {
         name(of: url.path(percentEncoded: false)).map { URL(filePath: $0) } ?? url
     }
 
+    /// The name `canonical` finds, without opening anything, for a path Peel only compares and nobody asked it to
+    /// touch: opening one in Downloads, Documents, or Desktop makes macOS ask the person, and waits for the answer.
+    static func canonicalWithoutOpening(_ url: URL) -> URL {
+        guard let real = realName(of: url.path(percentEncoded: false)) else { return url }
+        // `realpath` keeps the data volume's name for what a firmlink shows elsewhere, and the kernel's name doesn't.
+        let dataVolume = "/System/Volumes/Data"
+        guard real.hasPrefix(dataVolume + "/") else { return URL(filePath: real) }
+        let shown = String(real.dropFirst(dataVolume.count))
+        var there = stat()
+        var here = stat()
+        let isOneItem = lstat(real, &there) == 0 && lstat(shown, &here) == 0
+            && there.st_dev == here.st_dev && there.st_ino == here.st_ino
+        return URL(filePath: isOneItem ? shown : real)
+    }
+
     /// The name the kernel gives what `path` leads to, read back from an open descriptor. macOS also accepts
     /// paths that name a file indirectly: `/.nofollow/` or `/.resolve/<flags>/` before any path, and
     /// `/.vol/<device>/<inode>` for a file by its numbers. On macOS 26, `realpath` resolves none of these,

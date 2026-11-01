@@ -27,7 +27,7 @@ struct OpenFiles {
     init(excluding excluded: pid_t? = getpid(), attachedImages: [String] = []) {
         excludedProgram = excluded.flatMap(RunningProgram.path(of:)).map(PathComponents.of)
         self.attachedImages = attachedImages.map {
-            PathComponents.of(PathPattern.canonical(URL(filePath: $0)).path(percentEncoded: false))
+            PathComponents.of(PathPattern.canonicalWithoutOpening(URL(filePath: $0)).path(percentEncoded: false))
         }
         var pids = [pid_t](repeating: 0, count: 8_192)
         let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
@@ -152,7 +152,7 @@ struct OpenFiles {
               ["node", "deno", "bun", "ruby", "perl"].contains(name) || name.hasPrefix("python")
         else { return [] }
         return (arguments(of: pid) ?? []).dropFirst().filter { $0.hasPrefix("/") }.map {
-            PathPattern.canonical(URL(filePath: $0)).path(percentEncoded: false)
+            PathPattern.canonicalWithoutOpening(URL(filePath: $0)).path(percentEncoded: false)
         }
     }
 

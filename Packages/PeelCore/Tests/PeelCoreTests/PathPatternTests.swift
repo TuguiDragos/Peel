@@ -77,6 +77,26 @@ struct PathPatternTests {
     }
 
     /// A bracket in a real name is not a character class: `App [Beta]` has to find itself.
+    @Test func aNameFoundWithoutOpeningIsTheKernelsName() throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("Images/Disk.dmg", bytes: 16)
+        let link = directory.url.appending(path: "Images/link")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: file)
+        let places = [
+            file, link, URL(filePath: file.path(percentEncoded: false).uppercased()), directory.url,
+            URL(filePath: "/tmp"), URL(filePath: "/System/Volumes/Data/Users"), URL(filePath: "/Users"),
+        ]
+
+        for place in places {
+            #expect(
+                PathPattern.canonicalWithoutOpening(place).path(percentEncoded: false)
+                    == PathPattern.canonical(place).path(percentEncoded: false)
+            )
+        }
+        let absent = directory.url.appending(path: "Images/absent.dmg")
+        #expect(PathPattern.canonicalWithoutOpening(absent) == absent)
+    }
+
     @Test func findsAFolderWhoseNameHoldsABracket() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Library/Caches/App [Beta]")
