@@ -93,10 +93,13 @@ final class DuplicateLibrary {
     }
 
     /// Adds the folders Peel can scan and returns the others, each with why.
-    func add(_ urls: [URL]) -> [DuplicateScan.FolderSetAside] {
+    func add(_ urls: [URL]) async -> [DuplicateScan.FolderSetAside] {
+        let finder = finder
+        // Off the main actor, as `reasonToSetAside`: a folder on a network volume can be slow to answer.
+        let judged = await Task.detached { urls.map { (url: $0, reason: finder.refusal(of: $0)) } }.value
         var refused: [DuplicateScan.FolderSetAside] = []
-        for url in urls {
-            if let reason = finder.refusal(of: url) {
+        for (url, reason) in judged {
+            if let reason {
                 refused.append(DuplicateScan.FolderSetAside(url: url, reason: reason))
             } else if !folders.contains(url) {
                 folders.append(url)

@@ -81,6 +81,7 @@ struct DuplicateGroupView: View {
             Spacer(minLength: 8)
             // The selection's total, not the group's, so the figure changes as the user selects or deselects copies.
             DuplicateSelectedTotal(bytes: duplicates.selectedSize(in: group))
+                .help(group.isOnSeveralDisks ? Text("This counts every disk the copies are on.") : Text(verbatim: ""))
         }
         .padding(.vertical, 8)
     }

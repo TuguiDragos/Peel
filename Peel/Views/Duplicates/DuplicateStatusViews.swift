@@ -6,6 +6,7 @@ struct DuplicateScanProgressView: View {
     /// Read here rather than in `ContentView`, the parent view. Progress changes many times a second during a
     /// scan, and reading it there would re-run `ContentView`'s body, which builds the whole window, on every change.
     @Environment(DuplicateLibrary.self) private var duplicates
+    @Environment(HomeModel.self) private var home
 
     private var progress: DuplicateScanProgress? { duplicates.progress }
 
@@ -17,9 +18,18 @@ struct DuplicateScanProgressView: View {
                 .progressViewStyle(.linear)
             Text(headline)
                 .font(.headline)
-            count
-                .foregroundStyle(.secondary)
-                .monospacedDigit()
+            if AppDataQuestion.isAsked(
+                frontmost: FrontmostApp.shared.bundleIdentifier,
+                hasFullDiskAccess: home.states[.fullDiskAccess] == .on
+            ) {
+                Text("macOS is asking whether Peel may access some of your files. The scan continues once you answer.")
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            } else {
+                count
+                    .foregroundStyle(.secondary)
+                    .monospacedDigit()
+            }
             if duplicates.kind == .any {
                 Text("Step \(duplicates.isOnFiles ? 2 : 1) of \(2)")
                     .font(.caption)

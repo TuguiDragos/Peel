@@ -71,7 +71,7 @@ struct DuplicateScanForm: View {
             allowsMultipleSelection: true
         ) { result in
             guard case .success(let urls) = result else { return }
-            rejectedFolders = duplicates.add(urls)
+            Task { rejectedFolders = await duplicates.add(urls) }
         }
         .alert(
             rejectedFolders.count == 1 ? "Peel can’t look for duplicates in this folder." : "Peel can’t look for duplicates in these folders.",

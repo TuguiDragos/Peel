@@ -203161,6 +203161,112 @@
         }
       }
     },
+    "This counts every disk the copies are on." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento údaj zahrnuje všechny disky, na kterých kopie jsou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies zählt jedes Volume mit, auf dem die Kopien liegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto incluye todos los discos en los que están las copias."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce total inclut tous les disques où se trouvent les copies."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo totale comprende tutti i dischi su cui si trovano le copie."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この合計には、コピーがあるすべてのディスクの分が含まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복사본이 있는 모든 디스크를 합산한 값입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit telt elke schijf mee waarop de kopieën staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta wartość obejmuje wszystkie dyski, na których są kopie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este valor inclui todos os discos em que as cópias estão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest total include toate discurile pe care se află copiile."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь учитываются все диски, на которых находятся копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Här räknas alla skivor som kopiorna ligger på."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu toplam, kopyaların bulunduğu tüm diskleri kapsar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут враховано кожен диск, на якому лежать копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此数字计入了副本所在的所有磁盘。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此總計會計入副本所在的每個磁碟。"
+          }
+        }
+      }
+    },
     "This driver is Intel only. On this Intel Mac it runs natively." : {
       "localizations" : {
         "cs" : {
