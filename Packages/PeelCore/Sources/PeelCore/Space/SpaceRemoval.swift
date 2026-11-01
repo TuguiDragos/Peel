@@ -223,12 +223,18 @@ public enum SpaceRemoval {
                 if !folder.isMissing { unreadable.append(folder) }
                 return
             }
-            let onlyFiles = inside || filesOnly.contains(PathPattern.comparablePath(of: folder))
+            let holdsReports = filesOnly.contains(PathPattern.comparablePath(of: folder))
+            let onlyFiles = inside || holdsReports
             for child in children {
                 let name = child.lastPathComponent
                 if ProtectedData.isLeftByFinder(name) { continue }
                 if item.leavesMacOSsOwn, SpaceInventory.isMacOSsOwn(name) { continue }
                 if own.contains(Naming.normalized(name)) { continue }
+                // macOS files older reports in a folder of its own there, such as `Retired`, which stays.
+                if holdsReports, child.isRealFolder {
+                    sort(child, leaving: [], owner: owner, onlyFiles: true)
+                    continue
+                }
                 if onlyFiles, child.isRealFolder { continue }
                 let app = owner ?? running[Naming.normalized(name)]
                 let listed = owned.filter { fnmatch($0[0], name, FNM_CASEFOLD) == 0 }

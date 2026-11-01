@@ -483,9 +483,9 @@ public enum SpaceInventory {
             .filter { !ProtectedData.isApplesName($0.lastPathComponent) }
     }
 
-    /// What an area can offer in its `folders`: every child that is not one of the folders themselves, only the files
-    /// where macOS files its reports into folders, nothing named for macOS in an area that leaves macOS's own out, and
-    /// the files of each child folder in place of the folder in an area that keeps its folders.
+    /// What an area can offer in its `folders`: every child that is not one of the folders themselves, nothing named
+    /// for macOS in an area that leaves macOS's own out, and the files of each child folder in place of the folder
+    /// where macOS files its reports into folders and in an area that keeps its folders.
     private static func offered(in folders: [URL], of definition: Definition, home: URL, root: URL) -> [URL] {
         let paths = Set(folders.map(PathPattern.comparablePath))
         let filesOnly = Set(definition.onlyFilesIn(home: home, root: root).map(PathPattern.comparablePath))
@@ -498,15 +498,17 @@ public enum SpaceInventory {
             }
             let children = kept.map { folder.appending(path: $0) }.filter { child in
                 !paths.contains(PathPattern.comparablePath(of: child))
-                    && !(filesOnly.contains(PathPattern.comparablePath(of: folder)) && child.isRealFolder)
             }
-            guard definition.keepsItsFolders else { return children }
+            guard definition.keepsItsFolders || filesOnly.contains(PathPattern.comparablePath(of: folder)) else {
+                return children
+            }
             return children.flatMap { child -> [URL] in
                 let path = child.path(percentEncoded: false)
                 guard child.isRealFolder, let inside = try? FileManager.default.contentsOfDirectory(atPath: path) else {
                     return [child]
                 }
-                return inside.map { child.appending(path: $0) }.filter { !$0.isRealFolder }
+                return inside.filter { !ProtectedData.isLeftByFinder($0) }
+                    .map { child.appending(path: $0) }.filter { !$0.isRealFolder }
             }
         }
     }

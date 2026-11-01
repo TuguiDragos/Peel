@@ -455,7 +455,7 @@ struct SpaceInventoryTests {
     }
 
     /// The logs every account shares are measured without what macOS writes there for its own services, and the
-    /// crash reports without the folders macOS files them into.
+    /// crash reports with those in the folders macOS files them into.
     @Test func findsTheLogsAndReportsEveryAccountSharesWithoutMacOSsOwn() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("root/Library/Logs/org.example.tool/run.log", bytes: 8_000)
@@ -473,7 +473,7 @@ struct SpaceInventoryTests {
         #expect(logs.urls.map { $0.pathComponents.suffix(2).joined(separator: "/") } == [
             "Library/Logs", "Logs/DiagnosticReports",
         ])
-        #expect(logs.size.isComplete && logs.size.known >= 12_000 && logs.size.known < 50_000)
+        #expect(logs.size.isComplete && logs.size.known >= 62_000 && logs.size.known < 100_000)
     }
 
     @Test func findsEveryPlaceOfEveryAreaItKnows() async throws {

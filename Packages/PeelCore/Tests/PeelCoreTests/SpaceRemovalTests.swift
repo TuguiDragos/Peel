@@ -394,7 +394,10 @@ struct SpaceRemovalTests {
 
         let plan = await SpaceRemoval.plan(for: shared, environment: environment(directory), running: [:])
 
-        #expect(plan.removable.map(\.lastPathComponent).sorted() == ["Example_2026-09-28.ips", "org.example.tool"])
+        #expect(
+            plan.removable.map(\.lastPathComponent).sorted()
+                == ["Example_2026-09-28.ips", "org.example.tool", "panic-full.ips"]
+        )
         #expect(plan.refused.isEmpty)
     }
 
@@ -416,8 +419,11 @@ struct SpaceRemovalTests {
 
         let plan = await SpaceRemoval.plan(for: logs, environment: environment(directory), running: [:])
 
-        #expect(plan.removable.map(\.lastPathComponent).sorted() == ["Example_2026-09-28.ips", "org.example.tool"])
-        #expect(logs.size.isComplete && logs.size.known < 12_000)
+        #expect(
+            plan.removable.map(\.lastPathComponent).sorted()
+                == ["Example_2026-09-28.ips", "org.example.tool", "panic-full.ips"]
+        )
+        #expect(logs.size.isComplete && logs.size.known >= 12_000 && logs.size.known < 16_000)
         let removalGuard = RemovalGuard(environment: environment(directory), exclusions: .none)
         #expect(removalGuard.refusal(of: reports) == .staysItself)
     }
