@@ -12,7 +12,7 @@ public struct RemovalStanding: Sendable {
     public private(set) var restorableSize = SizeTotal([])
     /// How many records have left the Trash.
     public private(set) var missingCount = 0
-    private var places: [RemovalRecord.ID: URL] = [:]
+    private var locatedRecords: [RemovalRecord.ID: RemovalRecord] = [:]
 
     /// Reads the disk off the main actor.
     @concurrent
@@ -36,10 +36,10 @@ public struct RemovalStanding: Sendable {
                 continue
             }
             let located = record.located(on: disks)
+            locatedRecords[record.id] = located
             let place = located.standing
             if place == .inTheTrash {
                 inTrash.insert(record.id)
-                places[record.id] = located.trashedURL
                 restorableRecords.append(record)
             } else if place == .notKnown {
                 notKnown.insert(record.id)
@@ -51,9 +51,9 @@ public struct RemovalStanding: Sendable {
         restorableSize = restorableRecords.totalSize
     }
 
-    /// Where `record`'s item is in the Trash now: its disk may be mounted at another place than when it moved.
-    public func place(of record: RemovalRecord) -> URL {
-        places[record.id] ?? record.trashedURL
+    /// `record` with its places as they are now: its disk may be mounted at another place than when it moved.
+    public func located(_ record: RemovalRecord) -> RemovalRecord {
+        locatedRecords[record.id] ?? record
     }
 
     /// The records among `records` that have left the Trash.

@@ -5,7 +5,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     public let id: UUID
     /// Everything removed in one go shares a batch, so History can show it as one entry.
     public let batch: UUID
-    public let originalURL: URL
+    public private(set) var originalURL: URL
     public private(set) var trashedURL: URL
     /// The disk the item moved on, when it isn't the startup disk. Nil in a record written before Peel kept it.
     public let disk: TrashedDisk?
@@ -40,7 +40,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         self.batch = batch
         originalURL = item.originalURL
         trashedURL = item.trashedURL
-        self.disk = disk ?? TrashedDisk(of: item.trashedURL)
+        self.disk = disk ?? TrashedDisk(of: item)
         date = item.date
         identity = item.identity
         self.size = size
@@ -94,11 +94,15 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         return URL(filePath: "/Volumes/" + components[2]).isThere
     }
 
-    /// The record with its place in the Trash where its disk is mounted now.
+    /// The record with both its places where its disk is mounted now: another disk can have taken the name it had.
     public func located(on disks: MountedDisks) -> RemovalRecord {
         guard let disk, let place = disks.place(of: disk.volume) else { return self }
+        let onTheDisk = { (path: String) in URL(filePath: place == "/" ? "/" + path : place + "/" + path) }
         var located = self
-        located.trashedURL = URL(filePath: place == "/" ? "/" + disk.path : place + "/" + disk.path)
+        located.trashedURL = onTheDisk(disk.path)
+        if let originalPath = disk.originalPath {
+            located.originalURL = onTheDisk(originalPath)
+        }
         return located
     }
 }
@@ -108,10 +112,14 @@ public struct TrashedDisk: Sendable, Codable, Hashable {
     public let volume: String
     /// The item's path from the top of the disk, without the place the disk was mounted at.
     public let path: String
+    /// Where the item came from, from the top of the disk. Nil in a record written before Peel kept it.
+    public let originalPath: String?
 
-    /// The disk `url` is on, or nil for the startup disk, which is always there, or when macOS doesn't say. The home's
-    /// Trash is on the home's disk, which is there while anyone uses it, so nothing is asked for what is in the home.
-    init?(of url: URL) {
+    /// The disk `item` went to the Trash on, or nil for the startup disk, which is always there, or when macOS doesn't
+    /// say. The home's Trash is on the home's disk, which is there while anyone uses it, so nothing is asked for what
+    /// is in the home.
+    init?(of item: TrashedItem) {
+        let url = item.trashedURL
         let home = URL.homeDirectory.path(percentEncoded: false)
         guard !PathComponents.isPath(url.path(percentEncoded: false), inside: home) else { return nil }
         let keys: Set<URLResourceKey> = [.volumeURLKey, .volumeUUIDStringKey, .volumeIsRootFileSystemKey]
@@ -120,11 +128,16 @@ public struct TrashedDisk: Sendable, Codable, Hashable {
         else { return nil }
         // The kernel's spelling, as the mount point is spelled: `resolvingSymlinksInPath` drops `/private`.
         let place = MountedDisks.path(of: mount)
-        guard let item = PathPattern.located(url.path(percentEncoded: false)),
-              PathComponents.isPath(item, inside: place)
-        else { return nil }
+        let onTheDisk = { (url: URL) -> String? in
+            guard let located = PathPattern.located(url.path(percentEncoded: false)),
+                  PathComponents.isPath(located, inside: place)
+            else { return nil }
+            return String(located.dropFirst(place.count).drop { $0 == "/" })
+        }
+        guard let path = onTheDisk(url) else { return nil }
         self.volume = volume
-        path = String(item.dropFirst(place.count).drop { $0 == "/" })
+        self.path = path
+        originalPath = onTheDisk(item.originalURL)
     }
 }
 

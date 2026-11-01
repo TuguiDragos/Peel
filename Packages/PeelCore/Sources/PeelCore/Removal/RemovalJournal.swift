@@ -127,7 +127,7 @@ struct RemovalJournal: Sendable {
         let entry = { item in
             Entry(
                 writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part,
-                disk: TrashedDisk(of: item.trashedURL)
+                disk: TrashedDisk(of: item)
             )
         }
         let lines = items

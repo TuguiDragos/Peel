@@ -52,7 +52,8 @@ struct RemovalStandingTests {
         try disk?.remount(at: directory.url.appending(path: "Renamed", directoryHint: .isDirectory))
         let elsewhere = RemovalStanding([moved])
         let renamed = directory.url.appending(path: "Renamed/.Trashes/\(getuid())/report.txt")
-        #expect(PathPattern.comparablePath(of: elsewhere.place(of: moved)) == PathPattern.comparablePath(of: renamed))
+        let located = elsewhere.located(moved).trashedURL
+        #expect(PathPattern.comparablePath(of: located) == PathPattern.comparablePath(of: renamed))
         disk = nil
         let other = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
         try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
@@ -62,6 +63,55 @@ struct RemovalStandingTests {
         #expect(elsewhere.inTrash == [moved.id])
         #expect(sameName.away == [moved.id] && sameName.inTrash.isEmpty)
         withExtendedLifetime(other) {}
+    }
+
+    @Test func anItemGoesBackOnItsDiskWhereverThatDiskIsMountedNow() async throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
+        let file = place.appending(path: "folder/report.txt")
+        try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data("report".utf8).write(to: file)
+        let trash = place.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let service = TrashService(environment: environment) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        let item = try #require(await service.trash([file]).trashed.first)
+        let moved = RemovalRecord(batch: UUID(), item: item, size: 6, source: "Example", tool: "duplicates")
+
+        let renamed = directory.url.appending(path: "Renamed", directoryHint: .isDirectory)
+        try disk.remount(at: renamed)
+        let other = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
+        let located = moved.located(on: .now())
+
+        #expect(await service.restore(located.trashedItem) == nil)
+        #expect(renamed.appending(path: "folder/report.txt").isThere)
+        #expect(!place.appending(path: "folder/report.txt").isThere)
+        withExtendedLifetime(other) {}
+    }
+
+    @Test func aRecordThatDoesNotSayWhereItCameFromOnItsDiskKeepsThePlaceItNames() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: directory.url.appending(path: "Disk"))
+        let volume = try #require(try disk.url.resourceValues(forKeys: [.volumeUUIDStringKey]).volumeUUIDString)
+        let written = try JSONDecoder().decode(
+            TrashedDisk.self, from: Data(#"{"volume": "\#(volume)", "path": ".Trashes/501/report.txt"}"#.utf8)
+        )
+        let original = URL(filePath: "/Volumes/Old/report.txt")
+        let trashed = URL(filePath: "/Volumes/Old/.Trashes/501/report.txt")
+        let item = TrashedItem(originalURL: original, trashedURL: trashed, date: .now)
+        let moved = RemovalRecord(
+            batch: UUID(), item: item, size: 6, source: "Example", tool: "duplicates", disk: written
+        )
+
+        #expect(moved.located(on: .now()).originalURL == original)
     }
 
     @Test func countsAndListsOnlyWhatIsSelectedAndCanBePutBack() throws {

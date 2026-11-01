@@ -113,9 +113,8 @@ struct HistoryDetailView: View {
             ForEach(batch.records) { record in
                 HistoryRecordRow(
                     history: history,
-                    record: record,
+                    record: standing.located(record),
                     place: place(of: record, in: standing),
-                    trashedURL: standing.place(of: record),
                     failure: history.failures[record.id],
                     isSelected: history.isSelected(record),
                     isFirst: record.id == batch.records.first?.id
@@ -240,10 +239,9 @@ private enum RecordNote {
 /// only the row it affects, not the whole batch (see `RowSelection`).
 private struct HistoryRecordRow: View {
     let history: RemovalHistoryStore
+    /// The record with its places as they are now, which are not where they were when its disk is mounted elsewhere.
     let record: RemovalRecord
     let place: RecordPlace
-    /// Where the item is now, which is not where it went when its disk is mounted at another place.
-    let trashedURL: URL
     /// Why the last Put Back left this item in the Trash, said under it.
     let failure: RestoreFailure?
     let isSelected: Bool
@@ -269,7 +267,7 @@ private struct HistoryRecordRow: View {
         .contextMenu {
             if place == .inTrash {
                 Button("Show in Finder", systemImage: "folder") {
-                    NSWorkspace.shared.activateFileViewerSelecting([trashedURL])
+                    NSWorkspace.shared.activateFileViewerSelecting([record.trashedURL])
                 }
             }
             Button("Copy Path", systemImage: "doc.on.doc") {
