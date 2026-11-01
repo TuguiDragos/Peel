@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct CloudStorageTests {
@@ -819,29 +820,39 @@ struct CloudStorageTests {
             url: scanned.url, name: scanned.name, container: scanned.container, size: 1, modified: nil
         )
         let excluded = Exclusions(paths: [inside])
-        var evicted: [URL] = []
+        let evicted = Mutex<[URL]>([])
 
-        let refused = await CloudStorage.free([scanned], exclusions: excluded, isSafe: { _ in true }) {
-            evicted.append($0)
+        let refused = await CloudStorage.free([scanned], exclusions: excluded, isSafe: { _ in true }) { url in
+            evicted.withLock { $0.append(url) }
         }.refused
-        let undatedRefused = await CloudStorage.free([undated], exclusions: excluded, isSafe: { _ in true }) {
-            evicted.append($0)
+        let undatedRefused = await CloudStorage.free([undated], exclusions: excluded, isSafe: { _ in true }) { url in
+            evicted.withLock { $0.append(url) }
         }.refused
 
         #expect(refused.map(\.reason) == [.excluded])
         #expect(undatedRefused.map(\.reason) == [.excluded])
-        #expect(evicted.isEmpty)
+        let nothingWasEvicted = evicted.withLock { $0.isEmpty }
+        #expect(nothingWasEvicted)
     }
 
     @Test func stopsBetweenFilesOnceItsTaskIsCancelled() async throws {
         let directory = try TemporaryDirectory()
         let files = try downloads(3, in: directory)
 
-        let done = await Task {
+        let (entered, enters) = AsyncStream.makeStream(of: Void.self)
+        let goesOn = DispatchSemaphore(value: 0)
+
+        let removal = Task {
             await CloudStorage.free(files, exclusions: .none, isSafe: { _ in true }) { _ in
-                withUnsafeCurrentTask { $0?.cancel() }
+                enters.yield()
+                goesOn.wait()
             }
-        }.value
+        }
+        var waiting = entered.makeAsyncIterator()
+        await waiting.next()
+        removal.cancel()
+        goesOn.signal()
+        let done = await removal.value
 
         #expect(done.freed.map(\.url) == [files[0].url])
         #expect(done.refused.isEmpty)
@@ -872,6 +883,37 @@ struct CloudStorageTests {
         #expect(done.freed == [chosenKnowingly, plain])
         #expect(done.refused.map(\.url) == [itself.url, inAFolder.url, inAnAppsFolder.url])
         #expect(Set(done.refused.map(\.reason)) == [.keptDownloaded])
+    }
+
+    @Test func removingDownloadsKeepsNoThreadOfSwiftsPool() async throws {
+        let directory = try TemporaryDirectory()
+        let count = ProcessInfo.processInfo.activeProcessorCount + 1
+        let files = try downloads(count, in: directory)
+        let arrived = Mutex(0)
+        let everyoneIsIn = DispatchSemaphore(value: 0)
+
+        // Each waits for all the others to be in theirs, which more removals than Swift's pool has threads can't do
+        // on them.
+        let freed = await withTaskGroup(of: Int.self) { group in
+            for file in files {
+                group.addTask {
+                    await CloudStorage.free([file], exclusions: .none, isSafe: { _ in true }) { _ in
+                        let here = arrived.withLock { count in
+                            count += 1
+                            return count
+                        }
+                        if here == count {
+                            for _ in 1..<count { everyoneIsIn.signal() }
+                        } else if everyoneIsIn.wait(timeout: .now() + 30) == .timedOut {
+                            throw CocoaError(.fileLocking)
+                        }
+                    }.freed.count
+                }
+            }
+            return await group.reduce(0, +)
+        }
+
+        #expect(freed == count)
     }
 
     @Test func countsEachFileItFrees() async throws {

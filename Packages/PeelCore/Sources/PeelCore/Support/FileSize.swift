@@ -136,12 +136,7 @@ public enum FileSize {
             let contents = walking(folder, scan) { answer.isStopped }
             Walks.finish(folder, with: contents, into: answer)
         }
-        thread.qualityOfService = switch priority {
-        case .high...: .userInitiated
-        case .medium..<(.high): .default
-        case .low..<(.medium): .utility
-        default: .background
-        }
+        thread.qualityOfService = QualityOfService(priority)
         thread.stackSize = 512 * 1_024
         thread.start()
     }
@@ -455,6 +450,18 @@ private enum Walks {
 }
 
 /// One answer, written by a thread that may never come back and read by everyone who is waiting for it.
+extension QualityOfService {
+    /// What a thread of its own takes to run at the priority of the task that asked.
+    init(_ priority: TaskPriority) {
+        self = switch priority {
+        case .high...: .userInitiated
+        case .medium..<(.high): .default
+        case .low..<(.medium): .utility
+        default: .background
+        }
+    }
+}
+
 private final class Answer: Sendable {
     private struct State {
         var contents: FolderContents?

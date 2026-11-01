@@ -452,14 +452,45 @@ public enum CloudStorage {
     static func free(
         _ files: [CloudFile],
         exclusions: Exclusions,
-        isSafe: (URLResourceValues) -> Bool,
-        evict: (URL) throws -> Void = { try FileManager.default.evictUbiquitousItem(at: $0) },
-        isPinned: (URL) -> Bool = isPinned(_:)
+        isSafe: @escaping @Sendable (URLResourceValues) -> Bool,
+        evict: @escaping @Sendable (URL) throws -> Void = { try FileManager.default.evictUbiquitousItem(at: $0) },
+        isPinned: @escaping @Sendable (URL) -> Bool = isPinned(_:)
     ) async -> CloudFreeing {
+        let isStopped = Atomic(false)
+        let counted = MoveCount.current
+        let quality = QualityOfService(Task.currentPriority)
+        return await withTaskCancellationHandler {
+            await withCheckedContinuation { continuation in
+                // iCloud can keep one file for minutes, and a thread of Swift's pool held that long holds up every
+                // other scan, so this runs on a thread of its own, as a walk does.
+                let thread = Thread {
+                    continuation.resume(returning: freeInTurn(
+                        files, exclusions: exclusions, isSafe: isSafe, evict: evict, isPinned: isPinned,
+                        counted: counted, isStopped: { isStopped.load(ordering: .relaxed) }
+                    ))
+                }
+                thread.qualityOfService = quality
+                thread.stackSize = 512 * 1_024
+                thread.start()
+            }
+        } onCancel: {
+            isStopped.store(true, ordering: .relaxed)
+        }
+    }
+
+    private static func freeInTurn(
+        _ files: [CloudFile],
+        exclusions: Exclusions,
+        isSafe: (URLResourceValues) -> Bool,
+        evict: (URL) throws -> Void,
+        isPinned: (URL) -> Bool,
+        counted: MoveCount?,
+        isStopped: () -> Bool
+    ) -> CloudFreeing {
         var done = CloudFreeing()
         for file in files {
             // A stop lets the file iCloud is answering for finish, and nothing after it starts.
-            if Task.isCancelled { break }
+            if isStopped() { break }
             guard exclusions.isKnown, !exclusions.excludes(file.url) else {
                 done.refused.append(CloudRefusal(url: file.url, reason: .excluded))
                 continue
@@ -494,7 +525,7 @@ public enum CloudStorage {
             do {
                 try evict(file.url)
                 done.freed.append(file)
-                MoveCount.current?.add(1)
+                counted?.add(1)
             } catch {
                 done.refused.append(CloudRefusal(url: file.url, reason: reason(for: error)))
             }
