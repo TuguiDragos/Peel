@@ -125,7 +125,7 @@ extension SearchLocation.Kind {
         case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .cameraPlugIns, .internetPlugIns,
             .preferencePanes, .quickLook,
              .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
-             .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:
+             .mailPlugInCopies, .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:
             self = .plugIns
         }
     }

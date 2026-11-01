@@ -96,7 +96,7 @@ extension Plugin.Category {
         case .inputMethods: self = .inputMethods
         case .colorPickers: self = .colorPickers
         case .contextualMenuItems: self = .contextualMenuItems
-        case .mailBundles: self = .mailBundles
+        case .mailBundles, .mailPlugInCopies: self = .mailBundles
         case .aax: self = .aax
         case .mas: self = .mas
         case .imageUnits: self = .imageUnits

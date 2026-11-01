@@ -43,7 +43,7 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | `Application Support/MobileSync` | iPhone and iPad backups. |
 | `Application Support/AddressBook`, `Contacts` | Your contacts. |
 | `Application Support/CallHistoryDB` | Your call history. |
-| `Mail`, `Messages` | Your mail and your messages. A Mail plug-in in `Mail/Bundles`, which holds code and no mail, may go. |
+| `Mail`, `Messages` | Your mail and your messages. A Mail plug-in in `Mail/Bundles`, or the copy Mail keeps of it in `Application Support/Mail/Plug-ins/Bundles`, which hold code and no mail, may go. |
 | `Safari` | Bookmarks, history, reading list. |
 | `Calendars`, `Reminders` | Your calendars and reminders, where older systems kept them. |
 | `Group Containers/` any of Apple's own | Where macOS 26 keeps notes, reminders, calendars, voice memos, the journal, and more. Apple moves these between releases, so they are recognized by their name (`com.apple.` after an optional team and an optional `group.`, `groups.`, or `systemgroup.`), not from a list. |
@@ -641,7 +641,7 @@ and it fails closed.
   something on the list is refused like the thing itself.
 - It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders
   of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents, LaunchDaemons,
-  PrivilegedHelperTools, and StartupItems) and the 23 that hold plug-ins; the installer receipts in
+  PrivilegedHelperTools, and StartupItems) and the 24 that hold plug-ins; the installer receipts in
   `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, and the four folders of
   `/usr/local` that shell completions are linked into; the folders of `/Library` browsers read native messaging
   manifests from; and the Library of the administrator who asks.

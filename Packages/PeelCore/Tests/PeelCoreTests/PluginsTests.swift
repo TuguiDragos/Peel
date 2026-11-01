@@ -265,6 +265,22 @@ struct PluginsTests {
         #expect(plugins.first?.noLongerLoaded == nil)
     }
 
+    @Test func listsTheCopyMailKeepsOfAPlugInBesideThePublicOne() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Mail/Bundles/Public.mailbundle/Contents")
+        try directory.directory("home/Library/Application Support/Mail/Plug-ins/Bundles/Copy.mailbundle/Contents")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins.filter { $0.category == .mailBundles }
+
+        #expect(Set(plugins.map(\.name)) == ["Public", "Copy"])
+        #expect(plugins.allSatisfy { $0.refusal == nil })
+        #expect(environment.locations.contains { $0.url.path(percentEncoded: false).hasSuffix("Mail/Plug-ins/Bundles/") })
+    }
+
     @Test func offersAMailBundleInTheUsersLibrary() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Mail/Bundles/Example.mailbundle/Contents")
