@@ -20,13 +20,19 @@ struct UnreadableFoldersNotice: View {
         .listRowSeparator(.hidden)
     }
 
+    /// The folders macOS lets a person allow one by one, apart from Full Disk Access.
+    private static let asksForItsFolderAlone = ["~/Desktop", "~/Documents", "~/Downloads"]
+
     /// The folders, the first few by path, and then the advice when Full Disk Access would open one of them.
     static func detail(naming paths: [String], needsFullDiskAccess: Bool) -> String {
         let named = paths.isEmpty
             ? [] : [String(localized: "Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(paths)), so something may be there that isn’t listed here.")]
         let advice = needsFullDiskAccess
             ? [String(localized: "Give Peel Full Disk Access so it can read the folders macOS protects.")] : []
-        return (named + advice).joined(separator: "\n\n")
+        let foldersAlone = !paths.filter(asksForItsFolderAlone.contains).isEmpty && needsFullDiskAccess
+            ? [String(localized: "For Desktop, Documents, or Downloads alone, allow Peel in System Settings > Privacy & Security > Files & Folders.")]
+            : []
+        return (named + advice + foldersAlone).joined(separator: "\n\n")
     }
 }
 

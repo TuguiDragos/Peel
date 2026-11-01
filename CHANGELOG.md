@@ -205,7 +205,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Installers and Backups
 
 - An installer is judged by the address it says it came from: one that names none and is no installed app's is held
-  back wherever it is, and so is one that arrived in the last hour.
+  back wherever it is, and so is one that arrived or changed in the last hour.
 - The empty page names every kind Peel looks for, and the size it means.
 
 #### Duplicates

@@ -48043,6 +48043,112 @@
         }
       }
     },
+    "For Desktop, Documents, or Downloads alone, allow Peel in System Settings > Privacy & Security > Files & Folders." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokud jde jen o složky Plocha, Dokumenty nebo Stahování, povolte Peel v Nastavení systému > Soukromí a zabezpečení > Soubory a složky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn es nur um „Schreibtisch“, „Dokumente“ oder „Downloads“ geht, erlaube Peel den Zugriff unter „Systemeinstellungen“ > „Datenschutz & Sicherheit“ > „Dateien & Ordner“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si solo se trata de Escritorio, Documentos o Descargas, da permiso a Peel en Ajustes del Sistema > Privacidad y seguridad > Archivos y carpetas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour les seuls dossiers Bureau, Documents ou Téléchargements, autorisez Peel dans Réglages Système > Confidentialité et sécurité > Fichiers et dossiers."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo per Scrivania, Documenti o Download, autorizza Peel in Impostazioni di Sistema > Privacy e sicurezza > File e cartelle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“デスクトップ”、“書類”、“ダウンロード”の各フォルダだけであれば、“システム設定”＞“プライバシーとセキュリティ”＞“ファイルとフォルダ”でPeelを許可してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데스크탑, 문서 또는 다운로드 폴더만 허용하려면 시스템 설정 > 개인정보 보호 및 보안 > 파일 및 폴더에서 Peel을 허용하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voor alleen de mappen Bureaublad, Documenten of Downloads sta je Peel toe in Systeeminstellingen > Privacy en beveiliging > Bestanden en mappen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeśli chodzi tylko o foldery Biurko, Dokumenty lub Pobrane rzeczy, pozwól na dostęp aplikacji Peel w Ustawieniach systemowych > Prywatność i ochrona > Pliki i foldery."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só para as pastas Mesa, Documentos ou Downloads, permita o Peel em Ajustes do Sistema > Privacidade e Segurança > Arquivos e Pastas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar pentru Desktop, Documente sau Descărcări, permiteți Peel în Configurări sistem > Intimitate și securitate > Fișiere și dosare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если нужны только папки «Рабочий стол», «Документы» или «Загрузки», разрешите Peel доступ в разделе «Системные настройки» > «Конфиденциальность и безопасность» > «Файлы и папки»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om det bara gäller Skrivbord, Dokument eller Hämtade filer tillåter du Peel i Systeminställningar > Integritet och säkerhet > Filer och mappar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca Masaüstü, Belgeler veya İndirilenler için Sistem Ayarları > Gizlilik ve Güvenlik > Dosyalar ve Klasörler bölümünde Peel’e izin verin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб надати доступ лише до папок «Робочий стіл», «Документи» або «Викачане», дозвольте Peel у розділі Системні параметри > Приватність і безпека > Файли та папки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果只需读取“桌面”、“文稿”或“下载”文件夹，请在“系统设置”>“隐私与安全性”>“文件与文件夹”中允许Peel。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若只需要讀取「桌面」、「文件」或「下載項目」，請在「系統設定」>「隱私權與安全性」>「檔案和檔案夾」中允許Peel。"
+          }
+        }
+      }
+    },
     "For Every Day" : {
       "localizations" : {
         "cs" : {
@@ -165729,7 +165835,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rechercher dans les fichiers et les sauvegardes"
+            "value" : "Rechercher dans les fichiers d’installation et les sauvegardes"
           }
         },
         "it" : {

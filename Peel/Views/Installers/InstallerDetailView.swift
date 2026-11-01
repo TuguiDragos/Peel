@@ -14,7 +14,9 @@ struct InstallerDetailView: View {
         List {
             header(rows)
                 .listRowSeparator(.hidden)
-            RemovalsHeldBanner()
+            if kind != .deviceBackup {
+                RemovalsHeldBanner()
+            }
 
             let locked = rows.count { $0.isLocked(canUseHelper: helper.canAct) }
             if locked > 0 {
