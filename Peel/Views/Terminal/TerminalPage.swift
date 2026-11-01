@@ -143,11 +143,17 @@ private struct TerminalThemeInUse: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(verbatim: terminal.themeInUse?.name ?? terminal.profileInUse ?? String(localized: Tool.terminal.title))
                 .font(.title3.weight(.semibold))
-            Text(terminal.themeInUse == nil
-                 ? "Choose a theme below, and Terminal opens with it."
-                 : "Terminal opens with this theme, and every new window uses it.")
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+            Group {
+                if let startup = terminal.opensWith {
+                    Text("Every new window uses this theme, while Terminal opens with \(startup). Choose the theme again below to open with it too.")
+                } else if terminal.themeInUse == nil {
+                    Text("Choose a theme below, and Terminal opens with it.")
+                } else {
+                    Text("Terminal opens with this theme, and every new window uses it.")
+                }
+            }
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
             FlowLayout(spacing: 8) {
                 Button(terminal.isTerminalOpen ? "Open a New Window" : "Open Terminal") {
                     terminal.openTerminal()

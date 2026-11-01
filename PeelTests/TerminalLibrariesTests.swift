@@ -178,6 +178,26 @@ struct TerminalLibrariesTests {
         #expect(library.options == [])
     }
 
+    @Test func saysWhenTerminalOpensWithAProfileOtherThanNewWindows() throws {
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let theme = try #require(TerminalThemeCatalog.all.first)
+        let terminal = FakeTerminalSettings()
+        terminal.names = [.newWindows: theme.profileName, .startup: "Basic"]
+
+        let library = TerminalLibrary(settings: terminal, defaults: made.defaults)
+        #expect(library.themeInUse == theme)
+        #expect(library.opensWith == "Basic")
+
+        terminal.names[.startup] = theme.profileName
+        library.refresh()
+        #expect(library.opensWith == nil)
+
+        terminal.names[.startup] = nil
+        library.refresh()
+        #expect(library.opensWith == nil)
+    }
+
     @Test func aRefusalIsForgottenWhenThePageGoes() throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }

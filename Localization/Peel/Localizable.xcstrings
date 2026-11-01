@@ -43794,6 +43794,112 @@
         }
       }
     },
+    "Every new window uses this theme, while Terminal opens with %@. Choose the theme again below to open with it too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Každé nové okno používá tento motiv, zatímco Terminál se otevírá s motivem %@. Chcete-li, aby se s tímto motivem i otevíral, zvolte ho níže znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedes neue Fenster verwendet dieses Thema, während Terminal mit „%@“ geöffnet wird. Wähle das Thema unten erneut, damit Terminal auch damit geöffnet wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las ventanas nuevas usan este tema, mientras que Terminal se abre con %@. Vuelve a elegir el tema abajo para que también se abra con él."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque nouvelle fenêtre utilise ce thème, tandis que Terminal s’ouvre avec %@. Choisissez à nouveau ce thème ci-dessous pour que Terminal s’ouvre aussi avec lui."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni nuova finestra usa questo tema, mentre Terminale si apre con %@. Scegli di nuovo il tema qui sotto perché Terminale si apra anche con questo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規ウインドウはすべてこのテーマを使用しますが、ターミナルは“%@”で開きます。このテーマで開くようにするには、以下でテーマをもう一度選んでください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 윈도우는 모두 이 테마를 사용하지만, 터미널은 ‘%@’(으)로 열립니다. 터미널도 이 테마로 열리게 하려면 아래에서 이 테마를 다시 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elk nieuw venster gebruikt dit thema, terwijl Terminal opent met %@. Kies het thema hieronder opnieuw om Terminal er ook mee te laten openen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Każde nowe okno używa tego motywu, a Terminal otwiera się z motywem %@. Wybierz ten motyw ponownie poniżej, aby Terminal otwierał się również z nim."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toda nova janela usa este tema, enquanto o Terminal abre com %@. Escolha o tema de novo abaixo para abrir com ele também."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fiecare fereastră nouă folosește această temă, în timp ce Terminal se deschide cu %@. Alegeți din nou tema mai jos pentru ca Terminal să se deschidă și cu ea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта тема используется в каждом новом окне, а Терминал открывается с темой «%@». Выберите эту тему еще раз ниже, чтобы Терминал тоже открывался с ней."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varje nytt fönster använder det här temat, medan Terminal öppnas med %@. Välj temat igen nedan om du vill att Terminal ska öppnas med det också."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her yeni pencere bu temayı kullanır, Terminal ise %@ temasıyla açılır. Terminal’in de bu temayla açılması için temayı aşağıdan yeniden seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кожне нове вікно використовує цю тему, а Термінал відкривається з темою «%@». Виберіть цю тему нижче ще раз, щоб і Термінал відкривався з нею."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个新窗口都会使用此主题，而“终端”打开时使用的是“%@”。在下方再次选取此主题，“终端”打开时也会使用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每個新視窗都會使用此主題，而「終端機」則會以「%@」打開。在下方再次選擇此主題，「終端機」也會以它打開。"
+          }
+        }
+      }
+    },
     "Every tool is in the sidebar." : {
       "localizations" : {
         "cs" : {

@@ -19,6 +19,9 @@ final class TerminalLibrary {
     private let home: URL
     private var ledger: TerminalThemeLedger
     private(set) var themeInUse: TerminalTheme?
+    /// The profile Terminal's first window opens with when it isn't the theme new windows use: Terminal keeps the two
+    /// apart, in Settings > General.
+    private(set) var opensWith: String?
     private(set) var profileInUse: String?
     private(set) var canPutBack = false
     private(set) var isTerminalOpen = false
@@ -49,6 +52,8 @@ final class TerminalLibrary {
     func refresh() {
         profileInUse = settings.profileName(for: .newWindows)
         themeInUse = ledger.theme(in: settings)
+        let startup = settings.profileName(for: .startup)
+        opensWith = themeInUse != nil && startup != themeInUse?.profileName ? startup : nil
         canPutBack = ledger.canPutBack
         isTerminalOpen = settings.isTerminalOpen
         quietsLogin = HushLogin.isOn(in: home)
