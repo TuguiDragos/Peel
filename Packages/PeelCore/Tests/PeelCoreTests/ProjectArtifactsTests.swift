@@ -399,8 +399,9 @@ struct ProjectArtifactsTests {
         let changed = await ProjectArtifacts.changedSinceScan(scan.artifacts, among: scan.artifacts)
 
         #expect(scan.artifacts.filter(\.isRecommended).count == 2)
-        #expect(changed.map(\.lastPathComponent) == ["node_modules"])
-        #expect(changed.allSatisfy { $0.path(percentEncoded: false).contains("/app/") })
+        #expect(changed.keys.map(\.lastPathComponent) == ["node_modules"])
+        #expect(changed.keys.allSatisfy { $0.path(percentEncoded: false).contains("/app/") })
+        #expect(changed.values.allSatisfy { $0 == .changedSinceScan })
     }
 
     @Test func findsWhatJavaScriptToolsBuild() async throws {
@@ -1524,6 +1525,31 @@ struct ProjectArtifactsTests {
 
         #expect(scan.refusedRoots.map(\.url) == [disk])
         #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
+    }
+
+    @Test func aLastChangeNotReadInTimeIsToldApartFromATooLargeProject() async throws {
+        let directory = try TemporaryDirectory()
+        let project = try directory.directory("app")
+        let never = DispatchSemaphore(value: 0)
+        defer { never.signal() }
+
+        let activities = await ProjectArtifacts.lastActivities(of: [project], passingBy: [], within: 0.05) { _, _, _ in
+            never.wait()
+            return (date: nil, isCertain: false)
+        }
+
+        let activity = try #require(activities[ProjectArtifacts.key(of: project)])
+        #expect(!activity.wasReadInTime && !activity.isCertain)
+        var artifact = ProjectArtifact(
+            url: project.appending(path: "node_modules"), project: project, name: "node_modules", tool: "npm",
+            size: 1, lastActivity: nil, hasGenericName: false, isEnvironment: false
+        )
+        artifact.lastActivityIsCertain = false
+        #expect(artifact.keptBecause == .lastChangeNotKnown)
+        #expect(ProjectArtifacts.lastChange(of: [artifact]) == .notKnown)
+        artifact.lastActivityWasReadInTime = false
+        #expect(artifact.keptBecause == .lastChangeNotReadInTime)
+        #expect(ProjectArtifacts.lastChange(of: [artifact]) == .notReadInTime)
     }
 
     @Test func aWorktreeOrASubmoduleIsDatedByGitsMarksToo() throws {

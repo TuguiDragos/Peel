@@ -690,7 +690,7 @@ struct ProjectsCommand: AsyncParsableCommand {
             move: { service, urls in
                 // The question takes time, and work may have started in a project meanwhile.
                 let changed = await ProjectArtifacts.changedSinceScan(suggested, among: artifacts)
-                return await service.trash(urls, refusing: { changed.contains($0) ? .changedSinceScan : nil })
+                return await service.trash(urls, refusing: { changed[$0] })
             }
         )
     }
@@ -719,6 +719,7 @@ struct ProjectsCommand: AsyncParsableCommand {
         case .genericName: "name could mean anything"
         case .changedRecently: "changed in the last 7 days"
         case .lastChangeNotKnown: "too large to tell when it last changed"
+        case .lastChangeNotReadInTime: "couldn't read in time when it last changed"
         case nil: nil
         }
     }

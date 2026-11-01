@@ -365,7 +365,8 @@ struct RefusalLogTests {
     }
 
     private static let everyReason: [TrashFailure.Reason] = [
-        .guarded(nil), .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .needsHelper,
+        .guarded(nil), .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
+        .needsHelper,
         .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable, .historyCannotBeWritten,
         .peelRemovesItself, .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt,
         .heldByAnotherAccount(by: ["CtxHelper"]), .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]),

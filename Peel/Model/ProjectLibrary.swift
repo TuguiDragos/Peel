@@ -228,7 +228,7 @@ extension ProjectLibrary: CarriesSelection {
         let changed = await ProjectArtifacts.changedSinceScan(chosen, among: (groups ?? []).flatMap(\.artifacts))
         return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
             chosen.map(\.url),
-            refusing: { changed.contains($0) ? .changedSinceScan : nil }
+            refusing: { changed[$0] }
         )
     }
 

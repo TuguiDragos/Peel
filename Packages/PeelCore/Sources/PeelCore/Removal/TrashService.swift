@@ -68,6 +68,8 @@ public struct TrashFailure: Sendable, Hashable {
         /// `RemovalGuard` refuses it, for that reason. Nil for a refusal recorded before Peel kept the reason.
         case guarded(GuardRefusal?)
         case changedSinceScan
+        /// Read again before it moves, and the read didn't end in time, so whether it changed isn't known.
+        case changeNotKnown
         /// Listed as an orphan, but an app installed since the scan claims it.
         case claimedSinceScan
         case lastCopy
@@ -122,7 +124,8 @@ extension TrashFailure.Reason {
     public var isAboutTheItem: Bool {
         switch self {
         case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper: false
-        case .guarded, .changedSinceScan, .claimedSinceScan, .lastCopy, .notPermitted, .locked, .movedWithoutATrace,
+        case .guarded, .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
+             .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser,
              .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .failed: true
         }
@@ -141,6 +144,7 @@ extension TrashFailure.Reason {
         switch self {
         case .guarded(let refusal): refusal?.name ?? "protected-location"
         case .changedSinceScan: "changed-since-scan"
+        case .changeNotKnown: "change-not-known"
         case .claimedSinceScan: "claimed-since-scan"
         case .lastCopy: "last-copy"
         case .notPermitted: "not-permitted"
@@ -184,6 +188,7 @@ extension TrashFailure.Reason {
         switch name {
         case "protected-location": self = .guarded(nil)
         case "changed-since-scan": self = .changedSinceScan
+        case "change-not-known": self = .changeNotKnown
         case "claimed-since-scan": self = .claimedSinceScan
         case "last-copy": self = .lastCopy
         case "not-permitted": self = .notPermitted

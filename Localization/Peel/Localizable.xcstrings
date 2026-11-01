@@ -35862,6 +35862,112 @@
         }
       }
     },
+    "Couldn’t read in time when it last changed" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Včas se nepodařilo přečíst, kdy se naposledy změnil"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letzte Änderung konnte nicht rechtzeitig gelesen werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido leer a tiempo cuándo cambió por última vez"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de le lire à temps pour savoir quand il a été modifié pour la dernière fois"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile leggere in tempo quando è cambiato l’ultima volta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後にいつ変更されたかを時間内に読み取れませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마지막으로 변경된 시점을 제시간에 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kon niet op tijd lezen wanneer het voor het laatst is gewijzigd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się w porę odczytać, kiedy ostatnio się zmienił"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível saber a tempo quando mudou pela última vez"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s‑a putut citi la timp data ultimei modificări"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось вовремя определить, когда он последний раз изменялся"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunde inte läsa i tid när det senast ändrades"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son değişiklik tarihi zamanında okunamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося вчасно прочитати, коли він востаннє змінювався"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能及时读取上次更改的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法及時讀取上次變更的時間"
+          }
+        }
+      }
+    },
     "Couldn’t turn on" : {
       "localizations" : {
         "cs" : {
@@ -107745,6 +107851,112 @@
         }
       }
     },
+    "Not selected: Peel couldn’t read this project in time to tell when it last changed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: Peelu se nepodařilo přečíst tento projekt včas, aby poznal, kdy se naposledy změnil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Peel konnte dieses Projekt nicht rechtzeitig lesen, um sagen zu können, wann es sich zuletzt geändert hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: Peel no ha podido leer este proyecto a tiempo para saber cuándo cambió por última vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : Peel n’a pas pu lire ce projet à temps pour savoir quand il a été modifié pour la dernière fois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: Peel non è riuscito a leggere questo progetto in tempo per capire quando è cambiato l’ultima volta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: Peelはこのプロジェクトを時間内に読み取れなかったため、最後にいつ変更されたか判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: Peel이 이 프로젝트를 제시간에 읽지 못해 마지막으로 변경된 시점을 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: Peel kon dit project niet op tijd lezen om te zien wanneer het voor het laatst is gewijzigd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: Peel nie mógł w porę odczytać tego projektu, by określić, kiedy ostatnio się zmienił."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o Peel não conseguiu ler este projeto a tempo de saber quando ele mudou pela última vez."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: Peel nu a putut citi acest proiect la timp pentru a spune când s‑a modificat ultima dată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: Peel не удалось вовремя прочитать этот проект, чтобы определить, когда он последний раз изменялся."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: Peel kunde inte läsa projektet i tid för att avgöra när det senast ändrades."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: Peel, en son ne zaman değiştiğini anlamak için bu projeyi zamanında okuyamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: Peel не вдалося вчасно прочитати цей проєкт, щоб визначити, коли він востаннє змінювався."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：Peel未能及时读取此项目，因此无法判断它上次更改的时间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：Peel無法及時讀取此計畫案，因此無法判斷它上次變更的時間。"
+          }
+        }
+      }
+    },
     "Not selected: Xcode didn’t record when %@ was last opened, so its build data may still be needed." : {
       "localizations" : {
         "cs" : {
@@ -130405,6 +130617,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取Homebrew的Cellar以判斷哪些是你的排除項目所涵蓋的formulae，因此未執行任何Homebrew指令。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read it in time to see whether it changed after Peel looked at it. Scan again to review it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelu se ji nepodařilo přečíst včas, aby zjistil, zda se změnila poté, co ji prověřil. Prohledejte znovu a zkontrolujte ji."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte es nicht rechtzeitig lesen, um zu erkennen, ob es sich geändert hat, nachdem Peel es angesehen hat. Scanne erneut, um es zu prüfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leerlo a tiempo para ver si ha cambiado después de que lo revisara. Vuelve a analizar para revisarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu le lire à temps pour voir s’il a été modifié après que Peel l’a examiné. Relancez l’analyse pour le vérifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggerlo in tempo per vedere se è cambiato dopo che Peel l’ha esaminato. Analizza di nuovo per rivederlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、確認した後に変更されたかどうかを時間内に読み取れませんでした。もう一度スキャンして確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제시간에 읽지 못해 살펴본 후에 변경되었는지 확인할 수 없습니다. 다시 스캔하여 검토하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon het niet op tijd lezen om te zien of het is gewijzigd nadat Peel ernaar keek. Scan opnieuw om het te bekijken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł tego w porę odczytać, by zobaczyć, czy zmieniło się po tym, jak to sprawdził. Przeskanuj ponownie, aby to przejrzeć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu lê-lo a tempo de ver se mudou depois que o Peel o examinou. Analise de novo para revisá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu l‑a putut citi la timp pentru a vedea dacă s‑a modificat după ce l‑a examinat. Scanați din nou pentru a‑l revizui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось вовремя прочитать объект, чтобы узнать, изменился ли он после того, как Peel его проверил. Просканируйте снова, чтобы просмотреть его заново."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa det i tid för att se om det ändrades efter att Peel tittade på det. Skanna igen för att granska det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, baktıktan sonra değişip değişmediğini görmek için onu zamanında okuyamadı. Gözden geçirmek için yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося вчасно прочитати елемент, щоб зʼясувати, чи змінився він після перевірки Peel. Проскануйте знову, щоб переглянути його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能及时读取它，无法确定它在Peel查看后是否发生了变化。请重新扫描以检查它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法及時讀取它，因此無法判斷它在Peel查看後是否有所變更。請重新掃描以檢查。"
           }
         }
       }

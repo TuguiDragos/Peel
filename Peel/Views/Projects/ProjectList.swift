@@ -213,6 +213,8 @@ private struct ProjectRow: View {
                     .lineLimit(1)
             case .notKnown:
                 Text("Too large to tell when it last changed")
+            case .notReadInTime:
+                Text("Couldn’t read in time when it last changed")
             case .none:
                 EmptyView()
             }

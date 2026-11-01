@@ -173,6 +173,7 @@ extension TrashFailure.Reason {
         case .guarded(let refusal?): refusal.explanation.resolved(in: bundle)
         case .guarded(nil): String(localized: "Peel won’t move this: it is protected, or your exclusions in Settings keep it where it is.", bundle: bundle)
         case .changedSinceScan: String(localized: "It changed after Peel looked at it. Scan again to review it.", bundle: bundle)
+        case .changeNotKnown: String(localized: "Peel couldn’t read it in time to see whether it changed after Peel looked at it. Scan again to review it.", bundle: bundle)
         case .claimedSinceScan: String(localized: "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it.", bundle: bundle)
         case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last.", bundle: bundle)
         case .notPermitted: String(localized: "macOS didn’t allow it.", bundle: bundle)

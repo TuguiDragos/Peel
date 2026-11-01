@@ -154,6 +154,8 @@ struct ProjectDetailView: View {
             String(localized: "Not selected: something in this project changed in the last 7 days.")
         case .lastChangeNotKnown:
             String(localized: "Not selected: this project is too large for Peel to tell when it last changed.")
+        case .lastChangeNotReadInTime:
+            String(localized: "Not selected: Peel couldn’t read this project in time to tell when it last changed.")
         case nil:
             nil
         }

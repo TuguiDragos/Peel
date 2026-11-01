@@ -14,6 +14,8 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
     /// The latest change in the project's own files, its artifacts left out.
     public let lastActivity: Date?
     public var lastActivityIsCertain = true
+    /// False when the read of the project's last change didn't end within its budget, which says nothing of its size.
+    public var lastActivityWasReadInTime = true
     /// A name that says nothing on its own, like `build` or `target`: shown, never selected for the user.
     public let hasGenericName: Bool
     /// Installed packages, which a build does not make again on its own: shown, never selected for the user.
@@ -33,6 +35,7 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
         case genericName
         case changedRecently
         case lastChangeNotKnown
+        case lastChangeNotReadInTime
     }
 
     /// Why Peel doesn't suggest it, or nil when it does. What time doesn't change comes first, so a folder that will
@@ -42,6 +45,7 @@ public struct ProjectArtifact: Sendable, Hashable, Identifiable {
         if isEnvironment { return .installedPackages }
         if hasGenericName { return .genericName }
         if isRecentlyActive { return .changedRecently }
+        if !lastActivityWasReadInTime { return .lastChangeNotReadInTime }
         if !lastActivityIsCertain { return .lastChangeNotKnown }
         return nil
     }
@@ -68,11 +72,14 @@ public enum ProjectArtifacts {
         case at(Date)
         /// The project was too large to read whole, so the newest date seen is only a sample's.
         case notKnown
+        /// The read didn't end in time, as on a slow disk.
+        case notReadInTime
         case none
     }
 
     public static func lastChange(of artifacts: [ProjectArtifact]) -> LastChange {
         if artifacts.contains(where: \.isRecentlyActive) { return .recently }
+        if artifacts.contains(where: { !$0.lastActivityWasReadInTime }) { return .notReadInTime }
         if artifacts.contains(where: { !$0.lastActivityIsCertain }) { return .notKnown }
         return artifacts.compactMap(\.lastActivity).max().map { .at($0) } ?? .none
     }
@@ -840,15 +847,23 @@ public enum ProjectArtifacts {
     /// last 7 days, or can't be read whole anymore. A folder chosen though Peel didn't suggest it stays chosen. `all`
     /// is every artifact the scan found.
     @concurrent
-    public static func changedSinceScan(_ chosen: [ProjectArtifact], among all: [ProjectArtifact]) async -> Set<URL> {
+    public static func changedSinceScan(
+        _ chosen: [ProjectArtifact], among all: [ProjectArtifact]
+    ) async -> [URL: TrashFailure.Reason] {
         let suggested = chosen.filter(\.isRecommended)
-        guard !suggested.isEmpty else { return [] }
+        guard !suggested.isEmpty else { return [:] }
         let activities = await lastActivities(of: suggested.map(\.project), passingBy: all.map(\.url))
         let cutoff = Date.now.addingTimeInterval(-recentlyActive)
-        return Set(suggested.filter { artifact in
-            guard let activity = activities[key(of: artifact.project)], activity.isCertain else { return true }
-            return activity.date.map { $0 > cutoff } ?? false
-        }.map(\.url))
+        var refused: [URL: TrashFailure.Reason] = [:]
+        for artifact in suggested {
+            let activity = activities[key(of: artifact.project)]
+            if activity?.wasReadInTime != true {
+                refused[artifact.url] = .changeNotKnown
+            } else if activity?.isCertain != true || activity?.date.map({ $0 > cutoff }) == true {
+                refused[artifact.url] = .changedSinceScan
+            }
+        }
+        return refused
     }
 
     /// Each project's name as a list shows it: its folder's name, or, while another of `projects` has a folder of the
@@ -1191,7 +1206,7 @@ public enum ProjectArtifacts {
     private static func withLastActivity(_ pending: [Pending]) async -> [ProjectArtifact] {
         let activities = await lastActivities(of: pending.map(\.project), passingBy: pending.map(\.url))
         return pending.map { artifact in
-            let activity = activities[key(of: artifact.project)] ?? (date: nil, isCertain: false)
+            let activity = activities[key(of: artifact.project)] ?? Activity(date: nil, isCertain: false)
             let heldBack = HoldBack.seen(in: artifact.contents)
             return ProjectArtifact(
                 url: artifact.url,
@@ -1201,6 +1216,7 @@ public enum ProjectArtifacts {
                 size: artifact.contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 lastActivity: activity.date,
                 lastActivityIsCertain: activity.isCertain,
+                lastActivityWasReadInTime: activity.wasReadInTime,
                 hasGenericName: artifact.found.definition?.isGeneric ?? false,
                 isEnvironment: artifact.found.definition?.isEnvironment ?? false,
                 heldBack: (heldBack == .holdsRepository && artifact.found.remakesItsClones ? nil : heldBack)
@@ -1209,12 +1225,21 @@ public enum ProjectArtifacts {
         }
     }
 
+    struct Activity: Sendable {
+        let date: Date?
+        let isCertain: Bool
+        var wasReadInTime = true
+    }
+
     /// Each project's last change, keyed by `key(of:)`, passing by every one of `artifacts` inside it, those of the
-    /// projects inside it included.
-    private static func lastActivities(
+    /// projects inside it included. `read` stands in for the read in a test.
+    static func lastActivities(
         of projects: [URL],
-        passingBy artifacts: [URL]
-    ) async -> [String: (date: Date?, isCertain: Bool)] {
+        passingBy artifacts: [URL],
+        within budget: TimeInterval = FileSize.budget,
+        reading read: @escaping @Sendable (URL, Set<String>, @escaping @Sendable () -> Bool)
+            -> (date: Date?, isCertain: Bool) = { lastActivity(in: $0, ignoring: $1, isGivenUp: $2) }
+    ) async -> [String: Activity] {
         let projects = Dictionary(projects.map { (key(of: $0), $0) }, uniquingKeysWith: { first, _ in first })
         var inside: [String: Set<String>] = [:]
         for artifact in artifacts {
@@ -1229,13 +1254,14 @@ public enum ProjectArtifacts {
                 above = above.deletingLastPathComponent()
             }
         }
-        var activities: [String: (date: Date?, isCertain: Bool)] = [:]
+        var activities: [String: Activity] = [:]
         for (project, folder) in projects {
             guard !Task.isCancelled else { break }
             let ignoring = inside[project] ?? []
-            activities[project] = await SlowRead.answer(within: FileSize.budget) { isGivenUp in
-                lastActivity(in: folder, ignoring: ignoring, isGivenUp: isGivenUp)
-            } ?? (date: nil, isCertain: false)
+            let answer = await SlowRead.answer(within: budget) { isGivenUp in read(folder, ignoring, isGivenUp) }
+            activities[project] = Activity(
+                date: answer?.date, isCertain: answer?.isCertain ?? false, wasReadInTime: answer != nil
+            )
         }
         return activities
     }

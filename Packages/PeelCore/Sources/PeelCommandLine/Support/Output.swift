@@ -521,6 +521,7 @@ extension TrashFailure.Reason {
         switch self {
         case .guarded(let refusal): refusal?.summary ?? "protected location"
         case .changedSinceScan: "changed since the scan"
+        case .changeNotKnown: "couldn't tell in time whether it changed since the scan"
         case .claimedSinceScan: "claimed by an app that is installed now"
         case .lastCopy: "last copy"
         case .notPermitted: "not permitted"
