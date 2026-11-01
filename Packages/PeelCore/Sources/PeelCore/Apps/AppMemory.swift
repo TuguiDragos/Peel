@@ -10,6 +10,8 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
     public let lastSeen: Date
     /// Where it was the last time Peel saw it, which is worth showing when its files turn up later.
     public let lastPath: String
+    /// The other places Peel has seen it, such as a copy on another disk, each of which keeps it installed.
+    public var otherPaths: [String]? = nil
     /// The folders its own product file named for its data (`InstalledApp.productFolders`).
     public var productFolders: [ProductFolder]? = nil
     /// When Peel, running, read the apps again and found it gone from where it was. Nil when it left while Peel was
@@ -24,16 +26,20 @@ extension RememberedApp {
     /// it was on is not connected, or macOS will not let Peel read its Info.plist. Nil once the place can be looked at
     /// and the app is not there.
     func stillInstalled() -> InstalledApp? {
-        let place = URL(filePath: lastPath, directoryHint: .isDirectory)
-        if let app = AppInspector.inspect(place), app.bundleIdentifier == bundleIdentifier { return app }
-        guard place.isOnADiskNotConnected || AppInspector.isClosed(place) else { return nil }
-        return InstalledApp(url: place, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier)
+        let places = ([lastPath] + (otherPaths ?? [])).map { URL(filePath: $0, directoryHint: .isDirectory) }
+        for place in places {
+            if let app = AppInspector.inspect(place), app.bundleIdentifier == bundleIdentifier { return app }
+        }
+        return places.first { $0.isOnADiskNotConnected || AppInspector.isClosed($0) }.map {
+            InstalledApp(url: $0, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier)
+        }
     }
 }
 
 public struct AppMemory: Sendable {
     /// The most apps remembered, which is enough for any Mac. The least recently seen are dropped first.
     public static let maximumApps = 2000
+    private static let mostOtherPaths = 8
 
     public let url: URL
 
@@ -82,12 +88,16 @@ public struct AppMemory: Sendable {
         }
         for app in apps where !app.isSystemProtected {
             guard let identifier = app.bundleIdentifier else { continue }
+            let path = PathPattern.comparablePath(of: app.url)
+            let earlier = byIdentifier[identifier].map { [$0.lastPath] + ($0.otherPaths ?? []) } ?? []
+            let others = earlier.filter { $0 != path }.prefix(Self.mostOtherPaths)
             byIdentifier[identifier] = RememberedApp(
                 bundleIdentifier: identifier,
                 name: app.name,
                 teamIdentifier: app.teamIdentifier,
                 lastSeen: now,
-                lastPath: PathPattern.comparablePath(of: app.url),
+                lastPath: path,
+                otherPaths: others.isEmpty ? nil : Array(others),
                 productFolders: app.productFolders.isEmpty ? nil : app.productFolders
             )
         }

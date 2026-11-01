@@ -43785,112 +43785,6 @@
         }
       }
     },
-    "Files named with an app’s identifier that no installed app claims will appear here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zde se zobrazí soubory pojmenované podle identifikátoru aplikace, ke kterým se nehlásí žádná nainstalovaná aplikace."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dateien, die nach der ID einer App benannt sind und die keine installierte App beansprucht, werden hier angezeigt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí aparecerán los archivos que llevan en su nombre el identificador de una app y que ninguna app instalada reclama."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les fichiers nommés d’après l’identifiant d’une app, et qu’aucune app installée ne revendique, apparaîtront ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui appariranno i file che portano l’identificatore di un’app ma che nessuna app installata riconosce come propri."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリの識別子が名前に含まれていて、インストール済みのどのアプリのものでもないファイルがここに表示されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱의 식별자로 이름이 지정되었지만 이를 소유한 설치된 앱이 없는 파일이 여기에 표시됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier verschijnen bestanden met de ID van een app in hun naam, als geen enkele geïnstalleerde app ze opeist."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tutaj pojawią się pliki nazwane identyfikatorem aplikacji, do których nie przyznaje się żadna zainstalowana aplikacja."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Os arquivos cujo nome é o identificador de um app e que nenhum app instalado reivindica aparecerão aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici vor apărea fișierele denumite după identificatorul unei aplicații pe care nu le revendică nicio aplicație instalată."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь появятся файлы, названные по идентификатору приложения и не принадлежащие ни одному установленному приложению."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filer som har namn efter en apps identifierare och som ingen installerad app gör anspråk på visas här."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adında bir uygulamanın tanıtıcısı bulunan ve yüklü hiçbir uygulamanın sahiplenmediği dosyalar burada görünür."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут зʼявлятимуться файли з ідентифікатором програми в назві, які жодна інстальована програма не вважає своїми."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以某个App的标识符命名、但没有已安装的App认领的文件将在此处显示。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以App識別碼命名、但沒有任何已安裝App認領的檔案會顯示在此處。"
-          }
-        }
-      }
-    },
     "Files that Dropbox, Google Drive, OneDrive, and other providers keep on this Mac." : {
       "localizations" : {
         "cs" : {
@@ -115638,6 +115532,112 @@
         }
       }
     },
+    "Only an administrator can move these" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto položky může přesunout jen správce"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ein Administrator kann diese verschieben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un administrador puede trasladar estos ítems"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul un administrateur peut déplacer ces éléments"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un amministratore può spostarli"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらを移動できるのは管理者だけです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자만 이 항목들을 이동할 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen een beheerder kan deze verplaatsen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieść je może tylko administrator"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só um administrador pode mover estes itens"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar un administrator le poate muta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить эти объекты может только администратор"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara en administratör kan flytta de här"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunları yalnızca bir yönetici taşıyabilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістити їх може лише адміністратор"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理员才能移动这些项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理者能移動這些項目"
+          }
+        }
+      }
+    },
     "Only an administrator can move these, and Peel’s helper isn’t allowed to move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks." : {
       "localizations" : {
         "cs" : {
@@ -115846,112 +115846,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有管理者能移除Peel的輔助程式，因此Peel無法從此帳號移除自己。請以管理者身分登入，並在那裡選擇「移除Peel」。"
-          }
-        }
-      }
-    },
-    "Only an administrator can remove these" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tyto položky může odstranit jen správce"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur ein Administrator kann diese entfernen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un administrador puede eliminar estos ítems"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seul un administrateur peut supprimer ces éléments"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un amministratore può rimuoverli"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "これらを取り除けるのは管理者だけです"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "관리자만 이 항목들을 제거할 수 있음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alleen een beheerder kan deze verwijderen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Przenieść je do Kosza może tylko administrator"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Só um administrador pode remover estes itens"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doar un administrator le poate elimina"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить эти объекты может только администратор"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bara en administratör kan ta bort de här"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunları yalnızca bir yönetici kaldırabilir"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вилучити їх може лише адміністратор"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理员才能移除这些项目"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理者能移除這些項目"
           }
         }
       }
@@ -213459,6 +213353,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已移動的項目在「垃圾桶」中：如有需要，請在Finder中將它們拖出來。"
+          }
+        }
+      }
+    },
+    "What removed apps left behind appears here: files named with an app’s identifier that no installed app claims, and what Peel saw an app leave." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zde se zobrazí, co po sobě zanechaly odstraněné aplikace: soubory pojmenované podle identifikátoru aplikace, ke kterým se nehlásí žádná nainstalovaná aplikace, a také to, o čem Peel viděl, že po aplikaci zůstalo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was entfernte Apps hinterlassen haben, wird hier angezeigt: Dateien, die nach der ID einer App benannt sind und die keine installierte App beansprucht, und was Peel beim Verschwinden einer App zurückbleiben sah."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí aparece lo que han dejado las apps eliminadas: archivos que llevan en su nombre el identificador de una app y que ninguna app instalada reclama, y lo que Peel ha visto que ha dejado una app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que les apps supprimées ont laissé derrière elles apparaît ici : les fichiers nommés d’après l’identifiant d’une app et qu’aucune app installée ne revendique, ainsi que ce que Peel a vu une app laisser derrière elle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui apparirà ciò che le app rimosse si sono lasciate dietro: i file che portano l’identificatore di un’app ma che nessuna app installata riconosce come propri, e ciò che Peel ha visto un’app lasciarsi dietro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取り除かれたアプリが残したものがここに表示されます。アプリの識別子が名前に含まれていて、インストール済みのどのアプリのものでもないファイルと、アプリが残したことをPeelが確認したものです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제거된 앱이 남긴 항목이 여기에 표시됩니다. 앱의 식별자로 이름이 지정되었지만 이를 소유한 설치된 앱이 없는 파일과, 앱이 남긴 것으로 Peel이 확인한 항목입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier verschijnt wat verwijderde apps hebben achtergelaten: bestanden met de ID van een app in hun naam die geen enkele geïnstalleerde app opeist, en wat Peel een app heeft zien achterlaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutaj pojawi się to, co pozostawiły odinstalowane aplikacje: pliki nazwane identyfikatorem aplikacji, do których nie przyznaje się żadna zainstalowana aplikacja, oraz to, co, jak zauważył Peel, pozostawiła po sobie aplikacja."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que os apps removidos deixaram para trás aparece aqui: arquivos cujo nome é o identificador de um app e que nenhum app instalado reivindica, e o que o Peel viu um app deixar para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aici apare ce au lăsat în urmă aplicațiile eliminate: fișierele denumite după identificatorul unei aplicații pe care nu le revendică nicio aplicație instalată și ce a văzut Peel că a lăsat în urmă o aplicație."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь появится то, что осталось после удаленных приложений: файлы, названные по идентификатору приложения и не принадлежащие ни одному установленному приложению, а также то, что, как видел Peel, оставило после себя приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som borttagna appar har lämnat kvar visas här: filer som har namn efter en apps identifierare och som ingen installerad app gör anspråk på, och det som Peel såg en app lämna kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaldırılan uygulamaların geride bıraktıkları burada görünür: adında bir uygulamanın tanıtıcısı bulunan ve yüklü hiçbir uygulamanın sahiplenmediği dosyalar ile Peel’in bir uygulamanın geride bıraktığını gördükleri."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут зʼявляється те, що залишили по собі вилучені програми: файли з ідентифікатором програми в назві, які жодна інстальована програма не вважає своїми, а також те, що, як побачила Peel, залишила по собі програма."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移除的App留下的文件将在此处显示：以某个App的标识符命名、但没有已安装的App认领的文件，以及Peel看到某个App留下的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已移除的App留下的檔案會顯示在此處：以App識別碼命名、但沒有任何已安裝App認領的檔案，以及Peel看到App留下的項目。"
           }
         }
       }

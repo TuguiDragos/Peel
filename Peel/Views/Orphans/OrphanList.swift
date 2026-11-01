@@ -84,7 +84,7 @@ struct OrphanList: View {
                 ContentUnavailableView(
                     "No Orphaned Files",
                     systemImage: "checkmark.seal",
-                    description: Text("Files named with an app’s identifier that no installed app claims will appear here.")
+                    description: Text("What removed apps left behind appears here: files named with an app’s identifier that no installed app claims, and what Peel saw an app leave.")
                 )
             } else {
                 ContentUnavailableView.search(text: searchText)
@@ -108,7 +108,7 @@ struct OrphanList: View {
         .navigationTitle(Text(Tool.orphans.title))
         .announcesScan(
             orphans.isScanning,
-            found: orphans.summary,
+            found: orphans.summary(canUseHelper: helper.canAct),
             couldNotLook: !library.readEverything ? "Not Every App Could Be Read"
                 : orphans.scan?.unreadableLocations.isEmpty == false ? "Not Everything Could Be Read" : nil,
             wasStopped: orphans.scanRun.wasStopped
@@ -211,7 +211,7 @@ private struct AdministratorRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(Self.title)
                     .lineLimit(1)
-                Text("Only an administrator can remove these")
+                Text("Only an administrator can move these")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

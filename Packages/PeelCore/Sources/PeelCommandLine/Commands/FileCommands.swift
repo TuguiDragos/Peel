@@ -238,6 +238,11 @@ struct OrphansCommand: AsyncParsableCommand {
         group.items.filter { $0.heldBack == nil }
     }
 
+    /// Why the app recommends nothing of an unsure group, said in the plan, since a script with -y reads no list first.
+    static func unsureNote(for group: OrphanGroup) -> [String] {
+        group.confidence.level == .unsure ? ["unsure: \(group.confidence.summary)"] : []
+    }
+
     static func heading(for group: OrphanGroup) -> String {
         let moving = Output.size(SizeTotal(moving(group).map(\.size)))
         return "\(group.identifier)  \(moving)  \(group.confidence.levelName): \(group.confidence.summary)"
@@ -280,7 +285,7 @@ struct OrphansCommand: AsyncParsableCommand {
         )
         try await cleanup.run(
             question: "Move \(Output.count(cleanup.moving.count, "item", "items")) of \(group.title) to the Trash?",
-            notes: staying,
+            notes: Self.unsureNote(for: group) + staying,
             dryRun: removal.dryRun,
             yes: removal.yes,
             using: service,

@@ -320,6 +320,15 @@ struct FileCommandTests {
         #expect(FileManager.default.fileExists(atPath: other.items[0].url.path(percentEncoded: false)))
     }
 
+    @Test func thePlanOfAnUnsureGroupSaysWhy() {
+        var group = OrphanGroup(identifier: "com.example.gone", items: [])
+        #expect(OrphansCommand.unsureNote(for: group).isEmpty)
+
+        group.confidence = OrphanConfidence(level: .unsure, reasons: [.running])
+
+        #expect(OrphansCommand.unsureNote(for: group) == ["unsure: \(group.confidence.summary)"])
+    }
+
     @Test func namesTheRemovalAsTheListNamesTheGroup() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

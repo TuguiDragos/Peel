@@ -77,8 +77,11 @@ extension AppLibrary {
 }
 
 extension OrphanLibrary {
-    var summary: AttributedString? {
-        Self.summary(groups: Tool.orphans.summary(of: looked), forAnAdministrator: scan?.forAnAdministrator.count ?? 0)
+    func summary(canUseHelper: Bool) -> AttributedString? {
+        Self.summary(
+            groups: Tool.orphans.summary(of: looked(canUseHelper: canUseHelper)),
+            forAnAdministrator: scan?.forAnAdministrator.count ?? 0
+        )
     }
 
     /// The groups' sentence, or, with no group, how many items only an administrator can move.

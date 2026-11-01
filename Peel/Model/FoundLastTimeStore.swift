@@ -35,11 +35,10 @@ struct Looked: Equatable {
 // opened, so what an earlier look found stays until the tool looks again.
 
 extension OrphanLibrary {
-    /// The groups, sized by what Peel can move with its helper. What only an administrator can move is no group of
-    /// Peel's to free.
-    var looked: Looked? {
+    /// The groups, sized as the page sizes them: by what Peel can move now, with its helper or without it.
+    func looked(canUseHelper: Bool) -> Looked? {
         scan.map { scan in
-            let movable = scan.groups.map { $0.movable(canUseHelper: true) }
+            let movable = scan.groups.map { $0.movable(canUseHelper: canUseHelper) }
             return Looked(count: scan.groups.count, size: SizeTotal(combining: movable))
         }
     }

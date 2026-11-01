@@ -544,7 +544,7 @@ struct ContentView: View {
             OrphanDetailView(group: group)
                 .id(group.id)
         } else {
-            DetailPlaceholder(tool: .orphans, summary: orphans.summary, instruction: "Choose a group to see the files it contains.")
+            DetailPlaceholder(tool: .orphans, summary: orphans.summary(canUseHelper: helper.canAct), instruction: "Choose a group to see the files it contains.")
         }
     }
 

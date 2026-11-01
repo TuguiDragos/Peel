@@ -13,6 +13,27 @@ struct AppMemoryTests {
         )
     }
 
+    @Test func anAppOnADiskNotConnectedStaysInstalledWhicheverReadingWroteLast() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
+        func copy(at path: String) -> InstalledApp {
+            InstalledApp(
+                url: URL(filePath: path, directoryHint: .isDirectory), bundleIdentifier: "org.example.foo", name: "Foo"
+            )
+        }
+        let internalCopy = directory.url.appending(path: "Applications/Foo.app").path(percentEncoded: false)
+        let onTheDisk = "/Volumes/org.example.Missing/Apps/Foo.app"
+
+        for places in [[internalCopy, onTheDisk], [onTheDisk, internalCopy]] {
+            try? FileManager.default.removeItem(at: directory.url.appending(path: "apps.json"))
+            for place in places {
+                _ = await memory.remember([copy(at: place)])
+            }
+            let remembered = await memory.load()
+            #expect(remembered.first?.stillInstalled() != nil, "\(places)")
+        }
+    }
+
     @Test func keepsWhatItHasSeen() async throws {
         let directory = try TemporaryDirectory()
         let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
