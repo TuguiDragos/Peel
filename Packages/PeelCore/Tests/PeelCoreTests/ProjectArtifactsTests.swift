@@ -1526,6 +1526,26 @@ struct ProjectArtifactsTests {
         #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
     }
 
+    @Test func aWorktreeOrASubmoduleIsDatedByGitsMarksToo() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("main/.git/worktrees/feature/HEAD")
+        try directory.file("feature/.git", contents: Data("gitdir: ../main/.git/worktrees/feature\n".utf8))
+        try directory.file("feature/source.c")
+        try age(directory.url.appending(path: "feature"), days: 60)
+        let git = directory.url.appending(path: "main/.git/worktrees/feature/HEAD")
+        let anHourAgo = Date.now.addingTimeInterval(-3_600)
+        try FileManager.default.setAttributes(
+            [.modificationDate: anHourAgo], ofItemAtPath: git.path(percentEncoded: false)
+        )
+
+        let activity = ProjectArtifacts.lastActivity(
+            in: directory.url.appending(path: "feature", directoryHint: .isDirectory), ignoring: []
+        )
+
+        #expect(activity.isCertain)
+        #expect(activity.date.map { abs($0.timeIntervalSince(anHourAgo)) < 2 } == true)
+    }
+
     @Test func aFolderOfEnvironmentsKnownOnlyByItsTagIsNoCache() async throws {
         let directory = try TemporaryDirectory()
         let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n".utf8)

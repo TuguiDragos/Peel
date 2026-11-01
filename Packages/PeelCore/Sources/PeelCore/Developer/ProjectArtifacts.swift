@@ -1330,8 +1330,9 @@ public enum ProjectArtifacts {
         return definitions.contains { $0.name == name && !$0.isGeneric }
     }
 
-    /// Files Git updates whenever the repository changes: three reads can answer for a whole repository.
-    private static let gitMarks = [".git/index", ".git/HEAD", ".git/logs/HEAD"]
+    /// Files Git updates whenever the repository changes: three reads can answer for a whole repository. A worktree or
+    /// a submodule keeps them in the folder its `.git` file names.
+    private static let gitMarks = ["index", "HEAD", "logs/HEAD"]
 
     /// What the read of a project's last change passes by besides its artifacts: Git's own store, which its marks
     /// answer for, and installed packages, which change when they are installed rather than when anyone works.
@@ -1345,9 +1346,9 @@ public enum ProjectArtifacts {
     ) -> (date: Date?, isCertain: Bool) {
         let cutoff = Date.now.addingTimeInterval(-recentlyActive)
         var newest: Date?
-        for mark in gitMarks {
-            let url = project.appending(path: mark)
-            guard let date = try? url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+        let gitDirectory = GitIndex.gitDirectory(at: project.appending(path: ".git"))
+        for mark in gitDirectory.map({ directory in gitMarks.map { directory.appending(path: $0) } }) ?? [] {
+            guard let date = try? mark.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
             else { continue }
             if newest == nil || date > newest! { newest = date }
             if date > cutoff { return (date, true) }

@@ -40,7 +40,7 @@ struct GitIndex: Sendable {
         return nil
     }
 
-    private static func gitDirectory(at dotGit: URL) -> URL? {
+    static func gitDirectory(at dotGit: URL) -> URL? {
         var info = stat()
         guard stat(dotGit.path(percentEncoded: false), &info) == 0 else { return nil }
         switch info.st_mode & S_IFMT {
