@@ -136,7 +136,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Installing Peel
 
 - Peel is one of Homebrew's official casks, so the command is `brew install --cask peel`. The old name,
-  `tuguidragos/tap/peel`, leads to the same cask.
+  `tuguidragos/tap/peel`, leads to the same cask, and a copy installed from it moves over with the next `brew update`.
 
 #### Home
 

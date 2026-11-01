@@ -65,6 +65,9 @@ If Peel is already in your Applications folder from the download, Homebrew can t
 brew install --cask --adopt peel
 ```
 
+If you installed Peel from the old tap, your next `brew update` moves it to the official cask by itself, and
+[the tap's page](https://github.com/TuguiDragos/homebrew-tap) says what to expect.
+
 ### Updates
 
 To update Peel, choose Check for Updates in the Peel menu. While Check for app updates is on, Peel also looks once a
