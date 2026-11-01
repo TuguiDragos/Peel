@@ -123,7 +123,7 @@ struct FileSearchList: View {
                     ContentUnavailableView(
                         "Not Indexed by Spotlight",
                         systemImage: "magnifyingglass",
-                        description: Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there.")
+                        description: Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there. To search a disk, remove it from System Settings > Spotlight > Search Privacy if it is listed there, or turn its indexing on in Terminal with `sudo mdutil -i on` and its path.")
                     )
                 } else if !results.leftOut.isEmpty {
                     ContentUnavailableView {

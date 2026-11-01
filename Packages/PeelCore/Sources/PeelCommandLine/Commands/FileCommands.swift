@@ -1046,7 +1046,7 @@ struct SearchCommand: AsyncParsableCommand {
         }
         guard !results.isNothingIndexed else {
             let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")
-            throw CommandFailure("Spotlight isn't indexing \(unindexed), so Peel can't find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there.")
+            throw CommandFailure("Spotlight isn't indexing \(unindexed), so Peel can't find anything there. To search a disk, remove it from System Settings > Spotlight > Search Privacy if it is listed there, or turn its indexing on with `sudo mdutil -i on` and its path.")
         }
         try report(results)
     }

@@ -179788,108 +179788,108 @@
         }
       }
     },
-    "Spotlight isn’t indexing %@, so File Search can’t find anything there. A disk listed in System Settings > Spotlight > Search Privacy is left out until you remove it there." : {
+    "Spotlight isn’t indexing %@, so File Search can’t find anything there. To search a disk, remove it from System Settings > Spotlight > Search Privacy if it is listed there, or turn its indexing on in Terminal with `sudo mdutil -i on` and its path." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight neindexuje %@, takže stránka Hledání souborů tam nemůže nic najít. Disk uvedený v Nastavení systému > Spotlight > Soukromí při hledání zůstává vynechán, dokud ho odtamtud neodstraníte."
+            "value" : "Spotlight neindexuje %@, takže stránka Hledání souborů tam nemůže nic najít. Chcete-li hledat na disku, odeberte ho v Nastavení systému > Spotlight > Soukromí při hledání, pokud je tam uvedený, nebo v Terminálu zapněte jeho indexování příkazem `sudo mdutil -i on` s cestou k disku."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight indiziert %@ nicht, daher kann die Seite „Dateisuche“ dort nichts finden. Ein Volume, das unter „Systemeinstellungen“ > „Spotlight“ > „Datenschutz der Suchfunktion“ aufgeführt ist, bleibt ausgeschlossen, bis du es dort entfernst."
+            "value" : "Spotlight indiziert %@ nicht, daher kann die Seite „Dateisuche“ dort nichts finden. Um ein Volume zu durchsuchen, entferne es unter „Systemeinstellungen“ > „Spotlight“ > „Datenschutz der Suchfunktion“, falls es dort aufgeführt ist, oder aktiviere seine Indizierung im Terminal mit `sudo mdutil -i on` und seinem Pfad."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight no indexa %@, así que la página Búsqueda de archivos no puede encontrar nada ahí. Un disco que aparezca en Ajustes del Sistema > Spotlight > Privacidad de la búsqueda queda fuera hasta que lo elimines de ahí."
+            "value" : "Spotlight no indexa %@, así que la página Búsqueda de archivos no puede encontrar nada ahí. Para buscar en un disco, elimínalo de Ajustes del Sistema > Spotlight > Privacidad de la búsqueda si aparece ahí, o activa su indexación en Terminal con `sudo mdutil -i on` y su ruta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight n’indexe pas %@ : la page Recherche de fichiers ne peut donc rien y trouver. Un disque listé dans Réglages Système > Spotlight > Recherche et confidentialité est laissé de côté jusqu’à ce que vous l’en retiriez."
+            "value" : "Spotlight n’indexe pas %@ : la page Recherche de fichiers ne peut donc rien y trouver. Pour effectuer une recherche sur un disque, retirez-le de Réglages Système > Spotlight > Recherche et confidentialité s’il y est listé, ou activez son indexation dans Terminal avec `sudo mdutil -i on` suivi de son chemin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight non indicizza %@, quindi “Ricerca file” non può trovare nulla lì. Un disco elencato in Impostazioni di Sistema > Spotlight > Privacy della ricerca resta escluso finché non lo rimuovi dall’elenco."
+            "value" : "Spotlight non indicizza %@, quindi “Ricerca file” non può trovare nulla lì. Per cercare in un disco, rimuovilo da Impostazioni di Sistema > Spotlight > Privacy della ricerca se è elencato lì, oppure attiva la sua indicizzazione in Terminale con `sudo mdutil -i on` e il suo percorso."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlightが%@の索引を作成していないため、“ファイル検索”ではそこにあるものを見つけられません。“システム設定”＞“Spotlight”＞“検索のプライバシー”に追加されているディスクは、そこから削除するまで索引から除外されます。"
+            "value" : "Spotlightが%@の索引を作成していないため、“ファイル検索”ではそこにあるものを見つけられません。ディスクを検索するには、“システム設定”＞“Spotlight”＞“検索のプライバシー”に追加されている場合はそこから削除するか、ターミナルで`sudo mdutil -i on`にそのパスを付けて実行し、索引作成をオンにしてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight가 %@을(를) 인덱싱하지 않으므로 파일 검색 페이지는 그곳에서 아무것도 찾을 수 없습니다. 시스템 설정 > Spotlight > 검색 개인정보 보호에 나열된 디스크는 그곳에서 제거하기 전까지 인덱싱에서 제외됩니다."
+            "value" : "Spotlight가 %@을(를) 인덱싱하지 않으므로 파일 검색 페이지는 그곳에서 아무것도 찾을 수 없습니다. 디스크를 검색하려면 시스템 설정 > Spotlight > 검색 개인정보 보호에 디스크가 나열되어 있는 경우 그곳에서 제거하거나, 터미널에서 `sudo mdutil -i on` 뒤에 디스크 경로를 붙여 실행하여 인덱싱을 켜십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight indexeert %@ niet, dus kan de pagina 'Bestanden zoeken' daar niets vinden. Een schijf die in Systeeminstellingen > Spotlight > Zoeken en privacy staat, wordt overgeslagen totdat je die daar uit de lijst verwijdert."
+            "value" : "Spotlight indexeert %@ niet, dus kan de pagina 'Bestanden zoeken' daar niets vinden. Als je een schijf wilt doorzoeken, verwijder je die uit Systeeminstellingen > Spotlight > Zoeken en privacy als die daar staat, of schakel je de indexering ervan in Terminal in met `sudo mdutil -i on`, gevolgd door het pad van de schijf."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight nie indeksuje: %@, więc strona Wyszukiwanie plików nie może niczego tam znaleźć. Dysk wymieniony w Ustawieniach systemowych > Spotlight > Wyszukiwanie i prywatność jest pomijany, dopóki go stamtąd nie usuniesz."
+            "value" : "Spotlight nie indeksuje: %@, więc strona Wyszukiwanie plików nie może niczego tam znaleźć. Aby przeszukać dysk, usuń go z listy w Ustawieniach systemowych > Spotlight > Wyszukiwanie i prywatność, jeśli tam jest, albo włącz jego indeksowanie w Terminalu za pomocą polecenia `sudo mdutil -i on` z jego ścieżką."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Spotlight não está indexando %@, então a página Busca de Arquivos não consegue encontrar nada lá. Um disco listado em Ajustes do Sistema > Spotlight > Privacidade na Busca fica de fora até você removê-lo de lá."
+            "value" : "O Spotlight não está indexando %@, então a página Busca de Arquivos não consegue encontrar nada lá. Para buscar em um disco, remova-o de Ajustes do Sistema > Spotlight > Privacidade na Busca, se ele estiver listado lá, ou ative a indexação dele no Terminal com `sudo mdutil -i on` e o caminho dele."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight nu indexează %@, așa că pagina Căutare fișiere nu poate găsi nimic acolo. Un disc listat în Configurări sistem > Spotlight > Intimitatea căutărilor rămâne neindexat până când îl eliminați de acolo."
+            "value" : "Spotlight nu indexează %@, așa că pagina Căutare fișiere nu poate găsi nimic acolo. Pentru a căuta pe un disc, eliminați‑l din Configurări sistem > Spotlight > Intimitatea căutărilor, dacă este listat acolo, sau activați‑i indexarea în Terminal cu `sudo mdutil -i on` și calea sa."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight не индексирует %@, поэтому раздел «Поиск файлов» не может там ничего найти. Диск из списка в разделе «Системные настройки» > «Spotlight» > «Конфиденциальность Поиска» не индексируется, пока Вы не удалите его оттуда."
+            "value" : "Spotlight не индексирует %@, поэтому раздел «Поиск файлов» не может там ничего найти. Чтобы искать на диске, удалите его из списка в разделе «Системные настройки» > «Spotlight» > «Конфиденциальность Поиска», если он там есть, или включите его индексирование в Терминале командой `sudo mdutil -i on` с указанием пути к нему."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight indexerar inte %@, så sidan Filsökning kan inte hitta något där. En skiva som listas i Systeminställningar > Spotlight > Sökningsintegritet utesluts tills du tar bort den därifrån."
+            "value" : "Spotlight indexerar inte %@, så sidan Filsökning kan inte hitta något där. Om du vill söka på en skiva tar du bort den från Systeminställningar > Spotlight > Sökningsintegritet om den listas där, eller slår på indexeringen av den i Terminal med `sudo mdutil -i on` och skivans sökväg."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight, %@ içeriğini dizinlemiyor, bu yüzden Dosya Arama orada hiçbir şey bulamaz. Sistem Ayarları > Spotlight > Arama Gizliliği bölümünde listelenen bir disk, siz onu oradan kaldırana kadar dizinleme dışında bırakılır."
+            "value" : "Spotlight, %@ içeriğini dizinlemiyor, bu yüzden Dosya Arama orada hiçbir şey bulamaz. Bir diskte arama yapmak için, Sistem Ayarları > Spotlight > Arama Gizliliği bölümünde listeleniyorsa onu oradan kaldırın veya dizinlemesini Terminal’de `sudo mdutil -i on` ve diskin yoluyla açın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight не індексує %@, тож розділ «Пошук файлів» не може там нічого знайти. Диск, доданий до списку в розділі Системні параметри > Spotlight > Приватність пошуку, лишається поза індексом, доки ви не вилучите його звідти."
+            "value" : "Spotlight не індексує %@, тож розділ «Пошук файлів» не може там нічого знайти. Щоб шукати на диску, вилучіть його зі списку в розділі Системні параметри > Spotlight > Приватність пошуку, якщо він там є, або увімкніть його індексування в Терміналі командою `sudo mdutil -i on` зі шляхом до цього диска."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“聚焦”没有索引“%@”，因此“文件搜索”无法在其中找到任何内容。列在“系统设置”>“聚焦”>“搜索隐私”中的磁盘会被排除在外，直到你在那里将其移除。"
+            "value" : "“聚焦”没有索引“%@”，因此“文件搜索”无法在其中找到任何内容。若要搜索某个磁盘，如果它列在“系统设置”>“聚焦”>“搜索隐私”中，请将其从中移除；或者在“终端”中运行`sudo mdutil -i on`并加上它的路径，以打开它的索引。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spotlight沒有為%@建立索引，因此「檔案搜尋」無法在那裡找到任何項目。列在「系統設定」>「Spotlight」>「搜尋隱私權」中的磁碟會被略過，直到你在那裡將它移除為止。"
+            "value" : "Spotlight沒有為%@建立索引，因此「檔案搜尋」無法在那裡找到任何項目。若要搜尋某個磁碟，請將它從「系統設定」>「Spotlight」>「搜尋隱私權」中移除（如果它列在那裡），或在「終端機」中使用`sudo mdutil -i on`加上它的路徑來開啟它的索引功能。"
           }
         }
       }
