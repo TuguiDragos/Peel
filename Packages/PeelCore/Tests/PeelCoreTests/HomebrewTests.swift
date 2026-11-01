@@ -45,20 +45,42 @@ struct HomebrewTests {
         #expect(Homebrew.environment(autoUpdate: false, writesLinesAsTheyGo: false)["CI"] == nil)
     }
 
-    @Test(.permissionsHold) func knowsWhetherThisAccountMayChangeHomebrew() throws {
+    @Test(.permissionsHold) func knowsWhichFolderStopsThisAccountChangingHomebrew() throws {
         let directory = try TemporaryDirectory()
         let repository = try directory.directory("homebrew")
         let cellar = repository.appending(path: "Cellar", directoryHint: .isDirectory)
 
-        #expect(Homebrew.mayBeChanged(cellar: cellar, repository: repository), "a Cellar not made yet stops nothing")
+        #expect(Homebrew.unwritableFolder(cellar: cellar, repository: repository) == nil, "a Cellar not made yet")
         try directory.directory("homebrew/Cellar")
-        #expect(Homebrew.mayBeChanged(cellar: cellar, repository: repository))
+        #expect(Homebrew.unwritableFolder(cellar: cellar, repository: repository) == nil)
         try directory.setPermissions(0o555, of: cellar)
-        #expect(!Homebrew.mayBeChanged(cellar: cellar, repository: repository))
+        #expect(Homebrew.unwritableFolder(cellar: cellar, repository: repository) == cellar)
         try directory.setPermissions(0o755, of: cellar)
         try directory.setPermissions(0o555, of: repository)
         defer { try? directory.setPermissions(0o755, of: repository) }
-        #expect(!Homebrew.mayBeChanged(cellar: cellar, repository: repository))
+        #expect(Homebrew.unwritableFolder(cellar: cellar, repository: repository) == repository)
+    }
+
+    @Test(.permissionsHold) func saysWhoseFolderStopsThisAccountAndWhatGivesItBack() throws {
+        let directory = try TemporaryDirectory()
+        let repository = try directory.directory("homebrew")
+        let path = PathPattern.comparablePath(of: repository)
+        let installation = HomebrewInstallation(version: "7.0.0", prefix: repository, repository: repository)
+        #expect(installation.judgedForThisAccount().mayBeChangedByThisAccount)
+        try directory.setPermissions(0o555, of: repository)
+        defer { try? directory.setPermissions(0o755, of: repository) }
+
+        let own = try #require(installation.judgedForThisAccount().unwritable)
+        #expect(own.owner == .thisAccount)
+        #expect(own.command == "chmod u+w '\(path)'")
+        let another = try #require(installation.judgedForThisAccount(user: getuid() + 1).unwritable)
+        #expect(another.owner == .another(NSUserName()))
+        #expect(another.command == nil)
+        let system = URL(filePath: "/usr/share", directoryHint: .isDirectory)
+        let roots = HomebrewInstallation(version: "7.0.0", prefix: system, repository: system)
+        let root = try #require(roots.judgedForThisAccount().unwritable)
+        #expect(root.owner == .root)
+        #expect(root.command == "sudo chown -R $(whoami) '/usr/share'")
     }
 
     @Test func aDisabledPackageWaitsForNoUpgrade() {

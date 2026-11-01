@@ -117,10 +117,13 @@ struct HomebrewDetailView: View {
             }
 
             Section {
-                if let anotherAccount = homebrew.belongsToAnotherAccount {
-                    Text(anotherAccount)
+                if let reason = homebrew.whyItCantChange {
+                    Text(reason.detail)
                         .font(.callout)
                         .foregroundStyle(.secondary)
+                    if let command = reason.command {
+                        CopyButton(text: command)
+                    }
                 } else {
                     if package.isMissingWhatItInstalled {
                         RemovalsHeldBanner()

@@ -36,10 +36,8 @@ struct HomebrewList: View {
             }
             // While searching, the page lists only the matching packages and hides every other section.
             if searchText.isEmpty, homebrew.isInstalled, !homebrew.needsDefinitions {
-                if let anotherAccount = homebrew.belongsToAnotherAccount {
-                    Notice(title: Text("Homebrew Belongs to Another Account"), detail: Text(anotherAccount), kind: .note) {}
-                        .padding(.vertical, 6)
-                        .listRowSeparator(.hidden)
+                if let reason = homebrew.whyItCantChange {
+                    cantChange(reason)
                 }
                 installation
                 // On macOS 27 what Homebrew said, or didn't, comes right under its section, before maintenance.
@@ -76,7 +74,7 @@ struct HomebrewList: View {
                 : homebrew.refusedBrew != nil ? "Peel Doesn’t Run This Homebrew"
                 : !homebrew.isInstalled ? "Homebrew Isn’t Installed"
                 : !homebrew.needsDefinitions ? nil
-                : homebrew.mayChange ? "Homebrew Has to Update First" : "Homebrew Belongs to Another Account",
+                : homebrew.whyItCantChange?.title ?? "Homebrew Has to Update First",
             wasStopped: homebrew.scanRun.wasStopped
         )
         .toolbar {
@@ -448,10 +446,8 @@ struct HomebrewList: View {
 
     @ViewBuilder
     private var updateFirst: some View {
-        if let anotherAccount = homebrew.belongsToAnotherAccount {
-            Notice(title: Text("Homebrew Belongs to Another Account"), detail: Text(anotherAccount), kind: .note) {}
-                .padding(.vertical, 6)
-                .listRowSeparator(.hidden)
+        if let reason = homebrew.whyItCantChange {
+            cantChange(reason)
         } else {
             Notice(
                 title: Text("Homebrew Has to Update First"),
@@ -464,6 +460,16 @@ struct HomebrewList: View {
             .padding(.vertical, 6)
             .listRowSeparator(.hidden)
         }
+    }
+
+    private func cantChange(_ reason: HomebrewLibrary.CantChange) -> some View {
+        Notice(title: Text(reason.title), detail: Text(reason.detail), kind: .note) {
+            if let command = reason.command {
+                CopyButton(text: command)
+            }
+        }
+        .padding(.vertical, 6)
+        .listRowSeparator(.hidden)
     }
 
     private func count(of kind: HomebrewPackage.Kind) -> Text {
@@ -756,12 +762,16 @@ struct HomebrewList: View {
                 Button("Homebrew Is in Another Folder") { SettingsPane.general.open(with: openSettings) }
             }
         } else if homebrew.needsDefinitions, homebrew.packages?.isEmpty != false, homebrew.runningCommand == nil,
-                  let anotherAccount = homebrew.belongsToAnotherAccount {
-            ContentUnavailableView(
-                "Homebrew Belongs to Another Account",
-                systemImage: "person.crop.circle.badge.exclamationmark",
-                description: Text(anotherAccount)
-            )
+                  let reason = homebrew.whyItCantChange {
+            ContentUnavailableView {
+                Label(reason.title, systemImage: "person.crop.circle.badge.exclamationmark")
+            } description: {
+                Text(reason.detail)
+            } actions: {
+                if let command = reason.command {
+                    CopyButton(text: command)
+                }
+            }
         } else if homebrew.needsDefinitions, homebrew.packages?.isEmpty != false, homebrew.runningCommand == nil {
             ContentUnavailableView {
                 Label("Homebrew Has to Update First", systemImage: "arrow.down.circle")

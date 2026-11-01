@@ -170,13 +170,43 @@ final class HomebrewLibrary {
     /// lists can be read, and what changes it is left to the account it belongs to.
     var mayChange: Bool { installation?.mayBeChangedByThisAccount ?? true }
 
-    /// Why this account can't change Homebrew, or nil when it can.
-    var belongsToAnotherAccount: LocalizedStringResource? {
-        guard !mayChange else { return nil }
-        if let owner = installation?.owner {
-            return "Homebrew on this Mac belongs to \(owner), so only that account can update or change it."
+    /// Why this account can't change Homebrew, and the command that puts it right where this account can run one.
+    struct CantChange {
+        let title: LocalizedStringResource
+        let detail: LocalizedStringResource
+        var command: String?
+    }
+
+    /// Nil when this account can change Homebrew. Root can't help, since Homebrew refuses to run as root (`brew.sh`),
+    /// and a folder of this account's own only lacks a permission, so only another account's is theirs to change.
+    var whyItCantChange: CantChange? {
+        guard let unwritable = installation?.unwritable else { return nil }
+        let folder = unwritable.folder.abbreviatedPath
+        let command = unwritable.command ?? ""
+        switch unwritable.owner {
+        case .another(let owner?):
+            return CantChange(
+                title: "Homebrew Belongs to Another Account",
+                detail: "Homebrew on this Mac belongs to \(owner), so only that account can update or change it."
+            )
+        case .another(nil):
+            return CantChange(
+                title: "Homebrew Belongs to Another Account",
+                detail: "Homebrew on this Mac belongs to another account, so only that account can update or change it."
+            )
+        case .root:
+            return CantChange(
+                title: "This Account Can’t Change Homebrew",
+                detail: "\(folder) belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. Give the folder back to this account by running this in Terminal: \(command)",
+                command: command
+            )
+        case .thisAccount:
+            return CantChange(
+                title: "This Account Can’t Change Homebrew",
+                detail: "\(folder) belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: \(command)",
+                command: command
+            )
         }
-        return "Homebrew on this Mac belongs to another account, so only that account can update or change it."
     }
 
     /// Incremented only when the known casks or receipts change, or Homebrew leaves the Mac. An app's page scans

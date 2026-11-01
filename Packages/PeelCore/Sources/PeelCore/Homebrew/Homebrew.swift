@@ -252,10 +252,34 @@ public struct HomebrewInstallation: Sendable, Hashable {
     public let cellar: URL
     /// Where Homebrew itself is, as it says: the prefix on a Mac with Apple silicon, `/usr/local/Homebrew` on Intel.
     public let repository: URL
-    /// The account the repository belongs to, which installed Homebrew.
-    public private(set) var owner: String?
-    /// Whether this account may change Homebrew (`Homebrew.mayBeChanged`), judged when it was read.
-    public private(set) var mayBeChangedByThisAccount = true
+    /// The folder that stops this account changing Homebrew (`Homebrew.unwritableFolder`), judged when it was read.
+    public private(set) var unwritable: Unwritable?
+
+    /// A folder of Homebrew's this account can't write, and whose it is.
+    public struct Unwritable: Sendable, Hashable {
+        public enum Owner: Sendable, Hashable {
+            case thisAccount
+            case root
+            /// Another account of this Mac, by its name where it has one.
+            case another(String?)
+        }
+
+        public let folder: URL
+        public let owner: Owner
+
+        /// What gives this account the folder back in Terminal: Homebrew's own advice (`cmd/update.sh`), or the
+        /// permission it lacks when it is already this account's. Nil for another account's, which is theirs to give.
+        public var command: String? {
+            let path = PathPattern.comparablePath(of: folder).replacingOccurrences(of: "'", with: "'\\''")
+            return switch owner {
+            case .thisAccount: "chmod u+w '\(path)'"
+            case .root: "sudo chown -R $(whoami) '\(path)'"
+            case .another: nil
+            }
+        }
+    }
+
+    public var mayBeChangedByThisAccount: Bool { unwritable == nil }
 
     public var caskroom: URL {
         prefix.appending(path: "Caskroom", directoryHint: .isDirectory)
@@ -284,12 +308,18 @@ public struct HomebrewInstallation: Sendable, Hashable {
             .compactMap { Int($0) }
     }
 
-    /// A copy that says whose Homebrew this is and whether this account may change it.
-    func judgedForThisAccount() -> HomebrewInstallation {
+    /// A copy that says whether this account, `user`, may change Homebrew, and if not, which folder stops it.
+    func judgedForThisAccount(user: uid_t = getuid()) -> HomebrewInstallation {
         var judged = self
-        let path = repository.path(percentEncoded: false)
-        judged.owner = (try? FileManager.default.attributesOfItem(atPath: path))?[.ownerAccountName] as? String
-        judged.mayBeChangedByThisAccount = Homebrew.mayBeChanged(cellar: cellar, repository: repository)
+        judged.unwritable = Homebrew.unwritableFolder(cellar: cellar, repository: repository).map { folder in
+            let attributes = try? FileManager.default.attributesOfItem(atPath: folder.path(percentEncoded: false))
+            let account = (attributes?[.ownerAccountID] as? NSNumber)?.uint32Value
+            let owner: Unwritable.Owner =
+                account == user ? .thisAccount
+                : account == 0 ? .root
+                : .another(attributes?[.ownerAccountName] as? String)
+            return Unwritable(folder: folder, owner: owner)
+        }
         return judged
     }
 
@@ -518,12 +548,12 @@ indirect enum CaskValue: Decodable, Sendable {
 public enum Homebrew {
     static let notInstalled = "Homebrew isn’t installed."
 
-    /// Whether this account may change the Homebrew whose Cellar and repository these are, as `brew update` judges it
-    /// (`cmd/update.sh`): the Cellar, when there is one, and the repository can be written. Homebrew belongs to the
-    /// account that installed it, so another account of the Mac can read it and not change it.
-    static func mayBeChanged(cellar: URL, repository: URL) -> Bool {
+    /// The folder that stops this account changing the Homebrew whose Cellar and repository these are, as `brew update`
+    /// judges it (`cmd/update.sh`): the Cellar, when there is one, then the repository, each has to be writable.
+    static func unwritableFolder(cellar: URL, repository: URL) -> URL? {
         func writable(_ url: URL) -> Bool { access(url.path(percentEncoded: false), W_OK) == 0 }
-        return (cellar.isMissing || writable(cellar)) && writable(repository)
+        if !cellar.isMissing, !writable(cellar) { return cellar }
+        return writable(repository) ? nil : repository
     }
 
     /// Whether `sudo` stopped for a password it had no terminal to ask in, in its own words, which it writes in English

@@ -766,6 +766,230 @@
         }
       }
     },
+    "%@ belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. Give the folder back to this account by running this in Terminal: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složka %1$@ patří uživateli root, takže ji Homebrew nemůže měnit, a pod uživatelem root Homebrew neběží. Vraťte složku tomuto účtu spuštěním tohoto příkazu v Terminálu: %2$@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ gehört root, daher kann Homebrew diesen Ordner nicht ändern, und Homebrew läuft nicht als root. Gib den Ordner diesem Benutzeraccount zurück, indem du diesen Befehl im Terminal ausführst: %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. Give the folder back to this account by running this in Terminal: %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ pertenece a root, así que Homebrew no puede modificar esa carpeta, y Homebrew no se ejecuta como root. Devuelve la carpeta a esta cuenta ejecutando esto en Terminal: %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ appartient à root : Homebrew ne peut donc pas le modifier, et Homebrew ne s’exécute pas en tant que root. Rendez le dossier à ce compte en exécutant ceci dans Terminal : %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ appartiene a root, quindi Homebrew non può modificarla, e Homebrew non viene eseguito come root. Restituisci la cartella a questo account eseguendo questo comando in Terminale: %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@はrootが所有しているため、Homebrewは変更できません。また、Homebrewはrootとして実行されません。ターミナルで以下のコマンドを実行して、このフォルダの所有権をこのアカウントに戻してください: %2$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@은(는) Root 사용자에게 속해 있으므로 Homebrew가 변경할 수 없으며, Homebrew는 Root 사용자로 실행되지 않습니다. 이 폴더를 이 계정에 되돌려 주려면 터미널에서 다음을 실행하십시오: %2$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ is van root, dus Homebrew kan die map niet wijzigen, en Homebrew wordt niet als root uitgevoerd. Geef de map terug aan deze account door dit uit te voeren in Terminal: %2$@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder %1$@ należy do użytkownika root, więc Homebrew nie może go zmieniać, a Homebrew nie działa jako root. Oddaj ten folder temu kontu, uruchamiając w Terminalu to polecenie: %2$@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A pasta %1$@ pertence ao root, então o Homebrew não pode alterá-la, e o Homebrew não é executado como root. Devolva a pasta a esta conta executando isto no Terminal: %2$@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ aparține utilizatorului Root, așa că Homebrew nu îl poate modifica, iar Homebrew nu rulează ca utilizator Root. Dați dosarul înapoi acestui cont rulând această comandă în Terminal: %2$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка %1$@ принадлежит root, поэтому Homebrew не может ее изменить, а от имени root Homebrew не запускается. Верните папку этой учетной записи, выполнив эту команду в Терминале: %2$@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ tillhör rotanvändaren, så Homebrew kan inte ändra den, och Homebrew körs inte som rotanvändare. Ge tillbaka mappen till det här kontot genom att köra följande i Terminal: %2$@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ klasörünün sahibi root, bu yüzden Homebrew onu değiştiremez; Homebrew root olarak da çalışmaz. Terminal’de şunu çalıştırarak klasörü bu hesaba geri verin: %2$@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка %1$@ належить root, тож Homebrew не може її змінювати, а від імені root Homebrew не працює. Поверніть папку цьому обліковому запису, виконавши в Терміналі цю команду: %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@归root所有，因此Homebrew无法更改它，而Homebrew也不会以root身份运行。请在“终端”中运行以下命令，将该文件夹交还给此账户：%2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@屬於root，因此Homebrew無法更改它，而Homebrew也不會以root身分執行。請在「終端機」中執行此指令，將該檔案夾交還給此帳號：%2$@"
+          }
+        }
+      }
+    },
+    "%@ belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složka %1$@ patří tomuto účtu, ale nelze do ní zapisovat, takže ji Homebrew nemůže měnit. Povolte zápis spuštěním tohoto příkazu v Terminálu: %2$@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ gehört diesem Benutzeraccount, ist aber schreibgeschützt, daher kann Homebrew diesen Ordner nicht ändern. Erlaube das Schreiben, indem du diesen Befehl im Terminal ausführst: %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ pertenece a esta cuenta, pero no se puede escribir en esa carpeta, así que Homebrew no puede modificarla. Permítelo ejecutando esto en Terminal: %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ appartient à ce compte, mais il est impossible d’y écrire : Homebrew ne peut donc pas le modifier. Autorisez l’écriture en exécutant ceci dans Terminal : %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ appartiene a questo account ma non consente la scrittura, quindi Homebrew non può modificarla. Consentila eseguendo questo comando in Terminale: %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@はこのアカウントが所有していますが、書き込みができないため、Homebrewは変更できません。ターミナルで以下のコマンドを実行して、書き込みを許可してください: %2$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@은(는) 이 계정에 속해 있지만 쓸 수 없으므로 Homebrew가 변경할 수 없습니다. 쓰기를 허용하려면 터미널에서 다음을 실행하십시오: %2$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ is van deze account, maar er kan niet naar worden geschreven, dus Homebrew kan die map niet wijzigen. Sta het toe door dit uit te voeren in Terminal: %2$@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder %1$@ należy do tego konta, ale nie można w nim zapisywać, więc Homebrew nie może go zmieniać. Pozwól na to, uruchamiając w Terminalu to polecenie: %2$@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A pasta %1$@ pertence a esta conta, mas não é possível gravar nela, então o Homebrew não pode alterá-la. Permita a gravação executando isto no Terminal: %2$@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ aparține acestui cont, dar nu se poate scrie în el, așa că Homebrew nu îl poate modifica. Permiteți scrierea rulând această comandă în Terminal: %2$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка %1$@ принадлежит этой учетной записи, но запись в нее запрещена, поэтому Homebrew не может ее изменить. Разрешите запись, выполнив эту команду в Терминале: %2$@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ tillhör det här kontot men går inte att skriva till, så Homebrew kan inte ändra den. Tillåt det genom att köra följande i Terminal: %2$@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ klasörü bu hesaba ait ancak ona yazılamıyor, bu yüzden Homebrew onu değiştiremez. Terminal’de şunu çalıştırarak yazmaya izin verin: %2$@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка %1$@ належить цьому обліковому запису, але недоступна для запису, тож Homebrew не може її змінювати. Дозвольте запис, виконавши в Терміналі цю команду: %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@属于此账户，但无法写入，因此Homebrew无法更改它。请在“终端”中运行以下命令以允许写入：%2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@屬於此帳號，但無法寫入，因此Homebrew無法更改它。請在「終端機」中執行此指令以允許寫入：%2$@"
+          }
+        }
+      }
+    },
     "%@ came from Setapp. Setapp is what keeps it current, so Peel has nothing to ask." : {
       "localizations" : {
         "cs" : {
@@ -197683,6 +197907,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "捲軸會保持顯示，而不是只在捲動時才出現。"
+          }
+        }
+      }
+    },
+    "This Account Can’t Change Homebrew" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet nemůže měnit Homebrew"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount kann Homebrew nicht ändern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no puede modificar Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte ne peut pas modifier Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo account non può modificare Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントではHomebrewを変更できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 Homebrew를 변경할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account kan Homebrew niet wijzigen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie może zmieniać Homebrew"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta Conta Não Pode Alterar o Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu poate modifica Homebrew"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта учетная запись не может изменять Homebrew"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot kan inte ändra Homebrew"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Hesap Homebrew’u Değiştiremez"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не може змінювати Homebrew"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户无法更改Homebrew"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號無法更改Homebrew"
           }
         }
       }
