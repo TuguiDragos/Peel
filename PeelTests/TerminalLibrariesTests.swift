@@ -1,6 +1,6 @@
 import Foundation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Testing
 
 private final class FakeTerminalSettings: TerminalSettingsStoring {
@@ -212,6 +212,23 @@ struct TerminalLibrariesTests {
         #expect(library.areProfilesUnreadable)
         library.forgetRefusal()
         #expect(!library.wasRefused)
+    }
+
+    @Test func aToolIsInstalledThoughPeelWontRunTheBrewThatInstalledIt() throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let prefix = home.appending(path: "homebrew", directoryHint: .isDirectory)
+        let tool = try #require(TerminalTool.allCases.first)
+        let formula = try #require(tool.formulae.first)
+        try FileManager.default.createDirectory(
+            at: prefix.appending(path: "opt/\(formula)", directoryHint: .isDirectory), withIntermediateDirectories: true
+        )
+        let refused = HomebrewChoice.Unrunnable(brew: prefix.appending(path: "bin/brew"), refusal: .ownedByAnotherAccount)
+
+        #expect(TerminalToolLibrary.installed(prefix: nil, refused: refused, unrunnable: nil).contains(tool))
+        #expect(TerminalToolLibrary.installed(prefix: nil, refused: nil, unrunnable: refused).contains(tool))
+        #expect(TerminalToolLibrary.installed(prefix: prefix, refused: nil, unrunnable: nil).contains(tool))
+        #expect(TerminalToolLibrary.installed(prefix: nil, refused: nil, unrunnable: nil).isEmpty)
     }
 
     @Test func aToolsAvailabilityIsNotKnownWhileHomebrewIsAsked() {

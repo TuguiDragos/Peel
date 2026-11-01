@@ -30,10 +30,11 @@ final class TerminalToolLibrary {
 
     func refresh() async {
         let prefix = Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
-        let installed = prefix.map { prefix in TerminalTool.allCases.filter { $0.isInstalled(prefix: prefix) } } ?? []
+        let unrunnable = HomebrewChoice().unrunnable()
+        let refused = Homebrew.refusedInAUsualPlace()
         state = State(
-            prefix: prefix, installed: Set(installed), unrunnable: HomebrewChoice().unrunnable(),
-            refused: Homebrew.refusedInAUsualPlace()
+            prefix: prefix, installed: Self.installed(prefix: prefix, refused: refused, unrunnable: unrunnable),
+            unrunnable: unrunnable, refused: refused
         )
         guard let prefix else { return }
         if case .notAsked = asked {
@@ -44,6 +45,16 @@ final class TerminalToolLibrary {
             }
         }
         await askingHomebrew?.value
+    }
+
+    /// What is on the disk under the `brew` Peel runs, or under one it won't run, which it never asks: that a tool is
+    /// installed is only a look at a folder.
+    static func installed(
+        prefix: URL?, refused: HomebrewChoice.Unrunnable?, unrunnable: HomebrewChoice.Unrunnable?
+    ) -> Set<TerminalTool> {
+        let brew = (refused ?? unrunnable)?.brew
+        guard let folder = prefix ?? brew?.deletingLastPathComponent().deletingLastPathComponent() else { return [] }
+        return Set(TerminalTool.allCases.filter { $0.isInstalled(prefix: folder) })
     }
 
     func availability(of tool: TerminalTool) -> TerminalTool.Availability? {
