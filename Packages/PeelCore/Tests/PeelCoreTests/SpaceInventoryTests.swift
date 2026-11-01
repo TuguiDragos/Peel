@@ -219,6 +219,21 @@ struct SpaceInventoryTests {
         #expect(!report.items.flatMap(\.urls).contains { $0.path(percentEncoded: false).contains("org.example.Notes") })
     }
 
+    @Test func doesNotCountWhatFinderLeavesWhereAnAreaMeasuresWhatItOffers() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Logs/DiagnosticReports/.DS_Store", bytes: 400_000)
+        try directory.file("home/Library/Logs/DiagnosticReports/Example.ips", bytes: 4_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: LeftoverScanner.walk
+        )
+
+        let logs = try #require(report.items.first { $0.id == "logs" })
+        #expect(logs.size.known < 400_000)
+    }
+
     @Test func anExcludedPlaceThatCannotBeMeasuredLeavesTheAreaUnknown() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Caches/org.example.kept/blob", bytes: 300_000)

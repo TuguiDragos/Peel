@@ -1,5 +1,6 @@
 import AppKit
 public import Foundation
+internal import PeelPrivileged
 
 /// Plans the emptying of one of Space's folders. The folder itself is never removed (the guard refuses it, and
 /// macOS expects to find it), so its children are listed instead, and inside a vendor's folder that holds a tool's
@@ -225,6 +226,7 @@ public enum SpaceRemoval {
             let onlyFiles = inside || filesOnly.contains(PathPattern.comparablePath(of: folder))
             for child in children {
                 let name = child.lastPathComponent
+                if ProtectedData.isLeftByFinder(name) { continue }
                 if item.leavesMacOSsOwn, SpaceInventory.isMacOSsOwn(name) { continue }
                 if own.contains(Naming.normalized(name)) { continue }
                 if onlyFiles, child.isRealFolder { continue }

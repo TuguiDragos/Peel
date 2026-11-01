@@ -496,7 +496,9 @@ public enum SpaceInventory {
             // A folder that can't be listed is measured whole, so its size reads as unknown, never as nothing.
             guard let names = try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
             else { return [folder] }
-            let kept = definition.leavesMacOSsOwn ? names.filter { !isMacOSsOwn($0) } : names
+            let kept = names.filter {
+                !ProtectedData.isLeftByFinder($0) && !(definition.leavesMacOSsOwn && isMacOSsOwn($0))
+            }
             let children = kept.map { folder.appending(path: $0) }.filter { child in
                 !paths.contains(PathPattern.comparablePath(of: child))
                     && !(filesOnly.contains(PathPattern.comparablePath(of: folder)) && child.isRealFolder)

@@ -847,6 +847,17 @@ struct SpaceRemovalTests {
         #expect(plan.heldBack.map { "\($0.key.lastPathComponent): \($0.value.rawValue)" } == ["com.slow.app: notMeasured"])
     }
 
+    @Test func leavesWhatFinderLeavesInAFolderAlone() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [".DS_Store", ".localized", "org.example.app/blob"] {
+            try directory.file("home/Library/Caches/\(path)", bytes: 4_000)
+        }
+
+        let plan = await SpaceRemoval.plan(for: item(directory), environment: environment(directory), running: [:])
+
+        #expect(plan.removable.map(\.lastPathComponent) == ["org.example.app"])
+    }
+
     @Test func measuresAFewChildrenAtATime() async throws {
         let directory = try TemporaryDirectory()
         for index in 0..<8 {

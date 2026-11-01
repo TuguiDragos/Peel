@@ -286,7 +286,12 @@ public enum ProtectedData: Sendable {
         var info = stat()
         guard lstat(documents, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return false }
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: documents) else { return true }
-        return names.contains { $0 != ".DS_Store" && $0 != ".localized" }
+        return names.contains { !isLeftByFinder($0) }
+    }
+
+    /// What Finder and macOS leave in a folder, which says nothing of what the folder holds.
+    public static func isLeftByFinder(_ name: String) -> Bool {
+        name == ".DS_Store" || name == ".localized"
     }
 
     /// Work that lives in a cache folder and nowhere else. A JetBrains IDE and Android Studio keep
