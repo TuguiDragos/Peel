@@ -78,6 +78,9 @@ struct DocumentationTests {
             ("docs/llms.txt", "\(tweaks) settings"),
             ("docs/index.html", "id=\"languages\""),
             ("docs/languages/index.html", "url=/#languages"),
+            ("README.md", "<a href=\"https://peel.tuguidragos.com/languages\">"),
+            ("README.md", "<a href=\"#install\">"),
+            ("README.md", "## Install > [!CAUTION]"),
         ]
 
         let wrong = try said.filter { try !text($0.0).contains($0.1) }
