@@ -668,8 +668,12 @@ struct ProjectsCommand: AsyncParsableCommand {
         refusals: RefusalLog = RefusalLog()
     ) async throws {
         let suggested = artifacts.filter(\.isRecommended)
+        let staying = artifacts.compactMap { artifact in
+            Self.reason(for: artifact).map { "\(Output.plain(Output.path(artifact.url))) stays: \($0)" }
+        }
         guard !suggested.isEmpty else {
             Output.line("Nothing here is safe to suggest. See `peel projects`.")
+            staying.forEach(Output.note)
             return
         }
         let (source, sourceKey) = Self.source(of: suggested)
@@ -682,6 +686,7 @@ struct ProjectsCommand: AsyncParsableCommand {
         )
         try await cleanup.run(
             question: "Move \(Output.count(cleanup.moving.count, "folder", "folders")) to the Trash?",
+            notes: staying,
             dryRun: removal.dryRun,
             yes: removal.yes,
             using: service,

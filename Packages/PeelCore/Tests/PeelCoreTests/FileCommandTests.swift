@@ -184,16 +184,28 @@ struct FileCommandTests {
         let fresh = try artifact("build", lastActivity: .now)
 
         let developer = project.deletingLastPathComponent().path(percentEncoded: false)
-        try await (command(["projects", developer, "--remove", "-y"]) as ProjectsCommand)
-            .clean(
-                [stale, fresh],
-                using: try service(in: directory),
-                recordingIn: logs.removals,
-                refusals: logs.refusals
-            )
+        let collected = Output.Collected()
+        try await Output.$collected.withValue(collected) {
+            try await (command(["projects", developer, "--remove", "-y"]) as ProjectsCommand)
+                .clean(
+                    [stale, fresh],
+                    using: try service(in: directory),
+                    recordingIn: logs.removals,
+                    refusals: logs.refusals
+                )
+        }
 
         #expect(await moved(logs) == ["DerivedData"])
         #expect(FileManager.default.fileExists(atPath: fresh.url.path(percentEncoded: false)))
+        #expect(collected.notes.contains("App/build stays: changed in the last 7 days"))
+
+        let onlyFresh = Output.Collected()
+        try await Output.$collected.withValue(onlyFresh) {
+            try await (command(["projects", developer, "--remove", "-y"]) as ProjectsCommand)
+                .clean([fresh], using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+        }
+        #expect(onlyFresh.output.contains("Nothing here is safe to suggest."))
+        #expect(onlyFresh.notes.contains("App/build stays: changed in the last 7 days"))
     }
 
     // MARK: Duplicates
