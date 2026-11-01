@@ -5,7 +5,15 @@ import PeelCore
 
 @Observable
 final class InstallerLibrary {
+    /// How long what a scan saw is shown before the page, appearing or with Peel coming forward, looks again: the
+    /// shortest time a reason beside a row speaks of.
+    static let scanAgainAfter: Duration = .seconds(60 * 60)
+
     private(set) var scan: InstallerScan?
+    /// What the search in the list holds. A page's rows narrow with it, unless it names the page.
+    var searchText = ""
+    private let scanning: @Sendable ([InstalledApp], Exclusions) async -> InstallerScan
+    @ObservationIgnored private var scannedAt: ContinuousClock.Instant?
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -13,12 +21,27 @@ final class InstallerLibrary {
     var selection: InstallerItem.Kind?
     var selectedURLs: Set<URL> = []
 
+    init(
+        scanning: @escaping @Sendable ([InstalledApp], Exclusions) async -> InstallerScan = {
+            await Installers.scan(installedApps: $0, exclusions: $1)
+        }
+    ) {
+        self.scanning = scanning
+    }
+
     var sections: [InstallerItem.Kind] {
         InstallerItem.Kind.allCases.filter { !items(in: $0).isEmpty }
     }
 
     func items(in kind: InstallerItem.Kind) -> [InstallerItem] {
         scan?.items(in: kind) ?? []
+    }
+
+    /// The rows a kind's page shows while the list is searched.
+    func shownItems(in kind: InstallerItem.Kind) -> [InstallerItem] {
+        let items = items(in: kind)
+        guard !searchText.isEmpty, !SearchText.matches(String(localized: kind.title), searchText) else { return items }
+        return items.filter { $0.matches(searchText) }
     }
 
     var needsFullDiskAccess: Bool {
@@ -38,12 +61,21 @@ final class InstallerLibrary {
         selected.subtracting(items.filter { $0.isLocked(canUseHelper: canUseHelper) }.map(\.url))
     }
 
+    /// Scans unless the last scan ended less than `age` ago, one or a removal runs, or the last scan was stopped: a
+    /// reason beside a row speaks of the last hour or of what runs now, so what a scan saw ages.
+    func refreshUnlessScanned(within age: Duration, installedApps: [InstalledApp]) async {
+        guard !scanRun.isWaitedFor, !isRemoving, !scanRun.wasStopped else { return }
+        if let scannedAt, ContinuousClock.now - scannedAt < age { return }
+        await refresh(installedApps: installedApps)
+    }
+
     func refresh(installedApps: [InstalledApp]) async {
         guard
-            let result = await scanRun.run({
-                await Installers.scan(installedApps: installedApps, exclusions: ExclusionsStore.shared.exclusions)
+            let result = await scanRun.run({ [scanning] in
+                await scanning(installedApps, ExclusionsStore.shared.exclusions)
             })
         else { return }
+        scannedAt = .now
         scan = result
         selectedURLs.formIntersection(Set(result.items.filter { $0.heldBack?.cannotBeMoved != true }.map(\.url)))
         if let selection, result.items(in: selection).isEmpty {
@@ -120,8 +152,8 @@ nonisolated extension InstallerItem.Kind {
         switch self {
         case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and packages in the folders apps keep in Application Support. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
         case .macOSInstaller: "A full copy of macOS, ready to install. Apple offers the newest release again to any Mac that can run it."
-        case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it."
-        case .deviceBackup: "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here and leaves the rest to Finder."
+        case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it. What Apple Configurator keeps stays in its own container, and is deleted in System Settings > General > Storage > iOS Files."
+        case .deviceBackup: "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here. A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder."
         case .incompleteDownload: "Downloads never finished, still under the name a file has until its download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox and programs such as torrent clients, and .download for Safari."
         case .updateDownload: "Updates an app downloaded with Sparkle, Squirrel, or electron-updater and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates."
         }

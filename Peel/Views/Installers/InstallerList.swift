@@ -1,3 +1,4 @@
+import AppKit
 import PeelCore
 import SwiftUI
 
@@ -6,15 +7,10 @@ struct InstallerList: View {
     @Environment(InstallerLibrary.self) private var installers
     @Environment(HelperModel.self) private var helper
     @State private var isRescanning = false
-    @State private var searchText = ""
 
     /// The kinds to list. During a search, a kind is kept when its title or any of its items matches.
     private var listed: [InstallerItem.Kind] {
-        guard !searchText.isEmpty else { return installers.sections }
-        return installers.sections.filter { kind in
-            SearchText.matches(String(localized: kind.title), searchText)
-                || installers.items(in: kind).contains { $0.matches(searchText) }
-        }
+        installers.sections.filter { !installers.shownItems(in: $0).isEmpty }
     }
 
     var body: some View {
@@ -26,13 +22,18 @@ struct InstallerList: View {
                 UnreadableFoldersNotice(folders: installers.unreadable, needsFullDiskAccess: true)
             }
             ForEach(filtered, id: \.self) { kind in
-                let items = installers.items(in: kind)
-                SectionRow(kind: kind, count: items.count, size: SizeTotal(items.map(\.size)))
+                let items = installers.shownItems(in: kind)
+                SectionRow(
+                    kind: kind, count: items.count,
+                    size: items.shownTotal(of: kind, canUseHelper: helper.canAct)
+                )
                 .tag(kind)
             }
         }
         .accessibilityLabel(Text(Tool.installers.title))
-        .columnSearch(text: $searchText, prompt: "Search Installers and Backups", when: !installers.sections.isEmpty)
+        .columnSearch(
+            text: $installers.searchText, prompt: "Search Installers and Backups", when: !installers.sections.isEmpty
+        )
         .scanState(phase(filtered), isRescanning: isRescanning, scan: installers.scanRun) {
             if installers.sections.isEmpty, installers.needsFullDiskAccess {
                 ContentUnavailableView {
@@ -52,7 +53,7 @@ struct InstallerList: View {
                     description: Text("Peel found no installers, device firmware, unfinished downloads, or downloaded updates of \(Installers.minimumSize.byteCount) or more, and no iPhone or iPad backups.")
                 )
             } else if filtered.isEmpty {
-                ContentUnavailableView.search(text: searchText)
+                ContentUnavailableView.search(text: installers.searchText)
             }
         }
         .fadesInColumn(whenRowsChange: installers.scan?.items.map(\.id))
@@ -68,7 +69,7 @@ struct InstallerList: View {
             ToolbarItem {
                 SelectOnEveryPage(
                     pages: SelectablePages(filtered.map { kind in
-                        (kind.page, installers.items(in: kind).selectableRows(canUseHelper: helper.canAct))
+                        (kind.page, installers.shownItems(in: kind).selectableRows(canUseHelper: helper.canAct))
                     }),
                     selection: installers
                 ) { page in
@@ -89,10 +90,16 @@ struct InstallerList: View {
             }
         }
         .task(id: library.hasLoaded) {
-            guard library.hasLoaded, installers.scan == nil, !installers.scanRun.isWaitedFor,
-                  !installers.scanRun.wasStopped
-            else { return }
-            await installers.refresh(installedApps: library.apps)
+            guard library.hasLoaded else { return }
+            await installers.refreshUnlessScanned(within: InstallerLibrary.scanAgainAfter, installedApps: library.apps)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            guard library.hasLoaded else { return }
+            Task {
+                await installers.refreshUnlessScanned(
+                    within: InstallerLibrary.scanAgainAfter, installedApps: library.apps
+                )
+            }
         }
         .rescanOnExclusionChange("InstallerList") { await installers.refresh(installedApps: library.apps) }
         .rescanAfterPutBack(.installers) { await installers.refresh(installedApps: library.apps) }

@@ -93,7 +93,7 @@ struct InstallerDetailView: View {
     }
 
     private var items: [InstallerItem] {
-        installers.items(in: kind)
+        installers.shownItems(in: kind)
     }
 
     private func header(_ rows: [InstallerItem]) -> some View {
@@ -109,7 +109,7 @@ struct InstallerDetailView: View {
             }
         } trailing: {
             TotalLabel(
-                total: kind == .deviceBackup ? SizeTotal(rows.map(\.size)) : rows.movable(canUseHelper: helper.canAct),
+                total: rows.shownTotal(of: kind, canUseHelper: helper.canAct),
                 caption: Text(kind == .deviceBackup ? "on this Mac" : "to remove")
             )
         }
