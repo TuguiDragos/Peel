@@ -490,7 +490,8 @@ still shows its reason beside it.
 
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. When a scan you
 started ends, Duplicates selects every copy of each group but the one it suggests keeping, and never one in
-`/Users/Shared`, which every account may use: check which copy stays before you move the others. Nothing inside a repository, a project, `node_modules`, a photo or music library, an
+`/Users/Shared`, which every account may use: check which copy stays before you move the others. Nothing inside a
+repository, a project, `node_modules`, a photo or music library, an
 app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`. An app,
 another package, or anything hidden counts only toward the folder around it, a document its app keeps as a package among
 them, such as a Logic Pro or Scrivener project, even once the app is gone, while a folder holding a repository, a
@@ -573,7 +574,8 @@ app, are excluded only by their own paths, so to keep them, exclude them too.
 Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` or `brew
 upgrade`, which deletes the version it replaces, for a package whose app, or whose own folder, you excluded, nor for one
 with a folder Peel can't look into for an app you excluded, nor for any package while your list isn't read or can't be,
-and Homebrew's cleanup keeps every formula whose folder you excluded. While Peel can't read Homebrew's Cellar, or can't look into a formula's folder in it for an app you excluded,
+and Homebrew's cleanup keeps every formula whose folder you excluded. While Peel can't read Homebrew's Cellar, or can't
+look into a formula's folder in it for an app you excluded,
 nothing that deletes formulae runs at all. The Cellar and the prefix are the ones Homebrew names (`brew --cellar`, `brew
 --prefix`), never worked out from where `brew` sits.
 

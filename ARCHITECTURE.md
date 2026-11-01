@@ -177,7 +177,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      History the next time History is read, as what it was when History couldn't write it, since its line then keeps
      the record (`RemovalJournal.keep`), and otherwise under the name its page gave it: each line carries its batch
      and its part (`RecordedRemoval`), so what a part left there joins that removal under the part's name. Only a
-     removal from `peel`, or a line without a part, comes back as an interrupted removal. Quitting the app waits for a removal until History has it (`QuitGuard`), as `peel` carries on
+     removal from `peel`, or a line without a part, comes back as an interrupted removal. Quitting the app waits for a
+     removal until History has it (`QuitGuard`), as `peel` carries on
      through Control-C (`Uninterrupted`).
    - While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by `TrashService` before a removal)
      until Start Over, on the History page, sets the unreadable file aside, and while it cannot be written, its folder

@@ -15,7 +15,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   more. Each file comes with the reason it matched, such as the app's bundle identifier, its signing team, or a
   Homebrew cask that names it.
 - **What Peel is sure of, or nearly, is selected.** Files Peel matched by the app's identifier or its name, and its
-  installer's receipt when the package put nothing else outside the app, are selected for you, and so is the folder Homebrew keeps for an app it installed, so that
+  installer's receipt when the package put nothing else outside the app, are selected for you, and so is the folder
+  Homebrew keeps for an app it installed, so that
   Homebrew stops listing the app once it is gone. A match on the name alone is only a guess in your home folder, at
   the top of a Library, or inside another app's folder or one of Apple's, so it waits under Review Before Removing.
   So does a folder named like the app while another installed app's name holds that name, as Epic Games Launcher
@@ -163,7 +164,8 @@ Space shows what fills your disk, area by area, and what each area is.
 - **File Search:** files by name, kind, or size, and by age along with one of them, in your home folder or across this
   Mac's disks, not network volumes, found through Spotlight, up to 2,000 at a time, so a folder in System Settings >
   Spotlight > Search Privacy isn't searched, and the page names any disk Spotlight isn't indexing. In the list, the
-  arrow keys choose a file and Space selects it. A file in a Library folder, an app's working data, is listed last and never recommended, and neither is one in a
+  arrow keys choose a file and Space selects it. A file in a Library folder, an app's working data, is listed last and
+  never recommended, and neither is one in a
   repository, which may be part of a project's work, or in Shared, which belongs to every account, and one that needs
   an administrator stays where it is. The page says how many files Spotlight found that it doesn't list, and why: what
   syncs to your other devices, what you excluded, what sits where Peel never moves anything, and what macOS didn't let
@@ -273,7 +275,8 @@ and how many items the others hold.
   warns that apps using it may stop working, says that macOS loads a camera plug-in only once legacy video device
   support has been restored in macOS Recovery, or says that nothing loads it anymore, as for a Quick Look generator, an
   old Internet plug-in such as Flash, or a contextual menu item.
-- **Package Receipts:** what installer packages other than Apple's put on your startup disk, item by item, to move to the Trash.
+- **Package Receipts:** what installer packages other than Apple's put on your startup disk, item by item, to move to
+  the Trash.
   Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what something
   else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no longer counts
   the package as installed, and Forget All does so at once for every package listed under Receipt Only, which left
@@ -390,7 +393,8 @@ when you open Peel again from the menu bar, Finder, or Spotlight.
 - **Getting it.** The command ships inside Peel. Settings > General shows, beside Command-line tool, the command
   that puts it on your path: copy it and run it in Terminal, which asks for your password. It runs `sudo`, so on a
   standard account Peel says it needs an administrator, and gives instead a line to add to your shell's startup file,
-  `~/.zshrc`, `~/.bash_profile`, or fish's `config.fish`, which runs the command from that account alone. A Homebrew install puts it there for you.
+  `~/.zshrc`, `~/.bash_profile`, or fish's `config.fish`, which runs the command from that account alone. A Homebrew
+  install puts it there for you.
 - **It asks first.** Every command that moves something shows its plan and asks before it moves anything.
   `--dry-run` only shows the plan, and `-y` skips the question.
 - **Only when you can answer.** It asks only in a terminal where you can see the plan and type, so with its output
