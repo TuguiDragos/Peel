@@ -94,6 +94,44 @@ struct CloudLibraryTests {
         #expect(cloud.refusals.map(\.url) == [kept.url])
     }
 
+    @Test func aRescanStoppedAfterRemovingDownloadsListsNothingThatWasRemoved() async {
+        let freed = Self.download("Freed.mov")
+        let kept = Self.download("Kept.mov")
+        let everything = CloudStorage.folders(of: [freed, kept], home: URL(filePath: "/org.example"))
+        let (rescan, rescans) = AsyncStream.makeStream(of: Void.self)
+        let asked = Asked()
+        let cloud = CloudLibrary(
+            scan: { _, _, _ in
+                asked.scans += 1
+                if asked.scans > 1 {
+                    rescans.yield()
+                    try? await Task.sleep(for: .seconds(30))
+                }
+                return CloudScan(files: [freed, kept], folders: everything)
+            },
+            removeDownloads: { _, _ in CloudFreeing(freed: [freed]) }
+        )
+        await cloud.refresh()
+        cloud.selectedURLs = [freed.url]
+
+        let removal = Task { await cloud.freeSelected() }
+        var waiting = rescan.makeAsyncIterator()
+        await waiting.next()
+
+        #expect(cloud.isFreeing)
+        #expect(!cloud.freeing.isMoving)
+        #expect(cloud.files == [kept])
+        #expect(cloud.folders.flatMap(\.files) == [kept])
+        #expect(cloud.files(matching: "Freed").isEmpty)
+        #expect(cloud.selectedURLs.isEmpty)
+
+        cloud.scanRun.stop()
+
+        #expect(await removal.value == freed.size)
+        #expect(cloud.files == [kept])
+        #expect(!cloud.isFreeing)
+    }
+
     @Test func stopsRemovingDownloadsWhenAsked() async {
         let download = Self.download("Film.mov")
         let (started, starts) = AsyncStream.makeStream(of: Void.self)

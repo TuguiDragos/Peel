@@ -201,7 +201,7 @@ struct CloudView: View {
         .navigationTitle(Text(Tool.cloud.title))
         .toolbar {
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: cloud.isFreeing, scan: cloud.scanRun) {
+                RescanButton(isRunning: $isRescanning, isDisabled: cloud.freeing.isMoving, scan: cloud.scanRun) {
                     await cloud.refresh()
                 }
             }

@@ -126,9 +126,22 @@ final class CloudLibrary {
         freeingTask = task
         let done = await task.value
         freeingTask = nil
+        leaveOut(done.freed)
         await refresh()
         refusals = done.refused
         return done.freed.map(\.size).cappedSum
+    }
+
+    /// Takes what was freed off the list at once, since the rescan after it can be stopped.
+    private func leaveOut(_ freed: [CloudFile]) {
+        let gone = Set(freed.map(\.url))
+        guard !gone.isEmpty, let files else { return }
+        let left = files.filter { !gone.contains($0.url) }
+        let kept = Set(left.map(\.url))
+        folders = CloudFolder.ordered(folders.compactMap { $0.keeping(kept) })
+        searchable = CloudFolder.searchable(left, in: folders)
+        self.files = left
+        selectedURLs.subtract(gone)
     }
 
     func stopFreeing() {
