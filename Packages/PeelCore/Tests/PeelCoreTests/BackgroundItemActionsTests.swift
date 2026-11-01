@@ -912,6 +912,7 @@ struct DeclaredBackgroundItemsTests {
         #expect(rows.map(\.label) == ["org.example.daemon", "org.example.stray"])
         #expect(rows.first?.source == .systemLibrary, "launchd loaded it from its own folder, not from elsewhere")
         #expect(rows.first?.isClosedToPeel == true && rows.first?.isNamedByItsFile == false)
+        #expect(rows.first?.mayBeDisabled == false, "the row after it is named by its file and has no Enable")
         #expect(rows.last?.source == .otherFile && rows.last?.isClosedToPeel == false)
     }
 
@@ -940,6 +941,7 @@ struct DeclaredBackgroundItemsTests {
 
         #expect(rows.first?.source == .userLibrary, "launchd loaded it from its own folder, not from elsewhere")
         #expect(rows.first?.isClosedToPeel == true)
+        #expect(rows.first?.mayBeDisabled == false, "once it isn't loaded, nothing lists it")
     }
 
     /// macOS keeps its own jobs under `/System/Library` and `/Library/Apple/System/Library`, so a file in these

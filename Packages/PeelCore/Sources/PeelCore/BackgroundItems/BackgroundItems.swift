@@ -178,6 +178,8 @@ public enum BackgroundItems {
             let folder = PathPattern.comparablePath(of: plist.deletingLastPathComponent())
             var placed = job
             placed.isClosedToPeel = true
+            // Once it isn't loaded, its row knows only the file's name, or nothing lists it: Enable would be gone.
+            placed.staysListedWhenDisabled = false
             if let index = rows.firstIndex(where: {
                 $0.isClosedToPeel && $0.isNamedByItsFile && $0.plistURL.map(PathPattern.comparablePath(of:)) == file
             }) {
