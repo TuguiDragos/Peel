@@ -253,6 +253,14 @@ struct InstallersTests {
         try #require(result == 0)
     }
 
+    private func ageWhole(_ top: URL) throws {
+        let inside = FileManager.default.enumerator(at: top, includingPropertiesForKeys: nil)?
+            .compactMap { $0 as? URL } ?? []
+        for url in inside + [top] {
+            try age(url, changedHoursAgo: 2, addedHoursAgo: 2)
+        }
+    }
+
     /// Dates `url` as changed and as added to its folder so many hours ago (`setattrlist(2)` sets the second).
     private func age(_ url: URL, changedHoursAgo changed: Double, addedHoursAgo added: Double) throws {
         let path = url.path(percentEncoded: false)
@@ -449,6 +457,9 @@ struct InstallersTests {
         try directory.file("home/Downloads/Tool-1.dmg", bytes: 400_000)
         try directory.file("home/Library/iTunes/iPhone Software Updates/iPhone17,1_26.1.ipsw", bytes: 400_000)
         try directory.file("root/Applications/Install macOS Tahoe.app/Contents/MacOS/app", bytes: 400_000)
+        for path in ["home/Library/iTunes/iPhone Software Updates/iPhone17,1_26.1.ipsw", "root/Applications/Install macOS Tahoe.app"] {
+            try ageWhole(directory.url.appending(path: path))
+        }
         let locked = ["home/Downloads", "home/Library/iTunes/iPhone Software Updates", "root/Applications"]
         for folder in locked { try directory.setPermissions(0o555, of: folder) }
         defer { for folder in locked { try? directory.setPermissions(0o755, of: folder) } }
@@ -691,6 +702,49 @@ struct InstallersTests {
 
         #expect(scan.items(in: .macOSInstaller).map(\.name) == ["Install macOS Tahoe"])
         #expect(scan.items(in: .firmware).map(\.name) == ["iPhone17,1_26.1.ipsw"])
+    }
+
+    @Test func holdsBackAMacOSInstallerOrFirmwareThatJustArrived() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            "Applications/Install macOS Tahoe.app/Contents/SharedSupport/SharedSupport.dmg",
+            "Applications/Install macOS Sequoia.app/Contents/SharedSupport/SharedSupport.dmg",
+            "Downloads/Fresh.ipsw", "Downloads/Old.ipsw", "Library/iTunes/iPhone Software Updates/Kept.ipsw",
+        ] {
+            try directory.file(path, bytes: 400_000)
+        }
+        for path in ["Applications/Install macOS Sequoia.app", "Downloads/Old.ipsw"] {
+            try ageWhole(directory.url.appending(path: path))
+        }
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
+        #expect(heldBack["Install macOS Tahoe"] == .arrivedRecently)
+        #expect(heldBack["Install macOS Sequoia"] == .some(nil))
+        #expect(heldBack["Fresh.ipsw"] == .arrivedRecently)
+        #expect(heldBack["Old.ipsw"] == .some(nil))
+        #expect(heldBack["Kept.ipsw"] == .arrivedRecently)
+    }
+
+    @Test func readsTheFirmwareFoldersMacOSNamesAndWhatHoldsThem() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/iTunes/HomePod Software Updates/HomePod.ipsw", bytes: 400_000)
+        try directory.file("Library/iTunes/Watch Software Updates/Watch.ipsw", bytes: 400_000)
+        let held = try directory.file("Library/iTunes/iPad Software Updates/iPad.ipsw", bytes: 400_000)
+        let handle = try FileHandle(forReadingFrom: held)
+        defer { try? handle.close() }
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        #expect(scan.items(in: .firmware).map(\.name) == ["iPad.ipsw"])
+        #expect(scan.items(in: .firmware).first?.heldBack == .openInAProgram)
     }
 
     @Test func aPlaceThatLeadsIntoAnotherListsWhatIsThereOnce() async throws {

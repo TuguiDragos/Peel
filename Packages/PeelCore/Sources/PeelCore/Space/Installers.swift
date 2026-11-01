@@ -207,7 +207,10 @@ public enum Installers {
                     let installer = appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps)
                     items.append(unlessItMayStillBeNeeded(installer, origins: origins))
                 } else {
-                    items.append(firmware(at: url, size: size, heldBack: heldBack))
+                    items.append(firmware(
+                        at: url, size: size,
+                        heldBack: heldBack ?? (arrivedRecently(url, newestInside: nil) ? .arrivedRecently : nil)
+                    ))
                 }
             }
         }
@@ -228,7 +231,14 @@ public enum Installers {
             syncKeeper: syncKeeper,
             openFiles: openFiles
         )
-        items += await firmwareFiles(home: home, exclusions: exclusions, minimumSize: minimumSize, measure: measure)
+        items += await firmwareFiles(
+            home: home,
+            exclusions: exclusions,
+            minimumSize: minimumSize,
+            measure: measure,
+            syncKeeper: syncKeeper,
+            openFiles: openFiles
+        )
         items += await updateDownloads(
             home: home,
             installedApps: installedApps,
@@ -315,16 +325,18 @@ public enum Installers {
             installer.heldBack = .encryptedImage
         } else if installer.installedApp == nil, origins.address(of: installer.url) == nil {
             installer.heldBack = .mayBeTheOnlyCopy
-        } else if arrivedRecently(installer.url) {
+        } else if arrivedRecently(installer.url, newestInside: nil) {
             installer.heldBack = .arrivedRecently
         }
         return installer
     }
 
-    /// Whether `url` arrived in its folder or changed within `justArrived`, or when that can't be told.
-    private static func arrivedRecently(_ url: URL) -> Bool {
+    /// Whether `url` arrived in its folder or changed within `justArrived`, or when that can't be told. A package
+    /// changes when what is inside it does (`newestInside`).
+    private static func arrivedRecently(_ url: URL, newestInside: Date?) -> Bool {
         let values = try? url.resourceValues(forKeys: [.contentModificationDateKey, .addedToDirectoryDateKey])
-        let latest = [values?.contentModificationDate, values?.addedToDirectoryDate].compactMap(\.self).max()
+        let latest = [values?.contentModificationDate, values?.addedToDirectoryDate, newestInside]
+            .compactMap(\.self).max()
         return latest.map { Date.now.timeIntervalSince($0) < justArrived } ?? true
     }
 
@@ -476,7 +488,7 @@ public enum Installers {
             for url in files(in: folder.url) where url.pathExtension.lowercased() == "app" && isMacOSInstaller(url) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, seen, _) = await measured(url, by: measure)
+                let (size, seen, newest) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
                 let info = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))
                 let version = AppInspector.stated(info?["CFBundleShortVersionString"])
@@ -492,7 +504,7 @@ public enum Installers {
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                     heldBack: heldBack(
                         url, seen: seen, in: folder, syncKeeper: syncKeeper, openFiles: openFiles
-                    )
+                    ) ?? (arrivedRecently(url, newestInside: newest) ? .arrivedRecently : nil)
                 ))
             }
         }
@@ -505,13 +517,16 @@ public enum Installers {
         ["Install macOS", "Install OS X"].contains { url.lastPathComponent.hasPrefix($0) }
     }
 
+    /// The folders macOS names for its iOS Files in storage (`iOSFilesStorageExtension`).
     static func firmwareFiles(
         home: URL,
         exclusions: Exclusions,
         minimumSize: Int64,
-        measure: LeftoverScanner.Measure
+        measure: LeftoverScanner.Measure,
+        syncKeeper: (URL) -> SyncKeeper?,
+        openFiles: OpenFiles
     ) async -> [InstallerItem] {
-        let folders = ["iPhone", "iPad", "iPod", "Apple TV", "HomePod", "Watch"].map {
+        let folders = ["iPhone", "iPad", "iPod", "Apple TV"].map {
             home.appending(path: "Library/iTunes/\($0) Software Updates", directoryHint: .isDirectory)
         }
         var items: [InstallerItem] = []
@@ -519,9 +534,14 @@ public enum Installers {
             for url in files(in: folder) where firmwareExtensions.contains(url.pathExtension.lowercased()) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, heldBack, _) = await measured(url, by: measure)
+                let (size, seen, _) = await measured(url, by: measure)
                 guard isWorthARow(size, minimumSize) else { continue }
-                items.append(firmware(at: url, size: size, heldBack: heldBack))
+                let place = Folder(url: folder, isSharedWithEveryone: false)
+                let heldBack = heldBack(url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles)
+                items.append(firmware(
+                    at: url, size: size,
+                    heldBack: heldBack ?? (arrivedRecently(url, newestInside: nil) ? .arrivedRecently : nil)
+                ))
             }
         }
         return items
