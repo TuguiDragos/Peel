@@ -105,10 +105,8 @@ struct DuplicateGroupView: View {
         .accessibilityHidden(true)
     }
 
-    /// True when a copy other than the first, which Peel suggests keeping, shares its blocks with something else.
-    /// This checks blocks, not sizes: a compressed or sparse file is smaller on disk without sharing anything.
     private var sharesStorage: Bool {
-        group.files.dropFirst().contains { $0.sharesStorage }
+        group.sharesStorage
     }
 }
 

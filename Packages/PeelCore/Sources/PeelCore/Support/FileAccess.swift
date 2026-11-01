@@ -1,5 +1,6 @@
 import Darwin
 public import Foundation
+internal import PeelPrivileged
 
 public enum FileAccess {
     /// True when the current user can't move `url` to the Trash without administrator rights.
@@ -47,6 +48,14 @@ public enum FileAccess {
         var info = stat()
         guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
         return info.st_flags & (UInt32(UF_IMMUTABLE) | UInt32(SF_IMMUTABLE)) != 0
+    }
+
+    /// Whether `url` is in `/Users/Shared`, which belongs to every account on this Mac.
+    static func isSharedWithEveryone(_ url: URL) -> Bool {
+        let path = PathPattern.comparablePath(of: url).lowercased()
+        return ["/users/shared", "/system/volumes/data/users/shared"].contains {
+            PathComponents.isPath(path, atOrInside: $0)
+        }
     }
 
     /// Whether `url` is marked so that nothing removes or renames it (`SF_NOUNLINK`, `sys/stat.h`), so it can't go to

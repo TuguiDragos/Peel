@@ -660,6 +660,108 @@ struct DuplicateFinderTests {
         #expect(!DuplicateFinder.hasCopySuffix("Invoice (3a)"))
     }
 
+    @Test func recognizesTheNamesAppKitGivesADuplicateInEveryLanguage() {
+        for name in [
+            "契約書のコピー", "合同_副本", "合約副本", "Umowa-kopia", "Smlouva (kopie)", "Avtal (kopia)",
+            "Copie de Contrat", "Копия Договор", "Contract - copie",
+        ] {
+            #expect(DuplicateFinder.hasCopySuffix(name), "\(name)")
+        }
+        for name in ["コピー", "副本", "Copie de", "Копия", "Kopia", "Copies of Contract", "Contrat Copie de", "ab-kopiat"] {
+            #expect(!DuplicateFinder.hasCopySuffix(name), "\(name)")
+        }
+    }
+
+    @Test func aVirtualMachineIsADocumentEvenWithItsAppGone() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = randomData(count: 200_000)
+        for machine in ["Windows.pvm", "Windows copy.pvm", "Fedora.vmwarevm", "Fedora copy.vmwarevm", "Debian.utm", "Debian copy.utm"] {
+            try directory.file("home/Documents/\(machine)/disk.hds", contents: disk)
+            try directory.file("home/Documents/\(machine)/\(machine.count).txt", contents: Data(machine.utf8))
+        }
+
+        let result = try await scan(directory)
+
+        #expect(result.groups.isEmpty)
+        #expect(result.folderGroups.isEmpty)
+    }
+
+    @Test func findsTheCopiesAnotherPageTookInAGroupItShows() async throws {
+        let directory = try TemporaryDirectory()
+        let bytes = randomData(count: 200_000)
+        let kept = try directory.file("home/Documents/Film.mov", contents: bytes)
+        try directory.file("home/Downloads/Film.mov", contents: bytes)
+        let other = randomData(count: 200_000)
+        try directory.file("home/Documents/Other.mov", contents: other)
+        try directory.file("home/Downloads/Other.mov", contents: other)
+        let result = try await scan(directory)
+        try FileManager.default.removeItem(at: kept)
+        let film = try #require(result.groups.first { $0.files[0].url.lastPathComponent == "Film.mov" })
+        let selected = try #require(film.files.first { $0.url.path(percentEncoded: false).contains("/Downloads/") })
+
+        let gone = result.copiesGone(inGroupsHolding: [selected.url])
+
+        #expect(gone.map(\.lastPathComponent) == ["Film.mov"])
+        #expect(gone.allSatisfy { $0.path(percentEncoded: false).contains("/Documents/") })
+        #expect(result.removing(gone).groups.map { $0.files[0].url.lastPathComponent } == ["Other.mov"])
+    }
+
+    @Test func aMoveLeavesNoGroupOfCopiesThatCanNoLongerMove() {
+        func file(_ name: String, heldBack: HoldBack? = nil) -> DuplicateFile {
+            DuplicateFile(
+                url: URL(filePath: "/Users/me/\(name)"), size: 100, reclaimableSize: 100, allocatedSize: 100,
+                identity: FileIdentity(stat()), heldBack: heldBack
+            )
+        }
+        let local = file("local")
+        let group = DuplicateGroup(id: "a", files: [
+            file("tagged", heldBack: .keepsWhatTheOthersLack), file("synced", heldBack: .inTheCloud), local,
+        ])
+        let synced = DuplicateGroup(id: "b", files: [
+            file("one", heldBack: .inTheCloud), file("two", heldBack: .inTheCloud), file("three", heldBack: .inTheCloud),
+        ])
+        let scan = DuplicateScan(
+            groups: [group, synced], folderGroups: [], unreadableLocations: [], skippedLocations: [],
+            needsFullDiskAccess: false
+        )
+
+        #expect(scan.removing([local.url]).groups.map(\.id) == ["b"])
+    }
+
+    @Test func aGroupSharesStorageOnlyInWhatItSuggestsMoving() {
+        func file(_ name: String, reclaimable: Int64, heldBack: HoldBack? = nil) -> DuplicateFile {
+            DuplicateFile(
+                url: URL(filePath: "/Users/me/\(name)"), size: 100, reclaimableSize: reclaimable, allocatedSize: 100,
+                identity: FileIdentity(stat()), heldBack: heldBack
+            )
+        }
+        let clone = file("clone", reclaimable: 0)
+        let plain = file("plain", reclaimable: 100)
+        let tagged = file("tagged", reclaimable: 100, heldBack: .keepsWhatTheOthersLack)
+
+        #expect(DuplicateGroup(id: "a", files: [clone, tagged, plain]).sharesStorage, "every copy may go here")
+        #expect(!DuplicateGroup(id: "b", files: [clone, plain]).sharesStorage, "the first copy stays")
+        #expect(DuplicateGroup(id: "c", files: [plain, clone]).sharesStorage)
+    }
+
+    @Test func prefersACopyOutsideTheFolderEveryAccountSharesAndNeverSuggestsOneThere() async throws {
+        let order = DuplicateFinder.KeepOrder(home: URL(filePath: "/Users/me", directoryHint: .isDirectory))
+        let identity = FileIdentity(stat())
+        let shared = order.rank(of: URL(filePath: "/Users/Shared/Film.mov"), identity: identity)
+        let own = order.rank(of: URL(filePath: "/Users/me/Downloads/Film.mov"), identity: identity)
+        #expect(own < shared)
+        func file(_ path: String) -> DuplicateFile {
+            DuplicateFile(
+                url: URL(filePath: path), size: 100, reclaimableSize: 100, allocatedSize: 100, identity: identity
+            )
+        }
+        let group = DuplicateGroup(id: "a", files: [
+            file("/Users/me/Documents/Film.mov"), file("/Users/Shared/Film.mov"), file("/Users/me/Downloads/Film.mov"),
+        ])
+        #expect(group.suggestedFiles.map(\.url.lastPathComponent) == ["Film.mov"])
+        #expect(group.suggestedFiles.first?.url.path(percentEncoded: false) == "/Users/me/Downloads/Film.mov")
+    }
+
     /// `hasCopySuffix` is asked once for every file in every group, so it has to stay fast on a large scan.
     @Test func recognizesCopySuffixesQuickly() {
         var copies = 0

@@ -962,11 +962,7 @@ public enum ProjectArtifacts {
     /// inside it says more.
     static func holdingBackWhatIsShared(_ artifacts: [ProjectArtifact]) -> [ProjectArtifact] {
         artifacts.map { artifact in
-            let path = PathPattern.comparablePath(of: artifact.url).lowercased()
-            let isShared = ["/users/shared", "/system/volumes/data/users/shared"].contains {
-                PathComponents.isPath(path, atOrInside: $0)
-            }
-            guard artifact.heldBack == nil, isShared else { return artifact }
+            guard artifact.heldBack == nil, FileAccess.isSharedWithEveryone(artifact.url) else { return artifact }
             var held = artifact
             held.heldBack = .sharedWithEveryone
             return held

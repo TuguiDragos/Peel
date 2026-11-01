@@ -53,6 +53,11 @@ public struct DuplicateFile: Sendable, Hashable, Identifiable {
 
     public var id: URL { url }
 
+    /// True for a copy in `/Users/Shared`, which every account on this Mac may use, so it isn't suggested for moving.
+    public var isSharedWithEveryone: Bool {
+        FileAccess.isSharedWithEveryone(url)
+    }
+
     public var modificationDate: Date {
         identity.modificationDate
     }
@@ -92,9 +97,25 @@ public struct DuplicateGroup: Sendable, Hashable, Identifiable {
     }
 
     /// The copies Peel suggests moving: every one that may move but the first, which it keeps, or every one when a
-    /// copy stays for what the others lack.
+    /// copy stays for what the others lack, and never one every account on this Mac may use.
     public var suggestedFiles: [DuplicateFile] {
-        holdsACopyWithWhatOthersLack ? movableFiles : Array(movableFiles.dropFirst())
+        (holdsACopyWithWhatOthersLack ? movableFiles : Array(movableFiles.dropFirst()))
+            .filter { !$0.isSharedWithEveryone }
+    }
+
+    /// True when moving the suggested copies frees less than they take, since something else holds the same blocks.
+    public var sharesStorage: Bool {
+        suggestedFiles.contains(where: \.sharesStorage)
+    }
+
+    /// True when the copies are on more than one disk, so what moving them frees is not all on one.
+    public var isOnSeveralDisks: Bool {
+        Set(files.map(\.identity.link.device)).count > 1
+    }
+
+    /// A scan lists a group while a copy of it may move, or while every copy syncs, which the page says apart.
+    var isWorthListing: Bool {
+        !movableFiles.isEmpty || everyCopySyncs
     }
 
     /// What moving the suggested copies would free.
@@ -274,10 +295,19 @@ public struct DuplicateScan: Sendable {
         })
     }
 
+    /// The copies no longer there in the groups holding any of `urls`, where another page may have taken one this page
+    /// never had selected, even the one it keeps.
+    public func copiesGone(inGroupsHolding urls: Set<URL>) -> Set<URL> {
+        let files = groups.map { $0.files.map(\.url) }
+        let folders = folderGroups.map { $0.folders.map(\.url) }
+        return Set((files + folders).filter { $0.contains(where: urls.contains) }.joined().filter(\.isMissing))
+    }
+
     public func removing(_ urls: Set<URL>) -> DuplicateScan {
         let remaining = groups.compactMap { group -> DuplicateGroup? in
             let files = group.files.filter { !urls.contains($0.url) }
-            return files.count > 1 ? DuplicateGroup(id: group.id, files: files) : nil
+            let left = DuplicateGroup(id: group.id, files: files)
+            return files.count > 1 && left.isWorthListing ? left : nil
         }
         let remainingFolders = folderGroups.compactMap { group -> DuplicateFolderGroup? in
             let folders = group.folders.filter { !urls.contains($0.url) }

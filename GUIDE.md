@@ -120,9 +120,11 @@ Space shows what fills your disk, area by area, and what each area is.
   it looks in Desktop, Documents, Downloads, Pictures, Movies, and Music. Files under 100 KB, and folders holding
   less, are left out unless you choose a smaller size, in the app and in `peel duplicates` alike. A copy with Finder
   tags, a Finder comment, or a resource fork the others lack is marked Stays and never moved, since moving it would
-  lose them, and the others can all go. After a scan you start, Peel selects every copy in each group but the first,
-  which it suggests keeping: one on the disk your home folder is on, then one outside Downloads, then one whose name
-  doesn't end like a copy's, such as `photo copy.jpg` or `photo (1).jpg`, then the oldest. Look before you
+  lose them, and the others can all go. A group where each copy has something the others lack isn't listed. After a
+  scan you start, Peel selects every copy in each group but the one it suggests keeping: one on the disk your home
+  folder is on, then one outside `/Users/Shared`, then one outside Downloads, then one whose name doesn't end like a
+  copy's, such as `photo copy.jpg` or `photo (1).jpg`, then the oldest. A copy in `/Users/Shared` isn't selected for
+  you, since every account may use it. Look before you
   move them: one copy is always kept. A copy in a folder that syncs to your other devices, such as iCloud Drive or
   what Desktop and Documents hold when they are in iCloud, is listed and never moved, since the Trash would take it
   from your other devices too: beside a copy on this Mac it is marked Stays, and a group whose every copy syncs is

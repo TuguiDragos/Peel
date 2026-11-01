@@ -149,6 +149,12 @@ public struct DuplicateFinder: Sendable {
         // Lightroom Classic's preview caches beside a catalog:
         // helpx.adobe.com/lightroom-classic/desktop/kb/preference-file-and-other-file-locations.html
         "lrdata",
+        // Parallels Desktop, "Show package content": kb.parallels.com/4680
+        "pvm",
+        // VMware Fusion, "a bundle format (also known as a package)": knowledge.broadcom.com/external/article/303392
+        "vmwarevm",
+        // UTM, conforming to `com.apple.package`: Platform/macOS/Info.plist in github.com/utmapp/UTM
+        "utm",
     ]
 
     /// Finds folders whose whole contents are identical, then identical files. Files are compared by size, then
@@ -442,7 +448,7 @@ public struct DuplicateFinder: Sendable {
                 )
             }
         let group = DuplicateGroup(id: members[0].digest.hexadecimal, files: files)
-        return group.movableFiles.isEmpty && !group.everyCopySyncs ? nil : group
+        return group.isWorthListing ? group : nil
     }
 
     /// Which copy is kept, from the home folder: its Downloads, and the disk it is on.
@@ -456,14 +462,15 @@ public struct DuplicateFinder: Sendable {
             homeDevice = stat(home.path(percentEncoded: false), &info) == 0 ? info.st_dev : nil
         }
 
-        /// Ranks a copy for keeping, lower being better: on the disk the home folder is on, outside Downloads, without
-        /// a copy suffix, created earlier, less deeply nested, then with a shorter name. The path breaks any tie that
-        /// is left.
+        /// Ranks a copy for keeping, lower being better: on the disk the home folder is on, outside `/Users/Shared`
+        /// and Downloads, without a copy suffix, created earlier, less deeply nested, then with a shorter name. The
+        /// path breaks any tie that is left.
         func rank(of url: URL, identity: FileIdentity) -> (Int, Int, Int, Int, String) {
             let path = DuplicateFinder.path(of: url)
             let name = url.deletingPathExtension().lastPathComponent
             let flags = [
-                identity.link.device != homeDevice, path.isInside(downloads), DuplicateFinder.hasCopySuffix(name),
+                identity.link.device != homeDevice, FileAccess.isSharedWithEveryone(url), path.isInside(downloads),
+                DuplicateFinder.hasCopySuffix(name),
             ]
             return (
                 // Each flag outweighs those after it.
@@ -492,20 +499,30 @@ public struct DuplicateFinder: Sendable {
         return Set(managedFolders.map { home + "/" + $0 })
     }
 
-    /// Whether `name` ends with a suffix that Finder, a browser, or the Keep Both option adds to a copy: " copy",
-    /// " copy 2", " (3)", or " 2", in any letter case, with "copy" in any language listed in `copyWords`. It works
-    /// word by word rather than with a regular expression, to stay fast: it runs for every file in every group.
+    /// Whether `name` carries what Finder, a browser, the Keep Both option or AppKit (`"%@ copy"` in its `Common`
+    /// table) adds to a copy: " copy", " copy 2", " (3)", or " 2", in any letter case, with "copy" in any language
+    /// listed in `copyWords`, "%@ (kopie)", the forms joined to the name, and the forms before it. It works word by
+    /// word rather than with a regular expression, to stay fast: it runs for every file in every group.
     static func hasCopySuffix(_ name: String) -> Bool {
         var words = name.split(separator: " ", omittingEmptySubsequences: false)
-        guard words.count > 1, let last = words.popLast() else { return false }
+        if words.count == 1 {
+            return joinedCopyEndings.contains { name.count > $0.count && name.lowercased().hasSuffix($0) }
+        }
+        if words.count > 2, words[0].lowercased() == "copie", words[1].lowercased() == "de" { return true }
+        if words[0].lowercased() == "копия" { return true }
+        guard let last = words.popLast() else { return false }
         if isNumber(last) {
             return last.count <= 2 || words.count > 1 && copyWords.contains(words[words.count - 1].lowercased())
         }
         if last.count > 2, last.first == "(", last.last == ")" {
-            return isNumber(last.dropFirst().dropLast())
+            let inside = last.dropFirst().dropLast()
+            return isNumber(inside) || copyWords.contains(inside.lowercased())
         }
         return copyWords.contains(last.lowercased())
     }
+
+    /// What AppKit joins to a name with no space between them, in Japanese, Chinese, and Polish.
+    private static let joinedCopyEndings = ["のコピー", "_副本", "副本", "-kopia"]
 
     private static let copyWords: Set<String> = [
         "copy", "kopie", "copie", "copia", "cópia", "kopia", "копия", "копія", "kopyası", "のコピー", "副本", "拷貝", "복사본",
