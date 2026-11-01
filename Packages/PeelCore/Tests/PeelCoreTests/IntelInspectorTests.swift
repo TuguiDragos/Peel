@@ -820,8 +820,7 @@ struct IntelInspectorTests {
             measure: { _ in 1 }
         )
 
-        let named = scan.unreadable.map(PathPattern.comparablePath(of:)).sorted()
-        let expected = [daemons.appending(path: "org.example.closed.plist"), agents]
-        #expect(named == expected.map(PathPattern.comparablePath(of:)).sorted(), "what launchd can't load runs nothing")
+        #expect(scan.unreadable.map(PathPattern.comparablePath(of:)) == [PathPattern.comparablePath(of: agents)])
+        #expect(scan.closedJobs.map(\.label) == ["org.example.closed"], "what launchd can't load runs nothing")
     }
 }

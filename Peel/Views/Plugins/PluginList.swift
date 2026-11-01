@@ -64,12 +64,11 @@ struct PluginList: View {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    let named = Text("No plug-ins were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(plugins.unreadable.map(\.abbreviatedPath))), so there may be some there.")
-                    if plugins.needsFullDiskAccess {
-                        Text("\(named)\n\n\(Text("Give Peel Full Disk Access so it can read the folders macOS protects."))")
-                    } else {
-                        named
-                    }
+                    UnreadableFoldersDetail(
+                        folders: plugins.unreadable,
+                        needsFullDiskAccess: plugins.needsFullDiskAccess,
+                        saying: Text("No plug-ins were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(plugins.unreadable.map(\.abbreviatedPath))), so there may be some there.")
+                    )
                 } actions: {
                     UnreadableFoldersActions(
                         folders: plugins.unreadable,

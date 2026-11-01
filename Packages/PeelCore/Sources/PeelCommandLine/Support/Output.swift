@@ -184,10 +184,22 @@ enum Output {
 
     static let fullDiskAccessAdvice = "Give your terminal app Full Disk Access in System Settings to read the folders macOS protects."
 
-    /// What a scan couldn't look into: the folders, and then Full Disk Access when it would open one of them.
+    /// What a scan couldn't look into: the folders, why when their permissions are why, and then Full Disk Access
+    /// when it would open one of them.
     static func unreadableNote(for folders: [URL], needsFullDiskAccess: Bool) -> String {
         let note = "Peel couldn't look inside \(list(named(folders))), so something may be there that isn't listed."
-        return needsFullDiskAccess ? note + " " + fullDiskAccessAdvice : note
+        return [note, whyNotRead(folders), needsFullDiskAccess ? fullDiskAccessAdvice : nil]
+            .compactMap(\.self).joined(separator: " ")
+    }
+
+    /// The sentence that says the permissions kept Peel out of `items`, or nil when they didn't.
+    static func whyNotRead(_ items: [URL]) -> String? {
+        let closed = items.count(where: FileAccess.isClosedByItsPermissions)
+        if closed == 0 { return nil }
+        if closed < items.count { return "The permissions of some of them don't let your account read them." }
+        return closed == 1
+            ? "Its permissions don't let your account read it."
+            : "Their permissions don't let your account read them."
     }
 
     private static let mostNamedFolders = 4

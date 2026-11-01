@@ -204,6 +204,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A part inside an app says it comes with the app and that an update of the app may replace it.
 - A plug-in installed in several formats says its format on each row.
 - Nothing Needs Rosetta names the folders Peel read.
+- A job whose file Peel can't read and that macOS hasn't loaded is named as that, with a way to its page in Background
+  Items.
 
 #### Homebrew
 
@@ -302,6 +304,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   search, and under File Search's count, so an entry left behind by an app you no longer use can be found.
 - The divider between a list and its page stays where it is and can't be dragged: without the sidebar, the list takes
   the room the sidebar covered.
+- A message about what couldn't be read says when the permissions of what it names kept Peel out, in the app and
+  from `peel`.
 - The buttons at the foot of a page follow one rule in every language: two stand at the ends of the row, one is
   centered, and those that act on the item itself stay together in the middle. Where a language's words leave no room
   on one line, each takes a line of its own rather than having its title cut.

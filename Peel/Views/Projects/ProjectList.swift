@@ -68,10 +68,9 @@ struct ProjectList: View {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    Text(verbatim: UnreadableFoldersNotice.detail(
-                        naming: projects.unreadable.map(\.abbreviatedPath),
-                        needsFullDiskAccess: projects.needsFullDiskAccess
-                    ))
+                    UnreadableFoldersDetail(
+                        folders: projects.unreadable, needsFullDiskAccess: projects.needsFullDiskAccess
+                    )
                     unsearchableReasons
                 } actions: {
                     UnreadableFoldersActions(

@@ -43,6 +43,8 @@ public struct IntelScan: Sendable {
     public var unreadable: [URL] = []
     /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
     public var needsFullDiskAccess = false
+    /// The jobs whose files Peel can't read and that macOS hasn't loaded, so nothing says what each runs.
+    public var closedJobs: [BackgroundItem] = []
     /// The kinds of launchd jobs `launchctl` didn't describe in a form Peel can read, whose programs it never saw.
     public var unansweredJobs: Set<BackgroundItem.Kind> = []
 
@@ -235,11 +237,12 @@ public enum IntelInspector {
         // A job or a command that runs what is listed already, or something inside it, is that code's, and a job is
         // named on its row.
         var listed = findings.map { PathPattern.comparablePath(of: $0.url) }
+        var closedJobs: [BackgroundItem] = []
         unreadable += backgroundItems.unreadableFolders
         for item in backgroundItems.items where !Task.isCancelled && !item.isExcluded {
             // Peel can't tell what a job file it can't read runs, which may be Intel only.
-            if item.isClosedToPeel, item.program == nil, let plist = item.plistURL {
-                unreadable.append(plist)
+            if item.isClosedToPeel, item.program == nil, item.plistURL != nil {
+                closedJobs.append(item)
                 continue
             }
             guard let program = item.program.map({ URL(filePath: $0) }), !exclusions.excludes(program) else { continue }
@@ -297,6 +300,7 @@ public enum IntelInspector {
             },
             unreadable: unread,
             needsFullDiskAccess: unread.contains { FullDiskAccess.canList($0) == .missing },
+            closedJobs: closedJobs,
             unansweredJobs: backgroundItems.unanswered.kinds
         )
     }

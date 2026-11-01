@@ -80688,6 +80688,112 @@
         }
       }
     },
+    "Its permissions don’t let your account read it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho oprávnění neumožňují tomuto účtu ho přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Zugriffsrechte erlauben diesem Benutzeraccount nicht, es zu lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sus permisos no dejan que esta cuenta lo lea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ses permissions ne permettent pas à ce compte de le lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I suoi permessi non consentono a questo account di leggerlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクセス権により、このアカウントでは読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 권한 때문에 이 계정으로 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bevoegdheden ervan laten deze account het niet lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jego uprawnienia nie pozwalają temu kontu go odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões dele não deixam esta conta lê-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permisiunile sale nu îi permit contului dvs. să îl citească."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его права доступа не позволяют этой учетной записи его прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behörigheterna låter inte det här kontot läsa den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzinleri bu hesabın onu okumasına izin vermiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його привілеї не дають цьому обліковому запису його прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其权限不允许此账户读取它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其權限不允許此帳號讀取它。"
+          }
+        }
+      }
+    },
     "Its privacy permissions are reset too, and History can’t bring them back." : {
       "localizations" : {
         "cs" : {
@@ -132581,6 +132687,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法打開此App"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read %@, so it can’t tell whether what these jobs run needs Rosetta." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst %@, takže nedokáže určit, jestli to, co tyto úlohy spouštějí, potřebuje prostředí Rosetta."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte %@ nicht lesen und kann daher nicht sagen, ob das, was diese Jobs ausführen, Rosetta benötigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer %@, así que no puede saber si lo que ejecutan estas tareas necesita Rosetta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire %@ : il ne peut donc pas savoir si ce qu’exécutent ces tâches a besoin de Rosetta."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere %@, quindi non può sapere se ciò che questi elementi eseguono richiede Rosetta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@を読み取れなかったため、これらのジョブが実行するものにRosettaが必要かどうかを判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@을(를) 읽을 수 없었으므로 이 작업들이 실행하는 항목에 Rosetta가 필요한지 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon %@ niet lezen en kan dus niet zeggen of wat deze taken uitvoeren Rosetta nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać %@, więc nie wie, czy to, co uruchamiają te zadania, wymaga Rosetty."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler %@, então não consegue saber se o que estas tarefas executam precisa do Rosetta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi %@, așa că nu poate spune dacă ce rulează aceste sarcini are nevoie de Rosetta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать %@, поэтому неизвестно, нужна ли Rosetta тому, что запускают эти задания."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa %@, så det går inte att säga om det som jobben kör behöver Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şu dosyaları okuyamadı: %@. Bu yüzden bu işlerin çalıştırdığı şeylerin Rosetta gerektirip gerektirmediğini söyleyemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати %@, тож невідомо, чи потрібна Rosetta тому, що запускають ці завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取%@，因此无法判断这些任务运行的内容是否需要Rosetta。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取%@，因此無法判斷這些工作執行的內容是否需要Rosetta。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read %@, so it can’t tell whether what this job runs needs Rosetta." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst %@, takže nedokáže určit, jestli to, co tato úloha spouští, potřebuje prostředí Rosetta."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte %@ nicht lesen und kann daher nicht sagen, ob das, was dieser Job ausführt, Rosetta benötigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer %@, así que no puede saber si lo que ejecuta esta tarea necesita Rosetta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire %@ : il ne peut donc pas savoir si ce qu’exécute cette tâche a besoin de Rosetta."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere %@, quindi non può sapere se ciò che questo elemento esegue richiede Rosetta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@を読み取れなかったため、このジョブが実行するものにRosettaが必要かどうかを判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@을(를) 읽을 수 없었으므로 이 작업이 실행하는 항목에 Rosetta가 필요한지 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon %@ niet lezen en kan dus niet zeggen of wat deze taak uitvoert Rosetta nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać %@, więc nie wie, czy to, co uruchamia to zadanie, wymaga Rosetty."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler %@, então não consegue saber se o que esta tarefa executa precisa do Rosetta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi %@, așa că nu poate spune dacă ce rulează această sarcină are nevoie de Rosetta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать %@, поэтому неизвестно, нужна ли Rosetta тому, что запускает это задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa %@, så det går inte att säga om det som jobbet kör behöver Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şu dosyayı okuyamadı: %@. Bu yüzden bu işin çalıştırdığı şeyin Rosetta gerektirip gerektirmediğini söyleyemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати %@, тож невідомо, чи потрібна Rosetta тому, що запускає це завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取%@，因此无法判断此任务运行的内容是否需要Rosetta。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取%@，因此無法判斷此工作執行的內容是否需要Rosetta。"
           }
         }
       }
@@ -197624,6 +197942,112 @@
         }
       }
     },
+    "The permissions of some of them don’t let your account read them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oprávnění některých z nich neumožňují tomuto účtu je přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei einigen davon erlauben die Zugriffsrechte diesem Benutzeraccount das Lesen nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los permisos de algunos de ellos no dejan que esta cuenta los lea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les permissions de certains d’entre eux ne permettent pas à ce compte de les lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I permessi di alcuni di essi non consentono a questo account di leggerli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一部の項目は、アクセス権により、このアカウントでは読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일부 항목은 사용 권한 때문에 이 계정으로 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bevoegdheden van sommige ervan laten deze account ze niet lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uprawnienia niektórych z nich nie pozwalają temu kontu ich odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões de alguns deles não deixam esta conta lê-los."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permisiunile unora dintre ele nu îi permit contului dvs. să le citească."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Права доступа некоторых из них не позволяют этой учетной записи их прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behörigheterna för några av dem låter inte det här kontot läsa dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bazılarının izinleri bu hesabın onları okumasına izin vermiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привілеї деяких із них не дають цьому обліковому запису їх прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中一些项目的权限不允许此账户读取它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中部分項目的權限不允許此帳號讀取它們。"
+          }
+        }
+      }
+    },
     "The program it starts is gone, and no installed app claims it." : {
       "localizations" : {
         "cs" : {
@@ -200059,6 +200483,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它們的設定行要依照此處列出的順序加入~/.zshrc。"
+          }
+        }
+      }
+    },
+    "Their permissions don’t let your account read them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jejich oprávnění neumožňují tomuto účtu je přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Zugriffsrechte erlauben diesem Benutzeraccount nicht, sie zu lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sus permisos no dejan que esta cuenta los lea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leurs permissions ne permettent pas à ce compte de les lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I loro permessi non consentono a questo account di leggerli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクセス権により、このアカウントではこれらを読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 권한 때문에 이 계정으로 이 항목들을 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bevoegdheden ervan laten deze account ze niet lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ich uprawnienia nie pozwalają temu kontu ich odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões deles não deixam esta conta lê-los."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permisiunile lor nu îi permit contului dvs. să le citească."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Их права доступа не позволяют этой учетной записи их прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behörigheterna låter inte det här kontot läsa dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzinleri bu hesabın onları okumasına izin vermiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Їхні привілеї не дають цьому обліковому запису їх прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其权限不允许此账户读取它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其權限不允許此帳號讀取它們。"
           }
         }
       }

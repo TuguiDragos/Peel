@@ -790,6 +790,33 @@ struct CommandLineTests {
         )
     }
 
+    @Test(.permissionsHold) func saysWhenPermissionsKeptItOutOfTheFolders() throws {
+        let directory = try TemporaryDirectory()
+        let closed = try directory.directory("Closed")
+        let alsoClosed = try directory.directory("AlsoClosed")
+        let open = try directory.directory("Open")
+        try directory.setPermissions(0o000, of: "Closed")
+        try directory.setPermissions(0o000, of: "AlsoClosed")
+        defer {
+            try? directory.setPermissions(0o755, of: "Closed")
+            try? directory.setPermissions(0o755, of: "AlsoClosed")
+        }
+
+        #expect(
+            Output.unreadableNote(for: [closed], needsFullDiskAccess: false)
+                .hasSuffix(" Its permissions don't let your account read it.")
+        )
+        #expect(
+            Output.unreadableNote(for: [closed, alsoClosed], needsFullDiskAccess: false)
+                .hasSuffix(" Their permissions don't let your account read them.")
+        )
+        #expect(
+            Output.unreadableNote(for: [closed, open], needsFullDiskAccess: false)
+                .hasSuffix(" The permissions of some of them don't let your account read them.")
+        )
+        #expect(!Output.unreadableNote(for: [open], needsFullDiskAccess: false).contains("permissions"))
+    }
+
     @Test func namesTheFoldersItCouldNotReadAndWhenFullDiskAccessHelps() {
         let locked = URL(filePath: "/Library/Application Support/Vendor")
         let said = "Peel couldn't look inside /Library/Application Support/Vendor, so something may be there"

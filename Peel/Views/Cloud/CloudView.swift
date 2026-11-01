@@ -151,9 +151,7 @@ struct CloudView: View {
                         }
                         unreadableFoldersNote
                         if !cloud.notRead.isEmpty {
-                            Text(verbatim: UnreadableFoldersNotice.detail(
-                                naming: cloud.notRead.map(\.abbreviatedPath), needsFullDiskAccess: false
-                            ))
+                            UnreadableFoldersDetail(folders: cloud.notRead)
                         }
                         sharedDownloadsNote
                     }

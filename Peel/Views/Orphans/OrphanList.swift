@@ -48,11 +48,13 @@ struct OrphanList: View {
                 } description: {
                     let list = Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one.")
                     let unread = Text("Peel couldn’t read \(RemovalFailureAlert.listedFolders(library.unreadable.map(\.abbreviatedPath))), so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned.")
-                    let access = Text("Give Peel Full Disk Access so it can read the folders macOS protects.")
                     let parts = (library.listOfFoldersUnreadable ? [list] : [])
                         + (library.unreadable.isEmpty ? [] : [unread])
-                        + (library.unreadableNeedsFullDiskAccess ? [access] : [])
-                    parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
+                    UnreadableFoldersDetail(
+                        folders: library.unreadable,
+                        needsFullDiskAccess: library.unreadableNeedsFullDiskAccess,
+                        saying: parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
+                    )
                 } actions: {
                     if library.listOfFoldersUnreadable {
                         StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
@@ -68,12 +70,11 @@ struct OrphanList: View {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    let named = Text("No orphaned files were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(unreadable.map(\.url.abbreviatedPath))), so there may be some there.")
-                    if orphans.scan?.needsFullDiskAccess == true {
-                        Text("\(named)\n\n\(Text("Give Peel Full Disk Access so it can read the folders macOS protects."))")
-                    } else {
-                        named
-                    }
+                    UnreadableFoldersDetail(
+                        folders: unreadable.map(\.url),
+                        needsFullDiskAccess: orphans.scan?.needsFullDiskAccess == true,
+                        saying: Text("No orphaned files were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(unreadable.map(\.url.abbreviatedPath))), so there may be some there.")
+                    )
                 } actions: {
                     UnreadableFoldersActions(
                         folders: unreadable.map(\.url),

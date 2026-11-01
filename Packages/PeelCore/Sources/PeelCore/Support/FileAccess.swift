@@ -21,6 +21,21 @@ public enum FileAccess {
         accessError == EPERM && !isLocked
     }
 
+    /// How many of `items` their permissions keep this account from reading. A task of its own, since a disk that
+    /// stopped answering holds the question.
+    @concurrent public static func closedByPermissions(among items: [URL]) async -> Int {
+        items.count(where: isClosedByItsPermissions)
+    }
+
+    /// Whether the permissions keep this account from reading `url`: `access(2)` then fails with `EACCES`, while
+    /// macOS's privacy protection, which Full Disk Access lifts, fails with `EPERM`. A folder is read by going in too.
+    public static func isClosedByItsPermissions(_ url: URL) -> Bool {
+        let path = url.path(percentEncoded: false)
+        var info = stat()
+        let needed = stat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFDIR ? R_OK | X_OK : R_OK
+        return access(path, needed) != 0 && errno == EACCES
+    }
+
     /// Whether `url` is there and this process may not read it, as a file only its owner reads (`access(2)`).
     static func isClosedToReading(_ url: URL) -> Bool {
         access(url.path(percentEncoded: false), R_OK) != 0 && (errno == EACCES || errno == EPERM)

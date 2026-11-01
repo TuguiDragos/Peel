@@ -39,10 +39,7 @@ struct InstallerList: View {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    Text(verbatim: UnreadableFoldersNotice.detail(
-                        naming: installers.unreadable.map(\.abbreviatedPath),
-                        needsFullDiskAccess: true
-                    ))
+                    UnreadableFoldersDetail(folders: installers.unreadable, needsFullDiskAccess: true)
                 } actions: {
                     UnreadableFoldersActions(folders: installers.unreadable, needsFullDiskAccess: true)
                 }

@@ -4,8 +4,11 @@ import SwiftUI
 struct IntelList: View {
     @Environment(IntelLibrary.self) private var intel
     @Environment(AppLibrary.self) private var library
+    @Environment(BackgroundItemLibrary.self) private var backgroundItems
     @State private var isRescanning = false
     @State private var searchText = ""
+    /// How many of `unread` and of `closedJobFiles` their permissions keep this account from reading.
+    @State private var closed = (unread: 0, jobFiles: 0)
 
     var body: some View {
         @Bindable var intel = intel
@@ -99,6 +102,12 @@ struct IntelList: View {
                 }
             }
         }
+        .task(id: unread + closedJobFiles) {
+            closed = (
+                await FileAccess.closedByPermissions(among: unread),
+                await FileAccess.closedByPermissions(among: closedJobFiles)
+            )
+        }
         // What the page lists can change from other pages and other apps, and a scan costs little, so once read it
         // looks again, quietly, each time it is shown and each time Peel comes forward.
         .task(id: library.revision) {
@@ -134,6 +143,10 @@ struct IntelList: View {
         library.unreadable + (intel.scan?.unreadable ?? [])
     }
 
+    private var closedJobFiles: [URL] {
+        intel.scan?.closedJobs.compactMap(\.plistURL) ?? []
+    }
+
     private var needsFullDiskAccess: Bool {
         library.unreadableNeedsFullDiskAccess || intel.scan?.needsFullDiskAccess == true
     }
@@ -141,14 +154,24 @@ struct IntelList: View {
     /// What Peel couldn't read, a paragraph for each kind, or nil when it read everything.
     private var unreadParts: Text? {
         let paths = unread.map(\.abbreviatedPath)
+        let jobFiles = closedJobFiles.map(\.abbreviatedPath)
         let parts = (library.listOfFoldersUnreadable
                 ? [Text("Peel can’t read its list of app folders, so it didn’t look at the apps in the folders you added.")] : [])
             + (paths.isEmpty
                 ? [] : [Text("Peel couldn’t read \(RemovalFailureAlert.listedItems(paths)), so something there may need Rosetta.")])
+            + why(closed.unread, of: paths.count)
+            + (jobFiles.isEmpty ? [] : [jobFiles.count == 1
+                ? Text("Peel couldn’t read \(RemovalFailureAlert.listedItems(jobFiles)), so it can’t tell whether what this job runs needs Rosetta.")
+                : Text("Peel couldn’t read \(RemovalFailureAlert.listedItems(jobFiles)), so it can’t tell whether what these jobs run needs Rosetta.")])
+            + why(closed.jobFiles, of: jobFiles.count)
             + (needsFullDiskAccess ? [Text("Give Peel Full Disk Access so it can read the folders macOS protects.")] : [])
             + (intel.scan?.unansweredJobs.missingJobsNote.map { [Text($0)] } ?? [])
         guard let first = parts.first else { return nil }
         return parts.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
+    }
+
+    private func why(_ closed: Int, of count: Int) -> [Text] {
+        UnreadableFoldersNotice.whyNotRead(closed: closed, of: count).map { [Text(verbatim: $0)] } ?? []
     }
 
     @ViewBuilder
@@ -159,6 +182,12 @@ struct IntelList: View {
             }
         }
         UnreadableFoldersActions(folders: unread, needsFullDiskAccess: needsFullDiskAccess)
+        if let job = intel.scan?.closedJobs.first {
+            Button("Review in Background Items") {
+                backgroundItems.selection = job.id
+                Navigator.shared.requestedTool = .backgroundItems
+            }
+        }
     }
 }
 

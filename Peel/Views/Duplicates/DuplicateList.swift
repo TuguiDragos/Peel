@@ -74,10 +74,9 @@ struct DuplicateList: View {
                             }
                         } description: {
                             if scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
-                                Text(verbatim: UnreadableFoldersNotice.detail(
-                                    naming: scan.unreadableLocations.map(\.abbreviatedPath),
-                                    needsFullDiskAccess: scan.needsFullDiskAccess
-                                ))
+                                UnreadableFoldersDetail(
+                                    folders: scan.unreadableLocations, needsFullDiskAccess: scan.needsFullDiskAccess
+                                )
                             }
                             if !scan.skippedLocations.isEmpty {
                                 Text(verbatim: Self.reasons(scan.skippedLocations))
