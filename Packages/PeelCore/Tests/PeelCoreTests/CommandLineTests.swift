@@ -91,7 +91,8 @@ struct CommandLineTests {
 
         let report = { (stays: String?) throws -> [String: Any] in
             let leftovers = LeftoversCommand.Report(
-                app: notes, appSize: nil, leftovers: [cache], needsReview: 0, unreadableLocations: [], appStays: stays
+                app: notes, appSize: nil, leftovers: [cache], needsReview: 0,
+                scan: LeftoverScan(leftovers: [], unreadableLocations: []), appStays: stays
             )
             let json = try Output.jsonText(leftovers)
             return try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
@@ -547,8 +548,11 @@ struct CommandLineTests {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
 
+        let scan = LeftoverScan(
+            leftovers: [], unreadableLocations: [unread], cutShortLocations: [unread], needsFullDiskAccess: true
+        )
         let report = LeftoversCommand.Report(
-            app: app, appSize: nil, leftovers: [], needsReview: 3, unreadableLocations: [unread], appStays: nil
+            app: app, appSize: nil, leftovers: [], needsReview: 3, scan: scan, appStays: nil
         )
 
         let json = try #require(
@@ -556,6 +560,8 @@ struct CommandLineTests {
         )
         #expect(json["needsReview"] as? Int == 3)
         #expect(json["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
+        #expect(json["cutShortLocations"] as? [String] == ["/Users/me/Library/Containers"])
+        #expect(json["needsFullDiskAccess"] as? Bool == true)
         #expect(json["appSize"] is NSNull)
     }
 
@@ -585,9 +591,10 @@ struct CommandLineTests {
         ], needsAdministrator: 1, needsReview: 2)
         let result = TrashResult(trashed: [], failures: [TrashFailure(url: support, reason: .failed("disk full"))])
         let editor = InstalledApp(url: app, bundleIdentifier: "com.example.editor", name: "Editor")
+        let nothing = LeftoverScan(leftovers: [], unreadableLocations: [])
 
         let json = try Output.jsonText(
-            UninstallCommand.report(app: editor, plan: plan, result: result, privacy: .reset, unreadable: [])
+            UninstallCommand.report(app: editor, plan: plan, result: result, privacy: .reset, scan: nothing)
         )
 
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
@@ -604,10 +611,12 @@ struct CommandLineTests {
         #expect(report["needsAdministrator"] as? Int == 1)
         #expect(report["needsReview"] as? Int == 2)
         #expect(report["unreadableLocations"] as? [String] == [])
+        #expect(report["needsFullDiskAccess"] as? Bool == false)
+        #expect(report["cutShortLocations"] as? [String] == [])
         #expect((report["shellReferences"] as? [Any])?.isEmpty == true)
 
         let named = try Output.jsonText(UninstallCommand.report(
-            app: editor, plan: plan, result: result, privacy: nil, unreadable: [],
+            app: editor, plan: plan, result: result, privacy: nil, scan: nothing,
             shellReferences: [ShellReferences.Reference(file: URL(filePath: "/Users/me/.zshrc"), line: 12)]
         ))
         let shell = try #require(JSONSerialization.jsonObject(with: Data(named.utf8)) as? [String: Any])
@@ -615,10 +624,16 @@ struct CommandLineTests {
         #expect(references.map { $0["file"] as? String } == ["/Users/me/.zshrc"])
         #expect(references.map { $0["line"] as? Int } == [12])
 
+        let containers = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers"))
+        let cutShort = LeftoverScan(
+            leftovers: [], unreadableLocations: [containers], cutShortLocations: [containers], needsFullDiskAccess: true
+        )
         let dryRun = try Output.jsonText(
-            UninstallCommand.report(app: editor, plan: plan, result: nil, privacy: nil, unreadable: [])
+            UninstallCommand.report(app: editor, plan: plan, result: nil, privacy: nil, scan: cutShort)
         )
         let planned = try #require(JSONSerialization.jsonObject(with: Data(dryRun.utf8)) as? [String: Any])
+        #expect(planned["needsFullDiskAccess"] as? Bool == true)
+        #expect(planned["cutShortLocations"] as? [String] == ["/Users/me/Library/Containers"])
         #expect(planned["dryRun"] as? Bool == true)
         #expect(planned["moved"] as? [String] == [])
         #expect(planned["privacyReset"] is NSNull)
@@ -797,7 +812,10 @@ struct CommandLineTests {
         ])
         #expect(UninstallPlan.make(editor, keepLeftovers: true, refusal: { _ in nil }).leftForAnAdministrator == 1)
         let json = try Output.jsonText(
-            UninstallCommand.report(app: app, plan: plan, result: nil, privacy: nil, unreadable: [])
+            UninstallCommand.report(
+                app: app, plan: plan, result: nil, privacy: nil,
+                scan: LeftoverScan(leftovers: [], unreadableLocations: [])
+            )
         )
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         #expect(report["leftForAnAdministrator"] as? Int == 1)

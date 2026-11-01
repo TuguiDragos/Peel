@@ -144,19 +144,23 @@ struct LeftoversCommand: AsyncParsableCommand {
         let leftovers: [LeftoverRecord]
         let needsReview: Int
         let unreadableLocations: [String]
+        let needsFullDiskAccess: Bool
+        let cutShortLocations: [String]
         /// Why `peel uninstall` would leave the app itself where it is, or `null` when it would move it. While the app
         /// stays, none of its files moves.
         let appStays: String?
 
         init(
-            app: InstalledApp, appSize: Int64?, leftovers: [Leftover], needsReview: Int,
-            unreadableLocations: [SearchLocation], appStays: String?
+            app: InstalledApp, appSize: Int64?, leftovers: [Leftover], needsReview: Int, scan: LeftoverScan,
+            appStays: String?
         ) {
             self.app = AppRecord(app)
             self.appSize = appSize
             self.leftovers = leftovers.map(LeftoverRecord.init)
             self.needsReview = needsReview
-            self.unreadableLocations = unreadableLocations.map { Output.path($0.url) }
+            unreadableLocations = scan.unreadableLocations.map { Output.path($0.url) }
+            needsFullDiskAccess = scan.needsFullDiskAccess
+            cutShortLocations = scan.cutShortLocations.map { Output.path($0.url) }
             self.appStays = appStays
         }
 
@@ -166,6 +170,8 @@ struct LeftoversCommand: AsyncParsableCommand {
             case leftovers
             case needsReview
             case unreadableLocations
+            case needsFullDiskAccess
+            case cutShortLocations
             case appStays
         }
 
@@ -176,6 +182,8 @@ struct LeftoversCommand: AsyncParsableCommand {
             try container.encode(leftovers, forKey: .leftovers)
             try container.encode(needsReview, forKey: .needsReview)
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
+            try container.encode(needsFullDiskAccess, forKey: .needsFullDiskAccess)
+            try container.encode(cutShortLocations, forKey: .cutShortLocations)
             try container.encode(appStays, forKey: .appStays)
         }
     }
@@ -210,9 +218,8 @@ struct LeftoversCommand: AsyncParsableCommand {
         Self.notes(uninstallation, homebrew: homebrew, hidden: leftovers.isEmpty && !output.json ? 0 : hidden)
         if output.json {
             let appSize = uninstallation.isAppMeasured ? uninstallation.appSize : nil
-            let unread = uninstallation.scan.unreadableLocations
             let report = Report(
-                app: target, appSize: appSize, leftovers: leftovers, needsReview: hidden, unreadableLocations: unread,
+                app: target, appSize: appSize, leftovers: leftovers, needsReview: hidden, scan: uninstallation.scan,
                 appStays: stays?.description
             )
             try Output.json(report)
@@ -363,6 +370,8 @@ struct UninstallCommand: AsyncParsableCommand {
         let needsReview: Int
         let leftForAnAdministrator: Int
         let unreadableLocations: [String]
+        let needsFullDiskAccess: Bool
+        let cutShortLocations: [String]
         let shellReferences: [ShellReference]
 
         struct ShellReference: Encodable {
@@ -382,6 +391,8 @@ struct UninstallCommand: AsyncParsableCommand {
             case needsReview
             case leftForAnAdministrator
             case unreadableLocations
+            case needsFullDiskAccess
+            case cutShortLocations
             case shellReferences
         }
 
@@ -399,6 +410,8 @@ struct UninstallCommand: AsyncParsableCommand {
             try container.encode(needsReview, forKey: .needsReview)
             try container.encode(leftForAnAdministrator, forKey: .leftForAnAdministrator)
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
+            try container.encode(needsFullDiskAccess, forKey: .needsFullDiskAccess)
+            try container.encode(cutShortLocations, forKey: .cutShortLocations)
             try container.encode(shellReferences, forKey: .shellReferences)
         }
     }
@@ -409,7 +422,7 @@ struct UninstallCommand: AsyncParsableCommand {
         plan: UninstallPlan,
         result: TrashResult?,
         privacy: PrivacyReset.Result?,
-        unreadable: [SearchLocation],
+        scan: LeftoverScan,
         shellReferences: [ShellReferences.Reference] = []
     ) -> Report {
         Report(
@@ -427,7 +440,9 @@ struct UninstallCommand: AsyncParsableCommand {
             needsAdministrator: plan.needsAdministrator,
             needsReview: plan.needsReview,
             leftForAnAdministrator: plan.leftForAnAdministrator,
-            unreadableLocations: unreadable.map { Output.path($0.url) },
+            unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) },
+            needsFullDiskAccess: scan.needsFullDiskAccess,
+            cutShortLocations: scan.cutShortLocations.map { Output.path($0.url) },
             shellReferences: shellReferences.map { Report.ShellReference(file: Output.path($0.file), line: $0.line) }
         )
     }
@@ -665,7 +680,6 @@ struct UninstallCommand: AsyncParsableCommand {
             }
             throw CommandFailure("Peel won't move \(Output.plain(Output.path(target.url))): \(refusal.summary). Nothing of \(Output.plain(target.name)) was touched.")
         }
-        let unreadable = uninstallation.scan.unreadableLocations
         if !output.json {
             // The third column appears only when some item stays, so an ordinary list has no trailing spaces.
             let staying = !plan.staying.isEmpty
@@ -688,7 +702,8 @@ struct UninstallCommand: AsyncParsableCommand {
 
         guard !dryRun else {
             if output.json {
-                try Output.json(Self.report(app: target, plan: plan, result: nil, privacy: nil, unreadable: unreadable))
+                let scan = uninstallation.scan
+                try Output.json(Self.report(app: target, plan: plan, result: nil, privacy: nil, scan: scan))
             } else {
                 Output.line(resetPrivacy ? "Dry run: nothing was moved or reset." : "Dry run: nothing was moved.")
             }
@@ -718,7 +733,7 @@ struct UninstallCommand: AsyncParsableCommand {
 
         if output.json {
             let report = Self.report(
-                app: target, plan: plan, result: result, privacy: reset, unreadable: unreadable,
+                app: target, plan: plan, result: result, privacy: reset, scan: uninstallation.scan,
                 shellReferences: references
             )
             try Output.json(report)
