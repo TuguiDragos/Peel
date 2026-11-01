@@ -61,12 +61,6 @@ enum Output {
         return isPlain ? name : "'\(name.replacingOccurrences(of: "'", with: "'\\''"))'"
     }
 
-    /// Returns `name` as the last argument of a command to paste, quoted, and after `--` when it begins with `-`,
-    /// which `peel` would otherwise read as options whatever the quotes.
-    static func lastArgument(_ name: String) -> String {
-        plain(name).hasPrefix("-") ? "-- " + quoted(name) : quoted(name)
-    }
-
     /// Writes `text` to standard output unchanged, for output that already ends in a newline. When the write fails
     /// (a full disk, a closed stdout), the tool exits with status 1. `FileHandle.write(_:)` would instead raise an
     /// exception Swift can't catch, and the tool would crash. A pipe whose reader has gone ends the process with
