@@ -94,12 +94,21 @@ extension DeveloperCaches {
             case .goBuildCache:
                 settings.goBuildCache.flatMap { Self.holdsGosReadme($0) ? [($0, $0)] : nil } ?? []
             case .homebrewCache(let inside):
-                settings.homebrewCaches.filter { $0.appending(path: "api", directoryHint: .isDirectory).isRealFolder }
+                settings.homebrewCaches.filter(Self.holdsWhatOnlyHomebrewWrites)
                     .flatMap { cache in Self.entries(of: cache, named: inside).map { ($0, cache) } }
             case .janDataFolder(let inside):
                 settings.janDataFolder.map { [($0.appending(path: inside, directoryHint: .isDirectory), $0)] } ?? []
             }
             return found.map { (Self.entry($0.place), Self.entry($0.named)) }.filter(\.place.isRealFolder)
+        }
+
+        /// Whether a folder a setting names is Homebrew's cache: it holds Homebrew's `api` folder, or, for a Homebrew
+        /// that reads its taps and has none, a download under the name Homebrew gives one, `<SHA-256>--<name>`.
+        private static func holdsWhatOnlyHomebrewWrites(_ cache: URL) -> Bool {
+            guard !cache.appending(path: "api", directoryHint: .isDirectory).isRealFolder else { return true }
+            let downloads = cache.appending(path: "downloads").path(percentEncoded: false)
+            let names = (try? FileManager.default.contentsOfDirectory(atPath: downloads)) ?? []
+            return names.contains { $0.prefixMatch(of: /[0-9a-f]{64}--/) != nil }
         }
 
         /// The entry a place names, without a final `/`: with one, the kernel follows a link to what it leads to.

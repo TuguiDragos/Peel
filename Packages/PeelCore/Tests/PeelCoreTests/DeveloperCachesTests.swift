@@ -578,6 +578,20 @@ struct DeveloperCachesTests {
         #expect(listed == Set(["Cask", "downloads", "go_cache"].map { "\(moved)/\($0)" }))
     }
 
+    @Test func findsTheMovedCacheOfAHomebrewThatReadsItsTaps() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let moved = directory.url.appending(path: "Fast/Homebrew").path(percentEncoded: false)
+        try directory.file("home/.homebrew/brew.env", contents: Data("HOMEBREW_CACHE=\(moved)\n".utf8))
+        let digest = String(repeating: "0a", count: 32)
+        try directory.file("Fast/Homebrew/downloads/\(digest)--tool--1.0.tar.gz", bytes: 4_096)
+        let homebrew = DeveloperCaches.definitions.filter { $0.id == "homebrew" }
+
+        let found = await DeveloperCaches.scan(homebrew, homeDirectory: home, rootDirectory: directory.url)
+
+        #expect(found.flatMap(\.locations).map { $0.url.path(percentEncoded: false) } == ["\(moved)/downloads"])
+    }
+
     /// A large `DerivedData`, or a Gradle cache on a cold disk, may not be measured in time. Such a folder is not
     /// read as empty: it is listed first, with no size, and never selected for the user.
     @Test func aFolderThatDidNotAnswerInTimeIsNotReadAsEmpty() async throws {
