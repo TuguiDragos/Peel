@@ -44,7 +44,7 @@ struct SpaceDetailView: View {
                                 .multilineTextAlignment(.trailing)
                         }
                     } label: {
-                        heading(
+                        titled(
                             "How to free it",
                             "Space doesn’t touch this: the app that made it knows what is still needed."
                         )

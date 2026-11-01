@@ -262,9 +262,9 @@ and how many items the others hold.
   the Trash. A job an app gave launchd itself, such as an update's installer, says so. Apps set to open at login are
   in System Settings > General > Login Items & Extensions, not here.
 - **Extensions:** app extensions and system extensions, the app each one came with and whether it is still installed,
-  the choice made for each one, or that macOS decides when nobody chose, and where it is turned on or off: System
-  Settings for most, Safari > Settings > Extensions for a Safari extension, which Safari alone shows the state of, Edit
-  Widgets for a widget, and nowhere for what Shortcuts and Siri use.
+  the choice made for each one, or that macOS decides when nobody chose, which keeps a Finder extension off, and where
+  it is turned on or off: System Settings for most, Safari > Settings > Extensions for a Safari extension, which Safari
+  alone shows the state of, Edit Widgets for a widget, and nowhere for what Shortcuts and Siri use.
 - **Plug-ins:** the plug-ins in the Library folders made for them, from audio units and camera plug-ins to Quick Look,
   each with the app it came with, as Orphaned Files tells it, and each of which you can move to the Trash, after Peel
   warns that apps using it may stop working, says that macOS loads a camera plug-in only once legacy video device

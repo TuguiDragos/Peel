@@ -71,9 +71,9 @@ struct ExtensionDetailView: View {
                 }
                 if item.showsItsState {
                     LabeledContent {
-                        Text(item.election.title)
+                        Text(item.shownElection.title)
                     } label: {
-                        heading("State", item.election.explanation)
+                        titled("State", item.stateExplanation)
                     }
                 }
                 if let reported = item.reportedState {

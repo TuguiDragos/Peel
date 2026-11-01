@@ -78886,6 +78886,112 @@
         }
       }
     },
+    "Its app is gone, so there is nothing to allow. Turning It On and Off, below, says what is left to do." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho aplikace už tu není, takže není co povolovat. Co zbývá udělat, uvádí níže část Zapínání a vypínání."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die zugehörige App ist nicht mehr vorhanden, daher gibt es nichts zu erlauben. „Aktivieren und Deaktivieren“ weiter unten sagt, was noch zu tun ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su app ya no está, así que no hay nada que permitir. “Activación y desactivación”, más abajo, indica lo que queda por hacer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son app a disparu : il n’y a donc rien à autoriser. La section « Activation et désactivation », ci-dessous, indique ce qu’il reste à faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua app non c’è più, quindi non c’è nulla da autorizzare. “Attivazione e disattivazione”, qui sotto, indica cosa resta da fare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがなくなっているため、許可するものはありません。残りの作業については、以下の“オン/オフの切り替え”を確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 사라졌으므로 허용할 대상이 없습니다. 아래의 ‘켜기 및 끄기’에서 남은 작업을 확인할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bijbehorende app is weg, dus er valt niets toe te staan. Hieronder, bij 'In- en uitschakelen', staat wat er nog moet gebeuren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jego aplikacji już nie ma, więc nie ma na co pozwalać. Sekcja Włączanie i wyłączanie poniżej wyjaśnia, co pozostało do zrobienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app dela não existe mais, então não há nada para permitir. A seção Ativar e Desativar, abaixo, diz o que resta fazer."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația sa nu mai există, așa că nu este nimic de permis. Secțiunea „Activare și dezactivare”, de mai jos, spune ce mai este de făcut."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его приложения больше нет, поэтому разрешать нечего. В разделе «Включение и выключение» ниже сказано, что осталось сделать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen är borta, så det finns inget att tillåta. Avsnittet ”Slå på och stänga av” nedan talar om vad som återstår att göra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulaması artık yok, bu yüzden izin verilecek bir şey yok. Aşağıdaki Açma ve Kapatma bölümü, yapılacak ne kaldığını söyler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його програми вже немає, тож дозволяти нічого. Розділ «Увімкнення і вимкнення» нижче пояснює, що лишилося зробити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已不存在，因此没有什么需要允许的。下方的“打开与关闭”说明了还需要做什么。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的App已不存在，因此沒有可允許的項目。下方的「開啟與關閉」會說明還需要做什麼。"
+          }
+        }
+      }
+    },
     "Its app is in the Trash, and macOS starts it from there each time you log in, until you empty the Trash." : {
       "localizations" : {
         "cs" : {
@@ -249179,6 +249285,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS現在正在透過%@使用它，因此它會留在原處。"
+          }
+        }
+      }
+    },
+    "macOS keeps a Finder extension off until someone turns it on." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nechává rozšíření Finderu vypnuté, dokud ho někdo nezapne."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lässt eine Finder-Erweiterung deaktiviert, bis jemand sie aktiviert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS mantiene desactivada una extensión del Finder hasta que alguien la activa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS laisse une extension du Finder désactivée jusqu’à ce que quelqu’un l’active."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS mantiene disattivata un’estensione del Finder finché qualcuno non la attiva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、誰かがオンにするまでFinder機能拡張をオフのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 누군가 켜기 전까지 Finder 확장 프로그램을 꺼 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS houdt een Finder-extensie uitgeschakeld totdat iemand die inschakelt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS pozostawia rozszerzenie Findera wyłączone, dopóki ktoś go nie włączy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS mantém uma extensão do Finder desativada até que alguém a ative."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS păstrează o extensie Finder dezactivată până când cineva o activează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS оставляет расширение Finder выключенным, пока кто-нибудь его не включит."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS håller ett Finder-tillägg avstängt tills någon slår på det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, bir Finder genişletmesini biri açana kadar kapalı tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS тримає розширення Finder вимкненим, доки хтось його не ввімкне."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在有人打开访达扩展之前，macOS会让它保持关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會讓Finder延伸功能保持關閉，直到有人將它開啟。"
           }
         }
       }

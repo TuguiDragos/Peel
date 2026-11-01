@@ -111,20 +111,17 @@ private struct ExtensionRow: View {
             Text(verbatim: item.name)
                 .lineLimit(1)
         } details: {
-            if showsVersion, let version = item.shownVersion {
-                Text("Version \(version)")
-                    .lineLimit(1)
-            } else if let detail = item.rowDetail {
+            if let detail = item.rowDetail(showingVersion: showsVersion) {
                 Text(verbatim: detail)
                     .lineLimit(1)
             }
         } trailing: {
-            if item.showsItsState, item.election != .asItCame {
+            if item.showsItsState, item.shownElection != .asItCame {
                 Group {
-                    if let mark = item.election.mark {
-                        StatusLabel(title: Text(item.election.title), systemImage: mark, tint: .accentColor)
+                    if let mark = item.shownElection.mark {
+                        StatusLabel(title: Text(item.shownElection.title), systemImage: mark, tint: .accentColor)
                     } else {
-                        Text(item.election.title)
+                        Text(item.shownElection.title)
                     }
                 }
                 .font(.caption)

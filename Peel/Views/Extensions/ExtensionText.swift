@@ -24,6 +24,28 @@ extension AppExtension {
         return pointName
     }
 
+    /// `rowDetail`, with the version beside it when another row has this identifier, as during an update.
+    func rowDetail(showingVersion: Bool) -> String? {
+        let version = showingVersion ? shownVersion.map { String(localized: "Version \($0)") } : nil
+        let parts = [rowDetail, version].compactMap(\.self)
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
+
+    /// The state to show. macOS keeps a Finder extension off until someone turns it on (`FIFinderSyncController`), so
+    /// for one nobody chose, off is what is true, as Home reads it.
+    var shownElection: Election {
+        election == .asItCame && point == "com.apple.FinderSync" ? .off : election
+    }
+
+    var stateExplanation: LocalizedStringResource {
+        if election == .waitingForApproval, goneApp != nil {
+            return "Its app is gone, so there is nothing to allow. Turning It On and Off, below, says what is left to do."
+        }
+        return election == .asItCame && shownElection == .off
+            ? "macOS keeps a Finder extension off until someone turns it on."
+            : election.explanation
+    }
+
     /// Whether a search for `text` finds it, by what its row and page say as well as by its identifiers.
     func matches(_ text: String) -> Bool {
         [name, owner, pointName, categoryName, point, identifier].contains {
