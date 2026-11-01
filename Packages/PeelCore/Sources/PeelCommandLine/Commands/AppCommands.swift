@@ -132,6 +132,10 @@ struct LeftoversCommand: AsyncParsableCommand {
 
     @OptionGroup var output: OutputOptions
 
+    static func inTheTrash(_ app: InstalledApp) -> String {
+        "\(Output.plain(app.name)) is already in the Trash. What it left behind can still be moved."
+    }
+
     struct Report: Encodable {
         let app: AppRecord
         /// Nil when the app bundle couldn't be measured. Written as `null`, never left out, so a script always
@@ -194,6 +198,9 @@ struct LeftoversCommand: AsyncParsableCommand {
         // was left out or couldn't be checked.
         if let stays {
             Output.note("\(stays.description) While it stays, `peel uninstall` moves none of its files.")
+        }
+        if uninstallation.isAppInTheTrash {
+            Output.note(Self.inTheTrash(target))
         }
         Self.notes(uninstallation, homebrew: homebrew, hidden: uninstallation.scan.leftovers.count - leftovers.count)
         if output.json {
@@ -436,7 +443,9 @@ struct UninstallCommand: AsyncParsableCommand {
 
     /// Whether the app's icon comes out of the Dock: once the app itself is in the Trash, unless `--keep-in-dock`.
     static func takesOutDockIcon(of app: InstalledApp, after result: TrashResult, keeping: Bool) -> Bool {
-        !keeping && result.trashed.contains { $0.originalURL == app.url }
+        guard !keeping else { return false }
+        return TrashService.isInsideATrash(app.url) ? !result.trashed.isEmpty
+            : result.trashed.contains { $0.originalURL == app.url }
     }
 
     /// What the plan says about the app's icon in the Dock, which History puts back with the app.
@@ -584,6 +593,9 @@ struct UninstallCommand: AsyncParsableCommand {
     /// Throws when Peel never resets the privacy permissions of `target`. Called for `--reset-privacy` before
     /// anything is listed: skipping the reset quietly would remove the app and leave its permissions on record.
     static func refuseIfPrivacyCannotBeReset(_ target: InstalledApp) throws {
+        guard !TrashService.isInsideATrash(target.url) else {
+            throw CommandFailure("macOS can't reset the privacy permissions of an app in the Trash. Leave out --reset-privacy, or put it back first.")
+        }
         guard !PrivacyReset.isAllowed(for: target) else { return }
         throw CommandFailure("Peel never resets privacy permissions for \(Output.plain(target.name)). Leave out --reset-privacy to remove it anyway.")
     }
@@ -616,9 +628,6 @@ struct UninstallCommand: AsyncParsableCommand {
         let exclusions = await ExclusionStore().load()
         try AppLookup.refuseIfExcluded(target, by: exclusions)
         let service = TrashService(exclusions: exclusions)
-        guard !service.isInsideATrash(target.url) else {
-            throw CommandFailure("\(Output.plain(target.name)) is already in the Trash. Empty it, or put it back first.")
-        }
         let running = try Self.note(for: await Self.whileRunning(target, among: apps), dryRun: dryRun)
         let homebrew = await CaskLookup.evidence(for: target)
         let uninstallation = await ProgressLine.counting {
@@ -631,7 +640,8 @@ struct UninstallCommand: AsyncParsableCommand {
             )
         }
         let access = try Self.note(for: Self.whyItStays(uninstallation), dryRun: dryRun)
-        [running, access].compactMap(\.self).forEach(Output.note)
+        let inTheTrash = uninstallation.isAppInTheTrash ? LeftoversCommand.inTheTrash(target) : nil
+        [running, access, inTheTrash].compactMap(\.self).forEach(Output.note)
 
         if let note = UnreadableHistory.note() {
             Output.note(note)
@@ -690,7 +700,8 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }
         if isInTheDock, Self.takesOutDockIcon(of: target, after: result, keeping: keepInDock) {
-            _ = await DockTiles().takeOut([target.url], foundAt: result.trashedAt)
+            let forgotten: Set<URL> = TrashService.isInsideATrash(target.url) ? [target.url] : []
+            _ = await DockTiles().takeOut([target.url], foundAt: result.trashedAt, forgetting: forgotten)
         }
         let references = await ShellReferences.find(naming: result.trashed.map(\.originalURL))
 

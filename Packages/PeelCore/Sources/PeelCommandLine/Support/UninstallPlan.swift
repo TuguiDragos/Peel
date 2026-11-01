@@ -45,7 +45,9 @@ struct UninstallPlan {
         refusal: (URL) -> TrashFailure.Reason?
     ) -> UninstallPlan {
         let app = uninstallation.app.url
-        let selection = keepLeftovers ? [app] : uninstallation.suggestedSelection(canUseHelper: false)
+        // An app already in the Trash doesn't move again, and what it left behind still can.
+        let bundle: Set<URL> = uninstallation.isAppInTheTrash ? [] : [app]
+        let selection = keepLeftovers ? bundle : uninstallation.suggestedSelection(canUseHelper: false)
         let ordered = [app] + uninstallation.removalOrder(of: selection).filter { $0 != app }
         let leftovers = Dictionary(
             uninstallation.scan.leftovers.map { ($0.url, $0) },

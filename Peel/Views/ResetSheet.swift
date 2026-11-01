@@ -187,6 +187,8 @@ struct ResetSheet: View {
                 }
             }
         }
+        .dimmedWhileBusy(plan.isResetting)
+        .disabled(plan.isResetting)
         .scrollBarBelowSectionHeaders()
         .scanState(phase, scan: plan.scanRun) {
             if plan.isExcluded {

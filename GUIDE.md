@@ -14,8 +14,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   containers and group containers, preferences, saved state, logs, launch agents and daemons, plug-in folders, and
   more. Each file comes with the reason it matched, such as the app's bundle identifier, its signing team, or a
   Homebrew cask that names it.
-- **What Peel is sure of, or nearly, is selected.** Files Peel matched by the app's identifier, its name, or its
-  installer's receipt are selected for you, and so is the folder Homebrew keeps for an app it installed, so that
+- **What Peel is sure of, or nearly, is selected.** Files Peel matched by the app's identifier or its name, and its
+  installer's receipt when the package put nothing else outside the app, are selected for you, and so is the folder Homebrew keeps for an app it installed, so that
   Homebrew stops listing the app once it is gone. A match on the name alone is only a guess in your home folder, at
   the top of a Library, or inside another app's folder or one of Apple's, so it waits under Review Before Removing.
   So does a folder named like the app while another installed app's name holds that name, as Epic Games Launcher

@@ -164,7 +164,8 @@ struct MultipleAppsView: View {
         }
         .forceQuitOffer(quitting)
         .onDisappear { quitting.giveUp() }
-        .task {
+        // Keyed to what Homebrew knows: evidence that arrives after the page opened is a reason to look again.
+        .task(id: homebrew.evidenceRevision) {
             // Selecting apps one by one rebuilds this page after each change, and each build scans every selected
             // app. The short wait lets the selection settle: a newer change cancels this task before it scans.
             try? await Task.sleep(for: .milliseconds(300))

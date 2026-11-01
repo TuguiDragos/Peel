@@ -431,9 +431,11 @@ struct AppDetailView: View {
     /// What the row has to say for itself beyond the match: who else uses it, and why Peel left the checkmark off.
     private func warning(for leftover: Leftover) -> String? {
         var lines: [String] = []
-        if plan.appStays, !plan.app.isSystemProtected, plan.removedElsewhere == nil,
-           leftover.match.heldBack != .holdsAnExclusion {
-            lines.append(String(localized: "Not selected: it stays with \(plan.app.name)."))
+        if plan.appStays, plan.removedElsewhere == nil, leftover.match.heldBack != .holdsAnExclusion {
+            // Two literals, so the string catalog finds both.
+            lines.append(plan.app.isSystemProtected
+                ? String(localized: "Not selected: it belongs to an app macOS keeps, so it is in use.")
+                : String(localized: "Not selected: it stays with \(plan.app.name)."))
         }
         if leftover.match.isShared {
             let users = leftover.match.sharedWith.map(library.name(forReference:))

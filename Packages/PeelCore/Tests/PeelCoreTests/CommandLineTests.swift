@@ -851,6 +851,21 @@ struct CommandLineTests {
         #expect(alone.needsReview == 0)
     }
 
+    @Test func leavesAnAppAlreadyInTheTrashWhereItIsAndMovesWhatItLeft() throws {
+        let directory = try TemporaryDirectory()
+        let bundle = directory.url.appending(path: "home/.Trash/Editor.app", directoryHint: .isDirectory)
+        let app = InstalledApp(url: bundle, bundleIdentifier: "org.example.editor", name: "Editor")
+        let cache = URL(filePath: "/Users/me/Library/Caches/org.example.editor")
+        var inTheTrash = uninstallation(app: app, leftovers: [leftover(cache)])
+        inTheTrash.isAppInTheTrash = true
+
+        let plan = UninstallPlan.make(inTheTrash, keepLeftovers: false, refusal: { _ in nil })
+        #expect(plan.items.map(\.url) == [cache])
+        #expect(plan.appStays == nil)
+
+        #expect(UninstallPlan.make(inTheTrash, keepLeftovers: true, refusal: { _ in nil }).items.isEmpty)
+    }
+
     /// The list is drawn from the guard's own answer, so `--dry-run` can't promise what the real run refuses.
     @Test func saysWhatWouldStayInsteadOfListingItAsMoving() {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
