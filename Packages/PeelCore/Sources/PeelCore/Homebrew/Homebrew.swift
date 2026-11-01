@@ -605,7 +605,6 @@ public enum Homebrew {
         return usualPlaces.first { HomebrewChoice.refusal(of: $0, user: user) == nil }
     }
 
-    /// Peel's own cask, so named in Homebrew's casks and in its maker's tap.
     static let peelsCask = "peel"
 
     /// Whether a Homebrew Peel doesn't run may have installed Peel, read without running anything: Peel's cask is in
