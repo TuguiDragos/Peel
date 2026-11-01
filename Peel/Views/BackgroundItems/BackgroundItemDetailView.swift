@@ -431,11 +431,17 @@ struct BackgroundItemDetailView: View {
                 }
                 .help(removeHelp)
             } else {
-                // No Start or Stop for a job Peel sees only while it is loaded: once stopped it would leave the list,
-                // and Peel could not start it again. For an app's job, System Settings also offers only a switch.
-                if !item.isSeenOnlyWhileLoaded {
-                    let isRunning = if case .running = item.state { true } else { false }
-                    if !isRunning {
+                // A job Peel sees only while it is loaded has no Start, since once stopped it leaves the list, and has
+                // Stop only while it runs, to let go of what it holds.
+                if item.isSeenOnlyWhileLoaded {
+                    if item.isRunning {
+                        Button("Stop") {
+                            Task { await backgroundItems.perform(.stop, on: item) }
+                        }
+                        .help(Text("Takes it out of launchd for now. It leaves this list until macOS or its app adds it again."))
+                    }
+                } else {
+                    if !item.isRunning {
                         Button("Start") {
                             Task { await backgroundItems.perform(.start, on: item) }
                         }

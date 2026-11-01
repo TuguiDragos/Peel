@@ -187,4 +187,12 @@ struct LaunchctlTests {
         #expect(BackgroundItemOwnership.bundle(holding: helper)?.identifier == "com.example.app")
         #expect(BackgroundItemOwnership.bundle(holding: "/usr/bin/true") == nil)
     }
+
+    @Test func aRunningJobIsNeitherAnOpenAppNorOneOfMacOSs() {
+        let jobs = Launchctl.runningJobs(in: [
+            "org.example.agent": 12, "org.example.idle": nil, "application.org.example.1.2": 13, "com.apple.Finder": 14,
+        ])
+
+        #expect(jobs == [12])
+    }
 }

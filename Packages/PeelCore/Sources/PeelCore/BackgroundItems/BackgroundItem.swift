@@ -153,13 +153,17 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS && !isExcluded
     }
 
+    public var isRunning: Bool {
+        if case .running = state { true } else { false }
+    }
+
     /// Start, Stop, Enable, and Disable, which a job Peel may not control, a job whose state Peel could not read, a
     /// file named by itself since its label couldn't be read, and a file whose label launchd runs from another file
     /// don't have. A job loaded from a file elsewhere has only Stop. A job Peel may not disable has only Enable, while
     /// launchd keeps it disabled.
     public var offersControls: Bool {
         guard canBeControlled, state != .unknown, !isNamedByItsFile, !anotherFileIsLoaded else { return false }
-        if canOnlyBeStopped { return true }
+        if canOnlyBeStopped || isRunning { return true }
         if #available(macOS 27, *), isLeftByAGoneApp { return true }
         return !isSeenOnlyWhileLoaded || isDisabled || mayBeDisabled
     }

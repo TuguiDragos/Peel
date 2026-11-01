@@ -368,7 +368,7 @@ struct RefusalLogTests {
         .guarded(nil), .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
         .needsHelper,
         .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable, .historyCannotBeWritten,
-        .peelRemovesItself, .heldOpen(by: ["Figma Agent", "java"]), .peelRunsFromIt,
+        .peelRemovesItself, .heldOpen(by: ["Figma Agent", "java"]), .heldOpenByAJob(by: ["Figma Agent", "java"]), .peelRunsFromIt,
         .heldByAnotherAccount(by: ["CtxHelper"]), .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]),
         .inUseAsAnInputSource, .inUseByMacOS(by: ["geod", "appleaccountd"]), .attachedDiskImage, .failed("x"),
     ] + GuardRefusal.allCases.map { .guarded($0) }
@@ -379,7 +379,7 @@ struct RefusalLogTests {
 
         #expect(Set(reasons.map(\.name)).count == reasons.count)
         #expect(reasons.allSatisfy { !$0.name.contains(" ") })
-        #expect(reasons.filter { $0.detail != nil }.count == 7)
+        #expect(reasons.filter { $0.detail != nil }.count == 8)
     }
 
     /// History words a refusal from the reason it stored, so every word leads back to its reason, and a word a

@@ -54,6 +54,22 @@ struct BackgroundItemActionsTests {
         )
     }
 
+    @Test func aJobAnAppAddedCanBeStoppedOnlyWhileItRuns() {
+        func added(_ state: BackgroundItem.State) -> BackgroundItem {
+            var job = BackgroundItem(
+                label: "com.example.agent", kind: .agent, source: .app, plistURL: nil, program: "/Applications/App.app/x",
+                runsAtLoad: nil, keepsAlive: nil, ownerBundleIdentifier: "com.example", ownerName: "App",
+                ownerURL: URL(filePath: "/Applications/App.app"), isOrphan: false, state: state, isDisabled: false
+            )
+            job.isManagedByServiceManagement = true
+            return job
+        }
+        #expect(added(.running(pid: 42)).offersControls)
+        #expect(added(.running(pid: 42)).isRunning)
+        #expect(!added(.loaded).offersControls)
+        #expect(!added(.loaded).isRunning)
+    }
+
     @Test func stoppingAJobThatHasLeftIsNoFailure() async throws {
         var left = item(state: .loaded, plist: nil)
         left.loadsInTheBackgroundSession = true

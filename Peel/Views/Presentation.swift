@@ -184,9 +184,11 @@ extension TrashFailure.Reason {
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.", bundle: bundle)
         case .historyCannotBeWritten: String(localized: "Peel couldn’t write to History, because the disk is full or Peel’s folder can’t be written, and it moves nothing it can’t put back.", bundle: bundle)
         case .peelRemovesItself: String(localized: "Peel is removing itself, so it moves nothing else meanwhile.", bundle: bundle)
-        case .heldOpen(let processes) where processes.count > 1:
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items if they have no window, then try again.", bundle: bundle)
         case .heldOpen(let processes):
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.", bundle: bundle)
+        case .heldOpenByAJob(let processes) where processes.count > 1:
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items if they have no window, then try again.", bundle: bundle)
+        case .heldOpenByAJob(let processes):
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items if it has no window, then try again.", bundle: bundle)
         case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.", bundle: bundle)
         case .heldByAnotherAccount(let processes) where processes.count > 1:

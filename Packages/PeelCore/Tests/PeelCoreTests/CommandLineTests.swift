@@ -1226,8 +1226,9 @@ struct CommandLineTests {
     }
 
     @Test func aRefusalForAProgramUsingTheItemSaysWhatToQuitOrStop() {
-        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent"]).summary == "in use by FigmaAgent; quit it, or stop it in Background Items if it has no window, then try again")
-        #expect(TrashFailure.Reason.heldOpen(by: ["FigmaAgent", "java"]).summary == "in use by FigmaAgent, java; quit them, or stop them in Background Items if they have no window, then try again")
+        #expect(TrashFailure.Reason.heldOpen(by: ["node", "java"]).summary == "in use by node, java; quit them, then try again")
+        #expect(TrashFailure.Reason.heldOpenByAJob(by: ["FigmaAgent"]).summary == "in use by FigmaAgent; quit it, or stop it in Background Items if it has no window, then try again")
+        #expect(TrashFailure.Reason.heldOpenByAJob(by: ["FigmaAgent", "java"]).summary == "in use by FigmaAgent, java; quit them, or stop them in Background Items if they have no window, then try again")
         #expect(TrashFailure.Reason.heldByAnotherAccount(by: ["CtxHelper", "updater"]).summary == "in use by CtxHelper, updater, running as another account or as the system, which Peel can't quit; stop them in Background Items or with the app's own uninstaller, then try again")
         #expect(TrashFailure.Reason.inUseByMacOS(by: ["geod", "appleaccountd"]).summary == "in use by macOS (geod, appleaccountd)")
         #expect(TrashFailure.Reason.openForAnotherUser(by: ["Spotify"]).summary == "in use by Spotify in another user's account on this Mac; quit it in that account, then try again")

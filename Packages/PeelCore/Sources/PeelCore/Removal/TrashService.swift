@@ -90,6 +90,8 @@ public struct TrashFailure: Sendable, Hashable {
         case peelRemovesItself
         /// These processes hold a file open in it, and moving it would pull it from under them.
         case heldOpen(by: [String])
+        /// As `heldOpen`, with a background job among the programs, which Background Items can stop.
+        case heldOpenByAJob(by: [String])
         /// Peel itself runs from it or from inside it, and only Remove Peel moves Peel.
         case peelRunsFromIt
         /// Processes of another account, root's included, run from it, and neither the person nor Peel may quit them.
@@ -126,14 +128,16 @@ extension TrashFailure.Reason {
         case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper: false
         case .guarded, .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
              .movedWithoutATrace,
-             .somethingElseMoved, .heldOpen, .peelRunsFromIt, .heldByAnotherAccount, .openForAnotherUser,
+             .somethingElseMoved, .heldOpen, .heldOpenByAJob, .peelRunsFromIt, .heldByAnotherAccount,
+             .openForAnotherUser,
              .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .failed: true
         }
     }
 
     var isHeldByPrograms: Bool {
         switch self {
-        case .heldOpen, .heldByAnotherAccount, .openForAnotherUser, .heldByABuildTool, .inUseAsAnInputSource: true
+        case .heldOpen, .heldOpenByAJob, .heldByAnotherAccount, .openForAnotherUser, .heldByABuildTool,
+             .inUseAsAnInputSource: true
         default: false
         }
     }
@@ -156,6 +160,7 @@ extension TrashFailure.Reason {
         case .historyCannotBeWritten: "history-cannot-be-written"
         case .peelRemovesItself: "peel-removes-itself"
         case .heldOpen: "held-open"
+        case .heldOpenByAJob: "held-open-by-a-job"
         case .peelRunsFromIt: "peel-runs-from-it"
         case .heldByAnotherAccount: "held-by-another-account"
         case .openForAnotherUser: "open-for-another-user"
@@ -172,7 +177,8 @@ extension TrashFailure.Reason {
         case .guarded(let refusal): refusal?.detail
         case .failed(let message): message
         case .somethingElseMoved(let name): name
-        case .heldOpen(let processes), .heldByAnotherAccount(let processes), .openForAnotherUser(let processes),
+        case .heldOpen(let processes), .heldOpenByAJob(let processes), .heldByAnotherAccount(let processes),
+             .openForAnotherUser(let processes),
              .heldByABuildTool(let processes), .inUseByMacOS(let processes):
             processes.joined(separator: "\n")
         default: nil
@@ -200,6 +206,7 @@ extension TrashFailure.Reason {
         case "history-cannot-be-written": self = .historyCannotBeWritten
         case "peel-removes-itself": self = .peelRemovesItself
         case "held-open": self = .heldOpen(by: (detail ?? "").split(separator: "\n").map(String.init))
+        case "held-open-by-a-job": self = .heldOpenByAJob(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "peel-runs-from-it": self = .peelRunsFromIt
         case "held-by-another-account":
             self = .heldByAnotherAccount(by: (detail ?? "").split(separator: "\n").map(String.init))
@@ -283,6 +290,7 @@ public struct TrashService: Sendable {
     typealias MoveThroughHelper = @Sendable ([URL]) async -> TrashResult
     typealias PutBackDockTiles = @Sendable (_ items: [URL]) async -> Void
     typealias RunningInside = @Sendable (_ app: URL) async -> [LaunchdCleanup.Running]
+    typealias RunningJobs = @Sendable () async -> Set<pid_t>
     typealias StopRunning = @Sendable ([LaunchdCleanup.Running], _ canUseHelper: Bool) async -> [LaunchdCleanup.Running]
     typealias RegistrationAtLogin = @Sendable (_ app: URL) async -> StartsAtLogin.Registration?
     typealias RegisterApp = @Sendable (_ app: URL) async -> Void
@@ -296,6 +304,7 @@ public struct TrashService: Sendable {
     private let putBackDockTiles: PutBackDockTiles
     private let runningInside: RunningInside
     private let stopRunning: StopRunning
+    private let runningJobs: RunningJobs
     private let registrationAtLogin: RegistrationAtLogin
     private let registerApp: RegisterApp
     private let moveToTrash: @Sendable (URL) throws -> URL
@@ -315,6 +324,7 @@ public struct TrashService: Sendable {
             putBackDockTiles: { await DockTiles().putBack($0) },
             runningInside: { await LaunchdCleanup.running(inside: $0, environment: environment) },
             stopRunning: { await LaunchdCleanup.stop($0, canUseHelper: $1) },
+            runningJobs: { await Launchctl.runningJobs() },
             // Seen on macOS 27, which is where the note that reads it is shown.
             registrationAtLogin: { app in
                 guard #available(macOS 27, *) else { return nil }
@@ -340,6 +350,7 @@ public struct TrashService: Sendable {
         putBackDockTiles: @escaping PutBackDockTiles = { _ in },
         runningInside: @escaping RunningInside = { _ in [] },
         stopRunning: @escaping StopRunning = { _, _ in [] },
+        runningJobs: @escaping RunningJobs = { [] },
         registrationAtLogin: @escaping RegistrationAtLogin = { _ in nil },
         registerApp: @escaping RegisterApp = { _ in },
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
@@ -356,6 +367,7 @@ public struct TrashService: Sendable {
             putBackDockTiles: putBackDockTiles,
             runningInside: runningInside,
             stopRunning: stopRunning,
+            runningJobs: runningJobs,
             registrationAtLogin: registrationAtLogin,
             registerApp: registerApp,
             moveToTrash: moveToTrash,
@@ -374,6 +386,7 @@ public struct TrashService: Sendable {
         putBackDockTiles: @escaping PutBackDockTiles,
         runningInside: @escaping RunningInside,
         stopRunning: @escaping StopRunning,
+        runningJobs: @escaping RunningJobs,
         registrationAtLogin: @escaping RegistrationAtLogin,
         registerApp: @escaping RegisterApp,
         moveToTrash: @escaping @Sendable (URL) throws -> URL,
@@ -389,6 +402,7 @@ public struct TrashService: Sendable {
         self.putBackDockTiles = putBackDockTiles
         self.runningInside = runningInside
         self.stopRunning = stopRunning
+        self.runningJobs = runningJobs
         self.registrationAtLogin = registrationAtLogin
         self.registerApp = registerApp
         self.moveToTrash = moveToTrash
@@ -401,6 +415,10 @@ public struct TrashService: Sendable {
 
     func excludes(_ app: InstalledApp) -> Bool { removalGuard.excludes(app) }
     func excludes(ownerOf item: BackgroundItem) -> Bool { removalGuard.excludes(ownerOf: item) }
+
+    private func readingOfOpenFiles() async -> OpenFiles.Fresh {
+        OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [], jobs: await runningJobs())
+    }
 
     /// Why every move would be refused now, whatever it is asked to move, or nil when a move may go ahead.
     public var refusalOfEveryMove: TrashFailure.Reason? {
@@ -422,7 +440,7 @@ public struct TrashService: Sendable {
         ofApps apps: [URL],
         lettingTheirProgramsRun running: Set<URL>
     ) async -> [URL: TrashFailure.Reason] {
-        let openFiles = OpenFiles()
+        let openFiles = OpenFiles(jobs: await runningJobs())
         var refusals: [URL: TrashFailure.Reason] = [:]
         for app in apps {
             if let refusal = refusal(of: app) {
@@ -491,7 +509,7 @@ public struct TrashService: Sendable {
         // The guard reads the disk, so it is asked once for each item.
         let refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
         let allowed = urls.filter { refusals[$0] == nil }
-        var openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
+        var openFiles = await readingOfOpenFiles()
         // Read before the move, while the files are still there to say which jobs they declare.
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
 
@@ -542,7 +560,7 @@ public struct TrashService: Sendable {
         urls.filter(jobFiles.contains).forEach(move)
         let stopped = await stop(jobs, thatMoved: result, canUseHelper: false)
         if !stopped.isEmpty {
-            openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
+            openFiles = await readingOfOpenFiles()
         }
         urls.filter { !jobFiles.contains($0) }.forEach(move)
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
@@ -713,7 +731,7 @@ public struct TrashService: Sendable {
         // answer that never comes can affect. The helper reads no open files, so they are read right before each
         // request, and again once the last reading is older than `OpenFiles.lifetime`.
         let limit = HelperRequest.maximumItems
-        var openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
+        var openFiles = await readingOfOpenFiles()
         // A job's file goes first, and the job stops with it, so a program only that job runs moves in this pass too.
         let jobFiles = Set(jobs.map(\.plist))
         var stopped: [LaunchdCleanup.Job] = []
@@ -725,7 +743,7 @@ public struct TrashService: Sendable {
             if index == 1 {
                 stopped = await stop(jobs, thatMoved: helperResult, canUseHelper: true)
                 if !stopped.isEmpty {
-                    openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
+                    openFiles = await readingOfOpenFiles()
                 }
             }
             for start in stride(from: 0, to: batch.count, by: limit) {

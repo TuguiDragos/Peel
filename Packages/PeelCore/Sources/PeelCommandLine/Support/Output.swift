@@ -544,8 +544,12 @@ extension TrashFailure.Reason {
         case .historyCannotBeWritten: "History can't be written: the disk is full, or Peel's folder can't be written"
         case .peelRemovesItself: "Peel is removing itself"
         case .heldOpen(let processes) where processes.count > 1:
-            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, or stop them in Background Items if they have no window, then try again"
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, then try again"
         case .heldOpen(let processes):
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit it, then try again"
+        case .heldOpenByAJob(let processes) where processes.count > 1:
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, or stop them in Background Items if they have no window, then try again"
+        case .heldOpenByAJob(let processes):
             "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit it, or stop it in Background Items if it has no window, then try again"
         case .peelRunsFromIt: "Peel runs from here; only Remove Peel, in the app's Settings > General, removes Peel"
         case .heldByAnotherAccount(let processes) where processes.count > 1:

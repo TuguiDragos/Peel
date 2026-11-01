@@ -281,6 +281,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Background Items
 
 - An excluded app's jobs stay listed, marked Excluded in Settings, and Peel acts on none of them.
+- A job an app added has Stop while it runs, and leaves the list until macOS or the app adds it again.
 - A job macOS hasn't listed yet reads Not listed in System Settings yet.
 - Before moving an item an installed app added, the question says first that the app may stop working until the item is
   put back.
@@ -314,6 +315,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   the room the sidebar covered.
 - A message about what couldn't be read says when the permissions of what it names kept Peel out, in the app and
   from `peel`.
+- When a program holds what would move, the message names Background Items only for a job, which that page can stop,
+  and otherwise says to quit the program, in the app and from `peel`.
 - The buttons of a page follow one rule in every language: they stand under its last group at the right, with no box
   around them and no symbols, the main action last, and take a second line at the right where a language's words leave
   no room. What concerns one row sits at that row's right end, and a section heading with nothing under it keeps its

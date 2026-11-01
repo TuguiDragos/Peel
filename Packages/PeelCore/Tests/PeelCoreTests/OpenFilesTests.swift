@@ -175,6 +175,15 @@ struct OpenFilesTests {
         #expect(OpenFiles.refusal(heldBy: []) == nil)
     }
 
+    @Test func onlyAJobIsSaidToStopInBackgroundItems() {
+        let program = OpenFiles.Holder(process: "node", owner: .thisAccount, isMacOSsOwn: false)
+        let job = OpenFiles.Holder(process: "agent", owner: .thisAccount, isMacOSsOwn: false, isAJob: true)
+
+        #expect(OpenFiles.refusal(heldBy: [program]) == .heldOpen(by: ["node"]))
+        #expect(OpenFiles.refusal(heldBy: [job]) == .heldOpenByAJob(by: ["agent"]))
+        #expect(OpenFiles.refusal(heldBy: [program, job]) == .heldOpenByAJob(by: ["agent", "node"]))
+    }
+
     @Test func aBuildToolsDaemonIsNamedByItsToolWithTheCommandThatStopsIt() throws {
         let directory = try TemporaryDirectory()
         let log = try directory.file("home/.gradle/daemon/9.2/daemon-1.out.log")

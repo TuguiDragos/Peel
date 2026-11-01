@@ -21,10 +21,13 @@ struct OpenFiles {
     /// The program the excluded process runs. Its open files are no hold, but where it runs from is.
     private let excludedProgram: [String]?
     private let attachedImages: [[String]]
+    /// The processes launchd runs as jobs, which Background Items can stop.
+    private let jobs: Set<pid_t>
 
     /// Each regular file held open for reading or writing, and the program each process runs, which it holds as long
     /// as it runs. A watch (`O_EVTONLY`, as Finder keeps on what it shows) and a folder are no hold on what is inside.
-    init(excluding excluded: pid_t? = getpid(), attachedImages: [String] = []) {
+    init(excluding excluded: pid_t? = getpid(), attachedImages: [String] = [], jobs: Set<pid_t> = []) {
+        self.jobs = jobs
         excludedProgram = excluded.flatMap(RunningProgram.path(of:)).map(PathComponents.of)
         self.attachedImages = attachedImages.map {
             PathComponents.of(PathPattern.canonicalWithoutOpening(URL(filePath: $0)).path(percentEncoded: false))
@@ -57,17 +60,19 @@ struct OpenFiles {
     /// A reading of the open files that is made again once it is older than `lifetime`.
     struct Fresh {
         private let attachedImages: [String]
+        private let jobs: Set<pid_t>
         private var reading: OpenFiles
         private var read = ContinuousClock.now
 
-        init(attachedImages: [String] = []) {
+        init(attachedImages: [String] = [], jobs: Set<pid_t> = []) {
             self.attachedImages = attachedImages
-            reading = OpenFiles(attachedImages: attachedImages)
+            self.jobs = jobs
+            reading = OpenFiles(attachedImages: attachedImages, jobs: jobs)
         }
 
         mutating func refusal(of url: URL, lettingItsProgramsRun: Bool) -> TrashFailure.Reason? {
             if ContinuousClock.now - read > OpenFiles.lifetime {
-                reading = OpenFiles(attachedImages: attachedImages)
+                reading = OpenFiles(attachedImages: attachedImages, jobs: jobs)
                 read = .now
             }
             return reading.refusal(of: url, lettingItsProgramsRun: lettingItsProgramsRun)
@@ -111,7 +116,8 @@ struct OpenFiles {
         return Self.refusal(heldBy: holding.map { file in
             Holder(
                 process: file.process, owner: file.owner,
-                isMacOSsOwn: programs[file.pid].map(Self.isMacOSsOwn) ?? false, daemon: file.daemon
+                isMacOSsOwn: programs[file.pid].map(Self.isMacOSsOwn) ?? false, daemon: file.daemon,
+                isAJob: jobs.contains(file.pid)
             )
         })
     }
@@ -129,6 +135,7 @@ struct OpenFiles {
         let owner: Owner
         let isMacOSsOwn: Bool
         var daemon: BuildDaemon? = nil
+        var isAJob = false
     }
 
     /// Why an item held by `holders` can't move, each kind of holder with the step that lets it go.
@@ -142,7 +149,8 @@ struct OpenFiles {
         if case let system = processes(.system), !system.isEmpty { return .heldByAnotherAccount(by: system) }
         let daemons = named.compactMap(\.daemon)
         if daemons.count == named.count { return .heldByABuildTool(by: Set(daemons.map(\.rawValue)).sorted()) }
-        return .heldOpen(by: Set(named.map(\.process)).sorted())
+        let programs = Set(named.map(\.process)).sorted()
+        return named.contains(where: \.isAJob) ? .heldOpenByAJob(by: programs) : .heldOpen(by: programs)
     }
 
     /// The scripts a process runs when its program is one that runs a script named as an argument (Node.js, Deno,

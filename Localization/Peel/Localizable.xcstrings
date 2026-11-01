@@ -75031,6 +75031,112 @@
         }
       }
     },
+    "It is in use by %@. Quit %@, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používá ji %@. Ukončete %@ a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %@ verwendet. Beende %@ und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@. Sal de %@ antes de volver a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@. Quittez %@, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@. Esci da %@, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中です。%@を終了してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에서 사용 중입니다. %@을(를) 종료한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@. Stop %@ en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używane przez: %@. Zakończ %@, a potem spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@. Encerre %@ e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %@. Închideți %@, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект используется: %@. Завершите %@, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %@. Avsluta %@ och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından kullanılıyor. %@ programından çıkın, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовує %@. Завершіть %@ та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被“%@”使用。请退出“%@”，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@使用中。請結束%@，然後再試一次。"
+          }
+        }
+      }
+    },
     "It is in use by %@. Run %@, then try again." : {
       "localizations" : {
         "cs" : {
@@ -188605,6 +188711,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在「終端機」下次結束時生效。"
+          }
+        }
+      }
+    },
+    "Takes it out of launchd for now. It leaves this list until macOS or its app adds it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prozatím odebere úlohu z launchd. Ze seznamu zmizí, dokud ji systém macOS nebo její aplikace znovu nepřidá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt es vorerst aus launchd. Es verschwindet aus dieser Liste, bis macOS oder seine App es wieder hinzufügt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo quita de launchd por ahora. Desaparece de esta lista hasta que macOS o su app lo añadan de nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retire cet élément de launchd pour le moment. Il quitte cette liste jusqu’à ce que macOS ou son app l’ajoute de nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo toglie da launchd per ora. Esce da questo elenco finché macOS o la sua app non lo aggiungono di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchdから一時的に取り除きます。macOSまたはそのアプリが再び追加するまで、このリストには表示されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd에서 이 항목을 일단 제거합니다. macOS 또는 해당 앱이 다시 추가할 때까지 이 목록에서 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haalt het voorlopig uit launchd. Het verdwijnt uit deze lijst totdat macOS of de app ervan het weer toevoegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na razie usuwa tę rzecz z launchd. Znika ona z tej listy, dopóki macOS lub jej aplikacja nie doda jej ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retira o item do launchd por enquanto. Ele sai desta lista até que o macOS ou o app dele o adicione novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl scoate din launchd deocamdată. Dispare din această listă până când macOS sau aplicația sa îl adaugă din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока убирает его из launchd. Он исчезает из этого списка, пока macOS или его программа не добавит его снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort det ur launchd tills vidare. Det försvinner från listan tills macOS eller dess app lägger till det igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu şimdilik launchd’den çıkarır. macOS veya uygulaması onu yeniden ekleyene kadar bu listeden kalkar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поки що вилучає його з launchd. Він зникає з цього списку, доки macOS або його програма не додасть його знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂时将此任务从launchd中移除。在macOS或其App再次添加它之前，它不会出现在此列表中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫時將它從launchd中移除。在macOS或其App再次加入它之前，它不會出現在此列表中。"
           }
         }
       }

@@ -44,6 +44,19 @@ enum Launchctl {
         return jobs
     }
 
+    /// The processes of `list` (`parseList`) that run as jobs, neither an open app, which launchd lists under
+    /// `application.`, nor one of macOS's own.
+    static func runningJobs(in list: [String: Int32?]) -> Set<pid_t> {
+        Set(list.compactMap { label, pid in
+            label.hasPrefix("application.") || label.hasPrefix("com.apple.") ? nil : pid
+        })
+    }
+
+    /// The processes launchd runs as jobs of this account right now, none when `launchctl` can't say.
+    static func runningJobs() async -> Set<pid_t> {
+        await parseList(run(["list"]).output).map(runningJobs(in:)) ?? []
+    }
+
     /// Parses the "services = { … }" block `launchctl print` gives for a domain, the system's or a user's: "pid
     /// exit-status label". Nil when there is no such block.
     static func parseSystemServices(_ output: String) -> [String: Int32?]? {
