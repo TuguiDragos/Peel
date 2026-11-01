@@ -578,6 +578,24 @@ struct DeveloperCachesTests {
         #expect(listed == Set(["Cask", "downloads", "go_cache"].map { "\(moved)/\($0)" }))
     }
 
+    @Test func leavesTheVersionOfFirebasesCLIThatRunsToIt() async throws {
+        let directory = try TemporaryDirectory()
+        for path in [
+            "emulators/firestore.jar", "extensions/org.example/source.zip", "crashlytics/buildtools/tools.jar",
+            "universal-maker/maker", "firebase-debug.log", "tools/lib/node_modules/firebase-tools/package.json",
+            "runtime/node",
+        ] {
+            try directory.file(".cache/firebase/\(path)", bytes: 4_096)
+        }
+        let firebase = DeveloperCaches.definitions.filter { $0.id == "firebase" }
+
+        let found = await DeveloperCaches.scan(firebase, homeDirectory: directory.url, exclusions: .none)
+
+        #expect(found.flatMap(\.locations).map(\.url.lastPathComponent).sorted() == [
+            "buildtools", "emulators", "extensions", "firebase-debug.log", "universal-maker",
+        ])
+    }
+
     @Test func findsTheMovedCacheOfAHomebrewThatReadsItsTaps() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -669,6 +687,8 @@ struct DeveloperCachesTests {
             "Library/Application Support/Oracle/Java/Deployment",
             // Corepack keeps the package manager versions a person chose in `lastKnownGood.json` beside its downloads.
             ".cache/node/corepack",
+            // The standalone Firebase CLI unpacks the version it runs beside its downloads.
+            ".cache/firebase",
             // Hex and Gleam keep a Hex account's key beside their packages; pub, RubyGems, rebar3, Stack, and opam
             // what they installed; renv each project's library; the Dart analysis server each plug-in's state.
             ".hex", "Library/Caches/gleam/hex/hexpm", ".pub-cache", ".local/share/gem", ".cache/rebar3", ".stack", ".opam",

@@ -1092,8 +1092,13 @@ public enum DeveloperCaches {
             Folder("Library/Preferences/netlify/deno-cli", .downloads, source: "https://github.com/netlify/build/blob/03ae88564579d2addfc82970d0b8583963f886aa/packages/edge-bundler/node/bridge.ts#L66"),
             Folder("Library/Preferences/netlify/tunnel", .downloads, source: "https://github.com/netlify/cli/blob/7f1c866914f261e8d57c85763487db88bfb61440/src/utils/live-tunnel.ts#L86"),
         ]),
+        // The standalone CLI unpacks the version it runs in `tools` and `runtime` in the same folder, so only these go.
         Definition(id: "firebase", name: "Firebase CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
-            Folder(".cache/firebase", .downloads, source: "https://github.com/firebase/firebase-tools/blob/7f7747228cc583ecdaf053ac44f238bffc77f6f0/src/emulator/downloadableEmulators.ts#L29-L30"),
+            Folder(".cache/firebase/emulators", .downloads, source: "https://github.com/firebase/firebase-tools/blob/7f7747228cc583ecdaf053ac44f238bffc77f6f0/src/emulator/downloadableEmulators.ts#L29-L30"),
+            Folder(".cache/firebase/extensions", .downloads, source: "https://github.com/firebase/firebase-tools/blob/7f7747228cc583ecdaf053ac44f238bffc77f6f0/src/emulator/extensionsEmulator.ts#L108-L110"),
+            Folder(".cache/firebase/crashlytics/buildtools", .downloads, source: "https://github.com/firebase/firebase-tools/blob/7f7747228cc583ecdaf053ac44f238bffc77f6f0/src/crashlytics/buildToolsJarHelper.ts#L11-L13"),
+            Folder(".cache/firebase/universal-maker", .downloads, source: "https://github.com/firebase/firebase-tools/blob/7f7747228cc583ecdaf053ac44f238bffc77f6f0/src/apphosting/universalMakerDownload.ts#L10"),
+            Folder(".cache/firebase/firebase-debug.log", .logs, source: "https://github.com/firebase/firebase-tools/blob/7f7747228cc583ecdaf053ac44f238bffc77f6f0/src/bin/mcp.ts#L101-L104"),
         ]),
         // Virtual machines
         // Docker Desktop's own logs. Its disk image, `Data/vms`, is Space's to show and never offered here.
