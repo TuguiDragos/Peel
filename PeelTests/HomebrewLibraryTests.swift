@@ -66,6 +66,23 @@ private struct StandInBrew {
         }
     }
 
+    @Test func saysWhoseHomebrewItIsWhileItsDefinitionsAreMissing() async throws {
+        let brew = try StandInBrew(hasDefinitions: false)
+        let path = brew.folder.path(percentEncoded: false)
+        defer {
+            _ = chmod(path, 0o755)
+            brew.goAway()
+        }
+        #expect(chmod(path, 0o555) == 0)
+        let homebrew = HomebrewLibrary()
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.refresh() }
+
+        #expect(homebrew.needsDefinitions)
+        #expect(homebrew.installation?.version == "7.0.0")
+        #expect(!homebrew.mayChange)
+    }
+
     @Test func oneBrewsFigureDoesNotOutliveTheChoiceOfAnother() async throws {
         let first = try StandInBrew(cleanup: "echo '==> This operation would free approximately 2GB of disk space.'")
         let second = try StandInBrew(cleanup: "exit 1")

@@ -413,11 +413,16 @@ final class HomebrewLibrary {
         HomebrewInstallation?, Result<[HomebrewPackage], Homebrew.CommandFailure>, Homebrew.CleanupPreview?,
         Homebrew.Overrides?
     )? {
+        // The installation is read first: whose Homebrew this is needs no definitions, and it says how to read the
+        // figures that follow.
+        let found = await Homebrew.installation(asking: answers)
+        if let found {
+            installation = found
+        }
         guard await Homebrew.hasLocalDefinitions(asking: answers) else { return nil }
         needsDefinitions = false
-        // The installation is read first, since it says how to read the figures that follow. The other questions
-        // take about as long as each other, so they run at the same time. Only the page shows the cleanup's figure.
-        let found = await Homebrew.installation(asking: answers)
+        // The other questions take about as long as each other, so they run at the same time. Only the page shows the
+        // cleanup's figure.
         let kept = found.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar) } ?? []
         async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
