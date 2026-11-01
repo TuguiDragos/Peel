@@ -145,6 +145,42 @@ struct TweakLibraryTests {
         #expect(library.foldersLeftToMacOS.isEmpty)
     }
 
+    @Test func aSecondPutBackWhileTheFirstAsksAboutTheFolderLeavesWhatItPutBack() async throws {
+        let store = FakeTweakStore()
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let away = "/Volumes/PeelTests-\(UUID().uuidString)/Screenshots"
+        store.values[folder.id] = away
+        await library.turnOn(folder, text: "/Users/Shared")
+
+        let first = Task { await library.reset(folder) }
+        let second = Task { await library.reset(folder) }
+        await first.value
+        await second.value
+
+        #expect(store.values[folder.id] as? String == away)
+        #expect(!library.isChangedByPeel(folder))
+    }
+
+    @Test func turnAllOffLeavesWhatARowPutBackWhileItAskedAboutTheFolder() async throws {
+        let store = FakeTweakStore()
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let away = "/Volumes/PeelTests-\(UUID().uuidString)/Screenshots"
+        store.values[folder.id] = away
+        await library.turnOn(folder, text: "/Users/Shared")
+
+        let row = Task { await library.reset(folder) }
+        let all = Task { await library.turnAllOff() }
+        await row.value
+        await all.value
+
+        #expect(store.values[folder.id] as? String == away)
+        #expect(library.peelsChanges.isEmpty)
+    }
+
     @Test func aChangeOfPeelsTheKeyNoLongerHoldsIsForgottenAsSoonAsItIsSeen() async throws {
         let store = FakeTweakStore()
         let tweak = try #require(Self.quiet.first { if case .aSwitch = $0.kind { true } else { false } })

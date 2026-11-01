@@ -133,8 +133,11 @@ final class TweakLibrary {
     /// Turns `tweak` off. A setting Peel changed gets back the value it had before. A setting changed by hand
     /// is removed, so macOS falls back to its default.
     func reset(_ tweak: Tweak) async {
-        foldersLeftToMacOS.remove(tweak.id)
-        await leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
+        let hasGone = await folderFromBeforeHasGoneAway(tweak)
+        // A folder's row offers this only for Peel's change, which a second press or Turn All Off may have put back
+        // during that wait. Turned off again, the key would lose what they put back.
+        guard tweak.kind != .folder || ledger.changedByPeel.contains(tweak.id) else { return }
+        leaveToMacOS(tweak, ifItsFolderHasGone: hasGone)
         await finish(tweak, after: ledger.turnOff(tweak, in: store))
     }
 
@@ -144,10 +147,16 @@ final class TweakLibrary {
 
     /// `screencapture` saves nothing in a folder that isn't there, is in the Trash, or can't be written to, so a
     /// folder from before that has become one is not put back: the key goes instead, and macOS saves on the Desktop.
-    private func leaveToMacOSAFolderThatCannotTakeScreenshots(_ tweak: Tweak) async {
-        guard tweak.kind == .folder, let before = ledger.previousValues[tweak.id] as? String,
-              await ScreenshotFolder.hasGoneAway(before, home: home)
-        else { return }
+    private func folderFromBeforeHasGoneAway(_ tweak: Tweak) async -> Bool {
+        guard tweak.kind == .folder, let before = ledger.previousValues[tweak.id] as? String else { return false }
+        return await ScreenshotFolder.hasGoneAway(before, home: home)
+    }
+
+    private func leaveToMacOS(_ tweak: Tweak, ifItsFolderHasGone hasGone: Bool) {
+        guard hasGone else {
+            foldersLeftToMacOS.remove(tweak.id)
+            return
+        }
         ledger.forgetPreviousValue(of: tweak)
         foldersLeftToMacOS.insert(tweak.id)
     }
@@ -186,10 +195,15 @@ final class TweakLibrary {
         defer { isTurningAllOff = false }
         // Read again: System Settings may have changed any of these after the page was drawn.
         refresh()
-        let tried = Self.onTweaksPage.filter { peelsChanges.contains($0.id) }
+        let shown = Self.onTweaksPage.filter { peelsChanges.contains($0.id) }
+        var foldersGone: Set<Tweak.ID> = []
+        for tweak in shown where tweak.kind == .folder {
+            if await folderFromBeforeHasGoneAway(tweak) { foldersGone.insert(tweak.id) }
+        }
+        // A row may have put its own change back during those waits, and turned off again its key would lose that.
+        let tried = shown.filter { ledger.changedByPeel.contains($0.id) }
         for tweak in tried {
-            foldersLeftToMacOS.remove(tweak.id)
-            await leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
+            leaveToMacOS(tweak, ifItsFolderHasGone: foldersGone.contains(tweak.id))
         }
         let batch = ledger.turnOff(tried, in: store)
         refused.subtract(tried.map(\.id))
