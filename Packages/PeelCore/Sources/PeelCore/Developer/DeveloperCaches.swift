@@ -424,7 +424,7 @@ public enum DeveloperCaches {
             Folder("Library/Developer/Xcode/macOS DeviceSupport", .deviceSupport, source: "Xcode 27: CoreSymbolicationDT.framework/Resources/JSONCrashLog/DeviceSupportDirectories.py", rowsDepth: 1),
             Folder("Library/Developer/Xcode/DocumentationCache", .cache, source: "Xcode 27: DVTFoundation.framework, -[DVTDeveloperPaths documentationCacheDirectoryForCurrentApplication]"),
             Folder("Library/Developer/Xcode/DocumentationIndex", .cache, source: "Xcode 27: DVTFoundation.framework, -[DVTDeveloperPaths documentationIndexDirectoryForCurrentApplication]"),
-            Folder("Library/Developer/CoreSimulator/Caches", .cache, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-12_3-release-notes"),
+            Folder("Library/Developer/CoreSimulator/Caches", .cache, source: "Xcode 27: /Library/Developer/PrivateFrameworks/CoreSimulator.framework (\"~/Library/Developer/CoreSimulator/Caches/dyld\")"),
             Folder("Library/Logs/CoreSimulator", .logs, source: "Xcode 27: /Library/Developer/PrivateFrameworks/CoreSimulator.framework (\"%s/Library/Logs/CoreSimulator\")"),
             Folder("Library/Caches/com.apple.dt.Xcode", .cache, source: "https://developer.apple.com/documentation/foundation/filemanager/searchpathdirectory/cachesdirectory"),
             Folder("Library/Developer/Packages", .keptDownloads, source: "https://developer.apple.com/documentation/xcode-release-notes/xcode-16_2-release-notes"),
@@ -566,6 +566,7 @@ public enum DeveloperCaches {
         Definition(id: "nvm", name: "nvm", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder(".nvm/.cache", .downloads, source: "https://github.com/nvm-sh/nvm/blob/a8bb4974008be929325ae286335702f1a84c5854/nvm.sh#L3519-L3521"),
         ]),
+        // Prisma 6 and earlier download their engines here. Prisma 7 has none, so the source is the last that names it.
         Definition(id: "prisma", name: "Prisma", systemImage: "cube", appBundleIdentifiers: [], folders: [
             Folder(".cache/prisma", .downloads, source: "https://github.com/prisma/prisma/blob/e92bc46e8fff73e3985f86f23393b7e3f0e90010/packages/fetch-engine/src/utils.ts#L38-L40"),
         ]),
@@ -610,7 +611,7 @@ public enum DeveloperCaches {
             Folder(".node-gyp", .downloads, source: "https://github.com/nodejs/node-gyp/blob/399f6faedf5abc1eb791678e0a03a91d3fef12aa/CHANGELOG.md#v500-2019-06-13"),
         ]),
         Definition(id: "typescript", name: "TypeScript", systemImage: "cube", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/typescript", .downloads, source: "https://github.com/microsoft/TypeScript/blob/50d70a3f5f453a79a4323b263165da51f656a4e3/tsc/internal/vfs/osvfs/os.go#L191-L204"),
+            Folder("Library/Caches/typescript", .downloads, source: "https://github.com/microsoft/TypeScript/blob/6161772c1370bdd4a82f808e6823bd755eb1870d/tsc/internal/vfs/osvfs/os.go#L231-L247"),
         ]),
         // Python
         Definition(id: "pip", name: "pip", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
@@ -663,7 +664,7 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "pipx", name: "pipx", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/pipx", .cache, source: "https://github.com/pypa/pipx/blob/b09807b86e0844d92f3f92216fcdfcf607161c6c/src/pipx/paths.py#L76-L77"),
-            Folder("Library/Logs/pipx", .logs, source: "https://github.com/pypa/pipx/blob/b09807b86e0844d92f3f92216fcdfcf607161c6c/src/pipx/paths.py#L126"),
+            Folder("Library/Logs/pipx", .logs, source: "https://github.com/pypa/pipx/blob/2ccbdf4c879c04f0dda457b47cb6a051146231bb/src/pipx/paths.py#L69"),
         ]),
         Definition(id: "piptools", name: "pip-tools", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/pip-tools", .cache, source: "https://github.com/jazzband/pip-tools/blob/28538e4385d270b8500cc5e2088294cf13456aee/piptools/locations.py#L5-L6"),
@@ -736,7 +737,7 @@ public enum DeveloperCaches {
             // points at (https://get-coursier.io/docs/cache and https://get-coursier.io/docs/cli-java).
             Folder("Library/Caches/Coursier/v1", .downloads, source: "https://github.com/coursier/coursier/blob/d3006393e44af0dc0165813f262de2de51e17a46/doc/docs/cache.md#L30"),
             Folder(".coursier/cache/v1", .downloads, source: "https://github.com/coursier/coursier/blob/d3006393e44af0dc0165813f262de2de51e17a46/doc/docs/cache.md#L48-L54"),
-            Folder("Library/Caches/sbt", .buildData, source: "https://github.com/sbt/sbt/blob/f4618946c5b7055083f8c74bf84e4d1ad5e6a1e9/main/src/main/scala/sbt/internal/SysProp.scala#L231-L245"),
+            Folder("Library/Caches/sbt", .buildData, source: "https://github.com/sbt/sbt/blob/515ce25869e3be062ab1b53c619a478e85275a60/main/src/main/scala/sbt/internal/SysProp.scala#L229-L256"),
         ]),
         // A Spring Boot server makes these each time it starts, named for its port and a random number
         // (`AbstractConfigurableWebServerFactory.TempDirs`), and before Spring Boot 4.1 left them behind.
@@ -759,7 +760,7 @@ public enum DeveloperCaches {
         ]),
         // Java Web Start keeps the applications a person installed in its cache, beside the ones it only cached.
         Definition(id: "oraclejava", name: "Java Web Start", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
-            Folder("Library/Application Support/Oracle/Java/Deployment/cache", .environments, source: "https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/jcp.html"),
+            Folder("Library/Application Support/Oracle/Java/Deployment/cache", .environments, source: "https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/properties.html"),
             Folder("Library/Application Support/Oracle/Java/Deployment/log", .logs, source: "https://docs.oracle.com/javase/8/docs/technotes/guides/deploy/properties.html"),
         ]),
         Definition(id: "konan", name: "Kotlin/Native", systemImage: "cup.and.saucer", appBundleIdentifiers: [], folders: [
@@ -772,10 +773,10 @@ public enum DeveloperCaches {
             // `cache clean` warns that each project needs `pub get` again, so they are never selected.
             Folder(".pub-cache/hosted", .environments, source: "https://github.com/dart-lang/site-www/blob/0590fb830cc9d02c97d4c71777f902c3a7936d78/src/content/tools/pub/cmd/pub-get.md#L99-L100"),
             Folder(".pub-cache/git", .environments, source: "https://github.com/dart-lang/pub/blob/90bb91c90cc8edc0d32693f16a4075be6b1e4fce/lib/src/system_cache.dart#L48"),
-            Folder(".dartServer/.analysis-driver", .cache, source: "https://github.com/dart-lang/sdk/blob/5c1f33f9ea7d580c0ab58d913da7daa7dafee77a/pkg/analysis_server/lib/src/analysis_server.dart#L737-L741"),
+            Folder(".dartServer/.analysis-driver", .cache, source: "https://github.com/dart-lang/sdk/blob/b5285d7d6abfa375fd2b2645f0541a816d8f0776/pkg/analysis_server/lib/src/analysis_server.dart#L750-L763"),
         ]),
         Definition(id: "composer", name: "Composer", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/composer", .downloads, source: "https://github.com/composer/composer/blob/e9e8482d8331657123e5c4cad44c7fb36137868e/doc/06-config.md#L1241-L1247"),
+            Folder("Library/Caches/composer", .downloads, source: "https://github.com/composer/composer/blob/ae54d59bec96633ae442a009f3793b0b450351cd/doc/06-config.md#L1266-L1272"),
             Folder(".composer/cache", .downloads, source: "https://github.com/composer/composer/blob/e9e8482d8331657123e5c4cad44c7fb36137868e/src/Composer/Factory.php#L122-L128"),
         ]),
         Definition(id: "cpan", name: "CPAN", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
@@ -848,7 +849,7 @@ public enum DeveloperCaches {
             Folder(".clojure/.cpcache", .cache, source: "https://github.com/clojure/clojure-site/blob/15d0adc7ccd1dc8aa1c622dc824bef76507c276a/content/reference/clojure_cli.adoc#L490-L504"),
         ]),
         Definition(id: "mise", name: "mise", systemImage: "shippingbox", appBundleIdentifiers: [], folders: [
-            Folder("Library/Caches/mise", .cache, source: "https://github.com/jdx/mise/blob/95bd89446f8fd2c62c355317d8567693243cc439/docs/directories.md#L34-L41"),
+            Folder("Library/Caches/mise", .cache, source: "https://github.com/jdx/mise/blob/eb9559f8d1705a0ec796a772fa55a867ae9e4bfb/docs/directories.md#L15"),
         ]),
         // Shells
         Definition(id: "zsh", name: "zsh", systemImage: "terminal", appBundleIdentifiers: [], folders: [
@@ -1048,7 +1049,7 @@ public enum DeveloperCaches {
             ),
         ]),
         Definition(id: "opencode", name: "opencode", systemImage: "terminal", appBundleIdentifiers: [], folders: [
-            Folder(".cache/opencode", .cache, source: "https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/core/src/global.ts#L12"),
+            Folder(".cache/opencode", .cache, source: "https://github.com/anomalyco/opencode/blob/296074aab29138dd94af7d82e70b3513e28746ea/packages/util/src/global.ts#L13-L23"),
         ]),
         Definition(id: "kilo", name: "Kilo Code", systemImage: "terminal", appBundleIdentifiers: [], folders: [
             Folder(".cache/kilo", .cache, source: "https://github.com/Kilo-Org/kilocode/blob/fb7e96eda5409517a05948b9efaf01c53997bf6e/packages/kilo-docs/pages/getting-started/settings/sandboxing.md#L108-L113"),
@@ -1078,6 +1079,7 @@ public enum DeveloperCaches {
         Definition(id: "githubcli", name: "GitHub CLI", systemImage: "cloud", appBundleIdentifiers: [], folders: [
             Folder(".cache/gh", .cache, source: "https://github.com/cli/go-gh/blob/68c032df142b15f041b7b53d5fcae8a918140e69/pkg/config/config.go#L299-L306"),
         ]),
+        // `plugin_cache_dir` has no default: this is the folder Terraform's documentation gives as its example.
         Definition(id: "terraform", name: "Terraform", systemImage: "cloud", appBundleIdentifiers: [], folders: [
             Folder(".terraform.d/plugin-cache", .environments, source: "https://developer.hashicorp.com/terraform/cli/config/config-file"),
         ]),
@@ -1195,6 +1197,7 @@ public enum DeveloperCaches {
         Definition(id: "qutip", name: "QuTiP", systemImage: "atom", appBundleIdentifiers: [], folders: [
             Folder(".qutip/qutip_coeffs_*", .buildData, source: "https://github.com/qutip/qutip/blob/56ed7854177e046124118fdcb6b958d557b65984/qutip/settings.py#L278-L283"),
         ]),
+        // qBraid's documentation shows this folder in its examples, which come from its hosted environment.
         Definition(id: "qbraid", name: "qBraid", systemImage: "atom", appBundleIdentifiers: [], folders: [
             Folder(".qbraid/environments", .environments, source: "https://docs.qbraid.com/cli/user-guide/environments"),
         ]),
