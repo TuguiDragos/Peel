@@ -35,11 +35,11 @@ final class TerminalToolLibrary {
             prefix: prefix, installed: Set(installed), unrunnable: HomebrewChoice().unrunnable(),
             refused: Homebrew.refusedInAUsualPlace()
         )
-        guard prefix != nil else { return }
+        guard let prefix else { return }
         if case .notAsked = asked {
             asked = .asking
             askingHomebrew = Task {
-                asked = .answered(await Self.askHomebrew())
+                asked = .answered(await Self.askHomebrew(prefix: prefix))
                 askingHomebrew = nil
             }
         }
@@ -63,9 +63,9 @@ final class TerminalToolLibrary {
 
     /// Homebrew's answer from its local copy of the definitions, and nothing when it has none or when its own
     /// settings would make it update its lists over the network first, so the Terminal page goes nowhere.
-    private static func askHomebrew() async -> Catalog? {
-        guard await Homebrew.hasLocalDefinitions(), let overrides = await Homebrew.overrides(),
-              !overrides.contains(.updatesItself)
+    private static func askHomebrew(prefix: URL) async -> Catalog? {
+        guard await Homebrew.hasLocalDefinitions(), !Homebrew.fetchesItsListsFirst(prefix: prefix),
+              let overrides = await Homebrew.overrides(), !overrides.contains(.updatesItself)
         else { return nil }
         let names = await Homebrew.formulaNames()
         guard !names.isEmpty else { return nil }

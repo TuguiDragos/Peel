@@ -1142,6 +1142,22 @@ struct HomebrewTests {
         #expect(asked.withLock { $0.filter(developerCommands.contains) }.isEmpty)
     }
 
+    @Test func knowsFromBrewEnvWhetherHomebrewFetchesItsListsBeforeAnswering() throws {
+        let directory = try TemporaryDirectory()
+        func settings(_ text: String) throws -> [URL] {
+            [try directory.file("\(UUID().uuidString).env", contents: Data(text.utf8))]
+        }
+
+        #expect(!Homebrew.fetchesItsListsFirst(settingsIn: []))
+        #expect(!Homebrew.fetchesItsListsFirst(settingsIn: try settings("HOMEBREW_NO_ANALYTICS=1\n")))
+        #expect(Homebrew.fetchesItsListsFirst(settingsIn: try settings("HOMEBREW_FORCE_API_AUTO_UPDATE=1\n")))
+        #expect(Homebrew.fetchesItsListsFirst(settingsIn: try settings("HOMEBREW_NO_AUTO_UPDATE=\n")))
+        #expect(!Homebrew.fetchesItsListsFirst(settingsIn: try settings("HOMEBREW_NO_AUTO_UPDATE=1\n")))
+        #expect(!Homebrew.fetchesItsListsFirst(settingsIn: try settings("HOMEBREW_NO_AUTO_UPDATE=0\n")))
+        #expect(!Homebrew.fetchesItsListsFirst(settingsIn: try settings("HOMEBREW_FORCE_API_AUTO_UPDATE=\n")))
+        #expect(!Homebrew.fetchesItsListsFirst(settingsIn: try settings("HOMEBREW_FORCE_API_AUTO_UPDATE=0\n")))
+    }
+
     @Test func readsTheTapsOnlyWhereTheLastBrewEnvLineSaysSo() throws {
         let folder = try TemporaryDirectory()
         let system = try folder.file("etc/homebrew/brew.env", contents: Data("# a comment\nHOMEBREW_NO_ANALYTICS=1\n".utf8))

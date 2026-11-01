@@ -789,6 +789,22 @@ public enum Homebrew {
         return !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
+    /// Whether the settings `bin/brew` reads have Homebrew fetch its lists before it answers any Ruby command, `brew
+    /// config` among them (`Homebrew::API.fetch_api_files!`): `HOMEBREW_FORCE_API_AUTO_UPDATE` turned on, or
+    /// `HOMEBREW_NO_AUTO_UPDATE`, which Peel sets, turned off. So this is what can be known without running it.
+    public static func fetchesItsListsFirst(prefix: URL) -> Bool {
+        fetchesItsListsFirst(
+            settingsIn: settingsFiles(system: systemSettingsFile, prefix: prefix, home: .homeDirectory)
+        )
+    }
+
+    static func fetchesItsListsFirst(settingsIn files: [URL]) -> Bool {
+        // `env_config.rb`: the first is off when blank or one of these, the second only when blank.
+        let force = setting("HOMEBREW_FORCE_API_AUTO_UPDATE", in: files)?.trimmingCharacters(in: .whitespaces)
+        if let force, !["", "false", "no", "off", "nil", "0"].contains(force.lowercased()) { return true }
+        return setting("HOMEBREW_NO_AUTO_UPDATE", in: files)?.trimmingCharacters(in: .whitespaces).isEmpty == true
+    }
+
     /// The value the last line of `files` gives `name`, read as `bin/brew` reads them (`read -r`): a line counts only
     /// once it ends, trimmed of spaces and tabs, and the value is what follows the equals sign.
     static func setting(_ name: String, in files: [URL]) -> String? {
