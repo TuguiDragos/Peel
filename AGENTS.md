@@ -450,7 +450,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   whose catalog the Release configuration leaves out (`EXCLUDED_SOURCE_FILE_NAMES`), so a release carries none of it.
 - A translation uses the words macOS itself uses in that language for every place, menu, and command, and writes the
   marks macOS writes there: Dutch keeps the straight apostrophe, German puts a no-break space before an ellipsis,
-  French one before ? : ! and ; and inside « », App Store keeps one in the languages whose macOS writes it so, and
+  French one before ? : ! and ; and inside « », App Store keeps one in the languages whose macOS writes it so, Czech,
+  Polish, and Russian keep a one-letter word, and Polish a count, with the next word through a no-break space, and
   Romanian joins a Romanian word with a non-breaking hyphen (U+2011) but never a name or an option someone may
   copy. `StringCatalogTests` checks these, and also wants the ellipsis character, never three periods, each sidebar
   name and tab title within the room it is given, and SwiftUI's own words for the menu items SwiftUI builds.
