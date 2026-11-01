@@ -224957,6 +224957,112 @@
         }
       }
     },
+    "With the key written in your Git settings" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocí klíče zapsaného ve vašem nastavení Gitu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit dem Schlüssel, der in deinen Git-Einstellungen steht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con la clave escrita en tus ajustes de Git"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec la clé écrite dans vos réglages Git"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con la chiave scritta nelle tue impostazioni di Git"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitの設定に記述された鍵を使用"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git 설정에 적힌 키 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Met de sleutel die in je Git-instellingen staat"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z kluczem zapisanym w Twoich ustawieniach Gita"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com a chave escrita nos seus ajustes do Git"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cu cheia scrisă în configurările dvs. Git"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С ключом, записанным в Ваших настройках Git"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Med nyckeln inskriven i dina Git-inställningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git ayarlarınızda yazılı anahtarla"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "З ключем, записаним у ваших налаштуваннях Git"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用写在你的Git设置中的密钥"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用寫在你的Git設定中的密鑰"
+          }
+        }
+      }
+    },
     "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan, and to get its own copy of Ruby again when a failed update left it behind. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change." : {
       "comment" : "The note of Check for app updates in Settings > Privacy. Ruby is a programming language's name; brew.env is a file name.",
       "localizations" : {

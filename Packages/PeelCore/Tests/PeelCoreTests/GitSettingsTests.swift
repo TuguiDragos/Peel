@@ -32,6 +32,22 @@ private struct GitHome: ~Copyable {
 }
 
 struct GitSettingsTests {
+    @Test func aSigningKeyWrittenInTheSettingsIsNoPath() {
+        let written = "key::ssh-ed25519 AAAAC3Nz laptop"
+
+        #expect(GitSetting.isTheKeyItself(written))
+        #expect(GitSetting.isTheKeyItself("ssh-ed25519 AAAAC3Nz laptop"))
+        #expect(!GitSetting.isTheKeyItself("~/.ssh/id_ed25519.pub"))
+        #expect(!GitSetting.isTheKeyItself("/Users/me/.ssh/key::old.pub"))
+        #expect(GitSetting.signCommits.commands(signingKey: written) == [
+            "git config --global gpg.format ssh",
+            "git config --global user.signingKey 'key::ssh-ed25519 AAAAC3Nz laptop'",
+            "git config --global commit.gpgSign true",
+        ])
+        #expect(GitSetting.signCommits.commands(signingKey: "~/.ssh/id_ed25519.pub")[1]
+            == "git config --global user.signingKey ~/.ssh/id_ed25519.pub")
+    }
+
     @Test func everySettingTurnsOnAndOffThroughGitAndLeavesNothingBehind() async throws {
         let git = try await GitHome()
         let key = try git.publicKey("id_ed25519.pub")

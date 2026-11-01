@@ -70,8 +70,7 @@ private struct GitSettingRow: View {
         TerminalSwitchRow(
             title: setting.title,
             detail: setting.detail,
-            footnote: setting.values(signingKey: git.state?.signingKey ?? "~/.ssh/id_ed25519.pub")
-                .map { "git config --global \($0.key) \($0.value)" }
+            footnote: setting.commands(signingKey: git.state?.signingKey ?? "~/.ssh/id_ed25519.pub")
                 .joined(separator: "\n"),
             caption: caption,
             isOn: Binding(
@@ -86,6 +85,8 @@ private struct GitSettingRow: View {
         if git.isSetInIncludedFiles(setting) { return "Set in a file your Git settings include" }
         guard setting == .signCommits else { return nil }
         guard let key = git.state?.signingKey else { return "Needs an SSH key in ~/.ssh" }
-        return "With \(URL(filePath: key).abbreviatedPath)"
+        return GitSetting.isTheKeyItself(key)
+            ? "With the key written in your Git settings"
+            : "With \(URL(filePath: key).abbreviatedPath)"
     }
 }

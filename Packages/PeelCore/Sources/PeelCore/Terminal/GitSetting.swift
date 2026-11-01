@@ -43,6 +43,19 @@ public enum GitSetting: CaseIterable, Sendable {
             .first { FileManager.default.fileExists(atPath: $0) }
     }
 
+    /// Whether `user.signingKey` holds the public key itself rather than a path to one: `git-config(1)` writes it after
+    /// `key::`, and Git still takes it bare.
+    public static func isTheKeyItself(_ signingKey: String) -> Bool {
+        signingKey.hasPrefix("key::") || signingKey.hasPrefix("ssh-")
+    }
+
+    public func commands(signingKey: String?) -> [String] {
+        values(signingKey: signingKey).map { value in
+            let shown = value.value.contains(" ") ? value.value.quotedForTheShell : value.value
+            return "git config --global \(value.key) \(shown)"
+        }
+    }
+
     /// What turning the setting on writes. Signing needs a public key, so without one it writes nothing.
     public func values(signingKey: String?) -> [Value] {
         switch self {
