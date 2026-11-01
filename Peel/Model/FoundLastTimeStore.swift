@@ -19,8 +19,11 @@ final class FoundLastTimeStore {
         Tool.allCases.compactMap { tool in found.findings[tool.rawValue].map { (tool, $0) } }
     }
 
+    /// Each write makes every `AppStorage` in the app read again, and a look often finds what the last one did.
     func record(_ looked: Looked, for tool: Tool) {
-        found.record(count: looked.count, size: looked.size, for: tool.rawValue)
+        var next = found
+        guard next.record(count: looked.count, size: looked.size, for: tool.rawValue) else { return }
+        found = next
         defaults.set(found.data, forKey: Self.key)
     }
 }

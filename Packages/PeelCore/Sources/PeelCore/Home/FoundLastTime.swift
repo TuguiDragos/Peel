@@ -37,9 +37,17 @@ public struct FoundLastTime: Sendable, Equatable {
         return (try? JSONEncoder().encode(entries)) ?? Data()
     }
 
-    /// Records what `tool` found when it looked at `date`. Nothing found takes the tool off the list.
-    public mutating func record(count: Int, size: SizeTotal?, for tool: String, at date: Date = .now) {
-        findings[tool] = count > 0 ? Finding(count: count, size: size, date: date) : nil
+    /// Records what `tool` found when it looked at `date`, and answers whether that changed anything: the panel says
+    /// when in minutes, so the same finding within a minute is no change. Nothing found takes the tool off the list.
+    @discardableResult
+    public mutating func record(count: Int, size: SizeTotal?, for tool: String, at date: Date = .now) -> Bool {
+        guard count > 0 else { return findings.removeValue(forKey: tool) != nil }
+        if let last = findings[tool], last.count == count, last.size == size,
+           abs(date.timeIntervalSince(last.date)) < 60 {
+            return false
+        }
+        findings[tool] = Finding(count: count, size: size, date: date)
+        return true
     }
 
     private struct Stored: Codable {

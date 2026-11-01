@@ -41,6 +41,23 @@ struct FoundLastTimeTests {
         #expect(found.findings.isEmpty)
     }
 
+    @Test func aLookThatFindsTheSameWithinAMinuteChangesNothing() {
+        var found = FoundLastTime()
+        func changes(_ count: Int, at date: Date) -> Bool {
+            found.record(count: count, size: nil, for: "orphans", at: date)
+        }
+
+        #expect(changes(7, at: monday))
+        #expect(!changes(7, at: monday.addingTimeInterval(59)))
+        #expect(found.findings["orphans"]?.date == monday)
+
+        #expect(changes(8, at: monday.addingTimeInterval(59)))
+        #expect(changes(8, at: tuesday))
+        #expect(found.findings["orphans"]?.date == tuesday)
+        #expect(changes(0, at: tuesday))
+        #expect(!changes(0, at: tuesday))
+    }
+
     /// Any process can write an app's preferences, so an entry that makes no sense is left out, and the rest stay.
     @Test func readsNothingThatMakesNoSense() {
         let json = #"""
