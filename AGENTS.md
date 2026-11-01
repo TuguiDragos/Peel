@@ -173,7 +173,8 @@ disk that somebody may have replaced.
 - The helper's identifier and its launchd property list stay the same from one version to the next. Updates rely on
   it: launchd starts the new helper by itself, and a version that changed either would have to register it again.
 - macOS keeps a background item's record by its team and bundle identifier, never its path or build, so a Debug
-  build and a release share one record and its approval (`sfltool dumpbtm` lists them without an administrator).
+  build and a release share one record and its approval (`sfltool dumpbtm` lists them, without `sudo` but with an
+  administrator's password).
   Registering again right after unregistering is refused until macOS has saved its records, a few seconds later,
   so `PrivilegedHelper.register` waits and tries again.
 
