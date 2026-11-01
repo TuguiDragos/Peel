@@ -52,10 +52,17 @@ why it starts at macOS 26 and won't open on an older one.
 ### Homebrew
 
 ```bash
-brew install --cask tuguidragos/tap/peel
+brew install --cask peel
 ```
 
-Homebrew also puts the `peel` command on your path, with its manual page and shell completions.
+Peel is one of [Homebrew's official casks](https://formulae.brew.sh/cask/peel). Homebrew also puts the `peel` command
+on your path, with its manual page and shell completions.
+
+If Peel is already in your Applications folder from the download, Homebrew can take over that copy instead of stopping:
+
+```bash
+brew install --cask --adopt peel
+```
 
 ### Updates
 
