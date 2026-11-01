@@ -106,6 +106,10 @@ public struct Exclusions: Sendable, Codable, Hashable {
         return !removed.isEmpty
     }
 
+    public func lists(_ url: URL) -> Bool {
+        paths.contains { Self.isSamePlace($0, url) }
+    }
+
     private static func isSamePlace(_ one: URL, _ other: URL) -> Bool {
         !spellings(of: one).isDisjoint(with: spellings(of: other))
     }

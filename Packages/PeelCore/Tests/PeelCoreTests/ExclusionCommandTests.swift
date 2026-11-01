@@ -200,6 +200,34 @@ struct ExclusionCommandTests {
         #expect(await saved(store).bundleIdentifiers == ["com.example.editor"])
     }
 
+    @Test func saysWhatCameOffAndWhatWasNotOnTheList() async throws {
+        let directory = try TemporaryDirectory()
+        let store = store(in: directory)
+        let kept = try directory.directory("home/Keep").path(percentEncoded: false)
+        let other = directory.url.appending(path: "home/Other").path(percentEncoded: false)
+        try await add([kept], in: store)
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await remove([kept, other], in: store)
+        }
+
+        #expect(await saved(store).isEmpty)
+        #expect(collected.output.contains("/home/Keep like anything else again."))
+        #expect(collected.notes.contains("Peel wasn't leaving"))
+        #expect(collected.notes.contains("/home/Other alone."))
+    }
+
+    @Test func takesAnIdentifierOffTheListHoweverItIsCapitalized() async throws {
+        let directory = try TemporaryDirectory()
+        let store = store(in: directory)
+        try await add(["--app", "com.example.editor"], in: store, among: [editor])
+
+        try await remove(["--app", "COM.example.EDITOR"], in: store, among: [])
+
+        #expect(await saved(store).isEmpty)
+    }
+
     @Test func refusesToRemoveWhatWasNotThere() async throws {
         let directory = try TemporaryDirectory()
         let store = store(in: directory)

@@ -158,27 +158,22 @@ struct ExclusionsCommand: AsyncParsableCommand {
         func run(in store: ExclusionStore, among apps: [InstalledApp]? = nil) async throws {
             let before = try await ExclusionsCommand.current(in: store)
             var removed = paths.map(URL.init(argument:))
-            // `app` comes off exactly as written, so an app that isn't installed can still come off the list. Only
-            // when the list has no such identifier is `app` looked up among the installed apps.
-            var identifiers: Set<String> = []
-            if let app {
-                if before.bundleIdentifiers.contains(app) {
-                    identifiers.insert(app)
-                } else if let found = try? await ExclusionsCommand.app(app, among: apps) {
-                    if let identifier = found.bundleIdentifier {
-                        identifiers.insert(identifier)
-                    } else {
-                        removed.append(found.url)
-                    }
+            // `app` is looked for on the list first, in any capitals, since `add` writes what the app itself declares,
+            // so an app that isn't installed can still come off. Only then is it looked up among the installed apps.
+            var identifiers = before.bundleIdentifiers.filter { $0.caseInsensitiveCompare(app ?? "") == .orderedSame }
+            if let app, identifiers.isEmpty, let found = try? await ExclusionsCommand.app(app, among: apps) {
+                if let identifier = found.bundleIdentifier {
+                    identifiers.insert(identifier)
+                } else {
+                    removed.append(found.url)
                 }
             }
-            var remaining = before
-            guard remaining.remove(removed) || !before.bundleIdentifiers.isDisjoint(with: identifiers) else {
+            let placesOff = removed.filter(before.lists)
+            let identifiersOff = before.bundleIdentifiers.intersection(identifiers)
+            guard !placesOff.isEmpty || !identifiersOff.isEmpty else {
                 // What is inside a folder on the list stays alone until the folder comes off.
-                if let (url, folder) = removed.lazy.compactMap({ url in
-                    before.reasons(excluding: url, app: nil).folders.first.map { (url, $0) }
-                }).first {
-                    throw CommandFailure("Peel leaves \(Output.plain(Output.path(url))) alone because it is inside \(Output.plain(Output.path(folder))), which is on the list. Remove that instead.")
+                if let url = removed.first(where: { !before.reasons(excluding: $0, app: nil).folders.isEmpty }) {
+                    throw CommandFailure(Self.notOnTheList(url, in: before))
                 }
                 throw CommandFailure("Peel wasn't leaving that alone. See `peel exclusions list`.")
             }
@@ -186,7 +181,22 @@ struct ExclusionsCommand: AsyncParsableCommand {
                 exclusions.remove(removed)
                 exclusions.bundleIdentifiers.subtract(identifiers)
             }
-            Output.line("Peel will treat it like anything else again.")
+            var missed = removed.filter { !before.lists($0) }.map { Self.notOnTheList($0, in: before) }
+            if let app, identifiersOff.isEmpty, removed.count == paths.count {
+                missed.append("Peel wasn't leaving \(Output.plain(app)) alone.")
+            }
+            let names = (placesOff.map(Output.path) + identifiersOff.sorted()).map(Output.plain)
+            let what = missed.isEmpty ? (names.count == 1 ? "it" : "them") : names.joined(separator: ", ")
+            Output.line("Peel will treat \(what) like anything else again.")
+            missed.forEach(Output.note)
+        }
+
+        private static func notOnTheList(_ url: URL, in exclusions: Exclusions) -> String {
+            let place = Output.plain(Output.path(url))
+            guard let folder = exclusions.reasons(excluding: url, app: nil).folders.first else {
+                return "Peel wasn't leaving \(place) alone."
+            }
+            return "Peel leaves \(place) alone because it is inside \(Output.plain(Output.path(folder))), which is on the list. Remove that instead."
         }
     }
 }
