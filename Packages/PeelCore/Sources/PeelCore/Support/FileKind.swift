@@ -22,7 +22,12 @@ public enum FileKind: String, Sendable, Hashable, CaseIterable {
     }
 
     var excludedTypes: [UTType] {
-        self == .documents ? [.sourceCode] : []
+        switch self {
+        case .documents: [.sourceCode]
+        // macOS gives every `.bin` this type, and hardly any is an archive: most are firmware or a framework's data.
+        case .archives: [UTType(importedAs: "com.apple.macbinary-archive")]
+        default: []
+        }
     }
 
     public func includes(_ type: UTType) -> Bool {

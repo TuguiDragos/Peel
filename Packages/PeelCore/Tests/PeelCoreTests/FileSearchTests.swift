@@ -167,6 +167,19 @@ struct FileSearchTests {
         #expect(FileKind.any.includes(swift))
     }
 
+    @Test func archivesLeaveOutTheTypeMacOSGivesEveryBinFile() throws {
+        let bin = try #require(UTType(filenameExtension: "bin"))
+
+        #expect(bin.conforms(to: .archive))
+        #expect(!FileKind.archives.includes(bin))
+        #expect(FileKind.archives.includes(.zip))
+        #expect(FileSearch.queryString(for: {
+            var criteria = FileSearchCriteria()
+            criteria.kind = .archives
+            return criteria
+        }()).contains(#"kMDItemContentTypeTree != "\#(bin.identifier)""#))
+    }
+
     /// Each path Spotlight returns is checked on the disk. Only regular files the removal guard allows are listed,
     /// files an app keeps in a Library folder come last, and the largest come first within each part.
     @Test func listsOnlyRegularFilesOutsideProtectedLocations() throws {
