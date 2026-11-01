@@ -41,9 +41,9 @@ struct HelperPolicyTests {
                 identifier: "com.tuguidragos.Peel",
                 teamIdentifier: "6R6J264YA2",
                 allowingDevelopmentBuilds: allowing,
-                minimumBuild: "261101"
+                minimumBuild: "261103"
             )
-            #expect(text.contains("info[CFBundleVersion] >= \"261101\""), "an older Peel is served")
+            #expect(text.contains("info[CFBundleVersion] >= \"261103\""), "an older Peel is served")
             var requirement: SecRequirement?
             #expect(SecRequirementCreateWithString(text as CFString, [], &requirement) == errSecSuccess)
         }
