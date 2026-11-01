@@ -54,6 +54,31 @@ struct BackgroundItemActionsTests {
         )
     }
 
+    @Test func stoppingAJobThatHasLeftIsNoFailure() async throws {
+        var left = item(state: .loaded, plist: nil)
+        left.loadsInTheBackgroundSession = true
+
+        try await BackgroundItemActions.stop(left)
+    }
+
+    @Test func startGoesByWhatLaunchdHasNowRatherThanWhatThePageRead() {
+        let file = URL(filePath: "/Users/me/Library/LaunchAgents/job.plist")
+        func plan(_ state: BackgroundItem.State, isGone: Bool) -> BackgroundItemActions.Start {
+            let now = BackgroundItemActions.asItIsNow(item(state: state, plist: file), isGone: isGone)
+            return BackgroundItemActions.plan(toStart: now, isRefusedByLaunchd: { _ in false })
+        }
+
+        #expect(plan(.notLoaded, isGone: false) == .kickstart)
+        #expect(plan(.loaded, isGone: true) == .bootstrap(file))
+        #expect(plan(.running(pid: 42), isGone: true) == .bootstrap(file))
+        #expect(plan(.notLoaded, isGone: true) == .bootstrap(file))
+        #expect(plan(.loaded, isGone: false) == .kickstart)
+        #expect(
+            BackgroundItemActions.asItIsNow(item(state: .running(pid: 42), plist: file), isGone: false).state
+                == .running(pid: 42)
+        )
+    }
+
     @Test func anAgentOfTheBackgroundSessionIsAskedForInTheUserDomain() throws {
         let uid = getuid()
         var background = item(state: .loaded, plist: nil)

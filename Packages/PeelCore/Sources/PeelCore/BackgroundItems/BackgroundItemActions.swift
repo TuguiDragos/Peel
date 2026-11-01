@@ -26,10 +26,14 @@ public enum BackgroundItemActions {
     @concurrent
     public static func stop(_ item: BackgroundItem) async throws(Failure) {
         if let refusal = refusal(for: item) { throw refusal }
-        if item.requiresPrivileges {
-            try await runPrivileged(.bootout, for: item)
-        } else {
-            try await run(["bootout", target(of: item)])
+        do throws(Failure) {
+            if item.requiresPrivileges {
+                try await runPrivileged(.bootout, for: item)
+            } else {
+                try await run(["bootout", target(of: item)])
+            }
+        } catch {
+            if !(await isGone(item)) { throw error }
         }
     }
 
@@ -53,10 +57,22 @@ public enum BackgroundItemActions {
         return isRefusedByLaunchd(plist) ? .blockedByQuarantine : .bootstrap(plist)
     }
 
+    /// `item` as launchd has it now. The page read it earlier, and a job loaded since then answers `bootstrap` with
+    /// error 5, while one gone since then answers `kickstart` with error 113.
+    static func asItIsNow(_ item: BackgroundItem, isGone: Bool) -> BackgroundItem {
+        var now = item
+        if isGone {
+            now.state = .notLoaded
+        } else if item.state == .notLoaded {
+            now.state = .loaded
+        }
+        return now
+    }
+
     @concurrent
     public static func start(_ item: BackgroundItem) async throws(Failure) {
         if let refusal = refusal(for: item) { throw refusal }
-        switch plan(toStart: item) {
+        switch plan(toStart: asItIsNow(item, isGone: await isGone(item))) {
         case .blockedByQuarantine:
             throw .quarantinedPlist
         case .needsEnabling:
@@ -116,7 +132,7 @@ public enum BackgroundItemActions {
                 try await stop(item)
                 return nil
             } catch {
-                return await isGone(item) ? nil : error
+                return error
             }
         }
     }

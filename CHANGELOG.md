@@ -681,6 +681,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job file Peel can't read moves without stopping another job of that name, and its question says macOS won't start it
   again.
 - `launchctl`'s errors no longer carry its advice to run as root, and on macOS 27 a failed Remove is called that.
+- Stop on a job that has left by then is simply done, and Start on one loaded by then runs it, rather than showing
+  `launchctl`'s error.
 - The Login Items row shows only for the three folders System Settings answers for, and holds its place while macOS
   answers.
 - A job's page asks for the helper only when it offers something the helper would do.
