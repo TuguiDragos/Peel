@@ -46,8 +46,9 @@ prove, and only then fix.
    exclusions, and helper record, and what it moves is yours. Check a removal on files made for it, such as a folder
    on a disk image given to `peel duplicates` or `peel projects` with `--dry-run` first, and never run Remove Peel
    in it. A made-up home (`CFFIXED_USER_HOME`) moves only the home folder: the temporary and cache folders macOS
-   gives the account (`confstr`) stay the real ones, and Developer and Space read them, so a check there selects
-   and never moves.
+   gives the account (`confstr`), Spotlight's home scope, and the Trash stay the real ones. Developer and Space read
+   those folders and File Search that scope, so a check there selects and never moves, and what a check does move
+   lands in your own Trash.
 8. **Leave nothing behind**: no probe, no debugging output, and nothing the change left unused.
 9. **Say exactly what happened.** Report a failing test with its output, a step you skipped as skipped, and what
    you couldn't prove as unproved. If something can't be checked on your Mac, say what and why in the pull
