@@ -437,6 +437,11 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   Start, Stop, Enable, and Disable go to `launchctl`, a daemon's through the helper, never under a label macOS uses for
   its own jobs (`SystemDaemons`, `SystemAgents`), and a job ServiceManagement manages is turned off only in System
   Settings. Move to Trash takes the job's file, and the job is stopped once the file has moved.
+- **Extensions.** `AppExtensions.scan` reads `pluginkit -m -v` and `systemextensionsctl list`. Each ends by counting its
+  rows, so a listing read short of its count is no answer, and the page says which kind is missing. macOS's own
+  extensions are left out by where they sit. A system extension's copy, the app it was installed for and its version
+  come from `/Library/SystemExtensions/db.plist`, its category from the listing's headers. The page changes nothing: it
+  says where each one is turned on and off.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference

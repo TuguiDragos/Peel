@@ -338,6 +338,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- A system extension macOS is updating is named once on its app's page and in `peel uninstall`.
 - Folders of apps are read each on a thread of its own within a time limit, so one that doesn't answer is named and
   no longer holds the whole list.
 - A round of update checks no longer stops after apps leave the list, and a check made while the Mac is still offline
@@ -510,7 +511,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Each extension says where it is really turned on and off, an excluded app's extensions are left out, and the page
   is read again when shown and when Peel comes forward.
-- A system extension whose app is gone says the app is no longer installed, and is named once while macOS updates it.
+- A system extension whose app is gone says the app is no longer installed.
 - VoiceOver hears when part of the list is missing.
 - The parts of one app that carry its name read apart, a search finds an extension point by the word its page shows, and
   VoiceOver hears an extension's kind.
