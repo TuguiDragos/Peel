@@ -346,7 +346,8 @@ struct TrashServiceTests {
             stopJobs: { jobs, _ in
                 guard !jobs.isEmpty else { return [] }
                 agent.terminate()
-                agent.waitUntilExit()
+                // Not `waitUntilExit`: on another thread than the one that started the program it can wait forever.
+                _ = await ProcessEnds.ends(agent.processIdentifier, within: 60)
                 return jobs
             },
             moveThroughHelper: { urls in
