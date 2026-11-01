@@ -76,7 +76,7 @@ private struct SleepNotice: View {
         VStack(alignment: .leading, spacing: 6) {
             StatusLabel(title: Text("This Mac can’t sleep"), tint: .accentColor)
                 .font(.headline)
-            Text("Something has turned sleep off altogether, even with the lid closed. It survives a restart and System Settings doesn’t show it.")
+            Text("Something has turned sleep off altogether, even on a laptop with its lid closed. It survives a restart and System Settings doesn’t show it.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             HStack(spacing: 8) {

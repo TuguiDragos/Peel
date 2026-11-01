@@ -178722,108 +178722,108 @@
         }
       }
     },
-    "Something has turned sleep off altogether, even with the lid closed. It survives a restart and System Settings doesn’t show it." : {
+    "Something has turned sleep off altogether, even on a laptop with its lid closed. It survives a restart and System Settings doesn’t show it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Něco úplně vypnulo režim spánku, a to i při zavřeném víku. Vydrží to i restart a Nastavení systému to nezobrazuje."
+            "value" : "Něco úplně vypnulo režim spánku, a to i u notebooku se zavřeným víkem. Vydrží to i restart a Nastavení systému to nezobrazuje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Etwas hat den Ruhezustand vollständig deaktiviert, selbst bei geschlossenem Deckel. Das bleibt auch nach einem Neustart so, und die Systemeinstellungen zeigen es nicht an."
+            "value" : "Etwas hat den Ruhezustand vollständig deaktiviert, selbst bei einem Laptop mit geschlossenem Deckel. Das bleibt auch nach einem Neustart so, und die Systemeinstellungen zeigen es nicht an."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algo ha desactivado el reposo por completo, incluso con la tapa cerrada. Se mantiene tras reiniciar y Ajustes del Sistema no lo muestra."
+            "value" : "Algo ha desactivado el reposo por completo, incluso en un portátil con la tapa cerrada. Se mantiene tras reiniciar y Ajustes del Sistema no lo muestra."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quelque chose a complètement désactivé la suspension d’activité, même couvercle fermé. Ce réglage persiste après un redémarrage, et Réglages Système ne l’affiche pas."
+            "value" : "Quelque chose a complètement désactivé la suspension d’activité, même sur un ordinateur portable dont le couvercle est fermé. Ce réglage persiste après un redémarrage, et Réglages Système ne l’affiche pas."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qualcosa ha disattivato del tutto lo standby, anche con lo schermo chiuso. L’impostazione resta anche dopo un riavvio e Impostazioni di Sistema non la mostra."
+            "value" : "Qualcosa ha disattivato del tutto lo standby, anche su un portatile con lo schermo chiuso. L’impostazione resta anche dopo un riavvio e Impostazioni di Sistema non la mostra."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "何かがスリープを完全にオフにしていて、Macを閉じていてもスリープしません。この状態は再起動後も続き、システム設定には表示されません。"
+            "value" : "何かがスリープを完全にオフにしていて、ノートブックコンピュータを閉じていてもスリープしません。この状態は再起動後も続き、システム設定には表示されません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "무언가가 잠자기를 완전히 꺼 두어 덮개를 닫아도 잠자기 상태로 전환되지 않습니다. 이 설정은 재시동 후에도 유지되며 시스템 설정에는 표시되지 않습니다."
+            "value" : "무언가가 잠자기를 완전히 꺼 두어 랩탑의 덮개를 닫아도 잠자기 상태로 전환되지 않습니다. 이 설정은 재시동 후에도 유지되며 시스템 설정에는 표시되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Iets heeft de sluimerstand volledig uitgeschakeld, zelfs met het deksel dicht. Dit blijft ook na een herstart zo en Systeeminstellingen toont het niet."
+            "value" : "Iets heeft de sluimerstand volledig uitgeschakeld, zelfs op een laptop met het deksel dicht. Dit blijft ook na een herstart zo en Systeeminstellingen toont het niet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Coś całkowicie wyłączyło usypianie, nawet przy zamkniętej pokrywie. Utrzymuje się to po ponownym uruchomieniu, a Ustawienia systemowe tego nie pokazują."
+            "value" : "Coś całkowicie wyłączyło usypianie, nawet na laptopie z zamkniętą pokrywą. Utrzymuje się to po ponownym uruchomieniu, a Ustawienia systemowe tego nie pokazują."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algo desativou o repouso por completo, mesmo com a tampa fechada. Isso persiste depois de reiniciar, e os Ajustes do Sistema não o mostram."
+            "value" : "Algo desativou o repouso por completo, mesmo em um laptop com a tampa fechada. Isso persiste depois de reiniciar, e os Ajustes do Sistema não o mostram."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ceva a dezactivat complet adormirea, chiar și cu capacul închis. Starea aceasta rezistă la repornire, iar Configurări sistem nu o afișează."
+            "value" : "Ceva a dezactivat complet adormirea, chiar și pe un laptop cu capacul închis. Starea aceasta rezistă la repornire, iar Configurări sistem nu o afișează."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Что-то полностью отключило режим сна, даже при закрытой крышке. Это сохраняется после перезагрузки, и Системные настройки этого не показывают."
+            "value" : "Что-то полностью отключило режим сна, даже на ноутбуке с закрытой крышкой. Это сохраняется после перезагрузки, и Системные настройки этого не показывают."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Något har stängt av viloläget helt, även när locket är stängt. Det finns kvar efter en omstart, och Systeminställningar visar det inte."
+            "value" : "Något har stängt av viloläget helt, även på en bärbar dator med stängt lock. Det finns kvar efter en omstart, och Systeminställningar visar det inte."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir şey uyku modunu, kapak kapalıyken bile tamamen kapatmış. Bu durum yeniden başlatmadan sonra da sürer ve Sistem Ayarları bunu göstermez."
+            "value" : "Bir şey uyku modunu, kapağı kapalı bir dizüstü bilgisayarda bile tamamen kapatmış. Bu durum yeniden başlatmadan sonra da sürer ve Sistem Ayarları bunu göstermez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Щось повністю вимкнуло режим сну, навіть коли кришку закрито. Це зберігається після перезапуску, і Системні параметри цього не показують."
+            "value" : "Щось повністю вимкнуло режим сну, навіть на ноутбуці із закритою кришкою. Це зберігається після перезапуску, і Системні параметри цього не показують."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "某个程序完全关闭了睡眠，即使合上机盖也不会睡眠。重新启动后此设置依然有效，而且“系统设置”中不会显示它。"
+            "value" : "某个程序完全关闭了睡眠，即使笔记本电脑合上了机盖也不会睡眠。重新启动后此设置依然有效，而且“系统设置”中不会显示它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有東西完全關閉了睡眠功能，即使上蓋關閉也不會睡眠。此設定在重新開機後仍然有效，而且「系統設定」中不會顯示。"
+            "value" : "有東西完全關閉了睡眠功能，即使筆記型電腦上蓋關閉也不會睡眠。此設定在重新開機後仍然有效，而且「系統設定」中不會顯示。"
           }
         }
       }
