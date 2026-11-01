@@ -605,7 +605,8 @@ public enum Installers {
     }
 
     /// Installer packages in `~/Library/Application Support`, up to three levels down, never inside a package or in
-    /// the device backups. Each is matched by its name to an installed app, or else by the folder it sits in.
+    /// what macOS keeps there for its own services, the device backups and Contacts among them. Each is matched by its
+    /// name to an installed app, or else by the folder it sits in.
     static func packagesKeptByApps(
         home: URL,
         installedApps: [InstalledApp],
@@ -624,7 +625,7 @@ public enum Installers {
                 guard ["pkg", "mpkg"].contains(url.pathExtension.lowercased()) else {
                     if depth < 3, url.isRealFolder, !FileSize.isDataless(url),
                        (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) != true,
-                       depth > 1 || url.lastPathComponent != "MobileSync" {
+                       depth > 1 || !SystemFolders.keeps(url.lastPathComponent, in: .applicationSupport) {
                         folders.append((url, depth + 1, owner ?? url.lastPathComponent))
                     }
                     continue

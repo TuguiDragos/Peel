@@ -545,6 +545,7 @@ struct InstallersTests {
         try directory.file("Library/Application Support/Toolbox/Installer.mpkg/Contents/Archive", bytes: 400_000)
         try directory.file("Library/Application Support/Toolbox/a/b/Deeper.pkg", bytes: 400_000)
         try directory.file("Library/Application Support/MobileSync/Backup.pkg", bytes: 400_000)
+        try directory.file("Library/Application Support/AddressBook/Contacts.pkg", bytes: 400_000)
         try directory.file("Library/Application Support/Toolbox/notes.txt", bytes: 400_000)
         try directory.directory("Applications")
 
