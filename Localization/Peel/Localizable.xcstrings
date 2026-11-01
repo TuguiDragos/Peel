@@ -186679,6 +186679,112 @@
         }
       }
     },
+    "Takes it out of launchd until the next login or restart. Its file stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebere úlohu z launchd do příštího přihlášení nebo restartu. Její soubor zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt es bis zur nächsten Anmeldung oder zum nächsten Neustart aus launchd. Seine Datei bleibt, wo sie ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo quita de launchd hasta el próximo inicio de sesión o reinicio. Su archivo se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retire cet élément de launchd jusqu’à la prochaine ouverture de session ou au prochain redémarrage. Son fichier reste là où il est."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo toglie da launchd fino al prossimo login o riavvio. Il suo file resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次回のログインまたは再起動まで、launchdから取り除きます。ファイルはそのまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 로그인 또는 재시동까지 launchd에서 이 항목을 제거합니다. 파일은 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haalt het uit launchd tot je weer inlogt of de Mac opnieuw opstart. Het bestand ervan blijft staan waar het staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa tę rzecz z launchd do następnego logowania lub ponownego uruchomienia. Jej plik pozostaje na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retira o item do launchd até o próximo início de sessão ou a próxima reinicialização. O arquivo dele fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl scoate din launchd până la următorul login sau la următoarea repornire. Fișierul său rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убирает его из launchd до следующего входа в систему или перезагрузки. Его файл остается на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort det ur launchd till nästa inloggning eller omstart. Filen ligger kvar där den är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir sonraki oturum açılışına veya yeniden başlatmaya kadar onu launchd’den çıkarır. Dosyası olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучає його з launchd до наступного входу в систему або перезапуску. Його файл лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将此任务从launchd中移除，直到下次登录或重新启动。它的文件会留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將它從launchd中移除，直到下次登入或重新開機為止。它的檔案會留在原處。"
+          }
+        }
+      }
+    },
     "Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again." : {
       "localizations" : {
         "cs" : {

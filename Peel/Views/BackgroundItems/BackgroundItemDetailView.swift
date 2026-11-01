@@ -443,10 +443,19 @@ struct BackgroundItemDetailView: View {
                 // and Peel could not start it again. For an app's job, System Settings also offers only a switch.
                 if !item.isSeenOnlyWhileLoaded {
                     let isRunning = if case .running = item.state { true } else { false }
-                    Button(isRunning ? "Stop" : "Start", systemImage: isRunning ? "stop.fill" : "play.fill") {
-                        Task { await backgroundItems.perform(isRunning ? .stop : .start, on: item) }
+                    if !isRunning {
+                        Button("Start", systemImage: "play.fill") {
+                            Task { await backgroundItems.perform(.start, on: item) }
+                        }
+                        .help(startHelp)
                     }
-                    .help(isRunning ? Text(verbatim: "") : startHelp)
+                    // A job that waits for its schedule is loaded too, and only this takes it out for now.
+                    if item.state != .notLoaded {
+                        Button("Stop", systemImage: "stop.fill") {
+                            Task { await backgroundItems.perform(.stop, on: item) }
+                        }
+                        .help(Text("Takes it out of launchd until the next login or restart. Its file stays where it is."))
+                    }
                 }
                 if item.isDisabled || item.mayBeDisabled {
                     Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
