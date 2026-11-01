@@ -66519,6 +66519,112 @@
         }
       }
     },
+    "Installed Packages" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nainstalované balíčky"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installierte Pakete"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paquetes instalados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paquets installés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pacchetti installati"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストール済みパッケージ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치된 패키지"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geïnstalleerde pakketten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zainstalowane pakiety"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pacotes Instalados"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pachete instalate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установленные пакеты"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installerade paket"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüklü Paketler"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інстальовані пакети"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已安装的软件包"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已安裝的套件"
+          }
+        }
+      }
+    },
     "Installed by a Package" : {
       "localizations" : {
         "cs" : {
@@ -106184,6 +106290,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：已加密的磁碟映像檔存放的是你放入其中的內容。"
+          }
+        }
+      }
+    },
+    "Not selected: another package installed on this Mac lists it too, so what that package installed may use it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tuto položku uvádí i jiný balíček nainstalovaný v tomto Macu, takže ji může používat to, co nainstaloval."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Ein anderes auf diesem Mac installiertes Paket führt es ebenfalls auf, daher wird es möglicherweise von dem verwendet, was jenes Paket installiert hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: otro paquete instalado en este Mac también lo incluye, así que puede que lo use lo que instaló ese paquete."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : un autre paquet installé sur ce Mac le liste aussi, et ce que ce paquet a installé peut donc l’utiliser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: anche un altro pacchetto installato su questo Mac lo elenca, quindi ciò che quel pacchetto ha installato potrebbe usarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このMacにインストールされているほかのパッケージにもこの項目が含まれているため、そのパッケージでインストールされたものが使用している可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 Mac에 설치된 다른 패키지에도 이 항목이 나열되어 있으므로, 그 패키지가 설치한 항목이 이 항목을 사용할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: een ander pakket dat op deze Mac is geïnstalleerd, vermeldt het ook, dus wat dat pakket heeft geïnstalleerd, gebruikt het misschien."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: wymienia to również inny pakiet zainstalowany na tym Macu, więc może z tego korzystać to, co zainstalował tamten pakiet."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: outro pacote instalado neste Mac também o lista, então o que esse pacote instalou pode usá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: un alt pachet instalat pe acest Mac îl listează și el, așa că ce a instalat acel pachet îl poate utiliza."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: этот объект также указан в другом пакете, установленном на этом Mac, поэтому то, что установил тот пакет, может его использовать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: ett annat paket som är installerat på den här datorn listar den också, så det som det paketet har installerat kan använda den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu Mac’te yüklü başka bir paket de onu listeliyor, bu yüzden o paketin yükledikleri onu kullanıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей елемент також є у списку іншого пакета, інстальованого на цьому Mac, тож те, що інсталював той пакет, може ним користуватися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：这台Mac上安装的另一个软件包也列出了它，因此该软件包安装的内容可能会使用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：這部Mac上安裝的另一個套件也列出了它，因此該套件安裝的項目可能會使用它。"
           }
         }
       }
@@ -172126,108 +172338,108 @@
         }
       }
     },
-    "Software installed with an installer package, other than Apple’s, will appear here." : {
+    "Software installed on the startup disk with an installer package, other than Apple’s, will appear here." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zde se zobrazí software nainstalovaný pomocí instalačního balíčku, s výjimkou softwaru od společnosti Apple."
+            "value" : "Zde se zobrazí software nainstalovaný na spouštěcí disk pomocí instalačního balíčku, s výjimkou softwaru od společnosti Apple."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Software, die mit einem Installationspaket installiert wurde, wird hier angezeigt, sofern sie nicht von Apple stammt."
+            "value" : "Software, die mit einem Installationspaket auf dem Startvolume installiert wurde, wird hier angezeigt, sofern sie nicht von Apple stammt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí aparecerá el software instalado con un paquete del instalador, salvo el de Apple."
+            "value" : "Aquí aparecerá el software instalado en el disco de arranque con un paquete del instalador, salvo el de Apple."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les logiciels installés avec un paquet d’installation, hors ceux d’Apple, apparaîtront ici."
+            "value" : "Les logiciels installés sur le disque de démarrage avec un paquet d’installation, hors ceux d’Apple, apparaîtront ici."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qui apparirà il software installato con un pacchetto di installazione, tranne quello di Apple."
+            "value" : "Qui apparirà il software installato sul disco di avvio con un pacchetto di installazione, tranne quello di Apple."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "インストーラパッケージでインストールされたソフトウェア（Apple製を除く）がここに表示されます。"
+            "value" : "起動ディスクにインストーラパッケージでインストールされたソフトウェア（Apple製を除く）がここに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apple 소프트웨어를 제외하고, 설치 프로그램 패키지로 설치한 소프트웨어가 여기에 표시됩니다."
+            "value" : "Apple 소프트웨어를 제외하고, 설치 프로그램 패키지로 시동 디스크에 설치한 소프트웨어가 여기에 표시됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Software die met een installatiepakket is geïnstalleerd, behalve die van Apple, verschijnt hier."
+            "value" : "Software die met een installatiepakket op de opstartschijf is geïnstalleerd, behalve die van Apple, verschijnt hier."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutaj pojawi się oprogramowanie zainstalowane za pomocą pakietu instalacyjnego, z wyjątkiem oprogramowania Apple."
+            "value" : "Tutaj pojawi się oprogramowanie zainstalowane na dysku startowym za pomocą pakietu instalacyjnego, z wyjątkiem oprogramowania Apple."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O software instalado com um pacote do instalador, exceto o da Apple, aparecerá aqui."
+            "value" : "O software instalado no disco de inicialização com um pacote do instalador, exceto o da Apple, aparecerá aqui."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici va apărea software‑ul instalat cu un pachet de instalare, cu excepția celui de la Apple."
+            "value" : "Aici va apărea software‑ul instalat pe discul de inițializare cu un pachet de instalare, cu excepția celui de la Apple."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Здесь появится ПО, установленное из установочных пакетов, кроме ПО Apple."
+            "value" : "Здесь появится ПО, установленное на загрузочный диск из установочных пакетов, кроме ПО Apple."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programvara som har installerats med ett installationspaket, utom Apples, visas här."
+            "value" : "Programvara som har installerats på startskivan med ett installationspaket, utom Apples, visas här."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apple’ınkiler dışında, bir yükleyici paketiyle yüklenen yazılımlar burada görünür."
+            "value" : "Apple’ınkiler dışında, başlangıç diskine bir yükleyici paketiyle yüklenen yazılımlar burada görünür."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тут зʼявлятиметься ПЗ, інстальоване з пакета інсталятора, крім ПЗ від Apple."
+            "value" : "Тут зʼявлятиметься ПЗ, інстальоване на стартовий диск з пакета інсталятора, крім ПЗ від Apple."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "通过安装器软件包安装的软件（Apple的除外）将在此处显示。"
+            "value" : "通过安装器软件包安装在启动磁盘上的软件（Apple的除外）将在此处显示。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "透過安裝程式套件安裝的軟體（Apple的除外）會顯示在此處。"
+            "value" : "透過安裝程式套件安裝在啟動磁碟上的軟體（Apple的除外）會顯示在此處。"
           }
         }
       }

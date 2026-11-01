@@ -372,8 +372,9 @@ struct PackageReceiptsTests {
             contents: PropertyListSerialization.data(fromPropertyList: history, format: .xml, options: 0)
         )
 
-        #expect(InstallHistory.names(onVolume: directory.url) == ["org.example.mixer.pkg": "Mixer"])
-        #expect(InstallHistory.names(onVolume: directory.url.appending(path: "nowhere")).isEmpty)
+        let names = InstallHistory.entries(onVolume: directory.url).mapValues(\.name)
+        #expect(names == ["org.example.mixer.pkg": "Mixer"])
+        #expect(InstallHistory.entries(onVolume: directory.url.appending(path: "nowhere")).isEmpty)
 
         var receipt = PackageReceipt(
             identifier: "org.example.mixer.pkg", version: nil, installDate: nil, volume: directory.url,
@@ -1078,5 +1079,60 @@ struct PackageReceiptsTests {
             await PackageReceipts.isInstalledByApple(url, pkgutil: answering(location: "/", package: "org.example.pkg"))
                 == false
         )
+    }
+
+    @Test func anItemTwoPackagesListIsHeldBackInBoth() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        try directory.file("root/Vendor Shared/shared.db", bytes: 16)
+        try directory.file("root/Vendor Own/own.db", bytes: 16)
+        let files = [
+            "com.example.one": "Vendor Shared\nVendor Shared/shared.db\nVendor Own\nVendor Own/own.db\n",
+            "com.example.two": "Vendor Shared\nVendor Shared/shared.db\n",
+        ]
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("com.example.one", "com.example.two")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "/"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return files[arguments[1]]
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+
+        let items = scan.receipts.flatMap(\.items)
+        let shared = items.filter { $0.url.lastPathComponent == "Vendor Shared" }
+        #expect(shared.count == 2)
+        #expect(shared.allSatisfy { $0.heldBack == .listedByAnotherPackage })
+        #expect(items.first { $0.url.lastPathComponent == "Vendor Own" }?.heldBack == nil)
+    }
+
+    @Test func readsTheProductVersionFromTheInstallHistory() throws {
+        let directory = try TemporaryDirectory()
+        let entries: [[String: Any]] = [
+            ["displayName": "Older", "displayVersion": "1.0", "packageIdentifiers": ["org.example.a"],
+             "date": Date(timeIntervalSince1970: 1)],
+            ["displayName": "Tools", "displayVersion": "26.5", "packageIdentifiers": ["org.example.a"],
+             "date": Date(timeIntervalSince1970: 2)],
+            ["displayName": "Plain", "displayVersion": "", "packageIdentifiers": ["org.example.b"],
+             "date": Date(timeIntervalSince1970: 2)],
+        ]
+        try directory.file(
+            "Library/Receipts/InstallHistory.plist",
+            contents: PropertyListSerialization.data(fromPropertyList: entries, format: .xml, options: 0)
+        )
+
+        let history = InstallHistory.entries(onVolume: directory.url)
+
+        #expect(history["org.example.a"] == InstallHistory.Entry(name: "Tools", version: "26.5"))
+        #expect(history["org.example.b"] == InstallHistory.Entry(name: "Plain", version: nil))
     }
 }

@@ -9,13 +9,49 @@ struct PackageDetailView: View {
     @State private var isConfirmingRemoval = false
     @State private var receiptToForget: PackageReceipt?
     @Environment(RemovalOutcome.self) private var outcome
+    @Environment(AppLibrary.self) private var library
+    @Environment(\.openSettings) private var openSettings
+    @State private var quitting = QuitBeforeRemoving()
     let receipt: PackageReceipt
+
+    /// What runs from the apps selected here, which is asked to quit first, as on an app's own page.
+    private var runningProcesses: [NSRunningApplication] {
+        receipt.apps.filter { app in selectedItems.contains { $0.url == app.url } }.flatMap { app in
+            RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: library.apps)
+                .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
+        }
+    }
+
+    private func moveSelection() async {
+        let result = await history.moving(tool: .packages, source: receipt.identifier) {
+            await packages.removeSelectedItems { result in
+                await history.record(
+                    result,
+                    tool: .packages,
+                    source: receipt.identifier,
+                    sizes: [URL: Int64](measured: receipt.items.map { ($0.url, $0.size) })
+                )
+            }
+        }
+        outcome.report(result)
+    }
 
     var body: some View {
         List {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
+
+            if isForAnExcludedApp {
+                Notice(
+                    title: Text("This app is excluded"),
+                    detail: Text("The app this package installed is excluded in Settings, so Peel leaves its receipt alone too."),
+                    kind: .note
+                ) {
+                    Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
+                }
+                .listRowSeparator(.hidden)
+            }
 
             // Forget Receipt always needs the helper, whatever the items need, unless the exclusions leave it alone.
             if !helper.canAct {
@@ -115,18 +151,8 @@ struct PackageDetailView: View {
             isPresented: $isConfirmingRemoval
         ) {
             Button("Move to Trash") {
-                Task {
-                    let result = await history.moving(tool: .packages, source: receipt.identifier) {
-                        await packages.removeSelectedItems { result in
-                            await history.record(
-                                result,
-                                tool: .packages,
-                                source: receipt.identifier,
-                                sizes: [URL: Int64](measured: receipt.items.map { ($0.url, $0.size) })
-                            )
-                        }
-                    }
-                    outcome.report(result)
+                quitting.check(runningProcesses) {
+                    Task { await moveSelection() }
                 }
             }
             Button("Cancel", role: .cancel) {}
@@ -136,6 +162,12 @@ struct PackageDetailView: View {
             }
         }
         .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
+        .alert(Text("Quit \(quitting.names) before removing it."), isPresented: Bindable(quitting).isAsking) {
+            Button("Quit \(quitting.names)") { quitting.quit() }
+            Button("Cancel", role: .cancel) { quitting.giveUp() }
+        }
+        .forceQuitOffer(quitting)
+        .onDisappear { quitting.giveUp() }
     }
 
     /// Read from the exclusions, not the scan, so it holds as soon as they change.
@@ -184,7 +216,7 @@ struct PackageDetailView: View {
                 if let name = receipt.name {
                     Badge(title: Text(verbatim: name), systemImage: "tag")
                 }
-                if let version = receipt.version {
+                if let version = receipt.shownVersion {
                     Badge(title: Text("Version \(version)"), systemImage: "number")
                 }
                 if let date = receipt.installDate {
@@ -200,7 +232,7 @@ struct PackageDetailView: View {
                     NoteBadge(
                         title: Text("Still installed"), systemImage: "app.badge.checkmark",
                         name: String(localized: "Still installed"),
-                        detail: Text("What this package installed is still on this Mac: \(receipt.installedApps.formatted(.list(type: .and))).")
+                        detail: Text("What this package installed is still on this Mac: \(RemovalFailureAlert.listed(receipt.installedApps)).")
                     )
                 }
             }

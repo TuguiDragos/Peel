@@ -267,7 +267,7 @@ and how many items the others hold.
   warns that apps using it may stop working, says that macOS loads a camera plug-in only once legacy video device
   support has been restored in macOS Recovery, or says that nothing loads it anymore, as for a Quick Look generator, an
   old Internet plug-in such as Flash, or a contextual menu item.
-- **Package Receipts:** what installer packages other than Apple's put on your Mac, item by item, to move to the Trash.
+- **Package Receipts:** what installer packages other than Apple's put on your startup disk, item by item, to move to the Trash.
   Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what something
   else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no longer counts
   the package as installed, and Forget All does so at once for every package listed under Receipt Only, which left

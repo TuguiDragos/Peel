@@ -69,8 +69,17 @@ final class PackageLibrary {
             await record(result)
             return result
         }
+        // An app's tile would stay in the Dock with a question mark, and History puts it back with the app.
+        let apps = Self.appsThatMoved(in: result)
+        if !apps.isEmpty {
+            _ = await DockTiles().takeOut(apps, foundAt: result.trashedAt)
+        }
         await refresh()
         return result
+    }
+
+    static func appsThatMoved(in result: TrashResult) -> [URL] {
+        result.trashed.map(\.originalURL).filter { $0.pathExtension.caseInsensitiveCompare("app") == .orderedSame }
     }
 
     func forget(_ receipts: [PackageReceipt], recording record: (TrashResult) async -> Void) async -> TrashResult {

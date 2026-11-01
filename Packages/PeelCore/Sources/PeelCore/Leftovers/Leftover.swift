@@ -59,6 +59,8 @@ public enum HoldBack: String, Sendable, Hashable {
     /// A folder a package made, offered whole while it holds what something else put there: another package's
     /// files, or the person's own.
     case holdsWhatOthersPut
+    /// Another installed package lists it too, so what that package put on this Mac may use it.
+    case listedByAnotherPackage
     /// Claimed on nothing but the app's name (or an identifier that is only a word), in the home folder or at the
     /// top of a Library, where a name alone is only a guess.
     case namedLikeTheApp

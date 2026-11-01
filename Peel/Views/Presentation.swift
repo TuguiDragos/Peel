@@ -343,6 +343,8 @@ extension HoldBack {
             "Not selected: it also keeps the options this build was set up with, which nothing else in the project holds."
         case .sharedWithEveryone:
             "Not selected: /Users/Shared belongs to every account on this Mac, so this may be another account’s."
+        case .listedByAnotherPackage:
+            "Not selected: another package installed on this Mac lists it too, so what that package installed may use it."
         case .holdsWhatOthersPut:
             "Not selected: the package made this folder, but something else put files in it, which may be another program’s or yours."
         case .namedLikeTheApp:

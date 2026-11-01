@@ -41,6 +41,10 @@ struct PackageList: View {
             }
             Section {
                 ForEach(filtered.filter { !$0.nothingLeftOnDisk }) { row(for: $0) }
+            } header: {
+                if !receiptsOnly.isEmpty {
+                    Text("Installed Packages")
+                }
             }
         }
         .accessibilityLabel(Text(Tool.packages.title))
@@ -56,7 +60,7 @@ struct PackageList: View {
                 ContentUnavailableView(
                     "No Package Receipts",
                     systemImage: "shippingbox",
-                    description: Text("Software installed with an installer package, other than Apple’s, will appear here.")
+                    description: Text("Software installed on the startup disk with an installer package, other than Apple’s, will appear here.")
                 )
             } else if filtered.isEmpty, !searchText.isEmpty {
                 ContentUnavailableView.search(text: searchText)
@@ -121,8 +125,8 @@ struct PackageList: View {
                     } else if receipt.holdsNothingToRemove {
                         Text("Nothing Peel moves")
                     }
-                    if let version = receipt.version {
-                        Text(verbatim: version)
+                    if let version = receipt.shownVersion {
+                        Text("Version \(version)")
                     }
                 }
                 .font(.caption)

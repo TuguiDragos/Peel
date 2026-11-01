@@ -387,6 +387,7 @@ extension HoldBack {
         case .gitTrackingNotReadInTime: "reading which files Git tracks here took too long"
         case .keepsItsSetup: "keeps the options its build was set up with"
         case .sharedWithEveryone: "belongs to everyone on this Mac"
+        case .listedByAnotherPackage: "another installed package lists it too"
         case .holdsWhatOthersPut: "holds files something besides this package put there"
         case .namedLikeTheApp: "claimed on the app's name alone"
         case .holdsAnExclusion: "holds something you excluded"

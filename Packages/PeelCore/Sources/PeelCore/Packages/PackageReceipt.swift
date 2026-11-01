@@ -43,7 +43,7 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     public let installDate: Date?
     /// The volume the package was installed to, which is where its receipt is kept.
     public let volume: URL
-    public let items: [Item]
+    public var items: [Item]
     /// True when the file list is known and nothing on it is still on disk. This is judged from the disk, not
     /// from `items`, which leaves out what is excluded or protected even while it is still there.
     public var nothingLeftOnDisk = false
@@ -58,8 +58,14 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     public var apps: [InstalledApp] = []
     /// The name macOS gave the package when it installed it, such as "AdGuard", if its install history keeps one.
     public var name: String?
+    /// The version of what the installer installed, as its history says it, which is what a person knows it by:
+    /// `version` is the package's own number.
+    public var productVersion: String?
 
     public var id: String { identifier }
+
+    /// The version to show: the product's when the history gives one.
+    public var shownVersion: String? { productVersion ?? version }
 
     public var installedApps: [String] { apps.map(\.name).sorted() }
 

@@ -117,16 +117,34 @@ public enum PackageReceipts {
             }
             return results
         }
-        let names = InstallHistory.names(onVolume: environment.rootDirectory)
+        let history = InstallHistory.entries(onVolume: environment.rootDirectory)
         return PackageScan(
-            receipts: receipts
+            receipts: heldBackWhereShared(receipts)
                 .map { receipt in
                     var named = receipt
-                    named.name = names[receipt.identifier]
+                    named.name = history[receipt.identifier]?.name
+                    named.productVersion = history[receipt.identifier]?.version
                     return named
                 }
                 .sorted { $0.identifier.localizedStandardCompare($1.identifier) == .orderedAscending }
         )
+    }
+
+    /// `receipts` with each item two of them list held back in both: moved from one package's page, it would leave
+    /// the other package without it.
+    private static func heldBackWhereShared(_ receipts: [PackageReceipt]) -> [PackageReceipt] {
+        var listings: [String: Int] = [:]
+        for item in receipts.flatMap(\.items) {
+            listings[PathPattern.comparablePath(of: item.url), default: 0] += 1
+        }
+        return receipts.map { receipt in
+            var receipt = receipt
+            for index in receipt.items.indices where receipt.items[index].heldBack == nil
+                && listings[PathPattern.comparablePath(of: receipt.items[index].url), default: 0] > 1 {
+                receipt.items[index].heldBack = .listedByAnotherPackage
+            }
+            return receipt
+        }
     }
 
     /// Returns the receipts of the packages that installed `url`, asking `pkgutil` about that one path instead
