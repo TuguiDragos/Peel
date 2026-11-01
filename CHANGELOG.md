@@ -338,6 +338,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The panel is never taller than the screen: what is between its head and Open Peel scrolls when it doesn't fit.
 - Found's "2 hours ago" stays true while the panel is open, and Orphaned Files counts only its groups.
 - Settings and About in the panel's menu bring Peel forward, as Open Peel does.
+- The panel closes when one of its rows or its menu opens something, rather than staying open over it.
 
 #### Notifications
 

@@ -4,6 +4,7 @@ import SwiftUI
 /// What the menu bar shows when the user clicks Peel's glyph: what Peel has moved to the Trash and since when,
 /// any app updates waiting, and what each tool found the last time it looked.
 struct MenuBarPanel: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.openWindow) private var openWindow
     @Environment(\.openSettings) private var openSettings
     @Environment(AppLibrary.self) private var library
@@ -87,12 +88,14 @@ struct MenuBarPanel: View {
                 Button("Settings…") {
                     openSettings()
                     NSApp.activate()
+                    dismiss()
                 }
                 Button("About Peel") {
                     openWindow(id: AboutView.windowID)
                     NSApp.activate()
+                    dismiss()
                 }
-                Button("Check for Updates…", action: updater.checkForUpdates)
+                Button("Check for Updates…", action: checkForUpdates)
                     .disabled(!updater.canCheckForUpdates)
                 Divider()
                 Button("Quit Peel") { QuitGuard.quit() }
@@ -152,7 +155,7 @@ struct MenuBarPanel: View {
                 Divider().padding(.leading, Self.wordsInset)
                 updateRow(
                     "arrow.down.circle", Text("Peel \(version) is out"), value: "", amount: 0,
-                    isPointing: $isPointingAtOwnUpdate, action: updater.checkForUpdates
+                    isPointing: $isPointingAtOwnUpdate, action: checkForUpdates
                 )
                 .disabled(!updater.canCheckForUpdates)
             }
@@ -253,9 +256,16 @@ struct MenuBarPanel: View {
             .padding(.vertical, 14)
     }
 
+    /// Closes the panel too, which otherwise stays open over what it brought forward until a click elsewhere.
     private func open(at tool: Tool? = nil) {
         if let tool { Navigator.shared.requestedTool = tool }
         openWindow(id: PeelApp.mainWindowID)
         NSApp.activate()
+        dismiss()
+    }
+
+    private func checkForUpdates() {
+        updater.checkForUpdates()
+        dismiss()
     }
 }
