@@ -88,6 +88,17 @@ struct BackgroundItemActionsTests {
         #expect(rows.map(\.canMoveToTrash) == [false, true])
     }
 
+    @Test func startRunsALoadedJobAtOnceAndLoadsOneThatIsNot() {
+        let file = URL(filePath: "/Users/me/Library/LaunchAgents/job.plist")
+
+        #expect(item(state: .loaded, plist: file).startsAtOnce)
+        #expect(item(state: .running(pid: 42), plist: file).startsAtOnce)
+        #expect(!item(state: .notLoaded, plist: file).startsAtOnce)
+        #expect(BackgroundItemActions.plan(toStart: item(state: .loaded, plist: file)) == .kickstart)
+        #expect(BackgroundItemActions.plan(toStart: item(state: .notLoaded, plist: nil)) == .kickstart)
+        #expect(item(state: .notLoaded, plist: nil).startsAtOnce)
+    }
+
     @Test func nothingIsControlledWhileTheExclusionsAreNotKnown() {
         let job = item(state: .running(pid: 42), plist: URL(filePath: "/Users/me/Library/LaunchAgents/job.plist"))
         for exclusions in [Exclusions.unreadable, .notYetRead] {

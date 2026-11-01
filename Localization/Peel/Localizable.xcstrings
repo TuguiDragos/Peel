@@ -88784,6 +88784,112 @@
         }
       }
     },
+    "Loads it again, and macOS runs it when its file says to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znovu načte úlohu a systém macOS ji spustí, až to určí její soubor."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lädt es erneut, und macOS führt es aus, wenn seine Datei es vorgibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo vuelve a cargar, y macOS lo ejecuta cuando lo indica su archivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recharge cet élément, et macOS l’exécute lorsque son fichier l’indique."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo carica di nuovo, e macOS lo esegue quando lo indica il suo file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再び読み込みます。macOSは、ファイルで指定されたタイミングで実行します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다시 로드하며, 파일에 지정된 때에 macOS가 실행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laadt het opnieuw, en macOS voert het uit wanneer het bestand ervan dat aangeeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wczytuje tę rzecz ponownie, a macOS uruchomi ją wtedy, gdy przewiduje to jej plik."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carrega o item novamente, e o macOS o executa quando o arquivo dele determinar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl încarcă din nou, iar macOS îl rulează când indică fișierul său."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загружает его снова, и macOS запускает его, когда так указано в его файле."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Läser in det igen, och macOS kör det när filen anger att det ska köras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu yeniden yükler; macOS da onu dosyasının belirttiği zamanda çalıştırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завантажує його знову, і macOS запускає його тоді, коли так вказано в його файлі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新载入此任务，macOS会在其文件指定的时间运行它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新載入它，macOS會依照它的檔案所指定的時機執行它。"
+          }
+        }
+      }
+    },
     "Location" : {
       "localizations" : {
         "cs" : {
@@ -162412,6 +162518,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從「垃圾桶」執行"
+          }
+        }
+      }
+    },
+    "Runs it now, whatever its schedule says." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spustí úlohu hned, bez ohledu na její plán."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führt es jetzt aus, unabhängig von seinem Zeitplan."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo ejecuta ahora, diga lo que diga su programación."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécute cet élément maintenant, quelle que soit sa programmation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo esegue ora, qualunque sia la sua pianificazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スケジュールに関係なく、今すぐ実行します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일정과 관계없이 지금 실행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voert het nu uit, wat het schema ook aangeeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchamia tę rzecz teraz, niezależnie od jej harmonogramu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Executa o item agora, seja qual for a programação dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl rulează acum, indiferent de programarea sa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускает его сейчас, независимо от расписания."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör det nu, oavsett vad schemat säger."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamanlaması ne derse desin, onu şimdi çalıştırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускає його зараз, незалежно від розкладу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即运行此任务，无论其运行计划如何。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即執行它，不論它的排程為何。"
           }
         }
       }

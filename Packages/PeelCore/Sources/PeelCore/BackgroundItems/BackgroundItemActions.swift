@@ -48,7 +48,7 @@ public enum BackgroundItemActions {
         toStart item: BackgroundItem,
         isRefusedByLaunchd: (URL) -> Bool = Quarantine.stopsLaunchd
     ) -> Start {
-        guard item.state == .notLoaded, let plist = item.plistURL else { return .kickstart }
+        guard !item.startsAtOnce, let plist = item.plistURL else { return .kickstart }
         if item.isDisabled { return .needsEnabling }
         return isRefusedByLaunchd(plist) ? .blockedByQuarantine : .bootstrap(plist)
     }

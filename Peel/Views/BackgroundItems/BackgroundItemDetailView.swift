@@ -446,6 +446,7 @@ struct BackgroundItemDetailView: View {
                     Button(isRunning ? "Stop" : "Start", systemImage: isRunning ? "stop.fill" : "play.fill") {
                         Task { await backgroundItems.perform(isRunning ? .stop : .start, on: item) }
                     }
+                    .help(isRunning ? Text(verbatim: "") : startHelp)
                 }
                 if item.isDisabled || item.mayBeDisabled {
                     Button(item.isDisabled ? "Enable" : "Disable", systemImage: item.isDisabled ? "checkmark.circle" : "minus.circle") {
@@ -456,6 +457,12 @@ struct BackgroundItemDetailView: View {
             }
         }
         .disabled(isBusy || item.requiresPrivileges && !helper.canAct)
+    }
+
+    private var startHelp: Text {
+        item.startsAtOnce
+            ? Text("Runs it now, whatever its schedule says.")
+            : Text("Loads it again, and macOS runs it when its file says to.")
     }
 
     /// Why Remove is offered, as far as Peel knows where the job's program is.

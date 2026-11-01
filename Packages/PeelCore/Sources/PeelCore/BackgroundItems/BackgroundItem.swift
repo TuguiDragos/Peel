@@ -81,6 +81,10 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
+    /// Whether Start runs the job now, whatever its schedule (`launchctl kickstart`), rather than loading it from its
+    /// file, after which macOS runs it as the file says.
+    public var startsAtOnce: Bool { state != .notLoaded || plistURL == nil }
+
     /// Whether `exclusions` keep the job's app, by its identifier or its place, as they keep any app.
     func isOfAnApp(excludedBy exclusions: Exclusions) -> Bool {
         ownerBundleIdentifier.map(exclusions.excludes(bundleIdentifier:)) == true
