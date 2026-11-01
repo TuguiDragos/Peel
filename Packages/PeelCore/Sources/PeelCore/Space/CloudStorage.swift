@@ -42,6 +42,8 @@ public struct CloudScan: Sendable {
     public var isNotSetUp = false
     /// The folders of the home iCloud Drive keeps that macOS would not let Peel read: Desktop, Documents.
     public var unreadableFolders: [String] = []
+    /// The folders inside, and the documents saved as packages, that could not be read, so nothing in them is listed.
+    public var notRead: [URL] = []
 
     public enum CutShort: Sendable, Equatable {
         /// The walk ran out of time or was stopped before it read everything.
@@ -179,7 +181,8 @@ public enum CloudStorage {
             sharedDownloads: collected.sharedDownloads,
             folders: folders(of: collected.files, home: home),
             isNotSetUp: !isSetUp(home: home),
-            unreadableFolders: collected.unreadableFolders
+            unreadableFolders: collected.unreadableFolders,
+            notRead: collected.notRead
         )
     }
 
@@ -206,6 +209,7 @@ public enum CloudStorage {
             var couldNotRead = false
             var sharedDownloads = 0
             var unreadableFolders: [String] = []
+            var notRead: [URL] = []
         }
 
         private let state = Mutex(Collected())
@@ -270,6 +274,10 @@ public enum CloudStorage {
             state.withLock { $0.unreadableFolders.append(name) }
         }
 
+        func notRead(_ url: URL) {
+            state.withLock { $0.notRead.append(url) }
+        }
+
         func leftOutAsShared() {
             state.withLock { $0.sharedDownloads += 1 }
         }
@@ -300,14 +308,19 @@ public enum CloudStorage {
             includingPropertiesForKeys: Array(keys),
             options: [.skipsHiddenFiles, .skipsPackageDescendants],
             errorHandler: { url, error in
-                // Only an error on the root counts: without Full Disk Access nothing under it can be read. A
-                // missing root (`NSFileReadNoSuchFileError`) means iCloud Drive was never set up, which is
-                // nothing to list rather than a refusal.
+                // What is missing is no refusal: a root that isn't there means iCloud Drive was never set up, and
+                // a folder inside went away during the walk. Without Full Disk Access nothing under the root can
+                // be read.
                 let isMissing =
                     (error as NSError).domain == NSCocoaErrorDomain
                     && (error as NSError).code == NSFileReadNoSuchFileError
-                if PathPattern.comparablePath(of: url) == rootPath, !isMissing {
-                    if let folder { collector.unreadable(folder) } else { collector.unreadable() }
+                guard !isMissing else { return true }
+                if PathPattern.comparablePath(of: url) != rootPath {
+                    collector.notRead(url)
+                } else if let folder {
+                    collector.unreadable(folder)
+                } else {
+                    collector.unreadable()
                 }
                 return true
             }
@@ -364,6 +377,7 @@ public enum CloudStorage {
                     collector.ranOutOfTime()
                     return
                 }
+                if !exclusions.holds(url) { collector.notRead(url) }
                 continue
             }
             guard measured.size >= minimumSize else {

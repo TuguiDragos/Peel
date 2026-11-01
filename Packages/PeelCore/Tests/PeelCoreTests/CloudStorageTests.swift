@@ -527,6 +527,69 @@ struct CloudStorageTests {
         #expect(scan.unreadableFolders == ["Documents"])
     }
 
+    @Test(.permissionsHold) func namesAFolderInsideThatCouldNotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        try directory.file("\(drive)/Found.png", bytes: 2_000)
+        try directory.file("\(drive)/Locked/Hidden.png", bytes: 2_000)
+        try directory.setPermissions(0, of: "\(drive)/Locked")
+        let locked = directory.url.appending(path: "\(drive)/Locked").path(percentEncoded: false)
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: locked) }
+
+        let scan = await safeScan(of: directory)
+
+        #expect(scan.files.map(\.name) == ["Found.png"])
+        #expect(scan.notRead.map(\.lastPathComponent) == ["Locked"])
+        #expect(!scan.couldNotRead)
+        #expect(scan.unreadableFolders.isEmpty)
+    }
+
+    @Test(.permissionsHold) func namesADocumentSavedAsAPackageThatCouldNotBeReadWhole() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        try directory.file("\(drive)/Notes.rtfd/Attachments/take.bin", bytes: 2_000)
+        try directory.setPermissions(0, of: "\(drive)/Notes.rtfd/Attachments")
+        let attachments = directory.url.appending(path: "\(drive)/Notes.rtfd/Attachments").path(percentEncoded: false)
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: attachments) }
+        let collector = CloudStorage.Collector()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+
+        #expect(collector.collected.files.isEmpty)
+        #expect(collector.collected.notRead.map(\.lastPathComponent) == ["Notes.rtfd"])
+    }
+
+    @Test func aFolderGoneDuringTheWalkWasNotRefused() throws {
+        let directory = try TemporaryDirectory()
+        let drive = "Library/Mobile Documents/com~apple~CloudDocs"
+        try directory.file("\(drive)/First/one.bin", bytes: 2_000)
+        try directory.file("\(drive)/Second/two.bin", bytes: 2_000)
+        let folders = directory.url.appending(path: drive, directoryHint: .isDirectory)
+        let collector = CloudStorage.Collector()
+        var isGone = false
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
+            countingFor: nil, isSafe: { _ in true },
+            isDataless: { url in
+                if !isGone, ["First", "Second"].contains(url.lastPathComponent) {
+                    isGone = true
+                    let other = url.lastPathComponent == "First" ? "Second" : "First"
+                    try? FileManager.default.removeItem(at: folders.appending(path: other))
+                }
+                return false
+            },
+            unless: { false }
+        )
+
+        #expect(isGone)
+        #expect(collector.collected.notRead.isEmpty)
+        #expect(!collector.collected.couldNotRead)
+    }
+
     @Test func aWalkThatRunsOutOfTimeCostsTheOtherWalksNothing() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Stalls/File.png", bytes: 2_000)
@@ -715,6 +778,7 @@ struct CloudStorageTests {
         let files = Dictionary(uniqueKeysWithValues: collector.collected.files.map { ($0.name, $0) })
 
         #expect(files.keys.sorted() == ["Notes.rtfd", "inside.bin"])
+        #expect(collector.collected.notRead.isEmpty)
         #expect(files["Notes.rtfd"]?.size == FileSize.walk(package, unless: { false })?.size)
         #expect((files["Notes.rtfd"]?.size ?? 0) >= 3_000_000)
     }

@@ -25,6 +25,9 @@ struct CloudView: View {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner(recordsInHistory: false)
+            if !cloud.notRead.isEmpty {
+                UnreadableFoldersNotice(folders: cloud.notRead)
+            }
 
             if !cloud.refusals.isEmpty {
                 Section {
@@ -136,7 +139,7 @@ struct CloudView: View {
                 } actions: {
                     Button("Open System Settings") { home.openFullDiskAccessSettings() }
                 }
-            } else if cloud.files?.isEmpty == true, hasMoreThanItRead {
+            } else if cloud.files?.isEmpty == true, cloud.hasMoreThanItRead {
                 // The scan stopped early, so an empty list does not mean there is nothing to free.
                 ContentUnavailableView {
                     Label("Nothing Found So Far", systemImage: "icloud")
@@ -146,8 +149,15 @@ struct CloudView: View {
                             Text("There is more in iCloud Drive than Peel can read in the time it gives a scan, and nothing in the part it read is big enough to be worth freeing.")
                         }
                         unreadableFoldersNote
+                        if !cloud.notRead.isEmpty {
+                            Text(verbatim: UnreadableFoldersNotice.detail(
+                                naming: cloud.notRead.map(\.abbreviatedPath), needsFullDiskAccess: false
+                            ))
+                        }
                         sharedDownloadsNote
                     }
+                } actions: {
+                    UnreadableFoldersActions(folders: cloud.notRead, needsFullDiskAccess: false)
                 }
             } else if cloud.files?.isEmpty == true {
                 ContentUnavailableView {
@@ -235,10 +245,6 @@ struct CloudView: View {
         }
     }
 
-    private var hasMoreThanItRead: Bool {
-        cloud.cutShort != nil || !cloud.unreadableFolders.isEmpty
-    }
-
     @ViewBuilder private var unreadableFoldersNote: some View {
         if !cloud.unreadableFolders.isEmpty {
             Text("macOS didn’t let Peel read \(cloud.unreadableFolders.formatted(.list(type: .and))) in iCloud Drive, so this list isn’t all of it. Full Disk Access in System Settings gives Peel what it needs.")
@@ -278,7 +284,7 @@ struct CloudView: View {
 
     private var couldNotLook: LocalizedStringResource? {
         if cloud.couldNotRead { return "iCloud Drive Couldn’t Be Read" }
-        if cloud.files?.isEmpty == true, hasMoreThanItRead { return "Nothing Found So Far" }
+        if cloud.files?.isEmpty == true, cloud.hasMoreThanItRead { return "Nothing Found So Far" }
         return nil
     }
 

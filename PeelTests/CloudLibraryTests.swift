@@ -28,6 +28,18 @@ struct CloudLibraryTests {
         #expect(cloud.total?.isComplete == false)
     }
 
+    @Test func aFolderInsideThatCouldNotBeReadLeavesTheTotalOnlyTheLeastItCanBe() async {
+        let locked = URL(filePath: "/org.example/Locked")
+        let cloud = CloudLibrary(scan: { _, _, _ in
+            CloudScan(files: [Self.download("Plan.pdf")], notRead: [locked])
+        })
+
+        await cloud.refresh()
+
+        #expect(cloud.notRead == [locked])
+        #expect(cloud.total?.isComplete == false)
+    }
+
     @Test func hasNoTotalUntilICloudDriveIsRead() async throws {
         let home = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let drive = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
