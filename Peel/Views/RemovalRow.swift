@@ -229,7 +229,7 @@ struct RemovalRow: View {
     private var noteButton: some View {
         if hasExplanation {
             InfoNote(
-                name: url.lastPathComponent,
+                name: name ?? url.lastPathComponent,
                 detail: explanation.characters.isEmpty ? nil : Text(explanation),
                 footnote: Text(verbatim: url.path(percentEncoded: false)),
                 caution: warning.map { Text(Self.commandsMarked($0)) },
