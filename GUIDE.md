@@ -516,9 +516,10 @@ account.
 
 ### How does Peel update itself?
 
-Choose Check for Updates in the Peel menu, or Install Update in About Peel when it says a new version is out. While
-Check for app updates is on, Peel also looks once a day. It shows what is new and installs the update only when you
-choose, once it has checked that the update is signed as Peel's.
+Choose Check for Updates in the Peel menu or in the menu of Peel's panel in the menu bar, or Install Update in About
+Peel when it says a new version is out. While Check for app updates is on, Peel also looks once a day, and the panel
+says when it found one. It shows what is new and installs the update only when you choose, once it has checked that
+the update is signed as Peel's.
 
 ### Something in Peel isn't clear. Where can I read more?
 

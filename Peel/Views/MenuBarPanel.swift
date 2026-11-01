@@ -7,7 +7,9 @@ struct MenuBarPanel: View {
     @Environment(\.openWindow) private var openWindow
     @Environment(AppLibrary.self) private var library
     @Environment(LifetimeStats.self) private var stats
+    @Environment(PeelUpdater.self) private var updater
     @State private var isPointingAtUpdates = false
+    @State private var isPointingAtOwnUpdate = false
     @State private var room = Self.room
 
     static let rowPadding: CGFloat = 18
@@ -83,6 +85,8 @@ struct MenuBarPanel: View {
             Menu {
                 SettingsLink { Text("Settings…") }
                 Button("About Peel") { openWindow(id: AboutView.windowID) }
+                Button("Check for Updates…", action: updater.checkForUpdates)
+                    .disabled(!updater.canCheckForUpdates)
                 Divider()
                 Button("Quit Peel") { QuitGuard.quit() }
                     .keyboardShortcut("q")
@@ -137,37 +141,53 @@ struct MenuBarPanel: View {
     private var updates: some View {
         let waiting = library.menuBarUpdates
         VStack(spacing: 0) {
+            if let version = updater.newerVersion {
+                Divider().padding(.leading, Self.wordsInset)
+                updateRow(
+                    "arrow.down.circle", Text("Peel \(version) is out"), value: "", amount: 0,
+                    isPointing: $isPointingAtOwnUpdate, action: updater.checkForUpdates
+                )
+                .disabled(!updater.canCheckForUpdates)
+            }
             if let first = waiting.first {
                 Divider().padding(.leading, Self.wordsInset)
-                Button {
+                updateRow(
+                    "arrow.down.app", Text("Updates waiting"), value: waiting.count.formatted(), amount: waiting.count,
+                    isPointing: $isPointingAtUpdates
+                ) {
                     // One update opens that app's page, where it is updated. Several open the list, which leads with
                     // them, rather than one app's page with its files selected for removal.
                     library.selection = waiting.count == 1 ? [first.id] : []
                     open(at: .applications)
-                } label: {
-                    rowContent(
-                        "arrow.down.app",
-                        Text("Updates waiting"),
-                        waiting.count.formatted(),
-                        amount: waiting.count,
-                        isAccented: true,
-                        leadsSomewhere: true
-                    )
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel(Text("Updates waiting"))
-                .accessibilityValue(Text(verbatim: waiting.count.formatted()))
-                .background(isPointingAtUpdates ? Album.slot : .clear)
-                .motion(.touch, value: isPointingAtUpdates)
-                .onHover { isPointingAtUpdates = $0 }
-                .onDisappear { isPointingAtUpdates = false }
-                .transition(.opacity)
             }
         }
         .clipped()
-        // The layout itself moves here: the panel grows and shrinks as the row comes and goes, so Reduce
+        // The layout itself moves here: the panel grows and shrinks as a row comes and goes, so Reduce
         // Motion stops it rather than fading it.
         .motion(.settle, .movement, value: waiting.count)
+        .motion(.settle, .movement, value: updater.newerVersion)
+    }
+
+    private func updateRow(
+        _ symbol: String,
+        _ label: Text,
+        value: String,
+        amount: Int,
+        isPointing: Binding<Bool>,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            rowContent(symbol, label, value, amount: amount, isAccented: true, leadsSomewhere: true)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
+        .accessibilityValue(Text(verbatim: value))
+        .background(isPointing.wrappedValue ? Album.slot : .clear)
+        .motion(.touch, value: isPointing.wrappedValue)
+        .onHover { isPointing.wrappedValue = $0 }
+        .onDisappear { isPointing.wrappedValue = false }
+        .transition(.opacity)
     }
 
     private func row(

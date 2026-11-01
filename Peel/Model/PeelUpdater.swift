@@ -5,8 +5,9 @@ import Sparkle
 /// Peel's own updates, through Sparkle: it reads the signed feed, shows the new version to the person, and installs it
 /// only when they choose, once the update's signature checks out. What Sparkle may do is set in the Info.plist.
 ///
-/// A new version found while the person works is told gently, by the face, the sidebar and About, and Sparkle's window
-/// opens when they ask for it; Sparkle shows it at once only when it would have their full attention anyway.
+/// A new version found while the person works is told gently, by the face, the sidebar, About and the menu bar
+/// panel, and Sparkle's window opens when they ask for it; Sparkle shows it at once only when it would have their
+/// full attention anyway.
 @Observable
 final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     /// The version Sparkle last found newer than this copy, nil until it finds one and once it finds none.
@@ -16,10 +17,11 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
     @ObservationIgnored private var canCheck: NSKeyValueObservation?
 
     #if DEBUG
-    /// About as it reads once Sparkle found `version`, for `HomeSnapshot`.
+    /// What reads the updater as it reads once Sparkle found `version`, for `HomeSnapshot`.
     convenience init(found version: String) {
         self.init()
         newerVersion = version
+        canCheckForUpdates = true
     }
     #endif
 
@@ -71,7 +73,7 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
     }
 
     /// Where Sparkle hands Peel an update it leaves to Peel to tell, which Sparkle requires once Peel takes any.
-    /// `newerVersion`, set when Sparkle found it, already shows it in the face, the sidebar and About.
+    /// `newerVersion`, set when Sparkle found it, already shows it wherever Peel tells of a new version.
     nonisolated func standardUserDriverWillHandleShowingUpdate(
         _ handleShowingUpdate: Bool,
         forUpdate update: SUAppcastItem,

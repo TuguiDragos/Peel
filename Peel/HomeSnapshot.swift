@@ -86,11 +86,19 @@ enum HomeSnapshot {
                     )
                     try render(
                         MenuBarPanel().environment(AppLibrary()).environment(stats).environment(found)
-                            .environment(homebrew),
+                            .environment(homebrew).environment(PeelUpdater()),
                         width: 320,
                         scheme: scheme,
                         contrast: contrast,
                         to: "\(directory)/menu-bar-\(name).png"
+                    )
+                    try render(
+                        MenuBarPanel().environment(AppLibrary()).environment(stats).environment(found)
+                            .environment(homebrew).environment(PeelUpdater(found: "1.0.2")),
+                        width: 320,
+                        scheme: scheme,
+                        contrast: contrast,
+                        to: "\(directory)/menu-bar-update-\(name).png"
                     )
                 }
             }

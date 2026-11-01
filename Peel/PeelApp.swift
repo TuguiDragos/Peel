@@ -496,6 +496,7 @@ struct PeelApp: App {
                 .environment(homebrew)
                 .environment(stats)
                 .environment(found)
+                .environment(updater)
         } label: {
             // The update count sits next to the glyph, so updates show without opening Peel.
             let count = library.menuBarUpdateCount
