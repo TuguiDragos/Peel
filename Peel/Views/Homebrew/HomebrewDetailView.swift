@@ -8,6 +8,8 @@ struct HomebrewDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(PeelUpdater.self) private var updater
     @State private var isConfirmingUninstall = false
+    /// What uses this formula, read when Uninstall is pressed. Nil for a cask, whose apps are asked to quit.
+    @State private var inUse: FormulaInUse?
     @State private var isConfirmingUpgrade = false
     @State private var casksToForget: [HomebrewPackage]?
     /// What macOS said of the system extensions the cask's apps carry, with the apps it was asked about.
@@ -182,7 +184,10 @@ struct HomebrewDetailView: View {
                             )
                         } else {
                             Button("Uninstall", systemImage: "trash", role: .destructive) {
-                                isConfirmingUninstall = true
+                                Task {
+                                    await readWhatUsesIt()
+                                    isConfirmingUninstall = true
+                                }
                             }
                             .disabled(uninstallRefusal != nil)
                         }
@@ -249,11 +254,45 @@ struct HomebrewDetailView: View {
                 guard uninstallRefusal == nil else { return }
                 uninstall()
             }
+            if let command = inUse?.stopCommand {
+                Button("Copy Stop Command") {
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(command, forType: .string)
+                }
+            }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text(homebrew.overrides.contains(.keepsDependencies)
-                ? "Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it."
-                : "Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
+            uninstallMessage
+        }
+    }
+
+    private func readWhatUsesIt() async {
+        guard package.kind == .formula, let cellar = homebrew.installation?.cellar else {
+            inUse = nil
+            return
+        }
+        inUse = await FormulaInUse.of(formula: package.name, cellar: cellar)
+    }
+
+    private var uninstallMessage: Text {
+        let deletes = homebrew.overrides.contains(.keepsDependencies)
+            ? Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it.")
+            : Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
+        return whatUsesIt.map { Text("\($0)\n\n\(deletes)") } ?? deletes
+    }
+
+    /// What Homebrew won't look at before it deletes a formula, said before it does.
+    private var whatUsesIt: Text? {
+        guard let inUse else { return nil }
+        let programs = inUse.programs.formatted(.list(type: .and))
+        return switch (inUse.programs.isEmpty, inUse.stopCommand) {
+        case (true, nil): nil
+        case (false, nil):
+            Text("It is in use by \(programs). Homebrew deletes it even so, so quit what uses it first.")
+        case (false, let command?):
+            Text("It is in use by \(programs), and `brew services` keeps a job for it. Homebrew deletes it even so and leaves the job behind, so stop it first: `\(command)`")
+        case (true, let command?):
+            Text("`brew services` keeps a job for it. Homebrew leaves the job behind with nothing to run, so stop it first: `\(command)`")
         }
     }
 

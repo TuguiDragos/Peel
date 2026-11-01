@@ -34640,6 +34640,112 @@
         }
       }
     },
+    "Copy Stop Command" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkopírovat příkaz k zastavení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stoppbefehl kopieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar comando de detención"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier la commande d’arrêt"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia comando di interruzione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止コマンドをコピー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "중단 명령 복사"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieer stopcommando"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiuj polecenie zatrzymania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar Comando de Parada"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiați comanda de oprire"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопировать команду остановки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiera stoppkommando"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durdurma Komutunu Kopyala"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопіювати команду зупинки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷贝停止命令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷貝停止指令"
+          }
+        }
+      }
+    },
     "Copy Uninstall Command" : {
       "localizations" : {
         "cs" : {
@@ -71309,6 +71415,118 @@
         }
       }
     },
+    "It is in use by %@, and `brew services` keeps a job for it. Homebrew deletes it even so and leaves the job behind, so stop it first: `%@`" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používá ho %1$@, navíc pro něj `brew services` udržuje úlohu. Homebrew ho přesto smaže a úlohu zanechá, proto ji nejdřív zastavte: `%2$@`"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %1$@ verwendet, und `brew services` verwaltet einen Job dafür. Homebrew löscht es trotzdem und lässt den Job zurück, stoppe ihn also zuerst: `%2$@`"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It is in use by %1$@, and `brew services` keeps a job for it. Homebrew deletes it even so and leaves the job behind, so stop it first: `%2$@`"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %1$@, y `brew services` mantiene una tarea para él. Homebrew lo borra igualmente y deja ahí la tarea, así que detenlo primero: `%2$@`"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %1$@, et `brew services` conserve une tâche pour lui. Homebrew le supprime quand même et laisse la tâche derrière lui. Arrêtez-la donc d’abord : `%2$@`"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %1$@, e `brew services` mantiene un elemento in background per questo pacchetto. Homebrew lo elimina comunque e si lascia dietro l’elemento, quindi interrompilo prima: `%2$@`"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@で使用中で、`brew services`がこのパッケージのジョブを保持しています。それでもHomebrewはパッケージを削除し、ジョブは残したままになるため、先に停止してください: `%2$@`"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@에서 사용 중이며, `brew services`가 이 패키지의 작업을 유지합니다. 그래도 Homebrew는 이 패키지를 삭제하고 작업은 그대로 남겨 두므로, 먼저 중단하십시오: `%2$@`"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %1$@, en `brew services` heeft er een taak voor. Homebrew verwijdert het toch en laat de taak achter, dus stop het eerst: `%2$@`"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używany przez: %1$@. Polecenie `brew services` utrzymuje też dla niego zadanie. Homebrew i tak go usunie i pozostawi to zadanie, więc najpierw je zatrzymaj: `%2$@`"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %1$@, e o `brew services` mantém uma tarefa para ele. Mesmo assim, o Homebrew o apaga e deixa a tarefa para trás, então interrompa-o primeiro: `%2$@`"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %1$@, iar `brew services` păstrează o sarcină pentru el. Homebrew îl șterge oricum și lasă sarcina în urmă, așa că opriți‑l mai întâi: `%2$@`"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пакет используется: %1$@, а `brew services` хранит для него задание. Homebrew все равно удалит пакет и оставит задание, поэтому сначала остановите его: `%2$@`"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %1$@, och `brew services` har ett jobb för det. Homebrew raderar det ändå och lämnar jobbet kvar, så stoppa det först: `%2$@`"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ tarafından kullanılıyor ve `brew services` onun için bir iş tutuyor. Homebrew onu yine de siler ve işi geride bırakır, bu yüzden önce onu durdurun: `%2$@`"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовує %1$@, і `brew services` зберігає для нього завдання. Homebrew усе одно видалить пакет і залишить завдання, тож спершу зупиніть його: `%2$@`"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被“%1$@”使用，而且`brew services`为它保留了一个任务。即使如此，Homebrew也会将其删除并留下该任务，因此请先将其停止：`%2$@`"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%1$@使用中，而`brew services`為它保留了一項工作。即使如此，Homebrew仍會刪除它並留下該工作，因此請先停止它：`%2$@`"
+          }
+        }
+      }
+    },
     "It is in use by %@, which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again." : {
       "localizations" : {
         "cs" : {
@@ -71517,6 +71735,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它正由%@使用中，由於其以另一個帳號或系統的身分執行，你和Peel都無法將其結束。請在「背景項目」中停止它，或使用該App自己的解除安裝程式，然後再試一次。"
+          }
+        }
+      }
+    },
+    "It is in use by %@. Homebrew deletes it even so, so quit what uses it first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používá ho %@. Homebrew ho přesto smaže, proto nejdřív ukončete to, co ho používá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wird gerade von %@ verwendet. Homebrew löscht es trotzdem, beende also zuerst, was es verwendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@. Homebrew lo borra igualmente, así que sal primero de lo que lo usa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@. Homebrew le supprime quand même : quittez donc d’abord ce qui l’utilise."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@. Homebrew lo elimina comunque, quindi esci prima da ciò che lo usa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中です。それでもHomebrewは削除するため、先に使用しているものを終了してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에서 사용 중입니다. 그래도 Homebrew는 이 패키지를 삭제하므로, 먼저 이 패키지를 사용하는 프로그램을 종료하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@. Homebrew verwijdert het toch, dus stop eerst wat het gebruikt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest używany przez: %@. Homebrew i tak go usunie, więc najpierw zakończ to, co z niego korzysta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@. Mesmo assim, o Homebrew o apaga, então encerre primeiro o que o está usando."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este utilizat de %@. Homebrew îl șterge oricum, așa că închideți mai întâi ce îl utilizează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пакет используется: %@. Homebrew все равно удалит его, поэтому сначала завершите то, что его использует."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det används av %@. Homebrew raderar det ändå, så avsluta först det som använder det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından kullanılıyor. Homebrew onu yine de siler, bu yüzden önce onu kullanan programlardan çıkın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його використовує %@. Homebrew усе одно його видалить, тож спершу завершіть те, що його використовує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被“%@”使用。即使如此，Homebrew也会将其删除，因此请先退出正在使用它的程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@使用中。即使如此，Homebrew仍會刪除它，因此請先結束正在使用它的程式。"
           }
         }
       }
@@ -239281,6 +239605,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "`!!`和其他指令記錄的簡寫會先將指令放到命令列上讓你檢查，而不是立即執行。"
+          }
+        }
+      }
+    },
+    "`brew services` keeps a job for it. Homebrew leaves the job behind with nothing to run, so stop it first: `%@`" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` pro něj udržuje úlohu. Homebrew úlohu zanechá a ta nebude mít co spouštět, proto ji nejdřív zastavte: `%@`"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` verwaltet einen Job dafür. Homebrew lässt den Job zurück, der dann nichts mehr ausführen kann, stoppe ihn also zuerst: `%@`"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` mantiene una tarea para él. Homebrew deja ahí la tarea sin nada que ejecutar, así que detenlo primero: `%@`"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` conserve une tâche pour ce paquet. Homebrew laisse cette tâche derrière lui, sans rien à exécuter. Arrêtez-la donc d’abord : `%@`"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` mantiene un elemento in background per questo pacchetto. Homebrew si lascia dietro l’elemento senza nulla da eseguire, quindi interrompilo prima: `%@`"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services`がこのパッケージのジョブを保持しています。Homebrewは実行するものがないままジョブを残すため、先に停止してください: `%@`"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services`가 이 패키지의 작업을 유지합니다. Homebrew는 실행할 대상이 없는 작업을 그대로 남겨 두므로, 먼저 중단하십시오: `%@`"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` heeft er een taak voor. Homebrew laat de taak achter zonder iets om uit te voeren, dus stop het eerst: `%@`"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie `brew services` utrzymuje dla niego zadanie. Homebrew pozostawi to zadanie bez niczego do uruchomienia, więc najpierw je zatrzymaj: `%@`"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O `brew services` mantém uma tarefa para ele. O Homebrew deixa a tarefa para trás sem nada para executar, então interrompa-o primeiro: `%@`"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` păstrează o sarcină pentru el. Homebrew lasă sarcina în urmă, fără nimic de rulat, așa că opriți‑l mai întâi: `%@`"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` хранит задание для этого пакета. Homebrew оставит задание, которому нечего будет запускать, поэтому сначала остановите его: `%@`"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` har ett jobb för det. Homebrew lämnar jobbet kvar utan något att köra, så stoppa det först: `%@`"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` onun için bir iş tutuyor. Homebrew bu işi, çalıştıracak bir şeyi kalmadan geride bırakır, bu yüzden önce onu durdurun: `%@`"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services` зберігає для нього завдання. Homebrew залишить це завдання без того, що воно мало запускати, тож спершу зупиніть його: `%@`"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services`为它保留了一个任务。Homebrew会留下该任务，而该任务已没有可运行的内容，因此请先将其停止：`%@`"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`brew services`為它保留了一項工作。Homebrew會留下該工作，但它已沒有可執行的項目，因此請先停止它：`%@`"
           }
         }
       }
