@@ -449,7 +449,6 @@ private enum Walks {
     }
 }
 
-/// One answer, written by a thread that may never come back and read by everyone who is waiting for it.
 extension QualityOfService {
     /// What a thread of its own takes to run at the priority of the task that asked.
     init(_ priority: TaskPriority) {
@@ -462,6 +461,7 @@ extension QualityOfService {
     }
 }
 
+/// One answer, written by a thread that may never come back and read by everyone who is waiting for it.
 private final class Answer: Sendable {
     private struct State {
         var contents: FolderContents?

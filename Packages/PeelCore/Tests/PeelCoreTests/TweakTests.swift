@@ -16,10 +16,6 @@ struct TweakTests {
         }
     }
 
-    /// AppKit and HIToolbox read their keys once, when an app starts, so apps already open keep the old value.
-    /// The row says so rather than asking for a log out, which would work but is not needed.
-    /// Apple documents only a few of these keys; the rest are known from use alone, so a release can rename or ignore
-    /// one without a word. Each tweak says which it is, and a documented one names Apple's page.
     @Test func aGlobalKeyAProfileForcesReadsAsWhatTheProfileForces() throws {
         let directory = try TemporaryDirectory()
         let forced = directory.url.appending(path: "forced.plist")
@@ -36,6 +32,10 @@ struct TweakTests {
         #expect(other == nil)
     }
 
+    /// AppKit and HIToolbox read their keys once, when an app starts, so apps already open keep the old value.
+    /// The row says so rather than asking for a log out, which would work but is not needed.
+    /// Apple documents only a few of these keys; the rest are known from use alone, so a release can rename or ignore
+    /// one without a word. Each tweak says which it is, and a documented one names Apple's page.
     @Test func everyTweakSaysWhereAppleDocumentsIt() {
         var documented: Set<String> = []
         for tweak in TweakCatalog.all {

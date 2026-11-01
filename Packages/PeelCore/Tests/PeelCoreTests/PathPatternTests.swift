@@ -76,7 +76,6 @@ struct PathPatternTests {
         #expect(found("~/Library/Frameworks/example.framework/versions/current", .cask) == ["Example.framework/Versions/Current"])
     }
 
-    /// A bracket in a real name is not a character class: `App [Beta]` has to find itself.
     @Test func aNameFoundWithoutOpeningIsTheKernelsName() throws {
         let directory = try TemporaryDirectory()
         let file = try directory.file("Images/Disk.dmg", bytes: 16)
@@ -97,6 +96,7 @@ struct PathPatternTests {
         #expect(PathPattern.canonicalWithoutOpening(absent) == absent)
     }
 
+    /// A bracket in a real name is not a character class: `App [Beta]` has to find itself.
     @Test func findsAFolderWhoseNameHoldsABracket() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Library/Caches/App [Beta]")

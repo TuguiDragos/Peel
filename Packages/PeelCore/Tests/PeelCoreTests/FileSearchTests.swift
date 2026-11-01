@@ -528,8 +528,6 @@ struct FileSearchTests {
         #expect(held["Movies"] == .some(nil))
     }
 
-    /// The guard is asked only about the files that can make the list: the largest first, and no further once
-    /// the list is full and one more file shows it had to be cut.
     @Test func neverAsksTheGuardAboutWhatMacOSKeepsInItsOwnFolders() throws {
         let macOSsOwn = [
             "/System/Library/CoreServices/SystemVersion.plist", "/usr/bin/true", "/bin/ls", "/sbin/mount",
@@ -550,6 +548,8 @@ struct FileSearchTests {
         }
     }
 
+    /// The guard is asked only about the files that can make the list: the largest first, and no further once
+    /// the list is full and one more file shows it had to be cut.
     @Test func asksTheGuardOnlyAboutFilesThatCanMakeTheList() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

@@ -328,7 +328,6 @@ struct TrashServiceTests {
         #expect(count.value == 2)
     }
 
-    /// A job stopped before a move that then fails is a job left stopped with its file still in place.
     private func serviceEnding(
         _ agent: Process, in directory: borrowing TemporaryDirectory
     ) throws -> TrashService {
@@ -381,6 +380,7 @@ struct TrashServiceTests {
         #expect(result.trashed.first { $0.originalURL == plist }?.stoppedJob == "com.example.agent")
     }
 
+    /// A job stopped before a move that then fails is a job left stopped with its file still in place.
     @Test func stopsAJobOnlyOnceItsFileHasMoved() async throws {
         let directory = try TemporaryDirectory()
         let moved = try launchdPlist("home/Library/LaunchAgents/com.example.moved.plist", in: directory)
