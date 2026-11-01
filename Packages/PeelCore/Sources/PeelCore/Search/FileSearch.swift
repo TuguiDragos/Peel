@@ -273,6 +273,8 @@ public enum FileSearch {
             return kind == .movies && isTypedAsATransportStream(url) ? .skipped : .leftOut(.syncs)
         }
         guard kind != .movies || isAMovie(url) else { return .skipped }
+        // A search of this Mac finds macOS's own files by the tens of thousands, and the guard opens each it judges.
+        if RemovalGuard.neverMovesAFile(at: url.path(percentEncoded: false)) { return .leftOut(.protected) }
         guard let refused = refusal(url) else { return .listed }
         // That a file syncs is what the person needs to know, whatever else the guard says: a file in iCloud Drive
         // sits in a tree the guard protects.

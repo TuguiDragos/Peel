@@ -151,6 +151,12 @@ struct RemovalGuard: Sendable {
         isAFolder && Array(PathComponents.of(spelling).dropLast()) == caskroom
     }
 
+    /// Whether a regular file at `path` sits inside `protectedPrefixes`, read from the name alone.
+    static func neverMovesAFile(at path: String) -> Bool {
+        let lowered = path.lowercased()
+        return protectedPrefixes.contains { PathComponents.isPath(lowered, inside: $0) }
+    }
+
     private static func type(of path: String) -> mode_t? {
         var info = stat()
         return lstat(path, &info) == 0 ? info.st_mode & S_IFMT : nil
