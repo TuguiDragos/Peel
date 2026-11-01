@@ -518,6 +518,50 @@ struct PackageReceiptsTests {
         #expect(scan.receipts.first?.installedApps == [])
     }
 
+    @Test func anAppInAFolderOthersFilledLeavesTheRestOfThePackageAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        func info(_ identifier: String, _ name: String) throws -> Data {
+            try PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": identifier, "CFBundleName": name], format: .xml, options: 0
+            )
+        }
+        try directory.file("Applications/Vendor/Guard.app/Contents/Info.plist", contents: info("org.example.guard", "Guard"))
+        try directory.file(
+            "Applications/Vendor/Guard.app/Contents/Library/SystemExtensions/org.example.guard.filter.systemextension/Contents/Info.plist",
+            contents: info("org.example.guard.filter", "Guard Filter")
+        )
+        try directory.file("Library/Application Support/Vendor/settings.json", bytes: 16)
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.vendor.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "/"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return "Applications/Vendor\nLibrary/Application Support/Vendor\nLibrary/Application Support/Vendor/settings.json\n"
+            default:
+                return nil
+            }
+        }
+        let filter = AppExtension(
+            identifier: "org.example.guard.filter", name: "Guard Filter", kind: .systemExtension, point: nil, owner: nil,
+            url: nil, election: .on, teamIdentifier: nil, reportedState: nil
+        )
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: pkgutil, environment: environment, systemExtensions: { [filter] }
+        )
+
+        let items = try #require(scan.receipts.first?.items)
+        let isInApplications = { (item: PackageReceipt.Item) in item.url.path(percentEncoded: false).contains("Applications/") }
+        #expect(items.first(where: isInApplications)?.removedElsewhere != nil)
+        #expect(items.first { !isInApplications($0) }?.removedElsewhere == nil)
+    }
+
     @Test(.permissionsHold) func whatTheAccountCannotReachIsNotGone() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
