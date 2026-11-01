@@ -151,6 +151,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Before anything moved, the panel says Nothing moved to the Trash yet in place of zeros, its dates are in the
   secondary gray, and Space's line counts its areas without adding them up.
+- In dark mode the panel and About stand on the same gray as Peel's pages, rather than a warm brown one.
 
 #### Finder
 
