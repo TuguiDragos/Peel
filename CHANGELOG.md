@@ -133,6 +133,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Changed
 
+#### Installing Peel
+
+- Peel is one of Homebrew's official casks, so the command is `brew install --cask peel`. The old name,
+  `tuguidragos/tap/peel`, leads to the same cask.
+
 #### Home
 
 - While the helper waits for approval, Home says to allow Peel in System Settings under Login Items & Extensions, as
