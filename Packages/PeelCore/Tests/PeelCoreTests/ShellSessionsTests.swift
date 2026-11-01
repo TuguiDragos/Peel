@@ -10,12 +10,27 @@ struct ShellSessionsTests {
         try directory.file(
             "home/.zprofile", contents: Data("export ZDOTDIR=\"$HOME/.config/zsh\"\nprint \"said at login\"\n".utf8)
         )
-        try directory.file("home/.zlogout", contents: Data("print \"said at logout\"\n".utf8))
         let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
 
         let zshrc = await zsh.zshrc(home: home, zdotdir: nil)
 
         #expect(zshrc?.path(percentEncoded: false).hasSuffix("home/.config/zsh/.zshrc") == true)
+    }
+
+    @Test func askingZshAQuestionRunsNoLogoutFile() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let loggedOut = directory.url.appending(path: "logged-out")
+        let line = "print >> \(loggedOut.path(percentEncoded: false).quotedForTheShell)\n"
+        try directory.file("home/.zlogout", contents: Data(line.utf8))
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
+
+        let shown = await zsh.promptShown(home: home, zdotdir: nil)
+        let zshrc = await zsh.zshrc(home: home, zdotdir: nil)
+
+        #expect(shown != nil)
+        #expect(zshrc != nil)
+        #expect(!FileManager.default.fileExists(atPath: loggedOut.path(percentEncoded: false)))
     }
 
     @Test func onlyAPeelLaunchdStartedSharesTheSessionsZDOTDIR() {

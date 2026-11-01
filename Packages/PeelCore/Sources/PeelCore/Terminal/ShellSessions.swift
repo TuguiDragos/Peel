@@ -58,7 +58,7 @@ public enum ShellSessions: Sendable, Equatable {
             "/bin/zsh", ["-l", "-c", #"print -r -- "peel-zdotdir:${ZDOTDIR:-$HOME}""#],
             environment: environment, timeout: 10
         )
-        // The startup files may print too, before the answer and at logout after it.
+        // The startup files may print too.
         let marker = "peel-zdotdir:/"
         let named: String? = if case .success(let output) = answer, output.status == 0,
             let line = output.text.split(separator: "\n").last(where: { $0.hasPrefix(marker) }) {
@@ -95,7 +95,9 @@ public enum ShellSessions: Sendable, Equatable {
         if let zdotdir, !zdotdir.isEmpty {
             environment["ZDOTDIR"] = (zdotdir as NSString).standardizingPath
         }
+        // An interactive login shell reads `.zlogout` as it exits, and nobody is logging out (`man zshoptions`, RCS).
         let script = """
+            setopt no_rcs
             typeset -g peel_was="$PROMPT"; typeset -ga peel_by=()
             for peel_f in $precmd_functions; do
                 "$peel_f" 2>/dev/null
