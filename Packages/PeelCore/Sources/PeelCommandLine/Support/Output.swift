@@ -156,7 +156,12 @@ enum Output {
 
     /// The full path with no trailing slash, the same form `peel inventory` and every record use.
     static func path(_ url: URL) -> String {
-        PathPattern.comparablePath(of: url)
+        let path = PathPattern.comparablePath(of: url)
+        // Foundation leaves `/private` out of these links of macOS's only for a path that exists.
+        let isUnderALink = ["/private/var/", "/private/tmp/", "/private/etc/"].contains {
+            path.utf8.starts(with: $0.utf8)
+        }
+        return isUnderALink ? String(path.dropFirst("/private".count)) : path
     }
 
     /// Names joined as an English list: "A", "A and B", "A, B, and C".

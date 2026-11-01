@@ -521,6 +521,20 @@ struct CommandLineTests {
     }
 
     /// `peel leftovers --json` names the folders macOS kept Peel out of, where the app may have left more.
+    @Test func aPathReadsTheSameWhetherOrNotAnythingIsThere() throws {
+        let directory = try TemporaryDirectory()
+        let there = try directory.file("there.txt")
+        let real = PathPattern.located(there.path(percentEncoded: false)) ?? ""
+        #expect(real.hasPrefix("/private/"), "the temporary folder is under /private")
+        let gone = real + ".gone"
+
+        #expect(Output.path(URL(filePath: real)) == String(real.dropFirst("/private".count)))
+        #expect(Output.path(URL(filePath: gone)) == String(gone.dropFirst("/private".count)))
+        #expect(Output.path(URL(filePath: "/private/tmp/org.example/gone")) == "/tmp/org.example/gone")
+        #expect(Output.path(URL(filePath: "/private/etc/org.example")) == "/etc/org.example")
+        #expect(Output.path(URL(filePath: "/private/other/gone")) == "/private/other/gone")
+    }
+
     @Test func theLeftoversReportSaysWhereItCouldNotLook() throws {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
