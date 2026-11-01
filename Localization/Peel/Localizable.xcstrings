@@ -9714,108 +9714,214 @@
         }
       }
     },
-    "A brew.env file sets this, in /etc/homebrew, in %@, or in ~/.homebrew." : {
+    "A brew.env file sets this, in %@." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nastavuje to soubor brew.env ve složce /etc/homebrew, %@ nebo ~/.homebrew."
+            "value" : "Nastavuje to soubor brew.env ve složce %@."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Festgelegt ist dies in einer brew.env-Datei in /etc/homebrew, in %@ oder in ~/.homebrew."
+            "value" : "Festgelegt ist dies in einer brew.env-Datei in %@."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esto lo establece un archivo brew.env en /etc/homebrew, en %@ o en ~/.homebrew."
+            "value" : "Esto lo establece un archivo brew.env en %@."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cela provient d’un fichier brew.env situé dans /etc/homebrew, dans %@ ou dans ~/.homebrew."
+            "value" : "Cela provient d’un fichier brew.env situé dans %@."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questo è impostato in un file brew.env che si trova in /etc/homebrew, in %@ o in ~/.homebrew."
+            "value" : "Questo è impostato in un file brew.env che si trova in %@."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これは、/etc/homebrew、%@、または~/.homebrewにあるbrew.envファイルで設定されています。"
+            "value" : "これは、%@にあるbrew.envファイルで設定されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 설정은 /etc/homebrew, %@ 또는 ~/.homebrew에 있는 brew.env 파일에 지정되어 있습니다."
+            "value" : "이 설정은 %@에 있는 brew.env 파일에 지정되어 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dit wordt ingesteld door een brew.env-bestand in /etc/homebrew, in %@ of in ~/.homebrew."
+            "value" : "Dit wordt ingesteld door een brew.env-bestand in %@."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ustawia to plik brew.env w /etc/homebrew, w %@ lub w ~/.homebrew."
+            "value" : "Ustawia to plik brew.env w %@."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Isso é definido por um arquivo brew.env em /etc/homebrew, em %@ ou em ~/.homebrew."
+            "value" : "Isso é definido por um arquivo brew.env em %@."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acest lucru este stabilit de un fișier brew.env, aflat în /etc/homebrew, în %@ sau în ~/.homebrew."
+            "value" : "Acest lucru este stabilit de un fișier brew.env, aflat în %@."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это задает файл brew.env в /etc/homebrew, в %@ или в ~/.homebrew."
+            "value" : "Это задает файл brew.env в %@."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det här ställs in i en brew.env-fil i /etc/homebrew, i %@ eller i ~/.homebrew."
+            "value" : "Det här ställs in i en brew.env-fil i %@."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunu, /etc/homebrew, %@ veya ~/.homebrew içindeki bir brew.env dosyası ayarlıyor."
+            "value" : "Bunu, %@ içindeki bir brew.env dosyası ayarlıyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це задано у файлі brew.env у /etc/homebrew, у %@ або в ~/.homebrew."
+            "value" : "Це задано у файлі brew.env у %@."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这是由/etc/homebrew、%@或~/.homebrew中的brew.env文件设置的。"
+            "value" : "这是由%@中的brew.env文件设置的。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這是由位於/etc/homebrew、%@或~/.homebrew中的brew.env檔案所設定。"
+            "value" : "這是由位於%@中的brew.env檔案所設定。"
+          }
+        }
+      }
+    },
+    "A brew.env file sets this." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavuje to soubor brew.env."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festgelegt ist dies in einer brew.env-Datei."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto lo establece un archivo brew.env."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela provient d’un fichier brew.env."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo è impostato in un file brew.env."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはbrew.envファイルで設定されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정은 brew.env 파일에 지정되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit wordt ingesteld door een brew.env-bestand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ustawia to plik brew.env."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isso é definido por um arquivo brew.env."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest lucru este stabilit de un fișier brew.env."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это задает файл brew.env."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här ställs in i en brew.env-fil."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu bir brew.env dosyası ayarlıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це задано у файлі brew.env."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是由brew.env文件设置的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是由brew.env檔案所設定。"
           }
         }
       }
@@ -61407,6 +61513,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew遇到問題。如果Peel中該App的頁面仍開著，你可以在那裡看到它的訊息。"
+          }
+        }
+      }
+    },
+    "Homebrew reads %@ only from a shell that sets XDG_CONFIG_HOME to ~/.config. Peel runs Homebrew without your shell’s settings, so there it reads ~/.homebrew/brew.env. Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew čte soubor %@ jen při spuštění ze shellu, který nastavuje XDG_CONFIG_HOME na ~/.config. Peel spouští Homebrew bez nastavení vašeho shellu, takže v tom případě čte soubor ~/.homebrew/brew.env. Co má Homebrew při spuštění z Peelu dodržovat, například proxy, zapište do souboru ~/.homebrew/brew.env."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew liest %@ nur, wenn es in einer Shell läuft, die XDG_CONFIG_HOME auf ~/.config setzt. Peel führt Homebrew ohne die Einstellungen deiner Shell aus, daher liest Homebrew dann ~/.homebrew/brew.env. Trage in ~/.homebrew/brew.env ein, was Homebrew beachten soll, wenn Peel es ausführt, etwa einen Proxy."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew solo lee %@ desde un shell que establece XDG_CONFIG_HOME en ~/.config. Peel ejecuta Homebrew sin los ajustes de tu shell, así que desde Peel lee ~/.homebrew/brew.env. Pon en ~/.homebrew/brew.env lo que quieras que tenga en cuenta cuando se ejecuta desde Peel, como un proxy."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ne lit %@ que lorsqu’il est exécuté depuis un shell qui définit XDG_CONFIG_HOME sur ~/.config. Peel exécute Homebrew sans les réglages de votre shell : dans ce cas, Homebrew lit donc ~/.homebrew/brew.env. Placez dans ~/.homebrew/brew.env ce que vous voulez qu’il applique lorsqu’il est exécuté depuis Peel, comme un proxy."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew legge %@ solo da una shell che imposta XDG_CONFIG_HOME su ~/.config. Peel esegue Homebrew senza le impostazioni della tua shell, quindi in quel caso Homebrew legge ~/.homebrew/brew.env. Inserisci in ~/.homebrew/brew.env ciò che vuoi che Homebrew segua quando viene eseguito da Peel, come un proxy."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewが%@を読み込むのは、XDG_CONFIG_HOMEを~/.configに設定しているシェルから実行した場合だけです。Peelはシェルの設定を使わずにHomebrewを実行するため、Peelから実行したHomebrewは~/.homebrew/brew.envを読み込みます。プロキシなど、Peelから実行したHomebrewにも適用したい設定は、~/.homebrew/brew.envに記述してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 XDG_CONFIG_HOME을 ~/.config로 설정하는 셸에서만 %@을(를) 읽습니다. Peel은 사용자의 셸 설정 없이 Homebrew를 실행하므로, 이 경우 Homebrew는 ~/.homebrew/brew.env를 읽습니다. 프록시처럼 Peel에서 실행할 때 Homebrew가 따라야 할 설정은 ~/.homebrew/brew.env에 넣으십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew leest %@ alleen vanuit een shell die XDG_CONFIG_HOME instelt op ~/.config. Peel voert Homebrew uit zonder de instellingen van je shell, dus daar leest Homebrew ~/.homebrew/brew.env. Zet wat Homebrew vanuit Peel moet volgen, zoals een proxy, in ~/.homebrew/brew.env."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew odczytuje plik %@ tylko w powłoce, która ustawia XDG_CONFIG_HOME na ~/.config. Peel uruchamia Homebrew bez ustawień Twojej powłoki, więc w tym przypadku Homebrew odczytuje plik ~/.homebrew/brew.env. Ustawienia, których ma używać Homebrew uruchamiany przez Peel, na przykład ustawienia serwera proxy, umieść w pliku ~/.homebrew/brew.env."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew só lê o %@ em um shell que define XDG_CONFIG_HOME como ~/.config. O Peel executa o Homebrew sem os ajustes do seu shell, então, nesse caso, ele lê o ~/.homebrew/brew.env. Coloque no ~/.homebrew/brew.env o que você quer que ele siga quando for executado pelo Peel, como um proxy."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew citește %@ doar dintr‑un shell care stabilește XDG_CONFIG_HOME la ~/.config. Peel rulează Homebrew fără configurările shellului dvs., așa că, din Peel, Homebrew citește ~/.homebrew/brew.env. Puneți în ~/.homebrew/brew.env ce doriți ca Homebrew să respecte când este rulat din Peel, cum ar fi un proxy."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew читает %@ только при запуске из оболочки, в которой для XDG_CONFIG_HOME задано значение ~/.config. Peel запускает Homebrew без настроек Вашей оболочки, поэтому в этом случае он читает ~/.homebrew/brew.env. Укажите в ~/.homebrew/brew.env то, что он должен учитывать при запуске из Peel, например прокси."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew läser %@ bara från en kommandotolk som ställer in XDG_CONFIG_HOME på ~/.config. Peel kör Homebrew utan din kommandotolks inställningar, så där läser Homebrew ~/.homebrew/brew.env. Lägg det som du vill att Homebrew ska följa när det körs från Peel, till exempel en proxy, i ~/.homebrew/brew.env."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, %@ dosyasını yalnızca XDG_CONFIG_HOME değerini ~/.config olarak ayarlayan bir kabuktan çalıştırıldığında okur. Peel, Homebrew’u kabuğunuzun ayarları olmadan çalıştırır; bu yüzden Homebrew bu durumda ~/.homebrew/brew.env dosyasını okur. Peel’den çalıştırıldığında Homebrew’un uymasını istediğiniz ayarları, örneğin bir proxy ayarını, ~/.homebrew/brew.env dosyasına yazın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew читає %@ лише під час запуску з оболонки, яка задає для XDG_CONFIG_HOME значення ~/.config. Peel запускає Homebrew без налаштувань вашої оболонки, тож під час такого запуску він читає ~/.homebrew/brew.env. Те, чого він має дотримуватися під час запуску з Peel, як-от проксі, вкажіть у ~/.homebrew/brew.env."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在将XDG_CONFIG_HOME设为~/.config的shell中，Homebrew才会读取%@。Peel运行Homebrew时不会使用你的shell设置，因此这时Homebrew读取的是~/.homebrew/brew.env。请将你希望它在从Peel运行时遵循的设置（例如代理）放在~/.homebrew/brew.env中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew只有在將XDG_CONFIG_HOME設為~/.config的Shell中才會讀取%@。Peel執行Homebrew時不會套用你的Shell設定，因此這時它會讀取~/.homebrew/brew.env。請將你希望它從Peel執行時遵循的設定（例如代理伺服器）放入~/.homebrew/brew.env。"
           }
         }
       }
@@ -138443,113 +138655,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel每次詢問Homebrew時都會執行「%@」，`peel`也是如此。只有在它屬於你的Homebrew時才選擇它。"
-          }
-        }
-      }
-    },
-    "Peel runs Homebrew without your shell’s settings, so Homebrew reads ~/.homebrew/brew.env, not %@. Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env." : {
-      "comment" : "Under the title of the same note on the Homebrew page. %@ is the settings file Homebrew run from Peel doesn't read, such as ~/.config/homebrew/brew.env. Keep the file paths as they are.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel spouští Homebrew bez nastavení vašeho shellu, takže Homebrew čte soubor ~/.homebrew/brew.env, ne %@. Co má Homebrew při spuštění z Peelu dodržovat, například proxy, zapište do souboru ~/.homebrew/brew.env."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel führt Homebrew ohne die Einstellungen deiner Shell aus, daher liest Homebrew ~/.homebrew/brew.env und nicht %@. Trage in ~/.homebrew/brew.env ein, was Homebrew beachten soll, wenn Peel es ausführt, etwa einen Proxy."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ejecuta Homebrew sin los ajustes de tu shell, así que Homebrew lee ~/.homebrew/brew.env y no %@. Pon en ~/.homebrew/brew.env lo que quieras que tenga en cuenta cuando se ejecuta desde Peel, como un proxy."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel exécute Homebrew sans les réglages de votre shell : Homebrew lit donc ~/.homebrew/brew.env, et non %@. Placez dans ~/.homebrew/brew.env ce que vous voulez qu’il applique lorsqu’il est exécuté depuis Peel, comme un proxy."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel esegue Homebrew senza le impostazioni della tua shell, quindi Homebrew legge ~/.homebrew/brew.env, non %@. Inserisci in ~/.homebrew/brew.env ciò che vuoi che Homebrew segua quando viene eseguito da Peel, come un proxy."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはシェルの設定を使わずにHomebrewを実行するため、Homebrewは%@ではなく~/.homebrew/brew.envを読み込みます。プロキシなど、Peelから実行したHomebrewにも適用したい設定は、~/.homebrew/brew.envに記述してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 사용자의 셸 설정 없이 Homebrew를 실행하므로, Homebrew는 %@ 대신 ~/.homebrew/brew.env를 읽습니다. 프록시처럼 Peel에서 실행할 때 Homebrew가 따라야 할 설정은 ~/.homebrew/brew.env에 넣으십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel voert Homebrew uit zonder de instellingen van je shell, dus Homebrew leest ~/.homebrew/brew.env en niet %@. Zet wat Homebrew vanuit Peel moet volgen, zoals een proxy, in ~/.homebrew/brew.env."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel uruchamia Homebrew bez ustawień Twojej powłoki, więc Homebrew odczytuje plik ~/.homebrew/brew.env, a nie %@. Ustawienia, których ma używać Homebrew uruchamiany przez Peel, na przykład ustawienia serwera proxy, umieść w pliku ~/.homebrew/brew.env."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel executa o Homebrew sem os ajustes do seu shell, então o Homebrew lê o ~/.homebrew/brew.env, e não o %@. Coloque no ~/.homebrew/brew.env o que você quer que ele siga quando for executado pelo Peel, como um proxy."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel rulează Homebrew fără configurările shellului dvs., așa că Homebrew citește ~/.homebrew/brew.env, nu %@. Puneți în ~/.homebrew/brew.env ce doriți ca Homebrew să respecte când este rulat din Peel, cum ar fi un proxy."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel запускает Homebrew без настроек Вашей оболочки, поэтому Homebrew читает ~/.homebrew/brew.env, а не %@. Укажите в ~/.homebrew/brew.env то, что он должен учитывать при запуске из Peel, например прокси."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kör Homebrew utan din kommandotolks inställningar, så Homebrew läser ~/.homebrew/brew.env, inte %@. Lägg det som du vill att Homebrew ska följa när det körs från Peel, till exempel en proxy, i ~/.homebrew/brew.env."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, Homebrew’u kabuğunuzun ayarları olmadan çalıştırır; bu yüzden Homebrew %@ dosyasını değil, ~/.homebrew/brew.env dosyasını okur. Peel’den çalıştırıldığında Homebrew’un uymasını istediğiniz ayarları, örneğin bir proxy ayarını, ~/.homebrew/brew.env dosyasına yazın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel запускає Homebrew без налаштувань вашої оболонки, тож Homebrew читає ~/.homebrew/brew.env, а не %@. Те, чого він має дотримуватися під час запуску з Peel, як-от проксі, вкажіть у ~/.homebrew/brew.env."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel运行Homebrew时不会使用你的shell设置，因此Homebrew读取的是~/.homebrew/brew.env，而不是%@。请将你希望它在从Peel运行时遵循的设置（例如代理）放在~/.homebrew/brew.env中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel執行Homebrew時不會套用你的Shell設定，因此Homebrew會讀取~/.homebrew/brew.env，而不是%@。請將你希望它從Peel執行時遵循的設定（例如代理伺服器）放入~/.homebrew/brew.env。"
           }
         }
       }

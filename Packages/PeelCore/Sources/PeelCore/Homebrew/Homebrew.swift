@@ -752,6 +752,19 @@ public enum Homebrew {
         return settingsFiles(system: system, prefix: prefix, userConfiguration: user)
     }
 
+    /// The folders of the `brew.env` files `bin/brew` reads when Peel runs it, each once.
+    public static func settingsFolders(prefix: URL) -> [URL] {
+        settingsFolders(home: .homeDirectory, system: systemSettingsFile, prefix: prefix)
+    }
+
+    static func settingsFolders(home: URL, system: URL, prefix: URL) -> [URL] {
+        var seen = Set<String>()
+        return settingsFiles(system: system, prefix: prefix, home: home).compactMap { file in
+            let folder = PathPattern.comparablePath(of: file.deletingLastPathComponent())
+            return seen.insert(folder).inserted ? URL(filePath: folder, directoryHint: .notDirectory) : nil
+        }
+    }
+
     /// The `brew.env` files `bin/brew` reads before every command, in its order: the system's, the prefix's, the
     /// user's, and the system's once more when it says it takes priority.
     static func settingsFiles(system: URL, prefix: URL, userConfiguration: URL) -> [URL] {

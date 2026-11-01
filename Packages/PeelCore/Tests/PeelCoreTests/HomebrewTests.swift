@@ -1155,6 +1155,24 @@ struct HomebrewTests {
         #expect(!Homebrew.readsTheTaps(settingsIn: [unfinished]), "a last line with no line end is never read")
     }
 
+    @Test func namesTheFoldersOfTheSettingsFilesBrewReadsForPeel() throws {
+        let folder = try TemporaryDirectory()
+        let home = folder.url.appending(path: "home", directoryHint: .isDirectory)
+        let prefix = folder.url.appending(path: "prefix", directoryHint: .isDirectory)
+        let system = folder.url.appending(path: "etc/homebrew/brew.env")
+        func named() -> [String] {
+            Homebrew.settingsFolders(home: home, system: system, prefix: prefix).map(PathPattern.comparablePath(of:))
+        }
+        let inFolder = { (path: String) in PathPattern.comparablePath(of: folder.url.appending(path: path)) }
+
+        #expect(named() == ["etc/homebrew", "prefix/etc/homebrew", "home/.homebrew"].map(inFolder))
+        let settings = folder.url.appending(path: "settings").path(percentEncoded: false)
+        try folder.file("etc/homebrew/brew.env", contents: Data(
+            "HOMEBREW_SYSTEM_ENV_TAKES_PRIORITY=1\nHOMEBREW_XDG_CONFIG_HOME=\(settings)\n".utf8
+        ))
+        #expect(named() == ["etc/homebrew", "prefix/etc/homebrew", "settings/homebrew"].map(inFolder))
+    }
+
     @Test func readsTheSystemsSettingsLastWhenTheyTakePriority() throws {
         let folder = try TemporaryDirectory()
         let priority = Data("HOMEBREW_SYSTEM_ENV_TAKES_PRIORITY=1\n".utf8)

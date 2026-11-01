@@ -89,6 +89,9 @@ final class HomebrewLibrary {
     /// A `brew.env` the person keeps where Homebrew run from Peel doesn't look, read with the packages
     /// (`Homebrew.unreadSettingsFile(prefix:)`).
     private(set) var unreadSettingsFile: URL?
+    /// Where the `brew.env` files Homebrew reads when Peel runs it are, read with the packages. Empty until Homebrew
+    /// says where it is.
+    private(set) var settingsFolders: [URL] = []
     /// Homebrew has no local copy of its package definitions, for example because its cache was cleared (not
     /// by Peel: its Developer page leaves them alone). Any question would make Homebrew download them again,
     /// at launch and on every change in an Applications folder, which would be Peel contacting the network on
@@ -411,6 +414,7 @@ final class HomebrewLibrary {
         }
         overrides = overridden ?? overrides
         unreadSettingsFile = found.flatMap { Homebrew.unreadSettingsFile(prefix: $0.prefix) }
+        settingsFolders = found.map { Homebrew.settingsFolders(prefix: $0.prefix) } ?? []
         revision += 1
         keepSelectionOnItsPage()
     }
@@ -428,7 +432,7 @@ final class HomebrewLibrary {
         let hadEvidence = !caskEvidence.isEmpty
         (packages, installation, hasAnswered, couldNotRead, needsDefinitions) = (nil, nil, false, nil, false)
         (reclaimable, autoremovable, overrides, findings, advisories) = (nil, [], [], nil, nil)
-        (knownCasks, selection) = ([], nil)
+        (knownCasks, selection, unreadSettingsFile, settingsFolders) = ([], nil, nil, [])
         answers = Homebrew.Answers()
         revision += 1
         if hadEvidence {

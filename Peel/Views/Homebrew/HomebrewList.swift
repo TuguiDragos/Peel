@@ -212,7 +212,7 @@ struct HomebrewList: View {
             Section {
                 Notice(
                     title: Text("Homebrew Run From Peel Doesn’t Read One of Your Settings Files"),
-                    detail: Text("Peel runs Homebrew without your shell’s settings, so Homebrew reads ~/.homebrew/brew.env, not \(unread.abbreviatedPath). Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env."),
+                    detail: Text("Homebrew reads \(unread.abbreviatedPath) only from a shell that sets XDG_CONFIG_HOME to ~/.config. Peel runs Homebrew without your shell’s settings, so there it reads ~/.homebrew/brew.env. Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env."),
                     kind: .note
                 ) {}
             }
@@ -226,11 +226,12 @@ struct HomebrewList: View {
         if overrides.contains(.updatesItself) { sentences.append(String(localized: "Homebrew may download its list of packages when Peel only asks about them.")) }
         if overrides.contains(.leavesAppsThatUpdateThemselves) { sentences.append(String(localized: "When Peel runs it, Homebrew doesn’t compare the versions of apps that update themselves, so it can’t say whether they’re behind.")) }
         if overrides.contains(.keepsDependencies) { sentences.append(String(localized: "Homebrew keeps the formulae nothing needs anymore: Uninstall and Clean Up leave them where they are.")) }
-        let prefix =
-            homebrew.installation?.prefix
-            ?? Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
-        let folder = (prefix?.path(percentEncoded: false) ?? "") + "/etc/homebrew"
-        sentences.append(String(localized: "A brew.env file sets this, in /etc/homebrew, in \(folder), or in ~/.homebrew."))
+        if homebrew.settingsFolders.isEmpty {
+            sentences.append(String(localized: "A brew.env file sets this."))
+        } else {
+            let folders = homebrew.settingsFolders.map(\.abbreviatedPath).formatted(.list(type: .or))
+            sentences.append(String(localized: "A brew.env file sets this, in \(folders)."))
+        }
         // A line each, since Chinese and Japanese put no space between sentences.
         return sentences.joined(separator: "\n")
     }
