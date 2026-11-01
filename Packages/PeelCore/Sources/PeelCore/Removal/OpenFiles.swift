@@ -80,6 +80,15 @@ struct OpenFiles {
         Set(holding(url, lettingItsProgramsRun: lettingItsProgramsRun).map(\.process)).sorted()
     }
 
+    /// The app bundles programs run from, the outermost of each, wherever they are.
+    func runningApps() -> Set<URL> {
+        Set(programs.values.compactMap { program in
+            let names = PathComponents.of(program)
+            guard let app = names.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
+            return URL(filePath: "/" + names[...app].joined(separator: "/"), directoryHint: .isDirectory)
+        })
+    }
+
     func isAttachedDiskImage(_ url: URL) -> Bool {
         attachedImages.contains(PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)))
     }

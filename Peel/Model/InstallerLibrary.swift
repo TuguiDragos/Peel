@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import Observation
 import PeelCore
@@ -74,8 +75,18 @@ extension InstallerLibrary: CarriesSelection {
         }
     }
 
+    /// An app a selected update is for, while it runs: it may install the update when it quits, and would download it
+    /// again.
+    func appToQuit(for part: CarriedSelection.Part) -> String? {
+        guard let kind = InstallerItem.Kind(rawValue: part.page.scope) else { return nil }
+        return selected(in: kind).filter { part.sizes.keys.contains($0.url) }.compactMap(\.updatesApp).first { app in
+            !NSRunningApplication.runningApplications(withBundleIdentifier: app.identifier).isEmpty
+        }?.name
+    }
+
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let kind = InstallerItem.Kind(rawValue: part.page.scope) else { return TrashResult() }
+        guard appToQuit(for: part) == nil else { return nil }
         isRemoving = true
         defer { isRemoving = false }
         let selected = selected(in: kind).filter { part.sizes.keys.contains($0.url) }

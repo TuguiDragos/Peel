@@ -632,6 +632,49 @@ struct InstallersTests {
         #expect(scan.items(in: .updateDownload).map(\.name) == ["org.example.other.ShipIt"])
     }
 
+    @Test func anElectronAppRunningFromElsewhereKeepsItsUpdate() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Caches/chat-updater/update.zip", bytes: 400_000)
+        try directory.file("Library/Caches/other-updater/update.zip", bytes: 400_000)
+        try directory.file(
+            "Elsewhere/Chat.app/Contents/Resources/app-update.yml",
+            contents: Data("provider: generic\nupdaterCacheDirName: chat-updater\n".utf8)
+        )
+        try directory.file(
+            "Elsewhere/Chat.app/Contents/Info.plist",
+            contents: try PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.chat"], format: .xml, options: 0
+            )
+        )
+        let process = try directory.runningProgram("Elsewhere/Chat.app/Contents/MacOS/Chat")
+        defer { process.terminate() }
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let updates = Dictionary(uniqueKeysWithValues: scan.items(in: .updateDownload).map { ($0.name, $0) })
+        #expect(updates["chat-updater"]?.heldBack == .appIsRunning)
+        #expect(updates["chat-updater"]?.notes == [.downloadedBy("Chat")])
+        #expect(updates["chat-updater"]?.updatesApp?.identifier == "org.example.chat")
+        #expect(updates["other-updater"]?.heldBack == nil)
+        #expect(updates["other-updater"]?.updatesApp == nil)
+    }
+
+    @Test func aKindShowsWhatCanMoveAndABackupWhatIsThere() {
+        let download = { (heldBack: HoldBack?) in
+            InstallerItem(
+                url: URL(filePath: "/Users/me/Downloads/\(UUID().uuidString).dmg"), kind: .appInstaller, name: "Tool.dmg",
+                size: 100, date: nil, installedApp: nil, isReadOnly: false, notes: [], heldBack: heldBack
+            )
+        }
+        let items = [download(nil), download(.inTheCloud)]
+        #expect(items.shownTotal(of: .appInstaller, canUseHelper: true).known == 100)
+        #expect(items.shownTotal(of: .deviceBackup, canUseHelper: true).known == 200)
+    }
+
     @Test func findsWhatElectronUpdaterDownloadedInEitherPlace() async throws {
         let directory = try TemporaryDirectory()
         let old = "Library/Application Support/Caches"

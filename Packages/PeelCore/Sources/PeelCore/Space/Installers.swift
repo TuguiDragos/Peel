@@ -37,6 +37,18 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
     public var heldBack: HoldBack?
     /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.
     public var syncedBy: SyncKeeper? = nil
+    /// The app a downloaded update is for, which has to quit before the update moves from under it.
+    public var updatesApp: UpdatedApp? = nil
+
+    public struct UpdatedApp: Sendable, Hashable {
+        public let identifier: String
+        public let name: String
+
+        public init(identifier: String, name: String) {
+            self.identifier = identifier
+            self.name = name
+        }
+    }
 
     public var id: URL { url }
 
@@ -79,6 +91,12 @@ extension Collection where Element == InstallerItem {
     public func movable(canUseHelper: Bool) -> SizeTotal {
         let selectable = Set(selectableRows(canUseHelper: canUseHelper).selectable)
         return SizeTotal(filter { selectable.contains($0.url) }.map(\.size))
+    }
+
+    /// What a kind's row and page show: what moving could free, or what is there for a device backup, which Peel only
+    /// shows.
+    public func shownTotal(of kind: InstallerItem.Kind, canUseHelper: Bool) -> SizeTotal {
+        kind == .deviceBackup ? SizeTotal(map(\.size)) : movable(canUseHelper: canUseHelper)
     }
 
     public func selectableRows(canUseHelper: Bool) -> SelectableRows<URL> {
@@ -597,6 +615,7 @@ public enum Installers {
             addIfElectronUpdaters(url)
         }
         let place = Folder(url: caches, isSharedWithEveryone: false)
+        let elsewhere = found.contains { $0.identifier == nil } ? electronAppsRunning(openFiles) : [:]
         var items: [InstallerItem] = []
         for (url, identifier, app) in found {
             guard !Task.isCancelled else { return items }
@@ -607,9 +626,9 @@ public enum Installers {
             guard isAnExcludedApps != true else { continue }
             let (size, seen, _) = await measured(url, by: measure)
             guard isWorthARow(size, minimumSize) else { continue }
-            let isRunning = identifier.map {
-                !NSRunningApplication.runningApplications(withBundleIdentifier: $0).isEmpty
-            } ?? false
+            let fromElsewhere = identifier == nil ? elsewhere[url.lastPathComponent.lowercased()] : nil
+            let running = identifier.map(NSRunningApplication.runningApplications(withBundleIdentifier:)) ?? []
+            let name = app?.name ?? fromElsewhere?.name ?? running.first?.localizedName
             items.append(InstallerItem(
                 url: url,
                 kind: .updateDownload,
@@ -618,15 +637,34 @@ public enum Installers {
                 date: (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate,
                 installedApp: nil,
                 isReadOnly: false,
-                notes: app.map { [.downloadedBy($0.name)] } ?? [],
+                notes: (app?.name ?? fromElsewhere?.name).map { [.downloadedBy($0)] } ?? [],
                 requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                 heldBack: heldBack(
                     url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles
                 )
-                    ?? (isRunning ? .appIsRunning : nil)
+                    ?? (!running.isEmpty || fromElsewhere != nil ? .appIsRunning : nil),
+                updatesApp: (identifier ?? fromElsewhere?.identifier).flatMap { identifier in
+                    name.map { InstallerItem.UpdatedApp(identifier: identifier, name: $0) }
+                }
             ))
         }
         return items
+    }
+
+    /// The Electron apps running now, listed or not, by the folder each names for its updates in `app-update.yml`.
+    private static func electronAppsRunning(
+        _ openFiles: OpenFiles
+    ) -> [String: (identifier: String?, name: String)] {
+        var apps: [String: (identifier: String?, name: String)] = [:]
+        for app in openFiles.runningApps() {
+            let contents = app.appending(path: "Contents", directoryHint: .isDirectory)
+            guard let folder = ElectronUpdater.configuration(in: contents)
+                .flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:))
+            else { continue }
+            let identifier = AppInspector.stated(AppInspector.infoDictionary(in: contents)?["CFBundleIdentifier"])
+            apps[folder.lowercased()] = (identifier, app.deletingPathExtension().lastPathComponent)
+        }
+        return apps
     }
 
     /// Installer packages in `~/Library/Application Support`, up to three levels down, never inside a package or in
