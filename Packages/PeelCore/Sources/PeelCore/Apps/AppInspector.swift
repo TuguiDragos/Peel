@@ -235,7 +235,7 @@ public enum AppInspector {
         return nil
     }
 
-    private static func signingInformation(
+    static func signingInformation(
         for url: URL
     ) -> (teamIdentifier: String?, developer: String?, applicationGroups: [String]) {
         guard let information = CodeSignature.information(at: url) else { return (nil, nil, []) }

@@ -28,7 +28,8 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         installedFor: String? = nil,
         goneApp: String? = nil,
         category: String? = nil,
-        version: String? = nil
+        version: String? = nil,
+        developer: String? = nil
     ) {
         self.id = id ?? identifier
         self.identifier = identifier
@@ -44,6 +45,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         self.goneApp = goneApp
         self.category = category
         self.version = version
+        self.developer = developer
     }
 
     public enum Kind: String, Sendable, Hashable, CaseIterable {
@@ -100,6 +102,8 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     public let category: String?
     /// The version `systemextensionsctl` lists, `<short>/<build>`; nil for an app extension.
     public let version: String?
+    /// The maker its copy's checked signature names, for a system extension.
+    public let developer: String?
     /// For a version macOS is removing while it keeps another version of it, that version, as shown.
     public internal(set) var replacedBy: String?
     /// Tells rows apart in a list. The identifier alone can't: while an app updates a system extension, macOS
@@ -463,9 +467,14 @@ public enum AppExtensions {
                 installedFor: installedFor,
                 goneApp: goneApp(installedFor: installedFor),
                 category: category,
-                version: row.version
+                version: row.version,
+                developer: developer(ofCopyAt: record?.staged)
             )
         })
+    }
+
+    static func developer(ofCopyAt url: URL?) -> String? {
+        url.flatMap { AppInspector.signingInformation(for: $0).developer }
     }
 
     /// Each system extension macOS is removing while it keeps another version of it, with the version that stays.

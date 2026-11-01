@@ -64,9 +64,10 @@ struct ExtensionDetailView: View {
                 }
                 if let team = item.teamIdentifier {
                     LabeledContent("Signed by") {
-                        Text(verbatim: team)
-                            .font(.callout.monospaced())
+                        Text(verbatim: item.developer ?? team)
+                            .font(item.developer == nil ? .callout.monospaced() : nil)
                             .textSelection(.enabled)
+                            .help(Text(verbatim: team))
                     }
                 }
                 if item.showsItsState {

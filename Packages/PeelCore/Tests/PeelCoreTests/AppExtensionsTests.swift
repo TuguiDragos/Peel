@@ -402,6 +402,12 @@ struct AppExtensionsTests {
          (1 plug-in)
         """
 
+    @Test func namesTheMakerASystemExtensionsCopyIsSignedBy() {
+        #expect(AppExtensions.developer(ofCopyAt: URL(filePath: "/System/Applications/Calculator.app")) == "Apple")
+        #expect(AppExtensions.developer(ofCopyAt: URL(filePath: "/org.example/nowhere.systemextension")) == nil)
+        #expect(AppExtensions.developer(ofCopyAt: nil) == nil)
+    }
+
     /// `pluginkit` always lists macOS's own extensions and ends by counting them, and `systemextensionsctl` starts
     /// by counting its rows. A listing read short of its count is one Peel no longer understands, not a Mac with none.
     @Test func aListingReadShortOfItsCountIsNoAnswer() async {
