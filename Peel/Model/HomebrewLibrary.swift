@@ -16,6 +16,7 @@ final class HomebrewLibrary {
     /// through an upgrade, but their versions change.
     private(set) var revision = 0
     @ObservationIgnored private let appsOfCask: (HomebrewPackage) -> [InstalledApp]
+    @ObservationIgnored private var exclusionAnswers = ExclusionAnswers()
     /// Waiting for a cask's apps to quit before Homebrew changes them. These are the library's, not a page's: choosing
     /// another row builds another page, and the command the person asked for still has to run.
     let quittingToUpgrade = QuitBeforeRemoving()
@@ -300,12 +301,25 @@ final class HomebrewLibrary {
             + retired.filter { $0.retirement?.stage == .deprecated }
     }
 
-    /// What Upgrade All upgrades: the rest are shown as out of date and left alone (`joinsUpgradeAll`, the exclusions),
-    /// and all of them while Homebrew would clean up after an upgrade, which deletes old versions for good.
+    /// What Upgrade All upgrades, as the page shows it: the rest are shown as out of date and left alone
+    /// (`joinsUpgradeAll`, the exclusions), and all of them while Homebrew would clean up after an upgrade, which
+    /// deletes old versions for good.
     var upgradable: [HomebrewPackage] {
+        guard !overrides.contains(.cleansUp) else { return [] }
+        return outdated.filter { $0.joinsUpgradeAll && exclusionAnswer(of: $0) == false }
+    }
+
+    /// `upgradable`, asked anew of the exclusions and the disk, for what is about to run.
+    var upgradableNow: [HomebrewPackage] {
         guard !overrides.contains(.cleansUp) else { return [] }
         return ExclusionsStore.shared.exclusions.joiningUpgradeAll(
             outdated, appsOf: appsOfCask, installation: installation
+        )
+    }
+
+    private func exclusionAnswer(of package: HomebrewPackage) -> Bool? {
+        exclusionAnswers.answer(
+            ExclusionsStore.shared.exclusions, of: package, apps: appsOfCask(package), installation: installation
         )
     }
 
@@ -323,9 +337,7 @@ final class HomebrewLibrary {
     }
 
     func isExcluded(_ package: HomebrewPackage) -> Bool {
-        let exclusions = ExclusionsStore.shared.exclusions
-        return exclusions.isKnown
-            && exclusions.excludes(package, apps: appsOfCask(package), installation: installation) == true
+        ExclusionsStore.shared.exclusions.isKnown && exclusionAnswer(of: package) == true
     }
 
     /// How many packages of `kind` are installed, or nil while Homebrew hasn't said what is installed.
@@ -574,7 +586,7 @@ final class HomebrewLibrary {
                     try await Homebrew.upgrade(package, onOutput: onOutput)
                 }
             case .upgradeAll:
-                let packages = upgradable
+                let packages = upgradableNow
                 return await following { onOutput throws(Homebrew.CommandFailure) in
                     try await Homebrew.upgrade(packages, onOutput: onOutput)
                 }

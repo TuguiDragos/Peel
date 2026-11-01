@@ -141,6 +141,8 @@ final class AppLibrary {
     /// The cask each Homebrew-installed app came from. Matched with the same evidence everything else uses,
     /// rather than by guessing a token from the app's name.
     private(set) var homebrewApps: [InstalledApp.ID: HomebrewPackage] = [:]
+    /// The same, by cask, since the Homebrew page asks about every outdated cask each time it is drawn.
+    private var appsOfCasks: [HomebrewPackage.ID: [InstalledApp]] = [:]
     /// The rows chosen in the list, which the page beside it shows.
     var selection: Set<InstalledApp.ID> = []
     /// An app something asked to show that Peel couldn't read, which the window says.
@@ -332,6 +334,7 @@ final class AppLibrary {
         guard listed != apps else { return [] }
         guard !AppCatalog.listsTheSameApps(listed, as: apps) else {
             apps = listed
+            groupHomebrewApps()
             lastOpenedRevision += 1
             return []
         }
@@ -522,7 +525,7 @@ final class AppLibrary {
     }
 
     func apps(of cask: HomebrewPackage) -> [InstalledApp] {
-        apps.filter { self.cask(for: $0)?.id == cask.id }
+        appsOfCasks[cask.id] ?? []
     }
 
     func whyItCannotCheck(_ app: InstalledApp) -> CannotCheck {
@@ -1006,6 +1009,11 @@ final class AppLibrary {
         homebrewApps = Dictionary(uniqueKeysWithValues: apps.compactMap { app in
             CaskEvidence.installedCask(for: app, in: casks).map { (app.id, $0) }
         })
+        groupHomebrewApps()
+    }
+
+    private func groupHomebrewApps() {
+        appsOfCasks = Dictionary(grouping: apps.filter { homebrewApps[$0.id] != nil }) { homebrewApps[$0.id]?.id ?? "" }
     }
 
     /// Records the team that signs each app, and keeps the apps whose team changed. The registry reports each

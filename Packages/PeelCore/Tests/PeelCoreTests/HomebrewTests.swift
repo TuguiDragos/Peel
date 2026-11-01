@@ -120,6 +120,26 @@ struct HomebrewTests {
         #expect(names(.notYetRead).isEmpty)
     }
 
+    @Test func anAnswerForTheListStandsUntilWhatItGoesByChanges() throws {
+        let directory = try TemporaryDirectory()
+        let installation = HomebrewInstallation(version: "7.0.0", prefix: directory.url, repository: directory.url)
+        let package = HomebrewPackage(name: "sample", kind: .cask)
+        let excluded = Exclusions(bundleIdentifiers: ["org.example.kept"])
+        var answers = ExclusionAnswers()
+        func answer(_ exclusions: Exclusions, apps: [InstalledApp] = []) -> Bool? {
+            answers.answer(exclusions, of: package, apps: apps, installation: installation)
+        }
+
+        #expect(answer(excluded) == false)
+        try directory.directory("Caskroom/sample/1.0/org.example.kept")
+        #expect(answer(excluded) == false, "the disk was read again")
+        #expect(excluded.excludes(package, apps: [], installation: installation) == true)
+
+        let app = InstalledApp(url: try directory.directory("Sample.app"), bundleIdentifier: "org.example.s", name: "Sample")
+        #expect(answer(excluded, apps: [app]) == true, "another app was answered as the one before")
+        #expect(answer(Exclusions()) == false, "other exclusions were answered as the ones before")
+    }
+
     @Test func peelsOwnCaskIsLeftToPeelsOwnUpdates() {
         func cask(quitting identifiers: [String] = [], apps: [String] = []) -> HomebrewPackage {
             HomebrewPackage(
