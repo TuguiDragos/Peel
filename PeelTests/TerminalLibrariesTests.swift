@@ -231,6 +231,23 @@ struct TerminalLibrariesTests {
         #expect(TerminalToolLibrary.installed(prefix: nil, refused: nil, unrunnable: nil).isEmpty)
     }
 
+    @Test func aToolsLinesNameTheFolderOfTheBrewPeelWontRun() {
+        let refused = HomebrewChoice.Unrunnable(
+            brew: URL(filePath: "/org.example/brew/bin/brew"), refusal: .ownedByAnotherAccount
+        )
+        let running = URL(filePath: "/org.example/other/", directoryHint: .isDirectory)
+        typealias Brew = HomebrewChoice.Unrunnable
+        func folder(_ prefix: URL?, _ refused: Brew?, _ unrunnable: Brew?) -> String? {
+            TerminalToolLibrary.State(prefix: prefix, installed: [], unrunnable: unrunnable, refused: refused)
+                .folder?.path(percentEncoded: false)
+        }
+
+        #expect(folder(nil, refused, nil) == "/org.example/brew/")
+        #expect(folder(nil, nil, refused) == "/org.example/brew/")
+        #expect(folder(running, refused, nil) == "/org.example/other/")
+        #expect(folder(nil, nil, nil) == nil)
+    }
+
     @Test func aToolsAvailabilityIsNotKnownWhileHomebrewIsAsked() {
         let fzf = HomebrewPackage(name: "fzf", kind: .formula)
         let catalog = TerminalToolLibrary.Catalog(known: ["fzf"], packages: [fzf])

@@ -116,7 +116,7 @@ private struct TerminalToolRow: View {
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             case .available?:
-                let setups = tool.setup(prefix: state.prefix ?? Self.defaultPrefix)
+                let setups = tool.setup(prefix: state.folder ?? Self.defaultPrefix)
                 if !isInstalled || !setups.isEmpty {
                     let title: LocalizedStringKey =
                         if isInstalled { "Set up" } else if setups.isEmpty { "Install" } else { "Install and set up" }

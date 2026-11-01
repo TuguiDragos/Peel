@@ -9,6 +9,12 @@ final class TerminalToolLibrary {
         var installed: Set<TerminalTool>
         var unrunnable: HomebrewChoice.Unrunnable?
         var refused: HomebrewChoice.Unrunnable?
+
+        /// Where the tools are: under the `brew` Peel runs, or under one it won't run, which it never asks, since that
+        /// a tool is there is only a look at a folder.
+        var folder: URL? {
+            prefix ?? (refused ?? unrunnable)?.brew.deletingLastPathComponent().deletingLastPathComponent()
+        }
     }
 
     struct Catalog {
@@ -47,13 +53,11 @@ final class TerminalToolLibrary {
         await askingHomebrew?.value
     }
 
-    /// What is on the disk under the `brew` Peel runs, or under one it won't run, which it never asks: that a tool is
-    /// installed is only a look at a folder.
     static func installed(
         prefix: URL?, refused: HomebrewChoice.Unrunnable?, unrunnable: HomebrewChoice.Unrunnable?
     ) -> Set<TerminalTool> {
-        let brew = (refused ?? unrunnable)?.brew
-        guard let folder = prefix ?? brew?.deletingLastPathComponent().deletingLastPathComponent() else { return [] }
+        let state = State(prefix: prefix, installed: [], unrunnable: unrunnable, refused: refused)
+        guard let folder = state.folder else { return [] }
         return Set(TerminalTool.allCases.filter { $0.isInstalled(prefix: folder) })
     }
 
