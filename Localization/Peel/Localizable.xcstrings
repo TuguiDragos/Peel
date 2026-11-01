@@ -123507,108 +123507,108 @@
         }
       }
     },
-    "Open apps keep the old setting until you reopen them." : {
+    "Open apps keep the old setting until you reopen them, and an app with a setting of its own for this keeps that." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otevřené aplikace si ponechají původní nastavení, dokud je znovu neotevřete."
+            "value" : "Otevřené aplikace si ponechají původní nastavení, dokud je znovu neotevřete, a aplikace, která na to má vlastní nastavení, si ponechá to své."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geöffnete Apps behalten die alte Einstellung, bis du sie erneut öffnest."
+            "value" : "Geöffnete Apps behalten die alte Einstellung, bis du sie erneut öffnest, und eine App mit einer eigenen Einstellung dafür behält diese."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las apps abiertas mantienen el ajuste anterior hasta que las vuelves a abrir."
+            "value" : "Las apps abiertas mantienen el ajuste anterior hasta que las vuelves a abrir, y una app con un ajuste propio para esto mantiene el suyo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les apps ouvertes conservent l’ancien réglage jusqu’à ce que vous les rouvriez."
+            "value" : "Les apps ouvertes conservent l’ancien réglage jusqu’à ce que vous les rouvriez, et une app qui a son propre réglage pour cela conserve celui-ci."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le app aperte mantengono la vecchia impostazione finché non le riapri."
+            "value" : "Le app aperte mantengono la vecchia impostazione finché non le riapri, e un’app con una propria impostazione per questo mantiene quella."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "開いているアプリは、開き直すまで以前の設定のままです。"
+            "value" : "開いているアプリは、開き直すまで以前の設定のままです。また、これについて独自の設定があるアプリでは、その設定が維持されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "열려 있는 앱은 다시 열 때까지 이전 설정을 유지합니다."
+            "value" : "열려 있는 앱은 다시 열 때까지 이전 설정을 유지하며, 이 항목에 대한 자체 설정이 있는 앱은 그 설정을 유지합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geopende apps houden de oude instelling tot je ze opnieuw opent."
+            "value" : "Geopende apps houden de oude instelling tot je ze opnieuw opent, en een app met een eigen instelling hiervoor behoudt die."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otwarte aplikacje zachowują stare ustawienie do czasu ponownego otwarcia."
+            "value" : "Otwarte aplikacje zachowują stare ustawienie do czasu ponownego otwarcia, a aplikacja, która ma własne ustawienie tej opcji, zachowuje je."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os apps abertos mantêm o ajuste antigo até você reabri-los."
+            "value" : "Os apps abertos mantêm o ajuste antigo até você reabri-los, e um app com um ajuste próprio para isso mantém esse ajuste."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicațiile deschise păstrează vechea configurare până când le redeschideți."
+            "value" : "Aplicațiile deschise păstrează vechea configurare până când le redeschideți, iar o aplicație cu o configurare proprie pentru acest lucru o păstrează pe aceea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открытые приложения сохранят старую настройку, пока Вы их не откроете заново."
+            "value" : "Открытые приложения сохранят старую настройку, пока Вы их не откроете заново, а приложение с собственной настройкой для этого параметра сохранит ее."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öppna appar behåller den gamla inställningen tills du öppnar dem igen."
+            "value" : "Öppna appar behåller den gamla inställningen tills du öppnar dem igen, och en app som har en egen inställning för det här behåller den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Açık uygulamalar, siz onları yeniden açana kadar eski ayarı korur."
+            "value" : "Açık uygulamalar, siz onları yeniden açana kadar eski ayarı korur; bunun için kendi ayarı olan bir uygulama ise kendi ayarını korur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкриті програми зберігають старе налаштування, доки ви не відкриєте їх знову."
+            "value" : "Відкриті програми зберігають старе налаштування, доки ви не відкриєте їх знову, а програма, яка має для цього власне налаштування, зберігає його."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已打开的App在重新打开前会保留旧设置。"
+            "value" : "已打开的App在重新打开前会保留旧设置，对此有单独设置的App则会保留它自己的设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已打開的App會維持舊設定，直到你重新打開它們。"
+            "value" : "已打開的App會維持舊設定，直到你重新打開它們；而對此有自己設定的App則會維持自己的設定。"
           }
         }
       }
