@@ -41,8 +41,8 @@ The package, `Packages/PeelCore`, has four libraries:
 - **PeelLink** says what a `peel://open?path=` link means, for the Finder extension that sends it and the app that
   reads it. The extension links nothing else.
 
-Keeping the logic in the package is what makes it testable: `swift test --package-path Packages/PeelCore` runs
-more than 2,200 tests without building the app.
+Keeping the logic in the package is what makes it testable: `swift test --package-path Packages/PeelCore` runs its
+whole suite without building the app.
 
 ## Where to start reading
 
