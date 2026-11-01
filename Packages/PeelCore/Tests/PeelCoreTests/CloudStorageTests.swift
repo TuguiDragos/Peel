@@ -513,7 +513,7 @@ struct CloudStorageTests {
         #expect(collector.collected.files.isEmpty)
     }
 
-    @Test func aHomeFolderThatCannotBeReadIsNamedAndTheRestStays() async throws {
+    @Test(.permissionsHold) func aHomeFolderThatCannotBeReadIsNamedAndTheRestStays() async throws {
         let directory = try TemporaryDirectory()
         let documents = try directory.directory("Documents")
         try directory.file("Library/Mobile Documents/com~apple~CloudDocs/InICloud.png", bytes: 2_000)
