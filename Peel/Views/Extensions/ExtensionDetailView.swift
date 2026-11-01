@@ -25,6 +25,12 @@ struct ExtensionDetailView: View {
                             .help(Text(verbatim: point))
                     }
                 }
+                if let category = item.categoryName {
+                    LabeledContent("In System Settings") {
+                        Text(verbatim: category)
+                            .help(Text("In System Settings > General > Login Items & Extensions, By Category lists it under \(category)."))
+                    }
+                }
                 if let owner = item.appName {
                     LabeledContent("Comes with") {
                         HStack(spacing: 8) {

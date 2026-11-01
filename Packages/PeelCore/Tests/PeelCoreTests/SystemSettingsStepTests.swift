@@ -13,7 +13,8 @@ struct SystemSettingsStepTests {
             let lines = try String(contentsOf: file, encoding: .utf8)
                 .split(separator: "\n", omittingEmptySubsequences: false)
             for (index, line) in lines.enumerated()
-            where line.contains("\"") && line.contains("Network Extensions") && !line.contains("By Category") {
+            where line.contains("Login Items & Extensions") && line.contains("Network Extensions")
+                && !line.contains("By Category") {
                 found.append("\(path):\(index + 1)")
             }
         }

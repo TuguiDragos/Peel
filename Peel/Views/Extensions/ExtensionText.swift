@@ -10,6 +10,11 @@ extension AppExtension {
         return ExtensionPoint(point).map { String(localized: $0.word) } ?? point
     }
 
+    /// The category System Settings lists a system extension under, in its own words, or nil when Peel has no word.
+    var categoryName: String? {
+        SystemExtensionCategory(category).map { String(localized: $0.word) }
+    }
+
     /// What a row says under the name: the app it came with, or what it plugs into when it carries the app's own
     /// name, so that the parts of one app named after it read apart.
     var rowDetail: String? {
@@ -21,7 +26,32 @@ extension AppExtension {
 
     /// Whether a search for `text` finds it, by what its row and page say as well as by its identifiers.
     func matches(_ text: String) -> Bool {
-        [name, owner, pointName, point, identifier].contains { $0.map { SearchText.matches($0, text) } == true }
+        [name, owner, pointName, categoryName, point, identifier].contains {
+            $0.map { SearchText.matches($0, text) } == true
+        }
+    }
+}
+
+private enum SystemExtensionCategory {
+    case network, camera, driver, endpointSecurity
+
+    init?(_ identifier: String?) {
+        switch identifier {
+        case "com.apple.system_extension.network_extension": self = .network
+        case "com.apple.system_extension.cmio": self = .camera
+        case "com.apple.system_extension.driver_extension": self = .driver
+        case "com.apple.system_extension.endpoint_security": self = .endpointSecurity
+        default: return nil
+        }
+    }
+
+    var word: LocalizedStringResource {
+        switch self {
+        case .network: "Network Extensions"
+        case .camera: "Camera Extensions"
+        case .driver: "Driver Extensions"
+        case .endpointSecurity: "Endpoint Security Extensions"
+        }
     }
 }
 

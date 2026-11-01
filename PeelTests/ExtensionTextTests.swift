@@ -44,6 +44,27 @@ struct ExtensionTextTests {
         }
     }
 
+    @Test func saysWhichCategorySystemSettingsListsASystemExtensionUnder() throws {
+        func system(_ category: String?) -> AppExtension {
+            AppExtension(
+                identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+                url: nil, election: .on, teamIdentifier: nil, reportedState: nil, category: category
+            )
+        }
+
+        #expect(system("com.apple.system_extension.network_extension").categoryName == String(localized: "Network Extensions"))
+        #expect(system("com.apple.system_extension.cmio").categoryName == String(localized: "Camera Extensions"))
+        #expect(system("com.apple.system_extension.driver_extension").categoryName == String(localized: "Driver Extensions"))
+        #expect(
+            system("com.apple.system_extension.endpoint_security").categoryName
+                == String(localized: "Endpoint Security Extensions")
+        )
+        #expect(system("org.example.unknown").categoryName == nil)
+        #expect(system(nil).categoryName == nil)
+        let word = try #require(system("com.apple.system_extension.cmio").categoryName)
+        #expect(system("com.apple.system_extension.cmio").matches(word))
+    }
+
     @Test func findsAPartByTheWordItsPageShows() throws {
         let widget = part(name: "Example", owner: "Example", point: "com.apple.widgetkit-extension")
         let word = try #require(widget.pointName)
