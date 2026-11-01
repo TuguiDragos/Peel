@@ -248,7 +248,9 @@ struct HomebrewDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
+            Text(homebrew.overrides.contains(.keepsDependencies)
+                ? "Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it."
+                : "Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
         }
     }
 

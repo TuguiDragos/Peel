@@ -1302,6 +1302,8 @@ public enum Homebrew {
         public static let updatesItself = Overrides(rawValue: 1 << 2)
         /// Homebrew leaves casks whose apps update themselves to those apps, and never counts one outdated.
         public static let leavesAppsThatUpdateThemselves = Overrides(rawValue: 1 << 3)
+        /// An uninstall and Clean Up leave the formulae nothing needs anymore where they are.
+        public static let keepsDependencies = Overrides(rawValue: 1 << 4)
 
         /// Reads `brew config`'s answer, which lists each setting in effect as `NAME: set`.
         init(config: String) {
@@ -1314,6 +1316,7 @@ public enum Homebrew {
             if !set.contains("HOMEBREW_NO_ANALYTICS") { insert(.sendsAnalytics) }
             if !set.contains("HOMEBREW_NO_AUTO_UPDATE") || set.contains("HOMEBREW_FORCE_API_AUTO_UPDATE") { insert(.updatesItself) }
             if set.contains("HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS") { insert(.leavesAppsThatUpdateThemselves) }
+            if set.contains("HOMEBREW_NO_AUTOREMOVE") { insert(.keepsDependencies) }
         }
     }
 

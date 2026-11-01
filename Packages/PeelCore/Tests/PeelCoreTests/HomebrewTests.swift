@@ -403,6 +403,8 @@ struct HomebrewTests {
         #expect(Homebrew.Overrides(config: plain).isEmpty)
         #expect(Homebrew.Overrides(config: emptied) == [.cleansUp, .sendsAnalytics, .updatesItself])
         #expect(Homebrew.Overrides(config: forced) == [.updatesItself])
+        #expect(Homebrew.Overrides(config: plain + "\nHOMEBREW_NO_AUTOREMOVE: set") == [.keepsDependencies])
+        #expect(Homebrew.Overrides(config: plain + "\nHOMEBREW_NO_AUTOREMOVE: false").isEmpty)
     }
 
     /// A stop is the person's: once the formulae were stopped, the casks are not started.

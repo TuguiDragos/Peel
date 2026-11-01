@@ -155,10 +155,15 @@ struct HomebrewList: View {
     /// What Clean Up deletes for good, with the formulae it would uninstall named, since those are packages.
     private var cleanUpWarning: String {
         var sentences: [String] = []
+        let keepsDependencies = homebrew.overrides.contains(.keepsDependencies)
         if let reclaimable = homebrew.reclaimable, reclaimable > 0 {
-            sentences.append(String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and any formulae that were only there for something now gone, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back."))
+            sentences.append(keepsDependencies
+                ? String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions. Nothing goes to the Trash, and History can’t put it back.")
+                : String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and any formulae that were only there for something now gone, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back."))
         } else {
-            sentences.append(String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and any formulae that were only there for something now gone. Nothing goes to the Trash, and History can’t put it back."))
+            sentences.append(keepsDependencies
+                ? String(localized: "Homebrew deletes these for good: the downloads and old versions it kept. Nothing goes to the Trash, and History can’t put it back.")
+                : String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and any formulae that were only there for something now gone. Nothing goes to the Trash, and History can’t put it back."))
         }
         if let prefix = homebrew.installation?.prefix {
             sentences.append(Self.prunes(prefix))
@@ -182,7 +187,9 @@ struct HomebrewList: View {
 
     /// What the Clean Up row's note says: what Clean Up removes, and every formula it would uninstall now.
     private var cleanUpDetail: Text {
-        var removes = Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays.")
+        var removes = homebrew.overrides.contains(.keepsDependencies)
+            ? Text("Removes what Homebrew kept after installing and upgrading: cached downloads and old versions. What you installed yourself stays.")
+            : Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays.")
         if let prefix = homebrew.installation?.prefix {
             removes = Text("\(removes)\n\n\(Self.prunes(prefix))")
         }
@@ -220,6 +227,7 @@ struct HomebrewList: View {
         if overrides.contains(.sendsAnalytics) { sentences.append(String(localized: "Homebrew sends its makers analytics whenever Peel runs it.")) }
         if overrides.contains(.updatesItself) { sentences.append(String(localized: "Homebrew may download its list of packages when Peel only asks about them.")) }
         if overrides.contains(.leavesAppsThatUpdateThemselves) { sentences.append(String(localized: "When Peel runs it, Homebrew doesn’t compare the versions of apps that update themselves, so it can’t say whether they’re behind.")) }
+        if overrides.contains(.keepsDependencies) { sentences.append(String(localized: "Homebrew keeps the formulae nothing needs anymore: Uninstall and Clean Up leave them where they are.")) }
         let prefix =
             homebrew.installation?.prefix
             ?? Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
