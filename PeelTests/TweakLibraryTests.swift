@@ -58,6 +58,10 @@ struct TweakLibraryTests {
         var asked: [Tweak.Restart] = []
     }
 
+    private final class Said {
+        var lines: [String] = []
+    }
+
     private func makeLibrary(
         store: FakeTweakStore, restarts: Restarts = Restarts()
     ) throws -> (TweakLibrary, MadeUpDefaults) {
@@ -158,6 +162,42 @@ struct TweakLibraryTests {
         #expect(!library.isChangedByPeel(tweak), "the last hand on the key was the person's")
         let reopened = TweakLibrary(store: store, defaults: made.defaults, restart: { _ in })
         #expect(!reopened.isChangedByPeel(tweak))
+    }
+
+    @Test func tellsVoiceOverWhatTurnAllOffDid() async throws {
+        let store = FakeTweakStore()
+        let quiet = try #require(Self.quiet.first { if case .aSwitch = $0.kind { true } else { false } })
+        let said = Said()
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = TweakLibrary(
+            store: store, defaults: made.defaults, restart: { _ in },
+            announcing: { said.lines.append(String($0.characters)) }
+        )
+        await library.turnOn(quiet)
+
+        await library.turnAllOff()
+
+        let words = AttributedString(localized: "Put back ^[\(1) setting](inflect: true).")
+        #expect(said.lines.last == String(words.characters))
+    }
+
+    @Test func tellsVoiceOverWhichChangeMacOSRefused() async throws {
+        let store = FakeTweakStore()
+        let quiet = try #require(Self.quiet.first { if case .aSwitch = $0.kind { true } else { false } })
+        store.refuses = [quiet.id]
+        let said = Said()
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = TweakLibrary(
+            store: store, defaults: made.defaults, restart: { _ in },
+            announcing: { said.lines.append(String($0.characters)) }
+        )
+
+        await library.set(quiet, on: true).value
+
+        let title = String(localized: quiet.words.title)
+        #expect(said.lines == [String(localized: "macOS refused the change to \(title).")])
     }
 
     @Test func twoRefusedSwitchesBothSaySo() async throws {

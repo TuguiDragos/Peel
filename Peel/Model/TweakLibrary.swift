@@ -1,3 +1,4 @@
+import Accessibility
 import Foundation
 import Observation
 import PeelCore
@@ -22,6 +23,7 @@ final class TweakLibrary {
     private let defaults: UserDefaults
     private let home: URL
     private let restart: @Sendable (Tweak.Restart) async -> Void
+    private let announcing: (AttributedString) -> Void
     /// What Peel changed, and the values from before. `TweakLedger` decides what turning a switch on or off
     /// does, and is tested there.
     private var ledger: TweakLedger
@@ -35,9 +37,11 @@ final class TweakLibrary {
         store: any TweakStoring = TweakStore(),
         defaults: UserDefaults = .standard,
         home: URL = .homeDirectory,
-        restart: @escaping @Sendable (Tweak.Restart) async -> Void = TweakRestart.run
+        restart: @escaping @Sendable (Tweak.Restart) async -> Void = TweakRestart.run,
+        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() }
     ) {
         self.store = store
+        self.announcing = announcing
         self.defaults = defaults
         self.home = home
         self.restart = restart
@@ -198,6 +202,23 @@ final class TweakLibrary {
             await restart(needed)
         }
         refresh()
+        announcing(
+            Self.spoken(puttingBack: batch.changed.count, refused: batch.refused.count, restarts: batch.restarts)
+        )
+    }
+
+    /// What VoiceOver hears once Turn All Off has ended, since the bar's words change without a sound.
+    private static func spoken(puttingBack: Int, refused: Int, restarts: [Tweak.Restart]) -> AttributedString {
+        var words = AttributedString(localized: "Put back ^[\(puttingBack) setting](inflect: true).")
+        if refused > 0 {
+            words += AttributedString(" ")
+            words += AttributedString(localized: "macOS refused ^[\(refused) setting](inflect: true).")
+        }
+        for sentence in restarts.compactMap(\.sentence) {
+            words += AttributedString(" ")
+            words += AttributedString(localized: sentence)
+        }
+        return words
     }
 
     /// Saves the result of a change and restarts what the tweak needs. Nothing restarts when the setting was
@@ -206,6 +227,7 @@ final class TweakLibrary {
         defer { if isLast { asked[tweak.id] = nil } }
         if outcome == .refused { refused.insert(tweak.id) } else { refused.remove(tweak.id) }
         guard outcome != .refused else {
+            announcing(AttributedString(localized: "macOS refused the change to \(String(localized: tweak.words.title))."))
             if isLast, restartOwed.remove(tweak.id) != nil { await restart(tweak.restart) }
             refresh()
             return
