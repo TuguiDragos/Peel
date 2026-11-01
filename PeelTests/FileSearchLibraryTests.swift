@@ -34,6 +34,29 @@ struct FileSearchLibraryTests {
         })
     }
 
+    @Test func theKeyboardSelectsTheChosenFileAndTakesItOutAgain() async throws {
+        let locked = URL(filePath: "/org.example/locked.pdf")
+        let results = FileSearchResults(files: [
+            FoundFile(url: invoice, size: 1, length: 1, modificationDate: .distantPast, requiresPrivileges: false),
+            FoundFile(url: locked, size: 1, length: 1, modificationDate: .distantPast, requiresPrivileges: true),
+        ])
+        let library = FileSearchLibrary { _, _ in results }
+        library.criteria.name = "report"
+        await library.search()
+
+        #expect(!library.toggleChosen(), "no row is chosen")
+
+        library.chosen = invoice
+        #expect(library.toggleChosen())
+        #expect(library.isSelected(invoice))
+        #expect(library.toggleChosen())
+        #expect(!library.isSelected(invoice))
+
+        library.chosen = locked
+        #expect(!library.toggleChosen(), "the row's own checkbox is off")
+        #expect(!library.isSelected(locked))
+    }
+
     @Test func narrowingAnOldListLeavesTheNewOneAlone() async throws {
         let budget = URL(filePath: "/org.example/budget.pdf")
         let (first, second) = (found(invoice), found(budget))

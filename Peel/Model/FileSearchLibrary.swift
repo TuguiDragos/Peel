@@ -56,6 +56,14 @@ final class FileSearchLibrary {
         results?.files.first { $0.url == chosen }
     }
 
+    /// Selects the chosen file or takes it out, for the keyboard: a list takes focus as a whole, so Tab never reaches
+    /// a row's checkbox. False where that checkbox is off.
+    func toggleChosen() -> Bool {
+        guard let chosenFile, !chosenFile.requiresPrivileges, !isSearching, !isRemoving else { return false }
+        setSelected(!isSelected(chosenFile.url), for: chosenFile.url)
+        return true
+    }
+
     func search() async {
         generation += 1
         let current = generation

@@ -103,6 +103,7 @@ struct FileSearchList: View {
             }
         }
         .accessibilityLabel(Text(Tool.fileSearch.title))
+        .onKeyPress(.space) { search.toggleChosen() ? .handled : .ignored }
         .scrollBarBelowSectionHeaders(search.results?.files.isEmpty == false)
         .scanState(phase, isRescanning: search.isSearching, fadesInResults: false, scan: search.scanRun) {
             if search.results == nil {
