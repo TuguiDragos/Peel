@@ -805,7 +805,10 @@ struct HomebrewList: View {
 
 struct HomebrewOutputView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(HomeModel.self) private var home
     let result: HomebrewLibrary.CommandResult
+    /// True when the command replaced Peel, so the only way on is the new copy.
+    var replacedPeel = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -815,6 +818,11 @@ struct HomebrewOutputView: View {
             } icon: {
                 Image(systemName: result.succeeded ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
                     .foregroundStyle(result.succeeded ? .green : .red)
+            }
+            if replacedPeel {
+                Text("Homebrew updated Peel while it was open. Reopen Peel to finish.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
             }
             if !result.succeeded, Homebrew.askedForAPassword(in: result.output) {
                 Text("If the command needs your password, run it in Terminal.")
@@ -830,11 +838,20 @@ struct HomebrewOutputView: View {
             .frame(minHeight: 160, maxHeight: 320)
             HStack {
                 Spacer()
-                Button("Done") { dismiss() }
+                if replacedPeel {
+                    Button("Reopen Peel") {
+                        dismiss()
+                        home.relaunch()
+                    }
                     .keyboardShortcut(.defaultAction)
+                } else {
+                    Button("Done") { dismiss() }
+                        .keyboardShortcut(.defaultAction)
+                }
             }
         }
         .padding(20)
         .frame(width: 560)
+        .interactiveDismissDisabled(replacedPeel)
     }
 }

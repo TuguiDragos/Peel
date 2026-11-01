@@ -14,8 +14,8 @@ private struct StandInBrew {
 
     private var log: URL { folder.appending(path: "asked") }
 
-    /// `cleanup` is what its `brew cleanup` runs, in shell.
-    init(hasDefinitions: Bool = true, cleanup: String = ":") throws {
+    /// `cleanup` and `update` are what its `brew cleanup` and `brew update` run, in shell.
+    init(hasDefinitions: Bool = true, cleanup: String = ":", update: String = ":") throws {
         let manager = FileManager.default
         let path = folder.path(percentEncoded: false)
         let script = """
@@ -29,6 +29,7 @@ private struct StandInBrew {
           --cache) echo '\(path)cache' ;;
           info) echo '{"formulae":[],"casks":[]}' ;;
           cleanup) \(cleanup) ;;
+          update) \(update) ;;
         esac
 
         """
@@ -146,6 +147,64 @@ private struct StandInBrew {
         await homebrew.run(.upgradeAll, showsResult: false, reopening: { wasReading = homebrew.isReadingWhatChanged })
 
         #expect(wasReading == false, "an answer to a quit goes out before Homebrew is read again")
+    }
+
+    @Test func aCommandThatReplacesPeelIsToldAboveEveryPage() async throws {
+        let program = try madeUpProgram()
+        defer { try? FileManager.default.removeItem(atPath: program) }
+        let brew = try StandInBrew(update: "rm '\(program)'; echo new > '\(program)'")
+        defer { brew.goAway() }
+        let homebrew = HomebrewLibrary(ownProgram: { OwnProgram(path: program) })
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.run(.update) }
+
+        #expect(homebrew.replacedPeel != nil)
+        #expect(homebrew.result == nil)
+    }
+
+    @Test func aPageThatShowsItsOwnResultStillLeavesAReplacedPeelToTheWindow() async throws {
+        let program = try madeUpProgram()
+        defer { try? FileManager.default.removeItem(atPath: program) }
+        let brew = try StandInBrew(update: "rm '\(program)'; echo new > '\(program)'")
+        defer { brew.goAway() }
+        let homebrew = HomebrewLibrary(ownProgram: { OwnProgram(path: program) })
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.run(.update, showsResult: false) }
+
+        #expect(homebrew.replacedPeel != nil)
+    }
+
+    @Test func aCommandThatLeavesPeelAloneShowsItsResultOnItsPage() async throws {
+        let program = try madeUpProgram()
+        defer { try? FileManager.default.removeItem(atPath: program) }
+        let brew = try StandInBrew()
+        defer { brew.goAway() }
+        let homebrew = HomebrewLibrary(ownProgram: { OwnProgram(path: program) })
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.run(.update) }
+
+        #expect(homebrew.replacedPeel == nil)
+        #expect(homebrew.result != nil)
+    }
+
+    @Test func aProgramReplacedBeforeTheCommandIsNotTheCommandsDoing() async throws {
+        let program = try madeUpProgram()
+        defer { try? FileManager.default.removeItem(atPath: program) }
+        let brew = try StandInBrew()
+        defer { brew.goAway() }
+        try FileManager.default.removeItem(atPath: program)
+        try Data("rebuilt".utf8).write(to: URL(filePath: program))
+        let homebrew = HomebrewLibrary(ownProgram: { OwnProgram(path: program) })
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.run(.update) }
+
+        #expect(homebrew.replacedPeel == nil)
+    }
+
+    private func madeUpProgram() throws -> String {
+        let url = FileManager.default.temporaryDirectory.appending(path: "PeelTests-program-\(UUID().uuidString)")
+        try Data("old".utf8).write(to: url)
+        return url.path(percentEncoded: false)
     }
 
     @Test func aReadingIsLeftForTheEndOfWhatHomebrewIsDoing() async {

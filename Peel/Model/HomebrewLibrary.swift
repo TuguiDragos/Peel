@@ -21,9 +21,14 @@ final class HomebrewLibrary {
     /// another row builds another page, and the command the person asked for still has to run.
     let quittingToUpgrade = QuitBeforeRemoving()
     let quittingToUninstall = QuitBeforeRemoving()
+    @ObservationIgnored private let ownProgram: () -> OwnProgram
 
-    init(appsOfCask: @escaping (HomebrewPackage) -> [InstalledApp] = { _ in [] }) {
+    init(
+        appsOfCask: @escaping (HomebrewPackage) -> [InstalledApp] = { _ in [] },
+        ownProgram: @escaping () -> OwnProgram = OwnProgram.init
+    ) {
         self.appsOfCask = appsOfCask
+        self.ownProgram = ownProgram
     }
 
     enum Command: Equatable {
@@ -251,6 +256,9 @@ final class HomebrewLibrary {
     private var runningTask: Task<CommandResult?, Never>?
     var selection: HomebrewRow?
     var result: CommandResult?
+    /// The result of a command that replaced Peel while it ran. This process can no longer trust what it reads about
+    /// itself, so the window says so above every page.
+    var replacedPeel: CommandResult?
 
     /// Whether Homebrew answered the last reading, so its definitions are on this Mac.
     private(set) var hasAnswered = false
@@ -496,6 +504,7 @@ final class HomebrewLibrary {
         defer {
             (runningCommand, isReadingWhatChanged) = (nil, false)
         }
+        let program = ownProgram()
         let task = Task { await outcome(of: command) }
         runningTask = task
         // A quit waits for what changes something, and asks before it stops an upgrade, which can take long.
@@ -515,7 +524,11 @@ final class HomebrewLibrary {
             }
         }
         (runningTask, progress, isStopping) = (nil, nil, false)
-        if showsResult, let outcome { result = outcome }
+        if let outcome, program.isReplaced {
+            replacedPeel = outcome
+        } else if showsResult, let outcome {
+            result = outcome
+        }
         if !command.onlyLooks {
             isReadingWhatChanged = true
             await refresh(includingReclaimable: true)

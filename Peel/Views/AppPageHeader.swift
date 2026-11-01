@@ -260,7 +260,7 @@ struct AppPageHeader: View {
         // Nil when Homebrew is already running a command. The button is disabled then, so this is only a safeguard.
         guard let result = await homebrew.run(.upgrade(cask.id), showsResult: false, reopening: reopen) else { return }
         let succeeded = result.succeeded
-        upgradeOutput = succeeded ? nil : result
+        upgradeOutput = succeeded || homebrew.replacedPeel != nil ? nil : result
 
         // Homebrew's own answer is read again first: it is what says whether a version is behind, and the copy from
         // before the upgrade still said this one was. A new build gets a page of its own, which scans it.

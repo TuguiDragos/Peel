@@ -402,7 +402,11 @@ struct PeelApp: App {
                 .alert("Peel couldn’t reopen itself", isPresented: $home.couldNotRelaunch) {
                     Button("OK", role: .cancel) {}
                 } message: {
-                    Text("Quit Peel and open it again, so it can use Full Disk Access.")
+                    Text("Quit Peel and open it again.")
+                }
+                // Above every page too: the page that ran the command may be gone by the time it ends.
+                .sheet(item: $homebrew.replacedPeel) { result in
+                    HomebrewOutputView(result: result, replacedPeel: true)
                 }
                 // Every bordered button is a capsule, the shape Liquid Glass gives the system's own controls.
                 .buttonBorderShape(.capsule)

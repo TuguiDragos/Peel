@@ -554,6 +554,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   that gives it back, in place of saying another account owns it.
 - A Homebrew in `/usr/local` on a Mac with Apple silicon runs through Rosetta as a whole, and the page says it is an
   Intel one.
+- When Update Homebrew puts a new copy of Peel in place, Peel says so and offers to reopen, rather than showing its
+  helper as not installed until the next launch.
 
 #### Space
 

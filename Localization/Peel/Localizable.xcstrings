@@ -65574,6 +65574,112 @@
         }
       }
     },
+    "Homebrew updated Peel while it was open. Reopen Peel to finish." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew aktualizoval Peel, zatímco byla aplikace otevřená. Chcete-li aktualizaci dokončit, spusťte Peel znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat Peel aktualisiert, während Peel geöffnet war. Öffne Peel erneut, um das Update abzuschließen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ha actualizado Peel mientras estaba abierto. Vuelve a abrir Peel para terminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a mis à jour Peel pendant qu’il était ouvert. Rouvrez Peel pour terminer la mise à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ha aggiornato Peel mentre era aperto. Riapri Peel per completare l’aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが開いている間に、HomebrewがPeelをアップデートしました。完了するにはPeelを再度開いてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 열려 있는 동안 Homebrew가 Peel을 업데이트했습니다. 업데이트를 완료하려면 Peel을 다시 여십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft Peel bijgewerkt terwijl het geopend was. Open Peel opnieuw om de update te voltooien."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew uaktualnił aplikację Peel, gdy była otwarta. Aby zakończyć uaktualnianie, otwórz Peel ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew atualizou o Peel enquanto ele estava aberto. Reabra o Peel para concluir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a actualizat Peel în timp ce era deschis. Redeschideți Peel pentru a finaliza actualizarea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew обновил Peel, пока он был открыт. Чтобы завершить обновление, перезапустите Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew uppdaterade Peel medan appen var öppen. Öppna Peel igen för att slutföra uppdateringen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, Peel açıkken onu güncelledi. Güncellemeyi tamamlamak için Peel’i yeniden açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew оновив Peel, поки вона була відкрита. Відкрийте Peel знову, щоб завершити оновлення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew在Peel打开期间更新了它。请重新打开Peel以完成更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew已在Peel打開期間將它更新。請重新打開Peel以完成更新。"
+          }
+        }
+      }
+    },
     "Homebrew was stopped while it upgraded this cask, so its app is still in Homebrew’s folder rather than where it belongs. Reinstalling the cask in Terminal puts it back." : {
       "localizations" : {
         "cs" : {
@@ -154274,108 +154380,108 @@
         }
       }
     },
-    "Quit Peel and open it again, so it can use Full Disk Access." : {
+    "Quit Peel and open it again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončete Peel a znovu ho otevřete, aby mohl používat plný přístup k disku."
+            "value" : "Ukončete Peel a znovu ho otevřete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beende Peel und öffne es erneut, damit Peel den Festplattenvollzugriff nutzen kann."
+            "value" : "Beende Peel und öffne es erneut."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sal de Peel y vuelve a abrirlo para que pueda usar el acceso total al disco."
+            "value" : "Sal de Peel y vuelve a abrirlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quittez Peel puis rouvrez-le pour qu’il puisse utiliser l’accès complet au disque."
+            "value" : "Quittez Peel puis rouvrez-le."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esci da Peel e riaprilo, così può usare l’accesso completo al disco."
+            "value" : "Esci da Peel e riaprilo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "フルディスクアクセスを使用できるように、Peelを終了してから再度開いてください。"
+            "value" : "Peelを終了してから再度開いてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 전체 디스크 접근 권한을 사용할 수 있도록 Peel을 종료한 다음 다시 여십시오."
+            "value" : "Peel을 종료한 다음 다시 여십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop Peel en open het opnieuw, zodat het volledige schijftoegang kan gebruiken."
+            "value" : "Stop Peel en open het opnieuw."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zakończ Peel i otwórz go ponownie, aby mógł korzystać z pełnego dostępu do dysku."
+            "value" : "Zakończ Peel i otwórz go ponownie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Encerre o Peel e abra-o novamente para que ele possa usar o Acesso Total ao Disco."
+            "value" : "Encerre o Peel e abra-o novamente."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Închideți aplicația Peel și deschideți‑o din nou, ca să poată folosi Acces complet la disc."
+            "value" : "Închideți aplicația Peel și deschideți‑o din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завершите Peel и откройте его снова, чтобы он мог использовать полный доступ к диску."
+            "value" : "Завершите Peel и откройте его снова."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avsluta Peel och öppna appen igen så att den kan använda full skivtillgång."
+            "value" : "Avsluta Peel och öppna appen igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tam Disk Erişimi’ni kullanabilmesi için Peel’den çıkıp onu yeniden açın."
+            "value" : "Peel’den çıkıp onu yeniden açın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завершіть програму «Peel» і відкрийте її знову, щоб вона могла використовувати повний доступ до диска."
+            "value" : "Завершіть програму «Peel» і відкрийте її знову."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出Peel并重新打开，以便它使用完全磁盘访问权限。"
+            "value" : "退出Peel并重新打开。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "請結束Peel並重新打開，讓它能使用「完全取用磁碟」權限。"
+            "value" : "請結束Peel並重新打開。"
           }
         }
       }

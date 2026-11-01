@@ -364,8 +364,9 @@ final class HomeModel {
         return await AppExtensions.runsAnotherCopy(of: identifier, than: own.bundleURL)
     }
 
-    /// Full Disk Access reaches Peel only after it quits, so this opens a new copy and quits this one. It quits
-    /// only once the new copy is open, so the user is never left without Peel.
+    /// Full Disk Access reaches Peel only after it quits, and a copy Homebrew put in its place only once it is
+    /// opened, so this opens a new copy and quits this one. It quits only once the new copy is open, so the user is
+    /// never left without Peel.
     func relaunch() {
         let configuration = NSWorkspace.OpenConfiguration()
         configuration.createsNewApplicationInstance = true
