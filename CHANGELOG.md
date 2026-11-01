@@ -655,7 +655,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Turn All Off puts back only what Peel changed and leaves what you set yourself as it is; the sentence under it counts
   Peel's changes, and its question names them.
 - A setting set for this Mac alone, for every account by an administrator, or for every app at once shows with a lock,
-  as one a profile locks does, since Peel can't change it from where it writes.
+  as one a profile locks does, since turning the switch off, by removing Peel's key, couldn't change it.
 - The screenshot name is saved on Return or Save only.
 - The notes say that a restart of Finder stops anything it is copying, that the window manager restarts for the gaps
   between tiled windows, and that macOS's menu bar items restart for the seconds on the clock.
