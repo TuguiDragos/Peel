@@ -17,7 +17,7 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
     @ObservationIgnored private var canCheck: NSKeyValueObservation?
 
     #if DEBUG
-    /// What reads the updater as it reads once Sparkle found `version`, for `HomeSnapshot`.
+    /// The updater as it stands once Sparkle has found `version`, for `HomeSnapshot`.
     convenience init(found version: String) {
         self.init()
         newerVersion = version
