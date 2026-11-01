@@ -56,6 +56,7 @@ struct DocumentationTests {
             ("SAFETY.md", "and the \(LibraryFolder.plugIns.count) that hold plug-ins"),
             ("ARCHITECTURE.md", "at most \(HelperRequest.maximumItems) items"),
             ("ARCHITECTURE.md", "JSON keeps each value whole"),
+            ("AGENTS.md", "Peel deletes outright only five things"),
             ("ARCHITECTURE.md", "answers, within \(Int(PrivilegedHelper.answerWait)) seconds"),
             ("ARCHITECTURE.md", "at most \(Int(PrivilegedHelper.requestWait)) seconds for a request"),
             ("SAFETY.md", "quits \(idle) seconds after its last request ends"),
@@ -79,6 +80,21 @@ struct DocumentationTests {
 
         let wrong = try said.filter { try !text($0.0).contains($0.1) }
         #expect(wrong.isEmpty, "\(wrong)")
+    }
+
+    @Test func everyPlaceThatDeletesOutrightIsOneTheDocumentsName() throws {
+        let call = try Regex(#"\b(unlinkat?|rmdir|removefile|removeItem)\("#)
+        var calls: [String: Int] = [:]
+        for file in try LineLengthTests.swiftFiles() where !file.path(percentEncoded: false).contains("/Tests/") {
+            let code = try String(contentsOf: file, encoding: .utf8).split(separator: "\n")
+                .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
+            let count = code.reduce(0) { $0 + $1.matches(of: call).count }
+            if count > 0 { calls[file.lastPathComponent] = count }
+        }
+
+        #expect(calls == [
+            "TrashMover.swift": 2, "PreferenceBackup.swift": 1, "DirectoryHandle.swift": 3, "SelfRemoval.swift": 1,
+        ], "Name a new one in AGENTS.md, SAFETY.md, and ARCHITECTURE.md, and say why it holds nothing of the person's.")
     }
 
     @Test func everyAddressPrivacyMDNamesIsInSettingsPrivacy() throws {

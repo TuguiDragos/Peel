@@ -205,7 +205,8 @@ free name allows, and the move then replaces the placeholder.
 What Peel deletes outright holds nothing of yours: such a placeholder, when the move it was made for fails; the folder
 it makes to save an app's settings before a reset, when saving fails before anything is written in it; the folders it
 makes again on the way back for a Put Back, when the item then stays in the Trash and each is still the empty folder it
-made; and the empty settings file macOS writes back when Peel forgets a preference domain, as described below. Its list
+made; the folder Remove Peel gathers its own files in, once they are back out of it because its move was refused; and
+the empty settings file macOS writes back when Peel forgets a preference domain, as described below. Its list
 of refusals, with any copy of it set aside because it couldn't be read, goes to the Trash when
 `peel history --refused --clear` is asked to forget it, after a question.
 

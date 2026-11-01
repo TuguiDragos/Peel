@@ -74,11 +74,14 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
 
 - **Nothing of the user's is ever deleted for good.** Every removal goes to the Trash through `TrashService` and is
   recorded, so History can put it back. In the app it runs inside `QuitGuard.shared.run` from its first move until
-  History has it, and so does a Put Back, so quitting waits for them. Peel deletes outright only three things, none of
+  History has it, and so does a Put Back, so quitting waits for them. Peel deletes outright only five things, none of
   them the user's: the empty placeholder `TrashMover` makes to hold a name on a disk that can't rename without
   replacing (exFAT), once the move it was made for has failed; the folder `PreferenceBackup` makes for a reset's saved
-  settings, when saving fails while it is still empty; and the empty file cfprefsd writes back where a moved settings
-  file was, when `PreferenceCleanup` forgets a domain cfprefsd still holds. Peel's list of refusals, with any copy of it
+  settings, when saving fails while it is still empty; the folders Put Back makes on the way back
+  (`DirectoryHandle.child(_:makingIfMissing:)`), when the item then stays in the Trash and each is still the empty
+  folder it made; the folder Remove Peel gathers its own files in (`SelfRemoval`), once they are back out of it because
+  its move was refused; and the empty file cfprefsd writes back where a moved settings file was, when
+  `PreferenceCleanup` forgets a domain cfprefsd still holds. Peel's list of refusals, with any copy of it
   set aside because it couldn't be read, goes to the Trash when `peel history --refused --clear` asks.
 - **What History can't undo says so where the person confirms it**: Homebrew's own uninstall and its cleanups,
   resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked
