@@ -86,7 +86,6 @@ struct CleanupTests {
         let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
         let plan = cleanup(items: [(cache, 20)], service: service)
 
-        #expect(plan.items.allSatisfy { $0.refusal == nil })
         await #expect(throws: AppLookup.Failure.self) {
             try await Output.$collected.withValue(Output.Collected()) {
                 try await plan.run(
@@ -97,6 +96,24 @@ struct CleanupTests {
         }
         #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)))
         #expect(await refusals.load().records?.isEmpty == true)
+    }
+
+    @Test func aDryRunSaysEachItemStaysWhileTheExclusionsCannotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
+        let service = try service(in: directory, exclusions: .unreadable)
+        let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await cleanup(items: [(cache, 20)], service: service)
+                .run(question: "?", dryRun: true, yes: true, using: service, recordingIn: removals)
+        }
+
+        #expect(collected.output.contains("stays: your exclusions couldn't be read"))
+        #expect(collected.output.contains("Nothing here can be moved."))
+        #expect(!collected.output.contains("Total:"))
+        #expect(!collected.output.contains("Dry run"))
     }
 
     /// While History cannot be read nothing moves, and the command says so above the list, with the way out.

@@ -39,10 +39,7 @@ struct Cleanup {
                 Item(
                     url: $0.url,
                     size: $0.size,
-                    // While the exclusions can't be read the guard refuses everything, which says nothing of the
-                    // item itself: `run` then moves nothing and names the list.
-                    refusal: needingAdministrator.contains($0.url)
-                        ? .needsHelper : service.knowsTheExclusions ? service.refusal(of: $0.url) : nil
+                    refusal: needingAdministrator.contains($0.url) ? .needsHelper : service.refusal(of: $0.url)
                 )
             },
             source: source,
@@ -77,7 +74,9 @@ struct Cleanup {
         Output.table(items.map { item in
             [Output.size(item.size), Output.path(item.url)] + (saysWhyItStays ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
         })
-        Output.line("Total: \(Output.size(total))")
+        if !moving.isEmpty {
+            Output.line("Total: \(Output.size(total))")
+        }
         notes.forEach(Output.note)
         let tooMany = Self.tooMany(moving.map(\.url))
 
@@ -86,6 +85,7 @@ struct Cleanup {
             Output.line(moving.isEmpty ? "Nothing here can be moved." : "Dry run: nothing was moved.")
             return
         }
+        // The guard then refuses everything, which says nothing of the items, so no refusal is recorded.
         guard service.knowsTheExclusions else {
             throw AppLookup.Failure.exclusionsUnreadable(ExclusionStore.defaultURL.path(percentEncoded: false))
         }
