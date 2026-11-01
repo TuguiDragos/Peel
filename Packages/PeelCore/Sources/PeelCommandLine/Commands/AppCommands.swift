@@ -709,7 +709,7 @@ struct UninstallCommand: AsyncParsableCommand {
             }
             return
         }
-        if !yes {
+        if !yes, !plan.moving.isEmpty {
             let items = Output.count(plan.moving.count, "item", "items")
             try Output.confirm(resetPrivacy ? "Reset privacy permissions and move \(items) to the Trash?" : "Move \(items) to the Trash?")
         }
@@ -741,7 +741,9 @@ struct UninstallCommand: AsyncParsableCommand {
                 Output.note(privacy.line)
             }
         } else {
-            Output.line("Moved \(Output.count(result.trashed.count, "item", "items")) to the Trash.")
+            if !plan.moving.isEmpty {
+                Output.line("Moved \(Output.count(result.trashed.count, "item", "items")) to the Trash.")
+            }
             if let privacy {
                 privacy.failed ? Output.note(privacy.line) : Output.line(privacy.line)
             }
@@ -759,7 +761,10 @@ struct UninstallCommand: AsyncParsableCommand {
         if !result.failures.isEmpty {
             Self.whatFailed(result, plan: plan, app: target).forEach(Output.note)
         }
-        try Cleanup.end(failed: !result.failures.isEmpty || privacy?.failed == true, recorded: recorded)
+        let everythingStayed = plan.moving.isEmpty && !plan.staying.isEmpty
+        try Cleanup.end(
+            failed: !result.failures.isEmpty || privacy?.failed == true || everythingStayed, recorded: recorded
+        )
     }
 
     /// Returns the notes printed before the question: what the scan couldn't fully check, files that will stay, and

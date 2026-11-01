@@ -101,13 +101,13 @@ struct UninstallPlan {
     }
 
     /// Moves the bundle to the Trash on its own, then the rest only if the bundle really moved. When the app itself
-    /// stays, nothing moves.
+    /// stays, nothing moves. An app already in the Trash isn't in the plan, and its files move on their own.
     func move(using service: TrashService) async -> TrashResult {
+        guard appStays == nil else { return TrashResult() }
         let urls = moving.map(\.url)
-        guard urls.contains(app) else { return TrashResult() }
         let files = urls.filter { $0 != app }
         return await service.trash(
-            apps: [app],
+            apps: urls.filter { $0 == app },
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
             usingHelperFor: [],
             lettingTheirProgramsRun: uninstallsItself ? [app] : [],

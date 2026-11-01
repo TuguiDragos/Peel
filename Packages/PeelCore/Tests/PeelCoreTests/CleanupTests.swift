@@ -289,6 +289,21 @@ struct CleanupTests {
         #expect(records.count == 3)
     }
 
+    @Test func anUninstallMovesWhatAnAppAlreadyInTheTrashLeftBehind() async throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("home/.Trash/Editor.app")
+        let data = try directory.directory("home/Library/Caches/org.example.editor")
+        let plan = UninstallPlan(app: app, items: [
+            UninstallPlan.Item(url: data, size: 64, refusal: nil),
+        ], needsAdministrator: 0, needsReview: 0)
+
+        let result = await plan.move(using: try service(in: directory))
+
+        #expect(result.trashed.map(\.originalURL.lastPathComponent) == ["org.example.editor"])
+        #expect(result.failures.isEmpty)
+        #expect(app.isThere)
+    }
+
     @Test func anUninstallRecordsThatTheAppSharedItsStorage() async throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("home/Applications/Twin.app")
