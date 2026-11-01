@@ -65,6 +65,24 @@ struct PluginsTests {
         #expect(plugins.first { $0.name == "Own" }?.staysInTheTrash == false)
     }
 
+    @Test(.permissionsHold) func knowsAPlugInHistoryCouldNotPutBackInAFolderOfApplicationSupport() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Application Support/Avid/Audio/Plug-Ins/Synth.aaxplugin/Contents")
+        let folder = directory.url.appending(
+            path: "root/Library/Application Support/Avid/Audio/Plug-Ins", directoryHint: .isDirectory
+        )
+        try directory.setPermissions(0o555, of: folder)
+        defer { try? directory.setPermissions(0o755, of: folder) }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins
+
+        #expect(plugins.first { $0.name == "Synth" }?.staysInTheTrash == true)
+    }
+
     @Test func knowsThePlugInsNothingLoadsAnymore() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/QuickLook/Markdown.qlgenerator/Contents")
