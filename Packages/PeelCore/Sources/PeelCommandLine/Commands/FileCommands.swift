@@ -324,6 +324,7 @@ struct CachesCommand: AsyncParsableCommand {
 
     struct Record: Encodable {
         let tool: String
+        let id: String
         let size: MeasuredSize
         let locations: [Location]
 
@@ -375,11 +376,18 @@ struct CachesCommand: AsyncParsableCommand {
             Output.line("No developer caches found.")
         } else {
             for environment in environments {
-                Output.line("\(environment.name)  \(Output.size(environment.total))")
+                Output.line("\(Self.title(of: environment, among: environments))  \(Output.size(environment.total))")
                 Output.table(Self.rows(for: environment), indent: "  ")
             }
         }
         Self.notes(for: environments).forEach(Output.note)
+    }
+
+    /// A tool's name, as `peel caches <tool>` takes it. Electron apps are named for the app, so two can share a name,
+    /// and then each gets its identifier beside it.
+    static func title(of environment: DeveloperEnvironment, among environments: [DeveloperEnvironment]) -> String {
+        let isShared = environments.contains { $0.name == environment.name && $0.id != environment.id }
+        return isShared ? "\(environment.name) (\(environment.id))" : environment.name
     }
 
     static func rows(for environment: DeveloperEnvironment) -> [[String]] {
@@ -429,17 +437,20 @@ struct CachesCommand: AsyncParsableCommand {
 
     static func records(for environments: [DeveloperEnvironment]) -> [Record] {
         environments.map { environment in
-            Record(tool: environment.name, size: MeasuredSize(environment.total), locations: environment.locations.map {
-                Record.Location(
-                    path: Output.path($0.url),
-                    size: MeasuredSize($0.size),
-                    kind: $0.kind.rawValue,
-                    source: $0.source,
-                    suggested: $0.isRecommended,
-                    heldBack: heldBack(of: $0),
-                    reason: reason(for: $0)
-                )
-            })
+            Record(
+                tool: environment.name, id: environment.id, size: MeasuredSize(environment.total),
+                locations: environment.locations.map {
+                    Record.Location(
+                        path: Output.path($0.url),
+                        size: MeasuredSize($0.size),
+                        kind: $0.kind.rawValue,
+                        source: $0.source,
+                        suggested: $0.isRecommended,
+                        heldBack: heldBack(of: $0),
+                        reason: reason(for: $0)
+                    )
+                }
+            )
         }
     }
 

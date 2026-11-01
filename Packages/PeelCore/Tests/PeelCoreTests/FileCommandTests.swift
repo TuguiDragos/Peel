@@ -899,6 +899,20 @@ struct FileCommandTests {
         #expect(locations[1]["suggested"] as? Bool == false)
     }
 
+    @Test func namesEachToolSoACommandCanAskForItAlone() throws {
+        let directory = try TemporaryDirectory()
+        let one = try environment("Chat", id: "electron.org.example.one", locations: [("Library/one", .cache)], in: directory)
+        let two = try environment("Chat", id: "electron.org.example.two", locations: [("Library/two", .cache)], in: directory)
+        let rust = try environment("Rust", id: "rust", locations: [("Library/Caches/cargo", .cache)], in: directory)
+
+        let json = try Output.jsonText(CachesCommand.records(for: [one, two, rust]))
+
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+        #expect(records.map { $0["id"] as? String } == ["electron.org.example.one", "electron.org.example.two", "rust"])
+        #expect(CachesCommand.title(of: one, among: [one, two, rust]) == "Chat (electron.org.example.one)")
+        #expect(CachesCommand.title(of: rust, among: [one, two, rust]) == "Rust")
+    }
+
     /// A script reading `peel caches --json` gets, for each folder, where its tool documents it.
     @Test func tellsWhereEachCacheIsDocumented() throws {
         let directory = try TemporaryDirectory()
