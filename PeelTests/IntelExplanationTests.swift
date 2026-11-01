@@ -22,6 +22,34 @@ struct IntelExplanationTests {
         #expect(String(localized: plugin(.vst3).explanation(onAppleSilicon: false)) == String(localized: "This plug-in is Intel only. On this Intel Mac it loads natively."))
     }
 
+    @Test func saysNothingLoadsAPlugInOfAKindMacOSLeftBehind() {
+        var generator = plugin(.quickLook)
+        generator.noLongerLoaded = .quickLookGenerator
+        var part = IntelFinding(
+            url: URL(filePath: "/Applications/Example.app/Contents/Library/QuickLook/Old.qlgenerator"),
+            kind: .insideApp, name: "Old.qlgenerator", owner: "Example", size: 10
+        )
+        part.noLongerLoaded = .quickLookGenerator
+
+        #expect(String(localized: generator.explanation(onAppleSilicon: true)).contains("no longer loads"))
+        #expect(String(localized: part.explanation(onAppleSilicon: true)).contains("no longer loads"))
+    }
+
+    @Test func aUniversalAppIsNotCalledIntelOnly() {
+        let app = IntelFinding(
+            url: URL(filePath: "/Applications/Example.app"), kind: .app, name: "Example", owner: nil, size: 10,
+            prefersIntel: true
+        )
+        let intel = IntelFinding(
+            url: URL(filePath: "/Applications/Old.app"), kind: .app, name: "Old", owner: nil, size: 10
+        )
+
+        #expect(String(localized: app.badge.title) == String(localized: "Opens as Intel"))
+        #expect(String(localized: app.withoutRosetta).contains("its Intel version can’t run here"))
+        #expect(String(localized: intel.badge.title) == String(localized: "Intel only"))
+        #expect(String(localized: intel.withoutRosetta).contains("doesn’t run at all"))
+    }
+
     @Test func saysWhyAUniversalAppStillRunsThroughRosetta() {
         let app = IntelFinding(
             url: URL(filePath: "/Applications/Example.app"), kind: .app, name: "Example", owner: nil, size: 10,

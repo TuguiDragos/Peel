@@ -23,7 +23,10 @@ struct IntelList: View {
                 .listRowSeparator(.hidden)
             }
             if !intel.findings.isEmpty, let unread = unreadParts {
-                Notice(title: Text("Not Everything Could Be Read"), detail: unread, kind: .note) {
+                Notice(
+                    title: Text("Not Everything Could Be Read"), detail: unread,
+                    kind: needsFullDiskAccess ? .problem : .note
+                ) {
                     unreadActions
                 }
                 .padding(.vertical, 6)
@@ -70,11 +73,13 @@ struct IntelList: View {
                     }
                 } else {
                     ContentUnavailableView(
-                        "Nothing Needs Rosetta",
+                        HostArchitecture.isAppleSilicon ? "Nothing Needs Rosetta" : "Nothing Built for Intel Only",
                         systemImage: "checkmark.seal",
-                        // The description claims only what Peel looked at, since Intel plug-ins can be missed: the
+                        // The description claims only what Peel looked at, since Intel plug-ins can be missed, and the
                         // macOS 27 release notes say some may not appear even in System Settings.
-                        description: Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
+                        description: HostArchitecture.isAppleSilicon
+                            ? Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
+                            : Text("Nothing Peel looked at is built for Intel only: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
                     )
                 }
             }
@@ -89,7 +94,7 @@ struct IntelList: View {
         )
         .toolbar {
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, scan: intel.scanRun) {
+                RescanButton(isRunning: $isRescanning, isDisabled: !library.hasLoaded, scan: intel.scanRun) {
                     await scan()
                 }
             }

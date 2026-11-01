@@ -32,7 +32,7 @@ extension Tool {
             return total.map { AttributedString(localized: "\($0) in ^[\(count) item](inflect: true).") }
                 ?? AttributedString(localized: "^[\(count) item](inflect: true).")
         case .intel:
-            return AttributedString(localized: "^[\(count) item](inflect: true) built for Intel.")
+            return AttributedString(localized: "^[\(count) Intel item](inflect: true).")
         case .home, .packages, .backgroundItems, .extensions, .plugins, .tweaks, .terminal, .history:
             return nil
         }

@@ -30,6 +30,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public var job: BackgroundItem.ID?
     /// For an app, that it has a version for Apple silicon and asks macOS to open it as Intel (`prefersIntel`).
     public var prefersIntel = false
+    /// For a plug-in or a part inside an app, the kind nothing on macOS loads anymore (`Plugins.noLongerLoaded`).
+    public var noLongerLoaded: Plugin.NoLongerLoaded?
 
     public var id: URL { url }
 }
@@ -162,6 +164,8 @@ public enum IntelInspector {
                     name: url.lastPathComponent,
                     owner: app.name,
                     size: nil,
+                    noLongerLoaded: url.pathExtension.caseInsensitiveCompare("qlgenerator") == .orderedSame
+                        ? .quickLookGenerator : nil
                 ))
             }
         }
@@ -181,6 +185,7 @@ public enum IntelInspector {
                 owner: nil,
                 size: nil,
                 pluginCategory: plugin.category,
+                noLongerLoaded: Plugins.noLongerLoaded(plugin.url, category: plugin.category)
             ))
         }
 

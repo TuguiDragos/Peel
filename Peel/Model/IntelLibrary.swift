@@ -24,7 +24,7 @@ final class IntelLibrary {
     /// `read` scans everything the report covers, so it is complete even when the other pages were never opened.
     init(
         read: @escaping Read = { installedApps, sizes, exclusions in
-            async let backgroundItems = BackgroundItems.scan(exclusions: exclusions)
+            async let backgroundItems = BackgroundItems.scan(installedApps: installedApps, exclusions: exclusions)
             return await IntelInspector.scan(
                 installedApps: installedApps,
                 knownSizes: sizes,
@@ -123,6 +123,11 @@ extension IntelFinding {
         if prefersIntel {
             return "This app has a version for Apple silicon, but it asks macOS to open it as an Intel app, so it runs through Rosetta."
         }
+        if noLongerLoaded != nil {
+            return kind == .insideApp
+                ? "This part inside the app is Intel only, and macOS no longer loads parts of its kind, with or without Rosetta."
+                : "This plug-in is Intel only, and macOS no longer loads plug-ins of its kind, with or without Rosetta."
+        }
         guard onAppleSilicon, kind == .plugin else { return kind.explanation(onAppleSilicon: onAppleSilicon) }
         return switch pluginCategory?.intelHost {
         case .insideTheApp:
@@ -132,6 +137,21 @@ extension IntelFinding {
         default:
             kind.explanation(onAppleSilicon: onAppleSilicon)
         }
+    }
+
+    /// The name of what the page's badge says, and its note.
+    var badge: (title: LocalizedStringResource, detail: LocalizedStringResource) {
+        prefersIntel
+            ? ("Opens as Intel", "Built for both. Its Info.plist asks macOS to open it as an Intel app, so on Apple silicon it runs through Rosetta.")
+            : ("Intel only", "Built for Intel processors only. On Apple silicon it needs Rosetta.")
+    }
+
+    /// What the page says of a Mac without Rosetta: only what is sure of an app that also has a version for Apple
+    /// silicon, since what macOS then opens isn't documented.
+    var withoutRosetta: LocalizedStringResource {
+        prefersIntel
+            ? "Rosetta isn’t installed on this Mac, so its Intel version can’t run here."
+            : "Rosetta isn’t installed on this Mac, so this doesn’t run at all. macOS offers to install it the first time you open an Intel app, and macOS 27 is the last release that runs most Intel software through it."
     }
 
     /// What the row says under the name: what the finding belongs to, the job file that starts a background item, or

@@ -6,6 +6,9 @@ struct IntelDetailView: View {
     @Environment(AppLibrary.self) private var library
     @Environment(PluginLibrary.self) private var plugins
     @Environment(BackgroundItemLibrary.self) private var backgroundItems
+    @Environment(PackageLibrary.self) private var packages
+    /// The package that installed a Java runtime, whose page can move it.
+    @State private var receipt: PackageReceipt.ID?
     let finding: IntelFinding
 
     /// When `app` was last opened, for an app or a bundle inside one. Read from the list, which follows it, since
@@ -34,11 +37,12 @@ struct IntelDetailView: View {
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
-                if !HostArchitecture.isAppleSilicon {
+                // Where nothing loads it, Rosetta would change nothing, so nothing here sends the person to install it.
+                if finding.noLongerLoaded == nil, !HostArchitecture.isAppleSilicon {
                     Text("On an Apple silicon Mac it would need Rosetta.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
-                } else {
+                } else if finding.noLongerLoaded == nil {
                     if Rosetta.isInstalled {
                         // After macOS 27, Apple keeps Rosetta only for older games, which is why this says "most"
                         // rather than "all" (developer.apple.com/news, Rosetta).
@@ -48,7 +52,7 @@ struct IntelDetailView: View {
                     } else {
                         // A Mac that had Rosetta does not get it back after upgrading to macOS 27. Without it, Intel
                         // software does not run at all, so the text must not say it runs through Rosetta.
-                        Text("Rosetta isn’t installed on this Mac, so this doesn’t run at all. macOS offers to install it the first time you open an Intel app, and macOS 27 is the last release that runs most Intel software through it.")
+                        Text(finding.withoutRosetta)
                             .font(.callout)
                             .foregroundStyle(.secondary)
                         if !finding.kind.offersRosettaWhenOpened {
@@ -113,7 +117,7 @@ struct IntelDetailView: View {
             Section {
                 HStack {
                     // Show in Finder is centered when alone, and goes first when a Review button is beside it.
-                    if app == nil, !finding.isOnThePlugInsPage, finding.job == nil {
+                    if app == nil, !finding.isOnThePlugInsPage, finding.job == nil, receipt == nil {
                         Spacer()
                     }
                     Button("Show in Finder", systemImage: "folder") {
@@ -138,6 +142,12 @@ struct IntelDetailView: View {
                             Navigator.shared.requestedTool = .plugins
                         }
                         .buttonStyle(.borderedProminent)
+                    } else if let receipt {
+                        Button("Review in Package Receipts", systemImage: "shippingbox") {
+                            packages.selection = receipt
+                            Navigator.shared.requestedTool = .packages
+                        }
+                        .buttonStyle(.borderedProminent)
                     } else if let job = finding.job {
                         Button("Review in Background Items", systemImage: "gearshape.2") {
                             backgroundItems.selection = job
@@ -151,6 +161,10 @@ struct IntelDetailView: View {
             }
         }
         .formStyle(.grouped)
+        .task(id: finding.url) {
+            guard finding.kind == .javaRuntime else { return }
+            receipt = await PackageReceipts.receipts(installing: finding.url).first?.id
+        }
         .navigationTitle(Text(verbatim: finding.name))
         .toolbar(removing: .title)
     }
@@ -172,7 +186,9 @@ struct IntelDetailView: View {
         case .backgroundItem:
             "Peel only reports here. Background Items moves a job’s configuration file, not the program it runs: that goes with the software that installed it."
         case .javaRuntime:
-            "Peel only reports here. A Java runtime is its folder: to remove it, move the folder to the Trash in Finder."
+            receipt == nil
+                ? "Peel only reports here. A Java runtime is its folder: to remove it, move the folder to the Trash in Finder, which asks for an administrator’s password where only an administrator can change it."
+                : "Peel only reports here. A package installed this Java runtime, so Package Receipts can move it, and History can put it back."
         }
     }
 
@@ -191,9 +207,9 @@ struct IntelDetailView: View {
                 }
                 FlowLayout {
                     NoteBadge(
-                        title: Text("Intel only"), systemImage: "cpu",
-                        name: String(localized: "Intel only"),
-                        detail: Text("Built for Intel processors only. On Apple silicon it needs Rosetta.")
+                        title: Text(finding.badge.title), systemImage: "cpu",
+                        name: String(localized: finding.badge.title),
+                        detail: Text(finding.badge.detail)
                     )
                     Badge(
                         title: Text(finding.pluginCategory?.title ?? finding.kind.title),

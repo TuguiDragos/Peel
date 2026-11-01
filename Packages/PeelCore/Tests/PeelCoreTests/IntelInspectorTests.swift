@@ -700,6 +700,17 @@ struct IntelInspectorTests {
         #expect(scan.findings.map(\.pluginCategory) == [.vst3])
     }
 
+    @Test func knowsAPlugInOfAKindNothingLoads() async throws {
+        let directory = try TemporaryDirectory()
+        _ = try bundle(directory, "home/Library/QuickLook/Old.qlgenerator", cpuTypes: [intel])
+
+        let scan = await IntelInspector.scan(
+            installedApps: [], exclusions: .none, environment: environment(in: directory), measure: { _ in 1 }
+        )
+
+        #expect(scan.findings.map(\.noLongerLoaded) == [.quickLookGenerator])
+    }
+
     @Test(.permissionsHold) func namesWhatItCouldNotRead() async throws {
         let directory = try TemporaryDirectory()
         let closedDrivers = try directory.directory("root/Library/Printers/Closed")
