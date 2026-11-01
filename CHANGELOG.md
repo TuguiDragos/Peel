@@ -475,6 +475,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Peel says when it can't show an app another page, a notification, or a shortcut asked for.
 - Finder, a drop, and the Dock icon say when they ask for a bundle Peel can't read, with Show in Finder.
 - Escape no longer closes the Reset sheet during a reset or a Put Back, which lost Put Settings Back.
+- Reading the apps no longer brings up macOS's question about a folder that only holds another copy of an app, such as
+  Downloads.
 
 #### Orphaned Files
 

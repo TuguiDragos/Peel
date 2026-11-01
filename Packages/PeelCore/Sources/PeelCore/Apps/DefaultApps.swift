@@ -98,7 +98,7 @@ public enum DefaultApps {
     /// The real path of an app, with links resolved. macOS reports Safari at its path inside a cryptex, and
     /// `/Applications/Safari.app` is a link to it.
     private static func place(of url: URL) -> String {
-        PathPattern.comparablePath(of: PathPattern.canonical(url))
+        PathPattern.comparablePath(of: PathPattern.canonicalWithoutOpening(url))
     }
 
     static func isDefault(_ app: InstalledApp, for handler: URL?) -> Bool {

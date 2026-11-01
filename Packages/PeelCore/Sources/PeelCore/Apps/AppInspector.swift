@@ -205,9 +205,9 @@ public enum AppInspector {
     }
 
     private static func isKnown(_ url: URL, as identifier: String) -> Bool {
-        let path = PathPattern.comparablePath(of: PathPattern.canonical(url))
+        let path = PathPattern.comparablePath(of: PathPattern.canonicalWithoutOpening(url))
         return NSWorkspace.shared.urlsForApplications(withBundleIdentifier: identifier).contains {
-            PathPattern.comparablePath(of: PathPattern.canonical($0)) == path
+            PathPattern.comparablePath(of: PathPattern.canonicalWithoutOpening($0)) == path
         }
     }
 
