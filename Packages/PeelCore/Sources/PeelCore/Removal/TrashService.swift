@@ -493,21 +493,21 @@ public struct TrashService: Sendable {
         var result = TrashResult()
         var moved = Folders()
         ownMoves.began()
-        for url in urls {
+        func move(_ url: URL) {
             if let refusal = refusals[url] {
                 result.failures.append(TrashFailure(url: url, reason: .guarded(refusal)))
-                continue
+                return
             }
             // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
             let path = PathPattern.comparablePath(of: url)
-            guard !moved.hold(path) else { continue }
+            guard !moved.hold(path) else { return }
             if let refusal = refusing?(url) {
                 result.failures.append(TrashFailure(url: url, reason: refusal))
-                continue
+                return
             }
             if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
                 result.failures.append(TrashFailure(url: url, reason: held))
-                continue
+                return
             }
             do {
                 let trashedURL = try moveToTrash(url)
@@ -525,15 +525,24 @@ public struct TrashService: Sendable {
                 MoveCount.current?.add(1)
             } catch {
                 // Nothing was there to move: like an item inside a folder that moved, neither moved nor a failure.
-                if Self.foundNothing(error), url.isMissing { continue }
+                if Self.foundNothing(error), url.isMissing { return }
                 let reason = Self.reason(for: error)
                 let isLocked = reason == .notPermitted && FileAccess.isLockedInFinder(url)
                 let code: SystemError? = if case .failed = reason { SystemError(error) } else { nil }
                 result.failures.append(TrashFailure(url: url, reason: isLocked ? .locked : reason, error: code))
             }
         }
+        // A job's file goes first, and the job stops with it, so a program only that job runs moves in this pass too.
+        let jobFiles = Set(jobs.map(\.plist))
+        urls.filter(jobFiles.contains).forEach(move)
+        let stopped = await stop(jobs, thatMoved: result, canUseHelper: false)
+        if !stopped.isEmpty {
+            openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
+        }
+        urls.filter { !jobFiles.contains($0) }.forEach(move)
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
-        result.note(await finish(result, stopping: jobs, canUseHelper: false, owner: owner))
+        await forgetDomains(result.trashed.map(\.originalURL), owner)
+        result.note(stopped)
         return result
     }
 
@@ -700,7 +709,20 @@ public struct TrashService: Sendable {
         // request, and again once the last reading is older than `OpenFiles.lifetime`.
         let limit = HelperRequest.maximumItems
         var openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
-        for batch in [allowed.filter { !links.contains($0) }, allowed.filter(links.contains)] {
+        // A job's file goes first, and the job stops with it, so a program only that job runs moves in this pass too.
+        let jobFiles = Set(jobs.map(\.plist))
+        var stopped: [LaunchdCleanup.Job] = []
+        for (index, batch) in [
+            allowed.filter(jobFiles.contains),
+            allowed.filter { !links.contains($0) && !jobFiles.contains($0) },
+            allowed.filter(links.contains),
+        ].enumerated() {
+            if index == 1 {
+                stopped = await stop(jobs, thatMoved: helperResult, canUseHelper: true)
+                if !stopped.isEmpty {
+                    openFiles = OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [])
+                }
+            }
             for start in stride(from: 0, to: batch.count, by: limit) {
                 var request: [URL] = []
                 for url in batch[start..<min(start + limit, batch.count)] {
@@ -721,23 +743,19 @@ public struct TrashService: Sendable {
         ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
         result.trashed += helperResult.trashed
         result.failures += helperResult.failures
-        result.note(await finish(helperResult, stopping: jobs, canUseHelper: true, owner: nil))
+        await forgetDomains(helperResult.trashed.map(\.originalURL), nil)
+        result.note(stopped)
         return result
     }
 
-    /// Stops the jobs and forgets the preference domains of what really moved, and answers the jobs it stopped. It
-    /// runs after the move: a job stopped before a move that fails would stay stopped with its file in place, and
-    /// cfprefsd would forget settings that are still on disk.
-    private func finish(
-        _ result: TrashResult,
-        stopping jobs: [LaunchdCleanup.Job],
-        canUseHelper: Bool,
-        owner: String?
+    /// Stops the jobs whose files really moved, and answers those it stopped. It runs after the move: a job stopped
+    /// before a move that fails would stay stopped with its file in place. The preference domains of what moved are
+    /// forgotten after it too, since cfprefsd would otherwise forget settings that are still on disk.
+    private func stop(
+        _ jobs: [LaunchdCleanup.Job], thatMoved result: TrashResult, canUseHelper: Bool
     ) async -> [LaunchdCleanup.Job] {
-        let moved = result.trashed.map(\.originalURL)
-        let stopped = await stopJobs(jobs.filter { moved.contains($0.plist) }, canUseHelper)
-        await forgetDomains(moved, owner)
-        return stopped
+        let moved = Set(result.trashed.map(\.originalURL))
+        return await stopJobs(jobs.filter { moved.contains($0.plist) }, canUseHelper)
     }
 
     /// Moves `urls` through the helper. When the helper is not enabled, nothing moves and every item fails with

@@ -329,6 +329,57 @@ struct TrashServiceTests {
     }
 
     /// A job stopped before a move that then fails is a job left stopped with its file still in place.
+    private func serviceEnding(
+        _ agent: Process, in directory: borrowing TemporaryDirectory
+    ) throws -> TrashService {
+        let trash = try directory.directory("home/.Trash")
+        let move: @Sendable (URL) throws -> URL = { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        return TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            stopJobs: { jobs, _ in
+                guard !jobs.isEmpty else { return [] }
+                agent.terminate()
+                agent.waitUntilExit()
+                return jobs
+            },
+            moveThroughHelper: { urls in
+                var result = TrashResult()
+                for url in urls {
+                    if let trashed = try? move(url) {
+                        result.trashed.append(TrashedItem(originalURL: url, trashedURL: trashed, date: .now))
+                    }
+                }
+                return result
+            },
+            moveToTrash: move
+        )
+    }
+
+    @Test(arguments: [false, true])
+    func aJobsProgramMovesInThePassThatStopsTheJob(throughTheHelper: Bool) async throws {
+        let directory = try TemporaryDirectory()
+        let path = "home/Library/Application Support/Vendor/agent"
+        let agent = try directory.runningProgram(path)
+        let program = directory.url.appending(path: path)
+        let plist = try launchdPlist("home/Library/LaunchAgents/com.example.agent.plist", in: directory)
+        let service = try serviceEnding(agent, in: directory)
+
+        let result = throughTheHelper
+            ? await service.trash([program, plist], usingHelperFor: [program, plist])
+            : await service.trash([program, plist])
+
+        #expect(result.failures.isEmpty, "\(result.failures.map(\.reason))")
+        #expect(Set(result.trashed.map(\.originalURL)) == [program, plist])
+        #expect(result.trashed.first { $0.originalURL == plist }?.stoppedJob == "com.example.agent")
+    }
+
     @Test func stopsAJobOnlyOnceItsFileHasMoved() async throws {
         let directory = try TemporaryDirectory()
         let moved = try launchdPlist("home/Library/LaunchAgents/com.example.moved.plist", in: directory)
