@@ -13,6 +13,9 @@ struct AppleIntelligenceTests {
         #expect(AppleIntelligence.storage(chip: "Apple M10", memory: 24 * gibibyte) == 14_000_000_000)
         #expect(AppleIntelligence.storage(chip: "Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz", memory: 16 * gibibyte) == nil)
         #expect(AppleIntelligence.storage(chip: "Apple Mystery", memory: 16 * gibibyte) == nil)
+        #expect(AppleIntelligence.storage(chip: "Apple A18 Pro", memory: 8 * gibibyte) == 8_000_000_000)
+        #expect(AppleIntelligence.storage(chip: "Apple A17 Pro", memory: 8 * gibibyte) == nil)
+        #expect(AppleIntelligence.storage(chip: "Apple Almost", memory: 8 * gibibyte) == nil)
         #expect(AppleIntelligence.storage(chip: "", memory: 16 * gibibyte) == nil)
     }
 }
