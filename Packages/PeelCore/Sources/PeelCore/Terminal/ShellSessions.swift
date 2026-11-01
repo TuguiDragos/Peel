@@ -11,9 +11,14 @@ public enum ShellSessions: Sendable, Equatable {
         of(terminalSetting: terminal.shell(), loginShell: loginShell(), zdotdir: sessionZDOTDIR, home: home)
     }
 
-    /// The ZDOTDIR of the session Peel runs in, which Terminal's zsh starts with too, since launchd starts both.
+    /// The ZDOTDIR of the session Peel runs in, which Terminal's zsh starts with too, since launchd starts both. A Peel
+    /// started from a shell has that shell's instead.
     static var sessionZDOTDIR: String? {
-        ProcessInfo.processInfo.environment["ZDOTDIR"]
+        sessionZDOTDIR(parent: getppid(), environment: ProcessInfo.processInfo.environment)
+    }
+
+    static func sessionZDOTDIR(parent: pid_t, environment: [String: String]) -> String? {
+        parent == 1 ? environment["ZDOTDIR"] : nil
     }
 
     static func of(terminalSetting: String?, loginShell: String?, zdotdir: String?, home: URL) -> ShellSessions? {
@@ -29,9 +34,9 @@ public enum ShellSessions: Sendable, Equatable {
         }
     }
 
-    /// The `.zshrc` zsh reads, where the line that sources Peel's file goes: in the folder `ZDOTDIR` names once
-    /// `.zshenv` has run, since `.zshenv` may set it (`man zsh`, STARTUP/SHUTDOWN FILES). zsh is asked with `-c`, which
-    /// reads `.zshenv` and no other startup file, and the folder of `.zshenv` stands when it doesn't answer.
+    /// The `.zshrc` zsh reads, where the line that sources Peel's file goes: in the folder `ZDOTDIR` names before zsh
+    /// reads it, since `.zshenv` or `.zprofile` may set it (`man zsh`, STARTUP/SHUTDOWN FILES). zsh is asked as
+    /// Terminal starts it, a login shell, and the folder of `.zshenv` stands when it doesn't answer.
     public func zshrc(home: URL = .homeDirectory) async -> URL? {
         await zshrc(home: home, zdotdir: Self.sessionZDOTDIR)
     }
@@ -50,11 +55,17 @@ public enum ShellSessions: Sendable, Equatable {
             environment["ZDOTDIR"] = (zdotdir as NSString).standardizingPath
         }
         let answer = await Subprocess.run(
-            "/bin/zsh", ["-c", #"print -r -- "${ZDOTDIR:-$HOME}""#], environment: environment, timeout: 10
+            "/bin/zsh", ["-l", "-c", #"print -r -- "peel-zdotdir:${ZDOTDIR:-$HOME}""#],
+            environment: environment, timeout: 10
         )
-        // What `.zshenv` itself prints comes first, so the answer is the last line.
+        // The startup files may print too, before the answer and at logout after it.
+        let marker = "peel-zdotdir:/"
         let named: String? = if case .success(let output) = answer, output.status == 0,
-            let line = output.text.split(separator: "\n").last, line.hasPrefix("/") { String(line) } else { nil }
+            let line = output.text.split(separator: "\n").last(where: { $0.hasPrefix(marker) }) {
+            String(line.dropFirst(marker.count - 1))
+        } else {
+            nil
+        }
         return (named.map { URL(filePath: $0, directoryHint: .isDirectory) } ?? folder)
             .appending(path: ".zshrc", directoryHint: .notDirectory)
     }

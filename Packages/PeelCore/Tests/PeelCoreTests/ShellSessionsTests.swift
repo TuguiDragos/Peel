@@ -4,6 +4,28 @@ import PeelPrivileged
 import Testing
 
 struct ShellSessionsTests {
+    @Test func aZDOTDIRSetWhereALoginShellReadsItMovesTheZshrc() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file(
+            "home/.zprofile", contents: Data("export ZDOTDIR=\"$HOME/.config/zsh\"\nprint \"said at login\"\n".utf8)
+        )
+        try directory.file("home/.zlogout", contents: Data("print \"said at logout\"\n".utf8))
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
+
+        let zshrc = await zsh.zshrc(home: home, zdotdir: nil)
+
+        #expect(zshrc?.path(percentEncoded: false).hasSuffix("home/.config/zsh/.zshrc") == true)
+    }
+
+    @Test func onlyAPeelLaunchdStartedSharesTheSessionsZDOTDIR() {
+        let environment = ["ZDOTDIR": "/org.example/zsh"]
+
+        #expect(ShellSessions.sessionZDOTDIR(parent: 1, environment: environment) == "/org.example/zsh")
+        #expect(ShellSessions.sessionZDOTDIR(parent: 4_242, environment: environment) == nil)
+        #expect(ShellSessions.sessionZDOTDIR(parent: 1, environment: [:]) == nil)
+    }
+
     private let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
 
     private func sessions(setting: String?, login: String?, zdotdir: String? = nil) -> ShellSessions? {
