@@ -1,7 +1,7 @@
 import Foundation
 import Observation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Synchronization
 import Testing
 
@@ -687,6 +687,38 @@ private nonisolated final class TestClock: Sendable {
 
         let library = library(with: made.defaults, notesIn: folder)
         #expect(await library.reveal([bundle]))
+        await library.checkForUpdates([app])
+        #expect(library.hasUpdate(app))
+    }
+
+    @Test func aFirstRoundWithNoNetworkLeavesAnAnswerADayOldToTheNext() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock { $0 = newerFeed }
+        let earlier = library(with: made.defaults, notesIn: folder)
+        #expect(await earlier.reveal([bundle]))
+        let app = try #require(earlier.apps.first { $0.bundleIdentifier == "org.example.fed" })
+        keepAnAnswerTwoDaysOld(about: app, in: made.defaults)
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [AppcastProtocol.self]
+        let isOnline = Mutex(false)
+        let library = AppLibrary(
+            defaults: made.defaults,
+            updateChecker: UpdateChecker(
+                session: URLSession(configuration: configuration), appStoreWindow: .appStore,
+                isOnline: { isOnline.withLock { $0 } }
+            ),
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json"))
+        )
+        #expect(await library.reveal([bundle]))
+
+        await library.checkForUpdates([app])
+        #expect(!library.hasUpdate(app))
+
+        isOnline.withLock { $0 = true }
         await library.checkForUpdates([app])
         #expect(library.hasUpdate(app))
     }

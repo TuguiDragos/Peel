@@ -651,8 +651,12 @@ final class AppLibrary {
         // The list's own entry, not the caller's: a page that was open through an upgrade still holds the old build.
         .map { app in apps.first { $0.id == app.id } ?? app }
         guard !wanted.isEmpty else { return }
-        // With no network at all, each request would wait out its whole time, and nothing is learned of any app.
-        guard await updateChecker.canReachTheNetwork() else { return }
+        // With no network at all, each request would wait out its whole time, and nothing is learned of any app, so the
+        // first round that asks about answers a day old is still to come.
+        guard await updateChecker.canReachTheNetwork() else {
+            if isFirstRound { hasAskedSinceLaunch = false }
+            return
+        }
         let asked = Dictionary(wanted.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let round = updateRounds.begin(wanted.map(\.id))
         // However the round ends, no app is left marked as being checked by it.
