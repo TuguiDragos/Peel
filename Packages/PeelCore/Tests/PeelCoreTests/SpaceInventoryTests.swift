@@ -269,6 +269,26 @@ struct SpaceInventoryTests {
         ])
     }
 
+    @Test func aPageAsksForAnAreasPlacesWithoutWorkingThemOutAgain() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<400 {
+            try directory.file("home/Library/Containers/org.example.app\(index)/Data/Library/Caches/blob")
+        }
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: LeftoverScanner.walk
+        )
+
+        let caches = try #require(report.items.first { $0.id == "container-caches" })
+        #expect(caches.listedPlaces.isEmpty)
+        let took = processorTime {
+            for _ in 0..<100 { _ = caches.listedPlaces }
+        }
+        #expect(took < .milliseconds(100), "\(took)")
+    }
+
     @Test func measuresAFewPlacesOfAnAreaAtATime() async throws {
         let directory = try TemporaryDirectory()
         for index in 0..<8 {

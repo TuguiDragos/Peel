@@ -59,11 +59,11 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     }
 
     public var inContainers: [ContainerFolders] = []
+    /// What `inContainers` leaves of `urls`, worked out once, since the area's page asks each time it is drawn.
+    var placesNotCounted: [URL]?
 
     /// The folders of `urls` that are named one by one.
-    public var listedPlaces: [URL] {
-        urls.filter { url in !inContainers.contains { SpaceInventory.container(of: url, in: $0.parent) != nil } }
-    }
+    public var listedPlaces: [URL] { placesNotCounted ?? urls }
 }
 
 public struct SpaceReport: Sendable {
@@ -637,10 +637,18 @@ public enum SpaceInventory {
         root: URL,
         simctlRuntimeHelp help: String?
     ) -> SpaceItem {
-        let counted = [
+        let counted: [SpaceItem.ContainerFolders] = [
             ("Library/Containers", definition.containerFolders, false),
             ("Library/Group Containers", definition.groupContainerFolder.map { [$0] } ?? [], true),
-        ]
+        ].compactMap { path, folders, areGroups in
+            let parent = home.appending(path: path, directoryHint: .isDirectory)
+            let containers = Set(urls.compactMap { container(of: $0, in: parent) })
+            guard !folders.isEmpty, !containers.isEmpty else { return nil }
+            return SpaceItem.ContainerFolders(
+                parent: parent, folders: folders.map { URL(filePath: $0).lastPathComponent },
+                containers: containers.count, areGroups: areGroups
+            )
+        }
         return SpaceItem(
             id: definition.id,
             category: definition.category,
@@ -654,14 +662,9 @@ public enum SpaceInventory {
             keepsItsFolders: definition.keepsItsFolders,
             commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line),
             managingAppIsMissing: definition.managedBy.map { !$0.oneIsOnThisMac } ?? false,
-            inContainers: counted.compactMap { path, folders, areGroups in
-                let parent = home.appending(path: path, directoryHint: .isDirectory)
-                let containers = Set(urls.compactMap { container(of: $0, in: parent) })
-                guard !folders.isEmpty, !containers.isEmpty else { return nil }
-                return SpaceItem.ContainerFolders(
-                    parent: parent, folders: folders.map { URL(filePath: $0).lastPathComponent },
-                    containers: containers.count, areGroups: areGroups
-                )
+            inContainers: counted,
+            placesNotCounted: counted.isEmpty ? nil : urls.filter { url in
+                !counted.contains { container(of: url, in: $0.parent) != nil }
             }
         )
     }
