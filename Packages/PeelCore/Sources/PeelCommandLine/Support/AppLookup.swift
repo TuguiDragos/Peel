@@ -32,9 +32,16 @@ enum AppLookup {
         by exclusions: Exclusions,
         savedAt url: URL = ExclusionStore.defaultURL
     ) throws(Failure) {
-        guard !exclusions.isUnreadable else { throw .exclusionsUnreadable(url.path(percentEncoded: false)) }
-        guard exclusions.excludes(app) else { return }
-        throw .excluded(app.name)
+        if let refusal = refusal(of: app, by: exclusions, savedAt: url) { throw refusal }
+    }
+
+    static func refusal(
+        of app: InstalledApp,
+        by exclusions: Exclusions,
+        savedAt url: URL = ExclusionStore.defaultURL
+    ) -> Failure? {
+        guard !exclusions.isUnreadable else { return .exclusionsUnreadable(url.path(percentEncoded: false)) }
+        return exclusions.excludes(app) ? .excluded(app.name) : nil
     }
 
     /// Reads a bundle that isn't among the installed apps from the disk. Injected so a test doesn't depend on

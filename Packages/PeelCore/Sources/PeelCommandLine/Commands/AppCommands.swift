@@ -372,6 +372,8 @@ struct UninstallCommand: AsyncParsableCommand {
         let unreadableLocations: [String]
         let needsFullDiskAccess: Bool
         let cutShortLocations: [String]
+        /// Why the app itself would stay, which only a dry run reports: a real run refuses instead.
+        let appStays: String?
         let shellReferences: [ShellReference]
 
         struct ShellReference: Encodable {
@@ -393,6 +395,7 @@ struct UninstallCommand: AsyncParsableCommand {
             case unreadableLocations
             case needsFullDiskAccess
             case cutShortLocations
+            case appStays
             case shellReferences
         }
 
@@ -412,6 +415,7 @@ struct UninstallCommand: AsyncParsableCommand {
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
             try container.encode(needsFullDiskAccess, forKey: .needsFullDiskAccess)
             try container.encode(cutShortLocations, forKey: .cutShortLocations)
+            try container.encode(appStays, forKey: .appStays)
             try container.encode(shellReferences, forKey: .shellReferences)
         }
     }
@@ -423,13 +427,16 @@ struct UninstallCommand: AsyncParsableCommand {
         result: TrashResult?,
         privacy: PrivacyReset.Result?,
         scan: LeftoverScan,
+        appStays: String? = nil,
         shellReferences: [ShellReferences.Reference] = []
     ) -> Report {
         Report(
             app: AppRecord(app),
             dryRun: result == nil,
             items: plan.items.map { item in
-                Report.Item(path: Output.path(item.url), size: MeasuredSize(item.size), stays: item.refusal?.name)
+                Report.Item(
+                    path: Output.path(item.url), size: MeasuredSize(item.size), stays: plan.whyItStays(item)?.word
+                )
             },
             moved: (result?.trashed ?? []).map { Output.path($0.originalURL) },
             failed: (result?.failures ?? []).map {
@@ -443,6 +450,7 @@ struct UninstallCommand: AsyncParsableCommand {
             unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) },
             needsFullDiskAccess: scan.needsFullDiskAccess,
             cutShortLocations: scan.cutShortLocations.map { Output.path($0.url) },
+            appStays: appStays,
             shellReferences: shellReferences.map { Report.ShellReference(file: Output.path($0.file), line: $0.line) }
         )
     }
@@ -487,7 +495,7 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     /// What would stop the move now, as a note on a dry run, which moves nothing, and as the refusal otherwise.
-    static func note(for failure: CommandFailure?, dryRun: Bool) throws -> String? {
+    static func note(for failure: (any Error & CustomStringConvertible)?, dryRun: Bool) throws -> String? {
         guard let failure else { return nil }
         guard dryRun else { throw failure }
         return failure.description
@@ -643,16 +651,18 @@ struct UninstallCommand: AsyncParsableCommand {
     func run() async throws {
         let apps = await AppCatalog.installedApps()
         let target = try AppLookup.app(matching: app, in: apps)
-        let carried = await AppExtensions.installed(carriedBy: target)
-        if let refusal = Self.removedElsewhere(target, installedSystemExtensions: carried)
-            ?? Self.keptByMacOS(target) ?? Self.partOfAnotherPackage(target) {
-            throw refusal
+        if !dryRun {
+            let carried = await AppExtensions.installed(carriedBy: target)
+            if let refusal = Self.removedElsewhere(target, installedSystemExtensions: carried)
+                ?? Self.keptByMacOS(target) ?? Self.partOfAnotherPackage(target) {
+                throw refusal
+            }
         }
         if resetPrivacy {
             try Self.refuseIfPrivacyCannotBeReset(target)
         }
         let exclusions = await ExclusionStore().load()
-        try AppLookup.refuseIfExcluded(target, by: exclusions)
+        let excluded = try Self.note(for: AppLookup.refusal(of: target, by: exclusions), dryRun: dryRun)
         let service = TrashService(exclusions: exclusions)
         let running = try Self.note(for: await Self.whileRunning(target, among: apps), dryRun: dryRun)
         let homebrew = await CaskLookup.evidence(for: target)
@@ -667,44 +677,52 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         let access = try Self.note(for: Self.whyItStays(uninstallation), dryRun: dryRun)
         let inTheTrash = uninstallation.isAppInTheTrash ? LeftoversCommand.inTheTrash(target) : nil
-        [running, access, inTheTrash].compactMap(\.self).forEach(Output.note)
+        [excluded, running, access, inTheTrash].compactMap(\.self).forEach(Output.note)
 
         if let note = UnreadableHistory.note() {
             Output.note(note)
         }
         // The removal guard judges each item before printing, so the list shows what the move will really do.
         let plan = UninstallPlan.make(uninstallation, keepLeftovers: keepLeftovers, refusal: service.refusal(of:))
-        if let refusal = plan.appStays {
-            if !dryRun {
+        let wontMove = plan.appStays.map { "Peel won't move \(Output.plain(Output.path(target.url))): \($0.summary)." }
+        if let wontMove {
+            guard dryRun else {
                 _ = await plan.record(TrashResult(), from: target.name)
+                throw CommandFailure("\(wontMove) Nothing of \(Output.plain(target.name)) was touched.")
             }
-            throw CommandFailure("Peel won't move \(Output.plain(Output.path(target.url))): \(refusal.summary). Nothing of \(Output.plain(target.name)) was touched.")
+            Output.note("\(wontMove) While it stays, none of its files moves.")
         }
         if !output.json {
             // The third column appears only when some item stays, so an ordinary list has no trailing spaces.
-            let staying = !plan.staying.isEmpty
-            if plan.items.isEmpty {
-                Output.line("Nothing here can be moved.")
-            } else {
+            let saysWhy = plan.moving.count < plan.items.count
+            if !plan.items.isEmpty {
                 Output.table(plan.items.map { item in
-                    [Output.size(item.size), Output.path(item.url)] + (staying ? [item.refusal.map { "stays: \($0.summary)" } ?? "moves"] : [])
+                    let stays = plan.whyItStays(item).map { "stays: \($0.summary)" }
+                    return [Output.size(item.size), Output.path(item.url)] + (saysWhy ? [stays ?? "moves"] : [])
                 })
-                Output.line("Total: \(Output.size(plan.total))")
             }
+            Output.line(plan.moving.isEmpty ? "Nothing here can be moved." : "Total: \(Output.size(plan.total))")
         }
-        // With `--json`, standard output is the report alone, so the warnings go where the notes go.
-        let warnings = Self.warnings(moving: Set(plan.moving.map(\.url)), of: target, resettingPrivacy: resetPrivacy)
         let isInTheDock = !(await DockTiles().holding([target.url])).isEmpty
-        let dock = Self.dockNote(for: target, isInTheDock: isInTheDock, keeping: keepInDock)
-        let webApp = Self.browserName(of: target, among: apps).flatMap { Self.webAppNote(for: target, browserName: $0) }
-        (warnings + [dock, webApp].compactMap(\.self)).forEach(output.json ? Output.note : Output.line)
+        // With `--json`, standard output is the report alone, so the warnings go where the notes go.
+        if !plan.moving.isEmpty {
+            let moving = Set(plan.moving.map(\.url))
+            let warnings = Self.warnings(moving: moving, of: target, resettingPrivacy: resetPrivacy)
+            let dock = Self.dockNote(for: target, isInTheDock: isInTheDock, keeping: keepInDock)
+            let webApp = Self.browserName(of: target, among: apps)
+                .flatMap { Self.webAppNote(for: target, browserName: $0) }
+            (warnings + [dock, webApp].compactMap(\.self)).forEach(output.json ? Output.note : Output.line)
+        }
         Self.whatStays(plan, app: target, homebrew: homebrew, scan: uninstallation.scan).forEach(Output.note)
 
         guard !dryRun else {
             if output.json {
-                let scan = uninstallation.scan
-                try Output.json(Self.report(app: target, plan: plan, result: nil, privacy: nil, scan: scan))
-            } else {
+                let report = Self.report(
+                    app: target, plan: plan, result: nil, privacy: nil, scan: uninstallation.scan,
+                    appStays: excluded ?? access ?? wontMove
+                )
+                try Output.json(report)
+            } else if !plan.moving.isEmpty {
                 Output.line(resetPrivacy ? "Dry run: nothing was moved or reset." : "Dry run: nothing was moved.")
             }
             return

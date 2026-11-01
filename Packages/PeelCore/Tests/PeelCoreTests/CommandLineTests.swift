@@ -924,6 +924,49 @@ struct CommandLineTests {
             refusal: { $0 == app.url ? .guarded(.protectedLocation) : nil }
         )
         #expect(refused.appStays == .guarded(.protectedLocation))
+        #expect(refused.moving.isEmpty)
+        #expect(refused.items.compactMap { refused.whyItStays($0)?.word } == ["protected-place", "app-stays"])
+        #expect(refused.items.compactMap { refused.whyItStays($0)?.summary }.last == "its app stays")
+    }
+
+    @Test func listsNothingAsMovingForAnAppThatStaysHoweverItIsAsked() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Admin.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.admin", name: "Admin"
+        )
+        let kept = Uninstallation(
+            app: app, appSize: 0, appRequiresPrivileges: true,
+            scan: LeftoverScan(leftovers: [], unreadableLocations: [])
+        )
+
+        #expect(UninstallPlan.make(kept, keepLeftovers: true, refusal: { _ in nil }).items.isEmpty)
+        #expect(UninstallPlan.make(kept, keepLeftovers: false, refusal: { _ in nil }).items.isEmpty)
+    }
+
+    @Test func aDryRunWritesThePlanAndWhyWhenTheAppItselfWouldStay() async throws {
+        let directory = try TemporaryDirectory()
+        _ = try directory.directory("Synced/.stfolder")
+        let info: [String: Any] = ["CFBundleIdentifier": "org.example.kept", "CFBundleName": "Kept"]
+        _ = try directory.file(
+            "Synced/Kept.app/Contents/Info.plist",
+            contents: try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+        )
+        let bundle = directory.url.appending(path: "Synced/Kept.app").path(percentEncoded: false)
+        let command = try #require(
+            try PeelCommand.parseAsRoot(["uninstall", bundle, "--dry-run", "--json"]) as? UninstallCommand
+        )
+        let collected = Output.Collected()
+
+        try await Homebrew.$standIn.withValue(directory.url.appending(path: "no-brew")) {
+            try await Output.$collected.withValue(collected) { try await command.run() }
+        }
+
+        let report = try #require(JSONSerialization.jsonObject(with: Data(collected.output.utf8)) as? [String: Any])
+        #expect(report["dryRun"] as? Bool == true)
+        #expect((report["appStays"] as? String)?.hasPrefix("Peel won't move") == true)
+        let items = try #require(report["items"] as? [[String: Any]])
+        #expect(items.map { $0["stays"] as? String } == ["in-the-cloud"])
+        #expect(collected.notes.contains("While it stays, none of its files moves."))
     }
 
     /// What stays is counted where the user can see it, and a size nobody knows is never added up as zero.

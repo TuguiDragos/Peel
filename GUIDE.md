@@ -401,10 +401,11 @@ when you open Peel again from the menu bar, Finder, or Spotlight.
   and `updates` take `--json`, which lists and never moves, so `--json` with `--remove` is refused rather than guessed
   at, and `uninstall --json` reports once the move is done: each item and why it stays, what moved, what failed and
   why, whether the privacy reset happened, the folders Peel couldn't read, and the lines of your shell files that
-  still name what moved. `leftovers --json` says in `appStays` why the app itself would stay, when it would, since
-  none of its files moves then. A size nobody knows is `null`, never zero, and what a scan couldn't read is said on
-  standard error too. The exit status says how it ended: 0 when it did what was asked, 1 when something failed or
-  stayed where it was, 2 when you answered no, and 64 when the command is wrong or it would have to ask and can't.
+  still name what moved. `leftovers --json` and `uninstall --dry-run --json` say in `appStays` why the app itself would
+  stay, when it would, since none of its files moves then. A size nobody knows is `null`, never zero, and what a scan
+  couldn't read is said on standard error too. The exit status says how it ended: 0 when it did what was asked, which
+  for `--dry-run` is showing the plan, whatever would stay, 1 when something failed or stayed where it was, 2 when you
+  answered no, and 64 when the command is wrong or it would have to ask and can't.
 - **Completions and manual.** A Homebrew install sets up its completions for zsh, bash, and fish, and its manual
   page, `man peel`. Otherwise `peel --generate-completion-script zsh` (or `bash`, or `fish`) writes the
   completions for your shell, and `man /Applications/Peel.app/Contents/Resources/man/peel.1` shows the manual page.

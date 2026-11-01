@@ -26,7 +26,7 @@ struct UninstallPlan {
     var makersFolderNames: Set<String> = []
     var appSharesStorage = false
 
-    var moving: [Item] { items.filter { $0.refusal == nil } }
+    var moving: [Item] { appStays == nil ? items.filter { $0.refusal == nil } : [] }
     var staying: [Item] { items.filter { $0.refusal != nil } }
     var total: SizeTotal {
         SizeTotal(movingItemsAt: Dictionary(moving.map { ($0.url, $0.size) }) { first, _ in first })
@@ -35,6 +35,11 @@ struct UninstallPlan {
     /// Why the app itself stays, or nil when it moves. When the app stays, nothing else may move: the files of an
     /// app that is still installed aren't leftovers.
     var appStays: TrashFailure.Reason? { items.first { $0.url == app }?.refusal }
+
+    func whyItStays(_ item: Item) -> (word: String, summary: String)? {
+        if let refusal = item.refusal { return (refusal.name, refusal.summary) }
+        return appStays == nil ? nil : ("app-stays", "its app stays")
+    }
 
     /// Builds the plan with the bundle first. macOS refuses to move another developer's app without the App
     /// Management permission, and if that refusal came last, the app would stay installed with its settings already
@@ -46,7 +51,8 @@ struct UninstallPlan {
     ) -> UninstallPlan {
         let app = uninstallation.app.url
         // An app already in the Trash doesn't move again, and what it left behind still can.
-        let bundle: Set<URL> = uninstallation.isAppInTheTrash ? [] : [app]
+        let leavesTheAppOut = uninstallation.isAppInTheTrash || uninstallation.appStays(canUseHelper: false)
+        let bundle: Set<URL> = leavesTheAppOut ? [] : [app]
         let selection = keepLeftovers ? bundle : uninstallation.suggestedSelection(canUseHelper: false)
         let ordered = [app] + uninstallation.removalOrder(of: selection).filter { $0 != app }
         let leftovers = Dictionary(
@@ -103,7 +109,6 @@ struct UninstallPlan {
     /// Moves the bundle to the Trash on its own, then the rest only if the bundle really moved. When the app itself
     /// stays, nothing moves. An app already in the Trash isn't in the plan, and its files move on their own.
     func move(using service: TrashService) async -> TrashResult {
-        guard appStays == nil else { return TrashResult() }
         let urls = moving.map(\.url)
         let files = urls.filter { $0 != app }
         return await service.trash(
