@@ -3,6 +3,10 @@ public import Foundation
 public enum OpenRequest {
     public static func application(amongSelected items: [URL]) -> URL? {
         guard items.count == 1, items[0].pathExtension == "app" else { return nil }
+        // Nothing moves from the sealed system, so the item would only lead to a page saying so. `/System/Volumes`
+        // is where a disk's own data shows, and a person's app may be reached through it.
+        let path = items[0].path(percentEncoded: false)
+        guard !path.hasPrefix("/System/") || path.hasPrefix("/System/Volumes/") else { return nil }
         return items[0]
     }
 

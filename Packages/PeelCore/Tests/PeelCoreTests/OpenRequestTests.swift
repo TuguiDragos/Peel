@@ -67,6 +67,17 @@ struct OpenRequestTests {
         #expect(OpenRequest.application(amongSelected: [app, document]) == nil)
     }
 
+    @Test func offersNothingForAnAppOfTheSealedSystem() {
+        func offered(_ path: String) -> Bool {
+            OpenRequest.application(amongSelected: [URL(filePath: path, directoryHint: .isDirectory)]) != nil
+        }
+
+        #expect(!offered("/System/Applications/Calculator.app"))
+        #expect(!offered("/System/Library/CoreServices/Finder.app"))
+        #expect(offered("/System/Volumes/Data/Applications/Foo.app"))
+        #expect(offered("/Applications/Safari.app"))
+    }
+
     @Test func theLinkGoesToTheCopyThatHoldsTheExtension() {
         let inside = URL(filePath: "/Applications/Peel.app/Contents/PlugIns/PeelFinder.appex")
         let alone = URL(filePath: "/Users/x/Build/Products/Debug/PeelFinder.appex")
