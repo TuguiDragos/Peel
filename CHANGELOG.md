@@ -610,7 +610,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Terminal
 
 - With Peel's prompt on, the Shell tab asks zsh which prompt a new window shows, and names the function that sets its
-  own before each command, as Starship and Powerlevel10k do, or says that something sets it after Peel's file is read.
+  own before each command, as Powerlevel10k does, or says that something sets it after Peel's file is read, as Starship
+  does below Peel's line.
 - The Shell, SSH, and Git tabs say when Peel's own file couldn't be read or when zsh, ssh, or Git didn't answer, and the
   Tools tab says so while it asks Homebrew.
 
