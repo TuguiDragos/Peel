@@ -180,6 +180,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Sidebar is the first section of General.
 - App Folders and Exclusions add and remove with `+` and `-` at the foot of each list, and the Helper tab keeps its
   state and its buttons on one row.
+- Exclusions' `+` for apps opens a short list with a search field, rather than a menu that ran to the edge of the
+  screen.
 
 #### Applications
 
@@ -197,6 +199,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Orphaned Files
 
 - A group holding an audio plug-in reads unsure, since music apps load it on their own.
+- This Belongs To… opens a short list of apps with a search field, rather than a menu that ran to the edge of the
+  screen.
 
 #### Intel Software
 

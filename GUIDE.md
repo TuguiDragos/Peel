@@ -363,7 +363,7 @@ It sets up the command line as well:
   page the folders named exactly with its identifier, such as its caches, and an update it downloaded; to keep its
   other files, such as plug-ins or a folder named after it, exclude them too. Add them in
   Settings > Exclusions, or Control-click a row and choose Exclude from Peel. In Orphaned Files, Control-click a
-  group and choose This Belongs To, and Peel stops listing it while the app you chose is installed.
+  group and choose This Belongs To…, and Peel stops listing it while the app you chose is installed.
 
 ## Work your way
 

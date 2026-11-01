@@ -32,13 +32,16 @@ public struct AppListFilter: Sendable, Hashable {
     public func keeps(
         _ app: InstalledApp, source: AppSource, developer appsDeveloper: String?, isUnused: Bool
     ) -> Bool {
-        if !text.isEmpty, !app.names.contains(where: { SearchText.matches($0, text) }),
-           !(app.bundleIdentifier.map { SearchText.matches($0, text) } ?? false),
-           !(appsDeveloper.map { SearchText.matches($0, text) } ?? false) {
-            return false
-        }
+        guard Self.matches(app, text: text, developer: appsDeveloper) else { return false }
         if !sources.isEmpty, !sources.contains(source) { return false }
         if let developer, appsDeveloper != developer { return false }
         return !onlyUnused || isUnused
+    }
+
+    /// Whether the words typed name the app, by any of its names, its identifier, or who makes it.
+    public static func matches(_ app: InstalledApp, text: String, developer: String?) -> Bool {
+        text.isEmpty || app.names.contains { SearchText.matches($0, text) }
+            || (app.bundleIdentifier.map { SearchText.matches($0, text) } ?? false)
+            || (developer.map { SearchText.matches($0, text) } ?? false)
     }
 }

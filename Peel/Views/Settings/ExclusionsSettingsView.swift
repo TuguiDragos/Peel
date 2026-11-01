@@ -7,6 +7,7 @@ struct ExclusionsSettingsView: View {
     @Environment(AppLibrary.self) private var library
     @Environment(OrphanLibrary.self) private var orphans
     @State private var isChoosingPaths = false
+    @State private var isChoosingApp = false
     @State private var refused: [String] = []
     @State private var selectedPaths: Set<URL> = []
     @State private var selectedApps: Set<String> = []
@@ -132,30 +133,30 @@ struct ExclusionsSettingsView: View {
                     }
                 }
                 ListEditingButtons {
-                    Menu {
+                    Button("Add App…", systemImage: "plus") {
+                        isChoosingApp = true
+                    }
+                    .help(Text("Add App…"))
+                    .popover(isPresented: $isChoosingApp, arrowEdge: .bottom) {
                         // An app with no identifier is left alone by where it is, as its Control-click menu does.
-                        ForEach(
-                            library.apps.filter { app in
+                        AppChooser(
+                            apps: library.apps.filter { app in
                                 app.bundleIdentifier.map { !exclusions.exclusions.excludes(bundleIdentifier: $0) }
                                     ?? !exclusions.exclusions.excludes(app.url)
                             }
                         ) { app in
-                            Button(app.name) {
-                                Task {
-                                    if let identifier = app.bundleIdentifier {
-                                        await exclusions.add(bundleIdentifier: identifier)
-                                    } else {
-                                        await exclusions.add(paths: [app.url])
-                                    }
+                            isChoosingApp = false
+                            Task {
+                                if let identifier = app.bundleIdentifier {
+                                    await exclusions.add(bundleIdentifier: identifier)
+                                } else {
+                                    await exclusions.add(paths: [app.url])
                                 }
                             }
                         }
-                    } label: {
-                        Label("Add App", systemImage: "plus")
+                        .frame(width: 280)
+                        .padding(10)
                     }
-                    .menuStyle(.button)
-                    .fixedSize()
-                    .help(Text("Add App"))
                     Button("Remove", systemImage: "minus") {
                         let removed = selectedApps
                         selectedApps = []

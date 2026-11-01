@@ -9,6 +9,7 @@ struct OrphanList: View {
     @State private var searchText = ""
     @State private var isRescanning = false
     @State private var notGivenTo: String?
+    @State private var groupToGive: OrphanGroup?
 
     var body: some View {
         @Bindable var orphans = orphans
@@ -29,16 +30,7 @@ struct OrphanList: View {
         .contextMenu(forSelectionType: OrphanPage.self) { pages in
             if pages.count == 1, case .group(let id)? = pages.first,
                let group = filtered.first(where: { $0.id == id }) {
-                Menu("This Belongs To") {
-                    // What a group belongs to is kept by the app's identifier.
-                    let apps = library.apps.filter { $0.bundleIdentifier != nil }
-                        .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
-                    ForEach(apps) { app in
-                        Button(app.name) {
-                            if !orphans.give(group, to: app) { notGivenTo = app.name }
-                        }
-                    }
-                }
+                Button("This Belongs To…") { groupToGive = group }
             }
         }
         .scanState(phase(filtered, forAnAdministrator), isRescanning: isRescanning, scan: orphans.scanRun) {
@@ -151,6 +143,31 @@ struct OrphanList: View {
         }
         .rescanOnExclusionChange("OrphanList") { await orphans.refresh(from: library) }
         .rescanAfterPutBack(.orphans) { await orphans.refresh(from: library) }
+        .sheet(item: $groupToGive) { group in
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("This Belongs To")
+                        .font(.headline)
+                    Text(verbatim: group.title)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+                // What a group belongs to is kept by the app's identifier.
+                AppChooser(apps: library.apps.filter { $0.bundleIdentifier != nil }) { app in
+                    groupToGive = nil
+                    if !orphans.give(group, to: app) { notGivenTo = app.name }
+                }
+                HStack {
+                    Spacer()
+                    Button("Cancel", role: .cancel) { groupToGive = nil }
+                        .keyboardShortcut(.cancelAction)
+                }
+            }
+            .frame(width: 410)
+            .padding(20)
+        }
         .alert(
             "Peel couldn’t save that these files belong to \(notGivenTo ?? "")",
             isPresented: Binding(get: { notGivenTo != nil }, set: { if !$0 { notGivenTo = nil } })
