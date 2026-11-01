@@ -163,6 +163,8 @@ public enum ProjectArtifacts {
     enum Proof: Sendable {
         /// A file the tool always writes inside, as `venv` writes `pyvenv.cfg`.
         case holds(String)
+        /// That file, inside or in a folder directly inside: tox and Nox tag the folder that holds their environments.
+        case holdsAtOrOneLevelDown(String)
         /// Nothing but files with this ending, as Python writes only compiled `.pyc` files into `__pycache__`.
         case holdsOnlyFilesEnding(String)
         /// Nothing but entries with these names, `including` among them.
@@ -176,6 +178,9 @@ public enum ProjectArtifacts {
                 var info = stat()
                 let path = url.appending(path: name).path(percentEncoded: false)
                 return lstat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFREG
+            case .holdsAtOrOneLevelDown(let name):
+                let inside = ProjectArtifacts.contents(of: url)?.filter(ProjectArtifacts.isRealFolder) ?? []
+                return ([url] + inside).contains { Proof.holds(name).holds(at: $0) }
             case .holdsOnly(let names, let including):
                 let path = url.path(percentEncoded: false)
                 let entries = Set((try? FileManager.default.contentsOfDirectory(atPath: path)) ?? [])
@@ -553,7 +558,8 @@ public enum ProjectArtifacts {
         // uv and virtualenv tag every environment they make as a cache, whatever it is called.
         Definition(
             name: "*", markers: [], tool: "Python", isGeneric: false, isEnvironment: true,
-            source: "https://peps.python.org/pep-0405/", proof: .holds("pyvenv.cfg"), isFoundOnlyByItsTag: true
+            source: "https://peps.python.org/pep-0405/", proof: .holdsAtOrOneLevelDown("pyvenv.cfg"),
+            isFoundOnlyByItsTag: true
         ),
         // And beside a Python project's own file, any folder holding `pyvenv.cfg` is one, whatever it is called.
         Definition(

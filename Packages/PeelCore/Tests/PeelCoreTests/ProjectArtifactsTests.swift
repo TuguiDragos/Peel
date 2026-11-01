@@ -1526,6 +1526,21 @@ struct ProjectArtifactsTests {
         #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
     }
 
+    @Test func aFolderOfEnvironmentsKnownOnlyByItsTagIsNoCache() async throws {
+        let directory = try TemporaryDirectory()
+        let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n".utf8)
+        try directory.file("Code/tool/main.py")
+        try directory.file("Code/tool/.tox/CACHEDIR.TAG", contents: tag)
+        try directory.file("Code/tool/.tox/py311/pyvenv.cfg")
+        try age(directory.url, days: 60)
+
+        let scan = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Code")])
+
+        #expect(scan.artifacts.map(\.name) == [".tox"])
+        #expect(scan.artifacts.first?.isEnvironment == true)
+        #expect(scan.artifacts.first?.isRecommended == false)
+    }
+
     @Test func oneChosenFolderInsideAnotherNamesTheSameProjectEveryTime() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("root/repo/.git")
@@ -1561,7 +1576,7 @@ struct ProjectArtifactsTests {
             let name = definition.name.hasSuffix("*") ? definition.name.dropLast() + "debug" : definition.name
             let artifact = "\(project)/\(name)"
             switch definition.proof {
-            case .holds(let file): try directory.file("\(artifact)/\(file)")
+            case .holds(let file), .holdsAtOrOneLevelDown(let file): try directory.file("\(artifact)/\(file)")
             case .holdsOnlyFilesEnding(let ending): try directory.file("\(artifact)/module\(ending)")
             case .holdsOnly(_, let including): try directory.file("\(artifact)/\(including)/content")
             case .holdsOnlyFoldersNamedByDigest(let characters):
