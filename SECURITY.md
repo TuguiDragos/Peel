@@ -181,12 +181,13 @@ have, and anything that destroys data that cannot be recovered.
   write anything but what the user chose, or to write it anywhere else, such as through a link, is
   in scope.
 
-**Peel's website and Homebrew tap.**
+**Peel's website and its old Homebrew tap.**
 
-- peel.tuguidragos.com, which GitHub Pages serves from this repository's `docs/` folder, and the
-  Homebrew tap, `TuguiDragos/homebrew-tap`, which `brew install --cask tuguidragos/tap/peel` reads. A
-  way to change what either shows or installs, or to send its downloads anywhere but this
-  repository's releases, is in scope.
+- peel.tuguidragos.com, which GitHub Pages serves from this repository's `docs/` folder, and
+  `TuguiDragos/homebrew-tap`, the old tap, which only points `tuguidragos/tap/peel` to Homebrew's
+  official cask. A way to change what either shows or installs, or to send its downloads anywhere
+  but this repository's releases, is in scope. A problem in the cask itself goes to
+  [Homebrew](https://github.com/Homebrew/homebrew-cask/security/policy).
 
 ### Out of scope
 
