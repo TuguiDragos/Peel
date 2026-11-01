@@ -189,7 +189,7 @@ struct LeftoversCommand: AsyncParsableCommand {
     }
 
     func run() async throws {
-        let apps = await AppCatalog.installedApps()
+        let apps = AppLookup.apps(from: await AppCatalog.scan())
         let target = try AppLookup.app(matching: app, in: apps)
         let exclusions = await ExclusionStore().load()
         try AppLookup.refuseIfExcluded(target, by: exclusions)
@@ -649,7 +649,7 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     func run() async throws {
-        let apps = await AppCatalog.installedApps()
+        let apps = AppLookup.apps(from: await AppCatalog.scan())
         let target = try AppLookup.app(matching: app, in: apps)
         if !dryRun {
             let carried = await AppExtensions.installed(carriedBy: target)

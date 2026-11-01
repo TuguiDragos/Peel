@@ -544,6 +544,17 @@ struct CommandLineTests {
             == "No leftovers Peel suggests. 11 files need review. Add --all to see them.")
     }
 
+    @Test func leftoversAndUninstallSayWhichAppFoldersCouldNotBeRead() {
+        let folder = URL(filePath: "/Volumes/org.example.Sleeping/Apps")
+        let scan = AppScan(apps: [], unreadable: [folder], needsFullDiskAccess: false)
+        let collected = Output.Collected()
+
+        let apps = Output.$collected.withValue(collected) { AppLookup.apps(from: scan) }
+
+        #expect(apps.isEmpty)
+        #expect(collected.notes.contains(folder.path(percentEncoded: false)))
+    }
+
     @Test func theLeftoversReportSaysWhereItCouldNotLook() throws {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))

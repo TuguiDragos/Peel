@@ -44,6 +44,13 @@ enum AppLookup {
         return exclusions.excludes(app) ? .excluded(app.name) : nil
     }
 
+    /// The apps Peel could read, once it has said what it couldn't: a file shared with an app it didn't see would
+    /// otherwise read as the chosen app's alone.
+    static func apps(from catalog: AppScan) -> [InstalledApp] {
+        if let note = Output.unreadableNote(for: catalog) { Output.note(note) }
+        return catalog.apps
+    }
+
     /// Reads a bundle that isn't among the installed apps from the disk. Injected so a test doesn't depend on
     /// the folder it runs from.
     typealias Inspect = (URL) -> InstalledApp?
