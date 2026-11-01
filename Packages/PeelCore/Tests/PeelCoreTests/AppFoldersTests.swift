@@ -115,6 +115,11 @@ struct AppFoldersTests {
         #expect(reached.isThere)
         #expect(AppFolders.refusal(of: reached, home: directory.url) == nil)
         #expect(AppFolders.refusal(of: URL(filePath: "/System/Applications"), home: directory.url) == .tooBroad)
+        #expect(AppFolders.refusal(of: URL(filePath: "/System/Volumes/Data/Users"), home: directory.url) == .tooBroad)
+        #expect(
+            AppFolders.refusal(of: URL(filePath: "/System/Volumes/Data/Applications"), home: directory.url)
+                == .alreadyLookedIn
+        )
     }
 
     @Test func namesWhatItLeavesOutAndKeepsItUntilItIsTakenOff() throws {

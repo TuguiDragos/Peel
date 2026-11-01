@@ -117,9 +117,12 @@ public struct AppFolders: Sendable {
         // A whole disk other than the startup disk, and macOS's own folders, which hold no app of anyone else's.
         let names = PathComponents.of(path)
         if names.count == 2 && names[0] == "volumes" { return .tooBroad }
-        // `/System/Volumes/Data` is every folder of the data volume again, under another name.
-        if names.first == "system", PathComponents.of(folded(PathPattern.canonical(folder))).first == "system" {
-            return .tooBroad
+        // `/System/Volumes/Data` is every folder of the data volume again, under another name, so such a folder is
+        // judged as what the kernel names it. What keeps that name is macOS's own.
+        if names.first == "system" {
+            let place = PathPattern.canonical(folder)
+            guard PathComponents.of(folded(place)).first != "system" else { return .tooBroad }
+            return refusal(of: place, home: home, isInTheCloud: isInTheCloud)
         }
         if TrashService.isAtOrInsideATrash(folder, home: home) { return .inATrash }
         // Listing a folder a cloud keeps can download what it holds.
