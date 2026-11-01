@@ -77,9 +77,9 @@ public struct FileSearchResults: Sendable {
     public var syncedBy: [SyncKeeper] = []
     /// False when the query itself could not be made or run, which is not the same as finding nothing.
     public var didRun = true
-    /// The disks Spotlight doesn't index, named as Finder names them, asked only when nothing was found.
+    /// The disks Spotlight doesn't index, named as Finder names them.
     public var unindexedDisks: [String] = []
-    /// True when Spotlight indexes none of the disks searched.
+    /// True when nothing was found and Spotlight indexes none of the disks searched.
     public var isNothingIndexed = false
 }
 
@@ -160,14 +160,16 @@ public enum FileSearch {
         MDQuerySetSearchScope(query, [scope] as CFArray, 0)
         guard let paths = await gather(query), !Task.isCancelled else { return FileSearchResults(didRun: false) }
         var results = results(from: paths, kind: criteria.kind, environment: environment, exclusions: exclusions)
-        guard results.didRun, results.files.isEmpty else { return results }
+        // Files found on one disk say nothing of another, while a search of the home that found any has read its disk.
+        guard results.didRun, results.files.isEmpty || criteria.scope == .computer else { return results }
         let searched = disks(criteria.scope)
             ?? SpotlightIndex.disks(in: criteria.scope, home: environment.homeDirectory)
         for disk in searched where await isIndexing(disk.volume) == false {
             results.unindexedDisks.append(disk.name)
         }
         guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
-        results.isNothingIndexed = !searched.isEmpty && results.unindexedDisks.count == searched.count
+        results.isNothingIndexed = results.files.isEmpty && !searched.isEmpty
+            && results.unindexedDisks.count == searched.count
         return results
     }
 

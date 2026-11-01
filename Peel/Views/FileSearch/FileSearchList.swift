@@ -41,6 +41,14 @@ struct FileSearchList: View {
                 .foregroundStyle(.secondary)
                 .listRowSeparator(.hidden)
             }
+            if let results = search.results, !results.files.isEmpty, !results.unindexedDisks.isEmpty {
+                Label(
+                    "Spotlight isn’t indexing \(results.unindexedDisks.formatted(.list(type: .and))), so File Search can’t find anything there.",
+                    systemImage: "magnifyingglass"
+                )
+                .foregroundStyle(.secondary)
+                .listRowSeparator(.hidden)
+            }
             if let results = search.results, !results.files.isEmpty {
                 Section {
                     ForEach(results.files) { file in
