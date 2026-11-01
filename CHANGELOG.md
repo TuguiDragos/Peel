@@ -739,6 +739,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   buttons no longer move into its overflow menu for a moment.
 - On macOS 27, closing the sidebar by dragging its edge keeps the divider between a list and its page in place.
 - On macOS 26, sheets and alerts open and close faster on pages with section headers.
+- Rescan stays off for the whole of a Move to Trash across several pages. It flashed between them, could start a scan
+  halfway, and offered Stop while the list was read again.
 - The shortcuts that show a place in Peel open the main window, also while Settings is open or Peel runs from the menu
   bar alone.
 - A job's file and its program chosen together move in one pass.

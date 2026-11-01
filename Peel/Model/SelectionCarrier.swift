@@ -5,6 +5,9 @@ import PeelCore
 /// A storage tool whose selection travels: Move to Trash on any storage tool's page moves what is selected on this
 /// tool's pages too, once each has been seen (`CarriedSelection`).
 protocol CarriesSelection: AnyObject {
+    /// True while a Move to Trash with a part of this tool runs, from its first move until every tool is up to date. It
+    /// is the removal's and not each part's, so what a page shows holds still between its parts.
+    var isRemoving: Bool { get set }
     /// What is selected on each of the tool's pages, a part for each page with something selected.
     var carriedParts: [CarriedSelection.Part] { get }
     /// The app to quit before `part` can move, or nil when none of its apps is open.
@@ -99,6 +102,9 @@ final class SelectionCarrier {
     /// Moves `parts` as one removal. Each part is in History as soon as it moved, so nothing that moved is lost if
     /// Peel stops halfway, and a part whose tool kept it stays selected, with the app to quit named after.
     func move(_ parts: [CarriedSelection.Part]) async {
+        let moving = parts.compactMap(tool(of:))
+        moving.forEach { $0.isRemoving = true }
+        defer { moving.forEach { $0.isRemoving = false } }
         await progress.run(toMove: parts.reduce(0) { $0 + $1.count }) {
             var removal = RemovalInProgress()
             var appsToQuit: [String] = []

@@ -13,7 +13,7 @@ final class SpaceLibrary: RowSelection {
     var selection: SpaceItem.ID?
     /// What is selected inside the areas' folders.
     var selectedURLs: Set<URL> = []
-    private(set) var isRemoving = false
+    var isRemoving = false
     /// Each area's last plan: what its page lists, and what a selection carried from it is counted by.
     private(set) var plans: [SpaceItem.ID: SpaceRemoval.Plan] = [:]
     /// The area as it was, and the exclusions' revision, when its plan was made.
@@ -224,8 +224,6 @@ extension SpaceLibrary: CarriesSelection {
     /// folders, and they stay where they are, each told as in use by that app.
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let item = report?.items.first(where: { $0.page == part.page }) else { return TrashResult() }
-        isRemoving = true
-        defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions
         let chosen = selectedURLs.intersection(part.sizes.keys)
         let now = await SpaceRemoval.movableNow(in: item, exclusions: exclusions, running: RunningCopies.current)

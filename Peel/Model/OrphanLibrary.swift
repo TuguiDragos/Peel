@@ -15,7 +15,7 @@ final class OrphanLibrary {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
-    private(set) var isRemoving = false
+    var isRemoving = false
     var selection: OrphanPage?
     var selectedURLs: Set<URL> = []
 
@@ -153,8 +153,6 @@ extension OrphanLibrary: CarriesSelection {
 
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let group = scan?.groups.first(where: { $0.page == part.page }) else { return TrashResult() }
-        isRemoving = true
-        defer { isRemoving = false }
         let exclusions = ExclusionsStore.shared.exclusions
         return await OrphanRemoval.trash(
             selected(in: group).filter { part.sizes.keys.contains($0.url) },

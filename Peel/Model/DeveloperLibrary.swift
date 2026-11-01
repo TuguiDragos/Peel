@@ -11,7 +11,7 @@ final class DeveloperLibrary {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
-    private(set) var isRemoving = false
+    var isRemoving = false
     var selection: DeveloperEnvironment.ID?
     var selectedURLs: Set<URL> = []
 
@@ -75,8 +75,6 @@ extension DeveloperLibrary: CarriesSelection {
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let environment = environment(of: part.page) else { return TrashResult() }
         guard environment.runningApp == nil else { return nil }
-        isRemoving = true
-        defer { isRemoving = false }
         let urls = environment.locations.map(\.url).filter { selectedURLs.contains($0) && part.sizes.keys.contains($0) }
         return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(urls)
     }

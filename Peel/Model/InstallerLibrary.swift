@@ -17,7 +17,7 @@ final class InstallerLibrary {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
-    private(set) var isRemoving = false
+    var isRemoving = false
     var selection: InstallerItem.Kind?
     var selectedURLs: Set<URL> = []
 
@@ -119,8 +119,6 @@ extension InstallerLibrary: CarriesSelection {
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let kind = InstallerItem.Kind(rawValue: part.page.scope) else { return TrashResult() }
         guard appToQuit(for: part) == nil else { return nil }
-        isRemoving = true
-        defer { isRemoving = false }
         let selected = selected(in: kind).filter { part.sizes.keys.contains($0.url) }
         let privileged = Set(selected.filter(\.requiresPrivileges).map(\.url))
         return await TrashService(exclusions: ExclusionsStore.shared.exclusions)

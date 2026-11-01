@@ -36,7 +36,7 @@ final class DuplicateLibrary {
     private(set) var isScanning = false
     /// True when the last scan was stopped before it ended, so the page says so rather than offer a first scan.
     private(set) var wasStopped = false
-    private(set) var isRemoving = false
+    var isRemoving = false
     var selection: DuplicateRow?
     private(set) var selectedURLs: Set<URL> = []
     private(set) var selectedFolders: Set<URL> = []
@@ -332,8 +332,6 @@ extension DuplicateLibrary: CarriesSelection {
 
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let scan else { return TrashResult() }
-        isRemoving = true
-        defer { isRemoving = false }
         let result = await DuplicateRemoval.trash(
             selectedURLs.filter { part.sizes.keys.contains($0) },
             folders: selectedFolders.filter { part.sizes.keys.contains($0) },

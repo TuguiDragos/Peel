@@ -15,7 +15,7 @@ final class FileSearchLibrary {
     var isSearching: Bool {
         scanRun.isRunning || (criteria.isSearchable && criteria != searchedCriteria)
     }
-    private(set) var isRemoving = false
+    var isRemoving = false
     var selectedURLs: Set<URL> = []
     /// The file the detail shows. The files selected for the Trash are `selectedURLs`.
     var chosen: URL?
@@ -195,8 +195,6 @@ extension FileSearchLibrary: CarriesSelection {
     }
 
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
-        isRemoving = true
-        defer { isRemoving = false }
         let files = ((results?.files ?? []) + selection.outside.values).filter {
             selectedURLs.contains($0.url) && part.sizes.keys.contains($0.url) && !$0.requiresPrivileges
         }

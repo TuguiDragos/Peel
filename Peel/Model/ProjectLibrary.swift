@@ -24,7 +24,7 @@ final class ProjectLibrary {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
-    private(set) var isRemoving = false
+    var isRemoving = false
     private(set) var folders: [URL]
     /// Which artifacts Time Machine is already leaving out.
     private(set) var excludedFromBackups: Set<URL> = []
@@ -236,8 +236,6 @@ extension ProjectLibrary: CarriesSelection {
 
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         guard let group = group(of: part.page) else { return TrashResult() }
-        isRemoving = true
-        defer { isRemoving = false }
         let chosen = group.artifacts.filter { selectedURLs.contains($0.url) && part.sizes.keys.contains($0.url) }
         let changed = await ProjectArtifacts.changedSinceScan(chosen, among: (groups ?? []).flatMap(\.artifacts))
         return await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
