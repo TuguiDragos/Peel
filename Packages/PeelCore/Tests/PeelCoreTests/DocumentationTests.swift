@@ -76,6 +76,8 @@ struct DocumentationTests {
             ("docs/llms.txt", "\(themes) dark themes"),
             ("docs/index.html", "\(tweaks) settings macOS already has"),
             ("docs/llms.txt", "\(tweaks) settings"),
+            ("docs/index.html", "id=\"languages\""),
+            ("docs/languages/index.html", "url=/#languages"),
         ]
 
         let wrong = try said.filter { try !text($0.0).contains($0.1) }
