@@ -124,10 +124,11 @@ final class SelectionCarrier {
             for part in pass.refused {
                 tool(of: part)?.deselect(part)
             }
-            // A tool whose selection holds what another page moved is brought up to date as well.
+            // A tool whose selection holds what another page moved is brought up to date as well, and one that refused
+            // a part, which may be because of what another page moved.
             let held = Tool.Group.allCases.flatMap(\.tools).compactMap { tools[$0] }.flatMap(\.carriedParts)
                 .holding(pass.result.trashed.map(\.originalURL))
-            let changed = pass.moved.map(\.part) + held
+            let changed = pass.moved.map(\.part) + held + pass.refused
             for name in changed.tools {
                 guard let tool = Tool(rawValue: name) else { continue }
                 await tools[tool]?.refresh(after: changed.filter { $0.page.tool == name }, apps: apps)

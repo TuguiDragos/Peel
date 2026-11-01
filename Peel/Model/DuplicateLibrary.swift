@@ -349,11 +349,13 @@ extension DuplicateLibrary: CarriesSelection {
         return result
     }
 
-    /// Takes out of the list what another page moved. What this page's own move took is out already.
+    /// Takes out of the list what another page moved, which may be a copy this page shows and never had selected, even
+    /// the one it keeps. What this page's own move took is out already.
     func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
-        let selected = selectedURLs.union(selectedFolders)
-        let gone = Set(parts.flatMap(\.sizes.keys).filter { selected.contains($0) && $0.isMissing })
-        guard let scan, !gone.isEmpty else { return }
+        let asked = selectedURLs.union(selectedFolders).union(parts.flatMap(\.sizes.keys))
+        guard let scan else { return }
+        let gone = scan.copiesGone(inGroupsHolding: asked)
+        guard !gone.isEmpty else { return }
         let remaining = scan.removing(gone)
         self.scan = remaining
         unselect(gone)
