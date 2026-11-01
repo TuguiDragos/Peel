@@ -151,8 +151,8 @@ struct BackgroundItemList: View {
 
     private func failureMessage(_ failure: BackgroundItemLibrary.ActionFailure) -> Text {
         let reason = reasonMessage(failure.reason)
-        guard failure.fileMoved else { return reason }
-        return Text("\(reason)\n\n\(Text("macOS won’t start it again: it stops for good when the Mac restarts."))")
+        guard let stopsForGood = failure.stopsForGood else { return reason }
+        return Text("\(reason)\n\n\(Text(stopsForGood))")
     }
 
     private func reasonMessage(_ reason: BackgroundItemActions.Failure) -> Text {

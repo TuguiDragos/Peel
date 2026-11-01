@@ -252365,6 +252365,112 @@
         }
       }
     },
+    "macOS won’t start it again: it stops for good when you log out." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ji znovu nespustí: po odhlášení se trvale zastaví."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS startet es nicht erneut: Wenn du dich abmeldest, ist es endgültig gestoppt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no volverá a iniciarlo: se detendrá definitivamente cuando cierres sesión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne le relancera plus : il s’arrêtera définitivement à la fermeture de votre session."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non lo avvierà più: si interromperà definitivamente quando esegui il logout."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがこれを再び起動することはありません。ログアウトすると、完全に停止します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 항목을 다시 시작하지 않습니다. 로그아웃하면 영구적으로 중단됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS start het niet opnieuw: het stopt definitief als je uitlogt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS już go nie uruchomi: zatrzyma się na dobre, gdy się wylogujesz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não vai iniciá-lo novamente: ele é interrompido definitivamente quando você finaliza a sessão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu îl va mai porni: se oprește definitiv când faceți logout."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS больше не запустит этот объект: он окончательно остановится, когда Вы выйдете из системы."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS startar det inte igen: det stoppas för gott när du loggar ut."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS onu bir daha başlatmaz: oturumu kapattığınızda kalıcı olarak durur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не запускатиме його знову: він зупиниться назавжди, коли ви вийдете із системи."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不会再次启动它：你退出登录后，它会永久停止。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不會再啟動它：你登出後，它就會永久停止。"
+          }
+        }
+      }
+    },
     "macOS’s menu bar items restart" : {
       "localizations" : {
         "cs" : {

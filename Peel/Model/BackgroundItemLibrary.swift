@@ -107,6 +107,7 @@ final class BackgroundItemLibrary {
         let reason: BackgroundItemActions.Failure
         /// The job's file is in the Trash, and `reason` is why launchd still runs the job.
         var fileMoved = false
+        var stopsForGood: LocalizedStringResource?
     }
 
     /// What the list says after an action: why it failed, or that an enabled job left the list until macOS loads it.
@@ -161,7 +162,10 @@ final class BackgroundItemLibrary {
                     alerts.add(.failed(failure))
                 }
                 if let reason = moved.stillRunning {
-                    let failure = ActionFailure(label: item.label, action: action, reason: reason, fileMoved: true)
+                    let failure = ActionFailure(
+                        label: item.label, action: action, reason: reason, fileMoved: true,
+                        stopsForGood: item.stopsForGood
+                    )
                     alerts.add(.failed(failure))
                 }
             }

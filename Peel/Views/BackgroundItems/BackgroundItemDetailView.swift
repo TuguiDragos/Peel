@@ -204,9 +204,9 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Its file is gone"),
-                        detail: item.kind == .daemon
-                            ? Text("Its file was removed while it was loaded, so macOS runs it until the Mac restarts and nothing starts it again. Stop takes it out now.")
-                            : Text("Its file was removed while it was loaded, so macOS runs it until you log out and nothing starts it again. Stop takes it out now."),
+                        detail: item.endsAtLogout
+                            ? Text("Its file was removed while it was loaded, so macOS runs it until you log out and nothing starts it again. Stop takes it out now.")
+                            : Text("Its file was removed while it was loaded, so macOS runs it until the Mac restarts and nothing starts it again. Stop takes it out now."),
                         kind: .note
                     ) {}
                 }
@@ -214,9 +214,9 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Loaded from a file elsewhere"),
-                        detail: item.kind == .daemon
-                            ? Text("Something loaded this from a file outside the folders macOS reads at startup, so macOS forgets it when the Mac restarts. The file is shown above.")
-                            : Text("Something loaded this from a file outside the folders macOS reads at login, so macOS forgets it when you log out. The file is shown above."),
+                        detail: item.endsAtLogout
+                            ? Text("Something loaded this from a file outside the folders macOS reads at login, so macOS forgets it when you log out. The file is shown above.")
+                            : Text("Something loaded this from a file outside the folders macOS reads at startup, so macOS forgets it when the Mac restarts. The file is shown above."),
                         kind: .note
                     ) {}
                 }
@@ -529,12 +529,21 @@ extension BackgroundItem {
         return "\(ownerName) uses it to run in the background, and may stop working until you put it back."
     }
 
+    /// Whether launchd forgets the job as the person logs out: an agent's GUI domain ends then, while a daemon's system
+    /// domain and an agent's user domain stay (`man launchctl`).
+    var endsAtLogout: Bool { kind == .agent && !loadsInTheBackgroundSession }
+
+    /// What becomes of a job launchd still runs once its file is in the Trash.
+    var stopsForGood: LocalizedStringResource {
+        endsAtLogout
+            ? "macOS won’t start it again: it stops for good when you log out."
+            : "macOS won’t start it again: it stops for good when the Mac restarts."
+    }
+
     /// What the question before a move says becomes of the job once its file is in the Trash. A row named by its file
     /// has no label Peel read, so nothing is stopped for it.
     var whenTrashed: LocalizedStringResource {
-        guard canBeControlled && !isNamedByItsFile || state == .notLoaded else {
-            return "macOS won’t start it again: it stops for good when the Mac restarts."
-        }
+        guard canBeControlled && !isNamedByItsFile || state == .notLoaded else { return stopsForGood }
         // An agent in `/Library/LaunchAgents` runs in every account logged in, and Stop reaches only this one.
         return kind == .agent && source == .systemLibrary
             ? "Once the file is in the Trash, the item is stopped for you. Other accounts logged in now run it until they log out, and none starts it again."
