@@ -84,6 +84,16 @@ public struct TweakLedger {
         return Self.isSame(before, store.storedValue(of: tweak)) ? .unchanged : .changed
     }
 
+    /// Forgets each change of Peel's whose key no longer holds what Peel wrote, and answers whether any went: the key
+    /// was changed outside Peel, so if it comes to hold that value again, that is the person's doing too.
+    public mutating func forgetChangesNoLongerHeld(in store: some TweakStoring) -> Bool {
+        let gone = TweakCatalog.all.filter {
+            changedByPeel.contains($0.id) && !holdsPeelsChange($0, stored: store.storedValue(of: $0))
+        }
+        gone.forEach { forget($0) }
+        return !gone.isEmpty
+    }
+
     /// Drops what `tweak`'s key held before Peel changed it, so turning the tweak off hands the setting to macOS
     /// instead of putting that back: for a folder that can no longer take screenshots.
     public mutating func forgetPreviousValue(of tweak: Tweak) {

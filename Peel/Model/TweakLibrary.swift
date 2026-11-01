@@ -76,6 +76,7 @@ final class TweakLibrary {
     /// calls this each time Peel becomes active rather than trusting what it read before.
     func refresh() {
         store.beginReading()
+        if ledger.forgetChangesNoLongerHeld(in: store) { save() }
         states = Dictionary(
             TweakCatalog.all.map { ($0.id, store.state(of: $0)) },
             uniquingKeysWith: { first, _ in first }

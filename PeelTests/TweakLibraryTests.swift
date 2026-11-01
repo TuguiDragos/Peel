@@ -141,6 +141,25 @@ struct TweakLibraryTests {
         #expect(library.foldersLeftToMacOS.isEmpty)
     }
 
+    @Test func aChangeOfPeelsTheKeyNoLongerHoldsIsForgottenAsSoonAsItIsSeen() async throws {
+        let store = FakeTweakStore()
+        let tweak = try #require(Self.quiet.first { if case .aSwitch = $0.kind { true } else { false } })
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
+        await library.set(tweak, on: true).value
+        #expect(library.isChangedByPeel(tweak))
+        let peelsValue = store.values[tweak.id]
+
+        store.values[tweak.id] = nil
+        library.refresh()
+        store.values[tweak.id] = peelsValue
+        library.refresh()
+
+        #expect(!library.isChangedByPeel(tweak), "the last hand on the key was the person's")
+        let reopened = TweakLibrary(store: store, defaults: made.defaults, restart: { _ in })
+        #expect(!reopened.isChangedByPeel(tweak))
+    }
+
     @Test func twoRefusedSwitchesBothSaySo() async throws {
         let store = FakeTweakStore()
         let (library, made) = try makeLibrary(store: store)
