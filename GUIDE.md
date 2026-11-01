@@ -266,7 +266,8 @@ and how many items the others hold.
   it is turned on or off: System Settings for most, Safari > Settings > Extensions for a Safari extension, which Safari
   alone shows the state of, Edit Widgets for a widget, and nowhere for what Shortcuts and Siri use.
 - **Plug-ins:** the plug-ins in the Library folders made for them, from audio units and camera plug-ins to Quick Look,
-  each with the app it came with, as Orphaned Files tells it, and each of which you can move to the Trash, after Peel
+  each with the installed app that claims it, or the app Peel saw go whose identifier it bears, and each of which you
+  can move to the Trash, after Peel
   warns that apps using it may stop working, says that macOS loads a camera plug-in only once legacy video device
   support has been restored in macOS Recovery, or says that nothing loads it anymore, as for a Quick Look generator, an
   old Internet plug-in such as Flash, or a contextual menu item.
