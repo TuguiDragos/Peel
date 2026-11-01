@@ -12,6 +12,7 @@ struct BackgroundItemList: View {
         let filtered = filteredItems
 
         List(selection: $backgroundItems.selection) {
+            RemovalsHeldBanner(recordsInHistory: false)
             if let note = backgroundItems.missingNote, !filtered.isEmpty {
                 Notice(title: Text("Part of this list may be missing"), detail: Text(verbatim: note), kind: .note) {}
                     .padding(.vertical, 6)

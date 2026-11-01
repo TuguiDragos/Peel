@@ -106,6 +106,12 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if ExclusionsStore.shared.exclusions.isUnreadable, !item.canMoveToTrash {
+                Section {
+                    RemovalsHeldBanner(recordsInHistory: false)
+                }
+            }
+
             if item.isExcluded {
                 Section {
                     Notice(

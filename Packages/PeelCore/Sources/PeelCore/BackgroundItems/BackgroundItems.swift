@@ -128,6 +128,7 @@ public enum BackgroundItems {
             .map { item in
                 var item = item
                 item.isExcluded = item.isOfAnApp(excludedBy: exclusions)
+                item.exclusionsAreNotKnown = !exclusions.isKnown
                 return item
             }
             .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending }

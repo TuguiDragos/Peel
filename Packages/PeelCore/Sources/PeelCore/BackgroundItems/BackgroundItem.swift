@@ -72,6 +72,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isFileGone = false
     /// True for a job of an app the person excluded in Settings, which Peel lists and never acts on.
     public var isExcluded = false
+    /// True while the exclusions aren't known: any job may be an excluded app's, so none is acted on.
+    public var exclusionsAreNotKnown = false
     /// True for a job its app gave launchd itself, as an update's installer is given, rather than registered with
     /// ServiceManagement: System Settings doesn't list it, and launchd forgets it at the next logout or restart.
     public var isSubmittedByItsApp = false
@@ -114,7 +116,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// extension or for an excluded app, an agent only under a label `launchctl` reads whole, and a daemon only under a
     /// label the helper takes, which also leaves out the helper itself.
     public var canBeControlled: Bool {
-        !usesALabelOfMacOS && !isSystemExtension && !isExcluded
+        !usesALabelOfMacOS && !isSystemExtension && !isExcluded && !exclusionsAreNotKnown
             && (requiresPrivileges ? PrivilegedPathPolicy.allowsDaemon(label) : isReadWholeByLaunchctl)
     }
 

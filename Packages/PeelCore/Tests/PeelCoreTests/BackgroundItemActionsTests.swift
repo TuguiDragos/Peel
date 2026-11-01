@@ -88,6 +88,18 @@ struct BackgroundItemActionsTests {
         #expect(rows.map(\.canMoveToTrash) == [false, true])
     }
 
+    @Test func nothingIsControlledWhileTheExclusionsAreNotKnown() {
+        let job = item(state: .running(pid: 42), plist: URL(filePath: "/Users/me/Library/LaunchAgents/job.plist"))
+        for exclusions in [Exclusions.unreadable, .notYetRead] {
+            let row = BackgroundItems.rows([job], exclusions: exclusions)[0]
+
+            #expect(!row.canBeControlled)
+            #expect(!row.offersControls)
+            #expect(BackgroundItemActions.refusal(for: row) != nil)
+        }
+        #expect(BackgroundItems.rows([job], exclusions: .none)[0].canBeControlled)
+    }
+
     @Test func aJobIsExcludedWithAnAppExcludedByItsPlace() async throws {
         let vendor = URL(filePath: "/Applications/Vendor", directoryHint: .isDirectory)
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/org.example.vendor.agent.plist")
