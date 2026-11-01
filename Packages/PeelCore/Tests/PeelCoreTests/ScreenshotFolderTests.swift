@@ -3,6 +3,29 @@ import Foundation
 import Testing
 
 struct ScreenshotFolderTests {
+    @Test func aFolderThatDoesNotAnswerIsNotKnownToHaveGone() async throws {
+        let directory = try TemporaryDirectory()
+        let held = DispatchSemaphore(value: 0)
+        defer { held.signal() }
+
+        let silent = await ScreenshotFolder.hasGoneAway(
+            directory.url.path(percentEncoded: false), home: directory.url, within: 0.05
+        ) { _, _ in
+            held.wait()
+            return true
+        }
+        let gone = await ScreenshotFolder.hasGoneAway(
+            directory.url.appending(path: "Gone").path(percentEncoded: false), home: directory.url
+        )
+        let here = await ScreenshotFolder.hasGoneAway(
+            directory.url.path(percentEncoded: false), home: directory.url
+        )
+
+        #expect(!silent)
+        #expect(gone)
+        #expect(!here)
+    }
+
     @Test func takesAFolderThePersonCanWriteTo() throws {
         let directory = try TemporaryDirectory()
         let shots = try directory.directory("Shots")

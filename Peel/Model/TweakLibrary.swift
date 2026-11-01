@@ -129,7 +129,7 @@ final class TweakLibrary {
     /// is removed, so macOS falls back to its default.
     func reset(_ tweak: Tweak) async {
         foldersLeftToMacOS.remove(tweak.id)
-        leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
+        await leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
         await finish(tweak, after: ledger.turnOff(tweak, in: store))
     }
 
@@ -139,9 +139,9 @@ final class TweakLibrary {
 
     /// `screencapture` saves nothing in a folder that isn't there, is in the Trash, or can't be written to, so a
     /// folder from before that has become one is not put back: the key goes instead, and macOS saves on the Desktop.
-    private func leaveToMacOSAFolderThatCannotTakeScreenshots(_ tweak: Tweak) {
+    private func leaveToMacOSAFolderThatCannotTakeScreenshots(_ tweak: Tweak) async {
         guard tweak.kind == .folder, let before = ledger.previousValues[tweak.id] as? String,
-              ScreenshotFolder.cannotTakeScreenshots(before, home: home)
+              await ScreenshotFolder.hasGoneAway(before, home: home)
         else { return }
         ledger.forgetPreviousValue(of: tweak)
         foldersLeftToMacOS.insert(tweak.id)
@@ -157,7 +157,7 @@ final class TweakLibrary {
 
     func chooseScreenshotFolder(for tweak: Tweak) async {
         // Asked again once the panel has closed, since the folder can change after the panel's own check.
-        guard let url = await ScreenshotFolderPanel.choose(), ScreenshotFolder.problem(with: url, home: home) == nil
+        guard let url = await ScreenshotFolderPanel.choose(), await ScreenshotFolder.takesScreenshots(url, home: home)
         else { return }
         await turnOn(tweak, text: ScreenshotFolder.setting(for: url))
     }
@@ -184,7 +184,7 @@ final class TweakLibrary {
         let tried = Self.onTweaksPage.filter { peelsChanges.contains($0.id) }
         for tweak in tried {
             foldersLeftToMacOS.remove(tweak.id)
-            leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
+            await leaveToMacOSAFolderThatCannotTakeScreenshots(tweak)
         }
         let batch = ledger.turnOff(tried, in: store)
         refused.subtract(tried.map(\.id))
