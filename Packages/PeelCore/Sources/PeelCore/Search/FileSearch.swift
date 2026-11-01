@@ -308,14 +308,18 @@ public enum FileSearch {
     }
 
     /// macOS gives TypeScript's `.ts` and `.mts` the type of an MPEG-2 transport stream, a movie, so such a file is one
-    /// only when it begins as one: packets that each start with the byte 0x47, every 188 bytes, or every 192 after the
-    /// 4-byte header Blu-ray adds (ISO/IEC 13818-1). Nil when it can't be read.
+    /// only when it begins as one: three packets that each start with the byte 0x47, every 188 bytes (ISO/IEC 13818-1),
+    /// every 192 after the 4-byte header Blu-ray adds, or every 204 with the check bytes broadcast adds to each
+    /// (ETSI EN 300 744). Nil when it can't be read.
     static func beginsAsATransportStream(_ url: URL) -> Bool? {
-        guard let bytes = BoundedRead.prefix(of: url, count: 197).map(Array.init) else { return nil }
+        guard let bytes = BoundedRead.prefix(of: url, count: 409).map(Array.init) else { return nil }
         func packets(from start: Int, every length: Int) -> Bool {
-            bytes.count > start + length && bytes[start] == 0x47 && bytes[start + length] == 0x47
+            (0..<3).allSatisfy { packet in
+                let place = start + packet * length
+                return place < bytes.count && bytes[place] == 0x47
+            }
         }
-        return packets(from: 0, every: 188) || packets(from: 4, every: 192)
+        return packets(from: 0, every: 188) || packets(from: 4, every: 192) || packets(from: 0, every: 204)
     }
 
     static func isATransportStream(type identifier: String) -> Bool {

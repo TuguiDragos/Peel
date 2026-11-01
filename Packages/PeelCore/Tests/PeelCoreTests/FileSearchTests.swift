@@ -271,6 +271,27 @@ struct FileSearchTests {
         #expect(!FileSearch.isATransportStream(type: "public.mpeg-4"))
     }
 
+    @Test func aTransportStreamBeginsWithThreePacketsInARow() throws {
+        let directory = try TemporaryDirectory()
+        func file(_ name: String, syncAt places: [Int], bytes: Int = 1_000) throws -> URL {
+            var contents = [UInt8](repeating: 0xFF, count: bytes)
+            for place in places { contents[place] = 0x47 }
+            return try directory.file(name, contents: Data(contents))
+        }
+
+        let plain = try file("plain.ts", syncAt: [0, 188, 376])
+        let blueRay = try file("blueray.ts", syncAt: [4, 196, 388])
+        let broadcast = try file("broadcast.ts", syncAt: [0, 204, 408])
+        let textWithTwoLetters = try file("note.ts", syncAt: [0, 188])
+        let tooShort = try file("short.ts", syncAt: [0, 188], bytes: 300)
+
+        #expect(FileSearch.beginsAsATransportStream(plain) == true)
+        #expect(FileSearch.beginsAsATransportStream(blueRay) == true)
+        #expect(FileSearch.beginsAsATransportStream(broadcast) == true)
+        #expect(FileSearch.beginsAsATransportStream(textWithTwoLetters) == false)
+        #expect(FileSearch.beginsAsATransportStream(tooShort) == false)
+    }
+
     @Test func goesByTheTypeSpotlightIndexedAndNotTheExtension() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
