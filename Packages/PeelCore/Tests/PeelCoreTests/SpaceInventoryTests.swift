@@ -235,6 +235,40 @@ struct SpaceInventoryTests {
         #expect(logs.size.known < 400_000)
     }
 
+    @Test func countsTheFoldersAnAreaHasInContainersRatherThanNamingEach() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<3 {
+            let container = "home/Library/Containers/org.example.app\(index)/Data"
+            try directory.file("\(container)/Library/Caches/blob")
+            try directory.file("\(container)/tmp/blob")
+            try directory.file("\(container)/Library/Logs/run.log")
+        }
+        try directory.file("home/Library/Containers/org.example.only-tmp/Data/tmp/blob")
+        try directory.file("home/Library/Group Containers/group.org.example/Library/Caches/blob")
+        try directory.file("home/Library/Logs/org.example.tool/run.log")
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let containers = home.appending(path: "Library/Containers", directoryHint: .isDirectory)
+        let groups = home.appending(path: "Library/Group Containers", directoryHint: .isDirectory)
+
+        let report = await SpaceInventory.scan(
+            home: home, root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: LeftoverScanner.walk
+        )
+
+        let caches = try #require(report.items.first { $0.id == "container-caches" })
+        #expect(caches.urls.count == 8)
+        #expect(caches.listedPlaces.isEmpty)
+        #expect(caches.inContainers == [
+            SpaceItem.ContainerFolders(parent: containers, folders: ["Caches", "tmp"], containers: 4, areGroups: false),
+            SpaceItem.ContainerFolders(parent: groups, folders: ["Caches"], containers: 1, areGroups: true),
+        ])
+        let logs = try #require(report.items.first { $0.id == "logs" })
+        #expect(logs.listedPlaces.map(\.lastPathComponent) == ["Logs"])
+        #expect(logs.inContainers == [
+            SpaceItem.ContainerFolders(parent: containers, folders: ["Logs"], containers: 3, areGroups: false),
+        ])
+    }
+
     @Test func measuresAFewPlacesOfAnAreaAtATime() async throws {
         let directory = try TemporaryDirectory()
         for index in 0..<8 {

@@ -68,24 +68,17 @@ struct SpaceDetailView: View {
             }
 
             Section {
-                ForEach(item.urls, id: \.self) { url in
-                    HStack(spacing: 8) {
-                        Image(systemName: "folder")
-                            .foregroundStyle(.secondary)
-                            .accessibilityHidden(true)
+                ForEach(item.listedPlaces, id: \.self) { url in
+                    place(url) {
                         Text(url.abbreviatedPath)
                             .lineLimit(1)
                             .truncationMode(.middle)
-                        Spacer(minLength: 8)
-                        Button {
-                            NSWorkspace.shared.activateFileViewerSelecting([url])
-                        } label: {
-                            Label("Show in Finder", systemImage: "arrow.up.forward.app")
-                                .minimumTarget()
-                        }
-                        .labelStyle(.iconOnly)
-                        .buttonStyle(.borderless)
-                        .help(Text("Show in Finder"))
+                    }
+                }
+                .listRowSeparator(.hidden)
+                ForEach(item.inContainers, id: \.self) { folders in
+                    place(folders.parent) {
+                        Text(verbatim: Self.sentence(for: folders))
                     }
                 }
                 .listRowSeparator(.hidden)
@@ -119,6 +112,32 @@ struct SpaceDetailView: View {
         .fadesInColumn(whenRowsChange: rows)
         .navigationTitle(Text(item.words.title))
         .toolbar(removing: .title)
+    }
+
+    private func place(_ url: URL, @ViewBuilder named name: () -> some View) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "folder")
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
+            name()
+            Spacer(minLength: 8)
+            Button {
+                NSWorkspace.shared.activateFileViewerSelecting([url])
+            } label: {
+                Label("Show in Finder", systemImage: "arrow.up.forward.app")
+                    .minimumTarget()
+            }
+            .labelStyle(.iconOnly)
+            .buttonStyle(.borderless)
+            .help(Text("Show in Finder"))
+        }
+    }
+
+    private static func sentence(for place: SpaceItem.ContainerFolders) -> String {
+        let folders = place.folders.formatted(.list(type: .and))
+        return place.areGroups
+            ? String(inflecting: "\(folders) inside ^[\(place.containers) group container](inflect: true)")
+            : String(inflecting: "\(folders) inside ^[\(place.containers) app container](inflect: true)")
     }
 
     @ViewBuilder
