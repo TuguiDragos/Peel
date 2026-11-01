@@ -358,9 +358,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - A switch on the Shell tab turned on while zsh answers stays on, and the next one doesn't lose it.
 - The Tools tab no longer has Homebrew fetch its lists where its `brew.env` asks it to do so before answering.
-- The Git tab reads a signing key written in Git's settings as a key, not a path, and its command quotes it.
+- The Git tab reads a signing key written in Git's settings as a key, not a path, and its commands quote what the shell
+  wouldn't read back unchanged. It also forgets a refusal when the page goes away, as the other tabs do.
 - The Themes tab says when Terminal opens with another profile than new windows use.
-- The Tools tab knows what is installed under a `brew` Peel won't run.
+- The Tools tab knows what is installed under a `brew` Peel won't run, and its lines name that folder.
+- Asking zsh which prompt a new window shows no longer runs your `.zlogout`.
 - The Shell tab finds the `.zshrc` a login shell reads, also when `.zprofile` sets `ZDOTDIR`.
 
 #### History
@@ -422,7 +424,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Remove Peel stops every scan first, and nothing brings Peel's folder back once it has gone.
 - Remove Peel says ahead when its folder needs an administrator, and Return stays on Cancel in its question and the
   helper's.
-- A folder in App Folders Peel no longer reads is named with the reason, and only Remove From List takes it off.
+- A folder in App Folders Peel no longer reads is named with the reason, and only Remove From List takes it off. One
+  chosen through `/System/Volumes/Data` is judged as the folder it is.
 - The line for a standard account follows the account's shell.
 
 #### Applications
@@ -467,7 +470,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app folder that is a link is read as where it leads, so its apps are listed and Orphaned Files isn't stopped.
 - A network that leads nowhere, such as a sign-in page or a proxy, no longer marks every app Update check failed.
 - A change in the Applications folder right after launch no longer costs the list its update badges.
-- A round of checks with no network ends at once, and Stop reaches the round Rescan started.
+- A round of checks with no network ends at once and leaves the question about day-old answers to the next, and Stop
+  reaches the round Rescan started.
 - A feed's product page reads Website, and a cask's homepage Homepage, in the panel and the More menu.
 - Apps in a chosen folder on a disk that doesn't answer cost one wait and are named.
 - A search finds an app by its file name too.
