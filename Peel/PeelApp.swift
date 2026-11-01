@@ -286,7 +286,7 @@ struct PeelApp: App {
     /// Reads Homebrew again once it checked for new versions since Peel last read it, as `brew update` in Terminal
     /// does, so what it says now reaches Applications.
     private func followHomebrewsChecks() async {
-        guard await homebrew.readAgain(ifHomebrewCheckedAt: Homebrew.lastUpdateCheck()) else { return }
+        guard await homebrew.readAgain(ifHomebrewCheckedAt: homebrew.lastUpdateCheck()) else { return }
         library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
     }
 

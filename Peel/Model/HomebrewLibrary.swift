@@ -220,6 +220,8 @@ final class HomebrewLibrary {
 
     /// Whether Homebrew answered the last reading, so its definitions are on this Mac.
     private(set) var hasAnswered = false
+    /// What `brew.sh` told the last reading about where Homebrew is.
+    private var answers = Homebrew.Answers()
     /// Homebrew's last check for new versions as the last reading found it (`Homebrew.lastUpdateCheck()`).
     private var checkedForUpdates: Date?
 
@@ -312,8 +314,14 @@ final class HomebrewLibrary {
         isInstalled || isNotRun
     }
 
+    /// When Homebrew last checked for new versions, from the folders the last reading asked about, so looking starts
+    /// no `brew`.
+    func lastUpdateCheck() async -> Date? {
+        await Homebrew.lastUpdateCheck(asking: answers)
+    }
+
     /// Reads the packages again when Homebrew checked for new versions since they were read, as `brew update` in
-    /// Terminal does: `checked` is its last check now (`Homebrew.lastUpdateCheck()`). Returns whether it read them.
+    /// Terminal does: `checked` is its last check now (`lastUpdateCheck()`). Returns whether it read them.
     func readAgain(ifHomebrewCheckedAt checked: Date?) async -> Bool {
         guard packages != nil, runningCommand == nil, checked != checkedForUpdates else { return false }
         await refresh()
@@ -335,8 +343,12 @@ final class HomebrewLibrary {
             forgetHomebrew()
             return
         }
-        let checked = await Homebrew.lastUpdateCheck()
-        guard let reading = await scanRun.run({ await self.read(includingReclaimable: includingReclaimable) }),
+        let answers = Homebrew.Answers()
+        self.answers = answers
+        let checked = await Homebrew.lastUpdateCheck(asking: answers)
+        guard let reading = await scanRun.run({
+            await self.read(includingReclaimable: includingReclaimable, asking: answers)
+        }),
               isInstalled
         else { return }
         checkedForUpdates = checked
@@ -373,6 +385,12 @@ final class HomebrewLibrary {
         keepSelectionOnItsPage()
     }
 
+    /// Reads the `brew` the person just chose, and keeps nothing the other one said of what it would free.
+    func readAnotherBrew() async {
+        (reclaimable, autoremovable) = (nil, [])
+        await refresh(includingReclaimable: true)
+    }
+
     /// With no Homebrew on the Mac, nothing it said still holds, so the library becomes what it is when Peel starts
     /// without one. The installer receipts stay: they are the Mac's, and an uninstall reads them on their own.
     private func forgetHomebrew() {
@@ -381,6 +399,7 @@ final class HomebrewLibrary {
         (packages, installation, hasAnswered, couldNotRead, needsDefinitions) = (nil, nil, false, nil, false)
         (reclaimable, autoremovable, overrides, findings, advisories) = (nil, [], [], nil, nil)
         (knownCasks, selection) = ([], nil)
+        answers = Homebrew.Answers()
         revision += 1
         if hadEvidence {
             evidenceRevision += 1
@@ -389,22 +408,22 @@ final class HomebrewLibrary {
 
     /// Nil while Homebrew has no local definitions to read, as when `brew update` has never run.
     private func read(
-        includingReclaimable: Bool
+        includingReclaimable: Bool, asking answers: Homebrew.Answers
     ) async -> (
         HomebrewInstallation?, Result<[HomebrewPackage], Homebrew.CommandFailure>, Homebrew.CleanupPreview?,
         Homebrew.Overrides?
     )? {
-        guard await Homebrew.hasLocalDefinitions() else { return nil }
+        guard await Homebrew.hasLocalDefinitions(asking: answers) else { return nil }
         needsDefinitions = false
         // The installation is read first, since it says how to read the figures that follow. The other questions
         // take about as long as each other, so they run at the same time. Only the page shows the cleanup's figure.
-        let found = await Homebrew.installation()
+        let found = await Homebrew.installation(asking: answers)
         let kept = found.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar) } ?? []
         async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
         var overridden: Homebrew.Overrides?
         do {
-            let reading = try await Homebrew.installed()
+            let reading = try await Homebrew.installed(asking: answers)
             installed = .success(reading.packages)
             overridden = reading.overrides
         } catch {

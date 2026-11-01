@@ -4,7 +4,84 @@ import Observation
 @testable import PeelCore
 import Testing
 
+/// A `brew` that answers for a made-up Homebrew and notes what it was asked.
+private struct StandInBrew {
+    let folder = FileManager.default.temporaryDirectory.appending(
+        path: "PeelTests-brew-\(UUID().uuidString)", directoryHint: .isDirectory
+    )
+
+    var url: URL { folder.appending(path: "bin/brew") }
+
+    private var log: URL { folder.appending(path: "asked") }
+
+    /// `cleanup` is what its `brew cleanup` runs, in shell.
+    init(hasDefinitions: Bool = true, cleanup: String = ":") throws {
+        let manager = FileManager.default
+        let path = folder.path(percentEncoded: false)
+        let script = """
+        #!/bin/sh
+        echo "$1" >> '\(log.path(percentEncoded: false))'
+        case "$1" in
+          --version) echo 'Homebrew 7.0.0' ;;
+          --prefix|--repository) echo '\(path)' ;;
+          --cellar) echo '\(path)Cellar' ;;
+          --caskroom) echo '\(path)Caskroom' ;;
+          --cache) echo '\(path)cache' ;;
+          info) echo '{"formulae":[],"casks":[]}' ;;
+          cleanup) \(cleanup) ;;
+        esac
+
+        """
+        try manager.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data(script.utf8).write(to: url)
+        try manager.setAttributes([.posixPermissions: 0o755], ofItemAtPath: url.path(percentEncoded: false))
+        guard hasDefinitions else { return }
+        let definitions = folder.appending(path: "cache/api/internal/packages.made_up.jws.json")
+        try manager.createDirectory(at: definitions.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data().write(to: definitions)
+    }
+
+    func asked() throws -> [String] {
+        try String(contentsOf: log, encoding: .utf8).split(separator: "\n").map(String.init)
+    }
+
+    func goAway() {
+        try? FileManager.default.removeItem(at: folder)
+    }
+}
+
 @Suite(.serialized) struct HomebrewLibraryTests {
+    @Test func aReadingAsksOnceWhatBrewShAnswersOnItsOwn() async throws {
+        let brew = try StandInBrew()
+        defer { brew.goAway() }
+        let homebrew = HomebrewLibrary()
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.refresh(includingReclaimable: true) }
+
+        #expect(homebrew.installation?.version == "7.0.0")
+        #expect(homebrew.hasAnswered)
+        let asked = try brew.asked()
+        for question in ["--version", "--prefix", "--cellar", "--repository", "--cache", "--caskroom"] {
+            #expect(asked.count { $0 == question } == 1, "\(question), in \(asked)")
+        }
+    }
+
+    @Test func oneBrewsFigureDoesNotOutliveTheChoiceOfAnother() async throws {
+        let first = try StandInBrew(cleanup: "echo '==> This operation would free approximately 2GB of disk space.'")
+        let second = try StandInBrew(cleanup: "exit 1")
+        defer {
+            first.goAway()
+            second.goAway()
+        }
+        let homebrew = HomebrewLibrary()
+
+        await Homebrew.$standIn.withValue(first.url) { await homebrew.refresh(includingReclaimable: true) }
+        #expect(homebrew.reclaimable == 2_000_000_000)
+        await Homebrew.$standIn.withValue(second.url) { await homebrew.readAnotherBrew() }
+
+        #expect(homebrew.reclaimable == nil)
+    }
+
     @Test func namesInHistoryOnlyTheCasksWhoseRecordMoved() throws {
         let caskroom = URL(filePath: "/opt/homebrew/Caskroom", directoryHint: .isDirectory)
         let casks = ["alpha", "beta", "gamma"].map { HomebrewPackage(name: $0, kind: .cask).kept(inCaskroom: caskroom) }
@@ -20,7 +97,7 @@ import Testing
         let homebrew = HomebrewLibrary()
         await homebrew.refresh()
         let read = homebrew.revision
-        let checked = await Homebrew.lastUpdateCheck()
+        let checked = await homebrew.lastUpdateCheck()
 
         #expect(await !homebrew.readAgain(ifHomebrewCheckedAt: checked))
         #expect(homebrew.revision == read)

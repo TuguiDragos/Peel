@@ -86,7 +86,7 @@ struct HomebrewSection: View {
     private func use(_ brew: URL?) {
         couldNotSave = !HomebrewChoice().save(brew)
         choice = HomebrewChoice().load()
-        Task { await homebrew.refresh() }
+        Task { await homebrew.readAnotherBrew() }
     }
 }
 

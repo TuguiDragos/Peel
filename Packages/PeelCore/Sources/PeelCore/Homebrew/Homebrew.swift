@@ -1,5 +1,6 @@
 public import Foundation
 internal import PeelPrivileged
+import Synchronization
 
 public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public enum Kind: String, Sendable, Hashable {
@@ -551,8 +552,11 @@ public enum Homebrew {
     /// `PATH`, so `which brew` would find nothing. Taking the prefix from the environment would let anything that
     /// can set `HOMEBREW_PREFIX` choose which program Peel runs.
     public static var executableURL: URL? {
-        executable(chosen: HomebrewChoice().load())
+        standIn ?? executable(chosen: HomebrewChoice().load())
     }
+
+    /// A `brew` a test runs in place of this Mac's, whose folders it can't make unwritable or empty.
+    @TaskLocal static var standIn: URL?
 
     /// The prefixes Homebrew installs itself in by default, from the root of the disk.
     static let usualPrefixes = ["opt/homebrew", "usr/local"]
@@ -603,6 +607,21 @@ public enum Homebrew {
         }.first
     }
 
+    /// What `brew.sh` has answered on its own, without Ruby, each answer a `bin/brew` of its own. A reading of Homebrew
+    /// asks through one of these, so it asks each question once, however many parts of the reading need the answer.
+    public final class Answers: Sendable {
+        private let known = Mutex<[[String]: String]>([:])
+
+        public init() {}
+
+        func answer(_ arguments: [String]) async -> String? {
+            if let answer = known.withLock({ $0[arguments] }) { return answer }
+            let answer = await Homebrew.answerWithoutTheAPI(arguments, home: .homeDirectory)
+            known.withLock { $0[arguments] = answer }
+            return answer
+        }
+    }
+
     /// Returns whether Homebrew's local copy of its definitions is on disk. Without it, any command that may read
     /// them makes Homebrew download the copy first, even with `HOMEBREW_NO_AUTO_UPDATE` set (`fetch_api_files!` in
     /// `brew.rb`, 7.0). So Peel looks for the copy itself, and runs nothing else when it is missing. It asks Homebrew
@@ -610,8 +629,8 @@ public enum Homebrew {
     /// could tell it, and running one turns Homebrew's developer mode on for good. Whether Homebrew reads its taps
     /// instead is what its `brew.env` files say, since Peel's own environment never sets it.
     @concurrent
-    public static func hasLocalDefinitions() async -> Bool {
-        await hasLocalDefinitions(home: .homeDirectory)
+    public static func hasLocalDefinitions(asking answers: Answers = Answers()) async -> Bool {
+        await hasLocalDefinitions(home: .homeDirectory) { await answers.answer($0) }
     }
 
     static func hasLocalDefinitions(home: URL) async -> Bool {
@@ -765,8 +784,8 @@ public enum Homebrew {
     /// When Homebrew last checked for new versions: the date of its definitions file while it reads its API, as by
     /// default, since a fetch of its own code leaves them as they were, else when `.git/FETCH_HEAD` was last touched.
     @concurrent
-    public static func lastUpdateCheck() async -> Date? {
-        await lastUpdateCheck(home: .homeDirectory, system: systemSettingsFile) { try? await answer($0) }
+    public static func lastUpdateCheck(asking answers: Answers = Answers()) async -> Date? {
+        await lastUpdateCheck(home: .homeDirectory, system: systemSettingsFile) { await answers.answer($0) }
     }
 
     static func lastUpdateCheck(
@@ -808,13 +827,13 @@ public enum Homebrew {
 
     /// The installed packages, each with what Homebrew's own settings make of it, and those settings, or nil when
     /// Homebrew would not say them.
-    public static func installed() async throws(CommandFailure)
+    public static func installed(asking answers: Answers = Answers()) async throws(CommandFailure)
         -> (packages: [HomebrewPackage], overrides: Overrides?) {
         // Read first, so a check made while the packages are read leaves them dated older than they are, never newer.
-        let checked = await lastUpdateCheck()
+        let checked = await lastUpdateCheck(asking: answers)
         async let settings = overrides()
         let output = try await answer(["info", "--json=v2", "--installed"])
-        let caskroom = (try? await answer(["--caskroom"])).flatMap(folder(answering:))
+        let caskroom = await answers.answer(["--caskroom"]).flatMap(folder(answering:))
         guard let packages = parseInstalled(Data(output.utf8), caskroom: caskroom) else {
             throw CommandFailure(output: output)
         }
@@ -936,13 +955,13 @@ public enum Homebrew {
     /// Returns the version and prefix of the Homebrew at `executableURL`. The prefix is the folder holding the
     /// `bin` that `brew` was found in, never one the environment names.
     @concurrent
-    public static func installation() async -> HomebrewInstallation? {
-        guard executableURL != nil, let version = try? await answer(["--version"]) else { return nil }
+    public static func installation(asking answers: Answers = Answers()) async -> HomebrewInstallation? {
+        guard executableURL != nil, let version = await answers.answer(["--version"]) else { return nil }
         let found = installation(
             versionAnswer: version,
-            prefixAnswer: try? await answer(["--prefix"]),
-            cellarAnswer: try? await answer(["--cellar"]),
-            repositoryAnswer: try? await answer(["--repository"])
+            prefixAnswer: await answers.answer(["--prefix"]),
+            cellarAnswer: await answers.answer(["--cellar"]),
+            repositoryAnswer: await answers.answer(["--repository"])
         )
         return found?.judgedForThisAccount()
     }
