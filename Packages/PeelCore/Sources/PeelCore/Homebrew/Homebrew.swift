@@ -281,6 +281,11 @@ public struct HomebrewInstallation: Sendable, Hashable {
 
     public var mayBeChangedByThisAccount: Bool { unwritable == nil }
 
+    /// Whether this is an Intel Homebrew on a Mac with Apple silicon, as Homebrew judges it (`cmd/vendor-install.sh`).
+    public var isIntelOnAppleSilicon: Bool {
+        HostArchitecture.isAppleSilicon && PathPattern.comparablePath(of: prefix) == "/usr/local"
+    }
+
     public var caskroom: URL {
         prefix.appending(path: "Caskroom", directoryHint: .isDirectory)
     }
@@ -1311,6 +1316,18 @@ public enum Homebrew {
         }
     }
 
+    /// What starts `executable`. The Homebrew in `/usr/local` on a Mac with Apple silicon is an Intel one
+    /// (`cmd/vendor-install.sh`). Started as it is, its shell says arm64, which chooses the bottles, and its Ruby runs
+    /// translated and says Intel, so it runs whole through Rosetta (`man arch`), as `arch -x86_64 brew` does.
+    static func launch(
+        of executable: URL, _ arguments: [String],
+        isAppleSilicon: Bool = HostArchitecture.isAppleSilicon, hasRosetta: Bool = Rosetta.isInstalled
+    ) -> (program: String, arguments: [String]) {
+        let path = executable.path(percentEncoded: false)
+        guard isAppleSilicon, hasRosetta, path.hasPrefix("/usr/local/") else { return (path, arguments) }
+        return ("/usr/bin/arch", ["-x86_64", path] + arguments)
+    }
+
     /// Runs `brew`, or `executable` when a test stands in for it, since a real upgrade would change this Mac. A run
     /// shown to the person keeps what Homebrew writes `inWritingOrder`: its warnings and errors among its steps.
     static func execute(
@@ -1328,14 +1345,14 @@ public enum Homebrew {
         guard let executable else {
             throw CommandFailure(output: Self.notInstalled)
         }
-        let path = executable.path(percentEncoded: false)
         let environment = environment(
             autoUpdate: autoUpdate, keeping: kept, executable: executable, readsTheAPI: readsTheAPI, home: home,
             writesLinesAsTheyGo: writesLinesAsTheyGo
         )
+        let launch = launch(of: executable, arguments)
         switch await Subprocess.run(
-            path, arguments, environment: environment, timeout: timeout, errorsIntoOutput: inWritingOrder,
-            onOutput: onOutput
+            launch.program, launch.arguments, environment: environment, timeout: timeout,
+            errorsIntoOutput: inWritingOrder, onOutput: onOutput
         ) {
         case .success(let output):
             return Attempt(status: output.status, standardOutput: output.text, standardError: output.errorText)

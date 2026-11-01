@@ -95,4 +95,23 @@ struct HomebrewChoiceTests {
         let usual = Homebrew.environment(autoUpdate: false)["PATH"]
         #expect(Homebrew.environment(autoUpdate: false, executable: standard)["PATH"] == usual)
     }
+
+    @Test func runsTheHomebrewInUsrLocalThroughRosettaOnAppleSilicon() {
+        let intel = URL(filePath: "/usr/local/bin/brew")
+        let expected = ["-x86_64", "/usr/local/bin/brew", "--version"]
+
+        let translated = Homebrew.launch(of: intel, ["--version"], isAppleSilicon: true, hasRosetta: true)
+        #expect(translated.program == "/usr/bin/arch")
+        #expect(translated.arguments == expected)
+        for (brew, isAppleSilicon, hasRosetta) in [
+            (intel, false, false),
+            (intel, true, false),
+            (URL(filePath: "/opt/homebrew/bin/brew"), true, true),
+            (URL(filePath: "/opt/brew/bin/brew"), true, true),
+        ] {
+            let plain = Homebrew.launch(of: brew, ["--version"], isAppleSilicon: isAppleSilicon, hasRosetta: hasRosetta)
+            #expect(plain.program == brew.path(percentEncoded: false))
+            #expect(plain.arguments == ["--version"])
+        }
+    }
 }

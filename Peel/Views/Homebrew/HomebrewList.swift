@@ -253,6 +253,13 @@ struct HomebrewList: View {
                     .help(Text(verbatim: location))
             }
             .labeledContentStyle(.oneLine)
+            if homebrew.installation?.isIntelOnAppleSilicon == true {
+                LabeledContent("Built For") {
+                    Text(Rosetta.isInstalled
+                        ? "Intel. Peel runs it through Rosetta."
+                        : "Intel. Rosetta isn’t installed, so it can’t run.")
+                }
+            }
             LabeledContent("Formulae") {
                 count(of: .formula)
             }
