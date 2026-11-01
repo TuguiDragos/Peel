@@ -83,25 +83,19 @@ struct DeveloperDetailView: View {
     }
 
     private func warning(for location: DeveloperEnvironment.Location) -> String? {
-        if location.size == nil {
-            return String(
-                localized: location.couldNotBeRead
-                    ? (location.closedByPermissions ? HoldBack.closedByPermissions : .couldNotBeRead).explanation
-                    : HoldBack.notMeasured.explanation
-            )
-        }
-        if let heldBack = location.heldBack {
+        switch location.keptBecause {
+        case nil, .keptByDefault:
+            return nil
+        case .heldBack(let heldBack):
             return String(localized: heldBack.explanation)
-        }
-        if !location.isTheTools {
+        case .notTheTools:
             return String(localized: "Not selected: nothing shows that \(environment.name) made this folder.")
+        case .workspaceMayBeInUse(let lastUsed):
+            let name = location.workspace?.name ?? ""
+            return lastUsed == nil
+                ? String(localized: "Not selected: Xcode didn’t record when \(name) was last opened, so its build data may still be needed.")
+                : String(localized: "Not selected: \(name) was opened in the last week, so its build data may be needed again soon.")
         }
-        if let workspace = location.workspace, workspace.mayStillBeInUse {
-            return workspace.lastUsed == nil
-                ? String(localized: "Not selected: Xcode didn’t record when \(workspace.name) was last opened, so its build data may still be needed.")
-                : String(localized: "Not selected: \(workspace.name) was opened in the last week, so its build data may be needed again soon.")
-        }
-        return nil
     }
 
     private var keptByDefault: Int {

@@ -334,7 +334,7 @@ struct CachesCommand: AsyncParsableCommand {
             let source: String
             /// Whether `--remove` would move it.
             let suggested: Bool
-            /// What held it back while it was measured, as `HoldBack` names it, or `null`.
+            /// What holds it back, as `HoldBack` names it, or `null`.
             let heldBack: String?
             /// Why it stays, as the list says it, or `null` when it is suggested.
             let reason: String?
@@ -399,6 +399,10 @@ struct CachesCommand: AsyncParsableCommand {
         }
     }
 
+    private static func heldBack(of location: DeveloperEnvironment.Location) -> String? {
+        if case .heldBack(let heldBack) = location.keptBecause { heldBack.rawValue } else { nil }
+    }
+
     /// The list's last column: "suggested", or why the folder stays.
     static func note(for location: DeveloperEnvironment.Location) -> String {
         guard let reason = reason(for: location) else { return "suggested" }
@@ -432,7 +436,7 @@ struct CachesCommand: AsyncParsableCommand {
                     kind: $0.kind.rawValue,
                     source: $0.source,
                     suggested: $0.isRecommended,
-                    heldBack: $0.heldBack?.rawValue,
+                    heldBack: heldBack(of: $0),
                     reason: reason(for: $0)
                 )
             })

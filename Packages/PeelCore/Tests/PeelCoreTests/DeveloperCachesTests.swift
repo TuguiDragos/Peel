@@ -63,6 +63,36 @@ struct DeveloperCachesTests {
         #expect(!refused.isRecommended && !slow.isRecommended)
     }
 
+    @Test func oneRuleSaysWhyAFolderStays() {
+        typealias Location = DeveloperEnvironment.Location
+        func location(
+            _ kind: DeveloperEnvironment.ContentKind = .cache, size: Int64? = 4_000, couldNotBeRead: Bool = false,
+            workspace: DeveloperEnvironment.Workspace? = nil, isTheTools: Bool = true, heldBack: HoldBack? = nil
+        ) -> Location {
+            Location(
+                url: URL(filePath: "/Users/me/Library/Caches/org.example.tool", directoryHint: .isDirectory),
+                kind: kind, size: size, source: "https://example.org", couldNotBeRead: couldNotBeRead,
+                workspace: workspace, isTheTools: isTheTools, heldBack: heldBack
+            )
+        }
+        let openedToday = DeveloperEnvironment.Workspace(name: "Example", lastUsed: .now)
+
+        #expect(location(size: nil, couldNotBeRead: true, heldBack: .holdsAWallet).keptBecause
+            == .heldBack(.holdsAWallet))
+        #expect(location(.models, size: nil, heldBack: .holdsAPasswordDatabase).keptBecause
+            == .heldBack(.holdsAPasswordDatabase))
+        #expect(location(size: nil, heldBack: .holdsRepository).keptBecause == .heldBack(.notMeasured))
+        #expect(location(size: nil, workspace: openedToday).keptBecause == .heldBack(.notMeasured))
+        #expect(location(size: nil, isTheTools: false).keptBecause == .heldBack(.notMeasured))
+        #expect(location(.models, size: nil).keptBecause == .heldBack(.notMeasured))
+        #expect(location(size: nil, couldNotBeRead: true).keptBecause == .heldBack(.couldNotBeRead))
+        #expect(location(.models, heldBack: .writtenRecently).keptBecause == .heldBack(.writtenRecently))
+        #expect(location(.models).keptBecause == .keptByDefault)
+        #expect(location(isTheTools: false).keptBecause == .notTheTools)
+        #expect(location(workspace: openedToday).keptBecause == .workspaceMayBeInUse(lastUsed: openedToday.lastUsed))
+        #expect(location().keptBecause == nil)
+    }
+
     @Test func aSearchFindsAToolByTheNamesOfItsFolders() {
         let hub = URL(filePath: "/Users/me/.cache/huggingface/hub", directoryHint: .isDirectory)
         let tool = DeveloperEnvironment(

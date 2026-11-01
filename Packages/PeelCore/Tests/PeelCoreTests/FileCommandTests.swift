@@ -957,6 +957,7 @@ struct FileCommandTests {
         #expect(written[0]["reason"] is NSNull && written[0]["heldBack"] is NSNull)
         #expect(written[1]["heldBack"] as? String == "holdsAWallet")
         #expect(written[1]["reason"] as? String == "holds a wallet or a signing key")
+        #expect(written[2]["heldBack"] as? String == "closedByPermissions")
         #expect(CachesCommand.staying(in: [held]).count == 6)
         #expect(CachesCommand.staying(in: [held])[0].hasSuffix("wallet stays: holds a wallet or a signing key"))
         #expect(CachesCommand.notes(for: [held]) == [

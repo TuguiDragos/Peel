@@ -209,6 +209,10 @@ public enum HoldBack: String, Sendable, Hashable {
         return contents.holdsPasswordDatabase ? .holdsAPasswordDatabase : nil
     }
 
+    var isASecret: Bool {
+        self == .holdsAWallet || self == .holdsAPasswordDatabase
+    }
+
     /// How long after a write a program may still be using what it wrote (`writtenRecently`).
     static let stillInUse: TimeInterval = 15 * 60
 

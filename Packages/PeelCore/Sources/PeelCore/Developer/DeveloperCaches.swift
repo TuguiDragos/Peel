@@ -79,18 +79,22 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         /// only content that tools make or fetch again, or logs, and only once measured.
         public var isRecommended: Bool { keptBecause == nil }
 
-        /// Why Peel doesn't recommend this location, or nil when it does.
+        /// Why Peel doesn't recommend this location, or nil when it does, which the page and `peel caches` both say:
+        /// a secret seen inside first, then what isn't known, since it may hide anything else, then the rest.
         public var keptBecause: Kept? {
+            if let heldBack, heldBack.isASecret { return .heldBack(heldBack) }
+            if size == nil {
+                if closedByPermissions { return .heldBack(.closedByPermissions) }
+                return .heldBack(couldNotBeRead ? .couldNotBeRead : .notMeasured)
+            }
+            if let heldBack { return .heldBack(heldBack) }
             switch kind {
             case .buildData, .downloads, .cache, .logs: break
             case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: return .keptByDefault
             }
-            if let heldBack { return .heldBack(heldBack) }
             if !isTheTools { return .notTheTools }
             if let workspace, workspace.mayStillBeInUse { return .workspaceMayBeInUse(lastUsed: workspace.lastUsed) }
-            guard size == nil else { return nil }
-            if closedByPermissions { return .heldBack(.closedByPermissions) }
-            return .heldBack(couldNotBeRead ? .couldNotBeRead : .notMeasured)
+            return nil
         }
 
         public enum Kept: Sendable, Equatable {
