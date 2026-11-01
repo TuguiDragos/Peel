@@ -182,6 +182,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   state and its buttons on one row.
 - Exclusions' `+` for apps opens a short list with a search field, rather than a menu that ran to the edge of the
   screen.
+- The Settings window keeps one size on every tab, rather than growing and shrinking as tabs change.
 
 #### Applications
 

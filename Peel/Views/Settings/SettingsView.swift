@@ -23,9 +23,9 @@ enum SettingsPane: String {
 /// The last open tab is remembered, as the Human Interface Guidelines ask of a settings window.
 struct SettingsTabs: View {
     @AppStorage(SettingsKey.pane) private var pane = SettingsPane.general.rawValue
-    /// Whether each tab is as tall as what it shows, which the Settings window follows. On the Settings page the
-    /// tabs fill the column.
-    var fitsEachTab = false
+    /// Whether the tabs have the Settings window's size, the same for every tab, so the window holds still as they
+    /// change. On the Settings page the tabs fill the column.
+    var isInTheWindow = false
 
     var body: some View {
         TabView(selection: $pane) {
@@ -44,43 +44,27 @@ struct SettingsTabs: View {
         }
     }
 
-    /// A tab as tall as what it shows, up to 520 points, past which it scrolls. A tab view gives every tab the
-    /// same height unless each asks for its own, which is what `fixedSize` does here.
     @ViewBuilder
     private func fitted(_ tab: some View) -> some View {
-        if fitsEachTab {
-            tab
-                .frame(width: 680)
-                .frame(maxHeight: 520)
-                .fixedSize(horizontal: false, vertical: true)
+        if isInTheWindow {
+            tab.frame(width: 680, height: SettingsView.height)
         } else {
             tab
         }
     }
 }
 
-/// The Settings window's content. The `Settings` scene sizes the window to fit it, so the window takes the
-/// height of the tab shown and can't be resized, as a settings window on the Mac does.
+/// The Settings window's content. The `Settings` scene sizes the window to fit it, so it keeps one size whichever tab
+/// is open, and a tab with more to show scrolls.
 struct SettingsView: View {
-    @State private var hostWindow = HostWindow()
+    static let height: CGFloat = 520
 
     var body: some View {
-        Group {
-            if #available(macOS 27, *) {
-                SettingsWindowTabs()
-            } else {
-                SettingsTabs(fitsEachTab: true)
-            }
+        if #available(macOS 27, *) {
+            SettingsWindowTabs()
+        } else {
+            SettingsTabs(isInTheWindow: true)
         }
-        // AppKit keeps the window's top where it was as a taller tab makes it grow, which can carry its bottom past
-        // the bottom of the screen.
-        .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResizeNotification)) { notice in
-            guard let window = hostWindow.value, notice.object as? NSWindow === window, let screen = window.screen
-            else { return }
-            let frame = GrowingWindow.frame(window.frame, within: screen.visibleFrame)
-            if frame.origin != window.frame.origin { window.setFrameOrigin(frame.origin) }
-        }
-        .background(HostWindowReader(host: hostWindow))
     }
 }
 
@@ -92,9 +76,7 @@ private struct SettingsWindowTabs: View {
 
     var body: some View {
         page
-            .frame(width: 760)
-            .frame(maxHeight: 520)
-            .fixedSize(horizontal: false, vertical: true)
+            .frame(width: 760, height: SettingsView.height)
             .navigationTitle(title)
             .toolbar {
                 ToolbarItem(placement: .principal) {
