@@ -151,13 +151,12 @@ struct LeftoversCommand: AsyncParsableCommand {
         let appStays: String?
 
         init(
-            app: InstalledApp, appSize: Int64?, leftovers: [Leftover], needsReview: Int, scan: LeftoverScan,
-            appStays: String?
+            app: InstalledApp, appSize: Int64?, leftovers: [Leftover], scan: LeftoverScan, appStays: String?
         ) {
             self.app = AppRecord(app)
             self.appSize = appSize
             self.leftovers = leftovers.map(LeftoverRecord.init)
-            self.needsReview = needsReview
+            needsReview = scan.leftovers.count { !$0.match.isRecommended }
             unreadableLocations = scan.unreadableLocations.map { Output.path($0.url) }
             needsFullDiskAccess = scan.needsFullDiskAccess
             cutShortLocations = scan.cutShortLocations.map { Output.path($0.url) }
@@ -219,7 +218,7 @@ struct LeftoversCommand: AsyncParsableCommand {
         if output.json {
             let appSize = uninstallation.isAppMeasured ? uninstallation.appSize : nil
             let report = Report(
-                app: target, appSize: appSize, leftovers: leftovers, needsReview: hidden, scan: uninstallation.scan,
+                app: target, appSize: appSize, leftovers: leftovers, scan: uninstallation.scan,
                 appStays: stays?.description
             )
             try Output.json(report)

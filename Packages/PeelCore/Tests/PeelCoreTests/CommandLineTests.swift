@@ -91,7 +91,7 @@ struct CommandLineTests {
 
         let report = { (stays: String?) throws -> [String: Any] in
             let leftovers = LeftoversCommand.Report(
-                app: notes, appSize: nil, leftovers: [cache], needsReview: 0,
+                app: notes, appSize: nil, leftovers: [cache],
                 scan: LeftoverScan(leftovers: [], unreadableLocations: []), appStays: stays
             )
             let json = try Output.jsonText(leftovers)
@@ -587,6 +587,25 @@ struct CommandLineTests {
         #expect(collected.notes.contains(folder.path(percentEncoded: false)))
     }
 
+    @Test func theLeftoversReportCountsWhatNeedsReviewWhetherOrNotItIsListed() throws {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.editor", name: "Editor"
+        )
+        let review = leftover(URL(filePath: "/Users/me/Library/Caches/review"), heldBack: .namedLikeTheApp)
+        let scan = LeftoverScan(leftovers: [review], unreadableLocations: [])
+
+        for listed in [[], [review]] {
+            let report = LeftoversCommand.Report(
+                app: app, appSize: nil, leftovers: listed, scan: scan, appStays: nil
+            )
+            let json = try #require(
+                JSONSerialization.jsonObject(with: Data(try Output.jsonText(report).utf8)) as? [String: Any]
+            )
+            #expect(json["needsReview"] as? Int == 1)
+        }
+    }
+
     /// `peel leftovers --json` names the folders macOS kept Peel out of, where the app may have left more.
     @Test func theLeftoversReportSaysWhereItCouldNotLook() throws {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
@@ -596,13 +615,12 @@ struct CommandLineTests {
             leftovers: [], unreadableLocations: [unread], cutShortLocations: [unread], needsFullDiskAccess: true
         )
         let report = LeftoversCommand.Report(
-            app: app, appSize: nil, leftovers: [], needsReview: 3, scan: scan, appStays: nil
+            app: app, appSize: nil, leftovers: [], scan: scan, appStays: nil
         )
 
         let json = try #require(
             JSONSerialization.jsonObject(with: Data(try Output.jsonText(report).utf8)) as? [String: Any]
         )
-        #expect(json["needsReview"] as? Int == 3)
         #expect(json["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
         #expect(json["cutShortLocations"] as? [String] == ["/Users/me/Library/Containers"])
         #expect(json["needsFullDiskAccess"] as? Bool == true)
