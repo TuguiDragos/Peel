@@ -622,6 +622,30 @@ struct HistoryCommandTests {
             == "Peel can't look in the Trash right now, so it can't say what could go back.")
     }
 
+    @Test func aRestoreFailsWhenAnItemWaitsOnADiskThatIsNotConnected() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let taken = try removal(in: directory)
+        let waiting = RemovalRecord(
+            batch: taken.record.batch,
+            item: TrashedItem(
+                originalURL: URL(filePath: "/Volumes/org.example.Missing/Report.pdf"),
+                trashedURL: URL(filePath: "/Volumes/org.example.Missing/.Trashes/501/Report.pdf"),
+                date: .now
+            ),
+            size: 10, source: "Editor", tool: "applications"
+        )
+        _ = await logs.removals.add([taken.record, waiting])
+
+        let dry = try await restoring(taken.record, "--dry-run", from: logs, in: directory)
+        #expect(dry.failure == nil)
+
+        let real = try await restoring(taken.record, "-y", from: logs, in: directory)
+        #expect(real.said.contains("Put 1 item back."))
+        #expect(real.said.contains("1 item is on a disk that isn't connected."))
+        #expect(real.failure != nil)
+    }
+
     @Test func saysSoWhenEverythingLeftIsRefused() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

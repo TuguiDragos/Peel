@@ -442,6 +442,7 @@ struct RestoreCommand: AsyncParsableCommand {
         for (record, failure) in failures {
             Output.note("Couldn't put \(Output.plain(Output.path(record.originalURL))) back: \(failure.summary)")
         }
-        try Cleanup.end(failed: !failures.isEmpty || !refused.isEmpty, recorded: forgotten)
+        let stayed = !failures.isEmpty || !refused.isEmpty || !waiting.isEmpty || !notKnown.isEmpty
+        try Cleanup.end(failed: stayed, recorded: forgotten)
     }
 }
