@@ -847,6 +847,33 @@ struct CloudStorageTests {
         #expect(done.refused.isEmpty)
     }
 
+    @Test func leavesADownloadKeepDownloadedTookSinceTheScan() async throws {
+        let directory = try TemporaryDirectory()
+        func download(_ path: String, heldBack: HoldBack? = nil) throws -> CloudFile {
+            let url = try directory.file("Library/Mobile Documents/com~apple~CloudDocs/\(path)", bytes: 2_000)
+            let modified = try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+            return CloudFile(
+                url: url, name: url.lastPathComponent, container: "iCloud Drive", size: 2_000, modified: modified,
+                heldBack: heldBack
+            )
+        }
+        let itself = try download("Kept.pdf")
+        let inAFolder = try download("Trip/Plans/route.pdf")
+        let inAnAppsFolder = try download("App.pdf", heldBack: .inAnAppsICloudFolder)
+        let chosenKnowingly = try download("Chosen.pdf", heldBack: .keptDownloaded)
+        let plain = try download("Plain.pdf")
+        let pinned: Set = ["Kept.pdf", "Trip", "App.pdf", "Chosen.pdf"]
+
+        let done = await CloudStorage.free(
+            [itself, inAFolder, inAnAppsFolder, chosenKnowingly, plain], exclusions: .none, isSafe: { _ in true },
+            evict: { _ in }, isPinned: { pinned.contains($0.lastPathComponent) }
+        )
+
+        #expect(done.freed == [chosenKnowingly, plain])
+        #expect(done.refused.map(\.url) == [itself.url, inAFolder.url, inAnAppsFolder.url])
+        #expect(Set(done.refused.map(\.reason)) == [.keptDownloaded])
+    }
+
     @Test func countsEachFileItFrees() async throws {
         let directory = try TemporaryDirectory()
         let files = try downloads(3, in: directory)

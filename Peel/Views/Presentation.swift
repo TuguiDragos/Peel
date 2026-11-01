@@ -297,6 +297,7 @@ extension CloudRefusal {
         case .changedSinceScan: String(localized: "It isn’t as it was when Peel looked at it: it may have been edited, stopped syncing, or been freed already, so Peel left it alone.")
         case .excluded: String(localized: "Excluded in Settings")
         case .inUse: String(localized: "A program is using it, as the wallpaper is used, so macOS couldn’t remove its download. Try again once nothing uses it.")
+        case .keptDownloaded: String(localized: "Keep Downloaded is on for it in Finder, so iCloud would download it again.")
         case .failed(let message): message
         }
     }

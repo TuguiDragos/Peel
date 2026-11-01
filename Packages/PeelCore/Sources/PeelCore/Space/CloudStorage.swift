@@ -63,6 +63,8 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
         case excluded
         /// A program holds the file, as the wallpaper is held, so macOS could not lock it to free its copy.
         case inUse
+        /// Keep Downloaded came on for it since the scan, so iCloud would download it again.
+        case keptDownloaded
         /// macOS refused to free the file. The value is the error message it gave.
         case failed(String)
     }
@@ -427,6 +429,16 @@ public enum CloudStorage {
         }
     }
 
+    /// Whether Keep Downloaded is on for `url` or for a folder it sits in.
+    static func isKeptDownloaded(_ url: URL, isPinned: (URL) -> Bool) -> Bool {
+        var place = url
+        while place.pathComponents.count > 1 {
+            if isPinned(place) { return true }
+            place = place.deletingLastPathComponent()
+        }
+        return false
+    }
+
     /// Frees the local copies of `files`, one at a time. Each file is checked again first, against `exclusions` as
     /// they are now as well: the list may have been on screen for hours, and a file edited since then may exist in
     /// its newest form only on the local disk.
@@ -441,7 +453,8 @@ public enum CloudStorage {
         _ files: [CloudFile],
         exclusions: Exclusions,
         isSafe: (URLResourceValues) -> Bool,
-        evict: (URL) throws -> Void = { try FileManager.default.evictUbiquitousItem(at: $0) }
+        evict: (URL) throws -> Void = { try FileManager.default.evictUbiquitousItem(at: $0) },
+        isPinned: (URL) -> Bool = isPinned(_:)
     ) async -> CloudFreeing {
         var done = CloudFreeing()
         for file in files {
@@ -471,6 +484,11 @@ public enum CloudStorage {
             // A date that can't be read, now or at the scan, never says the file is as it was.
             guard let modified, modified == file.modified else {
                 done.refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
+                continue
+            }
+            // A row the scan already held back for this is the person's choice.
+            if file.heldBack != .keptDownloaded, isKeptDownloaded(file.url, isPinned: isPinned) {
+                done.refused.append(CloudRefusal(url: file.url, reason: .keptDownloaded))
                 continue
             }
             do {

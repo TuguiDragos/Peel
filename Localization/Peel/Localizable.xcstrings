@@ -81114,6 +81114,112 @@
         }
       }
     },
+    "Keep Downloaded is on for it in Finder, so iCloud would download it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ve Finderu je u něj zapnutá volba „Zachovat stažené“, takže by ho iCloud znovu stáhl."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Laden und behalten“ ist für diese Datei im Finder aktiviert, daher würde iCloud sie erneut laden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiene activado “Conservar en dispositivo” en el Finder, así que iCloud lo volvería a descargar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« Conserver le téléchargement » est activé pour ce fichier dans le Finder : iCloud le téléchargerait donc à nouveau."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nel Finder è attivo “Conserva scaricato” per questo file, quindi iCloud lo scaricherebbe di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderで“ダウンロード済みを保持”がオンになっているため、削除してもiCloudが再びダウンロードします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 이 파일에 ‘다운로드 항목 유지’가 켜져 있으므로 iCloud가 다시 다운로드하게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'Bewaar download' staat in Finder aan voor dit bestand, dus iCloud zou het opnieuw downloaden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W Finderze jest dla tego pliku włączona opcja „Zachowuj pobrane”, więc iCloud pobrałby go ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A opção “Manter Downloads” está ativada para ele no Finder, então o iCloud o baixaria de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În Finder, opțiunea „Păstrați descărcat” este activată pentru acest fișier, așa că iCloud l‑ar descărca din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для этого файла в Finder включен параметр «Оставить в загрузках», поэтому iCloud снова загрузил бы его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”Behåll hämtningar” är aktiverat för den i Finder, så iCloud skulle hämta den igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder’da bu dosya için “İndirileni Tut” açık, bu yüzden iCloud onu yeniden indirirdi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для цього файлу у Finder увімкнено «Не передавати у хмару», тож iCloud знову його викачає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在“访达”中已设为“保留下载”，因此iCloud会重新下载它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已在Finder中設為「保留已下載項目」，因此iCloud會再次下載它。"
+          }
+        }
+      }
+    },
     "Keep Peel Open" : {
       "localizations" : {
         "cs" : {
