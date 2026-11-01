@@ -452,6 +452,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   each other disk Peel lists apps on (`VolumeTrashes`), where an app thrown away from that disk lands. `TrashService`
   tells it about Peel's own moves (`OwnTrashMoves`), by where each item landed, so Peel never offers to clean up
   after itself.
+- **Out of the Dock.** Settings can keep Peel out of the Dock while it shows in the menu bar with no window open
+  (`DockPresence`): the activation policy turns to accessory with the last window, and back to regular, with Peel
+  active, as soon as one opens. A window counts as open while it is minimized, or on screen and able to be main
+  (`countsAsOpen`), since AppKit answers that a minimized window can't be main and the menu bar panel's never can.
 
 ## The `peel` tool
 
