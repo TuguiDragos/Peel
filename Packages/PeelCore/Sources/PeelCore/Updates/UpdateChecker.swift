@@ -260,7 +260,10 @@ public struct UpdateChecker: Sendable {
         }
         guard isNewer else { return UpdateAnswer(status: .upToDate) }
         return UpdateAnswer(
-            status: .updateAvailable(version: latest, source: .developer, releaseNotes: item.releaseNotes),
+            status: .updateAvailable(
+                version: latest, source: .developer, releaseNotes: item.releaseNotes,
+                linkIsTheProductsPage: item.notesAreTheProductsPage ? true : nil
+            ),
             notes: item.notes,
             notesPage: item.notesPage
         )
@@ -314,14 +317,14 @@ public struct UpdateChecker: Sendable {
         case .notListed:
             // An app the store just offered an update for is believed unlisted only when the answer before this
             // one said so too; a first such answer is asked again later, as a failed check.
-            if case .updateAvailable(_, .appStore, _) = earlier, !notListedBefore {
+            if case .updateAvailable(_, .appStore, _, _) = earlier, !notListedBefore {
                 return UpdateAnswer(status: .failed, isNotListed: true)
             }
             return UpdateAnswer(status: .unsupported, isNotListed: true)
         case .listed(let latest, let page, let developer, let notes):
             // The App Store never goes back to an older version, so an answer older than the update it gave for this
             // build comes from a copy of its catalog that isn't up to date yet, and is asked again later.
-            if case .updateAvailable(let found, .appStore, _) = earlier,
+            if case .updateAvailable(let found, .appStore, _, _) = earlier,
                VersionComparison.isNewer(found, than: latest) {
                 return UpdateAnswer(status: .failed, developer: developer)
             }
@@ -440,6 +443,11 @@ public struct UpdateChecker: Sendable {
         UpdateAnswer(status: .failed, wasOffline: reply.wasOffline, reachedNoServer: reply.reachedNoServer)
     }
 
+    /// Whether this Mac has a network path at all, which a round asks once before it asks about any app.
+    public func canReachTheNetwork() async -> Bool {
+        await isOnline()
+    }
+
     /// How many requests a server has answered, whatever it said, since this checker was made.
     public var serverReplies: Int { replies.count }
 
@@ -550,7 +558,7 @@ public struct UpdateAnswer: Sendable, Hashable {
     /// The status to keep after `previous`: a check whose own source failed keeps an update that source found earlier,
     /// even where Homebrew answered in its place, and an update Homebrew reported is kept only while Homebrew gives it.
     public func following(_ previous: UpdateStatus?) -> UpdateStatus {
-        if (standsInFor ?? status) == .failed, let previous, case .updateAvailable(_, let source, _) = previous,
+        if (standsInFor ?? status) == .failed, let previous, case .updateAvailable(_, let source, _, _) = previous,
            source != .homebrew {
             return previous
         }

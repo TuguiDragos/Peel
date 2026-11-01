@@ -374,6 +374,7 @@ final class AppLibrary {
         }
     }
 
+    /// Stops the round Rescan started, which `recheck` runs.
     func stopCheckingEveryApp() {
         recheck?.cancel()
         rechecks += 1
@@ -645,6 +646,8 @@ final class AppLibrary {
         // The list's own entry, not the caller's: a page that was open through an upgrade still holds the old build.
         .map { app in apps.first { $0.id == app.id } ?? app }
         guard !wanted.isEmpty else { return }
+        // With no network at all, each request would wait out its whole time, and nothing is learned of any app.
+        guard await updateChecker.canReachTheNetwork() else { return }
         let asked = Dictionary(wanted.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let round = updateRounds.begin(wanted.map(\.id))
         // However the round ends, no app is left marked as being checked by it.
@@ -734,7 +737,7 @@ final class AppLibrary {
                     isNotListed: answer.isNotListed
                 ), for: app)
                 // Only an answer that found this update can say what is new in it; a failed one keeps what was known.
-                if case .updateAvailable(let version, _, _) = kept, answer.status == kept {
+                if case .updateAvailable(let version, _, _, _) = kept, answer.status == kept {
                     if let notes = answer.notes {
                         releaseNotes.record(.found(notes), of: identifier, version: version)
                     } else if releaseNotes.asks(about: kept, of: app, with: updatePreferences, force: force) {
@@ -1087,5 +1090,15 @@ final class AppLibrary {
         let name = AppInspector.knownName(forBundleIdentifier: reference)
         lastNames?.names[reference] = name
         return name
+    }
+}
+
+/// Rescan's work: the reading of the folders, and then the round of checks it starts.
+extension AppLibrary: StoppableWork {
+    var isRunning: Bool { scanRun.isRunning || isCheckingEveryApp }
+
+    func stop() {
+        scanRun.stop()
+        stopCheckingEveryApp()
     }
 }

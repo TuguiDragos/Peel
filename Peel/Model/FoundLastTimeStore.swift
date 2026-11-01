@@ -34,13 +34,6 @@ struct Looked: Equatable {
 // What counts as found for each tool the menu bar panel lists. Each is nil until the tool has looked since Peel
 // opened, so what an earlier look found stays until the tool looks again.
 
-extension AppLibrary {
-    /// The apps with an update waiting, as the menu bar counts them, once a round of checks is over.
-    var looked: Looked? {
-        hasLoaded && appsCheckingForUpdates.isEmpty ? Looked(count: menuBarUpdateCount, size: nil) : nil
-    }
-}
-
 extension OrphanLibrary {
     /// The groups, sized by what Peel can move with its helper. What only an administrator can move is no group of
     /// Peel's to free.

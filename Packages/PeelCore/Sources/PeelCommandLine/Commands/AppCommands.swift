@@ -810,9 +810,9 @@ struct UpdatesCommand: AsyncParsableCommand {
         init(app: InstalledApp, status: UpdateStatus, isWaiting: Bool) {
             self.app = AppRecord(app)
             switch status {
-            case .updateAvailable(let version, _, _):
+            case .updateAvailable:
                 self.status = isWaiting ? "updateAvailable" : "skipped"
-                availableVersion = version
+                availableVersion = status.displayVersion
             case .upToDate:
                 self.status = "upToDate"
                 availableVersion = nil

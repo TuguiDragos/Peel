@@ -20,6 +20,15 @@ struct AppListFilterTests {
         #expect(!keeps(AppListFilter(text: "example inc"), developer: nil))
     }
 
+    @Test func searchFindsAnAppByItsFileNameToo() {
+        let translated = InstalledApp(
+            url: URL(filePath: "/Applications/Calculator.app"), bundleIdentifier: "org.example.calc", name: "Calculatrice"
+        )
+        let filter = AppListFilter(text: "calculator")
+
+        #expect(filter.keeps(translated, source: .direct, developer: nil, isUnused: false))
+    }
+
     @Test func eachFilterOnNarrowsTheList() {
         #expect(keeps(AppListFilter()))
         #expect(keeps(AppListFilter(sources: [.appStore, .direct])))

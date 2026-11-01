@@ -310,9 +310,11 @@ private nonisolated final class TestClock: Sendable {
 
         library.checkEveryAppAgain()
         #expect(library.isCheckingEveryApp)
+        #expect(library.isRunning, "Rescan's Stop would not be offered")
         let round = library.recheck
-        library.stopCheckingEveryApp()
+        library.stop()
 
+        #expect(!library.isRunning)
         #expect(!library.isCheckingEveryApp)
         #expect(round?.isCancelled == true)
         await round?.value

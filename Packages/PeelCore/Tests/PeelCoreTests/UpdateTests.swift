@@ -398,6 +398,29 @@ struct UpdateFeedDetectionTests {
         #expect(electronApp.updateFeed == .electron(URL(string: "https://example.com/updates/latest-mac.yml")!))
     }
 
+    @Test func showsACasksVersionWithoutWhatHomebrewAdds() {
+        #expect(UpdateStatus.shownVersion(of: "26.10.22,802") == "26.10.22")
+        #expect(UpdateStatus.shownVersion(of: "1.2") == "1.2")
+    }
+
+    @Test func tellsAProductsPageFromNotes() throws {
+        func item(_ links: String) throws -> AppcastItem {
+            let feed = """
+                <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>
+                <enclosure url="https://example.com/a.zip" sparkle:version="2"/>\(links)</item></channel></rss>
+                """
+            let items = Appcast.releases(in: Data(feed.utf8), systemVersion: "26.0", isAppleSilicon: true)
+            return try #require(items?.first)
+        }
+
+        let page = try item("<link>https://example.com/</link>")
+        #expect(page.releaseNotes == URL(string: "https://example.com/"))
+        #expect(page.notesAreTheProductsPage)
+        let notes = "<sparkle:releaseNotesLink>https://example.com/notes.html</sparkle:releaseNotesLink>"
+        #expect(try !item("<link>https://example.com/</link>\(notes)").notesAreTheProductsPage)
+        #expect(try !item("").notesAreTheProductsPage)
+    }
+
     @Test func findsTheUpdateServiceVSCodeNames() throws {
         let folder = try TemporaryDirectory()
         let product = #"""

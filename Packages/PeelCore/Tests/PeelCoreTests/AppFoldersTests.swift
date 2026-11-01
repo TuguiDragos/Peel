@@ -104,6 +104,17 @@ struct AppFoldersTests {
         #expect(AppFolders(url: list, home: directory.url).load()?.map(\.lastPathComponent) == ["Tools"])
     }
 
+    @Test func aFolderReachedThroughTheDataVolumeIsJudgedAsItself() throws {
+        let directory = try TemporaryDirectory()
+        let tools = try directory.directory("Tools")
+        let real = PathPattern.canonical(tools).path(percentEncoded: false)
+        let reached = URL(filePath: "/System/Volumes/Data" + real, directoryHint: .isDirectory)
+
+        #expect(reached.isThere)
+        #expect(AppFolders.refusal(of: reached, home: directory.url) == nil)
+        #expect(AppFolders.refusal(of: URL(filePath: "/System/Applications"), home: directory.url) == .tooBroad)
+    }
+
     @Test func namesWhatItLeavesOutAndKeepsItUntilItIsTakenOff() throws {
         let directory = try TemporaryDirectory()
         let tools = try directory.directory("Tools")

@@ -113,7 +113,7 @@ public enum AppCatalog {
 
     @concurrent
     public static func scan(in directories: [URL]) async -> AppScan {
-        await scan(in: directories, within: FileSize.budget) { appBundles(in: $0, unless: $1) }
+        await scan(in: directories, within: FileSize.budget, walking: { appBundles(in: $0, unless: $1) })
     }
 
     /// Walks one folder for `scan(in:)`, until `isGivenUp` says nobody waits anymore. A parameter so a test can stand
@@ -127,7 +127,8 @@ public enum AppCatalog {
     /// among what could not be read, and the others are listed meanwhile.
     @concurrent
     static func scan(
-        in directories: [URL], within budget: TimeInterval, walking walk: @escaping Walk
+        in directories: [URL], within budget: TimeInterval, walking walk: @escaping Walk,
+        reading readApp: @escaping @Sendable (URL) -> InstalledApp? = { Reading.of($0) }
     ) async -> AppScan {
         let walks = await withTaskGroup(of: (index: Int, walk: (bundles: [URL], unreadable: [URL])?).self) { group in
             for (index, directory) in directories.enumerated() {
@@ -139,20 +140,55 @@ public enum AppCatalog {
         let unanswered = zip(directories, walks).filter { $0.1 == nil }.map(\.0)
         let bundles = Set(answered.flatMap(\.1.bundles))
 
-        let read = await withTaskGroup(of: (bundle: URL, app: InstalledApp?).self) { group in
-            for bundle in bundles {
-                group.addTask { (bundle, Task.isCancelled ? nil : Reading.of(bundle)) }
+        // A folder the person chose can be on a disk that lists from memory and then doesn't answer, so its apps are
+        // read on threads of their own, and once one doesn't answer in time the rest of that folder isn't asked. The
+        // Applications folders are on this Mac.
+        let usual = Set(standardDirectories.map(PathPattern.comparablePath))
+        let waited = directories.filter { !usual.contains(PathPattern.comparablePath(of: $0)) }
+        func folder(of bundle: URL) -> URL? {
+            let path = PathPattern.comparablePath(of: bundle)
+            return waited.first { PathComponents.isPath(path, inside: PathPattern.comparablePath(of: $0)) }
+        }
+        var stalled: Set<URL> = []
+        var unasked: [URL] = []
+        let read = await withTaskGroup(of: (bundle: URL, app: InstalledApp?, answered: Bool).self) { group in
+            var pending = bundles.makeIterator()
+            func askNext() {
+                while let bundle = pending.next() {
+                    let waitedFor = folder(of: bundle)
+                    if let waitedFor, stalled.contains(waitedFor) {
+                        unasked.append(bundle)
+                        continue
+                    }
+                    group.addTask {
+                        guard !Task.isCancelled else { return (bundle, nil, true) }
+                        guard waitedFor != nil else { return (bundle, readApp(bundle), true) }
+                        let answer = await SlowRead.answer(within: budget) { _ in readApp(bundle) }
+                        return answer.map { (bundle, $0, true) } ?? (bundle, nil, false)
+                    }
+                    return
+                }
             }
-            return await group.reduce(into: [(bundle: URL, app: InstalledApp?)]()) { $0.append($1) }
+            for _ in 0..<max(ProcessInfo.processInfo.activeProcessorCount, 2) {
+                askNext()
+            }
+            var read: [(bundle: URL, app: InstalledApp?, answered: Bool)] = []
+            while let result = await group.next() {
+                if !result.answered, let waitedFor = folder(of: result.bundle) { stalled.insert(waitedFor) }
+                read.append(result)
+                askNext()
+            }
+            return read
         }
         guard !Task.isCancelled else { return AppScan(apps: [], unreadable: [], needsFullDiskAccess: false) }
 
         Reading.forget(inside: answered.map { followingALink($0.0) }, except: bundles)
-        let closedApps = read.filter { $0.app == nil && AppInspector.isClosed($0.bundle) }.map(\.bundle)
+        let closedApps = read.filter { $0.answered && $0.app == nil && AppInspector.isClosed($0.bundle) }.map(\.bundle)
+        let silent = read.filter { !$0.answered }.map(\.bundle) + unasked
         let refused = answered.flatMap(\.1.unreadable) + closedApps
         return AppScan(
             apps: sorted(read.compactMap(\.app)),
-            unreadable: (refused + unanswered)
+            unreadable: (refused + unanswered + silent)
                 .sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) },
             needsFullDiskAccess: refused.contains { FullDiskAccess.canList($0) == .missing }
         )

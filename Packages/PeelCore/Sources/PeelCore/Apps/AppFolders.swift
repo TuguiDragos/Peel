@@ -113,7 +113,11 @@ public struct AppFolders: Sendable {
         if broad.contains(path) { return .tooBroad }
         // A whole disk other than the startup disk, and macOS's own folders, which hold no app of anyone else's.
         let names = PathComponents.of(path)
-        if names.count == 2 && names[0] == "volumes" || names.first == "system" { return .tooBroad }
+        if names.count == 2 && names[0] == "volumes" { return .tooBroad }
+        // `/System/Volumes/Data` is every folder of the data volume again, under another name.
+        if names.first == "system", PathComponents.of(folded(PathPattern.canonical(folder))).first == "system" {
+            return .tooBroad
+        }
         if TrashService.isAtOrInsideATrash(folder, home: home) { return .inATrash }
         // Listing a folder a cloud keeps can download what it holds.
         if isInTheCloud(folder) { return .inTheCloud }

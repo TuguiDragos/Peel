@@ -33,7 +33,7 @@ public struct UpdatePreferences: Sendable, Hashable {
     /// Whether `status` is an update worth showing: the app is not ignored and that version was not skipped.
     /// The app list, the menu bar count, the notification, and the command line all ask this, so they agree.
     public func isWaiting(_ status: UpdateStatus?, for app: InstalledApp) -> Bool {
-        guard case .updateAvailable(let version, _, _) = status else { return false }
+        guard case .updateAvailable(let version, _, _, _) = status else { return false }
         return !isIgnored(app) && skippedVersions[app.reference] != version
     }
 

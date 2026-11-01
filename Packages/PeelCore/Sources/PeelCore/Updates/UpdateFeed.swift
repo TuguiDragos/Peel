@@ -26,29 +26,43 @@ public enum UpdateSource: String, Sendable, Hashable, CaseIterable, Codable {
 /// The answer to an update check. It is `Codable` so answers survive a relaunch: apps are checked on a
 /// schedule, and a lost answer would leave an app with no status until its next check.
 public enum UpdateStatus: Sendable, Hashable, Codable {
-    case updateAvailable(version: String, source: UpdateSource = .developer, releaseNotes: URL? = nil)
+    /// `linkIsTheProductsPage` when all a feed gives `releaseNotes` from is its `<link>`, which Sparkle documents as
+    /// the product's page.
+    case updateAvailable(
+        version: String, source: UpdateSource = .developer, releaseNotes: URL? = nil, linkIsTheProductsPage: Bool? = nil
+    )
     case upToDate
     case unsupported
     case failed
 
     public var version: String? {
-        if case .updateAvailable(let version, _, _) = self { version } else { nil }
+        if case .updateAvailable(let version, _, _, _) = self { version } else { nil }
     }
 
     /// The version to show the user. Homebrew adds what the download needs after a comma in a cask's version
     /// (`26.10.22,802`), so only the part before the comma is shown. The full string is what is compared and
     /// skipped.
     public var displayVersion: String? {
-        guard case .updateAvailable(let version, let source, _) = self else { return nil }
-        return source == .homebrew ? String(version.prefix { $0 != "," }) : version
+        guard case .updateAvailable(let version, let source, _, _) = self else { return nil }
+        return source == .homebrew ? Self.shownVersion(of: version) : version
+    }
+
+    /// A cask's version as a person reads it, without what Homebrew adds after a comma.
+    public static func shownVersion(of version: String) -> String {
+        String(version.prefix { $0 != "," })
     }
 
     public var releaseNotes: URL? {
-        if case .updateAvailable(_, _, let notes) = self { notes } else { nil }
+        if case .updateAvailable(_, _, let notes, _) = self { notes } else { nil }
+    }
+
+    /// Whether `releaseNotes` leads to the product's page and not to notes.
+    public var linkIsTheProductsPage: Bool {
+        if case .updateAvailable(_, _, _, let isIt) = self { isIt == true } else { false }
     }
 
     public var source: UpdateSource? {
-        if case .updateAvailable(_, let source, _) = self { source } else { nil }
+        if case .updateAvailable(_, let source, _, _) = self { source } else { nil }
     }
 
     /// Whether this answer still holds for an app, given what Homebrew says of the app now, nil where the app isn't

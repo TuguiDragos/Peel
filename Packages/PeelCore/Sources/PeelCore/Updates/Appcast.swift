@@ -11,6 +11,8 @@ struct AppcastItem: Equatable {
     /// `sparkle:hardwareRequirements`, in lowercase. Sparkle knows one: `arm64`, a release for Apple silicon only.
     var hardwareRequirements: Set<String> = []
     var releaseNotes: URL?
+    /// Whether `releaseNotes` is only the item's `link`, which Sparkle documents as the product's page.
+    var notesAreTheProductsPage = false
     /// The page `sparkle:releaseNotesLink` names, which holds what is new. Unlike `releaseNotes`, never the product
     /// page an item's `link` names.
     var notesPage: URL?
@@ -174,6 +176,9 @@ enum Appcast {
                     item.releaseNotes =
                         ["sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link"]
                         .lazy.compactMap { self.notes[$0].flatMap { Appcast.preferred($0) } }.first
+                    item.notesAreTheProductsPage = item.releaseNotes != nil
+                        && ["sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink"]
+                        .allSatisfy { self.notes[$0] == nil }
                     item.notesPage = ["sparkle:releaseNotesLink", "releaseNotesLink"]
                         .lazy.compactMap { self.notes[$0].flatMap { Appcast.preferred($0) } }.first
                     if let description = Appcast.preferred(descriptions) {

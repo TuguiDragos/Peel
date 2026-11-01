@@ -27,6 +27,32 @@ private nonisolated final class TransportProtocol: URLProtocol, @unchecked Senda
 }
 
 @Suite(.serialized) @MainActor struct UpdateRoundTests {
+    @Test func aRoundWithNoNetworkAsksNobodyAndKeepsEveryAppDue() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [TransportProtocol.self]
+        let checker = UpdateChecker(
+            session: URLSession(configuration: configuration), appStoreWindow: RequestWindow.appStore,
+            isOnline: { false }
+        )
+        let library = AppLibrary(
+            defaults: made.defaults, updateChecker: checker,
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+        )
+        let bundle = try app("Offline", in: folder, feed: "https://feed.example.com/appcast.xml")
+        #expect(await library.reveal([bundle]))
+        let offline = try #require(library.apps.first { $0.bundleIdentifier == "org.example.offline" })
+
+        await library.checkForUpdates([offline], force: true)
+
+        #expect(library.shownUpdateStatus(of: offline) == nil)
+        #expect(made.defaults.data(forKey: SettingsKey.updateMemory) == nil)
+        #expect(library.appsCheckingForUpdates.isEmpty)
+    }
+
     private func app(_ name: String, in folder: URL, feed: String) throws -> URL {
         let bundle = folder.appending(path: "\(name).app", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(

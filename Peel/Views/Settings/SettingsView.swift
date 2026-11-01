@@ -603,7 +603,7 @@ extension GeneralSettingsView {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if let version = item.skippedVersion {
-                    Text("Version \(version) skipped")
+                    Text("Version \(UpdateStatus.shownVersion(of: version)) skipped")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

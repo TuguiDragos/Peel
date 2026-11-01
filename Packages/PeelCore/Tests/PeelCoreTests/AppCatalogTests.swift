@@ -78,6 +78,28 @@ struct AppCatalogTests {
         #expect(!scan.needsFullDiskAccess)
     }
 
+    @Test func aChosenFolderWhoseAppsDoNotAnswerCostsOneWaitAndIsSaid() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Tools")
+        let bundles = (0..<40).map { folder.appending(path: "App \($0).app", directoryHint: .isDirectory) }
+        let asked = Mutex(0)
+        let released = DispatchSemaphore(value: 0)
+        defer { for _ in 0..<40 { released.signal() } }
+
+        let scan = await AppCatalog.scan(
+            in: [folder], within: 0.2, walking: { _, _ in (bundles, []) },
+            reading: { _ in
+                asked.withLock { $0 += 1 }
+                _ = released.wait(timeout: .now() + 30)
+                return nil
+            }
+        )
+
+        #expect(scan.apps.isEmpty)
+        #expect(Set(scan.unreadable) == Set(bundles))
+        #expect(asked.withLock { $0 } <= max(ProcessInfo.processInfo.activeProcessorCount, 2))
+    }
+
     @Test func aReadingStoppedWhileAFolderDoesNotAnswerReturnsAtOnce() async throws {
         let sleeping = URL(filePath: "/nowhere/Sleeping", directoryHint: .isDirectory)
         let asked = Mutex(false)

@@ -92,7 +92,7 @@ struct AppPageHeader: View {
                 version: shown,
                 notes: library.releaseNotes(of: plan.app),
                 link: source == .appStore ? nil : status.releaseNotes.map {
-                    ReleaseNotesLink(url: $0, title: source == .homebrew ? "Homepage" : "Release Notes")
+                    ReleaseNotesLink(url: $0, title: Self.linkTitle(of: status))
                 }
             ) {
                 if let upgrade = library.upgrade(of: plan.app) {
@@ -107,11 +107,17 @@ struct AppPageHeader: View {
         }
     }
 
+    /// What the link of a waiting update leads to: a cask's homepage, the product's page a feed names, or notes.
+    private static func linkTitle(of status: UpdateStatus) -> LocalizedStringResource {
+        if status.source == .homebrew { return "Homepage" }
+        return status.linkIsTheProductsPage ? "Website" : "Release Notes"
+    }
+
     private var moreMenu: some View {
         Menu {
             if waitingVersion != nil, let status = library.updateStatuses[plan.app.id], status.source != .appStore,
                let notes = status.releaseNotes {
-                Button("Release Notes") { NSWorkspace.shared.open(notes) }
+                Button(Self.linkTitle(of: status)) { NSWorkspace.shared.open(notes) }
             }
             if let version = waitingVersion {
                 Button("Skip This Version") { library.skip(version: version, for: plan.app) }

@@ -96,7 +96,7 @@ struct AppList: View {
                 AppListMenu()
             }
             ToolbarItem {
-                RescanButton(isRunning: $isRescanning, isDisabled: library.isLoading, scan: library.scanRun) {
+                RescanButton(isRunning: $isRescanning, isDisabled: library.isLoading, scan: library) {
                     await library.rescan()
                 }
             }

@@ -246,7 +246,6 @@ struct PeelApp: App {
     /// its own, so one that looks again leaves the others' dates as they were.
     private func followFindings() async {
         let tools: [(Tool, @MainActor @Sendable () -> Looked?)] = [
-            (.applications, { [library] in library.looked }),
             (.orphans, { [orphans] in orphans.looked }),
             (.intel, { [intel] in intel.looked }),
             (.homebrew, { [homebrew] in homebrew.looked }),
