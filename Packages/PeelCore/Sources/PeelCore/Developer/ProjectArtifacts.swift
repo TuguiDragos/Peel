@@ -875,7 +875,8 @@ public enum ProjectArtifacts {
         public var unreadableLocations: [URL] = []
         /// True when macOS kept Peel out of one of them for want of Full Disk Access.
         public var needsFullDiskAccess = false
-        /// The chosen folders that were not searched at all, each with the reason, in the order they were given.
+        /// The folders not searched, each with the reason: chosen ones in the order they were given, then one gone
+        /// by the end of the scan, then one inside them that another app keeps in step.
         public var refusedRoots: [(url: URL, reason: Refusal)] = []
     }
 
@@ -886,37 +887,52 @@ public enum ProjectArtifacts {
 
     @concurrent
     static func scan(roots: [URL], exclusions: Exclusions, measure: @escaping LeftoverScanner.Measure) async -> Scan {
-        await withTaskGroup(of: (artifacts: [ProjectArtifact], wasCutShort: Bool, unreadable: [URL]).self) { group in
+        await withTaskGroup(of: Walked.self) { group in
             var refused: [(url: URL, reason: Refusal)] = []
+            var searched: [(root: URL, folder: URL)] = []
             for root in roots {
                 if let reason = refusal(for: root) {
                     refused.append((root, reason))
                     continue
                 }
                 // Listing a link as a URL answers "Not a directory", so the walk starts from where it leads.
-                let folder = root.isSymbolicLink ? PathPattern.canonical(root) : root
-                group.addTask { await artifacts(in: folder, exclusions: exclusions, measure: measure) }
+                searched.append((root, root.isSymbolicLink ? PathPattern.canonical(root) : root))
+            }
+            let folders = searched.map(\.folder)
+            for folder in folders {
+                // The highest chosen folder holding this one, so a project is the same whichever walk finds it first.
+                let top = folders.filter { PathComponents.isPath(key(of: folder), atOrInside: key(of: $0)) }
+                    .min { key(of: $0).count < key(of: $1).count }
+                group.addTask { await artifacts(in: folder, within: top, exclusions: exclusions, measure: measure) }
             }
             var found: [ProjectArtifact] = []
             var seen: Set<URL> = []
             var wasCutShort = false
             var unreadable: [URL] = []
+            var keptInStep: [(url: URL, reason: Refusal)] = []
             for await result in group {
                 wasCutShort = wasCutShort || result.wasCutShort
                 unreadable += result.unreadable
+                keptInStep += result.keptInStep.map { ($0.url, .inTheCloud($0.keeper)) }
                 for artifact in result.artifacts where seen.insert(artifact.url).inserted {
                     found.append(artifact)
                 }
             }
+            // A disk taken away during the scan: what it held can't be moved, and the walk said nothing of it.
+            let gone = searched.filter { $0.root.isMissing }
+            let kept = found.filter { artifact in
+                !gone.contains { PathComponents.isPath(key(of: artifact.url), atOrInside: key(of: $0.folder)) }
+            }
             return Scan(
-                artifacts: holdingBackWhatIsShared(await holdingBackWhatGitTracks(found))
+                artifacts: holdingBackWhatIsShared(await holdingBackWhatGitTracks(kept))
                     .sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
                 wasCutShort: wasCutShort,
                 unreadableLocations: unreadable.sorted {
                     PathPattern.comparablePath(of: $0) < PathPattern.comparablePath(of: $1)
                 },
                 needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing },
-                refusedRoots: refused
+                refusedRoots: refused + gone.map { ($0.root, .notAFolder) }
+                    + keptInStep.sorted { key(of: $0.url) < key(of: $1.url) }
             )
         }
     }
@@ -994,6 +1010,19 @@ public enum ProjectArtifacts {
         case inAPackage
         /// A folder the walk never enters (`isSkipped`), or one inside it: apps and tools keep what they install there.
         case neverSearched
+        case insideAnotherFolder(URL)
+        case holdsAnotherFolder(URL)
+    }
+
+    /// Why `root` can't join `listed`: what a folder inside another finds would be searched twice.
+    static func overlap(of root: URL, with listed: [URL]) -> Refusal? {
+        let path = PathPattern.comparablePath(of: PathPattern.canonical(root))
+        for folder in listed {
+            let other = PathPattern.comparablePath(of: PathPattern.canonical(folder))
+            if PathComponents.isPath(path, atOrInside: other) { return .insideAnotherFolder(folder) }
+            if PathComponents.isPath(other, atOrInside: path) { return .holdsAnotherFolder(folder) }
+        }
+        return nil
     }
 
     /// The folders in the home folder where people usually keep projects, suggested until one is chosen: each is
@@ -1006,15 +1035,23 @@ public enum ProjectArtifacts {
         }
     }
 
-    /// Why each of `roots` cannot be searched, in their order. Each is judged within `FileSize.budget`, since a
+    /// Why each of `roots` cannot join `listed`, in their order. Each is judged within `FileSize.budget`, since a
     /// folder on a network volume that stopped answering would hold the thread, and one that doesn't answer in time
     /// can't be reached.
     @concurrent
-    public static func refusals(of roots: [URL], home: URL = .homeDirectory) async -> [Refusal?] {
+    public static func refusals(
+        of roots: [URL], besides listed: [URL] = [], home: URL = .homeDirectory
+    ) async -> [Refusal?] {
+        var taken = listed
         var reasons: [Refusal?] = []
         for root in roots {
-            let reason = await SlowRead.answer(within: FileSize.budget) { _ in refusal(for: root, home: home) }
-            reasons.append(reason ?? .notAFolder)
+            let others = taken
+            let answer = await SlowRead.answer(within: FileSize.budget) { _ in
+                refusal(for: root, home: home) ?? overlap(of: root, with: others)
+            }
+            let reason = answer ?? .notAFolder
+            reasons.append(reason)
+            if reason == nil { taken.append(root) }
         }
         return reasons
     }
@@ -1063,15 +1100,19 @@ public enum ProjectArtifacts {
 
     /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `FileSize`'s budget, since a
     /// folder on a network volume that stopped answering would otherwise hold one of the threads every scan
-    /// shares, where a Stop cannot reach it. `listing` stands in for the listing in a test.
+    /// shares, where a Stop cannot reach it. A project is looked for up to `top`, by default `root`. `listing` stands
+    /// in for the listing in a test.
     static func artifacts(
         in root: URL,
+        within top: URL? = nil,
         exclusions: Exclusions,
         measure: LeftoverScanner.Measure,
         listing: @escaping @Sendable (URL) -> [URL]? = contents(of:)
-    ) async -> (artifacts: [ProjectArtifact], wasCutShort: Bool, unreadable: [URL]) {
+    ) async -> Walked {
         var pending: [Pending] = []
         var unreadable: [URL] = []
+        var keptInStep: [(url: URL, keeper: SyncKeeper)] = []
+        let keepers = SyncedFolders()
         var queue = [root]
         // An index, since `removeFirst` would make the walk quadratic.
         var next = 0
@@ -1097,6 +1138,9 @@ public enum ProjectArtifacts {
                 continue
             }
             ScanCount.current?.add(look.entries.count)
+            if look.isKeptInStep, let keeper = keepers.keeper(of: folder) {
+                keptInStep.append((folder, keeper))
+            }
             for artifact in look.found {
                 reached.insert(Self.key(of: folder.appending(path: artifact.name)))
             }
@@ -1105,7 +1149,7 @@ public enum ProjectArtifacts {
                 let url = folder.appending(path: artifact.name)
                 let project = artifact.isBesideItsToolsFile
                     ? folder
-                    : await project(above: folder, within: root, listing: listing, known: &projectFolders)
+                    : await project(above: folder, within: top ?? root, listing: listing, known: &projectFolders)
                 pending.append(Pending(url: url, project: project, found: artifact, contents: await measure(url)))
             }
 
@@ -1116,7 +1160,18 @@ public enum ProjectArtifacts {
                 queue.append(entry)
             }
         }
-        return (await withLastActivity(pending), next < queue.count, unreadable)
+        return Walked(
+            artifacts: await withLastActivity(pending), wasCutShort: next < queue.count, unreadable: unreadable,
+            keptInStep: keptInStep
+        )
+    }
+
+    /// What one walk found and what it couldn't look at.
+    struct Walked: Sendable {
+        let artifacts: [ProjectArtifact]
+        let wasCutShort: Bool
+        let unreadable: [URL]
+        let keptInStep: [(url: URL, keeper: SyncKeeper)]
     }
 
     private struct Pending: Sendable {
@@ -1216,6 +1271,7 @@ public enum ProjectArtifacts {
     private struct Look: Sendable {
         let entries: [URL]
         let found: [Found]
+        var isKeptInStep = false
     }
 
     private struct Found: Sendable {
@@ -1231,7 +1287,7 @@ public enum ProjectArtifacts {
     private static func look(in folder: URL, exclusions: Exclusions, listing: (URL) -> [URL]?) -> Look? {
         guard let entries = listing(folder) else { return nil }
         // What a folder another app keeps in step holds would go from the other devices too.
-        guard !SyncedFolders.marksAFolder(entries) else { return Look(entries: [], found: []) }
+        guard !SyncedFolders.marksAFolder(entries) else { return Look(entries: [], found: [], isKeptInStep: true) }
         let names = Set(entries.map(\.lastPathComponent))
         var artifactNames: Set<String> = []
         var found: [Found] = []

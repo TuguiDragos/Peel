@@ -70935,6 +70935,112 @@
         }
       }
     },
+    "It holds %@, which is already on the list. Remove that one first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obsahuje složku %@, která už je na seznamu. Nejdřív ji odeberte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält den Ordner %@, der bereits in der Liste steht. Entferne zuerst diesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene %@, que ya está en la lista. Quita primero esa carpeta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient %@, qui figure déjà dans la liste. Retirez d’abord celui-ci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene %@, che è già nell’elenco. Rimuovi prima quella cartella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでにリストにある%@を含んでいます。先にそちらを削除してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 목록에 있는 %@을(를) 포함하고 있습니다. 먼저 그 폴더를 목록에서 제거하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bevat %@, en die map staat al in de lijst. Verwijder die map eerst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera folder %@, który jest już na liście. Najpierw usuń tamten folder z listy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém %@, que já está na lista. Remova essa pasta primeiro."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conține %@, care este deja în listă. Eliminați mai întâi acel dosar din listă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке находится папка %@, которая уже есть в списке. Сначала удалите ту папку из списка."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller %@, som redan finns i listan. Ta bort den mappen först."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaten listede olan %@ klasörünü içeriyor. Önce onu listeden çıkarın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка містить папку %@, яка вже є в списку. Спершу вилучіть ту папку зі списку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%@，而该文件夹已在列表中。请先将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%@，而該檔案夾已在列表中。請先移除該檔案夾。"
+          }
+        }
+      }
+    },
     "It holds something nothing could bring back, so Peel never moves it." : {
       "localizations" : {
         "cs" : {
@@ -73175,6 +73281,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它正由%1$@使用中。請執行%2$@，然後再試一次。"
+          }
+        }
+      }
+    },
+    "It is inside %@, which is already on the list." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je uvnitř složky %@, která už je na seznamu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner liegt im Ordner %@, der bereits in der Liste steht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está dentro de %@, que ya está en la lista."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il se trouve dans %@, qui figure déjà dans la liste."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si trova in %@, che è già nell’elenco."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでにリストにある%@の中にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 목록에 있는 %@ 안에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het staat in %@, en die map staat al in de lijst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znajduje się w folderze %@, który jest już na liście."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está dentro de %@, que já está na lista."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se află în %@, care este deja în listă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта папка находится в папке %@, которая уже есть в списке."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den ligger i %@, som redan finns i listan."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaten listede olan %@ klasörünün içinde."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка лежить усередині папки %@, яка вже є в списку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位于%@内，而该文件夹已在列表中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位於%@內，而該檔案夾已在列表中。"
           }
         }
       }

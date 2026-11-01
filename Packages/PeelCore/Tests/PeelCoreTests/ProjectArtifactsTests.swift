@@ -1497,7 +1497,57 @@ struct ProjectArtifactsTests {
 
         #expect(scan.artifacts.map(\.project.lastPathComponent) == ["kept"])
         let mega = SyncKeeper.app(.mega, marker: directory.url.appending(path: "Shared/.megaignore"))
-        #expect(scan.refusedRoots.map { $0.reason } == [.inTheCloud(mega)])
+        #expect(scan.refusedRoots.first?.reason == .inTheCloud(mega))
+        #expect(scan.refusedRoots.map(\.url.lastPathComponent) == ["app", "synced"])
+        guard case .inTheCloud(.app(let app, let marker))? = scan.refusedRoots.last?.reason else {
+            Issue.record("Syncthing's folder is named with its app and its marker")
+            return
+        }
+        #expect(app == .syncthing)
+        #expect(marker.path(percentEncoded: false).hasSuffix("Code/synced/.stfolder"))
+    }
+
+    @Test func aFolderGoneDuringTheScanIsNamedAsOneThatCouldNotBeSearched() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Disk/app/package.json")
+        try directory.file("Disk/app/node_modules/left/index.js")
+        try directory.file("Code/app/package.json")
+        try directory.file("Code/app/node_modules/left/index.js")
+        let disk = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let code = directory.url.appending(path: "Code", directoryHint: .isDirectory)
+
+        let scan = await ProjectArtifacts.scan(roots: [disk, code], exclusions: .none) { url in
+            let contents = await LeftoverScanner.walk(url)
+            if url.path(percentEncoded: false).contains("/Disk/") { try? FileManager.default.removeItem(at: disk) }
+            return contents
+        }
+
+        #expect(scan.refusedRoots.map(\.url) == [disk])
+        #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
+    }
+
+    @Test func oneChosenFolderInsideAnotherNamesTheSameProjectEveryTime() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/repo/.git")
+        try directory.file("root/repo/pkg/app/main.py")
+        try directory.file("root/repo/pkg/app/__pycache__/main.cpython-314.pyc")
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        let inner = directory.url.appending(path: "root/repo/pkg", directoryHint: .isDirectory)
+
+        for roots in [[root, inner], [inner, root]] {
+            let scan = await ProjectArtifacts.scan(roots: roots)
+            #expect(scan.artifacts.map(\.project.lastPathComponent) == ["repo"])
+        }
+    }
+
+    @Test func aChosenFolderCannotHoldOrSitInsideOneOnTheList() {
+        let code = URL(filePath: "/Users/me/Code", directoryHint: .isDirectory)
+        let inner = URL(filePath: "/Users/me/Code/app", directoryHint: .isDirectory)
+        let other = URL(filePath: "/Users/me/Codes", directoryHint: .isDirectory)
+
+        #expect(ProjectArtifacts.overlap(of: inner, with: [code]) == .insideAnotherFolder(code))
+        #expect(ProjectArtifacts.overlap(of: code, with: [inner]) == .holdsAnotherFolder(inner))
+        #expect(ProjectArtifacts.overlap(of: other, with: [code, inner]) == nil)
     }
 
     @Test func findsEveryKindItKnowsInAProjectOfItsOwn() async throws {

@@ -469,6 +469,8 @@ extension ProjectArtifacts.Refusal {
         case .notAFolder: "it isn't a folder Peel can reach"
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
         case .neverSearched: "it is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one, where apps and tools keep what they install"
+        case .insideAnotherFolder(let folder): "it is inside \(Output.path(folder)), which is already on the list"
+        case .holdsAnotherFolder(let folder): "it holds \(Output.path(folder)), which is already on the list"
         }
     }
 }

@@ -39,7 +39,7 @@ final class ProjectLibrary {
     private(set) var needsFullDiskAccess = false
     /// The folders the last scan could not read, so what they hold isn't known.
     private(set) var unreadable: [URL] = []
-    /// The chosen folders the last scan didn't search at all, each with the reason.
+    /// The folders the last scan didn't search, each with the reason.
     private(set) var unsearchable: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
     /// Folders the last Add refused, with the reason, until the next one.
     private(set) var refused: [(url: URL, reason: ProjectArtifacts.Refusal)] = []
@@ -131,7 +131,7 @@ final class ProjectLibrary {
 
     func add(_ urls: [URL]) async {
         let chosen = urls.filter { !isListed($0) }
-        let reasons = await ProjectArtifacts.refusals(of: chosen)
+        let reasons = await ProjectArtifacts.refusals(of: chosen, besides: folders)
         // A folder that cannot be scanned is refused here, rather than saved and then silently skipped.
         refused = zip(chosen, reasons).compactMap { url, reason in reason.map { (url, $0) } }
         // Another Add may have listed one of them while these were judged.

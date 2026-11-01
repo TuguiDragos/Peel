@@ -620,7 +620,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     struct Report: Encodable {
         let artifacts: [Record]
         let unreadableLocations: [String]
-        /// Chosen folders the scan didn't search.
+        /// Folders the scan didn't search: chosen ones, and ones inside them that another app keeps in step.
         let skippedLocations: [String]
         /// True when there were more folders than Peel looks at in one go, so the list isn't all of them.
         let cutShort: Bool
