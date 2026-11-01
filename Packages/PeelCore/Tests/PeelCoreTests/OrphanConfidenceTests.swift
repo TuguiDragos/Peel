@@ -34,6 +34,29 @@ struct OrphanConfidenceTests {
         )
     }
 
+    @Test func aPlugInOtherAppsLoadHoldsBackItselfAndNotTheRestOfItsGroup() {
+        let app = left("Example", daysAgo: 400)
+        var plugIn = OrphanItem(
+            url: URL(filePath: "/Users/someone/Library/Audio/Plug-Ins/Components/Example.component"),
+            kind: .plugIns, size: 1_000, modificationDate: now.addingTimeInterval(-400 * 24 * 60 * 60),
+            requiresPrivileges: false
+        )
+        plugIn.heldBack = .loadedByOtherApps
+        let settings = OrphanItem(
+            url: URL(filePath: "/Users/someone/Library/Preferences/com.example.app.plist"),
+            kind: .preferences, size: 1_000, modificationDate: now.addingTimeInterval(-401 * 24 * 60 * 60),
+            requiresPrivileges: false
+        )
+        var mixed = OrphanGroup(identifier: "com.example.app", items: [plugIn, settings], rememberedApp: app)
+        let alone = OrphanGroup(identifier: "com.example.app", items: [plugIn], rememberedApp: app)
+
+        mixed.confidence = OrphanConfidence.judge(mixed, now: now)
+
+        #expect(mixed.confidence.level == .certain)
+        #expect(mixed.selectableRows(canUseHelper: true).recommended == [settings.url])
+        #expect(OrphanConfidence.judge(alone, now: now).reasons == [.loadedByOtherApps])
+    }
+
     @Test("Something running under that identifier settles it, whatever else is true")
     func runningOutranksEverything() {
         let old = group(written: 400 * 24 * 60 * 60, remembered: left("Example"))

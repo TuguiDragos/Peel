@@ -73,7 +73,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         if running.contains(where: { isOneApp($0.lowercased(), group.identifier.lowercased(), declared: declared) }) {
             return OrphanConfidence(level: .unsure, reasons: [.running])
         }
-        if group.items.contains(where: { $0.heldBack == .loadedByOtherApps }) {
+        // A plug-in's row says so and isn't recommended, while what else the app left is judged by the signs below.
+        if group.items.allSatisfy({ $0.heldBack == .loadedByOtherApps }) {
             return OrphanConfidence(level: .unsure, reasons: [.loadedByOtherApps])
         }
         // Links into an app that is gone lead nowhere, whatever their dates or the maker's other apps suggest.
