@@ -472,8 +472,10 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
 - CHANGELOG.md's entry for the next release gives each place in Peel a heading of its own under Added, Changed, and
   Fixed, in the sidebar's order, with its lines under it. A line about two places goes under the first and names the
   other, or under a heading that names both where it holds for both alike.
-- The documents say what Peel does and why, with Apple's or the tool's own documentation as the source. They don't
-  name other cleaners or uninstallers, or compare Peel with them.
+- The documents say what Peel does and why, with Apple's or the tool's own documentation as the source. Nothing in
+  the repository or the app (code, comments, tests, the interface, documents, commit messages, release notes) names
+  another cleaner or uninstaller or compares Peel with one. README's Thank you, which names the apps that inspired
+  Peel, is the one exception.
 - `docs/` is Peel's website. Only its text changes, and only to stay true to the app; its questions are written
   twice in `index.html`, the page and its data, and a change updates `dateModified` there and `lastmod` in
   `sitemap.xml`.

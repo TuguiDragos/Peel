@@ -117,6 +117,8 @@ right and the change is wrong.
   so is a visual bug whose cause holds on both, while any other change to how Peel looks goes in the macOS 27 branch
   and leaves macOS 26's code as it is.
 - **Every translation lives in `Localization/`**, in the words macOS itself uses in each language.
+- **Nothing names another cleaner or uninstaller, or compares Peel with one**, but README's thanks to the apps that
+  inspired it.
 - **Few comments, lines within 120 columns, American English, no em or en dashes, and no dead code.**
 
 ## Proposing a change
