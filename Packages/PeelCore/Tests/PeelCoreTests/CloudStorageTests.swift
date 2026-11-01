@@ -1,3 +1,4 @@
+import FileProvider
 import Foundation
 @testable import PeelCore
 import Synchronization
@@ -948,6 +949,49 @@ struct CloudStorageTests {
         #expect(CloudStorage.reason(for: locked) == .inUse)
         let other = CocoaError(.fileWriteNoPermission)
         #expect(CloudStorage.reason(for: other) == .failed(other.localizedDescription))
+    }
+
+    @Test func saysWhyFileProviderKeptADownload() {
+        func refusal(_ code: NSFileProviderError.Code, because underlying: [NSError] = []) -> NSError {
+            NSError(
+                domain: NSFileProviderErrorDomain, code: code.rawValue,
+                userInfo: underlying.isEmpty ? [:] : [NSMultipleUnderlyingErrorsKey: underlying]
+            )
+        }
+
+        #expect(CloudStorage.reason(for: refusal(.unsyncedEdits)) == .changedSinceScan)
+        #expect(CloudStorage.reason(for: refusal(.nonEvictable)) == .notRemovable)
+        #expect(CloudStorage.reason(for: refusal(.nonEvictableChildren)) == .notRemovable)
+        #expect(
+            CloudStorage.reason(for: refusal(.nonEvictableChildren, because: [refusal(.unsyncedEdits)]))
+                == .changedSinceScan
+        )
+        let busy = NSError(domain: NSPOSIXErrorDomain, code: Int(EBUSY))
+        #expect(CloudStorage.reason(for: busy) == .inUse)
+        #expect(CloudStorage.reason(for: refusal(.nonEvictableChildren, because: [busy])) == .inUse)
+    }
+
+    @Test func readsKeepDownloadedFromTheFileItself() throws {
+        let directory = try TemporaryDirectory()
+        func file(_ name: String, carrying attribute: String? = nil) throws -> URL {
+            let url = try directory.file(name, bytes: 1)
+            if let attribute {
+                #expect(setxattr(url.path(percentEncoded: false), attribute, nil, 0, 0, 0) == 0)
+            }
+            return url
+        }
+        let withFlags = try file("flags.pdf", carrying: "com.apple.fileprovider.pinned#PX")
+        let withoutFlags = try file("plain.pdf", carrying: "com.apple.fileprovider.pinned")
+        let another = try file("other.pdf", carrying: "com.apple.fileprovider.pinnedElsewhere")
+        let none = try file("none.pdf")
+        let link = directory.url.appending(path: "link.pdf")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: withFlags)
+
+        #expect(CloudStorage.isPinned(withFlags))
+        #expect(CloudStorage.isPinned(withoutFlags))
+        #expect(!CloudStorage.isPinned(another))
+        #expect(!CloudStorage.isPinned(none))
+        #expect(!CloudStorage.isPinned(link))
     }
 
     /// The desktop picture is open for as long as it is shown, so the scan says which file it is.

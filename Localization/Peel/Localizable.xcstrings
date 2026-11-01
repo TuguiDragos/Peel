@@ -243537,6 +243537,112 @@
         }
       }
     },
+    "iCloud keeps this download on this Mac, so it can’t be removed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud tuto staženou položku v tomto Macu uchovává, takže ji nelze odstranit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud behält diesen Download auf diesem Mac, daher kann er nicht entfernt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud conserva esta descarga en este Mac, así que no se puede eliminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud conserve ce téléchargement sur ce Mac : il ne peut donc pas être retiré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud conserva questo download su questo Mac, quindi non può essere rimosso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このダウンロードしたものはiCloudがこのMacに保持しているため、削除できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud가 이 다운로드를 이 Mac에 유지하므로 제거할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud bewaart deze download op deze Mac, dus die kan niet worden verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud zachowuje tę pobraną rzecz na tym Macu, więc nie można jej usunąć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O iCloud mantém este download neste Mac, então ele não pode ser removido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud păstrează această descărcare pe acest Mac, așa că nu poate fi eliminată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud хранит эту загрузку на этом Mac, поэтому ее нельзя удалить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud behåller den här hämtningen på den här datorn, så den kan inte tas bort."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud bu indirileni bu Mac’te tutuyor, bu yüzden kaldırılamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud зберігає це викачування на цьому Mac, тож його не можна вилучити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud将此下载保留在这台Mac上，因此无法将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud會將此下載項目保留在這部Mac上，因此無法移除。"
+          }
+        }
+      }
+    },
     "iPhone and iPad Backups" : {
       "localizations" : {
         "cs" : {

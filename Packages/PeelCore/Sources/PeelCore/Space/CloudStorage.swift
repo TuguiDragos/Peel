@@ -1,3 +1,4 @@
+internal import FileProvider
 public import Foundation
 import Synchronization
 internal import PeelPrivileged
@@ -65,6 +66,8 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
         case inUse
         /// Keep Downloaded came on for it since the scan, so iCloud would download it again.
         case keptDownloaded
+        /// iCloud marked it as a download it keeps.
+        case notRemovable
         /// macOS refused to free the file. The value is the error message it gave.
         case failed(String)
     }
@@ -541,9 +544,22 @@ public enum CloudStorage {
             : FileManager.default.displayName(atPath: url.path(percentEncoded: false))
     }
 
-    /// Why freeing a file failed: `NSFileLockingError` when a program holds it, and macOS's own message otherwise.
+    /// Why freeing a file failed, from what `NSFileProviderError.h` says of an eviction, and macOS's own message for
+    /// anything else. A program holding the file answers `NSFileLockingError` or `EBUSY`.
     static func reason(for error: any Error) -> CloudRefusal.Reason {
-        (error as? CocoaError)?.code == .fileLocking ? .inUse : .failed(error.localizedDescription)
+        let error = error as NSError
+        switch (error.domain, error.code) {
+        case (NSCocoaErrorDomain, CocoaError.fileLocking.rawValue), (NSPOSIXErrorDomain, Int(EBUSY)):
+            return .inUse
+        case (NSFileProviderErrorDomain, NSFileProviderError.Code.unsyncedEdits.rawValue):
+            return .changedSinceScan
+        case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictable.rawValue):
+            return .notRemovable
+        case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictableChildren.rawValue):
+            return error.underlyingErrors.first.map(reason(for:)) ?? .notRemovable
+        default:
+            return .failed(error.localizedDescription)
+        }
     }
 
     /// A document saved as a package, which iCloud keeps as one item: what removing its download frees, what it takes

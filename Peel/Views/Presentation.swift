@@ -298,6 +298,7 @@ extension CloudRefusal {
         case .excluded: String(localized: "Excluded in Settings")
         case .inUse: String(localized: "A program is using it, as the wallpaper is used, so macOS couldn’t remove its download. Try again once nothing uses it.")
         case .keptDownloaded: String(localized: "Keep Downloaded is on for it in Finder, so iCloud would download it again.")
+        case .notRemovable: String(localized: "iCloud keeps this download on this Mac, so it can’t be removed.")
         case .failed(let message): message
         }
     }
