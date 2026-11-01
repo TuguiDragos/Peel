@@ -201632,6 +201632,112 @@
         }
       }
     },
+    "This account doesn’t use iCloud Drive on this Mac, so there is nothing here to free." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet v tomto Macu iCloud Drive nepoužívá, takže tu není co uvolnit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount verwendet iCloud Drive auf diesem Mac nicht, daher gibt es hier nichts freizugeben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no usa iCloud Drive en este Mac, así que aquí no hay nada que liberar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte n’utilise pas iCloud Drive sur ce Mac : il n’y a donc rien à libérer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo account non usa iCloud Drive su questo Mac, quindi qui non c’è nulla da liberare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントはこのMacでiCloud Driveを使用していないため、ここには解放できるものがありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 이 Mac에서 iCloud Drive를 사용하지 않으므로 여기에는 공간을 확보할 항목이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account gebruikt iCloud Drive niet op deze Mac, dus er is hier niets om vrij te maken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie korzysta z iCloud Drive na tym Macu, więc nie ma tu czego zwalniać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não usa o iCloud Drive neste Mac, então não há nada aqui para liberar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu utilizează iCloud Drive pe acest Mac, așa că aici nu este nimic de eliberat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта учетная запись не использует iCloud Drive на этом Mac, поэтому здесь нечего освобождать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot använder inte iCloud Drive på den här datorn, så det finns inget att frigöra här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap bu Mac’te iCloud Drive’ı kullanmıyor, bu yüzden burada boşaltılacak bir şey yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не використовує iCloud Drive на цьому Mac, тож тут нічого звільняти."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户未在这台Mac上使用iCloud云盘，因此这里没有可释放的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號未在這部Mac上使用「iCloud雲碟」，因此這裡沒有可釋放的項目。"
+          }
+        }
+      }
+    },
     "This account isn’t allowed to use Peel’s helper." : {
       "localizations" : {
         "cs" : {
@@ -243325,109 +243431,108 @@
         }
       }
     },
-    "iCloud Drive isn’t set up for this account on this Mac." : {
-      "comment" : "On the iCloud Drive page, under Nothing to Free, when the person has never turned on iCloud Drive on this Mac.",
+    "iCloud Drive Isn’t Set Up" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive není pro tento účet v tomto Macu nastavený."
+            "value" : "iCloud Drive není nastavený"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive ist für diesen Benutzeraccount auf diesem Mac nicht eingerichtet."
+            "value" : "iCloud Drive ist nicht eingerichtet"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive no está configurado para esta cuenta en este Mac."
+            "value" : "iCloud Drive no está configurado"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive n’est pas configuré pour ce compte sur ce Mac."
+            "value" : "iCloud Drive n’est pas configuré"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive non è configurato per questo account su questo Mac."
+            "value" : "iCloud Drive non è configurato"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このMacのこのアカウントでは、iCloud Driveが設定されていません。"
+            "value" : "iCloud Driveが設定されていません"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 Mac의 이 계정에는 iCloud Drive가 설정되어 있지 않습니다."
+            "value" : "iCloud Drive가 설정되지 않음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive is niet ingesteld voor deze account op deze Mac."
+            "value" : "iCloud Drive is niet ingesteld"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Usługa iCloud Drive nie jest skonfigurowana dla tego konta na tym Macu."
+            "value" : "Usługa iCloud Drive nie jest skonfigurowana"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O iCloud Drive não está configurado para esta conta neste Mac."
+            "value" : "O iCloud Drive Não Está Configurado"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive nu este configurat pentru acest cont pe acest Mac."
+            "value" : "iCloud Drive nu este configurat"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive не настроен для этой учетной записи на этом Mac."
+            "value" : "iCloud Drive не настроен"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive har inte ställts in för det här kontot på den här datorn."
+            "value" : "iCloud Drive har inte ställts in"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive bu Mac’te bu hesap için ayarlanmamış."
+            "value" : "iCloud Drive Ayarlanmamış"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive не налаштовано для цього облікового запису на цьому Mac."
+            "value" : "iCloud Drive не налаштовано"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这台Mac上的此账户尚未设置iCloud云盘。"
+            "value" : "未设置iCloud云盘"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此帳號尚未在這部Mac上設定「iCloud雲碟」。"
+            "value" : "尚未設定「iCloud雲碟」"
           }
         }
       }

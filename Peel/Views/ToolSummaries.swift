@@ -166,6 +166,14 @@ extension DuplicateLibrary {
 
 extension CloudLibrary {
     var summary: AttributedString? { Tool.cloud.summary(of: looked) }
+
+    /// The title of the page's message when an empty list doesn't mean there is nothing to free.
+    var couldNotLook: LocalizedStringResource? {
+        if couldNotRead { return "iCloud Drive Couldn’t Be Read" }
+        guard files?.isEmpty == true else { return nil }
+        if hasMoreThanItRead { return "Nothing Found So Far" }
+        return isNotSetUp ? "iCloud Drive Isn’t Set Up" : nil
+    }
 }
 
 extension PackageLibrary {

@@ -40,6 +40,21 @@ struct CloudLibraryTests {
         #expect(cloud.total?.isComplete == false)
     }
 
+    @Test func anEmptyListTellsVoiceOverWhyWhenThereIsAReason() async {
+        func spoken(_ found: CloudScan) async -> String? {
+            let cloud = CloudLibrary(scan: { _, _, _ in found })
+            await cloud.refresh()
+            return cloud.couldNotLook?.key
+        }
+
+        #expect(await spoken(CloudScan(isNotSetUp: true)) == "iCloud Drive Isn’t Set Up")
+        #expect(await spoken(CloudScan(couldNotRead: true)) == "iCloud Drive Couldn’t Be Read")
+        #expect(await spoken(CloudScan(cutShort: .ranOutOfTime)) == "Nothing Found So Far")
+        #expect(await spoken(CloudScan(notRead: [URL(filePath: "/org.example/Locked")])) == "Nothing Found So Far")
+        #expect(await spoken(CloudScan()) == nil)
+        #expect(await spoken(CloudScan(files: [Self.download("Plan.pdf")], isNotSetUp: true)) == nil)
+    }
+
     @Test func hasNoTotalUntilICloudDriveIsRead() async throws {
         let home = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let drive = home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)

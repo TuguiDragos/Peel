@@ -42,6 +42,7 @@ struct CloudView: View {
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
+                        .accessibilityElement(children: .combine)
                     }
                     if more > 0 {
                         HStack {
@@ -159,16 +160,18 @@ struct CloudView: View {
                 } actions: {
                     UnreadableFoldersActions(folders: cloud.notRead, needsFullDiskAccess: false)
                 }
+            } else if cloud.files?.isEmpty == true, cloud.isNotSetUp {
+                ContentUnavailableView {
+                    Label("iCloud Drive Isn’t Set Up", systemImage: "icloud.slash")
+                } description: {
+                    Text("This account doesn’t use iCloud Drive on this Mac, so there is nothing here to free.")
+                }
             } else if cloud.files?.isEmpty == true {
                 ContentUnavailableView {
                     Label("Nothing to Free", systemImage: "checkmark.seal")
                 } description: {
                     VStack(spacing: 8) {
-                        if cloud.isNotSetUp {
-                            Text("iCloud Drive isn’t set up for this account on this Mac.")
-                        } else {
-                            Text("Peel found no file here that is safely in iCloud and big enough to be worth freeing.")
-                        }
+                        Text("Peel found no file here that is safely in iCloud and big enough to be worth freeing.")
                         sharedDownloadsNote
                     }
                 }
@@ -195,7 +198,7 @@ struct CloudView: View {
         .announcesScan(
             cloud.isScanning,
             found: cloud.summary,
-            couldNotLook: couldNotLook,
+            couldNotLook: cloud.couldNotLook,
             wasStopped: cloud.scanRun.wasStopped
         )
         .navigationTitle(Text(Tool.cloud.title))
@@ -280,12 +283,6 @@ struct CloudView: View {
         } else {
             closedInSearch.formSymmetricDifference([folder.url])
         }
-    }
-
-    private var couldNotLook: LocalizedStringResource? {
-        if cloud.couldNotRead { return "iCloud Drive Couldn’t Be Read" }
-        if cloud.files?.isEmpty == true, cloud.hasMoreThanItRead { return "Nothing Found So Far" }
-        return nil
     }
 
     private func phase(listed: [CloudFile]) -> ScanPhase {
