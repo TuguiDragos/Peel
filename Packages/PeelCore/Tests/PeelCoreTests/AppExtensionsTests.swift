@@ -396,6 +396,23 @@ struct AppExtensionsTests {
         #expect(await AppExtensions.scan(exclusions: .none, run: both).unanswered.isEmpty)
     }
 
+    @Test func leavesOutAnExtensionWhoseBundleIsNoLongerThere() async throws {
+        let directory = try TemporaryDirectory()
+        let appex = try directory.directory("Chat.app/Contents/PlugIns/Share.appex")
+        let gone = directory.url.appending(path: "Gone.app/Contents/PlugIns/Share.appex")
+        let listing = """
+             org.example.chat.share(1.0)\t6299ACC7-6EDA-4A38-9BD4-89444C604682\t2026-09-20 17:23:02 +0000\t\
+        \(appex.path(percentEncoded: false))
+             org.example.gone.share(1.0)\t6299ACC7-6EDA-4A38-9BD4-89444C604683\t2026-09-20 17:23:02 +0000\t\
+        \(gone.path(percentEncoded: false))
+         (2 plug-ins)
+        """
+
+        let found = try #require(await AppExtensions.appExtensions { _, _ in listing })
+
+        #expect(found.map(\.identifier) == ["org.example.chat.share"])
+    }
+
     private static let pluginkit = """
              com.apple.example.Sample(1.0)\t6299ACC7-6EDA-4A38-9BD4-89444C604682\t2026-09-20 17:23:02 +0000\t\
         /System/Library/Sample.appex

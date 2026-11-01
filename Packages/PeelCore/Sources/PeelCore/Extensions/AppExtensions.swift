@@ -256,7 +256,8 @@ public enum AppExtensions {
     }
 
     /// Returns what apps added, or nil when `pluginkit` gave no answer Peel can read. It always lists macOS's own
-    /// extensions and ends by counting what it listed, so a listing read short of that is not understood.
+    /// extensions and ends by counting what it listed, so a listing read short of that is not understood. It goes on
+    /// listing an extension for a while after its app has left, so what is no longer there is left out.
     static func appExtensions(run: Runner) async -> [AppExtension]? {
         guard let output = await run("/usr/bin/pluginkit", ["-m", "-v"]) else { return nil }
         let lines = output.split(whereSeparator: \.isNewline)
@@ -265,6 +266,7 @@ public enum AppExtensions {
         return rows.compactMap { parsed in
             guard !isTheSystemsOwn(parsed.path) else { return nil }
             let url = URL(filePath: parsed.path, directoryHint: .isDirectory)
+            guard !url.isMissing else { return nil }
             let info = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))
             return AppExtension(
                 identifier: parsed.identifier,

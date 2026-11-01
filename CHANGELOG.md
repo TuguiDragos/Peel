@@ -715,6 +715,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Extensions
 
+- An extension whose app has just left is no longer listed, though macOS goes on naming it for a while.
 - Each extension says where it is really turned on and off, an excluded app's extensions are left out, and the page
   is read again when shown and when Peel comes forward.
 - A system extension whose app is gone says the app is no longer installed.
