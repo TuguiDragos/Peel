@@ -206612,7 +206612,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neznámá"
+            "value" : "Neznámý"
           }
         },
         "de" : {
@@ -206636,13 +206636,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inconnue"
+            "value" : "Inconnu"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sconosciuta"
+            "value" : "Sconosciuto"
           }
         },
         "ja" : {
@@ -206678,7 +206678,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Necunoscută"
+            "value" : "Necunoscut"
           }
         },
         "ru" : {
@@ -206690,7 +206690,7 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Okänd"
+            "value" : "Okänt"
           }
         },
         "tr" : {
