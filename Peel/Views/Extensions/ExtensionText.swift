@@ -30,13 +30,14 @@ extension AppExtension {
 /// purpose: Xcode's string extraction can miss the words of a switch expression assigned to a local `let`, and
 /// those words would then stay English in every language.
 private enum ExtensionPoint {
-    case finder, share, widgets, quickLook, safari, shortcuts, notifications, spotlight, photos, messages, network,
-        audio, quickActions, passwords, xcode, photoProjects, smartCards, services
+    case finder, fileProviders, sharing, widgets, quickLook, safari, shortcuts, notifications, spotlight, photos,
+        messages, network, audio, quickActions, passwords, xcode, photoProjects, smartCards, services
 
     init?(_ identifier: String) {
         switch identifier {
-        case "com.apple.FinderSync", "com.apple.fileprovider-nonui", "com.apple.fileprovider-actionsui": self = .finder
-        case "com.apple.share-services": self = .share
+        case "com.apple.FinderSync": self = .finder
+        case "com.apple.fileprovider-nonui", "com.apple.fileprovider-actionsui": self = .fileProviders
+        case "com.apple.share-services": self = .sharing
         case "com.apple.widgetkit-extension": self = .widgets
         case "com.apple.quicklook.preview", "com.apple.quicklook.thumbnail": self = .quickLook
         case "com.apple.Safari.web-extension", "com.apple.Safari.extension", "com.apple.Safari.content-blocker":
@@ -63,8 +64,10 @@ private enum ExtensionPoint {
 
     var word: LocalizedStringResource {
         switch self {
+        // System Settings' own names for the categories it lists extensions under.
         case .finder: "Finder"
-        case .share: "Share menu"
+        case .fileProviders: "File Providers"
+        case .sharing: "Sharing"
         case .widgets: "Widgets"
         // The feature's name, under a key of its own: the Duplicates page uses "Quick Look" as a command, and
         // some languages write the two differently (Swedish: Överblick for the feature, Överblicka for the command).
@@ -73,13 +76,13 @@ private enum ExtensionPoint {
         case .shortcuts: "Shortcuts and Siri"
         case .notifications: "Notifications"
         case .spotlight: "Spotlight"
-        case .photos: "Photos"
+        case .photos: "Photos Editing"
         case .messages: "Messages"
         case .network: "Network"
         case .audio: "Audio apps"
-        case .quickActions: "Quick Actions"
-        // System Settings' own names for these categories of extensions. Services has a key of its own, since some
-        // languages name the category apart from the Services folder the Plug-ins page lists (Ukrainian: Сервіси).
+        case .quickActions: "Actions"
+        // Services has a key of its own, since some languages name the category apart from the Services folder the
+        // Plug-ins page lists (Ukrainian: Сервіси).
         case .passwords: "Password AutoFill"
         case .xcode: "Xcode Source Editor"
         case .photoProjects: "Photos Projects"

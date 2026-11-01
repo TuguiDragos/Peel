@@ -32,6 +32,16 @@ struct ExtensionTextTests {
 
         #expect(blocker.pointName == String(localized: "Safari"))
         #expect(passwords.pointName == String(localized: "Password AutoFill"))
+        for (point, word) in [
+            ("com.apple.FinderSync", String(localized: "Finder")),
+            ("com.apple.fileprovider-nonui", String(localized: "File Providers")),
+            ("com.apple.fileprovider-actionsui", String(localized: "File Providers")),
+            ("com.apple.share-services", String(localized: "Sharing")),
+            ("com.apple.photo-editing", String(localized: "Photos Editing")),
+            ("com.apple.ui-services", String(localized: "Actions")),
+        ] {
+            #expect(part(name: "Part", owner: "Example", point: point).pointName == word)
+        }
     }
 
     @Test func findsAPartByTheWordItsPageShows() throws {
