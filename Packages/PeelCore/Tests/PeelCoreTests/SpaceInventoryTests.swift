@@ -1,6 +1,7 @@
 import Foundation
 @testable import PeelCore
 import PeelPrivileged
+import Synchronization
 import Testing
 
 struct SpaceInventoryTests {
@@ -234,6 +235,29 @@ struct SpaceInventoryTests {
         #expect(logs.size.known < 400_000)
     }
 
+    @Test func measuresAFewPlacesOfAnAreaAtATime() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<8 {
+            try directory.file("home/Library/Containers/org.example.app\(index)/Data/Library/Logs/run.log", bytes: 16)
+        }
+        let running = Mutex((now: 0, most: 0))
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1
+        ) { url in
+            guard url.path(percentEncoded: false).contains("/Data/Library/Logs") else { return await LeftoverScanner.walk(url) }
+            running.withLock { $0.now += 1; $0.most = max($0.most, $0.now) }
+            try? await Task.sleep(for: .milliseconds(100))
+            running.withLock { $0.now -= 1 }
+            return FolderContents(size: 4_000, holdsRepository: false)
+        }
+
+        #expect(report.items.first { $0.id == "logs" }?.size.known == 32_000)
+        #expect(running.withLock { $0.most } == LeftoverScanner.concurrentMeasurements)
+    }
+
     @Test func anExcludedPlaceThatCannotBeMeasuredLeavesTheAreaUnknown() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Caches/org.example.kept/blob", bytes: 300_000)
@@ -247,6 +271,25 @@ struct SpaceInventoryTests {
         }
 
         #expect(report.items.first { $0.id == "caches" }?.size.reading == .unknown)
+    }
+
+    @Test(.permissionsHold) func anExcludedPlaceMacOSRefusesSaysNothingOfTime() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.kept/blob", bytes: 300_000)
+        try directory.file("home/Library/Logs/org.example.big/blob", bytes: 900_000)
+        try directory.file("home/Library/Caches/org.example.closed/blob", bytes: 16)
+        try directory.setPermissions(0, of: "home/Library/Caches/org.example.closed")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Caches/org.example.closed") }
+        let excluded = directory.url.appending(path: "home/Library/Caches/org.example.closed")
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, exclusions: Exclusions(paths: [excluded]), measure: LeftoverScanner.walk
+        )
+
+        #expect(report.items.first { $0.id == "caches" }?.size.reading == .unknown)
+        #expect(report.items.first?.id == "logs", "what ran out of time comes first, and this didn't")
     }
 
     @Test func leavesWhatOthersOwnToThem() async throws {

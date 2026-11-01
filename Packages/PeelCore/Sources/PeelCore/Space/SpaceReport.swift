@@ -430,39 +430,36 @@ public enum SpaceInventory {
         }
     }
 
-    /// The total size of `urls` less what is excluded inside them. A folder read only in part counts what was seen; one
-    /// that ran out of time (a file provider can stall a read for minutes), or holds an excluded place that did, is
-    /// unknown.
+    /// The total size of `urls` less what is excluded inside them, a few at a time, since one that doesn't answer would
+    /// delay the rest by its whole budget. A folder read only in part counts what was seen; one that ran out of time (a
+    /// file provider can stall a read for minutes), or holds an excluded place that did, is unknown, and so is one
+    /// holding an excluded place macOS refused, though no time ran out.
     private static func size(
         of urls: [URL],
         leaving exclusions: Exclusions,
         measure: @escaping LeftoverScanner.Measure
     ) async -> Measured {
-        var parts: [SizeTotal] = []
-        var ranOutOfTime = false
-        for url in urls {
-            // A stopped scan asks about nothing more.
-            guard !Task.isCancelled else {
-                return Measured(size: SizeTotal(known: 0, isComplete: false), ranOutOfTime: true)
-            }
-            guard let contents = await measure(url) else {
-                parts.append(SizeTotal(known: 0, isComplete: false))
-                ranOutOfTime = true
-                continue
+        let unknown = SizeTotal(known: 0, isComplete: false)
+        let measured = await urls.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { url -> Measured in
+            guard !Task.isCancelled, let contents = await measure(url) else {
+                return Measured(size: unknown, ranOutOfTime: true)
             }
             var known = contents.size
-            var isComplete = !contents.couldNotBeRead
             for place in exclusions.places(inside: url) where !place.isMissing {
-                guard let excluded = await measure(place), !excluded.couldNotBeRead else {
-                    (known, isComplete) = (0, false)
-                    ranOutOfTime = true
-                    break
-                }
+                guard let excluded = await measure(place) else { return Measured(size: unknown, ranOutOfTime: true) }
+                guard !excluded.couldNotBeRead else { return Measured(size: unknown, ranOutOfTime: false) }
                 known -= excluded.size
             }
-            parts.append(SizeTotal(known: max(0, known), isComplete: isComplete))
+            return Measured(
+                size: SizeTotal(known: max(0, known), isComplete: !contents.couldNotBeRead), ranOutOfTime: false
+            )
         }
-        return Measured(size: SizeTotal(combining: parts), ranOutOfTime: ranOutOfTime)
+        // A stopped scan starts nothing more, so it answers for fewer places than it was given.
+        let isWhole = measured.count == urls.count
+        return Measured(
+            size: SizeTotal(combining: measured.map(\.size) + (isWhole ? [] : [unknown])),
+            ranOutOfTime: !isWhole || measured.contains(where: \.ranOutOfTime)
+        )
     }
 
     /// The folders Space empties. Each stays itself, since Space moves what is inside, never the folder.
