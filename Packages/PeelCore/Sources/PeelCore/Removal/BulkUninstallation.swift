@@ -137,11 +137,6 @@ public struct BulkUninstallation: Sendable {
     /// What a checkbox can select, by the rule of an app's own page: nothing Peel leaves alone or with something
     /// excluded inside, nothing that needs the helper while it cannot act, no app macOS keeps, that sits inside
     /// another package, or that the helper may not move, and nothing of Peel.
-    /// How many rows only the helper can move and a person could select once it can act.
-    public var rowsWaitingForTheHelper: Int {
-        privilegedURLs.intersection(selectable(canUseHelper: true)).count
-    }
-
     public func selectable(canUseHelper: Bool) -> Set<URL> {
         Set(items.filter { item in
             !item.isExcluded && item.removedElsewhere == nil && !item.isBeyondTheHelper && !item.isInTheTrash
@@ -149,6 +144,11 @@ public struct BulkUninstallation: Sendable {
                 && !(item.isApplication && item.isKeptByMacOS) && item.match?.heldBack?.cannotBeMoved != true
                 && (canUseHelper || !item.requiresPrivileges)
         }.map(\.url))
+    }
+
+    /// How many rows only the helper can move and a person could select once it can act.
+    public var rowsWaitingForTheHelper: Int {
+        privilegedURLs.intersection(selectable(canUseHelper: true)).count
     }
 
     /// The files of the app `reference` names (`InstalledApp.reference`): its leftovers, and what it shares with
