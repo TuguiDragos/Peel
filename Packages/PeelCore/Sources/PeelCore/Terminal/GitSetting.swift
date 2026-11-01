@@ -50,10 +50,7 @@ public enum GitSetting: CaseIterable, Sendable {
     }
 
     public func commands(signingKey: String?) -> [String] {
-        values(signingKey: signingKey).map { value in
-            let shown = value.value.contains(" ") ? value.value.quotedForTheShell : value.value
-            return "git config --global \(value.key) \(shown)"
-        }
+        values(signingKey: signingKey).map { "git config --global \($0.key) \($0.value.wordForTheShell)" }
     }
 
     /// What turning the setting on writes. Signing needs a public key, so without one it writes nothing.

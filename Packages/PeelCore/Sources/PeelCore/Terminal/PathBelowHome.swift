@@ -13,8 +13,7 @@ extension URL {
     /// The path as a command in Terminal takes it: from `~` when it is in the home folder and needs no quoting,
     /// and otherwise whole, in single quotes.
     func pathForTheShell(home: URL) -> String {
-        let plain: (Character) -> Bool = { $0.isASCII && ($0.isLetter || $0.isNumber || "._/-".contains($0)) }
-        if let below = path(below: home), below.allSatisfy(plain) {
+        if let below = path(below: home), below.isPlainForTheShell {
             return "~/" + below
         }
         return path(percentEncoded: false).quotedForTheShell
@@ -25,6 +24,16 @@ extension String {
     /// The text in single quotes, as the shell reads it back unchanged.
     var quotedForTheShell: String {
         "'" + replacing("'", with: "'\\''") + "'"
+    }
+
+    /// The text as one word of a command: as it is when the shell reads it back unchanged, a `~/` in front included,
+    /// and otherwise in single quotes.
+    var wordForTheShell: String {
+        (hasPrefix("~/") ? String(dropFirst(2)) : self).isPlainForTheShell ? self : quotedForTheShell
+    }
+
+    fileprivate var isPlainForTheShell: Bool {
+        allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || "._/-".contains($0)) }
     }
 }
 

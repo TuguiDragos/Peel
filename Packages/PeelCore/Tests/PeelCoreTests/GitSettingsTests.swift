@@ -46,6 +46,9 @@ struct GitSettingsTests {
         ])
         #expect(GitSetting.signCommits.commands(signingKey: "~/.ssh/id_ed25519.pub")[1]
             == "git config --global user.signingKey ~/.ssh/id_ed25519.pub")
+        #expect(GitSetting.signCommits.commands(signingKey: "~/.ssh/o'neil.pub")[1]
+            == #"git config --global user.signingKey '~/.ssh/o'\''neil.pub'"#)
+        #expect(GitSetting.branchesByDate.commands(signingKey: nil) == ["git config --global branch.sort -committerdate"])
     }
 
     @Test func everySettingTurnsOnAndOffThroughGitAndLeavesNothingBehind() async throws {
