@@ -483,12 +483,13 @@ struct CachesCommand: AsyncParsableCommand {
         // from holds nothing up, whether its app runs or not.
         let moving = environments.filter { $0.locations.contains(where: \.isRecommended) }
         let open = moving.filter { $0.runningApp != nil }
-        for environment in open {
-            Output.note(Self.quitFirst(environment))
-        }
         let closed = environments.filter { environment in !open.contains { $0.id == environment.id } }
         let closedMoving = moving.filter { environment in !open.contains { $0.id == environment.id } }
         let locations = closedMoving.flatMap { environment in environment.locations.filter(\.isRecommended) }
+        // With nothing else to move, the first of them is the error below.
+        for environment in open.dropFirst(locations.isEmpty ? 1 : 0) {
+            Output.note(Self.quitFirst(environment))
+        }
         Self.notes(for: environments).forEach(Output.note)
         // Nobody asked for a folder Peel doesn't suggest on its own, so it is said here and never recorded as refused.
         let staying = Self.staying(in: closed)

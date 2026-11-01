@@ -143,10 +143,15 @@ struct FileCommandTests {
         #expect(collected.notes.contains("Quit Finder first"))
         #expect(FileManager.default.fileExists(atPath: directory.url.appending(path: "home/Library/Caches/finder-tool").path(percentEncoded: false)))
 
+        let alone = Output.Collected()
         await #expect(throws: CommandFailure.self) {
-            try await (command(["caches", "--remove", "-y"]) as CachesCommand)
-                .clean([open], using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals)
+            try await Output.$collected.withValue(alone) {
+                try await (command(["caches", "--remove", "-y"]) as CachesCommand).clean(
+                    [open], using: try service(in: directory), recordingIn: logs.removals, refusals: logs.refusals
+                )
+            }
         }
+        #expect(!alone.notes.contains("Quit Finder first"), "the error says it, once")
     }
 
     @Test func aDryRunOnCachesMovesNothing() async throws {
