@@ -552,6 +552,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Homebrew
 
+- With several apps to quit before an upgrade, the button says Quit Apps, since some languages say "the app" there.
 - Peel asks Homebrew for its prefix and its Cellar, so the formulae you excluded are always kept.
 - Uninstall and Upgrade wait until Homebrew's apps are known, and the copied commands keep the excluded formulae.
 - Check Health runs Homebrew's whole check, the vulnerability scan says when it checked the current formula, and the

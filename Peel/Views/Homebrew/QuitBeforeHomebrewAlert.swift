@@ -8,7 +8,7 @@ extension View {
             upgrading ? Text("Quit \(quitting.names) before upgrading.") : Text("Quit \(quitting.names) before uninstalling."),
             isPresented: Bindable(quitting).isAsking
         ) {
-            Button("Quit \(quitting.names)") { quitting.quit() }
+            Button(quitting.namesSeveral ? "Quit Apps" : "Quit \(quitting.names)") { quitting.quit() }
             Button("Cancel", role: .cancel) { quitting.giveUp() }
         } message: {
             upgrading

@@ -160,7 +160,7 @@ struct PackageDetailView: View {
         }
         .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
         .alert(Text("Quit \(quitting.names) before removing it."), isPresented: Bindable(quitting).isAsking) {
-            Button("Quit \(quitting.names)") { quitting.quit() }
+            Button(quitting.namesSeveral ? "Quit Apps" : "Quit \(quitting.names)") { quitting.quit() }
             Button("Cancel", role: .cancel) { quitting.giveUp() }
         }
         .forceQuitOffer(quitting)

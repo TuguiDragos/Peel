@@ -27,8 +27,17 @@ final class QuitBeforeRemoving {
 
     /// The names of what still runs, for the alerts.
     var names: String {
-        let open = running.filter { !ended.contains($0.processIdentifier) }
-        return Self.named(open.map { $0.localizedName ?? $0.bundleIdentifier ?? "" })
+        Self.named(openNames)
+    }
+
+    /// Whether the alerts name more than one app, which is what the button that quits them goes by: "Quit %@" is
+    /// written for one in the languages that say "the app".
+    var namesSeveral: Bool {
+        Set(openNames).count > 1
+    }
+
+    private var openNames: [String] {
+        running.filter { !ended.contains($0.processIdentifier) }.map { $0.localizedName ?? $0.bundleIdentifier ?? "" }
     }
 
     /// Each name once, and the first few of many, as an alert lists them.
