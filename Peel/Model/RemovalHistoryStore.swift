@@ -181,8 +181,9 @@ final class RemovalHistoryStore {
     /// Counts the times a removal's page has to look in the Trash again: History read again, by Reload or as Peel came
     /// forward, and a Put Back that brought something back, whatever History could write of it.
     private(set) var trashLooks = 0
-    /// Counts, for each tool, the Put Backs that brought back what it had moved, so its page lists them again.
-    private(set) var putBack: [Tool: Int] = [:]
+    /// Counts the Put Backs that brought something back, which any page may list wherever it moved from, so each lists
+    /// again: a plug-in an uninstall moved comes back to Plug-ins' list too.
+    private(set) var putBacks = 0
     /// The count each page last listed under, kept here so a page off screen at a Put Back lists it when it returns.
     @ObservationIgnored private var listedAfterPutBack = ScannedRevisions()
     @ObservationIgnored private var listedRefusals: [RefusalRecord] = []
@@ -246,7 +247,10 @@ final class RemovalHistoryStore {
 
     /// Reads History before a removal's page looks in the Trash, so the page never looks with records `peel` changed.
     private func readAgain() async {
+        let listed = Set(records.map(\.id))
         await load()
+        // What left History meanwhile, `peel restore` may have put back.
+        if !listed.isSubset(of: records.map(\.id)) { putBacks += 1 }
         trashLooks += 1
     }
 
@@ -445,7 +449,7 @@ final class RemovalHistoryStore {
 
     /// Whether a Put Back brought back what `tool` moved since its page last asked. False the first time it asks.
     func needsRescanAfterPutBack(_ tool: Tool) -> Bool {
-        listedAfterPutBack.needsRescan(tool.rawValue, at: putBack[tool, default: 0])
+        listedAfterPutBack.needsRescan(tool.rawValue, at: putBacks)
     }
 
     /// Takes the records `ids` names out of what Undo would put back, once they are back or gone from History.
@@ -544,9 +548,7 @@ final class RemovalHistoryStore {
             selectedIDs.subtract(restored)
             if !restored.isEmpty {
                 keepUndoable(without: restored)
-                for tool in Set(ordered.filter { restored.contains($0.id) }.compactMap { Tool(rawValue: $0.tool) }) {
-                    putBack[tool, default: 0] += 1
-                }
+                putBacks += 1
                 await apply(await log.remove(restored))
                 trashLooks += 1
                 // A move is announced, and so is its undoing: the rows only vanish from the list.

@@ -106,7 +106,23 @@ struct RemovalOutcomeTests {
         #expect(history.undoTitle == nil)
     }
 
-    @Test func aPutBackTellsThePageOfTheToolThatMovedWhatCameBack() async throws {
+    @Test func whatPeelRestorePutBackIsListedAgainToo() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let history = history(in: folder, outcome: RemovalOutcome())
+        await history.record(try moved(["Cache", "Other"]), tool: .plugins, source: "Plug-ins", sizes: [:])
+        #expect(!history.needsRescanAfterPutBack(.plugins))
+        let peel = RemovalLog(url: folder.appending(path: "removals.json"))
+
+        _ = await peel.remove([try #require(history.records.first).id])
+        await history.readAgainIfInUse()
+
+        #expect(history.needsRescanAfterPutBack(.plugins))
+        await history.readAgainIfInUse()
+        #expect(!history.needsRescanAfterPutBack(.plugins), "nothing left since")
+    }
+
+    @Test func aPutBackTellsEveryPageWhicheverMovedWhatCameBack() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
         let history = history(in: folder, outcome: RemovalOutcome())
@@ -117,6 +133,6 @@ struct RemovalOutcomeTests {
 
         #expect(history.needsRescanAfterPutBack(.plugins))
         #expect(!history.needsRescanAfterPutBack(.plugins), "once it has listed again")
-        #expect(!history.needsRescanAfterPutBack(.space))
+        #expect(history.needsRescanAfterPutBack(.space))
     }
 }

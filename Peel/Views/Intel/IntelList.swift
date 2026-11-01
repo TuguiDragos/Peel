@@ -115,6 +115,7 @@ struct IntelList: View {
             Task { await intel.readAgain(installedApps: library.apps, knownSizes: library.sizes) }
         }
         .rescanOnExclusionChange("IntelList") { await scan() }
+        .rescanAfterPutBack(.intel) { await scan() }
     }
 
     private func phase(_ matching: [IntelFinding]) -> ScanPhase {

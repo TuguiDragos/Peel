@@ -30,7 +30,7 @@ private struct PutBackRescan: ViewModifier {
     let rescan: () async -> Void
 
     func body(content: Content) -> some View {
-        content.task(id: history.putBack[tool, default: 0]) {
+        content.task(id: history.putBacks) {
             guard history.needsRescanAfterPutBack(tool) else { return }
             await rescan()
         }
