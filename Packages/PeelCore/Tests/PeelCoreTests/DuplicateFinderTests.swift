@@ -46,8 +46,10 @@ struct DuplicateFinderTests {
                 defer { end.finish() }
                 return FileDigest.full(of: url, identity: identity, isGivenUp: isGivenUp) { count in
                     bytesRead.withLock { $0 += count }
-                    stop.withLock { $0 }?()
-                    while !isGivenUp() { usleep(100) }
+                    while !isGivenUp() {
+                        stop.withLock { $0 }?()
+                        usleep(100)
+                    }
                 }
             }
         }
