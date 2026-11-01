@@ -492,11 +492,11 @@ struct FileCommandTests {
             (artifact("fresh", lastActivity: .now), "changed in the last 7 days, kept"),
             (artifact("huge", certain: false), "too large to tell when it last changed, kept"),
             (artifact("venv", environment: true), "installed packages, kept"),
-            (artifact("build", generic: true), "name could mean anything, kept"),
+            (artifact("build", generic: true), "a common folder name, kept"),
             (artifact("slow", size: nil, heldBack: .notMeasured), "not measured in time, kept"),
             (artifact("Carthage", heldBack: .holdsRepository), "holds a repository, kept"),
             (artifact(".venv", certain: false, environment: true), "installed packages, kept"),
-            (artifact("target", lastActivity: .now, generic: true), "name could mean anything, kept"),
+            (artifact("target", lastActivity: .now, generic: true), "a common folder name, kept"),
         ]
 
         for (artifact, note) in cases {

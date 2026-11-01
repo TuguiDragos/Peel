@@ -107320,6 +107320,112 @@
         }
       }
     },
+    "Not selected: %@ is a common folder name, so Peel leaves the choice to you." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: %@ je běžný název složky, takže Peel nechává volbu na vás."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: „%@“ ist ein häufiger Ordnername, daher überlässt Peel dir die Wahl."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: %@ es un nombre de carpeta común, así que Peel deja la elección en tus manos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : %@ est un nom de dossier courant, et Peel vous laisse donc le choix."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: %@ è un nome di cartella comune, quindi Peel lascia a te la scelta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: “%@”はよくあるフォルダ名のため、Peelは選択するかどうかをユーザに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: ‘%@’은(는) 흔한 폴더 이름이므로 Peel은 선택을 사용자에게 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: %@ is een veelgebruikte mapnaam, dus Peel laat de keuze aan jou."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: %@ to popularna nazwa folderu, więc Peel zostawia wybór Tobie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: %@ é um nome de pasta comum, então o Peel deixa a escolha para você."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: %@ este un nume obișnuit de dosar, așa că Peel lasă alegerea în seama dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: «%@» является распространенным именем папки, поэтому Peel оставляет выбор за Вами."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: %@ är ett vanligt mappnamn, så Peel lämnar valet åt dig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: %@ yaygın bir klasör adı, bu yüzden Peel seçimi size bırakıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: «%@» є поширеною назвою папки, тож Peel залишає вибір за вами."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：“%@”是常见的文件夹名称，因此Peel将选择权留给你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：「%@」是常見的檔案夾名稱，因此Peel將選擇權交給你。"
+          }
+        }
+      }
+    },
     "Not selected: %@ was opened in the last week, so its build data may be needed again soon." : {
       "localizations" : {
         "cs" : {
@@ -108059,112 +108165,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：Xcode沒有記錄「%@」上次打開的時間，因此可能仍需要它的建置資料。"
-          }
-        }
-      }
-    },
-    "Not selected: a folder called %@ could be anyone’s." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nevybráno: složka s názvem %@ může patřit komukoli."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nicht ausgewählt: Ein Ordner namens „%@“ könnte jedem gehören."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin seleccionar: una carpeta llamada %@ podría ser de cualquiera."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non sélectionné : un dossier nommé %@ pourrait appartenir à n’importe qui."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non selezionato: una cartella chiamata %@ potrebbe essere di chiunque."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未選択: “%@”という名前だけでは、誰のフォルダか判断できません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "선택되지 않음: 이름이 ‘%@’인 폴더는 누구의 것일 수도 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niet geselecteerd: een map met de naam %@ kan van iedereen zijn."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie zaznaczono: folder o nazwie %@ może należeć do kogokolwiek."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não selecionado: uma pasta chamada %@ poderia ser de qualquer um."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neselectat: un dosar numit %@ ar putea fi al oricui."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не выбрано: папка с именем «%@» может принадлежать кому угодно."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inte markerad: en mapp som heter %@ kan tillhöra vem som helst."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seçilmedi: %@ adlı bir klasör herhangi birine ait olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вибрано: папка «%@» може бути чиєю завгодно."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未选择：名为“%@”的文件夹可能属于任何人。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未選取：名為「%@」的檔案夾可能屬於任何人。"
           }
         }
       }

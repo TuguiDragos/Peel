@@ -716,7 +716,7 @@ struct ProjectsCommand: AsyncParsableCommand {
         switch artifact.keptBecause {
         case .heldBack(let heldBack): heldBack.summary
         case .installedPackages: "installed packages"
-        case .genericName: "name could mean anything"
+        case .genericName: "a common folder name"
         case .changedRecently: "changed in the last 7 days"
         case .lastChangeNotKnown: "too large to tell when it last changed"
         case .lastChangeNotReadInTime: "couldn't read in time when it last changed"

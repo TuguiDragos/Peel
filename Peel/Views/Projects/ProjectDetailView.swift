@@ -149,7 +149,7 @@ struct ProjectDetailView: View {
                 ? String(localized: "Not selected: it holds your current workspace and the last backend configuration, which `terraform init` doesn’t bring back.")
                 : String(localized: "Not selected: these are installed packages, not build output.")
         case .genericName:
-            String(localized: "Not selected: a folder called \(artifact.name) could be anyone’s.")
+            String(localized: "Not selected: \(artifact.name) is a common folder name, so Peel leaves the choice to you.")
         case .changedRecently:
             String(localized: "Not selected: something in this project changed in the last 7 days.")
         case .lastChangeNotKnown:
