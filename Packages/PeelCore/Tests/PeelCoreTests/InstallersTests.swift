@@ -693,6 +693,36 @@ struct InstallersTests {
         #expect(scan.items(in: .firmware).map(\.name) == ["iPhone17,1_26.1.ipsw"])
     }
 
+    @Test func aPlaceThatLeadsIntoAnotherListsWhatIsThereOnce() async throws {
+        let directory = try TemporaryDirectory()
+        let moved = try directory.directory("Documents/Downloads")
+        try directory.file("Documents/Downloads/Tool-1.dmg", bytes: 400_000)
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Downloads"), withDestinationURL: moved
+        )
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        #expect(scan.items.map(\.name) == ["Tool-1.dmg"])
+    }
+
+    @Test func aPlaceThatLeadsElsewhereIsLookedIn() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let disk = try directory.directory("Disk/Downloads")
+        try directory.file("Disk/Downloads/Tool-1.dmg", bytes: 400_000)
+        try FileManager.default.createSymbolicLink(at: home.appending(path: "Downloads"), withDestinationURL: disk)
+
+        let scan = await Installers.scan(
+            installedApps: [], home: home, root: directory.url, minimumSize: 100_000
+        )
+
+        #expect(scan.items.map(\.name) == ["Tool-1.dmg"])
+    }
+
     @Test func aMacOSInstallerWithABlankVersionNotesNone() async throws {
         let directory = try TemporaryDirectory()
         for (name, version) in [("Install macOS Tahoe", ""), ("Install macOS Sequoia", "15.6")] {

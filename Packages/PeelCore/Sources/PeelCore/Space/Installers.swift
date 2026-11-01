@@ -164,12 +164,17 @@ public enum Installers {
         } + [Folder(url: root.appending(path: "Users/Shared", directoryHint: .isDirectory), isSharedWithEveryone: true)]
         let origins = DownloadOrigins.inHome(home).reader()
         var folders: [Folder] = []
+        var listed: Set<String> = []
         // A scan its page left asks nothing more: reading a folder macOS guards puts up macOS's question again.
         for place in places {
             guard !Task.isCancelled else { break }
-            if canList(place.url) == .missing { unreadable.append(place.url) }
-            folders += [place] + subfolders(of: place.url).map {
-                Folder(url: $0, isSharedWithEveryone: place.isSharedWithEveryone)
+            // Listing a link as a URL answers "Not a directory", so a folder moved elsewhere is read where it leads,
+            // and once if that is inside another place.
+            let url = place.url.isSymbolicLink ? PathPattern.canonical(place.url) : place.url
+            if canList(url) == .missing { unreadable.append(place.url) }
+            for folder in [url] + subfolders(of: url)
+            where listed.insert(PathPattern.comparablePath(of: PathPattern.canonical(folder))).inserted {
+                folders.append(Folder(url: folder, isSharedWithEveryone: place.isSharedWithEveryone))
             }
         }
 
