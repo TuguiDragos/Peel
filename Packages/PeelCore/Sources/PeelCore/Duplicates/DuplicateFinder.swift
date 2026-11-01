@@ -506,22 +506,28 @@ public struct DuplicateFinder: Sendable {
     static func hasCopySuffix(_ name: String) -> Bool {
         var words = name.split(separator: " ", omittingEmptySubsequences: false)
         if words.count == 1 {
-            return joinedCopyEndings.contains { name.count > $0.count && name.lowercased().hasSuffix($0) }
+            return endsInAJoinedCopy(name)
         }
         if words.count > 2, words[0].lowercased() == "copie", words[1].lowercased() == "de" { return true }
         if words[0].lowercased() == "копия" { return true }
         guard let last = words.popLast() else { return false }
         if isNumber(last) {
-            return last.count <= 2 || words.count > 1 && copyWords.contains(words[words.count - 1].lowercased())
+            guard last.count > 2, let word = words.last else { return true }
+            return words.count > 1 && copyWords.contains(word.lowercased()) || endsInAJoinedCopy(word)
         }
         if last.count > 2, last.first == "(", last.last == ")" {
             let inside = last.dropFirst().dropLast()
             return isNumber(inside) || copyWords.contains(inside.lowercased())
         }
-        return copyWords.contains(last.lowercased())
+        return copyWords.contains(last.lowercased()) || endsInAJoinedCopy(last)
     }
 
-    /// What AppKit joins to a name with no space between them, in Japanese, Chinese, and Polish.
+    private static func endsInAJoinedCopy(_ word: some StringProtocol) -> Bool {
+        let word = word.lowercased()
+        return joinedCopyEndings.contains { word.count > $0.count && word.hasSuffix($0) }
+    }
+
+    /// What AppKit and Finder join to a name with no space between them, in Japanese, Chinese, and Polish.
     private static let joinedCopyEndings = ["のコピー", "_副本", "副本", "-kopia"]
 
     private static let copyWords: Set<String> = [

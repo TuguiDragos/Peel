@@ -674,6 +674,13 @@ struct DuplicateFinderTests {
         }
     }
 
+    @Test func aJoinedCopyEndingCountsInANameWithSpaces() {
+        for name in ["年次 報告のコピー", "年度 报告_副本", "Moja umowa-kopia", "年次 報告のコピー 123"] {
+            #expect(DuplicateFinder.hasCopySuffix(name), "\(name)")
+        }
+        #expect(!DuplicateFinder.hasCopySuffix("年次 のコピー報告"))
+    }
+
     @Test func aVirtualMachineIsADocumentEvenWithItsAppGone() async throws {
         let directory = try TemporaryDirectory()
         let disk = randomData(count: 200_000)

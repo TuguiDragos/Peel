@@ -647,6 +647,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Duplicates
 
+- A copy Finder names in Japanese, Chinese, or Polish counts as a copy when the name holds a space too, so the original
+  is the one kept.
 - Nothing is compared while the exclusions can't be read, and what is inside an app's document is never offered,
   even when its app is gone.
 - A network volume that stops answering no longer holds Peel's threads, a stopped scan says so, and only groups with
