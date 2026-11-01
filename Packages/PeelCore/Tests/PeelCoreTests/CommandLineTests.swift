@@ -91,7 +91,7 @@ struct CommandLineTests {
 
         let report = { (stays: String?) throws -> [String: Any] in
             let leftovers = LeftoversCommand.Report(
-                app: notes, appSize: nil, leftovers: [cache], unreadableLocations: [], appStays: stays
+                app: notes, appSize: nil, leftovers: [cache], needsReview: 0, unreadableLocations: [], appStays: stays
             )
             let json = try Output.jsonText(leftovers)
             return try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
@@ -535,17 +535,26 @@ struct CommandLineTests {
         #expect(Output.path(URL(filePath: "/private/other/gone")) == "/private/other/gone")
     }
 
+    @Test func saysWhatIsHiddenWhenNothingIsSuggested() {
+        #expect(LeftoversCommand.whenNothingIsShown(hidden: 0) == "No leftovers found.")
+        #expect(LeftoversCommand.whenNothingIsShown(hidden: 1)
+            == "No leftovers Peel suggests. 1 file needs review. Add --all to see it.")
+        #expect(LeftoversCommand.whenNothingIsShown(hidden: 11)
+            == "No leftovers Peel suggests. 11 files need review. Add --all to see them.")
+    }
+
     @Test func theLeftoversReportSaysWhereItCouldNotLook() throws {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let unread = SearchLocation(kind: .containers, url: URL(filePath: "/Users/me/Library/Containers", directoryHint: .isDirectory))
 
         let report = LeftoversCommand.Report(
-            app: app, appSize: nil, leftovers: [], unreadableLocations: [unread], appStays: nil
+            app: app, appSize: nil, leftovers: [], needsReview: 3, unreadableLocations: [unread], appStays: nil
         )
 
         let json = try #require(
             JSONSerialization.jsonObject(with: Data(try Output.jsonText(report).utf8)) as? [String: Any]
         )
+        #expect(json["needsReview"] as? Int == 3)
         #expect(json["unreadableLocations"] as? [String] == ["/Users/me/Library/Containers"])
         #expect(json["appSize"] is NSNull)
     }

@@ -142,18 +142,20 @@ struct LeftoversCommand: AsyncParsableCommand {
         /// finds the key.
         let appSize: Int64?
         let leftovers: [LeftoverRecord]
+        let needsReview: Int
         let unreadableLocations: [String]
         /// Why `peel uninstall` would leave the app itself where it is, or `null` when it would move it. While the app
         /// stays, none of its files moves.
         let appStays: String?
 
         init(
-            app: InstalledApp, appSize: Int64?, leftovers: [Leftover], unreadableLocations: [SearchLocation],
-            appStays: String?
+            app: InstalledApp, appSize: Int64?, leftovers: [Leftover], needsReview: Int,
+            unreadableLocations: [SearchLocation], appStays: String?
         ) {
             self.app = AppRecord(app)
             self.appSize = appSize
             self.leftovers = leftovers.map(LeftoverRecord.init)
+            self.needsReview = needsReview
             self.unreadableLocations = unreadableLocations.map { Output.path($0.url) }
             self.appStays = appStays
         }
@@ -162,6 +164,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             case app
             case appSize
             case leftovers
+            case needsReview
             case unreadableLocations
             case appStays
         }
@@ -171,6 +174,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             try container.encode(app, forKey: .app)
             try container.encode(appSize, forKey: .appSize)
             try container.encode(leftovers, forKey: .leftovers)
+            try container.encode(needsReview, forKey: .needsReview)
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
             try container.encode(appStays, forKey: .appStays)
         }
@@ -202,12 +206,13 @@ struct LeftoversCommand: AsyncParsableCommand {
         if uninstallation.isAppInTheTrash {
             Output.note(Self.inTheTrash(target))
         }
-        Self.notes(uninstallation, homebrew: homebrew, hidden: uninstallation.scan.leftovers.count - leftovers.count)
+        let hidden = uninstallation.scan.leftovers.count - leftovers.count
+        Self.notes(uninstallation, homebrew: homebrew, hidden: leftovers.isEmpty && !output.json ? 0 : hidden)
         if output.json {
             let appSize = uninstallation.isAppMeasured ? uninstallation.appSize : nil
             let unread = uninstallation.scan.unreadableLocations
             let report = Report(
-                app: target, appSize: appSize, leftovers: leftovers, unreadableLocations: unread,
+                app: target, appSize: appSize, leftovers: leftovers, needsReview: hidden, unreadableLocations: unread,
                 appStays: stays?.description
             )
             try Output.json(report)
@@ -216,11 +221,17 @@ struct LeftoversCommand: AsyncParsableCommand {
         let appSize = uninstallation.isAppMeasured ? Output.size(uninstallation.appSize) : "unknown"
         Output.line("\(target.name) \(target.version ?? "")  \(appSize)  \(Output.path(target.url))")
         if leftovers.isEmpty {
-            Output.line("No leftovers found.")
+            Output.line(Self.whenNothingIsShown(hidden: hidden))
         } else {
             Output.line()
             Output.table(leftovers.map { [Output.size(Self.measured($0)), Output.path($0.url), Self.summary(of: $0)] })
         }
+    }
+
+    static func whenNothingIsShown(hidden: Int) -> String {
+        guard hidden > 0 else { return "No leftovers found." }
+        let them = hidden == 1 ? "it" : "them"
+        return "No leftovers Peel suggests. \(Output.count(hidden, "file needs", "files need")) review. Add --all to see \(them)."
     }
 
     /// Describes `leftover` in one line: why it matched, why it needs review when it isn't suggested (held
