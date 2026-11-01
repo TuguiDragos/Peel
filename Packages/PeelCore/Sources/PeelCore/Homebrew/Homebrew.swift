@@ -1437,6 +1437,9 @@ public enum Homebrew {
             // `brew upgrade` asks before it goes on unless this is set, and nobody is there to answer. It skips
             // the question only because no terminal is attached (`ask.rb`). A version without it ignores it.
             "HOMEBREW_NO_ASK": "1",
+            // Peel asks a cask's apps to quit before an upgrade. Homebrew's own step would ask again through Apple
+            // events, which macOS judges as Peel's. A version without it ignores it.
+            "HOMEBREW_NO_UPGRADE_QUIT_CASKS": "1",
         ]
         // `brew.rb` writes each line as it goes only under `CI`. Otherwise Ruby holds what goes to standard output back
         // in a pipe, and an error printed after a step shows before it. `brew doctor` reads `CI` as a CI run, though,

@@ -322,6 +322,7 @@ struct HomebrewTests {
     @Test func anUpgradeNeverWaitsForAnAnswer() {
         for autoUpdate in [true, false] {
             #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_ASK"] == "1")
+            #expect(Homebrew.environment(autoUpdate: autoUpdate)["HOMEBREW_NO_UPGRADE_QUIT_CASKS"] == "1")
         }
     }
 
