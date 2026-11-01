@@ -167,7 +167,7 @@ struct FileSearchList: View {
             }
         }
         .edgeBar(.bottom) {
-            if search.results?.files.isEmpty == false {
+            if search.results?.files.isEmpty == false || !search.selectedURLs.isEmpty {
                 RemovalBar(page: Tool.fileSearch.page(), isScanning: search.isSearching)
             }
         }

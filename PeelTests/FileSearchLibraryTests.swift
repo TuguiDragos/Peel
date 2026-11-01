@@ -138,6 +138,53 @@ struct FileSearchLibraryTests {
         #expect(library.selectedURLs == [invoice])
     }
 
+    @Test func clearingTheWordsKeepsWhatIsSelected() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let kept = folder.appending(path: "kept.dmg")
+        let gone = folder.appending(path: "gone.dmg")
+        for url in [kept, gone] { try Data(count: 16).write(to: url) }
+        let records = [kept, gone].map {
+            FoundFile(url: $0, size: 4_096, length: 16, modificationDate: .distantPast, requiresPrivileges: false)
+        }
+        let library = FileSearchLibrary { _, _ in FileSearchResults(files: records) }
+        library.criteria.name = "dmg"
+        await library.search()
+        library.selectedURLs = [kept, gone]
+        try FileManager.default.removeItem(at: gone)
+
+        library.criteria.name = ""
+        await library.search()
+
+        #expect(library.results == nil)
+        #expect(library.selectedURLs == [kept])
+        #expect(Set(library.selection.outside.keys) == [kept])
+        #expect(library.carriedParts.first?.sizes == [kept: 4_096])
+    }
+
+    @Test func anExclusionReachesWhatIsSelectedWithNoListOnThePage() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let file = folder.appending(path: "file.dmg")
+        try Data(count: 16).write(to: file)
+        let record = FoundFile(
+            url: file, size: 4_096, length: 16, modificationDate: .distantPast, requiresPrivileges: false
+        )
+        let library = FileSearchLibrary(run: { _, _ in FileSearchResults(files: [record]) }, exclusionsNow: { .none })
+        library.criteria.name = "dmg"
+        await library.search()
+        library.selectedURLs = [file]
+        library.criteria.name = ""
+        await library.search()
+
+        await library.leaveOut(Exclusions(paths: [file]))
+
+        #expect(library.selectedURLs.isEmpty)
+        #expect(library.selection.outside.isEmpty)
+    }
+
     @Test func keepsSelectedWhatANewerSearchLeavesOut() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)

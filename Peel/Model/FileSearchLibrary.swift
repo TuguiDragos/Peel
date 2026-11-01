@@ -84,24 +84,27 @@ final class FileSearchLibrary {
         recommendedURLs = Set(
             found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp && $0.heldBack == nil }.map(\.url)
         )
-        let outsideBefore = Set(selection.outside.keys)
-        selectedURLs = selection.update(selectedURLs, was: known, now: found.files)
-        if Set(selection.outside.keys) != outsideBefore { keepsWhatIsOutside = false }
-        sizes = Dictionary(
-            (found.files + selection.outside.values).map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first }
-        )
+        keepSelection(was: known, now: found.files)
         // The search ran under the exclusions as they were when it started, so leave out anything excluded since.
         await leaveOut(exclusionsNow())
     }
 
     private func forgetResults() {
+        let known = results?.files ?? []
         listsLanded += 1
         results = nil
         answered = nil
-        selectedURLs = []
-        selection = SearchSelection()
         recommendedURLs = []
-        sizes = [:]
+        keepSelection(was: known, now: [])
+    }
+
+    private func keepSelection(was known: [FoundFile], now files: [FoundFile]) {
+        let outsideBefore = Set(selection.outside.keys)
+        selectedURLs = selection.update(selectedURLs, was: known, now: files)
+        if Set(selection.outside.keys) != outsideBefore { keepsWhatIsOutside = false }
+        sizes = Dictionary(
+            (files + selection.outside.values).map { ($0.url, $0.size) }, uniquingKeysWith: { first, _ in first }
+        )
     }
 
     /// Keeps selected the files no longer listed, and stops saying so until another search leaves out others.
@@ -120,7 +123,7 @@ final class FileSearchLibrary {
     /// Narrows the list to what `exclusions` leave. File Search runs only when asked, so without this a file
     /// excluded from its own row would stay listed and selected until the move refused it.
     func leaveOut(_ exclusions: Exclusions) async {
-        guard results != nil, exclusions != filteredBy else { return }
+        guard results != nil || !selection.outside.isEmpty, exclusions != filteredBy else { return }
         // Exclusions Peel couldn't read left everything out for a reason now gone, and narrowing brings nothing back.
         if !filteredBy.isKnown, exclusions.isKnown {
             await search()
@@ -136,10 +139,11 @@ final class FileSearchLibrary {
     }
 
     private func narrow(to exclusions: Exclusions) async {
-        guard let results, exclusions != filteredBy else { return }
+        guard exclusions != filteredBy else { return }
+        let listed = results?.files ?? []
         let current = generation
         let list = listsLanded
-        let kept = await narrowing(results.files, exclusions)
+        let kept = await narrowing(listed, exclusions)
         let outside = Array(selection.outside.values)
         let keptOutside = await narrowing(outside, exclusions)
         guard current == generation else { return }
@@ -151,8 +155,8 @@ final class FileSearchLibrary {
         let goneOutside = Set(outside.map(\.url)).subtracting(keptOutside.map(\.url))
         selection.forget(goneOutside)
         selectedURLs.subtract(goneOutside)
-        guard kept.count < results.files.count else { return }
-        let gone = Set(results.files.map(\.url)).subtracting(kept.map(\.url))
+        guard kept.count < listed.count else { return }
+        let gone = Set(listed.map(\.url)).subtracting(kept.map(\.url))
         self.results?.files = kept
         self.results?.leftOut[.excluded, default: 0] += gone.count
         selectedURLs.subtract(gone)

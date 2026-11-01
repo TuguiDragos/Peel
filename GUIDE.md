@@ -167,7 +167,7 @@ Space shows what fills your disk, area by area, and what each area is.
   syncs to your other devices, what you excluded, what sits where Peel never moves anything, and what macOS didn't let
   Peel look at. A file's size is what moving it frees, the list goes by it, and a file that frees less than its
   length, such as a copy that shares its storage, says so. A file you selected that a newer search no longer lists
-  stays selected, and the page says how many, with Keep Selected and Deselect.
+  stays selected, also once the search field is empty, and the page says how many, with Keep Selected and Deselect.
 
 <details>
 <summary>Developer, Build Artifacts, and Space, in detail</summary>
