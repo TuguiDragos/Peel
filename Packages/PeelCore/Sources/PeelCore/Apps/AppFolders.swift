@@ -99,10 +99,13 @@ public struct AppFolders: Sendable {
     }
 
     static func refusal(of folder: URL, home: URL, isInTheCloud: (URL) -> Bool) -> Refusal? {
-        // A link is read as where it leads, so that is what it is judged as too.
-        if folder.isSymbolicLink,
-           let refusal = refusal(of: PathPattern.canonical(folder), home: home, isInTheCloud: isInTheCloud) {
-            return refusal
+        // A link is read as where it leads, so that is what it is judged as too. `canonical` gives back a link it can't
+        // follow, as to a disk that isn't connected, which is judged as itself.
+        if folder.isSymbolicLink {
+            let place = PathPattern.canonical(folder)
+            if !place.isSymbolicLink, let refusal = refusal(of: place, home: home, isInTheCloud: isInTheCloud) {
+                return refusal
+            }
         }
         let path = folded(folder)
         let library = folded(home) + "/library"

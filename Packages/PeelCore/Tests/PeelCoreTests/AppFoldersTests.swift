@@ -20,6 +20,8 @@ struct AppFoldersTests {
         #expect(AppFolders.refusal(of: try link("one", to: "home/Applications"), home: home) == .alreadyLookedIn)
         #expect(AppFolders.refusal(of: try link("two", to: "home/.Trash/Old"), home: home) == .inATrash)
         #expect(AppFolders.refusal(of: try link("three", to: "elsewhere"), home: home) == nil)
+        #expect(AppFolders.refusal(of: try link("nowhere", to: "/Volumes/org-example-not-connected/Apps"), home: home) == nil)
+        #expect(AppFolders.refusal(of: try link("round", to: "round"), home: home) == nil)
     }
 
     /// A folder chosen for apps is looked through three levels deep. The whole disk, the home folder or a folder
