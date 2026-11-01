@@ -20,6 +20,22 @@ struct TweakTests {
     /// The row says so rather than asking for a log out, which would work but is not needed.
     /// Apple documents only a few of these keys; the rest are known from use alone, so a release can rename or ignore
     /// one without a word. Each tweak says which it is, and a documented one names Apple's page.
+    @Test func aGlobalKeyAProfileForcesReadsAsWhatTheProfileForces() throws {
+        let directory = try TemporaryDirectory()
+        let forced = directory.url.appending(path: "forced.plist")
+        let list: [String: Any] = ["NSAutomaticSpellingCorrectionEnabled": false, "AppleShowScrollBars": "WhenScrolling"]
+        try PropertyListSerialization.data(fromPropertyList: list, format: .xml, options: 0).write(to: forced)
+        let paths = ["/org.example/none.plist", forced.path(percentEncoded: false)]
+
+        let spelling = TweakStore.forcedGlobalValue("NSAutomaticSpellingCorrectionEnabled" as CFString, in: paths)
+        let scrollBars = TweakStore.forcedGlobalValue("AppleShowScrollBars" as CFString, in: paths)
+        let other = TweakStore.forcedGlobalValue("org.example.other" as CFString, in: paths)
+
+        #expect(spelling.map { TweakStore.matches($0, .boolean(false)) } == true)
+        #expect(scrollBars as? String == "WhenScrolling")
+        #expect(other == nil)
+    }
+
     @Test func everyTweakSaysWhereAppleDocumentsIt() {
         var documented: Set<String> = []
         for tweak in TweakCatalog.all {

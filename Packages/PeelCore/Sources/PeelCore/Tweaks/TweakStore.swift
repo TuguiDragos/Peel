@@ -44,8 +44,8 @@ public struct TweakStore: Sendable, TweakStoring {
 
         let isManaged = Self.isForced(key, in: tweak.domain)
         let layers = layers(of: tweak)
-        // A managed value comes before every layer, and only the "App" functions read it.
-        guard let current = isManaged ? Self.copy(key, from: tweak.domain) : layers.inEffect else {
+        // A managed value comes before every layer.
+        guard let current = isManaged ? Self.forcedValue(key, in: tweak.domain) : layers.inEffect else {
             return TweakState(isOn: false, isManaged: isManaged, text: nil)
         }
 
@@ -194,15 +194,33 @@ public struct TweakStore: Sendable, TweakStoring {
     /// is an "App" function, so for the global domain this reads the managed preferences files directly.
     static func isForced(_ key: CFString, in name: String) -> Bool {
         guard name == globalDomain else { return CFPreferencesAppValueIsForced(key, name as CFString) }
-        let user = NSUserName()
-        return ["/Library/Managed Preferences/\(user)/.GlobalPreferences.plist", "/Library/Managed Preferences/.GlobalPreferences.plist"]
-            .contains { path in
-                guard
-                    let data = FileManager.default.contents(atPath: path),
-                    let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
-                else { return false }
-                return plist[key as String] != nil
-            }
+        return forcedGlobalValue(key, in: managedGlobalFiles) != nil
+    }
+
+    /// The value a profile forces. The function that reads the person's own global layer doesn't search the managed
+    /// one (`CFPreferences.h`), so for the global domain it comes from the managed files.
+    private static func forcedValue(_ key: CFString, in name: String) -> CFPropertyList? {
+        name == globalDomain
+            ? forcedGlobalValue(key, in: managedGlobalFiles)
+            : CFPreferencesCopyAppValue(key, name as CFString)
+    }
+
+    private static var managedGlobalFiles: [String] {
+        [
+            "/Library/Managed Preferences/\(NSUserName())/.GlobalPreferences.plist",
+            "/Library/Managed Preferences/.GlobalPreferences.plist",
+        ]
+    }
+
+    static func forcedGlobalValue(_ key: CFString, in paths: [String]) -> CFPropertyList? {
+        for path in paths {
+            guard let data = FileManager.default.contents(atPath: path),
+                  let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+                  let value = plist[key as String]
+            else { continue }
+            return value as CFPropertyList
+        }
+        return nil
     }
 
     static func property(_ value: Tweak.Value) -> CFPropertyList {
