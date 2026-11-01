@@ -262,6 +262,25 @@ struct TerminalLibrariesTests {
         #expect(library.state?.isInstalled == false)
     }
 
+    @Test func aGitRefusalIsForgottenWhenThePageGoes() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let git = home.appending(path: "git")
+        try Data("#!/bin/sh\nexit 1\n".utf8).write(to: git)
+        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: git.path(percentEncoded: false))
+        let library = GitLibrary(home: home, defaults: made.defaults) { GitConfig(executable: git, home: home) }
+        await library.refresh()
+
+        library.set(.rebaseOnPull, to: true)
+        await library.refresh()
+        #expect(library.wasRefused)
+
+        library.forgetRefusal()
+        #expect(!library.wasRefused)
+    }
+
     @Test func aGitChangeSavesTheLedgerInTheStoreItWasGiven() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }

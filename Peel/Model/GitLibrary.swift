@@ -97,6 +97,10 @@ final class GitLibrary {
         }
     }
 
+    func forgetRefusal() {
+        wasRefused = false
+    }
+
     private func save(_ ledger: GitLedger) {
         defaults.set(ledger.stored, forKey: Self.ledgerKey)
     }

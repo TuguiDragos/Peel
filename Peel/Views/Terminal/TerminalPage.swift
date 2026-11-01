@@ -52,6 +52,7 @@ struct TerminalPage: View {
             terminal.forgetRefusal()
             shell.forgetRefusal()
             ssh.forgetRefusal()
+            git.forgetRefusal()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             Task { await refresh() }
