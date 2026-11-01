@@ -79,6 +79,12 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
+    /// Whether `exclusions` keep the job's app, by its identifier or its place, as they keep any app.
+    func isOfAnApp(excludedBy exclusions: Exclusions) -> Bool {
+        ownerBundleIdentifier.map(exclusions.excludes(bundleIdentifier:)) == true
+            || ownerURL.map(exclusions.excludes(_:)) == true
+    }
+
     /// True for a job an app submitted that is still loaded after the app went, its program gone or not named by
     /// launchctl: the app that would unregister it is gone, so only taking it out of launchd removes it.
     public var isLeftByAGoneApp: Bool { source == .app && !isOwnerInstalled && (isOrphan || program == nil) }

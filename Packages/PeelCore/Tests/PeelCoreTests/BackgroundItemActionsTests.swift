@@ -88,6 +88,38 @@ struct BackgroundItemActionsTests {
         #expect(rows.map(\.canMoveToTrash) == [false, true])
     }
 
+    @Test func aJobIsExcludedWithAnAppExcludedByItsPlace() async throws {
+        let vendor = URL(filePath: "/Applications/Vendor", directoryHint: .isDirectory)
+        let plist = URL(filePath: "/Users/x/Library/LaunchAgents/org.example.vendor.agent.plist")
+        let job = BackgroundItem(
+            label: "org.example.vendor.agent", kind: .agent, source: .userLibrary, plistURL: plist,
+            program: "/Applications/Vendor/Tool.app/Contents/MacOS/agent", runsAtLoad: true, keepsAlive: false,
+            ownerBundleIdentifier: "org.example.vendor", ownerName: nil,
+            ownerURL: vendor.appending(path: "Tool.app", directoryHint: .isDirectory), isOrphan: false,
+            state: .running(pid: 42), isDisabled: false
+        )
+        let excluded = Exclusions(paths: [vendor])
+        let moved = Mutex<[URL]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/")),
+            exclusions: excluded
+        ) { url in
+            moved.withLock { $0.append(url) }
+            return url
+        }
+
+        let row = try #require(BackgroundItems.rows([job], exclusions: excluded).first)
+        let result = try await BackgroundItemActions.moveToTrash(
+            job, isHelperEnabled: false, trash: service
+        ) { _ in nil }
+
+        #expect(row.isExcluded)
+        #expect(!row.canBeControlled)
+        #expect(!row.canMoveToTrash)
+        #expect(moved.withLock { $0 }.isEmpty)
+        #expect(result.result.failures.map(\.reason) == [.guarded(.excluded)])
+    }
+
     @Test func movesNoJobOfAnAppExcludedSinceItWasRead() async throws {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/org.example.guard.agent.plist")
         let job = BackgroundItem(

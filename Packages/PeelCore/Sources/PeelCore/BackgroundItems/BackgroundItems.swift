@@ -127,7 +127,7 @@ public enum BackgroundItems {
         items
             .map { item in
                 var item = item
-                item.isExcluded = item.ownerBundleIdentifier.map(exclusions.excludes(bundleIdentifier:)) == true
+                item.isExcluded = item.isOfAnApp(excludedBy: exclusions)
                 return item
             }
             .sorted { $0.label.localizedStandardCompare($1.label) == .orderedAscending }
