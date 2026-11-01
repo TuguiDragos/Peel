@@ -137,7 +137,8 @@ Space shows what fills your disk, area by area, and what each area is.
   installer. It also lists packages an app keeps in Application Support, macOS installers there and in the folders
   Peel reads apps from, device firmware, downloads never finished, and updates apps downloaded and keep until they
   install them. Your iPhone and iPad backups are listed with their size once Peel has Full Disk Access, and never
-  moved. Nothing is selected for you, and Select Recommended takes only what you can download again, such as an
+  moved. Time Machine's backups aren't here, and Space explains the snapshots macOS keeps on the disk. Nothing is
+  selected for you, and Select Recommended takes only what you can download again, such as an
   installed app's installer, one that says where it was downloaded from, a macOS installer, device firmware, a
   download a browser never finished once it hasn't changed for a day, or an update whose app is closed. It passes by
   an encrypted disk image, an installer that is no installed app's and doesn't say where it came from, one that
