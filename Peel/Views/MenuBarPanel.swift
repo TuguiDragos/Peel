@@ -5,6 +5,7 @@ import SwiftUI
 /// any app updates waiting, and what each tool found the last time it looked.
 struct MenuBarPanel: View {
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.openSettings) private var openSettings
     @Environment(AppLibrary.self) private var library
     @Environment(LifetimeStats.self) private var stats
     @Environment(PeelUpdater.self) private var updater
@@ -83,8 +84,14 @@ struct MenuBarPanel: View {
                 .accessibilityLabel(Text(verbatim: "Peel"))
             Spacer()
             Menu {
-                SettingsLink { Text("Settings…") }
-                Button("About Peel") { openWindow(id: AboutView.windowID) }
+                Button("Settings…") {
+                    openSettings()
+                    NSApp.activate()
+                }
+                Button("About Peel") {
+                    openWindow(id: AboutView.windowID)
+                    NSApp.activate()
+                }
                 Button("Check for Updates…", action: updater.checkForUpdates)
                     .disabled(!updater.canCheckForUpdates)
                 Divider()
