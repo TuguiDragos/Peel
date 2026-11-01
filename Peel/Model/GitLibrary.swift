@@ -24,9 +24,12 @@ final class GitLibrary {
     private var waiting: [GitSetting: Int] = [:]
     private var changes: Task<Void, Never>?
 
-    init(home: URL = .homeDirectory, defaults: UserDefaults = .standard) {
+    private let finding: () async -> GitConfig?
+
+    init(home: URL = .homeDirectory, defaults: UserDefaults = .standard, finding: (() async -> GitConfig?)? = nil) {
         self.home = home
         self.defaults = defaults
+        self.finding = finding ?? { await GitConfig.find(home: home) }
         ledger = GitLedger(stored: defaults.dictionary(forKey: Self.ledgerKey) ?? [:])
     }
 
@@ -41,7 +44,12 @@ final class GitLibrary {
     }
 
     private func read() async {
-        let git = if let git { git } else { await GitConfig.find(home: home) }
+        // Xcode can move or its tools go while Peel runs.
+        let git = if let git, FileManager.default.isExecutableFile(atPath: git.executable.path(percentEncoded: false)) {
+            git
+        } else {
+            await finding()
+        }
         let settings = await git?.settings()
         var known = state?.known
         if known == nil {

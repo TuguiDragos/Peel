@@ -241,6 +241,27 @@ struct TerminalLibrariesTests {
         #expect(TerminalToolLibrary.availability(of: .fzfTab, in: .notAsked) == .available)
     }
 
+    @Test func aGitThatWentAwayIsLookedForAgain() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let git = home.appending(path: "git")
+        try Data("#!/bin/sh\nexit 1\n".utf8).write(to: git)
+        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: git.path(percentEncoded: false))
+        let found = GitConfig(executable: git, home: home)
+        let library = GitLibrary(home: home, defaults: made.defaults, finding: {
+            FileManager.default.isExecutableFile(atPath: git.path(percentEncoded: false)) ? found : nil
+        })
+        await library.refresh()
+        #expect(library.state?.isInstalled == true)
+
+        try FileManager.default.removeItem(at: git)
+        await library.refresh()
+
+        #expect(library.state?.isInstalled == false)
+    }
+
     @Test func aGitChangeSavesTheLedgerInTheStoreItWasGiven() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }
