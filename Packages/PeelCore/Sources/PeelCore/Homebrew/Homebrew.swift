@@ -1332,7 +1332,8 @@ public enum Homebrew {
         autoUpdate: Bool, keeping kept: [String] = [], executable: URL? = nil, readsTheAPI: Bool = true,
         home: URL = .homeDirectory, writesLinesAsTheyGo: Bool = true
     ) -> [String: String] {
-        var path = "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+        // `bin/brew` keeps this as the person's PATH, so `brew doctor` judges it: `sbin` stands beside `bin` for each.
+        var path = "/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
         // A Homebrew in a prefix of its own finds its own programs first, as the default ones do.
         if let executable {
             let bin = (executable.path(percentEncoded: false) as NSString).deletingLastPathComponent

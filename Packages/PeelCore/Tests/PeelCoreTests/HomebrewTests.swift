@@ -30,6 +30,15 @@ struct HomebrewTests {
         )
     }
 
+    @Test func namesSbinBesideBinForEveryPlaceHomebrewInstallsItself() throws {
+        let path = try #require(Homebrew.environment(autoUpdate: false)["PATH"])
+        let folders = path.split(separator: ":").map(String.init)
+        for prefix in Homebrew.usualPrefixes {
+            #expect(folders.contains("/\(prefix)/bin"))
+            #expect(folders.contains("/\(prefix)/sbin"))
+        }
+    }
+
     @Test func asksForEachLineAsItGoesExceptOfTheHealthCheck() {
         #expect(Homebrew.environment(autoUpdate: false)["CI"] == "1")
         // `brew doctor` reads `CI` as a CI run and skips its check of the taps' branches (`diagnostic.rb`).
