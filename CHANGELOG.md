@@ -299,7 +299,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Put Back says why an item stays: excluded since the move, a protected place, not in the Trash where Peel put it, a
   locked item or folder, App Management, or a folder that isn't there anymore, each with its step. `peel restore`
   says the same, and leaves out of its plan what only the helper can put back.
-- An item on a disk with the same name as another, or one renamed, is found by its volume, not its name.
+- An item on a disk with the same name as another, or one renamed, is found by its volume, not its name, for removals
+  from this version on.
 - An uninstall's Dock icons go back at once, each beside the icons it sat between.
 - History is read again when Peel comes forward, never says Nothing Removed Yet while it can't be read, and keeps
   fewer removals rather than growing past what it reads back.
