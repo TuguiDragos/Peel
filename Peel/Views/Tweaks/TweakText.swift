@@ -80,8 +80,8 @@ extension Tweak {
             detail: "macOS puts them on the Desktop. Choose somewhere else."
         ),
         "screenshot-shadow": Words(
-            title: "No shadow around a captured window",
-            detail: "A screenshot of a window shows the window alone, without its shadow."
+            title: "No window shadow from the screencapture command",
+            detail: "Only the `screencapture` command reads this setting, not Shift-Command-4 or the Screenshot app."
         ),
         "screenshot-date": Words(
             title: "Screenshot names without the date",

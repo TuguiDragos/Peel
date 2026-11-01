@@ -13219,112 +13219,6 @@
         }
       }
     },
-    "A screenshot of a window shows the window alone, without its shadow." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Snímek okna zobrazí jen samotné okno bez stínu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein Bildschirmfoto eines Fensters zeigt nur das Fenster, ohne seinen Schatten."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La captura de una ventana muestra solo la ventana, sin su sombra."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La capture d’une fenêtre montre la fenêtre seule, sans son ombre."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo screenshot di una finestra mostra solo la finestra, senza la sua ombra."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ウインドウのスクリーンショットには、影のないウインドウだけが写ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "윈도우 스크린샷에 그림자 없이 윈도우만 담깁니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Een schermafbeelding van een venster toont alleen het venster, zonder schaduw."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zrzut ekranu okna pokazuje samo okno, bez cienia."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A captura de tela de uma janela mostra só a janela, sem a sombra."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Captura de ecran a unei ferestre arată doar fereastra, fără umbra ei."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "На снимке окна видно только само окно, без тени."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En skärmavbild av ett fönster visar bara fönstret, utan skugga."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir pencerenin ekran resmi, pencereyi gölgesi olmadan tek başına gösterir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Знімок вікна показує лише вікно, без його тіні."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "窗口截屏只显示窗口本身，不带阴影。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "視窗截圖只會顯示視窗本身，不含陰影。"
-          }
-        }
-      }
-    },
     "A selected folder goes to the Trash with everything in it. Peel always keeps at least one, and it moves a folder only if nothing inside it has changed since the scan." : {
       "localizations" : {
         "cs" : {
@@ -106165,112 +106059,6 @@
         }
       }
     },
-    "No shadow around a captured window" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bez stínu kolem zachyceného okna"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kein Schatten um ein aufgenommenes Fenster"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sin sombra alrededor de una ventana capturada"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pas d’ombre autour d’une fenêtre capturée"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nessuna ombra attorno a una finestra catturata"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "撮影したウインドウの周りに影を付けない"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "캡처한 윈도우 주변에 그림자 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen schaduw rond een vastgelegd venster"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bez cienia wokół przechwyconego okna"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sem sombra em volta de uma janela capturada"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fără umbră în jurul unei ferestre capturate"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Без тени вокруг снятого окна"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ingen skugga runt avbildade fönster"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Çekilen pencerenin çevresinde gölge yok"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Без тіні навколо знятого вікна"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "截取的窗口不带阴影"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "擷取的視窗周圍不含陰影"
-          }
-        }
-      }
-    },
     "No slide when the Dock hides or appears" : {
       "localizations" : {
         "cs" : {
@@ -106691,6 +106479,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更改副檔名時不顯示警告"
+          }
+        }
+      }
+    },
+    "No window shadow from the screencapture command" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez stínu okna u příkazu screencapture"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Fensterschatten beim Befehl „screencapture“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin sombra de ventana con el comando screencapture"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas d’ombre de fenêtre avec la commande screencapture"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna ombra della finestra con il comando screencapture"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "screencaptureコマンドで撮影したウインドウに影を付けない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "screencapture 명령으로 캡처한 윈도우에 그림자 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen vensterschaduw bij het commando screencapture"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez cienia okna w zrzutach z polecenia screencapture"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem sombra de janela com o comando screencapture"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fără umbră de fereastră cu comanda screencapture"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без тени окна в снимках команды screencapture"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen fönsterskugga från kommandot screencapture"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "screencapture komutunda pencere gölgesi yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без тіні вікна в знімках команди screencapture"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "screencapture命令截取的窗口不带阴影"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "screencapture指令擷取的視窗不含陰影"
           }
         }
       }
@@ -121489,6 +121383,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有名稱指向此App。"
+          }
+        }
+      }
+    },
+    "Only the `screencapture` command reads this setting, not Shift-Command-4 or the Screenshot app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto nastavení čte jen příkaz `screencapture`, ne zkratka Shift-Command-4 ani aplikace Snímek obrazovky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur der Befehl `screencapture` liest diese Einstellung, nicht Umschalt-Command-4 oder die App „Bildschirmfoto“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo el comando `screencapture` lee este ajuste, no Mayúsculas + Comando + 4 ni la app Captura de Pantalla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seule la commande `screencapture` lit ce réglage, et non Maj + Commande + 4 ni l’app Capture d’écran."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo il comando `screencapture` legge questa impostazione, non Maiuscole-Comando-4 né l’app Screenshot."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この設定を読み込むのは`screencapture`コマンドだけで、Shift＋Command＋4や“スクリーンショット”アプリは読み込みません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정은 `screencapture` 명령만 읽으며, Shift-Command-4나 스크린샷 앱은 읽지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen het commando `screencapture` leest deze instelling, niet Shift + Command + 4 of de app Schermafbeelding."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To ustawienie odczytuje tylko polecenie `screencapture`, a nie skrót Shift-Command-4 ani aplikacja Zrzut ekranu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só o comando `screencapture` lê este ajuste, não o atalho Shift + Command + 4 nem o app Captura de Tela."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar comanda `screencapture` citește această configurare, nu și Shift-Comandă-4 sau aplicația Captură de ecran."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот параметр учитывает только команда `screencapture`, но не сочетание клавиш Shift-Command-4 и не приложение «Снимок экрана»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara kommandot `screencapture` läser den här inställningen, inte skift-kommando-4 eller appen Skärmavbild."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ayarı yalnızca `screencapture` komutu okur; Shift-Komut-4 veya Ekran Resmi uygulaması okumaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це налаштування читає лише команда `screencapture`, а не Shift+Command+4 чи програма «Знімок екрана»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有`screencapture`命令会读取此设置，Shift-Command-4和“截屏”App都不会读取。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有`screencapture`指令會讀取此設定，Shift + Command + 4和「截圖」App都不會讀取。"
           }
         }
       }
