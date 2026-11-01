@@ -193,21 +193,15 @@ struct DuplicateList: View {
         let scan = duplicates.scan
         let groups = scan?.groups.filter { $0.matches(searchText) } ?? []
         let folderGroups = scan?.folderGroups.filter { $0.matches(searchText) } ?? []
-        let selected = (files: duplicates.selectedURLs, folders: duplicates.selectedFolders)
-        let recommended = scan?.selectingRecommended(
-            in: groups, folderGroups, files: selected.files, folders: selected.folders
-        )
-        let none = scan?.deselecting(groups, folderGroups, files: selected.files, folders: selected.folders)
         return Menu {
             Button("Select Recommended") { duplicates.selectRecommended(in: groups, folderGroups) }
-                .disabled(recommended.map { $0 == selected } ?? true)
-            Button("Deselect All") { duplicates.deselectAll(in: groups, folderGroups) }
-                .disabled(none.map { $0 == selected } ?? true)
+                .disabled(folderGroups.isEmpty && groups.allSatisfy(\.suggestedFiles.isEmpty))
+            DeselectAllDuplicates(duplicates: duplicates, groups: groups, folderGroups: folderGroups)
         } label: {
             ToolbarMenuLabel(title: "Select", systemImage: "checklist")
         }
         .disabled(groups.isEmpty && folderGroups.isEmpty || duplicates.isRemoving)
-        .help(Text("Select on every page in the list"))
+        .help(Text("Select in the groups the list shows"))
     }
 
     /// A new scan clears what the last one found, so it asks first when there is something to lose.
@@ -308,5 +302,17 @@ private struct DuplicateGroupRow: View {
             }
         }
         .padding(.vertical, 2)
+    }
+}
+
+/// A view of its own, so that only it reads the selection: the list around it would be built again at every checkbox.
+private struct DeselectAllDuplicates: View {
+    let duplicates: DuplicateLibrary
+    let groups: [DuplicateGroup]
+    let folderGroups: [DuplicateFolderGroup]
+
+    var body: some View {
+        Button("Deselect All") { duplicates.deselectAll(in: groups, folderGroups) }
+            .disabled(duplicates.selectedURLs.isEmpty && duplicates.selectedFolders.isEmpty)
     }
 }
