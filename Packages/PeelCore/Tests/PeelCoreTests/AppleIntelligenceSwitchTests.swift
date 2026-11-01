@@ -8,6 +8,13 @@ struct AppleIntelligenceSwitchTests {
         OperatingSystemVersion(majorVersion: 27, minorVersion: 0, patchVersion: 0)
     )
 
+    @Test func listsOnlyWhatApplesGuideNames() {
+        #expect(Set(AppleIntelligenceSwitch.allCases.map(\.rawValue)) == [
+            "siri", "notificationSummaries", "messagesSummaries", "emailSummaries", "smartReplies", "writingPrompts",
+            "screenTime",
+        ])
+    }
+
     @Test(.enabled(if: isMacOS27)) func everyPlaceIsOneThisMacHas() throws {
         let folder = "/System/Library/ExtensionKit/Extensions"
         let panes = try FileManager.default.contentsOfDirectory(atPath: folder).compactMap { name in

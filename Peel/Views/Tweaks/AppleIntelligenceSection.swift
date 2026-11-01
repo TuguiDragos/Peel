@@ -95,9 +95,6 @@ extension AppleIntelligenceSwitch {
         case .smartReplies: Words(
             title: "Personalized Smart Replies in Mail", place: "Mail > Settings > Composing > Personalize Smart Replies"
         )
-        case .voicemailSuggestions: Words(
-            title: "Voicemail suggestions in Phone", place: "Phone > Settings > Calls > Suggestions in Voicemail"
-        )
         case .writingPrompts: Words(
             title: "Writing Prompts in Journal", place: "Journal > Settings > General > Get Writing Prompts"
         )

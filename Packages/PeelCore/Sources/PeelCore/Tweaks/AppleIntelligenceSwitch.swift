@@ -8,7 +8,6 @@ public enum AppleIntelligenceSwitch: String, CaseIterable, Sendable {
     case messagesSummaries
     case emailSummaries
     case smartReplies
-    case voicemailSuggestions
     case writingPrompts
     case screenTime
 
@@ -25,7 +24,6 @@ public enum AppleIntelligenceSwitch: String, CaseIterable, Sendable {
             .settings(address: Self.pane("com.apple.Screen-Time-Settings.extension?path=content-and-privacy"))
         case .messagesSummaries: .app(bundleIdentifier: "com.apple.MobileSMS")
         case .emailSummaries, .smartReplies: .app(bundleIdentifier: "com.apple.mail")
-        case .voicemailSuggestions: .app(bundleIdentifier: "com.apple.mobilephone")
         case .writingPrompts: .app(bundleIdentifier: "com.apple.journal")
         }
     }
