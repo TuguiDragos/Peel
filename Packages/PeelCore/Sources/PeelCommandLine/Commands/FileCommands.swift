@@ -149,8 +149,11 @@ struct OrphansCommand: AsyncParsableCommand {
 
     /// What the list could not cover, the groups the person said belong to an app when that list can't be read, the
     /// folders Peel could not read and the places with more folders inside than Peel looks into, and how to remove
-    /// what only an administrator can move, with the restart a kernel extension needs.
-    static func notes(for scan: OrphanScan, ownersUnreadable: Bool) -> [String] {
+    /// what only an administrator can move, with what a kernel extension needs: a restart, and on Apple silicon the
+    /// startup disk's security set back.
+    static func notes(
+        for scan: OrphanScan, ownersUnreadable: Bool, onAppleSilicon: Bool = HostArchitecture.isAppleSilicon
+    ) -> [String] {
         var notes: [String] = []
         if ownersUnreadable {
             notes.append("Peel can't read the list of orphaned files you said belong to an app, so it lists them too. Start the list over in Peel's Settings > Exclusions.")
@@ -167,6 +170,7 @@ struct OrphansCommand: AsyncParsableCommand {
         }
         if scan.forAnAdministrator.contains(where: \.item.url.isKernelExtension) {
             notes.append(kernelExtensions)
+            if onAppleSilicon { notes.append(reducedSecurity) }
         }
         return notes
     }
@@ -213,6 +217,8 @@ struct OrphansCommand: AsyncParsableCommand {
     }
 
     static let kernelExtensions = "macOS changes the kernel extensions it loads only when the Mac restarts, so restart once a .kext you removed is in the Trash."
+
+    static let reducedSecurity = "If you set the startup disk's security to Reduced Security to install a .kext, it stays that way until you choose Full Security again: in the Recovery app, choose Utilities > Startup Security Utility."
 
     /// How to remove what only an administrator can move, from a place Peel's helper may not move it from.
     static let byHand = "Only an administrator can move what Needs an administrator lists, and Peel's helper isn't allowed to move it from there. To remove one, reveal it in Finder with `open -R <path>`, drag it to the Trash, then enter an administrator name and password when macOS asks."

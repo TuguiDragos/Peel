@@ -686,9 +686,27 @@ struct FileCommandTests {
         scan.forAnAdministrator = [AdministratorItem(item: other, apps: ["Gone"])]
 
         #expect(driver.url.isKernelExtension && !other.url.isKernelExtension)
-        #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false).contains(OrphansCommand.kernelExtensions))
+        #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: false)
+            .contains(OrphansCommand.kernelExtensions))
         scan.forAnAdministrator.append(AdministratorItem(item: driver, apps: ["Gone"]))
-        #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false).last == OrphansCommand.kernelExtensions)
+        #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: false).last
+            == OrphansCommand.kernelExtensions)
+    }
+
+    @Test func saysOnAppleSiliconHowToSetTheStartupDisksSecurityBackAfterAKernelExtension() throws {
+        let directory = try TemporaryDirectory()
+        let driver = try orphan("Example.kext", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
+        let other = try orphan("com.example.gone", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
+        var scan = OrphanScan(groups: [], unreadableLocations: [])
+        scan.forAnAdministrator = [AdministratorItem(item: other, apps: ["Gone"])]
+
+        #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: true)
+            .contains(OrphansCommand.reducedSecurity))
+        scan.forAnAdministrator.append(AdministratorItem(item: driver, apps: ["Gone"]))
+        #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: true).suffix(2)
+            == [OrphansCommand.kernelExtensions, OrphansCommand.reducedSecurity])
+        #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: false)
+            .contains(OrphansCommand.reducedSecurity))
     }
 
     @Test func listsApartWhatOnlyAnAdministratorCanMove() throws {

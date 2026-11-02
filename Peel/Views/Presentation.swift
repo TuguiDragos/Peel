@@ -142,6 +142,16 @@ extension UninstallsItself {
     }
 }
 
+/// What Peel says beside a kernel extension it lists.
+enum KernelExtensionNotes {
+    static func lines(onAppleSilicon: Bool = HostArchitecture.isAppleSilicon) -> [String] {
+        let restart = String(localized: "macOS changes the kernel extensions it loads only when the Mac restarts, so restart once this one is in the Trash.")
+        guard onAppleSilicon else { return [restart] }
+        // On Apple silicon a kernel extension is installed only once the startup disk's security is Reduced Security.
+        return [restart, String(localized: "If you set the startup disk’s security to Reduced Security to install it, it stays that way until you choose Full Security again: in the Recovery app, choose Utilities > Startup Security Utility.")]
+    }
+}
+
 extension GuardRefusal {
     /// Why Peel never moves the item, in words for the person who asked to move it.
     var explanation: LocalizedStringResource {

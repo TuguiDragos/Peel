@@ -266,8 +266,7 @@ struct PackageDetailView: View {
         guard let heldBack = item.heldBack else { return nil }
         let why = String(localized: heldBack.explanation)
         guard heldBack == .beyondTheHelper, item.url.isKernelExtension else { return why }
-        return why + "\n\n"
-            + String(localized: "macOS changes the kernel extensions it loads only when the Mac restarts, so restart once this one is in the Trash.")
+        return ([why] + KernelExtensionNotes.lines()).joined(separator: "\n\n")
     }
 
 }

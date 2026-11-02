@@ -68667,6 +68667,112 @@
         }
       }
     },
+    "If you set the startup disk’s security to Reduced Security to install it, it stays that way until you choose Full Security again: in the Recovery app, choose Utilities > Startup Security Utility." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokud jste kvůli instalaci tohoto doplňku nastavili zabezpečení startovacího disku na snížené zabezpečení, zůstane takto nastavené, dokud znovu nezvolíte úplné zabezpečení: v zotavovacím režimu zvolte Utility > Utilita zabezpečeného spouštění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falls du die Sicherheitsstufe des Startvolumes auf „Reduzierte Sicherheit“ verringert hast, um diese Erweiterung zu installieren, bleibt es dabei, bis du wieder „Volle Sicherheit“ festlegst: Wähle dazu in der macOS-Wiederherstellung „Dienstprogramme“ > „Startsicherheitsdienstprogramm“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si para instalarla ajustaste la seguridad del disco de arranque a seguridad reducida, seguirá así hasta que vuelvas a elegir seguridad máxima: en la función de recuperación de macOS, elige Utilidades > Utilidad de Seguridad de Arranque."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous avez défini la sécurité du disque de démarrage sur « Sécurité réduite » pour l’installer, elle reste ainsi jusqu’à ce que vous choisissiez de nouveau « Sécurité maximale » : dans la fonctionnalité de récupération de macOS, choisissez Utilitaires > Utilitaire Sécurité au démarrage."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se per installarla hai impostato la sicurezza del disco di avvio su “Sicurezza ridotta”, l’impostazione resta tale finché non scegli di nuovo “Sicurezza totale”: in Recupero di macOS, scegli Utility > Utility Sicurezza Avvio."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これをインストールするために起動ディスクのセキュリティを“低セキュリティ”に設定した場合、再び“完全なセキュリティ”を選択するまで、その設定のままになります。“完全なセキュリティ”に戻すには、macOS復旧で“ユーティリティ”＞“起動セキュリティユーティリティ”と選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 커널 확장 프로그램을 설치하기 위해 시동 디스크의 보안 정책을 부분 보안으로 설정했다면, 다시 완전 보안을 선택할 때까지 부분 보안으로 유지됩니다. 완전 보안을 선택하려면 macOS 복구에서 유틸리티 > 시동 보안 유틸리티를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je de beveiliging van de opstartschijf op 'Verminderde beveiliging' hebt ingesteld om die te installeren, blijft dat zo totdat je weer 'Volledige beveiliging' kiest: kies in macOS-herstel Hulpprogramma's > Opstartbeveiligingshulpprogramma."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeśli do jego zainstalowania zmieniono zasadę ochrony dysku startowego na Obniżony poziom zabezpieczeń, pozostanie ona taka, dopóki ponownie nie wybierzesz opcji Pełne zabezpieczenia: w trybie odzyskiwania macOS wybierz polecenie Narzędzia > Narzędzie bezpiecznego uruchamiania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você definiu a segurança do disco de inicialização como Segurança Reduzida para instalá-la, ela continua reduzida até você escolher Segurança Total novamente: na Recuperação do macOS, escolha Utilitários > Utilitário de Segurança da Inicialização."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dacă, pentru a o instala, ați configurat securitatea discului de inițializare la „Securitate redusă”, aceasta rămâne așa până când alegeți din nou „Securitate completă”: în aplicația Recuperare macOS, alegeți Utilitare > Utilitar securitate la inițializare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если ради его установки Вы задали для загрузочного диска сниженный уровень безопасности, этот уровень сохранится, пока Вы снова не выберете высший уровень безопасности: в режиме восстановления macOS выберите «Утилиты» > «Утилита безопасной загрузки»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du ställde in startskivans säkerhet på Minskad säkerhet för att installera det, förblir den så tills du väljer Full säkerhet igen: välj Verktyg > Startsäkerhetsverktyg i macOS Återställning."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu yüklemek için başlangıç diskinin güvenliğini Azaltılmış Güvenlik olarak ayarladıysanız, siz yeniden Tam Güvenlik’i seçene kadar öyle kalır: macOS Kurtarma’da İzlenceler > Başlangıç Güvenliği İzlencesi’ni seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Якщо для його інсталювання ви змінили політику безпеки стартового диска на «Послаблена безпека», вона такою й лишиться, доки ви знову не виберете «Повна безпека»: у розділі «Відновлення macOS» виберіть Утиліти > Утиліта безпеки запуску."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你为了安装它而将启动磁盘的安全性设为“降低安全性”，它会一直保持这一设置，直到你重新将其设为“完整安全性”：在“macOS恢复”中，选取“实用工具”>“启动安全性实用工具”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你為了安裝它而將啟動磁碟的安全性設為「較低安全性」，此設定會一直保留，直到你再次選擇「完整安全性」為止：在「macOS復原」中，選擇「工具程式」>「開機安全性工具程式」。"
+          }
+        }
+      }
+    },
     "Image Units" : {
       "localizations" : {
         "cs" : {
