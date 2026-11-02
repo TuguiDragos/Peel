@@ -572,6 +572,55 @@ struct InstallersTests {
         #expect(items.values.allSatisfy { $0.heldBack == .keptByAnApp })
     }
 
+    @Test func findsTheSystemImagesAppsKeepForMakingVirtualMachines() async throws {
+        let directory = try TemporaryDirectory()
+        let library = "Library/Application Support/VirtualBuddy"
+        let used = try directory.file("\(library)/_Downloads/UniversalMac_27.2_26B123_Restore.ipsw", bytes: 400_000)
+        let unused = try directory.file("\(library)/_Downloads/UniversalMac_27.2_26B118_Restore.ipsw", bytes: 400_000)
+        try directory.file("\(library)/Sonoma.vbvm/.vbdata/Metadata.plist", contents: try metadata(installedFrom: used))
+        let tools = try directory.file("Library/Application Support/Tidewater/Tools.iso", bytes: 400_000)
+        try directory.file("Library/Application Support/Tidewater/Ventura.vimi/Restore.ipsw", bytes: 400_000)
+        let parallels = try directory.file("Library/Parallels/Downloads/Windows 11.iso", bytes: 400_000)
+        let fusion = try directory.file("Virtual Machines.localized/VMWIsoImages/Windows 11.iso", bytes: 400_000)
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items.map { (PathPattern.comparablePath(of: $0.url), $0) })
+        let path = { (url: URL) in PathPattern.comparablePath(of: url) }
+        #expect(Set(items.keys) == Set([used, unused, tools, parallels, fusion].map(path)))
+        #expect(items[path(used)]?.kind == .firmware)
+        #expect(items[path(used)]?.notes == [])
+        #expect(items[path(unused)]?.notes == [.unusedByAnyVirtualMachine])
+        #expect(items[path(tools)]?.kind == .appInstaller)
+        #expect(items.values.allSatisfy { $0.heldBack == .keptByAnApp })
+    }
+
+    @Test func callsNoImageUnusedWhileAMachinesRecordCannotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let library = "Library/Application Support/VirtualBuddy"
+        let image = try directory.file("\(library)/_Downloads/UniversalMac_27.2_26B118_Restore.ipsw", bytes: 400_000)
+        try directory.file("\(library)/Sonoma.vbvm/.vbdata/Metadata.plist", contents: Data("not a list".utf8))
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let item = try #require(scan.items.first { $0.url.lastPathComponent == image.lastPathComponent })
+        #expect(item.notes == [])
+    }
+
+    private func metadata(installedFrom image: URL) throws -> Data {
+        try PropertyListSerialization.data(
+            fromPropertyList: ["installImageURL": ["relative": image.absoluteString]], format: .binary, options: 0
+        )
+    }
+
     /// Sparkle and Squirrel keep a downloaded update in the app's caches until they install it. One whose app is
     /// running may be installed when the app quits, and a folder Developer lists is left to it.
     @Test func findsUpdatesAppsDownloadedAndLeavesARunningAppsOneToChoose() async throws {

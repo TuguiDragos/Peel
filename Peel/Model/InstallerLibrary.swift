@@ -159,7 +159,7 @@ nonisolated extension InstallerItem.Kind {
 
     var explanation: LocalizedStringResource {
         switch self {
-        case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and packages in the folders apps keep in Application Support. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
+        case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and the ones apps keep in Application Support or that Parallels Desktop and VMware Fusion keep for making virtual machines. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
         case .macOSInstaller: "A full copy of macOS, ready to install. Apple offers the newest release again to any Mac that can run it."
         case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it. What Apple Configurator keeps stays in its own container, and is deleted in System Settings > General > Storage > iOS Files."
         case .deviceBackup: "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here. A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder."

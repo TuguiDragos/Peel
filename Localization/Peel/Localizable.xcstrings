@@ -40712,108 +40712,108 @@
         }
       }
     },
-    "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and packages in the folders apps keep in Application Support. A disk image can also be one you made to keep files in. What an installer installed stays where it is." : {
+    "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and the ones apps keep in Application Support or that Parallels Desktop and VMware Fusion keep for making virtual machines. A disk image can also be one you made to keep files in. What an installer installed stays where it is." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy disků, balíčky a archivy obsahující aplikaci nebo instalátor, ve složkách Stahování, Plocha, Dokumenty, Veřejné a Sdílené a ve složkách, které jsou přímo v nich, kde instalátory obvykle zůstávají, a balíčky ve složkách, které si aplikace uchovávají v Application Support. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů. Co instalátor nainstaloval, zůstane, kde je."
+            "value" : "Obrazy disků, balíčky a archivy obsahující aplikaci nebo instalátor, ve složkách Stahování, Plocha, Dokumenty, Veřejné a Sdílené a ve složkách, které jsou přímo v nich, kde instalátory obvykle zůstávají, a ty, které si aplikace uchovávají v Application Support nebo které si Parallels Desktop a VMware Fusion uchovávají k vytváření virtuálních počítačů. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů. Co instalátor nainstaloval, zůstane, kde je."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Image-Dateien, Pakete und Archive, die eine App oder einen Installer enthalten, in „Downloads“, „Schreibtisch“, „Dokumente“, „Öffentlich“ und „Geteilt“ sowie in den Ordnern direkt darin, wo Installer meist liegen bleiben, außerdem Pakete in den Ordnern, die Apps in „Application Support“ aufbewahren. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren. Was ein Installer installiert hat, bleibt, wo es ist."
+            "value" : "Image-Dateien, Pakete und Archive, die eine App oder einen Installer enthalten, in „Downloads“, „Schreibtisch“, „Dokumente“, „Öffentlich“ und „Geteilt“ sowie in den Ordnern direkt darin, wo Installer meist liegen bleiben, außerdem diejenigen, die Apps in „Application Support“ aufbewahren oder die Parallels Desktop und VMware Fusion zum Erstellen virtueller Maschinen aufbewahren. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren. Was ein Installer installiert hat, bleibt, wo es ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imágenes de disco, paquetes y archivos comprimidos que contienen una app o un instalador, en Descargas, Escritorio, Documentos, Pública y Compartido, y en las carpetas que hay directamente dentro de ellas, donde suelen quedarse los instaladores, y paquetes en las carpetas que las apps guardan en Application Support. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos. Lo que instaló un instalador se queda donde está."
+            "value" : "Imágenes de disco, paquetes y archivos comprimidos que contienen una app o un instalador, en Descargas, Escritorio, Documentos, Pública y Compartido, y en las carpetas que hay directamente dentro de ellas, donde suelen quedarse los instaladores, y los que las apps guardan en Application Support o los que Parallels Desktop y VMware Fusion guardan para crear máquinas virtuales. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos. Lo que instaló un instalador se queda donde está."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Images disque, paquets et archives contenant une app ou un programme d’installation, situés dans les dossiers Téléchargements, Bureau, Documents, Public et Partagé, et dans les dossiers placés directement à l’intérieur de ceux-ci, là où les programmes d’installation restent en général, ainsi que les paquets situés dans les dossiers que les apps conservent dans Application Support. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers. Ce qu’un programme d’installation a installé reste en place."
+            "value" : "Images disque, paquets et archives contenant une app ou un programme d’installation, situés dans les dossiers Téléchargements, Bureau, Documents, Public et Partagé, et dans les dossiers placés directement à l’intérieur de ceux-ci, là où les programmes d’installation restent en général, ainsi que ceux que les apps conservent dans Application Support ou que Parallels Desktop et VMware Fusion conservent pour créer des machines virtuelles. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers. Ce qu’un programme d’installation a installé reste en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Immagini disco, pacchetti e archivi che contengono un’app o un installer, in Download, Scrivania, Documenti, Pubblica e Condivisa e nelle cartelle immediatamente al loro interno, dove di solito restano gli installer, e i pacchetti nelle cartelle che le app conservano in Application Support. Un’immagine disco può anche essere una che hai creato tu per conservare dei file. Ciò che un installer ha installato resta dov’è."
+            "value" : "Immagini disco, pacchetti e archivi che contengono un’app o un installer, in Download, Scrivania, Documenti, Pubblica e Condivisa e nelle cartelle immediatamente al loro interno, dove di solito restano gli installer, e quelli che le app conservano in Application Support o che Parallels Desktop e VMware Fusion conservano per creare macchine virtuali. Un’immagine disco può anche essere una che hai creato tu per conservare dei file. Ciò che un installer ha installato resta dov’è."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“ダウンロード”、“デスクトップ”、“書類”、“パブリック”、“共有”の各フォルダと、その直下のフォルダにある、アプリまたはインストーラを含むディスクイメージ、パッケージ、アーカイブです。インストーラは通常ここに残されています。アプリがApplication Supportに保存しているフォルダ内のパッケージも対象です。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。インストーラがインストールしたものは、そのまま残ります。"
+            "value" : "“ダウンロード”、“デスクトップ”、“書類”、“パブリック”、“共有”の各フォルダと、その直下のフォルダにある、アプリまたはインストーラを含むディスクイメージ、パッケージ、アーカイブです。インストーラは通常ここに残されています。アプリがApplication Supportに保存している、またはParallels DesktopとVMware Fusionが仮想マシンを作成するために保存しているディスクイメージ、パッケージ、アーカイブも対象です。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。インストーラがインストールしたものは、そのまま残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "설치 프로그램이 흔히 남아 있는 다운로드, 데스크탑, 문서, 공용, 공유 폴더와 그 바로 아래 폴더에 있는 디스크 이미지, 패키지 및 아카이브 중 앱이나 설치 프로그램이 담긴 항목, 그리고 앱이 Application Support에 보관하는 폴더에 있는 패키지입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다. 설치 프로그램이 설치한 항목은 그대로 남습니다."
+            "value" : "설치 프로그램이 흔히 남아 있는 다운로드, 데스크탑, 문서, 공용, 공유 폴더와 그 바로 아래 폴더에 있는 디스크 이미지, 패키지 및 아카이브 중 앱이나 설치 프로그램이 담긴 항목, 그리고 앱이 Application Support에 보관하거나 Parallels Desktop과 VMware Fusion이 가상 컴퓨터를 만들기 위해 보관하는 디스크 이미지, 패키지 및 아카이브입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다. 설치 프로그램이 설치한 항목은 그대로 남습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schijfkopieën, pakketten en archieven met een app of een installatieprogramma, in de mappen Downloads, Bureaublad, Documenten, Publiek en Gedeeld en in de mappen die er direct in staan, waar installatieprogramma's meestal achterblijven, en pakketten in de mappen die apps in Application Support bewaren. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren. Wat een installatieprogramma heeft geïnstalleerd, blijft waar het is."
+            "value" : "Schijfkopieën, pakketten en archieven met een app of een installatieprogramma, in de mappen Downloads, Bureaublad, Documenten, Publiek en Gedeeld en in de mappen die er direct in staan, waar installatieprogramma's meestal achterblijven, en de schijfkopieën, pakketten en archieven die apps in Application Support bewaren of die Parallels Desktop en VMware Fusion bewaren om virtuele machines te maken. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren. Wat een installatieprogramma heeft geïnstalleerd, blijft waar het is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory, a także pakiety w folderach, które aplikacje przechowują w Application Support. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
+            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory, a także te, które aplikacje przechowują w Application Support lub które Parallels Desktop i VMware Fusion przechowują do tworzenia maszyn wirtualnych. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagens de disco, pacotes e arquivos comprimidos que contêm um app ou um instalador, em Downloads, na Mesa, em Documentos, em Pública e em Compartilhado, e nas pastas que ficam diretamente dentro delas, onde os instaladores costumam ficar, e pacotes nas pastas que os apps guardam em Application Support. Uma imagem de disco também pode ser uma que você criou para guardar arquivos. O que um instalador instalou fica onde está."
+            "value" : "Imagens de disco, pacotes e arquivos comprimidos que contêm um app ou um instalador, em Downloads, na Mesa, em Documentos, em Pública e em Compartilhado, e nas pastas que ficam diretamente dentro delas, onde os instaladores costumam ficar, e aqueles que os apps guardam em Application Support ou que o Parallels Desktop e o VMware Fusion guardam para criar máquinas virtuais. Uma imagem de disco também pode ser uma que você criou para guardar arquivos. O que um instalador instalou fica onde está."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagini de disc, pachete și arhive care conțin o aplicație sau un program de instalare, aflate în Descărcări, Desktop, Documente, Public și Partajat, precum și în dosarele aflate direct în acestea, unde rămân de obicei programele de instalare, și pachete din dosarele pe care aplicațiile le păstrează în Application Support. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea. Ce a instalat un program de instalare rămâne unde se află."
+            "value" : "Imagini de disc, pachete și arhive care conțin o aplicație sau un program de instalare, aflate în Descărcări, Desktop, Documente, Public și Partajat, precum și în dosarele aflate direct în acestea, unde rămân de obicei programele de instalare, și cele pe care aplicațiile le păstrează în Application Support sau pe care Parallels Desktop și VMware Fusion le păstrează pentru a crea mașini virtuale. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea. Ce a instalat un program de instalare rămâne unde se află."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образы дисков, пакеты и архивы, содержащие приложение или установщик, в папках «Загрузки», «Рабочий стол», «Документы», «Общие» и «Общий доступ», а также в папках, лежащих прямо в них, где обычно остаются установщики, а кроме того, пакеты в папках, которые приложения хранят в Application Support. Образ диска может быть и Вашим собственным, созданным для хранения файлов. То, что было установлено с их помощью, остается на месте."
+            "value" : "Образы дисков, пакеты и архивы, содержащие приложение или установщик, в папках «Загрузки», «Рабочий стол», «Документы», «Общие» и «Общий доступ», а также в папках, лежащих прямо в них, где обычно остаются установщики, а кроме того, те, которые приложения хранят в Application Support или которые Parallels Desktop и VMware Fusion хранят для создания виртуальных машин. Образ диска может быть и Вашим собственным, созданным для хранения файлов. То, что было установлено с их помощью, остается на месте."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skivavbilder, paket och arkiv som innehåller en app eller en installerare, i Hämtade filer, Skrivbord, Dokument och Delad i din hemmapp och i Delad under Användare, samt i mapparna som ligger direkt i dem, där installerare brukar bli liggande, och paket i mapparna som appar har i Application Support. En skivavbild kan också vara en som du själv har skapat för att förvara filer i. Det som en installerare har installerat stannar där det är."
+            "value" : "Skivavbilder, paket och arkiv som innehåller en app eller en installerare, i Hämtade filer, Skrivbord, Dokument och Delad i din hemmapp och i Delad under Användare, samt i mapparna som ligger direkt i dem, där installerare brukar bli liggande, och de som appar har i Application Support eller som Parallels Desktop och VMware Fusion sparar för att skapa virtuella maskiner. En skivavbild kan också vara en som du själv har skapat för att förvara filer i. Det som en installerare har installerat stannar där det är."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İndirilenler, Masaüstü, Belgeler, Ortak ve Paylaşılan klasörlerinde ve doğrudan bunların içindeki klasörlerde, bir uygulama veya yükleyici içeren disk görüntüleri, paketler ve arşivler; yükleyiciler genellikle buralarda kalır. Ayrıca uygulamaların Application Support içinde tuttuğu klasörlerdeki paketler. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir. Bir yükleyicinin yüklediği şeyler olduğu yerde kalır."
+            "value" : "İndirilenler, Masaüstü, Belgeler, Ortak ve Paylaşılan klasörlerinde ve doğrudan bunların içindeki klasörlerde, bir uygulama veya yükleyici içeren disk görüntüleri, paketler ve arşivler; yükleyiciler genellikle buralarda kalır. Ayrıca uygulamaların Application Support içinde tuttuğu veya Parallels Desktop ve VMware Fusion tarafından sanal makine oluşturmak için tutulan disk görüntüleri, paketler ve arşivler. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir. Bir yükleyicinin yüklediği şeyler olduğu yerde kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образи дисків, пакети й архіви, що містять програму або інсталятор, у папках «Викачане», «Робочий стіл», «Документи», «Спільна» і «Спільний», а також у папках безпосередньо всередині них, де зазвичай лишаються інсталятори, і пакети в папках, які програми зберігають в Application Support. Образом диска може бути й той, який ви створили для зберігання файлів. Те, що інсталятор інсталював, лишається на місці."
+            "value" : "Образи дисків, пакети й архіви, що містять програму або інсталятор, у папках «Викачане», «Робочий стіл», «Документи», «Спільна» і «Спільний», а також у папках безпосередньо всередині них, де зазвичай лишаються інсталятори, і ті, які програми зберігають в Application Support або які Parallels Desktop і VMware Fusion зберігають для створення віртуальних машин. Образом диска може бути й той, який ви створили для зберігання файлів. Те, що інсталятор інсталював, лишається на місці."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“下载”、“桌面”、“文稿”、“公共”和“共享”文件夹及其下一层文件夹中（安装器通常就留在这些地方）含有App或安装器的磁盘映像、软件包和归档，以及App保存在Application Support中的文件夹内的软件包。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
+            "value" : "“下载”、“桌面”、“文稿”、“公共”和“共享”文件夹及其下一层文件夹中（安装器通常就留在这些地方）含有App或安装器的磁盘映像、软件包和归档，以及App保存在Application Support中的，或Parallels Desktop和VMware Fusion为创建虚拟机而保存的此类文件。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "含有App或安裝程式的磁碟映像檔、套件和封存檔，位於「下載項目」、「桌面」、「文件」、「公用」和「共享」中，以及直接位於這些檔案夾內的檔案夾中，也就是安裝程式通常留下的地方；另外還有App在Application Support中所保存檔案夾內的套件。磁碟映像檔也可能是你自己製作、用來存放檔案的。安裝程式所安裝的內容會保留在原處。"
+            "value" : "含有App或安裝程式的磁碟映像檔、套件和封存檔，位於「下載項目」、「桌面」、「文件」、「公用」和「共享」中，以及直接位於這些檔案夾內的檔案夾中，也就是安裝程式通常留下的地方；另外還有App在Application Support中所保存的，或Parallels Desktop和VMware Fusion為建立虛擬機器而保存的這類檔案。磁碟映像檔也可能是你自己製作、用來存放檔案的。安裝程式所安裝的內容會保留在原處。"
           }
         }
       }
@@ -115123,108 +115123,108 @@
         }
       }
     },
-    "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it." : {
+    "Not selected: this is in a folder an app keeps, and the app may still need it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nevybráno: tento soubor je ve složce, kterou si aplikace uchovává v Application Support, a aplikace ho možná ještě potřebuje."
+            "value" : "Nevybráno: tento soubor je ve složce, kterou si aplikace uchovává, a aplikace ho možná ještě potřebuje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nicht ausgewählt: Dieses Objekt befindet sich in einem Ordner, den eine App in Application Support aufbewahrt, und die App benötigt es möglicherweise noch."
+            "value" : "Nicht ausgewählt: Dieses Objekt befindet sich in einem Ordner, den eine App aufbewahrt, und die App benötigt es möglicherweise noch."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin seleccionar: está en una carpeta que una app guarda en Application Support, y puede que la app aún lo necesite."
+            "value" : "Sin seleccionar: está en una carpeta que una app guarda, y puede que la app aún lo necesite."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : cet élément se trouve dans un dossier qu’une app conserve dans Application Support, et l’app en a peut-être encore besoin."
+            "value" : "Non sélectionné : cet élément se trouve dans un dossier qu’une app conserve, et l’app en a peut-être encore besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non selezionato: si trova in una cartella che un’app conserva in Application Support, e l’app potrebbe averne ancora bisogno."
+            "value" : "Non selezionato: si trova in una cartella che un’app conserva, e l’app potrebbe averne ancora bisogno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選択: これはアプリがApplication Supportに保存しているフォルダ内にあり、そのアプリがまだ必要としている可能性があります。"
+            "value" : "未選択: これはアプリが保存しているフォルダ内にあり、そのアプリがまだ必要としている可能性があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "선택되지 않음: 이 파일은 앱이 Application Support에 보관하는 폴더에 있으며, 해당 앱에 아직 필요할 수 있습니다."
+            "value" : "선택되지 않음: 이 파일은 앱이 보관하는 폴더에 있으며, 해당 앱에 아직 필요할 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niet geselecteerd: dit staat in een map die een app in Application Support bewaart, en de app heeft het misschien nog nodig."
+            "value" : "Niet geselecteerd: dit staat in een map die een app bewaart, en de app heeft het misschien nog nodig."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie zaznaczono: ten plik jest w folderze, który aplikacja przechowuje w Application Support, i może go ona jeszcze potrzebować."
+            "value" : "Nie zaznaczono: ten plik jest w folderze, który aplikacja przechowuje, i może go ona jeszcze potrzebować."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não selecionado: este item está em uma pasta que um app guarda em Application Support, e o app pode ainda precisar dele."
+            "value" : "Não selecionado: este item está em uma pasta que um app guarda, e o app pode ainda precisar dele."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: acest articol se află într‑un dosar pe care o aplicație îl păstrează în Application Support, iar aplicația ar putea avea încă nevoie de el."
+            "value" : "Neselectat: acest articol se află într‑un dosar pe care o aplicație îl păstrează, iar aplicația ar putea avea încă nevoie de el."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не выбрано: этот файл находится в папке, которую приложение хранит в Application Support, и приложению он, возможно, еще нужен."
+            "value" : "Не выбрано: этот файл находится в папке, которую хранит приложение, и приложению он, возможно, еще нужен."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inte markerad: den här filen ligger i en mapp som en app har i Application Support, och appen kanske fortfarande behöver den."
+            "value" : "Inte markerad: den här filen ligger i en mapp som en app har, och appen kanske fortfarande behöver den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçilmedi: bu dosya, bir uygulamanın Application Support içinde tuttuğu bir klasörde ve uygulamanın ona hâlâ ihtiyacı olabilir."
+            "value" : "Seçilmedi: bu dosya, bir uygulamanın tuttuğu bir klasörde ve uygulamanın ona hâlâ ihtiyacı olabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не вибрано: цей файл міститься в папці, яку програма зберігає в Application Support, і, можливо, він ще потрібен цій програмі."
+            "value" : "Не вибрано: цей файл міститься в папці, яку зберігає програма, і, можливо, він ще потрібен цій програмі."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未选择：此文件位于某个App保存在Application Support中的文件夹内，该App可能仍需要它。"
+            "value" : "未选择：此文件位于某个App保存的文件夹内，该App可能仍需要它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選取：此項目位於某個App在Application Support中保存的檔案夾，而且該App可能仍需要它。"
+            "value" : "未選取：此項目位於某個App保存的檔案夾，而且該App可能仍需要它。"
           }
         }
       }
@@ -115650,6 +115650,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未選取：測量此項目耗時過久，因此Peel不知道它有多大，也不知道裡面有什麼。"
+          }
+        }
+      }
+    },
+    "Not used by any virtual machine" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nepoužívá ho žádný virtuální počítač"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von keiner virtuellen Maschine verwendet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No lo usa ninguna máquina virtual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune machine virtuelle ne l’utilise"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non usato da nessuna macchina virtuale"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "どの仮想マシンでも使用されていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어떤 가상 컴퓨터에서도 사용되지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Door geen enkele virtuele machine gebruikt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieużywany przez żadną maszynę wirtualną"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não usado por nenhuma máquina virtual"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neutilizat de nicio mașină virtuală"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не используется ни одной виртуальной машиной"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Används inte av någon virtuell maskin"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiçbir sanal makine tarafından kullanılmıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не використовується жодною віртуальною машиною"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未被任何虚拟机使用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未被任何虛擬機器使用"
           }
         }
       }

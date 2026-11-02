@@ -68,6 +68,8 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
         case encrypted
         /// The installed app that downloaded an update, which it keeps until it installs it.
         case downloadedBy(String)
+        /// A restore image in VirtualBuddy's library that none of its machines was installed from.
+        case unusedByAnyVirtualMachine
     }
 }
 
@@ -79,7 +81,7 @@ extension InstallerItem {
         let shown = [name, installedApp].compactMap(\.self) + notes.compactMap { note -> String? in
             switch note {
             case .version(let text), .name(let text), .downloadedBy(let text): text
-            case .encrypted: nil
+            case .encrypted, .unusedByAnyVirtualMachine: nil
             }
         }
         return shown.contains { SearchText.matches($0, query) }
@@ -271,7 +273,7 @@ public enum Installers {
             syncKeeper: syncKeeper,
             openFiles: openFiles
         )
-        items += await packagesKeptByApps(
+        items += await installersKeptByApps(
             home: home,
             installedApps: installedApps,
             exclusions: exclusions,
@@ -672,10 +674,11 @@ public enum Installers {
         return apps
     }
 
-    /// Installer packages in `~/Library/Application Support`, up to three levels down, never inside a package or in
-    /// what macOS keeps there for its own services, the device backups and Contacts among them. Each is matched by its
-    /// name to an installed app, or else by the folder it sits in.
-    static func packagesKeptByApps(
+    /// Installers and system images in `~/Library/Application Support`, up to three levels down, never inside a
+    /// package, a virtual machine, or what macOS keeps there for its own services, the device backups and Contacts
+    /// among them, and the images Parallels Desktop and VMware Fusion keep for making virtual machines. Each is matched
+    /// by its name to an installed app, or else by the folder it sits in.
+    static func installersKeptByApps(
         home: URL,
         installedApps: [InstalledApp],
         exclusions: Exclusions,
@@ -686,13 +689,26 @@ public enum Installers {
     ) async -> [InstallerItem] {
         let support = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
         var items: [InstallerItem] = []
-        var folders: [(url: URL, depth: Int, owner: String?)] = [(support, 1, nil)]
+        // Parallels Desktop's cask names its downloads folder, and Broadcom's guide VMware Fusion's folder of images.
+        var folders: [(url: URL, depth: Int, owner: String?)] = [
+            (support, 1, nil),
+            (home.appending(path: "Library/Parallels/Downloads", directoryHint: .isDirectory), 3, "Parallels Desktop"),
+            (
+                home.appending(path: "Virtual Machines.localized/VMWIsoImages", directoryHint: .isDirectory), 3,
+                "VMware Fusion"
+            ),
+        ]
+        let virtualBuddy = support.appending(path: "VirtualBuddy", directoryHint: .isDirectory)
+        let virtualBuddysImages = PathPattern.comparablePath(of: virtualBuddy.appending(path: "_Downloads"))
+        let imagesInUse = VirtualBuddyLibrary.imagesInUse(in: virtualBuddy)
         while let (folder, depth, owner) = folders.popLast() {
             for url in files(in: folder) {
                 guard !Task.isCancelled else { return items }
-                guard ["pkg", "mpkg"].contains(url.pathExtension.lowercased()) else {
+                let kind = url.pathExtension.lowercased()
+                guard installerExtensions.contains(kind) || firmwareExtensions.contains(kind) else {
                     if depth < 3, url.isRealFolder, !FileSize.isDataless(url),
                        (try? url.resourceValues(forKeys: [.isPackageKey]).isPackage) != true,
+                       !KeptOnlyHere.namesAVirtualMachine(url.lastPathComponent),
                        depth > 1 || !SystemFolders.keeps(url.lastPathComponent, in: .applicationSupport) {
                         folders.append((url, depth + 1, owner ?? url.lastPathComponent))
                     }
@@ -706,8 +722,19 @@ public enum Installers {
                     url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles
                 )
                 let named = installedApp(for: url, in: installedApps) == nil ? owner : nil
-                items.append(appInstaller(
-                    at: url, size: size, heldBack: heldBack ?? .keptByAnApp, installedApps: installedApps, named: named
+                guard firmwareExtensions.contains(kind) else {
+                    items.append(appInstaller(
+                        at: url, size: size, heldBack: heldBack ?? .keptByAnApp, installedApps: installedApps,
+                        named: named
+                    ))
+                    continue
+                }
+                let isUnused = PathPattern.comparablePath(of: folder) == virtualBuddysImages
+                    && imagesInUse.map { !$0.contains(PathPattern.comparablePath(of: url)) } == true
+                items.append(firmware(
+                    at: url, size: size, heldBack: heldBack ?? .keptByAnApp,
+                    installedApp: installedApp(named: named ?? "", in: installedApps)?.name,
+                    notes: isUnused ? [.unusedByAnyVirtualMachine] : []
                 ))
             }
         }
@@ -745,16 +772,18 @@ public enum Installers {
         return info.st_mode & S_IFMT == S_IFREG && info.st_size == 0
     }
 
-    static func firmware(at url: URL, size: Int64?, heldBack: HoldBack?) -> InstallerItem {
+    static func firmware(
+        at url: URL, size: Int64?, heldBack: HoldBack?, installedApp: String? = nil, notes: [InstallerItem.Note] = []
+    ) -> InstallerItem {
         InstallerItem(
             url: url,
             kind: .firmware,
             name: url.lastPathComponent,
             size: size,
             date: creationDate(of: url),
-            installedApp: nil,
+            installedApp: installedApp,
             isReadOnly: false,
-            notes: [],
+            notes: notes,
             requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
             heldBack: heldBack
         )

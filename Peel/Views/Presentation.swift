@@ -449,7 +449,7 @@ extension HoldBack {
         case .serverStillListens:
             "Not selected: a server on this Mac still listens on the port this folder is named for, and keeps its uploads here."
         case .keptByAnApp:
-            "Not selected: this is in a folder an app keeps in Application Support, and the app may still need it."
+            "Not selected: this is in a folder an app keeps, and the app may still need it."
         case .appIsRunning:
             "Not selected: the app is running and may install this update when it quits."
         case .mayBeTheOnlyCopy:

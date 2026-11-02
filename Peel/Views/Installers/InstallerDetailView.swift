@@ -128,6 +128,7 @@ extension InstallerItem.Note {
         case .name(let name): "\(name)"
         case .encrypted: "Encrypted"
         case .downloadedBy(let app): "An update \(app) downloaded"
+        case .unusedByAnyVirtualMachine: "Not used by any virtual machine"
         }
     }
 }
