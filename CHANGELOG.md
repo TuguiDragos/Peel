@@ -458,6 +458,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - An app whose own agent launchd keeps running can be removed, here and with `peel uninstall`: asked to quit, it only
   started again, and the question came back. Moving it stops the job, and Put Back starts it again.
+- A cask definition Homebrew can't read costs only its own app: before, one in a tap took away what every other cask
+  says about the apps it names, and the files only a cask names left their pages.
 - Without Full Disk Access, an app's page no longer makes macOS ask about your photos, since `~/Library/Photos` isn't
   looked into.
 - On macOS 27, the list keeps its place when the first update arrives or the last one leaves.

@@ -193,6 +193,98 @@ struct KnownCasksTests {
         #expect(await CaskEvidence.knownCasks(for: []).isEmpty)
     }
 
+    /// A `brew` that writes each call to `calls` and answers `info` about every name, unless one is in `unreadable`.
+    private func brew(refusing unreadable: String, in directory: borrowing TemporaryDirectory) throws -> URL {
+        let calls = directory.url.appending(path: "calls").path(percentEncoded: false)
+        let script = """
+        #!/bin/sh
+        echo "$*" >> '\(calls)'
+        kind=$3
+        shift 3
+        for name in "$@"; do
+          case " \(unreadable) " in *" $name "*|*" * "*) echo "Error: '$name' is unreadable" >&2; exit 1;; esac
+        done
+        printf '{"formulae": ['
+        separator=''
+        if [ "$kind" = --formula ]; then
+          for name in "$@"; do
+            printf '%s{"name": "%s", "installed": [], "versions": {"stable": "1"}, "outdated": false, "pinned": false, "dependencies": []}' "$separator" "$name"
+            separator=,
+          done
+        fi
+        printf '], "casks": ['
+        if [ "$kind" = --cask ]; then
+          for name in "$@"; do
+            printf '%s{"token": "%s", "version": "1", "outdated": false}' "$separator" "$name"
+            separator=,
+          done
+        fi
+        printf ']}'
+        """
+        let url = try directory.file("brew", contents: Data(script.utf8))
+        chmod(url.path(percentEncoded: false), 0o755)
+        return url
+    }
+
+    @Test func aCaskHomebrewCantReadCostsOnlyItself() async throws {
+        let directory = try TemporaryDirectory()
+        let stand = try brew(refusing: "broken", in: directory)
+
+        let found = await Homebrew.$standIn.withValue(stand) {
+            await Homebrew.casks(named: ["first", "second", "broken", "third", "fourth"])
+        }
+
+        #expect(Set(found.map(\.name)) == ["first", "second", "third", "fourth"])
+        #expect(found.allSatisfy { $0.kind == .cask })
+    }
+
+    @Test func aFormulaHomebrewCantReadCostsOnlyItself() async throws {
+        let directory = try TemporaryDirectory()
+        let stand = try brew(refusing: "broken", in: directory)
+
+        let found = await Homebrew.$standIn.withValue(stand) {
+            await Homebrew.formulae(named: ["broken", "first", "second"])
+        }
+
+        #expect(Set(found.map(\.name)) == ["first", "second"])
+        #expect(found.allSatisfy { $0.kind == .formula })
+    }
+
+    @Test func casksThatCanAllBeReadTakeOneCall() async throws {
+        let directory = try TemporaryDirectory()
+        let stand = try brew(refusing: "broken", in: directory)
+
+        let found = await Homebrew.$standIn.withValue(stand) { await Homebrew.casks(named: ["first", "second"]) }
+
+        #expect(found.count == 2)
+        let calls = try String(contentsOf: directory.url.appending(path: "calls"), encoding: .utf8)
+        #expect(calls.split(whereSeparator: \.isNewline).count == 1)
+    }
+
+    @Test func aHomebrewThatRefusesEverythingIsNotAskedAboutEachName() async throws {
+        let directory = try TemporaryDirectory()
+        let stand = try brew(refusing: "*", in: directory)
+
+        let found = await Homebrew.$standIn.withValue(stand) {
+            await Homebrew.casks(named: (0..<200).map { "cask\($0)" })
+        }
+
+        #expect(found.isEmpty)
+        let calls = try String(contentsOf: directory.url.appending(path: "calls"), encoding: .utf8)
+        #expect(calls.split(whereSeparator: \.isNewline).count <= 32)
+    }
+
+    @Test func aHomebrewThatDoesNotRunIsAskedOnce() async throws {
+        let directory = try TemporaryDirectory()
+
+        let found = await Homebrew.$standIn.withValue(directory.url.appending(path: "no-brew")) {
+            await Homebrew.casks(named: ["first", "second", "third"])
+        }
+
+        #expect(found.isEmpty)
+        #expect(!directory.url.appending(path: "calls").isThere)
+    }
+
     /// Reads Homebrew's local copy of the cask definitions and finds nothing without Homebrew. The result
     /// depends on the machine running the test, so only its shape is checked: casks only, and no guessed token
     /// Homebrew does not know. That nothing is downloaded rests on `hasLocalDefinitions`, which a test cannot see.

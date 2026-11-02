@@ -943,22 +943,42 @@ public enum Homebrew {
         )
     }
 
-    /// Asks about several formulae in one call. A single unknown name makes the whole call fail, so only names from
-    /// `formulaNames()` are ever passed in.
+    /// Asks about several formulae. Only names from `formulaNames()` are ever passed in.
     @concurrent
     public static func formulae(named names: [String]) async -> [HomebrewPackage] {
-        guard !names.isEmpty else { return [] }
-        guard let output = try? await answer(["info", "--json=v2", "--formula"] + names) else { return [] }
-        return parseInstalled(Data(output.utf8))?.filter { $0.kind == .formula } ?? []
+        await info("--formula", about: names).filter { $0.kind == .formula }
     }
 
-    /// Asks about several casks in one call, which is quicker than asking about each on its own. A single
-    /// unknown name makes the whole call fail, so only names from `caskTokens()` are ever passed in.
+    /// Asks about several casks. Only names from `caskTokens()` are ever passed in.
     @concurrent
     public static func casks(named tokens: [String]) async -> [HomebrewPackage] {
-        guard !tokens.isEmpty else { return [] }
-        guard let output = try? await answer(["info", "--json=v2", "--cask"] + tokens) else { return [] }
-        return parseInstalled(Data(output.utf8))?.filter { $0.kind == .cask } ?? []
+        await info("--cask", about: tokens).filter { $0.kind == .cask }
+    }
+
+    /// Past this many calls Homebrew is refusing more than a name or two, and what is left stays unasked. One name
+    /// it can't read among 200 takes 17.
+    private static let mostCallsForOneQuestion = 32
+
+    /// Asks about `names` in one call, which is quicker than a call for each. Homebrew refuses a whole call over one
+    /// definition it can't read, so a call it refuses is asked again in halves, which leaves out only what it can't
+    /// read. A call that got no answer at all isn't asked again: Homebrew didn't run, or ran out of time.
+    private static func info(_ kind: String, about names: [String]) async -> [HomebrewPackage] {
+        var found: [HomebrewPackage] = []
+        var pending = names.isEmpty ? [] : [names[...]]
+        var calls = 0
+        while let asked = pending.popLast(), calls < mostCallsForOneQuestion, !Task.isCancelled {
+            calls += 1
+            guard let attempt = try? await execute(
+                ["info", "--json=v2", kind] + asked, autoUpdate: false, timeout: longestAnswer
+            ) else { break }
+            if attempt.status == 0 {
+                found += parseInstalled(Data(attempt.standardOutput.utf8)) ?? []
+            } else if asked.count > 1 {
+                let middle = asked.startIndex + asked.count / 2
+                pending += [asked[middle...], asked[..<middle]]
+            }
+        }
+        return found
     }
 
     /// Upgrades `package` with no time limit, since Homebrew builds some packages on this Mac and that can take
