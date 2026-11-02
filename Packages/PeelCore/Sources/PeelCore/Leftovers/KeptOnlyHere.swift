@@ -92,6 +92,13 @@ enum KeptOnlyHere {
         // Steam Support's "Steam Cloud": cloud files are kept here by default, and with Steam Cloud off a game's saves
         // are kept only here.
         ("Library/Application Support/Steam", "userdata", .holdsWorkMadeWithTheApp),
+        // OpenEmu's "User Guide: Transfer Save Files": each core's in-game saves are in its folder.
+        ("Library/Application Support/OpenEmu", nil, .holdsWorkMadeWithTheApp),
+        // Dolphin's `Source/Core/Common/CommonPaths.h`: memory cards in `GC`, the Wii's storage in `Wii`, and the save
+        // states.
+        ("Library/Application Support/Dolphin", "GC", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Dolphin", "Wii", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Dolphin", "StateSaves", .holdsWorkMadeWithTheApp),
         // Mojang's "Manually Uninstall Minecraft: Java Edition": the saved worlds and screenshots are in this folder,
         // and Minecraft support can't recover deleted files.
         ("Library/Application Support/minecraft", "saves", .holdsWorkMadeWithTheApp),

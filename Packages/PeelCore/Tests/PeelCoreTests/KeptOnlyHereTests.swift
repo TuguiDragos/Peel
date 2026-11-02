@@ -89,6 +89,11 @@ struct KeptOnlyHereTests {
              .holdsWorkMadeWithTheApp),
             ("Library/Containers/com.Microsoft.Powerpoint/Data/Library/Preferences/AutoRecovery", .holdsWorkMadeWithTheApp),
             ("Library/Containers/com.microsoft.Excel/Data/Library/Application Support/Microsoft", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/OpenEmu/BSNES/Battery Saves/Game.srm", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Dolphin", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Dolphin/GC/USA/Card A", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Dolphin/Wii/title", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Dolphin/StateSaves/GALE01.s01", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
@@ -152,6 +157,7 @@ struct KeptOnlyHereTests {
     @Test func leavesWhatSitsBesideOrAroundThem() {
         let free = [
             "Library/Application Support", "Library/Group Containers", "Library", "Library/Caches/Signal",
+            "Library/Application Support/Dolphin/Cache", "Library/Application Support/Dolphin/Logs",
             "Library/Containers/com.microsoft.Word/Data/Library/Caches",
             "Library/Containers/com.microsoft.Excel/Data/Library/Preferences",
             "Library/Application Support/AutoBrew/Logs",
