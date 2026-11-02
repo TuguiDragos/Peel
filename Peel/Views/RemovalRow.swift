@@ -121,45 +121,67 @@ struct RemovalRow: View {
             .joined(separator: ", ")
     }
 
+    /// The row's item, with its kind and size beside the path or under it. A list can measure a row before `isCompact`
+    /// is set and not again once it changes, which cuts off the second line, so on macOS 27 the row chooses as it is
+    /// laid out.
     @ViewBuilder
     private var item: some View {
-        if isCompact {
-            HStack(alignment: .firstTextBaseline, spacing: 10) {
-                iconView
-                    .frame(width: 20)
-                VStack(alignment: .leading, spacing: 2) {
-                    pathAndBadge
-                    HStack(spacing: 8) {
-                        if let kind {
-                            Text(kind)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .lineLimit(1)
-                        }
-                        Spacer(minLength: 8)
-                        sizeText
+        if #available(macOS 27, *) {
+            ViewThatFits(in: .horizontal) {
+                itemOnOneLine
+                    .frame(idealWidth: Self.compactBelow(hasKind: kind != nil) - besideTheItem)
+                itemUnderThePath
+            }
+        } else if isCompact {
+            itemUnderThePath
+        } else {
+            itemOnOneLine
+        }
+    }
+
+    /// What the row keeps beside its item: the checkbox, the note, and their gaps.
+    private var besideTheItem: CGFloat {
+        21 + (hasNoteColumn ? Self.controlWidth + 6 : 0)
+    }
+
+    private var itemUnderThePath: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            iconView
+                .frame(width: 20)
+            VStack(alignment: .leading, spacing: 2) {
+                pathAndBadge
+                HStack(spacing: 8) {
+                    if let kind {
+                        Text(kind)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .lineLimit(1)
                     }
-                }
-            }
-        } else {
-            HStack(alignment: .firstTextBaseline, spacing: 10) {
-                iconView
-                    .frame(width: 20)
-                pathAndBadge
-                if let kind {
-                    Text(kind)
+                    Spacer(minLength: 8)
+                    sizeText
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .frame(width: RowColumns.kind, alignment: .leading)
-                        .help(Text(kind))
                 }
-                sizeText
-                    .foregroundStyle(.secondary)
-                    .frame(width: RowColumns.size, alignment: .trailing)
             }
+        }
+    }
+
+    private var itemOnOneLine: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            iconView
+                .frame(width: 20)
+            pathAndBadge
+            if let kind {
+                Text(kind)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .frame(width: RowColumns.kind, alignment: .leading)
+                    .help(Text(kind))
+            }
+            sizeText
+                .foregroundStyle(.secondary)
+                .frame(width: RowColumns.size, alignment: .trailing)
         }
     }
 

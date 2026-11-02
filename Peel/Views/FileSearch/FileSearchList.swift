@@ -7,7 +7,6 @@ struct FileSearchList: View {
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var isShowingFilters = false
     @State private var isRescanning = false
-    @ScaledMetric(relativeTo: .body) private var rowHeight: CGFloat = 48
 
     var body: some View {
         @Bindable var search = search
@@ -106,7 +105,6 @@ struct FileSearchList: View {
         .accessibilityLabel(Text(Tool.fileSearch.title))
         .onKeyPress(.space) { search.toggleChosen() ? .handled : .ignored }
         .scrollBarBelowSectionHeaders()
-        .startsRows(at: rowHeight)
         .scanState(phase, isRescanning: search.isSearching, fadesInResults: false, scan: search.scanRun) {
             if search.results == nil {
                 ContentUnavailableView(
@@ -285,20 +283,6 @@ private struct LeftOutLines: View {
             Text("Left out: ^[\(count) file](inflect: true) in places Peel never moves anything from, such as macOS itself, Mail, Messages, or a photo library.")
         case .couldNotBeRead:
             Text("Left out: ^[\(count) file](inflect: true) macOS didn’t let Peel look at.")
-        }
-    }
-}
-
-extension View {
-    /// Starts a list's rows at `height`. On macOS 27 a list filled all at once from empty, led by a section header,
-    /// leaves its rows at the height it starts them at. Building the list again would measure them, but it takes the
-    /// focus from the search field above it, so a list that fills as someone types starts them at their own height.
-    @ViewBuilder
-    fileprivate func startsRows(at height: CGFloat) -> some View {
-        if #available(macOS 27, *) {
-            environment(\.defaultMinListRowHeight, height)
-        } else {
-            self
         }
     }
 }
