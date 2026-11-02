@@ -201,6 +201,33 @@ enum KeptOnlyHere {
         (".azure", nil, .holdsSignIns),
         // Terraform's `terraform login`: the token goes in plain text to `~/.terraform.d/credentials.tfrc.json`.
         (".terraform.d", "credentials.tfrc.json", .holdsSignIns),
+        // PostgreSQL's "The Password File": passwords for its connections.
+        (".pgpass", nil, .holdsPasswordsOrCodes),
+        // Vault's token helpers: the default one keeps the token in `~/.vault-token`.
+        (".vault-token", nil, .holdsSignIns),
+        // MinIO Client's configuration file, with each alias's access and secret keys.
+        (".mc", "config.json", .holdsSignIns),
+        // Cloudflare's "Useful terms": the tunnels' credentials files and the `cert.pem` of `cloudflared login`.
+        (".cloudflared", nil, .holdsSignIns),
+        // GitLab Runner's "Commands": its configuration file when it runs as a person.
+        (".gitlab-runner", "config.toml", .holdsSignIns),
+        // Jenkins' home is `~/.jenkins` unless one is named (`WebAppMain`), and "Backing up" keeps the credentials in
+        // `secrets`.
+        (".jenkins", "secrets", .holdsPasswordsOrCodes),
+        // n8n's "Set a custom encryption key": the key its saved credentials are encrypted with.
+        (".n8n", nil, .holdsPasswordsOrCodes),
+        // DuckDB's "Secrets Manager": its persistent secrets.
+        (".duckdb", "stored_secrets", .holdsSignIns),
+        // mcp-remote's README: all its credential information.
+        (".mcp-auth", nil, .holdsSignIns),
+        // gsutil's boto configuration file and its `[Credentials]`.
+        (".boto", nil, .holdsSignIns),
+        // Gemini CLI's `storage.ts`: its sign-in.
+        (".gemini", "oauth_creds.json", .holdsSignIns),
+        // Firebase CLI's `auth.ts` keeps its tokens in its Configstore, named after the package.
+        (".config/configstore", "firebase-tools.json", .holdsSignIns),
+        // ngrok's "Agent Configuration File": its `authtoken` is a setting there.
+        ("Library/Application Support/ngrok", "ngrok.yml", .holdsSignIns),
     ]
 
     /// The same, in the Library every account on the Mac shares.
