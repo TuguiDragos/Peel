@@ -133,6 +133,12 @@ enum KeptOnlyHere {
         ("Library/Application Support/MacUpdater", nil, .holdsWorkMadeWithTheApp),
         ("Library/Application Support/Version Tracker", nil, .holdsWorkMadeWithTheApp),
         ("Library/Application Support/AutoBrew", "Snapshots", .holdsWorkMadeWithTheApp),
+        // Typeface's site: the tags that organize the person's fonts can be lost, unless exported. Its group from its
+        // cask.
+        ("Library/Group Containers/group.com.criminalbird.typeface", nil, .holdsWorkMadeWithTheApp),
+        // Syncthing's "Syncthing Configuration": the folders it shares and the device's private key, the basis of its
+        // device ID.
+        ("Library/Application Support/Syncthing", nil, .holdsWorkMadeWithTheApp),
         // Cultured Code's "Completely Uninstalling Things": deleting this group container deletes the to-dos.
         ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", nil, .holdsWorkMadeWithTheApp),
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
