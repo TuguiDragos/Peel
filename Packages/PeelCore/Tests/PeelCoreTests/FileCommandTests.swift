@@ -597,6 +597,9 @@ struct FileCommandTests {
         let group = try #require(scan.groups.first)
 
         #expect(DuplicatesCommand.rows(for: group).map { $0[0] }.sorted() == ["", "stays"])
+        #expect(DuplicatesCommand.notes(for: scan).contains(
+            "1 copy has Finder tags, a Finder comment, or a resource fork the others lack, so Peel lists it as a copy that stays and never moves it."
+        ))
         let json = try Output.jsonText(DuplicatesCommand.found(in: scan))
         let found = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         let record = try #require((found["files"] as? [[String: Any]])?.first)

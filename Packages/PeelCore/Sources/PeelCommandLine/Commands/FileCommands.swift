@@ -867,16 +867,20 @@ struct DuplicatesCommand: AsyncParsableCommand {
         notes += scan.skippedLocations.map { "Peel didn't look in \(Output.path($0.url)): \($0.reason.summary)." }
         let synced = scan.groups.reduce(0) { total, group in total + group.files.count { $0.heldBack == .inTheCloud } }
         if synced > 0 {
-            notes.append("\(Output.count(synced, "copy syncs", "copies sync")) to your other devices, so Peel lists them as copies that stay and never moves them.")
+            notes.append("\(Output.count(synced, "copy syncs", "copies sync")) to your other devices, so Peel lists \(asCopies(synced)).")
             notes += keepers(of: scan.groups.flatMap(\.files)).compactMap(\.note)
         }
         let staying = scan.groups.reduce(0) { total, group in
             total + group.files.count { $0.heldBack == .keepsWhatTheOthersLack }
         }
         if staying > 0 {
-            notes.append("\(Output.count(staying, "copy has", "copies have")) Finder tags, a Finder comment, or a resource fork the others lack, so Peel lists them as copies that stay and never moves them.")
+            notes.append("\(Output.count(staying, "copy has", "copies have")) Finder tags, a Finder comment, or a resource fork the others lack, so Peel lists \(asCopies(staying)).")
         }
         return notes
+    }
+
+    private static func asCopies(_ count: Int) -> String {
+        count == 1 ? "it as a copy that stays and never moves it" : "them as copies that stay and never moves them"
     }
 
     /// The apps that sync the copies held back for syncing through one, each marker once, in the order found.
