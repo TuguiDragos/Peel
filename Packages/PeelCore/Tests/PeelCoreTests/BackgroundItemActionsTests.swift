@@ -211,7 +211,7 @@ struct BackgroundItemActionsTests {
 
         #expect(asked.withLock { $0 } == ["bootout", "print"])
         #expect(clock.now - started >= .milliseconds(250), "Stop returned while the process still ran")
-        #expect(!program.isRunning)
+        #expect(!ProcessEnds.isRunning(program.processIdentifier))
     }
 
     @Test func restartsOnlyAJobPeelMayControlAndAsksLaunchdToKillAndStartIt() async {
