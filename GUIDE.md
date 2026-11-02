@@ -275,14 +275,13 @@ and how many items the others hold.
   warns that apps using it may stop working, says that macOS loads a camera plug-in only once legacy video device
   support has been restored in macOS Recovery, or says that nothing loads it anymore, as for a Quick Look generator, an
   old Internet plug-in such as Flash, or a contextual menu item.
-- **Package Receipts:** what installer packages other than Apple's put on your startup disk, item by item, to move to
-  the Trash.
-  Nothing is selected for you, and Select Recommended passes by a folder a package made that now holds what something
-  else put there. Forget Receipt moves the receipt itself to the Trash, through Peel's helper, so macOS no longer counts
-  the package as installed, and Forget All does so at once for every package listed under Receipt Only, which left
-  nothing on your Mac. An app a package installed follows the rules of its own page, and so does the rest of its
-  package: what is left to Finder or to the maker's uninstaller stays where it is, and what may exist only on this Mac
-  is shown and not selected.
+- **Package Receipts:** what installer packages other than Apple's put on your startup disk, for every account or for
+  yours alone, item by item, to move to the Trash. Nothing is selected for you, and Select Recommended passes by a
+  folder a package made that now holds what something else put there. Forget Receipt moves the receipt itself to the
+  Trash, through Peel's helper where it takes one, so macOS no longer counts the package as installed, and Forget All
+  does so at once for every package listed under Receipt Only, which left nothing on your Mac. An app a package
+  installed follows the rules of its own page, and so does the rest of its package: what is left to Finder or to the
+  maker's uninstaller stays where it is, and what may exist only on this Mac is shown and not selected.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:
   apps, apps built for both that ask macOS to open them as Intel, the Intel-only parts inside other apps, plug-ins,
   drivers, background items, the commands in `/usr/local`, and the Java runtimes in either Library's

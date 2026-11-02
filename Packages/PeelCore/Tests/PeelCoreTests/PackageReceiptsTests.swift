@@ -21,6 +21,86 @@ struct PackageReceiptsTests {
         #expect(found.offered == ["/\(plugIns)/SonoBus.aaxplugin"])
     }
 
+    private func forOneAccount(
+        home: URL, location: String = "", files: String
+    ) -> PackageReceipts.Pkgutil {
+        let volume = home.path(percentEncoded: false)
+        return { arguments in
+            guard arguments.prefix(2) == ["--volume", volume] else {
+                return arguments.first == "--pkgs-plist" ? PkgutilAnswer.packages() : nil
+            }
+            switch arguments[2] {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("org.example.solo")
+            case "--pkg-info-plist":
+                return PkgutilAnswer.packageInfo("org.example.solo", volume: volume, location: location)
+            case "--files":
+                return files
+            case "--file-info-plist":
+                return PkgutilAnswer.fileInfo(arguments[3], packages: "org.example.solo")
+            default:
+                return nil
+            }
+        }
+    }
+
+    @Test func listsAPackageInstalledForOneAccountWithoutItsSharedFolders() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let home = volume.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Applications/Solo.app/Contents/Info.plist", bytes: 16)
+        try directory.file("home/Library/Application Support/org.example.solo/data", bytes: 16)
+        let files = """
+            Applications
+            Applications/Solo.app
+            Applications/Solo.app/Contents
+            Applications/Solo.app/Contents/Info.plist
+            Library
+            Library/Application Support
+            Library/Application Support/org.example.solo
+            Library/Application Support/org.example.solo/data
+
+            """
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: forOneAccount(home: home, files: files), environment: environment
+        )
+
+        let solo = try #require(scan.receipts.first)
+        #expect(solo.identifier == "org.example.solo")
+        #expect(solo.items.map(\.url.lastPathComponent).sorted() == ["Solo.app", "org.example.solo"])
+        #expect(!solo.items.contains { $0.requiresPrivileges })
+    }
+
+    @Test func aPackageOnTheStartupDiskAndInAnAccountAreTwoReceipts() {
+        let receipt = { (volume: String) in
+            PackageReceipt(
+                identifier: "org.example.solo", version: nil, installDate: nil,
+                volume: URL(filePath: volume, directoryHint: .isDirectory), items: []
+            )
+        }
+
+        #expect(receipt("/").id == "org.example.solo")
+        #expect(receipt("/Users/example").id != receipt("/").id)
+    }
+
+    @Test func findsThePackageThatInstalledAnAppInTheHomeFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let home = volume.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Applications/Solo.app/Contents/Info.plist", bytes: 16)
+        let app = home.appending(path: "Applications/Solo.app", directoryHint: .isDirectory)
+        let files = "Applications\nApplications/Solo.app\nApplications/Solo.app/Contents\n"
+
+        let found = await PackageReceipts.receipts(
+            installing: app, exclusions: .none, pkgutil: forOneAccount(home: home, files: files),
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: volume)
+        )
+
+        #expect(found.map(\.identifier) == ["org.example.solo"])
+    }
+
     @Test func aPackageInstalledIntoAnAppOffersTheApp() {
         let files = ["Contents", "Contents/Info.plist", "Contents/MacOS", "Contents/MacOS/Example"]
 
@@ -256,6 +336,7 @@ struct PackageReceiptsTests {
         )
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             if arguments.first == "--pkgs-plist" { return packages }
+            if arguments.last == "--pkgs-plist" { return PkgutilAnswer.packages() }
             return await unanswered.pkgutil(arguments)
         }
 

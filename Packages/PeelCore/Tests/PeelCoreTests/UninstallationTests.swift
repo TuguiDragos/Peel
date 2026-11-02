@@ -1199,6 +1199,36 @@ struct UninstallationTests {
         #expect(found.map(\.kind) == [.receipts, .receipts])
     }
 
+    @Test func anAppInstalledForOneAccountTakesItsReceiptFromThatAccountsLibrary() async throws {
+        let directory = try TemporaryDirectory()
+        let root = PathPattern.canonical(directory.url)
+        let home = root.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("home/Applications/Example.app")
+        try directory.file("home/Library/Receipts/com.example.app.pkg.bom")
+        try directory.file("home/Library/Receipts/com.example.app.pkg.plist")
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: root)
+        let bundle = home.appending(path: "Applications/Example.app", directoryHint: .isDirectory)
+        let app = InstalledApp(url: bundle, bundleIdentifier: "com.example.app", name: "Example")
+        let volume = home.path(percentEncoded: false)
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            guard arguments.prefix(2) == ["--volume", volume] else { return nil }
+            switch arguments[2] {
+            case "--pkgs-plist": return PkgutilAnswer.packages("com.example.app.pkg")
+            case "--pkg-info-plist": return PkgutilAnswer.packageInfo(arguments[3], volume: volume, location: "")
+            case "--files": return "Applications\nApplications/Example.app\nApplications/Example.app/Contents\n"
+            default: return nil
+            }
+        }
+
+        let found = await Uninstallation.receiptLeftovers(
+            for: app, receipts: [], installedApps: [app], exclusions: .none, environment: environment, pkgutil: pkgutil
+        )
+
+        #expect(found.map(\.url.lastPathComponent) == ["com.example.app.pkg.bom", "com.example.app.pkg.plist"])
+        #expect(found.allSatisfy { $0.url.deletingLastPathComponent().lastPathComponent == "Receipts" })
+        #expect(found.map(\.match.isRecommended) == [true, true])
+    }
+
     @Test func keepsAReceiptWhosePackageLeftMoreOutsideTheApp() async throws {
         let directory = try TemporaryDirectory()
         let environment = SearchEnvironment(

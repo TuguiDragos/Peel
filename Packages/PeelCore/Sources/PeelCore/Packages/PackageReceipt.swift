@@ -41,7 +41,8 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     public let identifier: String
     public let version: String?
     public let installDate: Date?
-    /// The volume the package was installed to, which is where its receipt is kept.
+    /// The volume the package was installed to, which is where its receipt is kept, or the home folder of the account
+    /// it was installed for.
     public let volume: URL
     public var items: [Item]
     /// True when the file list is known and nothing on it is still on disk. This is judged from the disk, not
@@ -62,7 +63,11 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// `version` is the package's own number.
     public var productVersion: String?
 
-    public var id: String { identifier }
+    /// A package can be installed on the startup disk and for an account too, each with a receipt of its own.
+    public var id: String {
+        let place = volume.path(percentEncoded: false)
+        return place == "/" ? identifier : place + "/" + identifier
+    }
 
     /// The version to show: the product's when the history gives one.
     public var shownVersion: String? { productVersion ?? version }

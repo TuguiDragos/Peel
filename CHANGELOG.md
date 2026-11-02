@@ -538,6 +538,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Package Receipts
 
+- Lists a package installed for your account alone, and Forget Receipt and an uninstall find its receipt in your
+  Library.
 - A folder is offered whole only when nothing inside it is missing from the receipt, and every item follows its app's
   rules, an app that uninstalls itself with its warning.
 - A package placed by its own scripts is never called a receipt only, a package installed into an app offers the app

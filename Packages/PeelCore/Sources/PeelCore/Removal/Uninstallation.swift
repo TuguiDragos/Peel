@@ -150,7 +150,33 @@ public struct Uninstallation: Sendable {
         installedApps: [InstalledApp],
         exclusions: Exclusions,
         environment: SearchEnvironment,
-        pkgutil: PackageReceipts.Pkgutil = PackageReceipts.pkgutil
+        pkgutil: @escaping PackageReceipts.Pkgutil = PackageReceipts.pkgutil
+    ) async -> [Leftover] {
+        var leftovers = await receiptLeftovers(
+            for: app, receipts: receipts, installedApps: installedApps, exclusions: exclusions,
+            environment: environment, accountHome: nil, pkgutil: pkgutil
+        )
+        // A package installed for one account alone writes only in that account's home folder.
+        let home = environment.homeDirectory
+        let homeFolder = PathPattern.comparablePath(of: home)
+        if PathComponents.isPath(PathPattern.comparablePath(of: app.url), inside: homeFolder) {
+            let account = PackageReceipts.forAccount(home: home, pkgutil)
+            leftovers += await receiptLeftovers(
+                for: app, receipts: await PackageReceipts.identifiers(pkgutil: account), installedApps: installedApps,
+                exclusions: exclusions, environment: environment, accountHome: home, pkgutil: account
+            )
+        }
+        return leftovers
+    }
+
+    private static func receiptLeftovers(
+        for app: InstalledApp,
+        receipts: Set<String>,
+        installedApps: [InstalledApp],
+        exclusions: Exclusions,
+        environment: SearchEnvironment,
+        accountHome: URL?,
+        pkgutil: PackageReceipts.Pkgutil
     ) async -> [Leftover] {
         let identifier = app.bundleIdentifier?.lowercased()
         let identifiers = Set((installedApps.map(\.bundleIdentifier) + [identifier]).compactMap { $0?.lowercased() })
@@ -162,8 +188,11 @@ public struct Uninstallation: Sendable {
         var leftovers: [Leftover] = []
         for receipt in (Array(named) + wroteOnlyTheApp).sorted() {
             let leftMore = named.contains(receipt)
-                ? await PackageReceipts.leftSomethingOutside(receipt, app: app.url, pkgutil: pkgutil) : false
-            for url in PackageActions.receiptFiles(of: receipt, onVolume: environment.rootDirectory)
+                ? await PackageReceipts.leftSomethingOutside(
+                    receipt, app: app.url, accountHome: accountHome, pkgutil: pkgutil
+                ) : false
+            let volume = accountHome ?? environment.rootDirectory
+            for url in PackageActions.receiptFiles(of: receipt, onVolume: volume, home: environment.homeDirectory)
             where !exclusions.excludes(url) {
                 let leftover = await LeftoverScanner.leftover(
                     at: url,

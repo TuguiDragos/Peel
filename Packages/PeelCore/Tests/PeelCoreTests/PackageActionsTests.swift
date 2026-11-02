@@ -92,6 +92,48 @@ struct PackageActionsTests {
         #expect(result.failures.isEmpty)
     }
 
+    @Test func aPackageInstalledForOneAccountKeepsItsReceiptInThatAccountsLibrary() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Receipts/org.example.solo.bom")
+        try directory.file("home/Library/Receipts/org.example.solo.plist")
+        let home = PathPattern.canonical(directory.url.appending(path: "home", directoryHint: .isDirectory))
+        let asked = Mutex<[String]>([])
+        let moved = Mutex<[String]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url),
+            moveThroughHelper: { urls in
+                asked.withLock { $0 += urls.map(\.lastPathComponent) }
+                return TrashResult()
+            },
+            moveToTrash: { url in
+                moved.withLock { $0.append(url.lastPathComponent) }
+                return url
+            }
+        )
+
+        let result = await PackageActions.forget([receipt("org.example.solo", on: home)], through: service)
+
+        #expect(asked.withLock { $0 }.isEmpty, "The helper serves no folder of a home")
+        #expect(moved.withLock { $0 }.sorted() == ["org.example.solo.bom", "org.example.solo.plist"])
+        #expect(result.failures.isEmpty)
+    }
+
+    @Test func aReceiptInTheHomeFolderCountsAsAChange() throws {
+        let directory = try TemporaryDirectory()
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("root/private/var/db/receipts/org.example.one.plist")
+        let before = try #require(PackageActions.receiptsChanged(root: root, home: home))
+
+        let later = Date(timeIntervalSinceNow: 60)
+        let file = try directory.file("home/Library/Receipts/org.example.solo.plist")
+        try FileManager.default.setAttributes(
+            [.modificationDate: later], ofItemAtPath: file.path(percentEncoded: false)
+        )
+
+        #expect(try #require(PackageActions.receiptsChanged(root: root, home: home)) > before)
+    }
+
     @Test func forgetsSeveralReceiptsInOneRemoval() async throws {
         let directory = try TemporaryDirectory()
         for name in ["com.example.one", "com.example.two"] {

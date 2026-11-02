@@ -661,6 +661,18 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.map(\.url.lastPathComponent) == ["net.example.client.helper"])
     }
 
+    @Test func aReceiptInTheHomesLibraryIsLeftToTheRuleForReceipts() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Receipts/net.example.client.plist", bytes: 16)
+        try directory.file("home/Library/PrivilegedHelperTools/net.example.client.helper", bytes: 16)
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.leftovers.map(\.url.lastPathComponent) == ["net.example.client.helper"])
+    }
+
     @Test func eachLibrarySkipsOnlyWhatItSearchesItself() throws {
         let directory = try TemporaryDirectory()
         let environment = environment(in: directory)

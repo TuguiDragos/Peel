@@ -191,8 +191,11 @@ public struct SearchEnvironment: Sendable {
 
     /// The first folder of every path the home's Library and the Mac's search as a location of their own, such as
     /// `Preferences`. The top of a Library never offers one of its own whole: it is looked inside, never moved. One
-    /// only the other Library searches, such as `PrivilegedHelperTools` in the home's, is a folder like any other.
-    static let homeLibraryEntriesScannedElsewhere = firstFolders(of: userEntries.map(\.1) + Plugins.folders.map(\.0))
+    /// only the other Library searches, such as `PrivilegedHelperTools` in the home's, is a folder like any other. The
+    /// home's `Receipts` holds what packages installed for this account left, each weighed as a receipt.
+    static let homeLibraryEntriesScannedElsewhere = firstFolders(
+        of: userEntries.map(\.1) + Plugins.folders.map(\.0) + ["Receipts"]
+    )
     static let localLibraryEntriesScannedElsewhere = firstFolders(
         of: localEntries.map(\.1) + Plugins.folders.map(\.0) + systemCodeFolders
     )

@@ -20,6 +20,13 @@ public enum PackageReceipts {
         "/usr/local/share/doc", "/usr/local/share/man", "/usr/local/share/man/man1", "/var",
     ]
 
+    /// The same in a home folder, where a package installed for one account writes, each named from that folder.
+    static let sharedInTheHome: Set<String> = {
+        let searched = LibraryFolder.inTheUsersLibrary.map { "/Library/" + $0.rawValue }
+        let own = ProtectedData.accountFolders.map { "/" + $0 }
+        return Set(searched + searched.flatMap(ProtectedObjects.ancestors(of:)) + own + ["/", "/Applications"])
+    }()
+
     /// Returns whether `receipt` is the installer receipt of the app whose bundle identifier is `identifier`:
     /// the identifier itself, or the identifier followed by `.`, `-`, or `_`. A shared prefix is not enough,
     /// so `com.adguard.mac.vpn-pkg` (AdGuard VPN) never proves `com.adguard.mac.adguard` (AdGuard), and
@@ -57,6 +64,13 @@ public enum PackageReceipts {
     /// Nil when the tool could not be run, failed, or timed out: no answer is not "nothing installed".
     typealias Pkgutil = @Sendable ([String]) async -> String?
 
+    /// `pkgutil` asked about what was installed for one account alone, which it knows by that account's home folder as
+    /// the volume, and of which plain `pkgutil` says nothing.
+    static func forAccount(home: URL, _ pkgutil: @escaping Pkgutil) -> Pkgutil {
+        let volume = home.path(percentEncoded: false)
+        return { await pkgutil(["--volume", volume] + $0) }
+    }
+
     public static func list(exclusions: Exclusions = .none) async -> PackageScan {
         await list(exclusions: exclusions, pkgutil: pkgutil)
     }
@@ -77,18 +91,22 @@ public enum PackageReceipts {
         guard let packages = packageList(in: await pkgutil(["--pkgs-plist"])) else {
             return PackageScan(receipts: [], couldNotAsk: true)
         }
-        let identifiers = packages.filter { !$0.hasPrefix("com.apple.") }
+        let account = forAccount(home: environment.homeDirectory, pkgutil)
+        let forTheAccount = packageList(in: await account(["--pkgs-plist"])) ?? []
+        let asked: [(identifier: String, volume: URL?, pkgutil: Pkgutil)] =
+            packages.map { ($0, nil, pkgutil) } + forTheAccount.map { ($0, environment.homeDirectory, account) }
 
         let receipts = await withTaskGroup(of: PackageReceipt.self) { group in
-            var pending = identifiers.makeIterator()
+            var pending = asked.filter { !$0.identifier.hasPrefix("com.apple.") }.makeIterator()
             var results: [PackageReceipt] = []
-            for _ in 0..<concurrentReceipts {
-                guard let identifier = pending.next() else { break }
+            for _ in 0..<concurrentReceipts where !Task.isCancelled {
+                guard let package = pending.next() else { break }
                 group.addTask {
                     await Self.receipt(
-                        identifier,
+                        package.identifier,
+                        volume: package.volume,
                         exclusions: exclusions,
-                        pkgutil: pkgutil,
+                        pkgutil: package.pkgutil,
                         removalGuard: removalGuard,
                         reach: reach,
                         shared: shared,
@@ -100,12 +118,13 @@ public enum PackageReceipts {
             while let result = await group.next() {
                 results.append(result)
                 // A stopped scan starts no other package: each would ask `pkgutil` for nothing.
-                if !Task.isCancelled, let identifier = pending.next() {
+                if !Task.isCancelled, let package = pending.next() {
                     group.addTask {
                         await Self.receipt(
-                            identifier,
+                            package.identifier,
+                            volume: package.volume,
                             exclusions: exclusions,
-                            pkgutil: pkgutil,
+                            pkgutil: package.pkgutil,
                             removalGuard: removalGuard,
                             reach: reach,
                             shared: shared,
@@ -163,29 +182,38 @@ public enum PackageReceipts {
         installing url: URL,
         exclusions: Exclusions,
         pkgutil: @escaping Pkgutil,
+        environment: SearchEnvironment = .current,
         systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
     ) async -> [PackageReceipt] {
         let wanted = PathPattern.comparablePath(of: PathPattern.canonical(url))
-        let identifiers = await packages(listing: wanted, pkgutil: pkgutil)
+        let home = environment.homeDirectory
+        // A package installed for one account alone writes only in that account's home folder.
+        let isInTheHome = PathComponents.isPath(wanted, inside: PathPattern.comparablePath(of: home))
+        let asked: [(volume: URL?, pkgutil: Pkgutil)] =
+            [(nil, pkgutil)] + (isInTheHome ? [(home, forAccount(home: home, pkgutil))] : [])
 
         var receipts: [PackageReceipt] = []
-        let removalGuard = RemovalGuard(environment: .current, exclusions: exclusions)
-        let reach = HelperReach(environment: .current)
-        let shared = sharedFolders(in: .current)
+        let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
+        let reach = HelperReach(environment: environment)
+        let shared = sharedFolders(in: environment)
         let installed = InstalledSystemExtensions(asking: systemExtensions)
-        for identifier in identifiers.sorted() where !Task.isCancelled {
-            let found = await receipt(
-                identifier,
-                exclusions: exclusions,
-                pkgutil: pkgutil,
-                removalGuard: removalGuard,
-                reach: reach,
-                shared: shared,
-                installed: installed,
-                environment: .current
-            )
-            guard found.installs(wanted) else { continue }
-            receipts.append(found.receipt)
+        for domain in asked {
+            let identifiers = await packages(listing: wanted, pkgutil: domain.pkgutil)
+            for identifier in identifiers.sorted() where !Task.isCancelled {
+                let found = await receipt(
+                    identifier,
+                    volume: domain.volume,
+                    exclusions: exclusions,
+                    pkgutil: domain.pkgutil,
+                    removalGuard: removalGuard,
+                    reach: reach,
+                    shared: shared,
+                    installed: installed,
+                    environment: environment
+                )
+                guard found.installs(wanted) else { continue }
+                receipts.append(found.receipt)
+            }
         }
         return receipts
     }
@@ -217,12 +245,17 @@ public enum PackageReceipts {
 
     /// Whether the package left anything outside `app` that is still on the disk, of which the receipt is the only
     /// record. A package `pkgutil` doesn't describe counts as having left something, so its receipt stays.
-    static func leftSomethingOutside(_ identifier: String, app: URL, pkgutil: Pkgutil) async -> Bool {
+    static func leftSomethingOutside(
+        _ identifier: String, app: URL, accountHome: URL? = nil, pkgutil: Pkgutil
+    ) async -> Bool {
         guard let (_, _, installLocation) = await description(of: identifier, pkgutil: pkgutil),
               let listing = await pkgutil(["--files", identifier])
         else { return true }
         let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app))
-        return topLevel(files: lines(of: listing), installLocation: installLocation.path(percentEncoded: false)).onDisk
+        return topLevel(
+            files: lines(of: listing), installLocation: installLocation.path(percentEncoded: false),
+            accountHome: accountHome?.path(percentEncoded: false)
+        ).onDisk
             .contains { !PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: $0)), atOrInside: bundle) }
     }
 
@@ -300,6 +333,7 @@ public enum PackageReceipts {
 
     private static func receipt(
         _ identifier: String,
+        volume askedVolume: URL? = nil,
         exclusions: Exclusions = .none,
         pkgutil: Pkgutil,
         removalGuard: RemovalGuard,
@@ -315,7 +349,7 @@ public enum PackageReceipts {
                 identifier: identifier,
                 version: nil,
                 installDate: nil,
-                volume: URL(filePath: "/", directoryHint: .isDirectory),
+                volume: askedVolume ?? URL(filePath: "/", directoryHint: .isDirectory),
                 items: [], nothingLeftOnDisk: false, isFileListKnown: false
             )
             return Found(receipt: unknown, paths: [])
@@ -326,7 +360,10 @@ public enum PackageReceipts {
         let throughScripts = listing != nil
             && (files.isEmpty || isTemporary(installLocation: info["install-location"] as? String ?? ""))
 
-        let found = topLevel(files: files, installLocation: installLocation.path(percentEncoded: false))
+        let found = topLevel(
+            files: files, installLocation: installLocation.path(percentEncoded: false),
+            accountHome: askedVolume?.path(percentEncoded: false)
+        )
         // An app's own rules reach the rest of its package, as they reach its files on its page, and a folder an app
         // sits in moves that app too. What else a folder holds isn't this package's, even when the folder is.
         let inspected = { (paths: [String]) in
@@ -463,10 +500,12 @@ public enum PackageReceipts {
     /// Returns the outermost existing paths that are this package's own, never a shared directory such as
     /// `/Library`. `onDisk` holds all of them, and a path this account can't reach is not gone. `offered` leaves out
     /// protected data (`ProtectedData.refuses`), which Peel never lists at all. `othersFilled` holds the folders
-    /// offered whole that hold what something besides this package put there.
+    /// offered whole that hold what something besides this package put there. `accountHome` is the home folder of the
+    /// account a package was installed for alone, where the folders every package shares are those of a home.
     static func topLevel(
         files: [String],
         installLocation: String,
+        accountHome: String? = nil,
         home: String = URL.homeDirectory.path(percentEncoded: false),
         namesInside: (String) -> [String]? = PackageReceipts.namesInside,
         exists: (String) -> Bool = { !URL(filePath: $0).isMissing }
@@ -479,7 +518,15 @@ public enum PackageReceipts {
         let listed = Set(paths)
         // A Mac disk is case-insensitive unless formatted otherwise, so `library/...` in a receipt is `/Library`.
         let shared = Set(sharedDirectories.map { $0.lowercased() })
-        let isShared = { (path: String) in shared.contains(path.lowercased()) }
+        let sharedAtHome = Set(sharedInTheHome.map { $0.lowercased() })
+        let accountFolder = accountHome.map { ($0 as NSString).standardizingPath.lowercased() }
+        let isShared = { (path: String) in
+            let path = path.lowercased()
+            guard let accountFolder, path == accountFolder || path.hasPrefix(accountFolder + "/") else {
+                return shared.contains(path)
+            }
+            return sharedAtHome.contains(path == accountFolder ? "/" : String(path.dropFirst(accountFolder.count)))
+        }
         // A package can be built with a bundle as its install location, an app's own folder, and lists only what is
         // inside it. The bundle is still one item.
         if !isShared(root), isBundle(root, exists: exists) {
