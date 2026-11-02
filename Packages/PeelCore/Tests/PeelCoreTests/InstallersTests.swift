@@ -599,6 +599,32 @@ struct InstallersTests {
         #expect(items.values.allSatisfy { $0.heldBack == .keptByAnApp })
     }
 
+    @Test func callsNoImageTheInstallerOfTheAppThatKeepsIt() async throws {
+        let directory = try TemporaryDirectory()
+        let library = "Library/Application Support/VirtualBuddy"
+        let unused = try directory.file("\(library)/_Downloads/UniversalMac_27.2_26B118_Restore.ipsw", bytes: 400_000)
+        let tools = try directory.file("Library/Application Support/Tidewater/Tools.iso", bytes: 400_000)
+        let setup = try directory.file("Library/Application Support/Tidewater/Tidewater-2.0.dmg", bytes: 400_000)
+        let parallels = try directory.file("Library/Parallels/Downloads/Windows 11.iso", bytes: 400_000)
+        try directory.directory("Applications")
+        let apps = ["VirtualBuddy", "Tidewater", "Parallels Desktop"].map { name in
+            InstalledApp(url: directory.url.appending(path: "Applications/\(name).app"), bundleIdentifier: nil, name: name)
+        }
+
+        let scan = await Installers.scan(
+            installedApps: apps, home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items.map { (PathPattern.comparablePath(of: $0.url), $0) })
+        let path = { (url: URL) in PathPattern.comparablePath(of: url) }
+        #expect(items[path(unused)]?.installedApp == nil)
+        #expect(items[path(unused)]?.notes == [.unusedByAnyVirtualMachine])
+        #expect(items[path(tools)]?.installedApp == nil)
+        #expect(items[path(parallels)]?.installedApp == nil)
+        #expect(items[path(setup)]?.installedApp == "Tidewater")
+    }
+
     @Test func callsNoImageUnusedWhileAMachinesRecordCannotBeRead() async throws {
         let directory = try TemporaryDirectory()
         let library = "Library/Application Support/VirtualBuddy"

@@ -685,8 +685,8 @@ public enum Installers {
 
     /// Installers and system images in `~/Library/Application Support`, up to three levels down, never inside a
     /// package, a virtual machine, or what macOS keeps there for its own services, the device backups and Contacts
-    /// among them, and the images Parallels Desktop and VMware Fusion keep for making virtual machines. Each is matched
-    /// by its name to an installed app, or else by the folder it sits in.
+    /// among them, and the images Parallels Desktop and VMware Fusion keep for making virtual machines. A package or a
+    /// disk image is matched by its name to an installed app, or else by the folder it sits in.
     static func installersKeptByApps(
         home: URL,
         installedApps: [InstalledApp],
@@ -698,14 +698,12 @@ public enum Installers {
     ) async -> [InstallerItem] {
         let support = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
         var items: [InstallerItem] = []
-        // Parallels Desktop's cask names its downloads folder, and Broadcom's guide VMware Fusion's folder of images.
+        // Parallels Desktop's cask names its downloads folder, and Broadcom's guide VMware Fusion's folder of images:
+        // what they keep there is for making machines, no app's installer.
         var folders: [(url: URL, depth: Int, owner: String?)] = [
             (support, 1, nil),
-            (home.appending(path: "Library/Parallels/Downloads", directoryHint: .isDirectory), 3, "Parallels Desktop"),
-            (
-                home.appending(path: "Virtual Machines.localized/VMWIsoImages", directoryHint: .isDirectory), 3,
-                "VMware Fusion"
-            ),
+            (home.appending(path: "Library/Parallels/Downloads", directoryHint: .isDirectory), 3, nil),
+            (home.appending(path: "Virtual Machines.localized/VMWIsoImages", directoryHint: .isDirectory), 3, nil),
         ]
         let virtualBuddy = support.appending(path: "VirtualBuddy", directoryHint: .isDirectory)
         let virtualBuddysImages = PathPattern.comparablePath(of: virtualBuddy.appending(path: "_Downloads"))
@@ -730,7 +728,10 @@ public enum Installers {
                 let heldBack = heldBack(
                     url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles
                 )
-                let named = installedApp(for: url, in: installedApps) == nil ? owner : nil
+                // The folder an app keeps names the app a package or a disk image there installs. A system image, an
+                // `.iso` or an `.ipsw`, installs no app.
+                let installsAnApp = kind != "iso" && !firmwareExtensions.contains(kind)
+                let named = installsAnApp && installedApp(for: url, in: installedApps) == nil ? owner : nil
                 guard firmwareExtensions.contains(kind) else {
                     items.append(appInstaller(
                         at: url, size: size, heldBack: heldBack ?? .keptByAnApp, installedApps: installedApps,
@@ -742,7 +743,6 @@ public enum Installers {
                     && imagesInUse.map { !$0.contains(PathPattern.comparablePath(of: url)) } == true
                 items.append(firmware(
                     at: url, size: size, heldBack: heldBack ?? .keptByAnApp,
-                    installedApp: installedApp(named: named ?? "", in: installedApps)?.name,
                     notes: isUnused ? [.unusedByAnyVirtualMachine] : []
                 ))
             }
@@ -782,7 +782,7 @@ public enum Installers {
     }
 
     static func firmware(
-        at url: URL, size: Int64?, heldBack: HoldBack?, installedApp: String? = nil, notes: [InstallerItem.Note] = []
+        at url: URL, size: Int64?, heldBack: HoldBack?, notes: [InstallerItem.Note] = []
     ) -> InstallerItem {
         InstallerItem(
             url: url,
@@ -790,7 +790,7 @@ public enum Installers {
             name: url.lastPathComponent,
             size: size,
             date: creationDate(of: url),
-            installedApp: installedApp,
+            installedApp: nil,
             isReadOnly: false,
             notes: notes,
             requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
