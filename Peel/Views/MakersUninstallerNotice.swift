@@ -10,6 +10,7 @@ struct MakersUninstallerNotice: View {
 
     var body: some View {
         Notice(title: Text(Self.title(of: uninstaller)), detail: detail, kind: .note) {
+            Link("\(uninstaller.maker)’s Instructions", destination: uninstaller.instructions)
             switch uninstaller.step {
             case .command(let command):
                 CopyButton(text: command, title: "Copy Uninstall Command")
@@ -21,7 +22,6 @@ struct MakersUninstallerNotice: View {
             case .onItsDiskImage:
                 EmptyView()
             }
-            Link("\(uninstaller.maker)’s Instructions", destination: uninstaller.instructions)
         }
     }
 

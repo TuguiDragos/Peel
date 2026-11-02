@@ -112,15 +112,15 @@ struct UnreadableFoldersActions: View {
     let needsFullDiskAccess: Bool
 
     var body: some View {
+        if folders.count > RemovalFailureAlert.mostListed {
+            CopyButton(text: folders.map(\.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
+        }
         if needsFullDiskAccess {
+            Button("Open System Settings") { home.openFullDiskAccessSettings() }
             // Full Disk Access applies only to a new process, so once it may have been given, Peel offers to reopen.
             if home.needsRelaunchForFullDiskAccess {
                 Button("Reopen Peel") { home.relaunch() }
             }
-            Button("Open System Settings") { home.openFullDiskAccessSettings() }
-        }
-        if folders.count > RemovalFailureAlert.mostListed {
-            CopyButton(text: folders.map(\.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
         }
     }
 }

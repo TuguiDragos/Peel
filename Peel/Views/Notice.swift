@@ -25,31 +25,22 @@ struct Notice<Actions: View>: View {
     var isAlbum = false
     @ViewBuilder let actions: Actions
 
-    /// The narrowest the words may get beside the buttons. With less room, the buttons move under the words,
-    /// so a narrow column doesn't break a long word in two.
-    private static var wordsFloor: CGFloat { 200 }
-
     var body: some View {
+        // The buttons go beside the words only while each line of them fits there whole, else under them at the right.
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 10) {
                 mark
                 words
-                    .frame(
-                        minWidth: Self.wordsFloor,
-                        idealWidth: Self.wordsFloor,
-                        maxWidth: .infinity,
-                        alignment: .leading
-                    )
+                Spacer(minLength: 10)
                 buttons
             }
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 10) {
                     mark
                     words
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                buttons
-                    .padding(.leading, 36)
+                ActionRow(top: 8) { buttons }
             }
         }
         .padding(.horizontal, 12)

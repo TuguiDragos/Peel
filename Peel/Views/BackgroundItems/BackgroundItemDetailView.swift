@@ -176,8 +176,8 @@ struct BackgroundItemDetailView: View {
                         detail: Text("macOS runs it, and only System Settings > General > Login Items & Extensions changes it, so Peel doesn’t start, stop, enable, or disable it here."),
                         kind: .note
                     ) {
-                        Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
                         Button("Open Extensions") { Navigator.shared.requestedTool = .extensions }
+                        Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
                     }
                     .padding(.vertical, 6)
                 }

@@ -10,9 +10,6 @@ struct UpdatePanel<Detail: View, Action: View>: View {
     @ViewBuilder let detail: Detail
     @ViewBuilder let action: Action
 
-    /// The narrowest the words may get beside the button. With less room, the button moves under the words.
-    private static var wordsFloor: CGFloat { 200 }
-
     var body: some View {
         HStack(alignment: .words, spacing: 12) {
             mark
@@ -20,17 +17,12 @@ struct UpdatePanel<Detail: View, Action: View>: View {
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: 12) {
                         words
-                            .frame(
-                                minWidth: Self.wordsFloor,
-                                idealWidth: Self.wordsFloor,
-                                maxWidth: .infinity,
-                                alignment: .leading
-                            )
+                        Spacer(minLength: 12)
                         action
                     }
-                    VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 0) {
                         words
-                        action
+                        ActionRow(top: 10) { action }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }

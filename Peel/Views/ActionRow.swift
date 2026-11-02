@@ -3,6 +3,9 @@ import SwiftUI
 
 /// Buttons together at the right edge, the last, the page's main action, at the edge itself, as `ActionRowPlan` says.
 struct ActionRow: Layout {
+    /// The space above the buttons, which a row with none to show leaves out too.
+    var top: CGFloat = 0
+
     func makeCache(subviews: Subviews) -> [CGSize] {
         subviews.map { $0.sizeThatFits(.unspecified) }
     }
@@ -26,7 +29,7 @@ struct ActionRow: Layout {
             guard let width, size.width > width else { return size }
             return subview.sizeThatFits(ProposedViewSize(width: width, height: nil))
         }
-        return ActionRowPlan(sizes: fitted, width: width)
+        return ActionRowPlan(sizes: fitted, width: width, top: top)
     }
 }
 

@@ -6,8 +6,10 @@ public struct ActionRowPlan: Equatable, Sendable {
     public let frames: [CGRect]
     public let size: CGSize
 
-    /// - Parameter sizes: Each button's own size. What has no width, a group with nothing to show, takes no room.
-    public init(sizes: [CGSize], width: CGFloat?, spacing: CGFloat = 8, lineSpacing: CGFloat = 6) {
+    /// - Parameters:
+    ///   - sizes: Each button's own size. What has no width, a group with nothing to show, takes no room.
+    ///   - top: The space above the buttons, left out with them when none shows.
+    public init(sizes: [CGSize], width: CGFloat?, spacing: CGFloat = 8, lineSpacing: CGFloat = 6, top: CGFloat = 0) {
         let shown = sizes.indices.filter { sizes[$0].width > 0 }
         let needed = shown.reduce(0) { $0 + sizes[$1].width } + spacing * CGFloat(max(shown.count - 1, 0))
         let room = width.flatMap { $0.isFinite ? $0 : nil } ?? needed
@@ -26,7 +28,7 @@ public struct ActionRowPlan: Equatable, Sendable {
         }
 
         var frames = [CGRect](repeating: .zero, count: sizes.count)
-        var y: CGFloat = 0
+        var y = top
         for line in lines {
             let height = line.reduce(0) { max($0, sizes[$1].height) }
             var x = room
