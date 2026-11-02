@@ -413,14 +413,15 @@ Never selected for you, even when found:
 - A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`,
   a 1Password vault kept outside an account, `.opvault` or `.agilekeychain`) inside.
 - What an app keeps that may exist only on this Mac: local mail, message history, a password manager's vaults and
-  backups and an authenticator's codes, a browser's saved passwords, VPN connections and identities, a torrent
-  client's list of torrents, a game's saves, a database, an AI app's conversations, a streaming app's scenes and
+  backups and an authenticator's codes, a browser's or a remote access app's saved passwords, VPN connections and
+  identities, a torrent client's list of torrents, a game's saves, a database, a database client's saved connections,
+  a debugging proxy's rules, a video editor's projects, an AI app's conversations, a streaming app's scenes and
   profiles, an office suite's own templates and dictionaries, a terminal's scripts and profiles, a code editor's
-  unsaved files, local history, and the packages you made for it, and the sign-in a tool saved when you logged in,
-  such as Docker's or Cargo's, each where the app's own documentation or source says it keeps them, or where its
-  Homebrew definition names its folder, and anything named as an app's backups, or the app's folder that keeps them.
-  When you uninstall Xcode, the simulators it made in your home folder are listed too, with the apps installed in them
-  and their data, and never selected.
+  notes, unsaved files, local history, and the packages you made for it, and the sign-in a tool saved when you logged
+  in, such as Docker's or Cargo's, each where the app's own documentation or source says it keeps them, or where its
+  Homebrew definition names its folder, and anything named as an app's backups or as DaVinci Resolve's project
+  library, or the app's folder that keeps them. When you uninstall Xcode, the simulators it made in your home folder
+  are listed too, with the apps installed in them and their data, and never selected.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
 - A file a program has open right now, and a disk image that is open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
