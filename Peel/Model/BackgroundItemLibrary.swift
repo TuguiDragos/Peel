@@ -13,6 +13,8 @@ final class BackgroundItemLibrary {
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
+    /// Whether a scan runs that VoiceOver is told of. An action says how it went itself, and its own scan follows.
+    var isScanningAsAsked: Bool { isScanning && runningActionItemIDs.isEmpty }
     /// Counts the scans that finished, so an item's page asks macOS about it again with each.
     private(set) var scans = 0
     /// The items with an action in progress. Each is tracked on its own, so one row's action ending never

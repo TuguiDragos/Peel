@@ -215,10 +215,21 @@ extension RemovalHistoryStore {
     }
 }
 
+extension AttributedString {
+    /// These words as an announcement VoiceOver queues after what it is saying. At the default priority it would cut
+    /// that off.
+    var waitingForOtherSpeech: AttributedString {
+        var words = self
+        words.accessibilitySpeechAnnouncementPriority = .low
+        return words
+    }
+}
+
 extension View {
     /// Tells VoiceOver how a scan ended, since the list fills in silently: what it found, that it was stopped, or,
     /// when it found nothing to tell, `couldNotLook`, the page's own words for why, in place of "Nothing found.". The
-    /// summary is worked out only then, so the page does not depend on everything it reads.
+    /// summary is worked out only then, so the page does not depend on everything it reads. It waits for what is being
+    /// said, since a scan often ends right after the action that caused it says how it went.
     func announcesScan(
         _ isScanning: Bool,
         found summary: @autoclosure @escaping () -> AttributedString?,
@@ -230,7 +241,7 @@ extension View {
             let nothing = couldNotLook.map { AttributedString(localized: $0) }
                 ?? AttributedString(localized: "Nothing found.")
             let words = wasStopped ? AttributedString(localized: "Scan stopped.") : summary() ?? nothing
-            AccessibilityNotification.Announcement(words).post()
+            AccessibilityNotification.Announcement(words.waitingForOtherSpeech).post()
         }
     }
 }

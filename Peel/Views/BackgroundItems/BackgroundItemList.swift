@@ -49,7 +49,7 @@ struct BackgroundItemList: View {
         .fadesInColumn(whenRowsChange: backgroundItems.items?.map(\.id))
         .navigationTitle(Text(Tool.backgroundItems.title))
         .announcesScan(
-            backgroundItems.isScanning,
+            backgroundItems.isScanningAsAsked,
             found: announcement,
             couldNotLook: couldNotLook,
             wasStopped: backgroundItems.scanRun.wasStopped

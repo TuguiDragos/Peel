@@ -1,3 +1,4 @@
+import Accessibility
 import Foundation
 @testable import Peel
 @testable import PeelCore
@@ -21,6 +22,31 @@ struct BackgroundItemAnnouncementTests {
         #expect(stopped.map { String($0.characters) } == words("Not running"))
         #expect(disabled.map { String($0.characters) } == words("Disabled"))
         #expect(gone == nil)
+    }
+
+    @Test func anActionsOwnScanIsToldToNobody() async {
+        final class Reads {
+            var shown: [Bool] = []
+            var library: BackgroundItemLibrary?
+        }
+        let reads = Reads()
+        let listed = job(.loaded)
+        let library = BackgroundItemLibrary { _, _ in
+            reads.shown.append(reads.library?.isScanningAsAsked == true)
+            return BackgroundItems.Scan(items: [listed])
+        }
+        reads.library = library
+
+        await library.refresh(installedApps: [])
+        await library.perform(.stop, on: listed)
+
+        #expect(reads.shown == [true, false])
+    }
+
+    @Test func aScansEndWaitsForWhatVoiceOverIsSaying() {
+        let words = AttributedString("Found").waitingForOtherSpeech
+
+        #expect(words.accessibilitySpeechAnnouncementPriority == .low)
     }
 
     private func words(_ state: LocalizedStringResource) -> String {
