@@ -58340,6 +58340,112 @@
         }
       }
     },
+    "Homebrew Data" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data Homebrew"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew-Daten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos de Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Données Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dati di Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのデータ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew 데이터"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew-gegevens"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dane Homebrew"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dados do Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date Homebrew"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные Homebrew"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew-data"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew Verileri"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дані Homebrew"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew数据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew資料"
+          }
+        }
+      }
+    },
     "Homebrew Has to Update First" : {
       "localizations" : {
         "cs" : {
@@ -105419,6 +105525,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有已安裝的App認領這些項目"
+          }
+        }
+      }
+    },
+    "No installed formula names it" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žádná nainstalovaná formula ji neuvádí"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine installierte Formula nennt diesen Ordner"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna formula instalada la menciona"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune formula installée ne mentionne ce dossier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna formula installata la indica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストール済みのどのformulaにも記載されていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더를 지정하는 설치된 formula가 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen geïnstalleerde formula noemt deze map"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Żadna zainstalowana formula go nie wymienia"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma formula instalada menciona esta pasta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicio formulă instalată nu îl menționează"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не упоминается ни в одной установленной formula"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen installerad formula anger den"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüklü hiçbir formula tanımında geçmiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жодна інстальована formula її не вказує"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有已安装的formula指明它"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有已安裝的formula提及它"
           }
         }
       }
@@ -158087,6 +158299,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「設定」>「一般」中的「移除Peel」也會一併移除Peel的輔助程式和登入項目。若從這裡移動Peel，就會留下它們。"
+          }
+        }
+      }
+    },
+    "Remove a folder in Finder once no formula needs it. Homebrew never removes it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složku odstraňte ve Finderu, až ji nebude potřebovat žádná formula. Homebrew ji nikdy neodstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entferne einen Ordner im Finder, sobald ihn keine Formula mehr benötigt. Homebrew entfernt ihn nie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina una carpeta en el Finder cuando ya no la necesite ninguna formula. Homebrew nunca la elimina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez un dossier dans le Finder lorsque plus aucune formula n’en a besoin. Homebrew ne le supprime jamais."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi una cartella nel Finder quando nessuna formula ne ha più bisogno. Homebrew non la rimuove mai."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "どのformulaにも必要とされなくなったフォルダは、Finderで取り除いてください。Homebrewが取り除くことは決してありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어떤 formula에도 더 이상 필요하지 않은 폴더는 Finder에서 제거하십시오. Homebrew는 이러한 폴더를 절대 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verplaats een map in Finder naar de prullenmand zodra geen enkele formula die nog nodig heeft. Homebrew verwijdert die nooit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś folder do Kosza w Finderze, gdy żadna formula nie będzie go już potrzebować. Homebrew nigdy go nie usuwa."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remova uma pasta no Finder quando nenhuma formula precisar mais dela. O Homebrew nunca a remove."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În Finder, eliminați un dosar după ce nicio formulă nu mai are nevoie de el. Homebrew nu îl elimină niciodată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместите папку в Корзину в Finder, когда она больше не будет нужна ни одной formula. Homebrew никогда не удаляет ее сам."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort en mapp i Finder när ingen formula längre behöver den. Homebrew tar aldrig bort den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir klasöre artık hiçbir formula ihtiyaç duymadığında onu Finder’da kaldırın. Homebrew onu hiçbir zaman kaldırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть папку у Finder, коли вона вже не потрібна жодній formula. Homebrew ніколи її не видаляє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "某个文件夹不再被任何formula需要后，请在“访达”中移除它。Homebrew绝不会移除它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當沒有任何formula需要某個檔案夾時，請在Finder中將它移除。Homebrew絕不會移除它。"
           }
         }
       }
@@ -222408,6 +222726,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App為你保存的內容也已選取，其中可能包括你自己的工作成果。"
+          }
+        }
+      }
+    },
+    "What the formulas Homebrew installed keep in its var folder, such as a database’s data. Homebrew’s uninstall leaves it, so it can outlive its formula, and a folder no installed formula names says so. The services’ logs are listed apart, and the settings a formula keeps in Homebrew’s etc folder or in /etc stay where they are." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co formulae nainstalované přes Homebrew uchovávají v jeho složce var, například data databáze. Homebrew to při odinstalaci ponechává, takže to může zůstat i poté, co formula zmizí, a u složky, kterou neuvádí žádná nainstalovaná formula, je to uvedeno. Protokoly služeb se zobrazují zvlášť a nastavení, která formula uchovává ve složce etc v Homebrew nebo v /etc, zůstávají, kde jsou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was die Formulae, die Homebrew installiert hat, in seinem Ordner „var“ aufbewahren, etwa die Daten einer Datenbank. Beim Deinstallieren lässt Homebrew es zurück, daher kann es seine Formula überdauern, und bei einem Ordner, den keine installierte Formula nennt, wird das angegeben. Die Protokolle der Dienste werden separat aufgeführt, und die Einstellungen, die eine Formula im Ordner „etc“ von Homebrew oder in /etc aufbewahrt, bleiben, wo sie sind."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que las formulae que instaló Homebrew guardan en su carpeta var, como los datos de una base de datos. Al desinstalar, Homebrew lo deja, así que puede seguir ahí aunque su formula ya no esté, y, si ninguna formula instalada menciona una carpeta, esta lo indica. Los registros de los servicios aparecen aparte, y los ajustes que una formula guarda en la carpeta etc de Homebrew o en /etc se quedan donde están."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que les formulae installées par Homebrew conservent dans son dossier var, comme les données d’une base de données. Homebrew le laisse en place lorsqu’il désinstalle une formula : ce contenu peut donc survivre à sa formula, et un dossier qu’aucune formula installée ne mentionne l’indique. Les historiques des services sont listés à part, et les réglages qu’une formula conserve dans le dossier etc de Homebrew ou dans /etc restent là où ils sont."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che le formulae installate da Homebrew conservano nella sua cartella var, come i dati di un database. Quando Homebrew disinstalla una formula, questi dati non vengono rimossi, quindi possono sopravvivere alla formula, e una cartella non indicata da nessuna formula installata lo segnala. I log dei servizi sono elencati a parte, e le impostazioni che una formula conserva nella cartella etc di Homebrew o in /etc restano dove sono."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewでインストールしたformulaeが、Homebrewのvarフォルダに保持しているもの（データベースのデータなど）です。Homebrewでアンインストールしても削除されないため、formulaがなくなった後も残ることがあります。インストール済みのどのformulaにも記載されていないフォルダには、その旨が表示されます。サービスのログは別の項目に表示され、formulaがHomebrewのetcフォルダまたは/etcに保持している設定はそのまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터베이스의 데이터처럼 Homebrew가 설치한 formula가 Homebrew의 var 폴더에 보관하는 항목입니다. Homebrew의 제거 명령은 이 항목을 그대로 두므로 formula가 사라진 후에도 남아 있을 수 있으며, 설치된 formula가 지정하지 않는 폴더에는 그렇게 표시됩니다. 서비스 로그는 따로 나열되며, formula가 Homebrew의 etc 폴더나 /etc에 보관하는 설정은 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat de formulae die Homebrew heeft geïnstalleerd, bewaren in de map 'var' van Homebrew, zoals de gegevens van een database. Bij het deïnstalleren laat Homebrew dit achter, dus het kan langer bestaan dan de formula zelf, en bij een map die geen enkele geïnstalleerde formula noemt, staat dat erbij. De logs van de diensten worden apart getoond, en de instellingen die een formula in de map 'etc' van Homebrew of in /etc bewaart, blijven staan waar ze zijn."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co formulae zainstalowane przez Homebrew przechowują w jego folderze var, na przykład dane bazy danych. Homebrew nie usuwa tego przy dezinstalacji, więc może to pozostać po odinstalowaniu formula, a folder, którego nie wymienia żadna zainstalowana formula, jest odpowiednio oznaczony. Dzienniki usług są wymienione osobno, a ustawienia, które formula przechowuje w folderze etc Homebrew lub w /etc, zostają na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que as formulae instaladas pelo Homebrew guardam na pasta var dele, como os dados de um banco de dados. Ao desinstalar uma formula, o Homebrew mantém esse conteúdo, então ele pode durar mais do que a própria formula, e uma pasta que nenhuma formula instalada menciona indica isso. Os registros dos serviços são listados à parte, e os ajustes que uma formula guarda na pasta etc do Homebrew ou em /etc ficam onde estão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce păstrează formulele instalate de Homebrew în dosarul var al acestuia, cum ar fi datele unei baze de date. Dezinstalarea prin Homebrew le lasă pe loc, așa că pot rămâne și după ce formula lor a fost dezinstalată, iar un dosar pe care nicio formulă instalată nu îl menționează este marcat ca atare. Jurnalele serviciilor sunt listate separat, iar configurările pe care o formulă le păstrează în dosarul etc al Homebrew sau în /etc rămân unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что установленные через Homebrew formulae хранят в его папке var, например содержимое базы данных. Homebrew не удаляет это вместе с formula, поэтому оно может остаться и без нее, а папка, которую не упоминает ни одна установленная formula, помечена соответствующим образом. Журналы служб показаны отдельно, а настройки, которые formula хранит в папке etc Homebrew или в /etc, остаются на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som de formulae som Homebrew har installerat sparar i Homebrews var-mapp, till exempel data för en databas. Homebrews avinstallation lämnar det kvar, så det kan överleva sin formula, och en mapp som ingen installerad formula anger är märkt med det. Tjänsternas loggar listas separat, och de inställningar som en formula sparar i Homebrews etc-mapp eller i /etc stannar där de är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un yüklediği formulae için Homebrew’un var klasöründe tutulanlar; örneğin bir veritabanının verileri. Homebrew yüklemeyi kaldırırken bunları yerinde bırakır, bu yüzden ait oldukları formula kaldırıldıktan sonra da kalabilirler; yüklü hiçbir formula tanımında geçmeyen klasörlerde bu belirtilir. Hizmetlerin günlükleri ayrı olarak listelenir; bir formula için Homebrew’un etc klasöründe veya /etc içinde tutulan ayarlar ise olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що інстальовані Homebrew formulae зберігають у його папці var, як-от дані бази даних. Під час деінсталювання Homebrew усе це залишає, тож воно може пережити свою formula, а папку, яку не вказує жодна інстальована formula, позначено відповідною приміткою. Журнали служб показано окремо, а налаштування, які formula зберігає в папці etc Homebrew або в /etc, лишаються на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew安装的formulae在其var文件夹中保存的内容，例如数据库的数据。Homebrew卸载formula时会保留这些内容，因此它们可能在formula卸载后依然存在；没有任何已安装formula指明的文件夹会注明这一点。各服务的日志另行列出，formula保存在Homebrew的etc文件夹或/etc中的设置则会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew安裝的formula在其var檔案夾中保存的內容，例如資料庫的資料。Homebrew解除安裝時會將其留下，因此它可能在其formula解除安裝後依然存在，而沒有任何已安裝formula提及的檔案夾會註明這一點。服務的記錄檔會另外列出，而formula保存在Homebrew的etc檔案夾或/etc中的設定則會留在原處。"
           }
         }
       }

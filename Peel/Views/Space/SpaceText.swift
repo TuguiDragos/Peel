@@ -181,6 +181,11 @@ nonisolated extension SpaceItem {
             title: "Logs for All Users",
             detail: "Logs that apps and services wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in. What an administrator owns goes through Peel’s helper."
         ),
+        "homebrew-data": Words(
+            title: "Homebrew Data",
+            detail: "What the formulas Homebrew installed keep in its var folder, such as a database’s data. Homebrew’s uninstall leaves it, so it can outlive its formula, and a folder no installed formula names says so. The services’ logs are listed apart, and the settings a formula keeps in Homebrew’s etc folder or in /etc stay where they are.",
+            hint: "Remove a folder in Finder once no formula needs it. Homebrew never removes it."
+        ),
         "homebrew-logs": Words(
             title: "Homebrew Service Logs",
             detail: "Logs that the services Homebrew runs, such as a database or a web server, write in Homebrew’s folder. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in."
@@ -190,4 +195,12 @@ nonisolated extension SpaceItem {
             detail: "What the Battle.net app caches for every account on this Mac. Blizzard says removing it doesn’t affect your games, and the app makes it again. Since it belongs to every account, it is listed and never selected."
         ),
     ]
+}
+
+nonisolated extension SpaceItem.PlaceNote {
+    var words: LocalizedStringResource {
+        switch self {
+        case .namedByNoInstalledFormula: "No installed formula names it"
+        }
+    }
 }

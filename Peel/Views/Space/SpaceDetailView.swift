@@ -69,10 +69,17 @@ struct SpaceDetailView: View {
 
             Section {
                 ForEach(item.listedPlaces, id: \.self) { url in
-                    place(url) {
-                        Text(url.abbreviatedPath)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
+                    place(url, size: item.placeSizes[url]) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(url.abbreviatedPath)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                            if let note = item.placeNotes[url] {
+                                Text(note.words)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     }
                 }
                 .listRowSeparator(.hidden)
@@ -114,13 +121,17 @@ struct SpaceDetailView: View {
         .toolbar(removing: .title)
     }
 
-    private func place(_ url: URL, @ViewBuilder named name: () -> some View) -> some View {
+    private func place(_ url: URL, size: SizeTotal? = nil, @ViewBuilder named name: () -> some View) -> some View {
         HStack(spacing: 8) {
             Image(systemName: "folder")
                 .foregroundStyle(.secondary)
                 .accessibilityHidden(true)
             name()
             Spacer(minLength: 8)
+            if let size {
+                Text(size.text)
+                    .rowFigure()
+            }
             ShowInFinderButton(url: url)
         }
     }

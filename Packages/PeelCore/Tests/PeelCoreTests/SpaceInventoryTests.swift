@@ -48,6 +48,30 @@ struct SpaceInventoryTests {
         #expect(item.size.isComplete, "what macOS keeps was measured")
     }
 
+    @Test func listsWhatFormulasKeepInHomebrewsVarAndWhatNoInstalledFormulaNames() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/opt/homebrew/var/mysql/ibdata1", bytes: 400_000)
+        try directory.file("root/opt/homebrew/var/redis-old/dump.rdb", bytes: 200_000)
+        try directory.file("root/opt/homebrew/var/log/mysql.log", bytes: 100_000)
+        try directory.file("root/opt/homebrew/var/homebrew/linked/mariadb", bytes: 16)
+        try directory.file(
+            "root/opt/homebrew/Cellar/mariadb/11.8.2/.brew/mariadb.rb", contents: Data(#"datadir = var/"mysql""#.utf8)
+        )
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home"), root: root, minimumSize: 1, measure: LeftoverScanner.walk
+        )
+
+        let item = try #require(report.items.first { $0.id == "homebrew-data" })
+        #expect(item.isReadOnly)
+        #expect(item.listedPlaces.map(\.lastPathComponent) == ["mysql", "redis-old"])
+        #expect(item.placeNotes.map { $0.key.lastPathComponent } == ["redis-old"])
+        #expect(item.placeNotes.values.allSatisfy { $0 == .namedByNoInstalledFormula })
+        #expect(Set(item.placeSizes.keys.map(\.lastPathComponent)) == ["mysql", "redis-old"])
+        #expect(item.placeSizes.values.allSatisfy { $0.known > 0 })
+    }
+
     @Test func reportsOnlyWhatIsBigEnough() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Logs/big.log", bytes: 400_000)
@@ -573,7 +597,9 @@ struct SpaceInventoryTests {
         for definition in SpaceInventory.definitions {
             #expect(!definition.id.isEmpty)
             let containers = !definition.containerFolders.isEmpty || definition.groupContainerFolder != nil
-            #expect(!definition.paths.isEmpty || containers || definition.isTheUserCacheFolder)
+            #expect(
+                !definition.paths.isEmpty || containers || definition.isTheUserCacheFolder || definition.places != nil
+            )
         }
         #expect(Set(SpaceInventory.definitions.map(\.id)).count == SpaceInventory.definitions.count)
     }

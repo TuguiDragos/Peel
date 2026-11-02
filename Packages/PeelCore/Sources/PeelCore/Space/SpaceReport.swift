@@ -45,6 +45,15 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// True when the apps that make and clear this area are all gone from this Mac, so its words can't send the
     /// person to them.
     public var managingAppIsMissing = false
+    /// What each place takes, for an area whose places are the items of one folder.
+    public var placeSizes: [URL: SizeTotal] = [:]
+    /// A fact about some of its places, which the app puts into words.
+    public var placeNotes: [URL: PlaceNote] = [:]
+
+    public enum PlaceNote: Sendable, Hashable {
+        /// A folder in Homebrew's `var` that no installed formula names in its own file.
+        case namedByNoInstalledFormula
+    }
 
     public var isReadOnly: Bool {
         if case .readOnly = handling { true } else { false }
@@ -145,10 +154,15 @@ public enum SpaceInventory {
         var keepsItsFolders = false
         var commands: [Command] = []
         var managedBy: ManagingApps?
+        /// The places of an area that lists the items of one folder, found again at each scan from `root`.
+        var places: (@Sendable (_ root: URL) -> [URL])?
+        /// The notes on such an area's places.
+        var placeNotes: (@Sendable (_ root: URL, _ places: [URL]) -> [URL: SpaceItem.PlaceNote])?
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
         func urls(home: URL, root: URL, userCache: URL?) -> [URL] {
-            paths.map { path in
+            if let places { return places(root) }
+            return paths.map { path in
                 path.hasPrefix("/")
                     ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
                     : home.appending(path: path, directoryHint: .isDirectory)
@@ -425,6 +439,20 @@ public enum SpaceInventory {
             holdsBackRecentWrites: true,
             keepsItsFolders: true
         ),
+        Definition(
+            id: "homebrew-data",
+            category: .development,
+            paths: [],
+            handling: .readOnly,
+            places: { HomebrewData.folders(in: $0.appending(path: "opt/homebrew", directoryHint: .isDirectory)) },
+            placeNotes: { root, places in
+                let prefix = root.appending(path: "opt/homebrew", directoryHint: .isDirectory)
+                guard let named = HomebrewData.foldersNamedByInstalledFormulae(in: prefix) else { return [:] }
+                return Dictionary(uniqueKeysWithValues: places.filter { !named.contains($0.lastPathComponent) }.map {
+                    ($0, SpaceItem.PlaceNote.namedByNoInstalledFormula)
+                })
+            }
+        ),
     ]
 
     /// What measuring an area found: its size, and whether a folder in it ran out of time, which says nothing of how
@@ -432,6 +460,8 @@ public enum SpaceInventory {
     struct Measured {
         let size: SizeTotal
         let ranOutOfTime: Bool
+        /// What each measured place took.
+        var parts: [URL: SizeTotal] = [:]
 
         /// Listed whatever its size when a folder ran out of time, since it may be the biggest one, or when nothing
         /// in it could be read, so the person learns Peel couldn't look; otherwise by what was seen.
@@ -473,7 +503,8 @@ public enum SpaceInventory {
         let isWhole = measured.count == urls.count
         return Measured(
             size: SizeTotal(combining: measured.map(\.size) + (isWhole ? [] : [unknown])),
-            ranOutOfTime: !isWhole || measured.contains(where: \.ranOutOfTime)
+            ranOutOfTime: !isWhole || measured.contains(where: \.ranOutOfTime),
+            parts: Dictionary(zip(urls, measured.map(\.size)), uniquingKeysWith: { first, _ in first })
         )
     }
 
@@ -617,7 +648,14 @@ public enum SpaceInventory {
             .filter { keeping.contains($0.definition.id) || $0.measured.isShown(over: minimumSize) }
             .sorted { $0.measured.comesBefore($1.measured) }
         let items = shown.map { definition, urls, measured in
-            item(definition, urls: urls, size: measured.size, home: home, root: root, simctlRuntimeHelp: help)
+            var item = item(
+                definition, urls: urls, size: measured.size, home: home, root: root, simctlRuntimeHelp: help
+            )
+            if definition.places != nil {
+                item.placeSizes = measured.parts
+                item.placeNotes = definition.placeNotes?(root, urls) ?? [:]
+            }
+            return item
         }
 
         return SpaceReport(
