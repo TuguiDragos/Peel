@@ -157,7 +157,7 @@ struct MultipleAppsView: View {
             questionNote
         }
         .alert(quitTitle, isPresented: Bindable(quitting).isAsking) {
-            Button("Quit Apps") { quitting.quit() }
+            Button(quitting.namesSeveral ? "Quit Apps" : "Quit \(quitting.names)") { quitting.quit() }
             Button("Cancel", role: .cancel) { quitting.giveUp() }
         } message: {
             Text(verbatim: quitting.names)
