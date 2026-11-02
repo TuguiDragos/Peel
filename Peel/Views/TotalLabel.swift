@@ -20,7 +20,7 @@ struct TotalLabel: View {
             Text(total.text)
                 .font(.title2.weight(.semibold))
                 .monospacedDigit()
-                .contentTransition(.numericText(value: Double(total.known)))
+                .numberTransition(value: Double(total.known))
                 .id(total.textKind)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)

@@ -19,4 +19,16 @@ struct InflectionMarkupTests {
         }
         #expect(found.isEmpty, "String(localized:) shows inflection markup as written; use String(inflecting:): \(found)")
     }
+
+    @Test func digitsRollOnlyThroughTheRuleThatAsksReduceMotion() throws {
+        let call = ".numeric" + "Text("
+        let root = LineLengthTests.repository.path(percentEncoded: false)
+        var found: [String] = []
+        let rule = ["Motion.swift", "MotionTests.swift"]
+        for file in try LineLengthTests.swiftFiles() where !rule.contains(file.lastPathComponent) {
+            let text = try String(contentsOf: file, encoding: .utf8)
+            if text.contains(call) { found.append(String(file.path(percentEncoded: false).dropFirst(root.count))) }
+        }
+        #expect(found.isEmpty, "SwiftUI rolls digits under Reduce Motion too; use numberTransition(value:)")
+    }
 }

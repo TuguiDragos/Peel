@@ -762,6 +762,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- With Reduce Motion on, figures fade to their new value instead of rolling, on Home, in the menu bar panel, and in the
+  bars at a page's foot.
 - Apps' icons follow the icon style chosen in System Settings > Appearance at once, as the Dock does: Peel kept the old
   style until it was opened again.
 - What VoiceOver hears as a list is read again waits for what it is saying: it cut off "Moved 1 item to the Trash"

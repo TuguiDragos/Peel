@@ -291,8 +291,7 @@ struct RemovalBar: View {
         Text(total.text)
             .font(.barFigure)
             .monospacedDigit()
-            // Given the value, the digits roll down when the total falls and up when it rises.
-            .contentTransition(.numericText(value: Double(total.known)))
+            .numberTransition(value: Double(total.known))
             .id(total.textKind)
     }
 

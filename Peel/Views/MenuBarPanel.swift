@@ -120,7 +120,7 @@ struct MenuBarPanel: View {
             Text(stats.bytesFreed.text)
                 .font(.system(size: 50, weight: .bold, design: .rounded))
                 .monospacedDigit()
-                .contentTransition(.numericText(value: Double(stats.bytesFreed.known)))
+                .numberTransition(value: Double(stats.bytesFreed.known))
                 .motion(value: stats.bytesFreed)
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
@@ -229,7 +229,7 @@ struct MenuBarPanel: View {
             Text(verbatim: value)
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .monospacedDigit()
-                .contentTransition(.numericText(value: Double(amount)))
+                .numberTransition(value: Double(amount))
                 .motion(value: value)
                 .foregroundStyle(isAccented ? Album.orangeInk : .primary)
             if leadsSomewhere {

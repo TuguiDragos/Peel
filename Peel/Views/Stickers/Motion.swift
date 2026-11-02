@@ -8,9 +8,9 @@ enum Motion {
     case step
     case settle
 
-    /// Whether an animated change moves something, or only changes it in place, such as its opacity, its color,
-    /// or a number. Reduce Motion turns off `movement` only: Apple's accessibility guidance asks for fades in
-    /// place of movement, not for no animation at all.
+    /// Whether an animated change moves something, or only changes it in place, such as its opacity or its color.
+    /// Reduce Motion turns off `movement` only: Apple's accessibility guidance asks for fades in place of movement,
+    /// not for no animation at all.
     enum Kind {
         case fade
         case movement
@@ -32,6 +32,25 @@ enum Motion {
 extension View {
     func motion(_ speed: Motion = .step, _ kind: Motion.Kind = .fade, value: some Equatable) -> some View {
         modifier(MotionModifier(speed: speed, kind: kind, value: value))
+    }
+
+    /// A number's digits roll to `value`, down when it falls and up when it rises, or fade there under Reduce Motion.
+    func numberTransition(value: Double) -> some View {
+        modifier(NumberTransition(value: value))
+    }
+}
+
+/// SwiftUI rolls the digits of `numericText` under Reduce Motion too, so this asks first.
+struct NumberTransition: ViewModifier {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    let value: Double
+
+    static func transition(to value: Double, reducingMotion: Bool) -> ContentTransition {
+        reducingMotion ? .opacity : .numericText(value: value)
+    }
+
+    func body(content: Content) -> some View {
+        content.contentTransition(Self.transition(to: value, reducingMotion: reduceMotion))
     }
 }
 

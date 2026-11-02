@@ -100,7 +100,7 @@ struct DuplicateSummaryView: View {
                 Label("Duplicates Found", systemImage: "doc.on.doc")
             } description: {
                 Text("^[\(duplicates.selectedCount) item](inflect: true) selected of ^[\(duplicates.copyCount) copy](inflect: true) in ^[\(duplicates.groupCount) group](inflect: true). Choose one to review its copies.")
-                    .contentTransition(.numericText(value: Double(duplicates.copyCount)))
+                    .numberTransition(value: Double(duplicates.copyCount))
                     .motion(value: duplicates.copyCount)
             }
             // Takes the page's height, so the bar floats at its foot as on every page, not under these words.
