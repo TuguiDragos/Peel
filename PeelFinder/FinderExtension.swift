@@ -21,9 +21,34 @@ final class FinderExtension: FIFinderSync {
         // On macOS 27 and later, AppKit usually hides menu item images. The glyph marks this item as Peel's in
         // Finder's menu, so the item asks for its image to be shown.
         if #available(macOS 27, *) {
+            item.image = Self.glyphInTheLabelColor()
             item.preferredImageVisibility = .visible
         }
         return menu
+    }
+
+    /// Peel's glyph drawn in the color of a menu's text. Finder draws an extension's image as it comes, so a template
+    /// stays black, and on a dark menu it can hardly be seen.
+    private static func glyphInTheLabelColor() -> NSImage? {
+        let glyph = NSImage(resource: .peelGlyph)
+        let pixels = { (points: CGFloat) in Int(points * 2) }
+        guard let picture = NSBitmapImageRep(
+            bitmapDataPlanes: nil, pixelsWide: pixels(glyph.size.width), pixelsHigh: pixels(glyph.size.height),
+            bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB,
+            bytesPerRow: 0, bitsPerPixel: 0
+        ) else { return glyph }
+        picture.size = glyph.size
+        guard let context = NSGraphicsContext(bitmapImageRep: picture) else { return glyph }
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = context
+        let bounds = NSRect(origin: .zero, size: glyph.size)
+        glyph.draw(in: bounds)
+        NSColor.labelColor.set()
+        bounds.fill(using: .sourceIn)
+        NSGraphicsContext.restoreGraphicsState()
+        let image = NSImage(size: glyph.size)
+        image.addRepresentation(picture)
+        return image
     }
 
     @objc private func openInPeel(_ sender: NSMenuItem) {

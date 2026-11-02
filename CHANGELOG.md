@@ -750,6 +750,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- On macOS 27, Uninstall with Peel in Finder's menu shows its mark in the color of the menu's text, where it was black on a
+  dark menu.
 - On macOS 27, a search field keeps the keyboard when the rows it filters come and go, so the next letter no longer
   chooses a tool in the sidebar.
 - A program another account has open, a build tool's daemon, and a script a running Node.js or Python process was
