@@ -120,6 +120,11 @@ public struct InstallerScan: Sendable {
     public func items(in kind: InstallerItem.Kind) -> [InstallerItem] {
         items.filter { $0.kind == kind }
     }
+
+    /// The scan without what is no longer on the disk.
+    public var withoutWhatLeft: InstallerScan {
+        InstallerScan(items: items.filter { !$0.url.isMissing }, unreadableLocations: unreadableLocations)
+    }
 }
 
 public enum Installers {

@@ -52,4 +52,33 @@ struct PluginLibraryTests {
         #expect(library.selection == nil)
         #expect(reads.count == 1, "the list is read again only once the page has said how the move went")
     }
+
+    @Test func leavesOutWhatHasLeftTheDiskWithoutReadingTheListAgain() async throws {
+        let root = FileManager.default.temporaryDirectory.appending(
+            path: "PluginLibraryTests-\(UUID().uuidString)", directoryHint: .isDirectory
+        )
+        defer { try? FileManager.default.removeItem(at: root) }
+        let plugins = try ["Echo", "Delay"].map { name in
+            let url = root.appending(path: "\(name).component", directoryHint: .isDirectory)
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+            return Plugin(
+                url: url, name: name, bundleIdentifier: nil, version: nil, category: .audioUnits,
+                isInstalledForAllUsers: false, size: 1, requiresPrivileges: false, refusal: nil
+            )
+        }
+        let reads = Reads()
+        let library = PluginLibrary(scan: { _ in
+            reads.count += 1
+            return PluginScan(plugins: plugins)
+        })
+        await library.refresh()
+        library.selection = plugins[0].id
+        try FileManager.default.removeItem(at: plugins[0].url)
+
+        library.leaveOutWhatLeft()
+
+        #expect(library.plugins?.map(\.name) == ["Delay"])
+        #expect(library.selection == nil)
+        #expect(reads.count == 1)
+    }
 }

@@ -27,6 +27,44 @@ struct InstallerSelectionTests {
         #expect(scans.withLock { $0 } == 2)
     }
 
+    @Test func leavesOutWhatHasLeftTheDiskWithoutScanningAgain() async throws {
+        let directory = FileManager.default.temporaryDirectory.appending(
+            path: "InstallerSelectionTests-\(UUID().uuidString)", directoryHint: .isDirectory
+        )
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let items = try ["Kept.dmg", "Gone.dmg"].map { name in
+            let url = directory.appending(path: name)
+            try Data("x".utf8).write(to: url)
+            return InstallerItem(
+                url: url, kind: .appInstaller, name: name, size: 1, date: nil, installedApp: nil, isReadOnly: false,
+                notes: []
+            )
+        }
+        let scans = Mutex(0)
+        let library = InstallerLibrary { _, _ in
+            scans.withLock { $0 += 1 }
+            return InstallerScan(items: items, unreadableLocations: [])
+        }
+        await library.refresh(installedApps: [])
+        library.selection = .appInstaller
+        library.selectedURLs = [items[0].url, items[1].url]
+        try FileManager.default.removeItem(at: items[1].url)
+
+        library.leaveOutWhatLeft()
+
+        #expect(library.scan?.items.map(\.name) == ["Kept.dmg"])
+        #expect(library.selectedURLs == [items[0].url])
+        #expect(library.selection == .appInstaller)
+        #expect(scans.withLock { $0 } == 1)
+
+        try FileManager.default.removeItem(at: items[0].url)
+        library.leaveOutWhatLeft()
+
+        #expect(library.scan?.items.isEmpty == true)
+        #expect(library.selection == nil)
+    }
+
     @Test func aSearchNarrowsThePageUnlessItNamesThePage() async {
         let items = [item("Firefox.dmg"), item("Chrome.dmg"), item("Install macOS", kind: .macOSInstaller)]
         let library = InstallerLibrary { _, _ in InstallerScan(items: items, unreadableLocations: []) }

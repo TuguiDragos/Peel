@@ -632,6 +632,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Installers and Backups
 
+- What an uninstall moved, or Finder, leaves the page without a Rescan.
 - A downloaded update is no longer called installed, a `.part` another program writes is left unselected, and a disk
   image that is open right now is never suggested or moved.
 - The figures count only what can move, device backups point to System Settings > General > Storage first, and a
@@ -728,6 +729,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Plug-ins
 
+- A plug-in an uninstall moved, or Finder, leaves the list without a Rescan.
 - The page names the folders it couldn't read, follows a plug-in folder that is a link, and names a plug-in, and a
   Quick Action, as Finder and the Services menu do.
 - An input method in use gives the steps that free it, and a plug-in History can't put back says so before it moves.

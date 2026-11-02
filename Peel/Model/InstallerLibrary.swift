@@ -69,6 +69,17 @@ final class InstallerLibrary {
         await refresh(installedApps: installedApps)
     }
 
+    /// Takes off the page what has left the disk since the scan, moved by another page's removal or in Finder.
+    func leaveOutWhatLeft() {
+        guard let scan, scan.items.contains(where: \.url.isMissing) else { return }
+        let left = scan.withoutWhatLeft
+        self.scan = left
+        selectedURLs.formIntersection(left.items.map(\.url))
+        if let selection, left.items(in: selection).isEmpty {
+            self.selection = nil
+        }
+    }
+
     func refresh(installedApps: [InstalledApp]) async {
         guard
             let result = await scanRun.run({ [scanning] in

@@ -39,6 +39,13 @@ final class PluginLibrary {
         }
     }
 
+    /// Takes off the list what has left the disk since the scan, moved by another page's removal or in Finder.
+    func leaveOutWhatLeft() {
+        guard let plugins, plugins.contains(where: \.url.isMissing) else { return }
+        self.plugins = plugins.filter { !$0.url.isMissing }
+        if selectedPlugin == nil { selection = nil }
+    }
+
     func moveToTrash(_ plugin: Plugin, recording record: (TrashResult) async -> Void) async -> TrashResult {
         isRemoving = true
         defer { isRemoving = false }
