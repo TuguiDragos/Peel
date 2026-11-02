@@ -128,6 +128,11 @@ enum KeptOnlyHere {
         ("Library/Application Support/nomic.ai/GPT4All", nil, .holdsWorkMadeWithTheApp),
         // Topaz Photo's "Presets": the presets the person made, which can be shared.
         ("Library/Application Support/Topaz Labs LLC/Topaz Photo", "Presets", .holdsWorkMadeWithTheApp),
+        // Copies of other apps an updater keeps: MacUpdater's FAQ, Version Tracker's "Uninstalling Version Tracker",
+        // and AutoBrew's README, "Creating an App Snapshot".
+        ("Library/Application Support/MacUpdater", nil, .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Version Tracker", nil, .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/AutoBrew", "Snapshots", .holdsWorkMadeWithTheApp),
         // Cultured Code's "Completely Uninstalling Things": deleting this group container deletes the to-dos.
         ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", nil, .holdsWorkMadeWithTheApp),
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder

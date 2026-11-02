@@ -77,6 +77,10 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/nomic.ai/GPT4All/gpt4all-1234.chat", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Topaz Labs LLC/Topaz Photo", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Topaz Labs LLC/Topaz Photo/Presets/Portrait.tpp", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/MacUpdater/Firefox 140.0.app", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Version Tracker", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/AutoBrew", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/AutoBrew/Snapshots/org.example.notes", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
@@ -140,6 +144,7 @@ struct KeptOnlyHereTests {
     @Test func leavesWhatSitsBesideOrAroundThem() {
         let free = [
             "Library/Application Support", "Library/Group Containers", "Library", "Library/Caches/Signal",
+            "Library/Application Support/AutoBrew/Logs",
             "Library/Application Support/nomic.ai", "Library/Application Support/Topaz Labs LLC",
             "Library/Application Support/Topaz Labs LLC/Topaz Photo/models",
             "Library/Application Support/Herd/Log/mail", "Library/Application Support/Herd/bin",
