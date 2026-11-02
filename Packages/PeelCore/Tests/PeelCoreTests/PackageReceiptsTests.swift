@@ -73,6 +73,22 @@ struct PackageReceiptsTests {
         #expect(!solo.items.contains { $0.requiresPrivileges })
     }
 
+    @Test func aFolderEveryPackageSharesOnTheStartupDiskIsSharedInAHomeToo() {
+        let home = "/Users/example"
+        let files = [
+            "Library", "Library/Fonts", "Library/Fonts/Solo.otf", "Applications", "Applications/Utilities",
+            "Applications/Utilities/Solo Tool.app",
+        ]
+        let inside = ["\(home)/Library/Fonts": ["Solo.otf"], "\(home)/Applications/Utilities": ["Solo Tool.app"]]
+
+        let found = PackageReceipts.topLevel(
+            files: files, installLocation: home, accountHome: home, home: home, namesInside: { inside[$0] },
+            exists: { _ in true }
+        )
+
+        #expect(found.offered == ["\(home)/Applications/Utilities/Solo Tool.app", "\(home)/Library/Fonts/Solo.otf"])
+    }
+
     @Test func aPackageOnTheStartupDiskAndInAnAccountAreTwoReceipts() {
         let receipt = { (volume: String) in
             PackageReceipt(

@@ -23,8 +23,9 @@ public enum PackageReceipts {
     /// The same in a home folder, where a package installed for one account writes, each named from that folder.
     static let sharedInTheHome: Set<String> = {
         let searched = LibraryFolder.inTheUsersLibrary.map { "/Library/" + $0.rawValue }
+        let alsoInAHome = otherSharedDirectories.filter { $0.hasPrefix("/Library/") || $0.hasPrefix("/Applications") }
         let own = ProtectedData.accountFolders.map { "/" + $0 }
-        return Set(searched + searched.flatMap(ProtectedObjects.ancestors(of:)) + own + ["/", "/Applications"])
+        return Set(searched + searched.flatMap(ProtectedObjects.ancestors(of:)) + alsoInAHome + own + ["/"])
     }()
 
     /// Returns whether `receipt` is the installer receipt of the app whose bundle identifier is `identifier`:
