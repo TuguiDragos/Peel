@@ -4,6 +4,14 @@ import Testing
 struct KeptOnlyHereTests {
     private let home = "/Users/me"
 
+    @Test func answersForThousandsOfItemsAtOnce() {
+        let paths = (0..<5000).map { "\(home)/Library/Application Support/org.example.app\($0)/data" }
+        let took = processorTime {
+            for path in paths { _ = KeptOnlyHere.reason(for: path, home: home, root: "/") }
+        }
+        #expect(took < .milliseconds(300))
+    }
+
     @Test func knowsEachPlaceWhatIsInsideAndTheAppsFolderAroundIt() {
         let held: [(String, HoldBack)] = [
             ("Library/Group Containers/2E337YPCZY.airmail", .holdsLocalMail),

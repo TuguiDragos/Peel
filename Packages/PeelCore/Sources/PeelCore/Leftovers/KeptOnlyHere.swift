@@ -150,16 +150,38 @@ enum KeptOnlyHere {
 
     static func reason(for path: String, home: String, root: String) -> HoldBack? {
         let item = PathComponents.of((path as NSString).standardizingPath.lowercased())
-        for (base, list) in [(home, places), (root, localPlaces)] {
-            let base = (base as NSString).standardizingPath
-            for (folder, inside, reason) in list {
-                let folder = PathComponents.of((base as NSString).appendingPathComponent(folder).lowercased())
-                let place = folder + (inside.map { PathComponents.of($0.lowercased()) } ?? [])
-                if item.starts(with: place) || item == folder { return reason }
+        for (base, places) in [(home, placesByFolder), (root, localPlacesByFolder)] {
+            let base = PathComponents.of((base as NSString).standardizingPath.lowercased())
+            guard item.starts(with: base), item.count > base.count else { continue }
+            let rest = item.dropFirst(base.count)
+            // An item at or inside several places takes the one listed first.
+            let held = (1...rest.count).flatMap { depth in
+                (places[Array(rest.prefix(depth))] ?? []).filter {
+                    depth == rest.count || rest.dropFirst(depth).starts(with: $0.inside)
+                }
             }
+            if let first = held.min(by: { $0.order < $1.order }) { return first.reason }
         }
         // What an app names as its backups is a copy the person may need, whichever app made it.
         return namesBackups(item.last ?? "") ? .holdsWorkMadeWithTheApp : nil
+    }
+
+    private struct Place {
+        let inside: [String]
+        let reason: HoldBack
+        let order: Int
+    }
+
+    private static let placesByFolder = byFolder(places)
+    private static let localPlacesByFolder = byFolder(localPlaces)
+
+    private static func byFolder(_ list: [(folder: String, inside: String?, reason: HoldBack)]) -> [[String]: [Place]] {
+        var index: [[String]: [Place]] = [:]
+        for (order, (folder, inside, reason)) in list.enumerated() {
+            let place = Place(inside: PathComponents.of((inside ?? "").lowercased()), reason: reason, order: order)
+            index[PathComponents.of(folder.lowercased()), default: []].append(place)
+        }
+        return index
     }
 
     static func reason(seenIn contents: FolderContents) -> HoldBack? {
