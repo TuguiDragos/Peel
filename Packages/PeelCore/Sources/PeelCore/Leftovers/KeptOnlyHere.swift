@@ -121,6 +121,13 @@ enum KeptOnlyHere {
         // Open WebUI's desktop app runs Open WebUI with its data, the chats among them, in `data`
         // (`src/main/utils/index.ts`).
         ("Library/Application Support/open-webui", "data", .holdsWorkMadeWithTheApp),
+        // Objective Development's "How can I uninstall Little Snitch 4?": the person's rules and settings are here and
+        // in `Objective Development/Little Snitch` in the Library every account shares.
+        ("Library/Application Support/Little Snitch", nil, .holdsWorkMadeWithTheApp),
+        // GPT4All's "Settings" names its folder, and its 2.4.1 release notes keep saved chats beside the models there.
+        ("Library/Application Support/nomic.ai/GPT4All", nil, .holdsWorkMadeWithTheApp),
+        // Topaz Photo's "Presets": the presets the person made, which can be shared.
+        ("Library/Application Support/Topaz Labs LLC/Topaz Photo", "Presets", .holdsWorkMadeWithTheApp),
         // Cultured Code's "Completely Uninstalling Things": deleting this group container deletes the to-dos.
         ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", nil, .holdsWorkMadeWithTheApp),
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
@@ -183,6 +190,8 @@ enum KeptOnlyHere {
         // inside the app.
         ("Library/Application Support/Tunnelblick", "Shared", .holdsVPNConnections),
         ("Library/Application Support/Tunnelblick", "Backup", .holdsVPNConnections),
+        // Little Snitch's rules and settings, from the same page as its folder in the home.
+        ("Library/Application Support/Objective Development/Little Snitch", nil, .holdsWorkMadeWithTheApp),
         // MAMP PRO's "Uninstall MAMP PRO": uninstalling it removes the databases kept here.
         ("Library/Application Support/appsolute/MAMP PRO", "db", .holdsWorkMadeWithTheApp),
     ]

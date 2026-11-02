@@ -72,6 +72,11 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Jan/data/agent-workspace/skills", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Jan/data/agent-workspace/subagents", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/open-webui/data/webui.db", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Little Snitch", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/nomic.ai/GPT4All", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/nomic.ai/GPT4All/gpt4all-1234.chat", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Topaz Labs LLC/Topaz Photo", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Topaz Labs LLC/Topaz Photo/Presets/Portrait.tpp", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
@@ -123,6 +128,8 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Tunnelblick/Shared/Office.tblk", .holdsVPNConnections),
             ("Library/Application Support/Tunnelblick/Backup/Deployed/Office.tblk", .holdsVPNConnections),
             ("Library/Application Support/appsolute/MAMP PRO", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Objective Development/Little Snitch", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Objective Development/Little Snitch/rules.xpl", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/appsolute/MAMP PRO/db/mysql80/shop", .holdsWorkMadeWithTheApp),
         ]
         for (path, reason) in heldOnTheMac {
@@ -133,6 +140,8 @@ struct KeptOnlyHereTests {
     @Test func leavesWhatSitsBesideOrAroundThem() {
         let free = [
             "Library/Application Support", "Library/Group Containers", "Library", "Library/Caches/Signal",
+            "Library/Application Support/nomic.ai", "Library/Application Support/Topaz Labs LLC",
+            "Library/Application Support/Topaz Labs LLC/Topaz Photo/models",
             "Library/Application Support/Herd/Log/mail", "Library/Application Support/Herd/bin",
             "Library/Application Support/Jan/data/llamacpp/models", "Library/Application Support/Jan/data/logs",
             "Library/Application Support/Jan/data/agent-workspace/sessions", "Library/Application Support/open-webui/logs",
@@ -168,6 +177,7 @@ struct KeptOnlyHereTests {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")
         }
         let freeOnTheMac = [
+            "Library/Application Support/Objective Development",
             "Library/Application Support/appsolute/MAMP PRO/templates", "Library/Application Support/appsolute",
             "Library/Application Support/ZeroTier/Other", "Library/Application Support/Tunnelblick/Logs",
             "Library/Application Support/Tunnelblick/Users/me", "Library/Application Support/Signal",
