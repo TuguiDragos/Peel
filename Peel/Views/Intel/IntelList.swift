@@ -7,8 +7,12 @@ struct IntelList: View {
     @Environment(BackgroundItemLibrary.self) private var backgroundItems
     @State private var isRescanning = false
     @State private var searchText = ""
+    @State private var counted = (unread: ClosedByPermissions(), jobFiles: ClosedByPermissions())
+
     /// How many of `unread` and of `closedJobFiles` their permissions keep this account from reading.
-    @State private var closed = (unread: 0, jobFiles: 0)
+    private var closed: (unread: Int, jobFiles: Int) {
+        (counted.unread.count(of: unread), counted.jobFiles.count(of: closedJobFiles))
+    }
 
     var body: some View {
         @Bindable var intel = intel
@@ -103,10 +107,7 @@ struct IntelList: View {
             }
         }
         .task(id: unread + closedJobFiles) {
-            closed = (
-                await FileAccess.closedByPermissions(among: unread),
-                await FileAccess.closedByPermissions(among: closedJobFiles)
-            )
+            counted = (await .counting(unread), await .counting(closedJobFiles))
         }
         // What the page lists can change from other pages and other apps, and a scan costs little, so once read it
         // looks again, quietly, each time it is shown and each time Peel comes forward.

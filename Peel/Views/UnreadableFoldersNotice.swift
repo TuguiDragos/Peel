@@ -6,7 +6,11 @@ import SwiftUI
 struct UnreadableFoldersNotice: View {
     let folders: [URL]
     var needsFullDiskAccess = false
-    @State private var closed = 0
+    @State private var counted = ClosedByPermissions()
+
+    private var closed: Int {
+        counted.count(of: folders)
+    }
 
     var body: some View {
         Notice(
@@ -22,7 +26,7 @@ struct UnreadableFoldersNotice: View {
         }
         .padding(.vertical, 6)
         .listRowSeparator(.hidden)
-        .task(id: folders) { closed = await FileAccess.closedByPermissions(among: folders) }
+        .task(id: folders) { counted = await .counting(folders) }
     }
 
     /// The folders macOS lets a person allow one by one, apart from Full Disk Access.
@@ -58,7 +62,11 @@ struct UnreadableFoldersDetail: View {
     var needsFullDiskAccess = false
     /// The page's own sentence naming them, in place of the shared one.
     var saying: Text?
-    @State private var closed = 0
+    @State private var counted = ClosedByPermissions()
+
+    private var closed: Int {
+        counted.count(of: folders)
+    }
 
     private var text: Text {
         guard let saying else {
@@ -76,7 +84,23 @@ struct UnreadableFoldersDetail: View {
 
     var body: some View {
         text
-            .task(id: folders) { closed = await FileAccess.closedByPermissions(among: folders) }
+            .task(id: folders) { counted = await .counting(folders) }
+    }
+}
+
+/// How many of some folders their permissions keep this account out of, kept with the folders it was counted for: when
+/// the folders change, the count of the ones before would give a reason that is theirs.
+struct ClosedByPermissions {
+    private var folders: [URL] = []
+    private var count = 0
+
+    /// The count for `folders`, or none until they have been counted.
+    func count(of folders: [URL]) -> Int {
+        self.folders == folders ? count : 0
+    }
+
+    static func counting(_ folders: [URL]) async -> ClosedByPermissions {
+        ClosedByPermissions(folders: folders, count: await FileAccess.closedByPermissions(among: folders))
     }
 }
 
