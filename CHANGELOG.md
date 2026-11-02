@@ -762,6 +762,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- Apps' icons follow the icon style chosen in System Settings > Appearance at once, as the Dock does: Peel kept the old
+  style until it was opened again.
 - What VoiceOver hears as a list is read again waits for what it is saying: it cut off "Moved 1 item to the Trash"
   within a moment, and on Background Items an action's own scan no longer talks over the state it left.
 - On macOS 27, Uninstall with Peel in Finder's menu shows its mark in the color of the menu's text, where it was black on a

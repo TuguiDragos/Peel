@@ -16,6 +16,42 @@ struct AppIcon: View {
     }
 }
 
+/// Tells what draws an icon that macOS now draws them differently. The icon style in System Settings > Appearance
+/// changes every app's icon while Peel runs, and an image made earlier keeps the old one. macOS announces no change, so
+/// this follows the settings it keeps the style in.
+@Observable
+final class IconStyle: NSObject {
+    static let shared = IconStyle(defaults: .standard)
+
+    /// The style itself, and the accent color, which a tinted style takes.
+    private static let keys = ["AppleIconAppearanceTheme", "AppleAccentColor"]
+
+    private(set) var revision = 0
+    @ObservationIgnored private let defaults: UserDefaults
+
+    init(defaults: UserDefaults) {
+        self.defaults = defaults
+        super.init()
+        for key in Self.keys { defaults.addObserver(self, forKeyPath: key, context: nil) }
+    }
+
+    isolated deinit {
+        for key in Self.keys { defaults.removeObserver(self, forKeyPath: key) }
+    }
+
+    nonisolated override func observeValue(
+        forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        Task { @MainActor in self.changed() }
+    }
+
+    private func changed() {
+        IconCache.forgetAll()
+        revision += 1
+    }
+}
+
 /// The icons rows draw. `NSWorkspace.icon(forFile:)` doesn't promise to cache and builds a new image each
 /// time, and rows ask for icons in `body`, on the main thread, so a list scrolled quickly would build the same
 /// icons again and again. `NSCache` holds them and lets them go when memory is short. Apps are held apart from
@@ -46,6 +82,7 @@ enum IconCache {
 
     @MainActor
     static func icon(for url: URL) -> NSImage {
+        _ = IconStyle.shared.revision
         let path = url.path(percentEncoded: false)
         if let image = images(for: url).object(forKey: path as NSString) { return image }
         let image = image(for: url)
@@ -62,6 +99,12 @@ enum IconCache {
             guard images(for: url).object(forKey: path as NSString) == nil else { continue }
             images(for: url).setObject(image(for: url), forKey: path as NSString)
         }
+    }
+
+    @MainActor
+    static func forgetAll() {
+        apps.removeAllObjects()
+        files.removeAllObjects()
     }
 
     /// Icons are held by path, so once what was at a path is removed or replaced, its icon is let go.

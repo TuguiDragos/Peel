@@ -12,7 +12,8 @@ struct AboutContent: View {
     var body: some View {
         VStack(spacing: 12) {
             // IconServices draws the icon for the current appearance, so `id(colorScheme)` builds a new image
-            // when the appearance changes.
+            // when the appearance changes, and reading the icon style builds one when that does.
+            let _ = IconStyle.shared.revision
             Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle.main.bundlePath))
                 .resizable()
                 .frame(width: 96, height: 96)
