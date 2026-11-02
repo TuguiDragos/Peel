@@ -5,6 +5,7 @@ import Testing
 struct SpotlightIndexTests {
     @Test func readsWhatMdutilPrints() {
         #expect(SpotlightIndex.isIndexing(mdutil: "/:\n\tIndexing enabled. \n") == true)
+        #expect(SpotlightIndex.isIndexing(mdutil: "/System/Volumes/Data:\n\tIndex is read-only.\n") == true)
         #expect(SpotlightIndex.isIndexing(mdutil: "/Volumes/Backup:\n\tIndexing disabled.\n") == false)
         #expect(SpotlightIndex.isIndexing(mdutil: "/Volumes/Backup:\n\tIndexing and searching disabled.\n") == false)
         let neverIndexed = "/Volumes/Backup:\n\tIndexing and searching disabled because of \".metadata_never_index\" "

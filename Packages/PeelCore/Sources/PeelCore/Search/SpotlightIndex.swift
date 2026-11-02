@@ -11,7 +11,8 @@ enum SpotlightIndex {
 
     /// What `mdutil -s` printed about a volume: indexed or not, or nil when it couldn't say.
     static func isIndexing(mdutil output: String) -> Bool? {
-        if output.contains("Indexing enabled.") { return true }
+        // A read-only index, on a full or read-only volume, still answers searches with what it holds.
+        if output.contains("Indexing enabled.") || output.contains("Index is read-only.") { return true }
         if output.contains("Indexing disabled.") || output.contains("Indexing and searching disabled") { return false }
         return nil
     }
