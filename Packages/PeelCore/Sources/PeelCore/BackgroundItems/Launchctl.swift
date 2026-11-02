@@ -10,9 +10,9 @@ enum Launchctl {
         var pid: pid_t?
     }
 
-    /// Runs `launchctl` and returns its exit status and its output, error text included. `bootout` waits for
-    /// the job to exit, and a job that ignores the signal keeps it waiting for launchd's own time limit. A
-    /// removal waits on this call, so each call gets 30 seconds at most.
+    /// Runs `launchctl` and returns its exit status and its output, error text included. `kickstart -k` waits for
+    /// the job's process to exit and for launchd to start it again, which a job that ignores the signal, or one
+    /// started moments before, makes take seconds. A removal waits on this call, so each call gets 30 seconds at most.
     @concurrent
     static func run(_ arguments: [String]) async -> (status: Int32, output: String) {
         switch await Subprocess.run("/bin/launchctl", arguments, timeout: 30) {

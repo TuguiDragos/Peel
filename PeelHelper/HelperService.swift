@@ -178,7 +178,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
         case .disable: ["disable", target]
         }
 
-        // 30 seconds: `bootout` waits for the job to exit, and the helper must never wait on `launchctl` forever.
+        // 30 seconds: `kickstart -k` waits for the job to exit and start again, and the helper never waits forever.
         Task {
             switch await Subprocess.run("/bin/launchctl", arguments, timeout: 30) {
             case .success(let output): reply(output.status == 0 ? nil : output.text + output.errorText)

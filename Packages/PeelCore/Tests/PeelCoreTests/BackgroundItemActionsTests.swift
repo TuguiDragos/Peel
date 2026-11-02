@@ -184,6 +184,36 @@ struct BackgroundItemActionsTests {
         #expect(item(state: .loaded, plist: file).offersEnableOrDisable)
     }
 
+    @Test func stopWaitsForTheProcessLaunchdStillNamesToEnd() async throws {
+        // `bootout` returns at once while launchd keeps a job that ignores the signal until its time runs out.
+        let directory = try TemporaryDirectory()
+        let program = try directory.runningProgram("job")
+        let job = item(state: .running(pid: program.processIdentifier), plist: nil)
+        let printed = """
+            gui/501/com.example.agent = {
+            \tpath = /Users/me/Library/LaunchAgents/com.example.agent.plist
+            \tstate = SIGTERMed
+            \tpid = \(program.processIdentifier)
+            }
+            """
+        let asked = Mutex<[String]>([])
+        let clock = ContinuousClock()
+        Task {
+            try? await Task.sleep(for: .milliseconds(300))
+            program.terminate()
+        }
+
+        let started = clock.now
+        try await BackgroundItemActions.stop(job, waitingUpTo: 5) { arguments in
+            asked.withLock { $0.append(arguments[0]) }
+            return arguments[0] == "print" ? (0, printed) : (0, "")
+        }
+
+        #expect(asked.withLock { $0 } == ["bootout", "print"])
+        #expect(clock.now - started >= .milliseconds(250), "Stop returned while the process still ran")
+        #expect(!program.isRunning)
+    }
+
     @Test func restartsOnlyAJobPeelMayControlAndAsksLaunchdToKillAndStartIt() async {
         var excluded = item(state: .running(pid: 42), plist: URL(filePath: "/Users/me/Library/LaunchAgents/job.plist"))
         excluded.isExcluded = true

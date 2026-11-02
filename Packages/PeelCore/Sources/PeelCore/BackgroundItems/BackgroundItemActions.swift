@@ -23,18 +23,38 @@ public enum BackgroundItemActions {
         item.canBeControlled ? nil : .launchctl(HelperRefusal.invalidRequest.rawValue)
     }
 
+    /// How long Stop waits for the job's process to end, as long as `launchctl` itself gets.
+    static let exitWait: TimeInterval = 30
+
     @concurrent
     public static func stop(_ item: BackgroundItem) async throws(Failure) {
+        try await stop(item, waitingUpTo: exitWait) { await Launchctl.run($0) }
+    }
+
+    /// Takes the job out of launchd, then waits up to `limit` for the process launchd still names for it to end:
+    /// `bootout` returns at once, while launchd keeps a job whose process ignores the signal until its ExitTimeOut
+    /// and only then kills it, and the job read meanwhile would still show as running.
+    static func stop(
+        _ item: BackgroundItem,
+        waitingUpTo limit: TimeInterval,
+        launchctl: ([String]) async -> (status: Int32, output: String)
+    ) async throws(Failure) {
         if let refusal = refusal(for: item) { throw refusal }
         do throws(Failure) {
             if item.requiresPrivileges {
                 try await runPrivileged(.bootout, for: item)
             } else {
-                try await run(["bootout", target(of: item)])
+                try await run(["bootout", target(of: item)], with: launchctl)
             }
         } catch {
-            if !(await isGone(item)) { throw error }
+            if !(await isGone(item, asking: launchctl)) { throw error }
+            return
         }
+        let printed = await launchctl(["print", target(of: item)])
+        guard case .details(let details) = Launchctl.answer(status: printed.status, output: printed.output),
+              let process = details.pid
+        else { return }
+        _ = await ProcessEnds.ends(process, within: limit)
     }
 
     /// How an item is started: loaded from its file with `bootstrap` when launchd does not have it, or
@@ -174,12 +194,18 @@ public enum BackgroundItemActions {
 
     /// Whether launchd no longer has `item`: `launchctl print` exits with 113 for a job it does not have, in either
     /// domain and whoever asks. A job that went away by itself needed no stopping.
-    static func isGone(_ item: BackgroundItem) async -> Bool {
-        await Launchctl.run(["print", target(of: item)]).status == 113
+    static func isGone(
+        _ item: BackgroundItem,
+        asking launchctl: ([String]) async -> (status: Int32, output: String) = { await Launchctl.run($0) }
+    ) async -> Bool {
+        await launchctl(["print", target(of: item)]).status == 113
     }
 
-    private static func run(_ arguments: [String]) async throws(Failure) {
-        let result = await Launchctl.run(arguments)
+    private static func run(
+        _ arguments: [String],
+        with launchctl: ([String]) async -> (status: Int32, output: String) = { await Launchctl.run($0) }
+    ) async throws(Failure) {
+        let result = await launchctl(arguments)
         guard result.status == 0 else {
             throw .launchctl(Launchctl.withoutAdviceToRunAsRoot(result.output))
         }
