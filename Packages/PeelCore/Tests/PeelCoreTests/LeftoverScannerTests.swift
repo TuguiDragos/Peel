@@ -1907,6 +1907,30 @@ struct LeftoverScannerTests {
         #expect(Set(beside.keys) == ["Application Support/AcmeCorp/Tidewater Studio"])
     }
 
+    @Test func showsTheMakersFolderEveryAccountSharesWhenItIsTheMakersLastApp() async throws {
+        let directory = try TemporaryDirectory()
+        let launcher = InstalledApp(
+            url: URL(filePath: "/Applications/Tidewater Launcher.app"), bundleIdentifier: "net.acmecorp.launcher",
+            name: "Tidewater Launcher", developer: "AcmeCorp Ltd"
+        )
+        let paint = InstalledApp(
+            url: URL(filePath: "/Applications/Paint.app"), bundleIdentifier: "net.acmecorp.paint", name: "Paint"
+        )
+        try directory.file("root/Users/Shared/AcmeCorp/Tidewater Quest/Quest.app/Contents/Info.plist", bytes: 64)
+        let shared = directory.url.appending(path: "root/Users/Shared/AcmeCorp").path(percentEncoded: false)
+        func found(beside others: [InstalledApp]) async -> Leftover? {
+            let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+                launcher, installedApps: [launcher] + others
+            )
+            return scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == shared }
+        }
+
+        let alone = try #require(await found(beside: []))
+        #expect(alone.match.reason == .inItsMakersFolder && alone.match.confidence == .possible)
+        #expect(alone.match.heldBack == .sharedWithEveryone && !alone.match.isRecommended)
+        #expect(await found(beside: [paint]) == nil)
+    }
+
     /// A kernel extension an app's driver installed stays in `/Library/Extensions` after the app goes. It is found by
     /// the identifier it declares and listed, but only an administrator can move it and Peel's helper does not serve
     /// that folder, so it can never be selected.

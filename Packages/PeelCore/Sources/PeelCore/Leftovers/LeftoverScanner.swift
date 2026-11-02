@@ -262,7 +262,9 @@ public struct LeftoverScanner: Sendable {
         )
     }
 
-    private static let makersPlaces: Set<SearchLocation.Kind> = [.applicationSupport, .caches, .logs, .library]
+    private static let makersPlaces: Set<SearchLocation.Kind> = [
+        .applicationSupport, .caches, .logs, .library, .sharedFolder,
+    ]
 
     /// What the maker's own folders hold while the app is the maker's last: the folder whole when no row is in it,
     /// else each item in it that is no row and holds none. Shown, never selected: the maker may have put there what
