@@ -22,6 +22,8 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     /// History can show it in the user's language. `source` then holds the English name, which `peel` prints.
     public let sourceKey: String?
     public let stoppedJob: String?
+    /// The file an edit wrote in the item's place, which a Put Back moves to the Trash first.
+    public let replacedBy: TrashedItem.Identity?
     /// True when the item shared most of its storage with another copy, so moving it freed only its own part.
     public let sharedStorage: Bool?
 
@@ -48,6 +50,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         self.sourceKey = sourceKey
         self.tool = tool
         stoppedJob = item.stoppedJob
+        replacedBy = item.replacedBy
         self.sharedStorage = sharedStorage
     }
 
@@ -66,12 +69,14 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
         tool = try container.decode(String.self, forKey: .tool)
         sourceKey = try container.decodeIfPresent(String.self, forKey: .sourceKey)
         stoppedJob = try container.decodeIfPresent(String.self, forKey: .stoppedJob)
+        replacedBy = try container.decodeIfPresent(TrashedItem.Identity.self, forKey: .replacedBy)
         sharedStorage = try container.decodeIfPresent(Bool.self, forKey: .sharedStorage)
     }
 
     public var trashedItem: TrashedItem {
         TrashedItem(
-            originalURL: originalURL, trashedURL: trashedURL, date: date, identity: identity, stoppedJob: stoppedJob
+            originalURL: originalURL, trashedURL: trashedURL, date: date, identity: identity, stoppedJob: stoppedJob,
+            replacedBy: replacedBy
         )
     }
 

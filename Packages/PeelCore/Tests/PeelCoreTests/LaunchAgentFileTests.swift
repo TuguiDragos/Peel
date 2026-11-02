@@ -170,6 +170,7 @@ struct LaunchAgentFileTests {
         guard case .saved(let moved, let reload) = outcome else { Issue.record("\(outcome)"); return }
         #expect(reload == nil)
         #expect(moved.trashed.map(\.originalURL) == [home.plist])
+        #expect(moved.trashed.first?.replacedBy == TrashedItem.Identity(ofItemAt: home.plist))
         #expect(steps.all == ["move", "stop", "start true"])
         #expect(try String(contentsOf: home.plist, encoding: .utf8) == job(seconds: 700))
         #expect(try String(contentsOf: home.trash.appending(path: "org.example.edit.plist"), encoding: .utf8) == job())

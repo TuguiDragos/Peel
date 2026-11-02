@@ -277,6 +277,7 @@ extension RestoreFailure {
             "macOS lets your terminal app put back another developer's app only with App Management; allow it in System Settings > Privacy & Security > App Management, or put it back with the Peel app"
         case .notPermitted: "macOS didn't allow it"
         case .failed(let message): Output.plain(message)
+        case .editStays(let reason): "the edit in its place couldn't move to the Trash first (\(reason.summary))"
         }
     }
 }

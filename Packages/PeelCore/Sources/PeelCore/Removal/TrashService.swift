@@ -11,6 +11,8 @@ public struct TrashedItem: Sendable, Hashable, Codable {
     public let identity: Identity?
     /// The launchd job Peel stopped once this file moved, by its label, which putting the file back starts again.
     public internal(set) var stoppedJob: String?
+    /// The file an edit of this one wrote in its place, which a Put Back moves to the Trash before this goes back.
+    public internal(set) var replacedBy: Identity?
 
     /// An item as its volume knows it: its inode and when it was made, which a move within the volume keeps. The
     /// volume's device number is left out, since it follows the order volumes are mounted in.
@@ -30,12 +32,22 @@ public struct TrashedItem: Sendable, Hashable, Codable {
         }
     }
 
-    init(originalURL: URL, trashedURL: URL, date: Date, identity: Identity? = nil, stoppedJob: String? = nil) {
+    init(
+        originalURL: URL, trashedURL: URL, date: Date, identity: Identity? = nil, stoppedJob: String? = nil,
+        replacedBy: Identity? = nil
+    ) {
         self.originalURL = originalURL
         self.trashedURL = trashedURL
         self.date = date
         self.identity = identity
         self.stoppedJob = stoppedJob
+        self.replacedBy = replacedBy
+    }
+
+    /// True while the file an edit of this one wrote stands in its place, never a link taken for it.
+    public var editStandsInItsPlace: Bool {
+        guard let replacedBy else { return false }
+        return Identity(ofItemAt: originalURL) == replacedBy
     }
 
     /// Where the item stands now, as the disk says.
@@ -242,13 +254,15 @@ public enum RestoreFailure: Sendable, Hashable {
     /// macOS's privacy protection refused it.
     case notPermitted
     case failed(String)
+    /// The file an edit of it wrote in its place couldn't move to the Trash first, for this reason.
+    case editStays(TrashFailure.Reason)
 
     /// True when asking again can't help: the item left the Trash, or Peel puts nothing back from or to there.
     public var isFinal: Bool {
         switch self {
         case .missingFromTrash, .notAllowed, .notAllowedByTheHelper, .notInATrash: true
         case .alreadyThere, .needsHelper, .locked, .folderLocked, .folderGone, .needsAppManagement, .notPermitted,
-             .failed:
+             .failed, .editStays:
             false
         }
     }
@@ -788,44 +802,75 @@ public struct TrashService: Sendable {
         TrashResult(failures: urls.map { TrashFailure(url: $0, reason: .needsHelper) })
     }
 
-    /// Puts `items` back in the order given, each as `restore(_:canUseHelper:)` does, and answers for each why it
-    /// stayed, or nil. The Dock tiles an uninstall took out for them go back then, all at once. Launch Services
-    /// leaves out an app in the Trash and isn't told it moved back, so the apps among them are registered again, but
-    /// only once every item is back: a registered app starts its extensions, which would make their containers again
-    /// before the ones in the Trash went back.
+    /// What putting items back did.
+    public struct Restored: Sendable {
+        /// Why each item stayed, in the order given, or nil for one that went back.
+        public internal(set) var failures: [RestoreFailure?] = []
+        /// For each item, the file an edit of it wrote in its place, which moved to the Trash to make room, or nil.
+        /// Each is written down like any removal, so it can be put back too.
+        public internal(set) var movedAside: [TrashedItem?] = []
+    }
+
+    /// Puts `items` back in the order given, each as `restore(_:canUseHelper:)` does. The Dock tiles an uninstall took
+    /// out for them go back then, all at once. Launch Services leaves out an app in the Trash and isn't told it moved
+    /// back, so the apps among them are registered again, but only once every item is back: a registered app starts
+    /// its extensions, which would make their containers again before the ones in the Trash went back.
     @concurrent
-    public func restore(_ items: [TrashedItem], canUseHelper: Bool = false) async -> [RestoreFailure?] {
-        var answers: [RestoreFailure?] = []
+    public func restore(_ items: [TrashedItem], canUseHelper: Bool = false) async -> Restored {
+        var restored = Restored()
         for item in items {
-            answers.append(await restore(item, canUseHelper: canUseHelper))
+            let answer = await putBack(item, canUseHelper: canUseHelper)
+            restored.failures.append(answer.failure)
+            restored.movedAside.append(answer.movedAside)
         }
-        let back = zip(items, answers).filter { $0.1 == nil }.map(\.0.originalURL)
+        let back = zip(items, restored.failures).filter { $0.1 == nil }.map(\.0.originalURL)
         if !back.isEmpty {
             await putBackDockTiles(back)
         }
-        for (item, answer) in zip(items, answers)
+        for (item, answer) in zip(items, restored.failures)
         where answer == nil && AppBundleLayout.isAnApp(item.originalURL) {
             await registerApp(item.originalURL)
         }
-        return answers
+        return restored
     }
 
     /// Moves an item from the Trash back where it came from, through the helper when the folder needs
     /// administrator rights.
     @concurrent
     func restore(_ item: TrashedItem, canUseHelper: Bool = false) async -> RestoreFailure? {
-        let failure = await moveBack(item, canUseHelper: canUseHelper)
-        if failure == nil {
-            journal?.forget([item])
-            // The label comes from History, which any process of the user can rewrite, so the job starts only as the
-            // file now back in place declares it.
-            if let label = item.stoppedJob,
-               let job = LaunchdCleanup.jobs(for: [item.originalURL], environment: environment).first,
-               job.label == label {
-                await startJob(job, canUseHelper)
+        await putBack(item, canUseHelper: canUseHelper).failure
+    }
+
+    /// Puts `item` back, first moving to the Trash the file an edit of it wrote in its place, which comes back as the
+    /// item moved aside. Should `item` not go back after all, the edit goes back to its place.
+    private func putBack(
+        _ item: TrashedItem, canUseHelper: Bool
+    ) async -> (failure: RestoreFailure?, movedAside: TrashedItem?) {
+        var movedAside: TrashedItem?
+        if item.editStandsInItsPlace {
+            if let refusal = refusal(ofPuttingBack: item, canUseHelper: canUseHelper) { return (refusal, nil) }
+            let moved = await trash([item.originalURL])
+            guard var edit = moved.trashed.first else {
+                return (.editStays(moved.failures.first?.reason ?? .changedSinceScan), nil)
             }
+            edit.replacedBy = item.identity
+            movedAside = edit
         }
-        return failure
+        let failure = await moveBack(item, canUseHelper: canUseHelper)
+        guard failure == nil else {
+            guard let movedAside else { return (failure, nil) }
+            let editBack = await putBack(movedAside, canUseHelper: canUseHelper)
+            return (failure, editBack.failure == nil ? nil : movedAside)
+        }
+        journal?.forget([item])
+        // The label comes from History, which any process of the user can rewrite, so the job starts only as the
+        // file now back in place declares it.
+        if let label = item.stoppedJob,
+           let job = LaunchdCleanup.jobs(for: [item.originalURL], environment: environment).first,
+           job.label == label {
+            await startJob(job, canUseHelper)
+        }
+        return (nil, movedAside)
     }
 
     /// Why `item` cannot go back as things stand, or nil when it can. A way back only the helper can take stays when
@@ -838,7 +883,11 @@ public struct TrashService: Sendable {
             return .notAllowed(refusal)
         }
         guard item.isInTheTrash else { return .missingFromTrash }
-        guard !item.originalURL.isThere else { return .alreadyThere }
+        if item.originalURL.isThere {
+            guard item.editStandsInItsPlace else { return .alreadyThere }
+            if FileAccess.isLockedInFinder(item.originalURL) { return .editStays(.locked) }
+            if let refusal = refusal(of: item.originalURL) { return .editStays(refusal) }
+        }
         if FileAccess.isLockedInFinder(item.trashedURL) { return .locked }
         let folder = URL(filePath: Self.folder(puttingBack: item))
         let privacy = FileAccess.isProtectedByPrivacy(folder)

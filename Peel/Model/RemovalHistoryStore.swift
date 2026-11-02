@@ -134,7 +134,7 @@ final class RemovalHistoryStore {
     private let outcome: RemovalOutcome?
     private let knowsTheExclusions: () -> Bool
     private let removesPeel: () -> Bool
-    private let restoring: ([TrashedItem], Bool) async -> [RestoreFailure?]
+    private let restoring: ([TrashedItem], Bool) async -> TrashService.Restored
     private let announcing: (AttributedString) -> Void
     /// Read again here once History has counted a removal, rather than by each tool.
     var stats: LifetimeStats?
@@ -209,7 +209,7 @@ final class RemovalHistoryStore {
         outcome: RemovalOutcome? = nil,
         knowsTheExclusions: @escaping () -> Bool = { ExclusionsStore.shared.exclusions.isKnown },
         removesPeel: @escaping () -> Bool = { false },
-        restoring: @escaping ([TrashedItem], Bool) async -> [RestoreFailure?] = { items, canUseHelper in
+        restoring: @escaping ([TrashedItem], Bool) async -> TrashService.Restored = { items, canUseHelper in
             await TrashService(exclusions: ExclusionsStore.shared.exclusions).restore(items, canUseHelper: canUseHelper)
         },
         announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() },
@@ -529,13 +529,21 @@ final class RemovalHistoryStore {
             let disks = await MountedDisks.read()
             let ordered = records.map { $0.located(on: disks) }.inPutBackOrder
             let answers = await restoring(ordered.map(\.trashedItem), canUseHelper)
-            for (record, answer) in zip(ordered, answers) {
+            for (record, answer) in zip(ordered, answers.failures) {
                 if let failure = answer {
                     problems[record.id] = failure
                     stayed.append((record, failure))
                 } else {
                     restored.insert(record.id)
                 }
+            }
+            // An edit that made room goes into History under the same part, so it can come back too.
+            var aside = RemovalInProgress()
+            for (record, edit) in zip(ordered, answers.movedAside) {
+                guard let edit else { continue }
+                let size = await FileSize.reclaimableSize(of: edit.trashedURL)
+                let sizes = size.map { [edit.originalURL: $0] } ?? [:]
+                await self.record(TrashResult(trashed: [edit]), part: record.part, sizes: sizes, in: &aside)
             }
             for record in ordered {
                 failures[record.id] = problems[record.id]

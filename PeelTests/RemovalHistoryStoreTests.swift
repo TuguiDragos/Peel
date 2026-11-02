@@ -1,7 +1,7 @@
 import Foundation
 import Observation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Synchronization
 import Testing
 
@@ -172,7 +172,7 @@ struct RemovalHistoryStoreTests {
             restoring: { items, _ in
                 // Back in place, and History's folder closed before History is told.
                 try? FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: path)
-                return items.map { _ in nil }
+                return TrashService.Restored(failures: items.map { _ in nil }, movedAside: items.map { _ in nil })
             }
         )
         var removal = RemovalInProgress()
@@ -187,6 +187,37 @@ struct RemovalHistoryStoreTests {
         #expect(history.trashLooks == looks + 1, "the page kept saying it is in the Trash")
     }
 
+    @Test func aPutBackWritesDownTheEditItMovedAsideUnderTheSamePart() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let edit = try JSONDecoder().decode(TrashedItem.Identity.self, from: Data(#"{"inode": 5, "birth": 6}"#.utf8))
+        let aside = TrashedItem(
+            originalURL: URL(filePath: "/Users/me/Library/LaunchAgents/org.example.edit.plist"),
+            trashedURL: URL(filePath: "/Users/me/.Trash/org.example.edit 2.plist"), date: .now, replacedBy: edit
+        )
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true },
+            restoring: { items, _ in
+                TrashService.Restored(failures: items.map { _ in nil }, movedAside: items.map { _ in aside })
+            }
+        )
+        var removal = RemovalInProgress()
+        let part = RemovalPart(source: "org.example.edit", sourceKey: nil, tool: Tool.backgroundItems.rawValue)
+        await history.record(try moved("org.example.edit.plist"), part: part, sizes: [:], in: &removal)
+        history.finish(removal)
+        let undoable = history.undoTitle
+
+        await history.restore(history.records, canUseHelper: false)
+
+        #expect(history.records.map(\.originalURL) == [aside.originalURL])
+        #expect(history.records.first?.part == part)
+        #expect(history.records.first?.replacedBy == edit)
+        #expect(history.undoTitle == nil, "nothing new to undo: the move aside is part of the Put Back")
+        #expect(undoable != nil)
+    }
+
     @Test func tellsAPutBackThatEndsAsTheOneBefore() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -196,7 +227,9 @@ struct RemovalHistoryStoreTests {
             refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
             outcome: outcome,
             knowsTheExclusions: { true },
-            restoring: { items, _ in items.map { _ in .needsHelper } }
+            restoring: { items, _ in
+                TrashService.Restored(failures: items.map { _ in .needsHelper }, movedAside: items.map { _ in nil })
+            }
         )
         var removal = RemovalInProgress()
         let part = RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue)
@@ -222,7 +255,9 @@ struct RemovalHistoryStoreTests {
             refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
             outcome: outcome,
             knowsTheExclusions: { true },
-            restoring: { items, _ in items.map { _ in .needsHelper } }
+            restoring: { items, _ in
+                TrashService.Restored(failures: items.map { _ in .needsHelper }, movedAside: items.map { _ in nil })
+            }
         )
         var removal = RemovalInProgress()
         let part = RemovalPart(source: "Example", sourceKey: nil, tool: Tool.developer.rawValue)

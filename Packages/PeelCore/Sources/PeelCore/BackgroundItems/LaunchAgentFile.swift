@@ -146,7 +146,7 @@ public struct LaunchAgentFile: Sendable {
                 }
             },
             start: { item throws(BackgroundItemActions.Failure) in try await BackgroundItemActions.start(item) },
-            putBack: { await trash.restore([$0]).first ?? nil }
+            putBack: { await trash.restore([$0]).failures.first ?? nil }
         )
     }
 
@@ -175,26 +175,27 @@ public struct LaunchAgentFile: Sendable {
             let problem = moved.result.failures.first.map { Problem.notMoved($0.reason) } ?? .changed
             return .unchanged(problem, moved: moved.result)
         }
+        var result = moved.result
         switch makeFile(url, Data(text.utf8), mode) {
         case .written:
-            break
+            result.trashed[0].replacedBy = TrashedItem.Identity(ofItemAt: url)
         case .notMade(let error):
             guard await putBack(old) != nil else { return .unchanged(.notWritten(error), moved: TrashResult()) }
             return .oldFileInTheTrash(.notWritten(error), moved: moved.result)
         case .incomplete(let error):
             return .oldFileInTheTrash(.incomplete(error), moved: moved.result)
         }
-        guard item.state != .notLoaded, item.state != .unknown else { return .saved(moved: moved.result, reload: nil) }
+        guard item.state != .notLoaded, item.state != .unknown else { return .saved(moved: result, reload: nil) }
         if let stillRunning = moved.stillRunning {
-            return .saved(moved: moved.result, reload: .notStopped(stillRunning))
+            return .saved(moved: result, reload: .notStopped(stillRunning))
         }
         var stopped = item
         stopped.state = .notLoaded
         do throws(BackgroundItemActions.Failure) {
             try await start(stopped)
-            return .saved(moved: moved.result, reload: nil)
+            return .saved(moved: result, reload: nil)
         } catch {
-            return .saved(moved: moved.result, reload: .notStarted(error))
+            return .saved(moved: result, reload: .notStarted(error))
         }
     }
 

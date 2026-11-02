@@ -1,6 +1,6 @@
 import Foundation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Testing
 
 struct RemovalOutcomeTests {
@@ -55,7 +55,12 @@ struct RemovalOutcomeTests {
             refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
             outcome: outcome,
             knowsTheExclusions: { true },
-            restoring: { items, _ in items.map { $0.originalURL.lastPathComponent == staying ? failure : nil } }
+            restoring: { items, _ in
+                TrashService.Restored(
+                    failures: items.map { $0.originalURL.lastPathComponent == staying ? failure : nil },
+                    movedAside: items.map { _ in nil }
+                )
+            }
         )
     }
 

@@ -564,9 +564,9 @@ struct TrashServiceTests {
 
         let moved = await service.trash([app, cache]).trashed
         #expect(registered.withLock { $0 }.isEmpty)
-        #expect(await service.restore(moved) == [nil, nil])
+        #expect(await service.restore(moved).failures == [nil, nil])
         let appMoved = try #require(moved.first { $0.originalURL == app })
-        #expect(await service.restore([appMoved]) == [.missingFromTrash])
+        #expect(await service.restore([appMoved]).failures == [.missingFromTrash])
         #expect(registered.withLock { $0 } == [app.path(percentEncoded: false)])
     }
 
@@ -588,7 +588,7 @@ struct TrashServiceTests {
         }
 
         let moved = await service.trash([data]).trashed
-        #expect(await service.restore(moved) == [nil])
+        #expect(await service.restore(moved).failures == [nil])
         #expect(registered.withLock { $0 }.isEmpty)
     }
 
@@ -616,7 +616,7 @@ struct TrashServiceTests {
 
         let moved = await service.trash([app, container]).trashed
         let appFirst = moved.sorted { ($0.originalURL == app ? 0 : 1) < ($1.originalURL == app ? 0 : 1) }
-        #expect(await service.restore(appFirst) == [nil, nil])
+        #expect(await service.restore(appFirst).failures == [nil, nil])
         #expect(containerWasBack.withLock { $0 } == [true])
     }
 
@@ -640,8 +640,8 @@ struct TrashServiceTests {
 
         let moved = try #require(await service.trash([app]).trashed.first)
         #expect(asked.withLock { $0 }.isEmpty)
-        #expect(await service.restore([moved]) == [nil])
-        #expect(await service.restore([moved]) != [nil])
+        #expect(await service.restore([moved]).failures == [nil])
+        #expect(await service.restore([moved]).failures != [nil])
         #expect(asked.withLock { $0 } == ["org.example.Studio.app"])
     }
 

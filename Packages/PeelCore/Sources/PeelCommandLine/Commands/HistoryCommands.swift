@@ -401,6 +401,9 @@ struct RestoreCommand: AsyncParsableCommand {
         for (record, failure) in refused {
             Output.note("\(Output.plain(Output.path(record.originalURL))) stays: \(failure.summary)")
         }
+        for record in going where record.trashedItem.editStandsInItsPlace {
+            Output.note("\(Output.plain(Output.path(record.originalURL))): the edit in its place goes to the Trash first, and History keeps it.")
+        }
 
         guard !going.isEmpty else {
             Output.line("Nothing of that removal can be put back from here.")
@@ -425,14 +428,23 @@ struct RestoreCommand: AsyncParsableCommand {
             let ordered = going.inPutBackOrder
             // `peel` never uses the helper: items that need administrator access are left for the Peel app.
             let answers = await service.restore(ordered.map(\.trashedItem), canUseHelper: false)
-            for (record, answer) in zip(ordered, answers) {
+            for (record, answer) in zip(ordered, answers.failures) {
                 if let failure = answer {
                     failures.append((record, failure))
                 } else {
                     restored.insert(record.id)
                 }
             }
-            return (restored, failures, await log.remove(restored).records != nil)
+            // An edit that made room goes into History under the same part, so it can come back too.
+            var aside: [RemovalRecord] = []
+            for (record, edit) in zip(ordered, answers.movedAside) {
+                guard let edit else { continue }
+                let size = await FileSize.reclaimableSize(of: edit.trashedURL)
+                let sizes = size.map { [edit.originalURL: $0] } ?? [:]
+                aside += record.part.records(of: TrashResult(trashed: [edit]), sizes: sizes, batch: UUID())
+            }
+            let kept = aside.isEmpty ? true : await log.add(aside).records != nil
+            return (restored, failures, await log.remove(restored).records != nil && kept)
         }
 
         Output.line("Put \(Output.count(restored.count, "item", "items")) back.")

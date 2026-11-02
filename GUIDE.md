@@ -290,9 +290,10 @@ and how many items the others hold.
   is gone, or whose command looks unusual, says so. Remove takes out a job a deleted app left loaded,
   and an item whose app is in the Trash says that macOS starts it from there each time you log in, until you empty
   the Trash. A job an app gave launchd itself, such as an update's installer, says so. Edit… beside an agent's file in
-  your own `~/Library/LaunchAgents` opens the file as text: Save moves the file as it was to the Trash, where History
-  can put it back, writes yours in its place, and loads the job again if it was loaded. Apps set to open at login are
-  in System Settings > General > Login Items & Extensions, not here.
+  your own `~/Library/LaunchAgents` opens the file as text: Save moves the file as it was to the Trash, writes yours
+  in its place, and loads the job again if it was loaded, and putting the old file back from History moves your edit
+  to the Trash first. Apps set to open at login are in System Settings > General > Login Items & Extensions, not
+  here.
 - **Extensions:** app extensions and system extensions, the app each one came with and whether it is still installed,
   the choice made for each one, or that macOS decides when nobody chose, which keeps a Finder extension off, and where
   it is turned on or off: System Settings for most, Safari > Settings > Extensions for a Safari extension, which Safari

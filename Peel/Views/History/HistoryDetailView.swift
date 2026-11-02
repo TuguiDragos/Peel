@@ -226,11 +226,14 @@ private enum RecordPlace {
 private enum RecordNote {
     case sharedStorage
     case loadsAfterARestart
+    case editStandsInItsPlace
 
     var text: LocalizedStringResource {
         switch self {
         case .sharedStorage: "It shared most of its storage with another copy, so moving it freed only its own part."
         case .loadsAfterARestart: "Once put back, macOS loads this audio driver only after you restart your Mac."
+        case .editStandsInItsPlace:
+            "Your edit of it stands in its place, so Put Back moves that edit to the Trash first, where History keeps it."
         }
     }
 }
@@ -286,6 +289,7 @@ private struct HistoryRecordRow: View {
     private var notes: [RecordNote] {
         var notes: [RecordNote] = record.sharedStorage == true ? [.sharedStorage] : []
         if place == .inTrash, AudioDrivers.isOne(record.originalURL) { notes.append(.loadsAfterARestart) }
+        if place == .inTrash, record.trashedItem.editStandsInItsPlace { notes.append(.editStandsInItsPlace) }
         return notes
     }
 
