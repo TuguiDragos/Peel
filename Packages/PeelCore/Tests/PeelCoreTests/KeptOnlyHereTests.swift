@@ -58,6 +58,20 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Dia", .holdsPasswordsOrCodes),
             ("Library/Application Support/Orion/Defaults/favourites.plist", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Orion/profiles", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Herd", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Herd/config/services/mysql/data", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Plex Media Server/Plug-in Support/Databases", .holdsWorkMadeWithTheApp),
+            ("Library/Preferences/com.plexapp.plexmediaserver.plist", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Neo4j Desktop/Application/relate-data/dbmss", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/neo4j-desktop/Application/data", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/UniFi/data/db", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Jan", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Jan/data/threads/01J0", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Jan/data/assistants/jan", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Jan/data/agent-workspace/memory", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Jan/data/agent-workspace/skills", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/Jan/data/agent-workspace/subagents", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/open-webui/data/webui.db", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
@@ -108,6 +122,8 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Tunnelblick", .holdsVPNConnections),
             ("Library/Application Support/Tunnelblick/Shared/Office.tblk", .holdsVPNConnections),
             ("Library/Application Support/Tunnelblick/Backup/Deployed/Office.tblk", .holdsVPNConnections),
+            ("Library/Application Support/appsolute/MAMP PRO", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/appsolute/MAMP PRO/db/mysql80/shop", .holdsWorkMadeWithTheApp),
         ]
         for (path, reason) in heldOnTheMac {
             #expect(KeptOnlyHere.reason(for: "/\(path)", home: home, root: "/") == reason, "\(path)")
@@ -117,6 +133,10 @@ struct KeptOnlyHereTests {
     @Test func leavesWhatSitsBesideOrAroundThem() {
         let free = [
             "Library/Application Support", "Library/Group Containers", "Library", "Library/Caches/Signal",
+            "Library/Application Support/Herd/Log/mail", "Library/Application Support/Herd/bin",
+            "Library/Application Support/Jan/data/llamacpp/models", "Library/Application Support/Jan/data/logs",
+            "Library/Application Support/Jan/data/agent-workspace/sessions", "Library/Application Support/open-webui/logs",
+            "Library/Application Support/Neo4j Desktop/Cache", "Library/Application Support/neo4j-desktop/logs",
             "Library/Application Support/Microsoft Edge/NativeMessagingHosts/org.example.host.json",
             "Library/Application Support/Microsoft Edge Beta/NativeMessagingHosts/org.example.host.json",
             "Library/Application Support/Microsoft", "Library/Application Support/Microsoft/EdgeUpdater",
@@ -148,6 +168,7 @@ struct KeptOnlyHereTests {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == nil, "\(path)")
         }
         let freeOnTheMac = [
+            "Library/Application Support/appsolute/MAMP PRO/templates", "Library/Application Support/appsolute",
             "Library/Application Support/ZeroTier/Other", "Library/Application Support/Tunnelblick/Logs",
             "Library/Application Support/Tunnelblick/Users/me", "Library/Application Support/Signal",
         ]

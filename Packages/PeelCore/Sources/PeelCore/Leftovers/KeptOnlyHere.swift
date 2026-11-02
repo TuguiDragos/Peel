@@ -99,6 +99,28 @@ enum KeptOnlyHere {
         // Postgres.app's "Installing Postgres.app": its default data directory is `Postgres/var-XX`, and deleting the
         // data directories is an optional step of uninstalling it.
         ("Library/Application Support/Postgres", nil, .holdsWorkMadeWithTheApp),
+        // Laravel Herd's "Uninstalling Herd": the Herd Pro services' databases are in `config/services`, to back up
+        // before the folder goes.
+        ("Library/Application Support/Herd", "config/services", .holdsWorkMadeWithTheApp),
+        // Plex's "Where is the Plex Media Server data directory located?" and "Backing up Plex Media Server data": what
+        // was watched, the metadata, and the settings in its preferences file.
+        ("Library/Application Support/Plex Media Server", nil, .holdsWorkMadeWithTheApp),
+        ("Library/Preferences/com.plexapp.plexmediaserver.plist", nil, .holdsWorkMadeWithTheApp),
+        // Neo4j Desktop's "Re-installation of Desktop" for 1.x and "Installation" for 2.x: each version keeps its
+        // databases in `Application`, to back up before removing it.
+        ("Library/Application Support/Neo4j Desktop", "Application", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/neo4j-desktop", "Application", .holdsWorkMadeWithTheApp),
+        // UniFi's "How to Uninstall the Self-Hosted UniFi Network Server": a backup first, then this folder.
+        ("Library/Application Support/UniFi", nil, .holdsWorkMadeWithTheApp),
+        // Jan's "Data Folder": threads, assistants, memories, skills and subagents live there permanently.
+        ("Library/Application Support/Jan", "data/threads", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Jan", "data/assistants", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Jan", "data/agent-workspace/memory", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Jan", "data/agent-workspace/skills", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/Jan", "data/agent-workspace/subagents", .holdsWorkMadeWithTheApp),
+        // Open WebUI's desktop app runs Open WebUI with its data, the chats among them, in `data`
+        // (`src/main/utils/index.ts`).
+        ("Library/Application Support/open-webui", "data", .holdsWorkMadeWithTheApp),
         // Cultured Code's "Completely Uninstalling Things": deleting this group container deletes the to-dos.
         ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", nil, .holdsWorkMadeWithTheApp),
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
@@ -161,6 +183,8 @@ enum KeptOnlyHere {
         // inside the app.
         ("Library/Application Support/Tunnelblick", "Shared", .holdsVPNConnections),
         ("Library/Application Support/Tunnelblick", "Backup", .holdsVPNConnections),
+        // MAMP PRO's "Uninstall MAMP PRO": uninstalling it removes the databases kept here.
+        ("Library/Application Support/appsolute/MAMP PRO", "db", .holdsWorkMadeWithTheApp),
     ]
 
     static func reason(for path: String, home: String, root: String) -> HoldBack? {
