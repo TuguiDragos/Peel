@@ -103,6 +103,22 @@ struct UpdatePanelLayoutTests {
         #expect(abs(open.maxX - (frames.panel.maxX - 12)) < 1)
     }
 
+    @Test func homebrewsUpgradeKeepsItsButtonBesideItsWords() async throws {
+        let frames = Frames()
+        let view = UpdatePanel(version: "2.0", notes: nil, link: nil) {
+            Text("Homebrew has it. Peel can run the upgrade for you.")
+        } action: {
+            Button(String(localized: AppPageHeader.homebrewUpgrade)) {}
+                .onGeometryChange(for: CGRect.self) { $0.frame(in: .named("page")) } action: {
+                    frames.buttons["upgrade"] = $0
+                }
+        }
+        .measured(into: frames)
+        let upgrade = try #require(await laidOut(view, width: 500, frames: frames, buttons: 1).buttons["upgrade"])
+
+        #expect(upgrade.minY < frames.panel.midY)
+    }
+
     @Test func underALongTextTheButtonStandsBelowIt() async throws {
         let frames = await panel(paragraph, width: 900)
         let open = try #require(frames.buttons["Open Tidewater"])

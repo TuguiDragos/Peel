@@ -228,7 +228,7 @@ struct AppPageHeader: View {
                         Text("Upgrading\u{2026}")
                     }
                 } else {
-                    Text("Upgrade with Homebrew")
+                    Text(Self.homebrewUpgrade)
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -237,6 +237,8 @@ struct AppPageHeader: View {
             openAppButton
         }
     }
+
+    static let homebrewUpgrade: LocalizedStringResource = "Upgrade"
 
     private var openAppButton: some View {
         Button("Open \(plan.app.name)") {
