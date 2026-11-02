@@ -224,6 +224,21 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         for end in words.indices { folders.insert(words[...end].joined()) }
         return folders.filter { !$0.isEmpty }
     }
+
+    /// The names of its maker's own folder, normalized: the maker its identifier names (`jetbrains`), the same written
+    /// as a domain (`bunkus.org`), and the leading words of the developer its signature names. Never its own names.
+    var makersFolderNames: Set<String> {
+        var folders: Set<String> = []
+        if let vendor = bundleIdentifier.flatMap({ Identifier.vendor(of: $0.lowercased()) }) {
+            let parts = vendor.split(separator: ".")
+            folders.insert(Naming.normalized(String(parts.last ?? "")))
+            folders.insert(Naming.normalized(parts.reversed().joined(separator: ".")))
+        }
+        let words = (developer ?? "").split { !$0.isLetter && !$0.isNumber }.map { $0.lowercased() }
+        for end in words.indices { folders.insert(words[...end].joined()) }
+        let own = Set(matchingNames.map(Naming.normalized))
+        return folders.filter { $0.count >= 3 && !own.contains($0) }
+    }
 }
 
 public enum Architecture: String, Sendable, Hashable, CaseIterable {

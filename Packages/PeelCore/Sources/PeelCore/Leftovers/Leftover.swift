@@ -31,6 +31,9 @@ public enum MatchReason: String, Sendable, Hashable {
     case updaterDownloads
     /// A folder the app's own product file names for its data (`InstalledApp.productFolders`).
     case namedByTheApp
+    /// What the app's maker keeps in a folder of its own, such as `Application Support/JetBrains`, while no other
+    /// app of that maker is installed (`LeftoverMatcher.makersFolderNames`).
+    case inItsMakersFolder
 }
 
 public enum MatchConfidence: Int, Sendable, Hashable, Comparable {

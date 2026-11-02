@@ -36,7 +36,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   app's maker or signing team also uses, waits under Review Before Removing, with what is shared and what Peel held
   back. What is named for another app of the same maker that macOS knows, such as a build Xcode keeps, is that app's
   and isn't listed, and an identifier a tool gives apps whose makers set none, such as Electron's `com.electron.`
-  ones, ties no two apps to one maker.
+  ones, ties no two apps to one maker. When no other app of its maker is installed, what the maker's own folder
+  holds, such as `Application Support/Microsoft` for the last of Microsoft's apps, waits there too.
 - **What only an administrator can move** stays where it is when Peel's helper isn't allowed to move it from there.
   Once the app is gone, Peel says how many items stayed, and Orphaned Files lists them under Needs an Administrator,
   with how to remove them in Finder.

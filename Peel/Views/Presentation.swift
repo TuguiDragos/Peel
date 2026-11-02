@@ -22,6 +22,7 @@ extension MatchReason {
         case .managedByTheApp: "Managed by the app"
         case .updaterDownloads: "Where the app’s updater keeps its downloads"
         case .namedByTheApp: "Named by the app’s own files"
+        case .inItsMakersFolder: "In its maker’s folder, and no other app of that maker is installed"
         }
     }
 }

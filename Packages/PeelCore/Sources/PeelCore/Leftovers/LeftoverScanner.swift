@@ -252,10 +252,56 @@ public struct LeftoverScanner: Sendable {
             exclusions: exclusions, measure: measure, refuses: refuses, installedByApple: installedByApple,
             limit: nestedFolderLimit
         )
+        let makers = await inItsMakersFolders(
+            nobodysFolders, rows: inside.found, of: location, matcher: matcher, home: home, root: root,
+            exclusions: exclusions, measure: measure, refuses: refuses
+        )
         return .found(
-            leftovers + inside.found, cutShort: inside.wasCutShort ? location : nil,
+            leftovers + inside.found + makers, cutShort: inside.wasCutShort ? location : nil,
             unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }
         )
+    }
+
+    private static let makersPlaces: Set<SearchLocation.Kind> = [.applicationSupport, .caches, .logs, .library]
+
+    /// What the maker's own folders hold while the app is the maker's last: the folder whole when no row is in it,
+    /// else each item in it that is no row and holds none. Shown, never selected: the maker may have put there what
+    /// no app of its own made.
+    private static func inItsMakersFolders(
+        _ folders: [URL],
+        rows: [Leftover],
+        of location: SearchLocation,
+        matcher: LeftoverMatcher,
+        home: String,
+        root: String,
+        exclusions: Exclusions,
+        measure: @escaping Measure,
+        refuses: Refuses
+    ) async -> [Leftover] {
+        let names = matcher.makersFolderNames
+        guard !names.isEmpty, makersPlaces.contains(location.kind) else { return [] }
+        let rowPaths = rows.map { PathPattern.comparablePath(of: $0.url) }
+        var found: [Found] = []
+        for folder in folders where names.contains(Naming.folderName(folder.lastPathComponent)) {
+            let inside = rowPaths.filter { PathComponents.isPath($0, inside: PathPattern.comparablePath(of: folder)) }
+            var items = [folder]
+            if !inside.isEmpty {
+                let path = folder.path(percentEncoded: false)
+                let entries = (try? FileManager.default.contentsOfDirectory(atPath: path)) ?? []
+                items = entries.filter { !$0.hasPrefix(".") }.sorted().map { folder.appending(path: $0) }.filter { item in
+                    !inside.contains { PathComponents.isPath($0, atOrInside: PathPattern.comparablePath(of: item)) }
+                }
+            }
+            let parent = ParentAccess(inside.isEmpty ? location.url : folder)
+            for url in items {
+                guard !refuses(url.path(percentEncoded: false), home), !exclusions.excludes(url),
+                      !FileAccess.cannotBeRemoved(url), !isSharedWithTheWholeMac(url, home: home)
+                else { continue }
+                let match = LeftoverMatch(reason: .inItsMakersFolder, confidence: .possible, sharedWith: [])
+                found.append(Found(url: url, match: match, parent: parent, foldersAbove: .itsOwn))
+            }
+        }
+        return await measured(found, kind: location.kind, home: home, root: root, measure: measure)
     }
 
     /// Looks inside the folders not taken as the app's. Only a match strong enough to name the app on its own

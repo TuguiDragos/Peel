@@ -69303,6 +69303,112 @@
         }
       }
     },
+    "In its maker’s folder, and no other app of that maker is installed" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ve složce výrobce, od kterého není nainstalovaná žádná jiná aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Ordner des Herstellers, von dem keine andere App installiert ist"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En la carpeta de su fabricante, y no hay instalada ninguna otra app de ese fabricante"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans le dossier de son éditeur, et aucune autre app de cet éditeur n’est installée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nella cartella del suo produttore, e nessun’altra app di quel produttore è installata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開発元のフォルダ内にあり、その開発元のほかのアプリはインストールされていない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제작자의 폴더에 있으며, 해당 제작자의 다른 앱이 설치되어 있지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In de map van de maker, en er is geen andere app van die maker geïnstalleerd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W folderze producenta aplikacji, a żadna inna aplikacja tego producenta nie jest zainstalowana"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na pasta do fabricante, e nenhum outro app desse fabricante está instalado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În dosarul producătorului său și nu este instalată nicio altă aplicație de la acest producător"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В папке производителя, и других приложений этого производителя не установлено"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tillverkarens mapp, och ingen annan app från samma tillverkare är installerad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üreticisinin klasöründe ve o üreticinin başka hiçbir uygulaması yüklü değil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У папці виробника програми, а інших програм цього виробника не інстальовано"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位于其厂商的文件夹中，且未安装该厂商的其他App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位於其廠商的檔案夾中，且未安裝該廠商的其他App"
+          }
+        }
+      }
+    },
     "In the Trash" : {
       "localizations" : {
         "cs" : {

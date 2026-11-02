@@ -1855,6 +1855,41 @@ struct LeftoverScannerTests {
         #expect(Set(found) == Set(releases))
     }
 
+    @Test func showsWhatItsMakersFolderHoldsWhenItIsTheMakersLastApp() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Tidewater Studio.app"), bundleIdentifier: "net.acmecorp.tidewater",
+            name: "Tidewater Studio", developer: "AcmeCorp Ltd"
+        )
+        let paint = InstalledApp(
+            url: URL(filePath: "/Applications/Paint.app"), bundleIdentifier: "net.acmecorp.paint", name: "Paint"
+        )
+        try directory.file("home/Library/Application Support/AcmeCorp/Tidewater Studio/state.db", bytes: 64)
+        try directory.file("home/Library/Application Support/AcmeCorp/Licenses/key.dat", bytes: 64)
+        try directory.file("home/Library/Caches/AcmeCorp/Updater/feed.xml", bytes: 64)
+        let home = directory.url.appending(path: "home/Library").path(percentEncoded: false) + "/"
+        func found(beside others: [InstalledApp]) async -> [String: LeftoverMatch] {
+            let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+                app, installedApps: [app] + others
+            )
+            return Dictionary(uniqueKeysWithValues: scan.leftovers.map {
+                (String($0.url.path(percentEncoded: false).dropFirst(home.count)), $0.match)
+            })
+        }
+
+        let alone = await found(beside: [])
+        let beside = await found(beside: [paint])
+
+        #expect(Set(alone.keys) == [
+            "Application Support/AcmeCorp/Tidewater Studio", "Application Support/AcmeCorp/Licenses", "Caches/AcmeCorp",
+        ])
+        for path in ["Application Support/AcmeCorp/Licenses", "Caches/AcmeCorp"] {
+            #expect(alone[path]?.reason == .inItsMakersFolder && alone[path]?.confidence == .possible, "\(path)")
+            #expect(alone[path]?.isRecommended == false)
+        }
+        #expect(Set(beside.keys) == ["Application Support/AcmeCorp/Tidewater Studio"])
+    }
+
     /// A kernel extension an app's driver installed stays in `/Library/Extensions` after the app goes. It is found by
     /// the identifier it declares and listed, but only an administrator can move it and Peel's helper does not serve
     /// that folder, so it can never be selected.

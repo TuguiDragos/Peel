@@ -55,6 +55,14 @@ struct LeftoverMatcher: Sendable {
         }
     }
 
+    /// The names of this app's maker's own folder while no other app of that maker is installed, so what is left in it
+    /// may be this app's. None for one of Apple's apps.
+    var makersFolderNames: Set<String> {
+        guard !target.isApplesOwn, !others.contains(where: { !$0.isACopy(of: target) && $0.isSibling(of: target) })
+        else { return [] }
+        return target.makersFolderNames
+    }
+
     /// The installed apps besides this one that manage the area, and this app's other copies.
     func others(managing area: SpaceInventory.ManagingApps) -> (apps: [String], copies: [URL]) {
         let managing = others.filter { area.includes($0.identifier) }
@@ -323,7 +331,7 @@ extension LeftoverMatcher {
                 .leadsIntoItsHomebrewReceipt, .managedByTheApp, .updaterDownloads, .namedByTheApp:
                 .identifier
             case .name, .namePrefix, .homebrewCask: .name
-            case .teamIdentifier, .vendorPrefix: .maker
+            case .teamIdentifier, .vendorPrefix, .inItsMakersFolder: .maker
             }
         }
 
@@ -351,7 +359,7 @@ extension LeftoverMatcher {
             case .teamIdentifier: 3
             case .vendorPrefix: 2
             case .namePrefix: 1
-            case .homebrewCask: 0
+            case .homebrewCask, .inItsMakersFolder: 0
             }
         }
     }
@@ -383,6 +391,7 @@ extension LeftoverMatcher {
         /// None for an app macOS ships, whose words say nothing: `Base` is not AirPort Base Station Agent's.
         let wordRuns: Set<String>
         let ownFolderNames: Set<String>
+        let makersFolderNames: Set<String>
         let isApplesOwn: Bool
         let isASafariWebApp: Bool
         let updaterFolder: String?
@@ -418,6 +427,7 @@ extension LeftoverMatcher {
                 return words.indices.flatMap { start in words.indices[start...].map { words[start...$0].joined() } }
             })
             ownFolderNames = app.ownFolderNames
+            makersFolderNames = app.makersFolderNames
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
             isASafariWebApp = app.isASafariWebApp
             // Only electron-builder's `<name>-updater`: any other name could be a folder other programs share.

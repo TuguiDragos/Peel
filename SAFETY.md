@@ -308,7 +308,8 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **A name alone is a guess.** Something matched by the app's name alone inside a folder named for neither the app
   nor its maker, such as another app's, one of Apple's, or a command-line tool's, is shown and never selected, since a
   folder of that name may be that program's own; so is something matched by name alone at the top of your home folder
-  or of a Library, or in a maker's folder there.
+  or of a Library, or in a maker's folder there. What the maker's own folder holds is shown the same way when no other
+  app of that maker is installed, since the maker may have put there what none of its apps made.
 - **A name another app carries is shared with it.** Something matched by the app's name alone is left unselected
   while another installed app, whoever makes it, holds that name as whole words in its own, as Epic Games Launcher
   holds Epic: a folder called Epic may be that app's. A word in the name of an app that comes with macOS counts for
