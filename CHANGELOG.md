@@ -764,6 +764,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- Peel no longer stops responding for good when a checkbox in a list changes on its own, as at the end of a Move to Trash
+  that kept an item, while an app that reads other apps' windows through accessibility is running.
 - With Reduce Motion on, figures fade to their new value instead of rolling, on Home, in the menu bar panel, and in the
   bars at a page's foot.
 - Apps' icons follow the icon style chosen in System Settings > Appearance at once, as the Dock does: Peel kept the old

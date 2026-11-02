@@ -19,12 +19,14 @@ struct NativeCheckbox: NSViewRepresentable {
         let host = Host()
         host.button.target = context.coordinator
         host.button.action = #selector(Coordinator.toggle(_:))
+        host.showNow(state)
         update(host.button, in: context)
         return host
     }
 
     func updateNSView(_ host: Host, context: Context) {
         context.coordinator.isOn = $isOn
+        host.show(state)
         update(host.button, in: context)
     }
 
@@ -37,6 +39,7 @@ struct NativeCheckbox: NSViewRepresentable {
     /// row's menu away from a row that cannot be selected.
     final class Host: NSView {
         let button = NativeCheckbox.checkbox()
+        private var waitingState: NSControl.StateValue?
 
         init() {
             super.init(frame: .zero)
@@ -47,12 +50,34 @@ struct NativeCheckbox: NSViewRepresentable {
         required init?(coder: NSCoder) {
             nil
         }
+
+        /// Gives the button a state at the next layout, before the next frame and once SwiftUI has finished updating.
+        /// As a button's state changes AppKit can ask SwiftUI for the row's accessibility elements, for a client that
+        /// watches Peel, and SwiftUI can't answer that in the middle of an update: it goes round in a cycle for good.
+        func show(_ state: NSControl.StateValue) {
+            let isShown = button.state == state && button.allowsMixedState == (state == .mixed)
+            waitingState = isShown ? nil : state
+            if !isShown { needsLayout = true }
+        }
+
+        func showNow(_ state: NSControl.StateValue) {
+            if button.allowsMixedState != (state == .mixed) { button.allowsMixedState = state == .mixed }
+            if button.state != state { button.state = state }
+        }
+
+        override func layout() {
+            super.layout()
+            guard let waitingState else { return }
+            self.waitingState = nil
+            showNow(waitingState)
+        }
+    }
+
+    private var state: NSControl.StateValue {
+        isMixed ? .mixed : isOn ? .on : .off
     }
 
     private func update(_ button: NSButton, in context: Context) {
-        if button.allowsMixedState != isMixed { button.allowsMixedState = isMixed }
-        let state: NSControl.StateValue = isMixed ? .mixed : isOn ? .on : .off
-        if button.state != state { button.state = state }
         let size = NSControl.ControlSize(context.environment.controlSize) ?? .regular
         if button.controlSize != size { button.controlSize = size }
         if button.isEnabled != context.environment.isEnabled { button.isEnabled = context.environment.isEnabled }
