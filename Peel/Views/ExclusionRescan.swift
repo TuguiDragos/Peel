@@ -18,6 +18,12 @@ extension View {
         modifier(PageExclusionRescan(scannedUnder: revision, rescan: rescan))
     }
 
+    /// Takes off a page what has left the disk, moved by another page or in Finder: when the page appears, when History
+    /// changes, and when Peel comes forward.
+    func leavesOutWhatLeft(_ leaveOut: @escaping () -> Void) -> some View {
+        modifier(WhatLeft(leaveOut: leaveOut))
+    }
+
     /// Scans again once a Put Back, from History or Undo, brought back what `tool` moved, so it is listed again.
     func rescanAfterPutBack(_ tool: Tool, _ rescan: @escaping () async -> Void) -> some View {
         modifier(PutBackRescan(tool: tool, rescan: rescan))
@@ -34,6 +40,19 @@ private struct PutBackRescan: ViewModifier {
             guard history.needsRescanAfterPutBack(tool) else { return }
             await rescan()
         }
+    }
+}
+
+private struct WhatLeft: ViewModifier {
+    @Environment(RemovalHistoryStore.self) private var history
+    let leaveOut: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .task(id: history.revision) { leaveOut() }
+            .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+                leaveOut()
+            }
     }
 }
 

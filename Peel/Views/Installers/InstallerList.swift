@@ -5,7 +5,6 @@ import SwiftUI
 struct InstallerList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(InstallerLibrary.self) private var installers
-    @Environment(RemovalHistoryStore.self) private var history
     @Environment(HelperModel.self) private var helper
     @State private var isRescanning = false
 
@@ -91,7 +90,7 @@ struct InstallerList: View {
             guard library.hasLoaded else { return }
             await installers.refreshUnlessScanned(within: InstallerLibrary.scanAgainAfter, installedApps: library.apps)
         }
-        .task(id: history.revision) { installers.leaveOutWhatLeft() }
+        .leavesOutWhatLeft { installers.leaveOutWhatLeft() }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             guard library.hasLoaded else { return }
             Task {

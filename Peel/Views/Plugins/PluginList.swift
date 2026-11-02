@@ -3,7 +3,6 @@ import SwiftUI
 
 struct PluginList: View {
     @Environment(PluginLibrary.self) private var plugins
-    @Environment(RemovalHistoryStore.self) private var history
     @State private var searchText = ""
     @State private var isRescanning = false
 
@@ -107,7 +106,7 @@ struct PluginList: View {
             guard plugins.plugins == nil, !plugins.scanRun.isWaitedFor, !plugins.scanRun.wasStopped else { return }
             await plugins.refresh()
         }
-        .task(id: history.revision) { plugins.leaveOutWhatLeft() }
+        .leavesOutWhatLeft { plugins.leaveOutWhatLeft() }
         .rescanOnExclusionChange("PluginList") { await plugins.refresh() }
         .rescanAfterPutBack(.plugins) { await plugins.refresh() }
     }
