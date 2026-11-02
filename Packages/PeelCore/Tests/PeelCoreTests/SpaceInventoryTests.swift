@@ -57,6 +57,10 @@ struct SpaceInventoryTests {
         try directory.file(
             "root/opt/homebrew/Cellar/mariadb/11.8.2/.brew/mariadb.rb", contents: Data(#"datadir = var/"mysql""#.utf8)
         )
+        try directory.file("root/usr/local/var/postgres/PG_VERSION", bytes: 300_000)
+        try directory.file(
+            "root/usr/local/Cellar/postgresql@14/14.19/.brew/postgresql@14.rb", contents: Data(#"var/"postgres""#.utf8)
+        )
         let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
 
         let report = await SpaceInventory.scan(
@@ -65,10 +69,10 @@ struct SpaceInventoryTests {
 
         let item = try #require(report.items.first { $0.id == "homebrew-data" })
         #expect(item.isReadOnly)
-        #expect(item.listedPlaces.map(\.lastPathComponent) == ["mysql", "redis-old"])
+        #expect(item.listedPlaces.map(\.lastPathComponent) == ["mysql", "redis-old", "postgres"])
         #expect(item.placeNotes.map { $0.key.lastPathComponent } == ["redis-old"])
         #expect(item.placeNotes.values.allSatisfy { $0 == .namedByNoInstalledFormula })
-        #expect(Set(item.placeSizes.keys.map(\.lastPathComponent)) == ["mysql", "redis-old"])
+        #expect(Set(item.placeSizes.keys.map(\.lastPathComponent)) == ["mysql", "redis-old", "postgres"])
         #expect(item.placeSizes.values.allSatisfy { $0.known > 0 })
     }
 

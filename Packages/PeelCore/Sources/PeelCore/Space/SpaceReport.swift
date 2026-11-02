@@ -154,14 +154,14 @@ public enum SpaceInventory {
         var keepsItsFolders = false
         var commands: [Command] = []
         var managedBy: ManagingApps?
-        /// The places of an area that lists the items of one folder, found again at each scan from `root`.
-        var places: (@Sendable (_ root: URL) -> [URL])?
+        /// The places of an area that lists the items of folders it finds again at each scan.
+        var places: (@Sendable (_ home: URL, _ root: URL) -> [URL])?
         /// The notes on such an area's places.
-        var placeNotes: (@Sendable (_ root: URL, _ places: [URL]) -> [URL: SpaceItem.PlaceNote])?
+        var placeNotes: (@Sendable (_ places: [URL]) -> [URL: SpaceItem.PlaceNote])?
 
         /// Each of `paths` on this Mac: one that starts with `/` is under `root`, the rest are in `home`.
         func urls(home: URL, root: URL, userCache: URL?) -> [URL] {
-            if let places { return places(root) }
+            if let places { return places(home, root) }
             return paths.map { path in
                 path.hasPrefix("/")
                     ? root.appending(path: String(path.dropFirst()), directoryHint: .isDirectory)
@@ -444,14 +444,8 @@ public enum SpaceInventory {
             category: .development,
             paths: [],
             handling: .readOnly,
-            places: { HomebrewData.folders(in: $0.appending(path: "opt/homebrew", directoryHint: .isDirectory)) },
-            placeNotes: { root, places in
-                let prefix = root.appending(path: "opt/homebrew", directoryHint: .isDirectory)
-                guard let named = HomebrewData.foldersNamedByInstalledFormulae(in: prefix) else { return [:] }
-                return Dictionary(uniqueKeysWithValues: places.filter { !named.contains($0.lastPathComponent) }.map {
-                    ($0, SpaceItem.PlaceNote.namedByNoInstalledFormula)
-                })
-            }
+            places: { home, root in HomebrewData.prefixes(home: home, root: root).flatMap(HomebrewData.folders(in:)) },
+            placeNotes: HomebrewData.notes(on:)
         ),
     ]
 
@@ -653,7 +647,7 @@ public enum SpaceInventory {
             )
             if definition.places != nil {
                 item.placeSizes = measured.parts
-                item.placeNotes = definition.placeNotes?(root, urls) ?? [:]
+                item.placeNotes = definition.placeNotes?(urls) ?? [:]
             }
             return item
         }
