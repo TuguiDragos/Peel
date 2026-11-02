@@ -78,7 +78,7 @@ struct OrphanDetailView: View {
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
-    private var whyNothingMoves: String? {
+    static func whyNothingMoves(in group: OrphanGroup) -> String? {
         guard group.isLeftAlone else { return nil }
         guard let reason = group.sharedReason else {
             return String(localized: "Nothing here can be moved. Each file’s note says why.")
@@ -117,7 +117,7 @@ struct OrphanDetailView: View {
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
-            if #available(macOS 27, *), let why = whyNothingMoves {
+            if let why = Self.whyNothingMoves(in: group) {
                 Text(verbatim: why)
                     .font(.callout)
                     .foregroundStyle(.secondary)
