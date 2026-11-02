@@ -97,7 +97,9 @@ public struct OrphanScanner: Sendable {
         )
 
         let goneNames = Dictionary(
-            gone.map { ($0.name.lowercased(), $0.bundleIdentifier) },
+            gone.compactMap { app in
+                Self.nameKey(of: app.name).map { ($0, app.bundleIdentifier) }
+            },
             uniquingKeysWith: { first, _ in first }
         )
         let goneFolders = GoneFolders(gone, installedApps: installedApps, home: environment.homeDirectory)
@@ -139,6 +141,22 @@ public struct OrphanScanner: Sendable {
             case .unreadable(let location):
                 unreadableLocations.append(location)
             }
+        }
+
+        // An identifier left behind names its app's own folders too, often in another location, so the names it
+        // teaches are looked for once every location is read.
+        let learned = Self.learnedNames(
+            from: found, installedIdentifiers: (installedApps + systemApps).compactMap(\.bundleIdentifier),
+            known: goneNames
+        )
+        for location in environment.locations where !learned.isEmpty && Self.learnedPlaces.contains(location.kind) {
+            let named = await Self.named(
+                in: location, names: learned, listed: seen, ownership: ownership,
+                home: environment.homeDirectory.path(percentEncoded: false),
+                root: environment.rootDirectory.path(percentEncoded: false), walk: walk
+            )
+            found += named.items.filter { seen.insert(PathPattern.comparablePath(of: $0.item.url)).inserted }
+            unreadableLocations += named.unreadable
         }
 
         let reach = HelperReach(environment: environment)
@@ -438,7 +456,7 @@ public struct OrphanScanner: Sendable {
                 await Self.goneApp(
                     named: item.url,
                     kind: item.kind,
-                    goneNames: [item.url.lastPathComponent.lowercased(): app],
+                    goneNames: Self.nameKey(of: item.url.lastPathComponent).map { [$0: app] } ?? [:],
                     ownership: ownership
                 ) == .listed(app)
             } else if case .listed = await Self.orphanIdentifier(
@@ -655,10 +673,92 @@ public struct OrphanScanner: Sendable {
     }
 
     /// The places where an app keeps a folder under its own name, such as `Caches/Figma`, and nothing it keeps
-    /// there is the person's own work.
+    /// there is the person's own work. At the top of a Library a name is a guess, as it is for an uninstall, so only
+    /// the name of an app Peel saw counts there, and never for a folder every Library shares, such as Fonts.
     static let namedPlaces: Set<SearchLocation.Kind> = [
-        .caches, .logs, .savedApplicationState, .httpStorages, .webKit, .applicationSupport,
+        .caches, .logs, .savedApplicationState, .httpStorages, .webKit, .applicationSupport, .library,
     ]
+
+    /// Where a name an identifier taught (`learnedNames`) is looked for.
+    static let learnedPlaces = namedPlaces.subtracting([.library])
+
+    /// The name an item bears for an app, compared without case, spaces, or punctuation, so `rancher-desktop` is
+    /// Rancher Desktop's. Nil for a name too short or too generic to tell.
+    static func nameKey(of fileName: String) -> String? {
+        let key = Naming.folderName(fileName)
+        return key.count >= 3 && !Naming.genericNames.contains(key) ? key : nil
+    }
+
+    /// The names the identifiers in `found` teach, each with its identifier: the third part of an app's identifier,
+    /// which names the app (`VirtualBuddy` in `codes.rambo.VirtualBuddy`), while a fourth names a part of it. Never a
+    /// plug-in's or a framework's, named for what it does, never a maker's name, and never a name two give.
+    static func learnedNames(
+        from found: [(identifier: String, item: OrphanItem)], installedIdentifiers: [String], known: [String: String]
+    ) -> [String: String] {
+        let identifiers = found.filter { !$0.item.kind.isLoadedCode && $0.item.namedAfter == nil }
+            .map { groupingKey(for: $0.identifier) }
+        let makers = Set((identifiers + installedIdentifiers).compactMap { identifier in
+            Identifier.vendor(of: identifier)?.split(separator: ".").last.map { Naming.normalized(String($0)) }
+        })
+        var names: [String: String] = [:]
+        var twice: Set<String> = []
+        for identifier in identifiers {
+            let parts = identifier.split(separator: ".")
+            guard parts.count == 3, let key = nameKey(of: String(parts[2])), !makers.contains(key), known[key] == nil
+            else { continue }
+            if let other = names[key], other.lowercased() != identifier.lowercased() { twice.insert(key) }
+            names[key] = names[key] ?? identifier
+        }
+        return names.filter { !twice.contains($0.key) }
+    }
+
+    /// What in `location` bears one of `names` and isn't listed yet, measured, each named after its identifier.
+    private static func named(
+        in location: SearchLocation,
+        names: [String: String],
+        listed: Set<String>,
+        ownership: AppOwnership,
+        home: String,
+        root: String,
+        walk: @escaping LeftoverScanner.Measure
+    ) async -> (items: [(identifier: String, item: OrphanItem)], unreadable: [SearchLocation]) {
+        let path = location.url.path(percentEncoded: false)
+        guard let entries = try? FileManager.default.contentsOfDirectory(atPath: path) else { return ([], []) }
+        let parent = ParentAccess(location.url)
+        var candidates: [Candidate] = []
+        var unreadable: [SearchLocation] = []
+        for name in entries.sorted() where location.considers(fileName: name) && !Task.isCancelled {
+            let url = location.url.appending(path: name)
+            guard !listed.contains(PathPattern.comparablePath(of: url)), isAFileAFolderOrALink(url),
+                  !FileAccess.cannotBeRemoved(url), !ProtectedData.refuses(url.path(percentEncoded: false), home: home)
+            else { continue }
+            switch await goneApp(named: url, kind: location.kind, goneNames: names, ownership: ownership) {
+            case .listed(let identifier):
+                candidates.append(Candidate(url: url, identifier: identifier, namedAfter: identifier, parent: parent))
+            case .notKnown: unreadable.append(SearchLocation(kind: location.kind, url: url))
+            case .notListed: continue
+            }
+        }
+        let walked = await candidates.map(\.url).concurrentMap(width: LeftoverScanner.concurrentMeasurements) {
+            await walk($0)
+        }
+        let items = zip(candidates, walked).map { candidate, contents in
+            (
+                identifier: candidate.identifier,
+                item: item(
+                    at: candidate.url, kind: location.kind, contents: contents, parent: candidate.parent, home: home,
+                    root: root, namedAfter: candidate.namedAfter
+                )
+            )
+        }
+        return (items, unreadable)
+    }
+
+    /// A folder every Library has and no one app owns, as the folders packages share name it.
+    private static func isSharedLibraryFolder(_ name: String) -> Bool {
+        let path = "/Library/" + name
+        return PackageReceipts.sharedDirectories.contains(path) || PackageReceipts.sharedInTheHome.contains(path)
+    }
 
     /// The app that left whose name `url` bears, in one of `namedPlaces`, while no installed app claims that name.
     static func goneApp(
@@ -670,7 +770,7 @@ public struct OrphanScanner: Sendable {
         let name = url.lastPathComponent
         guard
             namedPlaces.contains(kind), !isSensitive(fileName: name), !SystemFolders.keeps(name, in: kind),
-            let app = goneNames[name.lowercased()],
+            kind != .library || !isSharedLibraryFolder(name), let key = nameKey(of: name), let app = goneNames[key],
             !ownership.isClaimed(fileName: name, kind: kind, identifier: app),
             !ownership.anInstalledAppsNameHolds(fileName: name, kind: kind)
         else { return .notListed }

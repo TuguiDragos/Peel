@@ -95,8 +95,9 @@ public struct OrphanConfidence: Sendable, Hashable {
                 reasons: [.installedForAnAppThatIsGone(name: name)]
             )
         }
-        if let app = group.rememberedApp, group.items.allSatisfy({ $0.namedAfter != nil }) {
-            return OrphanConfidence(level: .unsure, reasons: [.onlyTheName(of: app.name)])
+        if group.items.allSatisfy({ $0.namedAfter != nil }) {
+            let name = group.rememberedApp?.name ?? group.identifier.split(separator: ".").last.map(String.init)
+            return OrphanConfidence(level: .unsure, reasons: [.onlyTheName(of: name ?? group.identifier)])
         }
         let makerIsStillHere = group.rememberedApp?.teamIdentifier.map(installedTeams.contains) ?? false
         // A folder's own date changes when files are taken out of it, so the last write on a leftover is often

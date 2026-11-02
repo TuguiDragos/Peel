@@ -387,7 +387,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   couldn't check, or about one this revision asks nobody about, is dropped, so the app is asked again at the next
   round.
 - **Orphaned Files.** `OrphanScanner` lists what no installed app claims, under the app Peel saw go when it can
-  name it (`AppMemory`), and selects nothing for the person. An app macOS knows on another disk that claims something
+  name it (`AppMemory`), and selects nothing for the person. Once every location is read, the identifiers it found
+  teach their apps' names (`learnedNames`), which it looks for in the places an app keeps a folder under its name; a
+  name, remembered or learned, is compared without case, spaces, or punctuation (`nameKey`). An app macOS knows on another disk that claims something
   is remembered too (`OrphanScan.appsOnOtherDisks`, `Disks`), so its files stay its own while that disk isn't
   connected, and a link into an app on such a disk is not one into an app that is gone.
 - **Intel Software.** `IntelInspector` judges by the code itself: what a bundle runs, or a file, is Intel only when

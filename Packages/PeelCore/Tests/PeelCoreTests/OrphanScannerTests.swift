@@ -937,6 +937,77 @@ struct OrphanScannerTests {
         #expect(afterwards.isEmpty)
     }
 
+    @Test func findsAGoneAppsNameWrittenAnotherWayAndAtTheTopOfTheLibrary() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/tide-pool/extensions/index.json")
+        try directory.file("home/Library/Tide Pool/settings.json")
+        try directory.file("home/.tidepool/config.yaml")
+        try directory.file("home/Library/Fonts/Tide.ttf")
+        let tidePool = RememberedApp(
+            bundleIdentifier: "org.example.tidepool", name: "Tide Pool", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/org.example.TidePool.app"
+        )
+        let fonts = RememberedApp(
+            bundleIdentifier: "org.example.fonts", name: "Fonts", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/org.example.Fonts.app"
+        )
+        let scanner = scanner(in: directory)
+
+        let groups = await scanner.scan(installedApps: installed, remembered: [tidePool, fonts]).groups
+
+        #expect(groups.map(\.identifier) == ["org.example.tidepool"])
+        let items = try #require(groups.first).items
+        #expect(Set(items.map { "\($0.kind.rawValue)/\($0.url.lastPathComponent)" }) == [
+            "applicationSupport/tide-pool", "library/Tide Pool",
+        ])
+        #expect(items.allSatisfy { $0.heldBack == .namedLikeTheApp && $0.namedAfter == "org.example.tidepool" })
+        #expect(await scanner.stillOrphaned(items, installedApps: installed, remembered: [tidePool]).count == 2)
+    }
+
+    @Test func learnsAGoneAppsNameFromTheIdentifiersItLeft() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.tidewater/cache.db")
+        try directory.file("home/Library/Preferences/org.example.tidewater.plist")
+        try directory.file("home/Library/Application Support/Tidewater/library.db")
+        try directory.file("home/Library/Tidewater/settings.json")
+        try directory.file("home/.tidewater/state")
+        let scanner = scanner(in: directory)
+
+        let groups = await scanner.scan(installedApps: installed).groups
+
+        #expect(groups.map(\.identifier) == ["org.example.tidewater"])
+        let items = try #require(groups.first).items
+        let named = items.filter { $0.namedAfter != nil }
+        #expect(named.map { "\($0.kind.rawValue)/\($0.url.lastPathComponent)" } == ["applicationSupport/Tidewater"])
+        #expect(named.allSatisfy { $0.heldBack == .namedLikeTheApp && $0.namedAfter == "org.example.tidewater" })
+        #expect(items.count == 3)
+        #expect(await scanner.stillOrphaned(named, installedApps: installed, remembered: []).count == 1)
+        let tidewater = InstalledApp(
+            url: URL(filePath: "/Applications/Tidewater.app"), bundleIdentifier: "net.other.tidewater", name: "Tidewater"
+        )
+        #expect(await scanner.stillOrphaned(named, installedApps: installed + [tidewater], remembered: []).isEmpty)
+        #expect(await scanner.scan(installedApps: installed + [tidewater]).groups.flatMap(\.items)
+            .allSatisfy { $0.namedAfter == nil })
+    }
+
+    @Test func learnsNoMakersNameNoNameTwoIdentifiersGiveAndNoGenericName() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/regid.1986-12.org.vendorco/cache.db")
+        try directory.file("home/Library/Caches/org.vendorco.editor/cache.db")
+        try directory.file("home/Library/Application Support/VendorCo/shared.db")
+        try directory.file("home/Library/Caches/org.alpha.studio/cache.db")
+        try directory.file("home/Library/Caches/org.beta.studio/cache.db")
+        try directory.file("home/Library/Application Support/Studio/projects.db")
+        try directory.file("home/Library/Caches/org.example.updater/cache.db")
+        try directory.file("home/Library/Application Support/Updater/state.json")
+        try directory.file("home/Library/Caches/org.example.reader.ProfileManager/cache.db")
+        try directory.file("home/Library/Logs/ProfileManager/main.log")
+
+        let items = await scanner(in: directory).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(items.allSatisfy { $0.namedAfter == nil }, "\(items.filter { $0.namedAfter != nil }.map(\.url))")
+    }
+
     @Test func aFolderAnInstalledAppsNameHoldsAsWholeWordsIsNoOrphan() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/Atlas/cache.db")

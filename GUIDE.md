@@ -109,8 +109,10 @@ Space shows what fills your disk, area by area, and what each area is.
 
 - **Orphaned Files:** files left behind by apps you already removed. Each group is tied to its app by the app's
   identifier, by a folder a code editor or a JetBrains IDE named for its data, by the name of an app Peel saw
-  installed and then saw go, or, for the copy macOS keeps of a system extension, by the app macOS's own record
-  names. An app on another disk keeps its files out of the list while that disk isn't connected, once Orphaned Files
+  installed and then saw go, with or without its spaces and dashes and also at the top of a Library, by the name the
+  app's own identifier gives it, such as `VirtualBuddy` for `codes.rambo.VirtualBuddy`, when that identifier stays in
+  what the app left, or, for the copy macOS keeps of a system extension, by the app macOS's own record names. What
+  only a name ties to an app is shown and never selected. An app on another disk keeps its files out of the list while that disk isn't connected, once Orphaned Files
   has looked with the disk connected. It also lists the files browsers keep to start a helper program that is gone.
   Nothing is selected for you. A system extension's copy can't be selected, since only macOS removes it, and its row
   says how. Peel doesn't list what only a guess could tie to an app, so look for it yourself: a folder named only for

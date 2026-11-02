@@ -57,6 +57,21 @@ struct OrphanConfidenceTests {
         #expect(OrphanConfidence.judge(alone, now: now).reasons == [.loadedByOtherApps])
     }
 
+    @Test func whatOnlyANameTiesToAnIdentifierLeftBehindIsUnsureWithoutMemory() {
+        var item = OrphanItem(
+            url: URL(filePath: "/Users/someone/Library/Application Support/Tidewater", directoryHint: .isDirectory),
+            kind: .applicationSupport, size: 1_000, modificationDate: now.addingTimeInterval(-400 * 24 * 60 * 60),
+            requiresPrivileges: false
+        )
+        item.namedAfter = "org.example.Tidewater"
+        item.heldBack = .namedLikeTheApp
+        let named = OrphanGroup(identifier: "org.example.Tidewater", items: [item])
+
+        #expect(OrphanConfidence.judge(named, now: now) == OrphanConfidence(
+            level: .unsure, reasons: [.onlyTheName(of: "Tidewater")]
+        ))
+    }
+
     @Test("Something running under that identifier settles it, whatever else is true")
     func runningOutranksEverything() {
         let old = group(written: 400 * 24 * 60 * 60, remembered: left("Example"))
