@@ -75,7 +75,7 @@ struct ForgetReceiptsDialog: ViewModifier {
                 Button("Forget All") { forget(receipts) }
                 Button("Cancel", role: .cancel) {}
             } message: { receipts in
-                Text("Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing they put on this Mac is left, and History can put the receipts back.\n\n\(RemovalFailureAlert.firstItems(receipts.map { $0.name ?? $0.identifier }).joined(separator: "\n"))")
+                Text("Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing they put on this Mac is left, and History can put the receipts back.\n\n\(RemovalFailureAlert.firstItems(PackageReceipt.names(of: receipts)).joined(separator: "\n"))")
             }
     }
 

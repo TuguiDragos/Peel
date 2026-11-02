@@ -63,6 +63,15 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// `version` is the package's own number.
     public var productVersion: String?
 
+    /// What a list in a question calls each of `receipts`: its name, unless another of them has it too, as the packages
+    /// of one installer do, which is no way to tell them apart.
+    public static func names(of receipts: [PackageReceipt]) -> [String] {
+        let counts = Dictionary(receipts.compactMap(\.name).map { ($0, 1) }, uniquingKeysWith: +)
+        return receipts.map { receipt in
+            receipt.name.flatMap { counts[$0] == 1 ? $0 : nil } ?? receipt.identifier
+        }
+    }
+
     /// A package can be installed on the startup disk and for an account too, each with a receipt of its own.
     public var id: String {
         let place = volume.path(percentEncoded: false)

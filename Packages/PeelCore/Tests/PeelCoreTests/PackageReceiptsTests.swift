@@ -1260,4 +1260,21 @@ struct PackageReceiptsTests {
         #expect(history["org.example.a"] == InstallHistory.Entry(name: "Tools", version: "26.5"))
         #expect(history["org.example.b"] == InstallHistory.Entry(name: "Plain", version: nil))
     }
+
+    @Test func aQuestionNamesAReceiptByANameOnlyItHas() {
+        func receipt(_ identifier: String, _ name: String?) -> PackageReceipt {
+            var receipt = PackageReceipt(
+                identifier: identifier, version: "1", installDate: nil, volume: URL(filePath: "/"), items: []
+            )
+            receipt.name = name
+            return receipt
+        }
+
+        let names = PackageReceipt.names(of: [
+            receipt("org.example.word", "Office"), receipt("org.example.excel", "Office"),
+            receipt("org.example.tool", "Tool"), receipt("org.example.plain", nil),
+        ])
+
+        #expect(names == ["org.example.word", "org.example.excel", "Tool", "org.example.plain"])
+    }
 }
