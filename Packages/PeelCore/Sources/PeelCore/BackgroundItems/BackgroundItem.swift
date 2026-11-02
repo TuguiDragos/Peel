@@ -168,6 +168,30 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         return !isSeenOnlyWhileLoaded || isDisabled || mayBeDisabled
     }
 
+    public enum StartOrStop: Sendable {
+        case start
+        case stop
+        /// Stop under the name macOS 27's page gives it for a job its gone app left loaded.
+        case remove
+    }
+
+    /// The one button that starts or stops the job, as launchd has it: Stop while launchd has it, running or waiting
+    /// for its time, and Start while it doesn't. A job Peel sees only while it is loaded has Stop only while it runs.
+    public var startOrStop: StartOrStop? {
+        guard offersControls else { return nil }
+        if canOnlyBeStopped { return .stop }
+        if #available(macOS 27, *), isLeftByAGoneApp { return .remove }
+        if isSeenOnlyWhileLoaded { return isRunning ? .stop : nil }
+        return state == .notLoaded ? .start : .stop
+    }
+
+    /// Enable and Disable, which a job Peel can only stop, and on macOS 27 one its gone app left, don't have.
+    public var offersEnableOrDisable: Bool {
+        guard offersControls, !canOnlyBeStopped, isDisabled || mayBeDisabled else { return false }
+        if #available(macOS 27, *), isLeftByAGoneApp { return false }
+        return true
+    }
+
     /// Whether the helper would let Peel do more with the job than it can without it: a control the page offers, or the
     /// move of its file.
     public var waitsForTheHelper: Bool {

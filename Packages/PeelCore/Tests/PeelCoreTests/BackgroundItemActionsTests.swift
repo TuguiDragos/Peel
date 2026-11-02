@@ -139,6 +139,35 @@ struct BackgroundItemActionsTests {
         #expect(rows.map(\.canMoveToTrash) == [false, true])
     }
 
+    @Test func oneButtonStopsAJobLaunchdHasAndStartsOneItDoesNot() {
+        let file = URL(filePath: "/Users/me/Library/LaunchAgents/job.plist")
+        #expect(item(state: .running(pid: 42), plist: file).startOrStop == .stop)
+        #expect(item(state: .loaded, plist: file).startOrStop == .stop)
+        #expect(item(state: .notLoaded, plist: file).startOrStop == .start)
+        #expect(item(state: .unknown, plist: file).startOrStop == nil)
+
+        var registered = BackgroundItem(
+            label: "com.example.agent", kind: .agent, source: .app, plistURL: nil, program: "/Applications/App.app/x",
+            runsAtLoad: nil, keepsAlive: nil, ownerBundleIdentifier: "com.example", ownerName: "App",
+            ownerURL: URL(filePath: "/Applications/App.app"), isOrphan: false, state: .running(pid: 42), isDisabled: false
+        )
+        registered.isManagedByServiceManagement = true
+        #expect(registered.startOrStop == .stop)
+        registered.state = .loaded
+        #expect(registered.startOrStop == nil)
+
+        var elsewhere = item(state: .loaded, plist: URL(filePath: "/tmp/org.example.job.plist"))
+        elsewhere.source = .otherFile
+        #expect(elsewhere.startOrStop == .stop)
+        #expect(!elsewhere.offersEnableOrDisable)
+
+        var excluded = item(state: .running(pid: 42), plist: file)
+        excluded.isExcluded = true
+        #expect(excluded.startOrStop == nil)
+        #expect(!excluded.offersEnableOrDisable)
+        #expect(item(state: .loaded, plist: file).offersEnableOrDisable)
+    }
+
     @Test func startRunsALoadedJobAtOnceAndLoadsOneThatIsNot() {
         let file = URL(filePath: "/Users/me/Library/LaunchAgents/job.plist")
 

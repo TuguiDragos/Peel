@@ -40,6 +40,63 @@ struct BackgroundItemLibraryTests {
         #expect(reads.wereShownAsAScan == [true, false], "a read again is announced to nobody")
     }
 
+    private final class HeldAction {
+        var calls = 0
+        private var waiting: CheckedContinuation<Void, Never>?
+        let (started, starting) = AsyncStream<Void>.makeStream()
+
+        func run() async {
+            calls += 1
+            guard calls == 1 else { return }
+            starting.yield()
+            await withCheckedContinuation { waiting = $0 }
+        }
+
+        func release() {
+            waiting?.resume()
+            waiting = nil
+        }
+    }
+
+    @Test func aSecondActionOnAJobDoesNothingWhileTheFirstRuns() async {
+        let held = HeldAction()
+        let job = job
+        let library = BackgroundItemLibrary(
+            scan: { _, _ in BackgroundItems.Scan(items: [job]) },
+            control: { _, _ in await held.run() }
+        )
+
+        let first = Task { await library.perform(.start, on: job) }
+        for await _ in held.started { break }
+        await library.perform(.stop, on: job)
+        #expect(held.calls == 1)
+        held.release()
+        await first.value
+
+        #expect(held.calls == 1)
+        #expect(library.runningActionItemIDs.isEmpty)
+    }
+
+    @Test func theReadAfterAnActionIsNotShownAsAScan() async {
+        let reads = Reads()
+        let job = job
+        let library = BackgroundItemLibrary(
+            scan: { _, _ in
+                reads.count += 1
+                reads.wereShownAsAScan.append(reads.library?.isScanning == true)
+                return BackgroundItems.Scan(items: [job])
+            },
+            control: { _, _ in }
+        )
+        reads.library = library
+
+        await library.refresh(installedApps: [])
+        await library.perform(.start, on: job)
+
+        #expect(reads.wereShownAsAScan == [true, false])
+        #expect(library.scans == 2)
+    }
+
     /// A scan whose answers the test gives, call by call, and which holds the calls in `held` until it lets them go.
     private final class Script {
         var calls = 0

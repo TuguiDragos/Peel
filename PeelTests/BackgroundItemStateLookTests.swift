@@ -17,4 +17,13 @@ struct BackgroundItemStateLookTests {
         #expect(String(localized: job(.loaded, disabled: true).stateWords()) == String(localized: "Disabled"))
         #expect(String(localized: job(.running(pid: 4_242), disabled: false).stateWords()) == String(localized: "Running"))
     }
+
+    @Test func whetherLaunchdHasTheJobIsSaidWhereTheStateDoesNotSayIt() {
+        #expect(job(.loaded, disabled: false).loadWords().map { String(localized: $0) } == String(localized: "Loaded"))
+        #expect(job(.loaded, disabled: true).loadWords().map { String(localized: $0) } == String(localized: "Loaded"))
+        #expect(job(.notLoaded, disabled: true).loadWords().map { String(localized: $0) } == String(localized: "Not loaded"))
+        #expect(job(.notLoaded, disabled: false).loadWords() == nil)
+        #expect(job(.running(pid: 4_242), disabled: false).loadWords() == nil)
+        #expect(job(.unknown, disabled: false).loadWords() == nil)
+    }
 }

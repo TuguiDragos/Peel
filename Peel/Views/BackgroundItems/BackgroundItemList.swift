@@ -311,6 +311,20 @@ extension BackgroundItem {
         case .notLoaded: "Not loaded"
         }
     }
+
+    /// Whether launchd has the job, where its state doesn't say it: one that isn't running may be loaded and waiting
+    /// for its time, and a disabled one may be loaded or not.
+    func loadWords() -> LocalizedStringResource? {
+        switch state {
+        case .loaded: "Loaded"
+        case .notLoaded where isDisabled: "Not loaded"
+        default: nil
+        }
+    }
+
+    func loadLook() -> (title: Text, symbol: String)? {
+        loadWords().map { (Text($0), state == .loaded ? "checkmark.circle" : "circle.dashed") }
+    }
 }
 
 extension LocalizedStringResource {

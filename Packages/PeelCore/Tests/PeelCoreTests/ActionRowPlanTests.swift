@@ -51,6 +51,26 @@ struct ActionRowPlanTests {
         #expect(ActionRowPlan(sizes: [.zero], width: 400, top: 8).size.height == 0)
     }
 
+    @Test func leadingActionsStandAtTheLeftEdgeOnTheLineOfTheOthers() {
+        let plan = ActionRowPlan(sizes: [small, small, small], width: 400, spacing: 8, leading: [true, true, false])
+        #expect(plan.frames.map(\.minX) == [0, 108, 300])
+        #expect(plan.frames.map(\.minY) == [0, 0, 0])
+        #expect(plan.size == CGSize(width: 400, height: 28))
+    }
+
+    @Test func leadingActionsWithoutRoomBesideTheOthersTakeTheLineAbove() {
+        let plan = ActionRowPlan(sizes: [wide, small], width: 380, spacing: 8, lineSpacing: 6, leading: [true, false])
+        #expect(plan.frames[0] == CGRect(x: 0, y: 0, width: 300, height: 28))
+        #expect(plan.frames[1] == CGRect(x: 280, y: 34, width: 100, height: 28))
+        #expect(plan.size == CGSize(width: 380, height: 62))
+    }
+
+    @Test func aLeadingActionThatIsNotShownTakesNoRoom() {
+        let plan = ActionRowPlan(sizes: [.zero, small], width: 400, leading: [true, false])
+        #expect(plan.frames[1] == CGRect(x: 300, y: 0, width: 100, height: 28))
+        #expect(plan.size.height == 28)
+    }
+
     @Test func anActionWiderThanTheRowIsGivenTheWholeRow() {
         let plan = ActionRowPlan(sizes: [CGSize(width: 500, height: 28)], width: 400)
         #expect(plan.frames == [CGRect(x: 0, y: 0, width: 400, height: 28)])

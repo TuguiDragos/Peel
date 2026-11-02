@@ -32,6 +32,7 @@ final class BackgroundItemLibrary {
     /// could be traced to the app that owns it.
     private var installedApps: [InstalledApp] = []
     private let scan: @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan
+    private let control: @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void
     /// The reads of the list started so far, so that a job just enabled is judged by a read started after it.
     private var readsStarted = 0
     private var enabledJobs: [(job: BackgroundItem, readsBefore: Int)] = []
@@ -39,9 +40,23 @@ final class BackgroundItemLibrary {
     init(
         scan: @escaping @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan = {
             await BackgroundItems.scan(installedApps: $0, exclusions: $1)
-        }
+        },
+        control: @escaping @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void =
+            BackgroundItemLibrary.control
     ) {
         self.scan = scan
+        self.control = control
+    }
+
+    /// Starts, stops, enables or disables a job through launchd.
+    private static func control(_ action: Action, _ item: BackgroundItem) async throws(BackgroundItemActions.Failure) {
+        switch action {
+        case .start: try await BackgroundItemActions.start(item)
+        case .stop, .remove: try await BackgroundItemActions.stop(item)
+        case .enable: try await BackgroundItemActions.setEnabled(true, for: item)
+        case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
+        case .moveToTrash: return
+        }
     }
 
     func refresh(installedApps: [InstalledApp]) async {
@@ -66,6 +81,20 @@ final class BackgroundItemLibrary {
         guard
             let result = await scanRun.runQuietly({ await scan(installedApps, ExclusionsStore.shared.exclusions) }),
             runningActionItemIDs.isEmpty
+        else { return }
+        show(result, read: read)
+    }
+
+    /// The read that follows an action, which only the action's own buttons show. While a scan runs, a newer one takes
+    /// its place, so that what is shown was read after the action.
+    private func readAfterAction() async {
+        guard !isScanning else { return await refresh(installedApps: installedApps) }
+        readsStarted += 1
+        let read = readsStarted
+        let scan = scan
+        let installedApps = installedApps
+        guard
+            let result = await scanRun.runQuietly({ await scan(installedApps, ExclusionsStore.shared.exclusions) })
         else { return }
         show(result, read: read)
     }
@@ -140,17 +169,16 @@ final class BackgroundItemLibrary {
     func perform(
         _ action: Action, on item: BackgroundItem, recording record: (TrashResult) async -> Void = { _ in }
     ) async {
-        runningActionItemIDs.insert(item.id)
+        // A second action on the job while one runs does nothing: its buttons turn off only once the work shows.
+        guard runningActionItemIDs.insert(item.id).inserted else { return }
         defer { runningActionItemIDs.remove(item.id) }
         var failed = false
         do {
             switch action {
-            case .start: try await BackgroundItemActions.start(item)
-            case .stop, .remove: try await BackgroundItemActions.stop(item)
+            case .start, .stop, .remove, .disable: try await control(action, item)
             case .enable:
-                try await BackgroundItemActions.setEnabled(true, for: item)
+                try await control(action, item)
                 noteEnabled(item)
-            case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
             case .moveToTrash:
                 let exclusions = ExclusionsStore.shared.exclusions
                 let moved = try await QuitGuard.shared.run {
@@ -176,7 +204,7 @@ final class BackgroundItemLibrary {
             alerts.add(.failed(ActionFailure(label: item.label, action: action, reason: error)))
         }
         let shown = scans
-        await refresh(installedApps: installedApps)
+        await readAfterAction()
         // History tells of a move to the Trash, and an alert of a failure.
         if action != .moveToTrash, !failed, scans > shown, let words = Self.announcement(for: item, in: items) {
             AccessibilityNotification.Announcement(words).post()

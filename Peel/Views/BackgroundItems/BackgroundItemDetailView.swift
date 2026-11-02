@@ -271,9 +271,11 @@ struct BackgroundItemDetailView: View {
             }
 
             if hasOwnControls || item.canMoveToTrash {
-                PageActions {
-                    if hasOwnControls { ownControls }
-                    moveToTrash
+                BusyShown(isBusy: isBusy) { isShown in
+                    PageActions {
+                        if hasOwnControls { ownControls(busyShown: isShown) }
+                        moveToTrash(busyShown: isShown)
+                    }
                 }
             }
         }
@@ -327,7 +329,11 @@ struct BackgroundItemDetailView: View {
     }
 
     private var isBusy: Bool {
-        backgroundItems.runningActionItemIDs.contains(item.id) || backgroundItems.isScanning
+        isActing || backgroundItems.isScanning
+    }
+
+    private var isActing: Bool {
+        backgroundItems.runningActionItemIDs.contains(item.id)
     }
 
     /// Returns the job's status in System Settings (Login Items & Extensions), or nil when it has no plist file in a
@@ -370,6 +376,10 @@ struct BackgroundItemDetailView: View {
                     .help(Text(verbatim: item.label))
                 FlowLayout(spacing: 6) {
                     stateBadge
+                    if let load = item.loadLook() {
+                        Badge(title: load.title, systemImage: load.symbol)
+                            .contentTransition(.opacity)
+                    }
                     if item.isOrphan, !item.isUnreadable {
                         NoteBadge(
                             title: Text("Nothing left to run"), systemImage: "questionmark.circle", tint: .orange,
@@ -398,9 +408,14 @@ struct BackgroundItemDetailView: View {
                 }
             }
             Spacer(minLength: 0)
-            if isBusy {
-                ProgressView()
-                    .controlSize(.small)
+            // The job's own action shows its work beside its buttons.
+            BusyShown(isBusy: backgroundItems.isScanning && !isActing) { isShown in
+                ZStack {
+                    if isShown {
+                        ProgressView()
+                            .controlSize(.small)
+                    }
+                }
             }
         }
         .padding(.vertical, 4)
@@ -417,53 +432,40 @@ struct BackgroundItemDetailView: View {
 
     private var hasOwnControls: Bool { item.offersControls }
 
-    private var ownControls: some View {
+    private func ownControls(busyShown: Bool) -> some View {
         Group {
-            // Stopping takes the job out of launchd, and nothing else removes one whose file or app is gone.
-            if item.canOnlyBeStopped {
-                Button("Stop") {
-                    Task { await backgroundItems.perform(.stop, on: item) }
+            if let control = item.startOrStop {
+                Button(control.title) {
+                    Task { await backgroundItems.perform(control.action, on: item) }
                 }
-                .help(item.isFileGone ? Text(verbatim: "") : Text("Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again."))
-            } else if #available(macOS 27, *), item.isLeftByAGoneApp {
-                Button("Remove") {
-                    Task { await backgroundItems.perform(.remove, on: item) }
+                .help(help(for: control))
+            }
+            if item.offersEnableOrDisable {
+                Button(item.isDisabled ? "Enable" : "Disable") {
+                    Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
                 }
-                .help(removeHelp)
-            } else {
-                // A job Peel sees only while it is loaded has no Start, since once stopped it leaves the list, and has
-                // Stop only while it runs, to let go of what it holds.
-                if item.isSeenOnlyWhileLoaded {
-                    if item.isRunning {
-                        Button("Stop") {
-                            Task { await backgroundItems.perform(.stop, on: item) }
-                        }
-                        .help(Text("Takes it out of launchd for now. It leaves this list until macOS or its app adds it again."))
-                    }
-                } else {
-                    if !item.isRunning {
-                        Button("Start") {
-                            Task { await backgroundItems.perform(.start, on: item) }
-                        }
-                        .help(startHelp)
-                    }
-                    // A job that waits for its schedule is loaded too, and only this takes it out for now.
-                    if item.state != .notLoaded {
-                        Button("Stop") {
-                            Task { await backgroundItems.perform(.stop, on: item) }
-                        }
-                        .help(Text("Takes it out of launchd until the next login or restart. Its file stays where it is."))
-                    }
-                }
-                if item.isDisabled || item.mayBeDisabled {
-                    Button(item.isDisabled ? "Enable" : "Disable") {
-                        Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
-                    }
-                    .help(item.isDisabled ? Text(verbatim: "") : Text("macOS won’t load it again from the next login or restart. If it’s running now, it may keep running until then."))
-                }
+                .help(item.isDisabled ? Text(verbatim: "") : Text("macOS won’t load it again from the next login or restart. If it’s running now, it may keep running until then."))
+            }
+            if busyShown, isActing {
+                ProgressView()
+                    .controlSize(.small)
             }
         }
-        .disabled(isBusy || item.requiresPrivileges && !helper.canAct)
+        .leadsActionRow()
+        .disabled(busyShown || item.requiresPrivileges && !helper.canAct)
+    }
+
+    private func help(for control: BackgroundItem.StartOrStop) -> Text {
+        switch control {
+        case .start: startHelp
+        case .remove: removeHelp
+        case .stop where item.canOnlyBeStopped:
+            item.isFileGone ? Text(verbatim: "") : Text("Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again.")
+        case .stop where item.isSeenOnlyWhileLoaded:
+            Text("Takes it out of launchd for now. It leaves this list until macOS or its app adds it again.")
+        case .stop:
+            Text("Takes it out of launchd until the next login or restart. Its file stays where it is.")
+        }
     }
 
     private var startHelp: Text {
@@ -483,18 +485,36 @@ struct BackgroundItemDetailView: View {
     }
 
     @ViewBuilder
-    private var moveToTrash: some View {
+    private func moveToTrash(busyShown: Bool) -> some View {
         if item.canMoveToTrash {
             Button("Move to Trash") {
                 isConfirmingTrash = true
             }
             .buttonStyle(.borderedProminent)
             .disabled(
-                isBusy || item.removalRequiresPrivileges && !helper.canAct || !history.mayMove
+                busyShown || item.removalRequiresPrivileges && !helper.canAct || !history.mayMove
             )
         }
     }
 
+}
+
+private extension BackgroundItem.StartOrStop {
+    var title: LocalizedStringKey {
+        switch self {
+        case .start: "Start"
+        case .stop: "Stop"
+        case .remove: "Remove"
+        }
+    }
+
+    var action: BackgroundItemLibrary.Action {
+        switch self {
+        case .start: .start
+        case .stop: .stop
+        case .remove: .remove
+        }
+    }
 }
 
 extension UnusualCommand {

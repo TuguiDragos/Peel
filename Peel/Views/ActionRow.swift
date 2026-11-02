@@ -29,7 +29,20 @@ struct ActionRow: Layout {
             guard let width, size.width > width else { return size }
             return subview.sizeThatFits(ProposedViewSize(width: width, height: nil))
         }
-        return ActionRowPlan(sizes: fitted, width: width, top: top)
+        let leading = subviews.map { $0[LeadsActionRow.self] }
+        return ActionRowPlan(sizes: fitted, width: width, top: top, leading: leading)
+    }
+}
+
+nonisolated private struct LeadsActionRow: LayoutValueKey {
+    static let defaultValue = false
+}
+
+extension View {
+    /// Stands at the left edge of its `ActionRow`: a button that keeps what the page is about, such as Start or
+    /// Disable, apart from the one that removes it.
+    func leadsActionRow() -> some View {
+        layoutValue(key: LeadsActionRow.self, value: true)
     }
 }
 
