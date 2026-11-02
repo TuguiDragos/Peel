@@ -93,7 +93,7 @@ struct EditPutBackTests {
         var another = moved
         another.replacedBy = TrashedItem.Identity(ofItemAt: agent.trash)
 
-        #expect(moved.editStandsInItsPlace)
+        #expect(moved.replacementStandsInItsPlace)
         #expect(service.refusal(ofPuttingBack: moved, canUseHelper: false) == nil)
         #expect(service.refusal(ofPuttingBack: unrecorded, canUseHelper: false) == .alreadyThere)
         #expect(service.refusal(ofPuttingBack: another, canUseHelper: false) == .alreadyThere)
@@ -113,6 +113,7 @@ struct EditPutBackTests {
         #expect(try agent.text(at: agent.place) == "old")
         #expect(try agent.text(at: aside.trashedURL) == "edited")
         #expect(aside.replacedBy == moved.identity)
+        #expect(aside.replacementStandsInItsPlace)
         #expect(agent.started.all.isEmpty, "the file holds no job launchd could read, so none starts")
 
         let again = await service.restore([aside])
@@ -147,11 +148,11 @@ struct EditPutBackTests {
 
         let result = await service.restore([moved])
 
-        #expect(result.failures == [.editStays(.locked)])
+        #expect(result.failures == [.replacementStays(.locked)])
         #expect(result.movedAside == [nil])
         #expect(try agent.text(at: agent.place) == "edited")
         #expect(try agent.text(at: moved.trashedURL) == "old")
-        #expect(service.refusal(ofPuttingBack: moved, canUseHelper: false) == .editStays(.locked))
+        #expect(service.refusal(ofPuttingBack: moved, canUseHelper: false) == .replacementStays(.locked))
     }
 
     @Test func putsTheEditBackWhenTheOldFileCannotGoBack() async throws {

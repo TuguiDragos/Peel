@@ -401,8 +401,8 @@ struct RestoreCommand: AsyncParsableCommand {
         for (record, failure) in refused {
             Output.note("\(Output.plain(Output.path(record.originalURL))) stays: \(failure.summary)")
         }
-        for record in going where record.trashedItem.editStandsInItsPlace {
-            Output.note("\(Output.plain(Output.path(record.originalURL))): the edit in its place goes to the Trash first, and History keeps it.")
+        for record in going where record.trashedItem.replacementStandsInItsPlace {
+            Output.note("\(Output.plain(Output.path(record.originalURL))): the version now in its place goes to the Trash first, and History keeps it.")
         }
 
         guard !going.isEmpty else {
@@ -435,13 +435,13 @@ struct RestoreCommand: AsyncParsableCommand {
                     restored.insert(record.id)
                 }
             }
-            // An edit that made room goes into History under the same part, so it can come back too.
+            // What made room goes into History under the same part, so it can come back too.
             var aside: [RemovalRecord] = []
-            for (record, edit) in zip(ordered, answers.movedAside) {
-                guard let edit else { continue }
-                let size = await FileSize.reclaimableSize(of: edit.trashedURL)
-                let sizes = size.map { [edit.originalURL: $0] } ?? [:]
-                aside += record.part.records(of: TrashResult(trashed: [edit]), sizes: sizes, batch: UUID())
+            for (record, movedAside) in zip(ordered, answers.movedAside) {
+                guard let movedAside else { continue }
+                let size = await FileSize.reclaimableSize(of: movedAside.trashedURL)
+                let sizes = size.map { [movedAside.originalURL: $0] } ?? [:]
+                aside += record.part.records(of: TrashResult(trashed: [movedAside]), sizes: sizes, batch: UUID())
             }
             let kept = aside.isEmpty ? true : await log.add(aside).records != nil
             return (restored, failures, await log.remove(restored).records != nil && kept)

@@ -22,7 +22,7 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
     /// History can show it in the user's language. `source` then holds the English name, which `peel` prints.
     public let sourceKey: String?
     public let stoppedJob: String?
-    /// The file an edit wrote in the item's place, which a Put Back moves to the Trash first.
+    /// The version that took the item's place, which a Put Back moves to the Trash first.
     public let replacedBy: TrashedItem.Identity?
     /// True when the item shared most of its storage with another copy, so moving it freed only its own part.
     public let sharedStorage: Bool?

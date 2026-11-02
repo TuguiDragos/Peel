@@ -537,13 +537,13 @@ final class RemovalHistoryStore {
                     restored.insert(record.id)
                 }
             }
-            // An edit that made room goes into History under the same part, so it can come back too.
+            // What made room goes into History under the same part, so it can come back too.
             var aside = RemovalInProgress()
-            for (record, edit) in zip(ordered, answers.movedAside) {
-                guard let edit else { continue }
-                let size = await FileSize.reclaimableSize(of: edit.trashedURL)
-                let sizes = size.map { [edit.originalURL: $0] } ?? [:]
-                await self.record(TrashResult(trashed: [edit]), part: record.part, sizes: sizes, in: &aside)
+            for (record, movedAside) in zip(ordered, answers.movedAside) {
+                guard let movedAside else { continue }
+                let size = await FileSize.reclaimableSize(of: movedAside.trashedURL)
+                let sizes = size.map { [movedAside.originalURL: $0] } ?? [:]
+                await self.record(TrashResult(trashed: [movedAside]), part: record.part, sizes: sizes, in: &aside)
             }
             for record in ordered {
                 failures[record.id] = problems[record.id]

@@ -11,7 +11,8 @@ public struct TrashedItem: Sendable, Hashable, Codable {
     public let identity: Identity?
     /// The launchd job Peel stopped once this file moved, by its label, which putting the file back starts again.
     public internal(set) var stoppedJob: String?
-    /// The file an edit of this one wrote in its place, which a Put Back moves to the Trash before this goes back.
+    /// The version that took this one's place, an edit of it or the version an edit replaced, which a Put Back moves
+    /// to the Trash before this goes back.
     public internal(set) var replacedBy: Identity?
 
     /// An item as its volume knows it: its inode and when it was made, which a move within the volume keeps. The
@@ -44,8 +45,8 @@ public struct TrashedItem: Sendable, Hashable, Codable {
         self.replacedBy = replacedBy
     }
 
-    /// True while the file an edit of this one wrote stands in its place, never a link taken for it.
-    public var editStandsInItsPlace: Bool {
+    /// True while the version that took this one's place stands there, never a link taken for it.
+    public var replacementStandsInItsPlace: Bool {
         guard let replacedBy else { return false }
         return Identity(ofItemAt: originalURL) == replacedBy
     }
@@ -254,15 +255,15 @@ public enum RestoreFailure: Sendable, Hashable {
     /// macOS's privacy protection refused it.
     case notPermitted
     case failed(String)
-    /// The file an edit of it wrote in its place couldn't move to the Trash first, for this reason.
-    case editStays(TrashFailure.Reason)
+    /// The version in its place couldn't move to the Trash first, for this reason.
+    case replacementStays(TrashFailure.Reason)
 
     /// True when asking again can't help: the item left the Trash, or Peel puts nothing back from or to there.
     public var isFinal: Bool {
         switch self {
         case .missingFromTrash, .notAllowed, .notAllowedByTheHelper, .notInATrash: true
         case .alreadyThere, .needsHelper, .locked, .folderLocked, .folderGone, .needsAppManagement, .notPermitted,
-             .failed, .editStays:
+             .failed, .replacementStays:
             false
         }
     }
@@ -841,26 +842,26 @@ public struct TrashService: Sendable {
         await putBack(item, canUseHelper: canUseHelper).failure
     }
 
-    /// Puts `item` back, first moving to the Trash the file an edit of it wrote in its place, which comes back as the
-    /// item moved aside. Should `item` not go back after all, the edit goes back to its place.
+    /// Puts `item` back, first moving to the Trash the version in its place, which comes back as the item moved
+    /// aside. Should `item` not go back after all, that version goes back to its place.
     private func putBack(
         _ item: TrashedItem, canUseHelper: Bool
     ) async -> (failure: RestoreFailure?, movedAside: TrashedItem?) {
         var movedAside: TrashedItem?
-        if item.editStandsInItsPlace {
+        if item.replacementStandsInItsPlace {
             if let refusal = refusal(ofPuttingBack: item, canUseHelper: canUseHelper) { return (refusal, nil) }
             let moved = await trash([item.originalURL])
-            guard var edit = moved.trashed.first else {
-                return (.editStays(moved.failures.first?.reason ?? .changedSinceScan), nil)
+            guard var replacement = moved.trashed.first else {
+                return (.replacementStays(moved.failures.first?.reason ?? .changedSinceScan), nil)
             }
-            edit.replacedBy = item.identity
-            movedAside = edit
+            replacement.replacedBy = item.identity
+            movedAside = replacement
         }
         let failure = await moveBack(item, canUseHelper: canUseHelper)
         guard failure == nil else {
             guard let movedAside else { return (failure, nil) }
-            let editBack = await putBack(movedAside, canUseHelper: canUseHelper)
-            return (failure, editBack.failure == nil ? nil : movedAside)
+            let replacementBack = await putBack(movedAside, canUseHelper: canUseHelper)
+            return (failure, replacementBack.failure == nil ? nil : movedAside)
         }
         journal?.forget([item])
         // The label comes from History, which any process of the user can rewrite, so the job starts only as the
@@ -884,9 +885,9 @@ public struct TrashService: Sendable {
         }
         guard item.isInTheTrash else { return .missingFromTrash }
         if item.originalURL.isThere {
-            guard item.editStandsInItsPlace else { return .alreadyThere }
-            if FileAccess.isLockedInFinder(item.originalURL) { return .editStays(.locked) }
-            if let refusal = refusal(of: item.originalURL) { return .editStays(refusal) }
+            guard item.replacementStandsInItsPlace else { return .alreadyThere }
+            if FileAccess.isLockedInFinder(item.originalURL) { return .replacementStays(.locked) }
+            if let refusal = refusal(of: item.originalURL) { return .replacementStays(refusal) }
         }
         if FileAccess.isLockedInFinder(item.trashedURL) { return .locked }
         let folder = URL(filePath: Self.folder(puttingBack: item))

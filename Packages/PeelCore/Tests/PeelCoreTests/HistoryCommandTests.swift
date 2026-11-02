@@ -646,7 +646,7 @@ struct HistoryCommandTests {
         #expect(real.failure != nil)
     }
 
-    @Test func aRestoreMovesTheEditInItsPlaceToTheTrashFirstAndKeepsItInHistory() async throws {
+    @Test func aRestoreMovesTheVersionInItsPlaceToTheTrashFirstAndKeepsItInHistory() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         let place = try directory.file("home/Library/LaunchAgents/org.example.edit.plist", contents: Data("edited".utf8))
@@ -668,26 +668,29 @@ struct HistoryCommandTests {
             try FileManager.default.moveItem(at: url, to: destination)
             return destination
         }
-        func run(_ flag: String) async throws -> String {
+        func run(_ batch: UUID, _ flag: String) async throws -> String {
             let collected = Output.Collected()
-            let command: RestoreCommand = try command(["restore", String(record.batch.uuidString.prefix(8)), flag])
+            let command: RestoreCommand = try command(["restore", String(batch.uuidString.prefix(8)), flag])
             try await Output.$collected.withValue(collected) {
                 try await command.run(in: logs.removals, using: service)
             }
             return collected.output + collected.notes
         }
 
-        let dry = try await run("--dry-run")
-        #expect(dry.contains("the edit in its place goes to the Trash first, and History keeps it"), "\(dry)")
+        let sentence = "the version now in its place goes to the Trash first, and History keeps it"
+        let dry = try await run(record.batch, "--dry-run")
+        #expect(dry.contains(sentence), "\(dry)")
         #expect(try String(contentsOf: place, encoding: .utf8) == "edited")
 
-        let real = try await run("-y")
+        let real = try await run(record.batch, "-y")
         #expect(real.contains("Put 1 item back."), "\(real)")
         #expect(try String(contentsOf: place, encoding: .utf8) == "old")
         let kept = await logs.removals.load().records ?? []
         #expect(kept.map(\.originalURL) == [place])
         #expect(kept.first?.replacedBy == TrashedItem.Identity(ofItemAt: place))
         #expect(try kept.first.map { try String(contentsOf: $0.trashedURL, encoding: .utf8) } == "edited")
+        let back = try await run(try #require(kept.first).batch, "--dry-run")
+        #expect(back.contains(sentence), "\(back)")
     }
 
     @Test func saysSoWhenEverythingLeftIsRefused() async throws {

@@ -301,8 +301,8 @@ extension RestoreFailure {
             String(localized: "macOS lets Peel put back another developer’s app only with App Management. Allow Peel in System Settings > Privacy & Security > App Management, then try again.")
         case .notPermitted: String(localized: "macOS didn’t allow it.")
         case .failed(let message): FixedSentence.translated(message)
-        case .editStays(let reason):
-            String(localized: "The edit in its place couldn’t move to the Trash first, so nothing changed.") + " "
+        case .replacementStays(let reason):
+            String(localized: "The version now in its place couldn’t move to the Trash first, so nothing changed.") + " "
                 + reason.explanation
         }
     }

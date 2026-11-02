@@ -20084,6 +20084,112 @@
         }
       }
     },
+    "Another version of it is in its place now, so Put Back moves that one to the Trash first, where History keeps it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na jeho místě je teď jiná verze, takže ji tlačítko Vrátit zpět nejdřív přesune do koše, kde ji Historie uchová."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An seiner Stelle liegt jetzt eine andere Version davon, daher legt „Zurücklegen“ diese zuerst in den Papierkorb, und der Verlauf behält sie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora ocupa su lugar otra versión, así que “Restaurar” traslada primero esa versión a la papelera, donde Historial la conserva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une autre version de cet élément se trouve maintenant à sa place : « Remettre » commence donc par placer cette version dans la corbeille, où l’Historique la conserve."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al suo posto ora c’è un’altra versione dell’elemento, quindi “Ripristina” sposta prima quella nel Cestino, dove la Cronologia la conserva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在その場所には別のバージョンがあるため、“戻す”は先にそのバージョンをゴミ箱に入れます。そのバージョンも履歴に残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 그 자리에 이 항목의 다른 버전이 있으므로, ‘되돌려 놓기’는 먼저 그 버전을 휴지통으로 이동하며, 이동한 버전은 기록에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op de plek ervan staat nu een andere versie, dus 'Zet terug' verplaatst die eerst naar de prullenmand, waar Geschiedenis die bewaart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na miejscu tej rzeczy jest teraz inna jej wersja, więc przycisk Przywróć najpierw przeniesie tę wersję do Kosza, gdzie Historia ją zachowa."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outra versão do item está agora no lugar dele, então o comando Colocar de Volta primeiro move essa versão para o Lixo, onde o Histórico a mantém."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În locul său se află acum o altă versiune a acestuia, așa că butonul Puneți înapoi o mută mai întâi pe aceasta în Coș, unde Istoricul o păstrează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сейчас на его месте находится другая его версия, поэтому кнопка «Восстановить» сначала переместит ее в Корзину, где ее сохранит История."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En annan version av det ligger nu på dess plats, så ”Lägg tillbaka” flyttar först den versionen till papperskorgen, där Historik behåller den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şu anda yerinde başka bir sürümü duruyor, bu yüzden Yerine Koy, önce o sürümü Çöp Sepeti’ne taşır; Geçmiş onu da orada tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зараз на його місці інша версія, тому «Повернути назад» спершу переміщує цю версію в Смітник, де її зберігає Історія."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在位于原位置的是它的另一个版本，因此“放回原处”会先将那个版本移到废纸篓，“历史记录”会保留它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的原處現在是另一個版本，因此「還原」會先將該版本丟到「垃圾桶」，並由「歷史記錄」保留。"
+          }
+        }
+      }
+    },
     "Any kind" : {
       "localizations" : {
         "cs" : {
@@ -200511,112 +200617,6 @@
         }
       }
     },
-    "The edit in its place couldn’t move to the Trash first, so nothing changed." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Úpravu, která je teď na jeho místě, se nejdřív nepodařilo přesunout do koše, takže se nic nezměnilo."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die bearbeitete Fassung, die an seiner Stelle liegt, konnte nicht zuerst in den Papierkorb gelegt werden, daher wurde nichts geändert."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se ha podido trasladar primero a la papelera la versión editada que ocupa su lugar, así que no ha cambiado nada."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de placer d’abord dans la corbeille la version modifiée qui se trouve à sa place : rien n’a donc changé."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non è stato possibile spostare prima nel Cestino la versione modificata che si trova al suo posto, quindi non è cambiato nulla."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "その場所にある編集版を先にゴミ箱に入れられなかったため、何も変更されていません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 그 자리에 있는 편집본을 먼저 휴지통으로 이동할 수 없어 아무것도 변경되지 않았습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De versie die nu op de plek ervan staat, kon niet eerst naar de prullenmand worden verplaatst, dus er is niets gewijzigd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie udało się najpierw przenieść do Kosza wersji, która jest teraz na miejscu tej rzeczy, więc nic się nie zmieniło."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não foi possível mover primeiro para o Lixo a edição que agora está no lugar do item, então nada mudou."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versiunea editată aflată în locul său nu a putut fi mutată mai întâi în Coș, așa că nu s‑a schimbat nimic."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отредактированную версию, которая сейчас находится на его месте, не удалось сначала переместить в Корзину, поэтому ничего не изменилось."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versionen som nu ligger på dess plats kunde inte flyttas till papperskorgen först, så ingenting ändrades."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerinde duran düzenlenmiş hâli önce Çöp Sepeti’ne taşınamadı, bu yüzden hiçbir şey değişmedi."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося спершу перемістити в Смітник відредагований варіант, який на його місці, тому нічого не змінено."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未能先将位于原位置的编辑后的版本移到废纸篓，因此没有任何更改。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "目前位於原處的編輯版本無法先丟到「垃圾桶」，因此沒有任何變更。"
-          }
-        }
-      }
-    },
     "The extra section at the end goes away." : {
       "localizations" : {
         "cs" : {
@@ -205916,6 +205916,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "工具未及時回應，因此已被停止。"
+          }
+        }
+      }
+    },
+    "The version now in its place couldn’t move to the Trash first, so nothing changed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verzi, která je teď na jeho místě, se nejdřív nepodařilo přesunout do koše, takže se nic nezměnilo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Version, die jetzt an seiner Stelle liegt, konnte nicht zuerst in den Papierkorb gelegt werden, daher wurde nichts geändert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido trasladar primero a la papelera la versión que ahora ocupa su lugar, así que no ha cambiado nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de placer d’abord dans la corbeille la version qui se trouve maintenant à sa place : rien n’a donc changé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è stato possibile spostare prima nel Cestino la versione che ora si trova al suo posto, quindi non è cambiato nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在その場所にあるバージョンを先にゴミ箱に入れられなかったため、何も変更されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 그 자리에 있는 버전을 먼저 휴지통으로 이동할 수 없어 아무것도 변경되지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De versie die nu op de plek ervan staat, kon niet eerst naar de prullenmand worden verplaatst, dus er is niets gewijzigd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się najpierw przenieść do Kosza wersji, która jest teraz na miejscu tej rzeczy, więc nic się nie zmieniło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível mover primeiro para o Lixo a versão que agora está no lugar do item, então nada mudou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versiunea aflată acum în locul său nu a putut fi mutată mai întâi în Coș, așa că nu s‑a schimbat nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версию, которая сейчас находится на его месте, не удалось сначала переместить в Корзину, поэтому ничего не изменилось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versionen som nu ligger på dess plats kunde inte flyttas till papperskorgen först, så ingenting ändrades."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şu anda yerinde duran sürüm önce Çöp Sepeti’ne taşınamadı, bu yüzden hiçbir şey değişmedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося спершу перемістити в Смітник версію, яка зараз на його місці, тому нічого не змінено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能先将现在位于原位置的版本移到废纸篓，因此没有任何更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前位於原處的版本無法先丟到「垃圾桶」，因此沒有任何變更。"
           }
         }
       }
@@ -234445,112 +234551,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的磁碟幾乎已滿"
-          }
-        }
-      }
-    },
-    "Your edit of it stands in its place, so Put Back moves that edit to the Trash first, where History keeps it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Na jeho místě je teď vaše úprava, takže ji tlačítko Vrátit zpět nejdřív přesune do koše, kde ji Historie uchová."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "An seiner Stelle liegt deine bearbeitete Fassung, daher legt „Zurücklegen“ diese zuerst in den Papierkorb, und der Verlauf behält sie."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu versión editada ocupa su lugar, así que “Restaurar” traslada primero esa versión editada a la papelera, donde Historial la conserva."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre version modifiée de cet élément se trouve à sa place : « Remettre » commence donc par placer cette version modifiée dans la corbeille, où l’Historique la conserve."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Al suo posto c’è la tua versione modificata dell’elemento, quindi “Ripristina” sposta prima quella nel Cestino, dove la Cronologia la conserva."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "その場所には編集版があるため、“戻す”は先にその編集版をゴミ箱に入れます。その編集版も履歴に残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 그 자리에 이 항목의 편집본이 있으므로, ‘되돌려 놓기’는 먼저 그 편집본을 휴지통으로 이동하며, 이동한 편집본은 기록에 보관됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Op de plek ervan staat nu een andere versie, dus 'Zet terug' verplaatst die eerst naar de prullenmand, waar Geschiedenis die bewaart."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Na miejscu tej rzeczy jest teraz inna jej wersja, więc przycisk Przywróć najpierw przeniesie tę wersję do Kosza, gdzie Historia ją zachowa."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A sua edição do item está agora no lugar dele, então o comando Colocar de Volta primeiro move essa edição para o Lixo, onde o Histórico a mantém."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "În locul său se află acum versiunea editată de dvs., așa că butonul Puneți înapoi o mută mai întâi pe aceasta în Coș, unde Istoricul o păstrează."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сейчас на его месте находится отредактированная Вами версия, поэтому кнопка «Восстановить» сначала переместит ее в Корзину, где ее сохранит История."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En annan version av det ligger nu på dess plats, så ”Lägg tillbaka” flyttar först den versionen till papperskorgen, där Historik behåller den."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerinde, sizin düzenlediğiniz hâli duruyor, bu yüzden Yerine Koy, önce o düzenlenmiş hâli Çöp Sepeti’ne taşır; Geçmiş onu da orada tutar."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "На його місці стоїть ваш відредагований варіант, тому «Повернути назад» спершу переміщує цей варіант у Смітник, де його зберігає Історія."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "位于原位置的是你编辑后的版本，因此“放回原处”会先将那个编辑后的版本移到废纸篓，“历史记录”会保留它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它的原處現在是你的編輯版本，因此「還原」會先將該編輯版本丟到「垃圾桶」，並由「歷史記錄」保留。"
           }
         }
       }
