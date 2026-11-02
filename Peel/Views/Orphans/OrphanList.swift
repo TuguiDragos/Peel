@@ -127,7 +127,7 @@ struct OrphanList: View {
                 ) {
                     // What could not be read may be readable now, so the apps are read again first.
                     if !library.readEverything {
-                        await library.checkAgain(await library.refresh())
+                        await library.refresh()
                     }
                     await orphans.refresh(from: library)
                 }

@@ -184,6 +184,10 @@ final class AppLibrary {
     let scanRun = ScanRun()
     private var lastRead: ContinuousClock.Instant?
     @ObservationIgnored private var firstReading: Task<Void, Never>?
+    /// The revision `followChanges` last ran its work for.
+    @ObservationIgnored private var followedRevision = 0
+    /// The apps readings found at another build since that work last ran.
+    @ObservationIgnored private var changedBuilds: [InstalledApp.ID: InstalledApp] = [:]
     private let updateChecker: UpdateChecker
     private let teamRegistry = TeamRegistry()
 
@@ -261,6 +265,8 @@ final class AppLibrary {
             showFolders(of: found, readSince: changes)
             keepUnreadable(of: found)
             adopt(found.apps)
+            // Launch does for this reading what `followChanges` does for the others.
+            followedRevision = revision
         }
         recall()
         isLoading = false
@@ -272,9 +278,9 @@ final class AppLibrary {
 
     /// Calls `refresh()` unless a reading of the folders started in the last 30 seconds, even one still running. For
     /// Peel coming forward: the folder watcher sees every real change, so a recent read is enough.
-    func refreshUnlessRecent() async -> [InstalledApp] {
-        if let lastRead, ContinuousClock.now - lastRead < .seconds(30) { return [] }
-        return await refresh()
+    func refreshUnlessRecent() async {
+        if let lastRead, ContinuousClock.now - lastRead < .seconds(30) { return }
+        await refresh()
     }
 
     func addFolders(_ urls: [URL]) {
@@ -314,36 +320,44 @@ final class AppLibrary {
     }
 
     /// Reads the folders again without emptying the list first, so an app installed while Peel is open
-    /// appears in its place instead of the whole list blinking.
-    ///
-    /// Returns the apps whose build changed, so the caller can check them again. An upgrade keeps the path,
-    /// and with it the app's identity, so what was cached about the old build (its size, its update status,
-    /// when it was last checked) is dropped rather than shown for a version it doesn't describe.
-    @discardableResult
-    func refresh() async -> [InstalledApp] {
+    /// appears in its place instead of the whole list blinking. An upgrade keeps the path, and with it the app's
+    /// identity, so what was cached about the old build (its size, its update status, when it was last checked)
+    /// is dropped rather than shown for a version it doesn't describe.
+    func refresh() async {
         await firstReading?.value
         lastRead = .now
         let changes = folderChanges
         let read = await scanRun.run { [appFolders] in await AppCatalog.scan(choices: appFolders) }
         if !scanRun.isRunning { askedForReading = false }
-        guard let scan = read else { return [] }
+        guard let scan = read else { return }
         showFolders(of: scan, readSince: changes)
         keepUnreadable(of: scan)
         let found = scan.apps
         let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found))
-        guard listed != apps else { return [] }
+        guard listed != apps else { return }
         guard !AppCatalog.listsTheSameApps(listed, as: apps) else {
             apps = listed
             groupHomebrewApps()
             lastOpenedRevision += 1
-            return []
+            return
         }
         let gone = Set(apps.compactMap(\.bundleIdentifier)).subtracting(listed.compactMap(\.bundleIdentifier))
-        let changed = adopt(found)
+        for app in adopt(found) { changedBuilds[app.id] = app }
         // Remembered whenever the list changes, so an app installed and removed between two visits to Orphaned
         // Files is still known. Done last, so nothing above is left half done while this waits.
         await appMemory.remember(found, gone: gone)
-        return changed
+    }
+
+    /// Runs `work` for each change of the list, with the apps found at another build. Changes that arrive while it
+    /// runs are one more run. Whichever reading comes first, the folder watch, Rescan, or Peel coming forward, the
+    /// others find nothing new, so what depends on the list follows it here and not after a reading.
+    func followChanges(_ work: ([InstalledApp]) async -> Void) async {
+        for await revision in Observations({ self.revision }) where revision != followedRevision {
+            followedRevision = revision
+            let changed = Array(changedBuilds.values)
+            changedBuilds = [:]
+            await work(changed)
+        }
     }
 
     /// Checks again what a reading found at another build: whether it has an update and who signs it, since what
@@ -357,8 +371,7 @@ final class AppLibrary {
     /// Reads the folders again and asks about every app's updates, in a round of its own so the list isn't held.
     func rescan() async {
         askedForReading = true
-        let changed = await refresh()
-        if !changed.isEmpty { await checkSigningTeams() }
+        await refresh()
         checkEveryAppAgain()
     }
 

@@ -184,33 +184,32 @@ struct PeelApp: App {
 
     private func followApps(in folders: [URL], readingNow: Bool) async {
         if readingNow {
-            await appsMayHaveChanged()
+            await library.refresh()
         }
         for await _ in FolderWatch.changes(in: folders) {
             try? await Task.sleep(for: .seconds(1), tolerance: .milliseconds(250))
             guard !Task.isCancelled else { return }
-            await appsMayHaveChanged()
+            await library.refresh()
         }
     }
 
-    private func appsMayHaveChanged() async {
-        let before = library.revision
-        let changed = await library.refresh()
-        // Any write inside a bundle wakes the watch, so Homebrew and the rest run only when the app list changed.
-        guard library.revision != before else { return }
-        Task { await IconCache.warm(library.apps.map(\.url)) }
-        await homebrew.refresh()
-        // A newly installed app may match a cask Homebrew knows about, so the known casks are read again.
-        await homebrew.loadKnownCasks(for: library.apps)
-        library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
-        // A bundle that changed on disk is a different build, and what was cached about it describes the old
-        // one. Those apps are checked again at once, whoever updated them: Peel, the Homebrew page, or
-        // `brew upgrade` in Terminal.
-        await library.checkAgain(changed)
-        // A newly installed app has never been checked, so it is due. The round checks only the apps that
-        // are due.
-        if checksForAppUpdates {
-            await library.checkForUpdates(library.apps)
+    /// Any write inside a bundle wakes the watch, so Homebrew and the rest run only when the list of apps changed.
+    private func followAppList() async {
+        await library.followChanges { changed in
+            Task { await IconCache.warm(library.apps.map(\.url)) }
+            await homebrew.refresh()
+            // A newly installed app may match a cask Homebrew knows about, so the known casks are read again.
+            await homebrew.loadKnownCasks(for: library.apps)
+            library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
+            // A bundle that changed on disk is a different build, and what was cached about it describes the old
+            // one. Those apps are checked again at once, whoever updated them: Peel, the Homebrew page, or
+            // `brew upgrade` in Terminal.
+            await library.checkAgain(changed)
+            // A newly installed app has never been checked, so it is due. The round checks only the apps that
+            // are due.
+            if checksForAppUpdates {
+                await library.checkForUpdates(library.apps)
+            }
         }
     }
 
@@ -230,11 +229,7 @@ struct PeelApp: App {
             // Home's checks run again whatever page is showing: permissions change in System Settings, and the
             // badge on Home in the sidebar shows a missing one. They read the helper's status again too.
             Task { await home.refresh() }
-            Task {
-                // Whichever read finds a changed bundle checks it again. When two reads overlap, only the newer
-                // one reports what changed, and it may be this one rather than the folder watcher's.
-                await library.checkAgain(await library.refreshUnlessRecent())
-            }
+            Task { await library.refreshUnlessRecent() }
             // A watch that could not start, for want of Full Disk Access or for any other reason, is tried again.
             if watchesTrash, trashMonitor.status != .watching {
                 trashMonitor.start()
@@ -333,8 +328,8 @@ struct PeelApp: App {
         Navigator.shared.openWindow = openWindow
         background.start(
             [
-                followFolders, followAppsForTheTrash, askWhenDue, followFindings, followActivations, watchFreeSpace,
-                followHelper, followHomebrew, followUpdates,
+                followFolders, followAppList, followAppsForTheTrash, askWhenDue, followFindings, followActivations,
+                watchFreeSpace, followHelper, followHomebrew, followUpdates,
             ],
             stoppingWithIt: [duplicates.stop, library.stopCheckingEveryApp]
         )

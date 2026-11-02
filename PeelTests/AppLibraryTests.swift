@@ -1109,6 +1109,53 @@ private nonisolated final class TestClock: Sendable {
         #expect(!library.isReadingAsAsked)
     }
 
+    @Test(.timeLimit(.minutes(1))) func whatDependsOnTheListFollowsEachChangeWhicheverReadingFoundIt() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let chosen = folder.appending(path: "Chosen", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: chosen, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        made.defaults.set(false, forKey: SettingsKey.checksForAppUpdates)
+        let library = AppLibrary(
+            defaults: made.defaults,
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: AppFolders(url: folder.appending(path: "app-folders.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+        library.addFolders([chosen])
+        let (heard, tell) = AsyncStream.makeStream(of: [String].self)
+        let following = Task { await library.followChanges { tell.yield($0.map(\.name)) } }
+        defer { following.cancel() }
+        var next = heard.makeAsyncIterator()
+        func install(version: String) throws {
+            let bundle = chosen.appending(path: "Followed.app", directoryHint: .isDirectory)
+            try FileManager.default.createDirectory(
+                at: bundle.appending(path: "Contents"), withIntermediateDirectories: true
+            )
+            let info: [String: Any] = [
+                "CFBundleIdentifier": "org.example.followed", "CFBundleName": "Followed",
+                "CFBundlePackageType": "APPL", "CFBundleShortVersionString": version, "CFBundleVersion": version,
+            ]
+            try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                .write(to: bundle.appending(path: "Contents/Info.plist"))
+        }
+
+        await library.load()
+        try install(version: "1")
+        await library.refresh()
+        #expect(await next.next() == [], "the first reading is launch's, and a new app is at no other build")
+
+        try install(version: "2")
+        await library.rescan()
+        #expect(await next.next() == ["Followed"], "Rescan's reading is followed like the folder watch's")
+
+        await library.refresh()
+        try install(version: "3")
+        await library.refresh()
+        #expect(await next.next() == ["Followed"], "a reading that found nothing new ran nothing")
+    }
+
     @Test func aReadingWaitsForTheListOfFoldersAwayFromTheMainActor() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)

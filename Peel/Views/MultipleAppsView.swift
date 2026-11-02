@@ -431,7 +431,7 @@ struct MultipleAppsView: View {
         // would fail for each one.
         let bundles = Set(plan.apps.map(\.url))
         if result.trashed.contains(where: { bundles.contains($0.originalURL) }) {
-            await library.checkAgain(await library.refresh())
+            await library.refresh()
         } else {
             await plan.refresh(
                 installedApps: library.apps,

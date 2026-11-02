@@ -559,7 +559,7 @@ struct AppDetailView: View {
         }
 
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
-            await library.checkAgain(await library.refresh())
+            await library.refresh()
         } else {
             await plan.refresh(
                 installedApps: library.apps,
