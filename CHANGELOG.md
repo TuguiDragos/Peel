@@ -561,6 +561,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Homebrew
 
+- Uninstall and Upgrade stay off for a cask when you excluded anything it placed, such as a font or a manual page, or
+  anything its `uninstall` stanza removes: before, only its app and its own folder counted, and Homebrew took the rest.
 - With several apps to quit before an upgrade, the button says Quit Apps, since some languages say "the app" there.
 - Peel asks Homebrew for its prefix and its Cellar, so the formulae you excluded are always kept.
 - Uninstall and Upgrade wait until Homebrew's apps are known, and the copied commands keep the excluded formulae.

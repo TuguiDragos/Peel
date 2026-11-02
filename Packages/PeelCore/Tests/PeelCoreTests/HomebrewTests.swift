@@ -513,6 +513,29 @@ struct HomebrewTests {
         }
     }
 
+    @Test func readsWhatACaskPlacesAndWhatItsUninstallStanzaRemoves() throws {
+        let json = """
+        {"formulae": [], "casks": [{"token": "sample", "version": "1", "outdated": false, "artifacts": [
+          {"uninstall": [{"quit": "org.example.sample", "trash": "~/Library/Application Support/Sample",
+                          "delete": ["/Library/Sample"], "rmdir": "/Library/Empty"}]},
+          {"app": ["Sample.app"], "target": "/Applications/Sample.app"},
+          {"binary": ["/Applications/Sample.app/Contents/MacOS/sample", {"target": "sample"}],
+           "target": "/opt/homebrew/bin/sample"},
+          {"font": ["Sample.ttf"], "target": "/Users/org.example/Library/Fonts/Sample.ttf"},
+          {"manpage": ["sample.1"], "target": "/opt/homebrew/share/man/man1/sample.1"},
+          {"zap": [{"trash": "~/Library/Application Support/SampleZap"}]}
+        ]}]}
+        """
+        let cask = try #require(Homebrew.parseInstalled(Data(json.utf8))?.first)
+
+        #expect(cask.appTargets == ["/Applications/Sample.app"])
+        #expect(cask.commandLinks == ["/opt/homebrew/bin/sample"])
+        #expect(cask.otherTargets == [
+            "/Users/org.example/Library/Fonts/Sample.ttf", "/opt/homebrew/share/man/man1/sample.1",
+        ])
+        #expect(cask.uninstallPatterns == ["~/Library/Application Support/Sample", "/Library/Sample", "/Library/Empty"])
+    }
+
     @Test func parsesInstalledFormulaeAndCasks() throws {
         let json = """
         {

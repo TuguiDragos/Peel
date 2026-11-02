@@ -573,8 +573,9 @@ receipt stays too, on its page and on Package Receipts. Its other files, such as
 app, are excluded only by their own paths, so to keep them, exclude them too.
 
 Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` or `brew
-upgrade`, which deletes the version it replaces, for a package whose app, or whose own folder, you excluded, nor for one
-with a folder Peel can't look into for an app you excluded, nor for any package while your list isn't read or can't be,
+upgrade`, which deletes the version it replaces, for a package whose app or own folder you excluded, or anything else it
+placed or its `uninstall` stanza names, nor for one with a folder Peel can't look into for an app you excluded, nor for
+any package while your list isn't read or can't be,
 and Homebrew's cleanup keeps every formula whose folder you excluded. While Peel can't read Homebrew's Cellar, or can't
 look into a formula's folder in it for an app you excluded,
 nothing that deletes formulae runs at all. The Cellar and the prefix are the ones Homebrew names (`brew --cellar`, `brew

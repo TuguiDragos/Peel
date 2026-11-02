@@ -261,13 +261,15 @@ public struct Exclusions: Sendable, Codable, Hashable {
     }
 
     /// Whether `brew uninstall`, or an upgrade, which deletes the version it replaces, would delete something excluded:
-    /// an app the package installs (`apps` are the installed apps known to be its), an app identifier it quits, or its
-    /// own folder in the installation's Caskroom or Cellar. Nil when one of these can't be looked into for an excluded
-    /// app. An unreadable list, or one not read yet, counts as excluding every package, since neither can be undone.
+    /// an app the package installs (`apps` are the installed apps known to be its), an app identifier it quits,
+    /// whatever else it placed, what its `uninstall` stanza names, or its own folder in the installation's Caskroom
+    /// or Cellar. Nil when one of these can't be looked into for an excluded app. An unreadable list, or one not read
+    /// yet, counts as excluding every package, since neither can be undone.
     public func excludes(
         _ package: HomebrewPackage,
         apps: [InstalledApp],
-        installation: HomebrewInstallation?
+        installation: HomebrewInstallation?,
+        home: URL = .homeDirectory
     ) -> Bool? {
         guard isKnown else { return true }
         if apps.contains(where: { $0.bundleIdentifier.map(excludes(bundleIdentifier:)) == true }) { return true }
@@ -275,7 +277,9 @@ public struct Exclusions: Sendable, Codable, Hashable {
         let own = installation.map {
             (package.kind == .cask ? $0.caskroom : $0.cellar).appending(path: package.name, directoryHint: .isDirectory)
         }
+        let named = isEmpty ? [] : package.uninstallPatterns.flatMap { CaskEvidence.expand($0, home: home) }
         let folders = package.appTargets.map { URL(filePath: $0, directoryHint: .isDirectory) } + apps.map(\.url)
+            + (package.commandLinks + package.otherTargets).map { URL(filePath: $0) } + named
             + [own].compactMap(\.self)
         var isKnownToHoldNothing = true
         for folder in folders {

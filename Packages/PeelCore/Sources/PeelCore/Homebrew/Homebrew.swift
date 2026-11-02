@@ -28,6 +28,12 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// Where Homebrew linked the commands an installed cask puts on the path: "/opt/homebrew/bin/example".
     /// `brew uninstall` removes these links.
     public let commandLinks: [String]
+    /// Where Homebrew put what else an installed cask places, such as a font or a manual page. `brew uninstall` removes
+    /// these too.
+    public let otherTargets: [String]
+    /// Paths the cask's `uninstall` stanza removes, as written, which `brew uninstall` and an upgrade run. `zap` is
+    /// left out: Peel never runs it.
+    public let uninstallPatterns: [String]
     /// Bundle identifiers the cask tells macOS to quit, which prove a cask really is a given app.
     public let quitIdentifiers: [String]
     /// Installer receipts the cask forgets, which can prove the cask for an app installed from a `.pkg`.
@@ -199,6 +205,8 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         appNames: [String] = [],
         appTargets: [String] = [],
         commandLinks: [String] = [],
+        otherTargets: [String] = [],
+        uninstallPatterns: [String] = [],
         leftoverPatterns: [String] = [],
         emptyFolderPatterns: [String] = [],
         quitIdentifiers: [String] = [],
@@ -222,6 +230,8 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         self.appNames = appNames
         self.appTargets = appTargets
         self.commandLinks = commandLinks
+        self.otherTargets = otherTargets
+        self.uninstallPatterns = uninstallPatterns
         self.leftoverPatterns = leftoverPatterns
         self.emptyFolderPatterns = emptyFolderPatterns
         self.quitIdentifiers = quitIdentifiers
@@ -447,6 +457,8 @@ struct CaskArtifact: Decodable, Sendable {
     let appNames: [String]
     let appTargets: [String]
     let commandLinks: [String]
+    let otherTargets: [String]
+    let uninstallPatterns: [String]
     let leftoverPatterns: [String]
     let emptyFolderPatterns: [String]
     /// Bundle identifiers the cask tells macOS to quit. The surest sign a cask really is a given app.
@@ -476,7 +488,12 @@ struct CaskArtifact: Decodable, Sendable {
         // A command's link is written the same way: `{"binary": [...], "target": "/opt/homebrew/bin/studio"}`, and
         // so is the link to a script Homebrew writes to run the app's program (`command_wrapper`).
         let linksACommand = raw["binary"] != nil || raw["command_wrapper"] != nil
-        commandLinks = linksACommand ? (raw["target"]?.strings ?? []).filter { $0.hasPrefix("/") } : []
+        let targets = (raw["target"]?.strings ?? []).filter { $0.hasPrefix("/") }
+        commandLinks = linksACommand ? targets : []
+        otherTargets = app == nil && !linksACommand ? targets : []
+        uninstallPatterns = (raw["uninstall"]?.dictionaries ?? []).flatMap { stanza in
+            (Self.removalKeys + ["rmdir"]).flatMap { stanza[$0]?.strings ?? [] }
+        }
 
         var patterns: [String] = []
         var emptyFolders: [String] = []
@@ -1294,6 +1311,8 @@ public enum Homebrew {
                 appNames: cask.artifacts?.flatMap(\.appNames) ?? [],
                 appTargets: cask.artifacts?.flatMap(\.appTargets) ?? [],
                 commandLinks: cask.artifacts?.flatMap(\.commandLinks) ?? [],
+                otherTargets: cask.artifacts?.flatMap(\.otherTargets) ?? [],
+                uninstallPatterns: cask.artifacts?.flatMap(\.uninstallPatterns) ?? [],
                 leftoverPatterns: cask.artifacts?.flatMap(\.leftoverPatterns) ?? [],
                 emptyFolderPatterns: cask.artifacts?.flatMap(\.emptyFolderPatterns) ?? [],
                 quitIdentifiers: cask.artifacts?.flatMap(\.quitIdentifiers) ?? [],

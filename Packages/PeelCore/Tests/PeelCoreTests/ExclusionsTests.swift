@@ -107,6 +107,34 @@ struct ExclusionsTests {
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Cellar/curl")]).excludes(formula, apps: [], installation: installation) == false)
     }
 
+    @Test func keepsWhatElseBrewUninstallRemoves() throws {
+        let directory = try TemporaryDirectory()
+        let installation = HomebrewInstallation(version: "7.0.9", prefix: directory.url.appending(path: "prefix"))
+        let kept = try directory.file("home/Library/Application Support/Kept/state.db")
+        let folder = kept.deletingLastPathComponent()
+        let font = try directory.file("home/Library/Fonts/Example.ttf")
+        let link = try directory.file("prefix/bin/example")
+        let excludes = { (exclusions: Exclusions, cask: HomebrewPackage) in
+            exclusions.excludes(cask, apps: [], installation: installation, home: directory.url.appending(path: "home"))
+        }
+        let named = HomebrewPackage(name: "example", kind: .cask, uninstallPatterns: ["~/Library/Application Support/Kept"])
+        let globbed = HomebrewPackage(name: "example", kind: .cask, uninstallPatterns: ["~/Library/Application Support/Ke*"])
+        let zapped = HomebrewPackage(name: "example", kind: .cask, leftoverPatterns: ["~/Library/Application Support/Kept"])
+        let placed = HomebrewPackage(
+            name: "example", kind: .cask, commandLinks: [link.path(percentEncoded: false)],
+            otherTargets: [font.path(percentEncoded: false)]
+        )
+
+        #expect(excludes(Exclusions(paths: [folder]), named) == true)
+        #expect(excludes(Exclusions(paths: [kept]), named) == true, "the folder it removes holds what is excluded")
+        #expect(excludes(Exclusions(paths: [folder]), globbed) == true)
+        #expect(excludes(Exclusions(paths: [folder]), zapped) == false, "Peel never runs zap")
+        #expect(excludes(Exclusions(paths: [font]), placed) == true)
+        #expect(excludes(Exclusions(paths: [link]), placed) == true)
+        #expect(excludes(Exclusions(paths: [folder]), placed) == false)
+        #expect(excludes(Exclusions(bundleIdentifiers: ["org.example.other"]), placed) == false, "a file holds no app")
+    }
+
     @Test(.permissionsHold) func keepsAPackageItCannotSearchForAnExclusion() throws {
         let directory = try TemporaryDirectory()
         try directory.file("prefix/Caskroom/example/1.0/kept/org.example.excluded/state.db")
