@@ -133,6 +133,14 @@ public struct MakersUninstaller: Sendable, Hashable {
             "https://herd.laravel.com/docs/macos/troubleshooting/uninstalling"
         ),
         (
+            "Z6C22PNU8R", ["com.cleverfiles.diskdrill"], "CleverFiles", .inTheApp,
+            "https://www.cleverfiles.com/help/how-to-uninstall-disk-drill/"
+        ),
+        (
+            "GVZRY6KDKR", ["com.malwarebytes.mbam.frontend.application"], "Malwarebytes", .inTheApp,
+            "https://help.malwarebytes.com/hc/en-us/articles/31589300070683-Uninstall-Malwarebytes-for-Windows-and-Mac"
+        ),
+        (
             "48ZCSDVL96", ["com.haystacksoftware.arq"], "Arq", .inTheApp,
             "https://www.arqbackup.com/documentation/arq7/English.lproj/troubleshooting.html"
         ),

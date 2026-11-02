@@ -83,6 +83,19 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("de.beyondco.herd", team: "ABCDE12345")) == nil)
     }
 
+    @Test func knowsADataRecoveryAppAndAMalwareScannerWhoseMakersDocumentTheirOwnUninstall() {
+        let diskDrill = agent("com.cleverfiles.DiskDrill", team: "Z6C22PNU8R", at: "/Applications/Disk Drill.app")
+        let malwarebytes = agent(
+            "com.malwarebytes.mbam.frontend.application", team: "GVZRY6KDKR", at: "/Applications/Malwarebytes.app"
+        )
+
+        #expect(MakersUninstaller.of(diskDrill)?.step == .inTheApp(diskDrill.url))
+        #expect(MakersUninstaller.of(diskDrill)?.maker == "CleverFiles")
+        #expect(MakersUninstaller.of(malwarebytes)?.step == .inTheApp(malwarebytes.url))
+        #expect(MakersUninstaller.of(malwarebytes)?.maker == "Malwarebytes")
+        #expect(MakersUninstaller.of(agent("com.cleverfiles.DiskDrill", team: "ABCDE12345")) == nil)
+    }
+
     @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
         let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
         let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"
