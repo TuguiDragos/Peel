@@ -54,6 +54,18 @@ struct TerminalThemeLedgerTests {
         #expect(ledger.canPutBack)
     }
 
+    @Test func putsBackWhatWasThereBeforeOnceTerminalMovedOffAThemeDeletedThere() throws {
+        let terminal = InMemoryTerminalSettings()
+        var ledger = TerminalThemeLedger()
+        #expect(try ledger.use(theme, in: terminal) == .changed)
+
+        terminal.storedProfiles[theme.profileName] = nil
+        terminal.names = [.newWindows: "Pro", .startup: "Pro"]
+
+        #expect(ledger.putBack(in: terminal) == .changed)
+        #expect(terminal.names == [.newWindows: "Basic", .startup: "Basic"])
+    }
+
     @Test func aThemeInUseOpensEveryTerminalWindowWithIt() throws {
         let terminal = InMemoryTerminalSettings()
         var ledger = TerminalThemeLedger()

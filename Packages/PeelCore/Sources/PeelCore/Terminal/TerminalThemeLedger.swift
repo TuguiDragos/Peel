@@ -104,7 +104,10 @@ public struct TerminalThemeLedger {
         guard !terminal.isTerminalOpen else { return .terminalIsOpen }
         guard !terminal.isManaged else { return .managed }
         guard var profiles = terminal.profiles() else { return .unreadable }
-        for role in TerminalProfileRole.allCases where terminal.profileName(for: role) == chosen {
+        // A role on another profile was changed by the person and stays, unless the theme is gone: Terminal itself
+        // moves a role off a profile deleted there, which is no choice of a profile.
+        let isGone = chosen.map { profiles[$0] == nil } ?? false
+        for role in TerminalProfileRole.allCases where isGone || terminal.profileName(for: role) == chosen {
             guard terminal.setProfileName(before[role], for: role) else { return .refused }
         }
         let inUse = Set(TerminalProfileRole.allCases.compactMap { terminal.profileName(for: $0) })

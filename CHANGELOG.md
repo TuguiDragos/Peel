@@ -381,6 +381,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Terminal
 
+- Put Back on the Themes tab brings back the profile you had, also once you deleted Peel's theme in Terminal.
 - A switch on the Shell tab turned on while zsh answers stays on, and the next one doesn't lose it.
 - The Tools tab no longer has Homebrew fetch its lists where its `brew.env` asks it to do so before answering.
 - The Git tab reads a signing key written in Git's settings as a key, not a path, and its commands quote what the shell
