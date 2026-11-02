@@ -491,24 +491,28 @@ struct FileSizeTests {
         }
     }
 
-    @Test func reportsBackupsKeptDirectlyInside() async throws {
+    @Test func reportsWorkAnAppNamesDirectlyInside() async throws {
         let directory = try TemporaryDirectory()
         let novels = try directory.directory("novels")
         try directory.file("novels/Backups/My Novel.bak.zip", bytes: 64)
         let library = try directory.directory("library")
         try directory.file("library/library-backup.sqlite", bytes: 64)
+        let resolve = try directory.directory("resolve")
+        try directory.file("resolve/Resolve Disk Database/Resolve Projects/Project.db", bytes: 64)
         let empty = try directory.directory("empty")
         try directory.directory("empty/Backups")
+        try directory.directory("empty/Resolve Disk Database")
         let deeper = try directory.directory("deeper")
         try directory.file("deeper/User/globalStorage/state.vscdb.backup", bytes: 64)
         let lookalike = try directory.directory("lookalike")
         try directory.file("lookalike/Backupify/settings.json", bytes: 64)
+        try directory.file("lookalike/Resolve Cache/clip.bin", bytes: 64)
 
-        for folder in [novels, library] {
-            #expect(await FileSize.contents(of: folder)?.holdsBackups == true, "\(folder.lastPathComponent)")
+        for folder in [novels, library, resolve] {
+            #expect(await FileSize.contents(of: folder)?.holdsWorkMadeWithAnApp == true, "\(folder.lastPathComponent)")
         }
         for folder in [empty, deeper, lookalike] {
-            #expect(await FileSize.contents(of: folder)?.holdsBackups == false, "\(folder.lastPathComponent)")
+            #expect(await FileSize.contents(of: folder)?.holdsWorkMadeWithAnApp == false, "\(folder.lastPathComponent)")
         }
     }
 

@@ -127,6 +127,11 @@ struct KeptOnlyHereTests {
             ("Library/BBEdit", .holdsWorkMadeWithTheApp),
             ("Library/BBEdit/Auto-Save Recovery/a.bbautosave", .holdsWorkMadeWithTheApp),
             ("Library/Containers/com.barebones.bbedit", .holdsWorkMadeWithTheApp),
+            (
+                "Library/Application Support/Blackmagic Design/DaVinci Resolve/Resolve Disk Database",
+                .holdsWorkMadeWithTheApp
+            ),
+            ("Projects/Resolve Disk Database", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),

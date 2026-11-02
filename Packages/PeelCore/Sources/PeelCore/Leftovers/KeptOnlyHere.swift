@@ -280,8 +280,7 @@ enum KeptOnlyHere {
             }
             if let first = held.min(by: { $0.order < $1.order }) { return first.reason }
         }
-        // What an app names as its backups is a copy the person may need, whichever app made it.
-        return namesBackups(item.last ?? "") ? .holdsWorkMadeWithTheApp : nil
+        return namesWorkMadeWithAnApp(item.last ?? "") ? .holdsWorkMadeWithTheApp : nil
     }
 
     private struct Place {
@@ -303,11 +302,13 @@ enum KeptOnlyHere {
     }
 
     static func reason(seenIn contents: FolderContents) -> HoldBack? {
-        contents.holdsBackups ? .holdsWorkMadeWithTheApp : nil
+        contents.holdsWorkMadeWithAnApp ? .holdsWorkMadeWithTheApp : nil
     }
 
-    static func namesBackups(_ name: String) -> Bool {
+    /// Whether an app gives this name to the person's work or its copies, whichever app it is: backups, and
+    /// `Resolve Disk Database`, where DaVinci Resolve's Reference Manual keeps local project libraries by default.
+    static func namesWorkMadeWithAnApp(_ name: String) -> Bool {
         let words = name.lowercased().split { !$0.isLetter }
-        return words.contains("backup") || words.contains("backups")
+        return words.contains("backup") || words.contains("backups") || words == ["resolve", "disk", "database"]
     }
 }
