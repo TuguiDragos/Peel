@@ -141,6 +141,10 @@ public struct MakersUninstaller: Sendable, Hashable {
             "https://help.malwarebytes.com/hc/en-us/articles/31589300070683-Uninstall-Malwarebytes-for-Windows-and-Mac"
         ),
         (
+            "2Y8XE5CQ94", ["com.kaspersky.kav"], "Kaspersky", .inTheApp,
+            "https://support.kaspersky.com/kaspersky-for-mac/27/118671"
+        ),
+        (
             "48ZCSDVL96", ["com.haystacksoftware.arq"], "Arq", .inTheApp,
             "https://www.arqbackup.com/documentation/arq7/English.lproj/troubleshooting.html"
         ),

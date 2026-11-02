@@ -369,13 +369,13 @@ A security or management agent, a VPN, a backup app, or another app whose maker 
 uninstaller of its own (GlobalProtect, Cortex XDR, Cisco Secure Client and AnyConnect, ESET Endpoint Security, Microsoft
 Defender, Netskope Client, FortiClient, Bitdefender Endpoint Security for Mac, Sophos Endpoint, Symantec Endpoint
 Protection, Zscaler Client Connector, ExpressVPN, Private Internet Access, Cloudflare WARP, ZeroTier, Tunnelblick, IVPN,
-Arq, Laravel Herd, Disk Drill, and Malwarebytes) is listed the same way, and nothing of it can be selected: its page
-names the maker's uninstaller, or opens the app whose own command removes it, and links to the maker's instructions,
-since moved from its place, what it keeps in the system and the settings that manage it would stay behind. Peel knows it
-by the team its checked signature names and by its identifier, both as the maker documents or signs them, never by the
-identifier alone, which any app could claim. `peel uninstall` refuses it and names the same uninstaller. An uninstaller
-its maker documents opening to remove a product, such as Google's Chrome Remote Desktop Host Uninstaller, is treated the
-same way: moved on its own, it would leave the product installed, so its page offers to open it instead.
+Arq, Laravel Herd, Disk Drill, Malwarebytes, and Kaspersky) is listed the same way, and nothing of it can be selected:
+its page names the maker's uninstaller, or opens the app whose own command removes it, and links to the maker's
+instructions, since moved from its place, what it keeps in the system and the settings that manage it would stay behind.
+Peel knows it by the team its checked signature names and by its identifier, both as the maker documents or signs them,
+never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the same uninstaller. An
+uninstaller its maker documents opening to remove a product, such as Google's Chrome Remote Desktop Host Uninstaller, is
+treated the same way: moved on its own, it would leave the product installed, so its page offers to open it instead.
 
 An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
 the same way, and nothing of it can be selected: moved by Peel, the app would leave the extension installed, while

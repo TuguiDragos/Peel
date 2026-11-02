@@ -96,6 +96,16 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.cleverfiles.DiskDrill", team: "ABCDE12345")) == nil)
     }
 
+    @Test func knowsKasperskyByTheTeamAndIdentifierItsSignatureNames() {
+        let kaspersky = agent(
+            "com.kaspersky.kav", team: "2Y8XE5CQ94", at: "/Applications/Kaspersky Anti-Virus For Mac.app"
+        )
+
+        #expect(MakersUninstaller.of(kaspersky)?.step == .inTheApp(kaspersky.url))
+        #expect(MakersUninstaller.of(kaspersky)?.maker == "Kaspersky")
+        #expect(MakersUninstaller.of(agent("com.kaspersky.kav", team: "ABCDE12345")) == nil)
+    }
+
     @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
         let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
         let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"
