@@ -13390,7 +13390,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un mic instrument cu drepturi de administrator. Mută articole în Coș și le pune înapoi, pornește, oprește, activează sau dezactivează articole de fundal și uită recipise de instalare. Nu primește alte comenzi."
+            "value" : "Un mic instrument cu drepturi de administrator. Mută articole în Coș și le pune înapoi, pornește, oprește, activează sau dezactivează articole de fundal și uită înregistrări de instalare. Nu primește alte comenzi."
           }
         },
         "ru" : {
@@ -18442,19 +18442,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Și încă %lld fișiere. Pagina Recipise de pachete le listează pe toate."
+                  "value" : "Și încă %lld fișiere. Pagina Înregistrări de pachete le listează pe toate."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Și încă %lld fișier. Pagina Recipise de pachete le listează pe toate."
+                  "value" : "Și încă %lld fișier. Pagina Înregistrări de pachete le listează pe toate."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Și încă %lld de fișiere. Pagina Recipise de pachete le listează pe toate."
+                  "value" : "Și încă %lld de fișiere. Pagina Înregistrări de pachete le listează pe toate."
                 }
               }
             }
@@ -29402,7 +29402,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alegeți un pachet pentru a vedea ce a instalat. macOS păstrează o recipisă a fișierelor plasate de fiecare pachet, iar dacă uitați una, doar acea recipisă este mutată în Coș."
+            "value" : "Alegeți un pachet pentru a vedea ce a instalat. macOS păstrează o înregistrare a fișierelor plasate de fiecare pachet, iar dacă uitați una, doar acea înregistrare este mutată în Coș."
           }
         },
         "ru" : {
@@ -50044,7 +50044,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitați recipisa"
+            "value" : "Uitați înregistrarea"
           }
         },
         "ru" : {
@@ -50151,7 +50151,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitați recipisa…"
+            "value" : "Uitați înregistrarea…"
           }
         },
         "ru" : {
@@ -51085,19 +51085,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Uitați %lld recipise?"
+                  "value" : "Uitați %lld înregistrări?"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Uitați %lld recipisă?"
+                  "value" : "Uitați %lld înregistrare?"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Uitați %lld de recipise?"
+                  "value" : "Uitați %lld de înregistrări?"
                 }
               }
             }
@@ -51278,7 +51278,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitați recipisa pentru %@?"
+            "value" : "Uitați înregistrarea pentru %@?"
           }
         },
         "ru" : {
@@ -51384,7 +51384,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dacă o uitați, recipisa este mutată în Coș, astfel încât macOS nu mai consideră pachetul instalat. Ce a instalat acesta rămâne unde se află."
+            "value" : "Dacă o uitați, înregistrarea este mutată în Coș, astfel încât macOS nu mai consideră pachetul instalat. Ce a instalat acesta rămâne unde se află."
           }
         },
         "ru" : {
@@ -51491,7 +51491,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitarea acestei recipise necesită acces de administrator"
+            "value" : "Uitarea acestei înregistrări necesită acces de administrator"
           }
         },
         "ru" : {
@@ -58723,7 +58723,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisă Homebrew"
+            "value" : "Înregistrare Homebrew"
           }
         },
         "ru" : {
@@ -62648,7 +62648,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instalează instrumentele în linie de comandă ca formule și aplicațiile ca cask‑uri. Pe această pagină, Peel rulează comenzile proprii ale Homebrew și citește ce raportează acestea. Comanda „Uitați”, pe care o execută chiar Peel, mută în Coș recipisa Homebrew a unui cask."
+            "value" : "Homebrew instalează instrumentele în linie de comandă ca formule și aplicațiile ca cask‑uri. Pe această pagină, Peel rulează comenzile proprii ale Homebrew și citește ce raportează acestea. Comanda „Uitați”, pe care o execută chiar Peel, mută în Coș înregistrarea Homebrew a unui cask."
           }
         },
         "ru" : {
@@ -64685,7 +64685,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listează în continuare aceste cask‑uri, dar ceea ce au instalat nu mai este unde l‑a pus Homebrew, așa că nu le poate face upgrade. Dacă uitați un cask, recipisa Homebrew a acestuia este mutată în Coș, împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+            "value" : "Homebrew listează în continuare aceste cask‑uri, dar ceea ce au instalat nu mai este unde l‑a pus Homebrew, așa că nu le poate face upgrade. Dacă uitați un cask, înregistrarea Homebrew a acestuia este mutată în Coș, împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -64791,7 +64791,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listează în continuare acest cask, dar aplicația sa nu mai este unde a pus‑o Homebrew, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută recipisa Homebrew a cask‑ului în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
+            "value" : "Homebrew listează în continuare acest cask, dar aplicația sa nu mai este unde a pus‑o Homebrew, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută înregistrarea Homebrew a cask‑ului în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
           }
         },
         "ru" : {
@@ -64897,7 +64897,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listează în continuare acest cask, dar pachetele pe care le‑a instalat nu mai sunt pe acest Mac, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută recipisa Homebrew a cask‑ului în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
+            "value" : "Homebrew listează în continuare acest cask, dar pachetele pe care le‑a instalat nu mai sunt pe acest Mac, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută înregistrarea Homebrew a cask‑ului în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
           }
         },
         "ru" : {
@@ -70843,7 +70843,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisă de instalare"
+            "value" : "Înregistrare de instalare"
           }
         },
         "ru" : {
@@ -78311,7 +78311,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa a fost deja uitată."
+            "value" : "Înregistrarea a fost deja uitată."
           }
         },
         "ru" : {
@@ -79056,7 +79056,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa Homebrew a cask‑ului este mutată în Coș împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+            "value" : "Înregistrarea Homebrew a cask‑ului este mutată în Coș împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -84170,7 +84170,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Duce în recipisa Homebrew a aplicației"
+            "value" : "Duce în înregistrarea Homebrew a aplicației"
           }
         },
         "ru" : {
@@ -102837,7 +102837,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nicio recipisă de pachet"
+            "value" : "Nicio înregistrare de pachet"
           }
         },
         "ru" : {
@@ -113491,7 +113491,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: pachetul a lăsat articole și în afara aplicației. Pagina Recipise de pachete le listează doar cât timp această recipisă se află aici."
+            "value" : "Neselectat: pachetul a lăsat articole și în afara aplicației. Pagina Înregistrări de pachete le listează doar cât timp această înregistrare se află aici."
           }
         },
         "ru" : {
@@ -126227,7 +126227,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipise de pachete"
+            "value" : "Înregistrări de pachete"
           }
         },
         "ru" : {
@@ -142022,7 +142022,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici Peel doar raportează. Un pachet a instalat acest mediu de rulare Java, așa că pagina Recipise de pachete îl poate muta și îl puteți pune înapoi din Istoric."
+            "value" : "Aici Peel doar raportează. Un pachet a instalat acest mediu de rulare Java, așa că pagina Înregistrări de pachete îl poate muta și îl puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -155930,7 +155930,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar recipisa"
+            "value" : "Doar înregistrarea"
           }
         },
         "ru" : {
@@ -156036,7 +156036,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar recipisa"
+            "value" : "Doar înregistrarea"
           }
         },
         "ru" : {
@@ -162503,7 +162503,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Revizuiți în Recipise de pachete"
+            "value" : "Revizuiți în Înregistrări de pachete"
           }
         },
         "ru" : {
@@ -168549,7 +168549,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Căutare în recipise de pachete"
+            "value" : "Căutare în înregistrări de pachete"
           }
         },
         "ru" : {
@@ -193552,7 +193552,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația instalată de acest pachet este exclusă în Configurări, așa că Peel lasă neatinsă și recipisa pachetului."
+            "value" : "Aplicația instalată de acest pachet este exclusă în Configurări, așa că Peel lasă neatinsă și înregistrarea pachetului."
           }
         },
         "ru" : {
@@ -193764,7 +193764,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa Homebrew a aplicației"
+            "value" : "Înregistrarea Homebrew a aplicației"
           }
         },
         "ru" : {
@@ -193976,7 +193976,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa de instalare a aplicației"
+            "value" : "Înregistrarea de instalare a aplicației"
           }
         },
         "ru" : {
@@ -198537,7 +198537,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa este mutată în Coș, astfel încât macOS nu mai consideră pachetul instalat. Ce a instalat acesta rămâne unde se află."
+            "value" : "Înregistrarea este mutată în Coș, astfel încât macOS nu mai consideră pachetul instalat. Ce a instalat acesta rămâne unde se află."
           }
         },
         "ru" : {
@@ -198643,7 +198643,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa este mutată în Coș. Fișierele rămân unde se află."
+            "value" : "Înregistrarea este mutată în Coș. Fișierele rămân unde se află."
           }
         },
         "ru" : {
@@ -198749,7 +198749,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa este mutată în Coș. Ce a instalat pachetul rămâne și funcționează în continuare, dar macOS, programele de instalare care verifică recipisa și Peel nu vor mai ști că pachetul l‑a instalat, așa că Peel nu va mai putea lista ce a pus acesta pe acest Mac."
+            "value" : "Înregistrarea este mutată în Coș. Ce a instalat pachetul rămâne și funcționează în continuare, dar macOS, programele de instalare care verifică înregistrarea și Peel nu vor mai ști că pachetul l‑a instalat, așa că Peel nu va mai putea lista ce a pus acesta pe acest Mac."
           }
         },
         "ru" : {
@@ -198855,7 +198855,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisa nu se află unde păstrează macOS recipisele."
+            "value" : "Înregistrarea nu se află unde păstrează macOS înregistrările."
           }
         },
         "ru" : {
@@ -200552,7 +200552,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisele Homebrew ale cask‑urilor sunt mutate în Coș împreună cu linkurile care duc în ele, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu le mai listează. Le puteți pune înapoi din Istoric."
+            "value" : "Înregistrările Homebrew ale cask‑urilor sunt mutate în Coș împreună cu linkurile care duc în ele, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu le mai listează. Le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -200871,7 +200871,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recipisele lor sunt mutate în Coș, astfel încât macOS nu mai consideră aceste pachete instalate. Din ce au pus pe acest Mac nu a mai rămas nimic, iar recipisele le puteți pune înapoi din Istoric.\n\n%@"
+            "value" : "Înregistrările lor sunt mutate în Coș, astfel încât macOS nu mai consideră aceste pachete instalate. Din ce au pus pe acest Mac nu a mai rămas nimic, iar înregistrările le puteți pune înapoi din Istoric.\n\n%@"
           }
         },
         "ru" : {
@@ -207065,7 +207065,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scripturile acestui pachet i‑au pus fișierele la locul lor, așa că recipisa sa nu spune unde se află acestea."
+            "value" : "Scripturile acestui pachet i‑au pus fișierele la locul lor, așa că înregistrarea sa nu spune unde se află acestea."
           }
         },
         "ru" : {
@@ -242535,19 +242535,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld recipise"
+                  "value" : "%lld înregistrări"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld recipisă"
+                  "value" : "%lld înregistrare"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de recipise"
+                  "value" : "%lld de înregistrări"
                 }
               }
             }
@@ -251073,7 +251073,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS păstrează o recipisă a fișierelor instalate de un pachet. Cele din afara aplicației sunt listate aici doar pentru a fi arătate: alt software se poate baza pe ele. Dacă Peel a găsit și el unul dintre ele pentru această aplicație, acesta apare și în listele de mai sus și poate fi selectat acolo. Dacă uitați o recipisă, din meniul Mai multe al paginii, aceasta este mutată în Coș: macOS nu mai consideră pachetul instalat, iar fișierele rămân unde se află."
+            "value" : "macOS păstrează o înregistrare a fișierelor instalate de un pachet. Cele din afara aplicației sunt listate aici doar pentru a fi arătate: alt software se poate baza pe ele. Dacă Peel a găsit și el unul dintre ele pentru această aplicație, acesta apare și în listele de mai sus și poate fi selectat acolo. Dacă uitați o înregistrare, din meniul Mai multe al paginii, aceasta este mutată în Coș: macOS nu mai consideră pachetul instalat, iar fișierele rămân unde se află."
           }
         },
         "ru" : {
@@ -254170,7 +254170,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS consideră în continuare aceste pachete instalate, dar din ce au pus pe acest Mac nu a mai rămas nimic. Dacă le uitați recipisele, acestea sunt mutate în Coș și le puteți pune înapoi din Istoric."
+            "value" : "macOS consideră în continuare aceste pachete instalate, dar din ce au pus pe acest Mac nu a mai rămas nimic. Dacă le uitați înregistrările, acestea sunt mutate în Coș și le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {

@@ -215,6 +215,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job whose file Peel can't read and that macOS hasn't loaded is named as that, with a way to its page in Background
   Items.
 
+#### Package Receipts
+
+- In Romanian, a receipt is now „înregistrare”, the record macOS keeps of what a package installed, and the page
+  is Înregistrări de pachete.
+
 #### Homebrew
 
 - Clean Up's and Update's notes say what else Homebrew deletes, and when Homebrew goes online on its own.

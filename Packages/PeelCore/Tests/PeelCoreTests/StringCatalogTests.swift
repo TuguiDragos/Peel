@@ -77,6 +77,21 @@ import Testing
         #expect(checker.problems.isEmpty, "\(checker.problems.map(\.description).joined(separator: "\n"))")
     }
 
+    @Test func romanianCallsAReceiptARecord() throws {
+        let checker = CatalogChecker(root: Self.repository, required: [])
+        var found: [String] = []
+        for catalog in Self.catalogs {
+            let strings = try #require(checker.load(catalog.path)?["strings"] as? [String: [String: Any]])
+            for (key, entry) in strings {
+                let romanian = (entry["localizations"] as? [String: Any])?["ro"] as? [String: Any] ?? [:]
+                if checker.leaves(romanian).contains(where: { $0.text.localizedCaseInsensitiveContains("recipis") }) {
+                    found.append(key)
+                }
+            }
+        }
+        #expect(found.isEmpty, "Romanian writes „înregistrare” for a receipt: \(found.sorted())")
+    }
+
     @Test func aCommandLineToolHasOneName() throws {
         let catalog = try Self.localizable()
         var problems: [String] = []
