@@ -118,6 +118,16 @@ struct PackageActionsTests {
         #expect(result.failures.isEmpty)
     }
 
+    @Test func onlyAReceiptOutsideTheHomeFolderTakesTheHelperToForget() {
+        let home = URL(filePath: "/Users/example", directoryHint: .isDirectory)
+
+        #expect(PackageActions.forgettingNeedsTheHelper(receipt("org.example.solo", on: URL(filePath: "/")), home: home))
+        #expect(!PackageActions.forgettingNeedsTheHelper(receipt("org.example.solo", on: home), home: home))
+        #expect(PackageActions.forgettingNeedsTheHelper(
+            receipt("org.example.solo", on: URL(filePath: "/Volumes/Other", directoryHint: .isDirectory)), home: home
+        ))
+    }
+
     @Test func aReceiptInTheHomeFolderCountsAsAChange() throws {
         let directory = try TemporaryDirectory()
         let root = directory.url.appending(path: "root", directoryHint: .isDirectory)

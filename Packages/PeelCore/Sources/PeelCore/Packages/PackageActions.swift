@@ -1,5 +1,4 @@
 public import Foundation
-internal import PeelPrivileged
 
 public enum PackageActions {
     static let misplacedReceipt = "The receipt isn’t where macOS keeps receipts."
@@ -44,9 +43,18 @@ public enum PackageActions {
     /// The folder macOS keeps the receipts of `volume` in. For a package installed for one account, `pkgutil` names
     /// that account's home folder as the volume, and the receipt is in the Library there.
     private static func receiptsFolder(onVolume volume: URL, home: URL) -> URL {
-        let isTheHome = PathPattern.comparablePath(of: volume) == PathPattern.comparablePath(of: home)
-        let folder = isTheHome ? "Library/Receipts" : "private/var/db/receipts"
+        let folder = isTheHome(volume, home: home) ? "Library/Receipts" : "private/var/db/receipts"
         return volume.appending(path: folder, directoryHint: .isDirectory)
+    }
+
+    /// Whether forgetting `receipt` takes Peel's helper: a disk's receipts are root's, and one in a home folder is that
+    /// account's.
+    public static func forgettingNeedsTheHelper(_ receipt: PackageReceipt, home: URL = .homeDirectory) -> Bool {
+        !isTheHome(receipt.volume, home: home)
+    }
+
+    private static func isTheHome(_ volume: URL, home: URL) -> Bool {
+        PathPattern.comparablePath(of: volume) == PathPattern.comparablePath(of: home)
     }
 
     /// Moves the receipt to the Trash, so macOS stops counting the package as installed and History can put
@@ -66,6 +74,7 @@ public enum PackageActions {
     static func forget(_ receipts: [PackageReceipt], through service: TrashService) async -> TrashResult {
         let home = service.environment.homeDirectory
         var files: [URL] = []
+        var forTheHelper: [URL] = []
         var refused: [TrashFailure] = []
         for receipt in receipts {
             let own = receiptFiles(of: receipt.identifier, onVolume: receipt.volume, home: home)
@@ -81,14 +90,10 @@ public enum PackageActions {
                 refused.append(TrashFailure(url: missing, reason: .failed(why)))
             } else {
                 files += own
+                if forgettingNeedsTheHelper(receipt, home: home) { forTheHelper += own }
             }
         }
         guard !files.isEmpty else { return TrashResult(failures: refused) }
-        // The helper serves no folder of a home, and the account can move what is there itself.
-        let homeFolder = PathPattern.comparablePath(of: home)
-        let forTheHelper = files.filter {
-            !PathComponents.isPath(PathPattern.comparablePath(of: $0), inside: homeFolder)
-        }
         var result = await service.trash(files, usingHelperFor: Set(forTheHelper))
         result.failures += refused
         return result

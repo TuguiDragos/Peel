@@ -34,8 +34,8 @@ struct PackageList: View {
                                 .minimumTarget()
                         }
                         .buttonStyle(.borderless)
-                        .disabled(packages.isWorking || !helper.canAct || !history.mayMove)
-                        .help(forgetAllHelp)
+                        .disabled(packages.isWorking || waitsForTheHelper(toForget: receiptsOnly) || !history.mayMove)
+                        .help(forgetAllHelp(for: receiptsOnly))
                     }
                 }
             }
@@ -143,8 +143,12 @@ struct PackageList: View {
         .tag(receipt.id)
     }
 
-    private var forgetAllHelp: Text {
-        guard helper.canAct else {
+    private func waitsForTheHelper(toForget receipts: [PackageReceipt]) -> Bool {
+        !helper.canAct && receipts.contains { PackageActions.forgettingNeedsTheHelper($0) }
+    }
+
+    private func forgetAllHelp(for receipts: [PackageReceipt]) -> Text {
+        guard !waitsForTheHelper(toForget: receipts) else {
             return Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
         }
         return Text(verbatim: history.holdingReason?.explanation ?? "")

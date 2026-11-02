@@ -53,11 +53,12 @@ struct PackageDetailView: View {
                 .listRowSeparator(.hidden)
             }
 
-            // Forget Receipt always needs the helper, whatever the items need, unless the exclusions leave it alone.
+            // Forget Receipt needs the helper for a disk's receipt, whatever the items need, unless the exclusions
+            // leave it alone.
             if !helper.canAct {
                 if receipt.itemsWaitingForTheHelper > 0 {
                     HelperRequiredBanner(need: .moving(receipt.itemsWaitingForTheHelper))
-                } else if !isForAnExcludedApp {
+                } else if forgettingWaitsForTheHelper, !isForAnExcludedApp {
                     HelperRequiredBanner(need: .forgettingThisReceipt)
                 }
             }
@@ -119,7 +120,7 @@ struct PackageDetailView: View {
                     Button("Forget Receipt") {
                         receiptToForget = receipt
                     }
-                    .disabled(!helper.canAct || !history.mayMove || isForAnExcludedApp)
+                    .disabled(forgettingWaitsForTheHelper || !history.mayMove || isForAnExcludedApp)
                     .help(forgetHelp)
                 }
             }
@@ -172,13 +173,17 @@ struct PackageDetailView: View {
         receipt.apps.contains(where: ExclusionsStore.shared.exclusions.excludes)
     }
 
+    private var forgettingWaitsForTheHelper: Bool {
+        !helper.canAct && PackageActions.forgettingNeedsTheHelper(receipt)
+    }
+
     private var forgetHelp: Text {
         if isForAnExcludedApp {
             return Text("The app this package installed is excluded in Settings, so Peel leaves its receipt alone too.")
         }
-        return helper.canAct
-            ? Text("The receipt goes to the Trash. Files stay where they are.")
-            : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
+        return forgettingWaitsForTheHelper
+            ? Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
+            : Text("The receipt goes to the Trash. Files stay where they are.")
     }
 
     /// What an app that uninstalls itself once it moves does then, as its own page warns.
