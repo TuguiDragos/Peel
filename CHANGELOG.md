@@ -764,6 +764,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- A folder's whole path, in a row's tooltip and in Copy Path, no longer ends in a slash, as Finder copies it.
 - Peel no longer stops responding for good when a checkbox in a list changes on its own, as at the end of a Move to Trash
   that kept an item, while an app that reads other apps' windows through accessibility is running.
 - With Reduce Motion on, figures fade to their new value instead of rolling, on Home, in the menu bar panel, and in the

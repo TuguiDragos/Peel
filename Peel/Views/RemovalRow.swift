@@ -189,7 +189,7 @@ struct RemovalRow: View {
         Text(name ?? url.abbreviatedPath)
             .lineLimit(1)
             .truncationMode(.middle)
-            .help(Text(verbatim: url.path(percentEncoded: false)))
+            .help(Text(verbatim: url.fullPath))
             .checkboxTitleLine()
     }
 
@@ -253,7 +253,7 @@ struct RemovalRow: View {
             InfoNote(
                 name: name ?? url.lastPathComponent,
                 detail: explanation.characters.isEmpty ? nil : Text(explanation),
-                footnote: Text(verbatim: url.path(percentEncoded: false)),
+                footnote: Text(verbatim: url.fullPath),
                 caution: warning.map { Text(Self.commandsMarked($0)) },
                 isInRow: true,
                 opening: $isNoteOpen

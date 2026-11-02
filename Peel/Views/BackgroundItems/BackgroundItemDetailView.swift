@@ -88,7 +88,7 @@ struct BackgroundItemDetailView: View {
                     LabeledContent("Configuration file") {
                         Text(verbatim: plist.abbreviatedPath)
                             .textSelection(.enabled)
-                            .help(Text(verbatim: plist.path(percentEncoded: false)))
+                            .help(Text(verbatim: plist.fullPath))
                         if finderURL == plist {
                             ShowInFinderButton(url: plist)
                         }

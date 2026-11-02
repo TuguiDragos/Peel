@@ -65,7 +65,7 @@ struct PluginDetailView: View {
                 LabeledContent("Location") {
                     Text(verbatim: plugin.url.abbreviatedPath)
                         .textSelection(.enabled)
-                        .help(Text(verbatim: plugin.url.path(percentEncoded: false)))
+                        .help(Text(verbatim: plugin.url.fullPath))
                     ShowInFinderButton(url: plugin.url)
                 }
                 .labeledContentStyle(.oneLine)

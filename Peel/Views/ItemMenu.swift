@@ -28,7 +28,7 @@ struct ItemMenu: View {
         }
         Button("Copy Path", systemImage: "doc.on.doc") {
             NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(url.path(percentEncoded: false), forType: .string)
+            NSPasteboard.general.setString(url.fullPath, forType: .string)
         }
         Divider()
         if isExcluded {

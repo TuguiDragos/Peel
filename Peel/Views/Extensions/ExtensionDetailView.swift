@@ -97,7 +97,7 @@ struct ExtensionDetailView: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                         .textSelection(.enabled)
-                        .help(Text(verbatim: url.path(percentEncoded: false)))
+                        .help(Text(verbatim: url.fullPath))
                 } header: {
                     Text("Where")
                 }

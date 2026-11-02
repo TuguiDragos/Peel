@@ -272,7 +272,7 @@ private struct HistoryRecordRow: View {
             }
             Button("Copy Path", systemImage: "doc.on.doc") {
                 NSPasteboard.general.clearContents()
-                NSPasteboard.general.setString(record.originalURL.path(percentEncoded: false), forType: .string)
+                NSPasteboard.general.setString(record.originalURL.fullPath, forType: .string)
             }
         }
     }
@@ -298,7 +298,7 @@ private struct HistoryRecordRow: View {
                 Text(record.originalURL.abbreviatedPath)
                     .lineLimit(1)
                     .truncationMode(.middle)
-                    .help(Text(verbatim: record.originalURL.path(percentEncoded: false)))
+                    .help(Text(verbatim: record.originalURL.fullPath))
                     .checkboxTitleLine()
                 Text(place.title)
                     .font(.caption)

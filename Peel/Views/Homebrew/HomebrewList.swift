@@ -245,7 +245,7 @@ struct HomebrewList: View {
             }
             LabeledContent("Location") {
                 let location =
-                    homebrew.installation?.prefix.path(percentEncoded: false)
+                    homebrew.installation?.prefix.fullPath
                     ?? String(localized: "Unknown (Homebrew location)", defaultValue: "Unknown")
                 Text(verbatim: location)
                     .font(.callout.monospaced())

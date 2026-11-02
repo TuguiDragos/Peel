@@ -25,7 +25,7 @@ struct FileSearchFileView: View {
                 LabeledContent("Where") {
                     Text(verbatim: file.url.abbreviatedPath)
                         .textSelection(.enabled)
-                        .help(Text(verbatim: file.url.path(percentEncoded: false)))
+                        .help(Text(verbatim: file.url.fullPath))
                     ShowInFinderButton(url: file.url)
                 }
                 .labeledContentStyle(.oneLine)

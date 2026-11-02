@@ -201,9 +201,9 @@ struct RemovalFailureAlert: ViewModifier {
 
     static func details(for outcome: RemovalOutcome) -> String {
         var lines = historyLines(outcome)
-            + outcome.putBackFailures.map { "\($0.url.path(percentEncoded: false))\n\($0.failure.explanation)" }
+            + outcome.putBackFailures.map { "\($0.url.fullPath)\n\($0.failure.explanation)" }
             + quitLines(outcome)
-            + outcome.failures.map { "\($0.url.path(percentEncoded: false))\n\($0.reason.explanation)" }
+            + outcome.failures.map { "\($0.url.fullPath)\n\($0.reason.explanation)" }
             + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
             + privacyLines(outcome)

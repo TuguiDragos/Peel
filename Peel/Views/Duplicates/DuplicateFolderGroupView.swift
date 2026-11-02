@@ -110,7 +110,7 @@ private struct DuplicateFolderRow: View {
             }
             .toggleStyle(.checkbox)
             .disabled(!canChangeSelection)
-            .help(canChangeSelection ? Text(verbatim: folder.url.path(percentEncoded: false)) : Text("Peel always keeps at least one copy."))
+            .help(canChangeSelection ? Text(verbatim: folder.url.fullPath) : Text("Peel always keeps at least one copy."))
         }
         .tableRow(isFirst: isFirst)
         .contextMenu {

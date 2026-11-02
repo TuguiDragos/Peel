@@ -161,7 +161,7 @@ private struct DuplicateFileRow: View {
                 }
                 .toggleStyle(.checkbox)
                 .disabled(!canChangeSelection)
-                .help(canChangeSelection ? Text(verbatim: file.url.path(percentEncoded: false)) : Text("Peel always keeps at least one copy."))
+                .help(canChangeSelection ? Text(verbatim: file.url.fullPath) : Text("Peel always keeps at least one copy."))
 
                 Button {
                     preview.url = file.url

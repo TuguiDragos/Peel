@@ -532,6 +532,12 @@ extension URL {
     var abbreviatedPath: String {
         (path(percentEncoded: false) as NSString).abbreviatingWithTildeInPath
     }
+
+    /// The whole path as Finder copies it: a folder's `path(percentEncoded:)` keeps the URL's slash at the end.
+    var fullPath: String {
+        let path = path(percentEncoded: false)
+        return path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path
+    }
 }
 
 extension Int64 {

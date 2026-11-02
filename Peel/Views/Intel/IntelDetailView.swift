@@ -83,7 +83,7 @@ struct IntelDetailView: View {
                 LabeledContent("Where") {
                     Text(verbatim: finding.url.abbreviatedPath)
                         .textSelection(.enabled)
-                        .help(Text(verbatim: finding.url.path(percentEncoded: false)))
+                        .help(Text(verbatim: finding.url.fullPath))
                     ShowInFinderButton(url: finding.url)
                 }
                 .labeledContentStyle(.oneLine)
