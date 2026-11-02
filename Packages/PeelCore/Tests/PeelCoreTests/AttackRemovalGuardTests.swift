@@ -602,7 +602,7 @@ struct AttackRemovalGuardTests {
             "Library/Containers/com.apple.Stickies/Data/Library/Stickies",
             "Library/Containers/com.apple.Safari/Data/Library/Safari/SafariTabs.db",
             "Library/Shortcuts", "Library/HomeKit", "Library/Accounts", "Library/Finance", "Library/IdentityServices",
-            "Library/Reminders", "Library/Calendars",
+            "Library/Reminders", "Library/Calendars", "Library/Photos",
             "Library/Application Support/CallHistoryTransactions", "Library/Application Support/FaceTime",
         ]
         for store in stores {

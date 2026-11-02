@@ -455,6 +455,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- Without Full Disk Access, an app's page no longer makes macOS ask about your photos, since `~/Library/Photos` isn't
+  looked into.
 - On macOS 27, the list keeps its place when the first update arrives or the last one leaves.
 - A system extension macOS is updating is named once on its app's page and in `peel uninstall`.
 - Folders of apps are read each on a thread of its own within a time limit, so one that doesn't answer is named and

@@ -30,6 +30,7 @@ public enum ProtectedData: Sendable {
         "Library/Calendars",
         "Library/Reminders",
         "Library/Contacts",
+        "Library/Photos",
         "Library/Shortcuts",
         "Library/Group Containers/group.is.workflow.shortcuts",
         "Library/Group Containers/group.is.workflow.my.app",
