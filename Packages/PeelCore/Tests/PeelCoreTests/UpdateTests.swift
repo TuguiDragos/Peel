@@ -284,12 +284,33 @@ struct ElectronUpdaterTests {
         #expect(ElectronUpdater.feedURL(fromConfiguration: github)?.absoluteString == "https://github.com/example/tool/releases/latest/download/beta-mac.yml")
 
         #expect(ElectronUpdater.feedURL(fromConfiguration: "provider: generic\nurl: http://insecure.example.com/\n") == nil)
-        #expect(ElectronUpdater.feedURL(fromConfiguration: "provider: s3\nbucket: example\n") == nil)
 
         // An app that updates from a company's own GitHub server names it with `host`. Asking github.com
         // instead would send its owner and repository to a server they were never meant for.
         #expect(ElectronUpdater.feedURL(fromConfiguration: "provider: github\nhost: git.example.com\nowner: example\nrepo: tool\n") == nil)
         #expect(ElectronUpdater.feedURL(fromConfiguration: "provider: github\nhost: github.com\nowner: example\nrepo: tool\n") != nil)
+    }
+
+    @Test func asksAStorageServiceOnlyAtAnAddressTheAppWritesWhole() {
+        func feed(_ configuration: String) -> String? {
+            ElectronUpdater.feedURL(fromConfiguration: configuration)?.absoluteString
+        }
+        let endpoint = "provider: s3\nbucket: marxist-updates\nendpoint: https://s3.nl-ams.scw.cloud\nregion: nl-ams\n"
+        #expect(feed(endpoint) == "https://s3.nl-ams.scw.cloud/marxist-updates/latest-mac.yml")
+        let withPath = "provider: s3\nbucket: example\nendpoint: https://storage.example.com\npath: /releases\nchannel: beta\n"
+        #expect(feed(withPath) == "https://storage.example.com/example/releases/beta-mac.yml")
+        let r2 = "provider: r2\nbucket: example\naccountId: 0123abcd\npublicUrl: https://pub-0123abcd.r2.dev/\npath: updates\n"
+        #expect(feed(r2) == "https://pub-0123abcd.r2.dev/updates/latest-mac.yml")
+
+        #expect(feed("provider: s3\nbucket: example\n") == nil)
+        #expect(feed("provider: s3\nbucket: example\nendpoint: https://storage.example.com\naccelerate: true\n") == nil)
+        #expect(feed("provider: spaces\nname: example\nregion: nyc3\n") == nil)
+        #expect(feed("provider: r2\nbucket: example\naccountId: 0123abcd\n") == nil)
+        #expect(feed("provider: r2\naccountId: 0123abcd\npublicUrl: https://pub-0123abcd.r2.dev\n") == nil)
+        #expect(feed("provider: s3\nbucket: chatbox\nendpoint: https://0123abcd.r2.cloudflarestorage.com\npath: /releases\n") == nil)
+        #expect(feed("provider: s3\nbucket: example\nendpoint: https://0123abcd.eu.r2.cloudflarestorage.com\n") == nil)
+        #expect(feed("provider: s3\nbucket: example\nendpoint: http://storage.example.com\n") == nil)
+        #expect(feed("provider: r2\nbucket: example\naccountId: 0123abcd\npublicUrl: http://pub.example.com\n") == nil)
     }
 
     @Test func offersOnlyWhatElectronUpdaterWouldOfferThisMac() throws {

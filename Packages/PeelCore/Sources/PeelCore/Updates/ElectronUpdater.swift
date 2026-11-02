@@ -39,9 +39,36 @@ enum ElectronUpdater {
             guard fields["host"] == nil || fields["host"] == "github.com" else { return nil }
             guard let owner = fields["owner"], let repository = fields["repo"] else { return nil }
             return URL(string: "https://github.com/\(owner)/\(repository)/releases/latest/download/\(file)")
+        case "s3", "r2":
+            guard let base = storageAddress(in: fields), let url = URL(string: base), url.scheme == "https",
+                  url.host() != nil
+            else { return nil }
+            return url.appending(path: file)
         default:
             return nil
         }
+    }
+
+    /// The address electron-updater asks a storage service at (`getS3LikeProviderBaseUrl`), only when the app writes it
+    /// whole: an S3 `endpoint`, or an R2 bucket's `publicUrl`. Any other address is one electron-updater builds itself,
+    /// and R2's S3 endpoint always asks for credentials, so no app can update from it.
+    private static func storageAddress(in fields: [String: String]) -> String? {
+        let base: String
+        switch fields["provider"] {
+        case "s3":
+            guard fields["accelerate"] != "true", let endpoint = fields["endpoint"], let bucket = fields["bucket"],
+                  URL(string: endpoint)?.host()?.lowercased().hasSuffix(".r2.cloudflarestorage.com") == false
+            else { return nil }
+            base = "\(endpoint)/\(bucket)"
+        case "r2":
+            guard fields["bucket"] != nil, fields["accountId"] != nil, let publicURL = fields["publicUrl"]
+            else { return nil }
+            base = publicURL.hasSuffix("/") ? String(publicURL.dropLast()) : publicURL
+        default:
+            return nil
+        }
+        guard let path = fields["path"] else { return base }
+        return base + (path.hasPrefix("/") ? "" : "/") + path
     }
 
     static func version(fromFeed text: String) -> String? {
