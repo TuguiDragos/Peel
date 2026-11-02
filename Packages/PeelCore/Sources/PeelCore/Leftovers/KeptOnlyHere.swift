@@ -70,6 +70,21 @@ enum KeptOnlyHere {
         ("Library/Application Support/BraveSoftware/Brave-Origin-Beta", "Default", .holdsPasswordsOrCodes),
         ("Library/Application Support/BraveSoftware/Brave-Origin-Nightly", "Default", .holdsPasswordsOrCodes),
         ("Library/Application Support/com.operasoftware.Opera", nil, .holdsPasswordsOrCodes),
+        // Microsoft's "Native messaging" names Edge's folder for each channel and Vivaldi's team names Vivaldi's;
+        // Thorium's, Comet's, Arc's and Dia's come from their casks. Yandex Browser's help, "Profile for settings and
+        // data storing", keeps the profiles and their site logins in `YandexBrowser`.
+        ("Library/Application Support/Microsoft Edge", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Microsoft Edge Beta", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Microsoft Edge Dev", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Microsoft Edge Canary", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Vivaldi", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Thorium", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Comet", "Default", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Yandex", "YandexBrowser", .holdsPasswordsOrCodes),
+        ("Library/Application Support/Arc", nil, .holdsPasswordsOrCodes),
+        ("Library/Application Support/Dia", nil, .holdsPasswordsOrCodes),
+        // Kagi's "Technical Information" for Orion: its profiles and bookmarks are in its folder.
+        ("Library/Application Support/Orion", nil, .holdsWorkMadeWithTheApp),
         // Tunnelblick's "File Locations" and "Uninstalling Tunnelblick".
         ("Library/Application Support/Tunnelblick", "Configurations", .holdsVPNConnections),
         // SparkLabs' "Uninstalling Viscosity (Mac)": connection data.
