@@ -237,6 +237,16 @@ nonisolated extension SpaceItem {
             detail: "What the formulas Homebrew installed keep in its var folder, such as a database’s data. Homebrew’s uninstall leaves it, so it can outlive its formula, and a folder no installed formula names says so. The services’ logs are listed apart, and the settings a formula keeps in Homebrew’s etc folder or in /etc stay where they are.",
             hint: "Remove a folder in Finder once no formula needs it. Homebrew never removes it."
         ),
+        "tex-live": Words(
+            title: LocalizedStringResource("TeX Live", comment: "A product's name, never translated."),
+            detail: "Each year of TeX Live in /usr/local/texlive, where MacTeX installs it. Installing a later year leaves the earlier ones as they were, and each year other than the one in use says so.",
+            hint: "Remove a year you no longer use by dragging its folder to the Trash in Finder, which asks for an administrator’s password. TeX Live Utility chooses the year in use."
+        ),
+        "dotnet-sdks": Words(
+            title: ".NET SDKs",
+            detail: "Each version of the .NET SDK installed on this Mac. Installing a newer one leaves the earlier ones, and Microsoft says you generally need only the newest.",
+            hint: "Remove a version with a newer one beside it by dragging its folder to the Trash in Finder, or with Microsoft’s .NET Uninstall Tool. Finder asks for an administrator’s password for a version in /usr/local."
+        ),
         "homebrew-logs": Words(
             title: "Homebrew Service Logs",
             detail: "Logs that the services Homebrew runs, such as a database or a web server, write in Homebrew’s folder. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in."
@@ -252,6 +262,8 @@ nonisolated extension SpaceItem.PlaceNote {
     var words: LocalizedStringResource {
         switch self {
         case .namedByNoInstalledFormula: "No installed formula names it"
+        case .notTheTeXLiveInUse: "Not the year in use"
+        case .aNewerSDKIsInstalled: "A newer version is installed"
         }
     }
 }

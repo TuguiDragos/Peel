@@ -241,10 +241,12 @@ Recommended passes it by. The logs Homebrew's services write in `/opt/homebrew/v
 the folders they sit in stay, since a service expects to find the folder it writes in. What the formulas keep in
 Homebrew's `var` folder (`/opt/homebrew/var`, or `/usr/local/var` on an Intel-based Mac), such as a database's data, is
 listed folder by folder with its size and only shown, since `brew uninstall` leaves it: a folder no installed formula
-names in its own file says so, and what a formula keeps in Homebrew's `etc` or in `/etc` stays where it is. Where
-Developer knows part of a folder, Space says how much of it moves here and opens Developer for the rest. Space also
-explains the snapshots macOS keeps on the disk, which Peel never removes, and, on macOS 27, says how much Apple
-Intelligence may keep on this Mac, by Apple's figure, and how much the AI models and datasets Developer lists take.
+names in its own file says so, and what a formula keeps in Homebrew's `etc` or in `/etc` stays where it is. The years
+of TeX Live in `/usr/local/texlive` and the versions of the .NET SDK are shown the same way, each with its size, and
+those other than the year in use or with a newer version beside them say so. Where Developer knows part of a folder,
+Space says how much of it moves here and opens Developer for the rest. Space also explains the snapshots macOS keeps
+on the disk, which Peel never removes, and, on macOS 27, says how much Apple Intelligence may keep on this Mac, by
+Apple's figure, and how much the AI models and datasets Developer lists take.
 
 Nothing is selected for you: Select Recommended takes what Peel could measure in an area and nothing holds back. A
 cache, or a log in the Library every account shares or in Homebrew's folder, that something wrote to in the last 15

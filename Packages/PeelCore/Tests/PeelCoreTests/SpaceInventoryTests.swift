@@ -76,6 +76,31 @@ struct SpaceInventoryTests {
         #expect(item.placeSizes.values.allSatisfy { $0.known > 0 })
     }
 
+    @Test func listsTheYearsOfTeXLiveAndTheVersionsOfTheDotNetSDK() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/usr/local/texlive/2025/texmf-dist/ls-R", bytes: 300_000)
+        try directory.file("root/usr/local/texlive/2026/texmf-dist/ls-R", bytes: 300_000)
+        try directory.file("root/usr/local/share/dotnet/sdk/8.0.403/dotnet.dll", bytes: 200_000)
+        try directory.file("root/usr/local/share/dotnet/sdk/9.0.100/dotnet.dll", bytes: 200_000)
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        try directory.directory("root/Library/TeX")
+        try FileManager.default.createSymbolicLink(
+            at: root.appending(path: "Library/TeX/Root"), withDestinationURL: root.appending(path: "usr/local/texlive/2026")
+        )
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home"), root: root, minimumSize: 1, measure: LeftoverScanner.walk
+        )
+
+        let texLive = try #require(report.items.first { $0.id == "tex-live" })
+        #expect(texLive.isReadOnly && texLive.listedPlaces.map(\.lastPathComponent) == ["2025", "2026"])
+        #expect(texLive.placeNotes.map { $0.key.lastPathComponent } == ["2025"])
+        let sdks = try #require(report.items.first { $0.id == "dotnet-sdks" })
+        #expect(sdks.isReadOnly && sdks.listedPlaces.map(\.lastPathComponent) == ["8.0.403", "9.0.100"])
+        #expect(sdks.placeNotes.map { $0.key.lastPathComponent } == ["8.0.403"])
+        #expect(sdks.placeSizes.values.allSatisfy { $0.known > 0 })
+    }
+
     @Test func reportsOnlyWhatIsBigEnough() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Logs/big.log", bytes: 400_000)

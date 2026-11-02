@@ -53,6 +53,10 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public enum PlaceNote: Sendable, Hashable {
         /// A folder in Homebrew's `var` that no installed formula names in its own file.
         case namedByNoInstalledFormula
+        /// A year of TeX Live other than the one in use.
+        case notTheTeXLiveInUse
+        /// A version of the .NET SDK with a newer one beside it.
+        case aNewerSDKIsInstalled
     }
 
     public var isReadOnly: Bool {
@@ -534,6 +538,22 @@ public enum SpaceInventory {
             handling: .readOnly,
             places: { home, root in HomebrewData.prefixes(home: home, root: root).flatMap(HomebrewData.folders(in:)) },
             placeNotes: HomebrewData.notes(on:)
+        ),
+        Definition(
+            id: "tex-live",
+            category: .development,
+            paths: [],
+            handling: .readOnly,
+            places: { _, root in TeXLive.years(root: root) },
+            placeNotes: TeXLive.notes(on:)
+        ),
+        Definition(
+            id: "dotnet-sdks",
+            category: .development,
+            paths: [],
+            handling: .readOnly,
+            places: DotNetSDKs.versions(home:root:),
+            placeNotes: DotNetSDKs.notes(on:)
         ),
     ]
 

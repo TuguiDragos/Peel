@@ -10780,6 +10780,112 @@
         }
       }
     },
+    ".NET SDKs" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sady .NET SDK"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDKs"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SDK de .NET"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SDK .NET"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SDK .NET"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK's"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zestawy .NET SDK"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SDKs do .NET"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SDK‑uri .NET"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пакеты SDK для .NET"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK:er"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK’ları"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".NET SDK"
+          }
+        }
+      }
+    },
     "A Finder window’s title says the whole path rather than the folder’s name." : {
       "localizations" : {
         "cs" : {
@@ -12685,6 +12791,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "對你已連線的伺服器建立的新連線，會立即透過第一條連線開啟；第一條連線會在最後一條連線結束後再保持開啟10分鐘。如果你在同一部伺服器上使用兩個帳號，例如兩個GitHub帳號，請讓此選項保持關閉：ssh會透過第一個帳號的連線傳送第二個帳號的連線。"
+          }
+        }
+      }
+    },
+    "A newer version is installed" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je nainstalovaná novější verze"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine neuere Version ist installiert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hay una versión más reciente instalada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une version plus récente est installée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È installata una versione più recente"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "より新しいバージョンがインストールされています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 버전이 설치되어 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is een nieuwere versie geïnstalleerd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zainstalowano nowszą wersję"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma versão mais recente está instalada"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este instalată o versiune mai nouă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установлена более новая версия"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En nyare version är installerad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha yeni bir sürüm yüklü"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інстальовано новішу версію"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已安装较新的版本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已安裝較新的版本"
           }
         }
       }
@@ -43060,6 +43272,112 @@
         }
       }
     },
+    "Each version of the .NET SDK installed on this Mac. Installing a newer one leaves the earlier ones, and Microsoft says you generally need only the newest." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jednotlivé verze sady .NET SDK nainstalované v tomto Macu. Instalace novější verze ponechá ty předchozí a podle společnosti Microsoft obvykle potřebujete jen tu nejnovější."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jede auf diesem Mac installierte Version des .NET SDK. Beim Installieren einer neueren Version bleiben die früheren erhalten, und laut Microsoft benötigst du in der Regel nur die neueste."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada versión del SDK de .NET instalada en este Mac. Al instalar una más reciente, las anteriores se quedan, y Microsoft indica que, por lo general, solo necesitas la más reciente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque version du SDK .NET installée sur ce Mac. L’installation d’une version plus récente laisse les précédentes en place, et selon Microsoft, vous n’avez généralement besoin que de la plus récente."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni versione dell’SDK .NET installata su questo Mac. Installando una versione più nuova, quelle precedenti restano al loro posto, e secondo Microsoft in genere serve solo la più recente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacにインストールされている.NET SDKの各バージョンです。新しいバージョンをインストールしても以前のバージョンは残りますが、Microsoftによると、通常必要なのは最新のバージョンだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에 설치된 .NET SDK의 각 버전입니다. 새로운 버전을 설치해도 이전 버전은 그대로 남으며, Microsoft에 따르면 일반적으로 최신 버전만 있으면 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elke versie van de .NET SDK die op deze Mac is geïnstalleerd. Als je een nieuwere installeert, blijven de eerdere staan, en volgens Microsoft heb je meestal alleen de nieuwste nodig."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Każda wersja zestawu .NET SDK zainstalowana na tym Macu. Zainstalowanie nowszej wersji nie usuwa wcześniejszych, a według firmy Microsoft zwykle potrzebna jest tylko najnowsza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada versão do SDK do .NET instalada neste Mac. Instalar uma versão mais recente mantém as anteriores, e a Microsoft diz que, em geral, você só precisa da mais recente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fiecare versiune de .NET SDK instalată pe acest Mac. Instalarea uneia mai noi nu le elimină pe cele anterioare, iar Microsoft spune că, în general, aveți nevoie doar de cea mai nouă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждая версия пакета SDK для .NET, установленная на этом Mac. При установке более новой версии предыдущие остаются, а Microsoft указывает, что обычно нужна только самая новая."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varje version av .NET SDK som är installerad på den här datorn. När en nyare version installeras ligger de tidigare kvar, och enligt Microsoft behöver du i regel bara den nyaste."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’te yüklü her .NET SDK sürümü. Daha yeni bir sürüm yüklemek eskilerini yerinde bırakır ve Microsoft, genellikle yalnızca en yenisine ihtiyacınız olduğunu belirtiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кожна версія .NET SDK, інстальована на цьому Mac. Після інсталювання новішої версії попередні лишаються, а Microsoft зазначає, що зазвичай потрібна лише найновіша."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac上安装的每个.NET SDK版本。安装较新的版本后，较早的版本会保留下来；Microsoft表示，你通常只需要最新的版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上安裝的每個.NET SDK版本。安裝較新的版本後，較舊的版本仍會保留，而Microsoft表示你通常只需要最新的版本。"
+          }
+        }
+      }
+    },
     "Each window adds its commands to the history as they run and reads the others’, so the Up Arrow finds them in every window." : {
       "localizations" : {
         "cs" : {
@@ -43162,6 +43480,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每個視窗會在指令執行時將其加入指令記錄，並讀取其他視窗的指令，因此在每個視窗中按向上鍵都能找到這些指令。"
+          }
+        }
+      }
+    },
+    "Each year of TeX Live in /usr/local/texlive, where MacTeX installs it. Installing a later year leaves the earlier ones as they were, and each year other than the one in use says so." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jednotlivé ročníky TeX Live v /usr/local/texlive, kam ho instaluje MacTeX. Instalace pozdějšího ročníku ponechá ty dřívější tak, jak byly, a každý ročník kromě používaného to uvádí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jede Jahresversion von TeX Live in /usr/local/texlive, wo MacTeX sie installiert. Beim Installieren einer späteren Jahresversion bleiben die früheren unverändert erhalten, und bei jeder Jahresversion außer der verwendeten wird das angegeben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada año de TeX Live en /usr/local/texlive, donde lo instala MacTeX. Al instalar un año posterior, los anteriores se quedan como estaban, y cada año que no es el que está en uso lo indica."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque année de TeX Live présente dans /usr/local/texlive, où MacTeX l’installe. L’installation d’une année plus récente laisse les précédentes telles quelles, et chaque année autre que celle utilisée l’indique."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni edizione annuale di TeX Live in /usr/local/texlive, dove la installa MacTeX. Installando un’edizione successiva, quelle precedenti restano com’erano, e ogni edizione diversa da quella in uso lo segnala."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/usr/local/texlive（MacTeXのインストール先）にある、TeX Liveの各年版です。新しい年版をインストールしても以前の年版はそのまま残り、使用中の年版以外にはその旨が表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacTeX의 설치 위치인 /usr/local/texlive에 있는 연도별 TeX Live입니다. 이후 연도를 설치해도 이전 연도는 그대로 남으며, 사용 중인 연도가 아닌 각 연도에는 그렇게 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elk jaar van TeX Live in /usr/local/texlive, waar MacTeX het installeert. Als je een later jaar installeert, blijven de eerdere jaren zoals ze waren, en bij elk jaar dat niet in gebruik is, staat dat erbij."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Każda wersja roczna TeX Live w /usr/local/texlive, gdzie instaluje ją MacTeX. Zainstalowanie późniejszej wersji pozostawia wcześniejsze bez zmian, a każda wersja inna niż używana jest odpowiednio oznaczona."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada ano do TeX Live em /usr/local/texlive, onde o MacTeX o instala. Instalar um ano mais recente mantém os anteriores como estavam, e cada ano que não está em uso indica isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fiecare an de TeX Live din /usr/local/texlive, unde îl instalează MacTeX. Instalarea unui an mai recent îi lasă pe cei anteriori așa cum erau, iar fiecare an, în afară de cel în uz, indică acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждый годовой выпуск TeX Live в /usr/local/texlive, куда его устанавливает MacTeX. При установке более позднего выпуска предыдущие остаются нетронутыми, а каждый выпуск, кроме используемого, помечен как неиспользуемый."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varje årgång av TeX Live i /usr/local/texlive, där MacTeX installerar den. När en senare årgång installeras ligger de tidigare kvar som de var, och varje årgång utom den som används är märkt med det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacTeX’in TeX Live’ı yüklediği /usr/local/texlive klasöründeki her TeX Live yılı. Daha sonraki bir yılı yüklemek önceki yılları olduğu gibi bırakır ve kullanımdaki yıl dışındaki her yılın yanında bu belirtilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кожен рік TeX Live у /usr/local/texlive, куди його інсталює MacTeX. Після інсталювання пізнішого року попередні лишаються як були, а кожен рік, крім того, що використовується, позначено відповідною приміткою."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/usr/local/texlive中的每个TeX Live年度版本，MacTeX会将TeX Live安装在这里。安装较新的年度版本后，较早的年度版本会原样保留；除正在使用的年度版本外，其他每个年度版本都会注明这一点。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位於/usr/local/texlive（MacTeX的安裝位置）中的每個TeX Live年度版本。安裝較新的年度版本後，較早的年度版本會維持原樣，而除了使用中的年度版本外，其他每個年度版本都會註明這一點。"
           }
         }
       }
@@ -117260,6 +117684,112 @@
         }
       }
     },
+    "Not the year in use" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není to používaný ročník"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht die verwendete Jahresversion"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No es el año en uso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas l’année utilisée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è l’edizione in uso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用中の年版ではありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 중인 연도가 아님"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet het jaar dat in gebruik is"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieużywana wersja"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é o ano em uso"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu este anul în uz"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот выпуск не используется"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte årgången som används"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanımdaki yıl değil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей рік не використовується"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不是正在使用的年度版本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不是使用中的年度版本"
+          }
+        }
+      }
+    },
     "Not used by any virtual machine" : {
       "localizations" : {
         "cs" : {
@@ -159807,6 +160337,218 @@
         }
       }
     },
+    "Remove a version with a newer one beside it by dragging its folder to the Trash in Finder, or with Microsoft’s .NET Uninstall Tool. Finder asks for an administrator’s password for a version in /usr/local." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verzi, vedle které je nainstalovaná novější verze, odstraňte přetažením její složky do koše ve Finderu nebo pomocí nástroje .NET Uninstall Tool od společnosti Microsoft. U verze v /usr/local si Finder vyžádá heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entferne eine Version, neben der eine neuere installiert ist, indem du ihren Ordner im Finder in den Papierkorb ziehst oder das .NET Uninstall Tool von Microsoft verwendest. Für eine Version in /usr/local fragt der Finder nach dem Passwort eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para eliminar una versión que tenga otra más reciente al lado, arrastra su carpeta a la papelera en el Finder o usa .NET Uninstall Tool de Microsoft. El Finder pide una contraseña de administrador para una versión que esté en /usr/local."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez une version lorsqu’une plus récente est installée à côté, en faisant glisser son dossier dans la corbeille depuis le Finder, ou avec le .NET Uninstall Tool de Microsoft. Le Finder demande le mot de passe d’un administrateur pour une version située dans /usr/local."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi una versione affiancata da una più recente trascinandone la cartella nel Cestino dal Finder, oppure con .NET Uninstall Tool di Microsoft. Per una versione in /usr/local, il Finder chiede la password di un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "より新しいバージョンもインストールされているバージョンは、Finderでそのフォルダをゴミ箱にドラッグするか、Microsoftの.NET Uninstall Toolを使用して取り除いてください。/usr/local内のバージョンの場合は、Finderが管理者のパスワードを求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 버전이 함께 설치되어 있는 버전은 Finder에서 해당 폴더를 휴지통으로 드래그하거나 Microsoft의 .NET Uninstall Tool을 사용하여 제거하십시오. /usr/local에 있는 버전의 경우 Finder가 관리자 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder een versie waarnaast een nieuwere staat door de map ervan in Finder naar de prullenmand te slepen, of met de .NET Uninstall Tool van Microsoft. Finder vraagt om het wachtwoord van een beheerder bij een versie in /usr/local."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby pozbyć się wersji, obok której jest nowsza, przeciągnij jej folder do Kosza w Finderze albo użyj narzędzia .NET Uninstall Tool firmy Microsoft. W przypadku wersji w /usr/local Finder poprosi o hasło administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remova uma versão que tenha outra mais recente ao lado arrastando a pasta dela para o Lixo no Finder, ou com o .NET Uninstall Tool da Microsoft. O Finder pede a senha de um administrador para uma versão em /usr/local."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați o versiune care are alături una mai nouă, trăgându‑i dosarul în Coș din Finder sau folosind .NET Uninstall Tool de la Microsoft. Finder cere parola unui administrator pentru o versiune din /usr/local."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите версию, рядом с которой установлена более новая, перетащив ее папку в Корзину в Finder или с помощью .NET Uninstall Tool от Microsoft. Для версии в /usr/local Finder запросит пароль администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort en version som har en nyare bredvid sig genom att dra dess mapp till papperskorgen i Finder, eller med Microsofts .NET Uninstall Tool. Finder ber om en administratörs lösenord för en version i /usr/local."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanında daha yeni bir sürüm bulunan bir sürümü, klasörünü Finder’da Çöp Sepeti’ne sürükleyerek veya Microsoft’un .NET Uninstall Tool aracıyla kaldırın. /usr/local içindeki bir sürüm için Finder bir yönetici parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб вилучити версію, поряд з якою є новіша, перетягніть її папку в Смітник у Finder або скористайтеся інструментом .NET Uninstall Tool від Microsoft. Для версії в /usr/local Finder запитує пароль адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除已有较新版本并存的版本，请在“访达”中将其文件夹拖到废纸篓，或使用Microsoft的.NET Uninstall Tool。对于/usr/local中的版本，“访达”会要求输入管理员密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若某個版本旁已有較新的版本，可在Finder中將其檔案夾拖到「垃圾桶」來移除它，或使用Microsoft的.NET Uninstall Tool移除。若版本位於/usr/local中，Finder會要求輸入管理者的密碼。"
+          }
+        }
+      }
+    },
+    "Remove a year you no longer use by dragging its folder to the Trash in Finder, which asks for an administrator’s password. TeX Live Utility chooses the year in use." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ročník, který už nepoužíváte, odstraňte přetažením jeho složky do koše ve Finderu, přičemž si Finder vyžádá heslo správce. Používaný ročník volí aplikace TeX Live Utility."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entferne eine Jahresversion, die du nicht mehr verwendest, indem du ihren Ordner im Finder in den Papierkorb ziehst. Der Finder fragt dabei nach dem Passwort eines Administrators. Die verwendete Jahresversion legst du in TeX Live Utility fest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para eliminar un año que ya no uses, arrastra su carpeta a la papelera en el Finder, que pide una contraseña de administrador. El año en uso se elige en TeX Live Utility."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez une année que vous n’utilisez plus en faisant glisser son dossier dans la corbeille depuis le Finder, qui demande le mot de passe d’un administrateur. TeX Live Utility choisit l’année utilisée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi un’edizione che non usi più trascinandone la cartella nel Cestino dal Finder, che chiede la password di un amministratore. L’edizione in uso si sceglie con TeX Live Utility."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使わなくなった年版は、Finderでそのフォルダをゴミ箱にドラッグして取り除いてください。その際、Finderが管理者のパスワードを求めます。使用中の年版はTeX Live Utilityで選択します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 이상 사용하지 않는 연도는 Finder에서 해당 폴더를 휴지통으로 드래그하여 제거하십시오. 이때 Finder가 관리자 암호를 요청합니다. 사용 중인 연도는 TeX Live Utility에서 선택합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder een jaar dat je niet meer gebruikt door de map ervan in Finder naar de prullenmand te slepen. Finder vraagt daarbij om het wachtwoord van een beheerder. Met TeX Live Utility kies je welk jaar in gebruik is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby pozbyć się wersji, której już nie używasz, przeciągnij jej folder do Kosza w Finderze, który poprosi o hasło administratora. Używaną wersję wybiera się w aplikacji TeX Live Utility."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remova um ano que você não usa mais arrastando a pasta dele para o Lixo no Finder, que pede a senha de um administrador. O TeX Live Utility escolhe o ano em uso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați un an pe care nu îl mai folosiți, trăgându‑i dosarul în Coș din Finder, care cere parola unui administrator. Anul în uz se alege din TeX Live Utility."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите выпуск, который Вы больше не используете, перетащив его папку в Корзину в Finder, который запросит пароль администратора. Используемый выпуск выбирается в TeX Live Utility."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort en årgång som du inte längre använder genom att dra dess mapp till papperskorgen i Finder, som ber om en administratörs lösenord. TeX Live Utility väljer vilken årgång som används."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artık kullanmadığınız bir yılı, klasörünü Finder’da Çöp Sepeti’ne sürükleyerek kaldırın; Finder bunun için bir yönetici parolası ister. Kullanımdaki yıl TeX Live Utility’de seçilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб вилучити рік, яким ви більше не користуєтеся, перетягніть його папку в Смітник у Finder, який запитає пароль адміністратора. Рік, що використовується, вибирається в TeX Live Utility."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除不再使用的年度版本，请在“访达”中将其文件夹拖到废纸篓，“访达”会要求输入管理员密码。可在TeX Live Utility中选取要使用的年度版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除你不再使用的年度版本，請在Finder中將其檔案夾拖到「垃圾桶」，Finder會要求輸入管理者的密碼。使用中的年度版本由TeX Live Utility選擇。"
+          }
+        }
+      }
+    },
     "Remove apps and what they leave behind, free up space, and fine-tune your Mac." : {
       "comment" : "What Peel does, under its name in About: it uninstalls apps, frees disk space, and has Tweaks and a Terminal page.",
       "localizations" : {
@@ -191282,6 +192024,10 @@
           }
         }
       }
+    },
+    "TeX Live" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
     },
     "Tells you when your apps have new updates and when a Homebrew upgrade finishes or runs into a problem. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
       "localizations" : {
