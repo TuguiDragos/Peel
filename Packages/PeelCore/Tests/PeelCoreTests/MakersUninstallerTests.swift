@@ -75,6 +75,14 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.zscaler.zscaler", team: "ABCDE12345")) == nil)
     }
 
+    @Test func knowsALocalServerStackWhoseMakerSaysToUseItsOwnUninstall() {
+        let herd = agent("de.beyondco.herd", team: "8Z259RPWAC", at: "/Applications/Herd.app")
+
+        #expect(MakersUninstaller.of(herd)?.step == .command("/Applications/Herd.app/Contents/Resources/uninstall"))
+        #expect(MakersUninstaller.of(herd)?.maker == "Beyond Code")
+        #expect(MakersUninstaller.of(agent("de.beyondco.herd", team: "ABCDE12345")) == nil)
+    }
+
     @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
         let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
         let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"

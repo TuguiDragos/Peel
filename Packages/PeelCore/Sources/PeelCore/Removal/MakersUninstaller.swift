@@ -1,8 +1,8 @@
 public import Foundation
 
-/// A security or management agent, a VPN, or a backup app whose maker documents removing it with an uninstaller of its
-/// own, or such an uninstaller itself. Moved from its place, what the product keeps in the system and the settings that
-/// manage it would stay behind.
+/// A security or management agent, a VPN, a backup app, or another app whose maker documents removing it with an
+/// uninstaller of its own, or such an uninstaller itself. Moved from its place, what the product keeps in the system
+/// and the settings that manage it would stay behind.
 public struct MakersUninstaller: Sendable, Hashable {
     /// What the maker's page says to do.
     public enum Step: Sendable, Hashable {
@@ -127,6 +127,10 @@ public struct MakersUninstaller: Sendable, Hashable {
             "PCBCQZJ7S7", ["com.zscaler"], "Zscaler",
             .uninstaller("/Applications/Zscaler/UninstallApplication.app"),
             "https://help.zscaler.com/zscaler-client-connector/uninstalling-zscaler-client-connector"
+        ),
+        (
+            "8Z259RPWAC", ["de.beyondco.herd"], "Beyond Code", .command("/Applications/Herd.app/Contents/Resources/uninstall"),
+            "https://herd.laravel.com/docs/macos/troubleshooting/uninstalling"
         ),
         (
             "48ZCSDVL96", ["com.haystacksoftware.arq"], "Arq", .inTheApp,
