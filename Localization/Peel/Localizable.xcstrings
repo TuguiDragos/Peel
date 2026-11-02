@@ -55864,218 +55864,6 @@
         }
       }
     },
-    "Give Peel Full Disk Access in System Settings to see what iCloud files are kept on this Mac." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chcete-li vidět, které soubory z iCloudu jsou uložené v tomto Macu, udělte Peelu v Nastavení systému plný přístup k disku."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gib Peel in den Systemeinstellungen Festplattenvollzugriff, um zu sehen, welche iCloud-Dateien auf diesem Mac gespeichert sind."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Da a Peel acceso total al disco en Ajustes del Sistema para ver qué archivos de iCloud se guardan en este Mac."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accordez à Peel l’accès complet au disque dans Réglages Système pour voir quels fichiers iCloud sont conservés sur ce Mac."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Concedi a Peel l’accesso completo al disco in Impostazioni di Sistema per vedere quali file di iCloud sono conservati su questo Mac."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacに保存されているiCloudファイルを確認するには、システム設定でPeelにフルディスクアクセスを許可してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 Mac에 보관된 iCloud 파일을 보려면 시스템 설정에서 Peel에 전체 디스크 접근 권한을 부여하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geef Peel volledige schijftoegang in Systeeminstellingen om te zien welke iCloud-bestanden op deze Mac worden bewaard."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daj aplikacji Peel pełny dostęp do dysku w Ustawieniach systemowych, aby zobaczyć, które pliki z iCloud są przechowywane na tym Macu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dê ao Peel Acesso Total ao Disco nos Ajustes do Sistema para ver quais arquivos do iCloud estão guardados neste Mac."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acordați aplicației Peel Acces complet la disc în Configurări sistem pentru a vedea ce fișiere iCloud sunt păstrate pe acest Mac."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Предоставьте Peel полный доступ к диску в Системных настройках, чтобы увидеть, какие файлы iCloud хранятся на этом Mac."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ge Peel full skivtillgång i Systeminställningar för att se vilka iCloud-filer som finns på den här datorn."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu Mac’te hangi iCloud dosyalarının tutulduğunu görmek için Sistem Ayarları’nda Peel’e Tam Disk Erişimi verin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Надайте Peel повний доступ до диска в Системних параметрах, щоб побачити, які файли iCloud зберігаються на цьому Mac."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在“系统设置”中授予Peel完全磁盘访问权限，即可查看这台Mac上保留了哪些iCloud文件。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在「系統設定」中給予Peel「完全取用磁碟」權限，即可查看哪些iCloud檔案保留在這部Mac上。"
-          }
-        }
-      }
-    },
-    "Give Peel Full Disk Access so it can read the folders macOS protects." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Udělte Peelu plný přístup k disku, aby mohl číst složky, které macOS chrání."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gib Peel Festplattenvollzugriff, damit Peel die Ordner lesen kann, die macOS schützt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Da a Peel acceso total al disco para que pueda leer las carpetas que protege macOS."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accordez à Peel l’accès complet au disque pour qu’il puisse lire les dossiers que macOS protège."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Concedi a Peel l’accesso completo al disco, così può leggere le cartelle che macOS protegge."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSが保護しているフォルダを読み取れるように、Peelにフルディスクアクセスを許可してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS가 보호하는 폴더를 읽을 수 있도록 Peel에 전체 디스크 접근 권한을 부여하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geef Peel volledige schijftoegang zodat het de mappen kan lezen die macOS beschermt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daj aplikacji Peel pełny dostęp do dysku, aby mogła odczytać foldery chronione przez macOS."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dê ao Peel Acesso Total ao Disco para que ele possa ler as pastas que o macOS protege."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acordați aplicației Peel Acces complet la disc, ca să poată citi dosarele protejate de macOS."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Предоставьте Peel полный доступ к диску, чтобы он мог читать папки, которые защищает macOS."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ge Peel full skivtillgång så att Peel kan läsa mapparna som macOS skyddar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS’in koruduğu klasörleri okuyabilmesi için Peel’e Tam Disk Erişimi verin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Надайте Peel повний доступ до диска, щоб вона могла читати папки, які захищає macOS."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "授予Peel完全磁盘访问权限，以便它读取受macOS保护的文件夹。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請給予Peel「完全取用磁碟」權限，讓它能讀取受macOS保護的檔案夾。"
-          }
-        }
-      }
-    },
     "Go to a folder by typing its name" : {
       "localizations" : {
         "cs" : {
@@ -82502,112 +82290,6 @@
         }
       }
     },
-    "Its permissions don’t let your account read it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jeho oprávnění neumožňují tomuto účtu ho přečíst."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Zugriffsrechte erlauben diesem Benutzeraccount nicht, es zu lesen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sus permisos no dejan que esta cuenta lo lea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ses permissions ne permettent pas à ce compte de le lire."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I suoi permessi non consentono a questo account di leggerlo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アクセス権により、このアカウントでは読み取れません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용 권한 때문에 이 계정으로 읽을 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De bevoegdheden ervan laten deze account het niet lezen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jego uprawnienia nie pozwalają temu kontu go odczytać."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As permissões dele não deixam esta conta lê-lo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permisiunile sale nu îi permit contului dvs. să îl citească."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Его права доступа не позволяют этой учетной записи его прочитать."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Behörigheterna låter inte det här kontot läsa den."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İzinleri bu hesabın onu okumasına izin vermiyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Його привілеї не дають цьому обліковому запису його прочитати."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其权限不允许此账户读取它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其權限不允許此帳號讀取它。"
-          }
-        }
-      }
-    },
     "Its privacy permissions are reset too, and History can’t bring them back." : {
       "localizations" : {
         "cs" : {
@@ -87509,108 +87191,108 @@
         }
       }
     },
-    "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see." : {
+    "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nedotčeno: systém macOS nedovolil Peelu nahlédnout dovnitř a ověřit, že tam není nic, co Peel chrání, například knihovna nebo peněženka. Pokud Peel ještě nemá plný přístup k disku, jeho udělení v Nastavení systému mu to může umožnit."
+            "value" : "Nedotčeno: systém macOS nedovolil Peelu nahlédnout dovnitř a ověřit, že tam není nic, co Peel chrání, například knihovna nebo peněženka. Pokud Peel ještě nemá plný přístup k disku, jeho zapnutí na stránce Přehled mu to může umožnit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unangetastet: macOS hat Peel nicht hineinsehen lassen, daher kann Peel nicht sicherstellen, dass darin nichts liegt, was Peel schützt, etwa eine Mediathek oder eine Wallet. Falls Peel noch keinen Festplattenvollzugriff hat, kann Peel möglicherweise hineinsehen, wenn du ihn in den Systemeinstellungen erteilst."
+            "value" : "Unangetastet: macOS hat Peel nicht hineinsehen lassen, daher kann Peel nicht sicherstellen, dass darin nichts liegt, was Peel schützt, etwa eine Mediathek oder eine Wallet. Falls Peel noch keinen Festplattenvollzugriff hat, kann Peel möglicherweise hineinsehen, wenn du ihn über die Startseite aktivierst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No se toca: macOS no ha dejado que Peel mire dentro para asegurarse de que no hay nada que Peel proteja, como una biblioteca o un monedero digital. Si Peel aún no tiene acceso total al disco, dárselo en Ajustes del Sistema puede permitirle verlo."
+            "value" : "No se toca: macOS no ha dejado que Peel mire dentro para asegurarse de que no hay nada que Peel proteja, como una biblioteca o un monedero digital. Si Peel aún no tiene acceso total al disco, activarlo desde la página Inicio puede permitirle verlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laissé en place : macOS n’a pas laissé Peel regarder à l’intérieur pour s’assurer qu’aucun élément que Peel protège, comme une bibliothèque ou un portefeuille, ne s’y trouve. Si Peel n’a pas encore l’accès complet au disque, le lui accorder dans Réglages Système peut lui permettre de le voir."
+            "value" : "Laissé en place : macOS n’a pas laissé Peel regarder à l’intérieur pour s’assurer qu’aucun élément que Peel protège, comme une bibliothèque ou un portefeuille, ne s’y trouve. Si Peel n’a pas encore l’accès complet au disque, l’activer depuis la page Accueil peut lui permettre de le voir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resta dov’è: macOS non ha permesso a Peel di esaminarne il contenuto per assicurarsi che non contenga nulla di ciò che Peel protegge, come una libreria o un wallet. Se Peel non ha ancora l’accesso completo al disco, concederlo in Impostazioni di Sistema potrebbe permettergli di vederlo."
+            "value" : "Resta dov’è: macOS non ha permesso a Peel di esaminarne il contenuto per assicurarsi che non contenga nulla di ciò che Peel protegge, come una libreria o un wallet. Se Peel non ha ancora l’accesso completo al disco, attivarlo dalla pagina Home potrebbe permettergli di vederlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "対象外: macOSがPeelに中を調べることを許可しなかったため、ライブラリやウォレットなど、Peelが保護しているものが中にないことを確認できません。Peelにまだフルディスクアクセスがない場合は、システム設定で許可すると確認できるようになる可能性があります。"
+            "value" : "対象外: macOSがPeelに中を調べることを許可しなかったため、ライブラリやウォレットなど、Peelが保護しているものが中にないことを確認できません。Peelにまだフルディスクアクセスがない場合は、“ホーム”からオンにすると確認できるようになる可能性があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "그대로 둠: macOS가 Peel이 안을 살펴보지 못하게 해서 보관함이나 지갑처럼 Peel이 보호하는 항목이 그곳에 없는지 확인할 수 없습니다. Peel에 아직 전체 디스크 접근 권한이 없다면, 시스템 설정에서 권한을 부여하면 볼 수 있을지도 모릅니다."
+            "value" : "그대로 둠: macOS가 Peel이 안을 살펴보지 못하게 해서 보관함이나 지갑처럼 Peel이 보호하는 항목이 그곳에 없는지 확인할 수 없습니다. Peel에 아직 전체 디스크 접근 권한이 없다면, 홈에서 권한을 켜면 볼 수 있을지도 모릅니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blijft staan: macOS liet Peel er niet in kijken om na te gaan of er niets in zit wat Peel beschermt, zoals een bibliotheek of een wallet. Als Peel nog geen volledige schijftoegang heeft, kan Peel het misschien zien als je die in Systeeminstellingen geeft."
+            "value" : "Blijft staan: macOS liet Peel er niet in kijken om na te gaan of er niets in zit wat Peel beschermt, zoals een bibliotheek of een wallet. Als Peel nog geen volledige schijftoegang heeft, kan Peel het misschien zien als je die via de pagina 'Home' inschakelt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nietknięte: macOS nie pozwolił aplikacji Peel zajrzeć do środka i upewnić się, że nie ma tam niczego, co Peel chroni, na przykład biblioteki lub portfela. Jeśli Peel nie ma jeszcze pełnego dostępu do dysku, nadanie go w Ustawieniach systemowych może to umożliwić."
+            "value" : "Nietknięte: macOS nie pozwolił aplikacji Peel zajrzeć do środka i upewnić się, że nie ma tam niczego, co Peel chroni, na przykład biblioteki lub portfela. Jeśli Peel nie ma jeszcze pełnego dostępu do dysku, włączenie go z poziomu Ekranu głównego może to umożliwić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preservado: o macOS não deixou o Peel examinar o conteúdo para ter certeza de que não há ali nada do que o Peel protege, como uma biblioteca ou uma carteira. Se o Peel ainda não tem Acesso Total ao Disco, concedê-lo nos Ajustes do Sistema pode permitir que ele veja."
+            "value" : "Preservado: o macOS não deixou o Peel examinar o conteúdo para ter certeza de que não há ali nada do que o Peel protege, como uma biblioteca ou uma carteira. Se o Peel ainda não tem Acesso Total ao Disco, ativá-lo pela página Início pode permitir que ele veja."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lăsat neatins: macOS nu i‑a permis aplicației Peel să caute înăuntru pentru a se asigura că acolo nu se află nimic protejat de Peel, cum ar fi o bibliotecă sau un portofel. Dacă Peel nu are încă Acces complet la disc, acordarea acestuia în Configurări sistem îi poate permite să vadă."
+            "value" : "Lăsat neatins: macOS nu i‑a permis aplicației Peel să caute înăuntru pentru a se asigura că acolo nu se află nimic protejat de Peel, cum ar fi o bibliotecă sau un portofel. Dacă Peel nu are încă Acces complet la disc, activarea acestuia din pagina Acasă îi poate permite să vadă."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Остается на месте: macOS не позволила Peel заглянуть внутрь, чтобы убедиться, что там нет ничего из того, что защищает Peel, например медиатеки или кошелька. Если у Peel еще нет полного доступа к диску, предоставьте его в Системных настройках: возможно, тогда Peel увидит содержимое."
+            "value" : "Остается на месте: macOS не позволила Peel заглянуть внутрь, чтобы убедиться, что там нет ничего из того, что защищает Peel, например медиатеки или кошелька. Если у Peel еще нет полного доступа к диску, включите его через раздел «Главная»: возможно, тогда Peel увидит содержимое."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rörs inte: macOS lät inte Peel titta inuti för att kontrollera att inget som Peel skyddar, till exempel ett bibliotek eller en plånbok, finns där. Om Peel ännu inte har full skivtillgång kan Peel kanske se innehållet när du har gett Peel den åtkomsten i Systeminställningar."
+            "value" : "Rörs inte: macOS lät inte Peel titta inuti för att kontrollera att inget som Peel skyddar, till exempel ett bibliotek eller en plånbok, finns där. Om Peel ännu inte har full skivtillgång kan Peel kanske se innehållet när du har slagit på den från sidan Hem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yerinde kalır: macOS, Peel’in içine bakıp Peel’in koruduğu hiçbir şeyin, örneğin bir fotoğraf, müzik ya da video arşivi veya bir cüzdan, orada olmadığından emin olmasına izin vermedi. Peel’in henüz Tam Disk Erişimi yoksa, bu izni Sistem Ayarları’nda vermek görmesini sağlayabilir."
+            "value" : "Yerinde kalır: macOS, Peel’in içine bakıp Peel’in koruduğu hiçbir şeyin, örneğin bir fotoğraf, müzik ya da video arşivi veya bir cüzdan, orada olmadığından emin olmasına izin vermedi. Peel’in henüz Tam Disk Erişimi yoksa, Ana Sayfa’dan bu erişimi açmak görmesini sağlayabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лишається на місці: macOS не дала Peel зазирнути всередину, щоб переконатися, що там немає нічого, що захищає Peel, як-от медіатеки або гаманця. Якщо Peel ще не має повного доступу до диска, його надання в Системних параметрах може дати їй змогу це побачити."
+            "value" : "Лишається на місці: macOS не дала Peel зазирнути всередину, щоб переконатися, що там немає нічого, що захищає Peel, як-от медіатеки або гаманця. Якщо Peel ще не має повного доступу до диска, його ввімкнення зі сторінки «Домівка» може дати їй змогу це побачити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "留在原处：macOS不允许Peel查看其中的内容，因此无法确认里面没有受Peel保护的项目，例如资料库或钱包。如果Peel还没有完全磁盘访问权限，在“系统设置”中授予后，它或许就能看到。"
+            "value" : "留在原处：macOS不允许Peel查看其中的内容，因此无法确认里面没有受Peel保护的项目，例如资料库或钱包。如果Peel还没有完全磁盘访问权限，从“主页”打开此权限后，它或许就能看到。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "原地保留：macOS不讓Peel查看其中的內容，因此無法確定裡面沒有任何受Peel保護的項目，例如資料庫或錢包。如果Peel尚未取得「完全取用磁碟」權限，在「系統設定」中給予此權限後，它或許就能看到。"
+            "value" : "原地保留：macOS不讓Peel查看其中的內容，因此無法確定裡面沒有任何受Peel保護的項目，例如資料庫或錢包。如果Peel尚未取得「完全取用磁碟」權限，從「首頁」開啟此權限後，它或許就能看到。"
           }
         }
       }
@@ -114817,108 +114499,108 @@
         }
       }
     },
-    "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see." : {
+    "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nevybráno: systém macOS nedovolil Peelu nahlédnout dovnitř, takže není známo, co tam je. Pokud Peel ještě nemá plný přístup k disku, jeho udělení v Nastavení systému mu to může umožnit."
+            "value" : "Nevybráno: systém macOS nedovolil Peelu nahlédnout dovnitř, takže není známo, co tam je. Pokud Peel ještě nemá plný přístup k disku, jeho zapnutí na stránce Přehled mu to může umožnit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nicht ausgewählt: macOS hat Peel nicht hineinsehen lassen, daher ist unbekannt, was darin liegt. Falls Peel noch keinen Festplattenvollzugriff hat, kann Peel möglicherweise hineinsehen, wenn du ihn in den Systemeinstellungen erteilst."
+            "value" : "Nicht ausgewählt: macOS hat Peel nicht hineinsehen lassen, daher ist unbekannt, was darin liegt. Falls Peel noch keinen Festplattenvollzugriff hat, kann Peel möglicherweise hineinsehen, wenn du ihn über die Startseite aktivierst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin seleccionar: macOS no ha dejado que Peel lea dentro, así que no se sabe qué hay. Si Peel aún no tiene acceso total al disco, dárselo en Ajustes del Sistema puede permitirle verlo."
+            "value" : "Sin seleccionar: macOS no ha dejado que Peel lea dentro, así que no se sabe qué hay. Si Peel aún no tiene acceso total al disco, activarlo desde la página Inicio puede permitirle verlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : macOS n’a pas laissé Peel lire son contenu, qui reste donc inconnu. Si Peel n’a pas encore l’accès complet au disque, le lui accorder dans Réglages Système peut lui permettre de le voir."
+            "value" : "Non sélectionné : macOS n’a pas laissé Peel lire son contenu, qui reste donc inconnu. Si Peel n’a pas encore l’accès complet au disque, l’activer depuis la page Accueil peut lui permettre de le voir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non selezionato: macOS non ha permesso a Peel di leggerne il contenuto, quindi non si sa cosa contiene. Se Peel non ha ancora l’accesso completo al disco, concederlo in Impostazioni di Sistema potrebbe permettergli di vederlo."
+            "value" : "Non selezionato: macOS non ha permesso a Peel di leggerne il contenuto, quindi non si sa cosa contiene. Se Peel non ha ancora l’accesso completo al disco, attivarlo dalla pagina Home potrebbe permettergli di vederlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選択: macOSがPeelに中の読み取りを許可しなかったため、中に何があるかわかりません。Peelにまだフルディスクアクセスがない場合は、システム設定で許可すると確認できるようになる可能性があります。"
+            "value" : "未選択: macOSがPeelに中の読み取りを許可しなかったため、中に何があるかわかりません。Peelにまだフルディスクアクセスがない場合は、“ホーム”からオンにすると確認できるようになる可能性があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "선택되지 않음: macOS가 Peel이 안을 읽지 못하게 했으므로 무엇이 들어 있는지 알 수 없습니다. Peel에 아직 전체 디스크 접근 권한이 없다면, 시스템 설정에서 권한을 부여하면 볼 수 있을지도 모릅니다."
+            "value" : "선택되지 않음: macOS가 Peel이 안을 읽지 못하게 했으므로 무엇이 들어 있는지 알 수 없습니다. Peel에 아직 전체 디스크 접근 권한이 없다면, 홈에서 권한을 켜면 볼 수 있을지도 모릅니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niet geselecteerd: macOS liet Peel de inhoud niet lezen, dus wat erin zit, is onbekend. Als Peel nog geen volledige schijftoegang heeft, kan Peel het misschien zien als je die in Systeeminstellingen geeft."
+            "value" : "Niet geselecteerd: macOS liet Peel de inhoud niet lezen, dus wat erin zit, is onbekend. Als Peel nog geen volledige schijftoegang heeft, kan Peel het misschien zien als je die via de pagina 'Home' inschakelt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie zaznaczono: macOS nie pozwolił aplikacji Peel zajrzeć do środka, więc nie wiadomo, co tam jest. Jeśli Peel nie ma jeszcze pełnego dostępu do dysku, nadanie go w Ustawieniach systemowych może to umożliwić."
+            "value" : "Nie zaznaczono: macOS nie pozwolił aplikacji Peel zajrzeć do środka, więc nie wiadomo, co tam jest. Jeśli Peel nie ma jeszcze pełnego dostępu do dysku, włączenie go z poziomu Ekranu głównego może to umożliwić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não selecionado: o macOS não deixou o Peel ler o conteúdo, então não se sabe o que há ali. Se o Peel ainda não tem Acesso Total ao Disco, concedê-lo nos Ajustes do Sistema pode permitir que ele veja."
+            "value" : "Não selecionado: o macOS não deixou o Peel ler o conteúdo, então não se sabe o que há ali. Se o Peel ainda não tem Acesso Total ao Disco, ativá-lo pela página Início pode permitir que ele veja."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: macOS nu i‑a permis aplicației Peel să citească înăuntru, așa că nu se știe ce conține. Dacă Peel nu are încă Acces complet la disc, acordarea acestuia în Configurări sistem îi poate permite să vadă."
+            "value" : "Neselectat: macOS nu i‑a permis aplicației Peel să citească înăuntru, așa că nu se știe ce conține. Dacă Peel nu are încă Acces complet la disc, activarea acestuia din pagina Acasă îi poate permite să vadă."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не выбрано: macOS не позволила Peel заглянуть внутрь, поэтому содержимое неизвестно. Если у Peel еще нет полного доступа к диску, предоставьте его в Системных настройках: возможно, тогда Peel увидит содержимое."
+            "value" : "Не выбрано: macOS не позволила Peel заглянуть внутрь, поэтому содержимое неизвестно. Если у Peel еще нет полного доступа к диску, включите его через раздел «Главная»: возможно, тогда Peel увидит содержимое."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inte markerad: macOS lät inte Peel läsa innehållet, så det är okänt vad som finns där. Om Peel ännu inte har full skivtillgång kan Peel kanske se innehållet när du har gett Peel den åtkomsten i Systeminställningar."
+            "value" : "Inte markerad: macOS lät inte Peel läsa innehållet, så det är okänt vad som finns där. Om Peel ännu inte har full skivtillgång kan Peel kanske se innehållet när du har slagit på den från sidan Hem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçilmedi: macOS, Peel’in içini okumasına izin vermedi, bu yüzden içinde ne olduğu bilinmiyor. Peel’in henüz Tam Disk Erişimi yoksa, bu izni Sistem Ayarları’nda vermek görmesini sağlayabilir."
+            "value" : "Seçilmedi: macOS, Peel’in içini okumasına izin vermedi, bu yüzden içinde ne olduğu bilinmiyor. Peel’in henüz Tam Disk Erişimi yoksa, Ana Sayfa’dan bu erişimi açmak görmesini sağlayabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не вибрано: macOS не дала Peel зазирнути всередину, тож невідомо, що там. Якщо Peel ще не має повного доступу до диска, його надання в Системних параметрах може дати їй змогу це побачити."
+            "value" : "Не вибрано: macOS не дала Peel зазирнути всередину, тож невідомо, що там. Якщо Peel ще не має повного доступу до диска, його ввімкнення зі сторінки «Домівка» може дати їй змогу це побачити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未选择：macOS不允许Peel读取其中的内容，因此无法知道里面有什么。如果Peel还没有完全磁盘访问权限，在“系统设置”中授予后，它或许就能看到。"
+            "value" : "未选择：macOS不允许Peel读取其中的内容，因此无法知道里面有什么。如果Peel还没有完全磁盘访问权限，从“主页”打开此权限后，它或许就能看到。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選取：macOS不讓Peel讀取其中的內容，因此無法得知裡面有什麼。如果Peel尚未取得「完全取用磁碟」權限，在「系統設定」中給予此權限後，它或許就能看到。"
+            "value" : "未選取：macOS不讓Peel讀取其中的內容，因此無法得知裡面有什麼。如果Peel尚未取得「完全取用磁碟」權限，從「首頁」開啟此權限後，它或許就能看到。"
           }
         }
       }
@@ -125427,6 +125109,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開歷史記錄"
+          }
+        }
+      }
+    },
+    "Open Home" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Přehled"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startseite öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Inicio"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir la page Accueil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Home"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームを開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open 'Home'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Ekran główny"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Início"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți pagina Acasă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть раздел «Главная»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Hem"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana Sayfa’yı Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрити сторінку «Домівка»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开主页"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打開首頁"
           }
         }
       }
@@ -143664,6 +143452,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel移除的項目都會丟到「垃圾桶」（Homebrew自行刪除的項目除外），「歷史記錄」可以將它們還原。如GPL所述，在法律允許的範圍內，本軟體不提供任何擔保。"
+          }
+        }
+      }
+    },
+    "Peel needs Full Disk Access to see what iCloud files are kept on this Mac. Turn it on from Home." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel potřebuje plný přístup k disku, aby viděl, které soubory z iCloudu jsou uložené v tomto Macu. Zapněte ho na stránce Přehled."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel benötigt Festplattenvollzugriff, um zu sehen, welche iCloud-Dateien auf diesem Mac gespeichert sind. Aktiviere ihn über die Startseite."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel necesita acceso total al disco para ver qué archivos de iCloud se guardan en este Mac. Actívalo desde la página Inicio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a besoin de l’accès complet au disque pour voir quels fichiers iCloud sont conservés sur ce Mac. Activez-le depuis la page Accueil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha bisogno dell’accesso completo al disco per vedere quali file di iCloud sono conservati su questo Mac. Attivalo dalla pagina Home."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacに保存されているiCloudファイルを確認するには、Peelにフルディスクアクセスが必要です。“ホーム”からオンにしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에 보관된 iCloud 파일을 보려면 Peel에 전체 디스크 접근 권한이 필요합니다. 홈에서 권한을 켜십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft volledige schijftoegang nodig om te zien welke iCloud-bestanden op deze Mac worden bewaard. Schakel die in via de pagina 'Home'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel potrzebuje pełnego dostępu do dysku, aby zobaczyć, które pliki z iCloud są przechowywane na tym Macu. Włącz go z poziomu Ekranu głównego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel precisa de Acesso Total ao Disco para ver quais arquivos do iCloud estão guardados neste Mac. Ative-o pela página Início."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel are nevoie de Acces complet la disc pentru a vedea ce fișiere iCloud sunt păstrate pe acest Mac. Activați‑l din pagina Acasă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы увидеть, какие файлы iCloud хранятся на этом Mac, Peel нужен полный доступ к диску. Включите его через раздел «Главная»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel behöver full skivtillgång för att se vilka iCloud-filer som finns på den här datorn. Slå på den från sidan Hem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in bu Mac’te hangi iCloud dosyalarının tutulduğunu görebilmesi için Tam Disk Erişimi gerekir. Bu erişimi Ana Sayfa’dan açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel потрібен повний доступ до диска, щоб бачити, які файли iCloud зберігаються на цьому Mac. Увімкніть його зі сторінки «Домівка»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel需要完全磁盘访问权限才能查看这台Mac上保留了哪些iCloud文件。请从“主页”打开此权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel需要「完全取用磁碟」權限才能查看哪些iCloud檔案保留在這部Mac上。請從「首頁」開啟此權限。"
           }
         }
       }
@@ -182368,6 +182262,112 @@
         }
       }
     },
+    "Some of these folders have permissions of their own that keep your account out of them, and Full Disk Access doesn’t open those." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Některé z těchto složek mají vlastní oprávnění, která do nich váš účet nepustí, a plný přístup k disku je neotevře."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einige dieser Ordner haben eigene Zugriffsrechte, die deinen Benutzeraccount aussperren, und auch Festplattenvollzugriff öffnet diese nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algunas de estas carpetas tienen sus propios permisos, que no dejan entrar a tu cuenta, y el acceso total al disco no las abre."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certains de ces dossiers ont leurs propres permissions, qui empêchent votre compte d’y accéder, et l’accès complet au disque ne permet pas de les ouvrir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcune di queste cartelle hanno permessi propri che impediscono al tuo account di accedervi, e nemmeno l’accesso completo al disco consente di aprirle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらのフォルダの一部は、フォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。そのようなフォルダは、フルディスクアクセスがあっても開けません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더 중 일부는 자체 사용 권한 때문에 이 계정으로 들어갈 수 없으며, 전체 디스크 접근 권한으로도 열 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sommige van deze mappen hebben eigen bevoegdheden die je account buitensluiten, en ook met volledige schijftoegang kan Peel daar niet in."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niektóre z tych folderów mają własne uprawnienia, które nie dają Twojemu kontu dostępu do nich, a pełny dostęp do dysku tego nie zmienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algumas destas pastas têm permissões próprias que não deixam esta conta entrar nelas, e o Acesso Total ao Disco não abre essas pastas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unele dintre aceste dosare au permisiuni proprii care nu permit accesul contului dvs., iar Acces complet la disc nu le deschide pe acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У некоторых из этих папок есть собственные права доступа, которые не пускают в них Вашу учетную запись, и полный доступ к диску их не открывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Några av de här mapparna har egna behörigheter som stänger ute ditt konto, och full skivtillgång ger inte åtkomst till dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu klasörlerden bazılarının, hesabınızın içeri girmesini engelleyen kendi izinleri var ve Tam Disk Erişimi bunları açmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деякі з цих папок мають власні привілеї, які не пускають до них ваш обліковий запис, і повний доступ до диска таких папок не відкриває."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中一些文件夹有自己的权限设置，不允许你的账户进入，而完全磁盘访问权限也无法打开这些文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中部分檔案夾有自己的權限，讓你的帳號無法進入，而「完全取用磁碟」權限也無法讓Peel進入這些檔案夾。"
+          }
+        }
+      }
+    },
     "Some privacy permissions weren’t reset." : {
       "localizations" : {
         "cs" : {
@@ -199452,6 +199452,112 @@
         }
       }
     },
+    "The folder’s own permissions keep your account out of it, and Full Disk Access doesn’t open it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vlastní oprávnění této složky do ní váš účet nepustí a plný přístup k disku ji neotevře."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die eigenen Zugriffsrechte des Ordners sperren deinen Benutzeraccount aus, und auch Festplattenvollzugriff öffnet ihn nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los propios permisos de la carpeta no dejan entrar a tu cuenta, y el acceso total al disco no la abre."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les permissions propres au dossier empêchent votre compte d’y accéder, et l’accès complet au disque ne permet pas de l’ouvrir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sono i permessi della cartella stessa a impedire al tuo account di accedervi, e nemmeno l’accesso completo al disco consente di aprirla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。フルディスクアクセスがあっても開けません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더는 자체 사용 권한 때문에 이 계정으로 들어갈 수 없으며, 전체 디스크 접근 권한으로도 열 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De eigen bevoegdheden van de map sluiten je account buiten, en ook met volledige schijftoegang kan Peel er niet in."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Własne uprawnienia tego folderu nie dają Twojemu kontu dostępu do niego, a pełny dostęp do dysku tego nie zmienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões da própria pasta não deixam esta conta entrar nela, e o Acesso Total ao Disco não a abre."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permisiunile proprii ale dosarului nu permit accesul contului dvs., iar Acces complet la disc nu îl deschide."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Собственные права доступа этой папки не пускают в нее Вашу учетную запись, и полный доступ к диску ее не открывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mappens egna behörigheter stänger ute ditt konto, och full skivtillgång ger inte åtkomst till den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörün kendi izinleri hesabınızın içeri girmesini engelliyor ve Tam Disk Erişimi onu açmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Власні привілеї цієї папки не пускають до неї ваш обліковий запис, і повний доступ до диска її не відкриває."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件夹自身的权限设置不允许你的账户进入，而完全磁盘访问权限也无法打开它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案夾本身的權限讓你的帳號無法進入，而「完全取用磁碟」權限也無法讓Peel進入。"
+          }
+        }
+      }
+    },
     "The helper couldn’t be installed." : {
       "localizations" : {
         "cs" : {
@@ -201676,112 +201782,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "peel指令使用了[swift-argument-parser](peel-license:swift-argument-parser-LICENSE)"
-          }
-        }
-      }
-    },
-    "The permissions of some of them don’t let your account read them." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oprávnění některých z nich neumožňují tomuto účtu je přečíst."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bei einigen davon erlauben die Zugriffsrechte diesem Benutzeraccount das Lesen nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los permisos de algunos de ellos no dejan que esta cuenta los lea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les permissions de certains d’entre eux ne permettent pas à ce compte de les lire."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I permessi di alcuni di essi non consentono a questo account di leggerli."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一部の項目は、アクセス権により、このアカウントでは読み取れません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "일부 항목은 사용 권한 때문에 이 계정으로 읽을 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De bevoegdheden van sommige ervan laten deze account ze niet lezen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uprawnienia niektórych z nich nie pozwalają temu kontu ich odczytać."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As permissões de alguns deles não deixam esta conta lê-los."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permisiunile unora dintre ele nu îi permit contului dvs. să le citească."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Права доступа некоторых из них не позволяют этой учетной записи их прочитать."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Behörigheterna för några av dem låter inte det här kontot läsa dem."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bazılarının izinleri bu hesabın onları okumasına izin vermiyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Привілеї деяких із них не дають цьому обліковому запису їх прочитати."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其中一些项目的权限不允许此账户读取它们。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其中部分項目的權限不允許此帳號讀取它們。"
           }
         }
       }
@@ -204225,112 +204225,6 @@
         }
       }
     },
-    "Their permissions don’t let your account read them." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jejich oprávnění neumožňují tomuto účtu je přečíst."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Zugriffsrechte erlauben diesem Benutzeraccount nicht, sie zu lesen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sus permisos no dejan que esta cuenta los lea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leurs permissions ne permettent pas à ce compte de les lire."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I loro permessi non consentono a questo account di leggerli."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アクセス権により、このアカウントではこれらを読み取れません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용 권한 때문에 이 계정으로 이 항목들을 읽을 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De bevoegdheden ervan laten deze account ze niet lezen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ich uprawnienia nie pozwalają temu kontu ich odczytać."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As permissões deles não deixam esta conta lê-los."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permisiunile lor nu îi permit contului dvs. să le citească."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Их права доступа не позволяют этой учетной записи их прочитать."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Behörigheterna låter inte det här kontot läsa dem."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İzinleri bu hesabın onları okumasına izin vermiyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Їхні привілеї не дають цьому обліковому запису їх прочитати."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其权限不允许此账户读取它们。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "其權限不允許此帳號讀取它們。"
-          }
-        }
-      }
-    },
     "Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing they put on this Mac is left, and History can put the receipts back.\n\n%@" : {
       "comment" : "The message of the question before Forget All in Package Receipts. %@ is the list of the first packages, one per line.",
       "localizations" : {
@@ -206448,6 +206342,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法搜尋這些檔案夾。"
+          }
+        }
+      }
+    },
+    "These folders’ own permissions keep your account out of them, and Full Disk Access doesn’t open them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vlastní oprávnění těchto složek do nich váš účet nepustí a plný přístup k disku je neotevře."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die eigenen Zugriffsrechte dieser Ordner sperren deinen Benutzeraccount aus, und auch Festplattenvollzugriff öffnet sie nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los propios permisos de estas carpetas no dejan entrar a tu cuenta, y el acceso total al disco no las abre."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les permissions propres à ces dossiers empêchent votre compte d’y accéder, et l’accès complet au disque ne permet pas de les ouvrir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sono i permessi di queste cartelle a impedire al tuo account di accedervi, e nemmeno l’accesso completo al disco consente di aprirle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらのフォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。フルディスクアクセスがあっても開けません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더들은 자체 사용 권한 때문에 이 계정으로 들어갈 수 없으며, 전체 디스크 접근 권한으로도 열 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De eigen bevoegdheden van deze mappen sluiten je account buiten, en ook met volledige schijftoegang kan Peel er niet in."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Własne uprawnienia tych folderów nie dają Twojemu kontu dostępu do nich, a pełny dostęp do dysku tego nie zmienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões das próprias pastas não deixam esta conta entrar nelas, e o Acesso Total ao Disco não as abre."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permisiunile proprii ale acestor dosare nu permit accesul contului dvs., iar Acces complet la disc nu le deschide."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Собственные права доступа этих папок не пускают в них Вашу учетную запись, и полный доступ к диску их не открывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De här mapparnas egna behörigheter stänger ute ditt konto, och full skivtillgång ger inte åtkomst till dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu klasörlerin kendi izinleri hesabınızın içeri girmesini engelliyor ve Tam Disk Erişimi onları açmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Власні привілеї цих папок не пускають до них ваш обліковий запис, і повний доступ до диска їх не відкриває."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些文件夹自身的权限设置不允许你的账户进入，而完全磁盘访问权限也无法打开它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些檔案夾本身的權限讓你的帳號無法進入，而「完全取用磁碟」權限也無法讓Peel進入。"
           }
         }
       }
@@ -252411,108 +252411,108 @@
         }
       }
     },
-    "macOS didn’t let Peel read %@ in iCloud Drive, so this list isn’t all of it. Full Disk Access in System Settings gives Peel what it needs." : {
+    "macOS didn’t let Peel read %@ in iCloud Drive, so this list isn’t all of it. Full Disk Access, which you turn on from Home, gives Peel what it needs." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS nedovolil Peelu přečíst %@ na iCloud Drivu, takže tento seznam není úplný. Plný přístup k disku v Nastavení systému dá Peelu, co potřebuje."
+            "value" : "Systém macOS nedovolil Peelu přečíst %@ na iCloud Drivu, takže tento seznam není úplný. Plný přístup k disku, který zapnete na stránce Přehled, dá Peelu, co potřebuje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS hat Peel nicht erlaubt, %@ in iCloud Drive zu lesen, daher ist diese Liste nicht vollständig. Festplattenvollzugriff in den Systemeinstellungen gibt Peel, was dafür nötig ist."
+            "value" : "macOS hat Peel nicht erlaubt, %@ in iCloud Drive zu lesen, daher ist diese Liste nicht vollständig. Festplattenvollzugriff, den du über die Startseite aktivierst, gibt Peel, was dafür nötig ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS no ha dejado que Peel lea %@ en iCloud Drive, así que esta lista no lo incluye todo. El acceso total al disco en Ajustes del Sistema le da a Peel lo que necesita."
+            "value" : "macOS no ha dejado que Peel lea %@ en iCloud Drive, así que esta lista no lo incluye todo. El acceso total al disco, que puedes activar desde la página Inicio, le da a Peel lo que necesita."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS n’a pas laissé Peel lire %@ dans iCloud Drive : cette liste est donc incomplète. L’accès complet au disque, dans Réglages Système, donne à Peel ce dont il a besoin."
+            "value" : "macOS n’a pas laissé Peel lire %@ dans iCloud Drive : cette liste est donc incomplète. L’accès complet au disque, que vous activez depuis la page Accueil, donne à Peel ce dont il a besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS non ha permesso a Peel di leggere %@ su iCloud Drive, quindi questo elenco non è completo. L’accesso completo al disco in Impostazioni di Sistema dà a Peel ciò che gli serve."
+            "value" : "macOS non ha permesso a Peel di leggere %@ su iCloud Drive, quindi questo elenco non è completo. L’accesso completo al disco, che puoi attivare dalla pagina Home, dà a Peel ciò che gli serve."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSがPeelにiCloud Drive内の%@の読み取りを許可しなかったため、この一覧にはすべてが含まれているわけではありません。システム設定でフルディスクアクセスを許可すると、Peelは必要なものを読み取れるようになります。"
+            "value" : "macOSがPeelにiCloud Drive内の%@の読み取りを許可しなかったため、この一覧にはすべてが含まれているわけではありません。“ホーム”からフルディスクアクセスをオンにすると、Peelは必要なものを読み取れるようになります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 Peel이 iCloud Drive의 %@을(를) 읽지 못하게 했으므로 이 목록이 전부는 아닙니다. 시스템 설정에서 Peel에 전체 디스크 접근 권한을 부여하면 읽을 수 있습니다."
+            "value" : "macOS가 Peel이 iCloud Drive의 %@을(를) 읽지 못하게 했으므로 이 목록이 전부는 아닙니다. 홈에서 Peel의 전체 디스크 접근 권한을 켜면 읽을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS liet Peel %@ op iCloud Drive niet lezen, dus deze lijst is niet volledig. Met volledige schijftoegang in Systeeminstellingen krijgt Peel wat het nodig heeft."
+            "value" : "macOS liet Peel %@ op iCloud Drive niet lezen, dus deze lijst is niet volledig. Met volledige schijftoegang, die je via de pagina 'Home' inschakelt, krijgt Peel wat het nodig heeft."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nie pozwolił aplikacji Peel odczytać na iCloud Drive: %@, więc ta lista nie jest pełna. Pełny dostęp do dysku w Ustawieniach systemowych zapewni aplikacji Peel to, czego potrzebuje."
+            "value" : "macOS nie pozwolił aplikacji Peel odczytać na iCloud Drive: %@, więc ta lista nie jest pełna. Pełny dostęp do dysku, który włączysz z poziomu Ekranu głównego, zapewni aplikacji Peel to, czego potrzebuje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS não deixou o Peel ler %@ no iCloud Drive, então esta lista não está completa. O Acesso Total ao Disco, nos Ajustes do Sistema, dá ao Peel aquilo de que ele precisa."
+            "value" : "O macOS não deixou o Peel ler %@ no iCloud Drive, então esta lista não está completa. O Acesso Total ao Disco, que você ativa pela página Início, dá ao Peel aquilo de que ele precisa."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nu i‑a permis aplicației Peel să citească %@ de pe iCloud Drive, așa că această listă nu este completă. Acces complet la disc, din Configurări sistem, îi oferă aplicației Peel ceea ce îi trebuie."
+            "value" : "macOS nu i‑a permis aplicației Peel să citească %@ de pe iCloud Drive, așa că această listă nu este completă. Acces complet la disc, pe care îl activați din pagina Acasă, îi oferă aplicației Peel ceea ce îi trebuie."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не позволила Peel прочитать %@ в iCloud Drive, поэтому в этом списке показано не все. Полный доступ к диску в Системных настройках даст Peel все необходимое."
+            "value" : "macOS не позволила Peel прочитать %@ в iCloud Drive, поэтому в этом списке показано не все. Полный доступ к диску, который можно включить через раздел «Главная», даст Peel все необходимое."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS lät inte Peel läsa %@ i iCloud Drive, så listan visar inte allt. Med full skivtillgång i Systeminställningar får Peel det som behövs."
+            "value" : "macOS lät inte Peel läsa %@ i iCloud Drive, så listan visar inte allt. Med full skivtillgång, som du slår på från sidan Hem, får Peel det som behövs."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS, Peel’in iCloud Drive’daki %@ içeriğini okumasına izin vermedi, bu yüzden bu liste eksik. Sistem Ayarları’ndaki Tam Disk Erişimi, Peel’e gereken izni verir."
+            "value" : "macOS, Peel’in iCloud Drive’daki %@ içeriğini okumasına izin vermedi, bu yüzden bu liste eksik. Ana Sayfa’dan açabileceğiniz Tam Disk Erişimi, Peel’e gereken izni verir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не дала Peel прочитати %@ в iCloud Drive, тож цей список показує не все. Повний доступ до диска в Системних параметрах дасть Peel те, що їй потрібно."
+            "value" : "macOS не дала Peel прочитати %@ в iCloud Drive, тож цей список показує не все. Повний доступ до диска, який можна ввімкнути зі сторінки «Домівка», дасть Peel те, що їй потрібно."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS不允许Peel读取iCloud云盘中的“%@”，因此此列表并不完整。在“系统设置”中授予Peel完全磁盘访问权限，它就能读取了。"
+            "value" : "macOS不允许Peel读取iCloud云盘中的“%@”，因此此列表并不完整。从“主页”为Peel打开完全磁盘访问权限，它就能读取了。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS不讓Peel讀取「iCloud雲碟」中的%@，因此此列表並不完整。在「系統設定」中給予「完全取用磁碟」權限，Peel就能取得所需的存取權限。"
+            "value" : "macOS不讓Peel讀取「iCloud雲碟」中的%@，因此此列表並不完整。「完全取用磁碟」權限能讓Peel取得所需的存取權限，你可以從「首頁」開啟此權限。"
           }
         }
       }
@@ -255187,6 +255187,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS現在正在透過%@使用它，因此它會留在原處。"
+          }
+        }
+      }
+    },
+    "macOS keeps Peel out of the folders it protects until Peel has Full Disk Access. Turn it on from Home." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nepustí Peel do složek, které chrání, dokud Peel nebude mít plný přístup k disku. Zapněte ho na stránce Přehled."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS sperrt Peel aus den Ordnern aus, die macOS schützt, bis Peel Festplattenvollzugriff hat. Aktiviere ihn über die Startseite."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no deja que Peel entre en las carpetas que protege hasta que Peel tenga acceso total al disco. Actívalo desde la página Inicio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS empêche Peel d’accéder aux dossiers qu’il protège tant que Peel n’a pas l’accès complet au disque. Activez-le depuis la page Accueil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS impedisce a Peel di accedere alle cartelle che protegge finché Peel non ha l’accesso completo al disco. Attivalo dalla pagina Home."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、Peelのフルディスクアクセスがオンになるまで、保護しているフォルダにPeelがアクセスすることを許可しません。“ホーム”からオンにしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel에 전체 디스크 접근 권한이 생길 때까지 macOS는 자신이 보호하는 폴더에 Peel이 들어가지 못하게 합니다. 홈에서 권한을 켜십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS houdt Peel buiten de mappen die het beschermt, totdat Peel volledige schijftoegang heeft. Schakel die in via de pagina 'Home'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie daje aplikacji Peel dostępu do folderów, które chroni, dopóki Peel nie będzie miał pełnego dostępu do dysku. Włącz go z poziomu Ekranu głównego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não deixa o Peel entrar nas pastas que ele protege até que o Peel tenha Acesso Total ao Disco. Ative-o pela página Início."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu îi permite aplicației Peel să acceseze dosarele pe care le protejează decât după ce Peel are Acces complet la disc. Activați‑l din pagina Acasă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не пускает Peel в папки, которые она защищает, пока у Peel нет полного доступа к диску. Включите его через раздел «Главная»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS håller Peel utanför mapparna som macOS skyddar tills Peel har full skivtillgång. Slå på den från sidan Hem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in Tam Disk Erişimi olana kadar macOS, koruduğu klasörlere Peel’in girmesine izin vermez. Bu erişimi Ana Sayfa’dan açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не пускає Peel до папок, які вона захищає, доки Peel не отримає повного доступу до диска. Увімкніть його зі сторінки «Домівка»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel获得完全磁盘访问权限之前，macOS不允许它进入受macOS保护的文件夹。请从“主页”打开此权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel取得「完全取用磁碟」權限之前，macOS不會讓Peel進入它所保護的檔案夾。請從「首頁」開啟此權限。"
           }
         }
       }

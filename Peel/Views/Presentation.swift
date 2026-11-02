@@ -384,11 +384,11 @@ extension HoldBack {
         case .notMeasured:
             "Not selected: this took too long to measure, so Peel doesn’t know how big it is or what is inside."
         case .couldNotBeRead:
-            "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see."
+            "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see."
         case .closedByPermissions:
             "Not selected: its permissions keep Peel out, so what is in there isn’t known. Full Disk Access doesn’t open it."
         case .couldNotLookInside:
-            "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, giving it in System Settings may let it see."
+            "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see."
         case .holdsDocuments:
             "Left alone: the app’s own Documents folder is inside and may hold what you made with it. Peel never removes that."
         case .holdsALibrary:

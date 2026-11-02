@@ -7,7 +7,6 @@ import SwiftUI
 /// the Trash or into History: each file stays in iCloud and downloads again when it is opened.
 struct CloudView: View {
     @Environment(CloudLibrary.self) private var cloud
-    @Environment(HomeModel.self) private var home
     @State private var isConfirming = false
     @State private var freed: BarNotice?
     /// What the last Remove Downloads left as it was, which an alert tells, since the list moves on without it.
@@ -133,9 +132,9 @@ struct CloudView: View {
                 ContentUnavailableView {
                     Label("iCloud Drive Couldn’t Be Read", systemImage: "lock")
                 } description: {
-                    Text("Give Peel Full Disk Access in System Settings to see what iCloud files are kept on this Mac.")
+                    Text("Peel needs Full Disk Access to see what iCloud files are kept on this Mac. Turn it on from Home.")
                 } actions: {
-                    Button("Open System Settings") { home.openFullDiskAccessSettings() }
+                    Button("Open Home") { Navigator.shared.requestedTool = .home }
                 }
             } else if cloud.files?.isEmpty == true, cloud.hasMoreThanItRead {
                 // The scan stopped early, so an empty list does not mean there is nothing to free.
@@ -245,7 +244,7 @@ struct CloudView: View {
 
     @ViewBuilder private var unreadableFoldersNote: some View {
         if !cloud.unreadableFolders.isEmpty {
-            Text("macOS didn’t let Peel read \(cloud.unreadableFolders.formatted(.list(type: .and))) in iCloud Drive, so this list isn’t all of it. Full Disk Access in System Settings gives Peel what it needs.")
+            Text("macOS didn’t let Peel read \(cloud.unreadableFolders.formatted(.list(type: .and))) in iCloud Drive, so this list isn’t all of it. Full Disk Access, which you turn on from Home, gives Peel what it needs.")
         }
     }
 

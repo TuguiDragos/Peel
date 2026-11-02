@@ -39,7 +39,7 @@ struct UnreadableFoldersNotice: View {
             ? [] : [String(localized: "Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(paths)), so something may be there that isn’t listed here.")]
         let why = [whyNotRead(closed: closed, of: paths.count)].compactMap(\.self)
         let advice = needsFullDiskAccess
-            ? [String(localized: "Give Peel Full Disk Access so it can read the folders macOS protects.")] : []
+            ? [String(localized: "macOS keeps Peel out of the folders it protects until Peel has Full Disk Access. Turn it on from Home.")] : []
         let foldersAlone = !paths.filter(asksForItsFolderAlone.contains).isEmpty && needsFullDiskAccess
             ? [String(localized: "For Desktop, Documents, or Downloads alone, allow Peel in System Settings > Privacy & Security > Files & Folders.")]
             : []
@@ -49,10 +49,12 @@ struct UnreadableFoldersNotice: View {
     /// The sentence that says the permissions kept Peel out, given how many of how many items they closed.
     static func whyNotRead(closed: Int, of count: Int) -> String? {
         if closed == 0 { return nil }
-        if closed < count { return String(localized: "The permissions of some of them don’t let your account read them.") }
+        if closed < count {
+            return String(localized: "Some of these folders have permissions of their own that keep your account out of them, and Full Disk Access doesn’t open those.")
+        }
         return closed == 1
-            ? String(localized: "Its permissions don’t let your account read it.")
-            : String(localized: "Their permissions don’t let your account read them.")
+            ? String(localized: "The folder’s own permissions keep your account out of it, and Full Disk Access doesn’t open it.")
+            : String(localized: "These folders’ own permissions keep your account out of them, and Full Disk Access doesn’t open them.")
     }
 }
 
@@ -78,7 +80,7 @@ struct UnreadableFoldersDetail: View {
         }
         let why = UnreadableFoldersNotice.whyNotRead(closed: closed, of: folders.count).map { Text(verbatim: $0) }
         let advice = needsFullDiskAccess
-            ? Text("Give Peel Full Disk Access so it can read the folders macOS protects.") : nil
+            ? Text("macOS keeps Peel out of the folders it protects until Peel has Full Disk Access. Turn it on from Home.") : nil
         return [why, advice].compactMap(\.self).reduce(saying) { Text("\($0)\n\n\($1)") }
     }
 
@@ -116,7 +118,7 @@ struct UnreadableFoldersActions: View {
             CopyButton(text: folders.map(\.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
         }
         if needsFullDiskAccess {
-            Button("Open System Settings") { home.openFullDiskAccessSettings() }
+            Button("Open Home") { Navigator.shared.requestedTool = .home }
             // Full Disk Access applies only to a new process, so once it may have been given, Peel offers to reopen.
             if home.needsRelaunchForFullDiskAccess {
                 Button("Reopen Peel") { home.relaunch() }

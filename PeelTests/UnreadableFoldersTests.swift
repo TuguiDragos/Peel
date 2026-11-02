@@ -36,6 +36,18 @@ struct UnreadableFoldersTests {
         #expect(UnreadableFoldersNotice.detail(naming: ["/a", "/b"], closed: 1, needsFullDiskAccess: false).hasSuffix(some))
     }
 
+    @Test func theFoldersOwnPermissionsAreNotPeelsAndHomeTurnsOnFullDiskAccess() throws {
+        let sentences = try [(1, 1), (2, 2), (1, 2)].map {
+            try #require(UnreadableFoldersNotice.whyNotRead(closed: $0.0, of: $0.1))
+        }
+        let advice = UnreadableFoldersNotice.detail(naming: [], closed: 0, needsFullDiskAccess: true)
+
+        #expect(sentences.allSatisfy { $0.contains("own permissions") || $0.contains("permissions of their own") })
+        #expect(sentences.allSatisfy { $0.contains("Full Disk Access doesn’t") })
+        #expect(advice.contains("Home"))
+        #expect(!advice.contains("System Settings"))
+    }
+
     @Test func anAlertsFirstItemsAndHowManyMore() {
         let (shown, more) = RemovalFailureAlert.first(Array(1...60))
 

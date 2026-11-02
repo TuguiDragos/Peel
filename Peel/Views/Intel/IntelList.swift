@@ -165,7 +165,7 @@ struct IntelList: View {
                 ? Text("Peel couldn’t read \(RemovalFailureAlert.listedItems(jobFiles)), so it can’t tell whether what this job runs needs Rosetta.")
                 : Text("Peel couldn’t read \(RemovalFailureAlert.listedItems(jobFiles)), so it can’t tell whether what these jobs run needs Rosetta.")])
             + why(closed.jobFiles, of: jobFiles.count)
-            + (needsFullDiskAccess ? [Text("Give Peel Full Disk Access so it can read the folders macOS protects.")] : [])
+            + (needsFullDiskAccess ? [Text("macOS keeps Peel out of the folders it protects until Peel has Full Disk Access. Turn it on from Home.")] : [])
             + (intel.scan?.unansweredJobs.missingJobsNote.map { [Text($0)] } ?? [])
         guard let first = parts.first else { return nil }
         return parts.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
