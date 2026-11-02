@@ -139,6 +139,10 @@ enum KeptOnlyHere {
         // Syncthing's "Syncthing Configuration": the folders it shares and the device's private key, the basis of its
         // device ID.
         ("Library/Application Support/Syncthing", nil, .holdsWorkMadeWithTheApp),
+        // Microsoft's "Recover files in Office for Mac": the work AutoRecover kept and was never saved.
+        ("Library/Containers/com.Microsoft.Word", "Data/Library/Preferences/AutoRecovery", .holdsWorkMadeWithTheApp),
+        ("Library/Containers/com.Microsoft.Powerpoint", "Data/Library/Preferences/AutoRecovery", .holdsWorkMadeWithTheApp),
+        ("Library/Containers/com.microsoft.Excel", "Data/Library/Application Support/Microsoft", .holdsWorkMadeWithTheApp),
         // Cultured Code's "Completely Uninstalling Things": deleting this group container deletes the to-dos.
         ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", nil, .holdsWorkMadeWithTheApp),
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder

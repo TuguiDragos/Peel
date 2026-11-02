@@ -84,6 +84,11 @@ struct KeptOnlyHereTests {
             ("Library/Group Containers/group.com.criminalbird.typeface", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Syncthing", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Syncthing/key.pem", .holdsWorkMadeWithTheApp),
+            ("Library/Containers/com.Microsoft.Word", .holdsWorkMadeWithTheApp),
+            ("Library/Containers/com.microsoft.Word/Data/Library/Preferences/AutoRecovery/Report.docx",
+             .holdsWorkMadeWithTheApp),
+            ("Library/Containers/com.Microsoft.Powerpoint/Data/Library/Preferences/AutoRecovery", .holdsWorkMadeWithTheApp),
+            ("Library/Containers/com.microsoft.Excel/Data/Library/Application Support/Microsoft", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
@@ -147,6 +152,8 @@ struct KeptOnlyHereTests {
     @Test func leavesWhatSitsBesideOrAroundThem() {
         let free = [
             "Library/Application Support", "Library/Group Containers", "Library", "Library/Caches/Signal",
+            "Library/Containers/com.microsoft.Word/Data/Library/Caches",
+            "Library/Containers/com.microsoft.Excel/Data/Library/Preferences",
             "Library/Application Support/AutoBrew/Logs",
             "Library/Application Support/nomic.ai", "Library/Application Support/Topaz Labs LLC",
             "Library/Application Support/Topaz Labs LLC/Topaz Photo/models",
