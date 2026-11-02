@@ -25,4 +25,24 @@ import Testing
         #expect(found("tool@1").stopCommand == "brew services stop tool@1")
         #expect(found("other").isEmpty)
     }
+
+    @Test func namesWhatAFormulaKeepsInVarAndEtcUnderItsName() throws {
+        let directory = try TemporaryDirectory()
+        let prefix = directory.url.appending(path: "prefix", directoryHint: .isDirectory)
+        let data = try directory.file("prefix/var/tool@1/base/1/PG_VERSION").deletingLastPathComponent()
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let settings = try directory.file("prefix/etc/tool@1/tool.conf").deletingLastPathComponent()
+        try directory.file("prefix/var/tool/base/PG_VERSION")
+        try directory.directory("prefix/Cellar")
+        func found(_ name: String) -> FormulaInUse {
+            FormulaInUse.of(
+                formula: name, cellar: prefix.appending(path: "Cellar"), home: directory.url, root: directory.url
+            )
+        }
+
+        #expect(found("tool@1").dataFolders.map(\.lastPathComponent) == ["tool@1", "tool@1"])
+        #expect(found("tool@1").dataFolders.map { PathPattern.comparablePath(of: $0) }
+            == [data, settings].map { PathPattern.comparablePath(of: $0) })
+        #expect(found("other").dataFolders.isEmpty)
+    }
 }

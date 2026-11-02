@@ -290,7 +290,15 @@ struct HomebrewDetailView: View {
         let deletes = homebrew.overrides.contains(.keepsDependencies)
             ? Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it.")
             : Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in.")
-        return whatUsesIt.map { Text("\($0)\n\n\(deletes)") } ?? deletes
+        let deletesAndLeaves = whatStays.map { Text("\(deletes)\n\n\($0)") } ?? deletes
+        return whatUsesIt.map { Text("\($0)\n\n\(deletesAndLeaves)") } ?? deletesAndLeaves
+    }
+
+    /// What Homebrew leaves of a formula, which it says nothing of before it deletes the rest.
+    private var whatStays: Text? {
+        guard let folders = inUse?.dataFolders, !folders.isEmpty else { return nil }
+        let places = folders.map(\.abbreviatedPath).formatted(.list(type: .and))
+        return Text("Homebrew leaves \(places), with any data or settings the formula kept there.")
     }
 
     /// What Homebrew won't look at before it deletes a formula, said before it does.

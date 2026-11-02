@@ -7,6 +7,10 @@ public struct FormulaInUse: Sendable, Hashable {
     public let programs: [String]
     /// What stops the job `brew services` keeps for the formula and takes its file away, to run in Terminal.
     public let stopCommand: String?
+    /// What Homebrew keeps under the formula's name in its `var` and `etc`, which `brew uninstall` leaves: the data of
+    /// a database, say, or a server's settings. Homebrew warns about its `etc` folder only once it is gone
+    /// (`uninstall.rb`), and says nothing of `var`.
+    public var dataFolders: [URL] = []
 
     public var isEmpty: Bool { programs.isEmpty && stopCommand == nil }
 
@@ -25,6 +29,11 @@ public struct FormulaInUse: Sendable, Hashable {
             : hasAJob(in: root, "LaunchDaemons") ? "sudo brew services stop \(name)"
             : nil
         let folder = cellar.appending(path: name, directoryHint: .isDirectory)
-        return FormulaInUse(programs: OpenFiles().holders(of: folder), stopCommand: stopCommand)
+        let prefix = cellar.deletingLastPathComponent()
+        return FormulaInUse(
+            programs: OpenFiles().holders(of: folder),
+            stopCommand: stopCommand,
+            dataFolders: ["var", "etc"].map { prefix.appending(path: "\($0)/\(name)") }.filter { !$0.isMissing }
+        )
     }
 }

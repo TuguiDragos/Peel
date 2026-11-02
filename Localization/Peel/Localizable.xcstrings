@@ -63113,6 +63113,112 @@
         }
       }
     },
+    "Homebrew leaves %@, with any data or settings the formula kept there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ponechá %@ i se všemi daty nebo nastaveními, která tam formula uchovávala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lässt %@ zurück, samt allen Daten oder Einstellungen, die die Formula dort aufbewahrt hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew deja %@, con los datos o ajustes que la formula haya guardado ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew laisse en place %@, avec les données ou les réglages que la formula y a éventuellement conservés."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lascia %@, con gli eventuali dati o le impostazioni che la formula vi ha conservato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは%@を、formulaがそこに保存したデータや設定ごと残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 %@을(를) 이 formula가 그곳에 보관한 데이터나 설정과 함께 그대로 남겨 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew laat %@ achter, met alle gegevens of instellingen die de formula daar heeft bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew zostawia %@ wraz ze wszelkimi danymi i ustawieniami, które formula tam przechowywała."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew mantém %@, com quaisquer dados ou ajustes que a formula tenha guardado ali."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lasă în urmă %@, împreună cu orice date sau configurări pe care formula le‑a păstrat acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew оставит %@ вместе с данными и настройками, которые formula могла там хранить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lämnar kvar %@, med eventuella data eller inställningar som formulan har sparat där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, %@ içeriğini, yani bu formula için orada tutulan tüm verileri veya ayarları yerinde bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew залишить %@ разом з усіма даними й налаштуваннями, які там зберігала formula."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会保留%@，以及此formula在其中保存的任何数据或设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew會留下%@，連同該formula保存在其中的任何資料或設定。"
+          }
+        }
+      }
+    },
     "Homebrew may download its list of packages when Peel only asks about them." : {
       "localizations" : {
         "cs" : {
