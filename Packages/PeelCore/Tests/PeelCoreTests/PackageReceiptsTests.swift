@@ -89,6 +89,23 @@ struct PackageReceiptsTests {
         #expect(found.offered == ["\(home)/Applications/Utilities/Solo Tool.app", "\(home)/Library/Fonts/Solo.otf"])
     }
 
+    @Test func onlyTheDisksCopyOfAPackageAlsoInstalledForTheAccountSaysAllUsers() {
+        let home = URL(filePath: "/Users/example", directoryHint: .isDirectory)
+        let disk = URL(filePath: "/", directoryHint: .isDirectory)
+        let receipt = { (identifier: String, volume: URL) in
+            PackageReceipt(identifier: identifier, version: nil, installDate: nil, volume: volume, items: [])
+        }
+        let shared = receipt("org.example.solo", disk)
+
+        let marked = PackageReceipt.sayingForAllUsers(
+            [shared, receipt("org.example.solo", home), receipt("org.example.other", disk)], home: home
+        )
+
+        #expect(marked == [shared.id])
+        #expect(receipt("org.example.solo", home).isInstalledForTheAccount(home: home))
+        #expect(!shared.isInstalledForTheAccount(home: home))
+    }
+
     @Test func aPackageOnTheStartupDiskAndInAnAccountAreTwoReceipts() {
         let receipt = { (volume: String) in
             PackageReceipt(

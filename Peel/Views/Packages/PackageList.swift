@@ -13,11 +13,12 @@ struct PackageList: View {
         @Bindable var packages = packages
         let filtered = filteredReceipts
         let receiptsOnly = filtered.filter(\.nothingLeftOnDisk)
+        let forAllUsers = PackageReceipt.sayingForAllUsers(packages.receipts ?? [])
 
         List(selection: $packages.selection) {
             if !receiptsOnly.isEmpty {
                 Section {
-                    ForEach(receiptsOnly) { row(for: $0) }
+                    ForEach(receiptsOnly) { row(for: $0, sayingForAllUsers: forAllUsers.contains($0.id)) }
                 } header: {
                     SectionHeaderLine {
                         heading(
@@ -40,7 +41,9 @@ struct PackageList: View {
                 }
             }
             Section {
-                ForEach(filtered.filter { !$0.nothingLeftOnDisk }) { row(for: $0) }
+                ForEach(filtered.filter { !$0.nothingLeftOnDisk }) {
+                    row(for: $0, sayingForAllUsers: forAllUsers.contains($0.id))
+                }
             } header: {
                 if !receiptsOnly.isEmpty {
                     Text("Installed Packages")
@@ -108,7 +111,7 @@ struct PackageList: View {
         return .content
     }
 
-    private func row(for receipt: PackageReceipt) -> some View {
+    private func row(for receipt: PackageReceipt, sayingForAllUsers: Bool) -> some View {
         HStack(spacing: 6) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(receipt.identifier)
@@ -127,6 +130,9 @@ struct PackageList: View {
                     }
                     if let version = receipt.shownVersion {
                         Text("Version \(version)")
+                    }
+                    if sayingForAllUsers {
+                        Text("All users")
                     }
                 }
                 .font(.caption)

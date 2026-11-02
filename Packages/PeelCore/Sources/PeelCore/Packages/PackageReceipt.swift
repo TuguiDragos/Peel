@@ -63,6 +63,19 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// `version` is the package's own number.
     public var productVersion: String?
 
+    /// Whether the package was installed for the account whose home folder is `home` alone, which keeps its receipt
+    /// there.
+    public func isInstalledForTheAccount(home: URL = .homeDirectory) -> Bool {
+        PackageActions.isTheHome(volume, home: home)
+    }
+
+    /// The receipts on a disk of the packages also installed for the account, whose rows would otherwise read alike.
+    public static func sayingForAllUsers(_ receipts: [PackageReceipt], home: URL = .homeDirectory) -> Set<ID> {
+        let forTheAccount = Set(receipts.filter { $0.isInstalledForTheAccount(home: home) }.map(\.identifier))
+        return Set(receipts.filter { forTheAccount.contains($0.identifier) && !$0.isInstalledForTheAccount(home: home) }
+            .map(\.id))
+    }
+
     /// What a list in a question calls each of `receipts`: its name, unless another of them has it too, as the packages
     /// of one installer do, which is no way to tell them apart.
     public static func names(of receipts: [PackageReceipt]) -> [String] {

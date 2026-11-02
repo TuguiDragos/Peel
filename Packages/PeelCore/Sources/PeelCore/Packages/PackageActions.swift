@@ -50,10 +50,10 @@ public enum PackageActions {
     /// Whether forgetting `receipt` takes Peel's helper: a disk's receipts are root's, and one in a home folder is that
     /// account's.
     public static func forgettingNeedsTheHelper(_ receipt: PackageReceipt, home: URL = .homeDirectory) -> Bool {
-        !isTheHome(receipt.volume, home: home)
+        !receipt.isInstalledForTheAccount(home: home)
     }
 
-    private static func isTheHome(_ volume: URL, home: URL) -> Bool {
+    static func isTheHome(_ volume: URL, home: URL) -> Bool {
         PathPattern.comparablePath(of: volume) == PathPattern.comparablePath(of: home)
     }
 
