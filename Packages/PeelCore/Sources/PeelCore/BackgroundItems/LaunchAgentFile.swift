@@ -137,6 +137,7 @@ public struct LaunchAgentFile: Sendable {
         let trash = TrashService(exclusions: exclusions)
         return await save(
             text, for: item, trash: trash,
+            isLoaded: { !(await BackgroundItemActions.isGone($0)) },
             stop: { item in
                 do throws(BackgroundItemActions.Failure) {
                     try await BackgroundItemActions.stop(item)
@@ -156,6 +157,7 @@ public struct LaunchAgentFile: Sendable {
         _ text: String,
         for item: BackgroundItem,
         trash: TrashService,
+        isLoaded: (BackgroundItem) async -> Bool,
         stop: (BackgroundItem) async -> BackgroundItemActions.Failure?,
         start: (BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void,
         putBack: (TrashedItem) async -> RestoreFailure?,
@@ -165,9 +167,12 @@ public struct LaunchAgentFile: Sendable {
         guard FileIdentity.of(url)?.holdsTheSameContents(as: opened) == true else {
             return .unchanged(.changed, moved: TrashResult())
         }
+        // launchd is asked now: the page read the job's state earlier, and it may have been loaded or taken out since.
+        let wasLoaded = await isLoaded(item)
+        let now = BackgroundItemActions.asItIsNow(item, isGone: !wasLoaded)
         let moved: BackgroundItemActions.Moved
         do {
-            moved = try await BackgroundItemActions.moveToTrash(item, isHelperEnabled: false, trash: trash, stop: stop)
+            moved = try await BackgroundItemActions.moveToTrash(now, isHelperEnabled: false, trash: trash, stop: stop)
         } catch {
             return .unchanged(.cannotBeEdited, moved: TrashResult())
         }
@@ -185,11 +190,11 @@ public struct LaunchAgentFile: Sendable {
         case .incomplete(let error):
             return .oldFileInTheTrash(.incomplete(error), moved: moved.result)
         }
-        guard item.state != .notLoaded, item.state != .unknown else { return .saved(moved: result, reload: nil) }
+        guard wasLoaded else { return .saved(moved: result, reload: nil) }
         if let stillRunning = moved.stillRunning {
             return .saved(moved: result, reload: .notStopped(stillRunning))
         }
-        var stopped = item
+        var stopped = now
         stopped.state = .notLoaded
         do throws(BackgroundItemActions.Failure) {
             try await start(stopped)

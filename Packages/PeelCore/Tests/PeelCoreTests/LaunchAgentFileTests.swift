@@ -161,7 +161,7 @@ struct LaunchAgentFileTests {
         let steps = Steps()
 
         let outcome = await file.save(
-            job(seconds: 700), for: item, trash: home.service(steps: steps),
+            job(seconds: 700), for: item, trash: home.service(steps: steps), isLoaded: { _ in true },
             stop: { _ in steps.add("stop"); return nil },
             start: { started in steps.add("start \(started.state == .notLoaded)") },
             putBack: { _ in steps.add("put back"); return nil }
@@ -179,21 +179,30 @@ struct LaunchAgentFileTests {
         #expect(mode as? Int == 0o600)
     }
 
-    @Test func loadsAgainOnlyAJobLaunchdHad() async throws {
-        let home = try Home()
-        let item = agent(home.plist, state: .notLoaded)
-        let file = try await home.open(item)
-        let steps = Steps()
+    @Test func loadsAgainOnlyAJobLaunchdHasAsItSaves() async throws {
+        // launchd is asked as the edit is saved: the page's state may be older than a load or unload made elsewhere.
+        for (shown, launchdHasIt, expected) in [
+            (BackgroundItem.State.notLoaded, false, ["move"]),
+            (.notLoaded, true, ["move", "stop", "start"]),
+            (.running(pid: 7), false, ["move"]),
+            (.unknown, true, ["move", "stop", "start"]),
+        ] {
+            let home = try Home()
+            let item = agent(home.plist, state: shown)
+            let file = try await home.open(item)
+            let steps = Steps()
 
-        let outcome = await file.save(
-            job(seconds: 700), for: item, trash: home.service(steps: steps),
-            stop: { _ in steps.add("stop"); return nil },
-            start: { _ in steps.add("start") },
-            putBack: { _ in nil }
-        )
+            let outcome = await file.save(
+                job(seconds: 700), for: item, trash: home.service(steps: steps),
+                isLoaded: { _ in launchdHasIt },
+                stop: { _ in steps.add("stop"); return nil },
+                start: { _ in steps.add("start") },
+                putBack: { _ in nil }
+            )
 
-        guard case .saved(_, nil) = outcome else { Issue.record("\(outcome)"); return }
-        #expect(steps.all == ["move"])
+            guard case .saved(_, nil) = outcome else { Issue.record("\(outcome)"); continue }
+            #expect(steps.all == expected, "\(shown), launchd has it: \(launchdHasIt)")
+        }
     }
 
     @Test func saysWhyLaunchdDidntTakeTheNewFile() async throws {
@@ -208,7 +217,7 @@ struct LaunchAgentFileTests {
             let file = try await home.open(item)
             let steps = Steps()
             let outcome = await file.save(
-                job(seconds: 700), for: item, trash: home.service(steps: steps),
+                job(seconds: 700), for: item, trash: home.service(steps: steps), isLoaded: { _ in true },
                 stop: { _ in stopping },
                 start: { _ throws(BackgroundItemActions.Failure) in
                     steps.add("start")
@@ -230,7 +239,7 @@ struct LaunchAgentFileTests {
         let steps = Steps()
 
         let outcome = await file.save(
-            job(seconds: 700), for: item, trash: home.service(steps: steps),
+            job(seconds: 700), for: item, trash: home.service(steps: steps), isLoaded: { _ in true },
             stop: { _ in nil }, start: { _ in }, putBack: { _ in nil }
         )
 
@@ -249,7 +258,7 @@ struct LaunchAgentFileTests {
             let denied = SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))
 
             let outcome = await file.save(
-                job(seconds: 700), for: item, trash: home.service(steps: steps),
+                job(seconds: 700), for: item, trash: home.service(steps: steps), isLoaded: { _ in true },
                 stop: { _ in nil }, start: { _ in steps.add("start") },
                 putBack: { trashed in
                     steps.add("put back")
@@ -281,7 +290,7 @@ struct LaunchAgentFileTests {
         let full = SystemError(domain: NSPOSIXErrorDomain, code: Int(ENOSPC))
 
         let outcome = await file.save(
-            job(seconds: 700), for: item, trash: home.service(steps: steps),
+            job(seconds: 700), for: item, trash: home.service(steps: steps), isLoaded: { _ in true },
             stop: { _ in nil }, start: { _ in steps.add("start") },
             putBack: { _ in steps.add("put back"); return nil },
             makeFile: { _, _, _ in .incomplete(full) }
