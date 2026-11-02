@@ -34,7 +34,7 @@ struct BackgroundItemDetailView: View {
                     LabeledContent("Added by") {
                         VStack(alignment: .trailing, spacing: 1) {
                             Text(verbatim: item.ownerName ?? library.name(forReference: owner))
-                            if #available(macOS 27, *), item.runsFromTheTrash {
+                            if item.runsFromTheTrash {
                                 Text("In the Trash")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
@@ -387,7 +387,7 @@ struct BackgroundItemDetailView: View {
                             detail: Text("The program it starts is gone, and no installed app claims it.")
                         )
                     }
-                    if #available(macOS 27, *), item.runsFromTheTrash {
+                    if item.runsFromTheTrash {
                         NoteBadge(
                             title: Text("Runs from the Trash"), systemImage: "trash", tint: .orange,
                             name: String(localized: "Runs from the Trash"),

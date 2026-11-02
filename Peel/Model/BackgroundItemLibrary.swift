@@ -125,7 +125,7 @@ final class BackgroundItemLibrary {
     enum Action {
         case start
         case stop
-        /// Stop under the name macOS 27's page gives it for a job its gone app left loaded.
+        /// Stop under the name the page gives it for a job its gone app left loaded.
         case remove
         case enable
         case disable

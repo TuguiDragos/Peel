@@ -31,11 +31,7 @@ struct BackgroundItemActionsTests {
 
         var leftByAGoneApp = daemon(source: .app, plist: nil)
         leftByAGoneApp.isManagedByServiceManagement = true
-        if #available(macOS 27, *) {
-            #expect(leftByAGoneApp.waitsForTheHelper)
-        } else {
-            #expect(!leftByAGoneApp.waitsForTheHelper)
-        }
+        #expect(leftByAGoneApp.waitsForTheHelper)
 
         var excluded = daemon()
         excluded.isExcluded = true
@@ -160,6 +156,13 @@ struct BackgroundItemActionsTests {
         elsewhere.source = .otherFile
         #expect(elsewhere.startOrStop == .stop)
         #expect(!elsewhere.offersEnableOrDisable)
+
+        var left = item(state: .loaded, plist: nil)
+        left.source = .app
+        left.isManagedByServiceManagement = true
+        #expect(left.isLeftByAGoneApp)
+        #expect(left.startOrStop == .remove)
+        #expect(!left.offersEnableOrDisable)
 
         var excluded = item(state: .running(pid: 42), plist: file)
         excluded.isExcluded = true

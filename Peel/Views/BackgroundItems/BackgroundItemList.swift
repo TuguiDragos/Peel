@@ -226,7 +226,7 @@ private struct BackgroundItemRow: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
-                } else if #available(macOS 27, *), item.runsFromTheTrash {
+                } else if item.runsFromTheTrash {
                     StatusLabel(title: Text("Runs from the Trash"))
                         .font(.caption)
                         .foregroundStyle(.secondary)

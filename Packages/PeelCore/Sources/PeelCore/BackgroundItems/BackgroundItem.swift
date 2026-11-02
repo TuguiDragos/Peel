@@ -164,14 +164,14 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var offersControls: Bool {
         guard canBeControlled, state != .unknown, !isNamedByItsFile, !anotherFileIsLoaded else { return false }
         if canOnlyBeStopped || isRunning { return true }
-        if #available(macOS 27, *), isLeftByAGoneApp { return true }
+        if isLeftByAGoneApp { return true }
         return !isSeenOnlyWhileLoaded || isDisabled || mayBeDisabled
     }
 
     public enum StartOrStop: Sendable {
         case start
         case stop
-        /// Stop under the name macOS 27's page gives it for a job its gone app left loaded.
+        /// Stop under the name the page gives it for a job its gone app left loaded.
         case remove
     }
 
@@ -180,16 +180,14 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var startOrStop: StartOrStop? {
         guard offersControls else { return nil }
         if canOnlyBeStopped { return .stop }
-        if #available(macOS 27, *), isLeftByAGoneApp { return .remove }
+        if isLeftByAGoneApp { return .remove }
         if isSeenOnlyWhileLoaded { return isRunning ? .stop : nil }
         return state == .notLoaded ? .start : .stop
     }
 
-    /// Enable and Disable, which a job Peel can only stop, and on macOS 27 one its gone app left, don't have.
+    /// Enable and Disable, which a job Peel can only stop, and one its gone app left, don't have.
     public var offersEnableOrDisable: Bool {
-        guard offersControls, !canOnlyBeStopped, isDisabled || mayBeDisabled else { return false }
-        if #available(macOS 27, *), isLeftByAGoneApp { return false }
-        return true
+        offersControls && !canOnlyBeStopped && !isLeftByAGoneApp && (isDisabled || mayBeDisabled)
     }
 
     /// Whether the helper would let Peel do more with the job than it can without it: a control the page offers, or the
