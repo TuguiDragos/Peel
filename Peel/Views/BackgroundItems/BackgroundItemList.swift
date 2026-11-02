@@ -56,12 +56,15 @@ struct BackgroundItemList: View {
         )
         .toolbar {
             ToolbarItem {
-                RescanButton(
-                    isRunning: $isRescanning,
-                    isDisabled: !library.hasLoaded || !backgroundItems.runningActionItemIDs.isEmpty,
-                    scan: backgroundItems.scanRun
-                ) {
-                    await backgroundItems.refresh(installedApps: library.apps)
+                // Off during a job's action on the busy timing, so a quick one doesn't flash it.
+                BusyShown(isBusy: !backgroundItems.runningActionItemIDs.isEmpty) { isActing in
+                    RescanButton(
+                        isRunning: $isRescanning,
+                        isDisabled: !library.hasLoaded || isActing,
+                        scan: backgroundItems.scanRun
+                    ) {
+                        await backgroundItems.refresh(installedApps: library.apps)
+                    }
                 }
             }
         }

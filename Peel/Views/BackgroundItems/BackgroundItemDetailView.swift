@@ -91,9 +91,12 @@ struct BackgroundItemDetailView: View {
                             .textSelection(.enabled)
                             .help(Text(verbatim: plist.fullPath))
                         if item.canBeEdited {
-                            Button("Edit…") { isEditing = true }
-                                .controlSize(.small)
-                                .disabled(isBusy || !history.mayMove)
+                            // On the busy timing, so a quick action doesn't flash it.
+                            BusyShown(isBusy: isBusy) { isShown in
+                                Button("Edit…") { isEditing = true }
+                                    .controlSize(.small)
+                                    .disabled(isShown || !history.mayMove)
+                            }
                         }
                         if finderURL == plist {
                             ShowInFinderButton(url: plist)
