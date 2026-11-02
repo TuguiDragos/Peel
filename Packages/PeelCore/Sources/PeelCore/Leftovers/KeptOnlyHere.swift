@@ -228,6 +228,22 @@ enum KeptOnlyHere {
         (".config/configstore", "firebase-tools.json", .holdsSignIns),
         // ngrok's "Agent Configuration File": its `authtoken` is a setting there.
         ("Library/Application Support/ngrok", "ngrok.yml", .holdsSignIns),
+        // RustDesk's `config.rs`: this Mac's permanent password and keys, and the passwords saved for other computers.
+        ("Library/Preferences/com.carriez.RustDesk", nil, .holdsPasswordsOrCodes),
+        // TablePlus' "Connections" page: saved connections stay on this Mac unless a synced folder is chosen. Its
+        // folder from its cask.
+        ("Library/Application Support/com.tinyapp.TablePlus", nil, .holdsWorkMadeWithTheApp),
+        // Sequel Ace's "Migrating from Sequel Pro": its favorites, the saved connections.
+        (
+            "Library/Containers/com.sequel-ace.sequel-ace",
+            "Data/Library/Application Support/Sequel Ace/Data/Favorites.plist",
+            .holdsWorkMadeWithTheApp
+        ),
+        // MongoDB Compass' `connection-storage` and `compass-data-modeling`: saved connections and data models.
+        ("Library/Application Support/MongoDB Compass", "Connections", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/MongoDB Compass", "DataModelDescriptions", .holdsWorkMadeWithTheApp),
+        // Proxyman's "Lost data after updating Proxyman app?": its debugging rules, settings, and their backups.
+        ("Library/Application Support/com.proxyman.NSProxy", nil, .holdsWorkMadeWithTheApp),
     ]
 
     /// The same, in the Library every account on the Mac shares.
