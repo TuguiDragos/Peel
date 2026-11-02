@@ -456,6 +456,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- An app whose own agent launchd keeps running can be removed, here and with `peel uninstall`: asked to quit, it only
+  started again, and the question came back. Moving it stops the job, and Put Back starts it again.
 - Without Full Disk Access, an app's page no longer makes macOS ask about your photos, since `~/Library/Photos` isn't
   looked into.
 - On macOS 27, the list keeps its place when the first update arrives or the last one leaves.

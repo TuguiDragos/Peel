@@ -492,14 +492,16 @@ struct AppDetailView: View {
     /// if it had to quit: what it wrote until then was not there when the page scanned.
     private func requestRemoval() {
         let plan = plan
-        let running = plan.runningProcesses
-        quitting.check(running) {
-            Task {
-                if !running.isEmpty {
-                    await rescan()
-                    guard !plan.scanRun.wasStopped else { return }
+        Task {
+            let running = await plan.processesToQuit()
+            quitting.check(running) {
+                Task {
+                    if !running.isEmpty {
+                        await rescan()
+                        guard !plan.scanRun.wasStopped else { return }
+                    }
+                    plan.question.ask(plan.request)
                 }
-                plan.question.ask(plan.request)
             }
         }
     }
@@ -516,7 +518,7 @@ struct AppDetailView: View {
     private func remove(_ request: RemovalRequest) async {
         let plan = plan
         defer { plan.question.finish() }
-        guard plan.runningProcesses.isEmpty else { return requestRemoval() }
+        guard await plan.processesToQuit().isEmpty else { return requestRemoval() }
         let result = await progress.run(toMove: request.urls.count) {
             await QuitGuard.shared.run {
                 // The one step that goes before the move: `tccutil` only finds an app that is still in its place.

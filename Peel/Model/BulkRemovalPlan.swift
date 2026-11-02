@@ -86,24 +86,28 @@ final class BulkRemovalPlan {
         return running.allSatisfy { going.contains($0.url) } ? "Quit these apps before removing them." : "Quit these apps first."
     }
 
-    /// The chosen apps with anything of theirs selected that run now. Files never move out from under a running app,
-    /// so an app that stays still quits before a file of its own moves.
-    var runningApps: [InstalledApp] {
-        let running = RunningCopies.current
-        return owningSelected.filter { app in
+    /// The chosen apps with anything of theirs selected that run now, and their processes, helpers included, each once:
+    /// two copies of an app share their helpers. Files never move out from under a running app, so an app that stays
+    /// still quits before a file of its own moves. What launchd keeps running as a job of the app only starts again,
+    /// and the move stops it, so it isn't asked to quit.
+    func toQuit() async -> (apps: [InstalledApp], processes: [NSRunningApplication]) {
+        var running = RunningCopies.current
+        let owners = owningSelected.filter { app in
             !RunningCopies.belonging(to: app, among: running, installedApps: installedApps).isEmpty
         }
-    }
-
-    /// The processes of `runningApps`, helpers included, each once: two copies of an app share their helpers.
-    var runningProcesses: [NSRunningApplication] {
-        let running = RunningCopies.current
+        guard !owners.isEmpty else { return ([], []) }
+        let jobs = await RunningCopies.keptRunningByJobs(inside: owners.map(\.url))
+        running.removeAll { jobs.contains($0.identifier) }
         var seen: Set<pid_t> = []
-        return owningSelected.flatMap { app in
-            RunningCopies.belonging(to: app, among: running, installedApps: installedApps)
-                .filter { seen.insert($0.identifier).inserted }
+        var apps: [InstalledApp] = []
+        var processes: [NSRunningApplication] = []
+        for app in owners {
+            let own = RunningCopies.belonging(to: app, among: running, installedApps: installedApps)
+            if !own.isEmpty { apps.append(app) }
+            processes += own.filter { seen.insert($0.identifier).inserted }
                 .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
         }
+        return (apps, processes)
     }
 
     private var owningSelected: [InstalledApp] {

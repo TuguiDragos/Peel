@@ -363,20 +363,22 @@ struct MultipleAppsView: View {
     /// out here, once, rather than with every change of the page: the note compares every chosen app with every other.
     private func requestRemoval() {
         let plan = plan
-        let running = plan.runningProcesses
-        if !running.isEmpty {
-            quitTitle = Text(BulkRemovalPlan.quitTitle(running: plan.runningApps, going: plan.selectedURLs))
-        }
-        quitting.check(running) {
-            Task {
-                if !running.isEmpty {
-                    await rescan()
-                    guard !plan.scanRun.wasStopped else { return }
+        Task {
+            let (apps, running) = await plan.toQuit()
+            if !running.isEmpty {
+                quitTitle = Text(BulkRemovalPlan.quitTitle(running: apps, going: plan.selectedURLs))
+            }
+            quitting.check(running) {
+                Task {
+                    if !running.isEmpty {
+                        await rescan()
+                        guard !plan.scanRun.wasStopped else { return }
+                    }
+                    let request = plan.request
+                    questionTitle = Text.movingToTrash(request.urls.count, request.total)
+                    questionNote = note(about: request.urls)
+                    plan.question.ask(request)
                 }
-                let request = plan.request
-                questionTitle = Text.movingToTrash(request.urls.count, request.total)
-                questionNote = note(about: request.urls)
-                plan.question.ask(request)
             }
         }
     }
@@ -386,7 +388,7 @@ struct MultipleAppsView: View {
     private func remove(_ request: RemovalRequest) async {
         let plan = plan
         defer { plan.question.finish() }
-        guard plan.runningProcesses.isEmpty else { return requestRemoval() }
+        guard await plan.toQuit().processes.isEmpty else { return requestRemoval() }
         let result = await progress.run(toMove: request.urls.count) {
             await QuitGuard.shared.run {
                 // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its

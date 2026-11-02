@@ -42,8 +42,16 @@ final class RemovalPlan {
     private(set) var total = SizeTotal([])
     private var leftoverSizes: [URL: (size: Int64, isMeasured: Bool)] = [:]
 
-    init(app: InstalledApp) {
+    private let jobsKeptRunning: @Sendable ([URL]) async -> Set<pid_t>
+
+    init(
+        app: InstalledApp,
+        jobsKeptRunning: @escaping @Sendable ([URL]) async -> Set<pid_t> = {
+            await RunningCopies.keptRunningByJobs(inside: $0)
+        }
+    ) {
         self.app = app
+        self.jobsKeptRunning = jobsKeptRunning
     }
 
     var scan: LeftoverScan? {
@@ -213,9 +221,13 @@ final class RemovalPlan {
         return await uninstallation.move(request.urls, using: service)
     }
 
-    /// The app's processes that run now, the helpers it ships included, which quit before any of its files move.
-    var runningProcesses: [NSRunningApplication] {
-        RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: installedApps)
+    /// The app's processes that run now, the helpers it ships included, which quit before any of its files move, but
+    /// for what launchd keeps running as a job of the app, which only starts again and which the move stops.
+    func processesToQuit() async -> [NSRunningApplication] {
+        let running = RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: installedApps)
+        guard !running.isEmpty else { return [] }
+        let jobs = await jobsKeptRunning([app.url])
+        return running.filter { !jobs.contains($0.identifier) }
             .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
     }
 }

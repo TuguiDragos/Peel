@@ -33,6 +33,17 @@ public enum RunningCopies {
         }
     }
 
+    /// The processes launchd keeps running as jobs of `apps`, from inside them. Asked to quit, one only starts again,
+    /// so nobody is asked: moving the app stops its job.
+    @concurrent
+    public static func keptRunningByJobs(inside apps: [URL]) async -> Set<pid_t> {
+        var found: Set<pid_t> = []
+        for app in apps {
+            found.formUnion(await LaunchdCleanup.running(inside: app).map(\.pid))
+        }
+        return found
+    }
+
     /// Returns the processes in `running` that belong to `app` and may be quit. The app itself is known by where it
     /// runs from: a copy elsewhere is another app, and quitting it would close the one in use. The app's helpers run
     /// from inside its bundle, or carry an identifier the bundle embeds or one that extends the app's, unless another
