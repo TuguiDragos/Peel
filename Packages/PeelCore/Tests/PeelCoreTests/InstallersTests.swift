@@ -763,6 +763,29 @@ struct InstallersTests {
         #expect(items["finder-updater"]?.heldBack == .appIsRunning)
     }
 
+    @Test func findsTheUpdatesVelopackDownloaded() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Caches/velopack/TidewaterStudio/packages/TidewaterStudio-2.0-full.nupkg", bytes: 400_000)
+        try directory.file("Library/Caches/velopack/GoneApp/packages/GoneApp-1.1-full.nupkg", bytes: 400_000)
+        try directory.file("Library/Caches/velopack/Empty/packages/notes.txt", bytes: 400_000)
+        try directory.directory("Applications")
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Tidewater Studio.app"), bundleIdentifier: "org.example.tidewater",
+            name: "Tidewater Studio", velopackID: "TidewaterStudio"
+        )
+
+        let scan = await Installers.scan(
+            installedApps: [app], home: directory.url, root: directory.url, exclusions: .none,
+            minimumSize: 100_000, measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items(in: .updateDownload).map { ($0.name, $0) })
+        #expect(Set(items.keys) == ["TidewaterStudio", "GoneApp"])
+        #expect(items["TidewaterStudio"]?.notes == [.downloadedBy("Tidewater Studio")])
+        #expect(items["TidewaterStudio"]?.updatesApp?.identifier == "org.example.tidewater")
+        #expect(items["GoneApp"]?.notes == [])
+    }
+
     @Test func aDownloadAProgramStillHasOpenIsLeftForThePersonToChoose() async throws {
         let directory = try TemporaryDirectory()
         let downloading = try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)

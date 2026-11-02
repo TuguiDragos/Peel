@@ -33,6 +33,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let updateFeed: UpdateFeed?
     /// The folder electron-updater keeps this app's downloads in, as its `app-update.yml` names it.
     public let updaterFolder: String?
+    /// The id Velopack keeps this app's updates under (`Velopack.id(in:)`).
+    public let velopackID: String?
     /// The folders the app's own product file names for its data (`ProductFolders`).
     public let productFolders: [ProductFolder]
     /// Whether this is Peel, which is removed only from its own Settings, where the helper and the login item
@@ -74,6 +76,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         dateAdded: Date? = nil,
         updateFeed: UpdateFeed? = nil,
         updaterFolder: String? = nil,
+        velopackID: String? = nil,
         productFolders: [ProductFolder] = [],
         webApp: WebApp? = nil,
         carriesSystemExtensions: Bool = false
@@ -99,6 +102,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.webApp = webApp
         self.updateFeed = updateFeed
         self.updaterFolder = updaterFolder
+        self.velopackID = velopackID
         self.productFolders = productFolders
         self.carriesSystemExtensions = carriesSystemExtensions
         let path = PathPattern.comparablePath(of: url)
@@ -162,6 +166,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             dateAdded: dateAdded,
             updateFeed: updateFeed,
             updaterFolder: updaterFolder,
+            velopackID: velopackID,
             productFolders: productFolders,
             webApp: webApp,
             carriesSystemExtensions: carriesSystemExtensions

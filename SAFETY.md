@@ -330,7 +330,8 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **What the app's updater downloaded goes with it.** electron-updater, which many Electron apps ship, keeps an app's
   downloads in the folder the app's own settings name, the app's name and `-updater`, in `~/Library/Caches` or, before
   electron-updater 6, in `~/Library/Application Support/Caches`. That folder is the app's whatever the app is called,
-  and shared only with another app, or another copy of it, that names the same folder.
+  and shared only with another app, or another copy of it, that names the same folder. So is the folder Velopack keeps
+  an app's updates in, `~/Library/Caches/velopack` and the id its manifest in the app declares.
 - **The folders the app's own product file names go with it.** A JetBrains IDE names its settings, caches, and logs
   folders in its `product-info.json`, such as `JetBrains/IdeaIC2025.2` in Application Support, Caches, and Logs, and
   only a name that carries the release is believed. A code editor built on VS Code names its extensions folder and its

@@ -27,7 +27,8 @@ public enum MatchReason: String, Sendable, Hashable {
     /// What an area the app manages keeps in the home folder, such as the simulators Xcode makes
     /// (`SpaceInventory.Definition.managedBy`).
     case managedByTheApp
-    /// The folder the app's own settings name for what its updater downloads (`InstalledApp.updaterFolder`).
+    /// The folder the app's updater keeps its downloads in: electron-updater's, which the app's own settings name, or
+    /// Velopack's, named for its id (`InstalledApp.updaterFolder`, `velopackID`).
     case updaterDownloads
     /// A folder the app's own product file names for its data (`InstalledApp.productFolders`).
     case namedByTheApp

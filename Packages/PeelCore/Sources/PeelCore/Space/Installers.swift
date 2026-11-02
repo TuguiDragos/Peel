@@ -614,6 +614,14 @@ public enum Installers {
             }
             addIfElectronUpdaters(url)
         }
+        let velopacks = Dictionary(
+            installedApps.compactMap { app in app.velopackID.map { ($0.lowercased(), app) } }
+        ) { first, _ in first }
+        for url in files(in: home.appending(path: Velopack.place, directoryHint: .isDirectory))
+        where url.isRealFolder && Velopack.holdsAnUpdate(url) {
+            let app = velopacks[url.lastPathComponent.lowercased()]
+            found.append((url, app?.bundleIdentifier, app))
+        }
         let former = home.appending(path: ElectronUpdater.formerPlace, directoryHint: .isDirectory)
         for url in files(in: former) where url.isRealFolder {
             guard !developers.contains("\(ElectronUpdater.formerPlace)/\(url.lastPathComponent)".lowercased()) else {
@@ -633,7 +641,8 @@ public enum Installers {
             guard isAnExcludedApps != true else { continue }
             let (size, seen, _) = await measured(url, by: measure)
             guard isWorthARow(size, minimumSize) else { continue }
-            let fromElsewhere = identifier == nil ? elsewhere[url.lastPathComponent.lowercased()] : nil
+            let isElectrons = url.lastPathComponent.lowercased().hasSuffix("-updater")
+            let fromElsewhere = identifier == nil && isElectrons ? elsewhere[url.lastPathComponent.lowercased()] : nil
             let running = identifier.map(NSRunningApplication.runningApplications(withBundleIdentifier:)) ?? []
             let name = app?.name ?? fromElsewhere?.name ?? running.first?.localizedName
             items.append(InstallerItem(

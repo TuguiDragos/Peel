@@ -72,13 +72,16 @@ struct LeftoverMatcher: Sendable {
         )
     }
 
-    /// This app's claim on the folder its `app-update.yml` names for electron-updater's downloads.
+    /// This app's claim on the folder its updater keeps its downloads in: electron-updater's, which its
+    /// `app-update.yml` names, or Velopack's, named for its id.
     func updatersFolder(at url: URL, home: String) -> LeftoverMatch? {
-        guard let folder = target.updaterFolder, url.lastPathComponent.lowercased() == folder else { return nil }
-        let parent = PathComponents.of(url.deletingLastPathComponent().path(percentEncoded: false))
+        guard !target.updaterPlaces.isEmpty else { return nil }
+        let path = PathComponents.of(url.path(percentEncoded: false))
         let home = PathComponents.of(home)
-        guard ElectronUpdater.places.contains(where: { parent == home + PathComponents.of($0) }) else { return nil }
-        let naming = others.filter { $0.updaterFolder == folder }
+        guard path.count > home.count, path.starts(with: home) else { return nil }
+        let place = path.dropFirst(home.count).joined(separator: "/").lowercased()
+        guard target.updaterPlaces.contains(place) else { return nil }
+        let naming = others.filter { $0.updaterPlaces.contains(place) }
         return LeftoverMatch(
             reason: .updaterDownloads,
             confidence: .certain,
@@ -394,7 +397,8 @@ extension LeftoverMatcher {
         let makersFolderNames: Set<String>
         let isApplesOwn: Bool
         let isASafariWebApp: Bool
-        let updaterFolder: String?
+        /// Where the app's updater keeps its downloads, below the home, lowercased.
+        let updaterPlaces: Set<String>
         let productFolders: [ProductFolder]
 
         init(_ app: InstalledApp) {
@@ -431,7 +435,11 @@ extension LeftoverMatcher {
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
             isASafariWebApp = app.isASafariWebApp
             // Only electron-builder's `<name>-updater`: any other name could be a folder other programs share.
-            updaterFolder = app.updaterFolder.map { $0.lowercased() }.flatMap { $0.hasSuffix("-updater") ? $0 : nil }
+            let electron = app.updaterFolder.map { $0.lowercased() }.flatMap { $0.hasSuffix("-updater") ? $0 : nil }
+            updaterPlaces = Set(
+                (electron.map { folder in ElectronUpdater.places.map { "\($0)/\(folder)".lowercased() } } ?? [])
+                    + [app.velopackID.map { "\(Velopack.place)/\($0)".lowercased() }].compactMap(\.self)
+            )
             productFolders = app.productFolders
         }
 

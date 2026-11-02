@@ -326,12 +326,14 @@ public enum SpaceRemoval {
         return apps.filter { !open.contains($0) }
     }
 
-    /// Squirrel's folder, named for the app's identifier, and electron-updater's, named in its `app-update.yml`.
+    /// Squirrel's folder, named for the app's identifier, electron-updater's, named in its `app-update.yml`, and
+    /// Velopack's, which keeps every app's updates in one folder of the caches.
     private static func updaterFolders(of process: RunningCopies.Process) -> [String] {
         let squirrel = process.bundleIdentifier.map { $0 + Squirrel.folderSuffix }
-        let electron = process.bundleURL
-            .flatMap { ElectronUpdater.configuration(in: $0.appending(path: "Contents", directoryHint: .isDirectory)) }
+        let contents = process.bundleURL?.appending(path: "Contents", directoryHint: .isDirectory)
+        let electron = contents.flatMap(ElectronUpdater.configuration(in:))
             .flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:))
-        return [squirrel, electron].compactMap(\.self)
+        let velopack = contents.flatMap(Velopack.id(in:)).map { _ in URL(filePath: Velopack.place).lastPathComponent }
+        return [squirrel, electron, velopack].compactMap(\.self)
     }
 }

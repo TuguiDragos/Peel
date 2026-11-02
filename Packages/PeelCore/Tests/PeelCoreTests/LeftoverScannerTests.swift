@@ -1855,6 +1855,23 @@ struct LeftoverScannerTests {
         #expect(Set(found) == Set(releases))
     }
 
+    @Test func takesTheFolderVelopackKeepsTheAppsUpdatesIn() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Tidewater Studio.app"), bundleIdentifier: "org.example.tidewater",
+            name: "Tidewater Studio", velopackID: "TidewaterStudio"
+        )
+        try directory.file("home/Library/Caches/velopack/TidewaterStudio/packages/TidewaterStudio-2.0-full.nupkg")
+        try directory.file("home/Library/Caches/velopack/OtherTool/packages/OtherTool-1.0-full.nupkg")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let found = scan.leftovers.map { $0.url.lastPathComponent }
+        #expect(found == ["TidewaterStudio"])
+        #expect(scan.leftovers.first?.match.reason == .updaterDownloads)
+        #expect(scan.leftovers.first?.match.confidence == .certain)
+    }
+
     @Test func showsWhatItsMakersFolderHoldsWhenItIsTheMakersLastApp() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

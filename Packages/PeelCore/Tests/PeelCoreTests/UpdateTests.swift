@@ -254,6 +254,27 @@ struct AppcastTests {
     }
 }
 
+struct VelopackTests {
+    @Test func readsTheIdVelopacksManifestDeclaresOnlyBesideItsUpdater() throws {
+        let directory = try TemporaryDirectory()
+        let manifest = """
+        <?xml version="1.0" encoding="utf-8"?>
+        <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"><metadata>
+          <id>TidewaterStudio</id><version>2.0.0</version><title>Tidewater Studio</title>
+        </metadata></package>
+        """
+        try directory.file("Studio.app/Contents/MacOS/UpdateMac", bytes: 16)
+        try directory.file("Studio.app/Contents/Resources/sq.version", contents: Data(manifest.utf8))
+        try directory.file("Plain.app/Contents/Resources/sq.version", contents: Data(manifest.utf8))
+        try directory.file("Odd.app/Contents/MacOS/UpdateMac", bytes: 16)
+        try directory.file("Odd.app/Contents/MacOS/sq.version", contents: Data("<package><id>../x</id></package>".utf8))
+
+        #expect(Velopack.id(in: directory.url.appending(path: "Studio.app/Contents")) == "TidewaterStudio")
+        #expect(Velopack.id(in: directory.url.appending(path: "Plain.app/Contents")) == nil)
+        #expect(Velopack.id(in: directory.url.appending(path: "Odd.app/Contents")) == nil)
+    }
+}
+
 struct ElectronUpdaterTests {
     @Test func buildsFeedURLs() {
         let generic = "provider: generic\nurl: https://cdn-desktop.tunein.com/release/\nupdaterCacheDirName: example-desktop-updater\n"

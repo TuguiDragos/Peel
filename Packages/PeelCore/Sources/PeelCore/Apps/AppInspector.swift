@@ -131,6 +131,7 @@ public enum AppInspector {
                 isFromSetapp: InstalledApp.isFromSetapp(at: url, identifier: bundleIdentifier)
             ),
             updaterFolder: electronConfiguration.flatMap(ElectronUpdater.downloadsFolder(fromConfiguration:)),
+            velopackID: Velopack.id(in: contents),
             productFolders: ProductFolders.of(appAt: url, vsCodeProduct: vsCodeProduct),
             webApp: bundleIdentifier.flatMap { WebApp.of(identifier: $0, info: info) },
             carriesSystemExtensions: AppExtensions.systemExtensions(carriedBy: url).map { !$0.isEmpty } ?? true
