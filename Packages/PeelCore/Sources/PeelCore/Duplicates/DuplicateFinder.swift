@@ -155,6 +155,11 @@ public struct DuplicateFinder: Sendable {
         "vmwarevm",
         // UTM, conforming to `com.apple.package`: Platform/macOS/Info.plist in github.com/utmapp/UTM
         "utm",
+        // VirtualBuddy, a "VirtualBuddy VM" package: VirtualBuddy/Info.plist in github.com/insidegui/VirtualBuddy
+        "vbvm",
+        // Viable, "its new .vimi bundles", from its maker:
+        // eclecticlight.co/2023/08/15/macos-virtualisation-on-apple-silicon-major-changes-in-viable-beta-9
+        "vimi",
     ]
 
     /// Finds folders whose whole contents are identical, then identical files. Files are compared by size, then

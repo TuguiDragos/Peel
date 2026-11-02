@@ -2117,6 +2117,27 @@ struct LeftoverScannerTests {
         #expect(found["Folx3"]?.heldBack == .holdsTorrents)
     }
 
+    @Test func aFolderHoldingVirtualMachinesOrBottlesIsNotSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Tidewater/Sonoma.vbvm/Disk.img")
+        try directory.file("home/Library/Application Support/Tidewater Bottles/Steam/drive_c/windows/win.ini")
+        try directory.file("home/Library/Caches/Tidewater/cache.db")
+        let tidewater = InstalledApp(
+            url: URL(filePath: "/Applications/Tidewater.app"),
+            bundleIdentifier: "org.example.tidewater",
+            name: "Tidewater"
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory))
+            .scan(tidewater, installedApps: [tidewater])
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.path, $0.match) })
+        let library = directory.url.appending(path: "home/Library").path
+
+        #expect(found["\(library)/Application Support/Tidewater"]?.heldBack == .holdsVirtualMachines)
+        #expect(found["\(library)/Application Support/Tidewater"]?.isRecommended == false)
+        #expect(found["\(library)/Caches/Tidewater"]?.isRecommended == true)
+    }
+
     @Test func anOfficeSuitesUserProfileIsNotSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/LibreOffice/4/user/template/Letter.ott")

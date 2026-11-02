@@ -114805,6 +114805,112 @@
         }
       }
     },
+    "Not selected: this holds virtual machines or Windows bottles, with the systems, apps, and files in them, which may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje virtuální počítače nebo láhve Windows i se systémy, aplikacemi a soubory v nich, které mohou existovat jen v tomto Macu. Jakmile se koš vysype, budou trvale ztraceny, pokud nemáte zálohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt enthält virtuelle Maschinen oder Windows-Bottles mit den Systemen, Apps und Dateien darin, die es möglicherweise nur auf diesem Mac gibt. Sobald der Papierkorb entleert ist, sind sie endgültig verloren, sofern du kein Backup hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene máquinas virtuales o botellas de Windows, con sus sistemas operativos, apps y archivos, que puede que solo existan en este Mac. En cuanto se vacíe la papelera, se perderán definitivamente, salvo que tengas una copia de seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : il contient des machines virtuelles ou des bouteilles Windows, avec les systèmes, les apps et les fichiers qui s’y trouvent, qui n’existent peut-être que sur ce Mac. Une fois la corbeille vidée, elles sont perdues définitivement, sauf si vous en avez une sauvegarde."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene macchine virtuali o bottiglie Windows, con i sistemi operativi, le app e i file al loro interno, che potrebbero esistere solo su questo Mac. Una volta svuotato il Cestino, sono perse definitivamente, a meno che tu non abbia un backup."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: ここには、仮想マシンまたはWindowsボトルと、その中にあるシステム、アプリ、ファイルが含まれており、このMacにしか存在しない可能性があります。ゴミ箱を空にすると、バックアップがない限り、二度と取り戻せなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 가상 컴퓨터 또는 Windows 보틀과 그 안의 시스템, 앱 및 파일이 들어 있으며, 이는 이 Mac에만 있을 수 있습니다. 휴지통을 비우면 백업이 없는 한 영구적으로 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat virtuele machines of Windows-bottles, met de systemen, apps en bestanden daarin, die misschien alleen op deze Mac staan. Zodra de prullenmand is geleegd, zijn ze definitief weg, tenzij je een back-up hebt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera maszyny wirtualne lub butelki Windows, które mogą istnieć tylko na tym Macu, wraz ze znajdującymi się w nich systemami, aplikacjami i plikami. Po opróżnieniu Kosza przepadną na zawsze, chyba że masz backup."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item contém máquinas virtuais ou bottles do Windows, com os sistemas, apps e arquivos dentro delas, que podem existir só neste Mac. Depois que o Lixo for esvaziado, elas se perdem definitivamente, a menos que você tenha um backup."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține mașini virtuale sau sticle Windows, cu sistemele, aplicațiile și fișierele din ele, care pot exista doar pe acest Mac. După golirea Coșului, acestea se pierd definitiv, dacă nu aveți un backup."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранятся виртуальные машины или бутылки Windows с системами, приложениями и файлами в них, и, возможно, они есть только на этом Mac. После очистки Корзины они будут потеряны безвозвратно, если у Вас нет резервной копии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller virtuella maskiner eller Windows-flaskor, med systemen, apparna och filerna i dem, som kanske bara finns på den här datorn. När papperskorgen har tömts är de borta för alltid, om du inte har en säkerhetskopia."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, içlerindeki sistemler, uygulamalar ve dosyalarla birlikte, yalnızca bu Mac’te bulunabilecek sanal makineleri veya Windows bottle’larını içerir. Çöp Sepeti boşaltıldığında, yedeklemeniz yoksa bunlar kalıcı olarak gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігаються віртуальні машини або пляшки Windows разом із системами, програмами та файлами в них, які можуть існувати лише на цьому Mac. Коли Смітник буде очищено, їх буде втрачено назавжди, якщо у вас немає резервної копії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此处存有虚拟机或Windows容器，以及其中的操作系统、App和文件，这些内容可能仅存在于这台Mac上。一旦清倒废纸篓，除非你有备份，否则它们将永久丢失。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：其中存有虛擬機器或Windows容器，連同它們內含的系統、App和檔案，這些內容可能只存在於這部Mac上。一旦清空「垃圾桶」，除非你有備份，否則它們就會永久消失。"
+          }
+        }
+      }
+    },
     "Not selected: this holds what you made with the app, such as saved games, databases, or the app’s own backups, which may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have another copy." : {
       "localizations" : {
         "cs" : {

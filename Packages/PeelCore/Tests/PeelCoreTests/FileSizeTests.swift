@@ -491,6 +491,32 @@ struct FileSizeTests {
         }
     }
 
+    @Test func reportsVirtualMachinesAndBottlesInside() async throws {
+        let directory = try TemporaryDirectory()
+        var holding: [URL] = []
+        for (folder, file) in [
+            ("library", "library/Sonoma.vbvm/Disk.img"), ("parallels", "parallels/Windows 11.pvm/config.pvs"),
+            ("fusion", "fusion/Fedora.vmwarevm/Fedora.vmx"), ("utm", "utm/Debian.utm/config.plist"),
+            ("viable", "viable/Ventura.vimi/Settings.plist"), ("bottles", "bottles/Steam/drive_c/windows/win.ini"),
+            ("machines", "machines/DOS 6/86box.cfg"),
+        ] {
+            holding.append(try directory.directory(folder))
+            try directory.file(file, bytes: 64)
+        }
+        let alone = try directory.directory("Alone.vbvm")
+        try directory.file("Alone.vbvm/Disk.img", bytes: 64)
+        let lookalike = try directory.directory("lookalike")
+        try directory.file("lookalike/drive_cache/data", bytes: 64)
+        try directory.file("lookalike/86box_global.cfg", bytes: 64)
+        try directory.file("lookalike/notes.utm.txt", bytes: 64)
+        try directory.file("lookalike/.utm", bytes: 64)
+
+        for folder in holding + [alone] {
+            #expect(await FileSize.contents(of: folder)?.holdsVirtualMachines == true, "\(folder.lastPathComponent)")
+        }
+        #expect(await FileSize.contents(of: lookalike)?.holdsVirtualMachines == false)
+    }
+
     @Test func reportsWorkAnAppNamesDirectlyInside() async throws {
         let directory = try TemporaryDirectory()
         let novels = try directory.directory("novels")

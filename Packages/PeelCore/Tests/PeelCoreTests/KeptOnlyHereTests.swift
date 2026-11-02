@@ -132,6 +132,17 @@ struct KeptOnlyHereTests {
                 .holdsWorkMadeWithTheApp
             ),
             ("Projects/Resolve Disk Database", .holdsWorkMadeWithTheApp),
+            ("Library/Group Containers/HUAQ24HBR6.dev.orbstack", .holdsVirtualMachines),
+            ("Library/Group Containers/HUAQ24HBR6.dev.orbstack/data/data.img", .holdsVirtualMachines),
+            ("Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw", .holdsVirtualMachines),
+            ("Library/Application Support/rancher-desktop/lima/0/diffdisk", .holdsVirtualMachines),
+            ("Library/Application Support/rancher-desktop/snapshots/a1b2", .holdsVirtualMachines),
+            (
+                "Library/Group Containers/4C6364ACXT.com.parallels.desktop.appstore/Shared/Parallels/Windows 11.pvm",
+                .holdsVirtualMachines
+            ),
+            ("Parallels/Windows 11.pvm", .holdsVirtualMachines),
+            ("Library/Application Support/CrossOver/Bottles/Steam/drive_c", .holdsVirtualMachines),
             ("Library/Application Support/Tunnelblick/Configurations/work.tblk", .holdsVPNConnections),
             ("Library/Application Support/Viscosity", .holdsVPNConnections),
             ("Library/Application Support/Steam", .holdsWorkMadeWithTheApp),
@@ -200,6 +211,7 @@ struct KeptOnlyHereTests {
             "Library/Preferences/com.carriez.RustDesk.plist", "Library/Application Support/MongoDB Compass/Cache",
             "Library/Containers/com.sequel-ace.sequel-ace/Data/Library/Caches",
             "Library/BBEdit/Document State.plist",
+            "Library/Containers/com.docker.docker/Data/log", "Library/Application Support/rancher-desktop/rd-engine",
             "Library/Application Support/Dolphin/Cache", "Library/Application Support/Dolphin/Logs",
             "Library/Containers/com.microsoft.Word/Data/Library/Caches",
             "Library/Containers/com.microsoft.Excel/Data/Library/Preferences",

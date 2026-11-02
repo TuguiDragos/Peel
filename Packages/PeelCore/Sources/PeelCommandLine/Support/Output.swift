@@ -420,6 +420,8 @@ extension HoldBack {
         case .holdsWorkMadeWithTheApp:
             "holds what you made with the app, such as saved games, databases, or its backups, that may exist only here"
         case .holdsSimulators: "holds the app's simulators, with the apps installed in them and their data"
+        case .holdsVirtualMachines:
+            "holds virtual machines or Windows bottles, with the systems, apps, and files in them"
         case .holdsKeys: "holds a wallet or a key Peel protects"
         case .holdsWorkKeptInACache: "holds work an app keeps nowhere else, such as an editor's local history"
         case .insideAnotherAppsFolder: "inside a folder that belongs to macOS or to another installed app"

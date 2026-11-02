@@ -684,7 +684,11 @@ struct DuplicateFinderTests {
     @Test func aVirtualMachineIsADocumentEvenWithItsAppGone() async throws {
         let directory = try TemporaryDirectory()
         let disk = randomData(count: 200_000)
-        for machine in ["Windows.pvm", "Windows copy.pvm", "Fedora.vmwarevm", "Fedora copy.vmwarevm", "Debian.utm", "Debian copy.utm"] {
+        let machines = [
+            "Windows.pvm", "Windows copy.pvm", "Fedora.vmwarevm", "Fedora copy.vmwarevm", "Debian.utm",
+            "Debian copy.utm", "Sonoma.vbvm", "Sonoma copy.vbvm", "Ventura.vimi", "Ventura copy.vimi",
+        ]
+        for machine in machines {
             try directory.file("home/Documents/\(machine)/disk.hds", contents: disk)
             try directory.file("home/Documents/\(machine)/\(machine.count).txt", contents: Data(machine.utf8))
         }

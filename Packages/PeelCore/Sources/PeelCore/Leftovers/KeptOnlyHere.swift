@@ -249,6 +249,19 @@ enum KeptOnlyHere {
         ("Library/Application Support/BBEdit", nil, .holdsWorkMadeWithTheApp),
         ("Library/BBEdit", "Auto-Save Recovery", .holdsWorkMadeWithTheApp),
         ("Library/Containers/com.barebones.bbedit", nil, .holdsWorkMadeWithTheApp),
+        // OrbStack's FAQ: the data of its containers, images, volumes, and machines.
+        ("Library/Group Containers/HUAQ24HBR6.dev.orbstack", "data", .holdsVirtualMachines),
+        // Docker's FAQ for Mac: its containers and images in one disk image, `Data/vms/0/data/Docker.raw`.
+        ("Library/Containers/com.docker.docker", "Data/vms", .holdsVirtualMachines),
+        // Rancher Desktop's `paths_darwin.go`: its virtual machine in `lima`, and its snapshots.
+        ("Library/Application Support/rancher-desktop", "lima", .holdsVirtualMachines),
+        ("Library/Application Support/rancher-desktop", "snapshots", .holdsVirtualMachines),
+        // Parallels' KB 117333: where the App Store edition keeps its virtual machines.
+        (
+            "Library/Group Containers/4C6364ACXT.com.parallels.desktop.appstore",
+            "Shared/Parallels",
+            .holdsVirtualMachines
+        ),
     ]
 
     /// The same, in the Library every account on the Mac shares.
@@ -280,6 +293,7 @@ enum KeptOnlyHere {
             }
             if let first = held.min(by: { $0.order < $1.order }) { return first.reason }
         }
+        if namesAVirtualMachine(item.last ?? "") { return .holdsVirtualMachines }
         return namesWorkMadeWithAnApp(item.last ?? "") ? .holdsWorkMadeWithTheApp : nil
     }
 
@@ -302,8 +316,25 @@ enum KeptOnlyHere {
     }
 
     static func reason(seenIn contents: FolderContents) -> HoldBack? {
-        contents.holdsWorkMadeWithAnApp ? .holdsWorkMadeWithTheApp : nil
+        if contents.holdsVirtualMachines { return .holdsVirtualMachines }
+        return contents.holdsWorkMadeWithAnApp ? .holdsWorkMadeWithTheApp : nil
     }
+
+    /// Whether a name is a virtual machine's or a Windows bottle's, as each maker gives it: VirtualBuddy's,
+    /// Parallels', VMware Fusion's, UTM's, and Viable's packages, the `drive_c` Wine makes in every prefix, which
+    /// CrossOver and Whisky call bottles, and the `86box.cfg` of an 86Box machine.
+    static func namesAVirtualMachine(_ name: String) -> Bool {
+        // A walk asks this of every name, so a name that can't end like one is passed over before it is copied.
+        guard let last = name.utf8.last, lastLetters.contains(last | 0x20) else { return false }
+        let name = name.lowercased()
+        return name == "drive_c" || name == "86box.cfg"
+            || virtualMachinePackages.contains { name.hasSuffix($0) && name.count > $0.count }
+    }
+
+    private static let virtualMachinePackages = [".vbvm", ".pvm", ".vmwarevm", ".utm", ".vimi"]
+    private static let lastLetters: Set<UInt8> = [
+        UInt8(ascii: "m"), UInt8(ascii: "i"), UInt8(ascii: "c"), UInt8(ascii: "g"),
+    ]
 
     /// Whether an app gives this name to the person's work or its copies, whichever app it is: backups, and
     /// `Resolve Disk Database`, where DaVinci Resolve's Reference Manual keeps local project libraries by default.

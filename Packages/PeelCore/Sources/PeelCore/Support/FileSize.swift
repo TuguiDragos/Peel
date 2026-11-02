@@ -18,6 +18,8 @@ public struct FolderContents: Sendable, Hashable {
     /// True when something directly inside goes by a name an app gives to the person's work or its copies
     /// (`KeptOnlyHere.namesWorkMadeWithAnApp(_:)`): a file, or a folder that holds something.
     public let holdsWorkMadeWithAnApp: Bool
+    /// True when a virtual machine or a Windows bottle was seen inside (`KeptOnlyHere.namesAVirtualMachine(_:)`).
+    public let holdsVirtualMachines: Bool
     /// The latest modification date of anything inside. A folder's own date does not change when a file in
     /// it is rewritten in place.
     public let newestChange: Date?
@@ -41,6 +43,7 @@ public struct FolderContents: Sendable, Hashable {
         holdsWallet: Bool = false,
         holdsPasswordDatabase: Bool = false,
         holdsWorkMadeWithAnApp: Bool = false,
+        holdsVirtualMachines: Bool = false,
         newestChange: Date? = nil,
         couldNotBeRead: Bool = false,
         closedByPermissions: Bool = false,
@@ -52,6 +55,7 @@ public struct FolderContents: Sendable, Hashable {
         self.holdsWallet = holdsWallet
         self.holdsPasswordDatabase = holdsPasswordDatabase
         self.holdsWorkMadeWithAnApp = holdsWorkMadeWithAnApp
+        self.holdsVirtualMachines = holdsVirtualMachines
         self.newestChange = newestChange
         self.couldNotBeRead = couldNotBeRead
         self.closedByPermissions = closedByPermissions
@@ -211,6 +215,7 @@ public enum FileSize {
         var holdsWallet = isWallet(url.lastPathComponent)
         var holdsPasswordDatabase = isPasswordDatabase(url.lastPathComponent)
         var holdsWorkMadeWithAnApp = false
+        var holdsVirtualMachines = KeptOnlyHere.namesAVirtualMachine(url.lastPathComponent)
         var newestChange: Date?
         // A file with several names goes only once every name has gone, so it counts once, and only when all of
         // its names are inside.
@@ -227,6 +232,9 @@ public enum FileSize {
                 if repositoryMarkers.contains(file.lastPathComponent) { holdsRepository = true }
                 if isWallet(file.lastPathComponent) { holdsWallet = true }
                 if isPasswordDatabase(file.lastPathComponent) { holdsPasswordDatabase = true }
+                if !holdsVirtualMachines, KeptOnlyHere.namesAVirtualMachine(file.lastPathComponent) {
+                    holdsVirtualMachines = true
+                }
                 if !holdsWorkMadeWithAnApp, enumerator.level == 2,
                    KeptOnlyHere.namesWorkMadeWithAnApp(file.deletingLastPathComponent().lastPathComponent) {
                     holdsWorkMadeWithAnApp = true
@@ -265,6 +273,7 @@ public enum FileSize {
             holdsWallet: holdsWallet,
             holdsPasswordDatabase: holdsPasswordDatabase,
             holdsWorkMadeWithAnApp: holdsWorkMadeWithAnApp,
+            holdsVirtualMachines: holdsVirtualMachines,
             newestChange: newestChange,
             couldNotBeRead: refused.happened,
             closedByPermissions: refused.closedByPermissions,

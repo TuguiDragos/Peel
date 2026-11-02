@@ -103,6 +103,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsWorkMadeWithTheApp
     /// Simulators, with the apps installed in them and their data, which may exist only on this Mac.
     case holdsSimulators
+    /// Virtual machines or Windows bottles, with the systems, apps, and files in them, which may exist only on this
+    /// Mac (`KeptOnlyHere`).
+    case holdsVirtualMachines
     /// A wallet or a key `ProtectedData` names is inside, and `RemovalGuard` refuses to move the folder around it.
     case holdsKeys
     /// Work kept nowhere else is inside a cache folder, such as an editor's local history of the person's files, and
