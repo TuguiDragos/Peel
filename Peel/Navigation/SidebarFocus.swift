@@ -46,8 +46,10 @@ private struct ListFocus: NSViewRepresentable {
         }
 
         private func takeFocusIfNothingHasIt() {
+            // As a tree of views comes into a window this view can get there before the list, and AppKit refuses a
+            // first responder from outside the window.
             guard let window, window.firstResponder === window,
-                  let list = list(in: enclosingSplitViewItem?.viewController.view)
+                  let list = list(in: enclosingSplitViewItem?.viewController.view), list.window === window
             else { return }
             window.makeFirstResponder(list)
         }
