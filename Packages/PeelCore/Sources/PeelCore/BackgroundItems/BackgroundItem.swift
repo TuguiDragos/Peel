@@ -175,21 +175,35 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         return !isSeenOnlyWhileLoaded || isDisabled || mayBeDisabled
     }
 
-    public enum StartOrStop: Sendable {
-        case start
+    /// A button that changes whether the job runs, named for what it does to the state the page shows.
+    public enum Control: Sendable, Hashable {
+        /// Stops the job and takes it out of launchd.
         case stop
+        /// Stops the running job and starts it again at once.
+        case restart
+        /// Starts the job now, whatever its schedule says.
+        case runNow
+        /// Takes the job, loaded and waiting for its time, out of launchd.
+        case unload
+        /// Loads the job from its file, after which macOS runs it as the file says.
+        case load
         /// Stop under the name the page gives it for a job its gone app left loaded.
         case remove
     }
 
-    /// The one button that starts or stops the job, as launchd has it: Stop while launchd has it, running or waiting
-    /// for its time, and Start while it doesn't. A job Peel sees only while it is loaded has Stop only while it runs.
-    public var startOrStop: StartOrStop? {
-        guard offersControls else { return nil }
-        if canOnlyBeStopped { return .stop }
-        if isLeftByAGoneApp { return .remove }
-        if isSeenOnlyWhileLoaded { return isRunning ? .stop : nil }
-        return state == .notLoaded ? .start : .stop
+    /// The buttons that change whether the job runs, in the order shown. A job Peel sees only while it is loaded has
+    /// Stop only while it runs, and a disabled job that isn't loaded has none, since launchd refuses to load it.
+    public var controls: [Control] {
+        guard offersControls else { return [] }
+        if canOnlyBeStopped { return [.stop] }
+        if isLeftByAGoneApp { return [.remove] }
+        if isSeenOnlyWhileLoaded { return isRunning ? [.stop] : [] }
+        switch state {
+        case .running: return [.stop, .restart]
+        case .loaded: return [.runNow, .unload]
+        case .notLoaded: return isDisabled ? [] : [.load]
+        case .unknown: return []
+        }
     }
 
     /// Enable and Disable, which a job Peel can only stop, and one its gone app left, don't have.

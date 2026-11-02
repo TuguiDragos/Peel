@@ -135,12 +135,25 @@ struct BackgroundItemActionsTests {
         #expect(rows.map(\.canMoveToTrash) == [false, true])
     }
 
-    @Test func oneButtonStopsAJobLaunchdHasAndStartsOneItDoesNot() {
+    @Test func eachStateOffersTheControlsThatChangeIt() {
         let file = URL(filePath: "/Users/me/Library/LaunchAgents/job.plist")
-        #expect(item(state: .running(pid: 42), plist: file).startOrStop == .stop)
-        #expect(item(state: .loaded, plist: file).startOrStop == .stop)
-        #expect(item(state: .notLoaded, plist: file).startOrStop == .start)
-        #expect(item(state: .unknown, plist: file).startOrStop == nil)
+        #expect(item(state: .running(pid: 42), plist: file).controls == [.stop, .restart])
+        #expect(item(state: .loaded, plist: file).controls == [.runNow, .unload])
+        #expect(item(state: .notLoaded, plist: file).controls == [.load])
+        #expect(item(state: .unknown, plist: file).controls.isEmpty)
+
+        func disabled(_ state: BackgroundItem.State) -> BackgroundItem {
+            BackgroundItem(
+                label: "com.example.agent", kind: .agent, source: .userLibrary, plistURL: file, program: nil,
+                runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
+                ownerURL: nil, isOrphan: false, state: state, isDisabled: true
+            )
+        }
+        // launchd refuses to load a disabled job, so only Enable is offered until it is enabled.
+        #expect(disabled(.notLoaded).controls.isEmpty)
+        #expect(disabled(.notLoaded).offersEnableOrDisable)
+        #expect(disabled(.loaded).controls == [.runNow, .unload])
+        #expect(disabled(.running(pid: 42)).controls == [.stop, .restart])
 
         var registered = BackgroundItem(
             label: "com.example.agent", kind: .agent, source: .app, plistURL: nil, program: "/Applications/App.app/x",
@@ -148,27 +161,48 @@ struct BackgroundItemActionsTests {
             ownerURL: URL(filePath: "/Applications/App.app"), isOrphan: false, state: .running(pid: 42), isDisabled: false
         )
         registered.isManagedByServiceManagement = true
-        #expect(registered.startOrStop == .stop)
+        #expect(registered.controls == [.stop])
         registered.state = .loaded
-        #expect(registered.startOrStop == nil)
+        #expect(registered.controls.isEmpty)
 
         var elsewhere = item(state: .loaded, plist: URL(filePath: "/tmp/org.example.job.plist"))
         elsewhere.source = .otherFile
-        #expect(elsewhere.startOrStop == .stop)
+        #expect(elsewhere.controls == [.stop])
         #expect(!elsewhere.offersEnableOrDisable)
 
         var left = item(state: .loaded, plist: nil)
         left.source = .app
         left.isManagedByServiceManagement = true
         #expect(left.isLeftByAGoneApp)
-        #expect(left.startOrStop == .remove)
+        #expect(left.controls == [.remove])
         #expect(!left.offersEnableOrDisable)
 
         var excluded = item(state: .running(pid: 42), plist: file)
         excluded.isExcluded = true
-        #expect(excluded.startOrStop == nil)
+        #expect(excluded.controls.isEmpty)
         #expect(!excluded.offersEnableOrDisable)
         #expect(item(state: .loaded, plist: file).offersEnableOrDisable)
+    }
+
+    @Test func restartsOnlyAJobPeelMayControlAndAsksLaunchdToKillAndStartIt() async {
+        var excluded = item(state: .running(pid: 42), plist: URL(filePath: "/Users/me/Library/LaunchAgents/job.plist"))
+        excluded.isExcluded = true
+        await #expect(throws: BackgroundItemActions.Failure.launchctl(HelperRefusal.invalidRequest.rawValue)) {
+            try await BackgroundItemActions.restart(excluded)
+        }
+
+        // A made-up job launchd doesn't have: `kickstart -k` answers that it can't find it, and nothing else runs.
+        let unknown = BackgroundItem(
+            label: "org.example.never-loaded-\(UUID().uuidString)", kind: .agent, source: .userLibrary, plistURL: nil,
+            program: nil, runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
+            ownerURL: nil, isOrphan: false, state: .running(pid: 42), isDisabled: false
+        )
+        await #expect {
+            try await BackgroundItemActions.restart(unknown)
+        } throws: { error in
+            guard case .launchctl(let output) = error as? BackgroundItemActions.Failure else { return false }
+            return output.localizedCaseInsensitiveContains("could not find service")
+        }
     }
 
     @Test func startRunsALoadedJobAtOnceAndLoadsOneThatIsNot() {

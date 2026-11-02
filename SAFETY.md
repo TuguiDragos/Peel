@@ -269,7 +269,7 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | An app that would not quit is force quit, only when you choose it | Can't be undone: what the app had not saved is lost |
 | Remove Downloads frees this Mac's copy of a file in iCloud Drive | The file stays in iCloud and downloads again when you open it |
 | Build Artifacts leaves a project's build folders out of Time Machine, when you ask it to | The same checkbox takes the mark off, and leaves alone a mark a tool put on what Peel never marks |
-| A background item is stopped, started, disabled, or enabled | The same buttons in Background Items; a disabled item stays disabled after a restart until you enable it |
+| A background item is stopped, restarted, run now, unloaded, loaded, disabled, or enabled | The same buttons in Background Items; a disabled item stays disabled after a restart until you enable it |
 | A background job a deleted app left loaded is removed (`launchctl bootout`) | Nothing to bring back: its app, and what the job ran, are gone |
 | An agent's file in your own `~/Library/LaunchAgents` is edited in Background Items, only when you save | Putting the file as it was back from History, which first moves your edit to the Trash, where History keeps it too |
 | A tweak changes a setting of macOS, and the Dock, Finder, Control Center, or the window manager restarts to read it (`killall`, which for Finder stops anything it is copying) | Turning the tweak off puts back what was there before, or leaves it to macOS. Turn All Off puts back only what Peel changed, and leaves what you set yourself as it is |

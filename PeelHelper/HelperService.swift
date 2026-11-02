@@ -173,6 +173,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
         case .bootstrap: ["bootstrap", "system", plists[0]]
         case .bootout: ["bootout", target]
         case .kickstart: ["kickstart", target]
+        case .restart: ["kickstart", "-k", target]
         case .enable: ["enable", target]
         case .disable: ["disable", target]
         }

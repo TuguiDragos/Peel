@@ -285,8 +285,9 @@ and how many items the others hold.
 > Vulnerabilities, for a short explanation in plain words. Next to a file, it tells you why Peel thinks the file
 > belongs to the app.
 
-- **Background Items:** launch agents and daemons, and the app that added each one, to start or stop, enable or
-  disable, show in Finder, or move to the Trash, through Peel's helper for those that run as root. One whose program
+- **Background Items:** launch agents and daemons, and the app that added each one, to stop or restart while it runs,
+  run now or unload while it waits for its time, load, enable or disable, show in Finder, or move to the Trash,
+  through Peel's helper for those that run as root. One whose program
   is gone, or whose command looks unusual, says so. Remove takes out a job a deleted app left loaded,
   and an item whose app is in the Trash says that macOS starts it from there each time you log in, until you empty
   the Trash. A job an app gave launchd itself, such as an update's installer, says so. Edit… beside an agent's file in

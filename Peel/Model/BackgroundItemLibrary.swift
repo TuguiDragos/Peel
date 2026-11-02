@@ -55,8 +55,9 @@ final class BackgroundItemLibrary {
     /// Starts, stops, enables or disables a job through launchd.
     private static func control(_ action: Action, _ item: BackgroundItem) async throws(BackgroundItemActions.Failure) {
         switch action {
-        case .start: try await BackgroundItemActions.start(item)
-        case .stop, .remove: try await BackgroundItemActions.stop(item)
+        case .load, .runNow: try await BackgroundItemActions.start(item)
+        case .stop, .unload, .remove: try await BackgroundItemActions.stop(item)
+        case .restart: try await BackgroundItemActions.restart(item)
         case .enable: try await BackgroundItemActions.setEnabled(true, for: item)
         case .disable: try await BackgroundItemActions.setEnabled(false, for: item)
         case .moveToTrash: return
@@ -127,8 +128,11 @@ final class BackgroundItemLibrary {
     }
 
     enum Action {
-        case start
+        case load
+        case runNow
         case stop
+        case unload
+        case restart
         /// Stop under the name the page gives it for a job its gone app left loaded.
         case remove
         case enable
@@ -211,7 +215,7 @@ final class BackgroundItemLibrary {
         var failed = false
         do {
             switch action {
-            case .start, .stop, .remove, .disable: try await control(action, item)
+            case .load, .runNow, .stop, .unload, .restart, .remove, .disable: try await control(action, item)
             case .enable:
                 try await control(action, item)
                 noteEnabled(item)

@@ -443,7 +443,7 @@ struct BackgroundItemDetailView: View {
 
     private func ownControls(busyShown: Bool) -> some View {
         Group {
-            if let control = item.startOrStop {
+            ForEach(item.controls, id: \.self) { control in
                 Button(control.title) {
                     Task { await backgroundItems.perform(control.action, on: item) }
                 }
@@ -464,23 +464,19 @@ struct BackgroundItemDetailView: View {
         .disabled(busyShown || item.requiresPrivileges && !helper.canAct)
     }
 
-    private func help(for control: BackgroundItem.StartOrStop) -> Text {
+    private func help(for control: BackgroundItem.Control) -> Text {
         switch control {
-        case .start: startHelp
+        case .load: Text("Loads it again, and macOS runs it when its file says to.")
+        case .runNow: Text("Runs it now, whatever its schedule says.")
+        case .restart: Text("Stops it and starts it again at once.")
         case .remove: removeHelp
         case .stop where item.canOnlyBeStopped:
             item.isFileGone ? Text(verbatim: "") : Text("Takes it out of launchd. Its file stays where it is, and it runs again only if something loads it again.")
         case .stop where item.isSeenOnlyWhileLoaded:
             Text("Takes it out of launchd for now. It leaves this list until macOS or its app adds it again.")
-        case .stop:
+        case .stop, .unload:
             Text("Takes it out of launchd until the next login or restart. Its file stays where it is.")
         }
-    }
-
-    private var startHelp: Text {
-        item.startsAtOnce
-            ? Text("Runs it now, whatever its schedule says.")
-            : Text("Loads it again, and macOS runs it when its file says to.")
     }
 
     /// Why Remove is offered, as far as Peel knows where the job's program is.
@@ -508,19 +504,25 @@ struct BackgroundItemDetailView: View {
 
 }
 
-private extension BackgroundItem.StartOrStop {
+private extension BackgroundItem.Control {
     var title: LocalizedStringKey {
         switch self {
-        case .start: "Start"
         case .stop: "Stop"
+        case .restart: "Restart"
+        case .runNow: "Run Now"
+        case .unload: "Unload"
+        case .load: "Load"
         case .remove: "Remove"
         }
     }
 
     var action: BackgroundItemLibrary.Action {
         switch self {
-        case .start: .start
         case .stop: .stop
+        case .restart: .restart
+        case .runNow: .runNow
+        case .unload: .unload
+        case .load: .load
         case .remove: .remove
         }
     }

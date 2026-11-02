@@ -66,7 +66,7 @@ struct BackgroundItemLibraryTests {
             control: { _, _ in await held.run() }
         )
 
-        let first = Task { await library.perform(.start, on: job) }
+        let first = Task { await library.perform(.load, on: job) }
         for await _ in held.started { break }
         await library.perform(.stop, on: job)
         #expect(held.calls == 1)
@@ -91,7 +91,7 @@ struct BackgroundItemLibraryTests {
         reads.library = library
 
         await library.refresh(installedApps: [])
-        await library.perform(.start, on: job)
+        await library.perform(.load, on: job)
 
         #expect(reads.wereShownAsAScan == [true, false])
         #expect(library.scans == 2)

@@ -7,7 +7,7 @@ public enum HelperIdentity {
     public static let launchdPlistName = "com.tuguidragos.Peel.Helper.plist"
     /// Raise it whenever the helper changes, so Peel never works with a helper of another version. The helper
     /// refuses requests that carry any other version.
-    public static let protocolVersion = 19
+    public static let protocolVersion = 20
 }
 
 /// The complete set of privileged operations. The helper validates every argument itself.
@@ -54,6 +54,8 @@ public enum DaemonCommand: String, Sendable {
     case bootstrap
     case bootout
     case kickstart
+    /// `kickstart -k`: the running instance is ended first.
+    case restart
     case enable
     case disable
 }

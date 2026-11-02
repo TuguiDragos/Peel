@@ -154,8 +154,11 @@ struct BackgroundItemList: View {
     private func failureTitle(_ failure: BackgroundItemLibrary.ActionFailure) -> Text {
         let label = failure.label
         return switch failure.action {
-        case .start: Text("“\(label)” couldn’t be started.")
+        case .load: Text("“\(label)” couldn’t be loaded.")
+        case .runNow: Text("“\(label)” couldn’t be started.")
         case .stop: Text("“\(label)” couldn’t be stopped.")
+        case .unload: Text("“\(label)” couldn’t be unloaded.")
+        case .restart: Text("“\(label)” couldn’t be restarted.")
         case .remove: Text("“\(label)” couldn’t be removed.")
         case .enable: Text("“\(label)” couldn’t be enabled.")
         case .disable: Text("“\(label)” couldn’t be disabled.")

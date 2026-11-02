@@ -92,6 +92,17 @@ public enum BackgroundItemActions {
         }
     }
 
+    /// Stops the running job and starts it again at once (`launchctl kickstart -k`).
+    @concurrent
+    public static func restart(_ item: BackgroundItem) async throws(Failure) {
+        if let refusal = refusal(for: item) { throw refusal }
+        if item.requiresPrivileges {
+            try await runPrivileged(.restart, for: item)
+        } else {
+            try await run(["kickstart", "-k", target(of: item)])
+        }
+    }
+
     /// Why Peel will not switch `item` on or off, or nil. Only System Settings turns off a job ServiceManagement
     /// manages, and a job whose row would leave the list once disabled is never disabled from here.
     static func refusal(toSwitch item: BackgroundItem, on isEnabled: Bool) -> Failure? {
