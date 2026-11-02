@@ -657,22 +657,28 @@ struct HomebrewTests {
         #expect(needs("helper") == [true, true], "a kernel extension is unloaded with sudo, when upgrading too")
     }
 
-    /// An upgrade someone follows shows what Homebrew wrote, then Peel's own sentence where it stopped. `/bin/sh`
-    /// stands in for `brew`, since a real upgrade would change this Mac's packages.
+    /// An upgrade someone follows shows what Homebrew wrote, its last words when stopped included, then Peel's own
+    /// sentence where it stopped. `/bin/sh` stands in for `brew`, since a real upgrade would change this Mac's
+    /// packages.
     @Test func aFollowedRunSaysWhereItWasStopped() async throws {
         let written = Mutex(Data())
+        let (pieces, arrived) = AsyncStream.makeStream(of: Void.self)
         let run = Task {
             try await Homebrew.execute(
-                ["-c", "echo first; sleep 60"], autoUpdate: false, timeout: nil,
-                onOutput: { piece in written.withLock { $0.append(piece) } },
+                ["-c", "trap 'echo stopping; kill $!; exit 143' TERM; echo first; sleep 60 & wait"], autoUpdate: false,
+                timeout: nil,
+                onOutput: { piece in
+                    written.withLock { $0.append(piece) }
+                    arrived.yield()
+                },
                 executable: URL(filePath: "/bin/sh")
             )
         }
-        while written.withLock({ $0.isEmpty }) { await Task.yield() }
+        for await _ in pieces { break }
         run.cancel()
 
         await #expect(throws: Homebrew.CommandFailure.self) { try await run.value }
-        #expect(String(decoding: written.withLock { $0 }, as: UTF8.self) == "first\nStopped before it finished.\n")
+        #expect(String(decoding: written.withLock { $0 }, as: UTF8.self) == "first\nstopping\nStopped before it finished.\n")
     }
 
     /// The JSON follows what Homebrew 7.0.4 reports for packages it has stopped or will stop offering. A package
