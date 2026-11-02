@@ -105,7 +105,8 @@ public struct DuplicateGroup: Sendable, Hashable, Identifiable {
 
     /// True when moving the suggested copies frees less than they take, since something else holds the same blocks.
     public var sharesStorage: Bool {
-        suggestedFiles.contains(where: \.sharesStorage)
+        // Asked at every redraw of the group's page, so working out the suggested copies waits until a copy shares any.
+        files.contains(where: \.sharesStorage) && suggestedFiles.contains(where: \.sharesStorage)
     }
 
     /// True when the copies are on more than one disk, so what moving them frees is not all on one.

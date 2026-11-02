@@ -650,6 +650,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Duplicates
 
+- A checkbox on a group's page answers about three times faster with tens of thousands of copies.
 - A copy Finder names in Japanese, Chinese, or Polish counts as a copy when the name holds a space too, so the original
   is the one kept.
 - Nothing is compared while the exclusions can't be read, and what is inside an app's document is never offered,
