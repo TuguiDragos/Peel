@@ -71,7 +71,10 @@ public struct Uninstallation: Sendable {
             )
         )
         scan = scan.adding(
-            await leftoversOfManagedAreas(of: app, matcher: matcher, exclusions: exclusions, environment: environment)
+            await leftoversOfManagedAreas(
+                of: app, matcher: matcher, exclusions: exclusions, environment: environment,
+                listed: scan.leftovers.map(\.url)
+            )
         )
         scan = scan.adding(
             await homebrewReceipt(
@@ -112,19 +115,23 @@ public struct Uninstallation: Sendable {
     }
 
     /// What the areas `app` manages keep in the home folder, such as Xcode's simulators, which stay when the app goes.
+    /// A place inside a folder in `listed` is that folder's row already, and listed again it would be a row inside it.
     static func leftoversOfManagedAreas(
         of app: InstalledApp,
         matcher: LeftoverMatcher,
         exclusions: Exclusions,
         environment: SearchEnvironment,
+        listed: [URL] = [],
         areas: [SpaceInventory.Definition] = SpaceInventory.definitions
     ) async -> [Leftover] {
         let home = environment.homeDirectory
+        let rows = Set(listed.map(ItemKey.init))
         var leftovers: [Leftover] = []
         for area in areas {
             guard let managedBy = area.managedBy, managedBy.includes(app.bundleIdentifier) else { continue }
             let others = matcher.others(managing: managedBy)
-            for url in area.placesInTheHome(home) where url.isRealFolder && !exclusions.excludes(url) {
+            for url in area.placesInTheHome(home)
+            where url.isRealFolder && !exclusions.excludes(url) && !isInsideARow(url, rows: rows, home: home) {
                 let leftover = await LeftoverScanner.leftover(
                     at: url,
                     kind: place(of: url, in: environment).kind,
@@ -143,6 +150,17 @@ public struct Uninstallation: Sendable {
             }
         }
         return leftovers
+    }
+
+    private static func isInsideARow(_ url: URL, rows: Set<ItemKey>, home: URL) -> Bool {
+        guard !rows.isEmpty else { return false }
+        let top = PathPattern.comparablePath(of: home)
+        var folder = url.deletingLastPathComponent()
+        while PathComponents.isPath(PathPattern.comparablePath(of: folder), inside: top) {
+            if rows.contains(ItemKey(folder)) { return true }
+            folder = folder.deletingLastPathComponent()
+        }
+        return false
     }
 
     /// The installer receipt files that belong to `app`. The receipt is the only reason macOS still counts the

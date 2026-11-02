@@ -119,6 +119,57 @@ nonisolated extension SpaceItem {
             title: "Vagrant Boxes",
             detail: "Base boxes Vagrant downloaded."
         ),
+        "virtualbuddy": Words(
+            title: LocalizedStringResource("VirtualBuddy", comment: "A product's name, never translated."),
+            detail: "VirtualBuddy’s virtual machines, and the system images it downloaded to install them, which stay when a machine is deleted. Installers and Backups lists those images.",
+            hint: "Move the machine to the Trash in VirtualBuddy’s library",
+            hintWithoutItsApp: "Move what you no longer need to the Trash in Finder"
+        ),
+        "crossover": Words(
+            title: LocalizedStringResource("CrossOver", comment: "A product's name, never translated."),
+            detail: "CrossOver’s bottles, each with the Windows apps installed in it and everything they saved, and the bottles published for every account.",
+            hint: "Delete the bottle in CrossOver",
+            hintWithoutItsApp: "Move what you no longer need to the Trash in Finder"
+        ),
+        "whisky": Words(
+            title: LocalizedStringResource("Whisky", comment: "A product's name, never translated."),
+            detail: "Whisky’s bottles, each with the Windows apps installed in it and everything they saved.",
+            hint: "Remove the bottle in Whisky and choose to delete its files from disk",
+            hintWithoutItsApp: "Move what you no longer need to the Trash in Finder"
+        ),
+        "wine": Words(
+            title: LocalizedStringResource("Wine", comment: "A product's name, never translated."),
+            detail: "The Windows apps Wine installed in its default folder, with their settings and everything they saved.",
+            hint: "Move the folder to the Trash in Finder once you no longer need its Windows apps"
+        ),
+        "tart": Words(
+            title: LocalizedStringResource("Tart", comment: "A product's name, never translated."),
+            detail: "Tart’s virtual machines. The images it keeps for making them are on the Developer page."
+        ),
+        "lume": Words(
+            title: LocalizedStringResource("Lume", comment: "A product's name, never translated."),
+            detail: "Lume’s virtual machines, and the images it keeps for making them."
+        ),
+        "anka": Words(
+            title: LocalizedStringResource("Anka", comment: "A product's name, never translated."),
+            detail: "Anka’s virtual machine templates and their state, and the system images it downloaded."
+        ),
+        "rancher-desktop": Words(
+            title: LocalizedStringResource("Rancher Desktop", comment: "A product's name, never translated."),
+            detail: "Rancher Desktop’s virtual machine, which holds every image, container, and volume.",
+            hint: "Use Factory Reset on Rancher Desktop’s Troubleshooting page",
+            hintWithoutItsApp: "Move what you no longer need to the Trash in Finder"
+        ),
+        "apple-container": Words(
+            title: LocalizedStringResource("container", comment: "The name of Apple's command-line tool, never translated."),
+            detail: "The Linux containers, images, and volumes of Apple’s container tool, and the Linux kernel it runs them on."
+        ),
+        "genymotion": Words(
+            title: LocalizedStringResource("Genymotion", comment: "A product's name, never translated."),
+            detail: "Genymotion’s virtual Android devices.",
+            hint: "Delete the device in Genymotion",
+            hintWithoutItsApp: "Move what you no longer need to the Trash in Finder"
+        ),
         "podcasts": Words(
             title: "Podcast Downloads",
             detail: "Episodes the Podcasts app downloaded, with everything else it keeps on this Mac, so removing the downloads frees less than this.",

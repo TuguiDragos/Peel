@@ -19020,6 +19020,116 @@
       "comment" : "A product's name, never translated.",
       "shouldTranslate" : false
     },
+    "Anka" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "Anka’s virtual machine templates and their state, and the system images it downloaded." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Šablony virtuálních počítačů nástroje Anka a jejich stav a také systémové obrazy, které nástroj stáhl."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Vorlagen für virtuelle Maschinen von Anka samt ihrem Zustand sowie die System-Images, die Anka geladen hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las plantillas de máquinas virtuales de Anka y su estado, y las imágenes del sistema que descargó."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les modèles de machines virtuelles d’Anka et leur état, ainsi que les images système qu’il a téléchargées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I modelli di macchine virtuali di Anka, con il loro stato, e le immagini di sistema che ha scaricato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ankaの仮想マシンのテンプレートとその状態、およびAnkaがダウンロードしたシステムイメージです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anka의 가상 컴퓨터 템플릿과 그 상태, 그리고 Anka가 다운로드한 시스템 이미지입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De sjablonen voor virtuele machines van Anka en hun toestand, en de systeemimages die Anka heeft gedownload."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Szablony maszyn wirtualnych Anka i ich stan oraz obrazy systemów pobrane przez to narzędzie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os modelos de máquina virtual do Anka e o estado deles, e as imagens de sistema que ele baixou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Șabloanele de mașini virtuale Anka și starea lor, precum și imaginile de sistem descărcate de Anka."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблоны виртуальных машин Anka и их состояние, а также системные образы, загруженные Anka."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mallar för virtuella maskiner i Anka och deras tillstånd, samt systemavbilderna som Anka har hämtat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anka’nın sanal makine şablonları ve durumları ile indirdiği sistem görüntüleri."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблони віртуальних машин Anka та їхній стан, а також системні образи, які викачала Anka."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anka的虚拟机模板及其状态，以及它下载的系统映像。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anka的虛擬機器範本及其狀態，以及它下載的系統映像檔。"
+          }
+        }
+      }
+    },
     "Another copy of this extension is the one macOS runs." : {
       "localizations" : {
         "cs" : {
@@ -37084,6 +37194,116 @@
         }
       }
     },
+    "CrossOver" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "CrossOver’s bottles, each with the Windows apps installed in it and everything they saved, and the bottles published for every account." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Láhve aplikace CrossOver, každá s nainstalovanými aplikacemi pro Windows a se vším, co uložily, a také láhve zveřejněné pro všechny účty."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Bottles von CrossOver, jede mit den darin installierten Windows-Apps und allem, was diese gespeichert haben, sowie die für alle Benutzeraccounts veröffentlichten Bottles."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las botellas de CrossOver, cada una con las apps de Windows instaladas en ella y todo lo que han guardado, y las botellas publicadas para todas las cuentas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les bouteilles de CrossOver, chacune avec les apps Windows qui y sont installées et tout ce qu’elles ont enregistré, ainsi que les bouteilles publiées pour tous les comptes."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le bottiglie di CrossOver, ciascuna con le app Windows installate al suo interno e tutto ciò che hanno salvato, e le bottiglie pubblicate per tutti gli account."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOverのボトルと、すべてのアカウント向けに公開されたボトルです。各ボトルには、そこにインストールされたWindowsアプリと、それらのアプリが保存したすべてのものが含まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOver의 보틀과 모든 계정용으로 게시된 보틀로, 각 보틀에는 그 안에 설치된 Windows 앱과 이 앱이 저장한 모든 항목이 들어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bottles van CrossOver, elk met de Windows-apps die erin zijn geïnstalleerd en alles wat die apps hebben bewaard, en de bottles die voor alle accounts zijn gepubliceerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Butelki CrossOver, każda z zainstalowanymi w niej aplikacjami Windows i wszystkim, co zachowały, oraz butelki opublikowane dla wszystkich kont."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As bottles do CrossOver, cada uma com os apps do Windows instalados nela e tudo o que eles salvaram, e as bottles publicadas para todas as contas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sticlele CrossOver, fiecare cu aplicațiile Windows instalate în ea și tot ce au salvat acestea, precum și sticlele publicate pentru toate conturile."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бутылки CrossOver, каждая с установленными в ней приложениями Windows и всем, что они сохранили, а также бутылки, опубликованные для всех учетных записей."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOvers flaskor, var och en med de Windows-appar som har installerats i den och allt som de har sparat, samt de flaskor som har publicerats för alla konton."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her biri içine yüklenen Windows uygulamalarını ve bunların kaydettiği her şeyi barındıran CrossOver bottle’ları ile her hesap için yayımlanan bottle’lar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пляшки CrossOver, кожна з інстальованими в ній програмами Windows і всім, що вони зберегли, а також пляшки, опубліковані для всіх облікових записів."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOver的容器（每个容器都包含其中安装的Windows App及这些App保存的所有内容），以及为所有账户发布的容器。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOver的容器，每個容器都含有安裝在其中的Windows App及它們儲存的所有內容，以及為所有帳號發布的容器。"
+          }
+        }
+      }
+    },
     "Daemon" : {
       "localizations" : {
         "cs" : {
@@ -37610,6 +37830,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "逐層刪除路徑中的檔案夾"
+          }
+        }
+      }
+    },
+    "Delete the bottle in CrossOver" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smažte láhev v aplikaci CrossOver"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lösche die Bottle in CrossOver"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borra la botella en CrossOver"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez la bouteille dans CrossOver"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina la bottiglia in CrossOver"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOverでボトルを削除してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOver에서 보틀 삭제"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder de bottle in CrossOver"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń butelkę w CrossOver"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apague a bottle no CrossOver"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ștergeți sticla din CrossOver"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите бутылку в CrossOver"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Radera flaskan i CrossOver"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrossOver’da bottle’ı silin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаліть пляшку в CrossOver"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在CrossOver中删除容器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在CrossOver中刪除容器"
+          }
+        }
+      }
+    },
+    "Delete the device in Genymotion" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smažte zařízení v aplikaci Genymotion"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lösche das Gerät in Genymotion"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borra el dispositivo en Genymotion"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez l’appareil dans Genymotion"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina il dispositivo in Genymotion"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotionでデバイスを削除してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotion에서 기기 삭제"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het apparaat in Genymotion"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń urządzenie w Genymotion"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apague o dispositivo no Genymotion"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ștergeți dispozitivul din Genymotion"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите устройство в Genymotion"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Radera enheten i Genymotion"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotion’da aygıtı silin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаліть пристрій у Genymotion"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Genymotion中删除虚拟设备"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Genymotion中刪除裝置"
           }
         }
       }
@@ -53935,6 +54367,116 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一般"
+          }
+        }
+      }
+    },
+    "Genymotion" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "Genymotion’s virtual Android devices." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuální zařízení s Androidem v aplikaci Genymotion."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuelle Android-Geräte von Genymotion."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los dispositivos Android virtuales de Genymotion."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les appareils Android virtuels de Genymotion."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I dispositivi Android virtuali di Genymotion."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotionの仮想Androidデバイスです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotion의 가상 Android 기기입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De virtuele Android-apparaten van Genymotion."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Urządzenia wirtualne z systemem Android utworzone w Genymotion."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os dispositivos Android virtuais do Genymotion."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dispozitivele Android virtuale Genymotion."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виртуальные устройства Android в Genymotion."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotions virtuella Android-enheter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotion sanal Android aygıtları."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віртуальні пристрої Android у Genymotion."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotion的Android虚拟设备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genymotion的虛擬Android裝置。"
           }
         }
       }
@@ -92212,6 +92754,116 @@
         }
       }
     },
+    "Lume" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "Lume’s virtual machines, and the images it keeps for making them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuální počítače nástroje Lume a obrazy, které si uchovává k jejich vytváření."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuelle Maschinen von Lume und die Images, die Lume zum Erstellen der Maschinen aufbewahrt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las máquinas virtuales de Lume y las imágenes que guarda para crearlas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les machines virtuelles de Lume, et les images qu’il conserve pour les créer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le macchine virtuali di Lume e le immagini che conserva per crearle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lumeの仮想マシンと、仮想マシンを作成するためにLumeが保持しているイメージです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lume의 가상 컴퓨터와 이를 만들기 위해 보관하는 이미지입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De virtuele machines van Lume en de images die Lume bewaart om ze te maken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maszyny wirtualne Lume oraz obrazy, które Lume przechowuje do ich tworzenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As máquinas virtuais do Lume e as imagens que ele guarda para criá-las."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mașinile virtuale Lume și imaginile pe care le păstrează pentru a le crea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виртуальные машины Lume и образы, которые он хранит для их создания."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lumes virtuella maskiner och avbilderna som Lume sparar för att skapa dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lume sanal makineleri ve bunları oluşturmak için tutulan imajlar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віртуальні машини Lume та образи, які Lume зберігає для їх створення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lume的虚拟机，以及它为创建虚拟机而保存的镜像。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lume的虛擬機器，以及它為建立虛擬機器而保存的映像檔。"
+          }
+        }
+      }
+    },
     "MAS Plug-ins" : {
       "localizations" : {
         "cs" : {
@@ -97177,6 +97829,218 @@
         }
       }
     },
+    "Move the folder to the Trash in Finder once you no longer need its Windows apps" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesuňte složku do koše ve Finderu, až už nebudete potřebovat její aplikace pro Windows"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lege den Ordner im Finder in den Papierkorb, sobald du seine Windows-Apps nicht mehr benötigst"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traslada la carpeta a la papelera en el Finder cuando ya no necesites sus apps de Windows"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placez le dossier dans la corbeille depuis le Finder une fois que vous n’avez plus besoin de ses apps Windows"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta la cartella nel Cestino dal Finder quando non ti servono più le sue app Windows"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中のWindowsアプリが不要になったら、Finderでフォルダをゴミ箱に入れてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "폴더 안의 Windows 앱이 더 이상 필요하지 않으면 Finder에서 폴더를 휴지통으로 이동"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verplaats de map in Finder naar de prullenmand zodra je de Windows-apps erin niet meer nodig hebt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś folder do Kosza w Finderze, gdy nie będziesz już potrzebować jego aplikacji Windows"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mova a pasta para o Lixo no Finder quando você não precisar mais dos apps do Windows que ela contém"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutați dosarul în Coș din Finder după ce nu mai aveți nevoie de aplicațiile Windows din el"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместите папку в Корзину в Finder, когда ее приложения Windows Вам больше не понадобятся"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flytta mappen till papperskorgen i Finder när du inte längre behöver dess Windows-appar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçindeki Windows uygulamalarına artık ihtiyacınız kalmadığında klasörü Finder’da Çöp Sepeti’ne taşıyın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістіть папку в Смітник у Finder, коли програми Windows у ній вам більше не знадобляться"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再需要其中的Windows App后，在“访达”中将该文件夹移到废纸篓"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再需要其中的Windows App後，在Finder中將此檔案夾丟到「垃圾桶」"
+          }
+        }
+      }
+    },
+    "Move the machine to the Trash in VirtualBuddy’s library" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesuňte virtuální počítač do koše v knihovně aplikace VirtualBuddy"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lege die Maschine in der Bibliothek von VirtualBuddy in den Papierkorb"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traslada la máquina a la papelera en la biblioteca de VirtualBuddy"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placez la machine dans la corbeille depuis la bibliothèque de VirtualBuddy"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta la macchina nel Cestino dalla libreria di VirtualBuddy"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddyのライブラリで仮想マシンをゴミ箱に入れてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddy의 보관함에서 가상 컴퓨터를 휴지통으로 이동"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verplaats de machine in de bibliotheek van VirtualBuddy naar de prullenmand"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś maszynę do Kosza w bibliotece VirtualBuddy"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mova a máquina para o Lixo na biblioteca do VirtualBuddy"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutați mașina în Coș din biblioteca VirtualBuddy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместите машину в Корзину в библиотеке VirtualBuddy"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flytta maskinen till papperskorgen i VirtualBuddys bibliotek"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddy’nin kitaplığında makineyi Çöp Sepeti’ne taşıyın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістіть віртуальну машину в Смітник у бібліотеці VirtualBuddy"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在VirtualBuddy的资料库中将虚拟机移到废纸篓"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在VirtualBuddy的資料庫中將虛擬機器丟到「垃圾桶」"
+          }
+        }
+      }
+    },
     "Move the settings saved for %@ on %@ to the Trash?" : {
       "localizations" : {
         "cs" : {
@@ -97385,6 +98249,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "丟到垃圾桶"
+          }
+        }
+      }
+    },
+    "Move what you no longer need to the Trash in Finder" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co už nepotřebujete, přesuňte do koše ve Finderu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lege, was du nicht mehr benötigst, im Finder in den Papierkorb"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traslada lo que ya no necesites a la papelera en el Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placez ce dont vous n’avez plus besoin dans la corbeille depuis le Finder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta nel Cestino dal Finder ciò che non ti serve più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不要になったものは、Finderでゴミ箱に入れてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 더 이상 필요하지 않은 항목을 휴지통으로 이동"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verplaats in Finder naar de prullenmand wat je niet meer nodig hebt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś to, czego już nie potrzebujesz, do Kosza w Finderze"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mova para o Lixo no Finder aquilo de que você não precisa mais"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutați în Coș din Finder ceea ce nu vă mai trebuie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместите в Корзину в Finder то, что Вам больше не нужно"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flytta det du inte längre behöver till papperskorgen i Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artık ihtiyacınız olmayanları Finder’da Çöp Sepeti’ne taşıyın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемістіть те, що вам більше не потрібно, у Смітник у Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“访达”中将不再需要的内容移到废纸篓"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中將不再需要的項目丟到「垃圾桶」"
           }
         }
       }
@@ -156076,6 +157046,116 @@
         }
       }
     },
+    "Rancher Desktop" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "Rancher Desktop’s virtual machine, which holds every image, container, and volume." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuální počítač aplikace Rancher Desktop, který obsahuje všechny obrazy, kontejnery a svazky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die virtuelle Maschine von Rancher Desktop, die alle Images, Container und Volumes enthält."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La máquina virtual de Rancher Desktop, que contiene todas las imágenes, contenedores y volúmenes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La machine virtuelle de Rancher Desktop, qui contient toutes les images, tous les conteneurs et tous les volumes."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La macchina virtuale di Rancher Desktop, che contiene ogni immagine, container e volume."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher Desktopの仮想マシンで、すべてのイメージ、コンテナ、ボリュームが含まれています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 이미지, 컨테이너, 볼륨이 들어 있는 Rancher Desktop의 가상 컴퓨터입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De virtuele machine van Rancher Desktop, die alle images, containers en volumes bevat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maszyna wirtualna Rancher Desktop, która zawiera wszystkie obrazy, kontenery i wolumeny."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A máquina virtual do Rancher Desktop, que guarda todas as imagens, contêineres e volumes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mașina virtuală Rancher Desktop, care conține fiecare imagine, container și volum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виртуальная машина Rancher Desktop, в которой хранятся все образы, контейнеры и тома."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher Desktops virtuella maskin, som innehåller alla avbilder, containrar och volymer."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher Desktop’un tüm imajları, konteynerleri ve birimleri barındıran sanal makinesi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віртуальна машина Rancher Desktop, яка містить усі образи, контейнери й томи."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher Desktop的虚拟机，其中包含所有镜像、容器和卷。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher Desktop的虛擬機器，其中存有所有映像檔、容器和磁碟區。"
+          }
+        }
+      }
+    },
     "Read only" : {
       "localizations" : {
         "cs" : {
@@ -158936,6 +160016,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從Dock中移除"
+          }
+        }
+      }
+    },
+    "Remove the bottle in Whisky and choose to delete its files from disk" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraňte láhev v aplikaci Whisky a zvolte smazání jejích souborů z disku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lösche die Bottle in Whisky und aktiviere dabei „Dateien von der Festplatte löschen“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina la botella en Whisky y elige borrar sus archivos del disco"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez la bouteille dans Whisky et choisissez de supprimer ses fichiers du disque"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi la bottiglia in Whisky e scegli di eliminarne i file dal disco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whiskyでボトルを取り除き、そのファイルをディスクから削除する方を選んでください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whisky에서 보틀을 제거하고 파일은 디스크에서 삭제하기로 선택"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder de bottle in Whisky en kies ervoor om de bestanden ervan van de schijf te verwijderen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń butelkę w Whisky i wybierz opcję usunięcia jej plików z dysku"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remova a bottle no Whisky e opte por apagar os arquivos dela do disco"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați sticla din Whisky și alegeți să ștergeți fișierele acesteia de pe disc"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите бутылку в Whisky и выберите удаление ее файлов с диска"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort flaskan i Whisky och välj att radera dess filer från skivan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whisky’de bottle’ı kaldırın ve dosyalarını diskten silmeyi seçin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть пляшку у Whisky і виберіть видалення її файлів з диска"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Whisky中移除容器，并选择从磁盘中删除其文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Whisky中移除容器，然後選擇從磁碟刪除其檔案"
           }
         }
       }
@@ -189775,6 +190961,116 @@
         }
       }
     },
+    "Tart" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "Tart’s virtual machines. The images it keeps for making them are on the Developer page." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuální počítače nástroje Tart. Obrazy, které si uchovává k jejich vytváření, jsou na stránce Vývojář."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuelle Maschinen von Tart. Die Images, die Tart zum Erstellen der Maschinen aufbewahrt, werden auf der Seite „Entwicklung“ aufgeführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las máquinas virtuales de Tart. Las imágenes que guarda para crearlas están en la página Desarrollador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les machines virtuelles de Tart. Les images qu’il conserve pour les créer se trouvent sur la page Développeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le macchine virtuali di Tart. Le immagini che conserva per crearle si trovano nella pagina Sviluppo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tartの仮想マシンです。仮想マシンを作成するためにTartが保持しているイメージは、“デベロッパ”ページに表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tart의 가상 컴퓨터입니다. 가상 컴퓨터를 만들기 위해 보관하는 이미지는 개발자 페이지에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De virtuele machines van Tart. De images die Tart bewaart om ze te maken, staan op de pagina 'Ontwikkelaar'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maszyny wirtualne Tart. Obrazy, które Tart przechowuje do ich tworzenia, są na stronie Deweloper."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As máquinas virtuais do Tart. As imagens que ele guarda para criá-las estão na página Desenvolvedor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mașinile virtuale Tart. Imaginile pe care le păstrează pentru a le crea se află în pagina Dezvoltator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виртуальные машины Tart. Образы, которые он хранит для их создания, находятся в разделе «Разработчик»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarts virtuella maskiner. Avbilderna som Tart sparar för att skapa dem finns på sidan Utvecklare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tart’ın sanal makineleri. Tart’ın bunları oluşturmak için tuttuğu imajlar Geliştirici sayfasında yer alır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віртуальні машини Tart. Образи, які Tart зберігає для їх створення, показано на сторінці «Розробник»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tart的虚拟机。它为创建虚拟机而保存的镜像列在“开发者”页面上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tart的虛擬機器。它為建立虛擬機器而保存的映像檔列在「開發者」頁面上。"
+          }
+        }
+      }
+    },
     "Tells you when your apps have new updates and when a Homebrew upgrade finishes or runs into a problem. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
       "localizations" : {
         "cs" : {
@@ -193062,6 +194358,112 @@
         }
       }
     },
+    "The Linux containers, images, and volumes of Apple’s container tool, and the Linux kernel it runs them on." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontejnery s Linuxem, obrazy a svazky nástroje container od společnosti Apple a jádro Linuxu, na kterém kontejnery spouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Linux-Container, Images und Volumes des container-Tools von Apple sowie der Linux-Kernel, auf dem es sie ausführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los contenedores, imágenes y volúmenes Linux de la herramienta container de Apple, y el kernel Linux en el que los ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les conteneurs, images et volumes Linux de l’outil container d’Apple, ainsi que le noyau Linux sur lequel il les exécute."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I container Linux, le immagini e i volumi dello strumento container di Apple, e il kernel Linux su cui li esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appleのcontainerツールが扱うLinuxコンテナ、イメージ、ボリュームと、それらを実行するLinuxカーネルです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple의 container 도구가 관리하는 Linux 컨테이너, 이미지, 볼륨과, 이 도구가 컨테이너를 실행하는 데 사용하는 Linux 커널입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Linux-containers, images en volumes van de tool container van Apple, en de Linux-kernel waarop die tool ze uitvoert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontenery Linux, obrazy i wolumeny narzędzia container firmy Apple oraz jądro Linux, na którym to narzędzie je uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os contêineres Linux, as imagens e os volumes da ferramenta container da Apple, e o kernel Linux em que ela os executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Containerele, imaginile și volumele Linux ale instrumentului container de la Apple, precum și kernelul Linux pe care rulează acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Контейнеры Linux, образы и тома инструмента container от Apple, а также ядро Linux, на котором он их запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linux-containrarna, avbilderna och volymerna i verktyget container från Apple, och Linux-kärnan som verktyget kör dem på."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple’ın container aracının Linux konteynerleri, imajları ve birimleri ile bunları üzerinde çalıştırdığı Linux çekirdeği."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Контейнери, образи й томи Linux, якими керує інструмент container від Apple, а також ядро Linux, на якому він їх запускає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple的container工具中的Linux容器、镜像和卷，以及运行它们所用的Linux内核。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple的container工具的Linux容器、映像檔和磁碟區，以及它用來執行這些項目的Linux核心。"
+          }
+        }
+      }
+    },
     "The Not Moved list can’t be read" : {
       "localizations" : {
         "cs" : {
@@ -194012,6 +195414,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "升級已停止"
+          }
+        }
+      }
+    },
+    "The Windows apps Wine installed in its default folder, with their settings and everything they saved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace pro Windows, které Wine nainstaloval do své výchozí složky, i s jejich nastaveními a se vším, co uložily."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Windows-Apps, die Wine in seinem Standardordner installiert hat, samt ihren Einstellungen und allem, was sie gespeichert haben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las apps de Windows que Wine instaló en su carpeta por omisión, con sus ajustes y todo lo que han guardado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les apps Windows que Wine a installées dans son dossier par défaut, avec leurs réglages et tout ce qu’elles ont enregistré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le app Windows che Wine ha installato nella sua cartella predefinita, con le relative impostazioni e tutto ciò che hanno salvato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WineがデフォルトのフォルダにインストールしたWindowsアプリと、その設定、およびそれらのアプリが保存したすべてのものです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wine이 기본 폴더에 설치한 Windows 앱과 그 설정, 그리고 앱이 저장한 모든 항목입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Windows-apps die Wine in zijn standaardmap heeft geïnstalleerd, met hun instellingen en alles wat ze hebben bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacje Windows, które Wine zainstalował w swoim domyślnym folderze, wraz z ich ustawieniami i wszystkim, co zachowały."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os apps do Windows que o Wine instalou na pasta padrão dele, com os ajustes deles e tudo o que eles salvaram."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicațiile Windows pe care Wine le‑a instalat în dosarul său implicit, cu configurările lor și tot ce au salvat acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения Windows, установленные Wine в его папку по умолчанию, вместе с их настройками и всем, что они сохранили."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Windows-apparna som Wine har installerat i sin standardmapp, med deras inställningar och allt som de har sparat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wine’ın saptanmış klasörüne yüklediği Windows uygulamaları; bunların ayarları ve kaydettikleri her şey de dahil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програми Windows, які Wine інсталює у свою стандартну папку, разом з їхніми налаштуваннями та всім, що вони зберегли."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wine在其默认文件夹中安装的Windows App，以及这些App的设置和它们保存的所有内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wine安裝在其預設檔案夾中的Windows App，連同它們的設定及儲存的所有內容。"
           }
         }
       }
@@ -217845,6 +219353,112 @@
         }
       }
     },
+    "Use Factory Reset on Rancher Desktop’s Troubleshooting page" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použijte Factory Reset na stránce Troubleshooting v aplikaci Rancher Desktop"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwende Factory Reset auf der Seite Troubleshooting von Rancher Desktop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa Factory Reset en la página Troubleshooting de Rancher Desktop"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilisez Factory Reset sur la page Troubleshooting de Rancher Desktop"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa Factory Reset nella pagina Troubleshooting di Rancher Desktop"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher DesktopのTroubleshootingページでFactory Resetを使用してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher Desktop의 Troubleshooting 페이지에서 Factory Reset 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik 'Factory Reset' op de pagina 'Troubleshooting' van Rancher Desktop"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Użyj opcji Factory Reset na stronie Troubleshooting w Rancher Desktop"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use Factory Reset na página Troubleshooting do Rancher Desktop"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folosiți Factory Reset în pagina Troubleshooting din Rancher Desktop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Воспользуйтесь функцией Factory Reset на странице Troubleshooting в Rancher Desktop"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd Factory Reset på sidan Troubleshooting i Rancher Desktop"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rancher Desktop’un Troubleshooting sayfasındaki Factory Reset seçeneğini kullanın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скористайтеся функцією Factory Reset на сторінці Troubleshooting у Rancher Desktop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Rancher Desktop的Troubleshooting页面上使用Factory Reset"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Rancher Desktop的Troubleshooting頁面上使用Factory Reset"
+          }
+        }
+      }
+    },
     "Use It" : {
       "localizations" : {
         "cs" : {
@@ -219863,6 +221477,116 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "VirtualBox虛擬機器。"
+          }
+        }
+      }
+    },
+    "VirtualBuddy" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "VirtualBuddy’s virtual machines, and the system images it downloaded to install them, which stay when a machine is deleted. Installers and Backups lists those images." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuální počítače aplikace VirtualBuddy a systémové obrazy, které stáhla k jejich instalaci a které při smazání virtuálního počítače zůstávají. Tyto obrazy zobrazuje stránka Instalátory a zálohy."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Virtuelle Maschinen von VirtualBuddy und die System-Images, die VirtualBuddy zum Installieren der Maschinen geladen hat und die erhalten bleiben, wenn eine Maschine gelöscht wird. Die Seite „Installer und Backups“ zeigt diese Images an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las máquinas virtuales de VirtualBuddy y las imágenes del sistema que descargó para instalarlas. Esas imágenes se quedan cuando se borra una máquina, y la página Instaladores y copias de seguridad las muestra."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les machines virtuelles de VirtualBuddy, et les images système qu’il a téléchargées pour les installer, qui restent en place lorsqu’une machine est supprimée. La page Fichiers d’installation et sauvegardes liste ces images."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le macchine virtuali di VirtualBuddy e le immagini di sistema scaricate per installarle, che restano anche quando si elimina una macchina. “Installer e backup” elenca queste immagini."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddyの仮想マシンと、仮想マシンのインストール用にVirtualBuddyがダウンロードしたシステムイメージです。システムイメージは仮想マシンを削除しても残り、“インストーラとバックアップ”に表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddy의 가상 컴퓨터와, 가상 컴퓨터를 설치하기 위해 다운로드한 시스템 이미지입니다. 이 이미지는 가상 컴퓨터를 삭제해도 남으며, 설치 프로그램 및 백업 페이지에 나열됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De virtuele machines van VirtualBuddy, en de systeemimages die VirtualBuddy heeft gedownload om ze te installeren en die blijven staan als een machine wordt verwijderd. De pagina 'Installatieprogramma's en back-ups' toont die images."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maszyny wirtualne VirtualBuddy oraz obrazy systemów pobrane przez VirtualBuddy do ich instalacji. Obrazy te zostają po usunięciu maszyny, a wyświetla je strona Instalatory i backupy."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As máquinas virtuais do VirtualBuddy e as imagens de sistema que ele baixou para instalá-las, que permanecem quando uma máquina é apagada. A página Instaladores e Backups lista essas imagens."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mașinile virtuale VirtualBuddy și imaginile de sistem pe care le‑a descărcat pentru a le instala, care rămân după ștergerea unei mașini. Pagina Programe de instalare și backupuri listează aceste imagini."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виртуальные машины VirtualBuddy, а также системные образы, которые он загрузил для их установки и которые остаются после удаления машины. Эти образы показаны в разделе «Установщики и резервные копии»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddys virtuella maskiner och de systemavbilder som VirtualBuddy har hämtat för att installera dem, vilka ligger kvar när en maskin raderas. Sidan Installerare och säkerhetskopior listar de avbilderna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddy’nin sanal makineleri ve bunları yüklemek için indirdiği sistem görüntüleri; bu görüntüler bir makine silindiğinde yerinde kalır. Yükleyiciler ve Yedeklemeler sayfası bu görüntüleri listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віртуальні машини VirtualBuddy і системні образи, які VirtualBuddy викачала для їх інсталювання. Ці образи лишаються після видалення машини, і їх показує розділ «Інсталятори й резервні копії»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddy的虚拟机，以及它为安装这些虚拟机而下载的系统映像，删除虚拟机后这些映像仍会保留。“安装器与备份”会列出这些映像。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VirtualBuddy的虛擬機器，以及它為了安裝虛擬機器而下載的系統映像檔，刪除虛擬機器時這些映像檔會保留下來。「安裝程式與備份」會列出這些映像檔。"
           }
         }
       }
@@ -226017,6 +227741,116 @@
         }
       }
     },
+    "Whisky" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
+    },
+    "Whisky’s bottles, each with the Windows apps installed in it and everything they saved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Láhve aplikace Whisky, každá s nainstalovanými aplikacemi pro Windows a se vším, co uložily."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Bottles von Whisky, jede mit den darin installierten Windows-Apps und allem, was diese gespeichert haben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las botellas de Whisky, cada una con las apps de Windows instaladas en ella y todo lo que han guardado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les bouteilles de Whisky, chacune avec les apps Windows qui y sont installées et tout ce qu’elles ont enregistré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le bottiglie di Whisky, ciascuna con le app Windows installate al suo interno e tutto ciò che hanno salvato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whiskyのボトルです。各ボトルには、そこにインストールされたWindowsアプリと、それらのアプリが保存したすべてのものが含まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whisky의 보틀로, 각 보틀에는 그 안에 설치된 Windows 앱과 이 앱이 저장한 모든 항목이 들어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bottles van Whisky, elk met de Windows-apps die erin zijn geïnstalleerd en alles wat die apps hebben bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Butelki Whisky, każda z zainstalowanymi w niej aplikacjami Windows i wszystkim, co zachowały."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As bottles do Whisky, cada uma com os apps do Windows instalados nela e tudo o que eles salvaram."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sticlele Whisky, fiecare cu aplicațiile Windows instalate în ea și tot ce au salvat acestea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бутылки Whisky, каждая с установленными в ней приложениями Windows и всем, что они сохранили."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whiskys flaskor, var och en med de Windows-appar som har installerats i den och allt som de har sparat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her biri içine yüklenen Windows uygulamalarını ve bunların kaydettiği her şeyi barındıran Whisky bottle’ları."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пляшки Whisky, кожна з інстальованими в ній програмами Windows і всім, що вони зберегли."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whisky的容器，每个容器都包含其中安装的Windows App及这些App保存的所有内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whisky的容器，每個容器都含有安裝在其中的Windows App及它們儲存的所有內容。"
+          }
+        }
+      }
+    },
     "Why It Matters" : {
       "localizations" : {
         "cs" : {
@@ -226864,6 +228698,10 @@
           }
         }
       }
+    },
+    "Wine" : {
+      "comment" : "A product's name, never translated.",
+      "shouldTranslate" : false
     },
     "With %@" : {
       "localizations" : {
@@ -246844,6 +248682,10 @@
           }
         }
       }
+    },
+    "container" : {
+      "comment" : "The name of Apple's command-line tool, never translated.",
+      "shouldTranslate" : false
     },
     "iCloud Drive" : {
       "localizations" : {

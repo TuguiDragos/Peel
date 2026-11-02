@@ -76,7 +76,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    account, while what the package installed stays with the Package Receipts page, which lists it only while the
    receipt is there, so a receipt whose package left more outside the app is held back; the cask's own folder in
    Homebrew's Caskroom when Homebrew installed it (`HomebrewPackage.caskroomFolder`);
-   and what an area the app manages keeps in the home folder, such as Xcode's simulators. A page's scan runs
+   and what an area the app manages keeps in the home folder, such as Xcode's simulators, unless a folder the scan
+   already lists holds it. A page's scan runs
    through its `ScanRun`, so a newer scan or the Stop button ends an older one, and it counts what it reads so the
    page can show progress.
 2. **Match.** For each file, `LeftoverMatcher` weighs the evidence that it belongs to the app: its bundle
@@ -407,7 +408,7 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   refuses), with what an open app is writing to and a tool's folder the Developer page knows
   (`FoldersLeftToDeveloper`) kept out, and macOS's own held back or not listed at all; the move asks again which apps
   are open (`movableNow`). An area only its own app or tool should empty is explained, with that app's or tool's own
-  step.
+  step, and an area its apps manage (`managedBy`) says so once they are all gone from the Mac.
 - **Installers and Backups.** `Installers.scan` looks in Downloads, Desktop, Documents, Public, and `/Users/Shared`,
   and in the folders directly inside them, for disk images, packages, archives that hold an app or an installer (a zip
   is looked into), downloads a browser never finished, and device firmware, then at the macOS installers there and in

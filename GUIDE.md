@@ -27,7 +27,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   saved passwords, VPN connections, a torrent client's list of torrents, a game's saves, virtual machines and Windows
   bottles, a database, a database client's saved connections, a debugging proxy's rules, a video editor's projects, an
   AI app's conversations, a code editor's notes, unsaved files, and local history, an app's own backups, or the
-  sign-in a tool saved when you logged in. Uninstalling Xcode lists the simulators it made the same way.
+  sign-in a tool saved when you logged in. Uninstalling Xcode lists the simulators it made the same way, and
+  uninstalling Genymotion or Rancher Desktop lists its virtual machines.
 - **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected, and a
   folder holding another installed app's own data, such as Xcode's in `~/Library/Developer`, can't be selected at
   all, and neither can anything that syncs to your other devices, an app's container holding your documents, or a
@@ -222,7 +223,10 @@ choosing one, or a folder inside one, is refused.
 couldn't measure part of it or it is open on its page after a move. What an app manages itself, such as Xcode's
 simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool, with
 the command that frees it, when there is one, for you to copy into Terminal: Peel never runs it, since it deletes for
-good. Once Xcode is gone, the Simulators area says to install it again before using its settings. In the Library at
+good. Once Xcode is gone, the Simulators area says to install it again before using its settings. The virtual
+machines and Windows bottles of VirtualBuddy, CrossOver, Whisky, Wine, Tart, Lume, Anka, Rancher Desktop, Apple's
+container tool, and Genymotion are measured the same way, and once the app that makes them is gone, their area says
+to move what you no longer need to the Trash in Finder. In the Library at
 the top of the disk, Space also lists the caches and logs apps keep for every account, and the crash reports macOS
 keeps. Those an administrator owns go through Peel's helper, and what macOS keeps there for its own services is never
 listed. In your own Logs, the folder macOS saves crash reports in stays and only the reports are offered, since macOS

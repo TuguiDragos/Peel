@@ -671,7 +671,68 @@ struct SpaceInventoryTests {
         #expect(simulators.placesInTheHome(home) == [
             home.appending(path: "Library/Developer/CoreSimulator/Devices", directoryHint: .isDirectory)
         ])
-        #expect(SpaceInventory.managedAreaIdentifiers == ["simulators"])
+    }
+
+    @Test func measuresTheMachinesAndBottlesEachToolKeeps() async throws {
+        let directory = try TemporaryDirectory()
+        let (home, root) = (try directory.directory("home"), try directory.directory("root"))
+        let places: [String: [String]] = [
+            "virtualbuddy": ["home/Library/Application Support/VirtualBuddy"],
+            "crossover": [
+                "home/Library/Application Support/CrossOver/Bottles", "root/Library/Application Support/CrossOver/Bottles",
+            ],
+            "whisky": ["home/Library/Containers/com.isaacmarovitz.Whisky/Bottles"],
+            "wine": ["home/.wine"],
+            "tart": ["home/.tart/vms"],
+            "lume": ["home/.lume"],
+            "anka": [
+                "home/Library/Application Support/Veertu/Anka/vm_lib",
+                "home/Library/Application Support/Veertu/Anka/state_lib",
+                "home/Library/Application Support/Veertu/Anka/img_lib",
+            ],
+            "rancher-desktop": ["home/Library/Application Support/rancher-desktop/lima"],
+            "apple-container": ["home/Library/Application Support/com.apple.container"],
+            "genymotion": ["home/.Genymobile/Genymotion/deployed"],
+        ]
+        for path in places.values.joined() {
+            try directory.file("\(path)/org.example.machine/disk.img", bytes: 8_000)
+        }
+
+        let report = await SpaceInventory.scan(home: home, root: root, minimumSize: 1, measure: LeftoverScanner.walk)
+
+        let inside = directory.url.lastPathComponent + "/"
+        for (id, paths) in places {
+            let item = try #require(report.items.first { $0.id == id }, "no area \(id)")
+            let found = item.urls.map { url in
+                let path = url.path(percentEncoded: false).components(separatedBy: inside).last ?? ""
+                return path.hasSuffix("/") ? String(path.dropLast()) : path
+            }
+            #expect(item.category == .virtualMachines && item.isReadOnly, "\(id)")
+            #expect(Set(found) == Set(paths), "\(id)")
+        }
+        let commands = Dictionary(uniqueKeysWithValues: report.items.map { ($0.id, $0.commands) })
+        #expect(commands["tart"] == ["tart delete <name>"])
+        #expect(commands["lume"] == ["lume delete <name>", "lume prune"])
+        #expect(commands["anka"] == ["anka delete <name>", "anka delete --cache"])
+        #expect(commands["apple-container"] == [
+            "container system df", "container prune", "container image prune --all", "container volume prune",
+        ])
+    }
+
+    @Test func theAppsThatMakeMachinesAndBottlesManageTheirAreas() throws {
+        let managed = [
+            "virtualbuddy": "codes.rambo.VirtualBuddy",
+            "crossover": "com.codeweavers.CrossOver",
+            "whisky": "com.isaacmarovitz.Whisky",
+            "rancher-desktop": "io.rancherdesktop.app",
+            "genymotion": "com.genymobile.genymotion",
+        ]
+        for (id, identifier) in managed {
+            let area = try #require(SpaceInventory.definitions.first { $0.id == id })
+            #expect(area.managedBy?.identifiers == [identifier], "\(id)")
+            #expect(area.managedBy?.leftBehind == .holdsVirtualMachines, "\(id)")
+        }
+        #expect(Set(SpaceInventory.managedAreaIdentifiers) == Set(managed.keys).union(["simulators"]))
     }
 
     @Test func knowsWhetherAnAppThatManagesAnAreaIsOnThisMac() {

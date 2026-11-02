@@ -1528,6 +1528,28 @@ struct UninstallationTests {
         #expect(devices.match.heldBack == .holdsSimulators)
         #expect(!plan.suggestedSelection(canUseHelper: true).contains(devices.url))
     }
+
+    @Test func aPlaceOfAManagedAreaInAFolderTheScanListsIsNotListedAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/Library/Application Support/CrossOver/Bottles/Steam/drive_c/windows/win.ini", bytes: 4_096)
+        try directory.file("home/Library/Application Support/CrossOver/support/scripts.d/hook", bytes: 128)
+        let crossOver = InstalledApp(
+            url: try directory.directory("home/Applications/CrossOver.app"),
+            bundleIdentifier: "com.codeweavers.CrossOver",
+            name: "CrossOver"
+        )
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+
+        let plan = await Uninstallation.prepare(crossOver, installedApps: [crossOver], environment: environment)
+
+        let paths = plan.scan.leftovers.map { PathPattern.comparablePath(of: $0.url) }
+        let bottles = plan.scan.leftovers.filter { $0.url.lastPathComponent == "Bottles" }
+        #expect(bottles.count == 1, "\(paths)")
+        #expect(bottles.first?.match.heldBack == .holdsVirtualMachines)
+        let inside = paths.filter { path in paths.contains { $0 != path && PathComponents.isPath(path, inside: $0) } }
+        #expect(inside.isEmpty, "\(inside)")
+    }
 }
 
 /// Anything Peel selects on its own has to pass the guard, and the helper when it needs one, or it would be

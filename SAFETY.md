@@ -423,7 +423,8 @@ Never selected for you, even when found:
   you logged in, such as Docker's or Cargo's, each where the app's own documentation or source says it keeps them, or
   where its Homebrew definition names its folder, and anything named as an app's backups or as DaVinci Resolve's
   project library, or the app's folder that keeps them. When you uninstall Xcode, the simulators it made in your home
-  folder are listed too, with the apps installed in them and their data, and never selected.
+  folder are listed too, with the apps installed in them and their data, and never selected, and so are the virtual
+  machines of Genymotion and Rancher Desktop when you uninstall them.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
 - A file a program has open right now, and a disk image that is open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is

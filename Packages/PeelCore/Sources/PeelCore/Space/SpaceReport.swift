@@ -315,6 +315,94 @@ public enum SpaceInventory {
             handling: .readOnly,
             commands: ["vagrant box remove <name>", "vagrant box prune"]
         ),
+        // VirtualBuddy's library (`VBSettings.defaultVirtualBuddyLibraryURL` at 682bc47f): the machines, and in
+        // `_Downloads` the system images they were installed from, which deleting a machine leaves.
+        Definition(
+            id: "virtualbuddy",
+            category: .virtualMachines,
+            paths: ["Library/Application Support/VirtualBuddy"],
+            handling: .readOnly,
+            managedBy: ManagingApps(identifiers: ["codes.rambo.VirtualBuddy"], leftBehind: .holdsVirtualMachines)
+        ),
+        // CodeWeavers' "Change Where CrossOver Stores Bottles" and "Advanced CrossOver Mac Configuration": an account's
+        // bottles, and the published bottles every account shares.
+        Definition(
+            id: "crossover",
+            category: .virtualMachines,
+            paths: ["Library/Application Support/CrossOver/Bottles", "/Library/Application Support/CrossOver/Bottles"],
+            handling: .readOnly,
+            managedBy: ManagingApps(identifiers: ["com.codeweavers.CrossOver"], leftBehind: .holdsVirtualMachines)
+        ),
+        // Whisky's `BottleData.defaultBottleDir` at fd5480a7, in a folder named like the app's container.
+        Definition(
+            id: "whisky",
+            category: .virtualMachines,
+            paths: ["Library/Containers/com.isaacmarovitz.Whisky/Bottles"],
+            handling: .readOnly,
+            managedBy: ManagingApps(identifiers: ["com.isaacmarovitz.Whisky"], leftBehind: .holdsVirtualMachines)
+        ),
+        // Wine's default prefix, which its FAQ says to delete like any other folder to remove its Windows apps.
+        Definition(
+            id: "wine",
+            category: .virtualMachines,
+            paths: [".wine"],
+            handling: .readOnly
+        ),
+        // Tart's machines (`VMStorageLocal` at bcc8084a). The images it caches are on the Developer page.
+        Definition(
+            id: "tart",
+            category: .virtualMachines,
+            paths: [".tart/vms"],
+            handling: .readOnly,
+            commands: ["tart delete <name>"]
+        ),
+        // Lume keeps each machine in a folder of its own here, beside the images it caches (`Home.swift` at 964e3f62).
+        Definition(
+            id: "lume",
+            category: .virtualMachines,
+            paths: [".lume"],
+            handling: .readOnly,
+            commands: ["lume delete <name>", "lume prune"]
+        ),
+        // Veertu's "Modifying the Global Configuration": templates, their state, and on Apple silicon the system images
+        // Anka downloaded, which `anka delete --cache` removes with other temporary files.
+        Definition(
+            id: "anka",
+            category: .virtualMachines,
+            paths: [
+                "Library/Application Support/Veertu/Anka/vm_lib", "Library/Application Support/Veertu/Anka/state_lib",
+                "Library/Application Support/Veertu/Anka/img_lib",
+            ],
+            handling: .readOnly,
+            commands: ["anka delete <name>", "anka delete --cache"]
+        ),
+        // Rancher Desktop's virtual machine (`paths_darwin.go` at 736b7194), with every image, container, and volume.
+        Definition(
+            id: "rancher-desktop",
+            category: .virtualMachines,
+            paths: ["Library/Application Support/rancher-desktop/lima"],
+            handling: .readOnly,
+            managedBy: ManagingApps(identifiers: ["io.rancherdesktop.app"], leftBehind: .holdsVirtualMachines)
+        ),
+        // Apple's container tool keeps its containers, images, volumes, and Linux kernel here
+        // (`ApplicationRoot.defaultPath` at af7c4391).
+        Definition(
+            id: "apple-container",
+            category: .virtualMachines,
+            paths: ["Library/Application Support/com.apple.container"],
+            handling: .readOnly,
+            commands: [
+                "container system df", "container prune", "container image prune --all", "container volume prune",
+            ]
+        ),
+        // Genymotion keeps each virtual device in a folder of its own here, by its page on where a device's logs are.
+        Definition(
+            id: "genymotion",
+            category: .virtualMachines,
+            paths: [".Genymobile/Genymotion/deployed"],
+            handling: .readOnly,
+            managedBy: ManagingApps(identifiers: ["com.genymobile.genymotion"], leftBehind: .holdsVirtualMachines)
+        ),
         Definition(
             id: "podcasts",
             category: .media,
