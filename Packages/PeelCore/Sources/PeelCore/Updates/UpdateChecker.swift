@@ -91,7 +91,7 @@ public struct UpdateChecker: Sendable {
         earlier: UpdateStatus? = nil,
         notListedBefore: Bool = false
     ) async -> UpdateAnswer {
-        let homebrew = homebrewStatus(for: app, casks: casks)
+        let homebrew = homebrewAnswer(for: app, casks: casks)
         if let status = Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrew) {
             return UpdateAnswer(status: status)
         }
@@ -102,9 +102,9 @@ public struct UpdateChecker: Sendable {
             : await feedAnswer(for: app, earlier: earlier, notListedBefore: notListedBefore)
         guard !own.wasOffline else { return own }
         // A feed can be down, and the App Store may not sell the app here: what Homebrew knows is used then.
-        if let homebrew, own.status == .unsupported || own.status == .failed {
+        if let status = homebrew.status, own.status == .unsupported || own.status == .failed {
             return UpdateAnswer(
-                status: homebrew, developer: own.developer, standsInFor: own.status,
+                status: status, developer: own.developer, standsInFor: own.status,
                 reachedNoServer: own.reachedNoServer, isNotListed: own.isNotListed
             )
         }
@@ -116,27 +116,30 @@ public struct UpdateChecker: Sendable {
     public func statusWithoutAsking(
         for app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage], known: UpdateStatus? = nil
     ) -> UpdateStatus? {
-        let homebrew = homebrewStatus(for: app, casks: casks)
+        let homebrew = homebrewAnswer(for: app, casks: casks)
         if let status = Self.statusWithoutAsking(for: app, preference: preference, homebrew: homebrew) {
             return status
         }
-        return known == .unsupported || known == .failed ? homebrew ?? known : nil
+        return known == .unsupported || known == .failed ? homebrew.status ?? known : nil
     }
 
+    /// What Homebrew's catalog says comes after the app's own source, whatever is preferred: Homebrew can't upgrade a
+    /// copy it didn't install, and the app's own updater is what that copy follows.
     private static func statusWithoutAsking(
-        for app: InstalledApp, preference: UpdateSource, homebrew: UpdateStatus?
+        for app: InstalledApp, preference: UpdateSource, homebrew: (status: UpdateStatus?, isFromTheCatalog: Bool)
     ) -> UpdateStatus? {
         let asksNobody = asksNobody(about: app, preference: preference)
+        let first = homebrew.isFromTheCatalog ? nil : homebrew.status
         switch preference {
         case .homebrew:
-            // A cask Homebrew knows but never installed says nothing about this app's version, and neither does one
-            // Homebrew can't tell about, so the app's own feed answers then instead of a false "up to date".
-            return homebrew ?? (asksNobody ? .unsupported : nil)
+            // Where Homebrew can't tell, from what it installed or from its catalog, the app's own feed answers instead
+            // of a false "up to date".
+            return first ?? (asksNobody ? homebrew.status ?? .unsupported : nil)
         case .automatic, .developer, .appStore:
-            if preference == .automatic, case .updateAvailable = homebrew { return homebrew }
+            if preference == .automatic, case .updateAvailable = first { return first }
             // An app from a cask may have no feed of its own: what Homebrew knows is used rather than "Can't check
             // for updates".
-            return asksNobody ? homebrew ?? .unsupported : nil
+            return asksNobody ? homebrew.status ?? .unsupported : nil
         }
     }
 
@@ -151,13 +154,65 @@ public struct UpdateChecker: Sendable {
         UpdateSource.allCases.allSatisfy { asksNobody(about: app, preference: $0) }
     }
 
-    /// Homebrew's answer for `app`, found without a network request, or nil when Homebrew did not install this copy
-    /// or can't tell (`homebrewStatus(of:appVersion:at:)`). For a cask it did not install, Homebrew has a definition
-    /// but no installed version to compare.
+    /// Homebrew's answer for `app`, found without a network request, or nil when it can't tell: for a copy Homebrew
+    /// installed, from what it installed (`homebrewStatus(of:appVersion:at:)`), and for one it didn't, from the version
+    /// its catalog lists (`catalogStatus(of:appVersion:at:)`).
     public func homebrewStatus(for app: InstalledApp, casks: [HomebrewPackage]) -> UpdateStatus? {
-        CaskEvidence.installedCask(for: app, in: casks).flatMap {
-            Self.homebrewStatus(of: $0, appVersion: app.version, at: clock())
+        homebrewAnswer(for: app, casks: casks).status
+    }
+
+    private func homebrewAnswer(
+        for app: InstalledApp, casks: [HomebrewPackage]
+    ) -> (status: UpdateStatus?, isFromTheCatalog: Bool) {
+        if let cask = CaskEvidence.installedCask(for: app, in: casks) {
+            return (Self.homebrewStatus(of: cask, appVersion: app.version, at: clock()), false)
         }
+        let status = Self.catalogCask(for: app, in: casks).flatMap {
+            Self.catalogStatus(of: $0, appVersion: app.version, at: clock())
+        }
+        return (status, true)
+    }
+
+    /// The cask Homebrew's catalog lists for `app` when Homebrew didn't install this copy: one its bundle proves
+    /// (`CaskEvidence.proves`). An app from the App Store or Setapp, or one that came with macOS, is kept current by
+    /// them, in versions of their own, so the catalog says nothing of it.
+    public static func catalogCask(for app: InstalledApp, in casks: [HomebrewPackage]) -> HomebrewPackage? {
+        guard !app.isFromAppStore, !app.isFromSetapp, !app.isSystemProtected,
+              CaskEvidence.installedCask(for: app, in: casks) == nil
+        else { return nil }
+        return CaskEvidence.cask(for: app, in: casks)
+    }
+
+    /// What the version `cask` lists says at `now` of a copy Homebrew didn't install, at `appVersion`: an update when
+    /// it is written with as many numbers and they are past the app's, since a catalog never lists an older version
+    /// than it did, and up to date only as `isAlready` reads it, within a day of Homebrew's last check. Otherwise nil.
+    static func catalogStatus(of cask: HomebrewPackage, appVersion: String?, at now: Date) -> UpdateStatus? {
+        guard let appVersion, VersionComparison.isAVersion(appVersion), let latest = cask.latestVersion,
+              cask.isStillUpgraded, latest != "latest"
+        else { return nil }
+        if VersionComparison.hasNewerNumbers(UpdateStatus.shownVersion(of: latest), than: appVersion) {
+            return .updateAvailable(version: latest, source: .homebrew, releaseNotes: cask.homepage)
+        }
+        return isAlready(appVersion, at: latest) && isRecent(cask.lastUpdateCheck, at: now) ? .upToDate : nil
+    }
+
+    /// Why the version `cask` lists can't say at `now` whether a copy Homebrew didn't install, at `appVersion`, is up
+    /// to date, when a later check of Homebrew's could: the cask lists no version to compare or Homebrew disabled it,
+    /// or Homebrew last checked for new versions too long ago. Homebrew's settings for apps that update themselves
+    /// don't count, since they decide only what Homebrew upgrades.
+    static func whyTheCatalogCannotTell(
+        about cask: HomebrewPackage, appVersion: String?, at now: Date
+    ) -> HomebrewCannotTell.Reason? {
+        if !cask.isStillUpgraded { return .disabled }
+        if cask.latestVersion == "latest" { return .installsTheNewest }
+        guard let latest = cask.latestVersion, isAlready(appVersion, at: latest) else { return nil }
+        return isRecent(cask.lastUpdateCheck, at: now) ? nil : .notCheckedRecently
+    }
+
+    /// Whether Homebrew last checked for new versions at `checked`, less than `Homebrew.autoUpdateInterval` before
+    /// `now`.
+    private static func isRecent(_ checked: Date?, at now: Date) -> Bool {
+        checked.map { now.timeIntervalSince($0) < Homebrew.autoUpdateInterval } ?? false
     }
 
     /// The status Homebrew reports at `now` for `cask`, known to be the app's at `appVersion`, or nil when it can't
@@ -174,10 +229,7 @@ public struct UpdateChecker: Sendable {
     /// it last checked for new versions longer ago than `Homebrew.autoUpdateInterval`, or when isn't known.
     static func whyHomebrewCannotTell(about cask: HomebrewPackage, at now: Date) -> HomebrewCannotTell.Reason? {
         if let reason = cask.whyHomebrewCannotCompare { return reason }
-        guard let checked = cask.lastUpdateCheck, now.timeIntervalSince(checked) < Homebrew.autoUpdateInterval else {
-            return .notCheckedRecently
-        }
-        return nil
+        return isRecent(cask.lastUpdateCheck, at: now) ? nil : .notCheckedRecently
     }
 
     /// Whether the app's own `version` is already the cask's `latest`, or past it. Homebrew counts a cask outdated by
@@ -215,16 +267,22 @@ public struct UpdateChecker: Sendable {
         checked.map { clock().timeIntervalSince($0) <= UpdateSchedule.longest } ?? false
     }
 
-    /// The cask `app` came from, and why Homebrew can't tell, when only Homebrew could say whether the app is up to
-    /// date and it has no answer (`homebrewStatus(of:appVersion:at:)`), so a check has none for the app.
+    /// The cask `app` came from or its catalog lists, and why Homebrew can't tell, when only Homebrew could say whether
+    /// the app is up to date and it has no answer (`homebrewStatus(for:casks:)`), so a check has none for the app.
     public func homebrewCannotTell(
         about app: InstalledApp, preference: UpdateSource, casks: [HomebrewPackage]
     ) -> HomebrewCannotTell? {
         let now = clock()
-        guard Self.asksNobody(about: app, preference: preference),
-              let cask = CaskEvidence.installedCask(for: app, in: casks),
-              Self.homebrewStatus(of: cask, appVersion: app.version, at: now) == nil,
-              let reason = Self.whyHomebrewCannotTell(about: cask, at: now)
+        guard Self.asksNobody(about: app, preference: preference) else { return nil }
+        if let cask = CaskEvidence.installedCask(for: app, in: casks) {
+            guard Self.homebrewStatus(of: cask, appVersion: app.version, at: now) == nil,
+                  let reason = Self.whyHomebrewCannotTell(about: cask, at: now)
+            else { return nil }
+            return HomebrewCannotTell(cask: cask, reason: reason)
+        }
+        guard let cask = Self.catalogCask(for: app, in: casks),
+              Self.catalogStatus(of: cask, appVersion: app.version, at: now) == nil,
+              let reason = Self.whyTheCatalogCannotTell(about: cask, appVersion: app.version, at: now)
         else { return nil }
         return HomebrewCannotTell(cask: cask, reason: reason)
     }

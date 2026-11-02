@@ -130,10 +130,14 @@ public struct CaskEvidence: Sendable, Hashable {
     /// Returns the casks that describe `apps`, including apps Homebrew did not install. A cask lists what its
     /// app leaves behind, even a folder named nothing like the app, which name matching cannot find. Only
     /// Homebrew's local copy of its definitions is read, so nothing goes over the network, and no cask is
-    /// asked about when Homebrew or that copy is missing.
+    /// asked about when Homebrew or that copy is missing. Each carries Homebrew's last check for new versions, which
+    /// the version it lists is no more recent than.
     @concurrent
     public static func knownCasks(for apps: [InstalledApp], receipts: Set<String> = []) async -> [HomebrewPackage] {
-        guard !apps.isEmpty, await Homebrew.hasLocalDefinitions() else { return [] }
+        let answers = Homebrew.Answers()
+        guard !apps.isEmpty, await Homebrew.hasLocalDefinitions(asking: answers) else { return [] }
+        // Read first, so a check made while the casks are read leaves them dated older than they are, never newer.
+        let checked = await Homebrew.lastUpdateCheck(asking: answers)
         let known = await Homebrew.caskTokens()
         guard !known.isEmpty else { return [] }
 
@@ -145,7 +149,9 @@ public struct CaskEvidence: Sendable, Hashable {
             }
         }
 
-        let found = await Homebrew.casks(named: wanted).map { $0.noting(receipts: receipts) }
+        let found = await Homebrew.casks(named: wanted).map {
+            $0.noting(receipts: receipts).noting(lastUpdateCheck: checked)
+        }
         return found.filter { cask in apps.contains { proves(cask, isThe: $0) } }
     }
 

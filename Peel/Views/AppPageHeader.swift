@@ -172,6 +172,8 @@ struct AppPageHeader: View {
     private func updateExplanation(for source: UpdateSource) -> LocalizedStringResource {
         switch source {
         case .appStore: "The App Store has it. Update from the App Store."
+        case .homebrew where library.cask(for: plan.app) == nil:
+            "Homebrew’s catalog has it, but Homebrew didn’t install this copy. Update from inside the app or from its homepage."
         case .homebrew where upgradeRefusal != nil:
             upgradeRefusal ?? .excludedApp
         case .homebrew where library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true:
@@ -202,6 +204,8 @@ struct AppPageHeader: View {
                 NSWorkspace.shared.open(page ?? URL(string: "macappstore://showUpdatesPage")!)
             }
             .buttonStyle(.borderedProminent)
+        case .homebrew where library.cask(for: plan.app) == nil:
+            openAppButton
         case .homebrew where upgradeRefusal != nil:
             EmptyView()
         case .homebrew where upgradeNeedsTerminal:
@@ -230,11 +234,15 @@ struct AppPageHeader: View {
             .buttonStyle(.borderedProminent)
             .disabled(homebrew.runningCommand != nil || homebrew.quittingToUpgrade.isWaiting)
         case .developer, .automatic:
-            Button("Open \(plan.app.name)") {
-                NSWorkspace.shared.open(plan.app.url)
-            }
-            .buttonStyle(.borderedProminent)
+            openAppButton
         }
+    }
+
+    private var openAppButton: some View {
+        Button("Open \(plan.app.name)") {
+            NSWorkspace.shared.open(plan.app.url)
+        }
+        .buttonStyle(.borderedProminent)
     }
 
     private var isUpgrading: Bool {

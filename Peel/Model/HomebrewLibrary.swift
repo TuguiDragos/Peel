@@ -112,6 +112,9 @@ final class HomebrewLibrary {
     }
     /// Casks describing installed apps that Homebrew didn't install, read from its local definitions.
     private(set) var knownCasks: [HomebrewPackage] = []
+    /// The apps the known casks were read for, so a reading that finds Homebrew checked for new versions since reads
+    /// them again, with what its catalog lists now.
+    private var appsOfKnownCasks: [InstalledApp]?
     /// The identifiers of the installer receipts on the Mac. A cask that installs a package proves which app
     /// it is through its receipt.
     private(set) var receipts: Set<String> = []
@@ -224,6 +227,7 @@ final class HomebrewLibrary {
     private(set) var evidenceRevision = 0
 
     func loadKnownCasks(for apps: [InstalledApp]) async {
+        appsOfKnownCasks = apps
         let found = await PackageReceipts.identifiers()
         let known = await CaskEvidence.knownCasks(for: apps, receipts: found)
         guard known != knownCasks || found != receipts else { return }
@@ -404,6 +408,7 @@ final class HomebrewLibrary {
         }),
               isInstalled
         else { return }
+        let checkedBefore = checkedForUpdates
         checkedForUpdates = checked
         guard let (found, installed, preview, overridden) = reading else {
             needsDefinitions = true
@@ -435,6 +440,10 @@ final class HomebrewLibrary {
         overrides = overridden ?? overrides
         unreadSettingsFile = found.flatMap { Homebrew.unreadSettingsFile(prefix: $0.prefix) }
         settingsFolders = found.map { Homebrew.settingsFolders(prefix: $0.prefix) } ?? []
+        // A check for new versions also changes what the catalog lists for the apps Homebrew didn't install.
+        if checked != checkedBefore, let apps = appsOfKnownCasks {
+            await loadKnownCasks(for: apps)
+        }
         revision += 1
         keepSelectionOnItsPage()
     }

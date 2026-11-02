@@ -252,7 +252,7 @@ private struct GeneralSettingsView: View {
                     .disabled(!checksForAppUpdates)
                 } label: {
                     titled("Prefer updates from",
-                           "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed.")
+                           "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed. Homebrew’s catalog answers last, for an app Homebrew didn’t install.")
                 }
                 .onChange(of: updateSource) { _, _ in
                     Task { await library.updateSourceChanged() }

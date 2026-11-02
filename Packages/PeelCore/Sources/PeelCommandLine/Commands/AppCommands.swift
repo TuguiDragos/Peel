@@ -192,7 +192,7 @@ struct LeftoversCommand: AsyncParsableCommand {
         let target = try AppLookup.app(matching: app, in: apps)
         let exclusions = await ExclusionStore().load()
         try AppLookup.refuseIfExcluded(target, by: exclusions)
-        let homebrew = await CaskLookup.evidence(for: target)
+        let homebrew = await CaskLookup.evidence(for: [target])
         let uninstallation = await ProgressLine.counting {
             await Uninstallation.prepare(
                 target,
@@ -667,7 +667,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let excluded = try Self.note(for: AppLookup.refusal(of: target, by: exclusions), dryRun: dryRun)
         let service = TrashService(exclusions: exclusions)
         let running = try Self.note(for: await Self.whileRunning(target, among: apps), dryRun: dryRun)
-        let homebrew = await CaskLookup.evidence(for: target)
+        let homebrew = await CaskLookup.evidence(for: [target])
         let uninstallation = await ProgressLine.counting {
             await Uninstallation.prepare(
                 target,
@@ -934,8 +934,8 @@ struct UpdatesCommand: AsyncParsableCommand {
         let apps = catalog.apps
         // The Peel app's own update settings, so `peel` and the app agree on which updates are waiting.
         let preferences = UpdatePreferences.asTheAppSeesThem()
-        let homebrew = await CaskLookup.installed()
         let toCheck = apps.filter { !preferences.isIgnored($0) }
+        let homebrew = await CaskLookup.evidence(for: toCheck)
         let checker = UpdateChecker()
         let statuses = await ProgressLine.reporting { show in
             await Self.statuses(
@@ -988,7 +988,7 @@ struct UpdatesCommand: AsyncParsableCommand {
         var notes = [note(aboutCasksNotCheckedRecently: casks(.notCheckedRecently), timeZone: timeZone)]
         let newest = casks(.installsTheNewest).count
         if newest > 0 {
-            notes.append("\(Output.count(newest, "app", "apps")) Homebrew installed \(newest == 1 ? "gets" : "get") whatever is newest each time, so Homebrew has no version to compare, and whether \(newest == 1 ? "it is" : "they are") up to date isn't known.")
+            notes.append("Homebrew's \(newest == 1 ? "cask" : "casks") of \(Output.count(newest, "app", "apps")) \(newest == 1 ? "installs" : "install") whatever is newest each time, so Homebrew has no version to compare, and whether \(newest == 1 ? "it is" : "they are") up to date isn't known.")
         }
         let left = casks(.leftToTheApp).count
         if left > 0 {
@@ -996,14 +996,14 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
         let disabled = casks(.disabled).count
         if disabled > 0 {
-            notes.append("Homebrew no longer upgrades \(Output.count(disabled, "app", "apps")) it installed, since it has disabled \(disabled == 1 ? "its cask" : "their casks"), so whether \(disabled == 1 ? "it is" : "they are") up to date isn't known.")
+            notes.append("Homebrew has disabled the \(disabled == 1 ? "cask" : "casks") of \(Output.count(disabled, "app", "apps")), so whether \(disabled == 1 ? "it is" : "they are") up to date isn't known.")
         }
         return notes.compactMap(\.self)
     }
 
     private static func note(aboutCasksNotCheckedRecently casks: [HomebrewPackage], timeZone: TimeZone) -> String? {
         guard !casks.isEmpty else { return nil }
-        let apps = "\(Output.count(casks.count, "app", "apps")) it installed \(casks.count == 1 ? "is" : "are")"
+        let apps = "\(Output.count(casks.count, "app", "apps")) only Homebrew can answer for \(casks.count == 1 ? "is" : "are")"
         guard let checked = casks.compactMap(\.lastUpdateCheck).max() else {
             return "Homebrew doesn't say when it last checked for new versions, so whether \(apps) up to date isn't known."
         }

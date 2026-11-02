@@ -286,8 +286,9 @@ struct KnownCasksTests {
     }
 
     /// Reads Homebrew's local copy of the cask definitions and finds nothing without Homebrew. The result
-    /// depends on the machine running the test, so only its shape is checked: casks only, and no guessed token
-    /// Homebrew does not know. That nothing is downloaded rests on `hasLocalDefinitions`, which a test cannot see.
+    /// depends on the machine running the test, so only its shape is checked: casks only, no guessed token
+    /// Homebrew does not know, and each dated by Homebrew's last check. That nothing is downloaded rests on
+    /// `hasLocalDefinitions`, which a test cannot see.
     @Test func readsOnlyCasksHomebrewKnowsOnThisMac() async {
         let apps = [
             app("Visual Studio Code", "com.microsoft.VSCode"),
@@ -301,5 +302,7 @@ struct KnownCasksTests {
         }
         #expect(found.allSatisfy { $0.kind == .cask })
         #expect(!found.contains { $0.name == "definitely-not-a-real-app" })
+        let checked = await Homebrew.lastUpdateCheck()
+        #expect(found.allSatisfy { $0.lastUpdateCheck == checked })
     }
 }

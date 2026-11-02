@@ -382,6 +382,29 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.shownUpdateStatus(of: app) == .unsupported)
     }
 
+    @Test func showsWhatHomebrewsCatalogSaysOfAnAppItDidNotInstallAsSoonAsHomebrewIsRead() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Tool", in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder, clock: TestClock(homebrewChecked + 60 * 60))
+        let checked = homebrewChecked
+        let listed = { (latest: String) in
+            HomebrewPackage(name: "tool", kind: .cask, latestVersion: latest, appNames: ["Tool.app"])
+                .noting(lastUpdateCheck: checked)
+        }
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.tool" })
+        library.loadHomebrewCasks([listed("2.0")], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app)?.version == "2.0")
+        #expect(library.cask(for: app) == nil, "Homebrew didn't install it, so it can't upgrade it")
+
+        library.loadHomebrewCasks([listed("1.0")], knowsItsOwnApps: true)
+        #expect(library.shownUpdateStatus(of: app) == .upToDate)
+    }
+
     @Test func anUpdateHomebrewLearnsOfReplacesTheUpToDateItGaveBefore() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try caskApp("Tool", in: folder)

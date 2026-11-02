@@ -10,17 +10,23 @@ enum VersionComparison {
         compare(candidate, installed) == .orderedDescending
     }
 
+    /// True when `candidate` has as many numbers as `installed` and they are past its numbers. A version written with
+    /// another number of them, such as one with a build added as a fourth, and what follows the numbers, a build or a
+    /// word such as beta, are not compared, since makers write them in ways another source of versions doesn't follow.
+    static func hasNewerNumbers(_ candidate: String, than installed: String) -> Bool {
+        let candidate = components(of: candidate).numbers
+        let installed = components(of: installed).numbers
+        return candidate.count == installed.count && compare(numbers: candidate, installed) == .orderedDescending
+    }
+
     /// Compares dotted numeric versions. A version with a suffix ("1.2 beta") is older than the same version
     /// without one.
     static func compare(_ lhs: String, _ rhs: String) -> ComparisonResult {
         let left = components(of: lhs)
         let right = components(of: rhs)
 
-        for index in 0..<max(left.numbers.count, right.numbers.count) {
-            let a = index < left.numbers.count ? left.numbers[index] : 0
-            let b = index < right.numbers.count ? right.numbers[index] : 0
-            if a != b { return a < b ? .orderedAscending : .orderedDescending }
-        }
+        let numbers = compare(numbers: left.numbers, right.numbers)
+        guard numbers == .orderedSame else { return numbers }
 
         switch (left.suffix.isEmpty, right.suffix.isEmpty) {
         case (true, true): return .orderedSame
@@ -28,6 +34,15 @@ enum VersionComparison {
         case (false, true): return .orderedAscending
         case (false, false): return left.suffix.compare(right.suffix, options: .numeric)
         }
+    }
+
+    private static func compare(numbers left: [Int], _ right: [Int]) -> ComparisonResult {
+        for index in 0..<max(left.count, right.count) {
+            let a = index < left.count ? left[index] : 0
+            let b = index < right.count ? right[index] : 0
+            if a != b { return a < b ? .orderedAscending : .orderedDescending }
+        }
+        return .orderedSame
     }
 
     private static func components(of version: String) -> (numbers: [Int], suffix: String) {

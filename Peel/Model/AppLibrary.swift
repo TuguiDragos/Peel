@@ -141,6 +141,8 @@ final class AppLibrary {
     /// The cask each Homebrew-installed app came from. Matched with the same evidence everything else uses,
     /// rather than by guessing a token from the app's name.
     private(set) var homebrewApps: [InstalledApp.ID: HomebrewPackage] = [:]
+    /// The apps Homebrew didn't install whose versions its catalog lists (`UpdateChecker.catalogCask(for:in:)`).
+    private var appsInTheCatalog: Set<InstalledApp.ID> = []
     /// The same, by cask, since the Homebrew page asks about every outdated cask each time it is drawn.
     private var appsOfCasks: [HomebrewPackage.ID: [InstalledApp]] = [:]
     /// The rows chosen in the list, which the page beside it shows.
@@ -976,13 +978,15 @@ final class AppLibrary {
         applyHomebrewStatuses()
     }
 
-    /// Forgets an update Homebrew reported and no longer reports, for an app it no longer counts as its own or whose
-    /// cask is no longer behind, saved answer included, so the app is due and its own feed answers at the next round.
-    /// One that stands in for the app's own source is decided again from that source's answer instead.
+    /// Forgets an update Homebrew reported and no longer reports, for an app it no longer counts as its own or lists in
+    /// its catalog, or whose cask is no longer behind, saved answer included, so the app is due and its own feed
+    /// answers at the next round. One that stands in for the app's own source is decided again from that source's
+    /// answer instead.
     private func forgetUpdatesHomebrewNoLongerOffers() {
         let outlived = Set(apps.filter { app in
             guard let status = updateStatuses[app.id], remembered(app)?.standsInFor == nil else { return false }
-            let homebrew = homebrewApps[app.id] == nil ? nil : updateChecker.homebrewStatus(for: app, casks: casks)
+            let homebrew = homebrewApps[app.id] == nil && !appsInTheCatalog.contains(app.id)
+                ? nil : updateChecker.homebrewStatus(for: app, casks: casks)
             return !status.holds(whileHomebrewSays: homebrew)
         }.map(\.id))
         guard !outlived.isEmpty else { return }
@@ -994,14 +998,15 @@ final class AppLibrary {
         UpdateMemoryStore.save(memory, to: defaults)
     }
 
-    /// Shows what a check would answer without asking a server, for each app Homebrew installed or answers for in place
-    /// of its own source. Reading Homebrew costs no network request, so this doesn't wait for the update schedule, and
-    /// Applications agrees with the Homebrew page.
+    /// Shows what a check would answer without asking a server, for each app Homebrew installed or lists in its
+    /// catalog, or answers for in place of its own source. Reading Homebrew costs no network request, so this doesn't
+    /// wait for the update schedule, and Applications agrees with the Homebrew page.
     private func applyHomebrewStatuses() {
         let preference = updateSource
         for app in apps where isAskedAboutUpdates(app) {
             let saved = remembered(app)
-            guard homebrewApps[app.id] != nil || saved?.standsInFor != nil else { continue }
+            guard homebrewApps[app.id] != nil || appsInTheCatalog.contains(app.id) || saved?.standsInFor != nil
+            else { continue }
             let decided = updateChecker.statusWithoutAsking(
                 for: app, preference: preference, casks: casks, known: saved.map { $0.standsInFor ?? $0.status }
             )
@@ -1026,6 +1031,9 @@ final class AppLibrary {
         homebrewApps = Dictionary(uniqueKeysWithValues: apps.compactMap { app in
             CaskEvidence.installedCask(for: app, in: casks).map { (app.id, $0) }
         })
+        appsInTheCatalog = Set(apps.filter { app in
+            homebrewApps[app.id] == nil && UpdateChecker.catalogCask(for: app, in: casks) != nil
+        }.map(\.id))
         groupHomebrewApps()
     }
 

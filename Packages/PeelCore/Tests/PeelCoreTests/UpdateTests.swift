@@ -840,6 +840,81 @@ struct UpdateSourceTests {
         #expect(status(behind, checked) == update)
     }
 
+    @Test func comparesACopyHomebrewDidNotInstallWithTheVersionItsCatalogLists() {
+        let checked = Date(timeIntervalSince1970: 1_792_315_250)
+        let day = Homebrew.autoUpdateInterval
+        let page = URL(string: "https://example.com")
+        let status = { (listed: String, version: String, now: Date) in
+            UpdateChecker(clock: { now }).homebrewStatus(
+                for: InstalledApp(
+                    url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app",
+                    name: "Example", version: version
+                ),
+                casks: [
+                    HomebrewPackage(
+                        name: "example", kind: .cask, homepage: page, latestVersion: listed, appNames: ["Example.app"]
+                    ).noting(lastUpdateCheck: checked),
+                ]
+            )
+        }
+        let update = { (version: String) in
+            UpdateStatus.updateAvailable(version: version, source: .homebrew, releaseNotes: page)
+        }
+
+        #expect(status("2.0", "1.0", checked + 4 * day) == update("2.0"), "a catalog never lists an older version")
+        #expect(status("1.0", "1.0", checked + 60) == .upToDate)
+        #expect(status("1.0", "1.1", checked + 60) == .upToDate)
+        #expect(status("1.0", "1.0", checked + day) == nil)
+        #expect(status("27.1.0-58756", "26.3.2", checked) == update("27.1.0-58756"))
+        #expect(status("27.1.0-58756", "27.1.0", checked) == .upToDate)
+        #expect(status("2.1.0", "2.0.5", checked) == update("2.1.0"))
+        #expect(status("1.2.3,456", "1.2.3", checked) == .upToDate)
+        #expect(status("1.0b3", "1.0", checked) == .upToDate)
+        #expect(status("17.0,2026-09", "17.0.24", checked) == nil)
+        #expect(status("5", "5.0.1", checked) == nil)
+        #expect(status("10.3.1", "10.3", checked) == nil, "versions written with another number of parts")
+        #expect(status("26.10.2.103-stable", "26.10.2", checked) == nil, "a build added as a fourth number")
+        #expect(status("2026-07-23", "2.5", checked) == nil)
+        #expect(status("3.2.1", "3.2.1-1234", checked) == nil, "what follows the numbers is no newer version")
+        #expect(status("latest", "1.0", checked) == nil)
+        #expect(status("2.0", "Release 7", checked) == nil)
+    }
+
+    @Test func asksTheCatalogOnlyAboutACopyNothingElseKeepsCurrent() {
+        let checked = Date(timeIntervalSince1970: 1_792_315_250)
+        let checker = UpdateChecker(clock: { checked + 60 })
+        let copy = { (path: String, fromTheAppStore: Bool, ofMacOS: Bool) in
+            InstalledApp(
+                url: URL(filePath: path), bundleIdentifier: "com.example.app", name: "Example", version: "1.0",
+                isFromAppStore: fromTheAppStore, isSystemProtected: ofMacOS
+            )
+        }
+        let listed = HomebrewPackage(name: "example", kind: .cask, latestVersion: "2.0", appNames: ["Example.app"])
+        let installed = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "2.0", latestVersion: "2.0", appNames: ["Example.app"],
+            appTargets: ["/Applications/Example.app"]
+        ).noting(lastUpdateCheck: checked)
+        let disabled = HomebrewPackage(
+            name: "example", kind: .cask, latestVersion: "2.0", appNames: ["Example.app"],
+            retirement: HomebrewRetirement(stage: .disabled, reason: nil, disableDate: nil, replacement: nil)
+        )
+        let update = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew, releaseNotes: nil)
+
+        #expect(checker.homebrewStatus(for: copy("/Applications/Example.app", false, false), casks: [listed]) == update)
+        #expect(checker.homebrewStatus(for: copy("/Applications/Example.app", true, false), casks: [listed]) == nil)
+        let setapp = copy("/Applications/Setapp/Example.app", false, false)
+        #expect(checker.homebrewStatus(for: setapp, casks: [listed]) == nil)
+        #expect(checker.homebrewStatus(for: copy("/Applications/Example.app", false, true), casks: [listed]) == nil)
+        #expect(checker.homebrewStatus(for: copy("/Applications/Example.app", false, false), casks: [disabled]) == nil)
+        #expect(
+            checker.homebrewStatus(for: copy("/Users/me/Applications/Example.app", false, false), casks: [installed])
+                == update,
+            "a copy Homebrew didn't put there"
+        )
+        #expect(UpdateChecker.catalogCask(for: copy("/Applications/Example.app", false, false), in: [installed]) == nil)
+        #expect(UpdateChecker.catalogCask(for: copy("/Applications/Example.app", false, false), in: [listed]) == listed)
+    }
+
     @Test func anUpdateHomebrewReportedHoldsOnlyWhileHomebrewReportsOne() {
         let homebrew = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew)
         #expect(homebrew.holds(whileHomebrewSays: homebrew))

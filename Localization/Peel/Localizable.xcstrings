@@ -23271,108 +23271,108 @@
         }
       }
     },
-    "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed." : {
+    "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed. Homebrew’s catalog answers last, for an app Homebrew didn’t install." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Volba Automaticky se u aplikace nainstalované přes Homebrew ptá nejprve Homebrew, potom vlastního kanálu aplikace nebo App Storu. Jakákoli jiná volba řadí na první místo zdroj, kterému dáváte přednost, potom vlastní kanál aplikace a nakonec Homebrew u aplikace, kterou nainstaloval."
+            "value" : "Volba Automaticky se u aplikace nainstalované přes Homebrew ptá nejprve Homebrew, potom vlastního kanálu aplikace nebo App Storu. Jakákoli jiná volba řadí na první místo zdroj, kterému dáváte přednost, potom vlastní kanál aplikace a nakonec Homebrew u aplikace, kterou nainstaloval. U aplikace, kterou Homebrew nenainstaloval, odpovídá jako poslední katalog Homebrew."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„Automatisch“ fragt bei einer von Homebrew installierten App zuerst Homebrew, dann den eigenen Feed der App oder den App Store. Bei jeder anderen Option kommt zuerst die bevorzugte Quelle, dann der eigene Feed der App und bei einer von Homebrew installierten App zuletzt Homebrew."
+            "value" : "„Automatisch“ fragt bei einer von Homebrew installierten App zuerst Homebrew, dann den eigenen Feed der App oder den App Store. Bei jeder anderen Option kommt zuerst die bevorzugte Quelle, dann der eigene Feed der App und danach, bei einer von Homebrew installierten App, Homebrew. Bei einer App, die Homebrew nicht installiert hat, antwortet zuletzt der Katalog von Homebrew."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La opción Automático pregunta primero a Homebrew por una app instalada con Homebrew, y después al canal de la propia app o a App Store. Cualquier otra opción pone primero el origen que prefieres, después el canal de la propia app y luego Homebrew en el caso de una app instalada con él."
+            "value" : "La opción Automático pregunta primero a Homebrew por una app instalada con Homebrew, y después al canal de la propia app o a App Store. Cualquier otra opción pone primero el origen que prefieres, después el canal de la propia app y luego Homebrew en el caso de una app instalada con él. El catálogo de Homebrew responde en último lugar, en el caso de una app que no se instaló con Homebrew."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "« Automatique » interroge d’abord Homebrew pour une app installée par Homebrew, puis le flux propre à l’app ou l’App Store. Tout autre choix place en premier la source que vous préférez, puis le flux propre à l’app, puis Homebrew pour une app qu’il a installée."
+            "value" : "« Automatique » interroge d’abord Homebrew pour une app installée par Homebrew, puis le flux propre à l’app ou l’App Store. Tout autre choix place en premier la source que vous préférez, puis le flux propre à l’app, puis Homebrew pour une app qu’il a installée. Le catalogue de Homebrew répond en dernier, pour une app que Homebrew n’a pas installée."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Automatico” chiede prima a Homebrew di un’app installata da Homebrew, poi al feed dell’app o ad App Store. Qualsiasi altra scelta mette al primo posto la fonte che preferisci, poi il feed dell’app, poi Homebrew per un’app installata da Homebrew."
+            "value" : "“Automatico” chiede prima a Homebrew di un’app installata da Homebrew, poi al feed dell’app o ad App Store. Qualsiasi altra scelta mette al primo posto la fonte che preferisci, poi il feed dell’app, poi Homebrew per un’app installata da Homebrew. Il catalogo di Homebrew risponde per ultimo, per un’app non installata da Homebrew."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“自動”では、Homebrewでインストールしたアプリについては最初にHomebrewに問い合わせ、次にアプリ独自のフィードまたはApp Storeに問い合わせます。それ以外の選択肢では、優先するアップデート元、アプリ独自のフィードの順に問い合わせ、Homebrewでインストールしたアプリについては最後にHomebrewに問い合わせます。"
+            "value" : "“自動”では、Homebrewでインストールしたアプリについては最初にHomebrewに問い合わせ、次にアプリ独自のフィードまたはApp Storeに問い合わせます。それ以外の選択肢では、優先するアップデート元、アプリ独自のフィードの順に問い合わせ、Homebrewでインストールしたアプリについては最後にHomebrewに問い合わせます。Homebrewでインストールしていないアプリについては、最後にHomebrewのカタログを確認します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘자동’은 Homebrew가 설치한 앱에 대해 먼저 Homebrew에 묻고, 그다음 앱 자체 피드나 App Store에 묻습니다. 다른 항목을 선택하면 선호하는 출처에 먼저 묻고, 그다음 앱 자체 피드에, 그다음 Homebrew가 설치한 앱에 대해서는 Homebrew에 묻습니다."
+            "value" : "‘자동’은 Homebrew가 설치한 앱에 대해 먼저 Homebrew에 묻고, 그다음 앱 자체 피드나 App Store에 묻습니다. 다른 항목을 선택하면 선호하는 출처에 먼저 묻고, 그다음 앱 자체 피드에, 그다음 Homebrew가 설치한 앱에 대해서는 Homebrew에 묻습니다. Homebrew가 설치하지 않은 앱에 대해서는 Homebrew 카탈로그가 마지막으로 응답합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "'Automatisch' vraagt bij een app die Homebrew heeft geïnstalleerd eerst Homebrew, en daarna de eigen feed van de app of de App Store. Bij elke andere keuze komt eerst de bron van je voorkeur, daarna de eigen feed van de app en dan Homebrew bij een app die ermee is geïnstalleerd."
+            "value" : "'Automatisch' vraagt bij een app die Homebrew heeft geïnstalleerd eerst Homebrew, en daarna de eigen feed van de app of de App Store. Bij elke andere keuze komt eerst de bron van je voorkeur, daarna de eigen feed van de app en dan Homebrew bij een app die ermee is geïnstalleerd. De catalogus van Homebrew komt als laatste aan bod, bij een app die Homebrew niet heeft geïnstalleerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opcja Automatycznie najpierw pyta Homebrew o aplikację zainstalowaną przez Homebrew, a potem kanał aplikacji lub App Store. Każda inna opcja stawia na pierwszym miejscu preferowane źródło, potem kanał aplikacji, a potem Homebrew w przypadku aplikacji, którą zainstalował."
+            "value" : "Opcja Automatycznie najpierw pyta Homebrew o aplikację zainstalowaną przez Homebrew, a potem kanał aplikacji lub App Store. Każda inna opcja stawia na pierwszym miejscu preferowane źródło, potem kanał aplikacji, a potem Homebrew w przypadku aplikacji, którą zainstalował. W przypadku aplikacji, której Homebrew nie zainstalował, na końcu odpowiada katalog Homebrew."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A opção Automático pergunta primeiro ao Homebrew sobre um app que o Homebrew instalou, depois ao feed do próprio app ou à App Store. Qualquer outra opção coloca primeiro a fonte que você prefere, depois o feed do próprio app e depois o Homebrew no caso de um app que ele instalou."
+            "value" : "A opção Automático pergunta primeiro ao Homebrew sobre um app que o Homebrew instalou, depois ao feed do próprio app ou à App Store. Qualquer outra opção coloca primeiro a fonte que você prefere, depois o feed do próprio app e depois o Homebrew no caso de um app que ele instalou. O catálogo do Homebrew responde por último, no caso de um app que o Homebrew não instalou."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opțiunea „Automat” întreabă mai întâi Homebrew despre o aplicație instalată de Homebrew, apoi fluxul propriu al aplicației sau App Store. Orice altă opțiune pune sursa preferată pe primul loc, apoi fluxul propriu al aplicației, apoi Homebrew pentru o aplicație instalată de acesta."
+            "value" : "Opțiunea „Automat” întreabă mai întâi Homebrew despre o aplicație instalată de Homebrew, apoi fluxul propriu al aplicației sau App Store. Orice altă opțiune pune sursa preferată pe primul loc, apoi fluxul propriu al aplicației, apoi Homebrew pentru o aplicație instalată de acesta. Catalogul Homebrew răspunde ultimul, pentru o aplicație pe care Homebrew nu a instalat‑o."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В режиме «Автоматически» Peel сначала спрашивает Homebrew о приложениях, установленных через Homebrew, а затем ленту самого приложения или App Store. При выборе любого другого варианта Peel сначала спрашивает предпочитаемый источник, затем ленту самого приложения, а затем Homebrew о приложениях, установленных через него."
+            "value" : "В режиме «Автоматически» Peel сначала спрашивает Homebrew о приложениях, установленных через Homebrew, а затем ленту самого приложения или App Store. При выборе любого другого варианта Peel сначала спрашивает предпочитаемый источник, затем ленту самого приложения, а затем Homebrew о приложениях, установленных через него. В последнюю очередь Peel спрашивает каталог Homebrew о приложениях, которые установил не Homebrew."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Med Automatiskt tillfrågas först Homebrew om en app som Homebrew har installerat, och därefter appens eget flöde eller App Store. Med alla andra val kommer källan du föredrar först, därefter appens eget flöde och sist Homebrew för en app som Homebrew har installerat."
+            "value" : "Med Automatiskt tillfrågas först Homebrew om en app som Homebrew har installerat, och därefter appens eget flöde eller App Store. Med alla andra val kommer källan du föredrar först, därefter appens eget flöde och sedan Homebrew för en app som Homebrew har installerat. Homebrews katalog svarar sist, för en app som Homebrew inte har installerat."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otomatik, Homebrew’un yüklediği bir uygulama için önce Homebrew’a, sonra uygulamanın kendi akışına veya App Store’a sorar. Diğer seçenekler ise tercih ettiğiniz kaynağı ilk sıraya koyar; ardından uygulamanın kendi akışı, sonra da Homebrew’un yüklediği bir uygulama için Homebrew gelir."
+            "value" : "Otomatik, Homebrew’un yüklediği bir uygulama için önce Homebrew’a, sonra uygulamanın kendi akışına veya App Store’a sorar. Diğer seçenekler ise tercih ettiğiniz kaynağı ilk sıraya koyar; ardından uygulamanın kendi akışı, sonra da Homebrew’un yüklediği bir uygulama için Homebrew gelir. Homebrew’un yüklemediği bir uygulama için en son Homebrew’un kataloğu yanıt verir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "«Автоматично» спершу запитує Homebrew про програму, яку інсталював Homebrew, а потім власну стрічку програми або App Store. Будь-який інший варіант ставить на перше місце вибране вами джерело, потім власну стрічку програми, а потім Homebrew для програми, яку він інсталював."
+            "value" : "«Автоматично» спершу запитує Homebrew про програму, яку інсталював Homebrew, а потім власну стрічку програми або App Store. Будь-який інший варіант ставить на перше місце вибране вами джерело, потім власну стрічку програми, а потім Homebrew для програми, яку він інсталював. Для програми, яку Homebrew не інсталював, останнім відповідає каталог Homebrew."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择“自动”时，对于由Homebrew安装的App，会先询问Homebrew，然后询问App自己的更新源或App Store。选择其他选项时，会先询问你首选的来源，然后询问App自己的更新源，对于由Homebrew安装的App，最后询问Homebrew。"
+            "value" : "选择“自动”时，对于由Homebrew安装的App，会先询问Homebrew，然后询问App自己的更新源或App Store。选择其他选项时，会先询问你首选的来源，然后询问App自己的更新源，对于由Homebrew安装的App，最后询问Homebrew。对于并非由Homebrew安装的App，最后询问的是Homebrew的软件目录。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「自動」會先向Homebrew查詢由Homebrew安裝的App，再查詢App自己的Feed或App Store。其他選項則會先查詢你偏好的來源，再查詢App自己的Feed，最後才向Homebrew查詢由它安裝的App。"
+            "value" : "「自動」會先向Homebrew查詢由Homebrew安裝的App，再查詢App自己的Feed或App Store。其他選項則會先查詢你偏好的來源，再查詢App自己的Feed，然後向Homebrew查詢由它安裝的App。至於並非由Homebrew安裝的App，最後才會查詢Homebrew的目錄。"
           }
         }
       }
@@ -66207,6 +66207,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew的`brew`位於%@，Peel不會執行它。"
+          }
+        }
+      }
+    },
+    "Homebrew’s catalog has it, but Homebrew didn’t install this copy. Update from inside the app or from its homepage." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualizaci nabízí katalog Homebrew, ale tuto kopii Homebrew nenainstaloval. Aktualizujte přímo v aplikaci nebo z její domovské stránky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Update steht im Katalog von Homebrew, aber Homebrew hat diese Kopie nicht installiert. Aktualisiere direkt in der App oder über ihre Homepage."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El catálogo de Homebrew incluye esta versión, pero esta copia no se instaló con Homebrew. Actualízala desde la propia app o desde su página web."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le catalogue de Homebrew la propose, mais Homebrew n’a pas installé cette copie. Mettez à jour depuis l’app elle-même ou depuis sa page d’accueil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’aggiornamento è disponibile nel catalogo di Homebrew, ma Homebrew non ha installato questa copia. Aggiorna dall’interno dell’app o dal suo sito web."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートはHomebrewのカタログにありますが、このコピーはHomebrewでインストールされたものではありません。アプリ内から、またはアプリのホームページからアップデートしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew 카탈로그에 업데이트가 있지만, 이 복사본은 Homebrew가 설치하지 않았습니다. 앱 안에서 또는 앱의 홈페이지에서 업데이트하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze update staat in de catalogus van Homebrew, maar Homebrew heeft deze kopie niet geïnstalleerd. Werk bij vanuit de app zelf of via de homepage ervan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uaktualnienie jest dostępne w katalogu Homebrew, ale Homebrew nie zainstalował tej kopii. Uaktualnij aplikację z jej poziomu lub z jej strony domowej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O catálogo do Homebrew tem a atualização, mas não foi o Homebrew que instalou esta cópia. Atualize pelo próprio app ou pelo site dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catalogul Homebrew o oferă, dar Homebrew nu a instalat această copie. Actualizați chiar din aplicație sau de pe site‑ul ei web."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновление есть в каталоге Homebrew, но эту копию установил не Homebrew. Установите его из самого приложения или с домашней страницы приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrews katalog har den, men Homebrew har inte installerat den här kopian. Uppdatera inifrån appen eller från dess hemsida."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un kataloğunda bu sürüm var, ancak bu kopyayı Homebrew yüklemedi. Uygulamanın içinden veya web sitesinden güncelleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлення є в каталозі Homebrew, але цю копію Homebrew не інсталював. Оновіть програму засобами самої програми або з її домашньої сторінки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的软件目录中有此更新，但此副本并非由Homebrew安装。请在App内或通过其主页更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的目錄中有此更新，但這份副本並非由Homebrew安裝。請從App內或從其首頁更新。"
           }
         }
       }

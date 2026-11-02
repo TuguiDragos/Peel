@@ -79,20 +79,24 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
   them once it's gone. Peel never changes that itself.
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names, the App
-  Store for apps bought there, iPhone and iPad apps on the Mac included, or Homebrew for apps it installed, in the order
-  Prefer updates from in Settings > General sets, and shows what is new in the version that waits, as the app's own
-  notes say it, even with no connection. Apps that came with macOS are left to Software Update, and apps from Setapp to
-  Setapp, which keep them current. What Homebrew says counts for a day after it last checked for new versions, the time
-  Homebrew itself waits before it checks again. Past that, an app only Homebrew can answer for reads Can't check for
-  updates until Homebrew checks again, with Update Homebrew on the Homebrew page or `brew update` in Terminal, and Peel
-  reads Homebrew again once it has. Homebrew can't say at all for a cask that installs whatever is newest each time,
-  nor, when its settings leave apps that update themselves to their own updates, for such an app, so those read Can't
-  check for updates too, unless the app names a feed. Peel asks about each app again on a schedule of its own, less
-  often while nothing changes, and when it opens, about every app it last asked a day ago or more. Rescan in
-  Applications asks about every app again at once. Skip This Version and Never Check This App keep it quiet about the
-  ones you want left alone, and Settings > General lists them under Muted Updates, where Check Again brings their
-  updates back. Turning off Check for app updates there stops the checks, and after a week an app's Up to date, which
-  Peel then no longer renews, says the day it was found.
+  Store for apps bought there, iPhone and iPad apps on the Mac included, or Homebrew, for apps it installed and, through
+  the catalog of casks it keeps on this Mac, for apps whose bundle a cask names, in the order Prefer updates from in
+  Settings > General sets, and shows what is new in the version that waits, as the app's own notes say it, even with no
+  connection. Apps that came with macOS are left to Software Update, and apps from Setapp to Setapp, which keep them
+  current. For an app Homebrew didn't install, never one from the App Store, its catalog answers last, after the app's
+  own feed, and counts an update only when its version is written with as many numbers as the app's and they are higher,
+  and since Homebrew can't upgrade that copy, the app's page says to update it from inside the app or from its homepage.
+  What Homebrew says counts for a day after it last checked for new versions, the time Homebrew itself waits before it
+  checks again. Past that, an app only Homebrew can answer for reads Can't check for updates until Homebrew checks
+  again, with Update Homebrew on the Homebrew page or `brew update` in Terminal, and Peel reads Homebrew again once it
+  has. Homebrew can't say at all for a cask that installs whatever is newest each time, nor, when its settings leave
+  apps that update themselves to their own updates, for such an app it installed, so those read Can't check for updates
+  too, unless the app names a feed. Peel asks about each app again on a schedule of its own, less often while nothing
+  changes, and when it opens, about every app it last asked a day ago or more. Rescan in Applications asks about every
+  app again at once. Skip This Version and Never Check This App keep it quiet about the ones you want left alone, and
+  Settings > General lists them under Muted Updates, where Check Again brings their updates back. Turning off Check for
+  app updates there stops the checks, and after a week an app's Up to date, which Peel then no longer renews, says the
+  day it was found.
 
 ## Free up disk space
 

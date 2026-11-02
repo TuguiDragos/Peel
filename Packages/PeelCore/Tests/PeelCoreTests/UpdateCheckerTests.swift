@@ -471,6 +471,55 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         #expect(recent.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: [compared]) == nil)
     }
 
+    @Test func answersFromTheCatalogAboutACopyHomebrewDidNotInstall() async {
+        let recent = checking(at: homebrewChecked + 60 * 60)
+        let later = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
+        let checked = homebrewChecked
+        func listed(_ latest: String, _ settings: Homebrew.Overrides = []) -> [HomebrewPackage] {
+            [
+                HomebrewPackage(
+                    name: "example", kind: .cask, latestVersion: latest, appNames: ["Example.app"],
+                    appUpdatesItself: true
+                ).noting(lastUpdateCheck: checked).noting(settings),
+            ]
+        }
+        let update = UpdateStatus.updateAvailable(version: "2.0", source: .homebrew, releaseNotes: nil)
+        reply("nowhere.example.com", "")
+
+        #expect(recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: listed("2.0")) == update)
+        #expect(recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: listed("1.0")) == .upToDate)
+        #expect(later.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: listed("1.0")) == .unsupported)
+        #expect(await recent.status(for: feedlessApp, preference: .homebrew, casks: listed("1.0")) == .upToDate)
+        let leftToTheApp = listed("1.0", [.leavesAppsThatUpdateThemselves])
+        #expect(
+            recent.statusWithoutAsking(for: feedlessApp, preference: .automatic, casks: leftToTheApp) == .upToDate,
+            "Homebrew's settings decide only what it upgrades"
+        )
+        for preference in UpdateSource.allCases {
+            let decided = { (known: UpdateStatus?) in
+                recent.statusWithoutAsking(for: fedApp, preference: preference, casks: listed("2.0"), known: known)
+            }
+            #expect(decided(nil) == nil)
+            #expect(decided(.failed) == update)
+        }
+        #expect(CannedProtocol.asked.withLock { $0 }.isEmpty)
+
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"100\" sparkle:shortVersionString=\"1.0\" /></item>"))
+        #expect(await recent.status(for: fedApp, preference: .automatic, casks: listed("2.0")) == .upToDate, "its feed")
+        reply("feed.example.com", status: 500, "")
+        let answer = await recent.answer(for: fedApp, preference: .automatic, casks: listed("2.0"))
+        #expect(answer.status == update)
+        #expect(answer.standsInFor == .failed)
+
+        let cannotTell = { (checker: UpdateChecker, casks: [HomebrewPackage]) in
+            checker.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: casks)?.reason
+        }
+        #expect(cannotTell(later, listed("1.0")) == .notCheckedRecently)
+        #expect(cannotTell(recent, listed("latest")) == .installsTheNewest)
+        #expect(cannotTell(later, listed("1")) == nil, "a version written otherwise, which no check decides")
+        #expect(cannotTell(recent, listed("1.0")) == nil)
+    }
+
     private var soldApp: InstalledApp {
         InstalledApp(
             url: feedlessApp.url, bundleIdentifier: feedlessApp.bundleIdentifier, name: feedlessApp.name,

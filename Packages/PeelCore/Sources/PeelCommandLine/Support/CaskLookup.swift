@@ -18,15 +18,15 @@ enum CaskLookup {
         }
     }
 
-    /// Returns the casks and installer receipts that are evidence for `app`. Homebrew is asked about casks only
-    /// when it has a local copy of its definitions: otherwise it would download them, and looking up an app's
-    /// leftovers is no reason to go online.
-    static func evidence(for app: InstalledApp) async -> Answer {
+    /// Returns the casks and installer receipts that are evidence for `apps`: the casks Homebrew installed, and those
+    /// its catalog lists for the rest. Homebrew is asked about casks only when it has a local copy of its definitions:
+    /// otherwise it would download them, and looking up an app's leftovers or updates is no reason to go online.
+    static func evidence(for apps: [InstalledApp]) async -> Answer {
         let receipts = await PackageReceipts.identifiers()
         // Receipts are evidence on their own, so they are returned even when Homebrew isn't asked.
         guard await Homebrew.hasLocalDefinitions() else { return Answer(receipts: receipts) }
         async let installed = Homebrew.installedPackages()
-        let known = await CaskEvidence.knownCasks(for: [app], receipts: receipts)
+        let known = await CaskEvidence.knownCasks(for: apps, receipts: receipts)
         do {
             return Answer(
                 casks: CaskEvidence.combined(installed: try await installed, known: known),
@@ -38,17 +38,6 @@ enum CaskLookup {
                 receipts: receipts,
                 failure: why(error)
             )
-        }
-    }
-
-    /// Returns the casks Homebrew installed, for the update check. A cask Homebrew only has a definition for says
-    /// nothing about which version is installed.
-    static func installed() async -> Answer {
-        guard await Homebrew.hasLocalDefinitions() else { return Answer() }
-        do {
-            return Answer(casks: try await Homebrew.installedPackages())
-        } catch {
-            return Answer(failure: why(error))
         }
     }
 
