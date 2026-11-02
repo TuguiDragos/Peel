@@ -5,8 +5,8 @@ import SwiftUI
 
 /// The alert every tool shows when a removal fails for some items: which ones, and why, with a button that
 /// fixes the cause when there is one. It also reports the privacy resets worth telling about, the audio drivers that
-/// wait for a restart, what stays for an administrator, and on macOS 27 the background items macOS still starts from
-/// the Trash, since two alerts cannot be up at once.
+/// wait for a restart, what stays for an administrator, and the background items macOS still starts from the Trash,
+/// since two alerts cannot be up at once.
 struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
     static let mostListed = 4
@@ -65,7 +65,7 @@ struct RemovalFailureAlert: ViewModifier {
             if Self.needsHelper(outcome) {
                 Button("Open Peel Settings") { SettingsPane.helper.open(with: openSettings) }
             }
-            if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty {
+            if !outcome.appsStartingFromTheTrash.isEmpty {
                 Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
             }
             if outcome.leftForAnAdministrator > 0 {
@@ -100,8 +100,8 @@ struct RemovalFailureAlert: ViewModifier {
         if !outcome.putBackFailures.isEmpty, outcome.failures.isEmpty {
             return Text(verbatim: RestoreFailure.title(stayed: outcome.putBackFailures.count, of: outcome.putBackAsked))
         }
-        if #available(macOS 27, *), !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty,
-           outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
+        if !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty, outcome.appsToQuit.isEmpty,
+           outcome.privacy.isEmpty {
             return outcome.driversAwaitingARestart.isEmpty
                 ? Text("Empty the Trash to finish.")
                 : Text("Restart your Mac and empty the Trash to finish.")
@@ -132,9 +132,7 @@ struct RemovalFailureAlert: ViewModifier {
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
             + appManagementLines(outcome) + shortened(privacyLines(outcome))
-        if #available(macOS 27, *) {
-            lines += trashLines(outcome, naming: Self.listed)
-        }
+        lines += trashLines(outcome, naming: Self.listed)
         return lines.joined(separator: "\n\n")
     }
 
@@ -207,9 +205,7 @@ struct RemovalFailureAlert: ViewModifier {
             + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
             + privacyLines(outcome)
-        if #available(macOS 27, *) {
-            lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
-        }
+        lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
         return lines.joined(separator: "\n\n")
     }
 

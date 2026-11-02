@@ -78,6 +78,17 @@ struct RemovalFailureAlertTests {
         #expect(RemovalFailureAlert.details(for: outcome).components(separatedBy: "\n\n").contains(line ?? ""))
     }
 
+    @Test func saysThatMacOSStartsAMovedAppsItemsFromTheTrashOnEveryMacOS() {
+        let outcome = RemovalOutcome()
+        outcome.report(TrashResult(), startingFromTheTrash: ["Example"])
+        let line = String(
+            localized: "macOS still starts the background items of \("Example") from the Trash each time you log in, until you empty the Trash."
+        )
+
+        #expect(RemovalFailureAlert.message(for: outcome).contains(line))
+        #expect(RemovalFailureAlert.details(for: outcome).contains(line))
+    }
+
     @Test func offersTheDetailsWhereTheAlertNamesOnlyTheFirstApps() {
         let apps = (1...6).map { index in
             InstalledApp(

@@ -325,11 +325,7 @@ public struct TrashService: Sendable {
             runningInside: { await LaunchdCleanup.running(inside: $0, environment: environment) },
             stopRunning: { await LaunchdCleanup.stop($0, canUseHelper: $1) },
             runningJobs: { await Launchctl.runningJobs() },
-            // Seen on macOS 27, which is where the note that reads it is shown.
-            registrationAtLogin: { app in
-                guard #available(macOS 27, *) else { return nil }
-                return await StartsAtLogin.registration(of: app)
-            },
+            registrationAtLogin: { await StartsAtLogin.registration(of: $0) },
             registerApp: { app in _ = LSRegisterURL(app as CFURL, true) },
             moveToTrash: { try Self.moveToSystemTrash($0, refusal: removalGuard.refusal(of:)) },
             ownMoves: .shared,
