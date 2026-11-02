@@ -210,6 +210,37 @@ struct UninstallationTests {
         #expect(!plan.selectable(canUseHelper: true).contains(leftover.url))
     }
 
+    @Test func listsAFolderOfMachinesByItsItemsSoOnlyItsMachinesStayUnselected() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Tidewater.app"), bundleIdentifier: "org.example.tidewater",
+            name: "Tidewater"
+        )
+        try directory.file("home/Library/Application Support/Tidewater/Sonoma.vbvm/Disk.img", bytes: 64)
+        try directory.file("home/Library/Application Support/Tidewater/_Downloads/UniversalMac_Restore.ipsw", bytes: 64)
+        try directory.file("home/Library/Application Support/Tidewater/_GuestImage/guest.dmg", bytes: 64)
+        try directory.file("home/Library/Application Support/org.example.tidewater/Ventura.vbvm/Disk.img", bytes: 64)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let rows = Dictionary(uniqueKeysWithValues: plan.scan.leftovers.map {
+            (PathPattern.comparablePath(of: $0.url), $0.match)
+        })
+        let support = PathPattern.comparablePath(
+            of: environment.homeDirectory.appending(path: "Library/Application Support")
+        )
+        #expect(rows["\(support)/Tidewater"] == nil)
+        #expect(rows["\(support)/Tidewater/Sonoma.vbvm"]?.heldBack == .holdsVirtualMachines)
+        #expect(rows["\(support)/Tidewater/_Downloads"]?.isRecommended == true)
+        #expect(rows["\(support)/Tidewater/_GuestImage"]?.isRecommended == true)
+        #expect(rows["\(support)/org.example.tidewater"]?.heldBack == .holdsVirtualMachines)
+        #expect(rows["\(support)/org.example.tidewater/Ventura.vbvm"] == nil)
+    }
+
     @Test func holdsBackAnAudioPlugInOtherAppsLoad() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

@@ -440,6 +440,48 @@ public struct LeftoverScan: Sendable {
         )
     }
 
+    /// The same scan, each folder the walk saw virtual machines in listed by its own items when one of them isn't a
+    /// machine, so the machines stay unselected and the rest, such as the system images they were installed from, is
+    /// chosen like anything else. A machine's own package, a container, and a place a maker names stay one row.
+    func splittingFoldersOfMachines(
+        home: String,
+        root: String,
+        exclusions: Exclusions,
+        refuses: @escaping LeftoverScanner.Refuses = { ProtectedData.refuses($0, home: $1) },
+        measure: @escaping LeftoverScanner.Measure = LeftoverScanner.walk
+    ) async -> LeftoverScan {
+        var split: [Leftover] = []
+        for leftover in leftovers {
+            let path = leftover.url.path(percentEncoded: false)
+            guard leftover.match.heldBack == .holdsVirtualMachines, leftover.kind != .containers,
+                  !KeptOnlyHere.namesAVirtualMachine(leftover.url.lastPathComponent),
+                  KeptOnlyHere.reason(for: path, home: home, root: root) == nil, leftover.url.isRealFolder,
+                  let names = try? FileManager.default.contentsOfDirectory(atPath: path) else {
+                split.append(leftover)
+                continue
+            }
+            var match = leftover.match
+            match.heldBack = nil
+            let children = names.sorted().map { leftover.url.appending(path: $0) }.filter {
+                !refuses($0.path(percentEncoded: false), home) && !exclusions.excludes($0)
+                    && !FileAccess.cannotBeRemoved($0)
+            }
+            let items = await children.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { [match] child in
+                await LeftoverScanner.leftover(
+                    at: child, kind: leftover.kind, match: match, parent: ParentAccess(leftover.url), home: home,
+                    root: root, measure: measure
+                )
+            }
+            split += items.contains { $0.match.heldBack != .holdsVirtualMachines } ? items : [leftover]
+        }
+        return LeftoverScan(
+            leftovers: split.sorted(by: Leftover.comesBefore),
+            unreadableLocations: unreadableLocations,
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
+        )
+    }
+
     /// Adds findings the scanner didn't see, keeping what it already knows about a path.
     public func adding(_ extra: [Leftover]) -> LeftoverScan {
         // By what each item is on the disk, not by its spelling: a cask can write a folder in another case, or with

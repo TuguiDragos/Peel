@@ -82,6 +82,11 @@ public struct Uninstallation: Sendable {
                 environment: environment
             )
         )
+        scan = await scan.splittingFoldersOfMachines(
+            home: environment.homeDirectory.path(percentEncoded: false),
+            root: environment.rootDirectory.path(percentEncoded: false),
+            exclusions: exclusions
+        )
         scan = scan.holdingBack(placesOthersKeep: matcher.placesOthersKeep(home: environment.homeDirectory))
         let uninstallsItself = UninstallsItself.of(app, environment: environment)
         if let uninstallsItself {
