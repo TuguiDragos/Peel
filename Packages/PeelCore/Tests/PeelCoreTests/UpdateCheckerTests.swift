@@ -256,6 +256,12 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
 
         reply("feed.example.com", "<html>Sign in to continue</html")
         #expect(await checker.status(for: sparkleApp()) == .failed)
+
+        reply("feed.example.com", "<html><body><p>Sign in to continue</p></body></html>")
+        #expect(await checker.status(for: sparkleApp()) == .failed)
+
+        reply("feed.example.com", "<plist version=\"1.0\"><dict><key>SUFeedEntries</key><array><dict><key>SUFeedEntryShortVersionString</key><string>16.0.3</string></dict></array></dict></plist>")
+        #expect(await checker.status(for: sparkleApp()) == .failed)
     }
 
     /// A working feed whose every release needs a newer macOS is not a feed that is down. Counted as a failure,

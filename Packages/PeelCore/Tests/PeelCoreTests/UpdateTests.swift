@@ -110,6 +110,17 @@ struct AppcastTests {
         #expect(Appcast.read(Data("<rss><channel>".utf8), systemVersion: "26.7.0", isAppleSilicon: true) == .unreadable)
     }
 
+    @Test func readsOnlyTheItemsSparkleReads() throws {
+        let feed = """
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
+        <item><sparkle:version>300</sparkle:version></item>
+        <extra><item><sparkle:version>900</sparkle:version></item></extra>
+        </channel><item><sparkle:version>800</sparkle:version></item></rss>
+        """
+        #expect(try #require(latestItem(in: feed)).version == "300")
+        #expect(Appcast.read(Data("<plist><array/></plist>".utf8), systemVersion: "26.7.0", isAppleSilicon: true) == .unreadable)
+    }
+
     /// Sparkle reads the version from the enclosure's attribute first, and from the element only when there is
     /// none. An item's `<link>` is usually the product page, not the release notes.
     @Test func followsSparklesOrderForVersionsAndNotes() throws {

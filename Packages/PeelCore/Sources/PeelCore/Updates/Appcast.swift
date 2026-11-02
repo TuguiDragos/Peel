@@ -51,12 +51,13 @@ enum Appcast {
         return releases.max(by: isOlder).map(Reading.latest) ?? .nothingForThisMac
     }
 
-    /// Every release in the feed that runs on `systemVersion`, in feed order. Nil for a feed that cannot be read.
+    /// Every release in the feed that runs on `systemVersion`, in feed order. Nil for a feed that cannot be read or
+    /// is no appcast: like Sparkle, only the items of `/rss/channel` count.
     static func releases(in data: Data, systemVersion: String, isAppleSilicon: Bool) -> [AppcastItem]? {
         let delegate = ParserDelegate()
         let parser = XMLParser(data: data)
         parser.delegate = delegate
-        guard parser.parse() else { return nil }
+        guard parser.parse(), delegate.root == "rss" else { return nil }
 
         return delegate.items.filter { item in
             guard item.channel == nil, item.displayVersion != nil, item.system == nil || item.system == "macos" else {
@@ -109,6 +110,9 @@ enum Appcast {
 
     private final class ParserDelegate: NSObject, XMLParserDelegate {
         private(set) var items: [AppcastItem] = []
+        private(set) var root: String?
+        /// The elements open around the one being read, outermost first.
+        private var path: [String] = []
         private var current: AppcastItem?
         private var text = ""
         /// The item's `sparkle:version` and `sparkle:shortVersionString` elements, kept apart until the item ends.
@@ -130,9 +134,11 @@ enum Appcast {
             qualifiedName: String?,
             attributes: [String: String] = [:]
         ) {
+            if path.isEmpty { root = elementName }
+            defer { path.append(elementName) }
             text = ""
             switch elementName {
-            case "item":
+            case "item" where path == ["rss", "channel"]:
                 current = AppcastItem()
                 (elementVersion, elementShortVersion, notes, descriptions) = (nil, nil, [:], [])
             case "sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link":
@@ -167,9 +173,10 @@ enum Appcast {
             namespaceURI: String?,
             qualifiedName: String?
         ) {
+            path.removeLast()
             let value = text.trimmingCharacters(in: .whitespacesAndNewlines)
             switch elementName {
-            case "item":
+            case "item" where path == ["rss", "channel"]:
                 if var item = current {
                     item.version = item.version ?? elementVersion
                     item.shortVersion = item.shortVersion ?? elementShortVersion
