@@ -15,6 +15,20 @@ struct SpaceLibraryTests {
         #expect(space.report == nil)
     }
 
+    @Test func measuresTheModelsTheDeveloperPageListsOnEveryMacOS() async {
+        let models = [1_000, 2_000].map { (size: Int64) in
+            DeveloperEnvironment.Location(
+                url: URL(filePath: "/tmp/org.example.model\(size)"), kind: .models, size: size,
+                source: "https://example.com"
+            )
+        }
+        let space = SpaceLibrary(measuringModels: { _ in models })
+
+        await space.measureModels()
+
+        #expect(space.models == SizeTotal(known: 3_000, isComplete: true))
+    }
+
     @Test func aPlanThatStartedEarlierAndEndedLaterIsDropped() async throws {
         let older = URL(filePath: "/Users/x/Library/Caches/org.example.moved")
         let newer = URL(filePath: "/Users/x/Library/Caches/org.example.left")

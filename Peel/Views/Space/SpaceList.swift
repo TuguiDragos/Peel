@@ -141,7 +141,7 @@ struct SpaceList: View {
                     .font(.caption)
                 }
             }
-            if #available(macOS 27, *), let models = space.models {
+            if let models = space.models {
                 VStack(alignment: .leading, spacing: 2) {
                     modelsLine(models)
                         .font(.caption)
@@ -160,7 +160,6 @@ struct SpaceList: View {
         .padding(.vertical, 6)
     }
 
-    @available(macOS 27, *)
     private func modelsLine(_ total: SizeTotal) -> Text {
         switch total.reading {
         case .exactly(let size): Text("AI models and datasets take \(size.byteCount) on this Mac.")

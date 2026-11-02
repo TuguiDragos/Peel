@@ -28,12 +28,17 @@ final class SpaceLibrary: RowSelection {
     /// name folders a move has taken since.
     @ObservationIgnored private var plansStarted: [SpaceItem.ID: Int] = [:]
     private let makePlan: @Sendable (SpaceItem, Exclusions, [RunningCopies.Process]) async -> SpaceRemoval.Plan
+    private let findModels: @Sendable (Exclusions) async -> [DeveloperEnvironment.Location]
 
     init(
         makingPlans makePlan: @escaping @Sendable (SpaceItem, Exclusions, [RunningCopies.Process]) async
-            -> SpaceRemoval.Plan = { await SpaceRemoval.plan(for: $0, exclusions: $1, running: $2) }
+            -> SpaceRemoval.Plan = { await SpaceRemoval.plan(for: $0, exclusions: $1, running: $2) },
+        measuringModels findModels: @escaping @Sendable (Exclusions) async -> [DeveloperEnvironment.Location] = {
+            await DeveloperCaches.models(exclusions: $0)
+        }
     ) {
         self.makePlan = makePlan
+        self.findModels = findModels
     }
 
     var selectedItem: SpaceItem? {
@@ -183,18 +188,15 @@ final class SpaceLibrary: RowSelection {
         for (item, _) in made {
             await measureWhatIsLeftToDeveloper(in: item)
         }
-        if #available(macOS 27, *) {
-            await measureModels()
-        }
+        await measureModels()
     }
 
     /// Measures the AI models and datasets after the areas, keeping the newest answer: a measurement that ends after
     /// a newer one began, or is stopped, changes nothing.
-    @available(macOS 27, *)
-    private func measureModels() async {
+    func measureModels() async {
         modelsMeasurement += 1
         let measurement = modelsMeasurement
-        let found = await DeveloperCaches.models(exclusions: ExclusionsStore.shared.exclusions)
+        let found = await findModels(ExclusionsStore.shared.exclusions)
         guard !Task.isCancelled, measurement == modelsMeasurement else { return }
         models = found.isEmpty ? nil : SizeTotal(found.map(\.size))
     }
