@@ -153,6 +153,13 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS && !isExcluded
     }
 
+    /// True for an agent whose file Peel may edit: one in this account's own Library, which runs as the person, that
+    /// Peel may control and has read whole, and that neither ServiceManagement nor another file of its name speaks for.
+    public var canBeEdited: Bool {
+        kind == .agent && source == .userLibrary && plistURL != nil && canBeControlled && !isNamedByItsFile
+            && !isUnreadable && !isClosedToPeel && !isManagedByServiceManagement && !anotherFileIsLoaded && !isFileGone
+    }
+
     public var isRunning: Bool {
         if case .running = state { true } else { false }
     }

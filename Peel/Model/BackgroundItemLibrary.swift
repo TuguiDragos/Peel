@@ -33,6 +33,7 @@ final class BackgroundItemLibrary {
     private var installedApps: [InstalledApp] = []
     private let scan: @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan
     private let control: @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void
+    private let edit: @MainActor (LaunchAgentFile, String, BackgroundItem, Exclusions) async -> LaunchAgentFile.Outcome
     /// The reads of the list started so far, so that a job just enabled is judged by a read started after it.
     private var readsStarted = 0
     private var enabledJobs: [(job: BackgroundItem, readsBefore: Int)] = []
@@ -42,10 +43,13 @@ final class BackgroundItemLibrary {
             await BackgroundItems.scan(installedApps: $0, exclusions: $1)
         },
         control: @escaping @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void =
-            BackgroundItemLibrary.control
+            BackgroundItemLibrary.control,
+        edit: @escaping @MainActor (LaunchAgentFile, String, BackgroundItem, Exclusions) async
+            -> LaunchAgentFile.Outcome = { await $0.save($1, for: $2, exclusions: $3) }
     ) {
         self.scan = scan
         self.control = control
+        self.edit = edit
     }
 
     /// Starts, stops, enables or disables a job through launchd.
@@ -145,6 +149,10 @@ final class BackgroundItemLibrary {
     enum ActionAlert {
         case failed(ActionFailure)
         case enabledUntilLoaded(label: String, kind: BackgroundItem.Kind)
+        /// The edited file is in place, but launchd doesn't run the job from it yet.
+        case edited(label: String, reload: LaunchAgentFile.Reload)
+        /// The old file is in the Trash, and the edited one isn't whole in its place.
+        case notEdited(label: String, url: URL, problem: LaunchAgentFile.Problem)
     }
 
     func dismissAlert() {
@@ -162,6 +170,34 @@ final class BackgroundItemLibrary {
     static func alertAfterEnabling(_ item: BackgroundItem, listed: [BackgroundItem]?) -> ActionAlert? {
         guard let listed, !listed.contains(where: { $0.id == item.id }) else { return nil }
         return .enabledUntilLoaded(label: item.label, kind: item.kind)
+    }
+
+    /// Saves `text` over the file of `item` that `file` opened, as a move to the Trash is made: the job is busy
+    /// meanwhile, a quit waits until History has the file that moved, and the list is read again after. Answers nil
+    /// when another action on the job is under way.
+    func save(
+        _ text: String, editing file: LaunchAgentFile, of item: BackgroundItem,
+        recording record: (TrashResult) async -> Void
+    ) async -> LaunchAgentFile.Outcome? {
+        guard runningActionItemIDs.insert(item.id).inserted else { return nil }
+        defer { runningActionItemIDs.remove(item.id) }
+        let exclusions = ExclusionsStore.shared.exclusions
+        let outcome = await QuitGuard.shared.run { () async -> LaunchAgentFile.Outcome in
+            let outcome = await edit(file, text, item, exclusions)
+            let moved = outcome.moved
+            if !moved.trashed.isEmpty || !moved.failures.isEmpty {
+                await record(moved)
+            }
+            return outcome
+        }
+        switch outcome {
+        case .saved(_, let reload?): alerts.add(.edited(label: item.label, reload: reload))
+        case .oldFileInTheTrash(let problem, _):
+            alerts.add(.notEdited(label: item.label, url: file.url, problem: problem))
+        case .saved, .unchanged: break
+        }
+        await readAfterAction()
+        return outcome
     }
 
     /// Runs `action` on `item`, then scans again. What a move to the Trash moved and refused goes to `record` before

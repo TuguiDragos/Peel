@@ -10,6 +10,7 @@ struct BackgroundItemDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.openSettings) private var openSettings
     @State private var isConfirmingTrash = false
+    @State private var isEditing = false
     /// Reading this asks macOS, so it is read once per item and scan rather than on every evaluation of `body`.
     @State private var legacyStatus: LocalizedStringResource?
     let item: BackgroundItem
@@ -89,6 +90,11 @@ struct BackgroundItemDetailView: View {
                         Text(verbatim: plist.abbreviatedPath)
                             .textSelection(.enabled)
                             .help(Text(verbatim: plist.fullPath))
+                        if item.canBeEdited {
+                            Button("Edit…") { isEditing = true }
+                                .controlSize(.small)
+                                .disabled(isBusy || !history.mayMove)
+                        }
                         if finderURL == plist {
                             ShowInFinderButton(url: plist)
                         }
@@ -287,6 +293,9 @@ struct BackgroundItemDetailView: View {
         }
         .navigationTitle(item.label)
         .toolbar(removing: .title)
+        .sheet(isPresented: $isEditing) {
+            LaunchAgentEditor(item: item)
+        }
         .confirmationDialog(Text("Move \(item.plistURL?.lastPathComponent ?? item.label) to the Trash?"), isPresented: $isConfirmingTrash) {
             Button("Move to Trash") {
                 Task {

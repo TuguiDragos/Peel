@@ -12583,6 +12583,112 @@
         }
       }
     },
+    "A job’s file holds a dictionary at its top." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor úlohy obsahuje na nejvyšší úrovni slovník."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei eines Jobs enthält auf oberster Ebene ein Wörterbuch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo de una tarea contiene un diccionario en su nivel superior."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier d’une tâche contient un dictionnaire à sa racine."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file di un elemento contiene un dizionario al livello principale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブのファイルでは、最上位にディクショナリが必要です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "작업의 파일은 최상위 항목이 사전이어야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand van een taak bevat op het hoogste niveau een dictionary."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plik zadania musi zawierać słownik na najwyższym poziomie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo de uma tarefa contém um dicionário no nível superior."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul unei sarcini conține un dicționar la nivelul superior."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На верхнем уровне файла задания должен быть словарь."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen för ett jobb innehåller en ordbok på översta nivån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir işin dosyası, en üst düzeyinde bir sözlük içerir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл завдання містить словник на верхньому рівні."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任务的文件在顶层包含一个字典。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "工作的檔案最上層是一個辭典。"
+          }
+        }
+      }
+    },
     "A line at the bottom of every window says where you are." : {
       "localizations" : {
         "cs" : {
@@ -15130,6 +15236,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "加入檔案夾⋯"
+          }
+        }
+      }
+    },
+    "Add Program or ProgramArguments, which say what the job runs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidejte klíč Program nebo ProgramArguments, který určuje, co úloha spouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge Program oder ProgramArguments hinzu, die angeben, was der Job ausführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade Program o ProgramArguments, que indican lo que ejecuta la tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez Program ou ProgramArguments, qui indiquent ce que la tâche exécute."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi Program o ProgramArguments, che indicano cosa esegue l’elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブが実行するものを指定するProgramまたはProgramArgumentsを追加してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "작업이 실행할 대상을 지정하는 Program 또는 ProgramArguments를 추가하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg Program of ProgramArguments toe: daarin staat wat de taak uitvoert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodaj klucz Program lub ProgramArguments, który określa, co zadanie uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione Program ou ProgramArguments, que indicam o que a tarefa executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adăugați Program sau ProgramArguments, care indică ce rulează sarcina."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте Program или ProgramArguments: эти ключи указывают, что запускает задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lägg till Program eller ProgramArguments, som anger vad jobbet kör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program veya ProgramArguments ekleyin; bunlar işin neyi çalıştırdığını belirtir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте Program або ProgramArguments: ці ключі вказують, що запускає завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请添加Program或ProgramArguments，它们用于指明任务运行的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請加入Program或ProgramArguments，用以指出工作要執行的內容。"
           }
         }
       }
@@ -19550,6 +19762,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anka的虛擬機器範本及其狀態，以及它下載的系統映像檔。"
+          }
+        }
+      }
+    },
+    "Another account owns this file, so Peel doesn’t edit it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento soubor patří jinému účtu, takže ho Peel neupravuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei gehört einem anderen Benutzeraccount, daher bearbeitet Peel sie nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo pertenece a otra cuenta, así que Peel no lo edita."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce fichier appartient à un autre compte : Peel ne le modifie donc pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo file appartiene a un altro account, quindi Peel non lo modifica."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このファイルは別のアカウントが所有しているため、Peelは編集しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 계정이 이 파일을 소유하고 있으므로 Peel은 이 파일을 편집하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een andere account is eigenaar van dit bestand, dus Peel wijzigt het niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten plik należy do innego konta, więc Peel go nie edytuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este arquivo pertence a outra conta, então o Peel não o edita."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest fișier aparține altui cont, așa că Peel nu îl editează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот файл принадлежит другой учетной записи, поэтому Peel его не редактирует."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett annat konto äger den här filen, så Peel redigerar den inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu dosyanın sahibi başka bir hesap, bu yüzden Peel onu düzenlemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл належить іншому обліковому запису, тому Peel його не редагує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件归另一个账户所有，因此Peel不会编辑它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案屬於其他帳號，因此Peel不會編輯它。"
           }
         }
       }
@@ -35706,6 +36024,112 @@
         }
       }
     },
+    "Contents of %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obsah souboru %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inhalt von „%@“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contenido de %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contenu de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contenuto di %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@の内容"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’의 내용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inhoud van %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawartość pliku %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conteúdo de %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conținutul fișierului %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Содержимое файла «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Innehållet i %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ dosyasının içeriği"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вміст файлу «%@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」的內容"
+          }
+        }
+      }
+    },
     "Contextual Menu Items" : {
       "localizations" : {
         "cs" : {
@@ -43798,6 +44222,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "位於/usr/local/texlive（MacTeX的安裝位置）中的每個TeX Live年度版本。安裝較新的年度版本後，較早的年度版本會維持原樣，而除了使用中的年度版本外，其他每個年度版本都會註明這一點。"
+          }
+        }
+      }
+    },
+    "Edit %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upravit %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ bearbeiten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@を編集"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ 편집"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wijzig %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edycja zadania %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editați %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменение объекта «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redigera %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzenle: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редагування %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯「%@」"
+          }
+        }
+      }
+    },
+    "Edit…" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upravit…"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeiten …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編集…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "편집…"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wijzig…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edycja…"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editare…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить…"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redigera…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düzenle…"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Змінити…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯⋯"
           }
         }
       }
@@ -83242,6 +83878,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它的開關位於「系統設定」中"
+          }
+        }
+      }
+    },
+    "It’s a link or not a plain file, so Peel doesn’t edit it here. Edit the file it leads to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to odkaz nebo to není běžný soubor, takže ho tu Peel neupravuje. Upravte soubor, na který odkaz vede."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein Link oder keine reguläre Datei, daher bearbeitet Peel es hier nicht. Bearbeite die Datei, auf die der Link verweist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es un enlace o no es un archivo normal, así que Peel no lo edita aquí. Edita el archivo al que lleva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un lien, ou ce n’est pas un fichier ordinaire : Peel ne le modifie donc pas ici. Modifiez le fichier vers lequel il mène."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È un link o non è un file normale, quindi Peel non lo modifica qui. Modifica il file a cui punta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リンクであるか、通常のファイルではないため、Peelはここでは編集しません。リンク先のファイルを編集してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "링크이거나 일반 파일이 아니므로 Peel은 여기에서 편집하지 않습니다. 이 항목이 가리키는 파일을 편집하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een link of geen gewoon bestand, dus Peel wijzigt het hier niet. Wijzig het bestand waarnaar het leidt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To dowiązanie albo coś innego niż zwykły plik, więc Peel tego tutaj nie edytuje. Edytuj plik, do którego prowadzi to dowiązanie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É um link ou não é um arquivo comum, então o Peel não o edita aqui. Edite o arquivo para o qual ele aponta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un link sau nu este un fișier obișnuit, așa că Peel nu îl editează aici. Editați fișierul la care duce."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это ссылка, или это не обычный файл, поэтому Peel не редактирует его здесь. Отредактируйте файл, к которому ведет ссылка."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är en länk eller inte en vanlig fil, så Peel redigerar den inte här. Redigera filen som den leder till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu öğe bir bağlantı ya da normal bir dosya dışında bir şey, bu yüzden Peel onu burada düzenlemez. Gösterdiği dosyayı düzenleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це посилання або не звичайний файл, тому Peel не редагує його тут. Відредагуйте файл, до якого воно веде."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是链接或不是普通文件，因此Peel不会在此处编辑它。请编辑它指向的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是連結，或不是一般檔案，因此Peel不會在這裡編輯它。請編輯它所指向的檔案。"
+          }
+        }
+      }
+    },
+    "It’s disabled, so macOS loads it from the new file once you enable it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je vypnutá, takže ji systém macOS načte z nového souboru, až ji zapnete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es ist deaktiviert, daher lädt macOS es aus der neuen Datei, sobald du es aktivierst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está desactivado, así que macOS lo cargará desde el archivo nuevo cuando lo actives."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est désactivé : macOS le chargera donc à partir du nouveau fichier dès que vous l’activerez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È disabilitato, quindi macOS lo carica dal nuovo file quando lo abiliti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このジョブは無効になっているため、macOSは有効にしたときに新しいファイルから読み込みます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비활성화되어 있으므로, 활성화하면 macOS가 새로운 파일에서 이 항목을 로드합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is uitgeschakeld, dus macOS laadt het vanuit het nieuwe bestand zodra je het inschakelt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadanie jest wyłączone, więc macOS wczyta je z nowego pliku, gdy je włączysz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele está desativado, então o macOS o carrega a partir do novo arquivo quando você o ativar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dezactivat, așa că macOS îl încarcă din fișierul nou după ce îl activați."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он выключен, поэтому macOS загрузит его из нового файла, когда Вы его включите."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är avaktiverat, så macOS läser in det från den nya filen när du aktiverar det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkin değil, bu yüzden macOS onu siz etkinleştirdiğinizde yeni dosyadan yükler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його вимкнено, тож macOS завантажить його з нового файлу, щойно ви його ввімкнете."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已停用，因此你启用它后，macOS会从新文件载入它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已停用，因此在你啟用它之後，macOS會從新檔案載入它。"
           }
         }
       }
@@ -136311,6 +137159,112 @@
         }
       }
     },
+    "Peel couldn’t read this file." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst tento soubor."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte diese Datei nicht lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer este archivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire ce fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere questo file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのファイルを読み取れませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 파일을 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon dit bestand niet lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać tego pliku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler este arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi acest fișier."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать этот файл."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa den här filen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu dosyayı okuyamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати цей файл."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取此文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取此檔案。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read your exclusions" : {
       "localizations" : {
         "cs" : {
@@ -137367,6 +138321,324 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法將舊檔案移到一旁"
+          }
+        }
+      }
+    },
+    "Peel couldn’t write all of the new file. Move it to the Trash, then put the old one back from History." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl zapsat celý nový soubor. Přesuňte ho do koše a potom starý soubor vraťte zpět z Historie."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die neue Datei nicht vollständig schreiben. Lege sie in den Papierkorb und lege dann im Verlauf die alte zurück."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido escribir todo el archivo nuevo. Trasládalo a la papelera y, después, restaura el anterior desde Historial."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu écrire l’intégralité du nouveau fichier. Placez-le dans la corbeille, puis remettez l’ancien en place depuis l’Historique."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a scrivere il nuovo file per intero. Spostalo nel Cestino, poi ripristina quello vecchio dalla Cronologia."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは新しいファイルを完全には書き込めませんでした。新しいファイルをゴミ箱に入れてから、履歴から古いファイルを戻してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 새로운 파일을 완전히 쓸 수 없었습니다. 이 파일을 휴지통으로 이동한 다음, 기록에서 이전 파일을 되돌려 놓으십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon het nieuwe bestand niet volledig schrijven. Verplaats het naar de prullenmand en zet daarna het oude bestand terug vanuit Geschiedenis."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zapisać całego nowego pliku. Przenieś go do Kosza, a potem przywróć stary plik z Historii."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu gravar o novo arquivo por completo. Mova-o para o Lixo e depois coloque o antigo de volta pelo Histórico."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut scrie complet fișierul nou. Mutați‑l în Coș, apoi puneți înapoi fișierul vechi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось полностью записать новый файл. Переместите его в Корзину, а затем восстановите старый файл из Истории."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte skriva hela den nya filen. Flytta den till papperskorgen och lägg sedan tillbaka den gamla från Historik."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel yeni dosyanın tamamını yazamadı. Onu Çöp Sepeti’ne taşıyın, ardından eskisini Geçmiş’ten yerine koyun."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося записати новий файл повністю. Перемістіть його в Смітник, а потім поверніть старий файл з Історії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能完整写入新文件。请将新文件移到废纸篓，然后从“历史记录”中将旧文件放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法寫入完整的新檔案。請將它丟到「垃圾桶」，然後從「歷史記錄」還原舊檔案。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t write the new file, so it put the old one back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl zapsat nový soubor, a proto vrátil zpět ten starý."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die neue Datei nicht schreiben, daher wurde die alte zurückgelegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido escribir el archivo nuevo, así que ha restaurado el anterior."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu écrire le nouveau fichier : il a donc remis l’ancien en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a scrivere il nuovo file, quindi ha ripristinato quello vecchio."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは新しいファイルを書き込めなかったため、古いファイルを戻しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 새로운 파일을 쓸 수 없었으므로 이전 파일을 되돌려 놓았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon het nieuwe bestand niet schrijven, dus het oude is teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zapisać nowego pliku, więc przywrócił stary."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu gravar o novo arquivo, então colocou o antigo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut scrie fișierul nou, așa că l‑a pus înapoi pe cel vechi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось записать новый файл, поэтому он восстановил старый."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte skriva den nya filen, så den gamla lades tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel yeni dosyayı yazamadı, bu yüzden eskisini yerine koydu."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося записати новий файл, тому старий файл повернуто на місце."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能写入新文件，因此已将旧文件放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法寫入新檔案，因此已將舊檔案還原。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t write the new file. The old one is in the Trash, where History can put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl zapsat nový soubor. Starý soubor je v koši, odkud ho Historie může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die neue Datei nicht schreiben. Die alte liegt im Papierkorb, und im Verlauf kannst du sie zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido escribir el archivo nuevo. El anterior está en la papelera, desde donde Historial puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu écrire le nouveau fichier. L’ancien est dans la corbeille, d’où l’Historique peut le remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a scrivere il nuovo file. Quello vecchio è nel Cestino, da dove la Cronologia può ripristinarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは新しいファイルを書き込めませんでした。古いファイルはゴミ箱にあり、履歴から戻すことができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 새로운 파일을 쓸 수 없었습니다. 이전 파일은 휴지통에 있으며, 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon het nieuwe bestand niet schrijven. Het oude staat in de prullenmand, vanwaar Geschiedenis het kan terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zapisać nowego pliku. Stary plik jest w Koszu, skąd Historia może go przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu gravar o novo arquivo. O antigo está no Lixo, de onde o Histórico pode colocá-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut scrie fișierul nou. Cel vechi se află în Coș, de unde îl puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось записать новый файл. Старый файл находится в Корзине, откуда его может восстановить История."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte skriva den nya filen. Den gamla ligger i papperskorgen, där Historik kan lägga tillbaka den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel yeni dosyayı yazamadı. Eskisi Çöp Sepeti’nde; Geçmiş onu yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося записати новий файл. Старий файл у Смітнику, звідки Історія може його повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能写入新文件。旧文件在废纸篓中，“历史记录”可以将它放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法寫入新檔案。舊檔案位於「垃圾桶」中，「歷史記錄」可以將它還原。"
           }
         }
       }
@@ -138770,6 +140042,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會開啟或關閉此延伸功能：這由Safari在「Safari」>「設定」>「延伸功能」中處理，那裡也會顯示它是否已開啟。若要移除它，就得移除它所屬的App。"
+          }
+        }
+      }
+    },
+    "Peel edits only the agents in your own LaunchAgents folder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel upravuje jen agenty ve vaší vlastní složce LaunchAgents."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bearbeitet nur die Agenten in deinem eigenen Ordner „LaunchAgents“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel solo edita los agentes de tu propia carpeta LaunchAgents."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne modifie que les agents de votre propre dossier LaunchAgents."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel modifica solo gli agenti nella tua cartella LaunchAgents."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが編集するのは、お使いのアカウントのLaunchAgentsフォルダにあるエージェントだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 사용자의 LaunchAgents 폴더에 있는 에이전트만 편집합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wijzigt alleen de agents in je eigen map 'LaunchAgents'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel edytuje tylko agenty w Twoim własnym folderze LaunchAgents."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel edita apenas os agentes da sua própria pasta LaunchAgents."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel editează doar agenții din propriul dvs. dosar LaunchAgents."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel редактирует только файлы агентов из Вашей собственной папки LaunchAgents."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel redigerar bara agenterna i din egen LaunchAgents-mapp."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel yalnızca kendi LaunchAgents klasörünüzdeki aracıları düzenler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel редагує лише агентів у вашій власній папці LaunchAgents."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只会编辑你自己的LaunchAgents文件夹中的代理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只會編輯你自己的LaunchAgents檔案夾中的代理程式。"
           }
         }
       }
@@ -153677,6 +155055,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "程式"
+          }
+        }
+      }
+    },
+    "Program has to be the path of what the job runs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klíč Program musí obsahovat cestu k tomu, co úloha spouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program muss der Pfad dessen sein, was der Job ausführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program tiene que ser la ruta de lo que ejecuta la tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program doit être le chemin de ce que la tâche exécute."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program deve essere il percorso di ciò che l’elemento esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programには、ジョブが実行するもののパスを指定する必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program은 작업이 실행하는 대상의 경로여야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program moet het pad zijn van wat de taak uitvoert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klucz Program musi zawierać ścieżkę do tego, co zadanie uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program precisa ser o caminho do que a tarefa executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program trebuie să fie calea către ceea ce rulează sarcina."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значением Program должен быть путь к тому, что запускает задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program måste vara sökvägen till det som jobbet kör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program, işin çalıştırdığı şeyin yolu olmalıdır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program має бути шляхом до того, що запускає завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program必须是任务所运行内容的路径。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Program必須是工作所執行項目的路徑。"
+          }
+        }
+      }
+    },
+    "ProgramArguments has to be a list of words, the program first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klíč ProgramArguments musí obsahovat seznam slov, který začíná programem."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments muss eine Liste von Wörtern sein, die mit dem Programm beginnt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments tiene que ser una lista de palabras, con el programa en primer lugar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments doit être une liste de mots, en commençant par le programme."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments deve essere un elenco di parole, con il programma al primo posto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArgumentsは、プログラムを先頭にした単語のリストにする必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments는 프로그램을 맨 앞에 둔 단어 목록이어야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments moet een lijst met woorden zijn, met het programma eerst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klucz ProgramArguments musi zawierać listę słów, z programem na pierwszym miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments precisa ser uma lista de palavras, com o programa primeiro."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments trebuie să fie o listă de cuvinte, cu programul pe primul loc."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значением ProgramArguments должен быть список слов, начинающийся с программы."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments måste vara en lista med ord, med programmet först."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments, ilk sırada program olmak üzere bir sözcük listesi olmalıdır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments має бути списком слів, де першим іде виконуваний файл."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments必须是一个单词列表，且第一个是程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ProgramArguments必須是字詞列表，第一個是程式。"
           }
         }
       }
@@ -195634,6 +197224,112 @@
         }
       }
     },
+    "The Label has to stay %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V klíči Label musí zůstat %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Label muss „%@“ bleiben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El valor de Label tiene que seguir siendo %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label doit rester %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label deve restare %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Labelは“%@”のままにする必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label은 ‘%@’(으)로 유지해야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label moet %@ blijven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klucz Label musi nadal mieć wartość %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A chave Label precisa continuar sendo %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label trebuie să rămână %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значение Label должно остаться прежним: %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label måste förbli %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label, %@ olarak kalmalıdır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значення Label має лишатися незмінним: %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label必须保持为“%@”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Label必須維持為「%@」。"
+          }
+        }
+      }
+    },
     "The Linux containers, images, and volumes of Apple’s container tool, and the Linux kernel it runs them on." : {
       "localizations" : {
         "cs" : {
@@ -198706,6 +200402,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "臉孔的動作改編自[blobatar](peel-license:blobatar-LICENSE)"
+          }
+        }
+      }
+    },
+    "The file changed since Peel read it. Close this and open it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor se od chvíle, kdy ho Peel přečetl, změnil. Zavřete tento editor a otevřete ho znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei wurde geändert, seit Peel sie gelesen hat. Schließe dieses Fenster und öffne die Datei erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo ha cambiado desde que Peel lo leyó. Cierra el editor y vuelve a abrirlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier a été modifié depuis que Peel l’a lu. Fermez cet éditeur, puis rouvrez-le."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file è cambiato da quando Peel l’ha letto. Chiudi questa finestra e riapri il file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが読み取った後に、ファイルが変更されました。これを閉じて、もう一度開いてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 읽은 후 파일이 변경되었습니다. 닫았다가 다시 여십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand is gewijzigd sinds Peel het heeft gelezen. Sluit dit venster en open het bestand opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plik zmienił się, odkąd Peel go odczytał. Zamknij to okno i otwórz je ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo mudou desde que o Peel o leu. Feche este editor e abra-o de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul s‑a modificat de când l‑a citit Peel. Închideți editorul și deschideți‑l din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл изменился с тех пор, как Peel его прочитал. Закройте это окно и откройте файл снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen har ändrats sedan Peel läste den. Stäng det här och öppna filen igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya, Peel onu okuduktan sonra değişti. Bunu kapatıp dosyayı yeniden açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл змінився після того, як Peel його прочитала. Закрийте це вікно й відкрийте файл знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该文件在Peel读取后已被更改。请关闭此窗口，然后重新打开该文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案在Peel讀取後已有變更。請關閉後再重新打開。"
+          }
+        }
+      }
+    },
+    "The file couldn’t move to the Trash, so nothing changed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor nelze přesunout do koše, takže se nic nezměnilo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei konnte nicht in den Papierkorb gelegt werden, daher wurde nichts geändert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido trasladar el archivo a la papelera, así que no ha cambiado nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de placer le fichier dans la corbeille : rien n’a donc changé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è stato possibile spostare il file nel Cestino, quindi non è cambiato nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルをゴミ箱に入れられなかったため、何も変更されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일을 휴지통으로 이동할 수 없어 아무것도 변경되지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand kon niet naar de prullenmand worden verplaatst, dus er is niets gewijzigd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się przenieść pliku do Kosza, więc nic się nie zmieniło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível mover o arquivo para o Lixo, então nada mudou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul nu a putut fi mutat în Coș, așa că nu s‑a schimbat nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось переместить файл в Корзину, поэтому ничего не изменилось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen kunde inte flyttas till papperskorgen, så ingenting ändrades."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya Çöp Sepeti’ne taşınamadı, bu yüzden hiçbir şey değişmedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося перемістити файл у Смітник, тому нічого не змінено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能将该文件移到废纸篓，因此没有任何更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法將此檔案丟到「垃圾桶」，因此沒有任何變更。"
           }
         }
       }
@@ -209995,6 +211903,112 @@
         }
       }
     },
+    "This file is larger than 1 MB, more than a job’s file holds, so Peel doesn’t open it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento soubor je větší než 1 MB, což je víc, než obsahuje soubor úlohy, takže ho Peel neotevře."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei ist größer als 1 MB und damit größer als jede Datei eines Jobs, daher öffnet Peel sie nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo tiene más de 1 MB, más de lo que ocupa el archivo de una tarea, así que Peel no lo abre."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce fichier fait plus de 1 Mo, soit davantage que ce que contient le fichier d’une tâche : Peel ne l’ouvre donc pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo file supera 1 MB, più di quanto contenga il file di un elemento, quindi Peel non lo apre."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このファイルは1 MBを超えており、ジョブのファイルとしては大きすぎるため、Peelは開きません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 파일은 1MB보다 크며, 작업의 파일로 보기에는 너무 크므로 Peel이 열지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit bestand is groter dan 1 MB, meer dan het bestand van een taak bevat, dus Peel opent het niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten plik ma ponad 1 MB, czyli więcej, niż może zawierać plik zadania, więc Peel go nie otwiera."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este arquivo tem mais de 1 MB, mais do que cabe no arquivo de uma tarefa, então o Peel não o abre."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest fișier este mai mare de 1 MB, mai mult decât conține fișierul unei sarcini, așa că Peel nu îl deschide."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот файл больше 1 МБ, а файл задания не бывает таким большим, поэтому Peel его не открывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här filen är större än 1 MB, mer än vad filen för ett jobb rymmer, så Peel öppnar den inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu dosya 1 MB’tan büyük; bir işin dosyası bu kadar büyük olmaz, bu yüzden Peel onu açmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл більший за 1 МБ, тобто більший, ніж буває файл завдання, тому Peel його не відкриває."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此文件大于1 MB，任务的文件不会有这么大，因此Peel不会打开它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案大於1 MB，工作的檔案不會這麼大，因此Peel不會打開它。"
+          }
+        }
+      }
+    },
     "This frees %@. Nothing is deleted from iCloud: the files stay there, Finder still lists them, and they download again when you open them, which takes an internet connection." : {
       "comment" : "The message of the question before Remove Downloads in iCloud Drive. %@ is a size, such as 4.7 GB. The files stay in iCloud and come back when opened, which needs the internet.",
       "localizations" : {
@@ -210416,6 +212430,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這是App為你保存的內容，其中可能包括你自己的工作成果。Peel絕不會替你選取。"
+          }
+        }
+      }
+    },
+    "This isn’t a valid property list." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto není platný seznam vlastností."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist keine gültige Eigenschaftsliste."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto no es una lista de propiedades válida."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas une liste de propriétés valide."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo non è un property list valido."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有効なプロパティリストではありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "유효한 속성 목록이 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is geen geldige eigenschappenlijst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To nie jest prawidłowa lista właściwości."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isto não é uma lista de propriedades válida."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceasta nu este o listă de proprietăți validă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это недопустимый список свойств."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här är inte en giltig egenskapslista."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu geçerli bir özellik listesi değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це не є дійсним списком властивостей."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这不是有效的属性列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這不是有效的屬性列表。"
+          }
+        }
+      }
+    },
+    "This isn’t a valid property list. Look at line %lld." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto není platný seznam vlastností. Zkontrolujte řádek %lld."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist keine gültige Eigenschaftsliste. Sieh dir Zeile %lld an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto no es una lista de propiedades válida. Revisa la línea %lld."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas une liste de propriétés valide. Vérifiez la ligne %lld."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo non è un property list valido. Controlla la riga %lld."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有効なプロパティリストではありません。%lld行目を確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "유효한 속성 목록이 아닙니다. %lld번째 줄을 확인하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is geen geldige eigenschappenlijst. Kijk naar regel %lld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To nie jest prawidłowa lista właściwości. Sprawdź wiersz %lld."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isto não é uma lista de propriedades válida. Veja a linha %lld."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceasta nu este o listă de proprietăți validă. Verificați linia %lld."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это недопустимый список свойств. Проверьте строку %lld."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här är inte en giltig egenskapslista. Titta på rad %lld."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu geçerli bir özellik listesi değil. %lld. satıra bakın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це не є дійсним списком властивостей. Перевірте рядок %lld."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这不是有效的属性列表。请查看第%lld行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這不是有效的屬性列表。請查看第%lld行。"
           }
         }
       }
@@ -228277,6 +230503,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當你執行的指令已在指令記錄中時，較舊的那一筆會被移除，因此每個指令只會出現一次。"
+          }
+        }
+      }
+    },
+    "When you save, Peel moves the file as it is to the Trash, where History can put it back, and writes this in its place. If the job is loaded, Peel loads it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když změny uložíte, Peel přesune soubor v jeho současné podobě do koše, odkud ho Historie může vrátit zpět, a na jeho místo zapíše tento text. Pokud je úloha načtená, Peel ji znovu načte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beim Sichern legt Peel die Datei, so wie sie ist, in den Papierkorb und schreibt diesen Text an ihre Stelle. Im Verlauf kannst du die alte Datei zurücklegen. Ist der Job geladen, lädt Peel ihn erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al guardar, Peel traslada el archivo tal como está a la papelera, desde donde Historial puede restaurarlo, y escribe esto en su lugar. Si la tarea está cargada, Peel la vuelve a cargar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque vous enregistrez, Peel place le fichier tel qu’il est dans la corbeille, d’où l’Historique peut le remettre en place, et écrit ce texte à sa place. Si la tâche est chargée, Peel la recharge."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando salvi, Peel sposta il file così com’è nel Cestino, da dove la Cronologia può ripristinarlo, e al suo posto scrive questo testo. Se l’elemento è caricato, Peel lo carica di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存すると、Peelは現在のファイルをそのままゴミ箱に入れ、その場所にこの内容を書き込みます。ゴミ箱に入れたファイルは、履歴から戻すことができます。ジョブが読み込まれている場合は、Peelがもう一度読み込みます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장하면 Peel은 현재 상태의 파일을 휴지통으로 이동하고 그 자리에 이 내용을 씁니다. 이동한 파일은 기록에서 되돌려 놓을 수 있습니다. 작업이 로드되어 있으면 Peel이 다시 로드합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je bewaart, verplaatst Peel het bestand zoals het nu is naar de prullenmand, vanwaar Geschiedenis het kan terugzetten, en schrijft Peel dit ervoor in de plaats. Als de taak is geladen, laadt Peel die opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy zachowasz zmiany, Peel przeniesie plik w obecnej postaci do Kosza, skąd Historia może go przywrócić, i zapisze na jego miejscu tę treść. Jeśli zadanie jest wczytane, Peel wczyta je ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao salvar, o Peel move o arquivo atual para o Lixo, de onde o Histórico pode colocá-lo de volta, e grava este conteúdo no lugar dele. Se a tarefa estiver carregada, o Peel a carrega novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când salvați, Peel mută fișierul, așa cum este, în Coș, de unde îl puteți pune înapoi din Istoric, și scrie acest text în locul lui. Dacă sarcina este încărcată, Peel o încarcă din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При сохранении Peel перемещает файл как есть в Корзину, откуда его может восстановить История, и записывает вместо него этот текст. Если задание загружено, Peel загружает его снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När du sparar flyttar Peel filen som den är till papperskorgen, där Historik kan lägga tillbaka den, och skriver det här på dess plats. Om jobbet är inläst läser Peel in det igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydettiğinizde Peel, dosyayı olduğu gibi Çöp Sepeti’ne taşır ve yerine bunu yazar; Geçmiş dosyayı oradan yerine koyabilir. İş yüklüyse Peel onu yeniden yükler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Під час збереження Peel переміщує файл у поточному вигляді в Смітник, звідки Історія може його повернути, і записує на його місце цей текст. Якщо завдання завантажено, Peel завантажує його знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存时，Peel会将该文件按原样移到废纸篓（“历史记录”可以将它放回原处），并在原位置写入此内容。如果该任务已载入，Peel会重新载入它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存時，Peel會將現有的檔案原樣丟到「垃圾桶」（「歷史記錄」可以將它還原），並在原處寫入這裡的內容。如果此工作已載入，Peel會重新載入它。"
           }
         }
       }
@@ -251029,6 +253361,112 @@
         }
       }
     },
+    "launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that.\n\n%@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd ji nezastavil, takže poběží jako dosud, dokud se neodhlásíte, a potom už z nového souboru.\n\n%@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd hat es nicht gestoppt, daher läuft es bis zu deiner Abmeldung wie bisher weiter und danach so, wie es die neue Datei vorgibt.\n\n%@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd no lo ha detenido, así que se sigue ejecutando como estaba hasta que cierres sesión, y después, desde el archivo nuevo.\n\n%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’à ce que vous fermiez votre session, puis à partir du nouveau fichier.\n\n%@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd non l’ha interrotto, quindi viene eseguito com’era finché non esegui il logout, e in seguito dal nuovo file.\n\n%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchdがこのジョブを停止しなかったため、ログアウトするまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。\n\n%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd가 이 항목을 중단하지 않았으므로, 로그아웃할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다.\n\n%@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat je uitlogt, en daarna vanuit het nieuwe bestand.\n\n%@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd nie zatrzymał zadania, więc działa ono tak jak dotąd, dopóki się nie wylogujesz, a potem zgodnie z nowym plikiem.\n\n%@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O launchd não o interrompeu, então ele continua sendo executado como estava até você finalizar a sessão e, depois disso, a partir do novo arquivo.\n\n%@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd nu l‑a oprit, așa că rulează așa cum era până când faceți logout, iar după aceea din fișierul nou.\n\n%@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd не остановил его, поэтому он будет работать как прежде, пока Вы не выйдете из системы, а после этого будет запускаться из нового файла.\n\n%@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd stoppade det inte, så det körs som förut tills du loggar ut och därefter från den nya filen.\n\n%@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd onu durdurmadı, bu yüzden siz oturumu kapatana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır.\n\n%@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd не зупинив його, тож воно працюватиме як раніше, доки ви не вийдете із системи, а після цього запускатиметься з нового файлу.\n\n%@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd没有停止它，因此在你退出登录之前，它会照旧运行，之后则会从新文件运行。\n\n%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd沒有停止它，因此在你登出之前，它會照原樣執行，登出之後才會依新檔案執行。\n\n%@"
+          }
+        }
+      }
+    },
     "launchd runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here." : {
       "localizations" : {
         "cs" : {
@@ -252725,6 +255163,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS沒有列出App加入的服務程式，因此這裡可能缺少其中一些。"
+          }
+        }
+      }
+    },
+    "macOS didn’t load it again from the new file.\n\n%@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ji z nového souboru znovu nenačetl.\n\n%@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat es nicht erneut aus der neuen Datei geladen.\n\n%@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no lo ha vuelto a cargar desde el archivo nuevo.\n\n%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne l’a pas rechargé à partir du nouveau fichier.\n\n%@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non l’ha ricaricato dal nuovo file.\n\n%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、新しいファイルからこのジョブを再び読み込みませんでした。\n\n%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 새로운 파일에서 이 항목을 다시 로드하지 않았습니다.\n\n%@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft het niet opnieuw geladen vanuit het nieuwe bestand.\n\n%@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie wczytał ponownie zadania z nowego pliku.\n\n%@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não o carregou novamente a partir do novo arquivo.\n\n%@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu l‑a reîncărcat din fișierul nou.\n\n%@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не загрузила его снова из нового файла.\n\n%@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS läste inte in det igen från den nya filen.\n\n%@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS onu yeni dosyadan yeniden yüklemedi.\n\n%@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не завантажила його знову з нового файлу.\n\n%@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有从新文件重新载入它。\n\n%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有從新檔案重新載入它。\n\n%@"
           }
         }
       }
@@ -262427,6 +264971,112 @@
         }
       }
     },
+    "“%@” couldn’t be saved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položku „%@“ nelze uložit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ konnte nicht gesichert werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido guardar “%@”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’enregistrer « %@ »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile salvare “%@”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”を保存できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’을(를) 저장할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' kon niet worden bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się zachować „%@”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível salvar “%@”."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@” nu a putut fi salvat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось сохранить объект «%@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”%@” kunde inte sparas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” kaydedilemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося зберегти «%@»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能保存“%@”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法儲存「%@」。"
+          }
+        }
+      }
+    },
     "“%@” couldn’t be started." : {
       "localizations" : {
         "cs" : {
@@ -262847,6 +265497,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「%@」已丟到「垃圾桶」，但無法停止。"
+          }
+        }
+      }
+    },
+    "“%@” is saved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka „%@“ je uložená."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ ist gesichert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha guardado “%@”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« %@ » est enregistré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” è stato salvato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”を保存しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 저장되었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' is bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zachowano „%@”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” foi salvo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@” a fost salvat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект «%@» сохранен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "”%@” har sparats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” kaydedildi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«%@» збережено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”已保存。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已儲存「%@」。"
           }
         }
       }

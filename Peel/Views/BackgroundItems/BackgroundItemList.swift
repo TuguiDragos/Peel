@@ -121,6 +121,8 @@ struct BackgroundItemList: View {
         switch backgroundItems.alerts.current {
         case .failed(let failure)?: failureTitle(failure)
         case .enabledUntilLoaded(let label, _)?: Text("“\(label)” is enabled.")
+        case .edited(let label, _)?: Text("“\(label)” is saved.")
+        case .notEdited(let label, _, _)?: Text("“\(label)” couldn’t be saved.")
         case nil: Text(verbatim: "")
         }
     }
@@ -132,7 +134,20 @@ struct BackgroundItemList: View {
             Text("It isn’t loaded now, so it leaves this list until macOS loads it again, usually when the Mac restarts.")
         case .enabledUntilLoaded?:
             Text("It isn’t loaded now, so it leaves this list until macOS loads it again, usually the next time you log in.")
+        case .edited(_, let reload)?: reloadMessage(reload)
+        case .notEdited(_, let url, let problem)?: Text(verbatim: problem.explanationWithTheOldFileInTheTrash(url: url))
         case nil: Text(verbatim: "")
+        }
+    }
+
+    private func reloadMessage(_ reload: LaunchAgentFile.Reload) -> Text {
+        switch reload {
+        case .notStopped(let reason):
+            Text("launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that.\n\n\(reasonMessage(reason))")
+        case .notStarted(.disabled):
+            Text("It’s disabled, so macOS loads it from the new file once you enable it.")
+        case .notStarted(let reason):
+            Text("macOS didn’t load it again from the new file.\n\n\(reasonMessage(reason))")
         }
     }
 

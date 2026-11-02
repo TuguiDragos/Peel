@@ -175,4 +175,94 @@ struct BackgroundItemLibraryTests {
         #expect(label == "org.example.agent" && kind == .agent)
         #expect(BackgroundItemLibrary.alertAfterEnabling(job, listed: [job]) == nil)
     }
+
+    private let agent = BackgroundItem(
+        label: "org.example.agent", kind: .agent, source: .userLibrary,
+        plistURL: URL(filePath: "/Users/x/Library/LaunchAgents/org.example.agent.plist"), program: "/bin/sleep",
+        runsAtLoad: nil, keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false,
+        state: .running(pid: 7), isDisabled: false
+    )
+
+    private func edited(_ agent: BackgroundItem) -> LaunchAgentFile {
+        LaunchAgentFile(url: agent.plistURL!, label: agent.label, text: "", opened: FileIdentity(stat()), mode: 0o644)
+    }
+
+    private func movedFile(of agent: BackgroundItem) -> TrashResult {
+        TrashResult(trashed: [
+            TrashedItem(originalURL: agent.plistURL!, trashedURL: URL(filePath: "/Users/x/.Trash/a.plist"), date: .now),
+        ])
+    }
+
+    @Test func anEditWritesDownWhatMovedThenReadsTheListAgain() async throws {
+        let agent = agent
+        let moved = movedFile(of: agent)
+        let library = BackgroundItemLibrary(
+            scan: { _, _ in BackgroundItems.Scan(items: [agent]) },
+            edit: { _, _, _, _ in .saved(moved: moved, reload: nil) }
+        )
+        await library.refresh(installedApps: [])
+        let scans = library.scans
+        var recorded: [TrashResult] = []
+
+        let outcome = await library.save("text", editing: edited(agent), of: agent) { recorded.append($0) }
+
+        guard case .saved? = outcome else { Issue.record("\(String(describing: outcome))"); return }
+        #expect(recorded.map { $0.trashed.map(\.originalURL) } == [[agent.plistURL!]])
+        #expect(library.scans == scans + 1)
+        #expect(library.alerts.current == nil)
+        #expect(library.runningActionItemIDs.isEmpty)
+    }
+
+    @Test func anEditThatLandedOnlyInPartIsSaidInAnAlert() async throws {
+        let agent = agent
+        let moved = movedFile(of: agent)
+        let full = SystemError(domain: NSPOSIXErrorDomain, code: Int(ENOSPC))
+        let outcomes: [LaunchAgentFile.Outcome] = [
+            .saved(moved: moved, reload: .notStarted(.disabled)),
+            .oldFileInTheTrash(.incomplete(full), moved: moved),
+            .unchanged(.labelChanged, moved: TrashResult()),
+        ]
+        for outcome in outcomes {
+            let library = BackgroundItemLibrary(
+                scan: { _, _ in BackgroundItems.Scan(items: [agent]) },
+                edit: { _, _, _, _ in outcome }
+            )
+            var recorded = 0
+            _ = await library.save("text", editing: edited(agent), of: agent) { _ in recorded += 1 }
+
+            switch (outcome, library.alerts.current) {
+            case (.saved, .edited(let label, .notStarted(.disabled))?):
+                #expect(label == agent.label && recorded == 1)
+            case (.oldFileInTheTrash, .notEdited(let label, let url, .incomplete(full))?):
+                #expect(label == agent.label && url == agent.plistURL && recorded == 1)
+            case (.unchanged, nil):
+                #expect(recorded == 0)
+            default:
+                Issue.record("\(outcome)")
+            }
+        }
+    }
+
+    @Test func anEditDoesNothingWhileAnotherActionOnTheJobRuns() async {
+        let held = HeldAction()
+        let agent = agent
+        let edits = Reads()
+        let library = BackgroundItemLibrary(
+            scan: { _, _ in BackgroundItems.Scan(items: [agent]) },
+            control: { _, _ in await held.run() },
+            edit: { _, _, _, _ in
+                edits.count += 1
+                return .unchanged(.changed, moved: TrashResult())
+            }
+        )
+
+        let first = Task { await library.perform(.stop, on: agent) }
+        for await _ in held.started { break }
+        let outcome = await library.save("text", editing: edited(agent), of: agent) { _ in }
+        held.release()
+        await first.value
+
+        #expect(outcome == nil)
+        #expect(edits.count == 0)
+    }
 }
