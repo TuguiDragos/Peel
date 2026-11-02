@@ -6,26 +6,36 @@ import Testing
 
 struct BackgroundItemActionsTests {
     @Test func theHelperIsAskedForOnlyWhenThePageCanUseIt() {
+        let app = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
         func daemon(
             source: BackgroundItem.Source = .systemLibrary,
             plist: URL? = URL(filePath: "/Library/LaunchDaemons/org.example.job.plist"),
+            owner: URL? = nil,
             isDisabled: Bool = false
         ) -> BackgroundItem {
             BackgroundItem(
                 label: "org.example.job", kind: .daemon, source: source, plistURL: plist, program: nil, runsAtLoad: nil,
-                keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false,
+                keepsAlive: nil, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: owner, isOrphan: false,
                 state: .loaded, isDisabled: isDisabled
             )
         }
         #expect(daemon().waitsForTheHelper)
 
-        var registered = daemon(source: .app, plist: nil)
+        var registered = daemon(source: .app, plist: nil, owner: app)
         registered.isManagedByServiceManagement = true
         #expect(!registered.waitsForTheHelper)
 
-        var turnedOff = daemon(source: .app, plist: nil, isDisabled: true)
+        var turnedOff = daemon(source: .app, plist: nil, owner: app, isDisabled: true)
         turnedOff.isManagedByServiceManagement = true
         #expect(turnedOff.waitsForTheHelper)
+
+        var leftByAGoneApp = daemon(source: .app, plist: nil)
+        leftByAGoneApp.isManagedByServiceManagement = true
+        if #available(macOS 27, *) {
+            #expect(leftByAGoneApp.waitsForTheHelper)
+        } else {
+            #expect(!leftByAGoneApp.waitsForTheHelper)
+        }
 
         var excluded = daemon()
         excluded.isExcluded = true
