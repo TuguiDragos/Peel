@@ -244,6 +244,11 @@ enum KeptOnlyHere {
         ("Library/Application Support/MongoDB Compass", "DataModelDescriptions", .holdsWorkMadeWithTheApp),
         // Proxyman's "Lost data after updating Proxyman app?": its debugging rules, settings, and their backups.
         ("Library/Application Support/com.proxyman.NSProxy", nil, .holdsWorkMadeWithTheApp),
+        // BBEdit's User Manual: its notes, Scratchpad, and worksheet in its application support folder, and the
+        // unsaved documents in `Auto-Save Recovery` in its settings folder, in its container or in `~/Library/BBEdit`.
+        ("Library/Application Support/BBEdit", nil, .holdsWorkMadeWithTheApp),
+        ("Library/BBEdit", "Auto-Save Recovery", .holdsWorkMadeWithTheApp),
+        ("Library/Containers/com.barebones.bbedit", nil, .holdsWorkMadeWithTheApp),
     ]
 
     /// The same, in the Library every account on the Mac shares.
